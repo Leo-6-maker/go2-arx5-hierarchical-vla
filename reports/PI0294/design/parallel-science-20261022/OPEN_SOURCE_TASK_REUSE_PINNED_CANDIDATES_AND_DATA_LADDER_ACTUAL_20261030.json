@@ -1,0 +1,875 @@
+{
+  "schema": "OPEN_SOURCE_TASK_REUSE_RESEARCH_PLAN_AND_PRIMARY_READBACK_V1",
+  "created_UTC": "2026-10-29T16:55:14.909701+00:00",
+  "status": "METHOD_DIRECTION_ADOPTED_COLD_TASK_INSPECTION_ONLY",
+  "base_code_sha": "2b61177b2c31aec4c102818d447183b915bd5e4d",
+  "primary_readback_sha256": "93d378b2735da2f7b07ba4d6e30170c8de03ce1b1b5171888d9f6e522ec65c5c",
+  "repositories": [
+    {
+      "repository": "ARISE-Initiative/robosuite_models",
+      "observed_default_branch": "main",
+      "candidate_commit": "2d63a6b4319bda772420daf10594ce0de5bd793d",
+      "license_file_sha256": "b9ea06504ab608a9dbc14fe5a512dbdea0d269518ab812b027bf2a0ac6248e09",
+      "license_url": "https://github.com/ARISE-Initiative/robosuite_models/blob/2d63a6b4319bda772420daf10594ce0de5bd793d/LICENSE",
+      "code_license": "MIT; retain applicable third-party notices",
+      "runtime_compatibility_qualified": false
+    },
+    {
+      "repository": "robocasa/robocasa",
+      "observed_default_branch": "main",
+      "candidate_commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+      "license_file_sha256": "5da18670b3f00c59847b1ded9c28dee59940d963b1e03b528b0108d9c5a09885",
+      "license_url": "https://github.com/robocasa/robocasa/blob/dc73a8ce18e4b8947e8df2ae2958245ca823f3b4/LICENSE",
+      "code_license": "MIT; retain applicable third-party notices",
+      "runtime_compatibility_qualified": false
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "observed_default_branch": "master",
+      "candidate_commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "license_file_sha256": "e2885fd30a08381b799c4a33385522b23d637b4051b8f9a7f9f2519944b68ff6",
+      "license_url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/LICENSE",
+      "code_license": "MIT; retain applicable third-party notices",
+      "runtime_compatibility_qualified": false
+    },
+    {
+      "repository": "NVlabs/mimicgen",
+      "observed_default_branch": "main",
+      "candidate_commit": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "license_file_sha256": "c61872e27a1c33a016491dfd9145211deb46230ec4e94338e022df23ea81b9b5",
+      "license_url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/LICENSE",
+      "code_license": "NVIDIA Source Code License; research/evaluation non-commercial limitation",
+      "runtime_compatibility_qualified": false
+    },
+    {
+      "repository": "ARISE-Initiative/robosuite",
+      "observed_default_branch": "master",
+      "candidate_commit": "5ce6643f3092639d08f7b0f90ed1c6a84f50552c",
+      "license_file_sha256": "177978cbece0a4c454c2aaec5b3f145b39270814874c43109da9e829c39d9cba",
+      "license_url": "https://github.com/ARISE-Initiative/robosuite/blob/5ce6643f3092639d08f7b0f90ed1c6a84f50552c/LICENSE",
+      "code_license": "MIT; retain applicable third-party notices",
+      "runtime_compatibility_qualified": false
+    }
+  ],
+  "files": [
+    {
+      "repository": "ARISE-Initiative/robosuite_models",
+      "commit": "2d63a6b4319bda772420daf10594ce0de5bd793d",
+      "path": "robosuite_models/robots/compositional.py",
+      "git_blob_sha": "051677d37aacc38ecdaad182909feb4ed82e971c",
+      "sha256": "2af416aa6277aed1e9e9b3b64f60b9f476d1c7ab7dfbd88908584cc777f7f051",
+      "bytes": 5807,
+      "url": "https://github.com/ARISE-Initiative/robosuite_models/blob/2d63a6b4319bda772420daf10594ce0de5bd793d/robosuite_models/robots/compositional.py"
+    },
+    {
+      "repository": "ARISE-Initiative/robosuite_models",
+      "commit": "2d63a6b4319bda772420daf10594ce0de5bd793d",
+      "path": "robosuite_models/robots/bases/go2_base.py",
+      "git_blob_sha": "35de20c573c42396da8a5a04ea679c5c525e5222",
+      "sha256": "0a021e98d684465817a669473fc2566eef185e96c4274b47c49e074fc3d7074c",
+      "bytes": 1403,
+      "url": "https://github.com/ARISE-Initiative/robosuite_models/blob/2d63a6b4319bda772420daf10594ce0de5bd793d/robosuite_models/robots/bases/go2_base.py"
+    },
+    {
+      "repository": "robocasa/robocasa",
+      "commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+      "path": "robocasa/environments/kitchen/atomic/kitchen_doors.py",
+      "git_blob_sha": "b8d47c6d93926f2b1b3fcd6071ae6bd87ab1e715",
+      "sha256": "7b19051b1276a780675868257c251cdf715cc700ffd83a7d30e27bcbda3700ec",
+      "bytes": 12615,
+      "url": "https://github.com/robocasa/robocasa/blob/dc73a8ce18e4b8947e8df2ae2958245ca823f3b4/robocasa/environments/kitchen/atomic/kitchen_doors.py"
+    },
+    {
+      "repository": "robocasa/robocasa",
+      "commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+      "path": "README.md",
+      "git_blob_sha": "3ea1c537c5dd95e1543c97ff8e63c0f23927631f",
+      "sha256": "dc97265934876a179808ab5bce712eecbb1a8259dfa93bf5aae04984607c670b",
+      "bytes": 7434,
+      "url": "https://github.com/robocasa/robocasa/blob/dc73a8ce18e4b8947e8df2ae2958245ca823f3b4/README.md"
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_left_compartment_of_the_caddy.bddl",
+      "git_blob_sha": "1c6334771bbc0faba5b97ff5ba64749eec446730",
+      "sha256": "7a46821e87185877e6bf9f2128f56842cb2bb58e3822f0b0a9650d4b78250ae4",
+      "bytes": 2055,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_left_compartment_of_the_caddy.bddl",
+      "static_inspection": {
+        "schema": "PINNED_LIBERO_BOOK_TASK_STATIC_INSPECTION_V1",
+        "source_sha256": "7a46821e87185877e6bf9f2128f56842cb2bb58e3822f0b0a9650d4b78250ae4",
+        "language": "pick up the book and place it in the left compartment of the caddy",
+        "upstream_goal": {
+          "predicate": "In",
+          "object": "black_book_1",
+          "region": "desk_caddy_1_left_contain_region"
+        },
+        "objects": {
+          "black_book_1": "black_book",
+          "white_yellow_mug_1": "white_yellow_mug"
+        },
+        "fixtures": {
+          "study_table": "study_table",
+          "desk_caddy_1": "desk_caddy"
+        },
+        "original_regions": [
+          [
+            "desk_caddy_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.21000000000000002",
+                  "-0.15000000000000002",
+                  "-0.19",
+                  "-0.13"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "3.141592653589793",
+                  "3.141592653589793"
+                ]
+              ]
+            ]
+          ],
+          [
+            "black_book_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.025",
+                  "0.125",
+                  "0.025",
+                  "0.175"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "-1.5707963267948966",
+                  "-0.7853981633974483"
+                ]
+              ]
+            ]
+          ],
+          [
+            "white_yellow_mug_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "0.07500000000000001",
+                  "-0.025",
+                  "0.125",
+                  "0.025"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0.0",
+                  "0.0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "desk_caddy_right_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.25",
+                  "0.09999999999999999",
+                  "-0.15000000000000002",
+                  "0.2"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "3.141592653589793",
+                  "3.141592653589793"
+                ]
+              ]
+            ]
+          ],
+          [
+            "right_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "left_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "back_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "front_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ]
+        ],
+        "original_initial_state": [
+          [
+            "On",
+            "desk_caddy_1",
+            "study_table_desk_caddy_init_region"
+          ],
+          [
+            "On",
+            "black_book_1",
+            "study_table_black_book_init_region"
+          ],
+          [
+            "On",
+            "white_yellow_mug_1",
+            "study_table_white_yellow_mug_init_region"
+          ]
+        ],
+        "task_executed": false,
+        "action_conversion_qualified": false,
+        "demonstration_admitted": false,
+        "execution_authority": false
+      }
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "libero/libero/benchmark/libero_suite_task_map.py",
+      "git_blob_sha": "08144b4dd01d91fb0ca40e2c1d93ccaa85025fbc",
+      "sha256": "0c950df0a785aa55de968bb38ccd865d2017f71ddbe6f48cfd05ac0742b6d62d",
+      "bytes": 9775,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/benchmark/libero_suite_task_map.py"
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "libero/libero/envs/objects/turbosquid_objects.py",
+      "git_blob_sha": "6ffcebdb8cef94fa8a59893fe004107bd3bc15e3",
+      "sha256": "4de4205eabb588600fd9669f6ee6e2ef12e47e13d9b421257215d34f836f9804",
+      "bytes": 5346,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/envs/objects/turbosquid_objects.py"
+    },
+    {
+      "repository": "NVlabs/mimicgen",
+      "commit": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "path": "LICENSE",
+      "git_blob_sha": "6a0fb4becf89697748fa205b40d97cf3b2f4685f",
+      "sha256": "c61872e27a1c33a016491dfd9145211deb46230ec4e94338e022df23ea81b9b5",
+      "bytes": 4042,
+      "url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/LICENSE"
+    },
+    {
+      "repository": "NVlabs/mimicgen",
+      "commit": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "path": "README.md",
+      "git_blob_sha": "6ce4900fe61472df6beee1b5fcecb809b43a9455",
+      "sha256": "d9981b21399fa6d3bd08a4bc98e9dfd005e2308b17b761cbc95dfae2f1b559f2",
+      "bytes": 2728,
+      "url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/README.md"
+    },
+    {
+      "repository": "NVlabs/mimicgen",
+      "commit": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "path": "mimicgen/env_interfaces/robosuite.py",
+      "git_blob_sha": "a0d77fd88680adaf22616130da8f3711d94a2156",
+      "sha256": "d07c6eb7c16262e2396beb0222b5a9cf74c10ea917eee1c22c7da3e6c2e0fbae",
+      "bytes": 32728,
+      "url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/mimicgen/env_interfaces/robosuite.py"
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_right_compartment_of_the_caddy.bddl",
+      "git_blob_sha": "4506b0e967c9ca22b1e1a2325b70b61232451bcf",
+      "sha256": "4a4ce354be7b6123b80a2d28a21d055cfd775c2841b94e205c32ae83a2902e67",
+      "bytes": 2057,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_right_compartment_of_the_caddy.bddl",
+      "static_inspection": {
+        "schema": "PINNED_LIBERO_BOOK_TASK_STATIC_INSPECTION_V1",
+        "source_sha256": "4a4ce354be7b6123b80a2d28a21d055cfd775c2841b94e205c32ae83a2902e67",
+        "language": "pick up the book and place it in the right compartment of the caddy",
+        "upstream_goal": {
+          "predicate": "In",
+          "object": "black_book_1",
+          "region": "desk_caddy_1_right_contain_region"
+        },
+        "objects": {
+          "black_book_1": "black_book",
+          "white_yellow_mug_1": "white_yellow_mug"
+        },
+        "fixtures": {
+          "study_table": "study_table",
+          "desk_caddy_1": "desk_caddy"
+        },
+        "original_regions": [
+          [
+            "desk_caddy_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.21000000000000002",
+                  "-0.15000000000000002",
+                  "-0.19",
+                  "-0.13"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "3.141592653589793",
+                  "3.141592653589793"
+                ]
+              ]
+            ]
+          ],
+          [
+            "black_book_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.025",
+                  "0.125",
+                  "0.025",
+                  "0.175"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "-1.5707963267948966",
+                  "-0.7853981633974483"
+                ]
+              ]
+            ]
+          ],
+          [
+            "white_yellow_mug_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "0.07500000000000001",
+                  "-0.025",
+                  "0.125",
+                  "0.025"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0.0",
+                  "0.0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "desk_caddy_right_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.25",
+                  "0.09999999999999999",
+                  "-0.15000000000000002",
+                  "0.2"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "3.141592653589793",
+                  "3.141592653589793"
+                ]
+              ]
+            ]
+          ],
+          [
+            "right_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "left_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "back_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ],
+          [
+            "front_contain_region",
+            [
+              ":target",
+              "desk_caddy_1"
+            ]
+          ]
+        ],
+        "original_initial_state": [
+          [
+            "On",
+            "desk_caddy_1",
+            "study_table_desk_caddy_init_region"
+          ],
+          [
+            "On",
+            "black_book_1",
+            "study_table_black_book_init_region"
+          ],
+          [
+            "On",
+            "white_yellow_mug_1",
+            "study_table_white_yellow_mug_init_region"
+          ]
+        ],
+        "task_executed": false,
+        "action_conversion_qualified": false,
+        "demonstration_admitted": false,
+        "execution_authority": false
+      }
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "libero/libero/bddl_files/libero_90/STUDY_SCENE4_pick_up_the_book_in_the_middle_and_place_it_on_the_cabinet_shelf.bddl",
+      "git_blob_sha": "848172a31891deccab4a9a68a6302b9e8f37d72e",
+      "sha256": "b17612a9a5fb0314c5aadb297cf8936d8e36ae6d97840e2d7fd8622399321323",
+      "bytes": 2028,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/bddl_files/libero_90/STUDY_SCENE4_pick_up_the_book_in_the_middle_and_place_it_on_the_cabinet_shelf.bddl",
+      "static_inspection": {
+        "schema": "PINNED_LIBERO_BOOK_TASK_STATIC_INSPECTION_V1",
+        "source_sha256": "b17612a9a5fb0314c5aadb297cf8936d8e36ae6d97840e2d7fd8622399321323",
+        "language": "pick up the book in the middle and place it on the cabinet shelf",
+        "upstream_goal": {
+          "predicate": "In",
+          "object": "black_book_1",
+          "region": "wooden_two_layer_shelf_1_top_region"
+        },
+        "objects": {
+          "black_book_1": "black_book",
+          "yellow_book_1": "yellow_book",
+          "yellow_book_2": "yellow_book"
+        },
+        "fixtures": {
+          "study_table": "study_table",
+          "wooden_two_layer_shelf_1": "wooden_two_layer_shelf"
+        },
+        "original_regions": [
+          [
+            "yellow_book_right_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.01",
+                  "-0.01",
+                  "0.01",
+                  "0.01"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0.0",
+                  "0.0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "yellow_book_left_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.060000000000000005",
+                  "-0.26",
+                  "-0.04",
+                  "-0.24"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0.0",
+                  "0.0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "black_book_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "0.04",
+                  "-0.16",
+                  "0.060000000000000005",
+                  "-0.13999999999999999"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0.0",
+                  "0.0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "wooden_two_layer_shelf_init_region",
+            [
+              ":target",
+              "study_table"
+            ],
+            [
+              ":ranges",
+              [
+                [
+                  "-0.01",
+                  "0.27",
+                  "0.01",
+                  "0.29000000000000004"
+                ]
+              ]
+            ],
+            [
+              ":yaw_rotation",
+              [
+                [
+                  "0",
+                  "0"
+                ]
+              ]
+            ]
+          ],
+          [
+            "top_side",
+            [
+              ":target",
+              "wooden_two_layer_shelf_1"
+            ]
+          ],
+          [
+            "top_region",
+            [
+              ":target",
+              "wooden_two_layer_shelf_1"
+            ]
+          ],
+          [
+            "bottom_region",
+            [
+              ":target",
+              "wooden_two_layer_shelf_1"
+            ]
+          ]
+        ],
+        "original_initial_state": [
+          [
+            "On",
+            "wooden_two_layer_shelf_1",
+            "study_table_wooden_two_layer_shelf_init_region"
+          ],
+          [
+            "On",
+            "yellow_book_1",
+            "study_table_yellow_book_right_init_region"
+          ],
+          [
+            "On",
+            "yellow_book_2",
+            "study_table_yellow_book_left_init_region"
+          ],
+          [
+            "On",
+            "black_book_1",
+            "study_table_black_book_init_region"
+          ]
+        ],
+        "task_executed": false,
+        "action_conversion_qualified": false,
+        "demonstration_admitted": false,
+        "execution_authority": false
+      }
+    },
+    {
+      "repository": "robocasa/robocasa",
+      "commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+      "path": "robocasa/models/fixtures/cabinets.py",
+      "git_blob_sha": "268fee24027bafea14b2d531c884f892e3e3b80c",
+      "sha256": "5c49fa3fb08f64263879fae2b51beb47cfe54951ff5ba3259aaff63c0b1d5661",
+      "bytes": 47865,
+      "url": "https://github.com/robocasa/robocasa/blob/dc73a8ce18e4b8947e8df2ae2958245ca823f3b4/robocasa/models/fixtures/cabinets.py"
+    },
+    {
+      "repository": "Lifelong-Robot-Learning/LIBERO",
+      "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "path": "README.md",
+      "git_blob_sha": "96cf5b87eb7bb42be1269581256cc85bd7e21b6f",
+      "sha256": "e87d5b284da3d7c127e1bc8282ea80b5da02aad3e9272c13adc96c4eca0eaa41",
+      "bytes": 8128,
+      "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/README.md"
+    }
+  ],
+  "selected_tasks": [
+    {
+      "id": "DOOR_RC_OPEN_CABINET_V1",
+      "task": "DOOR",
+      "source": "robocasa/robocasa",
+      "entry": "OpenCabinet",
+      "upstream_success": "ManipulateDoor._check_success -> fxtr.is_open(env)",
+      "fixture_and_full_asset_closure": "PENDING",
+      "project_success_extension": [
+        "actual specified-handle manipulation",
+        "release",
+        "withdraw",
+        "stable hold"
+      ],
+      "native_qualified": false
+    },
+    {
+      "id": "BOOK_LIBERO_CADDY_LEFT_RIGHT_V1",
+      "task": "BOOK",
+      "source": "Lifelong-Robot-Learning/LIBERO",
+      "task_files": [
+        "libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_left_compartment_of_the_caddy.bddl",
+        "libero/libero/bddl_files/libero_90/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_right_compartment_of_the_caddy.bddl"
+      ],
+      "paired_initial_distribution_identical": true,
+      "upstream_predicates": [
+        {
+          "predicate": "In",
+          "object": "black_book_1",
+          "region": "desk_caddy_1_left_contain_region"
+        },
+        {
+          "predicate": "In",
+          "object": "black_book_1",
+          "region": "desk_caddy_1_right_contain_region"
+        }
+      ],
+      "scope": "single book into selected caddy compartment; not narrow upright insertion or multi-book arrangement",
+      "project_success_extension": [
+        "actual selected-book transport",
+        "release",
+        "withdraw",
+        "stable support/hold"
+      ],
+      "native_qualified": false
+    }
+  ],
+  "later_task": {
+    "id": "BOOK_LIBERO_SHELF_V1",
+    "source_file": "libero/libero/bddl_files/libero_90/STUDY_SCENE4_pick_up_the_book_in_the_middle_and_place_it_on_the_cabinet_shelf.bddl",
+    "upstream_goal": {
+      "predicate": "In",
+      "object": "black_book_1",
+      "region": "wooden_two_layer_shelf_1_top_region"
+    },
+    "selected_for_first_pilot": false
+  },
+  "execution_route": {
+    "first": "port selected scene/assets/task semantics into the existing source MuJoCo executor",
+    "later": "independent target Go2+ARX5/free-root/contact/frozen-WBC evaluation",
+    "upstream_Go2Arx5_is_reference_only": true,
+    "Go2Arx5Floating_is_not_target_executor": true,
+    "default_robosuite_IK_is_not_frozen_WBC": true,
+    "existing_custom_Teachers_retained_as_diagnostic_baselines": true
+  },
+  "data_plan": {
+    "scale_semantics": "nested successful full TRAIN episodes; candidate quantities, not a runtime grant",
+    "seed_successes_per_skill": [
+      5,
+      10
+    ],
+    "skills": [
+      "PICK_PLACE",
+      "PUSH",
+      "DOOR",
+      "BOOK"
+    ],
+    "pilot_successes": [
+      50,
+      50,
+      100,
+      100
+    ],
+    "pilot_total": 300,
+    "expanded_total_successes": [
+      150,
+      150,
+      500,
+      500
+    ],
+    "expanded_total": 1300,
+    "recovery_segments_per_skill": [
+      50,
+      100
+    ],
+    "recovery_segments_total": [
+      200,
+      400
+    ],
+    "recovery_is_not_full_episode_count": true,
+    "DEV_independent_configs_per_skill": [
+      20,
+      30
+    ],
+    "TEST_complete_episodes_per_skill": 50,
+    "DEV_TEST_excluded_from_TRAIN_counts": true,
+    "door_book_learning_curve_nested": [
+      50,
+      100,
+      250,
+      500
+    ],
+    "all_generation_failures_preserved": true,
+    "parent_lineage_split_before_windows": true
+  },
+  "conversion_contract": {
+    "original_controller_config_and_target_frame_required": true,
+    "source_original_qpos_not_restored_into_new_robot": true,
+    "source_joint_action_arrays_not_renamed_as_target_data": true,
+    "target_pose_from_submitted_controller_command_not_future_achieved_TCP": true,
+    "original_RGB_not_paired_with_retargeted_actions": true,
+    "reexecuted_RGB_state_commands_results_required": true,
+    "rot6d": "existing canonical row encoding via pose10 and original processor",
+    "target_interface": "EEF10/H40/Prefix8; preserve requested-command time support and actual completed prefix",
+    "conversion_runtime_qualified": false
+  },
+  "validation": {
+    "primary_source_files": 14,
+    "all_source_text_git_blobs_recomputed": true,
+    "code_license_files_checked": 5,
+    "actual_BDDL_files_inspected": 3,
+    "left_right_original_regions_and_init_identical": true,
+    "CPU_tests_passed": 10,
+    "CPU_tests_failed_before_fix": 1,
+    "initial_failure": "Grouped BDDL object declarations were not supported; parser now retains all names in each typed group",
+    "pytest_warning": "Installed pytest does not recognize existing pythonpath config; PYTHONPATH supplied explicitly",
+    "physics_integrations": 0,
+    "model_loads": 0,
+    "training_updates": 0,
+    "new_dataset_or_bulk_asset_downloads": 0,
+    "new_server_mutations": 0
+  },
+  "remaining": [
+    "per-file scene/mesh/texture/fixture and license closure",
+    "fixed original demonstration subset/revision with controller and datagen provenance",
+    "command conversion numeric roundtrip against the exact original controller",
+    "native source ARX5 collision/camera/contact qualification",
+    "independent final task score and frozen export through existing owner",
+    "complete bounded source-pilot resource forecast before new runtime"
+  ],
+  "infrastructure": {
+    "NFS_Home_mount_SSH_services_credentials_changes": 0,
+    "AMD_heavy_compute": 0,
+    "active_environment_upgrades": 0,
+    "new_compute_requires_all_node_local_dependencies": true
+  },
+  "authority": {
+    "new_training_or_physics_authorized": false,
+    "S1_closed_reopened": false,
+    "D25_GEN1_and_E1_E2_scientific_identities_unchanged": true,
+    "DEC1_CORR2048_R0_unchanged": true,
+    "old_costs_caps_and_deadlines_unchanged": true
+  }
+}

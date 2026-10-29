@@ -1,6 +1,6 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
-**最新技术方向：** 最终上层采用[共享四任务源域后训练与恢复](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)：抓放、推物、开门、单书共用EEF10与权重，WBC冻结；E1/E2保留接口适配对照。物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心已有代码，37项CPU检查通过；完整ARX5源运行、独立任务审计与新训练未执行，候选300示范/10000更新不从S1额度支付。
+**最新技术方向：** [开源任务复用](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)优先把RoboCasa柜门和LIBERO单书左右格接入现有MuJoCo源执行器，再用已有示范和MimicGen式生成构建共享四任务数据。已固定来源并静态核对三个真实书本任务，10项CPU检查通过；尚无新任务运行或示范。300条pilot→累计1,300条及200–400段恢复均为候选投入；源域学习独立于目标WBC成功，原[四任务策略](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)、E1/E2对照和冻结WBC保留。
 
 **S1两次恢复已实际关闭，仍无整机成功示范：** [首次结果与核账](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1安装1段H40并实际执行0.4秒，保存8对RGB；下一段被历史旋转解码错误误拒。T2在初始化第24步真实触发小腿关节安全停止，未进入任务，该版本已隔离。累计5启动、实际7727/计费7736步、RGB8对；两run/lease均关闭、旧费用原件保留，不重试。T1实际保存状态的正确行解码通过原1051点证书，48项CPU检查通过；冷修未部署，不代表任务成功。T2启动失稳原因未确立；四任务新物理/训练及十天延期未采用，完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留。
 
