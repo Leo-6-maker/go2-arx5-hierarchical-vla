@@ -65,6 +65,9 @@ def ordinary_members(complete,index,reference,*,arm,endpoint):
 def closed_endpoint(global_bytes,lease_bytes,settled_bytes,owner_observation,*,arm):
     need(all(type(x)is bytes for x in(global_bytes,lease_bytes,settled_bytes)),
         'TRANSFER_ACTUAL_CLOSED_GLOBAL_LEASE_AND_SETTLEMENT_BYTES')
+    from . import minimal_qualified_e1_source as qualified
+    if qualified.KEY in owner_observation:
+        return qualified.closed_endpoint(global_bytes,lease_bytes,settled_bytes,owner_observation,arm=arm)
     g=json.loads(global_bytes);m=g.get(remaining.FIELD,{})
     rows=[r for r in g['PBS_submissions']if r.get('platform_training_version')==remaining.VERSION]
     need(len(rows)==1 and rows[0].get('status')==e.STATES[2]
