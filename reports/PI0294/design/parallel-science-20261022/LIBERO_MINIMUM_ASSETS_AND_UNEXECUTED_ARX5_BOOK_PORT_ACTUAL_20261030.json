@@ -1,0 +1,81 @@
+{
+  "status": "ALL_FOUR_PINNED_BINARY_ASSETS_INDEPENDENT_FULL_BYTES_VERIFIED",
+  "repository": "Lifelong-Robot-Learning/LIBERO",
+  "commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+  "files": {
+    "black_book/visual/black_book_vis.msh": {
+      "bytes": 773296,
+      "git_blob_sha": "0902de575bd80981db46b4e3955b244c5d2785ea",
+      "sha256": "ca4a7f95bad5dee37a99c0374df132eadf5f8304770e5830f3286d730c844049",
+      "mesh_counts": [
+        21480,
+        21480,
+        21480,
+        7160
+      ]
+    },
+    "black_book/black_book_texture.png": {
+      "bytes": 186624,
+      "git_blob_sha": "0bfda0bbb5403a1927571069786a394444c58ce0",
+      "sha256": "b743b0e878a10e579371707f3d135c6e7a80a8c307fffabfe1fea6a784830ec2",
+      "pixels": [
+        512,
+        512
+      ]
+    },
+    "desk_caddy/visual/desk_caddy_vis.msh": {
+      "bytes": 2696776,
+      "git_blob_sha": "44224ba7de257b5adba82b97de10667c1862fbad",
+      "sha256": "c2a31df6411aa382d91553a594faa2cb9577908c3881b9022616f9d6604333a4",
+      "mesh_counts": [
+        74910,
+        74910,
+        74910,
+        24970
+      ]
+    },
+    "desk_caddy/desk_caddy_texture.png": {
+      "bytes": 11230178,
+      "git_blob_sha": "15f16f8185d4f09b3f4e5531c939dccb28269a9c",
+      "sha256": "ea07fb85ab5ef7167040e459ae4442827d114d778aaf4f6a8229bc3898406238",
+      "pixels": [
+        4096,
+        4096
+      ]
+    }
+  },
+  "total_bytes": 14886874,
+  "all_prior_download_failures_and_zero_byte_partial_preserved": true,
+  "new_physics": 0,
+  "new_model_calls": 0,
+  "observed_epoch": 1793302433.2992492,
+  "evidence_role": "PRIVATE_MINIMUM_ASSET_CLOSURE_AND_UNEXECUTED_SOURCE_PORT_NOT_A_DEMONSTRATION",
+  "source_XML_git_blobs": {
+    "black_book": "73481d4f87d7480cc75add0fe7cce147e5ea2921",
+    "desk_caddy": "bb59530d8629878f8974efaed4abf79d31743ee3"
+  },
+  "port_invariants": [
+    "All original 18 collision boxes and asset scales retained.",
+    "Original book free-joint damping .0005 and collision-only inertia reproduced explicitly; no global source-robot compiler change.",
+    "Native LIBERO In uses native book body origin and exact original site AABB predicate; semantic grasp frame is separate.",
+    "Native goal does not establish real support, release, withdrawal or two-second hold; independent demonstration audit required.",
+    "Task cards declare an upright ARX5 source-port condition, not original LIBERO robot/seeds; 5-second warmup and 32-second task.",
+    "No WBC, free-body S1, GR00T training/query or PBS."
+  ],
+  "robosuite_collision_only_inertia_provenance": {
+    "commit": "5ce6643f3092639d08f7b0f90ed1c6a84f50552c",
+    "path": "robosuite/models/assets/base.xml",
+    "git_blob_sha": "b52d438e453ba0a2d808052c8b85f5d0026860bb",
+    "inertiagrouprange": "0 0"
+  },
+  "validation": {
+    "local_CPU_checks": 20,
+    "passed": 20,
+    "simulator_constructions": 0,
+    "integrations": 0,
+    "RGB_pairs": 0,
+    "CI": "NOT_RUN"
+  },
+  "native_adopted": false,
+  "new_qualified_demonstrations": 0
+}
