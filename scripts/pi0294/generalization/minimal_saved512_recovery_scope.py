@@ -108,7 +108,8 @@ def budget_LOCAL(g,local):
 
 
 def planned_unregistered(g):
-    return deepcopy(NATIVE)if validate(g)is not None else e._vector({})
+    from . import minimal_saved512_execution as execution
+    return deepcopy(NATIVE)if validate(g)is not None and execution.basic(g)is None else e._vector({})
 
 
 def propose(global_bytes,historical_LOCAL_bytes,scope_bytes,*,closed_readback,now_epoch):

@@ -74,9 +74,9 @@ def minimal_training_adapter(version,profile):
     This selects validation only, not native permission. The selected native
     context must still join its own registered request, capsule and leases.
     """
-    from scripts.pi0294.generalization import minimal_execution, minimal_retry_execution,minimal_remaining_execution
+    from scripts.pi0294.generalization import minimal_execution, minimal_retry_execution,minimal_remaining_execution,minimal_saved512_execution
     from scripts.pi0294.generalization.minimal_execution_adapter import select
-    adapters={a.VERSION:a for a in (minimal_execution,minimal_retry_execution,minimal_remaining_execution)}
+    adapters={a.VERSION:a for a in (minimal_execution,minimal_retry_execution,minimal_remaining_execution,minimal_saved512_execution)}
     if version in adapters:
         try:return select(version,profile)
         except PermissionError:fail('EXACT_MINIMAL_VERSION_AND_TYPED_PROFILE')

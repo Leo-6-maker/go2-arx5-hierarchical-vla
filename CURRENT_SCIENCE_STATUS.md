@@ -27,6 +27,8 @@
 
 ## 最新工程状态
 
+最新实际：[E1保存512完整状态与普通导出tensor独立审计PASS](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED_E1_512_FULL_STATE_AND_ORDINARY_TENSOR_AUDIT_REAL_PASS_RECOVERY_COLD_20261029.json)。有限审计实际CPU314.544秒／自然OS0，无新模型／query／optimizer；E1实际同noise重载输出仍待GPU资格。原GLOBAL接续控制／PBS43已once采用，used39、历史不退款；新候选仅E1推理收尾和E2 fresh512，无原生登记／qsub。
+
 2026-10-29 09:08 SGT实际：[E1真实512更新／36探针查询与独立上传冷接线](reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_PROBES36_AND_DECOUPLED_SOURCE_UPLOAD_CONTROL_CPU_ACTUAL_20261029.json)。同一1505362仍R，原owner／wrapper健康，pending／unknown为空。E1已512更新＋36查询、session仍ACTIVE，尚未据此证明official export／reload或端点终态；E2正式仍0/512。本allocation累计514更新／38查询／4加载，不当作GLOBAL终态结算。新来源端控制纯提案从每臂原Eval escrow划出900siteCPU（300准备＋600上传）／60PC／64MiB元数据／32MiB控制传输，原package、历史marker字节及Core两面板不改。真实15MB完整GLOBAL由原native baseline＋只读delta重建并逐字节SHA一致；先前完整回包上界拒绝及8CPU／4MiB上界保留，无重发写入。未来512／F／OS0／lease／模型皆明确CPU fixtures，原全历史、物理、终态与完整14维消费者实际运行，两臂各次提案投影全维不变；141定向CPU／19subtests通过。保留历史remaining_resources，将已支付控制仅放入effective forecast，两个此前资源测试失败原样保留。复用原detached pipe／一次HF提交，来源上传运行不查询Core；这些代码尚未采用、部署或上传，不修改现役capsule。
 
 2026-10-29 08:35 SGT实际：[E1正式149步与闭合512端点交付冷接线](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E1_FORMAL149_AND_CLOSED512_INFERENCE_TRANSFER_CPU_ACTUAL_20261029.json)。同一1505362仍R，原owner／wrapper同procstart健康，queue／GLOBAL／原生效果unknown和pending均空；E1已149/512，E2正式仍0/512。新纯适配器区分own512普通完整推理导出与step2资格／wrapped训练状态，必须消费原完整GLOBAL终态审计、SETTLED原字节、own CLOSED lease和原owner自然OS0，匹配全流审计成员后才生成HF模型子集；只复用原两项Cosmos路径改写与精确私有恢复。既有restoration入口仅新增显式E1/E2类型，A/B/C/D不变。105定向CPU／19subtests通过，含两臂artifact fixtures、破坏SHA／arm／路径／训练状态与隔离closure接缝；未来闭合GLOBAL正例不是native，旧测试文件名命令错误保留。该冷代码尚未采用／部署／上传／Core交付，不改变运行source或资源，训练继续独立完成。

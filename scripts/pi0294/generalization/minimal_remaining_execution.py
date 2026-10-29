@@ -103,6 +103,7 @@ def basic(g):
         and m['native_hold']==native_resources()and m['control_paid_here']==e._vector({})
         and m['old_paid_gross_and_history_unchanged']is True,
         'REMAINING_REAL_NONZERO_CLOSED_PREFIX_AND_ALREADY_PAID_CONTROL')
+    from .minimal_saved512_recovery_scope import count_upper
     cap=e.authority.validate(g);before=m['before']
     need(cap is not None and all(row[k]==cap[k]for k in('T_CD','stop_new_training_epoch','deadline_epoch'))
         and type(m['registered_epoch'])in(int,float)and math.isfinite(m['registered_epoch'])
@@ -112,7 +113,7 @@ def basic(g):
         and type(row['created_epoch'])in(int,float)and math.isfinite(row['created_epoch'])
         and cap['T_CD']<=row['created_epoch']<=m['registered_epoch']
         and g['used']['PBS_submissions']==len(g['PBS_submissions'])
-        and 39<=len(g['PBS_submissions'])<=authority.AFTER
+        and 39<=len(g['PBS_submissions'])<=count_upper(g,authority.AFTER)
         and(row['status']==e.STATES[2]or len(g['PBS_submissions'])==39)
         and g['PBS_submissions'][38]==row,
         'REMAINING_ONE_PBS_WITH_ORIGINAL_WINDOW_MATRIX_AND_FINAL_PROTECTION')
