@@ -1,5 +1,6 @@
 """Complete cold watch->RPC->journal->native heartbeat CPU call path."""
 import contextlib
+import errno
 import io
 import json
 from pathlib import Path
@@ -162,6 +163,67 @@ class ColdOwnerIntegration(unittest.TestCase):
         with self.assertRaises(ReadOnlyFailure):self.run_watch()
         self.assertEqual([x[0] for x in self.calls],['READ']*3)
         self.assertEqual(self.sleeps,[30,30])
+
+    def successor_watch(self):
+        from scripts.pi0294.pv1 import successor_cd as cd
+        marker=dict(cd.scope(1),grant_sha256=cd.GRANT_SHA,
+            before_sha256={'GLOBAL':'a'*64,'LOCAL':'b'*64},
+            authorized_storage_caps=dict(cd.NEW_STORAGE),
+            old_clock_and_history_preserved=True,scope_only_not_GPU_or_physics_admission=True)
+        self.owner.successor_scope=marker
+        self.owner.preserve_readonly_until_deadline=True
+        return lambda:cold_owner.watch(self.owner,None,clock=lambda:self.now,
+            monotonic=lambda:self.mono,sleep=self.sleep,scope_binding=marker)
+
+    def test_local_ESTALE_read_recovers_without_frontend_or_stale_heartbeat(self):
+        watch=self.successor_watch();original=self.owner.fresh;attempts=[]
+        def fresh(*args,**kwargs):
+            attempts.append(self.now)
+            if len(attempts)==1:raise OSError(errno.ESTALE,'Stale file handle')
+            return original(*args,**kwargs)
+        self.owner.fresh=fresh
+        self.assertEqual(watch()['native']['job_state'],'F')
+        self.assertEqual(self.sleeps,[30,30,30])
+        interruption=[v for n,v in self.events if n.startswith('READ_ONLY_OBSERVATION_INTERRUPTION')]
+        self.assertEqual(len(interruption),1)
+        self.assertFalse(interruption[0]['phase_in_durable_RPC_journal'])
+        self.assertEqual(interruption[0]['diagnostic']['errno'],errno.ESTALE)
+        self.assertEqual(sum(c[0]=='RELEASE' for c in self.calls),2)
+
+    def test_repeated_ESTALE_never_publishes_until_new_valid_observation(self):
+        watch=self.successor_watch();original=self.owner.fresh;remaining=[4]
+        def fresh(*args,**kwargs):
+            if remaining[0]:
+                remaining[0]-=1
+                self.assertEqual(self.calls,[])
+                raise OSError(errno.ESTALE,'Stale file handle')
+            return original(*args,**kwargs)
+        self.owner.fresh=fresh
+        self.assertEqual(watch()['native']['job_state'],'F')
+        self.assertEqual(self.sleeps[:4],[30]*4)
+        self.assertEqual(sum(n.startswith('READ_ONLY_SUSPENDED_NO_RELEASE') for n,v in self.events),2)
+
+    def test_legacy_or_nontransient_local_filesystem_error_is_not_retried(self):
+        for number in (errno.ESTALE,errno.ENOENT,errno.EACCES):
+            with self.subTest(errno=number):
+                def fresh(*args,**kwargs):raise OSError(number,'read failure')
+                self.owner.fresh=fresh
+                with self.assertRaises(OSError):self.run_watch()
+                self.assertEqual(self.sleeps,[])
+        watch=self.successor_watch()
+        with self.assertRaises(PermissionError):watch()
+        self.assertEqual(self.sleeps,[])
+
+    def test_ESTALE_inside_mutation_stays_UNKNOWN_and_is_never_retried(self):
+        watch=self.successor_watch();original=self.rpc.transport
+        def transport(argv,code,**kwargs):
+            if 'import publish' in code:raise OSError(errno.ESTALE,'write outcome unknown')
+            return original(argv,code,**kwargs)
+        self.rpc.transport=transport
+        with self.assertRaises(UnknownMutation):watch()
+        self.assertEqual(read(self.j.state_path)['status'],'UNKNOWN')
+        self.assertEqual(self.sleeps,[])
+        self.assertFalse(any(n.startswith('READ_ONLY_OBSERVATION_INTERRUPTION') for n,v in self.events))
 
     def test_heartbeat_reply_loss_is_read_back_not_republished(self):
         self.heartbeat_fault='after';self.run_watch()
