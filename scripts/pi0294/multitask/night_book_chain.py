@@ -1,0 +1,75 @@
+"""Existing registered owner's finite left/right child sequence and closeout.
+
+Two predeclared tasks, no retries or external-site runtime calls. Each child
+and the separate raw auditor use the same standard entry and one night account.
+"""
+import hashlib,json,os,resource,subprocess,sys,time
+from pathlib import Path
+from scripts.pi0294.dec1 import source_cpu_once_io as once
+from . import night_scope as scope
+
+raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
+sha=lambda b:hashlib.sha256(b).hexdigest()
+
+
+def put(path,value):
+    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+    with os.fdopen(fd,'wb')as f:f.write(raw(value));f.flush();os.fsync(f.fileno())
+
+
+def main(root):
+    root=Path(root);start=time.monotonic()
+    if os.getuid()!=2009 or os.uname().nodename!='corelab-4080s':raise PermissionError('EXISTING_CORE_OWNER_ONLY')
+    scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
+    entry=root/'entry/infrastructure/enter.sh'
+    unit_facts=dict(pid=os.getpid(),process_start_ticks=Path('/proc/self/stat').read_text().split()[21],
+        cgroup=Path('/proc/self/cgroup').read_text(),uid=os.getuid(),host=os.uname().nodename,
+        pc_or_external_site_runtime_dependency=False,predeclared_tasks=['left','right'],automatic_retry=False,
+        deadline_epoch=scope.DEADLINE,observed_epoch=time.time())
+    put(root/'control/ACTUAL_DETACHED_OWNER_STARTED.json',unit_facts)
+    results=[]
+    for side in('left','right'):
+        if time.time()>=scope.STOP_NEW or (root/'STOP.json').exists():break
+        command=['/bin/bash',str(entry),'4080-simulation','python','-B','-m',
+            'scripts.pi0294.multitask.night_book_worker',str(root),side]
+        with (root/'logs'/(side+'.log')).open('xb')as log:
+            try:
+                child=subprocess.run(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,timeout=min(600,scope.DEADLINE-time.time()-30))
+                status=child.returncode
+            except subprocess.TimeoutExpired:
+                status='WALL_TIMEOUT_NO_RETRY'
+        folder=root/'outputs'/('LIBERO_'+side.upper()+'_FIRST01')
+        row=dict(side=side,OS_exit_status=status,raw_terminal_exists=(folder/'TERMINAL.json').exists())
+        if row['raw_terminal_exists']:
+            # A distinct process independently reads the actual saved raw bytes.
+            audit_code='import sys,json;from pathlib import Path;from scripts.pi0294.multitask.night_book_audit import audit;print(json.dumps(audit(Path(sys.argv[1]))))'
+            try:
+                q=subprocess.run(['/bin/bash',str(entry),'4080-simulation','python','-B','-c',audit_code,str(folder)],
+                    stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=30)
+                row['audit_OS_exit_status']=q.returncode
+                if q.returncode==0:
+                    value=json.loads(q.stdout);put(folder/'INDEPENDENT_RAW_AUDIT.json',value)
+                    row.update(independent_audit_sha256=sha(raw(value)),task_success=value['task_success'],
+                        qualified_source_pilot=value['qualified_source_pilot'])
+                else:row['audit_error']=q.stderr[-1200:]
+            except Exception as exc:
+                row.update(audit_OS_exit_status='FAILED_NO_RETRY',audit_error=type(exc).__name__+': '+str(exc))
+        results.append(row)
+        # Same engineering fault is never blindly submitted to the right task.
+        if status!=0 or row.get('audit_OS_exit_status')!=0:break
+    lease_path=root/'control/NATIVE_SOURCE_LEASE.json';b=lease_path.read_bytes();lease=json.loads(b)
+    if lease['status']!='ACTIVE' or lease['run_uuid']!=root.name:raise PermissionError('EXACT_OWN_SOURCE_LEASE_CLOSE')
+    lease.update(status='CLOSED',terminal_reason='FINITE_PREDECLARED_SOURCE_TASKS_TERMINAL_NO_RETRY',closed_epoch=time.time(),all_children_terminal=True)
+    key='NIGHT30-FINITE-SOURCE-CHAIN-CLOSE'
+    receipt=once.commit(lease_path,expected_before_sha256=sha(b),proposed_bytes=raw(lease),request_id=key,
+        intent_path=lease_path.with_name(key+'.INTENT.json'),receipt_path=lease_path.with_name(key+'.RECEIPT.json'),
+        lock_path=lease_path.with_name('NATIVE_SOURCE_LEASE.owner.lock'))
+    usage=resource.getrusage(resource.RUSAGE_SELF);children=resource.getrusage(resource.RUSAGE_CHILDREN)
+    value=dict(status='FINITE_SOURCE_CHAIN_TERMINAL',results=results,closed_lease_sha256=receipt['after_sha256'],
+        qualified_source_pilots=sum(r.get('qualified_source_pilot',False)for r in results),
+        CPU_s=usage.ru_utime+usage.ru_stime+children.ru_utime+children.ru_stime,wall_s=time.monotonic()-start,
+        pc_or_external_site_runtime_dependency=False,automatic_retry=False,new_model_queries_updates_PBS=0,observed_epoch=time.time())
+    put(root/'outputs/SOURCE_CHAIN_TERMINAL.json',value);print(json.dumps(value))
+
+
+if __name__=='__main__':main(sys.argv[1])
