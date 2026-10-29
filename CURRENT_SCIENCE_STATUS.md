@@ -1,5 +1,8 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+**2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
+
+
 
 **2026-10-29最新实际：E2作业1507480已F／Exit1，模型／查询／更新均0；原owner身份分支遗漏，原300秒心跳保护随后终止。445GPU秒／310siteCPU秒已一次结算、own lease关闭并独立核验，GLOBAL `b3537b24`。** [完整原件与冷修复](reports/PI0294/design/parallel-science-20261022/ARX5_E2_1507480_ZERO_MODEL_FAILURE_CLOSED_AND_UNLIMITED_PBS_DIRECT_AUTHORITY_ACTUAL_20261029.json)。原E1@512保留且不重训，E2完整512仍未达成。人类最新已直接取消GPU PBS次数硬上限；精确授权已在原GLOBAL一次采用并独立全文回读，当前GLOBAL `1805b53e`；实际累计PBS41仍逐笔计费记账，次数不再作为阻断。不改其他caps／clock／科学／并发。旧44次授权和全部费用原件保留，不再为单纯多一次PBS重复问GO。
 
