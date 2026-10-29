@@ -87,7 +87,10 @@ def run(root,request_path):
         once(d/'ALLOCATION_ADMISSION.json',allocation)
         guard=context.Guard(root,allocation)
         adapter=adapters.request(r)
-        if adapter is adapters.saved512:
+        if adapter is adapters.e2only:
+            from .minimal_e2only_physical import Guard as E2Guard
+            guard=E2Guard(root,r,manifest,guard)
+        elif adapter is adapters.saved512:
             from .minimal_saved512_physical import Guard as SavedGuard
             guard=SavedGuard(root,r,manifest,guard)
         elif adapter is adapters.remaining:
@@ -96,7 +99,9 @@ def run(root,request_path):
         elif adapter is adapters.retry or adapters.PHYSICAL in manifest['execution']['sealed_inputs']:
             from .minimal_retry_runtime_guard import Guard as RetryGuard
             guard=RetryGuard(root,r,manifest,guard)
-        if adapter is adapters.saved512:
+        if adapter is adapters.e2only:
+            from .minimal_e2only_effects import E2OnlyEffects as Effects
+        elif adapter is adapters.saved512:
             from .minimal_saved512_effects import Saved512Effects as Effects
         elif adapter is adapters.remaining:
             from .minimal_remaining_effects import RemainingEffects as Effects
@@ -128,7 +133,10 @@ def run(root,request_path):
         once(d/'A40_PREMODEL_QUALIFICATION.json',dict(status='PASS_MINIMAL_ACTUAL_A40_CONTEXT_NO_MODEL',
             request_sha256=sha(request_path),job_id=job,numerics=numeric,original_cluster_tools=native_tools,
             models_loaded=0,queries=0,updates=0,new_physics=0))
-        if adapter is adapters.saved512:
+        if adapter is adapters.e2only:
+            from .minimal_e2only_worker import E2OnlyWorker as Worker
+            phase='E2_ONLY_FRESH_RAW_FIXED512'
+        elif adapter is adapters.saved512:
             from .minimal_saved512_worker import Saved512Worker as Worker
             phase='SAVED_E1_INFERENCE_AND_FRESH_RAW_E2_512'
         elif adapter is adapters.remaining:
@@ -147,7 +155,7 @@ def run(root,request_path):
             except BaseException as exc:
                 if error is None:error=dict(type=type(exc).__name__,message=str(exc)[-2000:])
         final=dict(schema='ARX5_MINIMAL_ORIGINAL_A40_PROCESS_FINAL_V1',phase=phase,error=error,
-            status=('SAVED512_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.saved512.VERSION else'REMAINING_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.remaining.VERSION else'FIVE_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED')if error is None and result else'FAILED_OR_PARTIAL_PRESERVED',
+            status=('E2_ONLY_SESSION_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.e2only.VERSION else'SAVED512_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.saved512.VERSION else'REMAINING_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.remaining.VERSION else'FIVE_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED')if error is None and result else'FAILED_OR_PARTIAL_PRESERVED',
             job_id=os.environ.get('PBS_JOBID'),request_id=r['request_id'],source_sha=r['source_sha'],
             request_sha256=sha(request_path),CPU_actual_s=time.process_time()-began,
             new_physics=0,new_episodes=0,result=result)

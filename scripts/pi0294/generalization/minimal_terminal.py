@@ -30,14 +30,27 @@ def digest(value):
     return value
 
 
-def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_global=None,saved512_global=None):
+def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_global=None,saved512_global=None,e2only_global=None):
     from . import minimal_remaining_contract as remainder
     is_remaining=row.get('platform_training_version')==remainder.VERSION
     specs=e.native_sessions();loads_by_session=(1,3,3,2,2);summary_schema=SUMMARY
     complete_field='all_five_sessions_runtime_complete';audit_status=AUDIT
     from . import minimal_saved512_contract as saved512
     is_saved512=row.get('platform_training_version')==saved512.VERSION
-    if is_saved512:
+    from . import minimal_e2only_contract as e2only
+    is_e2only=row.get('platform_training_version')==e2only.VERSION
+    need(is_e2only or e2only_global is None,'TERMINAL_NO_E2_ONLY_VIEW_FOR_OLD_REQUEST')
+    if is_e2only:
+        from . import minimal_e2only_execution as execution
+        from .minimal_e2only_effects import SUMMARY as summary_schema,COMPLETE as complete_field
+        from .minimal_e2only_audit import AUDIT as audit_status
+        need(e2only_global is not None and execution.basic(e2only_global)[1]==row
+            and retry_global is remaining_global is saved512_global is None,'TERMINAL_E2_ONLY_EXACT_OWN_GLOBAL')
+        specs=e2only.sessions();loads_by_session=(2,)
+        need(effects.get('closed_predecessor')==audit.get('closed_predecessor')==e2only.binding()
+            and effects.get('E1_new_training_or_inference')==audit.get('E1_new_training_or_inference')==0,
+            'TERMINAL_E2_ONLY_NO_E1_REPLAY_OR_SAVED122_CREDIT')
+    elif is_saved512:
         from . import minimal_saved512_execution as execution
         from .minimal_saved512_effects import SUMMARY as summary_schema
         from .minimal_saved512_audit import AUDIT as audit_status
@@ -84,7 +97,7 @@ def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_globa
     cpu=bounded(native['conservative_CPU_s'],row['CPU_upper_s'])
     # The original 900s remains in its original settled row. Only the explicit
     # retry contract can prove that history and exclude a second charge here.
-    prior=0 if is_remaining or is_saved512 else e.PREPARATION_CPU_UPPER
+    prior=0 if is_remaining or is_saved512 or is_e2only else e.PREPARATION_CPU_UPPER
     if retry_global is not None:
         from .minimal_retry_execution import terminal_CPU_prior
         prior=terminal_CPU_prior(retry_global,row)
@@ -129,14 +142,23 @@ def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_globa
         'TERMINAL_INDEPENDENT_SAME_JOB_FULL_STATE_OR_PRESERVED_PARTIAL_AUDIT')
     success=native['Exit_status']==0 and len(complete)==len(specs)and audit['status']==audit_status
     if audit['status']==audit_status:
-        need(success and audit.get('audited_session_ids')==ids
-            and audit.get('same15_zero_step_raw_wrapped_arms_exact')is True
-            and audit.get('two_full_optimizer_scheduler_RNG_sampler_restore_pairs_exact')is True
+        from .minimal_saved512_contract import RESULT as saved_qualification_result
+        needs_state=(audit.get('own_full_optimizer_scheduler_RNG_sampler_exact')is True
+            and audit.get('original_qualification_evidence_reused_not_reexecuted')is True
+            and audit.get('saved_qualification_input_audit_sha256')==saved_qualification_result)if is_e2only else(
+            audit.get('same15_zero_step_raw_wrapped_arms_exact')is True
+            and audit.get('two_full_optimizer_scheduler_RNG_sampler_restore_pairs_exact')is True)
+        need(success and audit.get('audited_session_ids')==ids and needs_state
             and audit.get('official_full_model_reconstruction_output_pairs_exact')is True
             and audit.get('frozen_parameters_and_buffers_unchanged')is True,
             'TERMINAL_ACTUAL_MODEL_CONTRACT_NOT_CPU_FLAGS_OR_RUNTIME_COUNTS')
         endpoints=audit.get('endpoints',{})
-        need(set(endpoints)==set(e.training.ARMS),'TERMINAL_BOTH_MATCHED512_ENDPOINTS')
+        need(set(endpoints)==({e.training.ARMS[1]}if is_e2only else set(e.training.ARMS)),
+            'TERMINAL_OWN_REQUIRED_FORMAL512_ENDPOINTS')
+        if is_e2only:
+            cp=endpoints[e.training.ARMS[1]]
+            need(cp.get('original_training_job_id')==row['job_id']and cp.get('current_job_optimizer_updates')==512,
+                'TERMINAL_E2_OWN_NEW512_NOT_FAILED_OR_OTHER_ARM')
         if is_saved512:
             need(endpoints[e.training.ARMS[0]].get('original_training_job_id')==saved512.scope.JOB
                 and endpoints[e.training.ARMS[0]].get('current_job_optimizer_updates')==0

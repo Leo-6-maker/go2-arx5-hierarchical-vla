@@ -73,6 +73,13 @@ def build_trainer(root,instance,allocation,ledger,session_id,*,guard,restoring_q
     from transformers import TrainingArguments,TrainerCallback,set_seed
     set_seed(recipe['seed']);args=TrainingArguments(output_dir=str(output),**training.trainer_arguments(recipe,original))
     times=[];start={};holder={}
+    from . import minimal_e2only_contract as e2
+    recovery=ledger.request.get('platform_training_version')==e2.VERSION
+    if recovery:
+        from .minimal_e2only_execution import request as check_request
+        check_request(ledger.request)
+        need(spec==e2.sessions()[0] and not restoring_qualification,
+            'SESSION_E2_ONLY_RECOVERY_IS_NOT_QUALIFICATION_OR_E1')
 
     class Audit(TrainerCallback):
         def on_step_begin(self,arguments,state,control,**kwargs):
@@ -100,12 +107,29 @@ def build_trainer(root,instance,allocation,ledger,session_id,*,guard,restoring_q
                      time.process_time()>=resource.getrlimit(resource.RLIMIT_CPU)[0]-120)
             if closing:control.should_save=True;control.should_training_stop=True
             need(known['pending_updates']==known['unknown_effects']==[],'SESSION_ORIGINAL_COMMIT_BEFORE_BOUNDARY')
+            if recovery and e2.recovery_boundary(state.global_step,trainer.consumed,
+                    pending=known['pending_updates'],unknown=known['unknown_effects']):
+                control.should_save=True
             return control
 
     base=training.make_trainer_class()
     class BoundedSave(base):
         def _save_checkpoint(self,model,trial):
-            guard();save_headroom(root,spec['arm'],guard=guard);return super()._save_checkpoint(model,trial)
+            guard()
+            if recovery:
+                from .minimal_e2only_worker import recovery_save_headroom
+                recovery_save_headroom(root,ledger.request,self.state.global_step,guard=guard)
+            else:save_headroom(root,spec['arm'],guard=guard)
+            result=super()._save_checkpoint(model,trial)
+            if recovery:
+                from .minimal_worker import seal_checkpoint
+                cp=output/('checkpoint-'+str(self.state.global_step))
+                need(sum(p.stat().st_size for p in cp.rglob('*')if p.is_file())<=26000000000,
+                    'SESSION_E2_COMPLETE_STATE_WITHIN_DECLARED26GB')
+                proof=seal_checkpoint(root,session_id,self.state.global_step,sha(cp/'CHECKPOINT_COMPLETE.json'),
+                    guard=guard,recovery_request=ledger.request)
+                write(evidence/('FULL_RECOVERY_SAVE_'+str(self.state.global_step)+'.json'),proof)
+            return result
     trainer=BoundedSave(model=instance.model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),
         callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False,
         parameter_contract=instance.parameter_contract,session_stop=spec['optimizer_limit'],

@@ -99,6 +99,13 @@ def root_context(root,request_path,*,full=False,require_bound=True):
         from . import minimal_saved512_dispatch as dispatch
         dispatch.check(sealed(request_path.parent,dispatch.FILE,parse=False).read_bytes(),
             sealed(root,'control/resident-owner/SOURCE_QSUB_INTENT.private.json'),r,now_epoch=time.time())
+    if adapter is adapters.e2only:
+        from . import minimal_e2only_physical as physical,minimal_e2only_dispatch as dispatch,minimal_saved512_contract as saved
+        need({adapter.PHYSICAL,physical.SNAPSHOT,saved.PLAN,saved.RESULT_FILE,saved.EXIT_FILE}<=set(inputs)
+            and sealed(root,adapter.PHYSICAL)==index['physical_custody'],'CONTEXT_E2_ONLY_ALL_CLOSED_INPUTS')
+        saved.binding(sealed(root,saved.RESULT_FILE,parse=False).read_bytes(),sealed(root,saved.EXIT_FILE,parse=False).read_bytes())
+        dispatch.check(sealed(request_path.parent,dispatch.FILE,parse=False).read_bytes(),
+            sealed(root,'control/resident-owner/SOURCE_QSUB_INTENT.private.json'),r,now_epoch=time.time())
     for name,h in inputs.items():need(sha(sealed(root,name,parse=False))==h,'CONTEXT_SEALED_INPUT:'+name)
     seal=sealed(root,'SOURCE_SEAL.json');prefix=Path(m['code']['capsule_relative']);code=root/prefix
     need(not prefix.is_absolute() and '..'not in prefix.parts and sha(root/'SOURCE_SEAL.json')==m['code']['source_seal_sha256']
@@ -126,6 +133,13 @@ def root_context(root,request_path,*,full=False,require_bound=True):
             'minimal_saved512_effects.py','minimal_saved512_inputs.py','minimal_saved512_worker.py','minimal_saved512_physical.py',
             'minimal_saved512_recovery_scope.py','minimal_saved512_terminal.py','minimal_saved512_audit.py','minimal_saved512_dispatch.py',
             'minimal_execution_adapter.py','minimal_portable_inventory.py','minimal_validation_cache.py'))
+    if adapter is adapters.e2only:
+        critical.update('scripts/pi0294/generalization/'+n for n in(
+            'minimal_e2only_execution.py','minimal_e2only_scope.py','minimal_e2only_contract.py',
+            'minimal_e2only_worker.py','minimal_e2only_effects.py','minimal_e2only_physical.py','minimal_e2only_dispatch.py',
+            'minimal_e2only_terminal.py','minimal_e2only_audit.py','minimal_execution_adapter.py',
+            'minimal_saved512_inputs.py','minimal_saved512_contract.py','minimal_saved512_physical.py',
+            'minimal_remaining_inputs.py','minimal_remaining_physical.py','minimal_validation_cache.py'))
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

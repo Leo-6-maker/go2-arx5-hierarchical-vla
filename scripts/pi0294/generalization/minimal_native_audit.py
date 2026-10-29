@@ -100,9 +100,15 @@ def optimizer_state(cp,step,contract,stream):
         rng_keys=sorted(rng),optimizer_parameter_groups=groups)
 
 
-def checkpoint(root,spec,request,data,stream):
-    step=spec['optimizer_limit'];cp=root/'training'/spec['id']/('checkpoint-'+str(step));complete=read(cp/'CHECKPOINT_COMPLETE.json')
-    need(complete['global_step']==step and complete['full_resume']is True and complete['session_terminal']is True
+def checkpoint(root,spec,request,data,stream,*,recovery_step=None):
+    if recovery_step is not None:
+        from . import minimal_e2only_contract as c,minimal_e2only_execution as x
+        x.request(request,central=True)
+        need(spec==c.sessions()[0]and type(recovery_step)is int and 0<recovery_step<512,
+            'AUDIT_NEW_E2_ONLY_INTERMEDIATE_FULL_RECOVERY')
+    step=spec['optimizer_limit']if recovery_step is None else recovery_step
+    cp=root/'training'/spec['id']/('checkpoint-'+str(step));complete=read(cp/'CHECKPOINT_COMPLETE.json')
+    need(complete['global_step']==step and complete['full_resume']is True and complete['session_terminal']is(recovery_step is None)
         and complete['training_identity']==spec['arm'] and complete['qualification_only']is(not spec['formal_candidate'])
         and complete['scheduler_horizon']==1024 and complete['origin_job_id']==request['job_id']
         and complete['origin_source_sha']==request['source_sha'],'AUDIT_ACTUAL_OWN_STEP2_OR_FIXED512_FULL_STATE')
@@ -131,11 +137,17 @@ def checkpoint(root,spec,request,data,stream):
         and (names==targets if spec['arm']==training.ARMS[0]else all(n in targets or n.startswith(SHARED)for n in names))
         and not any('position_embedding'in n for n in names),'AUDIT_EXACT_PARAMETER_WHITELIST_NOT_VLM_OR_POSITION')
     state_proof=optimizer_state(cp,step,contract,stream)
-    run=read(root/'training'/spec['id']/'session/TRAINING_RUN.json')
-    need(run['global_step']==step and run['cursor']==step*32 and run['frozen_tensors_unchanged']is True
-        and run['checkpoint_manifest_sha256']==stream(cp/'CHECKPOINT_COMPLETE.json')
-        and run['full_model_parameter_state']==read(cp/'MODEL_PARAMETER_STATE_IDENTITY.json'),
-        'AUDIT_ACTUAL_NATIVE_TRAINER_CURRENT_PARAMETER_AND_FROZEN_BASELINE')
+    if recovery_step is None:
+        run=read(root/'training'/spec['id']/'session/TRAINING_RUN.json')
+        need(run['global_step']==step and run['cursor']==step*32 and run['frozen_tensors_unchanged']is True
+            and run['checkpoint_manifest_sha256']==stream(cp/'CHECKPOINT_COMPLETE.json')
+            and run['full_model_parameter_state']==read(cp/'MODEL_PARAMETER_STATE_IDENTITY.json'),
+            'AUDIT_ACTUAL_NATIVE_TRAINER_CURRENT_PARAMETER_AND_FROZEN_BASELINE')
+    else:
+        training.resume_state(saved,complete,state,recipe,data.make_sampler(data),members,session_stop=512)
+        proof=read(root/'training'/spec['id']/'session'/('FULL_RECOVERY_SAVE_'+str(step)+'.json'))
+        need(proof['checkpoint_manifest_sha256']==stream(cp/'CHECKPOINT_COMPLETE.json')and proof['mode']=='0400',
+            'AUDIT_ACTUAL_COMPLETE_RECOVERY_RECEIPT_AND_RESUME_CURSOR')
     if not spec['formal_candidate']:
         q=read(cp/'QUALIFICATION_PARAMETER_UPDATE.json');changed=q['changed_trainable_parameters']
         need(q['optimizer_calls']==2 and q['cursor']==64 and q['arm']==spec['arm']
@@ -175,6 +187,9 @@ def audit(root,request_path,*,native,inventory_sha256):
     from scripts.pi0294.e1.model import digest
     from . import minimal_execution_adapter as adapters
     root=Path(root);request_path=Path(request_path);r=read(request_path);adapter=adapters.request(r)
+    if adapter is adapters.e2only:
+        from .minimal_e2only_audit import audit as e2_audit
+        return e2_audit(root,request_path,native=native,inventory_sha256=inventory_sha256)
     if adapter is adapters.saved512:
         from .minimal_saved512_audit import audit as saved_audit
         return saved_audit(root,request_path,native=native,inventory_sha256=inventory_sha256)

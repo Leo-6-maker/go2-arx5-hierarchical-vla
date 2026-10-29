@@ -17,7 +17,7 @@ from .minimal_effects import Effects
 need=e.need
 
 
-def seal_checkpoint(root,session_id,step,expected_manifest_sha256,*,guard):
+def seal_checkpoint(root,session_id,step,expected_manifest_sha256,*,guard,recovery_request=None):
     """Seal only this session's freshly complete outputs, never input aliases.
 
     The original Trainer already streamed/bound its saved members. This adds
@@ -26,7 +26,13 @@ def seal_checkpoint(root,session_id,step,expected_manifest_sha256,*,guard):
     """
     import stat
     root=Path(root);spec=next(s for s in e.native_sessions()if s['id']==session_id)
-    need(step==spec['optimizer_limit']and step in(2,512)and callable(guard),'WORKER_EXACT_OWN_SAVE_ENDPOINT')
+    if recovery_request is None:
+        need(step==spec['optimizer_limit']and step in(2,512)and callable(guard),'WORKER_EXACT_OWN_SAVE_ENDPOINT')
+    else:
+        from . import minimal_e2only_contract as c,minimal_e2only_execution as x
+        x.request(recovery_request)
+        need(spec==c.sessions()[0]and type(step)is int and 0<step<=512 and callable(guard),
+            'WORKER_NEW_E2_ONLY_COMPLETE_RECOVERY_SAVE')
     guard();base=root/'training'/session_id;cp=base/('checkpoint-'+str(step))
     need(not any(p.is_symlink()for p in(root/'training',base,cp))and cp.is_dir()
         and cp.resolve().is_relative_to(root.resolve()),'WORKER_FULL_SAVE_IS_NOT_A_RAW_PARENT_ALIAS')
@@ -34,6 +40,11 @@ def seal_checkpoint(root,session_id,step,expected_manifest_sha256,*,guard):
     value=read(complete);need(value['global_step']==step and value['training_identity']==spec['arm']
         and value['full_resume']is True and value['qualification_only']is(not spec['formal_candidate']),
         'WORKER_SAME_ARM_COMPLETE_QUALIFICATION_OR_FIXED512')
+    if recovery_request is not None:
+        need(value['origin_source_sha']==recovery_request['source_sha']
+            and value['origin_job_id']==os.environ.get('PBS_JOBID')
+            and value['session_terminal']is(step==512)and value['scheduler_horizon']==1024,
+            'WORKER_E2_RECOVERY_SAME_NATIVE_JOB_SOURCE_AND_HORIZON')
     paths=list(cp.rglob('*'));members={}
     for path in paths:
         st=path.lstat();need(not stat.S_ISLNK(st.st_mode)and st.st_uid==os.getuid()

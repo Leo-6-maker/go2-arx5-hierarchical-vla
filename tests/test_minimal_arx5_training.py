@@ -98,6 +98,16 @@ def test_own512_full_state_accepted_only_for_continuation_not_replayed_pilot():
         training.resume_state(*packet, session_stop=512)
 
 
+def test_own256_full_state_preserves8192_cursor_for_remaining_fixed512():
+    packet=resume_packet(step=256)
+    assert training.resume_state(*packet,session_stop=512)==256
+    saved,complete,state,r,sampler,files=packet
+    assert saved['sampler']['cursor']==8192 and r['development_candidate_steps']==[512]
+    for missing in ('optimizer.pt','rng_state.pth','SAMPLER_STATE.json'):
+        wrong={k:v for k,v in files.items()if k!=missing}
+        with pytest.raises(ValueError):training.resume_state(saved,complete,state,r,sampler,wrong,session_stop=512)
+
+
 @pytest.mark.parametrize('change', ['other_arm', 'missing_optimizer', 'changed_bytes', 'changed_R0', 'reset_cursor'])
 def test_resume_rejects_other_arm_missing_state_or_reset(change):
     saved, complete, state, r, sampler, files = resume_packet()
