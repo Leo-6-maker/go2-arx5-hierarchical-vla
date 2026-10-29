@@ -10,7 +10,7 @@
 
 **一条原始LIBERO示范已核对动作语义：** [真实数值回执](reports/PI0294/design/parallel-science-20261022/LIBERO_ORIGINAL_ONE_DEMO_ACTION_REFERENCE_ACTUAL_20261030.json)以约3.8MB范围读取取得148行Panda/OSC_POSE/20Hz原数据，保留后动作观测时间关系并排除无法恢复前状态的首行动作。147行未执行EEF10参考与真实原controller函数比较，位置差0、旋转矩阵最大差4.84e-7、编码往返约1e-15。夹爪符号为开合方向，不能当实测开口。未执行源ARX5、无新增示范或标签。
 
-**D25冷态本地官方代码已通过原冻结入口：** [实际与独立回读](reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)验证80代码文件、214真实Git对象及15冻结文件原字节，原`official_import`实际PASS。原LOCAL/配置和未启动状态保持；登记custody/本地lease及完整冷绑定仍待完成。模型/查询/物理新增0，D25有效评价仍0/24。
+**D25原冻结官方入口已PASS，节点本地custody校验已实现但未部署：** [原生官方包证据](reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)保留80代码文件、214 Git对象和15冻结字节；[登记与26资产路径校验](reports/PI0294/design/parallel-science-20261022/D25_NODE_LOCAL_REGISTRATION_CUSTODY_AND_26_ASSET_CPU_ACTUAL_20261030.json)已用原onceIO真实CPU记录验证回执链，并将原冻结资产表与保存的26个本地全字节读取匹配。3项新CPU检查通过，原04登记没有本地lease；新冷身份、完整绑定、原生准入仍未完成。该辅助库未接入/部署，D25仍0/24有效评价，无新增模型/查询/物理。
 
 **S1恢复01已用完两次首次尝试并实际关闭，目标任务资格未达成：** [完整首次结果](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1执行200个任务积分/0.4秒、存8对RGB，下一段的旋转历史按错约定解码，6.85rad/s是假跳变；同一保存状态正确复算0.228rad/s，并通过原1051点局部IK/速率证书。T2在初始化第24步触发原REGISTERED_JOINT_SAFETY，FL小腿低于下限0.02336rad，最终保留27步及原停止记录。相同初始状态在第4步出现控制分歧；启动失稳原因尚未确立，不能据此调WBC或放宽安全。
 
