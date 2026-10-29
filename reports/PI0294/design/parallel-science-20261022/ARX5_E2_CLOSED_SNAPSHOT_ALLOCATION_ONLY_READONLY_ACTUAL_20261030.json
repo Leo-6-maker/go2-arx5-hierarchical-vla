@@ -1,0 +1,78 @@
+{
+  "status": "READ_ONLY_CLOSED_PREPARATION_SNAPSHOT_DIFFERENCE",
+  "before_sha256": "8962abf80366ab66d632663e0a84f9c98480811616cef16e5a94cf729b75000a",
+  "after_sha256": "2725a1f4be2ed11ffc4d1baf90f0bd5369e5f539ded87427949394d0a10b2e62",
+  "before_identity": "32814bf1a49693c0b17493f8c6c1743945edbb4ca0a6a4f643c7aec5bc481abe",
+  "after_identity": "32814bf1a49693c0b17493f8c6c1743945edbb4ca0a6a4f643c7aec5bc481abe",
+  "top_changes": {
+    "allocated_bytes": {
+      "before": 92315648,
+      "after": 92700672
+    }
+  },
+  "changed_rows": {
+    "plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json": {
+      "before": {
+        "path": "plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json",
+        "device": 44,
+        "inode": 12563415344,
+        "bytes": 4939011,
+        "allocated_bytes": 5111808,
+        "links": 1,
+        "mtime_ns": 1793269437737703000,
+        "ctime_ns": 1793269437737703000,
+        "uid": 22182,
+        "mode": 256,
+        "kind": "file"
+      },
+      "after": {
+        "path": "plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json",
+        "device": 44,
+        "inode": 12563415344,
+        "bytes": 4939011,
+        "allocated_bytes": 4964352,
+        "links": 1,
+        "mtime_ns": 1793269437737703000,
+        "ctime_ns": 1793269437737703000,
+        "uid": 22182,
+        "mode": 256,
+        "kind": "file"
+      }
+    },
+    "plans/E2_ONLY_CLOSED_ZERO_arx5-minimal-e2-only-raw-fixed512-01.private.json": {
+      "before": {
+        "path": "plans/E2_ONLY_CLOSED_ZERO_arx5-minimal-e2-only-raw-fixed512-01.private.json",
+        "device": 44,
+        "inode": 12393163845,
+        "bytes": 645737,
+        "allocated_bytes": 139264,
+        "links": 1,
+        "mtime_ns": 1793269437975197000,
+        "ctime_ns": 1793269437975197000,
+        "uid": 22182,
+        "mode": 256,
+        "kind": "file"
+      },
+      "after": {
+        "path": "plans/E2_ONLY_CLOSED_ZERO_arx5-minimal-e2-only-raw-fixed512-01.private.json",
+        "device": 44,
+        "inode": 12393163845,
+        "bytes": 645737,
+        "allocated_bytes": 671744,
+        "links": 1,
+        "mtime_ns": 1793269437975197000,
+        "ctime_ns": 1793269437975197000,
+        "uid": 22182,
+        "mode": 256,
+        "kind": "file"
+      }
+    }
+  },
+  "new_writes": 0,
+  "observed_epoch": 1793299081.242837,
+  "schema": "ARX5_E2_CLOSED_SNAPSHOT_ALLOCATED_BLOCKS_ONLY_ORIGINAL_IDENTITY_UNCHANGED_V1",
+  "actual_native_identity_changed": false,
+  "old_complete_snapshot_kept": true,
+  "new_model_PBS_queries_updates": 0,
+  "corrective_rule": "Use the original portable identity; keep the saved snapshot, and count actual live allocated blocks through the unchanged physical guard. No mount or storage changes."
+}

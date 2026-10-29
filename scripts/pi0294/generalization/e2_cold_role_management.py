@@ -47,14 +47,16 @@ try:
  assert root.name==contract.run_name(2,1)and cold.retired(g)[cold.OLD_REQUEST]==P['closed']
  payment=x.paid_retry_controls(g)[P['identity']['request_id']];assert payment['preparation_only']is True and payment['preparation_plan_sha256']==P['plan_sha256']
  assert all(payment[k]==v for k,v in P['identity'].items())
- snapshot=inventory.prefix_inventory(old);assert sha(raw(snapshot))==P['closed']['snapshot_sha256']and inventory.identity(snapshot)==P['closed']['snapshot_identity_sha256']
+ saved_snapshot=json.loads(__import__('gzip').decompress(base64.b64decode(P['closed_snapshot_gzip_base64'])))
+ assert sha(raw(saved_snapshot))==P['closed']['snapshot_sha256']and inventory.identity(saved_snapshot)==P['closed']['snapshot_identity_sha256']
+ snapshot=inventory.prefix_inventory(old);assert inventory.identity(snapshot)==P['closed']['snapshot_identity_sha256']
  small={}
  for name,pin in m['execution']['sealed_inputs'].items():
   if name in ['SOURCE_SEAL.json','MIX_OWNER_CONFIG.private.json','plans/MINIMAL_FROZEN_INPUT_PACKET.private.json',x.PHYSICAL]:continue
   body=(old/name).read_bytes();assert sha(body)==pin;small[name]=body
  custody=read(old/x.PHYSICAL);custody.update(**{k:P['identity'][k]for k in ['request_id','submission_nonce','run_uuid']})
- custody['retained_initial_bytes']+=snapshot['allocated_bytes'];custody['closed_pre_native_roots']=[dict(root=str(old),closure=P['closed'],snapshot_file='plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json')]
- small['plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json']=raw(snapshot);small[x.PHYSICAL]=raw(custody)
+ custody['retained_initial_bytes']+=max(snapshot['allocated_bytes'],saved_snapshot['allocated_bytes']);custody['closed_pre_native_roots']=[dict(root=str(old),closure=P['closed'],snapshot_file='plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json')]
+ small['plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json']=raw(saved_snapshot);small[x.PHYSICAL]=raw(custody)
  regpath=Path(b['registry']).resolve(strict=True);envpath=Path(b['environment']).resolve(strict=True);regb=regpath.read_bytes();envb=envpath.read_bytes();reg,envs=map(json.loads,(regb,envb))
  role='PI0294_ARX5_E2_ONLY_RAW512_02_COLD01';profiles=[r for r in envs['profiles']if r['name']==x.PROFILE]
  assert len(profiles)==1 and profiles[0]['manifest']==str(old/'RUN_MANIFEST.json')and not any(r.get('role')==role for r in reg['entries'])
@@ -124,7 +126,10 @@ try:
  os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
  failed=Path(P['failed_stage']);eb=(failed/'OS_EXIT.json').read_bytes();fb=(failed/'FAILED_OR_UNKNOWN.json').read_bytes()
  assert sha(eb)==P['failed_OS_sha256']and read(failed/'OS_EXIT.json')['returncode']==1
- assert sha(fb)==P['failure_sha256']and json.loads(fb)['message']=='PV1_MODEL_ALIAS_CREATION_ONLY_BEFORE_FINAL_COLD_BINDING'
+ failure=json.loads(fb);assert sha(fb)==P['failure_sha256']
+ assert (failure['message']=='PV1_MODEL_ALIAS_CREATION_ONLY_BEFORE_FINAL_COLD_BINDING'
+  or P.get('identified_failure')=='ALLOCATION_ONLY_SAME_IDENTITY'and failure['type']=='AssertionError'
+  and 'snapshot=inventory.prefix_inventory(old);assert sha(raw(snapshot))'in failure['traceback'])
  for name,pk,sk in [('LAUNCHED.json','wrapper_pid','wrapper_procstart'),('CHILD_STARTED.json','pid','procstart')]:
   row=read(failed/name);path=Path('/proc',str(row[pk]),'stat');f=path.read_text().rsplit(')',1)[1].split()if path.exists()else None
   assert not(f and f[0]not in('Z','X')and int(f[19])==int(row[sk]))
@@ -153,7 +158,11 @@ try:
  from scripts.pi0294.pv1.model_inputs import prepare_alias
  lease_bytes=Path(read(old/'OUTPUT_BINDING.private.json')['lease']).read_bytes();assert sha(lease_bytes)==P['closed']['closed_lease_sha256']
  assert cold.retired(g)[cold.OLD_REQUEST]==P['closed']
- snapshot=inventory.prefix_inventory(old);assert sha(raw(snapshot))==P['closed']['snapshot_sha256']and inventory.identity(snapshot)==P['closed']['snapshot_identity_sha256']
+ saved_snapshot=json.loads(__import__('gzip').decompress(base64.b64decode(P['closed_snapshot_gzip_base64'])))
+ assert sha(raw(saved_snapshot))==P['closed']['snapshot_sha256']and inventory.identity(saved_snapshot)==P['closed']['snapshot_identity_sha256']
+ snapshot=inventory.prefix_inventory(old);assert inventory.identity(snapshot)==P['closed']['snapshot_identity_sha256']
+ # A read can change st_blocks on shared storage without changing the original
+ # portable identity. Preserve the sealed snapshot and charge live gross blocks.
  archive=root/'control/PREMATURE_UNREGISTERED_RUN_MANIFEST.private.json';intent=root/'control/ALIAS_ORDER_REPAIR_INTENT.json'
  assert not archive.exists()and not intent.exists()
  put(intent,raw(dict(failure_sha256=sha(fb),failed_OS_sha256=sha(eb),manifest_sha256=sha(mb),no_registered_role_or_lease_or_actor=True,old_manifest_inode=(root/'RUN_MANIFEST.json').stat().st_ino,automatic_retry=False)))
