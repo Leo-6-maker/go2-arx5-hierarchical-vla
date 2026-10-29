@@ -1,0 +1,171 @@
+{
+  "schema": "PINNED_ROBOCASA_CABINET_GEOMETRY_NATIVE_PREDICATE_PC_ACTUAL_V1",
+  "status": "ORIGINAL_PRIMITIVE_GEOMETRY_AND_FINITE_NATIVE_PREDICATE_CPU_MATCH_ASSET_CLOSURE_UNQUALIFIED",
+  "repository": "robocasa/robocasa",
+  "commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+  "original_members": {
+    "README.md": {
+      "bytes": 7434,
+      "sha256": "dc97265934876a179808ab5bce712eecbb1a8259dfa93bf5aae04984607c670b",
+      "git_blob_sha": "3ea1c537c5dd95e1543c97ff8e63c0f23927631f"
+    },
+    "robocasa/environments/kitchen/atomic/kitchen_doors.py": {
+      "bytes": 12615,
+      "sha256": "7b19051b1276a780675868257c251cdf715cc700ffd83a7d30e27bcbda3700ec",
+      "git_blob_sha": "b8d47c6d93926f2b1b3fcd6071ae6bd87ab1e715"
+    },
+    "robocasa/models/assets/box_links/box_links_assets.json": {
+      "bytes": 562,
+      "sha256": "918335d0585b1e9ed67072d68255db47f56a3815e9136f97ea8ced86c02f7c1d",
+      "git_blob_sha": "1d889086878dd0c7733e038e4aca3ad8ce30cc51"
+    },
+    "robocasa/models/assets/fixtures/handles/bar_handle.xml": {
+      "bytes": 851,
+      "sha256": "aa9d55781d56dec86e47412467ac6e0b50254e553afa28e32ac4303ab32b7331",
+      "git_blob_sha": "6120c2eb0187e48f44ae2560aa5c2829888e187c"
+    },
+    "robocasa/models/assets/fixtures/cabinets/cabinet_single.xml": {
+      "bytes": 1632,
+      "sha256": "0beeb6b6faae808af4767f3ac27a5febb20ded0f9ef0bed09506055f825521bd",
+      "git_blob_sha": "4359060211bb42e341c23479249eb3fe25fb4918"
+    },
+    "robocasa/models/assets/fixtures/cabinets/cabinet_panels/slab.xml": {
+      "bytes": 586,
+      "sha256": "439456f72256fae96e4e5eea161a2d84aaa6ec83de86a0365a991c163be20a97",
+      "git_blob_sha": "696e08782235be3d726985b3f77a58a834c5951f"
+    },
+    "robocasa/models/fixtures/cabinets.py": {
+      "bytes": 47865,
+      "sha256": "5c49fa3fb08f64263879fae2b51beb47cfe54951ff5ba3259aaff63c0b1d5661",
+      "git_blob_sha": "268fee24027bafea14b2d531c884f892e3e3b80c"
+    },
+    "robocasa/models/fixtures/cabinet_panels.py": {
+      "bytes": 24795,
+      "sha256": "00b266c43a36048d87f3b472899a17583d24e8e0c081c56796466e7716b2b743",
+      "git_blob_sha": "c1c76b0fc3fba1b6cf96d58af9de014d7db58121"
+    },
+    "robocasa/models/fixtures/handles.py": {
+      "bytes": 12726,
+      "sha256": "4a50abe7116c8a91aedd99fd1c45212bf52b747e22bf7be1ced9ec5cfc487364",
+      "git_blob_sha": "6ecec8a9cc1fb23e33dd8833dd7eb9ac35dbab6f"
+    },
+    "robocasa/models/fixtures/fixture.py": {
+      "bytes": 24911,
+      "sha256": "6945428028acdcf39b0e139f2cbc95709460ad962d23b9964fbf32563f967c57",
+      "git_blob_sha": "75b1dc813e87f738fd37637b8ee7ba203c9e5afc"
+    },
+    "robocasa/models/fixtures/fixture_utils.py": {
+      "bytes": 5742,
+      "sha256": "0da38a72f9a438f498b9ee2262c48aa5930769ba95e6f5f8008be3856f5acf30",
+      "git_blob_sha": "391f928dae766728df772b8d14eb40d5d0719c3d"
+    },
+    "robocasa/utils/object_utils.py": {
+      "bytes": 23910,
+      "sha256": "3a7ddb8ba503c5f397baa1513b7b5f370c3c3b2a6a67fa723e83c9472c58af4a",
+      "git_blob_sha": "81e905247ca2f170a65ace0ae10a8037951f4e2a"
+    },
+    "robocasa/scripts/download_kitchen_assets.py": {
+      "bytes": 7580,
+      "sha256": "60e4524869434d0391f4f8a9801b15408338a43bd18192bb68f5d2eae6531033",
+      "git_blob_sha": "7adc4763645db0fd0215e88d378943ed48553343"
+    }
+  },
+  "original_members_total_bytes": 171209,
+  "geometry": {
+    "version": "ROBOCASA_PINNED_SINGLE_SLAB_BAR_SOURCE_GEOMETRY_V1",
+    "commit": "dc73a8ce18e4b8947e8df2ae2958245ca823f3b4",
+    "orientation": "right",
+    "size": [
+      0.24,
+      0.22,
+      0.3
+    ],
+    "joint_name": "doorhinge",
+    "joint_range": [
+      0,
+      1.57
+    ],
+    "open_threshold_radians": 1.413,
+    "closed_initial_joint_position": 0,
+    "handle_body": "door_handle",
+    "raw_texture_dependencies": {
+      "tex": {
+        "raw_XML_reference": "fixtures/cabinets/visuals/wood1.png",
+        "handle_constructor_default_override": null
+      },
+      "panel_tex": {
+        "raw_XML_reference": "fixtures/cabinets/cabinet_panels/visuals/wood1.png",
+        "handle_constructor_default_override": null
+      },
+      "handle_tex": {
+        "raw_XML_reference": "fixtures/handles/visuals/brass_ambra.png",
+        "handle_constructor_default_override": "textures/metals/bright_metal.png"
+      }
+    },
+    "textures_resolved": false,
+    "native_compilation_physics_or_rendering_qualified": false,
+    "native_integrations": 0,
+    "training_admitted": false,
+    "original_kitchen_benchmark": false
+  },
+  "generated_geometry_sha256": "fc37e671814adb9ce96ac46478d0c84aeea5fed00b6e731e117ab13dfe24b5c9",
+  "validation": {
+    "checks_passed": 8,
+    "checks_failed": 0,
+    "wall_s": 0.09,
+    "original_procedural_method_geometry_cases": 6,
+    "geometry_sizes": [
+      [
+        0.24,
+        0.22,
+        0.3
+      ],
+      [
+        0.36,
+        0.28,
+        0.36
+      ],
+      [
+        0.6,
+        0.4,
+        0.6
+      ]
+    ],
+    "orientations": [
+      "left",
+      "right"
+    ],
+    "geometry_attributes": "pos/size/euler/quat/range/damping/axis/mass/type/class plus panel/handle and level-region frames",
+    "geometry_numeric_comparison": "EXACT_FLOAT_ARRAY_EQUALITY_AGAINST_PINNED_ORIGINAL_METHODS",
+    "native_two_door_position_pairs": 81,
+    "original_fixture_and_normalize_method_bodies_executed": true,
+    "source_framework_or_MuJoCo_imported": false,
+    "native_model_constructed": false
+  },
+  "native_predicate": {
+    "normalization": "(q-low)/(high-low), then 1-value if low<0; no clipping",
+    "is_open": "Every selected door normalized >=0.90",
+    "is_closed": "Every selected door normalized <=0.005",
+    "includes_gripper_release_contact_withdrawal_or_hold": false,
+    "nonfinite_or_empty_input": "Project data-validity rejection; not used to claim native success",
+    "out_of_joint_range": "Reported separately; native open does not itself establish safety"
+  },
+  "texture_fetch": {
+    "status": 400,
+    "qualified": false,
+    "asset_bytes_read": 0,
+    "automatic_retry": false,
+    "whole_archive_fallback": false,
+    "source": "Pinned official download script and box_links_assets.json",
+    "observed_epoch": 1793309757.2178729
+  },
+  "native_attempts_integrations_RGB_qualified_demonstrations_neural_calls": 0,
+  "Core_or_AMD_access_this_work": 0,
+  "original_kitchen_scene_robot_distractions_and_fixture_selection_preserved": false,
+  "ARX5_scene_or_double_camera_or_independent_episode_export_qualified": false,
+  "raw_assets_or_private_paths_published": false,
+  "original_code_license": "docs/third_party/robocasa/LICENSE",
+  "same_night_approved_resource_reservation": "PC-only supplement inherits every closed-parent debit; no renewed native scope",
+  "next_action": "Obtain the exact minimal texture closure through a qualified bounded source before scene compilation. Core sampling remains stopped for capacity. Do not execute this fragment or report original kitchen benchmark success.",
+  "observed_epoch": 1793310200.3492424
+}
