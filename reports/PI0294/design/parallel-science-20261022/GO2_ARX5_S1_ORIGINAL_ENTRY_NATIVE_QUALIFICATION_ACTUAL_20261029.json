@@ -1,0 +1,100 @@
+{
+  "schema": "S1_ORIGINAL_STANDARD_ENTRY_NATIVE_QUALIFICATION_ACTUAL_V1",
+  "status": "ACTUAL_ORIGINAL_STANDARD_ENTRY_NODE_LOCAL_PROBE_PASS_ONLY",
+  "observed_epoch": 1793276192.3412116,
+  "independent_observed_epoch": 1793276399.960613,
+  "run_uuid": "20261029T113139Z-standing-task-path-s1",
+  "runtime_source_sha": "20911ba3a2589731ce80ff705dd31f8d1f534e65",
+  "accepted_main_sha": "2c9ad348c0ef0ce879c1680dba67ed59b1dfde9c",
+  "authority_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json",
+  "actual_entry": {
+    "three_original_members_verbatim": true,
+    "entry_files_sha256": {
+      "enter.sh": "0c7973e0a3bc0e585e7ab96cfcc9033532a98f56e9c9410882282a291bb7082f",
+      "doctor.py": "013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861",
+      "ENVIRONMENTS.json": "117eb51e8a9cbb4fa60115f23f2e29d5a7df463c31ca792ddfded7659c32b6b6"
+    },
+    "profile": "4080-simulation",
+    "Python_matches_original_profile": true,
+    "cwd_relative": "entry/code/vla",
+    "cwd_verified_by_actual_process": true,
+    "all_existing_python_search_paths_native_ext4": true,
+    "source_capsule_purpose": "ENTRY_QUALIFICATION_ONLY_NOT_COMPLETE_TASK_RUNTIME",
+    "complete_task_runtime_qualified": false
+  },
+  "registration": {
+    "original_canonical_registry_used": true,
+    "second_registry_created": false,
+    "before_sha256": "42e6848b3167faaa46c2522906fb0890d2ed3d6ec4d8ced657bf952ff58ebc55",
+    "after_sha256": "21f0a5a0baa8bfda95612a98a873efbe0c4eb367658b7c964ee6d31ace0e59d3",
+    "before_exactly_reconstructed_after_removing_only_new_role": true,
+    "all_old_entries_and_other_metadata_preserved": true,
+    "onceIO_receipt_sha256": "7f43f770c99c40e565192ab4cf3699648e99e382e5b68bb5a83593e6e6b49d39",
+    "immutable_runtime_readback_is_not_independent_registry": true
+  },
+  "lease": {
+    "purpose": "ENTRY_PATH_QUALIFICATION_ONLY",
+    "status": "CLOSED",
+    "sha256": "c70e7bd65e84576ee3b1b48f332cd32cdf0100aaa2c5e7dd64110766b20f18ab",
+    "reopened": false
+  },
+  "independent_readback": {
+    "complete_probe_files_read": 20,
+    "complete_probe_bytes": 157996,
+    "post_accounting_file_count": 23,
+    "all_other_19_probe_files_unchanged_after_only_cost_closeout": true,
+    "account_sha256": "f6c5d60b11eec45fe13e42b65dbc61b1b47e5ff58ef49678d5be98c02c0a0494",
+    "cost_close_intent_sha256": "d3c4b0d652a2b6f399c67863c1c222a3dfcc9c7de5e06a037fafc16766f58a1e",
+    "cost_close_receipt_sha256": "deb917252a3342d8d33b2482e445d9880c1bee01dbb4728f999d84dfd27cfd09",
+    "root_filesystem": "ext4"
+  },
+  "costs": {
+    "actual_entry_CPU_core_s": 0.07026659799999999,
+    "conservative_Core_CPU_upper_charged_s": 80,
+    "conservative_PC_CPU_upper_charged_s": 120,
+    "conservative_transfer_upper_charged_bytes": 1336576,
+    "Core_staging_upper_bytes": 1048576,
+    "all_uppers_retained": true,
+    "these_are_included_in_approved_caps_not_extra_allowances": true
+  },
+  "remaining_S1": {
+    "physics_starts_max": 4,
+    "physics_starts_used": 0,
+    "integrations_max": 62012,
+    "integrations_used": 0,
+    "RGB_pairs_max": 2084,
+    "RGB_pairs_used": 0,
+    "CPU_core_seconds_total_max": 14400,
+    "CPU_upper_charged": 200,
+    "CPU_remaining_after_conservative_charge": 14200,
+    "Core_new_output_staging_bytes_max": 8589934592,
+    "PC_evidence_bytes_max": 1073741824,
+    "transfer_bytes_max": 8589934592,
+    "transfer_remaining_after_conservative_charge": 8588598016
+  },
+  "actual_effects": {
+    "original_registry_one_new_role_added": true,
+    "new_qualification_lease_created_and_closed": true,
+    "new_scope_preparation_account_initialized": true,
+    "original_GLOBAL_or_LOCAL_campaign_ledger_changed": false,
+    "old_run_or_capsule_modified": false,
+    "new_physics": 0,
+    "new_renderer": 0,
+    "new_GR00T_queries": 0,
+    "new_neural_models": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS": 0,
+    "new_infrastructure_or_service_or_credential_changes": 0
+  },
+  "scope_preparation_account_initialized": true,
+  "physics_attempts_native_admitted": false,
+  "full_runtime_dependencies_qualified": false,
+  "source_policy_or_Teacher_task_success_proven": false,
+  "next_action": "COMPLETE_NEW_VERSION_EEF10_NATIVE_WORKER_AND_CURRENT_ACK_FEEDBACK_STOP_SAFETY_QUALIFICATION",
+  "private_evidence_sha256": {
+    "ORIGINAL_ENTRY_NATIVE_RESULT": "8e7570e8f4a6ea09a1089534abacca228f88f74e243e371a06f8581006a6f221",
+    "ORIGINAL_ENTRY_NATIVE_INDEPENDENT_READBACK": "d3d3acdfe89c4f427d77cb40cd8a9c1409c784d418e4cb9300bad2b8b369c0ac",
+    "ORIGINAL_ENTRY_ACCOUNT_CLOSED": "462154a92301d4a66f6c5a5b9df6e8e265360ac07bdf09cbfcbaead94e3822c0",
+    "ORIGINAL_ENTRY_ACCOUNT_INDEPENDENT_READBACK": "da1ae5048cb4c2e725ff1efd4325d599d65a51aa2c54f78646511625f0886529"
+  }
+}

@@ -1,5 +1,9 @@
 # S1批准、十天计划衔接与实际冷态核对
 
+**最新原生结果：** [原标准入口本地资格已实际通过](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)。使用已接受main `2c9ad348`内的固定运行源`20911ba3`；原三文件字节不变。原canonical registry仅追加本次资格角色，移除该角色后可逐字节重建原registry hash；没有创建第二登记系统。原onceIO登记、实际解释器/cwd探针、关闭资格lease均完成，20个原件全文独立回读，后续只补保守成本结算且其余19原件hash不变。入口实际CPU0.0703核秒；准备总保守Core80＋PC120核秒、传输1,336,576字节，均计入S1原批准上限，不增加新额度。
+
+这是**入口与工作目录资格**，其源码胶囊只含本次管理依赖，不冒充完整Teacher运行胶囊。物理仍0/4，RGB、GR00T、训练、PBS均0；新版本完整EEF10 worker、全链本地输入/控制绑定及ACK/反馈/STOP/安全资格仍需完成。该已关闭的资格lease不重开，后续原生任务使用同一已批准scope下自己的明确lease/源绑定。
+
 **后继实际：** [完整14维重算与原入口封存方案](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json)已用新原生全文hash/大小核对复用的完整GLOBAL/LOCAL字节，再调用原`first512_forecast`保留所有旧工作及matrix/final。原传输池仅余26,335字节；用户批准的是新S1最多8GiB传输，作为仅S1可用的追加范围单独记账，不用它偿还旧工作或扩大十天计划。旧14维义务均在原cap内，加入该S1范围后无预测缺口，尚未实际预约。总4CPU核时分为Core最多13,800核秒＋PC最多600核秒，未双重增加PC额度。
 
 已定位同字节的本地XML候选。原`enter.sh`、`doctor.py`和完整profile配置可原样放进新run的`entry/infrastructure`，其既有相对路径规则自然把工作目录解析到`entry/code/vla`；无需重写入口或改变全局profile。新增组件只准备这一封存布局、验证原registry精确readback及真实挂载类型。有限入口资格程序仅调用原入口的解释器/工作目录探针，通过原onceIO登记原canonical registry并关闭自己的资格lease；不能启动Teacher、solver、simulator或模型。实际执行和完整原生worker资格另行核证。
