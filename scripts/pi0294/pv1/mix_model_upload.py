@@ -28,7 +28,12 @@ try:
   manifest_bytes=(Path(P['control_root'])/'CONTROL_RUN_MANIFEST.json').read_bytes();manifest=json.loads(manifest_bytes)
   assert manifest['canonical_parent']==P['canonical_parent']and manifest['control_root']==P['control_root']and manifest['source_sha']==P['source_sha']and manifest['candidate']==P['candidate']
   parent=Path(P['canonical_parent']);binding=json.loads((parent/'OUTPUT_BINDING.private.json').read_bytes());lease=json.loads(Path(binding['lease']).read_bytes())
-  assert SHA((parent/'RUN_MANIFEST.json').read_bytes())==manifest['parent_manifest_sha256']and lease['status']in('ACTIVE','ACTIVE_CONTROL_PLANE_ONLY')and lease['manifest_sha256']==manifest['parent_manifest_sha256']
+  qualified=P['compiled_plan'].get('private_restoration',{}).get('closed_evidence',{}).get('owner_observation',{}).get('qualified_saved_E1_source')
+  if P['candidate']=='E1_ADAPTER_ONLY'and qualified is not None:
+   from scripts.pi0294.generalization.minimal_qualified_e1_source import source_control_role
+   source_control_role(P['control_root'],manifest_bytes,canonical_parent=P['canonical_parent'])
+  else:
+   assert SHA((parent/'RUN_MANIFEST.json').read_bytes())==manifest['parent_manifest_sha256']and lease['status']in('ACTIVE','ACTIVE_CONTROL_PLANE_ONLY')and lease['manifest_sha256']==manifest['parent_manifest_sha256']
   assert manifest['repo_id']==P['repo_id']and manifest['HF_prefix']==P['prefix']and Path(P['upload_root'])==Path(P['control_root'])/'upload'
   extra=dict(source_control_manifest_bytes=manifest_bytes,source_checkpoint_root=P['checkpoint'])
  admission=upload_admission(g,P['compiled_plan'],now_epoch=time.time(),checkpoint_complete_bytes=(Path(P['checkpoint'])/'CHECKPOINT_COMPLETE.json').read_bytes(),**extra)

@@ -14,11 +14,13 @@
 
 ## 当前关键事实
 
-- **V6已作职责／执行顺序修订。** E1按自身完整证据独立交付，不等E2；D25先完整24，随后在面板边界选已就绪E1、E2、GEN1，GEN1填空档，开始后不按成绩切换。E2拟用原Trainer完整256／512两份恢复状态，原70GB内启动前核峰值与恢复；尚未native采用。四条历史整机Teacher仅只读分析，不扩Viewer／WBC／数据路线。见[现有V6](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)。
+- **E2接续PBS44已在原GLOBAL一次采用并独立全文回读。** [最新实际接续](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_PBS44_ONCE_ADOPTED_COLD_PROCESS_AND_ACCESS_OBSERVATION_ACTUAL_20261029.json)：原始父fresh512入口已固定，原Trainer接入256／512完整保存、最多两份、原70GB内；有限冷态预检已后台启动，尚无原生PASS或新qsub。最后两次核验同一进程健康，随后完整只读35秒超时、最小进程读取SSH认证拒绝；不推断终止、不重启或重放。E1独立交付的own source-role修复已过CPU检查，尚未上传／到达Core。科学结果未新增。
+
+- **V6已作职责／执行顺序修订。** E1按自身完整证据独立交付，不等E2；D25先完整24，随后在面板边界选已就绪E1、E2、GEN1，GEN1填空档，开始后不按成绩切换。E2原Trainer完整256／512两份恢复保存已接入新cold代码；原70GB内的实际预检和新GPU登记／提交仍未完成。四条历史整机Teacher仅只读分析，不扩Viewer／WBC／数据路线。见[现有V6](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)。
 
 - **AMD职责已按人类要求收敛为共享存储和登录基础设施。** [保护边界](docs/operations/2026-10-29_AMD_INFRASTRUCTURE_PROTECTION.md)：不再在AMD启动重负载实验，不改挂载／NFS／SSH／系统服务，不复制或轮换凭据；Core下一次冷态运行须核清全部节点本地运行依赖。历史产物和已封存任务不迁移、不删除；这不是系统隔离已实施的声明。
 - **CoreLab已复挂并真实登录／只读核验。** [恢复与断联因果审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)：AMD NFS于13:51恢复；4080 Home NFS4.2、原key／权限及主机boot不变，SSH服务未重启。上次数据盘2卸载与NFS停止同秒，强依赖支持共享服务故障解释；触发者仍缺管理员日志。此次删除0、服务／挂载／key修改0，不以恢复连接为新作业或旧UNKNOWN重发许可。
-- **E1@512可单独交付的实际输入已接通；E2 PBS44已获人类直接批准。** [E1原始10文件／12.58GB及完整14维控制复算](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)复用完整tensor审计和真实同noise输出，不把失败的E2或旧owner OS1改成成功；HF上传尚未执行。[精确43→44授权](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)仅增加1次PBS；其他caps、clock、原matrix／final不变，尚未native采用或提交。E1不重训，E2仍需原始父fresh512。
+- **E1@512可单独交付的实际输入已接通；E2 PBS44已获人类直接批准。** [E1原始10文件／12.58GB及完整14维控制复算](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)复用完整tensor审计和真实同noise输出，不把失败的E2或旧owner OS1改成成功；HF上传尚未执行。[精确43→44授权](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)仅增加1次PBS；其他caps、clock、原matrix／final不变；PBS44已native一次采用，新GPU尚未登记或提交。E1不重训，E2仍需原始父fresh512。
 
 
 - **Vanda1506193已F／Exit1并完成一次结算、两lease关闭。** [E1真实推理资格与E2中断终态](reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)：E1复用saved512，25查询／3加载／0新更新；同观测、同实际noise重载输出逐项精确一致，最大差0。E2正式122步／cursor3904后，后台读取共享文件遇到ESTALE退出，原心跳保护随后终止计算；无完整E2 checkpoint，不能伪称可从122恢复。2526GPU秒／1825CPU秒已真实settle，全部pending／unknown为空。后台本已独立运行；新冷修只让显式后继的只读ESTALE进入原有重读路径，未部署、不热改或重投旧作业。E1不重训；used40＋matrix3已占原PBS43，下一GPU须完整合法接续。
