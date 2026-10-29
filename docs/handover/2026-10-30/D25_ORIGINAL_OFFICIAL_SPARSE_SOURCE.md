@@ -11,3 +11,5 @@
 下一次一次性准备只在原未启动owner的既有`cold-inputs/official`下添加Git元数据。沿原Journal/同一有限计数器，先验证原manifest/LOCAL/请求、原ACTIVE lease、两个unit MainPID0、前次83成员完整字节，再写独立intent。Git元数据及见证峰值≤3MiB，准备+独立验证Core CPU≤10秒，PC控制≤20秒，控制传输≤32KiB；均须先核原未用bank，终态/收尾保护不动。目录已有或效果未知时只读取，不再初始化或重放。所有Git配置只作用于这个新代码包元数据；现役环境、旧capsule、原官方checkout及系统配置均不动。
 
 独立验证必须调用**原冻结源码**中的`official_import`，验证实际HEAD、clean diff、四文件`git show`及80成员原blob、全部141个元数据对象，随后核旧LOCAL和两个unit仍未启动。该调用只做CPU源码身份检查，零GR00T模型/查询/训练/物理；不把成功导入资格写成运行或策略结果。登记custody、本地lease、全依赖冷绑定与原24评价仍是后续工作。
+
+实际一次准备及独立验证已完成：[原冻结函数实际PASS](../../../reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)。80个代码文件全部H、360省略路径全部S，214个真实Git对象重新hash，15个冻结文件原字节一致。Git元数据实际1,675,264字节；两次调用实际Core CPU 0.298005864秒、PC CPU 0.028172181秒、控制传输27,550字节。原LOCAL/配置及两个未启动unit保持，模型/查询/物理均0，D25仍0/24。登记与完整冷绑定尚未采用。精确管理程序见`sparse_source_management.py`，私有参数和原始输出不公开。
