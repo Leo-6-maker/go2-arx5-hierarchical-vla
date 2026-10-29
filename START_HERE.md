@@ -14,6 +14,10 @@
 
 ## 当前关键事实
 
+- **CoreLab已复挂并真实登录／只读核验。** [恢复与断联因果审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)：AMD NFS于13:51恢复；4080 Home NFS4.2、原key／权限及主机boot不变，SSH服务未重启。上次数据盘2卸载与NFS停止同秒，强依赖支持共享服务故障解释；触发者仍缺管理员日志。此次删除0、服务／挂载／key修改0，不以恢复连接为新作业或旧UNKNOWN重发许可。
+- **E1@512可单独交付的实际输入已接通；E2 PBS44已获人类直接批准。** [E1原始10文件／12.58GB及完整14维控制复算](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)复用完整tensor审计和真实同noise输出，不把失败的E2或旧owner OS1改成成功；HF上传尚未执行。[精确43→44授权](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)仅增加1次PBS；其他caps、clock、原matrix／final不变，尚未native采用或提交。E1不重训，E2仍需原始父fresh512。
+
+
 - **Vanda1506193已F／Exit1并完成一次结算、两lease关闭。** [E1真实推理资格与E2中断终态](reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)：E1复用saved512，25查询／3加载／0新更新；同观测、同实际noise重载输出逐项精确一致，最大差0。E2正式122步／cursor3904后，后台读取共享文件遇到ESTALE退出，原心跳保护随后终止计算；无完整E2 checkpoint，不能伪称可从122恢复。2526GPU秒／1825CPU秒已真实settle，全部pending／unknown为空。后台本已独立运行；新冷修只让显式后继的只读ESTALE进入原有重读路径，未部署、不热改或重投旧作业。E1不重训；used40＋matrix3已占原PBS43，下一GPU须完整合法接续。
 
 - **已有E0语言诊断新增只读分析：** 六个TRAIN接近阶段观测、12个实际同噪声指令对，前8步位置差中位数0.256毫米；固定指令换噪声为143.089毫米。[方法与局限](docs/analysis/2026-10-29/E0_SAVED_LANGUAGE_RESPONSE.md)。不等于忽略语言、监督拟合或闭环成功；新增模型调用0，原配方不改。

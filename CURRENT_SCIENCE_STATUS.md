@@ -28,6 +28,9 @@
 
 ## 最新工程状态
 
+后继实际：CoreLab已真实复挂／登录并只读核验；详见[恢复审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)。没有删除、服务重启或挂载／SSH修改。E1的同noise资格与原完整tensor审计已接入[独立源端交付计划](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)：10推理文件／12576325049字节，完整剩余控制提案零shortfall，无新模型调用，HF上传尚未执行。E2原始父fresh512所需[仅PBS43→44](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)已获直接批准，尚未原生采用／提交；不得再要求同一GO，也不把批准当作已运行。
+
+
 2026-10-29 13:33 SGT：[E1推理等价PASS、E2正式122中断并真实闭合](reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)。E1实际同输入／noise、归一化及物理输出独立核对最大差0；不重训。E2在122步后因后台只读ESTALE退出，再由原300秒心跳保护停止计算。真实F1、原后台退出、稳定inventory及effects已核；2526GPU秒／1825CPU秒已once结算，两lease真实CLOSED。没有完整E2状态，不能用资格step2或E1作正式恢复。新冷修复只覆盖明确后继的fresh只读ESTALE，不重试未知写、不改watchdog／旧capsule；尚未native部署。CoreLab AMD NFS服务停止属于另一站的独立故障，管理员处理期间不让Vanda等待Core。
 
 已有保存数据的有限分析：[E0指令与噪声响应](docs/analysis/2026-10-29/E0_SAVED_LANGUAGE_RESPONSE.md)、[E1原参考探针误差与人口](docs/analysis/2026-10-29/E1_SAVED512_REFERENCE_PROBES.md)。这些不是新增模型调用或闭环结果；不按早期结果改配方。

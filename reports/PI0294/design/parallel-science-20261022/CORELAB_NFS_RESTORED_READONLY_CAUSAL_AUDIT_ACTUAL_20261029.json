@@ -1,0 +1,51 @@
+{
+  "schema": "CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_V1",
+  "observed_SGT": "2026-10-29T14:07:55.073051+08:00",
+  "facts": {
+    "AMD_login": true,
+    "Core4080_login": true,
+    "shared_Home_NFS_version": "4.2",
+    "shared_Home_readable": true,
+    "AMD_NFS_service_active_since_SGT": "2026-10-29 13:51:16",
+    "AMD_mountd_and_idmapd_active": true,
+    "AMD_data_disk2_mounted": true,
+    "Core_SSH_service_active_since_SGT": "2026-09-24 14:22:06",
+    "same_AMD_and_Core_boots_as_prior_recovery_check": true,
+    "authorized_keys_original_SHA_and_permissions_unchanged": true,
+    "ssh_directory_mode": "0700",
+    "authorized_keys_mode": "0600",
+    "Core_root_available_bytes": 147091451904,
+    "Core_root_usage_percent": 92,
+    "Core_root_inode_usage_percent": 6,
+    "shared_Home_available_bytes": 1499047395328,
+    "shared_Home_usage_percent": 63,
+    "cache_link_is_node_local": true
+  },
+  "cause": {
+    "confirmed_previous": "AMD NFS service and data disk2 mount stopped at02:57, with generated mount requirements including that disk.",
+    "best_supported_explanation": "Stopping a required data-disk mount can stop the shared NFS service; this blocks NFS Home/SSH key access. Recovery of NFS coincides with successful login while SSH service/host boot/key remain unchanged.",
+    "triggering_actor_or_maintenance_action": "UNKNOWN_SYSTEM_JOURNAL_ACCESS_DENIED",
+    "all_prior_outages_explained": false,
+    "training_submission_causation_proven": false
+  },
+  "own_operations": {
+    "remote_operations": "bounded readonly commands only",
+    "remote_content_writes": 0,
+    "deleted_files": 0,
+    "bytes_released": 0,
+    "mount_service_SSH_key_changes": 0,
+    "reboots_or_jobs_stopped": 0,
+    "older_3_own_transport_orphans_still_present": true,
+    "older_orphans_CPU_ticks": [
+      234,
+      216,
+      171
+    ],
+    "older_orphans_not_proven_resource_exhaustion_or_stop_trigger": true,
+    "older_UNKNOWN_not_replayed": true,
+    "inner_SSH_and_reader_now_have_independent_time_limits": true
+  },
+  "remaining_admin_evidence": "System nfs-server, data-disk2 mount and udisks2 journal at02:54–03:01; ordinary account lacks adm/systemd-journal access.",
+  "recovery_configuration_change_made": false,
+  "science_or_GPU_effects": 0
+}
