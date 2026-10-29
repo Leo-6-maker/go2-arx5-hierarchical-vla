@@ -143,3 +143,19 @@ def test_invalid_data_is_not_native_success_and_no_clipping_hides_limits():
     assert result['native_is_open']and not result['joint_positions_within_declared_ranges']
     assert not result['release_withdrawal_support_or_hold_in_native_predicate']
     with pytest.raises(ValueError):c.pinned_definition('cabinet_single',b'<mujoco/>')
+
+
+def test_two_real_official_png_members_bind_without_geometry_or_model_changes(original,tmp_path):
+    _,definitions=original;root=Path(os.environ['ROBOCASA_PINNED_SOURCE_DIR'])
+    paths=dict(wood=str(root/'official-wood-tiles.png'),metal=str(root/'official-bright_metal.png'))
+    if not all(Path(p).exists()for p in paths.values()):pytest.skip('Explicit minimal official PNG members required')
+    xml,_=c.single_cabinet_geometry(definitions,size=(.24,.22,.30),orientation='right')
+    bound,meta=c.bind_minimum_textures(xml,paths)
+    old,new=map(ET.fromstring,(xml,bound))
+    assert ET.tostring(old.find('worldbody'))==ET.tostring(new.find('worldbody'))
+    assert {x.get('file')for x in new.findall('asset/texture')}==set(paths.values())
+    assert meta['textures_resolved']and not meta['native_compilation_physics_or_rendering_qualified']
+    bad=tmp_path/'changed.png';bad.write_bytes(b'changed')
+    with pytest.raises(ValueError,match='EXACT_FROZEN_TEXTURE_MEMBER_SIZE'):
+        c.bind_minimum_textures(xml,dict(paths,wood=str(bad)))
+    with pytest.raises(ValueError):c.bind_minimum_textures(xml,dict(paths,other=paths['wood']))

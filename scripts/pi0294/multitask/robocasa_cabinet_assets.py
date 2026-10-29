@@ -7,7 +7,7 @@ robot or data admission. A source ARX5 port is not the original kitchen test.
 from copy import deepcopy
 import hashlib
 import math
-from pathlib import PurePosixPath
+from pathlib import Path,PurePosixPath
 import posixpath
 import xml.etree.ElementTree as ET
 
@@ -19,6 +19,11 @@ XML_PATHS=dict(cabinet_single='fixtures/cabinets/cabinet_single.xml',
     slab='fixtures/cabinets/cabinet_panels/slab.xml',
     bar_handle='fixtures/handles/bar_handle.xml')
 VERSION='ROBOCASA_PINNED_SINGLE_SLAB_BAR_SOURCE_GEOMETRY_V1'
+TEXTURE_COMMIT='1b92c3d02ca4354984fec961357db0bff7b32166'
+TEXTURE_FILES=dict(wood=dict(path='textures/prev/wood-tiles.png',
+    bytes=1460776,sha256='18d87069529422d832559ce969858576dd46f83efc3dfd9e5ffbf26d740be123'),
+    metal=dict(path='textures/metals/bright_metal.png',bytes=1998226,
+    sha256='e67c23a272f98890b485c5e2ae2ef1088080067954c676cb70170252ab931bf4'))
 
 
 def numbers(values):return ' '.join(format(float(x),'.17g')for x in values)
@@ -125,3 +130,41 @@ def single_cabinet_geometry(definitions,*,size,orientation):
         handle_body='door_handle',raw_texture_dependencies=unresolved,
         textures_resolved=False,native_compilation_physics_or_rendering_qualified=False,
         native_integrations=0,training_admitted=False,original_kitchen_benchmark=False)
+
+
+def bind_minimum_textures(xml,paths):
+    """Bind two frozen official PNG members; do not compile or render.
+
+    The wood style is an explicit port condition selected before behavior.
+    The metal is the original Handle constructor's default. Images originate
+    from robocasa/robocasa-assets@TEXTURE_COMMIT (CC BY 4.0). The retrieval
+    receipt distinguishes member CRC/SHA checks from an uncomputed full ZIP
+    hash. Runtime admission must recheck node-local paths and all asset bytes.
+    """
+    if set(paths)!=set(TEXTURE_FILES):raise ValueError('EXACT_TWO_FROZEN_OFFICIAL_TEXTURE_MEMBERS')
+    root=ET.fromstring(xml)
+    if root.get('model')!=VERSION:raise ValueError('EXPLICIT_UNCOMPILED_CABINET_PORT')
+    original_geometry=ET.tostring(root.find('worldbody'));bindings={}
+    for name,pin in TEXTURE_FILES.items():
+        p=Path(paths[name])
+        if not p.is_absolute()or any(x.is_symlink()for x in(p,*p.parents)):
+            raise ValueError('ABSOLUTE_UNALIASED_PRIVATE_TEXTURE_PATH')
+        info=p.stat()
+        if not p.is_file()or info.st_size!=pin['bytes']:
+            raise ValueError('EXACT_FROZEN_TEXTURE_MEMBER_SIZE')
+        b=p.read_bytes()
+        if not b.startswith(b'\x89PNG\r\n\x1a\n')or hashlib.sha256(b).hexdigest()!=pin['sha256']:
+            raise ValueError('EXACT_FROZEN_OFFICIAL_PNG_BYTES')
+        bindings[name]=str(p)
+    textures=root.findall('asset/texture')
+    if len(textures)!=3 or {x.get('name')for x in textures}!={'tex','panel_tex','handle_tex'}:
+        raise ValueError('EXACT_ORIGINAL_THREE_TEXTURE_ROLES')
+    for texture in textures:texture.set('file',bindings['metal'if texture.get('name')=='handle_tex'else'wood'])
+    if ET.tostring(root.find('worldbody'))!=original_geometry:
+        raise ValueError('TEXTURE_BINDING_CHANGED_PHYSICAL_GEOMETRY')
+    return ET.tostring(root,encoding='unicode'),dict(status='TWO_OFFICIAL_PNG_MEMBERS_BOUND_GEOMETRY_UNCHANGED',
+        repository='robocasa/robocasa-assets',commit=TEXTURE_COMMIT,
+        files={k:dict(v)for k,v in TEXTURE_FILES.items()},
+        constructor_default_metal_preserved=True,wood_is_declared_port_style=True,
+        textures_resolved=True,native_compilation_physics_or_rendering_qualified=False,
+        native_integrations=0,training_admitted=False)

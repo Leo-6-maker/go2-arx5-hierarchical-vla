@@ -10,7 +10,7 @@
 
 **LIBERO最小资产已完整保存，源ARX5书本接入待原生运行：** [固定资产与代码边界](reports/PI0294/design/parallel-science-20261022/LIBERO_MINIMUM_ASSETS_AND_UNEXECUTED_ARX5_BOOK_PORT_ACTUAL_20261030.json)独立核实4个二进制文件/14,886,874字节及两个原始XML。场景保留18原碰撞盒、书本质量/惯量和原生评分，另查支撑/松爪/撤离/保持；20项CPU检查通过，无模拟器构造/积分/RGB。源域新范围仍待现有登记和账本原生采用，合格示范0；不以静态准备替代任务成功。
 
-**RoboCasa开门已补齐原几何与判据，资产仍未闭合：** [PC实际对照](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PC_PINNED_GEOMETRY_NATIVE_GOAL_ASSET_BLOCK_ACTUAL_20261030.json)核对固定SingleCabinet/slab/bar源文件；六组左右开门几何与原程序数值一致，81对关节状态与原is_open/is_closed一致。原判据要求所有选中门达到90%开度，不含松爪/撤离/保持。官方最小纹理有界读取返回HTTP400，未整包下载；未构造模拟器、接入ARX5或试采，成功示范仍0。PC补充沿同一夜间剩余额度、继承旧借记，原关闭账与Core停止状态不改。
+**RoboCasa最小几何、原判据与两项纹理已取得，仍未进入运行：** [几何/判据对照](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PC_PINNED_GEOMETRY_NATIVE_GOAL_ASSET_BLOCK_ACTUAL_20261030.json)保留六组原程序一致几何与81对开闭状态；[官方固定HF纹理回执](reports/PI0294/design/parallel-science-20261022/ROBOCASA_MINIMUM_OFFICIAL_HF_TEXTURE_CLOSURE_ACTUAL_20261030.json)以13次范围读取/约3.48MB取得两张PNG，CRC、独立全文SHA/图片验证通过，未下载543MB整包。金属沿原默认，木纹为明确的端口条件。9项定向检查通过；未构造模型、接入ARX5/双相机或试采，合格示范仍0。原Box400与零网络接口错误保留，Core容量停止不解除，PC用同一夜间累计额度。
 
 **一条原始LIBERO示范已核对动作语义：** [真实数值回执](reports/PI0294/design/parallel-science-20261022/LIBERO_ORIGINAL_ONE_DEMO_ACTION_REFERENCE_ACTUAL_20261030.json)以约3.8MB范围读取取得148行Panda/OSC_POSE/20Hz原数据，保留后动作观测时间关系并排除无法恢复前状态的首行动作。147行未执行EEF10参考与真实原controller函数比较，位置差0、旋转矩阵最大差4.84e-7、编码往返约1e-15。夹爪符号为开合方向，不能当实测开口。未执行源ARX5、无新增示范或标签。
 
