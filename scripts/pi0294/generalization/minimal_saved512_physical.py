@@ -20,11 +20,14 @@ def validate_custody(p,r,*,saved_binding):
         and type(p['old_snapshot_identity_sha256'])is str and len(p['old_snapshot_identity_sha256'])==64,
         'SAVED512_PHYSICAL_EXACT_NEW_IDENTITY_AND_RETAINED144GB_GROSS')
     cold=p.get('retained_cold_roots')
-    e.need(type(cold)is list and len(cold)==1 and cold[0]['run_uuid']=='arx5-minimal-saved-e1-inference-e2-fresh512-01'
+    e.need(type(cold)is list and len(cold)==2 and cold[0]['run_uuid']=='arx5-minimal-saved-e1-inference-e2-fresh512-01'
         and cold[0]['source_sha']=='ade4dbe39e3def8bec9be6c9608a29105552bbb4'
         and cold[0]['manifest_sha256']=='0299c9e9ea1ec9fcbb6b83295113710881dd38026ed3206e9f8170b689e298ba'
-        and all(type(cold[0].get(k))is str and len(cold[0][k])==64 for k in('closed_lease_sha256','snapshot_identity_sha256'))
-        and type(cold[0]['allocated_bytes'])is int and 0<=cold[0]['allocated_bytes']<=64*1024**2,
+        and cold[1]['run_uuid']=='arx5-minimal-saved-e1-inference-e2-fresh512-02'
+        and cold[1]['source_sha']=='11a73d8dd4e6490a2ea873e83ce02cc410e47cea'
+        and cold[1]['manifest_sha256']=='f2ab782efe957e735e577f6f7592655ffee814d0bb940c72795209bcbeb7eaae'
+        and all(type(q.get(k))is str and len(q[k])==64 for q in cold for k in('closed_lease_sha256','snapshot_identity_sha256'))
+        and all(type(q['allocated_bytes'])is int and 0<=q['allocated_bytes']<=64*1024**2 for q in cold),
         'SAVED512_EXACT_UNSTARTED_COLD01_RETAINED_NOT_DELETED_OR_HIDDEN')
     e.need(p['prefix_initial_allocated_bytes']+p['old_metadata_ceiling']+p['old_science_initial_allocated_bytes']+70000000000<=execution.PAID_OUTPUT,
         'SAVED512_COMPLETE_PHYSICAL_POOL_NO_REFUND_OR_HIDDEN_NEW_COPY')
@@ -78,7 +81,7 @@ class Guard:
         current_old=previous.prefix_inventory(self.old_root,witnesses=mapped)
         e.need(previous.identity(current_old)==p['old_snapshot_identity_sha256'],
             'SAVED512_OLD_SCIENCE_ROOT_CHANGED_OR_LOST_RETAINED_HISTORY')
-        retained=self.prior.inspect(next_output_upper_bytes=0)
+        retained=self.prior.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
         cold_allocated=0;cold_inodes=set()
         for item in p['retained_cold_roots']:
             root=self.root.parent/item['run_uuid'];binding=json.loads(own_body(root/'OUTPUT_BINDING.private.json'))
