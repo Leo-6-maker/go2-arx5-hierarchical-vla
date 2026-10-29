@@ -24,6 +24,20 @@ CONTROL=e._vector(dict(Hopper_CPU_s=900,local_CPU_s=60,
 need=e.need
 
 
+def training_context(g,qualified_evidence=None):
+    if qualified_evidence is not None:
+        from . import minimal_qualified_e1_source as qualified
+        index,row,cp,_=qualified.source(g,qualified_evidence)
+        return index,row,{qualified.ARM:cp}
+    index,row=remaining.basic(g)
+    from .minimal_remaining_terminal import validate_terminal
+    validate_terminal(g,row,index)
+    need(row['status']==e.STATES[2]and row.get('scientific_endpoint_complete')is True
+        and index['status']=='COMPLETE'and g['pending_updates']==g['unknown_effects']==[],
+        'DELIVERY_ONLY_KNOWN_COMPLETED_REMAINDER_NO_GLOBAL_UNKNOWN')
+    return index,row,index['terminal']['audit']['endpoints']
+
+
 def model_identity(plan):
     p=plan['public_plan'];arm=p.get('candidate')
     need(p.get('schema')==transfer.SCHEMA and arm in e.training.ARMS
@@ -70,12 +84,10 @@ def validate(g):
     entries=g.get(FIELD,{})
     need(type(entries)is dict and set(entries)<=set(e.training.ARMS),'DELIVERY_TWO_ORIGINAL_ARMS_ONLY')
     if not entries:return entries
-    index,row=remaining.basic(g)
-    need(row['status']==e.STATES[2]and row.get('scientific_endpoint_complete')is True
-        and index['status']=='COMPLETE'and g['pending_updates']==g['unknown_effects']==[],
-        'DELIVERY_ONLY_KNOWN_COMPLETED_REMAINDER_NO_GLOBAL_UNKNOWN')
     for arm,m in entries.items():
-        identity=m['model_identity'];cp=index['terminal']['audit']['endpoints'][arm]
+        index,row,endpoints=training_context(g,m.get('qualified_saved_E1_source_evidence'))
+        need(arm in endpoints,'DELIVERY_ONLY_PROVED_COMPLETED_ENDPOINT')
+        identity=m['model_identity'];cp=endpoints[arm]
         need(m.get('schema')==SCHEMA and m.get('scope_grant_sha256')==e.authority.GRANT_SHA
             and m.get('status')=='AUTHORIZED_SOURCE_UPLOAD_NOT_EVAL'
             and identity['candidate']==arm and identity['checkpoint_step']==512
@@ -119,7 +131,9 @@ def budget_LOCAL(g,local):
 
 def propose(global_bytes,historical_LOCAL_bytes,*,lease_bytes,settled_bytes,owner_observation,
             small_bytes,arm,source_manifest_bytes,now_epoch):
-    g=json.loads(global_bytes);remaining.validate(g)
+    g=json.loads(global_bytes)
+    from scripts.pi0294.pv1.neural_ledger import check
+    check(g)
     plan=transfer.prepare(global_bytes,lease_bytes,settled_bytes,owner_observation,small_bytes,arm=arm)
     identity=model_identity(plan);manifest=source_manifest(source_manifest_bytes,identity)
     need(manifest['compiled_plan_sha256']==e.sha(e.raw(plan))and arm not in validate(g)
@@ -127,7 +141,9 @@ def propose(global_bytes,historical_LOCAL_bytes,*,lease_bytes,settled_bytes,owne
         'DELIVERY_ONE_EXACT_MODEL_COMPILED_PLAN_AND_NEW_CONTROL_MANIFEST')
     before=e.scope.first512_forecast(global_bytes,historical_LOCAL_bytes)
     need(before['cap_changes_required']=={},'DELIVERY_EXISTING_FULL_FUTURE_FITS_BEFORE_SOURCE_CONTROL')
-    v=deepcopy(g);index,row=remaining.basic(g)
+    evidence=owner_observation.get('qualified_saved_E1_source')
+    index,row,_=training_context(g,evidence)
+    v=deepcopy(g)
     v['CPU_s']+=CONTROL['Hopper_CPU_s'];v['CPU_reserved_s']-=CONTROL['Hopper_CPU_s']
     v['new_storage_current_bytes']+=CONTROL['Hopper_storage_bytes'];v['storage_reserved_bytes']-=CONTROL['Hopper_storage_bytes']
     v['new_storage_peak_bytes']=max(v['new_storage_peak_bytes'],v['new_storage_current_bytes'])
@@ -139,6 +155,8 @@ def propose(global_bytes,historical_LOCAL_bytes,*,lease_bytes,settled_bytes,owne
         paid_source_control=deepcopy(CONTROL),additional_reservation={},Core_permission_or_LOCAL_write=False,
         paid_epoch=now_epoch,before={k:g[k]for k in('CPU_s','new_storage_current_bytes','new_storage_peak_bytes')},
         before_GLOBAL_sha256=e.sha(global_bytes),historical_LOCAL_sha256=e.sha(historical_LOCAL_bytes))
+    if evidence is not None:
+        v[FIELD][arm]['qualified_saved_E1_source_evidence']=deepcopy(evidence)
     v['revision']+=1;validate(v)
     from scripts.pi0294.pv1.neural_ledger import check
     check(v);after=e.scope.first512_forecast(e.raw(v),historical_LOCAL_bytes)
@@ -151,14 +169,17 @@ def propose(global_bytes,historical_LOCAL_bytes,*,lease_bytes,settled_bytes,owne
 
 def upload_admission(g,plan,*,now_epoch,checkpoint_complete_bytes,source_control_manifest_bytes,
                      source_checkpoint_root):
-    remaining.validate(g);identity=model_identity(plan);m=validate(g).get(identity['candidate'],{})
+    from scripts.pi0294.pv1.neural_ledger import check
+    check(g)
+    identity=model_identity(plan);m=validate(g).get(identity['candidate'],{})
+    _,row,_=training_context(g,m.get('qualified_saved_E1_source_evidence'))
     need(m.get('model_identity')==identity and m.get('compiled_plan_sha256')==e.sha(e.raw(plan))
         and e.sha(source_control_manifest_bytes)==m.get('source_manifest_sha256'),
         'DELIVERY_NATIVE_UPLOADER_EXACT_ONCE_PAID_MODEL_AND_REGISTERED_MANIFEST')
     manifest=source_manifest(source_control_manifest_bytes,identity)
     need(source_checkpoint_root==manifest['checkpoint_root']
         and e.sha(checkpoint_complete_bytes)==identity['checkpoint_manifest_sha256']
-        and m['paid_epoch']<=e.original.number(now_epoch)<remaining.basic(g)[1]['deadline_epoch']-28860-7200,
+        and m['paid_epoch']<=e.original.number(now_epoch)<row['deadline_epoch']-28860-7200,
         'DELIVERY_CURRENT_ORIGINAL_WINDOW_AND_EXACT_SOURCE_EXPORT_BYTES')
     # The receiver revalidates this same closure through the original restore
     # dispatch. The uploader still streams every source byte before/after and
