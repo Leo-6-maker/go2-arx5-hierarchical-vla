@@ -151,11 +151,9 @@ def current_owner(root, request, *, request_sha256):
          'REGISTERED_SUCCESSOR_OWNER_SAME_SOURCE_SCOPE_AND_CLOCK')
     pb = json.loads(_file(parent, 'OUTPUT_BINDING.private.json'))
     need(ob['registry'] == pb['registry'], 'ONE_EXISTING_PARENT_REGISTRY')
-    registry = Path(ob['registry']); lease_path = Path(ob['lease'])
-    entries = json.loads(mutable_metadata(registry))['entries']
-    matches = [e for e in entries if e.get('role') == ob['role']]
-    need(len(matches) == 1 and matches[0]['path'] == str(control)
-         and matches[0]['run_uuid'] == control.name, 'ONE_ACTUAL_REGISTERED_OWNER')
+    lease_path = Path(ob['lease'])
+    from . import node_local_custody as custody
+    custody.registration(control,om,ob,legacy_read=lambda p:json.loads(mutable_metadata(Path(p))))
     lease = json.loads(mutable_metadata(lease_path)); now = time.time()
     need(lease['status'] == 'ACTIVE' and lease['run_uuid'] == control.name
          and lease['authority_release'] == s.TASK_SOURCE

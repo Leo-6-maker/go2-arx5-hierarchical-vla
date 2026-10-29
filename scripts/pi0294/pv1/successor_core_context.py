@@ -113,8 +113,8 @@ def validate(root,profile,*,closeout=False):
     need(b['role']==role+'__'+r.name,'UNIQUE_NEW_ROLE_NOT_OLD_PV1_POPULATION')
     from .evaluation_core_scope import PARENT_BINDING_SHA
     need(sha(r.parent.parent/'OUTPUT_BINDING.private.json')==PARENT_BINDING_SHA,'EXACT_EXISTING_CORE_PARENT')
-    rows=[x for x in read(b['registry'])['entries']if x.get('role')==b['role']]
-    need(len(rows)==1 and rows[0]['path']==str(r) and rows[0]['run_uuid']==r.name,'ACTUAL_UNIQUE_REGISTRY_ENTRY')
+    from . import node_local_custody as custody
+    custody.registration(r,m,b,legacy_read=read)
     lease=read(b['lease']);end=deadline(r,m,closeout=closeout)
     need(lease['status']=='ACTIVE' and lease['run_uuid']==r.name and lease['authority_release']==s.TASK_SOURCE and lease['deadline_epoch']==end,'FRESH_OWN_SUCCESSOR_LEASE')
     code=r/m['code']['capsule_relative'];need(not code.is_symlink() and code.resolve().is_relative_to(r.resolve()) and Path(__file__).resolve()==(code/'scripts/pi0294/pv1/successor_core_context.py').resolve(),'ACTUAL_COLD_IMPORTED_SOURCE')
@@ -130,8 +130,8 @@ def validate(root,profile,*,closeout=False):
     need(all(sha(code/n)==h for n,h in frozen.items()),'NO_PHYSICS_S1_SCORE_OR_CONTROLLER_REWRITE')
     need(m['execution']['sealed_inputs'].get('plans/ASSET_IDENTITY.private.json')==ASSET_IDENTITY_SHA
          and sha(r/'plans/ASSET_IDENTITY.private.json')==ASSET_IDENTITY_SHA,'EXACT_ORIGINAL_ASSET_MAP_NOT_CALLER_PINS')
-    assets=read(r/'plans/ASSET_IDENTITY.private.json');need(len(assets['absolute_files'])==26 and all(sha(p)==h for p,h in assets['absolute_files'].items()),'ACTUAL_FROZEN_NATIVE_ASSETS')
-    infra=Path(b['registry']).parent
+    custody.native_assets(r,m,expected_original_sha256=ASSET_IDENTITY_SHA)
+    infra=custody.entry_directory(r,m,b)
     need(sha(infra/'enter.sh')==m['execution']['entry_sha256'] and sha(infra/'doctor.py')==m['execution']['doctor_sha256'],'REUSE_DEPLOYED_ENTRY_AND_DOCTOR')
     need(os.environ.get('CUDA_VISIBLE_DEVICES')=='' and 'PBS_JOBID'not in os.environ,'NO_CPU_CHILD_NEURAL_OR_PBS_ALIAS')
     validate_cpu_affinity(m['limits'],os.sched_getaffinity(0))
