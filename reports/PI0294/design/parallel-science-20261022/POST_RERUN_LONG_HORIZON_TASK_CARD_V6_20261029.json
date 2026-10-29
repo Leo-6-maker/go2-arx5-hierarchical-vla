@@ -6,12 +6,12 @@
   "status": "PUBLISHED_PLAN_NO_NATIVE_EFFECTS_BY_THIS_PUBLICATION",
   "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
   "integration_branch": "main",
-  "evidence_baseline_sha": "7d5794fb4f4e1998c0ce97e9e4f0528364dced1c",
-  "native_delta_report": "reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json",
+  "evidence_baseline_sha": "636c192418a3180facef4fba11a61d462cf3ca3f",
+  "native_delta_report": "reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json",
   "protocol": "docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md",
   "handoff": "docs/handover/2026-10-29/POST_RERUN_SCIENCE_FIRST_EXECUTION.md",
   "authority": {
-    "user_request": "Update the long-term plan and publish detailed plans to GitHub",
+    "user_request": "Revise existing V6 responsibilities, current facts, ready queue and bounded recovery without opening a new scientific route",
     "new_GPU_or_PBS_authorization": false,
     "new_physics_or_dataset_authorization": false,
     "new_cap_adoption_by_this_publication": false,
@@ -23,26 +23,104 @@
   },
   "platforms": {
     "Vanda": "fine_tuning_and_finite_offline_neural_diagnostics",
-    "CoreLab_4080S": "original_policy_inference_and_closed_loop_Eval",
-    "AMD_management": "bounded_CPU_data_and_independent_site_control",
+    "CoreLab_4080S": "inference_MuJoCo_frozen_WBC_Teacher_and_closed_loop_Eval_with_Eval_priority",
+    "AMD_management": "SHARED_STORAGE_LOGIN_FORWARDING_SMALL_METADATA_CONTROLLED_ARCHIVAL_ONLY",
     "PC_Rerun": "read_only_saved_episode_and_NOT_EXECUTED_prediction_analysis",
-    "cross_site_runtime_SSH_or_heartbeat_dependency": false
+    "cross_site_runtime_SSH_or_heartbeat_dependency": false,
+    "heavy_CPU_Teacher_or_model_on_AMD": false,
+    "administrator_isolation_deployed_by_revision": false
   },
   "snapshot": {
-    "A4096": {"valid_conditions": 24, "successes": 11, "T1": 7, "T2": 4},
-    "B4096": {"valid_conditions": 24, "successes": 6, "T1": 5, "T2": 1},
-    "C50": {"valid_conditions": 24, "successes": 6, "T1": 4, "T2": 2, "S1_rejections": 15, "reference_rejections": 1, "full_task_failures": 2},
-    "D25": {"training_steps": 1024, "valid_eval_conditions": 0, "model_delivered": true},
-    "GEN1": {"training_steps": 1024, "valid_eval_conditions": 0, "Teacher_attempts": 12, "Teacher_raw_successes": 11, "R0_admitted_episodes": 10},
-    "E0": {"saved_queries": 39, "independent_saved_prefix_audit_complete": true, "closed_loop_measured": false},
-    "E1": {"qualification_optimizer_calls": 2, "qualification_queries": 17, "changed_target_parameters": 14, "formal_steps": 0, "full_independent_member_audit_complete": true, "saved_reload_output_exact": true},
-    "E2": {"saved_zero_step_queries": 15, "qualification_optimizer_calls": 0, "formal_steps": 0},
-    "closed_job": "1504095.stdct-mgmt-02",
-    "closed_effects": {"updates": 2, "queries": 71, "model_loads": 5},
-    "Rerun": {"actual_sparse_recordings": 3, "Teacher_frames_each": "41/641", "C50_failure_states": "2/224", "complete_kinematic_mesh_replay_verified": false},
+    "A4096": {
+      "valid_conditions": 24,
+      "successes": 11,
+      "T1": 7,
+      "T2": 4
+    },
+    "B4096": {
+      "valid_conditions": 24,
+      "successes": 6,
+      "T1": 5,
+      "T2": 1
+    },
+    "C50": {
+      "valid_conditions": 24,
+      "successes": 6,
+      "T1": 4,
+      "T2": 2,
+      "S1_rejections": 15,
+      "reference_rejections": 1,
+      "full_task_failures": 2
+    },
+    "D25": {
+      "training_steps": 1024,
+      "valid_eval_conditions": 0,
+      "model_delivered": true
+    },
+    "GEN1": {
+      "training_steps": 1024,
+      "valid_eval_conditions": 0,
+      "Teacher_attempts": 12,
+      "Teacher_raw_successes": 11,
+      "R0_admitted_episodes": 10
+    },
+    "E0": {
+      "saved_queries": 39,
+      "independent_saved_prefix_audit_complete": true,
+      "closed_loop_measured": false
+    },
+    "E1": {
+      "qualification_optimizer_calls": 2,
+      "qualification_queries": 17,
+      "changed_target_parameters": 14,
+      "formal_steps": 512,
+      "full_independent_member_audit_complete": true,
+      "saved_reload_output_exact": true,
+      "cursor": 16384,
+      "qualified_same_actual_noise_inference": true,
+      "source_transfer_files": 10,
+      "source_transfer_bytes": 12576325049,
+      "HF_uploaded": false,
+      "Core_delivered": false,
+      "Core_loaded": false,
+      "valid_eval_conditions": 0
+    },
+    "E2": {
+      "saved_zero_step_queries": 15,
+      "qualification_optimizer_calls": 2,
+      "formal_steps": 122,
+      "formal_complete_endpoint": false,
+      "cursor": 3904,
+      "complete_formal_recovery_checkpoint": false,
+      "next_formal_initialization": "ORIGINAL_RAW_PARENT_FRESH512_NOT_RESUME122"
+    },
+    "closed_job": "1506193.stdct-mgmt-02",
+    "closed_effects": {
+      "updates": 122,
+      "queries": 25,
+      "model_loads": 4,
+      "GPU_s": 2526,
+      "site_CPU_s": 1825
+    },
+    "Rerun": {
+      "actual_sparse_recordings": 3,
+      "Teacher_frames_each": "41/641",
+      "C50_failure_states": "2/224",
+      "complete_kinematic_mesh_replay_verified": false
+    },
     "DEC1_valid_cells": 0,
     "new_target_task_demonstrations": 0,
-    "new_training_request_or_qsub_after_audit_verified": false
+    "new_training_request_or_qsub_after_audit_verified": false,
+    "Core_restored_readonly_verified": true,
+    "historical_fullbody_Teacher": {
+      "fixed_attempts": 4,
+      "successes": 0,
+      "native_safety_failures": 1,
+      "complete_task_quality_failures": 3,
+      "admitted_TRAIN": 0,
+      "is_student_policy_result": false,
+      "is_DEC1_core64": false
+    }
   },
   "existing_clock": {
     "stop_new_training_SGT": "2026-10-31T20:52:29.813+08:00",
@@ -51,21 +129,38 @@
     "long_horizon_stages_require_separate_valid_scope": true
   },
   "resource_boundary": {
-    "snapshot_PBS_used": 38,
-    "snapshot_PBS_cap": 42,
+    "snapshot_GLOBAL_sha256": "c44d96fbcc159ad8cc7d1862386e0274cea3ebb413ae4cab14c6a976aaf1f73b",
+    "snapshot_PBS_used": 40,
+    "snapshot_PBS_cap": 43,
+    "direct_approved_PBS_cap": 44,
+    "PBS44_native_adoption_verified": false,
+    "repeat_PBS43_to44_permission_request": false,
     "protected_matrix_PBS": 3,
-    "one_completion_control_native_adoption_verified": true,
-    "Core_LOCAL_terminal_catchup_verified": true,
-    "repeat_PBS41_to42_adoption": false,
-    "repeat_same_saved_prefix_full_stream_audit": false,
     "protected_final_GPU_hours": 20,
     "protected_final_storage_GiB": 40,
-    "remaining_suffix_upper": {"updates": 1026, "queries": 76, "model_loads": 7, "GPU_allocation_seconds": 59520},
-    "forecast_transfer_headroom_bytes": 173791,
-    "forecast_Vanda_storage_headroom_bytes": 28391176,
-    "headroom_is_live_filesystem_space": false,
-    "fresh_native_receipts_override_snapshot": true,
-    "do_not_replay_completed_E0_E1_prefix": true
+    "E2_only_upper": {
+      "GPU_s": 22560,
+      "site_CPU_s": 54000,
+      "updates": 512,
+      "queries": 37,
+      "model_loads": 2,
+      "PBS": 1
+    },
+    "control_upper": {
+      "site_CPU_s": 3600,
+      "PC_CPU_s": 600,
+      "metadata_inside_paid_root_bytes": 8388608,
+      "additional_financial_output_charge_bytes": 0
+    },
+    "captured_all14_shortfalls": {},
+    "captured_future_PBS": 44,
+    "captured_future_updates": 15936,
+    "optimizer_update_cap": 16384,
+    "physical_paid_output_pool_bytes": 144294967296,
+    "new_root_upper_bytes": 70000000000,
+    "fresh_native_full_resource_and_storage_required": true,
+    "Core_LOCAL_is_historical_PENDING": true,
+    "fresh_receipts_override_snapshot": true
   },
   "fixed_minimal_study": {
     "model": "nvidia/GR00T-N1.7-3B",
@@ -73,7 +168,10 @@
     "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
     "TRAIN_demonstrations": 12,
     "TRAIN_geometry_groups": 6,
-    "tasks": ["T1", "T2"],
+    "tasks": [
+      "T1",
+      "T2"
+    ],
     "effective_batch_size": 32,
     "formal_steps_per_arm": 512,
     "scheduler_horizon": 1024,
@@ -94,21 +192,157 @@
     "common_home_not_first_panel_dependency": true
   },
   "milestones": [
-    {"id": "M0", "name": "bind_audited_remaining_suffix", "current": "PREFIX_AUDIT_AND_CONTROL_LOCAL_ADOPTED_NOT_DISPATCHED", "requires": ["current_identity_matches_PR99_evidence", "valid_remaining_run_binding"], "deliverable": "actual_remaining_training_and_D25_dispatch", "not_required": ["repeat_completed_E0", "repeat_E1_qualification", "repeat_full_prefix_audit", "repeat_PBS_cap_adoption", "repeat_LOCAL_catchup", "new_scheduler"]},
-    {"id": "M1", "name": "D25_then_GEN1_behavior", "current": "NOT_MEASURED", "platform": "CoreLab_4080S", "target": {"D25_conditions": 24, "GEN1_conditions": 24}, "reuse": "C50_original24", "deliverable": "D_minus_C_paired_result_and_GEN1_descriptive_result", "do_not_gate_on": "Rerun_completion"},
-    {"id": "M2", "name": "matched_E1_E2_512", "current": "FORMAL_NOT_STARTED", "requires": ["M0_valid_suffix", "same12TRAIN_and_raw_parent", "valid_measurement_path"], "Vanda": "finish_missing_E2_qualification_then_two_fresh_formal512", "Core_conditions_per_arm": 24, "deliverable": "two_full_endpoints_and_geometry_paired_closed_loop_result", "old_model_success_threshold_required": false},
-    {"id": "SUPPORT_RERUN", "name": "bounded_failure_interpretation", "platform": "PC_Rerun", "max_initial_existing_examples": 4, "new_physics": 0, "new_model_queries": 0, "deliverable": "existing_atlas_evidence_mapping_and_private_replays", "critical_path_gate": false},
-    {"id": "M3", "name": "single_result_driven_decision", "requires": ["M2_full_paired_result"], "choices": ["freeze_and_independent_confirm", "joint_own_state_continuation_to1024", "one_TRAIN_only_optimization_or_failure_mechanism_test", "close_negative_branch"], "automatic_expansion": false},
-    {"id": "M4", "name": "independent_generalization", "requires": ["frozen_pair", "unexposed_group_split", "separate_valid_scope"], "primary_factors_in_order": ["new_geometry", "specified_appearance", "legal_language_and_common_home", "one_new_skill"], "pilot_geometry_groups": 12, "conditions_two_models_two_tasks_one_noise": 48, "sample_size_is_power_guarantee": false},
-    {"id": "M5A", "name": "original_DEC1_frozen_executor_transfer", "fixed_model": "CORR2048_R0", "target_cells": 64, "requires": ["original_reference_feedback_STOP_safety_qualification", "separate_valid_scope"], "target_task_training": false, "source_learning_blocker": false},
-    {"id": "M5B", "name": "few_shot_Go2_ARX5_target_adaptation", "requires": ["separate_target_scope", "frozen_WBC_interface_qualification"], "calibration_records": 10, "TRAIN_groups": 6, "first_attempts": 12, "guaranteed_success_count": null, "standing_EEF10_first": true, "matched_source_continuation_control": true, "no_target_training_claim": false},
-    {"id": "M6", "name": "one_skill_and_reproducible_research_package", "requires": ["preceding_results_support_next_question", "separate_valid_scope"], "default_next_skill": "single_reachable_tabletop_cabinet_door_for_evaluation_first", "automatic_bookshelf_or_RL_or_world_model": false, "deliverable": "reproducible_positive_or_negative_scientific_conclusion"}
+    {
+      "id": "M0",
+      "name": "independent_delivery_and_recoverable_E2_dispatch",
+      "current": "E1_QUALIFIED_E2_PARTIAL122_CLOSED_CORE_RESTORED",
+      "requires": [
+        "fresh_original_identity_and_resources",
+        "node_local_Core_runtime_paths",
+        "bounded_full_E2_checkpoint_policy"
+      ],
+      "deliverable": "E1_actual_Core_load_E2_background_dispatch_and_D25_native_execution",
+      "not_required": [
+        "repeat_completed_E0",
+        "repeat_E1_qualification",
+        "repeat_full_prefix_audit",
+        "repeat_PBS_cap_adoption",
+        "repeat_LOCAL_catchup",
+        "new_scheduler",
+        "E2_success_before_E1_delivery",
+        "all_historical_NFS_root_causes",
+        "new_Viewer_features"
+      ]
+    },
+    {
+      "id": "M1",
+      "name": "D25_pair_then_fixed_ready_queue",
+      "current": "NOT_MEASURED",
+      "platform": "CoreLab_4080S",
+      "target": {
+        "D25_conditions": 24,
+        "GEN1_conditions": 24
+      },
+      "reuse": "C50_original24",
+      "deliverable": "D_minus_C_and_available_GEN1_behavior",
+      "do_not_gate_on": "Rerun_completion",
+      "queue": "evaluation.nonpreemptive_ready_queue"
+    },
+    {
+      "id": "M2",
+      "name": "matched_E1_E2_512",
+      "current": "E1_FORMAL512_INFERENCE_QUALIFIED_E2_FORMAL122_INCOMPLETE",
+      "requires": [
+        "same12TRAIN_raw_parent_recipe",
+        "valid_scope_and_native_measurement_path",
+        "full_checkpoint_storage_peak_proof"
+      ],
+      "Vanda": "deliver_E1_independently_and_finish_fresh_raw_E2_512_with_full_recovery",
+      "Core_conditions_per_arm": 24,
+      "deliverable": "two_full_endpoints_and_geometry_paired_closed_loop_result",
+      "old_model_success_threshold_required": false,
+      "other_arm_completion_before_E1_Eval": false
+    },
+    {
+      "id": "SUPPORT_RERUN",
+      "name": "bounded_failure_interpretation",
+      "platform": "PC_Rerun",
+      "max_initial_existing_examples": 4,
+      "new_physics": 0,
+      "new_model_queries": 0,
+      "deliverable": "one_existing_atlas_time_aligned_evidence_table_and_falsifiable_fullbody_question",
+      "critical_path_gate": false,
+      "historical_fullbody_Teacher_attempts": 4,
+      "new_Viewer_features": false
+    },
+    {
+      "id": "M3",
+      "name": "single_result_driven_decision",
+      "requires": [
+        "M2_full_paired_result"
+      ],
+      "choices": [
+        "freeze_and_independent_confirm",
+        "joint_own_state_continuation_to1024",
+        "one_TRAIN_only_optimization_or_failure_mechanism_test",
+        "close_negative_branch"
+      ],
+      "automatic_expansion": false
+    },
+    {
+      "id": "M4",
+      "name": "independent_generalization",
+      "requires": [
+        "frozen_pair",
+        "unexposed_group_split",
+        "separate_valid_scope"
+      ],
+      "primary_factors_in_order": [
+        "new_geometry",
+        "specified_appearance",
+        "legal_language_and_common_home",
+        "one_new_skill"
+      ],
+      "pilot_geometry_groups": 12,
+      "conditions_two_models_two_tasks_one_noise": 48,
+      "sample_size_is_power_guarantee": false
+    },
+    {
+      "id": "M5A",
+      "name": "original_DEC1_frozen_executor_transfer",
+      "fixed_model": "CORR2048_R0",
+      "target_cells": 64,
+      "requires": [
+        "original_reference_feedback_STOP_safety_qualification",
+        "separate_valid_scope"
+      ],
+      "target_task_training": false,
+      "source_learning_blocker": false
+    },
+    {
+      "id": "M5B",
+      "name": "few_shot_Go2_ARX5_target_adaptation",
+      "requires": [
+        "separate_target_scope",
+        "frozen_WBC_interface_qualification"
+      ],
+      "calibration_records": 10,
+      "TRAIN_groups": 6,
+      "first_attempts": 12,
+      "guaranteed_success_count": null,
+      "standing_EEF10_first": true,
+      "matched_source_continuation_control": true,
+      "no_target_training_claim": false
+    },
+    {
+      "id": "M6",
+      "name": "one_skill_and_reproducible_research_package",
+      "requires": [
+        "preceding_results_support_next_question",
+        "separate_valid_scope"
+      ],
+      "default_next_skill": "single_reachable_tabletop_cabinet_door_for_evaluation_first",
+      "automatic_bookshelf_or_RL_or_world_model": false,
+      "deliverable": "reproducible_positive_or_negative_scientific_conclusion"
+    }
   ],
   "evaluation": {
     "first_panel": "original_DEV_N294101_24",
-    "primary_comparisons": ["D25-C50", "E1-E2"],
+    "primary_comparisons": [
+      "D25-C50",
+      "E1-E2"
+    ],
     "inference_unit": "geometry_block",
-    "always_report": ["T1_success", "T2_success", "reference_rejection", "S1_rejection", "full_task_failure", "engineering_missing", "cost", "uncertainty"],
+    "always_report": [
+      "T1_success",
+      "T2_success",
+      "reference_rejection",
+      "S1_rejection",
+      "full_task_failure",
+      "engineering_missing",
+      "cost",
+      "uncertainty"
+    ],
     "unrun_is_zero_success": false,
     "S1_rejection_is_actual_collision": false,
     "nonsignificant_is_noninferior": false,
@@ -116,7 +350,66 @@
     "offline_prediction_is_executed": false,
     "DEV_to_TRAIN_relabeling": false,
     "valid_failure_reruns": false,
-    "deployment_criteria_relaxed": false
+    "deployment_criteria_relaxed": false,
+    "nonpreemptive_ready_queue": {
+      "predeclared_before_new_results": true,
+      "first": "D25_ORIGINAL24",
+      "subsequent_ready_priority": [
+        "E1_ADAPTER_ONLY",
+        "E2_SHARED_ACTION_HEAD",
+        "GEN1"
+      ],
+      "GEN1_fills_unready_E1_E2_gaps": true,
+      "finish_started_panel_before_switch": true,
+      "result_based_priority_or_recipe_change": false,
+      "E1_early_result_changes_E2": false,
+      "valid_failure_replays": false
+    }
   },
-  "publication_effects": {"new_GPU_jobs": 0, "new_model_queries": 0, "new_optimizer_updates": 0, "new_physics": 0, "new_ledger_writes": 0, "new_raw_uploads": 0}
+  "publication_effects": {
+    "new_GPU_jobs": 0,
+    "new_model_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physics": 0,
+    "new_ledger_writes": 0,
+    "new_raw_uploads": 0
+  },
+  "execution_revision": "EXECUTION_REVISION_20261029_INFRASTRUCTURE_AND_READY_QUEUE",
+  "E2_recovery_checkpoint_plan": {
+    "status": "COLD_DESIGN_NOT_NATIVE_DEPLOYED_OR_RESTORED",
+    "original_Trainer_full_save": true,
+    "periodic_steps": [
+      256
+    ],
+    "formal_terminal_step": 512,
+    "maximum_full_checkpoint_count": 2,
+    "retain_both_no_deletion": true,
+    "full_state_fields": [
+      "model",
+      "optimizer",
+      "scheduler",
+      "RNG",
+      "sampler_cursor",
+      "Processor",
+      "member_manifest"
+    ],
+    "observed_E2_qualification_full_state_bytes": 23044946201,
+    "observed_optimizer_bytes": 10427194671,
+    "planned_full_state_upper_bytes_each": 26000000000,
+    "planned_inference_upper_bytes": 16000000000,
+    "control_and_temp_root_upper_bytes": 2000000000,
+    "total_new_root_upper_bytes": 70000000000,
+    "new_storage_cap": false,
+    "independent_members_peak_CPU_IO_and_resume_validation_required": true,
+    "for_failure_recovery_only": true,
+    "DEV_checkpoint_selection": false,
+    "automatic_new_job_or_resume": false
+  },
+  "acceptance_outputs": [
+    "E1_fixed_inference_package_verified_and_loaded_on_Core",
+    "D25_original24_and_D_minus_C_paired_analysis",
+    "E2_full512_state_restore_export_and_terminal",
+    "E1_E2_each_original24_paired_behavior_failure_and_cost",
+    "four_historical_fullbody_Teacher_failures_support_one_testable_question"
+  ]
 }

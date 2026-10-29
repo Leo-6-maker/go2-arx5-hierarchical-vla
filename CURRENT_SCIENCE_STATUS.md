@@ -28,6 +28,8 @@
 
 ## 最新工程状态
 
+V6职责／执行修订已将AMD限定为基础设施，E1独立交付与E2训练解耦；Core先D25完整24，此后按E1→E2→GEN1就绪优先级在面板边界调度，既有面板不按成绩抢占。E2原始父fresh512将先核原Trainer完整256恢复点／512终点及原70GB峰值，尚未部署。四条历史整机Teacher为0成功／1安全失败／3完整任务质量失败，现可只读分析，不能称GR00T失败率或core64结果。计划修订未新增模型、物理或预算采用。
+
 后继实际：CoreLab已真实复挂／登录并只读核验；详见[恢复审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)。没有删除、服务重启或挂载／SSH修改。E1的同noise资格与原完整tensor审计已接入[独立源端交付计划](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)：10推理文件／12576325049字节，完整剩余控制提案零shortfall，无新模型调用，HF上传尚未执行。E2原始父fresh512所需[仅PBS43→44](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)已获直接批准，尚未原生采用／提交；不得再要求同一GO，也不把批准当作已运行。
 
 
