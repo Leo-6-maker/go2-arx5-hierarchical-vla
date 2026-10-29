@@ -4,17 +4,22 @@
 
 [完整长程Goal V6](protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md) · [Codex交接](handover/2026-10-29/POST_RERUN_SCIENCE_FIRST_EXECUTION.md) · [计划卡](../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)。发布不是新GPU/PBS/物理授权。
 
-## 当前两条科学线
+## 当前两条科学线与基础设施边界
 
 | 平台 | 下一动作 | 真实交付 |
 |---|---|---|
-| CoreLab 4080S | 复用已实际补齐LOCAL历史，冷态绑定D25原24，再GEN1 | D−C配对表与GEN1行为结果 |
-| Vanda | 复用已审计E0/E1及已采用剩余范围，补E2资格，两臂fresh各512 | 固定端点、消费/冻结/完整保存恢复 |
-| PC Rerun支持 | 已有失败关键时间线、学生成功、保存E0输出 | 可核验解释，不阻塞上述两线 |
+| Vanda | E1@512独立交付；E2原始父fresh512，加入有界完整恢复点 | E1实际Core可加载、E2完整512推理端点 |
+| gpu4080s | D25原24第一；随后按E1→E2→GEN1的已就绪优先级，在面板边界选择 | D−C及E1−E2配对，GEN1行为结果 |
+| AMD | 共享存储、登录跳转、受控归档、小型元数据 | 稳定基础设施，不执行重CPU／Teacher／模型，不改服务／凭据 |
+| PC Rerun支持 | 已有源域与四条整机Teacher失败的同时间证据分析 | 一项可证伪整机问题，不新增物理／模型／Viewer前置 |
 
-最新PR99已证明保存前缀完整审计、PBS42控制采用和Core历史补齐。**后继10月29日08:10 SGT实际：唯一Vanda作业1505362已R，E2资格真实优化2次；08:19 SGT后继E2已有原生COMPLETE、独立审计待回读；E1正式阶段已ACTIVE但当时0/512，随后E2同512。** 不重复已完成前缀或登记／qsub，不重启健康owner；D25新Core部署仍待接续。 依据[实际报告](../reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)，执行前刷新后继原件。
+**执行修订基线main636c1924：E1完整512与同实际noise输出资格已通过；E2两步资格已完成、正式122后F1且无完整恢复点；1506193结算关闭；Core已恢复并真实登录。** E1不等E2交付，D25不重传／重训；E2只从原始父fresh512，不继承资格／失败／其他臂状态。详见[实际终态](../reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)。
 
-两站运行不互相SSH/查队列/等心跳。模型沿已授权HF固定revision，管理owner独立连接并终态核账。原Journal/onceIO和安全保持，不新建调度平台。
+固定非抢占规则：先完成D25；之后选已合格就绪的E1、E2、GEN1中最高优先级；GEN1填补模型未就绪空档，面板开始后不因成绩或新到达端点切换。E1先测不能反过来改E2。两站运行不互相SSH／查队列／等心跳；模型沿原HF固定revision，管理在阶段边界核定与终态汇总。
+
+AMD保护见[已发布边界](operations/2026-10-29_AMD_INFRASTRUCTURE_PROTECTION.md)，不等于管理员隔离已实施。Core下次冷态运行核完整节点本地依赖，已合格部分复用，不热迁移或重装整套环境。Vanda共享scratch按真实集群路径核验，不伪称本地SSD。
+
+E2恢复点只服务故障恢复，拟保留原Trainer完整256和512两份状态，至多两份，仍在原70GB root；实际成员／峰值／I/O与恢复资格须在启动前核实，不声称已部署。不按DEV挑点，不改固定512科学终点。
 
 ## 科学里程碑
 
@@ -33,4 +38,4 @@ E1/E2保持[执行V2](protocols/GR00T_ARX5_MINIMAL_ADAPTATION_EXECUTION_V2_20261
 
 E0已有39查询不是闭环；少参数不保证更快或泛化，退化不自动证明遗忘。旧DEV不变新TEST，未测不算0%，不显著不是非劣。原DEC1无目标任务训练与少样本目标适配分开。柜门先测试，书架/BASE/RL/世界模型不同时展开。
 
-原stop-new为2026-10-31 20:52:29.813 SGT，hard deadline为2026-11-01 20:52:29.813 SGT，不延长。PBS已采用42不等于新任务已派发，剩余范围和矩阵/最终保护保持。当前状态与实际证据见[科学状态](../CURRENT_SCIENCE_STATUS.md)及#11。
+原stop-new为2026-10-31 20:52:29.813 SGT，hard deadline为2026-11-01 20:52:29.813 SGT，不延长。原已采用PBS43、人类已批准仅43→44，原生采用和新提交尚未完成；matrix3／最终保护不变，不重复请求同一GO。当前状态与实际证据见[科学状态](../CURRENT_SCIENCE_STATUS.md)及#11。
