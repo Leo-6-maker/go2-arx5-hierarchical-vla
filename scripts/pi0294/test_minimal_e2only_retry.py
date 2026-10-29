@@ -92,3 +92,18 @@ def test_paid_control_precedes_real_owner_and_is_not_charged_at_registration_aga
     g=paid['proposed_global'];x.require_paid_retry(g,r);assert g['CPU_s']==captured['g']['CPU_s']+3600;assert g['PBS_submissions']==captured['g']['PBS_submissions'];assert paid['full_future_proof']['cap_changes_required']=={}
     args=deepcopy(args);args['fresh_readback']['GLOBAL_sha256']=e.sha(e.raw(g));registered=x.register(e.raw(g),captured['lb'],**args)['proposed_global'];assert registered['CPU_s']==g['CPU_s'];assert x.planned_retry(registered)==e._vector({});assert len(registered[x.FIELD]['prior_attempts'])==1
     with pytest.raises(PermissionError):x.propose_retry_control(e.raw(g),captured['lb'],request_bytes=e.raw(r),closed_zero_files=captured['files'],closed_readback=proof,now_epoch=now)
+
+
+def test_actual_guard_inspection_retains_the_prior_proof_with_a_closed_zero_root(tmp_path,monkeypatch):
+    # Exercise the actual inspect path, including the closed-root iteration
+    # that follows prior.inspect; no model or fabricated native admission.
+    from types import SimpleNamespace
+    old=tmp_path/'old';zero=tmp_path/'zero';new=tmp_path/'new';prefix=tmp_path/'prefix'
+    for p in(old,zero,new,prefix):p.mkdir()
+    (zero/'metadata.json').write_text('{}\n');snapshot=physical.inventory.prefix_inventory(zero)
+    prior_proof=dict(prefix_allocated_bytes=10000000000,old_metadata_ceiling=1000000,old_science_allocated_bytes=10000000000,new_allocated_bytes=46671091712,retained_cold_allocated_bytes=0)
+    guard=object.__new__(physical.Guard);guard.root=new;guard.old_root=old;guard.original=lambda:None;guard.clock=lambda:1.;guard.request=dict(physical_custody_sha256='placeholder');guard.custody=dict(schema=physical.execution.PHYSICAL_SCHEMA,previous_snapshot_identity_sha256=physical.inventory.identity(physical.inventory.prefix_inventory(old)),retained_initial_bytes=66671091712,paid_output_ceiling=physical.execution.PAID_OUTPUT,new_output_bound_bytes=70000000000)
+    guard.zero_roots=[(zero,dict(snapshot_identity_sha256=physical.inventory.identity(snapshot)))];guard.prior=SimpleNamespace(inspect=lambda **_:prior_proof,old_root=prefix,prior=SimpleNamespace(custody=dict(prefix_root=str(prefix)),metadata=[]),custody=dict(retained_cold_roots=[]));guard.request['physical_custody_sha256']=e.sha(e.raw(guard.custody))
+    out=guard.inspect(next_output_upper_bytes=1000)
+    assert out['retained_allocated_bytes']==sum(prior_proof.values())+snapshot['allocated_bytes']
+    assert out['next_output_upper_bytes']==1000 and out['ledger_changed']is False

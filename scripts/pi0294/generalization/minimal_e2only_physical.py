@@ -101,8 +101,8 @@ class Guard:
             'E2ONLY_OLD_FAILED_ROOT_CHANGED_OR_HISTORY_LOST')
         current,_=scan._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
         zero_allocated=0
-        for old,item in self.zero_roots:
-            snapshot=inventory.prefix_inventory(old)
+        for closed_root,item in self.zero_roots:
+            snapshot=inventory.prefix_inventory(closed_root)
             e.need(inventory.identity(snapshot)==item['snapshot_identity_sha256'],
                 'E2ONLY_PRIOR_ZERO_ROOT_CHANGED_NOT_RESTARTABLE')
             zero_allocated+=snapshot['allocated_bytes']
