@@ -78,6 +78,7 @@ def retime_witness(native, joints, source_times):
     if speed > .06+1e-9 or spin > .3+1e-9:
         raise ValueError('RESAMPLED_CARTESIAN_RATE_REJECT_NO_ITERATIVE_RETIMING')
     return dict(status='TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED', factor=factor,
+        input_state_role=native.state_role,
         duration_s=duration, samples=len(times), linear_max_m_s=speed,
         angular_max_rad_s=spin, configuration_check=check,
         continuous_swept_collision_proved=False, physical_execution_qualified=False,

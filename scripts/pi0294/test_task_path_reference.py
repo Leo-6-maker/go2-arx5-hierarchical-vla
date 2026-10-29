@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from .task_path_reference import PersistentPathReference
 from .task_gripper_contract import teacher_physical_fraction
-from .task_path_planning import grasp_precontact_candidates
+from .task_path_planning import grasp_precontact_candidates, push_precontact_candidates
 
 
 def path():
@@ -112,3 +112,24 @@ def test_task_candidates_transform_with_tabletop_geometry_and_keep_all_outcomes(
     tipped[:3, :3] = [[1, 0, 0], [0, 0, -1], [0, 1, 0]]
     with pytest.raises(ValueError, match='UPRIGHT_TABLETOP'):
         grasp_precontact_candidates(tipped)
+
+
+def test_push_candidates_follow_direction_and_measure_pad_support():
+    obj = np.eye(4)
+    obj[2, 3] = .46
+    pads = [dict(center_tcp=[.01, sign*.02, -.01], axes_tcp=np.eye(3), half_size=[.01, .003, .02])
+        for sign in (-1, 1)]
+    initial = push_precontact_candidates(obj, [0, .16], pads)
+    world = np.eye(4)
+    world[:3, :3] = [[0, -1, 0], [1, 0, 0], [0, 0, 1]]
+    world[:2, 3] = [.2, -.1]
+    changed_goal = (world@np.array([0, .16, .46, 1]))[:2]
+    changed = push_precontact_candidates(world@obj, changed_goal, pads)
+    for a, b in zip(initial, changed):
+        np.testing.assert_allclose(b['goal_world'], world@a['goal_world'], atol=1e-14)
+        assert not b['launch_allowed']
+        assert a['goal_world'][2, 3]+a['bottom_offset_m'] == pytest.approx(.524)
+    with pytest.raises(ValueError, match='TASK_DISTANCE'):
+        push_precontact_candidates(obj, [0, 0], pads)
+    with pytest.raises(ValueError, match='TWO_MEASURED'):
+        push_precontact_candidates(obj, [0, .16], pads[:1])

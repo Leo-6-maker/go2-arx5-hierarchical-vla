@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 mujoco = pytest.importorskip('mujoco')
-from .task_path_planning import load_saved_native, native_configuration_witness
+from .task_path_planning import load_saved_native, native_configuration_witness, planned_future_configuration
 
 
 def native_fixture():
@@ -59,3 +59,15 @@ def test_full_native_dimensions_required_even_with_correct_pin(tmp_path):
     sha = hashlib.sha256(path.read_bytes()).hexdigest()
     with pytest.raises(ValueError, match='FULL_GO2_ARX5_TASK_MODEL_REQUIRED'):
         load_saved_native(path, sha, {})
+
+
+def test_future_stage_witness_is_separate_and_cannot_masquerade_as_observed_state():
+    native = native_fixture()
+    native.mount = np.eye(4)
+    native.state_role = 'SAVED_ACTUAL_OBSERVATION'
+    before = native.qpos.copy()
+    future = planned_future_configuration(native, np.full(6, -.05))
+    assert future.state_role == 'PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED'
+    assert future.data is not native.data
+    np.testing.assert_array_equal(native.qpos, before)
+    np.testing.assert_allclose(future.qpos, [-.05])

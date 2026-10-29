@@ -1,5 +1,7 @@
 # T1已有静态预接触路径；真实任务资格仍待完成
 
+后继见[双任务接近与下降准备](GO2_ARX5_BOTH_APPROACH_AND_DESCENT.md)：T2的新方向/夹垫支撑候选已有静态路径。本页原T2目标负结果保持，后继没有重标旧失败。
+
 **在同一原真实home构型下，事前固定的负30°抓取接近候选找到了静态路径，已转成6.15秒EEF10参考；原垂直候选与正30°候选失败均保留。** 这不是实际接触、成功示范或冻结WBC执行证明。T2原推送接近目标在同一快照下仍未找到合法路径，不能由T1准备结果推定两个任务已经可用。
 
 [全部候选、时序和检查回执](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_FINITE_GEOMETRY_EEF10_REFERENCE_ACTUAL_20261029.json) · [前一原目标负结果](GO2_ARX5_STATIC_TASK_PATH.md) · [S0–S5后继顺序](../../protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)

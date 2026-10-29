@@ -44,6 +44,59 @@ def grasp_precontact_candidates(object_world):
     return result
 
 
+def push_precontact_candidates(object_world, goal_xy, pad_geometry_zero_travel):
+    """Direction-aware T2 family using measured native pad support geometry.
+
+    Zero-travel geometry is the original scene helper's geometric origin, not a
+    command to close to a mechanical endpoint. Actual finite gripper targets and
+    closure/contact qualification remain unchanged and separately required.
+    """
+    obj = pose(object_world)
+    target = np.asarray(goal_xy, dtype=float)
+    if obj[2, 2] < .999 or target.shape != (2,) or not np.isfinite(target).all():
+        raise ValueError('UPRIGHT_OBJECT_AND_FINITE_PLANAR_PUSH_GOAL_REQUIRED')
+    delta = target-obj[:2, 3]
+    if np.linalg.norm(delta) < .10:
+        raise ValueError('DECLARED_PUSH_DIRECTION_AND_TASK_DISTANCE_REQUIRED')
+    direction = delta/np.linalg.norm(delta)
+    pads = []
+    if len(pad_geometry_zero_travel) != 2:
+        raise ValueError('EXACTLY_TWO_MEASURED_NATIVE_PAD_BOXES_REQUIRED')
+    for row in pad_geometry_zero_travel:
+        center = np.asarray(row['center_tcp'], dtype=float)
+        axes = np.asarray(row['axes_tcp'], dtype=float)
+        half = np.asarray(row['half_size'], dtype=float)
+        if (center.shape != (3,) or axes.shape != (3, 3) or half.shape != (3,)
+                or not all(np.isfinite(x).all() for x in (center, axes, half)) or np.any(half <= 0)):
+            raise ValueError('FINITE_NATIVE_PAD_BOX_GEOMETRY_REQUIRED')
+        frame = np.eye(4)
+        frame[:3, :3] = axes
+        pose(frame)
+        pads.append((center, axes, half))
+    yaw = np.arctan2(direction[1], direction[0])
+    c, s = np.cos(yaw), np.sin(yaw)
+    heading = np.array([[c, -s, 0.], [s, c, 0.], [0., 0., 1.]])
+    downward = np.array([[0., 0., 1.], [0., 1., 0.], [-1., 0., 0.]])
+    support = float(np.abs(direction @ obj[:2, :3]) @ np.full(3, .02))
+    result = []
+    for name, angle in (('VERTICAL', 0.), ('TILT_NEG30', -np.pi/6), ('TILT_POS30', np.pi/6)):
+        c, s = np.cos(angle), np.sin(angle)
+        rotation = heading @ downward @ np.array([[c, 0., s], [0., 1., 0.], [-s, 0., c]])
+        front = max(float((rotation @ center)[:2] @ direction
+            + np.abs(direction @ (rotation @ axes)[:2]) @ half) for center, axes, half in pads)
+        bottom = min(float((rotation @ center)[2]
+            - np.abs((rotation @ axes)[2]) @ half) for center, axes, half in pads)
+        goal = np.eye(4)
+        goal[:3, :3] = rotation
+        goal[:2, 3] = obj[:2, 3]-direction*(support+front+.025)
+        goal[2, 3] = .44-bottom+.004+.08
+        result.append(dict(id=name, goal_world=goal, direction=direction.copy(),
+            front_support_m=front, bottom_offset_m=bottom,
+            tool_local_y_tilt_rad=angle, launch_allowed=False,
+            task='T2_PRECONTACT_GEOMETRY_PROPOSAL_NOT_SUCCESS_DEMO'))
+    return result
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -99,6 +152,26 @@ class SavedNativeState:
     mount: np.ndarray
     tcp: np.ndarray
     site: int
+    state_role: str = 'SAVED_ACTUAL_OBSERVATION'
+
+
+def planned_future_configuration(native, arm_joints):
+    """Independent hypothetical stage state. Never call it achieved feedback."""
+    import mujoco
+    q = np.asarray(arm_joints, dtype=float)
+    if (q.shape != (6,) or not np.isfinite(q).all()
+            or np.any(q < native.arm_limits[:, 0]) or np.any(q > native.arm_limits[:, 1])):
+        raise ValueError('FINITE_LIMITED_PLANNED_FUTURE_JOINT_WITNESS_REQUIRED')
+    data = mujoco.MjData(native.model)
+    qpos = native.qpos.copy()
+    qpos[native.joint_addresses[:6]] = q
+    data.qpos[:] = qpos
+    mujoco.mj_forward(native.model, data)
+    tcp = np.eye(4)
+    tcp[:3, :3], tcp[:3, 3] = data.site_xmat[native.site].reshape(3, 3), data.site_xpos[native.site]
+    return SavedNativeState(native.model, data, qpos, native.joint_addresses.copy(),
+        native.arm_limits.copy(), native.mount.copy(), tcp, native.site,
+        state_role='PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED')
 
 
 def load_saved_native(model_path, expected_sha256, sample):
@@ -201,6 +274,7 @@ def prepare_path(*, native, urdf, srdf, goal_world):
     planner.set_base_pose(mplib.Pose(native.mount))
     planner.robot.set_qpos(q, full=True)
     receipt = dict(version=VERSION, launch_allowed=False,
+        input_state_role=native.state_role,
         evidence_role='STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION',
         native_TCP_frame_max_abs_difference=error, seed=294, IK_initializations=20,
         RRT_planning_time_s=2., normal_sample_period_s=.05,

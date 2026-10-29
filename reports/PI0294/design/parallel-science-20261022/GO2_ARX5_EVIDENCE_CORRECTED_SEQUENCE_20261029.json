@@ -375,7 +375,9 @@
       "static_preparation_actual_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_ORIGINAL_W0_T1_STATIC_PATH_ACTUAL_20261029.json",
       "finite_geometry_reference_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_FINITE_GEOMETRY_EEF10_REFERENCE_ACTUAL_20261029.json",
       "T1_static_precontact_reference_prepared": true,
-      "T2_static_path_qualified": false
+      "T2_static_path_qualified": false,
+      "T2_static_precontact_reference_prepared": true,
+      "both_precontact_descents_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_BOTH_APPROACH_DESCENT_STATIC_ACTUAL_20261029.json"
     },
     "S2": {
       "status": "TARGET_EXECUTOR_BLOCKED_NOT_A_NEW_MEASURED_MATRIX",
@@ -446,12 +448,12 @@
       "CONDITIONAL_NEW_STANDING_FULL_T2"
     ],
     "starts_max": 4,
-    "short_task_s_each_max": 12,
+    "short_task_s_each_max": 20,
     "conditional_full_task_s_each": 32,
     "warmup_s_each_max": 5,
-    "integrations_all_live_shadow_warmup_and_tail_max": 54012,
-    "integration_formula": "2*(5+12)*500 + 2*(5+32)*500 + 4*3",
-    "RGB_pairs_max": 1764,
+    "integrations_all_live_shadow_warmup_and_tail_max": 62012,
+    "integration_formula": "2*(5+20)*500 + 2*(5+32)*500 + 4*3",
+    "RGB_pairs_max": 2084,
     "CPU_core_seconds_total_max": 14400,
     "CPU_concurrent_max": 4,
     "Core_new_output_and_staging_GiB_max": 8,
@@ -479,7 +481,8 @@
     "full_task_requires": "SAME_TASK_SHORT_REAL_CONTACT_AND_MANIPULATION_QUALIFICATION",
     "valid_failure_retry": false,
     "new_WBC_parameters_or_safety_or_final_scoring_changes": 0,
-    "new_dataset_production_or_GR00T_training_authorized": false
+    "new_dataset_production_or_GR00T_training_authorized": false,
+    "unadopted_proposal_revision_reason": "T2_STATIC_APPROACH11_2_PLUS_DESCENT2_75_EXCEEDS_PRIOR_UNADOPTED12S_SHORT_TASK_BEFORE_CONTACT"
   },
   "publication_effects": {
     "new_physics": 0,
