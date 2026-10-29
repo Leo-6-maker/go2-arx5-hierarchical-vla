@@ -1,0 +1,104 @@
+{
+  "schema": "S1_TWO_TASK_ENGINEERING_RECOVERY_SCOPE_PROPOSAL_V1",
+  "status": "AWAITING_NEW_HUMAN_APPROVAL_NOT_ADOPTED",
+  "reason": "The prior two short development tasks terminated on engineering failures. Neither task qualifies its conditional confirmation; the one unused start cannot be silently turned into a retry.",
+  "previous_scope_closed": true,
+  "old_starts": 3,
+  "old_charged_integrations": 5006,
+  "old_RGB_pairs": 0,
+  "proposed_new_attempts": [
+    {
+      "id": "S1_RECOVERY01_T1",
+      "task": "T1",
+      "source_xy": [
+        0.45,
+        -0.08
+      ],
+      "goal_xy": [
+        0.45,
+        0.08
+      ],
+      "cube_yaw": 0.0,
+      "warmup_s_max": 5,
+      "task_s_max": 32,
+      "starts": 1
+    },
+    {
+      "id": "S1_RECOVERY01_T2",
+      "task": "T2",
+      "source_xy": [
+        0.45,
+        -0.08
+      ],
+      "goal_xy": [
+        0.45,
+        0.08
+      ],
+      "cube_yaw": 0.0,
+      "warmup_s_max": 5,
+      "task_s_max": 32,
+      "starts": 1
+    }
+  ],
+  "admission": {
+    "new_explicit_scope_required": true,
+    "immutable_new_source_and_episode_directories": true,
+    "old_closed_run_not_reopened": true,
+    "no_seed_replacement_or_automatic_retry": true,
+    "no_model_or_teacher_parameter_change": true,
+    "full14_fresh_gate_required": true,
+    "Core_priority_panels_not_preempted": true
+  },
+  "effects": {
+    "new_starts_max": 2,
+    "cumulative_starts_max": 5,
+    "old_approved_cumulative_starts_max": 4,
+    "start_ceiling_increase": 1,
+    "new_integrations_max": 37006,
+    "cumulative_integrations_max": 42012,
+    "original_integrations_cap_unchanged": 62012,
+    "new_RGB_pairs_max": 1282,
+    "cumulative_RGB_pairs_max": 1282,
+    "original_RGB_cap_unchanged": 2084,
+    "new_approximate_reserved_Core_CPU_s": 6600
+  },
+  "unchanged_caps": {
+    "total_Core_and_PC_CPU_s": 14400,
+    "Core_CPU_s": 13800,
+    "PC_CPU_s": 600,
+    "max_cores": 4,
+    "Core_output_and_staging_bytes": 8589934592,
+    "PC_evidence_bytes": 1073741824,
+    "transfer_bytes": 8589934592,
+    "GR00T_queries": 0,
+    "optimizer_updates": 0,
+    "PBS": 0
+  },
+  "projected_CPU": {
+    "existing_Core_and_PC_upper_s": 1333.4218693953007,
+    "new_two_attempts_Core_upper_s": 6600,
+    "finite_cold_and_control_reserve_Core_s": 250,
+    "finite_cold_and_control_reserve_PC_s": 80,
+    "projected_total_upper_s": 8263.4218693953,
+    "projected_PC_upper_s": 580
+  },
+  "unchanged_deadline_SGT": "2026-10-30T19:31:39.836045+08:00",
+  "scientific_invariants": {
+    "EEF10": true,
+    "H40": 40,
+    "Prefix": 8,
+    "free_body": true,
+    "WBC_frozen": true,
+    "BASE_supervision": false,
+    "original_task_scores": true,
+    "all_original_failures_retained": true,
+    "DEC1_TEST_unchanged": true,
+    "no_target_training": true
+  },
+  "deliverables": [
+    "Two new first-attempt native trajectories or explicit engineering/native/task failure with full evidence.",
+    "Independent actual safety, submitted/installed/executed integrity, double RGB and original final task scoring.",
+    "No new training, query, WBC tuning or ten-day extension."
+  ],
+  "proposal_sha256": "bbadec28dc0c914a4b260dec5cbd14a38636b3f119d444a136b0bcee2deafad3"
+}

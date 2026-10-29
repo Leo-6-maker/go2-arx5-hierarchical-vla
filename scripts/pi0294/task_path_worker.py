@@ -18,10 +18,29 @@ import numpy as np
 from .task_path_runtime import validate_entry,require_card,reserve,settle,read,sha,cards
 from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import teacher_physical_fraction,require_working_target
-from .task_path_teacher import VERSION,Teacher,NativePathClient
+from .task_path_teacher import VERSION,Teacher,NativePathClient,serial
 from .task_gripper_contract import VERSION as PHYSICAL_VERSION
 from .base_intent import eef_document
 from .task_clock import finish_pause,preinstall_clock_failure,actual_source_age
+
+
+def encode_record(value):
+    """Preserve numeric values and bools at the native NumPy/JSON boundary."""
+    return json.dumps(value, default=serial, allow_nan=False)
+
+
+def publish_intent(log, intent, publish_effects):
+    """Durably encode the exact command before gripper/ROS publication.
+
+    A missing ACK stays unknown. A serialization or persistence failure cannot
+    send a command that is absent from the submitted-intent journal.
+    """
+    line = encode_record(dict(intent, phase='SUBMISSION_INTENT_BEFORE_EFFECT'))+'\n'
+    log.write(line); log.flush(); os.fsync(log.fileno())
+    publish_effects()
+    log.write(encode_record(dict(intent,phase='SUBMITTED_REQUIRES_INSTALL_ACK'))+'\n')
+    log.flush(); os.fsync(log.fileno())
+    return intent
 
 
 class FrameRecorder:
@@ -121,7 +140,6 @@ def run(root,native,startup,episode):
     processes=[];handles=[];latest={};counts={};subs=[];observed=[];commands=[];frames=[];futures=[]
     pool=ThreadPoolExecutor(max_workers=1);recorder=None;node=None
     result=dict(status='ENGINEERING_INCOMPLETE');ros_raw=(out/'ros.jsonl').open('x');sample_log=(out/'samples.jsonl').open('x');command_log=(out/'committed_intents.jsonl').open('x');pause_log=(out/'pause_intervals.jsonl').open('x')
-    jsonable=lambda v: v.tolist() if isinstance(v,np.ndarray) else v
     def save_frame(index,packet):
         future=pool.submit(recorder.save,index,packet);futures.append(future)
         if index==0:
@@ -319,7 +337,7 @@ def run(root,native,startup,episode):
             state['active_intent_sequence']=None if active_intent is None else active_intent['sequence']
             state['executed_prefix_index']=None if active_intent is None else (len(observed)-active_intent['index']-1)%8
             if len(observed)==frame_cap-1 or teacher.stop_reason:
-                sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
+                sample_log.write(encode_record(state)+'\n');sample_log.flush();observed.append(state)
                 save_frame(len(observed)-1,packet)
                 break
             query=len(observed)%8==0
@@ -329,7 +347,7 @@ def run(root,native,startup,episode):
                     lambda:read(out/'pause_ack.json'))
                 pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,query=False,
                     wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
-                sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
+                sample_log.write(encode_record(state)+'\n');sample_log.flush();observed.append(state)
                 save_frame(len(observed)-1,packet)
                 next_step+=25;quota(next_step);publish(keys,'ENTER');continue
             plan=teacher.propose();action=plan['action_EEF10'];require_working_target(action[:,9])
@@ -347,7 +365,6 @@ def run(root,native,startup,episode):
                 lambda:stop_external(False),lambda:spin(2,lambda:read(out/'pause_ack.json')['ack_sequence']>pause_before['ack_sequence']),
                 lambda:read(out/'pause_ack.json'))
             pause_log.write(json.dumps(dict(index=len(observed),before=pause_before,after=pause_after,wall_wait_s=time.monotonic()-pause_started,non_realtime=True,owned_MPC_processes_frozen=True))+'\n');pause_log.flush()
-            write_gripper(out/'gripper.bin',len(commands),source,float(action[0,9]));publish(refs,wire)
             intent=dict(index=len(observed),sequence=sequence,actual_observation_time_s=packet['time_s'],source_mpc_s=source,
                 wire_sha256=hashlib.sha256(wire.encode()).hexdigest(),action_EEF10=action.tolist(),teacher_stage=teacher.stage,
                 actual_BASE_mount=mount.tolist(),actual_BASE_planar_velocity=measured.tolist(),base_valid=False,
@@ -357,7 +374,10 @@ def run(root,native,startup,episode):
                 reference_certificate=plan['reference_certificate'],object_hypothesis=plan['object_hypothesis'],
                 asynchronous_EE_source_s=float(latest['ee'].time),selected_MPC_policy_consumption='UNKNOWN')
             intent['source_clock']='EXISTING_NATIVE_ROS_INTEGER_NANOSECONDS_OF_SAME_ACTUAL_PACKET'
-            command_log.write(json.dumps(dict(intent,phase='SUBMITTED_REQUIRES_INSTALL_ACK'))+'\n');command_log.flush();commands.append(intent)
+            def publish_effects():
+                write_gripper(out/'gripper.bin',len(commands),source,float(action[0,9]))
+                publish(refs,wire)
+            publish_intent(command_log,intent,publish_effects);commands.append(intent)
             ref_id=intent['wire_sha256']
             def installed():
                 rows=planner_events()
@@ -366,7 +386,7 @@ def run(root,native,startup,episode):
             if not spin(5,installed):raise RuntimeError('REFERENCE_INSTALL_ACK_MISSING_NO_PHYSICS_ADVANCE')
             teacher.reference.acknowledge_install(ref_id=ref_id,native_step=packet['step'])
             command_log.write(json.dumps(dict(index=intent['index'],phase='INSTALL_ACK',wire_sha256=ref_id,native_step=packet['step']))+'\n');command_log.flush()
-            sample_log.write(json.dumps(state,default=jsonable)+'\n');sample_log.flush();observed.append(state)
+            sample_log.write(encode_record(state)+'\n');sample_log.flush();observed.append(state)
             save_frame(len(observed)-1,packet)
             active_intent=intent;last_command_source=source;next_step+=25
             quota(next_step);publish(keys,'ENTER')
@@ -414,6 +434,8 @@ def run(root,native,startup,episode):
             saved_RGB_pairs=len(frames),RGB_pairs_charged=len(futures),actual_CPU_s=cpu,
             conservative_CPU_charged_s=cpu_charge,service_s=service,
             owned_returncodes=[p.returncode for p in processes],source_sha=manifest['code']['vla_commit'],high_level_model_queries=0,selected='NONE',deployment='NONE')
+        # Final milestones can contain NumPy scalar predicates as well.
+        result=json.loads(encode_record(result))
         write(out/'RESULT.json',result)
         settle(root,ticket,result);lease.close()
         write(root/'control/NATIVE_OWNER_HEARTBEAT.json',dict(status='OWN_S1_NATIVE_ATTEMPT_TERMINAL',

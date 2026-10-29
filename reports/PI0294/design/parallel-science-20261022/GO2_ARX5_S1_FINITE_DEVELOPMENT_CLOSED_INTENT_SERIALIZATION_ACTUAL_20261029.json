@@ -1,0 +1,218 @@
+{
+  "schema": "S1_ACTUAL_FINITE_DEVELOPMENT_CLOSED_AND_INTENT_SERIALIZATION_FIX_V1",
+  "run_uuid": "20261029T113139Z-standing-task-path-s1",
+  "status": "ACTUAL_FINITE_S1_DEVELOPMENT_CLOSED_ENGINEERING_INCOMPLETE",
+  "scope_closed": true,
+  "original_approval_sha256": "8a55153f728c0431116e2f9932f5286f6a0647d362252991712541638b27484f",
+  "scientific_result": {
+    "T1_short_qualified": false,
+    "T2_short_qualified": false,
+    "task_success_demonstrations": 0,
+    "task_observation_records": 0,
+    "completed_task_intervals": 0,
+    "task_success_rate": "NOT_MEASURED_TASK_NOT_ENTERED",
+    "selected_MPC_consumption": "UNKNOWN"
+  },
+  "attempts": [
+    {
+      "kind": "PRE_RESERVATION_ENV_IDENTITY_FAILURE",
+      "counts_one_start": true,
+      "pid": 3192764,
+      "physics": 0,
+      "OS_status": 1
+    },
+    {
+      "kind": "T1_FIRST_NATIVE_ATTEMPT_PAUSED_TRACE_FAILURE",
+      "pid": 3198673,
+      "worker_source": "04e134969e4821b1674ffeded0eb55d7b4f1f151",
+      "result_sha256": "00a9996d438b810c18aae4217e314dbb14a11b65ea9ad6235086477e00c824a3",
+      "actual_integrations": 2500,
+      "charged_integrations": 2503
+    },
+    {
+      "kind": "T2_FIRST_NATIVE_ATTEMPT_INTENT_LOGGING_FAILURE",
+      "pid": 3206844,
+      "worker_source": "c81ed54bc52a582c6f51a2409101c2a181ecf69f",
+      "result_sha256": "d9d10a02b2c284574f910e7d22ab627c0c5c9125487925d6f36cb136f55eaeec",
+      "value": {
+        "status": "ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE",
+        "error": "TypeError: Object of type bool is not JSON serializable",
+        "observations": 0,
+        "submitted_intents": 0,
+        "native_stops": [],
+        "physics_lower_bound": 2500,
+        "actual_plugin_steps": 2500,
+        "physics_charged": 2503,
+        "saved_RGB_pairs": 0,
+        "RGB_pairs_charged": 0,
+        "actual_CPU_s": 20.624209305999997,
+        "conservative_CPU_charged_s": 45.107899967581034,
+        "service_s": 10.276974991895258,
+        "owned_returncodes": [
+          -2,
+          0,
+          0,
+          0
+        ],
+        "source_sha": "c81ed54bc52a582c6f51a2409101c2a181ecf69f",
+        "high_level_model_queries": 0,
+        "selected": "NONE",
+        "deployment": "NONE"
+      }
+    }
+  ],
+  "T2_actual_native_prefix": {
+    "qualification_sha256": "3be8883ea89e08768bdd54b09e214ea4ab23b369999f128a7922f66106bb01c2",
+    "actual_step": 2500,
+    "hold_accept_and_install": true,
+    "CANCEL_and_native_HOLD": true,
+    "fresh_native_WBC_reentry": true,
+    "new_integrations_during_IO_qualification": 0
+  },
+  "T2_first_task_command": {
+    "publication_call_attempted": true,
+    "gripper_packet_written": true,
+    "receiver_accept_or_install_evidence": false,
+    "executed_physical_intervals": 0,
+    "empty_command_journal_does_not_prove_zero_publication": true,
+    "reason": "Serialization failed after write_gripper/publish and before command journal persistence."
+  },
+  "exact_saved_state_CPU_replay": {
+    "status": "ACTUAL_SAVED_T2_FIRST_INTENT_REPRODUCED_AND_FIXED_ZERO_PHYSICS",
+    "old_error": "Object of type bool is not JSON serializable",
+    "dtypes": {
+      "position_progress": "bool",
+      "safe_precontact": "bool",
+      "actual_contact": "bool",
+      "manipulation": "bool"
+    },
+    "request_sha256": "ea4f544d4e0e5f323dfcc135ef02ea34bd1633073903678cd8c8c3a2c44ac907",
+    "artifact_sha256": "30b08879a964024c451e799c24faf7b6b0833d118b93ae86ecd0df3af92faca2",
+    "saved_state_sha256": "41914fa57bfab3934eed713551b2787994f62b792af21ce5b121865b1539fbb5",
+    "model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+    "wire_sha256": "29c1d6393874cc394319da86bd9b301e4b5c6a403552a347f80cc7056af3e93b",
+    "sequence": 2,
+    "source_mpc_s": 5.0,
+    "reference_certificate": {
+      "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+      "points": 1001,
+      "local_IK_iterations": 2002,
+      "physics_integrations": 0,
+      "actual_state_modified": false,
+      "max_joint_speed_rad_s": 0.1534527856151302,
+      "max_joint_acceleration_rad_s2": 0.2875770444141293,
+      "executed_reference_history_points": 0,
+      "Cartesian_reference_values_changed": false
+    },
+    "CPU_s": 0.490560032,
+    "helper_sha256": "338dcfbee545e61dca4c0a270fc006364cb4ad5a1f64c2ab252fe0deb12401c4",
+    "new_physics": 0,
+    "new_RRT": 0,
+    "new_command_publication": 0,
+    "new_labels": 0
+  },
+  "candidate_fix": {
+    "NumPy_arrays_and_scalars_value_preserving": true,
+    "nonfinite_or_unknown_values_rejected_before_effect": true,
+    "intent_fsynced_before_gripper_and_ROS": true,
+    "post_publication_record_then_exact_ACK_before_physics": true,
+    "final_milestone_serialization_fixed": true,
+    "deployed_to_closed_old_source": false,
+    "new_physics": 0,
+    "tests_passed": 30,
+    "tests_scope": "Targeted native reference, persistence, entry and cold control CPU tests; no GPU/native task success"
+  },
+  "closeout": {
+    "status": "ACTUAL_FINITE_S1_DEVELOPMENT_CLOSED_ENGINEERING_INCOMPLETE",
+    "source_sha": "c81ed54bc52a582c6f51a2409101c2a181ecf69f",
+    "account_sha256": "dede999f6f4cfa4fa256a744ef721cd120f4d484367c0722e955acca005c5062",
+    "closed_native_lease_sha256": "b4605910ff760f6862f231095b3de39f5a22a1dd687ecf52897b27ce7aba492e",
+    "terminal_audit_sha256": "3818124bcaad58c243ee97d6a8fa37f2e087a4106309e4c195161b7972e6b0a4",
+    "inventory_sha256": "22f5d886d43ba7a789a5374bcc077e7a5f80e2ab364f08769cc5ef4e092679f1",
+    "Core_inventory_file_count": 5549,
+    "Core_inventory_bytes_before_closeout": 227742449,
+    "starts": 3,
+    "actual_integrations": 5000,
+    "charged_integrations": 5006,
+    "RGB_pairs": 0,
+    "Core_CPU_upper_charged_s": 833.4218693953007,
+    "PC_CPU_upper_charged_s": 500,
+    "transfer_upper_charged_bytes": 202663168,
+    "Core_staging_upper_charged_bytes": 154509312,
+    "CPU_this_closeout_s": 0.193490019,
+    "T1_short_qualified": false,
+    "T2_short_qualified": false,
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "old_negative_results_and_unknown_records_retained": true,
+    "unspent_conditional_start_repurposed": false,
+    "storage_cost_correction": {
+      "status": "S1_CLOSED_STORAGE_INDEPENDENTLY_MEASURED_AND_COST_CORRECTED",
+      "observed_epoch": 1793287995.2656462,
+      "account_before_sha256": "dede999f6f4cfa4fa256a744ef721cd120f4d484367c0722e955acca005c5062",
+      "account_after_sha256": "1918cbf2e96e158d7cb13681b55c607797a5f582260e3cf1090212d61d29d198",
+      "closed_lease_sha256": "b4605910ff760f6862f231095b3de39f5a22a1dd687ecf52897b27ce7aba492e",
+      "actual_Core_bytes": 228426278,
+      "Core_staging_upper_charged_bytes": 236814886,
+      "PC_evidence_upper_charged_bytes": 536870912,
+      "starts": 3,
+      "charged_integrations": 5006,
+      "scope_closed": true,
+      "new_physics": 0
+    },
+    "PC_private_evidence_bytes_observed": 220441262,
+    "PC_private_evidence_upper_bytes": 536870912,
+    "independent_final_readback": {
+      "status": "INDEPENDENT_CLOSED_ACCOUNT_LEASE_AND_TERMINAL_RESULTS_MATCH",
+      "observed_epoch": 1793288114.2752645,
+      "account_sha256": "1918cbf2e96e158d7cb13681b55c607797a5f582260e3cf1090212d61d29d198",
+      "lease_sha256": "b4605910ff760f6862f231095b3de39f5a22a1dd687ecf52897b27ce7aba492e",
+      "audit_sha256": "3818124bcaad58c243ee97d6a8fa37f2e087a4106309e4c195161b7972e6b0a4",
+      "native_actors_same_instances": 0,
+      "starts": 3,
+      "charged_integrations": 5006,
+      "RGB_pairs": 0,
+      "receipts": {
+        "S1-CLOSEOUT-ACTUAL-STORAGE-20261029": {
+          "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+          "request_id": "S1-CLOSEOUT-ACTUAL-STORAGE-20261029",
+          "actual_sha256": "1918cbf2e96e158d7cb13681b55c607797a5f582260e3cf1090212d61d29d198",
+          "receipt_binding_valid": true,
+          "read_only": true,
+          "native_dispatch_admitted": false,
+          "automatic_retry_allowed": false
+        },
+        "S1-FINITE-DEV-LEASE-CLOSE-20261029": {
+          "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+          "request_id": "S1-FINITE-DEV-LEASE-CLOSE-20261029",
+          "actual_sha256": "b4605910ff760f6862f231095b3de39f5a22a1dd687ecf52897b27ce7aba492e",
+          "receipt_binding_valid": true,
+          "read_only": true,
+          "native_dispatch_admitted": false,
+          "automatic_retry_allowed": false
+        }
+      },
+      "read_only": true
+    }
+  },
+  "permission_boundary": {
+    "unused_conditional_start_repurposed": false,
+    "both_confirmations_ineligible": true,
+    "closed_legacy_leases_reopened": false,
+    "old_failures_errors_and_costs_preserved": true,
+    "GR00T_queries": 0,
+    "optimizer_updates": 0,
+    "PBS": 0,
+    "new_source_physics_requires_new_explicit_scope": true
+  },
+  "actual_preparation_notes": {
+    "first_large_transport_exact_no_effect_reconciled": true,
+    "orphan_exact_instance_stopped": true,
+    "original_ERROR_retained": true,
+    "compressed_partial_stage_exactly_reconciled": true,
+    "entry_ROS_path_restored_in_original_interpreter": true,
+    "systemd_invocation_id_from_native_unit_only": true,
+    "Core_storage_estimate_corrected_from_actual_inventory": true,
+    "failed_readonly_syntax_and_inherited_CPU_limit_checks_preserved": true
+  }
+}
