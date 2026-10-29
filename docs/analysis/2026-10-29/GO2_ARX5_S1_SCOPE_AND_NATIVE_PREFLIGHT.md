@@ -1,6 +1,8 @@
 # S1批准、十天计划衔接与实际冷态核对
 
-**当前以[实际开发终态](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)为准。** 原完整胶囊已经实际采用；三次启动包括预约前身份错误、T1在固定暂停处误等旧控制日志、T2在首条意图日志处NumPy布尔值编码失败。累计实际5000积分/计费5006，任务图像0。T2原生安装/取消/HOLD/WBC回切已通过；发布调用曾发生但接收端无接受回执、无执行任务区间，原失败不升级为成功。own scope/lease已关闭，条件确认均不合格。修复先持久记录完整意图再发布；同一真实保存状态已验证，未再运行物理。[新的两任务恢复卡](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)尚待明确批准。下文入口资格、0/4与未部署文字保留其准备时点，不代表当前运行状态。
+**后继授权：** 用户已直接批准[两次S1恢复范围](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_RECOVERY_HUMAN_APPROVAL_20261029.json)。T1/T2各32秒＋最多5秒初始化，无重试；累计上限5启动/42012计费步/1282对RGB。旧关闭账本与lease精确hash承接至新immutable run，旧run不重开，原CPU/存储/传输/截止不变。独立审计核对80个已提交/安装H40、640个执行Prefix8区间、18500个原始状态及641对RGB，沿用原评分；47项定向CPU检查通过，实际两次仍未运行。
+
+**当前以[实际开发终态](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)为准。** 原完整胶囊已经实际采用；三次启动包括预约前身份错误、T1在固定暂停处误等旧控制日志、T2在首条意图日志处NumPy布尔值编码失败。累计实际5000积分/计费5006，任务图像0。T2原生安装/取消/HOLD/WBC回切已通过；发布调用曾发生但接收端无接受回执、无执行任务区间，原失败不升级为成功。own scope/lease已关闭，条件确认均不合格。修复先持久记录完整意图再发布；同一真实保存状态已验证，未再运行物理。[新的两任务恢复卡](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)原待批状态已由上方精确授权接续。下文入口资格、0/4与未部署文字保留其准备时点，不代表当前运行状态。
 
 **最新原生结果：** [原标准入口本地资格已实际通过](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)。使用已接受main `2c9ad348`内的固定运行源`20911ba3`；原三文件字节不变。原canonical registry仅追加本次资格角色，移除该角色后可逐字节重建原registry hash；没有创建第二登记系统。原onceIO登记、实际解释器/cwd探针、关闭资格lease均完成，20个原件全文独立回读，后续只补保守成本结算且其余19原件hash不变。入口实际CPU0.0703核秒；准备总保守Core80＋PC120核秒、传输1,336,576字节，均计入S1原批准上限，不增加新额度。
 
