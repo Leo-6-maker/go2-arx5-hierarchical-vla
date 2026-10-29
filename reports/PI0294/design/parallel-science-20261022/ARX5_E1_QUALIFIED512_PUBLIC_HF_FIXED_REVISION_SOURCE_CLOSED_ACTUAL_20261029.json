@@ -1,0 +1,144 @@
+{
+  "schema": "ARX5_ACTUAL_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_V1",
+  "observed_epoch": 1793265721.6469445,
+  "scientific_state": {
+    "E1_formal_updates_already_complete": 512,
+    "E1_same_actual_noise_output_qualification_already_complete": true,
+    "E1_new_training_updates": 0,
+    "E1_public_HF_uploaded": true,
+    "E1_Core_downloaded": false,
+    "E1_Core_model_loaded": false,
+    "E1_behavior_conditions": 0,
+    "E2_complete512": false,
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "wholegoal_complete": false
+  },
+  "HF": {
+    "repo_id": "leoyuer/pi0294-public-artifacts",
+    "revision": "f410cd2b92cd543606d54b46f710197454606d9b",
+    "prefix": "arx5-first512/E1_ADAPTER_ONLY/383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+    "inference_member_count": 10,
+    "payload_bytes": 12576325049,
+    "notice_bytes": 83679,
+    "full_source_stream_SHA_before_and_after": true,
+    "all_remote_declared_content_addressed_or_full_small_SHA": true,
+    "independent_PC_public_all_members_verified": true,
+    "public_members": {
+      "FULL_SOURCE_CHECKPOINT_REFERENCE.json": {
+        "bytes": 641,
+        "sha256": "aca5983ac7dae8ef26e2ede54cba796f2036705f7e11ae9d8a4c21b02bdd7689",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "config.json": {
+        "bytes": 2146,
+        "sha256": "83dee2a2e6c6da3efd880b8f2bab2a0183a0bc2910781cad45c3384972898b77",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "model-00001-of-00003.safetensors": {
+        "bytes": 4986649584,
+        "sha256": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+        "proof": "FIXED_REVISION_LFS_CONTENT_SHA256_AND_SIZE"
+      },
+      "model-00002-of-00003.safetensors": {
+        "bytes": 4970792616,
+        "sha256": "c39153e2c89aa5c7b6423b2fb05725d21fa1b594fe61dbebaffa7956736848e3",
+        "proof": "FIXED_REVISION_LFS_CONTENT_SHA256_AND_SIZE"
+      },
+      "model-00003-of-00003.safetensors": {
+        "bytes": 2618758696,
+        "sha256": "ddfa7c484651d62a7730c010b2f6efc6229cf10825d2144e9ce799a27c8ed172",
+        "proof": "FIXED_REVISION_LFS_CONTENT_SHA256_AND_SIZE"
+      },
+      "model.safetensors.index.json": {
+        "bytes": 104913,
+        "sha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "processor/embodiment_id.json": {
+        "bytes": 615,
+        "sha256": "62259ce14eb3523b8b5e0db286a79bf668659be1a97c9cd3641c3bb83bfbd1ba",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "processor/processor_config.json": {
+        "bytes": 3005,
+        "sha256": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "processor/statistics.json": {
+        "bytes": 6416,
+        "sha256": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "statistics.json": {
+        "bytes": 6417,
+        "sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "LICENSE": {
+        "bytes": 4063,
+        "sha256": "fdc54058d8b52bbb3b06c924326ff95a15687b08b15f92bc63adabc291638c89",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "NVIDIA_OPEN_MODEL_LICENSE.pdf": {
+        "bytes": 79005,
+        "sha256": "4d2fb590aa9b30c47f2058bff17291df7fa2aa0c1bd775a20703da9bb267cfab",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "Notice": {
+        "bytes": 239,
+        "sha256": "0d2efdf81180e53a7209bec53031ad209bf2db88323a978b4e9e8a87cb7259a6",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      },
+      "MODEL_CARD.json": {
+        "bytes": 372,
+        "sha256": "3fa47285644e4df289624b87a7408931d728e5b3bcc76e24bc14bf06bc037720",
+        "proof": "INDEPENDENT_FULL_SMALL_BYTES_SHA256"
+      }
+    },
+    "optimizer_RNG_full_resume_not_uploaded": true
+  },
+  "source": {
+    "immutable_code_source": "270b44b8d1cece6dcc966b4414d3185fe8e6f873",
+    "actual_source_files": 934,
+    "finite_setup_OS0": {
+      "returncode": 0,
+      "timeout": false,
+      "CPU_s": 18.509680082,
+      "finished_epoch": 1793264924.649184,
+      "foreground_wait_completed": true
+    },
+    "uploader_OS0_sha256": "adccf0b777607c496843a38121711bfaf702d022ac4bb90f6e4344dc5cceeafe",
+    "uploader_CPU_s": 99.792747741,
+    "uploader_completed_sha256": "1bc2bad0682b87dc84b427506ccf380325f3925fd11a2768fc231ec4322246ee",
+    "own_lease_status": "CLOSED",
+    "own_lease_sha256": "2641603544f1ddc3c1344108afe4abc1eadee8a43295d18f4ae0e7936d361b7c",
+    "original_close_intent_sha256": "45e0e5eb6d7b6c5ffa5d49378f9d660dc4e9bc540687c9382f13d505df3c0f95",
+    "original_close_receipt_sha256": "193ad05c3ed70d1973dfc56ca01715fbc2ddb2a91834ba5d00de7796db56e806"
+  },
+  "resources": {
+    "source900_CPU_original_once_paid": true,
+    "original900_payment_not_repeated_or_refunded": true,
+    "source_control_GLOBAL_sha256": "36d47c66bba6f287e75df28704a4fd7f7fb42b0d684ffb152f384718285fd6d1",
+    "current_GLOBAL_after_cold_identity_only_revision": "a0ee0304f6c5cc6b56deb1d5ba0eb1cba8ba36b2897f171fd3678a7927f3e4bb",
+    "native_PBS_used_still": 41,
+    "PBS_submission_count_limit": null,
+    "other_caps_and_clocks_unchanged": true,
+    "Core_LOCAL_not_written": true,
+    "new_GPU_PBS_models_queries_updates_physics": 0
+  },
+  "engineering_history": {
+    "old_metadata_lookup_failures_retained": true,
+    "initial_alias_registry_write_UNKNOWN_permanent": true,
+    "exact_partial_readback_proved_lease_only_and_no_registry_ENV_intents_or_actors": true,
+    "remaining_operation_used_canonical_existing_registry_no_copy": true,
+    "initial_binding_and_manifest_and_configuration_bytes_preserved": true,
+    "legacy_parent_binding_lease_credentials_and_services_unchanged": true
+  },
+  "next_required": [
+    "Core fixed-revision full download SHA and exact private metadata restoration under its original own IO scope",
+    "actual E1 Core model load under fresh original GPU/physics admission",
+    "E2 separate new request from original raw parent fixed512 with original full256/512 save policy",
+    "D25 original24 and paired analysis without retransmission or rerunning valid C50 failures"
+  ]
+}
