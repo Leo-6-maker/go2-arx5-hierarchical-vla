@@ -86,3 +86,22 @@ key=P['key'];receipt=commit(gp,expected_before_sha256=sha(before),proposed_bytes
 assert gp.read_bytes()==body
 print(json.dumps(dict(status='ORIGINAL_GLOBAL_FINITE_COLD_BOOKKEEPING_ONCE',GLOBAL_sha256=sha(body),receipt=receipt,new_PBS_models_queries_updates=0,observed_epoch=time.time())))
 '''
+
+LEDGER_READ = r'''
+import hashlib,json,os,time
+from pathlib import Path
+assert os.getuid()==22182 and not os.environ.get('PBS_JOBID')
+sha=lambda b:hashlib.sha256(b).hexdigest();root=Path(P['root']);gp=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'
+b=gp.read_bytes();assert sha(b)==P['GLOBAL_sha256'];g=json.loads(b)
+key=P['key'];ib=gp.with_name(key+'.INTENT.json').read_bytes();rb=gp.with_name(key+'.RECEIPT.json').read_bytes();i,r=map(json.loads,(ib,rb))
+assert r['intent_sha256']==sha(ib)and r['after_sha256']==i['proposed_sha256']==sha(b)and not Path(i['temporary']).exists()
+assert g['pending_updates']==g['unknown_effects']==[]and all(x['status']=='NATIVE_TERMINAL'for x in g['PBS_submissions'])
+binding=json.loads((root/'OUTPUT_BINDING.private.json').read_bytes());lease=Path(binding['lease']).read_bytes()
+assert sha(lease)==P['closed_lease_sha256']and json.loads(lease)['status']=='CLOSED'
+if P.get('new_root'):
+ p=Path(P['new_root']);assert p.parent==root.parent and p.name=='arx5-minimal-e2-only-raw-fixed512-02-cold01'and not p.exists()and not p.is_symlink()
+cfg=json.loads((root/'MIX_OWNER_CONFIG.private.json').read_bytes())
+print(json.dumps(dict(status='INDEPENDENT_CANONICAL_GLOBAL_AND_ONCE_RECEIPT_FULL_BYTES',GLOBAL_sha256=sha(b),GLOBAL_bytes=len(b),
+ intent_sha256=sha(ib),receipt_sha256=sha(rb),used_PBS=g['used']['PBS_submissions'],pending_updates=[],unknown_effects=[],
+ no_existing_new_owner_or_dispatch=True,old_config_programs_have_literal_root=any(str(root)in body for body in cfg['programs'].values()),retired_preparation_sha256=P['retired_preparation_sha256'],observed_epoch=time.time(),new_writes=0)))
+'''
