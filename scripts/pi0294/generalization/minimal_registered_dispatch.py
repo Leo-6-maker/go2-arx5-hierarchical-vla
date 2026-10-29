@@ -49,7 +49,8 @@ def reconcile(global_bytes, request_bytes, evidence, *, now_epoch):
     g = json.loads(global_bytes)
     r = json.loads(request_bytes)
     adapter, row, _ = adapters.registered(g, r['request_id'])
-    e.need(adapter is adapters.retry and r.get('continuation_generation') == 3
+    e.need((adapter is adapters.retry and r.get('continuation_generation') == 3
+            or adapter is adapters.saved512)
            and row['status'] == e.STATES[0] and row['job_id'] is None
            and row['request_sha256'] == digest(request_bytes)
            and all(row.get(k) == v for k, v in r.items())
@@ -189,6 +190,88 @@ def exact_current_cas(path, *, before_sha256, after_sha256):
                 **matches[0], read_only=True, original_UNKNOWN_preserved=True, write_repeated=False)
 
 
+def saved512_dispatch_intent(root, directory, request, current, *, now_epoch):
+    """Publish original compute-consumed evidence once, never a scheduler call."""
+    from scripts.pi0294.generalization import minimal_saved512_dispatch as dispatch
+    root, directory = Path(root), Path(directory)
+    e.need(adapters.request(request) is adapters.saved512
+           and directory == root/'pbs'/('alloc-'+str(request['submit_count']).zfill(2)),
+           'DISPATCH_SAVED512_SAME_ORIGINAL_REQUEST_DIRECTORY')
+    target = root/'control/resident-owner/SOURCE_QSUB_INTENT.private.json'
+    e.need(not (directory/dispatch.FILE).exists() and not target.exists(),
+           'DISPATCH_SAVED512_FIRST_PUBLICATION_NO_PRIOR_INTENT')
+    intent = dict(request_id=request['request_id'], once=True, observed_epoch=now_epoch,
+                  queue_proof_sha256=digest(raw(current)), first_dispatch_only=True)
+    dispatch.check(raw(current), intent, request, now_epoch=now_epoch)
+    mature.once(directory/dispatch.FILE, current)
+    e.need(sha(directory/dispatch.FILE) == intent['queue_proof_sha256'],
+           'DISPATCH_SAVED512_EXACT_PUBLISHED_RAW_QUEUE_BYTES')
+    mature.once(target, intent)
+    return intent
+
+
+def unsubmitted_saved512_context(root, request_path):
+    """Validate the real unbound role without requiring a future qsub proof.
+
+    The original compute root_context is unchanged: it still requires the
+    dispatch proof when the actual allocation starts. This metadata boundary
+    consumes its prior real cold audit plus all current sealed bytes instead.
+    """
+    from scripts.pi0294.generalization.minimal_native_context import registered_identity, REQUIRED
+    from scripts.pi0294.dec1.a40_training_context import sealed
+    root, request_path = Path(root), Path(request_path)
+    m, b, r = (sealed(root, name) for name in ('RUN_MANIFEST.json', 'OUTPUT_BINDING.private.json',
+               request_path.relative_to(root).as_posix()))
+    g = read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
+    e.need(adapters.request(r) is adapters.saved512, 'DISPATCH_SAVED512_ONLY_EXPLICIT_NEW_TYPE')
+    registered_identity(root, request_path, m, b, r, g, uid=os.getuid(),
+                        pbs_job=os.environ.get('PBS_JOBID'), now=time.time(), require_bound=False)
+    e.need(sha(root/'RUN_MANIFEST.json') == r['run_manifest_sha256']
+           and sha(request_path) == adapters.registered(g, r['request_id'])[1]['request_sha256'],
+           'DISPATCH_SAVED512_EXACT_MANIFEST_AND_REQUEST_BYTES')
+    worker = Path(os.environ.get('PV1_RUN_MANIFEST', '/INVALID'))
+    e.need(worker.is_file() and not worker.is_symlink() and worker.stat().st_uid == os.getuid()
+           and not worker.stat().st_mode & 0o222 and worker.read_bytes() == (root/'RUN_MANIFEST.json').read_bytes(),
+           'DISPATCH_SAVED512_REAL_STANDARD_ENTRY_MANIFEST')
+    lease = read(b['lease']); entries = [x for x in read(b['registry'])['entries'] if x.get('role') == b['role']]
+    profiles = [x for x in read(b['environment'])['profiles'] if x['name'] == r['profile']]
+    e.need(lease['status'] == 'ACTIVE' and lease['run_uuid'] == root.name
+           and lease['manifest_sha256'] == r['run_manifest_sha256'] and lease['deadline_epoch'] == r['deadline_epoch']
+           and len(entries) == 1 and entries[0]['path'] == str(root)
+           and len(profiles) == 1 and profiles[0]['manifest'] == str(root/'RUN_MANIFEST.json')
+           and profiles[0]['entry_module'] == 'scripts.pi0294.dec1.a40_training_runtime'
+           and profiles[0]['PBS_required'] is True, 'DISPATCH_SAVED512_CURRENT_ROLE_ENV_AND_LEASE')
+    inputs = m['execution']['sealed_inputs']
+    from scripts.pi0294.generalization import minimal_saved512_contract as saved, minimal_saved512_physical as physical
+    need_inputs = REQUIRED | {adapters.saved512.PHYSICAL, physical.SNAPSHOT, saved.PLAN,
+                             saved.RESULT_FILE, saved.EXIT_FILE}
+    e.need(need_inputs <= set(inputs), 'DISPATCH_SAVED512_ALL_ORIGINAL_INPUT_ROLES')
+    for name, pin in inputs.items():
+        e.need(sha(sealed(root, name, parse=False)) == pin, 'DISPATCH_SAVED512_INPUT:'+name)
+    saved.binding(sealed(root, saved.RESULT_FILE, parse=False).read_bytes(),
+                  sealed(root, saved.EXIT_FILE, parse=False).read_bytes())
+    index = adapters.registered(g, r['request_id'])[2]
+    e.need(sealed(root, adapters.saved512.PHYSICAL) == index['physical_custody'],
+           'DISPATCH_SAVED512_EXACT_CURRENT_CUSTODY_INDEX')
+    seal = sealed(root, 'SOURCE_SEAL.json'); prefix = Path(m['code']['capsule_relative']); code = root/prefix
+    e.need(not prefix.is_absolute() and '..' not in prefix.parts and seal['source_sha'] == r['source_sha']
+           and sha(root/'SOURCE_SEAL.json') == m['code']['source_seal_sha256']
+           and Path(sys.modules[OriginalOwner.__module__].__file__).resolve()
+               == (code/'scripts/pi0294/generalization/minimal_native_owner.py').resolve(),
+           'DISPATCH_SAVED512_ORIGINAL_IMMUTABLE_OWNER_SOURCE')
+    for name, pin in seal['files'].items():
+        e.need(sha(sealed(root, (prefix/name).as_posix(), parse=False)) == pin,
+               'DISPATCH_SAVED512_SOURCE:'+name)
+    audit = sealed(root, 'control/COLD_INPUT_AUDIT.private.json')
+    e.need(sha(root/'control/COLD_INPUT_AUDIT.private.json') == r['cold_input_audit_sha256']
+           and audit['status'] == 'PASS_ACTUAL_MINIMAL_FIRST512_COLD_INPUTS_NO_MODEL'
+           and audit['run_manifest_sha256'] == r['run_manifest_sha256']
+           and audit['source_sha'] == r['source_sha'] and audit['actual_twelve_reader_rows'] == 7212
+           and audit['new_GPU_PBS_model_query_update_physics'] == 0,
+           'DISPATCH_SAVED512_ORIGINAL_REAL_COLD_AUDIT_NOT_A_FIXTURE')
+    return m, r
+
+
 class Owner(OriginalOwner):
     """New sealed metadata process; never calls the old submit/register path."""
     def __init__(self, handoff_root):
@@ -208,7 +291,11 @@ class Owner(OriginalOwner):
         self.root = Path(h['science_root'])
         original = read(self.root/'control/resident-owner/SOURCE_REQUEST.private.json')
         request_path = Path(original['directory'])/'REQUEST.json'
-        self.manifest, self.registered_request = root_context(self.root, request_path, full=True, require_bound=False)
+        selected = adapters.manifest(read(self.root/'RUN_MANIFEST.json'))
+        if selected is adapters.saved512:
+            self.manifest, self.registered_request = unsubmitted_saved512_context(self.root, request_path)
+        else:
+            self.manifest, self.registered_request = root_context(self.root, request_path, full=True, require_bound=False)
         self.CONFIG = read(self.root/'MIX_OWNER_CONFIG.private.json')
         self.binding = read(self.root/'OUTPUT_BINDING.private.json')
         self.adapter = adapters.manifest(self.manifest)
@@ -225,9 +312,15 @@ class Owner(OriginalOwner):
                and os.getuid() == 22182 and os.uname().nodename.startswith('stdct-login-')
                and os.environ.get('CUDA_VISIBLE_DEVICES') == '' and not os.environ.get('PBS_JOBID'),
                'DISPATCH_SAME_SCIENTIFIC_SOURCE_INPUT_REQUEST_CLOCK_AND_PREPAID_BANK')
-        self.retry_predecessor = read(self.root/adapters.PREDECESSOR)
-        from scripts.pi0294.generalization.minimal_retry_runtime_guard import Guard as Physical
-        self.retry_physical = Physical(self.root, self.request_template, self.manifest, lambda **_: None)
+        self.remaining_physical = self.saved512_physical = None
+        if self.adapter is adapters.saved512:
+            self.retry_predecessor = self.retry_physical = None
+            from scripts.pi0294.generalization.minimal_saved512_physical import Guard as Physical
+            self.saved512_physical = Physical(self.root, self.request_template, self.manifest, lambda **_: None)
+        else:
+            self.retry_predecessor = read(self.root/adapters.PREDECESSOR)
+            from scripts.pi0294.generalization.minimal_retry_runtime_guard import Guard as Physical
+            self.retry_physical = Physical(self.root, self.request_template, self.manifest, lambda **_: None)
         self.last = self.current = self.running = None
         self.cold_rpc_bound = self.preserve_readonly_until_deadline = True
         self.previous = SimpleNamespace(rpc=self.heartbeat_rpc)
@@ -272,6 +365,9 @@ class Owner(OriginalOwner):
         e.need(future['cap_changes_required'] == {} and quota['report_age_s'] <= 3600
                and quota['available_bytes_lower'] >= future['dimensions']['Hopper_storage_bytes']['projected']
                     -read(self.global_path)['new_storage_current_bytes'], 'DISPATCH_FULL_FUTURE_AND_FRESH_SITE_QUOTA')
+        if self.adapter is adapters.saved512:
+            from scripts.pi0294.generalization.minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+            self.saved512_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
         current = self.setup.call('CURRENT_EFFECTIVE_QUEUE', 'READ_ONLY',
                                  lambda intent, limit: collect_effective_queue(walltime_s=r['walltime_s']))
         effective_queue(raw(current), created_epoch=time.time(), walltime_s=r['walltime_s'])
@@ -292,7 +388,13 @@ class Owner(OriginalOwner):
                                timeout=min(limit, 40), env=env)
             e.need(q.returncode == 0, 'DISPATCH_QSUB_UNKNOWN_NEVER_REPLAY')
             return json.loads(q.stdout)
-        self.record('SOURCE_QSUB_INTENT', dict(request_id=r['request_id'], first_dispatch_only=True))
+        if self.adapter is adapters.saved512:
+            # The unchanged compute capsule consumes this exact original path.
+            # It is written for the first time, before the single qsub call.
+            dispatch_intent = saved512_dispatch_intent(self.root, directory, r, current, now_epoch=time.time())
+        else:
+            dispatch_intent = dict(request_id=r['request_id'], first_dispatch_only=True)
+        self.record('SOURCE_QSUB_INTENT', dispatch_intent)
         reply = self.setup.call('QSUB', 'MUTATION', qsub)
         self.record('SOURCE_QSUB_REPLY', reply)
         e.need(reply['returncode'] == 0 and re.fullmatch(r'[0-9]+\.stdct-mgmt-02', reply['stdout']),
