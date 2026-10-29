@@ -2,7 +2,7 @@
 
 **共享四任务源组件继续实现：** [物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)共37项CPU检查通过，其中MuJoCo仅编译门/书两个无机器人物体fixture并做零积分FK。完整ARX5源执行、独立最终任务审计、技能示范、模型训练和任务效果均未新增；S1仍独立用于冻结WBC承接，E1/E2与原DEC1不被改写。
 
-**S1运行交付增量：** [完整工作器冷态接线](docs/analysis/2026-10-29/GO2_ARX5_S1_SCOPE_AND_NATIVE_PREFLIGHT.md)已有原生命周期、EEF10持久阶段路径、参考衔接检查、同启动内当前ACK/cancel/HOLD资格和原registry/onceIO采用程序；28项CPU检查通过。原入口资格及Core80＋PC120核秒等准备费用保持。完整新胶囊实际采用/原生资格尚未执行，四次物理0/4，未新增接触或任务成功。
+**S1有限开发已实际收尾，仍无任务成功：** [三次启动及完整终态](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)包括一次预约前身份错误，以及T1/T2各一次原生初始化后工程中断。实际积分5000、计费5006、任务RGB0；T2已通过实际参考安装、cancel/HOLD及WBC回切，但首个任务意图的NumPy布尔值序列化失败。发布调用曾发生，接收端无接受回执，不能用空日志推断零发布；没有已执行任务区间。原准备费用、失败原件保留，own lease已CLOSED，剩余条件确认不能改作重试。同一实际保存状态已零新增物理复现错误并验证修复；30项定向CPU检查通过，新修复未用于物理运行。[两任务有界恢复提案](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)尚待新的明确批准，不延长原时钟或增加CPU/存储额度。
 
 **S1证据与范围：** 有限4启动已获用户直接批准，十天额外范围/延期未自动采用。四段T1/T2接近/下降参考已通过保存状态下500Hz运动学、碰撞和原关节速率复核；下降起点是未来计划构型，不能算实际到达。早期三个Teacher系列共12条只是部分历史，不合并成功率；更晚SDR3有0.57秒真实右pad接触但无抓持/成功，TF-R3 E2原ILLEGAL_CONTACT安全失败保留。详见[当前完整证据与执行缺口](docs/analysis/2026-10-29/GO2_ARX5_S1_SCOPE_AND_NATIVE_PREFLIGHT.md)，成功整机示范仍0。
 
