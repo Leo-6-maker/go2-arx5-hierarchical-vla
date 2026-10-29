@@ -78,3 +78,20 @@ def test_exact_legacy_probe0600_is_readonly_content_checked_not_tensor_policy(tm
     tensor=tmp_path/'model.safetensors';tensor.write_bytes(b'tensor fixture');tensor.chmod(0o600);ts=tensor.stat()
     tw=dict(inode=ts.st_ino,bytes=ts.st_size,mtime_ns=ts.st_mtime_ns,ctime_ns=ts.st_ctime_ns,sha256=e.sha(tensor.read_bytes()))
     with pytest.raises(PermissionError):verify_witness(tensor,tw,science=tmp_path,legacy_probes={})
+
+
+def test_retained_previous_guard_keeps_original_close_reserve():
+    from scripts.pi0294.generalization import minimal_remaining_physical as prior
+    where=os.environ.get('ARX5_CURRENT_REMAINING_CAPTURE_DIR')
+    if not where:pytest.skip('Actual adopted complete history required')
+    import gzip
+    v=json.loads((Path(where)/'SAVED512_RECOVERY_CONTROL01_NATIVE_INDEPENDENT_AFTER_EXACT_STALE_ZERO.private.json').read_bytes())
+    g=json.loads(gzip.decompress(base64.b64decode(v['GLOBAL_gzip_base64'])))
+    m,row=adapters.remaining.basic(g);p=deepcopy(m['terminal']['physical']);custody=m['physical_custody'];now=p['observed_epoch']
+    p['next_output_upper_bytes']=0
+    with pytest.raises(PermissionError):prior.check_proof(p,custody,row,now_epoch=now,observed_epoch=now)
+    p['next_output_upper_bytes']=prior.CONTROL_GROWTH_RESERVE
+    assert prior.check_proof(p,custody,row,now_epoch=now,observed_epoch=now)==p
+    tree=ast.parse(Path('scripts/pi0294/generalization/minimal_saved512_physical.py').read_text())
+    calls=[n for n in ast.walk(tree)if isinstance(n,ast.Call)and isinstance(n.func,ast.Attribute)and n.func.attr=='inspect'and isinstance(n.func.value,ast.Attribute)and n.func.value.attr=='prior']
+    assert len(calls)==1 and isinstance(calls[0].keywords[0].value,ast.Name)and calls[0].keywords[0].value.id=='CONTROL_GROWTH_RESERVE'
