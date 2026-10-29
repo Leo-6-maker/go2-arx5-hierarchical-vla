@@ -1,46 +1,50 @@
-# Codex接续：Rerun已具备后的科学主线 V6
+# Codex接续：V6职责与执行修订
 
-## 后继实际覆盖：1505362原生F1，E1保存512，导出noise模式接缝待原生复核
+2026-10-29，Asia/Singapore。基线main `636c192418a3180facef4fba11a61d462cf3ca3f`。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)、[当前科学状态](../../../CURRENT_SCIENCE_STATUS.md)和AGENTS。只修订职责、事实和执行依赖，不另开路线／调度体系；root唯一整合／mutation owner，不重启subagent或暂停自动化。
 
-最新[实际失败与冷修复报告](../../../reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)覆盖旧R/健康owner/E1未完整叙述。E1的512优化和原12TRAIN探针已真实完成，完整状态保留；正式E2仍0/512。不能把ordinary export的保存标志当重载等价PASS。实际两输出同观测同seed但noise不同；原probes恢复训练flag后直接head.get_action绕过forward hook，cold draw现固定整图eval，37项定向CPU通过，尚未native部署。原结算SETTLE的UNKNOWN/PENDING和费用上界永久保留；精确证实原CAS未发生后，有限CPU收尾已原once完成4162GPU秒/3585CPU秒结算与own CLOSED，新GLOBAL b9051697/lease1ddde926、完整15315159字节及两对intent/receipt均独立匹配，finite wrapper/child自然OS0。禁止重放旧请求/死owner/qsub或重训E1。CPU完整状态审计/原生恢复校验后，才按完整剩余资源与保护接E2 fresh原始父512。
+## 当前原件优先于旧快照
 
+E1@512完整状态／普通导出已独立审计，1506193同实际noise／输入输出逐项精确一致；可独立交付，不重训、不重复查询／同一tensor审计。E2两步资格已完成，正式122步／cursor3904后因Vanda只读ESTALE中断，无完整正式checkpoint；1506193已真实F1、一次结算2526 GPU秒／1825 siteCPU秒，两lease关闭，旧owner／wrapper终态。GLOBAL c44d96fb… used40 PBS／15424更新／5972查询，unknown／pending为空。所有失败、费用和旧UNKNOWN保留，旧写禁止重放。
 
-2026-10-29。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)和main的AGENTS。保持root唯一整合/原生mutation owner，不重启暂停自动化或subagent。
+E1推理包10文件／12,576,325,049字节已纯准备，尚未HF上传／Core交付／加载。人类直接批准仅PBS43→44，尚未原生采用；不再申请同一GO。新E2只从原始父fresh512，保持12示范／逐cursor／batch32／1024 LR／原参数范围、R0、EEF10、H40／Prefix8、四步推理及评分，不用E1、资格step2或不存在的122恢复。
 
-## 最新起点：PR99已有实际结果，不重复前缀
+D25／GEN1各1024完成，D25已交付，均0／24有效Eval；不是0%成功。C50原24为6成功，全部有效失败不重跑。Core已恢复挂载并真实登录，历史根因调查由管理员继续；不是两站实验必须等待的条件。
 
-证据main `7d5794fb4f4e1998c0ce97e9e4f0528364dced1c`。已独立核验E0 39查询、E1两步资格/14目标参数变化/完整Trainer保存恢复和输出一致；E2只有15份零步输出、优化0。正式E1/E2仍0/512。job1504095及自己的lease已关闭。
+## 固定职责
 
-**完整saved-prefix审计已PASS、PBS41→42/一次控制范围已实际采用、Core LOCAL38条终态历史已实际补齐。** 引用[实际回执](../../../reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。旧“审计/采用未完成”不得继续当当前阻断。
+- Vanda：训练、有限离线诊断、完整保存与合格推理导出。PBS后台独立完成各阶段，不等PC／AMD／Core心跳。
+- AMD：共享存储、登录跳转、受控归档、小型元数据。禁止新Teacher／模型／重CPU，不改NFS／磁盘／SSH／系统服务／凭据。见[保护边界](../../operations/2026-10-29_AMD_INFRASTRUCTURE_PROTECTION.md)。管理员系统隔离尚未由此部署。
+- gpu4080s：推理、MuJoCo物理、已获准Teacher与闭环Eval；Eval优先于新采集，不默认并行争用仿真／渲染／IO。
+- PC：开发审阅、有限分析和Rerun只读解释，不作为远端存活条件。
 
-尚未新增request/qsub、正式训练或D25有效Eval。只核当前身份仍与原件一致，冷态绑定剩余任务；不重做同一完整大文件流读、cap采用、LOCAL补账、结算或模型交付。真实文件变化或新完整性缺陷才针对性复核。
+模型仍走已授权HF固定revision／完整成员SHA，不能公开训练数据、raw、RRD、私有mesh或凭据。两站启动前核范围／唯一登记，运行独立，终态再汇总；不取消全局防重复和UNKNOWN约束。
 
-## Vanda：执行剩余原研究
+## Vanda：E1交付与E2独立推进
 
-1. 将已通过audit/closed/effects接入新的剩余suffix身份，保持原父/数据/source和已发生2更新/71查询/5加载。不是旧零效果重试，不重启1504095。
-2. 补E2缺失资格；剩余原生上界1026更新/76查询/7加载。E0/E1前缀不重算，必要E2重载检查在该范围计数。
-3. 正式E1/E2各从raw父fresh开始512步；不能从资格step2续训。保持12父、逐cursor、batch32、1024 LR日程、R0/EEF10/H40/Prefix8、原数值和评分。
-4. 沿批准的一份Vanda allocation串行两臂，独立完整保存/卸载/加载；不重新开发同机Eval。每臂保留optimizer/scheduler/RNG/sampler/Processor，核推理包重建一致。
+1. 复用E1完整状态／导出／真实输出等价证据，按原推理传输清单上传一次、固定revision回读，再在Core校验并实际加载。完整恢复状态留Vanda。E1交付不得等待E2、报告整理或所有历史断联根因。
+2. 对新E2冷态采用人类批准PBS44，并按fresh canonical GLOBAL／完整未来资源／配额／队列／设备核定独立新request。已完成1506193不重开，旧122费用不退款。
+3. 原后台有限只读ESTALE处理保留真实失败，不放陈旧heartbeat／release，不重试mutation／优化，不扩大watchdog。
+4. 启动前接原Trainer完整周期保存：256与512，至多两份完整状态，固定512作科学端点；只为故障恢复，不按DEV择优、删旧状态或自动新增作业。原E2资格完整状态实测23,044,946,201字节，每份冷态上界26GB；两份52GB＋16GB推理＋2GB本root源码／控制／临时＝原70GB。旧全部roots仍计原144,294,967,296 gross池。实际文件大小、临时峰值、I/O和可恢复性尚须在新cold source／原生资格核实，不能凭计划声称已实施。
+5. 完整正式512、cursor16384、15成员、原12TRAIN／24language、同实际noise导出重建与真实终态／结算关闭后，才称合格E2端点。训练loss不代替行为。
 
-## Core：D25→GEN1→两臂512 Eval
+## Core：D25第一，之后固定非抢占就绪规则
 
-1. 复用PR99已经补齐的LOCAL和原已付范围；D25旧冷manifest仍需新不可变后继绑定。运行不SSH Vanda、不查其队列或心跳。
-2. 已交付D25原地核身份，不重传或重训。保留本作业原600秒/80周期、原S1/任务评分，不能移用旧PASS。
-3. 完成D25原N294101/24，复用C50原24计算D−C。之后GEN1原24，再在E1/E2固定端点就绪时各24。有效失败不重跑，工程缺失单列。
-4. 旧模型成功率不是新研究GO门；合法测量链和范围才是。两站独立线可按已采用范围并行。
+1. 先精确核原UNKNOWN、真实进程、canonical LOCAL和已有D25身份；不重做已交付模型、不重发旧安装／启动／结算。
+2. 下一冷态启动核源码、解释器／库／容器、模型／数据、工作目录、缓存／临时、控制／锁／心跳、日志及输出的实际节点本地路径。已本地且身份正确部分复用；不重装、不热迁移、不删旧产物。不能只看.cache软链接。
+3. 原生本作业600秒／80周期、进程／设备／资源、STOP、S1与评分保持；运行不访问Vanda实时队列或heartbeat。
+4. **先D25完整原N294101／24，形成D−C。** 此后每个面板边界在已合格就绪候选中按E1→E2→GEN1优先选择；E1／E2未就绪时GEN1用空档。面板一旦开始连续完成，不为中途成绩／新模型到达而中止、换噪声或重跑有效失败。E1早期结果不能改E2配方。
+5. E1／E2各原24，收齐后几何配对；GEN1结果单列同父／曝光与DEV局限。不要把模型可加载、完整训练和实际成功率混写。
 
-## PC：只读分析支持，不新增前置
+## PC：已有四条整机失败现在分析，不扩Viewer
 
-Rerun沿官方Viewer和薄适配器。当前Teacher各41/641、失败2/224是稀疏，不称全轨迹。最多补Teacher T1/T2、C50成功与失败四类原件，先失败关键时间线；无带宽则Core原地分析传小索引，不重采。
+用[四次固定Teacher原件](../../../reports/PI0294/design/WDR1_ACTUAL_FROZEN_TARGET_READBACK_AND_TIME_WIRE_CPU_20261023.json)核已安装参考、同时间TCP、机身、物体／夹爪、ACK／STOP与阶段：0／4成功，其中1安全失败、3完整任务质量失败，无合格TRAIN。这不是GR00T失败率或core64。
 
-actual、H40 proposed、committed prefix、NOT_EXECUTED预测分层；无原时间戳不捏造秒时间，full qpos/mesh不是门槛。只更新已有Failure Atlas的机制映射，不建新播放器/调度器。
+只在已有Failure Atlas补一张证据表：首次分歧、可观测信号、原判据、缺失量、候选机制、下一项可证伪检查。不插值／补零冒充实测，不新模型／物理，不扩播放器；保留稀疏声明。之后有限整机资格独立范围，不等源域达到任意成功率，原DEC1固定CORR／R0与目标少样本适配分开。
 
-## 验收与边界
+## 五项验收和停止边界
 
-当前先交D25完整配对、E1/E2固定512和后继行为结果；负结果也完成研究。不自动加步数/LoRA/新比例/柜门/书架/BASE，不改WBC。
+交付只盯：E1实际Core可加载；D25完整24／D−C；E2正式512完整恢复／推理端点；E1−E2同条件行为与成本；四条整机原件定位的一项可检验问题。PR、CPU测试和管理回执仅作支持证据。
 
-原stop-new为2026-10-31 20:52:29.813 SGT，hard deadline为2026-11-01 20:52:29.813 SGT；长期阶段另有有效范围。本计划不延期、不采用新额度、不启动作业。
+stop-new仍2026-10-31 20:52:29.813 SGT，hard deadline仍2026-11-01 20:52:29.813 SGT。PBS44批准只覆盖原窄接续，不加其他caps、不动matrix3／最终20 GPU小时40 GiB。新LoRA、参数范围、比例、1024延长、整机EEF13／柜门扩采均不自动启动。长期后继需独立有效范围。
 
-普通同范围问题自主最小冷修；有差分再原生尝试，UNKNOWN先查效果，不重启健康或闭合job。外部权限、安全、资源或科学变量真变化时一次报告精确阻断，独立线继续。
-
-每次回报实际时间/source、新增有效条件/更新/端点、工程和科学状态、下一动作、资源/截止。main普通PR及固定SHA回读，私有raw/模型/RRD不入Git。新原生回执优先，若后续已经启动/完成，直接接剩余步骤。
+本修订是计划和执行依赖更新，不是新原生采用／提交／模型交付／物理资格。当前事实回读后只接剩余工作，常规同范围工程自主冷修，不重复问GO；任务和完整goal仍未完成。
