@@ -1,6 +1,6 @@
-"""Existing registered owner's finite left/right child sequence and closeout.
+"""Existing registered owner's finite predeclared source sequence and closeout.
 
-Two predeclared tasks, no retries or external-site runtime calls. Each child
+One fixed task pair or both pairs, no retries or external-site runtime calls. Each child
 and the separate raw auditor use the same standard entry and one night account.
 """
 import hashlib,json,os,resource,subprocess,sys,time
@@ -17,33 +17,79 @@ def put(path,value):
     with os.fdopen(fd,'wb')as f:f.write(raw(value));f.flush();os.fsync(f.fileno())
 
 
-def main(root):
+def reserve_audit(root,side,task_kind):
+    """Charge the separate auditor before its process, on the same account."""
+    if side not in('left','right')or task_kind not in('BOOK','ROBOCASA_CABINET'):
+        raise ValueError('FIXED_SOURCE_AUDITOR_IDENTITY')
+    path=Path(root)/'control/NIGHT_SOURCE_ACCOUNT.json';before=path.read_bytes();v=json.loads(before)
+    if not v['native_adopted']:raise PermissionError('ORIGINAL_NATIVE_SOURCE_ACCOUNT_REQUIRED')
+    op=('BOOK_'if task_kind=='BOOK'else'CABINET_')+side.upper()+'_INDEPENDENT_RAW_AUDIT'
+    w=scope.reserve(v,operation=op,kind='PREPARATION',upper=dict(Core_CPU_s=40),now=time.time())
+    key='NIGHT30-'+op
+    return once.commit(path,expected_before_sha256=sha(before),proposed_bytes=raw(w),request_id=key,
+        intent_path=path.with_name(key+'.INTENT.json'),receipt_path=path.with_name(key+'.RECEIPT.json'),
+        lock_path=path.with_name('NIGHT_SOURCE_ACCOUNT.owner.lock'))
+
+
+def planned_tasks(task_kind):
+    if task_kind=='BOOK':return(('BOOK','left'),('BOOK','right'))
+    if task_kind=='ROBOCASA_CABINET':return(('ROBOCASA_CABINET','right'),('ROBOCASA_CABINET','left'))
+    if task_kind=='ALL_PINNED':return planned_tasks('BOOK')+planned_tasks('ROBOCASA_CABINET')
+    raise ValueError('FIXED_SOURCE_CHAIN_KIND')
+
+
+def checked_plan(root,task_kind):
+    """Reject incomplete mixed-task staging before the first child effect."""
+    plan=planned_tasks(task_kind);root=Path(root)
+    fixed=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())
+    from .libero_book_cards import cards as book_cards
+    from .robocasa_cabinet_cards import cards as cabinet_cards
+    for kind,side in plan:
+        selected=(fixed[kind]if kind in fixed else fixed)[side]
+        expected=(book_cards if kind=='BOOK'else cabinet_cards)()[side]
+        if selected!=expected:raise PermissionError('ONE_SEALED_PREDECLARED_TASK_CARD_PER_CHILD')
+    if any(kind=='ROBOCASA_CABINET'for kind,_ in plan):
+        assets=json.loads((root/'ASSET_BINDINGS.private.json').read_bytes())
+        definitions=assets.get('robocasa_definition_members',{});textures=assets.get('robocasa_texture_members',{})
+        if (set(definitions)!={'cabinet_single','slab','bar_handle'}or set(textures)!={'wood','metal'}
+                or any(key not in assets['files']for key in[*definitions.values(),*textures.values()])):
+            raise PermissionError('ALL_MIXED_TASK_ASSET_BINDINGS_BEFORE_FIRST_CHILD')
+    return plan
+
+
+def main(root,*,task_kind='BOOK'):
+    planned_tasks(task_kind)
     root=Path(root);start=time.monotonic()
     if os.getuid()!=2009 or os.uname().nodename!='corelab-4080s':raise PermissionError('EXISTING_CORE_OWNER_ONLY')
     scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
+    plan=checked_plan(root,task_kind)
     entry=root/'entry/infrastructure/enter.sh'
     unit_facts=dict(pid=os.getpid(),process_start_ticks=Path('/proc/self/stat').read_text().split()[21],
         cgroup=Path('/proc/self/cgroup').read_text(),uid=os.getuid(),host=os.uname().nodename,
-        pc_or_external_site_runtime_dependency=False,predeclared_tasks=['left','right'],automatic_retry=False,
+        pc_or_external_site_runtime_dependency=False,predeclared_tasks=[dict(task_kind=k,side=s)for k,s in plan],task_kind=task_kind,automatic_retry=False,
         deadline_epoch=scope.DEADLINE,observed_epoch=time.time())
     put(root/'control/ACTUAL_DETACHED_OWNER_STARTED.json',unit_facts)
     results=[]
-    for side in('left','right'):
+    for kind,side in plan:
+        worker='night_book_worker'if kind=='BOOK'else'night_cabinet_worker'
+        auditor='night_book_audit'if kind=='BOOK'else'night_cabinet_audit'
+        prefix='LIBERO_'if kind=='BOOK'else'ROBOCASA_'
         if time.time()>=scope.STOP_NEW or (root/'STOP.json').exists():break
         command=['/bin/bash',str(entry),'4080-simulation','python','-B','-m',
-            'scripts.pi0294.multitask.night_book_worker',str(root),side]
-        with (root/'logs'/(side+'.log')).open('xb')as log:
+            'scripts.pi0294.multitask.'+worker,str(root),side]
+        with (root/'logs'/(prefix+side+'.log')).open('xb')as log:
             try:
                 child=subprocess.run(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,timeout=min(600,scope.DEADLINE-time.time()-30))
                 status=child.returncode
             except subprocess.TimeoutExpired:
                 status='WALL_TIMEOUT_NO_RETRY'
-        folder=root/'outputs'/('LIBERO_'+side.upper()+'_FIRST01')
-        row=dict(side=side,OS_exit_status=status,raw_terminal_exists=(folder/'TERMINAL.json').exists())
+        folder=root/'outputs'/(prefix+side.upper()+'_FIRST01')
+        row=dict(task_kind=kind,side=side,OS_exit_status=status,raw_terminal_exists=(folder/'TERMINAL.json').exists())
         if row['raw_terminal_exists']:
             # A distinct process independently reads the actual saved raw bytes.
-            audit_code='import sys,json;from pathlib import Path;from scripts.pi0294.multitask.night_book_audit import audit;print(json.dumps(audit(Path(sys.argv[1]))))'
+            audit_code='import sys,json,resource;resource.setrlimit(resource.RLIMIT_CPU,(30,30));from pathlib import Path;from scripts.pi0294.multitask.'+auditor+' import audit;print(json.dumps(audit(Path(sys.argv[1]))))'
             try:
+                reserve_audit(root,side,kind)
                 q=subprocess.run(['/bin/bash',str(entry),'4080-simulation','python','-B','-c',audit_code,str(folder)],
                     stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=30)
                 row['audit_OS_exit_status']=q.returncode
