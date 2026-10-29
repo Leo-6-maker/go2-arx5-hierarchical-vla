@@ -16,6 +16,8 @@
 
 - **Vanda saved512接续1506193已真实R／GN-A40-033，首次qsub、绑定及独立完整队列回读已完成。** [实际回执](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_EXISTING_REGISTER40_FIRST_ACTUAL_QSUB_AND_BACKGROUND_HANDOFF_20261029.json)：2026-10-29 12:15 SGT，unknown／pending为空，后台原生owner和wrapper同kernel健康。只复用原PBS40登记，无新预付或计数；source769c、metadata446ac8。顺序为E1已审计512推理验证（0新更新）→E2从原始父模型fresh512；当前新模型加载／查询／更新仍0，不把R称为模型资格通过。原登记回包UNKNOWN、安装键名及解析失败和费用保留；新metadata角色已完整核验，不热改或重启。Core连接由管理员处理，Vanda运行不等Core。
 
+- **已有E0语言诊断新增只读分析：** 六个TRAIN接近阶段观测、12个实际同噪声指令对，前8步位置差中位数0.256毫米；固定指令换噪声为143.089毫米。[方法与局限](docs/analysis/2026-10-29/E0_SAVED_LANGUAGE_RESPONSE.md)。不等于忽略语言、监督拟合或闭环成功；新增模型调用0，原配方不改。
+
 - A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。该旧作业未执行正式训练；后继当前终态见下条。
 - **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。
