@@ -1,0 +1,223 @@
+{
+  "schema": "FINITE_TASK_GEOMETRY_AND_EEF10_REFERENCE_ACTUAL_V1",
+  "date": "2026-10-29",
+  "timezone": "Asia/Singapore",
+  "status": "T1_STATIC_PRECONTACT_REFERENCE_PREPARED_T2_PATH_UNRESOLVED_NO_NATIVE_EXECUTION",
+  "base_code_sha": "3de3c9774f3b91694447138b5ff9e2c8e505e598",
+  "original_closed_source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+  "source_condition": "V2_DEV_W0_T1_FIRST_ACTUAL_STATE",
+  "model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+  "actual_sample_file_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961",
+  "new_task_geometry_proposal": true,
+  "WBC_bias_or_gain_changes": false,
+  "candidate_basis": "OBJECT_OBB_SYMMETRIC_VERTICAL_AND_PLUS_MINUS_30_DEGREES_NOT_TRACKING_RESIDUAL_FIT",
+  "candidate_preplan_sha256": "d357edc23624ba31e89b5dc3ea05a5e3ceb2e25ff137680a92e50cf1f351620c",
+  "candidate_results": [
+    {
+      "candidate": "VERTICAL",
+      "status": "REUSED_ORIGINAL_NEGATIVE",
+      "receipt": "VERSIONED_STATIC_PROBE_RESULT_02.private.json"
+    },
+    {
+      "candidate": "TILT_NEG30",
+      "planning": {
+        "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+        "launch_allowed": false,
+        "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+        "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+        "seed": 294,
+        "IK_initializations": 20,
+        "RRT_planning_time_s": 2.0,
+        "normal_sample_period_s": 0.05,
+        "joint_witness_is_student_or_controller_action": false,
+        "dynamic_reachability_proved": false,
+        "new_physics": 0,
+        "new_neural_queries": 0,
+        "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+        "native_configuration_check": {
+          "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+          "samples": 63,
+          "max_joint_segment_rad": 0.02,
+          "violations": [],
+          "whole_robot_model_used": true,
+          "continuous_swept_collision_proved": false,
+          "physical_execution_qualified": false
+        },
+        "planner_duration_s": 1.9710318554628714
+      },
+      "path_produced": true,
+      "PLANNED_endpoint_geometry_not_actual_contact": {
+        "precontact_geometry_ready": true,
+        "actual_gap_m": 0.0850480549327089,
+        "encloses_object_y": true,
+        "overlaps_object_x": true,
+        "pads_above_actual_object": true,
+        "within_precontact_slab": true,
+        "launch_allowed": false,
+        "grasp_success": false,
+        "whole_robot_clearance": "UNQUALIFIED"
+      },
+      "path_samples": 39,
+      "path_duration_s": 1.9710318554628714,
+      "joint_start_difference_rad": 0.0
+    },
+    {
+      "candidate": "TILT_POS30",
+      "planning": {
+        "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+        "launch_allowed": false,
+        "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+        "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+        "seed": 294,
+        "IK_initializations": 20,
+        "RRT_planning_time_s": 2.0,
+        "normal_sample_period_s": 0.05,
+        "joint_witness_is_student_or_controller_action": false,
+        "dynamic_reachability_proved": false,
+        "new_physics": 0,
+        "new_neural_queries": 0,
+        "status": "PLANNING_FAILED_NO_FEASIBLE_PATH_CERTIFIED",
+        "planner_reason": "IK Failed! Cannot find valid solution.",
+        "impossibility_proved": false
+      },
+      "path_produced": false
+    }
+  ],
+  "candidate_calls_this_phase": 2,
+  "original_vertical_failed_probe_reused": true,
+  "candidate_selected_for_static_reference_preparation": "TILT_NEG30",
+  "candidate_selected_for_physics": null,
+  "retiming": {
+    "status": "TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED",
+    "factor": 3.1,
+    "duration_s": 6.15,
+    "samples": 124,
+    "linear_max_m_s": 0.05953935881487733,
+    "angular_max_rad_s": 0.2307706837324306,
+    "configuration_check": {
+      "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+      "samples": 124,
+      "max_joint_segment_rad": 0.02,
+      "violations": [],
+      "whole_robot_model_used": true,
+      "continuous_swept_collision_proved": false,
+      "physical_execution_qualified": false
+    },
+    "continuous_swept_collision_proved": false,
+    "physical_execution_qualified": false,
+    "launch_allowed": false
+  },
+  "wire_CPU_exercise": {
+    "schema": "FINITE_GEOMETRY_TIMED_EEF10_WIRE_CPU_RESULT_V1",
+    "retiming": {
+      "status": "TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED",
+      "factor": 3.1,
+      "duration_s": 6.15,
+      "samples": 124,
+      "linear_max_m_s": 0.05953935881487733,
+      "angular_max_rad_s": 0.2307706837324306,
+      "configuration_check": {
+        "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+        "samples": 124,
+        "max_joint_segment_rad": 0.02,
+        "violations": [],
+        "whole_robot_model_used": true,
+        "continuous_swept_collision_proved": false,
+        "physical_execution_qualified": false
+      },
+      "continuous_swept_collision_proved": false,
+      "physical_execution_qualified": false,
+      "launch_allowed": false
+    },
+    "candidate_preplan_sha256": "d357edc23624ba31e89b5dc3ea05a5e3ceb2e25ff137680a92e50cf1f351620c",
+    "candidate_family_module_matches_presealed_bytes": true,
+    "normal_H40_decisions": 80,
+    "CPU_interval_accounting": 640,
+    "observations": 641,
+    "wire_XYZ_max_abs_difference_m": 2.7755575615628914e-17,
+    "wire_SO3_max_angle_rad": 2.9802322387695312e-08,
+    "parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "parser_deployed_identity_verified": false,
+    "ACK_evidence": "SYNTHETIC_CPU_ONLY_NOT_NATIVE_INSTALLATION",
+    "observations_in_clock_exercise": "SYNTHETIC_PRIVATE_FK_REFERENCE_WITH_ONE_MM_PERTURBATION_NOT_NEW_ACTUAL_ROLLOUT",
+    "dataset_action_labels_exported": false,
+    "new_physics": 0,
+    "new_native_installs": 0,
+    "new_neural_queries": 0,
+    "task_success": false,
+    "stage_transition_forced_by_time": false,
+    "launch_allowed": false,
+    "path_sha256": "99dc74f20f170cfa6b5fab7d039b6c5856e12edf06b6690dc0f8aec8ae9dd222",
+    "parser_current_native_source_hash_match": true,
+    "parser_running_process_identity_verified": false
+  },
+  "current_native_parser_source_match": {
+    "status": "HASH_READ",
+    "sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "bytes": 13940,
+    "remote_writes": 0,
+    "local_parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "local_source_matches_current_native_source": true
+  },
+  "T2_single_original_push_goal_same_actual_snapshot": {
+    "proposal_sha256": "6ad5dda125ba83d7ebcd1fdaeca2b34c91e07ba6731894a322b08122797e90a7",
+    "planning": {
+      "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+      "launch_allowed": false,
+      "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+      "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+      "seed": 294,
+      "IK_initializations": 20,
+      "RRT_planning_time_s": 2.0,
+      "normal_sample_period_s": 0.05,
+      "joint_witness_is_student_or_controller_action": false,
+      "dynamic_reachability_proved": false,
+      "new_physics": 0,
+      "new_neural_queries": 0,
+      "status": "PLANNING_FAILED_NO_FEASIBLE_PATH_CERTIFIED",
+      "planner_reason": "IK Failed! Cannot find valid solution.",
+      "impossibility_proved": false
+    },
+    "path_produced": false,
+    "actual_input_is_T1_snapshot": true,
+    "no_T2_actual_rollout": true,
+    "new_physics": 0
+  },
+  "T2_snapshot_is_not_an_actual_T2_rollout": true,
+  "new_code_hashes": {
+    "scripts/pi0294/task_path_planning.py": "6b841f11aa04a015d10264906a1d0633460898ac31680d61df2d30b111736df3",
+    "scripts/pi0294/task_path_reference.py": "bf5dc40dbf78620f2b77f759085672457f11ee76856314666ec2e499519dd976"
+  },
+  "private_receipt_hashes": {
+    "FINITE_GEOMETRY_CANDIDATES_PREPLAN.private.json": "d357edc23624ba31e89b5dc3ea05a5e3ceb2e25ff137680a92e50cf1f351620c",
+    "FINITE_TASK_GEOMETRY_RESULT.private.json": "ffc777156b1bfd4776852ee276d6d9c40d55e2dc6da7820a791cac981410b231",
+    "VERSIONED_TIMED_REFERENCE_WIRE_CPU.private.json": "19a46b1d3a71b7e508732f8f2e46f6a05998fb59927d91c0225e82f825638ace",
+    "T2_SAME_SNAPSHOT_PREPLAN.private.json": "6ad5dda125ba83d7ebcd1fdaeca2b34c91e07ba6731894a322b08122797e90a7",
+    "T2_SAME_SNAPSHOT_STATIC_RESULT.private.json": "c2afe796bfe030775e328719818b1319d944651545f8a3650f49592bf954f20f",
+    "CURRENT_NATIVE_PARSER_HASH.private.json": "2652c9744b712787f665a4ea5c8adc33c62633103d8a306ef5f02614b16cf112"
+  },
+  "validation": {
+    "focused_tests_passed": 15,
+    "covered": "six path-reference/candidate checks, four full-model boundary checks, two original time-alignment checks, three original prefix clock/contract checks",
+    "prior_failing_fixture_preserved": "initial test used a rounded gripper endpoint literal just outside original working bound; fixture corrected to call original physical-fraction mapping; no bound changed",
+    "new_actual_native_installs": 0,
+    "CPU_ACKs_are_synthetic": true,
+    "dataset_labels_exported": false,
+    "CI_claimed": false
+  },
+  "remaining": [
+    "FULL_CURRENT_T1_CONTACT_GRASP_RELEASE_AND_T2_PUSH_PATHS",
+    "GRIPPER_AND_WHOLE_BODY_SWEPT_ACCESS_IF_REQUIRED",
+    "CURRENT_NODE_LOCAL_RUNTIME_AND_EXPLICIT_NEW_PHYSICAL_SCOPE",
+    "REAL_INSTALL_POLICY_CONSUMPTION_SAFETY_AND_STOP",
+    "ACTUAL_T1_T2_COMPLETE_TASK_CONFIRMATION"
+  ],
+  "new_physics": 0,
+  "new_neural_queries": 0,
+  "new_training_updates": 0,
+  "new_PBS": 0,
+  "new_remote_workers": 0,
+  "launch_allowed": false,
+  "successful_target_demonstrations": 0,
+  "overall_goal_complete": false
+}

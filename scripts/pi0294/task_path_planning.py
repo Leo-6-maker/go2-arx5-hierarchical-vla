@@ -20,6 +20,30 @@ NATIVE_JOINTS = tuple('x5_joint'+str(i) for i in range(1, 7)) + ('task_left_slid
 VERSION = 'ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1'
 
 
+def grasp_precontact_candidates(object_world):
+    """Fixed OBB-derived T1 family, a new task geometry proposal only.
+
+    Declare every candidate before planning. Symmetric 30-degree tool tilts are
+    grasp choices, not corrections fitted to WBC tracking residuals. All failed
+    plans remain in the candidate table. Native contact/clearance is still needed.
+    """
+    obj = pose(object_world)
+    if obj[2, 2] < .999:
+        raise ValueError('UPRIGHT_TABLETOP_CUBE_GEOMETRY_REQUIRED')
+    downward = np.array([[0., 0., 1.], [0., 1., 0.], [-1., 0., 0.]])
+    result = []
+    for name, angle in (('VERTICAL', 0.), ('TILT_NEG30', -np.pi/6), ('TILT_POS30', np.pi/6)):
+        c, s = np.cos(angle), np.sin(angle)
+        ry = np.array([[c, 0., s], [0., 1., 0.], [-s, 0., c]])
+        goal = np.eye(4)
+        goal[:3, :3] = obj[:3, :3] @ downward @ ry
+        goal[:3, 3] = obj[:3, 3]+[0., 0., .08]
+        result.append(dict(id=name, goal_world=goal, tool_local_y_tilt_rad=angle,
+            height_above_object_center_m=.08, launch_allowed=False,
+            task='T1_PRECONTACT_GEOMETRY_PROPOSAL_NOT_SUCCESS_DEMO'))
+    return result
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 

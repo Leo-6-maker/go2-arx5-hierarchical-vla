@@ -1,5 +1,7 @@
 # 从真实起态到预接触：首次静态规划结果
 
+后继见[有限几何候选与持久EEF10参考](GO2_ARX5_FINITE_PRECONTACT_REFERENCE.md)：新的负30°任务抓取候选已有静态预接触路径。本页原垂直目标的负结果不变，后继不是该原目标已通过。
+
 **原 W0/T1 目标尚未获得可执行路径证书。** 在已关闭分量Teacher V2的第一帧真实起态下，固定MPlib规划调用未找到合法IK目标，因此没有输出路径、进行碰撞通过声明或启动物理。此结果缩小下一问题到任务目标/站位/路径可行性；不证明任务物理不可达，更不证明WBC不能操作。
 
 [实际机读回执](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_ORIGINAL_W0_T1_STATIC_PATH_ACTUAL_20261029.json) · [研究顺序与待核范围](../../protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)
