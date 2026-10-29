@@ -1,6 +1,6 @@
 # 当前科学状态 · 2026-10-29实际核验
 
-**夜间有界授权已正式批准：** [原批准记录](reports/PI0294/design/parallel-science-20261022/NIGHT_BOUNDED_AUTONOMY_DIRECT_AUTHORITY_20261030.json)允许共用12次源域试采、600000积分和24000对RGB，08:00停止新试采、09:00结束；新增训练/PBS/神经推理不授权。准备总账已单列，完整原预算和原生登记仍须采用，当前新试采/合格示范均0。S1关闭和基础设施保护保留。
+**夜间新增源域分支已在原生采用前停止：** [容量与关闭回执](reports/PI0294/design/parallel-science-20261022/NIGHT_SOURCE_PRE_NATIVE_CAPACITY_STOPPED_ACTUAL_20261030.json)记录Core本地可用约137.1 GiB，原工作剩余保守存储上界约141.4 GiB；新增20 GiB没有获得容量准入。未发现另一块可用节点本地文件系统，Home大空间属NFS，未用于运行。PC准备账已关闭并保留全部上界；原GLOBAL/LOCAL/registry不改，新增试采/积分/RGB/合格示范均0。原[夜间授权](reports/PI0294/design/parallel-science-20261022/NIGHT_BOUNDED_AUTONOMY_DIRECT_AUTHORITY_20261030.json)不取消资源与NFS保护，不为推进删除历史文件或改挂载。
 
 **E2夜间接续已按重复工程失败停止并关闭所属lease：** [独立终态回执](reports/PI0294/design/parallel-science-20261022/ARX5_E2_NIGHT_PRE_NATIVE_BRANCH_STOPPED_ACTUAL_20261030.json)确认STOP与CLOSED lease、GLOBAL `f27b0865`、PBS仍41；新增模型/查询/更新0，完整512未完成。原owner漏变量之后，有限冷修又被原onceIO同目录规则在写入前拒绝；全部旧费用、源和失败目录保留，今晚不再自动重启该分支。转做独立D25和源域工作。
 
