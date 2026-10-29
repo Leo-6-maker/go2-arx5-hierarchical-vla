@@ -119,9 +119,15 @@ def compare_saved_draws(reference,current):
     need(reference!=current and reference.is_file()and current.is_file()
         and not reference.is_symlink()and not current.is_symlink(),'EXPORT_TWO_DISTINCT_ACTUAL_DRAW_FILES')
     with np.load(reference,allow_pickle=False)as left,np.load(current,allow_pickle=False)as right:
-        keys=('physical_H40','normalized','noise_seed','noise_fingerprint_json','observation_fingerprint')
-        need(all(k in left and k in right and left[k].dtype==right[k].dtype
-            and left[k].shape==right[k].shape and np.array_equal(left[k],right[k])for k in keys),
+        def exact(keys):
+            return all(k in left and k in right and left[k].dtype==right[k].dtype
+                and left[k].shape==right[k].shape and np.array_equal(left[k],right[k])for k in keys)
+        # Reject a different actual noise draw before attributing output
+        # inequality to reconstructed weights. Seed labels alone are weaker.
+        inputs=('noise_seed','noise_fingerprint_json','observation_fingerprint')
+        need(exact(inputs),
+            'EXPORT_ACTUAL_SAME_INPUT_AND_NOISE_REQUIRED_BEFORE_OUTPUT_COMPARISON')
+        need(exact(('physical_H40','normalized')),
             'EXPORT_ACTUAL_FULL_MODEL_SAME_INPUT_NOISE_OUTPUT_MUST_BE_EXACT')
         need(left['physical_H40'].shape==(40,10)and left['normalized'].shape==(1,40,132)
             and np.isfinite(left['physical_H40']).all()and np.isfinite(left['normalized']).all(),

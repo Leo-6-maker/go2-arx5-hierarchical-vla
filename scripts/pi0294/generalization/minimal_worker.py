@@ -124,6 +124,13 @@ class Worker:
     def draw(self,sid,name,payload,seed):
         self.guard();folder=self.evidence/sid/'draws';folder.mkdir(parents=True,exist_ok=True,mode=0o700)
         target=folder/(name+'.npz');need(not target.exists(),'WORKER_NO_QUERY_OUTPUT_REPLAY')
+        # The original TRAIN probes restore the caller's training flag. The
+        # upstream get_action calls head.get_action directly, bypassing the
+        # head's forward hook. Fix the whole inference graph before seeding,
+        # including shared attention dropout; never change training_step.
+        self.instance.model.eval()
+        need(not any(module.training for module in self.instance.model.modules()),
+             'WORKER_COMPLETE_EVAL_GRAPH_BEFORE_FIXED_NOISE_DRAW')
         original_model.fixed_draw(self.root,sid,name,self.instance,payload,seed,target,self.ledger)
         target.chmod(0o400);return target
 
