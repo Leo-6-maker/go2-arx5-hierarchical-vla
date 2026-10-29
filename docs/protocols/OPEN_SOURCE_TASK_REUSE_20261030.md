@@ -64,3 +64,5 @@ S1系列累计5次启动已关闭且隔离，无成功示范；本方向不重�
 
 
 2026-10-30 PC补充已固定SingleCabinet/slab/bar原始几何和Fixture开闭判据，见[实际对照与纹理阻断](../../reports/PI0294/design/parallel-science-20261022/ROBOCASA_PC_PINNED_GEOMETRY_NATIVE_GOAL_ASSET_BLOCK_ACTUAL_20261030.json)。代码仅生成未编译几何及有限原生判据；原厨房机器人、布局/干扰物和fixture高度选择条件不由ARX5尺寸端口保留，不能当原OpenCabinet基准。原纹理未闭合、未接入源ARX5/双相机/episode导出，物理及合格示范均0。新增源域仍按容量停止；本PC支线不打开旧角色或放宽资源。
+
+后继[最小纹理实际回执](../../reports/PI0294/design/parallel-science-20261022/ROBOCASA_MINIMUM_OFFICIAL_HF_TEXTURE_CLOSURE_ACTUAL_20261030.json)通过RoboCasa官方[资产固定revision](https://huggingface.co/datasets/robocasa/robocasa-assets/tree/1b92c3d02ca4354984fec961357db0bff7b32166)取得两项PNG成员并独立核SHA/PNG；原默认bright_metal保留，wood-tiles是事前按词典顺序选择的端口纹理。13次范围响应共3,483,895字节，整包SHA仅来自Hub元数据，未重新计算543MB整包。原HTTP400不改写；两项纹理已闭合，但source ARX5组合/原生资格/独立episode评分及试采仍未完成，Core容量边界不变。
