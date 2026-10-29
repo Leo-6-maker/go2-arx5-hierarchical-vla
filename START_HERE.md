@@ -7,14 +7,14 @@
 | 位置 | 当前任务 | 完成标志 |
 |---|---|---|
 | CoreLab 4080S | 复用已补齐的LOCAL终态，冷态绑定D25原N294101/24，再GEN1 | 完整行为表、D−C配对及关闭 |
-| Vanda | 复用已审计E0/E1和已采用剩余范围，补E2资格、fresh训练两臂512 | 固定端点、真实更新/消费/保存恢复 |
+| Vanda | 复用E1@512做推理验证，再从原始父模型正式训练E2固定512 | 固定端点、真实更新/消费/保存恢复 |
 | PC Rerun | 已有Teacher/Student失败解释与保存输出分析 | 可核验只读证据，不阻塞科学运行 |
 
 两站运行不互相SSH/查队列/等心跳；管理端独立连接/终态核账，模型走已授权HF固定revision，不重传已交付D25。
 
 ## 当前关键事实
 
-- **saved512接续已实际登记为PBS40，但尚未qsub。** 原REGISTER在CAS成功后回包超时，原UNKNOWN保留；独立原生intent／receipt、完整15449016字节GLOBAL及旧进程OS1均已核对。[实际登记及首次提交冷接续](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_REGISTER40_ACTUAL_CAS_AND_FIRST_DISPATCH_CONTROL_20261029.json)只接同一请求的首次qsub，复用原3000CPU银行800＋2200，无新登记／预付／计数；计算source769c和原模型／数据／安全门不改。
+- **Vanda saved512接续1506193已真实R／GN-A40-033，首次qsub、绑定及独立完整队列回读已完成。** [实际回执](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_EXISTING_REGISTER40_FIRST_ACTUAL_QSUB_AND_BACKGROUND_HANDOFF_20261029.json)：2026-10-29 12:15 SGT，unknown／pending为空，后台原生owner和wrapper同kernel健康。只复用原PBS40登记，无新预付或计数；source769c、metadata446ac8。顺序为E1已审计512推理验证（0新更新）→E2从原始父模型fresh512；当前新模型加载／查询／更新仍0，不把R称为模型资格通过。原登记回包UNKNOWN、安装键名及解析失败和费用保留；新metadata角色已完整核验，不热改或重启。Core连接由管理员处理，Vanda运行不等Core。
 
 - A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。该旧作业未执行正式训练；后继当前终态见下条。

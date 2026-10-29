@@ -1,0 +1,86 @@
+{
+  "schema": "ARX5_SAVED512_FIRST_ACTUAL_QSUB_V1",
+  "status": "ACTUAL_QSUB_BOUND_NATIVE_R_SAME_OWNER_LIVE_ZERO_NEURAL_EFFECTS_YET",
+  "observed_SGT": "2026-10-29T12:15:46.402225+08:00",
+  "source": "769c59ff7912ff16bdeb6f99bfde37f759a6fd37",
+  "metadata_source": "446ac8bfc01413d4ade41f566965b0d4e82baf05",
+  "request_id": "586b6601-daf5-4823-950b-605896e611c0",
+  "job_id": "1506193.stdct-mgmt-02",
+  "qsub_returncode": 0,
+  "qsub_observed_epoch": 1793247300.4666567,
+  "request_sha256": "8025c1771d544add405fdc9aefcf028f7ae987cdb70ef969c0ef927854daa611",
+  "PBS_count_already_registered": 40,
+  "new_registration_or_prepaid_count": 0,
+  "scientific_work": {
+    "E1": "Reuse audited formal512 state; inference only,0 updates; actual same-noise output equivalence pending.",
+    "E2": "Fresh original pretrained parent, fixed512 formal updates; not yet executed.",
+    "Core_dependency": false
+  },
+  "actual_full_unbound_context": {
+    "status": "PASS",
+    "sealed_inputs": 28,
+    "source_files": 1391,
+    "proof_sha256": "811096e665512bcbb856ec9e8fef8fbfdfcdac974957901d07dd88b7b1c7bbb0"
+  },
+  "control_history": {
+    "initial_install": "Old FIRST512 registry once-key collision refused after metadata files and lease, before new registry CAS. Original UNKNOWN and CPU/wire upper retained.",
+    "independent_readback": "All3 sealed metadata files and own ACTIVE lease exact; registry unchanged; no launch/qsub at that point.",
+    "remaining_registry": "Distinct SAVED512 registry key completed original onceIO CAS; unchanged scientific request and source.",
+    "local_rejection": "First remainder attempt refused by original Journal before transport. Cost upper retained.",
+    "parser_rejection": "Next remainder parse error before executing any remote statement; exact native readback confirmed registry unchanged. Original UNKNOWN/cost retained.",
+    "completion": "Distinct remaining CAS after exact proof; published metadata body and sealed scientific capsule unchanged.",
+    "wire": "Additional65536bytes allocated from existing paid64MiB control allowance; no cap expansion or new fee."
+  },
+  "protected": {
+    "E1_saved512_retrain": false,
+    "E0_or_prior_qualifications_repeated": false,
+    "Core_writes": false,
+    "new_scientific_variables": false,
+    "paused_automation_restarted": false,
+    "subagents_started": false
+  },
+  "limits": {
+    "PBS_cap": 43,
+    "matrix_PBS": 3,
+    "GPU_hours": 148,
+    "deadline_epoch": 1793537549.8133287,
+    "stop_new_training_epoch": 1793451149.8133287
+  },
+  "wholegoal_complete": false,
+  "native": {
+    "job_id": "1506193.stdct-mgmt-02",
+    "state": "R",
+    "exec_host": "GN-A40-033/1*36",
+    "run_count": 1
+  },
+  "GLOBAL_sha256": "a765a36318d160509eca826f345636761c481879902a173ee2d7dd80f0479a53",
+  "PBS_used": 40,
+  "complete_queue_sha256": "ca4474b91472fe793bc8537fa6fe15f40f4a7e56d900e3f6bf914b79b971a9c3",
+  "complete_queue_rows": 1,
+  "unknown": [],
+  "pending": [],
+  "global_unknown": [],
+  "same_wrapper_and_owner_kernel": true,
+  "independent_status_sha256": "ffc9d247ddbf0412edd8a28fc35fe9da80146568e4c54eda62d236e522090992",
+  "actual_neural_effects": {
+    "optimizer_updates": 0,
+    "generation_queries": 0,
+    "model_loads": 0,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "sessions": {
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    }
+  }
+}
