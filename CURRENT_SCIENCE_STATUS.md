@@ -1,6 +1,6 @@
 # 当前科学状态 · 2026-10-29实际核验
 
-**证据基线：`b6b5a28a7e75be889c898f7f116cabce174f7785`。这是仓库回执快照，不是实时服务器查询。** 后续实际回执优先；main合并不改变运行状态。总体研究未完成。
+**最新原生观测为2026-10-29 13:33 SGT，见下列固定回执；仓库页面不是实时监控。** 旧`b6b5a28a`及后文历史快照保留，后继实际优先；main合并不改变运行源码。总体研究未完成。
 
 ## 已完成的行为证据
 
@@ -21,11 +21,18 @@
 | D25 | 1024完整端点已审计、已固定交付Core | 0/24有效Eval；不能说成功率0% |
 | GEN1 | 1024完整状态已审计并关闭；Teacher12次尝试、11成功、10条R0合格 | 0/24模型Eval；Teacher结果不是学生泛化 |
 | E0 | 原始GR00T真实加载1次／39查询；39份输出独立SHA／shape／精度回读；所在作业已真实F并结算关闭 | 离线诊断，不是任务成功 |
-| E1/E2 | E1资格两步已审计；E2原生两步/536参数更新及完整恢复已读；后继E1正式512步和12项TRAIN探针已保存 | 后继1505362真实F/Exit1；导出重载比较的实际noise不同，尚未取得512推理资格；E2正式0/512，原一次费用结算/own关闭已独立回读；完整保存状态审计待闭合。37项模式接缝CPU回归不代替native资格 |
+| E1 | 正式512与完整状态／普通导出tensor已独立审计；1506193复用saved512，25查询／3加载／0新更新，实际同输入同noise重载输出精确一致并独立回读 | 尚未闭环Eval／HF交付；推理等价不代表策略成功 |
+| E2 | 真实两步资格／536参数更新及完整恢复已完成；1506193从原始父fresh正式训练122步／cursor3904，随后F1 | 无完整正式checkpoint；已按实际费用结算关闭，完整512端点未完成 |
 | Go2＋ARX5目标包 | 10段标定＋6几何双任务12首次尝试的独立提案 | 尚未采集新目标示范，不混入当前E1/E2 |
 | DEC1冻结WBC迁移 | 原固定CORR2048/R0及设计保留 | core64=0/64；不是迁移失败率100% |
 
 ## 最新工程状态
+
+2026-10-29 13:33 SGT：[E1推理等价PASS、E2正式122中断并真实闭合](reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)。E1实际同输入／noise、归一化及物理输出独立核对最大差0；不重训。E2在122步后因后台只读ESTALE退出，再由原300秒心跳保护停止计算。真实F1、原后台退出、稳定inventory及effects已核；2526GPU秒／1825CPU秒已once结算，两lease真实CLOSED。没有完整E2状态，不能用资格step2或E1作正式恢复。新冷修复只覆盖明确后继的fresh只读ESTALE，不重试未知写、不改watchdog／旧capsule；尚未native部署。CoreLab AMD NFS服务停止属于另一站的独立故障，管理员处理期间不让Vanda等待Core。
+
+已有保存数据的有限分析：[E0指令与噪声响应](docs/analysis/2026-10-29/E0_SAVED_LANGUAGE_RESPONSE.md)、[E1原参考探针误差与人口](docs/analysis/2026-10-29/E1_SAVED512_REFERENCE_PROBES.md)。这些不是新增模型调用或闭环结果；不按早期结果改配方。
+
+以下为保留的此前回执，当前以本段为准。
 
 最新实际：[E1保存512完整状态与普通导出tensor独立审计PASS](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED_E1_512_FULL_STATE_AND_ORDINARY_TENSOR_AUDIT_REAL_PASS_RECOVERY_COLD_20261029.json)。有限审计实际CPU314.544秒／自然OS0，无新模型／query／optimizer；E1实际同noise重载输出仍待GPU资格。原GLOBAL接续控制／PBS43已once采用，used39、历史不退款；新候选仅E1推理收尾和E2 fresh512，无原生登记／qsub。
 
