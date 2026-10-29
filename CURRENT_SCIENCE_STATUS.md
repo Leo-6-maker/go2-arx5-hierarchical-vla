@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+**整机任务路径新增静态证据：** [原W0/T1起态检查](docs/analysis/2026-10-29/GO2_ARX5_STATIC_TASK_PATH.md)已核原模型/首帧与TCP对应，固定MPlib未找到原预接触目标的合法IK解，无路径或物理PASS。独立有界求解只给有限数值证据，不宣称不可达。新检查入口与14项相关CPU边界检查完成，成功整机示范仍0。
+
 **整机后继证据纠正：** 原4次固定pilot之后，持久Teacher V1另有4次短开发（2有效失败、2工程中断），分量V2另有4次（3有效12秒失败、1任务前不完整）；后两轮均无完整确认或成功示范。V2已实跑H40/Prefix8，三条有效任务位置游标平移仍0、无物体接触。三组不同版本/时长不合并计算策略成功率。见[实际V2终局](reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/REPORT.md)与[用户后继目标的S0–S5修订](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)。本轮无新物理或模型结果。
 
 **2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
