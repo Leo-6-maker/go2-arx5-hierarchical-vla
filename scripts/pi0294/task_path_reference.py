@@ -46,12 +46,14 @@ def timed_native_fk(native, joints):
     return np.asarray(result)
 
 
-def retime_witness(native, joints, source_times):
+def retime_witness(native, joints, source_times, *, planning_object_motion=None, linear_speed_m_s=.06):
     """One deterministic global slowdown, then recheck the actual 20Hz knots.
 
     The mathematical path is explicitly piecewise linear in the supplied joint
     witness. No measured observation changes, bias correction or rate search.
     """
+    if linear_speed_m_s not in (.04, .06):
+        raise ValueError('DECLARED_TASK_REFERENCE_SPEED_REQUIRED')
     q, t = np.asarray(joints, dtype=float), np.asarray(source_times, dtype=float)
     if (q.ndim != 2 or q.shape[1] != 6 or not 2 <= len(q) <= 10000
             or t.shape != (len(q),) or not np.isfinite(q).all() or not np.isfinite(t).all()
@@ -63,19 +65,19 @@ def retime_witness(native, joints, source_times):
         raise ValueError('PLANNED_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP')
     source_poses = timed_native_fk(native, q)
     linear, angular = rates(source_poses, t)
-    factor = math.ceil(max(1., linear/.06, angular/.3)*10)/10
+    factor = math.ceil(max(1., linear/linear_speed_m_s, angular/.3)*10)/10
     duration = math.ceil(t[-1]*factor/.05)*.05
     if duration > 32:
         raise ValueError('TIMED_TASK_PATH_EXCEEDS_DECLARED_32_SECONDS')
     times = np.arange(round(duration/.05)+1)*.05
     parameter = times/duration*t[-1]
     witness = np.stack([np.interp(parameter, t, q[:, j]) for j in range(6)], axis=1)
-    check, _ = native_configuration_witness(native, witness)
+    check, _ = native_configuration_witness(native, witness, planning_object_motion=planning_object_motion)
     if check['status'] != 'DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS':
         return dict(status=check['status'], configuration_check=check, launch_allowed=False), None
     poses = timed_native_fk(native, witness)
     speed, spin = rates(poses, times)
-    if speed > .06+1e-9 or spin > .3+1e-9:
+    if speed > linear_speed_m_s+1e-9 or spin > .3+1e-9:
         raise ValueError('RESAMPLED_CARTESIAN_RATE_REJECT_NO_ITERATIVE_RETIMING')
     return dict(status='TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED', factor=factor,
         input_state_role=native.state_role,
@@ -92,13 +94,13 @@ class PersistentPathReference:
     Exact installation ACK permits interval accounting, never a solver-consumption
     claim. The physical owner still applies native safety, STOP and admission.
     """
-    def __init__(self, *, episode_id, poses_world, opening, initial_native_step):
+    def __init__(self, *, episode_id, poses_world, opening, initial_native_step, sequence_offset=0):
         poses = np.asarray(poses_world, dtype=float)
         values = np.asarray(opening, dtype=float)
         if (not isinstance(episode_id, str) or not episode_id
                 or type(initial_native_step) is not int or initial_native_step < 0
                 or poses.ndim != 3 or poses.shape[1:] != (4, 4) or not 2 <= len(poses) <= 641
-                or values.shape != (len(poses),)):
+                or values.shape != (len(poses),) or type(sequence_offset) is not int or sequence_offset < 0):
             raise ValueError('EXPLICIT_BOUNDED_WORLD_PATH_AND_NATIVE_CLOCK_REQUIRED')
         self.poses = np.stack([pose(p) for p in poses])
         require_working_target(values)
@@ -109,6 +111,7 @@ class PersistentPathReference:
             raise ValueError('TASK_PATH_CARTESIAN_RATE_REJECT')
         self.opening = values.copy()
         self.episode_id, self.initial_step = episode_id, initial_native_step
+        self.sequence_offset, self.path_start_index = sequence_offset, 0
         self.index = -1
         self.pending = self.active = None
         self.stop_reason = None
@@ -144,7 +147,7 @@ class PersistentPathReference:
         self.index += 1
         self.actual, self.raw_time_s = actual, float(raw_time_s)
         return dict(observation_index=self.index,
-            path_end_time_reached=self.index >= len(self.poses)-1,
+            path_end_time_reached=self.index-self.path_start_index >= len(self.poses)-1,
             stage_transition='REQUIRES_ACTUAL_GEOMETRY_NOT_PATH_TIMER',
             task_success=False)
 
@@ -155,13 +158,13 @@ class PersistentPathReference:
             raise ValueError('ONE_NORMAL_H40_PER_EIGHT_ACTUAL_OBSERVATIONS')
         if self.active is not None and self.active['start_index'] == self.index:
             raise ValueError('DUPLICATE_TASK_PATH_CHUNK')
-        indices = np.minimum(self.index+np.arange(40), len(self.poses)-1)
+        indices = np.minimum(self.index-self.path_start_index+np.arange(40), len(self.poses)-1)
         action = np.stack([pose10(self.poses[k], self.opening[k]) for k in indices])
         source = round(self.raw_time_s*1e9)/1e9
         if not 0 <= actual_source_age(self.raw_time_s, source) <= .025:
             raise ValueError('SAME_ACTUAL_PACKET_SOURCE_CLOCK_REQUIRED')
         document = eef_document(action)
-        sequence = self.index//8
+        sequence = self.sequence_offset+self.index//8
         document['_pi0294'] = dict(episode=self.episode_id, sequence=sequence,
             source_mpc_s=source, ttl_s=.4, operation='install')
         wire = json.dumps(document, separators=(',', ':'), allow_nan=False)
@@ -173,6 +176,24 @@ class PersistentPathReference:
             start_index=self.index, sequence=sequence, source_mpc_s=source,
             prefix_points=8, action_labels='PROPOSED_UNTIL_EXACT_INSTALL_ACK_AND_INTERVAL_RECORD',
             BASE_supervision=False, task_success=False)
+
+    def replace_stage_path(self, *, poses_world, opening):
+        """New stage at a Prefix8 boundary; retain clock/sequence/intervals.
+
+        The caller separately certifies the join with executed references.
+        Ordinary queries retain their existing persistent stage path.
+        """
+        if (self.stop_reason or self.index < 0 or self.index % 8 or self.index == 640
+                or self.pending is not None
+                or self.active is not None and self.active['start_index'] == self.index):
+            raise ValueError('NEW_STAGE_ONLY_BEFORE_BOUNDARY_INSTALL')
+        candidate = PersistentPathReference(episode_id=self.episode_id, poses_world=poses_world,
+            opening=opening, initial_native_step=self.initial_step+self.index*25,
+            sequence_offset=self.sequence_offset+self.index//8)
+        if not np.allclose(candidate.poses[0], self.actual, atol=1e-8, rtol=0):
+            raise ValueError('NEW_STAGE_MUST_START_AT_CURRENT_ACTUAL_TCP')
+        self.poses, self.opening = candidate.poses, candidate.opening
+        self.path_sha256, self.path_start_index = candidate.path_sha256, self.index
 
     def acknowledge_install(self, *, ref_id, native_step):
         if self.stop_reason:
