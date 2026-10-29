@@ -14,6 +14,7 @@
 
 ## 当前关键事实
 
+- **AMD职责已按人类要求收敛为共享存储和登录基础设施。** [保护边界](docs/operations/2026-10-29_AMD_INFRASTRUCTURE_PROTECTION.md)：不再在AMD启动重负载实验，不改挂载／NFS／SSH／系统服务，不复制或轮换凭据；Core下一次冷态运行须核清全部节点本地运行依赖。历史产物和已封存任务不迁移、不删除；这不是系统隔离已实施的声明。
 - **CoreLab已复挂并真实登录／只读核验。** [恢复与断联因果审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)：AMD NFS于13:51恢复；4080 Home NFS4.2、原key／权限及主机boot不变，SSH服务未重启。上次数据盘2卸载与NFS停止同秒，强依赖支持共享服务故障解释；触发者仍缺管理员日志。此次删除0、服务／挂载／key修改0，不以恢复连接为新作业或旧UNKNOWN重发许可。
 - **E1@512可单独交付的实际输入已接通；E2 PBS44已获人类直接批准。** [E1原始10文件／12.58GB及完整14维控制复算](reports/PI0294/design/parallel-science-20261022/ARX5_QUALIFIED_E1_SAVED512_SEPARATE_SOURCE_TRANSFER_AND_CONTROL_FULL14_CPU_ACTUAL_20261029.json)复用完整tensor审计和真实同noise输出，不把失败的E2或旧owner OS1改成成功；HF上传尚未执行。[精确43→44授权](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_RAW512_PBS44_DIRECT_CAP_AUTHORITY_20261029.json)仅增加1次PBS；其他caps、clock、原matrix／final不变，尚未native采用或提交。E1不重训，E2仍需原始父fresh512。
 
