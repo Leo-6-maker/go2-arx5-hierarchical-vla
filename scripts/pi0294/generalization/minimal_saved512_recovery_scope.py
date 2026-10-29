@@ -42,12 +42,13 @@ def grant(body):
 def count_upper(g,old):
     """Exact later authority only; frozen earlier grant bytes stay unchanged."""
     m=g.get(FIELD)
-    if m is None:return old
+    from .pbs_count_authority import history_upper
+    if m is None:return history_upper(g,old)
     grant(base64.b64decode(m['grant_base64'],validate=True))
     need(m['grant_sha256']==GRANT_SHA and m['closed_row_sha256']==ROW
         and m['closed_marker_sha256']==MARKER and m['after_PBS_cap']==AFTER,
         'SAVED512_RECOVERY_EXACT_COUNT_OVERLAY')
-    return max(old,AFTER)
+    return history_upper(g,max(old,AFTER))
 
 
 def predecessor(g):
@@ -93,7 +94,7 @@ def validate(g,*,generation=None):
     need(g['CPU_s']>=b['CPU_s']+CONTROL['Hopper_CPU_s']
         and g['new_storage_current_bytes']>=b['new_storage_current_bytes']+CONTROL['Hopper_storage_bytes']
         and g['new_storage_peak_bytes']>=max(b['new_storage_peak_bytes'],g['new_storage_current_bytes'])
-        and b['PBS_submissions']==39 and 39<=g['used']['PBS_submissions']<=AFTER,
+        and b['PBS_submissions']==39 and 39<=g['used']['PBS_submissions']<=count_upper(g,AFTER),
         'SAVED512_RECOVERY_NO_REFUND_OF_OLD_CURRENT_PEAK_OR_COST')
     return m
 

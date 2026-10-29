@@ -1,5 +1,8 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+
+**2026-10-29最新实际：E2作业1507480已F／Exit1，模型／查询／更新均0；原owner身份分支遗漏，原300秒心跳保护随后终止。445GPU秒／310siteCPU秒已一次结算、own lease关闭并独立核验，GLOBAL `b3537b24`。** [完整原件与冷修复](reports/PI0294/design/parallel-science-20261022/ARX5_E2_1507480_ZERO_MODEL_FAILURE_CLOSED_AND_UNLIMITED_PBS_DIRECT_AUTHORITY_ACTUAL_20261029.json)。原E1@512保留且不重训，E2完整512仍未达成。人类最新已直接取消GPU PBS次数硬上限；精确授权及冷态接线已固定，尚未原生采用，不改其他caps／clock／科学／并发。旧44次授权和全部费用原件保留，不再为单纯多一次PBS重复问GO。
+
 `main`是唯一集成入口。先读[科学状态](CURRENT_SCIENCE_STATUS.md)、[V6详细计划](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[路线索引](docs/EXPERIMENT_ROADMAP.md)和[AGENTS](AGENTS.md)。历史协议不自动提供当前权限。
 
 ## 下一步：两条科学线，一条只读支持线
@@ -46,6 +49,6 @@
 
 刷新[Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)、[Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47)和原owner的本机原件。GitHub不是实时GPU监控，后继回执优先；已完成只接剩余项。普通同范围工程最小冷修，真实外部缺口一次准确报告。
 
-stop-new仍2026-10-31 20:52:29.813 SGT，hard deadline仍2026-11-01 20:52:29.813 SGT。本次只发布计划，不延期、不采用新额度、不启动作业/子代理/暂停自动化；原WBC/R0/评分/失败保持，运行source不热切换。
+stop-new仍2026-10-31 20:52:29.813 SGT，hard deadline仍2026-11-01 20:52:29.813 SGT。后继执行以最新实际回执为准；文档发布不自动部署。原WBC/R0/评分/有效失败保持，不重启子代理或暂停的自动化，运行source不热切换。
 
 根入口保持简短，完整证据在reports。历史可由Git/原字节归档恢复；分支退役按独立维护回执，不随计划发布删除refs。

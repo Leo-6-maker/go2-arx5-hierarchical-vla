@@ -1,0 +1,107 @@
+{
+  "schema": "PI0294_ACTUAL_E2_1507480_ZERO_EFFECT_FAILURE_AND_DIRECT_COUNT_AUTHORITY_V1",
+  "observed_epoch": 1793262989.1316826,
+  "native": {
+    "job_id": "1507480.stdct-mgmt-02",
+    "request_id": "920f2ed2-fa6b-41d5-9ad5-f1683e4759e8",
+    "source_sha": "26a86fee8774af74955f5669ce813b107139114f",
+    "request_sha256": "be9ef3b72df4ccf9ea1483a3b24a9cb0e894dbdf61043af0d4e7f9039eedfd6d",
+    "job_state": "F",
+    "Exit_status": 1,
+    "run_count": 1,
+    "models": 0,
+    "queries": 0,
+    "updates": 0,
+    "physics": 0
+  },
+  "cause": {
+    "primary": "SESSION_RELEASE_ONLY_EXPLICIT_NEW_FIRST512_OWNER",
+    "location": "cold_owner.watch omitted the explicit E2-only adapter before PBS_READY",
+    "secondary": "native original300s heartbeat guard stopped before initial release",
+    "filesystem_fault_proved": false,
+    "agent_liveness_required": false
+  },
+  "closure": {
+    "original_owner_OS1_preserved": true,
+    "finite_original_finish_OS0": {
+      "returncode": 0,
+      "timeout": false,
+      "foreground_wait_completed": true,
+      "CPU_actual_s": 47.913253999999995,
+      "finished_epoch": 1793262866.4068427
+    },
+    "GLOBAL_sha256": "b3537b24da73000d22765d31204f5beeab7d17f4cb2bea8953459beaec8db87e",
+    "settled_sha256": "2f4034abad076d279ba18a7543b0618276de6a7aae49c1ed09df3b50422ac686",
+    "lease_sha256": "d9bb8a8c38df14b5394c85688091f524cc188543aee2b088e3c89c24bcea4fb9",
+    "actual_once_receipts": {
+      "GLOBAL": {
+        "intent_sha256": "b7913bf2c2548b28f86f96bb8bb1d3cc5cf310a8151157806f81e25a4d582e49",
+        "receipt_sha256": "5d76eee11c4c9b5387be7f1f8d83ca51bc8829e53450eeee8735bf01b315bb1a",
+        "actual_after_sha256": "b3537b24da73000d22765d31204f5beeab7d17f4cb2bea8953459beaec8db87e",
+        "binding_valid": true
+      },
+      "lease": {
+        "intent_sha256": "2e27dc5df7c80a27160147956a13cfefbd80e36a96505b5ece5ab81cb34a0928",
+        "receipt_sha256": "348f5cc5089efd4bfcd01cd25cf270b79dbbd38a32ccd8483ae8e510530edbaf",
+        "actual_after_sha256": "d9bb8a8c38df14b5394c85688091f524cc188543aee2b088e3c89c24bcea4fb9",
+        "binding_valid": true
+      }
+    },
+    "GPU_s": 445,
+    "site_CPU_s": 310,
+    "all_old_costs_and_UNKNOWN_preserved": true,
+    "full_current_canonical_bytes_reconstructed_and_independently_matched": true
+  },
+  "cold_preparation": {
+    "original600wall_timeout_preserved": true,
+    "original_source_readers_language_checks_not_repeated": true,
+    "remaining_finite_child_OS0": true,
+    "source_files": 1405,
+    "sealed_inputs": 30,
+    "rows": 7212,
+    "full14_shortfalls": {},
+    "scope_and_checkpoint_policy_unchanged": true
+  },
+  "repair": {
+    "explicit_E2_adapter_gate_only": true,
+    "original_R_before_READY_case_and_wrong_profile_rejection_tested": true,
+    "CPU_tests": "29 passed/1 private capture initially skipped; captured full-history policy subsequently6 passed",
+    "native_deployed": false
+  },
+  "human_PBS_authority": {
+    "instruction": "GPU PBS提交次数不做限制，以跑通科学主线作为第一目标",
+    "grant_file": "reports/PI0294/design/parallel-science-20261022/GPU_PBS_COUNT_UNLIMITED_DIRECT_AUTHORITY_20261029.json",
+    "PBS_submission_count_limit": null,
+    "original44_record_preserved": true,
+    "new_marker_native_adopted": false,
+    "other_caps_clocks_recipes_concurrency_unchanged": true
+  },
+  "Core": {
+    "current_access_readonly_confirmed": true,
+    "canonical_LOCAL_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+    "model_source_ledger_outputs_already_node_local": true,
+    "remaining_Home_dependencies": [
+      "entry and registry/leases",
+      "physics assets",
+      "upstream GR00T source"
+    ],
+    "local_venv_metadata_and_site_packages_exist": true,
+    "new_GPU_models_physics": 0,
+    "credentials_mount_services_changed": false
+  },
+  "wholebody": {
+    "historical_Teacher_four_failures_reconciled_in_existing_atlas": true,
+    "new_trials_or_Viewer_features": 0,
+    "unique_dynamic_root_cause_proved": false,
+    "DEC1_core64": 0
+  },
+  "science": {
+    "E1_formal512_complete_and_same_noise_qualified": true,
+    "E1_HF_uploaded": false,
+    "E1_Core_load": false,
+    "E2_complete512": false,
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "wholegoal_complete": false
+  }
+}

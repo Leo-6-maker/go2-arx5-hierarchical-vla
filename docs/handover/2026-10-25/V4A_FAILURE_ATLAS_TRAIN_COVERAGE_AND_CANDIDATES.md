@@ -99,6 +99,23 @@ A 的 reader 虽加载新库支持，但实际新库通道消费为 **0**；B �
 
 ## 可复核产物与边界
 
+### 2026-10-29：四条历史整机 Teacher 失败的收敛问题
+
+本节复用已保存的 [四条固定 pilot 终态](../../../reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/FIXED_PILOT_RESULTS.md)、[原同刻数组分析](../../../reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/approach-audit/REPORT.md)与[逐项机读结果](../../../reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/approach-audit/TEACHER_APPROACH_PROGRESS.json)。没有重跑采集、FK、物理、模型或评分，没有扩展 Viewer。原 pilot 为 **0/4 成功、成功整机 TRAIN=0、FB13 未运行**；这些是 Teacher 执行域证据，不是 GR00T 或 DEC1 的行为成功率。
+
+| 原固定记录 | 首个可核实阻断与原条件 | 已有实际信号 | 仍不能确定什么／可证伪问题 |
+|---|---|---|---|
+| W0/T1 engineering03，V1 | 启动阶段右夹爪 slide 零位触及原关节限位；任务未开始 | 33 个原生步／0.066s，0 RGB；原生安全拒绝保留 | 不能与后面 V2 三条混为同一安全版本，也不能据此断言任务控制不可行；后续只能在独立合法范围验证匹配版本的启动状态 |
+| W0/T2 engineering04，V2 | approach 阶段原位置距离≤4mm 从未成立 | 32s／641观测／640次安装；阶段目标距离初始→最近→最终 **26.48→22.99→34.80cm**；位置门0/641，姿态门568/641，无实际推送／保持 | 不是4mm边缘失败，姿态门并非唯一阻断；需证明原固定 prefix 的实际消费与世界阶段进度 |
+| W1/T1，V2 | approach 阶段未切换，未进入抓取、抬升、搬运 | **31.13→29.86→40.76cm**；位置门0/641；实际BASE最大前进4.368cm，未达到原10cm要求 | T1没有0.04rad角度切换门；不能用诊断角度解释失败；实际站位与手部接近需在相同时间轴检验 |
+| W1/T2，V2 | approach 阶段未切换，无实际接触／推送 | **34.00→33.27→46.06cm**；位置门0/641，姿态门561/641；BASE最大前进3.874cm，未达到原10cm要求 | 未证明目标不可达或WBC唯一有错；需取得参考→被选solver policy→实际执行tick的身份连接 |
+
+三条 V2 各完成640次参考安装且原生安全故障为0。原数组分析已证明：每次新 H40 首点都等于当刻实际 TCP，参考每 **0.05s** 被替换，标称 **Prefix8／0.4s 未执行**；替换前参考推进中位约3.36mm，H40未来预览长度中位117mm。此前提交参考在当前物理时刻插值后，与真实 TCP 的位置差中位／最大分别为 **3.394／16.920mm、3.363／22.176mm、3.391／22.493mm**。未来H40端点差不能充当同tick跟踪误差；局部参考误差小也不代表全局任务完成。
+
+这些结果支持优先检查任务侧参考进度／消费节奏，但**没有证明唯一动力学根因**。原日志缺少参考到被选 solver policy 的身份，状态仍为 `UNKNOWN_NO_SAVED_REFERENCE_TO_SOLVER_POLICY_ID`。安装 ACK 只证明安装，不证明某条控制策略实际消费了该参考。
+
+下一项明确问题是：**保持冻结WBC、原安全和原4mm接近条件时，持久世界阶段进度与真实消费的固定Prefix8，能否让实际TCP进入预接触区？** 未来独立获准验证需记录参考、被选policy与执行tick身份；若已证明连续8个样本被消费但仍不能接近目标，则“仅由覆盖节奏导致”的假说被否定，应分析站位／可执行路径，而不是放宽阈值或强制闭爪。现有 `persistent_approach_draft.py` 仍是未接入的冷态候选，本节不授新物理、采集、训练或WBC调参权限。原固定CORR／R0、无目标任务示范训练的DEC1比较与后继少样本目标执行域适配继续分开。
+
 - [Failure Atlas JSON](../../../reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_FAILURE_ATLAS.json)
 - [TRAIN 覆盖与真实消费 JSON](../../../reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_TRAIN_COVERAGE.json)
 - [逐 episode 消费表](../../../reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_ACTUAL_PARENT_EXPOSURE.csv)

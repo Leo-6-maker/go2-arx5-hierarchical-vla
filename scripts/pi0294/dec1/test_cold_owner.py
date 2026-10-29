@@ -139,6 +139,38 @@ class ColdOwnerIntegration(unittest.TestCase):
             self.run_watch()
         self.assertFalse(self.sleeps)
 
+    def test_exact_e2_only_owner_survives_real_R_before_READY_and_releases_once(self):
+        """1507480 captured seam: R may precede PBS_READY; no new permission."""
+        from scripts.pi0294.generalization import minimal_execution_adapter as adapters
+        self.receipts={}
+        self.owner.request_template=dict(platform_training_version=adapters.e2only.VERSION,
+                                         profile=adapters.e2only.PROFILE)
+        sessions=[];original_sleep=self.sleep
+        def session(state,secret):
+            # The original owner phase method itself requires actual tickets.
+            sessions.append(tuple(sorted(self.receipts)))
+            if 'A40_PRETRAIN_RELEASE.json' in self.receipts:self.status='F';return True
+            return False
+        def sleep(seconds):
+            original_sleep(seconds)
+            if not self.receipts:self.receipts={'PBS_READY.json':{}}
+        self.owner.release_science_session=session
+        self.sleep=sleep
+        result=self.run_watch()
+        self.assertEqual(result['native']['job_state'],'F')
+        self.assertEqual(sessions,[()])
+        self.assertEqual([x[0] for x in self.calls].count('RELEASE'),2)
+        self.assertEqual(self.sleeps,[30,30,30])
+
+    def test_e2_version_does_not_admit_other_profile(self):
+        from scripts.pi0294.generalization import minimal_execution_adapter as adapters
+        self.receipts={}
+        self.owner.request_template=dict(platform_training_version=adapters.e2only.VERSION,
+                                         profile=adapters.saved512.PROFILE)
+        self.owner.release_science_session=lambda *args,**kwargs:self.fail('WRONG_PROFILE_RELEASE')
+        with self.assertRaises(PermissionError):self.run_watch()
+        self.assertFalse(self.sleeps)
+
     def test_session_mutation_timeout_remains_UNKNOWN_without_watch_retry(self):
         from scripts.pi0294.generalization.minimal_execution import VERSION
         self.receipts={'START_NEURAL.json':{}};self.owner.request_template={'platform_training_version':VERSION}

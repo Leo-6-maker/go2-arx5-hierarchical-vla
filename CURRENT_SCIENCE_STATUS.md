@@ -1,5 +1,8 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+
+**2026-10-29最新实际：E2作业1507480已F／Exit1，模型／查询／更新均0；原owner身份分支遗漏，原300秒心跳保护随后终止。445GPU秒／310siteCPU秒已一次结算、own lease关闭并独立核验，GLOBAL `b3537b24`。** [完整原件与冷修复](reports/PI0294/design/parallel-science-20261022/ARX5_E2_1507480_ZERO_MODEL_FAILURE_CLOSED_AND_UNLIMITED_PBS_DIRECT_AUTHORITY_ACTUAL_20261029.json)。原E1@512保留且不重训，E2完整512仍未达成。人类最新已直接取消GPU PBS次数硬上限；精确授权及冷态接线已固定，尚未原生采用，不改其他caps／clock／科学／并发。旧44次授权和全部费用原件保留，不再为单纯多一次PBS重复问GO。
+
 **最新实际接续为2026-10-29，见下列固定回执；仓库页面不是实时监控。** 旧快照保留，后继实际优先；main合并不改变运行源码。总体研究未完成。
 
 [E2 PBS44真实采用与有限冷态预检](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_PBS44_ONCE_ADOPTED_COLD_PROCESS_AND_ACCESS_OBSERVATION_ACTUAL_20261029.json)：GLOBAL `2f1d8650`、原once intent／receipt及完整字节独立相等；used仍40，原matrix3／final不变。新E2从原始父fresh512，仅原Trainer256／512完整恢复保存，最多两份，不选模或删除旧状态。有限预检进程已原生启动，最后成功核验同一wrapper／child健康；后续35秒只读超时及SSH认证拒绝均保留，尚未取得冷态PASS或提交PBS，不把访问故障当远端终止。E1独立source-role绑定修复为CPU证据，HF上传／Core加载仍未运行。
