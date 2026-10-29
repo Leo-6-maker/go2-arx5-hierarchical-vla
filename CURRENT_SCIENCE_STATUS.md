@@ -2,11 +2,11 @@
 
 **夜间有界授权已正式批准：** [原批准记录](reports/PI0294/design/parallel-science-20261022/NIGHT_BOUNDED_AUTONOMY_DIRECT_AUTHORITY_20261030.json)允许共用12次源域试采、600000积分和24000对RGB，08:00停止新试采、09:00结束；新增训练/PBS/神经推理不授权。准备总账已单列，完整原预算和原生登记仍须采用，当前新试采/合格示范均0。S1关闭和基础设施保护保留。
 
-**E2冷态预检实际PASS，后台登记又因漏定义变量退出：** [完整回执](reports/PI0294/design/parallel-science-20261022/ARX5_E2_COLD_PASS_OWNER_REGISTRATION_NAMEERROR_ACTUAL_20261030.json)验证1408源码、35封存输入和15冻结文件，完整14维无缺口，实际约59秒CPU。后台owner确实脱离PC运行，但在native登记前因`r`未定义退出；两actor终态，GLOBAL `f27b0865`，PBS仍41，新增模型/查询/更新0。当前没有健康E2训练后台链；冷修已覆盖真实登记方法，重接时保留400秒旧owner上界、600秒metadata和2600秒新owner，共用原3600秒控制账，不借源域新额度。
+**E2夜间接续已按重复工程失败停止并关闭所属lease：** [独立终态回执](reports/PI0294/design/parallel-science-20261022/ARX5_E2_NIGHT_PRE_NATIVE_BRANCH_STOPPED_ACTUAL_20261030.json)确认STOP与CLOSED lease、GLOBAL `f27b0865`、PBS仍41；新增模型/查询/更新0，完整512未完成。原owner漏变量之后，有限冷修又被原onceIO同目录规则在写入前拒绝；全部旧费用、源和失败目录保留，今晚不再自动重启该分支。转做独立D25和源域工作。
 
 **E2提交前退出的预备已真实关闭：** [原生关闭与保留目录](reports/PI0294/design/parallel-science-20261022/ARX5_E2_UNSUBMITTED_OWNER_CLOSED_RETAINED_ACTUAL_20261030.json)核对原OS1、无登记/提交、两actor终态、own lease一次CLOSED及92,315,648字节完整目录。原GLOBAL只追加预备已关闭见证，不删费用或补造PBS；used仍41，原GPU作业均终态。一次冷修接续的源、付款与角色准备仍待采用；当前没有健康E2后台链，完整512仍未完成。
 
-**开源任务复用已进入具体接入：** [固定来源、原成功谓词和数据阶梯](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)选择RoboCasa无锁柜门与LIBERO单书左右格，先移植到现有MuJoCo源执行器。三个真实BDDL文件已解析，左右任务regions/init相同，10项CPU检查通过；原37项源组件检查保留。尚未完成资产/原示范/动作转换的原生资格，没有新增接触运行、技能示范或训练。候选300→累计1,300条与恢复段不构成新运行授权；源域数据独立于目标WBC任务资格。
+**LIBERO最小资产已完整保存，源ARX5书本接入待原生运行：** [固定资产与代码边界](reports/PI0294/design/parallel-science-20261022/LIBERO_MINIMUM_ASSETS_AND_UNEXECUTED_ARX5_BOOK_PORT_ACTUAL_20261030.json)独立核实4个二进制文件/14,886,874字节及两个原始XML。场景保留18原碰撞盒、书本质量/惯量和原生评分，另查支撑/松爪/撤离/保持；20项CPU检查通过，无模拟器构造/积分/RGB。源域新范围仍待现有登记和账本原生采用，合格示范0；不以静态准备替代任务成功。
 
 **D25冷态本地官方代码已通过原冻结入口：** [实际与独立回读](reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)验证80代码文件、214真实Git对象及15冻结文件原字节，原`official_import`实际PASS。原LOCAL/配置和未启动状态保持；登记custody/本地lease及完整冷绑定仍待完成。模型/查询/物理新增0，D25有效评价仍0/24。
 

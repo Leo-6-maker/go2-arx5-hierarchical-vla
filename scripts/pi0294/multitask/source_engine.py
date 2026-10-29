@@ -11,7 +11,7 @@ from .contact_scene import overlay_source_xml
 from .object_relations import pose
 
 
-def make_engine(card, asset_root):
+def make_engine(card, asset_root, *, pinned_libero=None):
     """Reuse the original finite source arm/gripper driver with passive tasks.
 
     No executable CLI/dispatcher is introduced. The source joint-torque driver
@@ -26,7 +26,11 @@ def make_engine(card, asset_root):
     class SourceEngine(BaseEngine):
         def __init__(self):
             self.card, self.mode = card, 'normal'
-            self.xml, self.task_binding = overlay_source_xml(xml_scene(card['source_base_card'], asset_root), card)
+            if pinned_libero is None:
+                self.xml, self.task_binding = overlay_source_xml(xml_scene(card['source_base_card'], asset_root), card)
+            else:
+                from .libero_book_scene import overlay
+                self.xml, self.task_binding = overlay(xml_scene(card['source_base_card'], asset_root), card, **pinned_libero)
             self.model = mujoco.MjModel.from_xml_string(self.xml)
             self.data, self.ik_data = mujoco.MjData(self.model), mujoco.MjData(self.model)
             self.ids = {key: self._id(mujoco.mjtObj.mjOBJ_BODY, name) for key, name in (
@@ -91,6 +95,21 @@ def make_engine(card, asset_root):
                 j = self._id(mujoco.mjtObj.mjOBJ_JOINT, 'skill_hinge')
                 s['hinge_angle_rad'] = float(self.data.qpos[self.model.jnt_qposadr[j]]+spec['initial_angle_rad'])
                 s['hinge_velocity_rad_s'] = float(self.data.qvel[self.model.jnt_dofadr[j]])
+            elif self.task_binding.get('goal_kind') == 'LIBERO_NATIVE_SITE':
+                from .libero_book_assets import native_site_contains
+                native = self._id(mujoco.mjtObj.mjOBJ_BODY, self.task_binding['native_object_body'])
+                site = self._id(mujoco.mjtObj.mjOBJ_SITE, self.task_binding['native_goal_site'])
+                s['native_book_body_origin'] = self.data.xpos[native].copy()
+                s['native_goal_site_position'] = self.data.site_xpos[site].copy()
+                s['native_goal_site_rotation'] = self.data.site_xmat[site].reshape(3, 3).copy()
+                s['native_goal_site_half_size'] = self.model.site_size[site].copy()
+                s['native_libero_goal'] = native_site_contains(
+                    site_position=s['native_goal_site_position'], site_rotation=s['native_goal_site_rotation'],
+                    half_size=s['native_goal_site_half_size'], object_body_origin=s['native_book_body_origin'])
+                s['object_supported_by_shelf'] = any(
+                    self.geoms['cube_geom'] in (r['geom0'], r['geom1'])
+                    and bool({r['geom0'], r['geom1']} & self.obstacles)
+                    and r['normal_force_N'] >= P['minimum_contact_force_N'] for r in s['contacts'])
             else:
                 support = self._id(mujoco.mjtObj.mjOBJ_GEOM, self.task_binding['support_geom'])
                 s['object_supported_by_shelf'] = any({r['geom0'], r['geom1']} == {support, self.geoms['cube_geom']}

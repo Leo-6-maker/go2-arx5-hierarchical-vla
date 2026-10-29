@@ -1,0 +1,30 @@
+{
+  "schema": "ARX5_E2_NIGHT_PRE_NATIVE_BRANCH_STOPPED_ACTUAL_V1",
+  "status": "REPEATED_PRE_NATIVE_ENGINEERING_FAILURE_BRANCH_STOPPED_NOT_TRAINING_COMPLETE",
+  "actual_independent_stop": {
+    "status": "INDEPENDENT_E2_NIGHT_BRANCH_STOP_AND_OWN_LEASE_CLOSE_VERIFIED",
+    "STOP_sha256": "ab1b692bf351e35935ebfcf4f1d451d1989c77819af194b998770146f29d7b35",
+    "closed_lease_sha256": "1abed61c0c14f9d9151a5f5ff7a2a444c82729ca8393169e4913e9d5e3529ddd",
+    "close_intent_sha256": "3e5e4f323ef3757b24f4396eb357de79452261b378097529e1a18f98bb65981b",
+    "close_receipt_sha256": "85c87aa4fddc644acd29f4aa8e0f1354e31f4a101ddeb27cb0cccf6238c5398d",
+    "GLOBAL_sha256": "f27b086576ba42306920e4c5b860f2cf72463256c5bcc6ff5f448dcca9044afa",
+    "used_PBS": 41,
+    "new_native_requests": 0,
+    "new_model_queries_updates": 0,
+    "complete_E2_512": false,
+    "healthy_training_chain": false,
+    "automatic_relaunch": false,
+    "observed_epoch": 1793301810.8159282,
+    "new_writes": 0
+  },
+  "known_failures": [
+    "Original owner.registration used undefined r before native registration; real method cold fix tested.",
+    "Next finite cold repair rejected before onceIO intent because helper placed auxiliary files outside exact target directory."
+  ],
+  "decision": "Night bounded-stop condition applies: preserve all failures and fees, no additional E2 repair dispatch or automatic relaunch in this night window.",
+  "old_source_and_failed_capsules_retained": true,
+  "GLOBAL_financial_fields_not_refunded": true,
+  "new_source_allowance_spent_on_E2": false,
+  "new_neural_updates_queries_PBS": 0,
+  "complete_E2_512": false
+}

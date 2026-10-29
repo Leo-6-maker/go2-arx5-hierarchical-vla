@@ -81,6 +81,18 @@ class SourceSkillTeacher:
         return (abs(float(s['hinge_angle_rad'])-self.spec['target_angle_rad']) <= .035
                 and abs(float(s['hinge_velocity_rad_s'])) <= .05)
 
+    def _book_targets(self):
+        s = self.state
+        targets = book_insertion(actual_tcp_world=s['tcp'], actual_book_world=s['object_pose'],
+            target_book_world=self.spec['target_book_world'], shelf_world=self.spec['shelf_world'],
+            book_size_m=self.spec['book_size_m'], cavity_bounds_shelf_m=self.spec['cavity_bounds_shelf_m'],
+            actual_grasp_valid=bool(s['native_grasp']))
+        return targets.preinsert_tcp_world, targets.insert_tcp_world
+
+    def _withdraw_direction(self):
+        return (-pose(self.spec['shelf_world'])[:3, 0] if self.task == 'BOOK'
+                else self.state['object_pose'][:3, :3] @ self.direction)
+
     def _update_hold(self):
         if self.stage != 'hold': return
         s = self.state
@@ -132,19 +144,14 @@ class SourceSkillTeacher:
         elif stage == 'turn' and self._door_at_target():
             self.release = s['tcp'].copy(); self._transition('release')
         elif stage == 'lift' and reached and s['object_pose'][2, 3]-self.lift_initial_object_z >= .06:
-            targets = book_insertion(actual_tcp_world=s['tcp'], actual_book_world=s['object_pose'],
-                target_book_world=self.spec['target_book_world'], shelf_world=self.spec['shelf_world'],
-                book_size_m=self.spec['book_size_m'], cavity_bounds_shelf_m=self.spec['cavity_bounds_shelf_m'],
-                actual_grasp_valid=bool(s['native_grasp']))
-            self.preinsert, self.insert = targets.preinsert_tcp_world, targets.insert_tcp_world
+            self.preinsert, self.insert = self._book_targets()
             self._transition('preinsert')
         elif stage == 'preinsert' and reached: self._transition('insert')
         elif stage == 'insert' and reached and self._book_supported_inside():
             self.release = s['tcp'].copy(); self._transition('release')
         elif stage == 'release' and not s['native_grasp'] and s['gripper_fraction'] >= .85:
             self.withdraw = s['tcp'].copy()
-            direction = (-pose(self.spec['shelf_world'])[:3, 0] if self.task == 'BOOK'
-                         else s['object_pose'][:3, :3] @ self.direction)
+            direction = self._withdraw_direction()
             self.withdraw[:3, 3] += direction*.13
             self._transition('withdraw')
         elif stage == 'withdraw' and reached and not s['robot_object_contact']:
