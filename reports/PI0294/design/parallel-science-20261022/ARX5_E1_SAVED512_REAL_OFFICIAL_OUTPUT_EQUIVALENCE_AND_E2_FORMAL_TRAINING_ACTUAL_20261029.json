@@ -1,0 +1,282 @@
+{
+  "schema": "ARX5_E1_SAVED512_INFERENCE_QUALIFIED_AND_E2_PARTIAL122_CLOSED_V2",
+  "status": "ACTUAL1506193_PARTIAL122_ONCE_SETTLED_TWO_LEASES_CLOSED",
+  "observed_SGT": "2026-10-29T13:33:49.895459+08:00",
+  "source": "769c59ff7912ff16bdeb6f99bfde37f759a6fd37",
+  "metadata_source": "446ac8bfc01413d4ade41f566965b0d4e82baf05",
+  "job": {
+    "job_id": "1506193.stdct-mgmt-02",
+    "state": "F",
+    "Exit_status": 1,
+    "run_count": 1,
+    "exec_host": "GN-A40-033",
+    "finished_epoch": 1793249711
+  },
+  "request_id": "586b6601-daf5-4823-950b-605896e611c0",
+  "request_sha256": "8025c1771d544add405fdc9aefcf028f7ae987cdb70ef969c0ef927854daa611",
+  "GLOBAL_sha256": "c44d96fbcc159ad8cc7d1862386e0274cea3ebb413ae4cab14c6a976aaf1f73b",
+  "PBS_used": 40,
+  "complete_queue_sha256": "d26001a4b805849218b70ce81239d3d045187ed7f0ac96a9fdf0f6621647ebbd",
+  "native_status_sha256": "eb622a13c04ffaaae138a1b8ef494cb7c37ae22ce8bad3d73ab93a115a64c6db",
+  "same_wrapper_and_owner_kernel": false,
+  "global_unknown": [],
+  "global_pending": [],
+  "queue_unknown": [],
+  "E1": {
+    "previous_formal_training_steps": 512,
+    "previous_committed_cursor": 16384,
+    "new_updates": 0,
+    "actual_queries": 25,
+    "actual_model_loads": 3,
+    "complete_inference_session": true,
+    "session_terminal_sha256": "c8ff1fb2277ec9465d1ab2eb26d7145641910f23d8acb20b81c4eb4155097253",
+    "independent_output_pair_readback_sha256": "aa200a7a91391c1a121a4f889648837f40217bca39fa6e4d3efe2e4c7032cd5d",
+    "independent_exact_output_proof": {
+      "status": "INDEPENDENT_ACTUAL_FULL_GR00T_SAVED_E1_512_AND_ORDINARY_RELOAD_SAME_INPUT_ACTUAL_NOISE_OUTPUTS_EXACT",
+      "observed_epoch": 1793248657.4976277,
+      "source_sha": "769c59ff7912ff16bdeb6f99bfde37f759a6fd37",
+      "request_sha256": "8025c1771d544add405fdc9aefcf028f7ae987cdb70ef969c0ef927854daa611",
+      "E1_session_terminal_sha256": "c8ff1fb2277ec9465d1ab2eb26d7145641910f23d8acb20b81c4eb4155097253",
+      "native_comparison_sha256": "ddd909586ce2b6d67675cf2fb197c51f5c6d6f814e5a7ef7109a4adfbcdfb4fc",
+      "reference_sha256": "e417dc56521d79255e095727b9ee148fae20d5ed26986928c89c4bad3d828c29",
+      "ordinary_reloaded_sha256": "449824005dc673e7d8f259fa86e2036d30a228a2356e589be5ec38b1c7ae4b55",
+      "saved_full_checkpoint_manifest_sha256": "96b4abf08d752af9c332ac70cd4f0120bcfed0c84ea22d6650aad7869ae98a36",
+      "ordinary_export_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+      "saved_state_audit_sha256": "f900a9f5b9bf310178bb5c931f3c2812e8b77cf3b9937c6527426578212cd138",
+      "same_actual_noise": true,
+      "same_observation": true,
+      "checked_actual_arrays": {
+        "noise_seed": {
+          "dtype": "<u8",
+          "shape": [],
+          "exact": true
+        },
+        "noise_fingerprint_json": {
+          "dtype": "<U127",
+          "shape": [],
+          "exact": true
+        },
+        "observation_fingerprint": {
+          "dtype": "<U64",
+          "shape": [],
+          "exact": true
+        },
+        "physical_H40": {
+          "dtype": "<f8",
+          "shape": [
+            40,
+            10
+          ],
+          "exact": true
+        },
+        "normalized": {
+          "dtype": "<f4",
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "exact": true
+        }
+      },
+      "maximum_differences": {
+        "physical_max_abs": 0.0,
+        "normalized_max_abs": 0.0
+      },
+      "E1_new_updates": 0,
+      "E1_actual_charged_queries": 25,
+      "E1_actual_model_loads": 3,
+      "independent_reader_new_models_queries_updates_physics": 0,
+      "behavior_success_not_measured": true,
+      "allocation_terminal_not_claimed": true
+    },
+    "HF_upload_or_Core_delivery": "NOT_RUN"
+  },
+  "E2": {
+    "raw_parent_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "initialization": "ORIGINAL_RAW_PARENT_FRESH_OPTIMIZER_NOT_E1_OR_STEP2",
+    "formal_committed_updates": 122,
+    "target_updates": 512,
+    "committed_cursor": 3904,
+    "ordinary_inflight_updates": [],
+    "unknown_effects": [],
+    "actual_model_loads": 1,
+    "complete_checkpoint_or_terminal_claimed": false,
+    "complete_checkpoint_present": false,
+    "formal_endpoint_complete": false,
+    "completed_allocation": true,
+    "checkpoint_recovery": "NO_COMPLETE_FORMAL_STATE_AVAILABLE_DO_NOT_RESUME_FROM_STEP2_OR_E1"
+  },
+  "new_training_prepayment_or_registration_or_qsub_by_this_report": false,
+  "whole_allocation_settlement": "ACTUAL_ONCE_SETTLED_TWO_LEASES_CLOSED_INDEPENDENT_READBACK",
+  "unchanged": {
+    "TRAIN_demonstrations": 12,
+    "batch": 32,
+    "scheduler_horizon": 1024,
+    "R0": true,
+    "EEF10": true,
+    "H40": 40,
+    "prefix": 8,
+    "inference_steps": 4,
+    "Core_runtime_dependency": false,
+    "matrix_PBS": 3,
+    "protected_final_GPU_hours": 20,
+    "protected_final_GiB": 40,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287
+  },
+  "independent_reader_history": {
+    "first_NumPy_child_read": "Returned failure with empty child stderr; original readonly error and4CPU/wire upper retained. No tensor/model replay.",
+    "second_reader": "Bounded stdlib NPZ reader independently checked original member SHA, NPY dtype/shape, finite values, actual noise/input and exact output equality. No numeric/neural runtime imported.",
+    "small_stage_wire": "A valid return0 reply exceeded combined stdout+SSH-banner cap by32bytes. Exact data SHA decoded independently,32extra bytes charged; original read error retained."
+  },
+  "science_limits": [
+    "E1 output reconstruction equality is real evidence; it is not behavioral task success.",
+    "E1 remains saved512 qualified; no E1 retraining is needed.",
+    "E2 formal122 is a paid interrupted run, not a complete512 endpoint; no complete state exists for resumption.",
+    "Current existing PBS cap43 contains used40 plus protected matrix3, so another GPU dispatch requires an exact authorized full-resource continuation.",
+    "Core D25/GEN1/E1/E2 behavior remains unmeasured; Core admin recovery is separate."
+  ],
+  "wholegoal_complete": false,
+  "prior_running_observation": {
+    "status": "E1_INFERENCE_QUALIFIED_E2_FORMAL_ACTUAL_UPDATES_RUNNING_NOT_CLOSED",
+    "observed_SGT": "2026-10-29T12:37:52.637940+08:00",
+    "job": {
+      "job_id": "1506193.stdct-mgmt-02",
+      "state": "R",
+      "exec_host": "GN-A40-033/1*36",
+      "run_count": 1,
+      "resources_used": {
+        "cpupercent": 71,
+        "cput": "00:10:21",
+        "gpu_usage": "GN-A40-033(cuda.1.energyConsumed=10387J, cuda.1.lowUtilizationTime=0.000s, cuda.1.maxGpuMemoryUsed=30784.000MB, cuda.1.memoryClock_min=405MHz, cuda.1.memoryClock_max=7251MHz, cuda.1.memoryClock_avg=7251MHz, cuda.1.memoryUtilization_min=0%, cuda.1.memoryUtilization_max=76%, cuda.1.memoryUtilization_avg=15%, cuda.1.overallHealth=20, cuda.1.powerViolationTime=0.000s, cuda.1.reliabilityViolationTime=0.000s, cuda.1.thermalViolationTime=0.000s, cuda.1.wallTime=959s, cuda.1.usagePerc=17.235%, cuda.1.memUsagePerc=66.823%)",
+        "mem": "15312208kb",
+        "ncpus": 36,
+        "ngpus": 0,
+        "vmem": "58496536kb",
+        "walltime": "00:22:14"
+      }
+    },
+    "GLOBAL_sha256": "a765a36318d160509eca826f345636761c481879902a173ee2d7dd80f0479a53",
+    "same_wrapper_and_owner_kernel": true,
+    "E2": {
+      "raw_parent_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+      "initialization": "ORIGINAL_RAW_PARENT_FRESH_OPTIMIZER_NOT_E1_OR_STEP2",
+      "formal_committed_updates": 122,
+      "target_updates": 512,
+      "committed_cursor": 3904,
+      "ordinary_inflight_updates": [],
+      "unknown_effects": [],
+      "actual_model_loads": 1,
+      "complete_checkpoint_or_terminal_claimed": false,
+      "complete_checkpoint_present": false,
+      "formal_endpoint_complete": false,
+      "completed_allocation": true,
+      "checkpoint_recovery": "NO_COMPLETE_FORMAL_STATE_AVAILABLE_DO_NOT_RESUME_FROM_STEP2_OR_E1"
+    },
+    "whole_allocation_settlement": "NOT_YET_TERMINAL_NO_EARLY_SETTLEMENT"
+  },
+  "GLOBAL_used": {
+    "H200_s": 187128.0,
+    "PBS_submissions": 40,
+    "optimizer_updates": 15424,
+    "neural_queries": 5972
+  },
+  "GLOBAL_reserved": {
+    "H200_s": 86580,
+    "neural_queries": 6291,
+    "optimizer_updates": 0
+  },
+  "settlement": {
+    "actual": {
+      "GPU_s": 2526,
+      "CPU_s": 1825,
+      "updates": 122,
+      "queries": 25,
+      "loads": 4,
+      "complete_sessions": [
+        "E1_ADAPTER_ONLY_FORMAL512"
+      ],
+      "success": false
+    },
+    "native": {
+      "schema": "ARX5_MINIMAL_ACTUAL_PBS_AND_PROCESS_TERMINAL_V1",
+      "job_id": "1506193.stdct-mgmt-02",
+      "job_state": "F",
+      "request_id": "586b6601-daf5-4823-950b-605896e611c0",
+      "submission_nonce": "031f171d-14fe-413e-9924-acd864877d7e",
+      "source_sha": "769c59ff7912ff16bdeb6f99bfde37f759a6fd37",
+      "request_sha256": "8025c1771d544add405fdc9aefcf028f7ae987cdb70ef969c0ef927854daa611",
+      "Exit_status": 1,
+      "finished_epoch": 1793249711,
+      "observed_epoch": 1793251811.495538,
+      "conservative_GPU_s": 2526,
+      "new_native_conservative_CPU_s": 1825,
+      "prior_readonly_preparation_CPU_upper_s": 0,
+      "conservative_CPU_s": 1825,
+      "all_native_workers_terminal": true,
+      "terminal_inventory_stable": true,
+      "raw_native_sha256": "710a840a3a313832bbb231d04c08ee4822cbba984271ddca67817e5b0f8c65a9",
+      "process_final_sha256": "809a0041b31365ae73489a8883d801e9221347fd3e66f40c57f2ba879afa770b",
+      "wrapper_final_sha256": "c678e8ad59c693b8048a4edbb78c337f0a6c1bc2c49da8c30c1e6786ab61b2a4",
+      "inventory_sha256": "ba5f743064877f9e435182bee5191ebb006b2d44640e0e57bb4b03d06e11b21d"
+    },
+    "independent_once_checks": [
+      {
+        "operation": "ARX5-1506193-KNOWN-PARTIAL-SETTLE-01",
+        "intent_sha256": "e3bd0d6c43852f214d0f7f1762851582f4f3e2bd19e9648d3b6219c17e37144f",
+        "receipt_sha256": "0bcad469d40e5c9124d1f64d16001643c3a9f10b72bc2b21d2b5368e2483ee60",
+        "after_sha256": "c44d96fbcc159ad8cc7d1862386e0274cea3ebb413ae4cab14c6a976aaf1f73b"
+      },
+      {
+        "operation": "ARX5-MINIMAL-FIRST512-LEASE-CLOSE-586b6601-daf5-4823-950b-605896e611c0",
+        "intent_sha256": "fd21e8529caf4c0964b788ef5a28fe2687c09b906ee6ff4baa6f3dcc0e4e957f",
+        "receipt_sha256": "ad3f622888051340dd683eb3615d5ce61a3b124d95ade4d6030c7370653a54a0",
+        "after_sha256": "d422ff437ad7409b0042c7761816963bc5bf5eae8d0c9d6c188d90293d44fabb"
+      },
+      {
+        "operation": "arx5-saved512-registered-dispatch-owner01-KNOWN-FAILED-CLOSE",
+        "intent_sha256": "df577d59199fe3efd88bb421ad7fa2789d1a5a7c55701df97c099eb3f87684fc",
+        "receipt_sha256": "e5260ae16aa41acaae2ca8c977ec4026031d31f0558d47f088074ad6625dea4d",
+        "after_sha256": "ad51be91c047f75f8f5ff5e1cf4888d80d7388101b910d23043bb0e304c87892"
+      }
+    ],
+    "science_lease_sha256": "d422ff437ad7409b0042c7761816963bc5bf5eae8d0c9d6c188d90293d44fabb",
+    "metadata_lease_sha256": "ad51be91c047f75f8f5ff5e1cf4888d80d7388101b910d23043bb0e304c87892",
+    "settled_sha256": "52e39f28f50279a47a1a5efabce32b149d0bc5da4c5e01db1e06bf77a641fe81",
+    "terminal_child_OS0_CPU_s": 36.042079,
+    "native_terminal_CPU_allowance_s": 240,
+    "new_financial_fee_for_terminal_child": 0,
+    "old_owner_OS1_preserved": true
+  },
+  "failure": {
+    "backend": "Local readonly effect-ledger read raised OSError ESTALE outside the RPC Journal; the backend exited.",
+    "compute": "Original 300s heartbeat protection subsequently stopped compute before the next optimizer update.",
+    "frontend_agent_dependency": false,
+    "CoreLab_dependency": false,
+    "underlying_Vanda_filesystem_trigger": "UNKNOWN; distinct filesystem/site from CoreLab AMD NFS service outage.",
+    "automatic_qsub_replay": false
+  },
+  "cold_fix": {
+    "module": "scripts/pi0294/dec1/cold_owner.py",
+    "policy": "Only errno ESTALE from fresh observation, for explicitly registered successor with existing read-outage preservation, enters the existing readonly retry path.",
+    "no_stale_heartbeat_or_release": true,
+    "heartbeat_watchdog_s_unchanged": 300,
+    "RPC_timeouts_unchanged": true,
+    "mutation_or_auth_or_persistence_errors_never_reclassified": true,
+    "original_capsule_unchanged": true,
+    "native_deployment": "NOT_RUN",
+    "limit": "A prolonged storage outage still prevents fresh heartbeat and compute remains fail closed; this does not repair the shared filesystem.",
+    "CPU_validation": {
+      "command": "PYTHONPATH=src python3 -B -m unittest scripts.pi0294.dec1.test_owner_transport scripts.pi0294.dec1.test_cold_owner scripts.pi0294.dec1.test_cold_packet_transport scripts.pi0294.dec1.test_vanda_resident_transport",
+      "passed": 54,
+      "new_NFS_cases": 4,
+      "CI_or_native_claimed": false
+    }
+  },
+  "validation_history": [
+    "First unittest invocation lacked PYTHONPATH=src and failed imports; retained as environment setup failure.",
+    "Corrected cold-owner integration invocation passed22 including4 new NFS-error regressions.",
+    "A broadened invocation named nonexistent test_owner_rpc;48 executable tests passed, loader error retained."
+  ]
+}
