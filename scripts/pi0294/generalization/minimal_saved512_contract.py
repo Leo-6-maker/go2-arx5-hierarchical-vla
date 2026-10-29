@@ -8,8 +8,8 @@ import json
 from . import minimal_execution as e,minimal_saved512_recovery_scope as scope
 
 VERSION='ARX5_MINIMAL_SAVED_E1_512_FRESH_E2_512_V1'
-PROFILE='vanda-arx5-minimal-saved-e1-inference-fresh-e2-fixed512'
-RUN='arx5-minimal-saved-e1-inference-e2-fresh512-01'
+PROFILE='vanda-arx5-minimal-saved-e1-inference-fresh-e2-fixed512-cold02'
+RUN='arx5-minimal-saved-e1-inference-e2-fresh512-02'
 RESULT='f900a9f5b9bf310178bb5c931f3c2812e8b77cf3b9937c6527426578212cd138'
 OS_EXIT='a0e57ba904d5af68506374614734e4470ac857997d2aa2cda29f3dd2ba23da2a'
 PROGRAM='1b0b22ba25925176006a84a6d08c2039baa846e3e40b63194ef86b4285a36445'

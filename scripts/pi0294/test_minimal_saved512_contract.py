@@ -62,3 +62,19 @@ def test_real_saved_state_result_is_bound_to_failed_predecessor_not_new_native_p
     for key,value in [('native_exit_status',0),('E1_actual_output_reconstruction_qualified',True),('E2_formal_updates',512)]:
         bad=json.loads(a);bad[key]=value
         with pytest.raises(PermissionError):c.binding(e.raw(bad),b)
+
+
+def test_exact_legacy_probe0600_is_readonly_content_checked_not_tensor_policy(tmp_path):
+    from scripts.pi0294.generalization.minimal_saved512_inputs import verify_witness
+    import os
+    path=tmp_path/'probe.npz';path.write_bytes(b'actual saved small fixture');path.chmod(0o600)
+    st=path.stat();row=dict(inode=st.st_ino,bytes=st.st_size,mtime_ns=st.st_mtime_ns,ctime_ns=st.st_ctime_ns,sha256=e.sha(path.read_bytes()))
+    allowed={str(path):row['sha256']};verify_witness(path,row,science=tmp_path,legacy_probes=allowed)
+    assert path.stat().st_mode&0o777==0o600
+    with pytest.raises(PermissionError):verify_witness(path,row,science=tmp_path,legacy_probes={})
+    with pytest.raises(PermissionError):verify_witness(path,row,science=tmp_path,legacy_probes={str(path):'0'*64})
+    old=path.read_bytes();path.write_bytes(b'x'*len(old));os.utime(path,ns=(st.st_atime_ns,st.st_mtime_ns))
+    with pytest.raises(PermissionError):verify_witness(path,row,science=tmp_path,legacy_probes=allowed)
+    tensor=tmp_path/'model.safetensors';tensor.write_bytes(b'tensor fixture');tensor.chmod(0o600);ts=tensor.stat()
+    tw=dict(inode=ts.st_ino,bytes=ts.st_size,mtime_ns=ts.st_mtime_ns,ctime_ns=ts.st_ctime_ns,sha256=e.sha(tensor.read_bytes()))
+    with pytest.raises(PermissionError):verify_witness(tensor,tw,science=tmp_path,legacy_probes={})

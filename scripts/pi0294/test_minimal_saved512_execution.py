@@ -22,7 +22,7 @@ def test_complete_real_history_with_new_fixture_request_preserves_all14(tmp_path
         new_output_bound_bytes=70000000000,additional_output_charge_bytes=0,old_closed_lease_sha256=c.scope.LEASE,
         old_science_root='/CPU_FIXTURE/arx5-minimal-raw-parent-first512-remainder-02',old_snapshot_sha256='a'*64,
         old_snapshot_identity_sha256='b'*64,prefix_initial_allocated_bytes=13945905152,old_metadata_ceiling=268435456,
-        old_science_initial_allocated_bytes=51945381888)
+        old_science_initial_allocated_bytes=51945381888,retained_cold_roots=[dict(run_uuid='arx5-minimal-saved-e1-inference-e2-fresh512-01',source_sha='ade4dbe39e3def8bec9be6c9608a29105552bbb4',manifest_sha256='0299c9e9ea1ec9fcbb6b83295113710881dd38026ed3206e9f8170b689e298ba',closed_lease_sha256='c'*64,snapshot_identity_sha256='d'*64,allocated_bytes=15000000)])
     r=dict(x.fixed_request_fields(),request_id=p['request_id'],submission_nonce=p['submission_nonce'],source_sha='a'*40,
         run_manifest_sha256='b'*64,cold_input_audit_sha256='c'*64,raw_parent_audit_plan_sha256='d'*64,
         frozen_input_packet_sha256='e'*64,Core_measurement_capture_sha256=g[e.FIELD]['Core_measurement_proof']['capture_sha256'],
@@ -34,7 +34,7 @@ def test_complete_real_history_with_new_fixture_request_preserves_all14(tmp_path
     proof=dict(status='ACTUAL_SAVED512_ALL_RETAINED_ROOTS_AND_NEW_OUTPUT_BOUNDED_NO_PERMISSION',observed_epoch=now,
         custody_sha256=r['physical_custody_sha256'],old_snapshot_identity_sha256=p['old_snapshot_identity_sha256'],
         prefix_allocated_bytes=13945905152,old_metadata_ceiling=268435456,old_science_allocated_bytes=51945381888,
-        new_allocated_bytes=10000000,next_output_upper_bytes=1000000,ledger_changed=False,native_permission=False)
+        new_allocated_bytes=10000000,retained_cold_allocated_bytes=15000000,next_output_upper_bytes=1000000,ledger_changed=False,native_permission=False)
     full=queue.collect_queue(runner=lambda *args,**kw:SimpleNamespace(returncode=0,stdout='',stderr=''),clock=lambda:now)
     fresh=dict(complete_queue=full,observed_epoch=now,GLOBAL_sha256=e.sha(gb),complete_queue_verified=True,
         old_workers_terminal=True,old_closed_science_lease_sha256=c.scope.LEASE,independent_confirmation_base64='')
