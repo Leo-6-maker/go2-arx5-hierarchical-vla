@@ -1,0 +1,390 @@
+{
+  "schema": "ARX5_E1_SAVED512_ORIGINAL_REFERENCE_PROBE_DESCRIPTIVE_ANALYSIS_V1",
+  "status": "ORIGINAL_METRIC_JSON_SUMMARY_AND_ACTUAL_POPULATION_JOIN_NO_NEW_QUERIES",
+  "observed_SGT": "2026-10-29T12:27:27.667522+08:00",
+  "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "original_result_sha256": "27d21622ec00dc1c759a959124f8af1eb49dd1a6f0d2fd9ffbd12b8173fe4ccd",
+  "checkpoint_manifest_sha256": "96b4abf08d752af9c332ac70cd4f0120bcfed0c84ea22d6650aad7869ae98a36",
+  "actual_metric_readback_sha256": "5231ddd2ef34beb313d9078c13f3f5d664fcacd601b14927a97a3c7a69245377",
+  "actual_population_readback_sha256": "38282a87f69c487c4d906b6995904d09900c7e4774b86f620d8746482806bfdf",
+  "reference_population": {
+    "status": "ACTUAL_E1_PROBE_REFERENCE_POPULATION_JOIN",
+    "observed_epoch": 1793248047.6675222,
+    "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+    "minimal_TRAIN_panel_member_count": 12,
+    "reference_reader_is_not_optimization_population": true,
+    "reference_reader_route": "COVERAGE_FIRST",
+    "probe_result_sha256": "27d21622ec00dc1c759a959124f8af1eb49dd1a6f0d2fd9ffbd12b8173fe4ccd",
+    "sealed_small_plan_sha256": {
+      "plans/MINIMAL_TWELVE_PANEL.json": "4907ec23a75f0ef8bfaf9a4c44f6ed160da00a3c30b49f4b1ed5f98c0f533d94",
+      "plans/MINIMAL_ORIGINAL_PROBE_READER.private.json": "812e65b54e67c74f67aa7eb892c017c2d77baefee0b7dad22d87530af91dcd00",
+      "plans/PV1_FIXED_TRAIN_PROBES.json": "8ab9174d8517eea237790d6c0d4b6b4831ab91ddb2e9dc04763a22d295dfc29f"
+    },
+    "records": [
+      {
+        "id": "original_T1-000",
+        "lane": "original_T1",
+        "task": "T1",
+        "parent": "PI0294-TRAIN-F0-000-T1",
+        "anchor": 0,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "original_T1-240",
+        "lane": "original_T1",
+        "task": "T1",
+        "parent": "PI0294-TRAIN-F0-000-T1",
+        "anchor": 240,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "original_T1-560",
+        "lane": "original_T1",
+        "task": "T1",
+        "parent": "PI0294-TRAIN-F0-000-T1",
+        "anchor": 560,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "original_T2-000",
+        "lane": "original_T2",
+        "task": "T2",
+        "parent": "PI0294-TRAIN-F0-000-T2",
+        "anchor": 0,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "original_T2-240",
+        "lane": "original_T2",
+        "task": "T2",
+        "parent": "PI0294-TRAIN-F0-000-T2",
+        "anchor": 240,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "original_T2-560",
+        "lane": "original_T2",
+        "task": "T2",
+        "parent": "PI0294-TRAIN-F0-000-T2",
+        "anchor": 560,
+        "exact_parent_string_in_minimal_TRAIN_panel": true
+      },
+      {
+        "id": "new_T1-000",
+        "lane": "new_T1",
+        "task": "T1",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 0,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      },
+      {
+        "id": "new_T1-240",
+        "lane": "new_T1",
+        "task": "T1",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 240,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      },
+      {
+        "id": "new_T1-560",
+        "lane": "new_T1",
+        "task": "T1",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 560,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      },
+      {
+        "id": "new_T2-000",
+        "lane": "new_T2",
+        "task": "T2",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 0,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      },
+      {
+        "id": "new_T2-240",
+        "lane": "new_T2",
+        "task": "T2",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 240,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      },
+      {
+        "id": "new_T2-560",
+        "lane": "new_T2",
+        "task": "T2",
+        "parent": "PI0294/PV1/TRAIN/F0/000",
+        "anchor": 560,
+        "exact_parent_string_in_minimal_TRAIN_panel": false
+      }
+    ],
+    "unique_probe_parent_strings": 3,
+    "minimal_parent_exact_string_matches": 6,
+    "parent_namespace_limit": "New lanes use original scene_group as parent rather than numeric member ID; group equality alone is not payload equality.",
+    "new_model_queries": 0,
+    "new_physics": 0
+  },
+  "summary": {
+    "prefix8": {
+      "XYZ_euclidean_m": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.1078949927790428,
+        "row_mean_median": 0.10797135771616598,
+        "min": 0.08901542278860346,
+        "max": 0.12622965494511118
+      },
+      "SO3_rad": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.260673383886797,
+        "row_mean_median": 0.2598393031883257,
+        "min": 0.18411174078829684,
+        "max": 0.33651937515805863
+      },
+      "gripper_MAE": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.343867647772034,
+        "row_mean_median": 0.29834687896072865,
+        "min": 0.11391083896160126,
+        "max": 0.8111559897661209
+      }
+    },
+    "H40": {
+      "XYZ_euclidean_m": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.10990486060062349,
+        "row_mean_median": 0.1098448424095444,
+        "min": 0.10168543927354023,
+        "max": 0.12290953627266896
+      },
+      "SO3_rad": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.2510561942756749,
+        "row_mean_median": 0.25920734028928877,
+        "min": 0.2094425554553075,
+        "max": 0.2970634399636012
+      },
+      "gripper_MAE": {
+        "expected_rows": 12,
+        "finite_rows": 12,
+        "row_mean_macro": 0.4063721992696325,
+        "row_mean_median": 0.40326215475797655,
+        "min": 0.22256548702716827,
+        "max": 0.6370363689959049
+      }
+    }
+  },
+  "first_position_jump_m": {
+    "finite_rows": 12,
+    "median": 0.1014062993727857
+  },
+  "original_saved_decisions": {
+    "REJECT": 12
+  },
+  "original_saved_reasons": {
+    "LINEAR_SPEED_REJECT": 12,
+    "ANGULAR_SPEED_REJECT": 12,
+    "PATH_LENGTH_SANITY": 12
+  },
+  "records": [
+    {
+      "id": "original_T1-000",
+      "lane": "original_T1",
+      "anchor": 0,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.1082225459535328,
+      "prefix8_gripper_MAE": 0.36868735402822495,
+      "first_position_jump_m": 0.0941056502010886
+    },
+    {
+      "id": "original_T1-240",
+      "lane": "original_T1",
+      "anchor": 240,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.11396897340723983,
+      "prefix8_gripper_MAE": 0.36548129469156265,
+      "first_position_jump_m": 0.15047144134538812
+    },
+    {
+      "id": "original_T1-560",
+      "lane": "original_T1",
+      "anchor": 560,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.104491076312861,
+      "prefix8_gripper_MAE": 0.3021796904504299,
+      "first_position_jump_m": 0.046349664794455334
+    },
+    {
+      "id": "original_T2-000",
+      "lane": "original_T2",
+      "anchor": 0,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.12622965494511118,
+      "prefix8_gripper_MAE": 0.2353445589542389,
+      "first_position_jump_m": 0.08640759877372839
+    },
+    {
+      "id": "original_T2-240",
+      "lane": "original_T2",
+      "anchor": 240,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.10191884206138176,
+      "prefix8_gripper_MAE": 0.46801891922950745,
+      "first_position_jump_m": 0.11113768505267178
+    },
+    {
+      "id": "original_T2-560",
+      "lane": "original_T2",
+      "anchor": 560,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.09761418923589038,
+      "prefix8_gripper_MAE": 0.5770831443369389,
+      "first_position_jump_m": 0.09560084626503637
+    },
+    {
+      "id": "new_T1-000",
+      "lane": "new_T1",
+      "anchor": 0,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.10821089134445495,
+      "prefix8_gripper_MAE": 0.19108210876584053,
+      "first_position_jump_m": 0.09932372756398147
+    },
+    {
+      "id": "new_T1-240",
+      "lane": "new_T1",
+      "anchor": 240,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.09391647926061342,
+      "prefix8_gripper_MAE": 0.1385546326637268,
+      "first_position_jump_m": 0.06429319247836085
+    },
+    {
+      "id": "new_T1-560",
+      "lane": "new_T1",
+      "anchor": 560,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.08901542278860346,
+      "prefix8_gripper_MAE": 0.11391083896160126,
+      "first_position_jump_m": 0.10348887118158992
+    },
+    {
+      "id": "new_T2-000",
+      "lane": "new_T2",
+      "anchor": 0,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.12085741949616757,
+      "prefix8_gripper_MAE": 0.2603991739451885,
+      "first_position_jump_m": 0.16180200139310155
+    },
+    {
+      "id": "new_T2-240",
+      "lane": "new_T2",
+      "anchor": 240,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.10773182408787702,
+      "prefix8_gripper_MAE": 0.8111559897661209,
+      "first_position_jump_m": 0.11179490956457191
+    },
+    {
+      "id": "new_T2-560",
+      "lane": "new_T2",
+      "anchor": 560,
+      "decision": "REJECT",
+      "reasons": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT",
+        "PATH_LENGTH_SANITY"
+      ],
+      "prefix8_xyz_mean_m": 0.12256259445478024,
+      "prefix8_gripper_MAE": 0.2945140674710274,
+      "first_position_jump_m": 0.1071594584810537
+    }
+  ],
+  "exact_selected_original_subset": {
+    "reference_rows": 6,
+    "distinct_original_parent_IDs": 2,
+    "prefix8_position_row_mean_macro_m": 0.10874088031933615,
+    "prefix8_gripper_MAE_row_macro": 0.38613249361515045,
+    "original_saved_rejects": 6
+  },
+  "methods": {
+    "source": "Summarize previously computed original error_metrics and gate_action records only. No new NPZ-based recomputation, model draw or gate evaluation.",
+    "aggregate": "Mean of12 saved per-window means, preserving all rejects; subset independently joined to exact selected original parent IDs.",
+    "population": "Original COV/C50 reference reader, not the12-parent optimization reader. Six original-lane windows match two selected raw parents; new-lane parent is scene_group and string non-match alone is not a full lineage exclusion.",
+    "baseline": "No matched initial checkpoint outputs for these12 windows were analyzed, so training improvement is not measured."
+  },
+  "causal_limits": [
+    "Reference probe gate rejection is not actual collision or closed-loop task failure.",
+    "12 windows span only a small reference population; not12 independent geometries or12 minimal demonstrations.",
+    "Original-lane selected-parent subset exposes sizeable errors in these trained-parent windows, not a census of all training windows.",
+    "No inference that raw pretraining is useless or that E1/E2 comparison is resolved.",
+    "Original parameter scope, data, noise, S1 thresholds and planned E2 remain unchanged."
+  ],
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "new_gate_evaluations": 0,
+  "baseline_matched": false,
+  "metrics_recomputed_from_NPZ": false,
+  "wholegoal_complete": false
+}
