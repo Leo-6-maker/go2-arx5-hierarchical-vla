@@ -119,7 +119,7 @@ TAIL_PROGRAM = _HEADER+_tail.replace(_old_probe,_new_probe).replace(
 def worker_bootstrap(root, episode):
     """Original entry/interpreter, explicit sealed ROS path for owned children."""
     return ("import json,os,sys;from pathlib import Path;root=Path("+repr(str(root))+
-        ");i=json.loads((root/'NATIVE_INPUTS.private.json').read_bytes());code=root/'native-entry/code/vla';"
+        ");i=json.loads((root/'NATIVE_INPUTS.private.json').read_bytes());m=json.loads((root/'NATIVE_RUN_MANIFEST.json').read_bytes());code=root/m['code']['capsule_relative'];"
         "p=':'.join([str(code),str(code/'src'),i['runtime_environment']['PYTHONPATH']]);"
         "os.environ['PYTHONPATH']=p;sys.path[:0]=p.split(':');"
         "from scripts.pi0294.task_path_worker import run;run(str(root),i['native_root'],i['startup_root'],"+repr(episode)+")")
@@ -133,7 +133,8 @@ def unit_entry_launcher(root, bootstrap):
     """
     return ("import json,os;from pathlib import Path;root=Path("+repr(str(root))+
         ");env=json.loads((root/'NATIVE_PROCESS_ENVIRONMENT.private.json').read_bytes());"
+        "m=json.loads((root/'NATIVE_RUN_MANIFEST.json').read_bytes());"
         "invocation=os.environ['INVOCATION_ID'];assert len(invocation)==32;"
         "env['INVOCATION_ID']=invocation;os.execve('/bin/bash',['/bin/bash',"
-        "str(root/'native-entry/infrastructure/enter.sh'),'4080-simulation','python','-B','-c',"
+        "str(root/m['entry_relative']/'enter.sh'),'4080-simulation','python','-B','-c',"
         +repr(bootstrap)+"],env)")

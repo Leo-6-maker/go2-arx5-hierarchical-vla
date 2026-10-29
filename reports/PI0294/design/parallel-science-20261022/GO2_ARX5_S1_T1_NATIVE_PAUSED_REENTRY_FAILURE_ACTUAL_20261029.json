@@ -1,0 +1,50 @@
+{
+  "schema": "S1_T1_ACTUAL_NATIVE_FIRST_ATTEMPT_PAUSED_MODE_TRACE_FAILURE_V1",
+  "worker_source_sha": "04e134969e4821b1674ffeded0eb55d7b4f1f151",
+  "run_uuid": "20261029T113139Z-standing-task-path-s1",
+  "episode": "S1_SHORT_T1",
+  "pid": 3198673,
+  "native_invocation_id": "5e3f1c87bb204feca58d12ef8455ff48",
+  "result_sha256": "00a9996d438b810c18aae4217e314dbb14a11b65ea9ad6235086477e00c824a3",
+  "status": "ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE",
+  "error": "RuntimeError: S1_CURRENT_WBC_REENTRY_NOT_PROVED",
+  "actual_physics_steps": 2500,
+  "charged_physics_steps": 2503,
+  "task_observations": 0,
+  "task_submitted_intents": 0,
+  "RGB_pairs": 0,
+  "actual_child_and_worker_CPU_s": 26.214930241999998,
+  "conservative_charged_Core_CPU_s": 58.31396942771971,
+  "service_s": 13.578492356929928,
+  "native_safety_stop_records": [],
+  "worker_OS_status": 0,
+  "worker_OS_status_is_not_science_success": true,
+  "ROS_sha256": "f55b923292e8c872a6d8d54c56a4814f4652f5b6e269797913bcaf4811023e63",
+  "planner_sha256": "fc22926d2fed768dd24d844b4a13a5878c3e8462d73dd96bc6e2e16b7d6002f4",
+  "actual_mode_timeline_monotonic_s": [
+    {"time": 3055686.652577806, "mode": "WBC"},
+    {"time": 3055686.662686266, "mode": "HOLD"},
+    {"time": 3055686.665250011, "mode": "WBC"}
+  ],
+  "last_native_control_trace": {"monotonic_s": 3055686.641106882, "sim_time_s": 4.9899999999996725, "arm_mode": "HOLD"},
+  "actual_qualification_prefix": {
+    "hold_reference_accepted_and_installed_at_5s": true,
+    "receiver_CANCEL_lifecycle": true,
+    "native_ROS_HOLD_then_WBC_acknowledged": true,
+    "old_worker_read_stale_pre_pause_control_row": true,
+    "old_failure_not_relabelled_PASS": true,
+    "selected_MPC_consumption": "UNKNOWN"
+  },
+  "cold_fix": "Require a new native mode acknowledgement after each request and retain exact pause; do not require the simulation-clock control trace to advance at a fixed pause.",
+  "remaining_original_S1_scope": {
+    "starts_used_including_pre_reservation_failure": 2,
+    "starts_remaining_max": 2,
+    "T1_same_card_retry": false,
+    "T1_confirmation_ineligible": true,
+    "next": "T2 first short attempt with a newly sealed cold worker",
+    "conditional_last_start": "Original T2 confirmation only if that same-source T2 short passes",
+    "change_from_prior_reduced_plan": "T1 confirmation is ineligible; the original approved conditional T2 confirmation is available within the two remaining starts.",
+    "new_budget_deadline_or_WBC_parameters": false
+  },
+  "science_status": "T1_TASK_NOT_ENTERED_NO_VALID_SUCCESS_OR_FAILURE_RATE"
+}

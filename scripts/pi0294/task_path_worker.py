@@ -263,17 +263,25 @@ def run(root,native,startup,episode):
                 r['kind']=='installed' and r.get('ref_id')==hold_id for r in rows)
         if not spin(5,qualification_installed):raise RuntimeError('S1_CURRENT_INSTALL_ACK_NOT_PROVED')
         cancel=dict(_pi0294=dict(episode=episode,sequence=1,source_mpc_s=5.,ttl_s=.4,operation='cancel'))
+        cancel_mode_count=counts.get('mode',0)
         publish(refs,json.dumps(cancel,separators=(',',':')))
         if not spin(5,lambda:any(r['kind']=='lifecycle' and r.get('reason')=='CANCEL' for r in planner_events())
-                and control().get('arm_mode')=='HOLD'):
+                and counts.get('mode',0)>cancel_mode_count and latest.get('mode',String()).data=='HOLD'):
             raise RuntimeError('S1_CURRENT_CANCEL_AND_ORIGINAL_HOLD_NOT_PROVED')
         if not paused(2500):raise ValueError('S1_PHYSICS_ADVANCED_DURING_CURRENT_STOP_QUALIFICATION')
+        reentry_mode_count=counts.get('mode',0)
         publish(modes,'WBC')
-        if not spin(5,lambda:latest.get('mode',String()).data=='WBC' and control().get('arm_mode')=='WBC'):
+        # The native control trace is emitted on advancing simulation time.
+        # At the exact pause it retains a pre-request HOLD row. Require a new
+        # native mode acknowledgement for each transition, with zero new ticks.
+        if not spin(5,lambda:counts.get('mode',0)>reentry_mode_count and latest.get('mode',String()).data=='WBC'):
             raise RuntimeError('S1_CURRENT_WBC_REENTRY_NOT_PROVED')
+        if not paused(2500):raise ValueError('S1_PHYSICS_ADVANCED_DURING_CURRENT_REENTRY')
         write(out/'CURRENT_NATIVE_QUALIFICATION.json',dict(status='PASS_CURRENT_FEEDBACK_INSTALL_CANCEL_HOLD_AT_EXACT_PAUSE',
             native_step=2500,physics_integrations_during_qualification=0,hold_ref_id=hold_id,
-            ROS_sequence_offset=2,first_gripper_sequence=0,WBC_parameters_changed=False))
+            ROS_sequence_offset=2,first_gripper_sequence=0,WBC_parameters_changed=False,
+            cancel_mode_count_before=cancel_mode_count,reentry_mode_count_before=reentry_mode_count,
+            final_mode_count=counts.get('mode',0),last_control_trace=control()))
         while len(observed)<frame_cap:
             if not spin(10,lambda:paused(next_step)):raise RuntimeError('EXACT_20HZ_PAUSE_MISSING')
             packet=read_state(out/'state.bin')
