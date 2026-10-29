@@ -83,7 +83,7 @@ def run(root,side):
                 or time.time()>=min(lease['deadline_epoch'],scope.DEADLINE) or time.monotonic()-start>=580
                 or (root/'STOP.json').exists()):raise PermissionError('ORIGINAL_OWNER_LEASE_STOP_OR_FINITE_CLOCK')
         if engine is not None and engine.steps>=50000:raise PermissionError('ALL_INTEGRATIONS_UPPER')
-        if images_written>=2000:raise PermissionError('ALL_RGB_PAIRS_UPPER')
+        if engine is not None and getattr(engine,'render_pairs',0)>=2000:raise PermissionError('ALL_RGB_PAIRS_UPPER')
         if bytes_written>=500*1024**2:raise PermissionError('PREPAID_OUTPUT_UPPER')
     def emit(kind,row):
         nonlocal images_written,bytes_written
@@ -152,7 +152,8 @@ def run(root,side):
         stream.flush();os.fsync(stream.fileno());stream.close()
     terminal=dict(status='RAW_SOURCE_COMPLETE_UNAUDITED' if result else 'SOURCE_ATTEMPT_FAILED',
         operation=operation,error=error,result=result,actual_integrations=engine.steps if engine else 0,
-        actual_RGB_pairs=images_written,events=events,CPU_s=time.process_time()-cpu,
+        actual_RGB_pairs=getattr(engine,'render_pairs',0)if engine else 0,
+        recorded_RGB_pairs=images_written,events=events,CPU_s=time.process_time()-cpu,
         wall_s=time.monotonic()-start,render_device_s=0 if render_begin is None else time.monotonic()-render_begin,
         task_success=None,training_admitted=False,automatic_retry=False,new_model_queries_updates_PBS=0,
         observed_epoch=time.time())
