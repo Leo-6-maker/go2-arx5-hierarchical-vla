@@ -1,0 +1,255 @@
+{
+  "schema": "S1_ORIGINAL_ENTRY_AND_FULL14_PREPARATION_ACTUAL_V1",
+  "status": "FIXED_ENTRY_PACKAGE_AND_FULL14_FORECAST_PREPARED_NOT_DEPLOYED",
+  "prepared_epoch": 1793275437.3871226,
+  "CPU_s": 12.071731894,
+  "source_sha": "ae91c288ebcf840ae3fb68b2f253961289960ac4",
+  "authority_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json",
+  "input_observations": {
+    "GLOBAL": {
+      "sha256": "7eb5802e3877b2d3fa71ec8cff1faaaf97ef9c0af9f98da9bb502cd6444b33f1",
+      "bytes": 15601828,
+      "observed_epoch": 1793275416.4033425
+    },
+    "LOCAL": {
+      "sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+      "bytes": 3703890,
+      "observed_epoch": 1793275410.513342
+    }
+  },
+  "full_canonical_bytes_reused_only_after_fresh_native_full_hash_and_size_match": true,
+  "forecast_original_function": "scripts/pi0294/generalization/minimal_scope.py:first512_forecast",
+  "original_forecast_sha256": "13d406e33ed30296920f77159ad5a91c118408af37c03e688fd61884d300ba1e",
+  "dimensions": {
+    "H200_s": {
+      "cap": 532800,
+      "original_all_work_projected": 487753.0,
+      "S1_additional": 0,
+      "projected_with_S1": 487753.0,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 532800,
+      "headroom": 45047.0
+    },
+    "PBS_submissions": {
+      "cap": null,
+      "original_all_work_projected": 45,
+      "S1_additional": 0,
+      "projected_with_S1": 45,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": null,
+      "headroom": null
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "original_all_work_projected": 15936,
+      "S1_additional": 0,
+      "projected_with_S1": 15936,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 16384,
+      "headroom": 448
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "original_all_work_projected": 727,
+      "S1_additional": 4,
+      "projected_with_S1": 731,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 4,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1004,
+      "headroom": 273
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "original_all_work_projected": 30437,
+      "S1_additional": 0,
+      "projected_with_S1": 30437,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 48000,
+      "headroom": 17563
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "original_all_work_projected": 22265970,
+      "S1_additional": 62012,
+      "projected_with_S1": 22327982,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 62012,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 40062012,
+      "headroom": 17734030
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "original_all_work_projected": 51448,
+      "S1_additional": 64,
+      "projected_with_S1": 51512,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 100000,
+      "headroom": 48488
+    },
+    "Core_CPU_s": {
+      "cap": 1368000,
+      "original_all_work_projected": 1212729.474704557,
+      "S1_additional": 13800,
+      "projected_with_S1": 1226529.474704557,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 13800,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1381800,
+      "headroom": 155270.5252954429
+    },
+    "Hopper_CPU_s": {
+      "cap": 954000,
+      "original_all_work_projected": 809792.658597758,
+      "S1_additional": 0,
+      "projected_with_S1": 809792.658597758,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 954000,
+      "headroom": 144207.34140224196
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "original_all_work_projected": 171403.974682509,
+      "S1_additional": 600,
+      "projected_with_S1": 172003.974682509,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 600,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 173400,
+      "headroom": 1396.025317491003
+    },
+    "transfer_bytes": {
+      "cap": 488552529920,
+      "original_all_work_projected": 488552503585,
+      "S1_additional": 8589934592,
+      "projected_with_S1": 497142438177,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 8589934592,
+      "shared_cap_increase_needed_without_S1_grant": 8589908257,
+      "combined_named_scope_ceiling": 497142464512,
+      "headroom": 26335
+    },
+    "Hopper_storage_bytes": {
+      "cap": 1502164811776,
+      "original_all_work_projected": 1502162635000,
+      "S1_additional": 0,
+      "projected_with_S1": 1502162635000,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1502164811776,
+      "headroom": 2176776
+    },
+    "Core_storage_bytes": {
+      "cap": 590558003200,
+      "original_all_work_projected": 521417653896,
+      "S1_additional": 8589934592,
+      "projected_with_S1": 530007588488,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 8589934592,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 599147937792,
+      "headroom": 69140349304
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "original_all_work_projected": 9395240960,
+      "S1_additional": 1073741824,
+      "projected_with_S1": 10468982784,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 1073741824,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 22548578304,
+      "headroom": 12079595520
+    }
+  },
+  "shortfalls": {},
+  "old_work_matrix_and_final_protection_preserved": true,
+  "original_shared_caps_rewritten": false,
+  "S1_named_allowance_spendable_by_old_work": false,
+  "S1_allowance_native_adopted": false,
+  "approved_new_transfer_bytes": 8589934592,
+  "old_transfer_headroom_before_S1_bytes": 26335,
+  "new_CPU_partition": {
+    "Core_core_seconds_max": 13800,
+    "PC_core_seconds_max": 600,
+    "total_max": 14400
+  },
+  "constructor_forecast": {
+    "native_WBC_and_planner_only_max": 64,
+    "new_GR00T_loads": 0,
+    "not_additional_physics_starts": true
+  },
+  "entry_package": {
+    "implementation_changed": false,
+    "source": "ACTUAL_DEPLOYED_ORIGINAL_STANDARD_ENTRY",
+    "members": {
+      "enter.sh": {
+        "sha256": "0c7973e0a3bc0e585e7ab96cfcc9033532a98f56e9c9410882282a291bb7082f",
+        "bytes": 1147
+      },
+      "doctor.py": {
+        "sha256": "013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861",
+        "bytes": 5370
+      },
+      "ENVIRONMENTS.json": {
+        "sha256": "117eb51e8a9cbb4fa60115f23f2e29d5a7df463c31ca792ddfded7659c32b6b6",
+        "bytes": 6989
+      }
+    },
+    "capsule_relative": "entry/code/vla",
+    "entry_relative": "entry/infrastructure/enter.sh",
+    "cwd_relative": "entry/code/vla",
+    "profile": "4080-simulation",
+    "old_profile_source_field_is_unused_provenance_in_resolve_only": true,
+    "complete_runtime_path_verification_still_required": true
+  },
+  "actual_effects": {
+    "native_entry_deployed": false,
+    "registry_lease_or_GLOBAL_LOCAL_mutations": 0,
+    "new_physics": 0,
+    "new_neural_models": 0,
+    "new_GR00T_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS": 0
+  },
+  "readonly_observation_failures": {
+    "oversized_full_reply_attempts": 2,
+    "terminal_error": "FINITE_REPLY_CAP_NO_UNBOUNDED_TRANSFER",
+    "experiment_effects": 0,
+    "full_CPU_and_wire_uppers_retained": true,
+    "only_own_failed_read_operation_statuses_reconciled_using_original_onceIO": true,
+    "unrelated_UNKNOWN_operations_untouched": true,
+    "complete_bytes_obtained_by_existing_cache_plus_new_full_native_identity_readback": true
+  },
+  "private_preparation_receipt_sha256": "8b0b90f470b3dd384a3b65b634d4d4814a141f86884c635ba694e6abefbfe8b4",
+  "native_admission": false,
+  "launch_allowed": false
+}

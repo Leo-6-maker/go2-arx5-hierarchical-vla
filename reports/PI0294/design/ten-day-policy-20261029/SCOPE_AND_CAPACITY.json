@@ -5,7 +5,7 @@
   "evidence_status": "ACTUAL_NATIVE_READONLY_AND_SAVED_STATE_CPU_MEASUREMENTS",
   "plan_main_sha": "672e1858369ee3b4ca9ebd725800a4dd3f15ef67",
   "new_ten_day_scope_adopted": false,
-  "full_14_dimension_forecast_complete": false,
+  "full_14_dimension_forecast_complete": true,
   "S1_scope": {
     "status": "HUMAN_APPROVED_NATIVE_ADMISSION_PENDING",
     "receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json",
@@ -64,7 +64,9 @@
       "EXISTING_REGISTRY_REGISTERED_NEW_LOCAL_CONTROL_LEASE_AND_ONCE_IO",
       "LOCAL_ASSET_BINDING_WITH_EXACT_ORIGINAL_BYTES",
       "NEW_VERSION_ACTUAL_ACK_STOP_SAFETY_AND_FEEDBACK_QUALIFICATION"
-    ]
+    ],
+    "existing_exact_local_XML_candidates_identified": true,
+    "original_entry_cold_layout_prepared": true
   },
   "legacy_R4_counters_readonly": {
     "ledger_sha256": "137d43d44ed2451a7713198fa1fcf3624325e68619d9eaf441cbd7b6a2e71337",
@@ -148,60 +150,172 @@
   },
   "full_resource_remaining_dimensions": {
     "H200_s": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 532800,
+      "original_all_work_projected": 487753.0,
+      "S1_additional": 0,
+      "projected_with_S1": 487753.0,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 532800,
+      "headroom": 45047.0
     },
     "PBS_submissions": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": null,
+      "original_all_work_projected": 45,
+      "S1_additional": 0,
+      "projected_with_S1": 45,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": null,
+      "headroom": null
     },
     "optimizer_updates": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 16384,
+      "original_all_work_projected": 15936,
+      "S1_additional": 0,
+      "projected_with_S1": 15936,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 16384,
+      "headroom": 448
     },
     "episode_starts": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 1000,
+      "original_all_work_projected": 727,
+      "S1_additional": 4,
+      "projected_with_S1": 731,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 4,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1004,
+      "headroom": 273
     },
     "neural_queries": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 48000,
+      "original_all_work_projected": 30437,
+      "S1_additional": 0,
+      "projected_with_S1": 30437,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 48000,
+      "headroom": 17563
     },
     "physics_ticks": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 40000000,
+      "original_all_work_projected": 22265970,
+      "S1_additional": 62012,
+      "projected_with_S1": 22327982,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 62012,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 40062012,
+      "headroom": 17734030
     },
     "engine_starts": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 100000,
+      "original_all_work_projected": 51448,
+      "S1_additional": 64,
+      "projected_with_S1": 51512,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 100000,
+      "headroom": 48488
     },
     "Core_CPU_s": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 1368000,
+      "original_all_work_projected": 1212729.474704557,
+      "S1_additional": 13800,
+      "projected_with_S1": 1226529.474704557,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 13800,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1381800,
+      "headroom": 155270.5252954429
     },
     "Hopper_CPU_s": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 954000,
+      "original_all_work_projected": 809792.658597758,
+      "S1_additional": 0,
+      "projected_with_S1": 809792.658597758,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 954000,
+      "headroom": 144207.34140224196
     },
     "local_CPU_s": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 172800,
+      "original_all_work_projected": 171403.974682509,
+      "S1_additional": 600,
+      "projected_with_S1": 172003.974682509,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 600,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 173400,
+      "headroom": 1396.025317491003
     },
     "transfer_bytes": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 488552529920,
+      "original_all_work_projected": 488552503585,
+      "S1_additional": 8589934592,
+      "projected_with_S1": 497142438177,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 8589934592,
+      "shared_cap_increase_needed_without_S1_grant": 8589908257,
+      "combined_named_scope_ceiling": 497142464512,
+      "headroom": 26335
     },
     "Hopper_storage_bytes": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 1502164811776,
+      "original_all_work_projected": 1502162635000,
+      "S1_additional": 0,
+      "projected_with_S1": 1502162635000,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 0,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 1502164811776,
+      "headroom": 2176776
     },
     "Core_storage_bytes": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 590558003200,
+      "original_all_work_projected": 521417653896,
+      "S1_additional": 8589934592,
+      "projected_with_S1": 530007588488,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 8589934592,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 599147937792,
+      "headroom": 69140349304
     },
     "local_storage_bytes": {
-      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
-      "protected_reserves_preserved": true
+      "cap": 21474836480,
+      "original_all_work_projected": 9395240960,
+      "S1_additional": 1073741824,
+      "projected_with_S1": 10468982784,
+      "shortfall": 0,
+      "original_scope_shortfall": 0,
+      "separately_approved_S1_allowance": 1073741824,
+      "shared_cap_increase_needed_without_S1_grant": 0,
+      "combined_named_scope_ceiling": 22548578304,
+      "headroom": 12079595520
     }
   },
   "scope_distinction": {
@@ -219,5 +333,8 @@
     "new_subagents": 0
   },
   "native_admissible": false,
-  "decision": "CONTINUE_COLD_BINDING_AND_EXISTING_OWNER_FULL_RESOURCE_RECONCILIATION_NO_LEGACY_REPLAY"
+  "decision": "CONTINUE_COLD_BINDING_AND_EXISTING_OWNER_FULL_RESOURCE_RECONCILIATION_NO_LEGACY_REPLAY",
+  "full_14_dimension_forecast_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json",
+  "full_forecast_is_not_native_resource_reservation": true,
+  "S1_named_allowance_native_adopted": false
 }

@@ -1,5 +1,11 @@
 # S1批准、十天计划衔接与实际冷态核对
 
+**后继实际：** [完整14维重算与原入口封存方案](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json)已用新原生全文hash/大小核对复用的完整GLOBAL/LOCAL字节，再调用原`first512_forecast`保留所有旧工作及matrix/final。原传输池仅余26,335字节；用户批准的是新S1最多8GiB传输，作为仅S1可用的追加范围单独记账，不用它偿还旧工作或扩大十天计划。旧14维义务均在原cap内，加入该S1范围后无预测缺口，尚未实际预约。总4CPU核时分为Core最多13,800核秒＋PC最多600核秒，未双重增加PC额度。
+
+已定位同字节的本地XML候选。原`enter.sh`、`doctor.py`和完整profile配置可原样放进新run的`entry/infrastructure`，其既有相对路径规则自然把工作目录解析到`entry/code/vla`；无需重写入口或改变全局profile。新增组件只准备这一封存布局、验证原registry精确readback及真实挂载类型。有限入口资格程序仅调用原入口的解释器/工作目录探针，通过原onceIO登记原canonical registry并关闭自己的资格lease；不能启动Teacher、solver、simulator或模型。实际执行和完整原生worker资格另行核证。
+
+两次完整原件只读请求因回复上限终止，未重发原操作；原CPU/传输上界全额保留，只有这两条已知只读操作的状态经原onceIO核账，其他UNKNOWN未动。随后用小型全文身份读数核对已有完整缓存，避免再次传回大原件。
+
 用户已直接回复“批准该 S1 有限开发范围”。[授权原件](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json)固定原PR #143提案及全部上界，不重复申请同一许可。登记采用为2026-10-29 19:31:39.836045 SGT，24小时窗口于10月30日同一时刻结束；原stop-new、硬截止、历史费用和保护资源保持。
 
 PR #144的十天计划已从main `672e1858369ee3b4ca9ebd725800a4dd3f15ef67`正常合入本工作分支。S1批准的4次上界只是TD06的一部分，最多2次完整确认不等于其8条件资格。十天新增训练、查询、容量和11月延期仍未采用。TD00/TD06标RUNNING仅表示本页的实际只读核对，未声称已启动物理。
