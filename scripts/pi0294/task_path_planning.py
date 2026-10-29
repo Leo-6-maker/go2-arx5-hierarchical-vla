@@ -206,7 +206,7 @@ def load_saved_native(model_path, expected_sha256, sample):
         model.jnt_range[joints[:6]].copy(), mount, tcp, site)
 
 
-def native_configuration_witness(native, joint_path, max_segment_rad=.02):
+def native_configuration_witness(native, joint_path, max_segment_rad=.02, *, planning_object_motion=None):
     """Check dense static configurations with the FULL original native model.
 
     No dynamics, controller tracking, continuous swept-volume or gripper-contact
@@ -233,6 +233,9 @@ def native_configuration_witness(native, joint_path, max_segment_rad=.02):
             native.data.qpos[:] = native.qpos
             native.data.qpos[native.joint_addresses[:6]] = point
             mujoco.mj_forward(native.model, native.data)
+            if planning_object_motion is not None:
+                planning_object_motion(native.model, native.data)
+                mujoco.mj_forward(native.model, native.data)
             actual = np.eye(4)
             actual[:3, :3] = native.data.site_xmat[native.site].reshape(3, 3)
             actual[:3, 3] = native.data.site_xpos[native.site]
@@ -251,7 +254,7 @@ def native_configuration_witness(native, joint_path, max_segment_rad=.02):
         physical_execution_qualified=False), np.asarray(tcp)
 
 
-def prepare_path(*, native, urdf, srdf, goal_world):
+def prepare_path(*, native, urdf, srdf, goal_world, planning_object_motion=None):
     """One finite original-goal planning call; no seed/goal replacement loop."""
     import mplib
     if mplib.__version__ != '0.2.1':
@@ -290,7 +293,7 @@ def prepare_path(*, native, urdf, srdf, goal_world):
     witness = np.asarray(result['position'])
     if witness.ndim != 2 or witness.shape[1] != 6:
         raise ValueError('EXPLICIT_SIX_ARM_JOINT_PATH_REQUIRED')
-    check, tcp = native_configuration_witness(native, witness)
+    check, tcp = native_configuration_witness(native, witness, planning_object_motion=planning_object_motion)
     return dict(receipt, status=check['status'], native_configuration_check=check,
         planner_duration_s=float(result['duration'])), dict(
             joint_witness=witness, time_s=np.asarray(result['time']), dense_TCP_world=tcp,

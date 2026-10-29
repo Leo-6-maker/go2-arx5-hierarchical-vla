@@ -16,7 +16,7 @@ GiB = 1024**3
 # Partition the approved 14,400 core-seconds across Core and PC; do not reserve
 # 14,400 on Core and then silently add another PC allowance.
 REQUESTED = _vector(dict(Core_CPU_s=13800, local_CPU_s=600,
-    episode_starts=4, physics_ticks=62012, engine_starts=64,
+    episode_starts=4, physics_ticks=62012, engine_starts=96,
     Core_storage_bytes=8*GiB, local_storage_bytes=GiB, transfer_bytes=8*GiB))
 # Exact newly approved resources, not a reusable increase for old experiments.
 # The internal native constructor forecast needs no shared-cap increase.

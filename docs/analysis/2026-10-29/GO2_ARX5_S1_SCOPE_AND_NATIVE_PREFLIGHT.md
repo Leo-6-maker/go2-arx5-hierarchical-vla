@@ -2,7 +2,19 @@
 
 **最新原生结果：** [原标准入口本地资格已实际通过](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)。使用已接受main `2c9ad348`内的固定运行源`20911ba3`；原三文件字节不变。原canonical registry仅追加本次资格角色，移除该角色后可逐字节重建原registry hash；没有创建第二登记系统。原onceIO登记、实际解释器/cwd探针、关闭资格lease均完成，20个原件全文独立回读，后续只补保守成本结算且其余19原件hash不变。入口实际CPU0.0703核秒；准备总保守Core80＋PC120核秒、传输1,336,576字节，均计入S1原批准上限，不增加新额度。
 
-这是**入口与工作目录资格**，其源码胶囊只含本次管理依赖，不冒充完整Teacher运行胶囊。物理仍0/4，RGB、GR00T、训练、PBS均0；新版本完整EEF10 worker、全链本地输入/控制绑定及ACK/反馈/STOP/安全资格仍需完成。该已关闭的资格lease不重开，后续原生任务使用同一已批准scope下自己的明确lease/源绑定。
+这是**入口与工作目录资格**，其源码胶囊只含本次管理依赖，不冒充完整Teacher运行胶囊。物理仍0/4，RGB、GR00T、训练、PBS均0。后继`task_path_worker.py`完整EEF10工作器和`task_path_stage.py`冷态采用程序已实现但未原生启动；其新scope lease/源绑定、全链本地输入及实际ACK/反馈/STOP/安全资格仍需完成。原已关闭资格lease不重开。
+
+## 新原生工作器接线（冷态代码，尚无新物理结果）
+
+- `task_path_teacher.py`固定T1负30度、T2正30度几何选择，从真实home/反馈开始；每个新运动阶段至多一次固定seed294/20初值/2秒RRT，单attempt至多6次。20Hz观察、每8观察一H40；新阶段保留全局序号和已执行区间，普通查询不重新锚定阶段路径。T1/T2真实物体/接触谓词换阶段，不按时间强制进入抓取或推送。
+- `task_path_model.py`把抓持/推送运动假设仅施于私有规划MjData。抓持假设需要实际native_grasp；推送假设需要真实未抓持pad接触。实际机器人、物体与标签不被这些假设改写。每个H40保留原500Hz局部IK/碰撞及20Hz关节速度0.7rad/s、加速度1rad/s²门，并把最近两个实际执行的参考点纳入衔接检查；不修补/clip被拒的值。
+- 新worker复用原完整机器人、冻结sim/controller/solver、原有限夹爪和记录生命周期。首个已预约启动内，5秒预热后在step2500原地检验当前反馈、hold参考安装、cancel/原生HOLD、WBC重入；该检验额外积分0，不另开第五个物理启动。ROS参考从序号2接续，夹爪独立从序号0开始，符合原严格包序列。首对实际RGB使用本episode第0帧，保存成功后才推进任务，不额外消耗RGB对数。
+- 原task.info的`recompileLibraries true`保持。原63,084字节/30文件codegen seed已从旧真实solver日志定位并只读核查；solver/controller各用本次输出下独立缓存复制件，保留原生成行为，不写旧cache，不改WBC数学代码/权重/gain/cost/solver。现有独立planner环境已实际导入NumPy1.26.4、MPlib0.2.1和原runtime的MuJoCo3.2.7，无安装/环境修改。
+- 原标准三文件原样用于新的不可变完整runtime子布局；旧两文件资格胶囊保留。有限冷程序只通过原registry/onceIO更新本run自己的角色、原scope准备费用及新lease，不能启动sim/worker。源及私有输入完整封存，控制/日志/缓存/工作目录均检查节点本地。每attempt使用原用户级有限进程单元，800秒运行、10秒停止、KillMode control-group、最多4核；原共享native互斥锁继续使用，旧系列/费用/UNKNOWN不动。
+- 4张card事前固定：SHORT T1/T2均source[.45,-.08]→goal[.45,.08]、yaw0、20秒；CONFIRM T1/T2均source[.455,-.07]→goal[.455,.09]、yaw.03、32秒；都另计5秒预热。确认只在同任务短开发完整性及四项里程碑（至少2cm接近进展、安全precontact、实际接触、T1连续0.3秒真实抓持或T2接触下至少1cm未抓举位移）独立复核通过后进入。确认不是正式泛化TEST，不合并为新总体成功率。
+- 内部构造器完整预测由64修正为96，含冷态副本及固定阶段规划；这是原共享构造器余量内的工程预测，不是增加人类批准的4启动/62,012积分/2,084RGB或CPU/传输/存储额度。实际全14维仍须在采用前按新原件重新核对。
+
+当前28项CPU检查通过（原23项及5项新阶段/假设/衔接检查）。新检查器在原保存的完整机器人状态上，两段初始H40各1001个500Hz点通过，CPU约1.185秒、积分0；这些仍不能证明动态WBC执行。下一步为固定源码发布后的实际冷采用、独立回读和首个S1短开发。新整机成功示范仍0。
 
 **后继实际：** [完整14维重算与原入口封存方案](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json)已用新原生全文hash/大小核对复用的完整GLOBAL/LOCAL字节，再调用原`first512_forecast`保留所有旧工作及matrix/final。原传输池仅余26,335字节；用户批准的是新S1最多8GiB传输，作为仅S1可用的追加范围单独记账，不用它偿还旧工作或扩大十天计划。旧14维义务均在原cap内，加入该S1范围后无预测缺口，尚未实际预约。总4CPU核时分为Core最多13,800核秒＋PC最多600核秒，未双重增加PC额度。
 
