@@ -44,7 +44,7 @@ def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_globa
         from . import minimal_e2only_execution as execution
         from .minimal_e2only_effects import SUMMARY as summary_schema,COMPLETE as complete_field
         from .minimal_e2only_audit import AUDIT as audit_status
-        need(e2only_global is not None and execution.basic(e2only_global)[1]==row
+        need(e2only_global is not None and execution.basic(e2only_global,row['request_id'])[1]==row
             and retry_global is remaining_global is saved512_global is None,'TERMINAL_E2_ONLY_EXACT_OWN_GLOBAL')
         specs=e2only.sessions();loads_by_session=(2,)
         need(effects.get('closed_predecessor')==audit.get('closed_predecessor')==e2only.binding()
