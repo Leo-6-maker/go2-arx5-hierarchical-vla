@@ -1,6 +1,6 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
-**最新技术方向：** 最终上层采用[共享四任务源域后训练与恢复](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)：抓放、推物、开门、单书共用EEF10与权重，WBC冻结；E1/E2保留接口适配对照。物体关系几何、事件/恢复采样和原读器接线已实现，19项CPU检查通过；新技能接触示范与策略训练尚未执行，候选300示范/10000更新不从S1额度支付。
+**最新技术方向：** 最终上层采用[共享四任务源域后训练与恢复](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)：抓放、推物、开门、单书共用EEF10与权重，WBC冻结；E1/E2保留接口适配对照。物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心已有代码，37项CPU检查通过；完整ARX5源运行、独立任务审计与新训练未执行，候选300示范/10000更新不从S1额度支付。
 
 **S1有限范围已批准，原标准入口的本地资格已实际通过：** [原件与独立回读](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)确认原三文件未改、解释器/工作目录正确，原registry仅追加本次角色，自有资格lease已CLOSED。PR #143已合并main `2c9ad348`。四次物理仍0/4，完整EEF10 worker与ACK/反馈/STOP/安全资格待接入；静态路径与入口资格不当Teacher成功。完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留，PR #144十天计划的新增训练/资源/延期未由S1批准自动采用。
 

@@ -1,6 +1,6 @@
 # 当前科学状态 · 2026-10-29实际核验
 
-**共享四任务方向已进入代码准备：** [柜门/放书的物体关系参考、四任务事件/恢复采样、原读器接线及候选后训练参数](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)已实现，19项CPU检查通过。完整源域Teacher/接触plant、技能示范、模型训练和任务效果均未新增；S1仍独立用于冻结WBC承接，E1/E2与原DEC1不被改写。
+**共享四任务源组件继续实现：** [物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)共37项CPU检查通过，其中MuJoCo仅编译门/书两个无机器人物体fixture并做零积分FK。完整ARX5源执行、独立最终任务审计、技能示范、模型训练和任务效果均未新增；S1仍独立用于冻结WBC承接，E1/E2与原DEC1不被改写。
 
 **S1运行交付增量：** [原标准入口本地资格](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)已真实完成并独立回读：原三文件保持，解释器/工作目录本地正确，原registry只加本次角色，资格lease已关闭。实际入口CPU0.0703核秒；完整准备保守计Core80＋PC120核秒、传输1,336,576字节，计入原批准额度。四次物理0/4；未新增接触/任务成功。完整14维旧义务和S1独立范围预测已闭合，新worker和完整原生资格仍待完成。
 
