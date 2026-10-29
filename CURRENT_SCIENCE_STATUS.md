@@ -1,6 +1,8 @@
 # 当前科学状态 · 2026-10-29实际核验
 
-**最新原生观测为2026-10-29 13:33 SGT，见下列固定回执；仓库页面不是实时监控。** 旧`b6b5a28a`及后文历史快照保留，后继实际优先；main合并不改变运行源码。总体研究未完成。
+**最新实际接续为2026-10-29，见下列固定回执；仓库页面不是实时监控。** 旧快照保留，后继实际优先；main合并不改变运行源码。总体研究未完成。
+
+[E2 PBS44真实采用与有限冷态预检](reports/PI0294/design/parallel-science-20261022/ARX5_E2_ONLY_PBS44_ONCE_ADOPTED_COLD_PROCESS_AND_ACCESS_OBSERVATION_ACTUAL_20261029.json)：GLOBAL `2f1d8650`、原once intent／receipt及完整字节独立相等；used仍40，原matrix3／final不变。新E2从原始父fresh512，仅原Trainer256／512完整恢复保存，最多两份，不选模或删除旧状态。有限预检进程已原生启动，最后成功核验同一wrapper／child健康；后续35秒只读超时及SSH认证拒绝均保留，尚未取得冷态PASS或提交PBS，不把访问故障当远端终止。E1独立source-role绑定修复为CPU证据，HF上传／Core加载仍未运行。
 
 ## 已完成的行为证据
 

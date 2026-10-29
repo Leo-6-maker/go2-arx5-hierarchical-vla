@@ -32,6 +32,27 @@ def prepare(v,*,arm=qualified.ARM):
         e.raw(v['small']),arm=arm)
 
 
+def test_own_source_role_binds_real_metadata_without_editing_legacy_parent(tmp_path):
+    parent=tmp_path/'parent';root=parent/'control/source-only';root.mkdir(parents=True)
+    def put(p,v):p.write_bytes(e.raw(v))
+    put(parent/'RUN_MANIFEST.json',dict(legacy_parent=True))
+    pl=parent/'PARENT_LEASE.json';put(pl,dict(status='ACTIVE_CONTROL_PLANE_ONLY'))
+    put(parent/'OUTPUT_BINDING.private.json',dict(lease=str(pl)));old=pl.read_bytes()
+    m=dict(candidate=qualified.ARM,profile='vanda-arx5-qualified-E1-model-only-IO',canonical_parent=str(parent),
+        control_root=str(root),run_uuid=root.name,parent_manifest_sha256=e.sha((parent/'RUN_MANIFEST.json').read_bytes()))
+    body=e.raw(m);(root/'RUN_MANIFEST.json').write_bytes(body);(root/'CONTROL_RUN_MANIFEST.json').write_bytes(body)
+    lease=parent/'SOURCE_LEASE.json';registry=parent/'RUN_REGISTRY.json';env=parent/'ENV.json';role='CPU_SOURCE_ROLE_FIXTURE'
+    put(lease,dict(status='ACTIVE',manifest_sha256=e.sha(body),run_uuid=root.name,role=role,CPU_upper_s=900))
+    put(registry,dict(entries=[dict(role=role,path=str(root),run_uuid=root.name)]))
+    put(env,dict(profiles=[dict(name=m['profile'],role=role,manifest=str(root/'RUN_MANIFEST.json'),model_or_optimizer_on_login=False)]))
+    put(root/'OUTPUT_BINDING.private.json',dict(run_root=str(root),run_manifest_sha256=e.sha(body),lease=str(lease),registry=str(registry),environment=str(env),role=role))
+    qualified.source_control_role(root,body,canonical_parent=parent)
+    assert pl.read_bytes()==old and 'manifest_sha256'not in json.loads(old)
+    put(lease,dict(status='CLOSED',manifest_sha256=e.sha(body),run_uuid=root.name,role=role,CPU_upper_s=900))
+    with pytest.raises(PermissionError):qualified.source_control_role(root,body,canonical_parent=parent)
+    assert pl.read_bytes()==old
+
+
 def test_actual_qualified_E1_prepares_while_failed_E2_stays_incomplete(actual):
     plan=prepare(actual)
     assert plan==actual['plan']

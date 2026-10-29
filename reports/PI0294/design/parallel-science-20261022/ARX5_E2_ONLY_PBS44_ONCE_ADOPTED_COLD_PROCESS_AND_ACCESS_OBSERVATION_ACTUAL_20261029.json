@@ -1,0 +1,119 @@
+{
+  "schema": "ARX5_E2_ONLY_PBS44_CONTROL_AND_COLD_NATIVE_OBSERVATION_ACTUAL_V1",
+  "observed_epoch": 1793259656.1288211,
+  "source": "26a86fee8774af74955f5669ce813b107139114f",
+  "publication_PR": 135,
+  "code_source_and_blob_files": 28,
+  "extra_cold_source_delta_files": 37,
+  "completed_science_unchanged": {
+    "E1_formal_updates": 512,
+    "E1_inference_equivalence": true,
+    "E2_formal512_complete": false,
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0
+  },
+  "actual_control": {
+    "GLOBAL_sha256": "2f1d86506774a402db710f082b33fd929aa62dd46aed765dd425c0c53e7670c8",
+    "full_canonical_bytes": 15462079,
+    "intent_sha256": "5e9db2648112c78378b6ee3ad9e63fb4e458bda6fbbb7affc2a4529e1205e140",
+    "receipt_sha256": "93e0707e215c83fcdcf41efc66355647da940e468f4c8c9ac40fe672fdd12ec7",
+    "PBS_cap_before": 43,
+    "PBS_cap_after": 44,
+    "PBS_used": 40,
+    "site_control_CPU_paid_s": 3600,
+    "PC_control_CPU_paid_s": 600,
+    "additional_storage_charge_bytes": 0,
+    "other_caps_changed": false,
+    "Core_LOCAL_written": false,
+    "new_request_registered": false,
+    "new_PBS_submitted": false
+  },
+  "cold_request_identity": {
+    "request_id": "920f2ed2-fa6b-41d5-9ad5-f1683e4759e8",
+    "submission_nonce": "c13a1db9-0c06-4c5f-804d-965bea783065",
+    "run_uuid": "arx5-minimal-e2-only-raw-fixed512-01"
+  },
+  "planned_training": {
+    "original_raw_parent": true,
+    "formal_updates": 512,
+    "E1_effects": 0,
+    "old122_preserved": true,
+    "original_Trainer_recovery_steps": [
+      256,
+      512
+    ],
+    "max_retained_full_states": 2,
+    "per_state_bound_bytes": 26000000000,
+    "total_own_root_bound_bytes": 70000000000,
+    "development_selection": false,
+    "actual_checkpoints_created": false
+  },
+  "finite_cold": {
+    "own_kernel_processes": {
+      "LAUNCHED.json": {
+        "pid": 3084684,
+        "procstart": 76504274,
+        "live": true
+      },
+      "CHILD_STARTED.json": {
+        "pid": 3084811,
+        "procstart": 76504347,
+        "live": true
+      }
+    },
+    "last_successful_observed_epoch": 1793259353.108276,
+    "native_input_FULL14_PASS_observed": false,
+    "metadata_role_full_install_confirmed": false,
+    "CPU_limit_s": 180,
+    "wall_limit_s": 600
+  },
+  "later_access_observations": [
+    {
+      "kind": "COMPLETE_READONLY_OBSERVATION",
+      "outcome": "TIMEOUT35S_NOT_TERMINAL"
+    },
+    {
+      "kind": "EXACT_KERNEL_ONLY_READONLY_OBSERVATION",
+      "returncode": 255,
+      "outcome": "SSH_PERMISSION_DENIED_NOT_REMOTE_TERMINAL"
+    },
+    {
+      "kind": "SAME_ORIGINAL_COLD_PROCESS_FULL_STATUS_READONLY",
+      "returncode": 255,
+      "outcome": "SSH_PERMISSION_DENIED_REMOTE_STATE_UNPROVEN"
+    }
+  ],
+  "access_cause": "UNKNOWN_NOT_ASSIGNED_TO_CORELAB_AMD_OR_CONFIRMED_AS_DISK_FULL",
+  "restart_or_replay": false,
+  "E1_delivery": {
+    "independent_of_E2": true,
+    "HF_upload_started": false,
+    "Core_delivery_complete": false,
+    "own_source_role_legacy_parent_binding_fix": "COLD_CPU_VALIDATED_NOT_DEPLOYED",
+    "new_finite_own_lease_required": true,
+    "parent_lease_schema_modified": false
+  },
+  "validation": {
+    "E2_captured_original_tests_passed": 79,
+    "original_private_metadata_test_skipped": 1,
+    "new256_own_file_seal_passed": 1,
+    "original_seal_reader_passed": 6,
+    "prior_E2_captured_original_passed": 117,
+    "E1_delivery_tests_passed": 33,
+    "E1_delivery_private_capture_tests_skipped": 2,
+    "full_CI_or_native_GR00T_qualification": false
+  },
+  "next_action": [
+    "Read exact original cold process, stage result, current canonical ledger and once receipts when the known SSH entry responds; never restage/relaunch due to observation failure.",
+    "After actual cold PASS and full source/input/profile/own lease readback, original detached owner performs fresh quota/queue/resource checks and unique PBS.",
+    "E1 uses its own source-only control role and original HF fixed-revision uploader; no canonical parent lease change or dependency on E2 completion."
+  ],
+  "preserved": {
+    "AMD_credentials_mounts_services_unchanged": true,
+    "all_old_COST_UNKNOWN_and_checkpoints": true,
+    "original_clocks": true,
+    "other_caps": true,
+    "matrix3_and_final20GPUh40GiB": true,
+    "wholegoal_complete": false
+  }
+}

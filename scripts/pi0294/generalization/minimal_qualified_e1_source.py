@@ -27,6 +27,47 @@ OLD_OS1='95e41d77343401a845fc96be82a07af4ba7230b3c812d6f7837f76fa7586005b'
 need=e.need
 
 
+def source_control_role(control_root,manifest_bytes,*,canonical_parent):
+    """Bind this source-only role, preserving the legacy parent lease bytes.
+
+    The parent is infrastructure and predates manifest_sha256 on its lease.
+    The new own ACTIVE lease must carry the actual manifest identity instead.
+    No legacy C/D or other minimal-model uploader uses this narrow boundary.
+    """
+    import os,stat
+    from pathlib import Path
+    root,parent=Path(control_root),Path(canonical_parent)
+    need(root.resolve()==root and parent.resolve()==parent and root.parent==parent/'control',
+        'QUALIFIED_E1_OWN_SOURCE_ROLE_UNDER_CANONICAL_PARENT')
+    def own(path):
+        p=Path(path);s=p.lstat()
+        need(p.resolve()==p and stat.S_ISREG(s.st_mode)and s.st_uid==os.getuid()
+            and s.st_size<=8*1024**2,'QUALIFIED_E1_OWN_REGULAR_CONTROL_METADATA')
+        return p.read_bytes()
+    m=json.loads(manifest_bytes);pin=e.sha(manifest_bytes)
+    need(own(root/'CONTROL_RUN_MANIFEST.json')==own(root/'RUN_MANIFEST.json')==manifest_bytes
+        and m['candidate']==ARM and m['profile']=='vanda-arx5-qualified-E1-model-only-IO'
+        and m['canonical_parent']==str(parent)and m['control_root']==str(root)
+        and m['run_uuid']==root.name and e.sha(own(parent/'RUN_MANIFEST.json'))==m['parent_manifest_sha256'],
+        'QUALIFIED_E1_MATCHED_OWN_AND_PARENT_MANIFESTS')
+    pb=json.loads(own(parent/'OUTPUT_BINDING.private.json'));pl=json.loads(own(pb['lease']))
+    need(pl['status']=='ACTIVE_CONTROL_PLANE_ONLY','QUALIFIED_E1_LEGACY_INFRASTRUCTURE_PARENT_ONLY')
+    b=json.loads(own(root/'OUTPUT_BINDING.private.json'));lease=json.loads(own(b['lease']))
+    registry=json.loads(own(b['registry']));env=json.loads(own(b['environment']))
+    need(b['run_root']==str(root)and b['run_manifest_sha256']==pin
+        and lease['status']=='ACTIVE'and lease['manifest_sha256']==pin and lease['run_uuid']==m['run_uuid']
+        and lease['role']==b['role']and lease['CPU_upper_s']==900,
+        'QUALIFIED_E1_REAL_OWN_ACTIVE900CPU_LEASE_NO_PARENT_SCHEMA_EDIT')
+    rows=[v for v in registry['entries']if v.get('role')==b['role']]
+    profiles=[v for v in env['profiles']if v.get('name')==m['profile']]
+    need(len(rows)==len(profiles)==1 and rows[0]['path']==str(root)and rows[0]['run_uuid']==m['run_uuid']
+        and profiles[0]['role']==b['role']and profiles[0]['manifest']==str(root/'RUN_MANIFEST.json')
+        and profiles[0]['model_or_optimizer_on_login']is False,
+        'QUALIFIED_E1_STANDARD_SOURCE_ROLE_PROFILE_AND_NO_NEURAL_PERMISSION')
+    return dict(own_manifest_sha256=pin,parent_manifest_sha256=m['parent_manifest_sha256'],
+        parent_lease_unchanged=True,new_model_permission=False)
+
+
 def source(g,evidence):
     # This join also runs inside remaining-resource projections. Do not call
     # the whole ledger validator here: it projects these same delivery costs.
