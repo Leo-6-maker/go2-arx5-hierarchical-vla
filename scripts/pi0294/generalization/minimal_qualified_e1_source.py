@@ -50,9 +50,14 @@ def source_control_role(control_root,manifest_bytes,*,canonical_parent):
         and m['canonical_parent']==str(parent)and m['control_root']==str(root)
         and m['run_uuid']==root.name and e.sha(own(parent/'RUN_MANIFEST.json'))==m['parent_manifest_sha256'],
         'QUALIFIED_E1_MATCHED_OWN_AND_PARENT_MANIFESTS')
-    pb=json.loads(own(parent/'OUTPUT_BINDING.private.json'));pl=json.loads(own(pb['lease']))
+    pb=json.loads(own(parent/'OUTPUT_BINDING.private.json'))
+    # The legacy parent binding may use the existing Home alias. Resolve only
+    # that historical metadata input; new own outputs remain canonical.
+    pl=json.loads(own(Path(pb['lease']).resolve(strict=True)))
     need(pl['status']=='ACTIVE_CONTROL_PLANE_ONLY','QUALIFIED_E1_LEGACY_INFRASTRUCTURE_PARENT_ONLY')
     b=json.loads(own(root/'OUTPUT_BINDING.private.json'));lease=json.loads(own(b['lease']))
+    need(Path(pb['lease']).resolve(strict=True).parent==Path(b['lease']).parent,
+        'QUALIFIED_E1_LEGACY_AND_OWN_LEASES_SAME_INFRASTRUCTURE')
     registry=json.loads(own(b['registry']));env=json.loads(own(b['environment']))
     need(b['run_root']==str(root)and b['run_manifest_sha256']==pin
         and lease['status']=='ACTIVE'and lease['manifest_sha256']==pin and lease['run_uuid']==m['run_uuid']

@@ -32,12 +32,17 @@ def prepare(v,*,arm=qualified.ARM):
         e.raw(v['small']),arm=arm)
 
 
-def test_own_source_role_binds_real_metadata_without_editing_legacy_parent(tmp_path):
+@pytest.mark.parametrize('legacy_home_alias',[False,True])
+def test_own_source_role_binds_real_metadata_without_editing_legacy_parent(tmp_path,legacy_home_alias):
     parent=tmp_path/'parent';root=parent/'control/source-only';root.mkdir(parents=True)
     def put(p,v):p.write_bytes(e.raw(v))
     put(parent/'RUN_MANIFEST.json',dict(legacy_parent=True))
     pl=parent/'PARENT_LEASE.json';put(pl,dict(status='ACTIVE_CONTROL_PLANE_ONLY'))
-    put(parent/'OUTPUT_BINDING.private.json',dict(lease=str(pl)));old=pl.read_bytes()
+    legacy_path=pl
+    if legacy_home_alias:
+        alias=tmp_path/'legacy-home';alias.symlink_to(parent,target_is_directory=True)
+        legacy_path=alias/pl.name
+    put(parent/'OUTPUT_BINDING.private.json',dict(lease=str(legacy_path)));old=pl.read_bytes()
     m=dict(candidate=qualified.ARM,profile='vanda-arx5-qualified-E1-model-only-IO',canonical_parent=str(parent),
         control_root=str(root),run_uuid=root.name,parent_manifest_sha256=e.sha((parent/'RUN_MANIFEST.json').read_bytes()))
     body=e.raw(m);(root/'RUN_MANIFEST.json').write_bytes(body);(root/'CONTROL_RUN_MANIFEST.json').write_bytes(body)
