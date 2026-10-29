@@ -40,7 +40,9 @@ def test_real_once_receipt_and_sealed_local_snapshot_survive_canonical_registry_
     path=root/c.DESCRIPTOR;path.parent.mkdir(parents=True);once._exclusive(path,raw(d))
     m['execution']['sealed_inputs'][c.DESCRIPTOR]=c.sha(raw(d))
     registry.rename(registry.with_suffix('.preserved'))
-    result=c.registered_role(root,m,binding)
+    def forbidden_registry_read(path):
+        raise AssertionError('A sealed new role must not consult NFS at runtime')
+    result=c.registration(root,m,binding,legacy_read=forbidden_registry_read)
     assert result['live_canonical_registry_read']is False and result['native_admission']is False
     assert result['local_lease']==str(root/'control/LEASE.json')
 
@@ -65,3 +67,50 @@ def test_exact_original_asset_identity_all_twenty_six_and_no_asset_byte_change()
     with pytest.raises(PermissionError):c.asset_relocations(original,raw(bad),expected_original_sha256=c.sha(original))
     bad=deepcopy(relocation);bad['aliases']['/old/assets/0']['sha256']='f'*64
     with pytest.raises(PermissionError):c.asset_relocations(original,raw(bad),expected_original_sha256=c.sha(original))
+
+
+def test_explicit_new_role_checks_original_assets_and_entry_copies_without_legacy_reads(tmp_path):
+    root=tmp_path/'new';root.mkdir();pins={};aliases={}
+    for i in range(26):
+        p=tmp_path/('asset-'+str(i));b=str(i).encode();p.write_bytes(b)
+        old='/unavailable/original/asset-'+str(i);pins[old]=c.sha(b)
+        aliases[old]=dict(local_path=str(p),sha256=c.sha(b))
+    original=raw(dict(absolute_files=pins));relocation=raw(dict(schema='CORE_FIXED_ASSET_BYTE_RELOCATION_V1',
+        original_identity_sha256=c.sha(original),aliases=aliases))
+    m=dict(execution=dict(sealed_inputs={c.DESCRIPTOR:'a'*64},node_local_entry_relative='entry/infrastructure'))
+    def seal(name,body):
+        p=root/name;p.parent.mkdir(parents=True,exist_ok=True);once._exclusive(p,body)
+        m['execution']['sealed_inputs'][name]=c.sha(body)
+    seal('plans/ASSET_IDENTITY.private.json',original);seal(c.ASSET_RELOCATION,relocation)
+    for name,body in [('enter.sh',b'original entry'),('doctor.py',b'original doctor'),('ENVIRONMENTS.json',b'original env')]:
+        seal('entry/infrastructure/'+name,body)
+        if name!='ENVIRONMENTS.json':m['execution']['entry_sha256'if name=='enter.sh'else'doctor_sha256']=c.sha(body)
+    c.native_assets(root,m,expected_original_sha256=c.sha(original))
+    assert c.entry_directory(root,m,dict(registry='/unavailable/registry'))==root/'entry/infrastructure'
+    (tmp_path/'asset-0').write_bytes(b'changed')
+    with pytest.raises(PermissionError,match='LOCAL_NATIVE_ASSET_BYTES'):
+        c.native_assets(root,m,expected_original_sha256=c.sha(original))
+    m['execution']['doctor_sha256']='0'*64
+    with pytest.raises(PermissionError,match='UNCHANGED_STANDARD_ENTRY_AND_DOCTOR'):
+        c.entry_directory(root,m,dict(registry='/unavailable/registry'))
+
+
+def test_legacy_registration_stays_live_and_orphan_alias_or_entry_is_rejected(tmp_path):
+    root,registry,d,before,after,intent,receipt,binding,m=fixture(tmp_path)
+    calls=[]
+    def read(path):calls.append(path);return json.loads(Path(path).read_bytes())
+    assert c.registration(root,m,binding,legacy_read=read)['live_canonical_registry_read']is True
+    assert calls==[str(registry)]
+    assert c.entry_directory(root,m,binding)==registry.parent
+    m['execution']['node_local_entry_relative']='entry'
+    with pytest.raises(PermissionError,match='NO_ORPHAN_LOCAL_ENTRY'):c.entry_directory(root,m,binding)
+
+
+def test_node_local_gate_rejects_nfs_before_native_consumption(tmp_path,monkeypatch):
+    original=Path.read_text
+    def mountinfo(path,*args,**kw):
+        if str(path)=='/proc/self/mountinfo':return '1 0 0:1 / / rw - ext4 /dev/local rw\n2 1 0:2 / '+str(tmp_path)+' rw - nfs4 server:/home rw\n'
+        return original(path,*args,**kw)
+    monkeypatch.setattr(Path,'read_text',mountinfo)
+    with pytest.raises(PermissionError,match='EXISTING_NODE_LOCAL_FILESYSTEM_REQUIRED'):
+        c.local_path(tmp_path/'file')

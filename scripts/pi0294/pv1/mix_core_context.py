@@ -60,9 +60,8 @@ def validate(root, *, closeout=False):
     need(sha(parent/'OUTPUT_BINDING.private.json') == PARENT_BINDING_SHA, 'SAME_ORIGINAL_PARENT')
     pb = read(parent/'OUTPUT_BINDING.private.json')
     need(pb['registry'] == b['registry'], 'ONE_EXISTING_CANONICAL_REGISTRY')
-    entries = [r for r in read(b['registry'])['entries'] if r.get('role') == b['role']]
-    need(len(entries) == 1 and entries[0]['path'] == str(root) and entries[0]['run_uuid'] == root.name,
-         'ACTUAL_UNIQUE_REGISTERED_NEURAL_CHILD')
+    from . import node_local_custody as custody
+    custody.registration(root,m,b,legacy_read=read)
     code = member(root, m['code']['capsule_relative']); seal = member(root, m['code']['source_seal_relative'])
     need(Path(__file__).resolve() == (code/'scripts/pi0294/pv1/mix_core_context.py').resolve()
          and sha(seal) == m['code']['source_seal_sha256'], 'EXECUTE_EXACT_OWN_IMMUTABLE_CAPSULE')
@@ -160,9 +159,7 @@ def validate(root, *, closeout=False):
     sealed('plans/INITIAL_CORR_PARAMETER_INVENTORY.json'); sealed('plans/PRIOR_EVALUATION_OUTCOMES.json')
     need(m['execution']['sealed_inputs'].get('plans/ASSET_IDENTITY.private.json') == ASSET_IDENTITY_SHA,
          'EXACT_FROZEN_ASSET_MAP')
-    assets = sealed('plans/ASSET_IDENTITY.private.json')
-    need(len(assets['absolute_files']) == 26 and all(sha(p) == pin for p, pin in assets['absolute_files'].items()),
-         'ALL_EXISTING_NATIVE_ASSETS')
+    custody.native_assets(root,m,expected_original_sha256=ASSET_IDENTITY_SHA)
     bindings = sealed('NEURAL_BINDINGS.private.json'); inputs = sealed('plans/PV1_TRAIN_INPUTS.private.json')
     need(m['code']['official_gr00t_commit'] == '51d4c89f72fda44cbf77285c6a8114b52676b8a1'
          and Path(bindings['source']).is_dir() and Path(bindings['python']).is_file()
@@ -180,7 +177,7 @@ def validate(root, *, closeout=False):
          and lease['authority_release'] == s.TASK_SOURCE and lease['deadline_epoch'] == marker['deadline_epoch']
          and marker['T_CD'] <= now and (closeout or now < marker['deadline_epoch']),
          'ACTUAL_SUCCESSOR_LEASE_NOT_EXPIRED_OLD_AB_LEASE')
-    infra = Path(b['registry']).parent
+    infra = custody.entry_directory(root,m,b)
     need(sha(infra/'enter.sh') == m['execution']['entry_sha256']
          and sha(infra/'doctor.py') == m['execution']['doctor_sha256'], 'DEPLOYED_STANDARD_ENTRY_AND_DOCTOR')
     if not closeout:

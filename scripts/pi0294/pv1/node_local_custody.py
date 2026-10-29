@@ -9,6 +9,7 @@ import hashlib,json,os,re,stat
 from pathlib import Path,PurePosixPath
 
 DESCRIPTOR='plans/NODE_LOCAL_REGISTRATION_CUSTODY.private.json'
+ASSET_RELOCATION='plans/NODE_LOCAL_ASSET_RELOCATION.private.json'
 SCHEMA='CORE_ORIGINAL_REGISTRATION_NODE_LOCAL_CUSTODY_V1'
 
 
@@ -87,6 +88,7 @@ def registered_role(root,manifest,binding):
             'PRESEALED_LOCAL_PROVENANCE_MEMBER')
         file=root/name
         need(not any(x.is_symlink()for x in(file,*file.parents)),'NO_PROVENANCE_SYMLINK')
+        local_path(file)
         info=file.stat()
         need(stat.S_ISREG(info.st_mode)and info.st_uid==os.getuid()and not info.st_mode&0o222,
             'OWNED_IMMUTABLE_PROVENANCE_FILE')
@@ -96,6 +98,80 @@ def registered_role(root,manifest,binding):
     result=registration_bytes(descriptor,*(read(d[k])for k in('before_capture_relative','after_capture_relative',
         'intent_capture_relative','receipt_capture_relative')),binding=binding,manifest=manifest)
     return result
+
+
+def registration(root,manifest,binding,*,legacy_read):
+    """Select sealed custody only for an explicitly prepared immutable role."""
+    if DESCRIPTOR in manifest['execution']['sealed_inputs']:
+        return registered_role(root,manifest,binding)
+    rows=[r for r in legacy_read(binding['registry'])['entries']if r.get('role')==binding['role']]
+    need(len(rows)==1 and rows[0]['path']==str(root)and rows[0]['run_uuid']==Path(root).name,
+        'ACTUAL_UNIQUE_LEGACY_REGISTRATION')
+    return dict(live_canonical_registry_read=True,new_registry_authority=False,native_admission=False)
+
+
+def immutable_local_member(root,manifest,name):
+    """A sealed owned file on an existing local filesystem; no mount actions."""
+    root=Path(root);relative=PurePosixPath(name)
+    need(not relative.is_absolute()and '..'not in relative.parts and str(relative)==name,
+        'EXACT_RELATIVE_LOCAL_MEMBER')
+    p=root/name
+    need(not any(x.is_symlink()for x in(p,*p.parents)),'NO_LOCAL_MEMBER_SYMLINK')
+    local_path(p)
+    info=p.stat();need(stat.S_ISREG(info.st_mode)and info.st_uid==os.getuid()
+        and not info.st_mode&0o222,'IMMUTABLE_OWN_LOCAL_MEMBER')
+    pins=manifest['execution']['sealed_inputs'];b=p.read_bytes()
+    need(name in pins and sha(b)==pins[name],'PRESEALED_LOCAL_MEMBER_BYTES')
+    return b
+
+
+def local_path(path):
+    """Reject NFS/unknown filesystems, using only kernel mount metadata."""
+    p=Path(path);absolute(str(p))
+    need(not any(x.is_symlink()for x in(p,*p.parents)),'NO_LOCAL_PATH_SYMLINK')
+    matches=[]
+    for line in Path('/proc/self/mountinfo').read_text().splitlines():
+        before,after=line.split(' - ',1);mount=before.split()[4]
+        # mountinfo escapes whitespace and backslashes as octal sequences.
+        mount=re.sub(r'\\([0-7]{3})',lambda x:chr(int(x.group(1),8)),mount)
+        if str(p)==mount or str(p).startswith(mount.rstrip('/')+'/'):
+            matches.append((len(mount),after.split()[0]))
+    need(bool(matches)and max(matches)[1]in('ext4','xfs','btrfs','zfs'),
+        'EXISTING_NODE_LOCAL_FILESYSTEM_REQUIRED')
+    return p
+
+
+def native_assets(root,manifest,*,expected_original_sha256):
+    """Verify all original asset bytes at explicit aliases for a new role."""
+    original_name='plans/ASSET_IDENTITY.private.json';root=Path(root)
+    original=(root/original_name).read_bytes()
+    need(manifest['execution']['sealed_inputs'].get(original_name)==expected_original_sha256
+        and sha(original)==expected_original_sha256,'ORIGINAL_ASSET_IDENTITY')
+    pins=json.loads(original)['absolute_files']
+    if DESCRIPTOR in manifest['execution']['sealed_inputs']:
+        aliases=asset_relocations(original,immutable_local_member(root,manifest,ASSET_RELOCATION),
+            expected_original_sha256=expected_original_sha256)
+        for name,pin in pins.items():
+            p=local_path(aliases[name]);need(p.is_file()and sha(p.read_bytes())==pin,'LOCAL_NATIVE_ASSET_BYTES')
+    else:
+        need(ASSET_RELOCATION not in manifest['execution']['sealed_inputs'],'NO_ORPHAN_ASSET_RELOCATION')
+        need(len(pins)==26 and all(sha(Path(p).read_bytes())==h for p,h in pins.items()),
+            'ALL_LEGACY_NATIVE_ASSET_BYTES')
+
+
+def entry_directory(root,manifest,binding):
+    """The new role pins copies of the unchanged entry, doctor and env table."""
+    execution=manifest['execution'];relative=execution.get('node_local_entry_relative')
+    if DESCRIPTOR not in execution['sealed_inputs']:
+        need(relative is None,'NO_ORPHAN_LOCAL_ENTRY')
+        return Path(binding['registry']).parent
+    need(type(relative)is str and relative,'EXPLICIT_PRESEALED_LOCAL_ENTRY')
+    for name in('enter.sh','doctor.py','ENVIRONMENTS.json'):
+        b=immutable_local_member(root,manifest,str(PurePosixPath(relative)/name))
+        if name!='ENVIRONMENTS.json':
+            need(sha(b)==execution['entry_sha256'if name=='enter.sh'else'doctor_sha256'],
+                'UNCHANGED_STANDARD_ENTRY_AND_DOCTOR')
+    return Path(root)/relative
 
 
 def asset_relocations(original_bytes,relocation_bytes,*,expected_original_sha256):
