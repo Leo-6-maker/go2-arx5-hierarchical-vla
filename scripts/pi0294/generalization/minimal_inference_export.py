@@ -9,8 +9,7 @@ from pathlib import Path
 from scripts.pi0292.durable import read
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.pv1.pbs_owner import publish_release_record as once
-from . import minimal_execution as e,minimal_train_session as session
-from .minimal_adapter import consume_for_official_inference
+from . import minimal_execution as e
 
 SCHEMA='ARX5_MINIMAL_OWN512_ORDINARY_FULL_INFERENCE_EXPORT_V1'
 need=e.need
@@ -33,6 +32,8 @@ def save(root,instance,allocation,ledger,session_id,*,guard,phase_proof):
     existing export. All exported weights are ordinary upstream category tables.
     """
     from .minimal_effects import Effects
+    from . import minimal_train_session as session
+    from .minimal_adapter import consume_for_official_inference
     root=Path(root);spec=next(s for s in e.native_sessions()if s['id']==session_id)
     need(isinstance(ledger,Effects)and callable(guard)and spec['formal_candidate'],
          'EXPORT_ONLY_TYPED_OWN_FORMAL512_SESSION')

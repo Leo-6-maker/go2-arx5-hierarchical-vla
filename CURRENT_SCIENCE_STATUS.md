@@ -86,3 +86,5 @@ Core canonical LOCAL已从91ce7cc7一次补齐三次first512真实终态与已�
 完整增量见[原进度日志](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)。原状态长文[按原blob归档](docs/archive/2026-10-28/pre-consolidation/CURRENT_SCIENCE_STATUS.md)，不修改旧PASS/FAIL/UNKNOWN和原始指标。
 
 最新原生失败、精确数组差分和冷修复边界见[实际回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)。后继先保住E1已保存512状态并完成原一次费用收尾，不重训E1、不将未执行Eval记成0%成功。
+
+[保存端点接续范围](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_RECOVERY_ALL14_AND_POSTF_AUDIT_CPU_SCOPE_PREPARED_20261029.json)仅为冷态完整复算：PBS43、原其他caps不变、source/PC/meta控制一次计划，尚无native采用或新GPU。原完整状态CPU审计受CPU限额终止，不能称PASS；E1的512优化/12TRAIN原件继续保留，不重训。

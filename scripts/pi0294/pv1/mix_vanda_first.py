@@ -58,7 +58,8 @@ def budget_LOCAL(g, local):
                 r.get('platform_training_version')==minimal_retry_execution.VERSION
                 for r in g['PBS_submissions'])):
             from scripts.pi0294.generalization import minimal_partial_completion_scope as completion
-            return completion.budget_LOCAL(g,minimal_retry_execution.budget_LOCAL(g,value))
+            from scripts.pi0294.generalization import minimal_saved512_recovery_scope as saved512
+            return saved512.budget_LOCAL(g,completion.budget_LOCAL(g,minimal_retry_execution.budget_LOCAL(g,value)))
         if minimal_execution.FIELD in g:return minimal_execution.budget_LOCAL(g,value)
         return value
     if m is None or m['LOCAL_sync'] == 'SYNCED':

@@ -1,0 +1,117 @@
+{
+  "schema": "ARX5_SAVED_E1_512_E2_RAW_FIXED512_RECOVERY_CONTROL_SCOPE_V1",
+  "authority_basis": {
+    "direct_human_messages": [
+      "\u5141\u8bb8\u6388\u6743\u591a\u6b21GPU\u4efb\u52a1\uff0c\u81ea\u4e3b\u63a8\u8fdb",
+      "\u4f18\u5148\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\uff0c\u968f\u610f\u4f7f\u7528GPU",
+      "\u7ee7\u7eed\u63a8\u8fdb\uff0c\u65e0\u9700\u6279\u51c6",
+      "start gpu work quickly and keep pushing"
+    ],
+    "application": "One bounded same-hypothesis engineering continuation after actual nonzero F1; preserve E1 own512 and train only untouched E2 formal512. No new scientific arm or valid behavior replay."
+  },
+  "closed_job_id": "1505362.stdct-mgmt-02",
+  "closed_request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+  "closed_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "closed_row_sha256": "7258ce8fcb73ab8458e4f4c54312f0516304ce706d3c2a2a2ec11affec0f687d",
+  "closed_marker_sha256": "d696911fa65cf6f4d2204b3e387edc469111c2aceaf89402bf8e7053bcd53aa3",
+  "closed_lease_sha256": "1ddde92683d4b8e9dcb68e2f6ba913de5f756da1bb8d081533def129e501fa40",
+  "closed_settled_sha256": "d2ee85c768e3fca39d2175bff83b81d6ea8c98bd2b71a6903e6e138a63aaf9fb",
+  "closed_GLOBAL_sha256": "b905169791dcaef0ac75883461c9bf4fb7e4089bd05f4a4b045df7b1f8e3d1ad",
+  "preserved_new_effects": {
+    "optimizer_updates": 514,
+    "neural_queries": 39,
+    "model_loads": 5
+  },
+  "preserved_prior_effects": {
+    "optimizer_updates": 2,
+    "neural_queries": 71,
+    "model_loads": 5
+  },
+  "E1_saved512_manifest_sha256": "96b4abf08d752af9c332ac70cd4f0120bcfed0c84ea22d6650aad7869ae98a36",
+  "E2_qualify2_manifest_sha256": "db93cf7720b5dcf67d2d066e160ec7ce10b27a3886a2908e8a94bfe1348861f8",
+  "caps_delta": {
+    "PBS_submissions": {
+      "before": 42,
+      "after": 43
+    }
+  },
+  "other_caps_changed": false,
+  "clocks_reset": false,
+  "control": {
+    "site_CPU_s": 3600,
+    "local_CPU_s": 600,
+    "site_metadata_output_bytes": 8388608,
+    "transfer_bytes": 0
+  },
+  "control_partition": {
+    "independent_saved_state_audit_and_metadata_CPU_s": 600,
+    "original_resident_owner_CPU_s": 3000
+  },
+  "native_effect_upper": {
+    "optimizer_updates": 512,
+    "neural_queries": 62,
+    "model_loads": 5
+  },
+  "planned_native": {
+    "GPU_s": 28920,
+    "site_CPU_s": 78000,
+    "PBS_submissions": 1,
+    "additional_site_output_charge_bytes": 0
+  },
+  "sessions": [
+    {
+      "id": "E1_SAVED512_FINALIZE_ONLY",
+      "new_updates": 0,
+      "new_queries": 25,
+      "new_model_loads": 3,
+      "full512_model_state_must_be_independently_audited": true,
+      "own_saved512_never_qualification_weights": true
+    },
+    {
+      "id": "E2_FRESH_RAW_FORMAL512",
+      "new_updates": 512,
+      "new_queries": 37,
+      "new_model_loads": 2,
+      "fresh_original_raw_parent": true,
+      "no_qualification_weights_inherited": true
+    }
+  ],
+  "paid_output_pool": {
+    "ceiling_bytes": 144294967296,
+    "actual_closed_prefix_allocated_bytes": 13945905152,
+    "actual_closed_current_allocated_bytes": 51945381888,
+    "old_metadata_ceiling_bytes": 268435456,
+    "new_root_output_upper_bytes": 70000000000,
+    "all_old_roots_in_native_custody_required": true,
+    "no_hardlink_or_tensor_copy_of_saved_E1": true,
+    "new_actual_full_physical_proof_required_before_native_registration": true,
+    "no_paid_cost_current_peak_refund": true
+  },
+  "wire": {
+    "new_transfer_charge_bytes": 0,
+    "only_explicit_unspent_original_paid_finite_slices": true,
+    "no_cap_bypass_or_unbounded_RPC": true
+  },
+  "limits": {
+    "maximum_additional_GPU_jobs": 1,
+    "maximum_experiment_Vanda_GPU_concurrency": 1,
+    "new_E1_optimizer_updates": 0,
+    "new_E0_or_qualification_replays": 0,
+    "new_physics": 0,
+    "new_episodes": 0,
+    "valid_C50_or_other_behavior_replays": 0
+  },
+  "preserved": {
+    "same_raw_parent_12TRAIN_R0_seed_sampling_LR1024_and512_endpoint": true,
+    "original_S1_WBC_scoring": true,
+    "all_old_costs_UNKNOWN_PENDING_source_and_checkpoints": true,
+    "old_Core_Eval_escrow_and_historical_LOCAL": true,
+    "matrix3_and_final20GPUh40GiB": true,
+    "no_Core_runtime_dependency": true
+  },
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287,
+  "native_admission": false,
+  "status_at_publication": "CONTROL_AND_COMPLETE_REMAINING_PROPOSAL_ONLY_NO_NEW_REQUEST_OR_QSUB"
+}
