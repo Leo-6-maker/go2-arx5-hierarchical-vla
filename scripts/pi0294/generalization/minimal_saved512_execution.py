@@ -4,6 +4,7 @@ from copy import deepcopy
 from . import minimal_execution as e,minimal_saved512_contract as c,minimal_saved512_recovery_scope as authority
 from . import minimal_remaining_execution as previous
 from .minimal_validation_cache import exact_ledger_validation
+from .pbs_count_authority import history_upper
 
 FIELD='ARX5_minimal_saved512_inference_and_raw_E2_execution'
 VERSION=c.VERSION;PROFILE=c.PROFILE;RUN=c.RUN
@@ -80,7 +81,7 @@ def basic(g):
         'SAVED512_REAL_AUDITED_INPUTS_AND_SEPARATE_OWN_HOLD')
     need(m['before']['PBS_submissions']==39 and row['submit_count']==40
         and g['PBS_submissions'][39]==row and g['used']['PBS_submissions']==len(g['PBS_submissions'])
-        and 40<=len(g['PBS_submissions'])<=43 and(row['status']==e.STATES[2]or len(g['PBS_submissions'])==40),
+        and 40<=len(g['PBS_submissions'])<=history_upper(g,43) and(row['status']==e.STATES[2]or len(g['PBS_submissions'])==40),
         'SAVED512_ONE_PBS40_PLUS_MATRIX3_WITHOUT_REWRITING_OLD_ROWS')
     clock=e.authority.validate(g)
     need(all(row[k]==clock[k]for k in('T_CD','stop_new_training_epoch','deadline_epoch'))

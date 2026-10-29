@@ -5,6 +5,7 @@ from . import minimal_execution as e,minimal_e2only_contract as c,minimal_e2only
 from . import minimal_saved512_execution as previous
 from .minimal_remaining_execution import TERMINAL_KEYS
 from .minimal_validation_cache import exact_ledger_validation
+from .pbs_count_authority import history_upper
 
 FIELD='ARX5_minimal_E2_only_raw512_execution'
 VERSION=c.VERSION;PROFILE=c.PROFILE;RUN=c.RUN
@@ -79,7 +80,7 @@ def basic(g):
         and m['old_paid_gross_and_history_unchanged']is True,'E2ONLY_EXACT_ADOPTED_IDENTITY_HOLD_AND_PAID_HISTORY')
     need(m['before']['PBS_submissions']==40 and row['submit_count']==41
         and g['PBS_submissions'][40]==row and g['used']['PBS_submissions']==len(g['PBS_submissions'])
-        and 41<=len(g['PBS_submissions'])<=44 and(row['status']==e.STATES[2]or len(g['PBS_submissions'])==41),
+        and 41<=len(g['PBS_submissions'])<=history_upper(g,44) and(row['status']==e.STATES[2]or len(g['PBS_submissions'])==41),
         'E2ONLY_ONE_PBS41_PLUS_MATRIX3_WITHOUT_REWRITING_OLD_ROWS')
     clock=e.authority.validate(g)
     need(all(row[k]==clock[k]for k in('T_CD','stop_new_training_epoch','deadline_epoch'))

@@ -177,7 +177,7 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                     # no auxiliary watcher or agent heartbeat is introduced.
                     from scripts.pi0294.generalization import minimal_execution as minimal, minimal_execution_adapter as adapters
                     version=o.request_template.get('platform_training_version')
-                    if version in(adapters.retry.VERSION,adapters.remaining.VERSION,adapters.saved512.VERSION):
+                    if version in(adapters.retry.VERSION,adapters.remaining.VERSION,adapters.saved512.VERSION,adapters.e2only.VERSION):
                         adapters.select(version,o.request_template.get('profile'))
                     elif version!=minimal.VERSION:
                         raise PermissionError('SESSION_RELEASE_ONLY_EXPLICIT_NEW_FIRST512_OWNER')

@@ -87,6 +87,9 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     for key, old in baseline['dimensions'].items():
         projected = old['projected'] - own_credit[key] + additional[key] + planned[key]
         cap = caps[key]
+        from .pbs_count_authority import validate as unlimited_PBS
+        count_only_unlimited=key=='PBS_submissions'and unlimited_PBS(global_value)is not None
+        if count_only_unlimited:cap=max(cap,projected)
         shortfall = max(0, projected - cap)
         proposed = cap
         if shortfall:
@@ -100,6 +103,10 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
             exact_first512_reservation_projection_credit=own_credit[key],
             shortfall=shortfall, proposed_cap=proposed,
             headroom_after_proposed_cap=proposed-projected)
+        if count_only_unlimited:
+            dimensions[key].update(cap=None,proposed_cap=None,headroom_after_proposed_cap=None,
+                PBS_submission_count_limit=None,count_still_accounted=True,
+                numeric_legacy_projection_bound_only=cap)
         if any(planned.values()):dimensions[key]['planned_unregistered_original_first512']=planned[key]
         if any(completion_plan.values()):dimensions[key]['planned_saved_prefix_completion']=completion_plan[key]
     return dict(schema='ARX5_MINIMAL_FIRST512_COMPLETE_FUTURE_FORECAST_V1', scope=SCOPE,

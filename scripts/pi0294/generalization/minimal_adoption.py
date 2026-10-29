@@ -85,6 +85,8 @@ def validate(g):
 def effective_caps(g, caps):
     """Read only the exact new authority overlay; legacy markers stay intact."""
     out = dict(caps)
+    from .pbs_count_authority import validate as unlimited_PBS
+    count_unlimited=unlimited_PBS(g)is not None
     m = validate(g)
     if m is not None:
         from . import minimal_gpu_repair as repair
@@ -99,7 +101,7 @@ def effective_caps(g, caps):
         saved512_marker=saved512.validate(g)
         from . import minimal_e2only_scope as e2only
         e2only_marker=e2only.validate(g)
-        need(all(out[k] in (BEFORE[k], CAPS[k], repair.AFTER if extra and k=='H200_s' else CAPS[k],
+        need(all((k=='PBS_submissions'and count_unlimited and type(out[k])is int and out[k]>=0)or out[k] in (BEFORE[k], CAPS[k], repair.AFTER if extra and k=='H200_s' else CAPS[k],
             followup.AFTER if followup_marker and k=='PBS_submissions'else CAPS[k],
             entry.AFTER if entry_marker and k=='PBS_submissions'else CAPS[k],
             completion.AFTER if completion_marker and k=='PBS_submissions'else CAPS[k],
@@ -112,6 +114,8 @@ def effective_caps(g, caps):
         if completion_marker is not None:out['PBS_submissions']=completion.AFTER
         if saved512_marker is not None:out['PBS_submissions']=saved512.AFTER
         if e2only_marker is not None:out['PBS_submissions']=e2only.AFTER
+    from .pbs_count_authority import legacy_vector_bound
+    if 'PBS_submissions'in out:out['PBS_submissions']=legacy_vector_bound(g,out['PBS_submissions'])
     return out
 
 
@@ -122,6 +126,8 @@ def global_limits(g, caps):
     complete validated new authority is necessary even for a partial reader.
     """
     out = dict(caps)
+    from .pbs_count_authority import validate as unlimited_PBS
+    count_unlimited=unlimited_PBS(g)is not None
     m = validate(g)
     if m is not None:
         from . import minimal_gpu_repair as repair
@@ -137,6 +143,9 @@ def global_limits(g, caps):
         from . import minimal_e2only_scope as e2only
         e2only_marker=e2only.validate(g)
         for k in set(out) & set(CAPS):
+            if k=='PBS_submissions'and count_unlimited:
+                need(type(out[k])is int and out[k]>=0,'ACTUAL_NONNEGATIVE_PBS_ACCOUNTING_INPUT')
+                continue
             ceiling=repair.AFTER if extra and k=='H200_s' else CAPS[k]
             if k=='PBS_submissions'and followup_marker is not None:ceiling=followup.AFTER
             if k=='PBS_submissions'and entry_marker is not None:ceiling=entry.AFTER
@@ -146,6 +155,8 @@ def global_limits(g, caps):
             need(type(out[k]) in (int,float) and math.isfinite(out[k])
                  and 0 <= out[k] <= ceiling, 'KNOWN_GLOBAL_CEILING_INPUT:' + k)
             out[k] = ceiling
+    from .pbs_count_authority import legacy_vector_bound
+    if 'PBS_submissions'in out:out['PBS_submissions']=legacy_vector_bound(g,out['PBS_submissions'])
     return out
 
 

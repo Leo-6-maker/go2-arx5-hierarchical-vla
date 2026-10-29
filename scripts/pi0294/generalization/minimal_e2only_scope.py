@@ -76,7 +76,8 @@ def validate(g,*,generation=None):
         and clock['T_CD']<=m['adopted_epoch']<m['adopted_epoch']+NATIVE['H200_s']<clock['stop_new_training_epoch'],
         'E2ONLY_EXACT_COUNT_OVERLAY_AND_ALREADY_PAID_OUTPUT_POOL')
     b=m['before']
-    need(b['PBS_submissions']==40 and 40<=g['used']['PBS_submissions']<=AFTER
+    from .pbs_count_authority import history_upper
+    need(b['PBS_submissions']==40 and 40<=g['used']['PBS_submissions']<=history_upper(g,AFTER)
         and g['CPU_s']>=b['CPU_s']+CONTROL['Hopper_CPU_s']
         and g['new_storage_current_bytes']>=b['new_storage_current_bytes']
         and g['new_storage_peak_bytes']>=b['new_storage_peak_bytes'],
