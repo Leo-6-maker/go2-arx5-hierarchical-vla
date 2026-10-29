@@ -10,6 +10,7 @@ from pathlib import Path
 import struct
 
 import numpy as np
+from go2arx5_vla.trajectory.so3 import quat_slerp
 
 from .base_intent import eef_document
 from .task_clock import require_pause,actual_source_age
@@ -47,6 +48,36 @@ def check_installed_values(installed,document,source):
     need(np.all(np.abs(np.linalg.norm(q,axis=1)-1)<=tolerance),'INSTALLED_QUATERNION')
     delta=np.minimum(np.max(np.abs(q-target),axis=1),np.max(np.abs(q+target),axis=1))
     need(np.all(delta<=tolerance),'INSTALLED_ORIENTATION_DIFFERS_FROM_SUBMITTED')
+
+
+def check_republication_values(installed,document,source):
+    """Verify the native future slice against the same absolute SE3 path.
+
+    The native manager merges original knots with a future 20Hz grid, so
+    republications can contain more than41 points. Preserve every remaining
+    original knot, linear positions and quaternion SLERP, then hold the suffix.
+    """
+    points=document['ee']['waypoints'];original=source+np.arange(41)*.05
+    target=np.asarray([p['position']+p['quaternion_xyzw']for p in points])
+    times=np.asarray(installed['times'],dtype=float);poses=np.asarray(installed['poses'],dtype=float)
+    now=installed['observation_time_s']
+    need(41<=len(times)<=82 and poses.shape==(len(times),7)and np.isfinite(times).all()
+         and np.isfinite(poses).all()and np.all(np.diff(times)>0)and np.all(np.diff(times)<=.05+1e-8)
+         and abs(times[0]-now)<=1e-8 and abs(times[-1]-now-2)<=1e-8,'NATIVE_FUTURE_SLICE_GRID')
+    need(all(np.any(np.abs(times-t)<=1e-8)for t in original if now+1e-8<t),
+         'EVERY_REMAINING_ORIGINAL_KNOT_PRESERVED')
+    expected=np.stack([np.interp(times,original,target[:,k])for k in range(3)],axis=-1)
+    tolerance=8*np.finfo(np.float32).eps
+    need(np.allclose(poses[:,:3],expected,atol=tolerance,rtol=0),'REPUBLISHED_POSITION_DIFFERS_FROM_ABSOLUTE_PATH')
+    quaternions=[]
+    for at in times:
+        index=min(max(0,int(np.searchsorted(original,at,side='right'))-1),39)
+        fraction=float(np.clip((at-original[index])/.05,0,1))
+        quaternions.append(quat_slerp(target[index,3:],target[index+1,3:],fraction))
+    expected_q=np.asarray(quaternions);q=poses[:,3:]
+    need(np.all(np.abs(np.linalg.norm(q,axis=1)-1)<=tolerance),'REPUBLISHED_QUATERNION')
+    delta=np.minimum(np.max(np.abs(q-expected_q),axis=1),np.max(np.abs(q+expected_q),axis=1))
+    need(np.all(delta<=tolerance),'REPUBLISHED_ORIENTATION_DIFFERS_FROM_ABSOLUTE_PATH')
 
 
 def check_transactions(samples,records,planner,*,episode,initial_step=2500):
@@ -110,7 +141,8 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
         for copy in copies:
             need(abs(copy['bound_start']-source)<=1e-8
                  and source-1e-8<=copy['observation_time_s']<=source+.4+1e-8,'INSTALL_BOUND_TO_SOURCE')
-            check_installed_values(copy,document,source)
+            if copy is copies[0]:check_installed_values(copy,document,source)
+            else:check_republication_values(copy,document,source)
         for k in range(8):
             start,end=samples[index+k],samples[index+k+1]
             need(start['native_step']==step+k*25 and end['native_step']==step+(k+1)*25,

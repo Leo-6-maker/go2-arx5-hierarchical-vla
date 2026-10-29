@@ -492,16 +492,47 @@
     "safety_stop_preserved": true
   },
   "audit_method": {
-    "native_reference_installation": "One accepted task wire and five native publications with the same source-bound absolute reference; repeated native publication is not a new high-level action.",
+    "native_reference_installation": "One accepted H40 task wire, followed by its original41-point install and four native future time slices (80/78/43/74 points). All slice values match the original absolute linear-position/quaternion-SLERP reference, retain remaining original knots and source bound5.0; they are not new high-level commands.",
     "first_audit_assertion": "The first saved audit expected one native install row and rejected actual periodic republication before writing any audit file. The failed request and UNKNOWN record are retained; an independent read-only audit supersedes its interpretation without replay.",
     "failed_audit_new_physics": 0,
     "read_only_audit_CPU_s": 0.647932003,
     "raw_evidence_private": true,
-    "selected_MPC_consumption": "UNKNOWN"
+    "selected_MPC_consumption": "UNKNOWN",
+    "actual_native_slices": {
+      "status": "ACTUAL_FIRST_INSTALL_AND_FOUR_FUTURE_NATIVE_SLICES_MATCH_ORIGINAL_SAVED_WIRE",
+      "wire_sha256": "203782dfd8df21eed5b52bd958118b70f282757b3186cb407e4a3d058cd1ea0e",
+      "distinct_high_level_refs": 1,
+      "native_publications": 5,
+      "point_counts": [
+        41,
+        80,
+        78,
+        43,
+        74
+      ],
+      "source_bound_start": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "observation_times": [
+        5.0,
+        5.096,
+        5.194,
+        5.3,
+        5.394
+      ],
+      "linear_and_quaternion_SLERP_checked": true,
+      "all_remaining_original_knots_preserved": true,
+      "new_physics": 0,
+      "new_model_queries": 0
+    }
   },
   "CPU_validation": {
     "status": "PASS",
-    "checks": 46,
+    "checks": 48,
     "native_success_claim": false
   },
   "scientific_return": {

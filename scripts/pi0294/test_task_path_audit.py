@@ -74,7 +74,7 @@ def test_even_consistent_rehash_cannot_add_a_BASE_label():
 
 
 def test_native_republication_retains_one_absolute_reference_without_new_action():
-    s,r,p=fixture();republished=copy.deepcopy(p[1]);republished['observation_time_s']+=.1
+    s,r,p=fixture();republished=native_slice(p[1])
     p.insert(2,republished)
     proof=check_transactions(s,r,p,episode='SYNTHETIC')
     assert proof['submitted_and_installed']==80
@@ -82,15 +82,26 @@ def test_native_republication_retains_one_absolute_reference_without_new_action(
     assert proof['completed_intervals']==640
 
 
-@pytest.mark.parametrize('fault',['values','reanchored','expired','order'])
+@pytest.mark.parametrize('fault',['values','orientation','missing_knot','reanchored','expired','order'])
 def test_republication_cannot_change_reference_or_reanchor_its_clock(fault):
-    s,r,p=fixture();row=copy.deepcopy(p[1]);row['observation_time_s']+=.1
+    s,r,p=fixture();row=native_slice(p[1])
     if fault=='values':row['poses'][0][0]+=.001
+    elif fault=='orientation':row['poses'][0][3:]=[0,0,1,0]
+    elif fault=='missing_knot':row['times'].pop(1);row['poses'].pop(1)
     elif fault=='reanchored':row['bound_start']+=.1
     elif fault=='expired':row['observation_time_s']+=.4
     elif fault=='order':row['observation_time_s']-=.2
     p.insert(2,row)
     with pytest.raises(ValueError):check_transactions(s,r,p,episode='SYNTHETIC')
+
+
+def native_slice(original):
+    row=copy.deepcopy(original);now=original['observation_time_s']+.096
+    old_times=np.asarray(original['times']);old_poses=np.asarray(original['poses'])
+    times=np.unique(np.r_[old_times[old_times>now],now+np.arange(41)*.05])
+    poses=np.stack([np.interp(times,old_times,old_poses[:,k])for k in range(7)],axis=-1)
+    row.update(observation_time_s=now,times=times.tolist(),poses=poses.astype(np.float32).tolist())
+    return row
 
 
 def test_qualification_uses_actual_new_native_modes_after_cancel(tmp_path):
