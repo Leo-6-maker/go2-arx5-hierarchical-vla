@@ -27,7 +27,8 @@ def encode(value):
     raise TypeError(type(value).__name__)
 
 
-def run(root,side):
+def run(root,side,*,task_kind='BOOK'):
+    if task_kind not in('BOOK','ROBOCASA_CABINET'):raise ValueError('FIXED_SOURCE_TASK_KIND')
     import numpy as np
     import mujoco
     import PIL
@@ -63,18 +64,24 @@ def run(root,side):
     if not account['native_adopted'] or account['qualification_sha256']!=sha((root/'SOURCE_QUALIFICATION.json').read_bytes()):
         raise PermissionError('ACTUAL_ADOPTION_AND_PREDECLARED_ASSET_ACTION_SCORE_QUALIFICATION')
     if (root/'STOP.json').exists():raise PermissionError('SOURCE_STOP_FENCE')
-    card=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())[side]
+    fixed=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())
+    card=(fixed[task_kind]if task_kind in fixed else fixed)[side]
     if card['task_duration_s']!=32. or card['warmup_s']!=5.:raise PermissionError('FIXED_FULL_TASK_DURATION')
-    operation='LIBERO_'+side.upper()+'_FIRST01'
+    if task_kind=='ROBOCASA_CABINET':
+        from .robocasa_cabinet_cards import cards as fixed_cards
+        if card!=fixed_cards()[side]:raise PermissionError('EXACT_PREDECLARED_CABINET_PORT_CARD')
+    elif card.get('task')!='BOOK':raise PermissionError('ORIGINAL_BOOK_TASK_CARD')
+    operation=('LIBERO_'if task_kind=='BOOK'else'ROBOCASA_')+side.upper()+'_FIRST01'
     after=scope.reserve(account,operation=operation,kind='ATTEMPT',upper=dict(attempts=1,
         physics_integrations=50000,RGB_pairs=2000,Core_CPU_s=2800,render_device_s=600,
-        Core_peak_bytes=512*1024**2),now=time.time(),task='LIBERO_BOOK_'+side.upper(),
+        Core_peak_bytes=512*1024**2),now=time.time(),task='LIBERO_BOOK_'+side.upper()if task_kind=='BOOK'else'ROBOCASA_OPEN_CABINET',
         qualification=account['qualification_sha256'])
     key='NIGHT30-'+operation
     once.commit(account_path,expected_before_sha256=sha(ab),proposed_bytes=raw(after),request_id=key,
         intent_path=account_path.with_name(key+'.INTENT.json'),receipt_path=account_path.with_name(key+'.RECEIPT.json'),
         lock_path=account_path.with_name('NIGHT_SOURCE_ACCOUNT.owner.lock'))
     out=root/'outputs'/operation;out.mkdir(mode=0o700)
+    put(out/'CARD.json',card)
     stream=(out/'ACTUAL_RECORDS.jsonl').open('x')
     engine=None;render_begin=None;images_written=0;events={};bytes_written=0
     def guard():
@@ -104,12 +111,21 @@ def run(root,side):
     try:
         guard()
         assets=json.loads((root/'ASSET_BINDINGS.private.json').read_bytes())
+        node_local_paths(dict(paths,assets=[pin['path']for pin in assets['files'].values()]))
         for name,pin in assets['files'].items():
             b=Path(pin['path']).read_bytes()
             if sha(b)!=pin['sha256'] or len(b)!=pin['bytes']:raise PermissionError('EXACT_PINNED_NATIVE_ASSET:'+name)
-        definitions={n:(root/'inputs'/n/(n+'.xml')).read_bytes()for n in('black_book','desk_caddy')}
-        engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
-            asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        if task_kind=='BOOK':
+            definitions={n:(root/'inputs'/n/(n+'.xml')).read_bytes()for n in('black_book','desk_caddy')}
+            engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
+                asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        else:
+            from .feedback_teacher import SourceSkillTeacher
+            definitions={n:Path(assets['files'][key]['path']).read_bytes()for n,key in assets['robocasa_definition_members'].items()}
+            textures={n:assets['files'][key]['path']for n,key in assets['robocasa_texture_members'].items()}
+            engine=make_engine(card,assets['robot_root'],pinned_robocasa=dict(definitions=definitions,texture_paths=textures))
+        put(out/'NATIVE_SCENE.private.xml',engine.xml.encode())
+        bytes_written+=(out/'CARD.json').stat().st_size+(out/'NATIVE_SCENE.private.xml').stat().st_size
         initial=engine.snapshot()
         if initial['safety_valid']is not True or initial['native_grasp']:
             raise PermissionError('ACTUAL_NATIVE_INITIAL_SAFETY_OR_UNINTENDED_GRASP')
@@ -118,13 +134,22 @@ def run(root,side):
         for n,a in rgb.items():
             if a.shape!=(256,256,3) or a.dtype!=np.uint8:raise PermissionError('QUALIFICATION_DUAL_RGB')
             Image.fromarray(a).save(out/('qualification_'+n+'.png'))
+            bytes_written+=(out/('qualification_'+n+'.png')).stat().st_size
             uv=np.asarray(cal[n]['object_points_uv'])
             optical=np.asarray(cal[n]['T_world_optical'])
             depth=(np.asarray(initial['object_points'])-optical[:3,3])@optical[:3,:3]
             if np.sum(np.all((uv>=0)&(uv<256),axis=1)&(depth[:,2]>0))<4:
-                raise PermissionError('QUALIFICATION_BOOK_OUTSIDE_DECLARED_DUAL_CAMERA_VIEW')
+                raise PermissionError('QUALIFICATION_OBJECT_OUTSIDE_DECLARED_DUAL_CAMERA_VIEW')
         images_written+=1
-        emit('qualification',dict(actual_state=initial,calibration=cal,camera_pair=True,
+        extra={}
+        if task_kind=='ROBOCASA_CABINET':
+            j=engine._id(mujoco.mjtObj.mjOBJ_JOINT,engine.task_binding['passive_joint'])
+            extra=dict(source_port=card['source_port'],card_sha256=sha((out/'CARD.json').read_bytes()),
+                native_scene_sha256=sha((out/'NATIVE_SCENE.private.xml').read_bytes()),
+                passive_joint_name=engine.task_binding['passive_joint'],
+                passive_joint_qposadr=int(engine.model.jnt_qposadr[j]),passive_joint_dofadr=int(engine.model.jnt_dofadr[j]),
+                passive_joint_range=engine.model.jnt_range[j].tolist())
+        emit('qualification',dict(actual_state=initial,calibration=cal,camera_pair=True,**extra,
             new_constructor=1,steps=engine.steps,simulation_time=engine.data.time,
             original_arm_bounds=engine.arm_bounds,original_finger_q_indices=engine.finger_q,
             original_finger_v_indices=engine.finger_v,robot_geom_ids=[i for i in range(engine.model.ngeom)
@@ -138,7 +163,8 @@ def run(root,side):
             emit('warmup_tick',dict(native_step=engine.steps,actual_state=s))
             if s['safety_valid']is not True:raise PermissionError('ORIGINAL_NATIVE_SOURCE_WARMUP_SAFETY_STOP')
         emit('warmup_complete',dict(steps=engine.steps,actual_state=engine.snapshot()))
-        result=capture(engine,LiberoBookTeacher(card),instruction=card['instruction'],guard=guard,emit=emit,duration_s=32.)
+        teacher=LiberoBookTeacher(card)if task_kind=='BOOK'else SourceSkillTeacher(card)
+        result=capture(engine,teacher,instruction=card['instruction'],guard=guard,emit=emit,duration_s=32.)
     except Exception as exc:
         error=type(exc).__name__+': '+str(exc)
         if engine is not None:
