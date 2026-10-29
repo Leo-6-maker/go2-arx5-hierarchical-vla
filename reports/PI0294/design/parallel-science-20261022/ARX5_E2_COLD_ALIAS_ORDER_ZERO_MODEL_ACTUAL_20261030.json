@@ -1,0 +1,43 @@
+{
+  "schema": "ARX5_E2_COLD_ROLE_ALIAS_ORDER_FAILURE_AND_ONE_FIX_PREPARED_V1",
+  "status": "FINITE_COLD_CHILD_OS1_BEFORE_ROLE_LEASE_REGISTRATION_NO_MODEL",
+  "source": "123508f76068e96ea1f8adcc1b59a0f9a8c1067e",
+  "native_OS": {
+    "sha256": "79950c4da52720bcd95926d61bca13a85cf9d4adc3eb332794b8b15d325494d4",
+    "value": {
+      "returncode": 1,
+      "timeout": false,
+      "foreground_wait_completed": true,
+      "CPU_actual_s": 3.806658,
+      "finished_epoch": 1793298785.9420512
+    }
+  },
+  "failure": {
+    "type": "PermissionError",
+    "message": "PV1_MODEL_ALIAS_CREATION_ONLY_BEFORE_FINAL_COLD_BINDING",
+    "sha256": "15faef2f2a593df592ec1bbbb5c5f68bcbd924592e6011edb1ac1ff259e63330"
+  },
+  "all_recorded_actors_terminal": true,
+  "new_models_queries_updates_PBS": 0,
+  "new_source_physics": 0,
+  "ordinary_fix": "Create the original alias before final manifest; finish only the proved partial unregistered role once, preserving the premature manifest inode",
+  "full14_original_payment": {
+    "status": "INDEPENDENT_CANONICAL_GLOBAL_AND_ONCE_RECEIPT_FULL_BYTES",
+    "GLOBAL_sha256": "33152ca328ba2146b3b65d9b986ce9b17db3c4a9139bc79cd15cb1a3ef6a7687",
+    "GLOBAL_bytes": 15604702,
+    "intent_sha256": "09dc4e8aa3c40b71b0d7e0985b15bab5f54c080f4be380861bab8af642175163",
+    "receipt_sha256": "227c8671705270e71aad7a3256fb98ee4a798851bb2f15605d8d572cd15f18f5",
+    "used_PBS": 41,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "no_existing_new_owner_or_dispatch": true,
+    "old_config_programs_have_literal_root": false,
+    "retired_preparation_sha256": "eaf65205bc8637f9e872b40bda16ff06ab71812482049dabaa74d1a97a1467f6",
+    "observed_epoch": 1793298693.352959,
+    "new_writes": 0
+  },
+  "PC_independent_background_child_actually_ran": true,
+  "healthy_training_owner": false,
+  "new_scope_resource_borrowing": false,
+  "NFS_mount_SSH_services_changes": 0
+}

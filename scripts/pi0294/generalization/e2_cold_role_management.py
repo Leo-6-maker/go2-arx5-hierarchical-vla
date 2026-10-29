@@ -73,9 +73,9 @@ try:
  binding=dict(b,run_root=str(root),role=role,registry=str(regpath),environment=str(envpath),lease=str(Path(b['lease']).with_name('ARX5-E2-ONLY-RAW512-02-COLD01.json')),run_manifest_sha256=sha(raw(manifest)))
  assert not Path(binding['lease']).exists()
  for name,body in small.items():put(root/name,body)
- put(root/'RUN_MANIFEST.json',raw(manifest));put(root/'OUTPUT_BINDING.private.json',raw(binding))
  from scripts.pi0294.pv1.model_inputs import prepare_alias
  alias=prepare_alias(root,json.loads(small['NEURAL_BINDINGS.private.json']))
+ put(root/'RUN_MANIFEST.json',raw(manifest));put(root/'OUTPUT_BINDING.private.json',raw(binding))
  lease=json.loads(lease_bytes);lease={k:v for k,v in lease.items()if k not in ['closed_epoch','closure_reason','pre_native_owner_OS_sha256','PBS_submitted']};lease.update(status='ACTIVE',run_uuid=root.name,role=role,manifest_sha256=binding['run_manifest_sha256'],CPU_upper_s=3000,new_GPU_permission=False);put(binding['lease'],raw(lease))
  reg['entries'].append(dict(role=role,scope=x.VERSION,path=str(root),run_uuid=root.name,executor_node=os.uname().nodename,owner='EXISTING_SOLE_MUTATION_OWNER',lifecycle='PRE_NATIVE_COLD_NO_GPU'))
  for path,before,after,key in [(regpath,regb,raw(reg),'E2-PRE-NATIVE30-NEW-REGISTERED-ROLE'),(envpath,envb,raw(envs),'E2-PRE-NATIVE30-NEW-ENV-PROFILE')]:
@@ -104,3 +104,63 @@ try:
 except BaseException as error:
  put(stage/'FAILED_OR_UNKNOWN.json',raw(dict(type=type(error).__name__,message=str(error)[-2000:],traceback=traceback.format_exc()[-12000:],CPU_s=time.process_time()-began,originals_preserved=True)));raise
 '''
+
+# Exact partial-role completion: preserve the premature manifest inode, create
+# the original alias at its required pre-final boundary, then restore the same
+# manifest bytes. There is no registered role, lease, actor or model to migrate.
+_FINISH_PREFIX = r'''
+import base64,hashlib,json,os,resource,sys,time,traceback
+from pathlib import Path
+sys.dont_write_bytecode=True;P=json.loads(sys.stdin.read());stage=Path(P['stage']);began=time.process_time()
+resource.setrlimit(resource.RLIMIT_CPU,(178,179));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode();sha=lambda b:hashlib.sha256(b).hexdigest()
+def put(path,b):
+ path=Path(path);path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+ fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+ with os.fdopen(fd,'wb')as f:f.write(b);f.flush();os.fsync(f.fileno())
+def read(path):return json.loads(Path(path).read_bytes())
+try:
+ assert os.getuid()==22182 and not os.environ.get('PBS_JOBID')and os.environ['CUDA_VISIBLE_DEVICES']==''
+ os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
+ failed=Path(P['failed_stage']);eb=(failed/'OS_EXIT.json').read_bytes();fb=(failed/'FAILED_OR_UNKNOWN.json').read_bytes()
+ assert sha(eb)==P['failed_OS_sha256']and read(failed/'OS_EXIT.json')['returncode']==1
+ assert sha(fb)==P['failure_sha256']and json.loads(fb)['message']=='PV1_MODEL_ALIAS_CREATION_ONLY_BEFORE_FINAL_COLD_BINDING'
+ for name,pk,sk in [('LAUNCHED.json','wrapper_pid','wrapper_procstart'),('CHILD_STARTED.json','pid','procstart')]:
+  row=read(failed/name);path=Path('/proc',str(row[pk]),'stat');f=path.read_text().rsplit(')',1)[1].split()if path.exists()else None
+  assert not(f and f[0]not in('Z','X')and int(f[19])==int(row[sk]))
+ old=Path(P['old_root']);root=old.with_name(P['identity']['run_uuid']);gp=old.parent.parent/'HOPPER_RESOURCE_LEDGER.json';gb=gp.read_bytes();assert sha(gb)==P['GLOBAL_sha256'];g=json.loads(gb)
+ assert g['pending_updates']==g['unknown_effects']==[]and all(r['status']=='NATIVE_TERMINAL'for r in g['PBS_submissions'])
+ assert not any(r.get('request_id')==P['identity']['request_id']for r in g['PBS_submissions'])
+ mb=(root/'RUN_MANIFEST.json').read_bytes();manifest=json.loads(mb);binding=read(root/'OUTPUT_BINDING.private.json');cfg=read(root/'MIX_OWNER_CONFIG.private.json');request=cfg['request_template']
+ assert binding['run_manifest_sha256']==sha(mb)and manifest['code']['vla_commit']==cfg['source_sha']==P['identity']['source_sha']
+ assert all(request[k]==v for k,v in P['identity'].items())
+ assert not Path(binding['lease']).exists()and not(root/'control/resident-owner').exists()and not list((root/'pbs').iterdir())
+ alias_path=root/'model_inputs/nvidia/Cosmos-Reason2-2B';assert not os.path.lexists(alias_path)
+ regpath=Path(binding['registry']);envpath=Path(binding['environment']);regb=regpath.read_bytes();envb=envpath.read_bytes();reg,envs=map(json.loads,(regb,envb));role=binding['role']
+ assert not any(r.get('role')==role or r.get('path')==str(root)for r in reg['entries'])
+ profiles=[r for r in envs['profiles']if r['name']==request['profile']];assert len(profiles)==1 and profiles[0]['manifest']==str(old/'RUN_MANIFEST.json')
+ from copy import deepcopy
+ envs.setdefault('closed_profile_history',[]).append(deepcopy(profiles[0]));envs['profiles']=[r for r in envs['profiles']if r['name']!=request['profile']]
+ profile=deepcopy(profiles[0]);profile.update(role=role,manifest=str(root/'RUN_MANIFEST.json'));envs['profiles'].append(profile)
+ code=root/manifest['code']['capsule_relative'];newseal=read(root/'SOURCE_SEAL.json');files=newseal['files'];assert sha((root/'SOURCE_SEAL.json').read_bytes())==manifest['code']['source_seal_sha256']
+ for name,pin in files.items():assert sha((code/name).read_bytes())==pin
+ small={n:(root/n).read_bytes()for n in manifest['execution']['sealed_inputs']}
+ assert all(sha(b)==manifest['execution']['sealed_inputs'][n]for n,b in small.items())
+ assert json.loads(small['plans/A40_ENVIRONMENT_BINDING.private.json'])['environment_registry_sha256']==sha(raw(envs))
+ sys.path[:0]=[str(code),str(code/'src')]
+ from scripts.pi0294.generalization import minimal_e2only_execution as x,minimal_e2only_contract as contract,minimal_e2only_physical as physical,minimal_e2only_pre_native as cold,minimal_remaining_physical as inventory
+ from scripts.pi0294.dec1.source_cpu_once_io import commit
+ from scripts.pi0294.pv1.model_inputs import prepare_alias
+ lease_bytes=Path(read(old/'OUTPUT_BINDING.private.json')['lease']).read_bytes();assert sha(lease_bytes)==P['closed']['closed_lease_sha256']
+ assert cold.retired(g)[cold.OLD_REQUEST]==P['closed']
+ snapshot=inventory.prefix_inventory(old);assert sha(raw(snapshot))==P['closed']['snapshot_sha256']and inventory.identity(snapshot)==P['closed']['snapshot_identity_sha256']
+ archive=root/'control/PREMATURE_UNREGISTERED_RUN_MANIFEST.private.json';intent=root/'control/ALIAS_ORDER_REPAIR_INTENT.json'
+ assert not archive.exists()and not intent.exists()
+ put(intent,raw(dict(failure_sha256=sha(fb),failed_OS_sha256=sha(eb),manifest_sha256=sha(mb),no_registered_role_or_lease_or_actor=True,old_manifest_inode=(root/'RUN_MANIFEST.json').stat().st_ino,automatic_retry=False)))
+ os.rename(root/'RUN_MANIFEST.json',archive)
+ alias=prepare_alias(root,json.loads(small['NEURAL_BINDINGS.private.json']))
+ put(root/'RUN_MANIFEST.json',mb);assert archive.read_bytes()==mb and sha((root/'RUN_MANIFEST.json').read_bytes())==binding['run_manifest_sha256']
+'''
+_TAIL = PREPARE.split(" lease=json.loads(lease_bytes);", 1)
+assert len(_TAIL) == 2
+FINISH_UNREGISTERED_ALIAS = _FINISH_PREFIX + " lease=json.loads(lease_bytes);" + _TAIL[1]
