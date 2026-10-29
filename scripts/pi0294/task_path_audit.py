@@ -10,6 +10,7 @@ from pathlib import Path
 import struct
 
 import numpy as np
+from go2arx5_vla.trajectory.so3 import quat_slerp
 
 from .base_intent import eef_document
 from .task_clock import require_pause,actual_source_age
@@ -49,6 +50,36 @@ def check_installed_values(installed,document,source):
     need(np.all(delta<=tolerance),'INSTALLED_ORIENTATION_DIFFERS_FROM_SUBMITTED')
 
 
+def check_republication_values(installed,document,source):
+    """Verify the native future slice against the same absolute SE3 path.
+
+    The native manager merges original knots with a future 20Hz grid, so
+    republications can contain more than41 points. Preserve every remaining
+    original knot, linear positions and quaternion SLERP, then hold the suffix.
+    """
+    points=document['ee']['waypoints'];original=source+np.arange(41)*.05
+    target=np.asarray([p['position']+p['quaternion_xyzw']for p in points])
+    times=np.asarray(installed['times'],dtype=float);poses=np.asarray(installed['poses'],dtype=float)
+    now=installed['observation_time_s']
+    need(41<=len(times)<=82 and poses.shape==(len(times),7)and np.isfinite(times).all()
+         and np.isfinite(poses).all()and np.all(np.diff(times)>0)and np.all(np.diff(times)<=.05+1e-8)
+         and abs(times[0]-now)<=1e-8 and abs(times[-1]-now-2)<=1e-8,'NATIVE_FUTURE_SLICE_GRID')
+    need(all(np.any(np.abs(times-t)<=1e-8)for t in original if now+1e-8<t),
+         'EVERY_REMAINING_ORIGINAL_KNOT_PRESERVED')
+    expected=np.stack([np.interp(times,original,target[:,k])for k in range(3)],axis=-1)
+    tolerance=8*np.finfo(np.float32).eps
+    need(np.allclose(poses[:,:3],expected,atol=tolerance,rtol=0),'REPUBLISHED_POSITION_DIFFERS_FROM_ABSOLUTE_PATH')
+    quaternions=[]
+    for at in times:
+        index=min(max(0,int(np.searchsorted(original,at,side='right'))-1),39)
+        fraction=float(np.clip((at-original[index])/.05,0,1))
+        quaternions.append(quat_slerp(target[index,3:],target[index+1,3:],fraction))
+    expected_q=np.asarray(quaternions);q=poses[:,3:]
+    need(np.all(np.abs(np.linalg.norm(q,axis=1)-1)<=tolerance),'REPUBLISHED_QUATERNION')
+    delta=np.minimum(np.max(np.abs(q-expected_q),axis=1),np.max(np.abs(q+expected_q),axis=1))
+    need(np.all(delta<=tolerance),'REPUBLISHED_ORIENTATION_DIFFERS_FROM_ABSOLUTE_PATH')
+
+
 def check_transactions(samples,records,planner,*,episode,initial_step=2500):
     """80 exact installed H40 references account for 640 executed intervals.
 
@@ -70,7 +101,10 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
         if row.get('kind')=='accept':
             ref=row['ref_id'];need(ref not in accepted,'DUPLICATE_RECEIVER_ACCEPT');accepted[ref]=row
         elif row.get('kind')=='installed'and row.get('ref_id'):
-            ref=row['ref_id'];need(ref not in installed,'DUPLICATE_NATIVE_INSTALL');installed[ref]=row
+            # The unchanged receiver republishes an active absolute reference
+            # as native observation time advances. All copies must preserve
+            # its source-bound grid and values; only the first is the ACK.
+            installed.setdefault(row['ref_id'],[]).append(row)
         elif row.get('kind')=='reject':raise ValueError('S1_INDEPENDENT_NATIVE_REJECT_PRESENT')
     need(len(accepted)==len(installed)==81,'EIGHTY_TASK_PLUS_ONE_QUALIFICATION_REFERENCE')
     intervals=[];task_refs=set();ages=[]
@@ -100,9 +134,15 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
         need(0<=age<=.025 and 0<=actual_source_age(samples[index]['raw_time_s'],source)<=.025,'SOURCE_AGE')
         need(ack['index']==index and ack['wire_sha256']==ref and ack['native_step']==step,
              'EXACT_SAME_PAUSED_STATE_ACK')
-        need(abs(installed[ref]['bound_start']-source)<=1e-8
-             and abs(installed[ref]['observation_time_s']-source)<=1e-8,'INSTALL_BOUND_TO_SOURCE')
-        check_installed_values(installed[ref],document,source)
+        copies=installed[ref]
+        need(abs(copies[0]['observation_time_s']-source)<=1e-8,'FIRST_INSTALL_AT_EXACT_SOURCE_PAUSE')
+        observations=[copy['observation_time_s']for copy in copies]
+        need(all(a<=b for a,b in zip(observations,observations[1:])),'ORDERED_NATIVE_REPUBLICATION')
+        for copy in copies:
+            need(abs(copy['bound_start']-source)<=1e-8
+                 and source-1e-8<=copy['observation_time_s']<=source+.4+1e-8,'INSTALL_BOUND_TO_SOURCE')
+            if copy is copies[0]:check_installed_values(copy,document,source)
+            else:check_republication_values(copy,document,source)
         for k in range(8):
             start,end=samples[index+k],samples[index+k+1]
             need(start['native_step']==step+k*25 and end['native_step']==step+(k+1)*25,
@@ -112,7 +152,8 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
             intervals.append(dict(interval_index=index+k,start_native_step=start['native_step'],
                 end_native_step=end['native_step'],wire_sha256=ref,prefix_index=k,
                 action_EEF10=action[k].tolist(),selected_MPC_policy_consumption='UNKNOWN'))
-    return dict(submitted_and_installed=80,completed_intervals=640,source_age_max_s=max(ages),
+    return dict(submitted_and_installed=80,native_task_install_publications=sum(len(installed[ref])for ref in task_refs),
+                completed_intervals=640,source_age_max_s=max(ages),
                 task_refs=sorted(task_refs),intervals=intervals)
 
 
@@ -230,6 +271,7 @@ def audit_episode(folder,*,expected_source_sha,frozen_model=None):
     proof=dict(status='COMPLETE_TASK_QUALITY_PASS'if quality['persistent_success']else'COMPLETE_TASK_QUALITY_FAIL',
         source_sha=expected_source_sha,quality=quality,observations=641,native_integrations=18500,task_integrations=16000,
         submitted_and_installed=80,executed_intervals=640,RGB_pairs=641,actual_state_byte_identity=True,
+        native_task_install_publications=transactions['native_task_install_publications'],
         independent_state_predicates=True,submitted_EEF10_wire_identity=True,BASE_supervision=False,
         frozen_native_robot=frozen,source_age_max_s=transactions['source_age_max_s'],
         image_hashes=image_hashes,raw_evidence=hashes,completed_interval_evidence=transactions['intervals'],

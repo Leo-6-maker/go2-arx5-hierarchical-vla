@@ -2,9 +2,7 @@
 
 **最新技术方向：** 最终上层采用[共享四任务源域后训练与恢复](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)：抓放、推物、开门、单书共用EEF10与权重，WBC冻结；E1/E2保留接口适配对照。物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心已有代码，37项CPU检查通过；完整ARX5源运行、独立任务审计与新训练未执行，候选300示范/10000更新不从S1额度支付。
 
-**S1两次恢复运行已获用户直接批准，尚未启动：** [精确新授权](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_RECOVERY_HUMAN_APPROVAL_20261029.json)允许T1/T2各一次32秒任务＋最多5秒初始化，无重试；保留旧3启动/5006计费步，累计最多5启动/42012步/1282对RGB。原CPU、存储、传输与10月30日19:31 SGT截止不变，GR00T/训练/PBS为0。新运行必须经原registry、完整14维及节点本地入口准入；旧run/lease保持CLOSED。47项定向CPU检查通过，尚无新物理或任务成功。
-
-**原S1有限开发已实际收尾，任务能力仍未验证：** [实际终态与修复](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)记录3/4启动、实际5000步/计费5006步、任务RGB0。T2通过当前安装/cancel/HOLD/WBC回切，随后首条意图日志的NumPy布尔值编码失败；无已执行任务区间。原own lease已CLOSED，两短开发均未合格，不能将剩余条件确认当重试。实际保存状态的零物理复现及30项CPU检查通过；[两任务恢复提案](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)提案原状态保留；后继批准见上，尚未运行。完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)、原DEC1及旧费用/保护保留；十天额外资源/延期未自动采用。
+**S1两次恢复已实际关闭，仍无整机成功示范：** [首次结果与核账](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1安装1段H40并实际执行0.4秒，保存8对RGB；下一段被历史旋转解码错误误拒。T2在初始化第24步真实触发小腿关节安全停止，未进入任务，该版本已隔离。累计5启动、实际7727/计费7736步、RGB8对；两run/lease均关闭、旧费用原件保留，不重试。T1实际保存状态的正确行解码通过原1051点证书，48项CPU检查通过；冷修未部署，不代表任务成功。T2启动失稳原因未确立；四任务新物理/训练及十天延期未采用，完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留。
 
 **2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
 

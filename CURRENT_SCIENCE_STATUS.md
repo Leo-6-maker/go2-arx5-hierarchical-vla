@@ -2,11 +2,9 @@
 
 **共享四任务源组件继续实现：** [物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)共37项CPU检查通过，其中MuJoCo仅编译门/书两个无机器人物体fixture并做零积分FK。完整ARX5源执行、独立最终任务审计、技能示范、模型训练和任务效果均未新增；S1仍独立用于冻结WBC承接，E1/E2与原DEC1不被改写。
 
-**S1新恢复范围已直接批准，原关闭范围不重开：** [新授权原件](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_RECOVERY_HUMAN_APPROVAL_20261029.json)只接T1/T2各一次32秒＋最多5秒初始化，累计5启动/42012计费步/1282RGB对，原总4 CPU核时及截止不变。精确授权、关闭账本承接与独立EEF10审计共47项定向CPU检查通过；这不是原生结果，新两次尚未启动。
+**S1恢复01已用完两次首次尝试并实际关闭，目标任务资格未达成：** [完整首次结果](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1执行200个任务积分/0.4秒、存8对RGB，下一段的旋转历史按错约定解码，6.85rad/s是假跳变；同一保存状态正确复算0.228rad/s，并通过原1051点局部IK/速率证书。T2在初始化第24步触发原REGISTERED_JOINT_SAFETY，FL小腿低于下限0.02336rad，最终保留27步及原停止记录。相同初始状态在第4步出现控制分歧；启动失稳原因尚未确立，不能据此调WBC或放宽安全。
 
-**原S1有限开发已实际收尾，仍无任务成功：** [三次启动及完整终态](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)包括一次预约前身份错误，以及T1/T2各一次原生初始化后工程中断。实际积分5000、计费5006、任务RGB0；T2已通过实际参考安装、cancel/HOLD及WBC回切，但首个任务意图的NumPy布尔值序列化失败。发布调用曾发生，接收端无接受回执，不能用空日志推断零发布；没有已执行任务区间。原准备费用、失败原件保留，own lease已CLOSED，剩余条件确认不能改作重试。同一实际保存状态已零新增物理复现错误并验证修复；30项定向CPU检查通过，新修复未用于物理运行。[两任务有界恢复提案](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)原提案的待批状态已由上方精确授权接续；不延长原时钟或增加CPU/存储额度。
-
-**S1证据与范围：** 有限4启动已获用户直接批准，十天额外范围/延期未自动采用。四段T1/T2接近/下降参考已通过保存状态下500Hz运动学、碰撞和原关节速率复核；下降起点是未来计划构型，不能算实际到达。早期三个Teacher系列共12条只是部分历史，不合并成功率；更晚SDR3有0.57秒真实右pad接触但无抓持/成功，TF-R3 E2原ILLEGAL_CONTACT安全失败保留。详见[当前完整证据与执行缺口](docs/analysis/2026-10-29/GO2_ARX5_S1_SCOPE_AND_NATIVE_PREFLIGHT.md)，成功整机示范仍0。
+累计含原系列5启动、实际7727/计费7736积分、任务RGB8对、合格新示范0。完整32秒任务均未完成，不估成功率。新scope/lease已CLOSED并独立回读，安全隔离保留；未用额度不提供再启动权限。原关节/安全/时钟、CPU/存储/传输上限不变；冷修未部署，48项定向CPU检查通过。S2原64、S3新目标示范及S4目标训练尚未启动，不能以软件修复替代整机任务成功。历史Teacher/DEC1负结果与目标/源域谱系仍保留。
 
 **2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
 

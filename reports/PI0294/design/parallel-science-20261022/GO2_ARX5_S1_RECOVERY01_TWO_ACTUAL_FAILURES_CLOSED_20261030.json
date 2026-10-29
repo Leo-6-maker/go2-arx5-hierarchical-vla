@@ -1,0 +1,568 @@
+{
+  "schema": "S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_V1",
+  "status": "ACTUAL_RECOVERY01_CLOSED_NATIVE_SAFETY_FAILURE_AND_NO_SUCCESS",
+  "recorded_at_UTC": "2026-10-29T16:08:42+00:00",
+  "source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+  "source_PR": 154,
+  "source_main_sha": "f59fe0bd8dcfa18f245adb0ba63ff549f315ea61",
+  "run_uuid": "20261029T155500Z-standing-task-path-s1",
+  "direct_recovery_approval_sha256": "ef274cd6812dba773d25b8e9027ae16832830eaf6f50c6a24d7c6aac9cc718be",
+  "old_closed_run_unchanged": true,
+  "original_deadline_unchanged_SGT": "2026-10-30T19:31:39.836045+08:00",
+  "attempts": {
+    "S1_RECOVERY01_T1": {
+      "status": "INCOMPLETE_NATIVE_EPISODE_NO_TASK_SCORE",
+      "source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+      "native_status": "ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE",
+      "native_error": "ValueError: ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+      "quality": null,
+      "publication_count_from_empty_log": "UNKNOWN_NOT_INFERRED",
+      "demonstration_admitted": false,
+      "raw_evidence": {
+        "RESULT.json": "bc62973eaab277b76d3d8c2620ae6482de2963f684895c3896fee20e9b7897a6",
+        "CARD.json": "fcc34821ae83a89ad57794664440e51593737309c3eed9406cefef27c6e85d17"
+      },
+      "new_physics": 0,
+      "frozen_robot": {
+        "status": "COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED",
+        "checked": {
+          "mjtObj.mjOBJ_BODY": {
+            "count": 27,
+            "fields": [
+              "body_pos",
+              "body_quat",
+              "body_mass",
+              "body_inertia",
+              "body_ipos",
+              "body_iquat"
+            ]
+          },
+          "mjtObj.mjOBJ_JOINT": {
+            "count": 19,
+            "fields": [
+              "jnt_type",
+              "jnt_axis",
+              "jnt_pos",
+              "jnt_range",
+              "jnt_limited",
+              "jnt_qposadr",
+              "jnt_dofadr"
+            ]
+          },
+          "mjtObj.mjOBJ_ACTUATOR": {
+            "count": 18,
+            "fields": [
+              "actuator_trntype",
+              "actuator_trnid",
+              "actuator_gear",
+              "actuator_ctrlrange",
+              "actuator_gainprm",
+              "actuator_biasprm"
+            ]
+          },
+          "mjtObj.mjOBJ_SENSOR": {
+            "count": 59,
+            "fields": [
+              "sensor_type",
+              "sensor_objtype",
+              "sensor_objid",
+              "sensor_adr",
+              "sensor_dim"
+            ]
+          }
+        },
+        "original_robot_body_mass_kg": 18.491453999999997,
+        "task_robot_body_mass_kg": 18.491453999999997,
+        "added_object_mass_kg": 0.05,
+        "new_gripper_joints": 2,
+        "new_gripper_actuators": 2,
+        "zero_WBC_parameter_changes": true
+      },
+      "actual_binary_rows": 2700,
+      "actual_task_integrations": 200,
+      "stored_observations": 8,
+      "stored_RGB_pairs": 8,
+      "submitted_references": 1,
+      "native_stops": [],
+      "positive_joint_violation_count": 3,
+      "joint_violation_first": [
+        {
+          "step": 38,
+          "joint": "task_right_slide",
+          "q": 0.044045425623794994,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 4.542562379499654e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 39,
+          "joint": "task_right_slide",
+          "q": 0.04405872861927704,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 5.872861927704032e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 40,
+          "joint": "task_right_slide",
+          "q": 0.04402234701069377,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 2.2347010693771208e-05,
+          "kind": "SLIDE"
+        }
+      ],
+      "joint_violation_last": [
+        {
+          "step": 38,
+          "joint": "task_right_slide",
+          "q": 0.044045425623794994,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 4.542562379499654e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 39,
+          "joint": "task_right_slide",
+          "q": 0.04405872861927704,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 5.872861927704032e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 40,
+          "joint": "task_right_slide",
+          "q": 0.04402234701069377,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 2.2347010693771208e-05,
+          "kind": "SLIDE"
+        }
+      ],
+      "robot_object_contact_steps": 0,
+      "selected_MPC_consumption": "UNKNOWN",
+      "full_task_score": null,
+      "evidence_source": "ACTUAL_SAVED_NATIVE_BYTES_WITH_ZERO_NEW_PHYSICS",
+      "task_reference_wire_sha256": "203782dfd8df21eed5b52bd958118b70f282757b3186cb407e4a3d058cd1ea0e",
+      "installed_reference_count": 1,
+      "complete_physical_prefix_intervals": 8,
+      "observed_and_RGB_endpoint_intervals": 7,
+      "stored_endpoint_at_2700": false,
+      "first_prefix_action_labels": "ORIGINAL_SUBMITTED_PREFIX8_ONLY_NO_ACHIEVED_RELABELING",
+      "task_TCP_displacement_m": 0.04339342195336632,
+      "actual_TCP_to_cube_last_m": 0.30890082290886556,
+      "original_stored_path_duration_s": 6.25,
+      "second_join_original_decode_linear_m_s": 0.05613270780036617,
+      "second_join_original_decode_angular_rad_s": 6.848300381984782,
+      "second_join_row_decode_linear_m_s": 0.05613270780036617,
+      "second_join_row_decode_angular_rad_s": 0.2281065205059964,
+      "row_decode_cartesian_gate_pass": true,
+      "row_decode_does_not_prove_remaining_IK_dynamic_WBC_or_task_success": true,
+      "new_RRT": 0
+    },
+    "S1_RECOVERY01_T2": {
+      "status": "INCOMPLETE_NATIVE_EPISODE_NO_TASK_SCORE",
+      "source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+      "native_status": "VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED",
+      "native_error": "RuntimeError: OWNED_NATIVE_PROCESS_EXIT",
+      "quality": null,
+      "publication_count_from_empty_log": "UNKNOWN_NOT_INFERRED",
+      "demonstration_admitted": false,
+      "raw_evidence": {
+        "RESULT.json": "2707fac1731bb3a4428d9c542ae7d75fa7550e02b83cfca120b72d93bb540a66",
+        "CARD.json": "f536e0b091b66745b7c0fc2f8b0793427c4f0170437ea76df18585f2567d7465"
+      },
+      "new_physics": 0,
+      "frozen_robot": {
+        "status": "COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED",
+        "checked": {
+          "mjtObj.mjOBJ_BODY": {
+            "count": 27,
+            "fields": [
+              "body_pos",
+              "body_quat",
+              "body_mass",
+              "body_inertia",
+              "body_ipos",
+              "body_iquat"
+            ]
+          },
+          "mjtObj.mjOBJ_JOINT": {
+            "count": 19,
+            "fields": [
+              "jnt_type",
+              "jnt_axis",
+              "jnt_pos",
+              "jnt_range",
+              "jnt_limited",
+              "jnt_qposadr",
+              "jnt_dofadr"
+            ]
+          },
+          "mjtObj.mjOBJ_ACTUATOR": {
+            "count": 18,
+            "fields": [
+              "actuator_trntype",
+              "actuator_trnid",
+              "actuator_gear",
+              "actuator_ctrlrange",
+              "actuator_gainprm",
+              "actuator_biasprm"
+            ]
+          },
+          "mjtObj.mjOBJ_SENSOR": {
+            "count": 59,
+            "fields": [
+              "sensor_type",
+              "sensor_objtype",
+              "sensor_objid",
+              "sensor_adr",
+              "sensor_dim"
+            ]
+          }
+        },
+        "original_robot_body_mass_kg": 18.491453999999997,
+        "task_robot_body_mass_kg": 18.491453999999997,
+        "added_object_mass_kg": 0.05,
+        "new_gripper_joints": 2,
+        "new_gripper_actuators": 2,
+        "zero_WBC_parameter_changes": true
+      },
+      "actual_binary_rows": 27,
+      "actual_task_integrations": 0,
+      "stored_observations": 0,
+      "stored_RGB_pairs": 0,
+      "submitted_references": 0,
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 24
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 25
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 26
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 27
+        }
+      ],
+      "positive_joint_violation_count": 7,
+      "joint_violation_first": [
+        {
+          "step": 24,
+          "joint": "FL_calf_joint",
+          "q": -2.74605664112103,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.023356641121029753,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "FL_calf_joint",
+          "q": -2.815583351253874,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09288335125387404,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "RR_calf_joint",
+          "q": -2.763674692666714,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.04097469266671405,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "FL_calf_joint",
+          "q": -2.8698555954250122,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1471555954250121,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "RR_calf_joint",
+          "q": -2.8190919848290044,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09639198482900424,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "FL_calf_joint",
+          "q": -2.911340813017177,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.18864081301717706,
+          "kind": "HINGE"
+        }
+      ],
+      "joint_violation_last": [
+        {
+          "step": 25,
+          "joint": "FL_calf_joint",
+          "q": -2.815583351253874,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09288335125387404,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "RR_calf_joint",
+          "q": -2.763674692666714,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.04097469266671405,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "FL_calf_joint",
+          "q": -2.8698555954250122,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1471555954250121,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "RR_calf_joint",
+          "q": -2.8190919848290044,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09639198482900424,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "FL_calf_joint",
+          "q": -2.911340813017177,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.18864081301717706,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "RR_calf_joint",
+          "q": -2.8616139457691454,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1389139457691453,
+          "kind": "HINGE"
+        }
+      ],
+      "robot_object_contact_steps": 0,
+      "selected_MPC_consumption": "UNKNOWN",
+      "full_task_score": null,
+      "evidence_source": "ACTUAL_SAVED_NATIVE_BYTES_WITH_ZERO_NEW_PHYSICS",
+      "new_RRT": 0
+    }
+  },
+  "closeout": {
+    "status": "ACTUAL_RECOVERY01_CLOSED_NATIVE_SAFETY_FAILURE_AND_NO_SUCCESS",
+    "source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+    "account_sha256": "776718e08980dfc6bd371081943129645a4d21e844dbc7bf330647f98231c3c9",
+    "closed_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+    "terminal_audit_sha256": "56df8580e69fd59d73413dca97112698f2e02a96d5ab0032cc7c4f1a2ef41df6",
+    "saved_audit_sha256": "c62991723e7c58559ddd9078099ba7b83a72c9ecb5699fa1347a2166e82f7ae4",
+    "safety_quarantine_sha256": "fbba0d32df41f98f28f3711e81b3bb8330a3ab0ef390b1ec64631a322656fa78",
+    "inventory_sha256": "5523473d92fd5a17a9e2b2e2a201c275fee34883d10a03351816a5ca0e753487",
+    "starts": 5,
+    "actual_integrations": 7727,
+    "charged_integrations": 7736,
+    "RGB_pairs": 8,
+    "actual_Core_new_run_bytes": 190762412,
+    "actual_Core_old_run_bytes": 228426278,
+    "Core_CPU_upper_charged_s": 1158.011026820168,
+    "PC_CPU_upper_charged_s": 580,
+    "Core_staging_upper_charged_bytes": 2384298534,
+    "PC_evidence_upper_charged_bytes": 671088640,
+    "transfer_upper_charged_bytes": 336880896,
+    "CPU_this_closeout_s": 0.11108309699999999,
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "no_retry": true
+  },
+  "independent_closed_readback": {
+    "status": "INDEPENDENT_RECOVERY01_CLOSED_BYTES_RECEIPTS_SAFETY_AND_TERMINALS_MATCH",
+    "receipt_bindings_valid": true,
+    "account_sha256": "776718e08980dfc6bd371081943129645a4d21e844dbc7bf330647f98231c3c9",
+    "lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407"
+  },
+  "cold_row_fix": {
+    "status": "CPU_VALIDATED_NOT_DEPLOYED_NOT_NATIVE_QUALIFIED",
+    "error": "Executed reference history decoded native row rotation6d as canonical columns.",
+    "original_saved_second_join": {
+      "status": "ACTUAL_SAVED_T1_SECOND_REFERENCE_ORIGINAL_CERTIFICATE_COMPARE",
+      "native_step": 2700,
+      "source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+      "wire_sha256": "203782dfd8df21eed5b52bd958118b70f282757b3186cb407e4a3d058cd1ea0e",
+      "model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+      "results": {
+        "original_columns": {
+          "status": "REJECT",
+          "error": "ValueError: ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN"
+        },
+        "correct_rows": {
+          "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+          "points": 1051,
+          "local_IK_iterations": 2104,
+          "physics_integrations": 0,
+          "actual_state_modified": false,
+          "max_joint_speed_rad_s": 0.22504528256730438,
+          "max_joint_acceleration_rad_s2": 0.33217269352610046,
+          "executed_reference_history_points": 2,
+          "Cartesian_reference_values_changed": false
+        }
+      },
+      "CPU_s": 0.33795031200000003,
+      "new_physics": 0,
+      "new_RRT": 0,
+      "new_command_publication": 0
+    },
+    "original_rates_and_safety_unchanged": true,
+    "teacher_geometry_speed_seed_and_WBC_unchanged": true,
+    "new_physics": 0,
+    "new_RRT": 0,
+    "new_command_publication": 0
+  },
+  "T2_startup": {
+    "first_step_bit_equal": true,
+    "first27_comparison": {
+      "qpos": {
+        "first": {
+          "step": 4,
+          "sim_time_s": 0.008,
+          "max_abs": 0.006366766430740078
+        },
+        "largest": {
+          "step": 24,
+          "sim_time_s": 0.04800000000000003,
+          "max_abs": 0.5700380313588664
+        }
+      },
+      "qvel": {
+        "first": {
+          "step": 4,
+          "sim_time_s": 0.008,
+          "max_abs": 3.183383215370024
+        },
+        "largest": {
+          "step": 27,
+          "sim_time_s": 0.054000000000000034,
+          "max_abs": 25.05103526172586
+        }
+      },
+      "ctrl": {
+        "first": {
+          "step": 4,
+          "sim_time_s": 0.008,
+          "max_abs": 23.706784247761636
+        },
+        "largest": {
+          "step": 24,
+          "sim_time_s": 0.04800000000000003,
+          "max_abs": 85.19515957075399
+        }
+      }
+    },
+    "preintegration_q_target_kp_kd_tau_ctrl_equal": true,
+    "interpretation": "Actual controls and state subsequently diverged during initialization; the cause of startup instability is not established. This is not proof that changing a threshold, WBC or Teacher would solve it.",
+    "safety_stop_preserved": true
+  },
+  "audit_method": {
+    "native_reference_installation": "One accepted H40 task wire, followed by its original41-point install and four native future time slices (80/78/43/74 points). All slice values match the original absolute linear-position/quaternion-SLERP reference, retain remaining original knots and source bound5.0; they are not new high-level commands.",
+    "first_audit_assertion": "The first saved audit expected one native install row and rejected actual periodic republication before writing any audit file. The failed request and UNKNOWN record are retained; an independent read-only audit supersedes its interpretation without replay.",
+    "failed_audit_new_physics": 0,
+    "read_only_audit_CPU_s": 0.647932003,
+    "raw_evidence_private": true,
+    "selected_MPC_consumption": "UNKNOWN",
+    "actual_native_slices": {
+      "status": "ACTUAL_FIRST_INSTALL_AND_FOUR_FUTURE_NATIVE_SLICES_MATCH_ORIGINAL_SAVED_WIRE",
+      "wire_sha256": "203782dfd8df21eed5b52bd958118b70f282757b3186cb407e4a3d058cd1ea0e",
+      "distinct_high_level_refs": 1,
+      "native_publications": 5,
+      "point_counts": [
+        41,
+        80,
+        78,
+        43,
+        74
+      ],
+      "source_bound_start": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "observation_times": [
+        5.0,
+        5.096,
+        5.194,
+        5.3,
+        5.394
+      ],
+      "linear_and_quaternion_SLERP_checked": true,
+      "all_remaining_original_knots_preserved": true,
+      "new_physics": 0,
+      "new_model_queries": 0
+    }
+  },
+  "CPU_validation": {
+    "status": "PASS",
+    "checks": 48,
+    "native_success_claim": false
+  },
+  "scientific_return": {
+    "qualified_new_target_demonstrations": 0,
+    "complete_32s_episodes": 0,
+    "task_success_rate": "NOT_ESTIMATED",
+    "no_target_training": true,
+    "S1_manipulation_qualification": "NOT_ACHIEVED",
+    "S2_original64": "NOT_STARTED",
+    "S3_new_demonstrations": 0,
+    "S4_target_training": "NOT_STARTED",
+    "WBC_tuned": false
+  },
+  "safety_and_authority": {
+    "recovery_scope_closed": true,
+    "native_lease_closed": true,
+    "cumulative_starts_exhausted": true,
+    "safety_quarantine_preserved": true,
+    "no_retry": true,
+    "remaining_CPU_or_steps_do_not_authorize_another_start": true,
+    "ten_day_extension_adopted": false,
+    "GR00T_queries": 0,
+    "training_updates": 0,
+    "PBS": 0
+  },
+  "independent_PC_storage": {
+    "status": "ACTUAL_PC_PRIVATE_S1_EVIDENCE_WITHIN_PREPAID_UPPER",
+    "actual_bytes": 257374142,
+    "files": 296,
+    "prepaid_upper_bytes": 671088640,
+    "cap_bytes": 1073741824
+  }
+}
