@@ -10,6 +10,8 @@
 
 **LIBERO最小资产已完整保存，源ARX5书本接入待原生运行：** [固定资产与代码边界](reports/PI0294/design/parallel-science-20261022/LIBERO_MINIMUM_ASSETS_AND_UNEXECUTED_ARX5_BOOK_PORT_ACTUAL_20261030.json)独立核实4个二进制文件/14,886,874字节及两个原始XML。场景保留18原碰撞盒、书本质量/惯量和原生评分，另查支撑/松爪/撤离/保持；20项CPU检查通过，无模拟器构造/积分/RGB。源域新范围仍待现有登记和账本原生采用，合格示范0；不以静态准备替代任务成功。
 
+**RoboCasa开门已补齐原几何与判据，资产仍未闭合：** [PC实际对照](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PC_PINNED_GEOMETRY_NATIVE_GOAL_ASSET_BLOCK_ACTUAL_20261030.json)核对固定SingleCabinet/slab/bar源文件；六组左右开门几何与原程序数值一致，81对关节状态与原is_open/is_closed一致。原判据要求所有选中门达到90%开度，不含松爪/撤离/保持。官方最小纹理有界读取返回HTTP400，未整包下载；未构造模拟器、接入ARX5或试采，成功示范仍0。PC补充沿同一夜间剩余额度、继承旧借记，原关闭账与Core停止状态不改。
+
 **一条原始LIBERO示范已核对动作语义：** [真实数值回执](reports/PI0294/design/parallel-science-20261022/LIBERO_ORIGINAL_ONE_DEMO_ACTION_REFERENCE_ACTUAL_20261030.json)以约3.8MB范围读取取得148行Panda/OSC_POSE/20Hz原数据，保留后动作观测时间关系并排除无法恢复前状态的首行动作。147行未执行EEF10参考与真实原controller函数比较，位置差0、旋转矩阵最大差4.84e-7、编码往返约1e-15。夹爪符号为开合方向，不能当实测开口。未执行源ARX5、无新增示范或标签。
 
 **D25原冻结官方入口已PASS，节点本地custody校验已实现但未部署：** [原生官方包证据](reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)保留80代码文件、214 Git对象和15冻结字节；[登记与26资产路径校验](reports/PI0294/design/parallel-science-20261022/D25_NODE_LOCAL_REGISTRATION_CUSTODY_AND_26_ASSET_CPU_ACTUAL_20261030.json)已用原onceIO真实CPU记录验证回执链，并将原冻结资产表与保存的26个本地全字节读取匹配。3项新CPU检查通过，原04登记没有本地lease；新冷身份、完整绑定、原生准入仍未完成。该辅助库未接入/部署，D25仍0/24有效评价，无新增模型/查询/物理。
