@@ -208,8 +208,26 @@ def paid_retry_controls(g):
         if 'preparation_payment'in m:
             from .minimal_e2only_pre_native import validate_payment
             p=validate_payment(g,m['preparation_payment'],allow_registered=True)
-            need(all(p[k]==m[k]for k in('request_id','submission_nonce','source_sha','run_uuid','before_CPU_s')),
+            need(all(p[k]==m[k]for k in('request_id','submission_nonce','run_uuid','before_CPU_s')),
                 'E2ONLY_FINAL_CONTROL_RETAINS_SAME_ORIGINAL_PREPARATION_PAYMENT')
+            if p['source_sha']!=m['source_sha']:
+                repair=m.get('pre_native_software_repair',{})
+                need(repair.get('original_source_sha')==p['source_sha']
+                    and repair.get('new_source_sha')==m['source_sha']
+                    and repair.get('old_owner_CPU_upper_s')==400
+                    and repair.get('new_owner_CPU_upper_s')==2600
+                    and repair.get('new_native_requests')==0
+                    and all(type(repair.get(k))is str and re.fullmatch('[0-9a-f]{64}',repair[k])for k in
+                        ('original_paid_marker_sha256','actual_closed_owner_readback_sha256','old_manifest_sha256','old_owner_OS_sha256')),
+                    'E2ONLY_EXPLICIT_UNSUBMITTED_COLD_SOFTWARE_REPAIR_NO_FEE_OR_IDENTITY_ALIAS')
+                old=repair.get('original_paid_marker',{})
+                need(e.sha(e.raw(old))==repair['original_paid_marker_sha256']
+                    and old.get('source_sha')==repair['original_source_sha']
+                    and old.get('run_manifest_sha256')==repair['old_manifest_sha256']
+                    and 'pre_native_software_repair'not in old
+                    and all(old.get(k)==m[k]for k in m if k not in
+                        ('source_sha','run_manifest_sha256','pre_native_software_repair')),
+                    'E2ONLY_ORIGINAL_BOUND_PAID_MARKER_ALL_FIELDS_PRESERVED')
         need(e._uuid(rid)and m['request_id']==rid and m['paid_control']==CONTROL
             and m['native_upper']==native_resources()and m['new_storage_charge_bytes']==0
             and m['new_GPU_permission']is False and m['Core_LOCAL_written']is False
@@ -230,6 +248,8 @@ def require_paid_retry(g,r):
         from .minimal_e2only_pre_native import retired
         records=retired(g);p=r['pre_native_predecessor']
         need(records.get(p['request_id'])==p,'E2ONLY_ACTUAL_PRE_NATIVE_CLOSE_ADOPTED')
+    if 'pre_native_software_repair'in paid:
+        need(r.get('pre_native_owner_CPU_upper_s')==2600,'E2ONLY_REPAIRED_OWNER_CANNOT_REUSE_OLD400_CPU')
 
 
 def planned_retry(g):

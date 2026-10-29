@@ -25,6 +25,13 @@ def control_CPU_limits(request):
     if request.get('platform_training_version')in(adapters.remaining.VERSION,adapters.saved512.VERSION,adapters.e2only.VERSION):
         need(adapters.select(request['platform_training_version'],request['profile'])in(adapters.remaining,adapters.saved512,adapters.e2only),
             'OWNER_REMAINDER_ORIGINAL_PREPAID3000_CPU_BANK')
+        if 'pre_native_owner_CPU_upper_s'in request:
+            need(request.get('pre_native_cold_generation')==1
+                and request['platform_training_version']==adapters.e2only.VERSION
+                and type(request['pre_native_owner_CPU_upper_s'])is int
+                and request['pre_native_owner_CPU_upper_s']==2600,
+                'OWNER_COLD_REPAIR_RETAINS_OLD400_AND_METADATA600_IN_ORIGINAL3600')
+            return (2590,2600)
         return (2990,3000)
     if request.get('continuation_generation')in(2,3):
         from . import minimal_followup_scope as followup
@@ -320,6 +327,7 @@ class Owner(mature.Owner):
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
         if self.adapter is adapters.e2only:
+            r=json.loads(request_bytes);self.adapter.request(r)
             physical=self.e2only_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
             now=time.time();state=self.current;view=state['view']
             need(0<=now-view['observed_epoch']<=120 and state['global_ledger_sha256']==e.sha(global_bytes)

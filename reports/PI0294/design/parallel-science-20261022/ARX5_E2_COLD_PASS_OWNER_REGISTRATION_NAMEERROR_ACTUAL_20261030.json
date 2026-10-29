@@ -1,0 +1,66 @@
+{
+  "schema": "ARX5_E2_ACTUAL_COLD_PASS_THEN_RESIDENT_REGISTRATION_NAMEERROR_V1",
+  "status": "COLD_PASS_OWNER_OS1_BEFORE_NATIVE_REGISTRATION",
+  "cold": {
+    "no_existing_new_owner_or_dispatch": true,
+    "frozen_files_verified": 15,
+    "status": "INDEPENDENT_ACTUAL_SAVED512_COLD03_ALL_SOURCE_INPUT_ROLE_BYTES_AND_OS0_CONFIRMED",
+    "result_sha256": "f2bb28e49da37e94bc52d370ce063aa80dddf0951c11594bc793087d03d60e93",
+    "source": "123508f76068e96ea1f8adcc1b59a0f9a8c1067e",
+    "manifest_sha256": "3f6b6b955443e4ceacaa3141c5c6f258064511ffac5563ffed4a568cf598d027",
+    "source_files": 1408,
+    "sealed_inputs": 35,
+    "audit_sha256": "6fae118a970bc688fc613a82797e161d6d0a32758c09c9884c065b3d83cc994e",
+    "GLOBAL_sha256": "33152ca328ba2146b3b65d9b986ce9b17db3c4a9139bc79cd15cb1a3ef6a7687",
+    "lease_sha256": "9af47f2cf43e353a6f63440dcecb19c162f287940789035d927c420abffcd02c",
+    "native_GPU_registered": false,
+    "new_qsub": false,
+    "observed_epoch": 1793299669.737178,
+    "cold_OS_exit": {
+      "returncode": 0,
+      "timeout": false,
+      "foreground_wait_completed": true,
+      "CPU_actual_s": 58.967195999999994,
+      "finished_epoch": 1793299539.3661535
+    },
+    "cold_OS_exit_sha256": "ffa6c62a4a00cb22220615689b4b1f217a863ef4c32d33551edb921d2c7e1c27"
+  },
+  "owner_OS": {
+    "sha256": "53d90d76e6ca3a78e2ab8402c2782bc60a441b2eede8033f11cfcb07e11a9afa",
+    "bytes": 185,
+    "value": {
+      "returncode": 1,
+      "source_sha": "123508f76068e96ea1f8adcc1b59a0f9a8c1067e",
+      "finished_epoch": 1793299966.5698304,
+      "foreground_wait_completed": true,
+      "agent_connection_required": false
+    },
+    "complete_JSON": true
+  },
+  "owner_failure": {
+    "sha256": "54bb49f87d7fa5de9bfb67a251eab44b144ddd77b69ef7846bf8ca721eb45d43",
+    "bytes": 170,
+    "value": {
+      "error_type": "NameError",
+      "message": "name 'r' is not defined",
+      "diagnostic": null,
+      "observed_epoch": 1793299966.2326257,
+      "no_automatic_qsub_replay": true
+    },
+    "complete_JSON": true
+  },
+  "all_recorded_actors_terminal": true,
+  "native_registered_requests": 0,
+  "GLOBAL_sha256": "f27b086576ba42306920e4c5b860f2cf72463256c5bcc6ff5f448dcca9044afa",
+  "used_PBS": 41,
+  "new_models_queries_updates": 0,
+  "new_qualified_demonstrations": 0,
+  "healthy_background_training_chain": false,
+  "software_fix": "Decode the exact registration request bytes before retry selection; exercise the actual owner method in CPU checks",
+  "old_owner_CPU_conservative_upper_s": 400,
+  "new_owner_CPU_limit_s": 2600,
+  "metadata_CPU_s": 600,
+  "total_same_paid_control_s": 3600,
+  "night_source_budget_borrowed": false,
+  "NFS_mount_SSH_services_credentials_changes": 0
+}

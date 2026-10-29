@@ -109,3 +109,43 @@ def propose_payment(global_bytes,local_bytes,*,identity,plan_sha256,fresh,now_ep
     future=e.scope.first512_forecast(e.raw(v),local_bytes)
     e.need(future['cap_changes_required']=={},'E2ONLY_ORIGINAL_ALL14_BEFORE_PREPARATION_CONTROL')
     return dict(proposed_global=v,full_future_proof=future,new_native_permission=False)
+
+
+def propose_software_repair(global_bytes,local_bytes,*,old_request,new_request,proof,now_epoch):
+    """One exact pre-registration NameError repair inside the paid control bank."""
+    from . import minimal_e2only_execution as x
+    from scripts.pi0294.pv1.neural_ledger import check
+    g=__import__('json').loads(global_bytes);check(g);x.request(old_request);x.request(new_request)
+    rid=old_request['request_id'];old=x.paid_retry_controls(g)[rid]
+    mutable={'source_sha','run_manifest_sha256','cold_input_audit_sha256','created_epoch',
+        'effective_queue_proof_sha256','pre_native_owner_CPU_upper_s'}
+    e.need(all(old_request.get(k)==new_request.get(k)for k in old_request.keys()|new_request.keys()if k not in mutable)
+        and new_request['source_sha']!=old_request['source_sha']==old['source_sha']
+        and old['run_manifest_sha256']==old_request['run_manifest_sha256']
+        and new_request['pre_native_owner_CPU_upper_s']==2600
+        and old_request.get('pre_native_cold_generation')==1
+        and 'pre_native_software_repair'not in old
+        and all(r.get('request_id')!=rid for r in g['PBS_submissions'])
+        and g['pending_updates']==g['unknown_effects']==[]
+        and all(r['status']==e.STATES[2]for r in g['PBS_submissions'])
+        and proof['GLOBAL_sha256']==e.sha(global_bytes)
+        and proof['request_id']==rid and proof['all_recorded_actors_terminal']is True
+        and proof['native_requests']==0 and proof['only_readonly_setup_phases']is True
+        and proof['owner_OS_sha256']=='53d90d76e6ca3a78e2ab8402c2782bc60a441b2eede8033f11cfcb07e11a9afa'
+        and proof['owner_stop_sha256']=='54bb49f87d7fa5de9bfb67a251eab44b144ddd77b69ef7846bf8ca721eb45d43'
+        and proof['old_owner_four_core_wall_upper_s']<=400
+        and 0<=now_epoch-proof['observed_epoch']<=120,
+        'E2ONLY_ONE_PROVED_UNSUBMITTED_REGISTRATION_NAMEERROR_COLD_REPAIR')
+    v=deepcopy(g);m=v[x.PREPAID][rid]
+    m.update(source_sha=new_request['source_sha'],run_manifest_sha256=new_request['run_manifest_sha256'],
+        pre_native_software_repair=dict(original_source_sha=old['source_sha'],new_source_sha=new_request['source_sha'],
+            original_paid_marker_sha256=e.sha(e.raw(old)),original_paid_marker=deepcopy(old),
+            actual_closed_owner_readback_sha256=e.sha(e.raw(proof)),old_manifest_sha256=old['run_manifest_sha256'],
+            old_owner_OS_sha256=proof['owner_OS_sha256'],old_owner_CPU_upper_s=400,new_owner_CPU_upper_s=2600,
+            new_native_requests=0,adopted_epoch=now_epoch))
+    v['revision']+=1;x.require_paid_retry(v,new_request);check(v)
+    future=e.scope.first512_forecast(e.raw(v),local_bytes)
+    e.need(future['cap_changes_required']=={}and v['CPU_s']==g['CPU_s']
+        and v['reserved']==g['reserved']and v['used']==g['used'],
+        'E2ONLY_NO_NEW_FEE_HOLD_OR_SCIENCE_AFTER_COLD_SOFTWARE_REPAIR')
+    return dict(proposed_global=v,full_future_proof=future,new_native_permission=False)
