@@ -6,13 +6,15 @@
 
 | 位置 | 当前任务 | 完成标志 |
 |---|---|---|
-| CoreLab 4080S | 复用已补齐的LOCAL终态，冷态绑定D25原N294101/24，再GEN1 | 完整行为表、D−C配对及关闭 |
-| Vanda | 复用E1@512做推理验证，再从原始父模型正式训练E2固定512 | 固定端点、真实更新/消费/保存恢复 |
+| CoreLab 4080S | 复用已补齐的LOCAL终态，D25原24第一；随后按已就绪E1→E2→GEN1非抢占评价 | 完整行为表、D−C配对及关闭 |
+| Vanda | E1@512已通过推理资格，独立交付；E2原始父fresh512＋有界完整恢复点 | 固定端点、真实更新/消费/保存恢复 |
 | PC Rerun | 已有Teacher/Student失败解释与保存输出分析 | 可核验只读证据，不阻塞科学运行 |
 
 两站运行不互相SSH/查队列/等心跳；管理端独立连接/终态核账，模型走已授权HF固定revision，不重传已交付D25。
 
 ## 当前关键事实
+
+- **V6已作职责／执行顺序修订。** E1按自身完整证据独立交付，不等E2；D25先完整24，随后在面板边界选已就绪E1、E2、GEN1，GEN1填空档，开始后不按成绩切换。E2拟用原Trainer完整256／512两份恢复状态，原70GB内启动前核峰值与恢复；尚未native采用。四条历史整机Teacher仅只读分析，不扩Viewer／WBC／数据路线。见[现有V6](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)。
 
 - **AMD职责已按人类要求收敛为共享存储和登录基础设施。** [保护边界](docs/operations/2026-10-29_AMD_INFRASTRUCTURE_PROTECTION.md)：不再在AMD启动重负载实验，不改挂载／NFS／SSH／系统服务，不复制或轮换凭据；Core下一次冷态运行须核清全部节点本地运行依赖。历史产物和已封存任务不迁移、不删除；这不是系统隔离已实施的声明。
 - **CoreLab已复挂并真实登录／只读核验。** [恢复与断联因果审计](reports/PI0294/design/parallel-science-20261022/CORELAB_NFS_RESTORED_READONLY_CAUSAL_AUDIT_ACTUAL_20261029.json)：AMD NFS于13:51恢复；4080 Home NFS4.2、原key／权限及主机boot不变，SSH服务未重启。上次数据盘2卸载与NFS停止同秒，强依赖支持共享服务故障解释；触发者仍缺管理员日志。此次删除0、服务／挂载／key修改0，不以恢复连接为新作业或旧UNKNOWN重发许可。
