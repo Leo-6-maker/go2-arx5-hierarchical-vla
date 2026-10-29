@@ -1,0 +1,118 @@
+{
+  "schema": "ARX5_E1_REAL512_WITH_ORIGINAL36_PROBES_AND_INDEPENDENT_SOURCE_UPLOAD_CONTROL_CPU_ACTUAL_V1",
+  "snapshot_epoch": 1793232496.278469,
+  "job_id": "1505362.stdct-mgmt-02",
+  "science_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "controller_source_sha": "34d89ed97e73f8b4441dcdad07095df511fe71d1",
+  "independent_observation_sha256": "11a899110780594e11e07b7ba41ff08d8354657688c733ba3377ea77140b5c0f",
+  "native": {
+    "owned": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1505362.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train"
+      }
+    ],
+    "same_owner_live": true,
+    "same_wrapper_live": true,
+    "queue_unknown": [],
+    "global_pending": [],
+    "global_unknown": []
+  },
+  "effects": {
+    "optimizer_updates": 514,
+    "generation_queries": 38,
+    "model_loads": 4,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "active_session": "E1_ADAPTER_ONLY_FORMAL512",
+    "sessions": {
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "status": "COMPLETE",
+        "optimizer_updates": 2,
+        "generation_queries": 2,
+        "model_loads": 3,
+        "terminal_receipt_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+        "terminal_receipt_relative": "evidence/MINIMAL_THREE_REMAINING_SESSIONS/E2_SHARED_ACTION_HEAD_QUALIFY2/SESSION_TERMINAL.json"
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "ACTIVE",
+        "optimizer_updates": 512,
+        "generation_queries": 36,
+        "model_loads": 1
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    }
+  },
+  "scientific_interpretation": {
+    "E1_formal_updates": 512,
+    "E1_formal_new_queries": 36,
+    "E1_formal_native_session": "ACTIVE",
+    "E1_official_export_reload_and_session_close_not_yet_proven": true,
+    "E2_formal_updates": 0,
+    "whole_job_F_exit0_owner_OS0_full_independent_audit_not_yet": true,
+    "behavior_success_not_measured": true
+  },
+  "canonical_evidence": {
+    "GLOBAL_sha256": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+    "GLOBAL_complete_bytes": 15308111,
+    "all_complete_bytes_independently_reconstructed_and_SHA_matched": true,
+    "method": "Retained original native CAS baseline plus hashed top-level delta; preserve complete key order and all raw canonical bytes",
+    "previous_full_reply_cap_failure_and_full8CPU_4MiB_upper_retained": true,
+    "native_writes": 0
+  },
+  "cold_source_upload": {
+    "module": "scripts/pi0294/generalization/minimal_delivery_control.py",
+    "original_package_and_old_markers_byte_identical": true,
+    "per_arm_control": {
+      "site_CPU_s": 900,
+      "source_preparation_CPU_upper_s": 300,
+      "uploader_CPU_upper_s": 600,
+      "PC_CPU_s": 60,
+      "source_metadata_bytes": 67108864,
+      "control_transfer_bytes": 33554432
+    },
+    "source_slice_consumed_from_original_Core_Eval_escrow_not_new_reservation": true,
+    "both_original_Core_panels_and_old_C_D_GEN_matrix_final_retained": true,
+    "historical_LOCAL_projection_explicit_noncanonical": true,
+    "no_Core_live_RPC_queue_or_heartbeat_required_by_source_uploader": true,
+    "original_detached_source_pipe_and_one_HF_commit_reused": true,
+    "source_manifest_pinned_to_original_parent_and_exact_model_and_public_namespace": true,
+    "actual_source_control_adoption": "NOT_RUN",
+    "native_source_install_or_upload": "NOT_RUN"
+  },
+  "validation": {
+    "actual_full_history_fixture": true,
+    "future_models_F_OS0_CLOSED_lease_roles_and_exports_are_explicit_CPU_fixtures": true,
+    "original_full_GLOBAL_physical_terminal_and_all14_forecast_consumers_ran": true,
+    "all14_projected_dimensions_unchanged_for_each_of_two_source_slices": true,
+    "targeted_CPU_tests_passed": 141,
+    "subtests_passed": 19,
+    "wall_seconds": 77.73,
+    "actual_local_child_pipe_and_OS_exit_for_both_new_candidates": true,
+    "prior_two_full_resource_failures_retained": [
+      "Old retry reserve consumer still expected unconsumed source slice",
+      "Historical remaining_resources byte identity was incorrectly compared to effective source projection"
+    ],
+    "resolution": "Keep historical _base_remaining unchanged; add separate effective projection for all reserve/forecast consumers",
+    "first_full_reply_read_only_failed_return_preserved": true,
+    "no_CI_or_native_HF_delivery_PASS": true
+  },
+  "preserved": {
+    "no_live_source_hotpatch": true,
+    "new_GPU_PBS_models_queries_updates_physics_by_cold_code": 0,
+    "all_caps_and_T_CD_unchanged": true,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287,
+    "old_UNKNOWN_and_costs_and_endpoints_unchanged": true
+  },
+  "next": "Protect the same healthy job; complete E1 export/reload then fresh-raw E2 formal512. After real F/independent audit/settlement/own close/natural OS0, compile actual source manifest and model-only packet, original once prepay and native source-role checks, then one fixed-revision HF commit. Core original D25/GEN1 and later first512 Eval remain independently pending.",
+  "whole_goal_complete": false
+}

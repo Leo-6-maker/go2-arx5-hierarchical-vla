@@ -20,6 +20,8 @@ Updated 2026-10-28. `main` is the integration entry. Repository presence does no
 
 `scripts/pi0294/generalization/minimal_inference_transfer.py` is the cold first512 ordinary-model subset/restoration adapter. It requires the original closed GLOBAL/audit, own lease and natural owner OS0; it performs no network or admission. The existing restoration entry selects E1/E2 explicitly. Actual source/destination role binding, fixed HF revision and Core admission remain separate.
 
+`minimal_delivery_control.py` carves finite source-only upload control from the original first512 Eval escrow, preserving historical package bytes and both Core panels. Its effective remaining projection is distinct from historical retry identities. The original uploader/anonymous-pipe launcher accept explicit E1/E2 manifests; no native adoption/upload is established by this cold code.
+
 ## Document hierarchy
 
 `START_HERE.md` is the short entry, `CURRENT_SCIENCE_STATUS.md` is a dated evidence snapshot, and `docs/EXPERIMENT_ROADMAP.md` is the consolidated research route. Detailed protocols remain under `docs/protocols/`; execution handoffs under `docs/handover/`; actual sanitized receipts under `reports/`.

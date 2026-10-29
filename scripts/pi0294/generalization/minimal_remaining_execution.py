@@ -162,7 +162,7 @@ def validate(g,*,generation=None):
 
 
 def forecast_without_validate(g,m,row):
-    value=retry._base_remaining(g)
+    value=retry.effective_base_remaining(g)
     if row['status']!=e.STATES[2]:
         for k,n in native_resources().items():
             if k!='PBS_submissions':value[k]+=n

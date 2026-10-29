@@ -37,7 +37,9 @@ wrapper='import runpy,sys,json,time,os,signal;from pathlib import Path;signal.al
 log=(r/'UPLOAD.log').open('xb');env=dict(os.environ,CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',HF_HUB_DISABLE_XET='1',HF_HUB_DISABLE_PROGRESS_BARS='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
 process=subprocess.Popen([sys.executable,'-u','-c',wrapper],stdin=subprocess.PIPE,stdout=log,stderr=log,env=env,start_new_session=True)
 stat=Path('/proc',str(process.pid),'stat').read_text().rsplit(')',1)[1].split();record=dict(pid=process.pid,proc_start=int(stat[19]),candidate=P['candidate'],source_sha=P['source_sha'],started_epoch=time.time(),new_GPU_model_queries_physics=0)
-put('UPLOAD_NATIVE_STARTED.json',record);P.pop('control_root');process.stdin.write(json.dumps(P).encode());process.stdin.close();log.close();print(json.dumps(record))
+put('UPLOAD_NATIVE_STARTED.json',record)
+if P['candidate']not in('E1_ADAPTER_ONLY','E2_SHARED_ACTION_HEAD'):P.pop('control_root')
+process.stdin.write(json.dumps(P).encode());process.stdin.close();log.close();print(json.dumps(record))
 '''
 POLL=r'''
 import json,os,time
