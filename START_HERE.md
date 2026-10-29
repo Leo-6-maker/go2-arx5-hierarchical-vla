@@ -17,7 +17,7 @@
 - A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。该旧作业未执行正式训练；后继当前终态见下条。
 - **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。
-- **最新原生终态：1505362已F/Exit1，E1完整512步状态及原12项TRAIN探针已保存；E2两步资格COMPLETE，正式E2尚未启动。** [失败与冷修复回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)。E1导出对比记录了同观测/同seed却不同实际noise；整图评估模式接缝已有37项CPU回归，未native采用。先完成原一次结算/关闭和已保存状态独立审计，保护E1端点、不重训；随后只接未完成的固定工作，不复用死owner或旧qsub。
+- **最新原生终态：1505362已F/Exit1，E1完整512步状态及原12项TRAIN探针已保存；E2两步资格COMPLETE，正式E2尚未启动。** [失败与冷修复回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)。E1导出对比记录了同观测/同seed却不同实际noise；整图评估模式接缝已有37项CPU回归，未native采用。原一次结算/own关闭已完成并全文独立回读（4162GPU秒/3585CPU秒）；接续保存状态独立审计，保护E1端点、不重训；随后只接未完成的固定工作，不复用死owner或旧qsub。
 - Rerun验证三条稀疏记录（Teacher各41/641、失败2/224），不是完整整机回放；full qpos/mesh不是训练Eval前置。
 - Go2+ARX5标定/12次任务pilot独立于当前12条源域示范；原DEC1仍固定CORR/R0，不混目标训练。
 

@@ -2,7 +2,7 @@
 
 ## 后继实际覆盖：1505362原生F1，E1保存512，导出noise模式接缝待原生复核
 
-最新[实际失败与冷修复报告](../../../reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)覆盖旧R/健康owner/E1未完整叙述。E1的512优化和原12TRAIN探针已真实完成，完整状态保留；正式E2仍0/512。不能把ordinary export的保存标志当重载等价PASS。实际两输出同观测同seed但noise不同；原probes恢复训练flag后直接head.get_action绕过forward hook，cold draw现固定整图eval，37项定向CPU通过，尚未native部署。原结算SETTLE的UNKNOWN/PENDING和费用上界永久保留，先精确核CAS，再仅执行尚未发生的结算/own close。禁止重放旧请求/死owner/qsub或重训E1。CPU完整状态审计/原生恢复校验后，才按完整剩余资源与保护接E2 fresh原始父512。
+最新[实际失败与冷修复报告](../../../reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)覆盖旧R/健康owner/E1未完整叙述。E1的512优化和原12TRAIN探针已真实完成，完整状态保留；正式E2仍0/512。不能把ordinary export的保存标志当重载等价PASS。实际两输出同观测同seed但noise不同；原probes恢复训练flag后直接head.get_action绕过forward hook，cold draw现固定整图eval，37项定向CPU通过，尚未native部署。原结算SETTLE的UNKNOWN/PENDING和费用上界永久保留；精确证实原CAS未发生后，有限CPU收尾已原once完成4162GPU秒/3585CPU秒结算与own CLOSED，新GLOBAL b9051697/lease1ddde926、完整15315159字节及两对intent/receipt均独立匹配，finite wrapper/child自然OS0。禁止重放旧请求/死owner/qsub或重训E1。CPU完整状态审计/原生恢复校验后，才按完整剩余资源与保护接E2 fresh原始父512。
 
 
 2026-10-29。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)和main的AGENTS。保持root唯一整合/原生mutation owner，不重启暂停自动化或subagent。
