@@ -54,12 +54,13 @@ try:
  args=(d/'cmdline').read_bytes().split(bytes([0]))
  assert d.stat().st_uid==os.getuid()and fields[19]==P['proc_start']and fields[0]!='Z'
  assert args[:2]==[b'python3',b'-']and(d/'cwd').resolve()==Path(P['cwd'])
- assert(d/'wchan').read_text().strip()in('pipe_read','wait_woken')
+ assert(d/'wchan').read_text().strip()in('pipe_read','anon_pipe_read','pipe_write','anon_pipe_write','wait_woken')
+ assert not(d/'task'/str(P['pid'])/'children').read_text().strip()
  assert all(not(root/n).exists()for n in P['absent'])
  assert hashlib.sha256((root/'control/S1_PREPARATION_ACCOUNT.json').read_bytes()).hexdigest()==P['account_before_sha256']
  assert hashlib.sha256(Path(P['registry']).read_bytes()).hexdigest()==P['registry_before_sha256']
  signal.pidfd_send_signal(fd,signal.SIGTERM)
- print(json.dumps(dict(status='SIGTERM_SENT_TO_EXACT_ORPHANED_INPUT_READER',pid=P['pid'],proc_start=P['proc_start'],observed_epoch=time.time(),physics=0)))
+ print(json.dumps(dict(status='SIGTERM_SENT_TO_EXACT_ORPHANED_STAGE_TRANSPORT',pid=P['pid'],proc_start=P['proc_start'],observed_epoch=time.time(),physics=0)))
 finally:os.close(fd)
 '''
 
