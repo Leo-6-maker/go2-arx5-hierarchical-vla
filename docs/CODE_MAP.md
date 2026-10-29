@@ -12,7 +12,7 @@ Updated 2026-10-28. `main` is the integration entry. Repository presence does no
 | `src/go2arx5_vla/workspace/`, `scripts/workspace/`, `infrastructure/` | Existing profiles, source/manifest checks, host-aware paths | No new scheduler or private environment copy |
 | `scripts/pi0292/train_adapter.py` | Reused official GR00T modality/Processor and actual submitted-command dataset bridge | Keep R0 and existing label semantics for current arms |
 | `scripts/pi0294/generalization/` | GEN1 scene/data preparation and minimal-adaptation model/dataset/training/resume | CPU fixtures are not full GR00T qualification |
-| `scripts/pi0294/multitask/` | 柜门/放书物体关系参考、共享四任务事件/恢复采样、原读器绑定与候选后训练参数 | 未执行源域接触/示范/训练；特权几何只用于源Teacher，不进入学生输入 |
+| `scripts/pi0294/multitask/` | 柜门/放书物体关系参考、共享四任务事件/恢复采样、原读器绑定、固定LIBERO任务静态检查与候选后训练参数 | 未执行源域接触/示范/训练；特权几何只用于源Teacher，不进入学生输入 |
 | `scripts/pi0294/pv1/` | Source data, trained candidate delivery, C/D and original panel evaluation/runtime | CoreLab 4080S owns closed-loop evaluation |
 | `scripts/pi0294/dec1/` | Original native training entry and frozen-executor comparison support | Preserve exact scopes; do not mix target training into DEC1 |
 | `scripts/pi0294/replay_viewer/` | 官方Rerun薄适配器：PC离线读取原Teacher／Eval记录与双RGB、状态、参考、审计 | 三条真实稀疏RRD已核；不推进物理／策略／重评分，旧HTML仅历史兼容 |

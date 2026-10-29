@@ -1,6 +1,6 @@
 # 当前科学状态 · 2026-10-29实际核验
 
-**共享四任务源组件继续实现：** [物体关系、事件/恢复采样、源接触场景/反馈Teacher与有限采集核心](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)共37项CPU检查通过，其中MuJoCo仅编译门/书两个无机器人物体fixture并做零积分FK。完整ARX5源执行、独立最终任务审计、技能示范、模型训练和任务效果均未新增；S1仍独立用于冻结WBC承接，E1/E2与原DEC1不被改写。
+**开源任务复用已进入具体接入：** [固定来源、原成功谓词和数据阶梯](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)选择RoboCasa无锁柜门与LIBERO单书左右格，先移植到现有MuJoCo源执行器。三个真实BDDL文件已解析，左右任务regions/init相同，10项CPU检查通过；原37项源组件检查保留。尚未完成资产/原示范/动作转换的原生资格，没有新增接触运行、技能示范或训练。候选300→累计1,300条与恢复段不构成新运行授权；源域数据独立于目标WBC任务资格。
 
 **S1恢复01已用完两次首次尝试并实际关闭，目标任务资格未达成：** [完整首次结果](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1执行200个任务积分/0.4秒、存8对RGB，下一段的旋转历史按错约定解码，6.85rad/s是假跳变；同一保存状态正确复算0.228rad/s，并通过原1051点局部IK/速率证书。T2在初始化第24步触发原REGISTERED_JOINT_SAFETY，FL小腿低于下限0.02336rad，最终保留27步及原停止记录。相同初始状态在第4步出现控制分歧；启动失稳原因尚未确立，不能据此调WBC或放宽安全。
 
