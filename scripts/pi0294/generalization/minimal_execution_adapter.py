@@ -3,15 +3,15 @@
 Old validators keep reading only the immutable original row. New consumers
 must name their request and use this join to validate its complete GLOBAL.
 """
-from . import minimal_execution as original, minimal_retry_execution as retry,minimal_remaining_execution as remaining,minimal_saved512_execution as saved512
+from . import minimal_execution as original, minimal_retry_execution as retry,minimal_remaining_execution as remaining,minimal_saved512_execution as saved512,minimal_e2only_execution as e2only
 
 PHYSICAL = 'plans/MINIMAL_RETRY_PHYSICAL_CUSTODY.private.json'
 PREDECESSOR = 'plans/MINIMAL_RETRY_PREDECESSOR_CLOSED.private.json'
 
 
 def select(version, profile):
-    adapters = {a.VERSION: a for a in (original, retry,remaining,saved512)}
-    profiles=((saved512.PROFILE,)if version==saved512.VERSION else(remaining.PROFILE,)if version==remaining.VERSION else
+    adapters = {a.VERSION: a for a in (original, retry,remaining,saved512,e2only)}
+    profiles=((e2only.PROFILE,)if version==e2only.VERSION else(saved512.PROFILE,)if version==saved512.VERSION else(remaining.PROFILE,)if version==remaining.VERSION else
         (retry.PROFILE,'vanda-arx5-minimal-raw-parent-first512-zero-effect-followup','vanda-arx5-minimal-raw-parent-first512-entry-repaired')if version==retry.VERSION else(original.PROFILE,))
     original.need(version in adapters and profile in profiles,
                   'ADAPTER_EXACT_VERSION_AND_PROFILE_NOT_OLD_ALIAS')
@@ -39,6 +39,8 @@ def registered(g, request_id, *, version=None):
 
 def current(g):
     """Explicit adopted main index, including its real terminal state."""
+    if e2only.FIELD in g:
+        return registered(g,e2only.current_id(g),version=e2only.VERSION)
     if saved512.FIELD in g:
         return registered(g,saved512.current_id(g),version=saved512.VERSION)
     if remaining.FIELD in g:

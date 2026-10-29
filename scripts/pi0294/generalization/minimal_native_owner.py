@@ -22,8 +22,8 @@ HEARTBEAT='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1'
 
 def control_CPU_limits(request):
     """The second cold continuation shares its prepaid3600s with preparation."""
-    if request.get('platform_training_version')in(adapters.remaining.VERSION,adapters.saved512.VERSION):
-        need(adapters.select(request['platform_training_version'],request['profile'])in(adapters.remaining,adapters.saved512),
+    if request.get('platform_training_version')in(adapters.remaining.VERSION,adapters.saved512.VERSION,adapters.e2only.VERSION):
+        need(adapters.select(request['platform_training_version'],request['profile'])in(adapters.remaining,adapters.saved512,adapters.e2only),
             'OWNER_REMAINDER_ORIGINAL_PREPAID3000_CPU_BANK')
         return (2990,3000)
     if request.get('continuation_generation')in(2,3):
@@ -59,10 +59,11 @@ def worker_inventory(root):
 def validate_heartbeat_receipt(value,intent,*,now):
     beat=value.get('heartbeat',{});view=value.get('view',{})
     version=e.VERSION
-    if beat.get('scope')in(adapters.retry.VERSION,adapters.remaining.VERSION,adapters.saved512.VERSION):
+    if beat.get('scope')in(adapters.retry.VERSION,adapters.remaining.VERSION,adapters.saved512.VERSION,adapters.e2only.VERSION):
         remaining=beat.get('scope')==adapters.remaining.VERSION;saved512=beat.get('scope')==adapters.saved512.VERSION
-        r=value.get('saved512_request'if saved512 else'remaining_request'if remaining else'retry_request',{});adapter=adapters.request(r);version=adapter.VERSION
-        need(adapter is(adapters.saved512 if saved512 else adapters.remaining if remaining else adapters.retry)and e.sha(e.raw(r))==beat.get('request_sha256')
+        e2only=beat.get('scope')==adapters.e2only.VERSION
+        r=value.get('e2only_request'if e2only else'saved512_request'if saved512 else'remaining_request'if remaining else'retry_request',{});adapter=adapters.request(r);version=adapter.VERSION
+        need(adapter is(adapters.e2only if e2only else adapters.saved512 if saved512 else adapters.remaining if remaining else adapters.retry)and e.sha(e.raw(r))==beat.get('request_sha256')
             and all(r.get(k)==beat.get(k)for k in ('request_id','submission_nonce','source_sha','run_uuid')),
             'OWNER_RETRY_HEARTBEAT_EXACT_NEW_REQUEST_NOT_OLD_SCOPE')
     need(value.get('schema')==HEARTBEAT and value.get('lease_status')=='ACTIVE'
@@ -90,6 +91,25 @@ def validate_heartbeat_receipt(value,intent,*,now):
 
 
 class Owner(mature.Owner):
+    def prepared_global_write(self,phase,before_bytes,target):
+        """Typed validation before the original bounded irreversible CAS."""
+        import uuid
+        from scripts.pi0294.pv1.neural_ledger import check
+        need(self.adapter is adapters.e2only and phase in('REGISTER_REQUEST','SETTLE'),
+            'OWNER_ONLY_TYPED_E2_PREVALIDATED_GLOBAL_OPERATION')
+        current=json.loads(before_bytes)
+        need(target['revision']==current['revision']+1,
+            'OWNER_PREVALIDATED_EXACT_SINGLE_REVISION')
+        check(target);proposed=e.raw(target);before_sha=e.sha(before_bytes)
+        key='v5cd-'+uuid.uuid4().hex;path=self.global_path
+        def apply(intent,limit):
+            # commit compares complete current bytes under its original lock,
+            # persists intent before replace and refuses every replay/UNKNOWN.
+            return commit(path,expected_before_sha256=before_sha,proposed_bytes=proposed,request_id=key,
+                intent_path=path.with_name('V5_CD_'+key+'_INTENT.json'),
+                receipt_path=path.with_name('V5_CD_'+key+'_RECEIPT.json'),lock_path=path.with_suffix('.owner.lock'))
+        return apply
+
     def __init__(self,root):
         self.root=Path(root);self.CONFIG=read(self.root/'MIX_OWNER_CONFIG.private.json')
         self.manifest=read(self.root/'RUN_MANIFEST.json');self.binding=read(self.root/'OUTPUT_BINDING.private.json')
@@ -120,6 +140,10 @@ class Owner(mature.Owner):
         self.retry_physical=None
         self.remaining_physical=None
         self.saved512_physical=None
+        self.e2only_physical=None
+        if self.adapter is adapters.e2only:
+            from .minimal_e2only_physical import Guard as Physical
+            self.e2only_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
         if self.adapter is adapters.saved512:
             from .minimal_saved512_physical import Guard as Physical
             self.saved512_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
@@ -182,6 +206,7 @@ class Owner(mature.Owner):
             if adapter is adapters.retry:result['retry_request']=r
             if adapter is adapters.remaining:result['remaining_request']=r
             if adapter is adapters.saved512:result['saved512_request']=r
+            if adapter is adapters.e2only:result['e2only_request']=r
             return result
         def publish(intent,limit):
             need(0<=time.time()-self.current['view']['observed_epoch']<120,'OWNER_CURRENT_QUEUE_BEFORE_HEARTBEAT')
@@ -226,8 +251,14 @@ class Owner(mature.Owner):
             and quota['available_bytes_lower']>=proof['dimensions']['Hopper_storage_bytes']['projected']-g['new_storage_current_bytes'],
             'OWNER_COMPLETE_FUTURE_QUOTA_AND_ALL_EXISTING_WORK')
         self.record('SOURCE_REQUEST_INTENT',dict(request_id=r['request_id'],once=True))
-        receipt=self.setup.call('REGISTER_REQUEST','MUTATION',lambda intent,limit:self.write_global('REGISTER_REQUEST',
-            lambda current:self.registration(e.raw(current),request_bytes,capture)['proposed_global']))
+        if self.adapter is adapters.e2only:
+            # Full physical/budget validation stays outside the original40s
+            # mutation boundary. The original CAS still refuses changed bytes.
+            writer=self.prepared_global_write('REGISTER_REQUEST',e.raw(g),proposed['proposed_global'])
+            receipt=self.setup.call('REGISTER_REQUEST','MUTATION',writer)
+        else:
+            receipt=self.setup.call('REGISTER_REQUEST','MUTATION',lambda intent,limit:self.write_global('REGISTER_REQUEST',
+                lambda current:self.registration(e.raw(current),request_bytes,capture)['proposed_global']))
         self.record('SOURCE_GLOBAL_RESERVED',receipt)
         # Registration may be slow. Do not dispatch with a queue observation
         # that expired after the exact request was bound; retain the registered
@@ -235,7 +266,15 @@ class Owner(mature.Owner):
         need(sha(d/'EFFECTIVE_QUEUE_LIMITS.json')==r['effective_queue_proof_sha256'],
             'OWNER_ORIGINAL_QUEUE_BYTES_UNCHANGED_BEFORE_QSUB')
         dispatch_intent=dict(request_id=r['request_id'],once=True)
-        if self.adapter is adapters.saved512:
+        if self.adapter is adapters.e2only:
+            from . import minimal_e2only_dispatch as dispatch
+            self.setup.call('FRESH_COMPLETE_PREDISPATCH','READ_ONLY',lambda intent,limit:dispatch.collect(self))
+            fresh_queue=self.setup.call('FRESH_DISPATCH_EFFECTIVE_QUEUE','READ_ONLY',
+                lambda intent,limit:collect_effective_queue(walltime_s=r['walltime_s']))
+            once(d/dispatch.FILE,fresh_queue)
+            dispatch_intent.update(observed_epoch=time.time(),queue_proof_sha256=sha(d/dispatch.FILE))
+            dispatch.check((d/dispatch.FILE).read_bytes(),dispatch_intent,r,now_epoch=time.time())
+        elif self.adapter is adapters.saved512:
             from . import minimal_saved512_dispatch as dispatch
             from .minimal_saved512_predispatch import collect
             self.setup.call('FRESH_COMPLETE_PREDISPATCH','READ_ONLY',lambda intent,limit:collect(self))
@@ -279,6 +318,18 @@ class Owner(mature.Owner):
         if self.adapter is e:
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+        if self.adapter is adapters.e2only:
+            physical=self.e2only_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
+            now=time.time();state=self.current;view=state['view']
+            need(0<=now-view['observed_epoch']<=120 and state['global_ledger_sha256']==e.sha(global_bytes)
+                and self.global_path.read_bytes()==global_bytes,'OWNER_E2_ONLY_FRESH_CANONICAL_QUEUE')
+            fresh=dict(observed_epoch=view['observed_epoch'],GLOBAL_sha256=e.sha(global_bytes),complete_queue_verified=True,
+                complete_queue=view['complete_account_queue'],independent_confirmation_base64=self.CONFIG['outside_confirmation_base64'],
+                old_workers_terminal=self.adapter.authority.predecessor(json.loads(global_bytes))[0]['terminal']['native']['all_native_workers_terminal'],
+                old_closed_science_lease_sha256=self.adapter.authority.LEASE)
+            return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
+                physical_custody=self.e2only_physical.custody,physical_proof=physical,physical_observed_epoch=physical['observed_epoch'],
+                fresh_readback=fresh,now_epoch=now)
         if self.adapter is adapters.saved512:
             from . import minimal_saved512_contract as saved
             physical=self.saved512_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
@@ -407,7 +458,7 @@ class Owner(mature.Owner):
         end=pbs_epoch(native.get('obittime',native.get('mtime')));start=pbs_epoch(native['stime'])
         new_CPU=max(hms(native['resources_used']['cput']),final['CPU_actual_s'])+240
         current=read(self.global_path);_,row,_=adapters.registered(current,r['request_id'],version=self.adapter.VERSION)
-        prior=(self.adapter.terminal_CPU_prior(current,row)if self.adapter in(adapters.retry,adapters.remaining,adapters.saved512)else e.PREPARATION_CPU_UPPER)
+        prior=(self.adapter.terminal_CPU_prior(current,row)if self.adapter in(adapters.retry,adapters.remaining,adapters.saved512,adapters.e2only)else e.PREPARATION_CPU_UPPER)
         proof=dict(schema=terminal.NATIVE,job_id=job,job_state='F',request_id=r['request_id'],
             submission_nonce=r['submission_nonce'],source_sha=r['source_sha'],request_sha256=saved['request_sha256'],
             Exit_status=native['Exit_status'],finished_epoch=end,observed_epoch=time.time(),
@@ -419,17 +470,25 @@ class Owner(mature.Owner):
         effects=final['effects'];terminal.terminal_values(row,proof,effects,audit,
             retry_global=current if self.adapter is adapters.retry else None,
             remaining_global=current if self.adapter is adapters.remaining else None,
-            saved512_global=current if self.adapter is adapters.saved512 else None)
+            saved512_global=current if self.adapter is adapters.saved512 else None,
+            e2only_global=current if self.adapter is adapters.e2only else None)
         self.record('TERMINAL_SETTLEMENT_INTENT',dict(native=proof,effects=effects,independent_audit_sha256=e.sha(e.raw(audit))))
         def settle(current):
             if self.adapter is e:
                 return terminal.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,now_epoch=time.time())
             from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
-            guard=self.saved512_physical if self.adapter is adapters.saved512 else self.remaining_physical if self.adapter is adapters.remaining else self.retry_physical
-            physical=guard.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=physical['observed_epoch']if self.adapter in(adapters.remaining,adapters.saved512)else time.time()
+            guard=self.e2only_physical if self.adapter is adapters.e2only else self.saved512_physical if self.adapter is adapters.saved512 else self.remaining_physical if self.adapter is adapters.remaining else self.retry_physical
+            physical=guard.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=physical['observed_epoch']if self.adapter in(adapters.remaining,adapters.saved512,adapters.e2only)else time.time()
             return self.adapter.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,
                 physical_proof=physical,physical_observed_epoch=observed,now_epoch=time.time())
-        receipt=self.running.call('SETTLE','MUTATION',lambda intent,limit:self.write_global('SETTLE',settle))
+        if self.adapter is adapters.e2only:
+            # Independent stream/physical audit may take longer than one RPC.
+            # Finish it before recording the one irreversible CAS intent.
+            target=settle(current)
+            writer=self.prepared_global_write('SETTLE',e.raw(current),target)
+            receipt=self.running.call('SETTLE','MUTATION',writer)
+        else:
+            receipt=self.running.call('SETTLE','MUTATION',lambda intent,limit:self.write_global('SETTLE',settle))
         self.record('TERMINAL_SETTLED',dict(receipt=receipt,native=proof,effects=effects,audit=audit))
         # Independent actual bytes before closing only this original own lease.
         current=read(self.global_path);_,closed_row,_=adapters.registered(current,r['request_id'],version=self.adapter.VERSION)

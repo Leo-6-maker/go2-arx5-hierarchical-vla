@@ -38,7 +38,7 @@ def resources():
 
 
 def validate(g):
-    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining_execution,minimal_saved512_execution as saved512
+    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining_execution,minimal_saved512_execution as saved512,minimal_e2only_execution as e2only
     has_retry=(retry.FIELD in g or any(r.get('platform_training_version')==retry.VERSION
                                     for r in g['PBS_submissions']))
     if FIELD not in g:
@@ -64,7 +64,10 @@ def validate(g):
     remaining=_vector(p['remaining_resources'])
     authority.need(all(remaining[k]<=p['original_resources'][k]for k in remaining),
                    'PACKAGE_NONNEGATIVE_ORIGINAL_REMAINING_RESOURCES')
-    if saved512.FIELD in g:
+    if e2only.FIELD in g:
+        e2only.validate(g)
+        remaining=e2only.forecast_remaining(g)
+    elif saved512.FIELD in g:
         saved512.validate(g)
         remaining=saved512.forecast_remaining(g)
     elif remaining_execution.FIELD in g:
@@ -111,8 +114,8 @@ def reservation_credit(g, historical_LOCAL_bytes, baseline):
     from scripts.pi0294.pv1.evaluation_admission import resource_floor
     projected_LOCAL=budget_LOCAL(g,json.loads(historical_LOCAL_bytes))
     _,held=resource_floor(g,projected_LOCAL)
-    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining_execution,minimal_saved512_execution as saved512
-    adapter=saved512 if saved512.FIELD in g else remaining_execution if remaining_execution.FIELD in g else retry if retry.FIELD in g else execution
+    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining_execution,minimal_saved512_execution as saved512,minimal_e2only_execution as e2only
+    adapter=e2only if e2only.FIELD in g else saved512 if saved512.FIELD in g else remaining_execution if remaining_execution.FIELD in g else retry if retry.FIELD in g else execution
     view=deepcopy(g);v=adapter.forecast_remaining(g)
     for key in TRACKED:view['reserved'][key]-=v[key]
     view['CPU_reserved_s']-=v['Hopper_CPU_s']

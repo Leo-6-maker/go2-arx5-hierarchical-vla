@@ -66,8 +66,8 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     parts = components()
     from .minimal_package import validate as package, reservation_credit
     adopted_package=package(global_value)
-    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining,minimal_saved512_execution as saved512
-    adapter=saved512 if saved512.FIELD in global_value else remaining if remaining.FIELD in global_value else retry if retry.FIELD in global_value else execution
+    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining,minimal_saved512_execution as saved512,minimal_e2only_execution as e2only
+    adapter=e2only if e2only.FIELD in global_value else saved512 if saved512.FIELD in global_value else remaining if remaining.FIELD in global_value else retry if retry.FIELD in global_value else execution
     additional = (adapter.forecast_remaining(global_value)if adopted_package is not None else
                   _vector({key: sum(row[key] for row in parts.values())
                            for key in baseline['dimensions']}))
@@ -80,7 +80,9 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     completion_plan=completion.planned_unregistered(global_value)
     from . import minimal_saved512_recovery_scope as saved512
     saved512_plan=saved512.planned_unregistered(global_value)
-    planned={k:planned[k]+entry_plan[k]+completion_plan[k]+saved512_plan[k]for k in planned}
+    from . import minimal_e2only_scope as e2scope
+    e2_plan=e2scope.planned_unregistered(global_value)
+    planned={k:planned[k]+entry_plan[k]+completion_plan[k]+saved512_plan[k]+e2_plan[k]for k in planned}
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
         projected = old['projected'] - own_credit[key] + additional[key] + planned[key]
