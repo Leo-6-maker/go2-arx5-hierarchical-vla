@@ -5,6 +5,7 @@ new run/request/lease, recovery authority and allocation lock before binding.
 No registration, qsub, project login or action occurs on import/construction.
 """
 import base64
+import errno
 import hashlib
 import json
 import os
@@ -132,7 +133,21 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
         last=None;lastauth=0.;errors=0
         while clock()<deadline:
             try:
-                state=o.fresh(req['submit_count'],job,light=True)
+                try:
+                    state=o.fresh(req['submit_count'],job,light=True)
+                except OSError as error:
+                    # The saved1506193 failure occurred here, before any RPC
+                    # mutation: an NFS ESTALE escaped the observation reader.
+                    # Reuse the explicitly registered successor's read-outage
+                    # policy. Never cover heartbeat/release/auth/persistence.
+                    if (error.errno != errno.ESTALE or scope_binding is None
+                            or not getattr(o,'preserve_readonly_until_deadline',False)):
+                        raise
+                    observation_error=ReadOnlyFailure('FRESH_OBSERVATION_NFS_ESTALE')
+                    observation_error.diagnostic=dict(phase='fresh_observation',
+                        errno=error.errno,source='local_read_only_filesystem',
+                        phase_in_durable_RPC_journal=False)
+                    raise observation_error from error
                 jobrow=state['rows']['vanda']['jobs'].get(job,state['rows']['vanda'].get('terminal_job'))
                 if (not jobrow or jobrow['Job_Name']!='pi0294_dec1_a40_train'
                         or jobrow['project']!='CFP04-CF-007'):
@@ -174,7 +189,8 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                 errors=0;sleep(30 if status=='R' else 60)
             except ReadOnlyFailure as error:
                 errors+=1;o.record('READ_ONLY_OBSERVATION_INTERRUPTION-'+str(time.time_ns()),
-                    dict(type='ReadOnlyFailure',phase_in_durable_RPC_journal=True,
+                    dict(type='ReadOnlyFailure',phase_in_durable_RPC_journal=
+                         (getattr(error,'diagnostic',None) or {}).get('phase_in_durable_RPC_journal',True),
                          unknown_mutations_not_retried=True,job_id=job,
                          diagnostic=getattr(error,'diagnostic',None)))
                 if errors>=3:

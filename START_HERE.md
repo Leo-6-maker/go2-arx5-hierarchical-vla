@@ -14,7 +14,7 @@
 
 ## 当前关键事实
 
-- **Vanda saved512接续1506193已真实R／GN-A40-033，首次qsub、绑定及独立完整队列回读已完成。** [实际回执](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_EXISTING_REGISTER40_FIRST_ACTUAL_QSUB_AND_BACKGROUND_HANDOFF_20261029.json)：2026-10-29 12:15 SGT，unknown／pending为空，后台原生owner和wrapper同kernel健康。只复用原PBS40登记，无新预付或计数；source769c、metadata446ac8。顺序为E1已审计512推理验证（0新更新）→E2从原始父模型fresh512；当前新模型加载／查询／更新仍0，不把R称为模型资格通过。原登记回包UNKNOWN、安装键名及解析失败和费用保留；新metadata角色已完整核验，不热改或重启。Core连接由管理员处理，Vanda运行不等Core。
+- **Vanda1506193已F／Exit1并完成一次结算、两lease关闭。** [E1真实推理资格与E2中断终态](reports/PI0294/design/parallel-science-20261022/ARX5_E1_SAVED512_REAL_OFFICIAL_OUTPUT_EQUIVALENCE_AND_E2_FORMAL_TRAINING_ACTUAL_20261029.json)：E1复用saved512，25查询／3加载／0新更新；同观测、同实际noise重载输出逐项精确一致，最大差0。E2正式122步／cursor3904后，后台读取共享文件遇到ESTALE退出，原心跳保护随后终止计算；无完整E2 checkpoint，不能伪称可从122恢复。2526GPU秒／1825CPU秒已真实settle，全部pending／unknown为空。后台本已独立运行；新冷修只让显式后继的只读ESTALE进入原有重读路径，未部署、不热改或重投旧作业。E1不重训；used40＋matrix3已占原PBS43，下一GPU须完整合法接续。
 
 - **已有E0语言诊断新增只读分析：** 六个TRAIN接近阶段观测、12个实际同噪声指令对，前8步位置差中位数0.256毫米；固定指令换噪声为143.089毫米。[方法与局限](docs/analysis/2026-10-29/E0_SAVED_LANGUAGE_RESPONSE.md)。不等于忽略语言、监督拟合或闭环成功；新增模型调用0，原配方不改。
 
