@@ -60,6 +60,7 @@ def test_tail_keeps_original_capsule_and_does_not_repeat_preparation_charge():
 def test_unit_launcher_passes_actual_native_identity_only(tmp_path,monkeypatch):
     import os
     (tmp_path/'NATIVE_PROCESS_ENVIRONMENT.private.json').write_text(json.dumps({'PATH':'/usr/bin','LANG':'C'}))
+    (tmp_path/'NATIVE_RUN_MANIFEST.json').write_text(json.dumps({'entry_relative':'new-cold/infrastructure'}))
     monkeypatch.setenv('INVOCATION_ID','9'*32)
     monkeypatch.setenv('UNRELATED_SECRET','must-not-copy')
     captured={}
@@ -69,3 +70,4 @@ def test_unit_launcher_passes_actual_native_identity_only(tmp_path,monkeypatch):
     exec(unit.unit_entry_launcher(tmp_path,'print("native")'))
     assert captured['env']==dict(PATH='/usr/bin',LANG='C',INVOCATION_ID='9'*32)
     assert captured['path']=='/bin/bash'and captured['argv'][-1]=='print("native")'
+    assert captured['argv'][1]==str(tmp_path/'new-cold/infrastructure/enter.sh')
