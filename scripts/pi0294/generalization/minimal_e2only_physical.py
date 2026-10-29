@@ -17,7 +17,7 @@ CONTROL_GROWTH_RESERVE=previous.CONTROL_GROWTH_RESERVE
 def validate_custody(p,r,*,predecessor_binding):
     e.need(p['schema']==execution.PHYSICAL_SCHEMA and p['predecessor_binding']==predecessor_binding==c.binding()
         and p['request_id']==r['request_id']and p['submission_nonce']==r['submission_nonce']
-        and p['run_uuid']==r['run_uuid']==c.run_name(r.get('attempt_index',1)) and p['old_closed_lease_sha256']==c.scope.LEASE
+        and p['run_uuid']==r['run_uuid']==c.run_name(r.get('attempt_index',1),r.get('pre_native_cold_generation',0)) and p['old_closed_lease_sha256']==c.scope.LEASE
         and Path(p['previous_root']).name=='arx5-minimal-saved-e1-inference-e2-fresh512-03'
         and p['paid_output_ceiling']==execution.PAID_OUTPUT and p['new_output_bound_bytes']==70000000000
         and p['additional_output_charge_bytes']==0
@@ -41,6 +41,16 @@ def validate_custody(p,r,*,predecessor_binding):
                 and all(type(v.get(k))is str and len(v[k])==64 for k in
                     ('manifest_sha256','snapshot_sha256','snapshot_identity_sha256','lease_sha256')),
                 'E2ONLY_EXACT_ZERO_ROOT_SNAPSHOT_AND_CLOSED_LEASE')
+    cold=p.get('closed_pre_native_roots',[])
+    e.need(len(cold)==r.get('pre_native_cold_generation',0),'E2ONLY_RETAIN_UNSUBMITTED_PREPARATION_BYTES')
+    if cold:
+        from .minimal_e2only_pre_native import binding
+        old=binding(r['pre_native_predecessor']);item=cold[0]
+        e.need(item['closure']==old and Path(item['root']).is_absolute()
+            and Path(item['root']).name==old['run_uuid']
+            and p['retained_initial_bytes']>=66671091712+old['allocated_bytes']
+            and item['snapshot_file']=='plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json',
+            'E2ONLY_SEALED_UNSUBMITTED_PREPARATION_SNAPSHOT')
     return p
 
 
@@ -92,6 +102,19 @@ class Guard:
             e.need(e.sha(lease)==item['lease_sha256']and json.loads(lease)['status']=='CLOSED',
                 'E2ONLY_REAL_PRIOR_ZERO_OWN_LEASE_CLOSED')
             self.zero_roots.append((old,item))
+        self.pre_native_roots=[]
+        for item in p.get('closed_pre_native_roots',[]):
+            closed=item['closure'];old=Path(item['root']);snap=sealed(root,item['snapshot_file'])
+            e.need(e.sha(e.raw(snap))==manifest['execution']['sealed_inputs'][item['snapshot_file']]==closed['snapshot_sha256']
+                and inventory.identity(snap)==closed['snapshot_identity_sha256']
+                and snap['root']==str(old) and snap['allocated_bytes']==closed['allocated_bytes']
+                and e.sha(own_body(old/'RUN_MANIFEST.json'))==closed['manifest_sha256'],
+                'E2ONLY_REAL_UNSUBMITTED_RETAINED_FULL_SNAPSHOT')
+            b=json.loads(own_body(old/'OUTPUT_BINDING.private.json'))
+            lease=own_body(Path(b['lease']),immutable=False)
+            e.need(e.sha(lease)==closed['closed_lease_sha256']and json.loads(lease)['status']=='CLOSED',
+                'E2ONLY_UNSUBMITTED_PREPARATION_STAYS_CLOSED')
+            self.pre_native_roots.append((old,closed))
 
     def inspect(self,*,next_output_upper_bytes=0):
         self.original();p=self.custody
@@ -99,17 +122,23 @@ class Guard:
         snapshot=inventory.prefix_inventory(self.old_root)
         e.need(inventory.identity(snapshot)==p['previous_snapshot_identity_sha256'],
             'E2ONLY_OLD_FAILED_ROOT_CHANGED_OR_HISTORY_LOST')
-        current,_=scan._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
+        current,_=scan._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'},transient_bytecode_retry=True)
         zero_allocated=0
         for closed_root,item in self.zero_roots:
             snapshot=inventory.prefix_inventory(closed_root)
             e.need(inventory.identity(snapshot)==item['snapshot_identity_sha256'],
                 'E2ONLY_PRIOR_ZERO_ROOT_CHANGED_NOT_RESTARTABLE')
             zero_allocated+=snapshot['allocated_bytes']
+        pre_native=getattr(self,'pre_native_roots',[])
+        for closed_root,item in pre_native:
+            snapshot=inventory.prefix_inventory(closed_root)
+            e.need(inventory.identity(snapshot)==item['snapshot_identity_sha256'],
+                'E2ONLY_UNSUBMITTED_ROOT_CHANGED_OR_RESTARTED')
+            zero_allocated+=snapshot['allocated_bytes']
         old_inodes=set()
         roots=[self.old_root,self.prior.old_root,self.prior.prior.custody['prefix_root'],
             *self.prior.prior.metadata,*[self.old_root.parent/q['run_uuid']for q in self.prior.custody['retained_cold_roots']],
-            *[old for old,_ in self.zero_roots]]
+            *[old for old,_ in self.zero_roots],*[old for old,_ in pre_native]]
         for name in roots:
             part,_=scan._scan(name,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'});old_inodes.update(part)
         e.need(not old_inodes.intersection(current),'E2ONLY_NO_TENSOR_HARDLINK_OR_DEDUPLICATION_CREDIT')

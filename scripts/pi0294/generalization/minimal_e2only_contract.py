@@ -8,9 +8,12 @@ RUN='arx5-minimal-e2-only-raw-fixed512-01'
 KEYS=('optimizer_updates','generation_queries','model_loads')
 
 
-def run_name(attempt=1):
+def run_name(attempt=1, cold_generation=0):
     e.need(type(attempt)is int and attempt>=1,'E2ONLY_EXPLICIT_POSITIVE_ATTEMPT')
-    return 'arx5-minimal-e2-only-raw-fixed512-'+str(attempt).zfill(2)
+    e.need(type(cold_generation)is int and cold_generation in(0,1)
+        and (cold_generation==0 or attempt==2),'E2ONLY_ONE_PRE_NATIVE_COLD_REPLACEMENT')
+    return ('arx5-minimal-e2-only-raw-fixed512-'+str(attempt).zfill(2)
+        +('-cold01'if cold_generation else''))
 
 
 def recovery_policy():

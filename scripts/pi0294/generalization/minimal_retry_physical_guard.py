@@ -5,7 +5,7 @@ roots remain in the paid control envelope. Every new-root allocated block is
 counted against the same already-charged main output upper. Symlink targets
 are never traversed and cannot be used for generated output.
 """
-import hashlib,json,os,stat
+import hashlib,json,os,re,stat
 from pathlib import Path
 
 
@@ -13,7 +13,25 @@ def _need(value,why):
     if not value:raise PermissionError('ARX5_RETRY_PHYSICAL_'+why)
 
 
-def _scan(root,*,permitted_links):
+def _scan(root,*,permitted_links,transient_bytecode_retry=False):
+    """Re-enumerate once after a vanished atomic bytecode temporary file.
+
+    Never skip a missing entry in the accepted inventory. Historical scans
+    remain strict; the current E2 root alone opts into a complete fresh scan.
+    The caller still reserves control/temp growth in the physical envelope.
+    """
+    _need(type(transient_bytecode_retry)is bool,'EXPLICIT_TRANSIENT_RESCAN')
+    try:return _scan_once(root,permitted_links=permitted_links)
+    except FileNotFoundError as error:
+        path=Path(error.filename)if error.filename is not None else None
+        if not(transient_bytecode_retry and path is not None
+                and path.is_relative_to(Path(root)) and path.parent.name=='__pycache__'
+                and re.fullmatch(r'[^/]+\.cpython-\d+(?:\.opt-\d+)?\.pyc\.\d+',path.name)is not None):
+            raise
+        return _scan_once(root,permitted_links=permitted_links)
+
+
+def _scan_once(root,*,permitted_links):
     root=Path(root);_need(root.is_dir() and not root.is_symlink(),'OWN_REAL_ROOT')
     files={};links={}
     for p in [root,*root.rglob('*')]:

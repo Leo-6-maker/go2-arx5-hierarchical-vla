@@ -17,14 +17,15 @@ need=e.need
 CONTROL=authority.CONTROL
 LOCAL_CONTROL=FIELD+'_additional_control_projection'
 PREPAID=FIELD+'_cold_retry_controls'
+RETIRED=FIELD+'_closed_unregistered_preparations'
 
 
 def native_resources():return deepcopy(authority.NATIVE)
 
 
-def fixed_request_fields(attempt=1):
+def fixed_request_fields(attempt=1,cold_generation=0):
     v=e.fixed_request_fields();v.update(schema='ARX5_E2_ONLY_RAW512_REQUEST_V1',
-        platform_training_version=VERSION,profile=PROFILE,run_uuid=c.run_name(attempt),walltime_s=22440,accounting_pad_s=120,
+        platform_training_version=VERSION,profile=PROFILE,run_uuid=c.run_name(attempt,cold_generation),walltime_s=22440,accounting_pad_s=120,
         reserved_H200_s=22560,CPU_upper_s=54000,prior_readonly_preparation_CPU_upper_s=0,
         additional_output_upper_bytes=0,paid_output_allowance_bytes=PAID_OUTPUT,new_output_bound_bytes=70000000000,
         optimizer_update_limit=512,query_limit=37,model_load_limit=2,session_plan=c.sessions(),
@@ -32,13 +33,14 @@ def fixed_request_fields(attempt=1):
         physical_guard_policy=PHYSICAL_SCHEMA,old_sessions_never_reexecuted=True,
         recovery_checkpoint_policy=c.recovery_policy(),**c.binding())
     if attempt>1:v['attempt_index']=attempt
+    if cold_generation:v['pre_native_cold_generation']=cold_generation
     return v
 
 
 def request(v,*,central=False):
-    attempt=v.get('attempt_index',1);c.run_name(attempt)
+    attempt=v.get('attempt_index',1);cold_generation=v.get('pre_native_cold_generation',0);c.run_name(attempt,cold_generation)
     need(attempt>1 or 'attempt_index'not in v,'E2ONLY_ORIGINAL_REQUEST_BYTES_NO_RESTAMP')
-    need(all(v.get(k)==x and type(v.get(k))is type(x)for k,x in fixed_request_fields(attempt).items()),
+    need(all(v.get(k)==x and type(v.get(k))is type(x)for k,x in fixed_request_fields(attempt,cold_generation).items()),
         'E2ONLY_EXACT_FIXED512_37_2_REQUEST')
     old=deepcopy(v);old.update(e.fixed_request_fields());e.request(old,central=central)
     need(v['source_sha']!='769c59ff7912ff16bdeb6f99bfde37f759a6fd37' and v['request_id']!=authority.REQUEST,
@@ -48,6 +50,11 @@ def request(v,*,central=False):
         need(set(b)=={'request_id','row_sha256','marker_sha256','lease_sha256','settled_sha256','finite_OS0_sha256'}
             and e._uuid(b['request_id'])and all(type(x)is str and re.fullmatch('[0-9a-f]{64}',x)for k,x in b.items()if k!='request_id'),
             'E2ONLY_EXACT_CLOSED_ZERO_PREDECESSOR_PINS')
+    if cold_generation:
+        from .minimal_e2only_pre_native import binding
+        binding(v.get('pre_native_predecessor',{}))
+    else:need('pre_native_predecessor'not in v and 'pre_native_cold_generation'not in v,
+        'E2ONLY_OLD_PRE_NATIVE_REQUEST_BYTES_UNCHANGED')
     for k in('physical_custody_sha256','effective_queue_proof_sha256'):
         need(type(v.get(k))is str and re.fullmatch('[0-9a-f]{64}',v[k]),'E2ONLY_EXACT_SEALED_'+k)
     return v
@@ -109,7 +116,7 @@ def indices(g):
     selected=[]
     for attempt,(index,row)in enumerate(zip(sequence,rows),1):
         _basic_index(g,index,row)
-        need(row.get('attempt_index',1)==attempt and row['run_uuid']==c.run_name(attempt),
+        need(row.get('attempt_index',1)==attempt and row['run_uuid']==c.run_name(attempt,row.get('pre_native_cold_generation',0)),
             'E2ONLY_ORDERED_SAME_RECIPE_DISTINCT_ATTEMPTS')
         if attempt>1:
             link=index.get('zero_effect_predecessor',{});previous,oldrow=selected[-1]
@@ -195,6 +202,14 @@ def paid_retry_controls(g):
     from .pbs_count_authority import validate as unlimited
     if items:need(unlimited(g)is not None,'E2ONLY_RETRY_CONTROL_DIRECT_COUNT_AUTHORITY')
     for rid,m in items.items():
+        if m.get('preparation_only')is True:
+            from .minimal_e2only_pre_native import validate_payment
+            validate_payment(g,m);continue
+        if 'preparation_payment'in m:
+            from .minimal_e2only_pre_native import validate_payment
+            p=validate_payment(g,m['preparation_payment'],allow_registered=True)
+            need(all(p[k]==m[k]for k in('request_id','submission_nonce','source_sha','run_uuid','before_CPU_s')),
+                'E2ONLY_FINAL_CONTROL_RETAINS_SAME_ORIGINAL_PREPARATION_PAYMENT')
         need(e._uuid(rid)and m['request_id']==rid and m['paid_control']==CONTROL
             and m['native_upper']==native_resources()and m['new_storage_charge_bytes']==0
             and m['new_GPU_permission']is False and m['Core_LOCAL_written']is False
@@ -208,15 +223,21 @@ def paid_retry_controls(g):
 def require_paid_retry(g,r):
     if r.get('attempt_index',1)==1:return
     paid=paid_retry_controls(g).get(r['request_id'])
-    need(paid is not None and all(paid[k]==r[k]for k in
+    need(paid is not None and not paid.get('preparation_only',False) and all(paid[k]==r[k]for k in
         ('request_id','submission_nonce','run_uuid','source_sha','physical_custody_sha256','zero_effect_predecessor')),
         'E2ONLY_NEW_OWNER_REQUIRES_OWN_ALREADY_PAID_CONTROL_SLICE')
+    if r.get('pre_native_cold_generation'):
+        from .minimal_e2only_pre_native import retired
+        records=retired(g);p=r['pre_native_predecessor']
+        need(records.get(p['request_id'])==p,'E2ONLY_ACTUAL_PRE_NATIVE_CLOSE_ADOPTED')
 
 
 def planned_retry(g):
     held=e._vector({});registered={r['request_id']for r in g['PBS_submissions']}
+    from .minimal_e2only_pre_native import retired
+    closed=retired(g)
     for rid,m in paid_retry_controls(g).items():
-        if rid not in registered:
+        if rid not in registered and rid not in closed:
             for k,v in native_resources().items():held[k]+=v
     return held
 
@@ -225,8 +246,17 @@ def propose_retry_control(global_bytes,local_bytes,*,request_bytes,closed_zero_f
     from scripts.pi0294.pv1.neural_ledger import check
     g=json.loads(global_bytes);r=json.loads(request_bytes);request(r);check(g)
     old,row=basic(g);zero=closed_zero_binding(g,**closed_zero_files)
+    if r.get('pre_native_cold_generation'):
+        from .minimal_e2only_pre_native import retired
+        p=r['pre_native_predecessor']
+        need(retired(g).get(p['request_id'])==p,'E2ONLY_COLD_REPLACEMENT_REQUIRES_ACTUAL_RETIRED_PREPARATION')
+    prep=paid_retry_controls(g).get(r['request_id'])
+    if prep is not None:
+        need(prep.get('preparation_only')is True and r.get('pre_native_cold_generation')==1
+            and all(prep[k]==r[k]for k in('request_id','submission_nonce','source_sha','run_uuid')),
+            'E2ONLY_BIND_OWN_PAID_PREPARATION_TO_REAL_COLD_MANIFEST')
     need(r.get('attempt_index')==len(indices(g))+1 and r['zero_effect_predecessor']==zero
-        and r['request_id']not in paid_retry_controls(g)
+        and (prep is None or prep.get('preparation_only')is True)
         and all(v.get('request_id')!=r['request_id']and v.get('submission_nonce')!=r['submission_nonce']for v in g['PBS_submissions'])
         and all(v['status']==e.STATES[2]for v in g['PBS_submissions'])
         and g['pending_updates']==g['unknown_effects']==[]
@@ -235,13 +265,14 @@ def propose_retry_control(global_bytes,local_bytes,*,request_bytes,closed_zero_f
         and closed_readback['no_existing_new_owner_or_dispatch']is True
         and 0<=now_epoch-closed_readback['observed_epoch']<=120,
         'E2ONLY_ONLY_FRESH_COLD_ZERO_CLOSED_NO_OWNER_BEFORE_CONTROL')
-    v=deepcopy(g);v['CPU_s']+=CONTROL['Hopper_CPU_s'];v['revision']+=1
+    v=deepcopy(g);v['CPU_s']+=0 if prep else CONTROL['Hopper_CPU_s'];v['revision']+=1
     v.setdefault(PREPAID,{})[r['request_id']]=dict(request_id=r['request_id'],submission_nonce=r['submission_nonce'],
         run_uuid=r['run_uuid'],source_sha=r['source_sha'],run_manifest_sha256=r['run_manifest_sha256'],
         physical_custody_sha256=r['physical_custody_sha256'],zero_effect_predecessor=zero,
-        paid_control=deepcopy(CONTROL),native_upper=native_resources(),before_CPU_s=g['CPU_s'],
+        paid_control=deepcopy(CONTROL),native_upper=native_resources(),before_CPU_s=prep['before_CPU_s']if prep else g['CPU_s'],
         before_GLOBAL_sha256=e.sha(global_bytes),paid_epoch=now_epoch,new_storage_charge_bytes=0,
         new_GPU_permission=False,Core_LOCAL_written=False)
+    if prep:v[PREPAID][r['request_id']]['preparation_payment']=deepcopy(prep)
     check(v);future=e.scope.first512_forecast(e.raw(v),local_bytes)
     need(future['cap_changes_required']=={},'E2ONLY_ALL14_FULL_FUTURE_BEFORE_CONTROL_PAID')
     return dict(proposed_global=v,full_future_proof=future,original_onceIO_required=True,native_admission=False)
@@ -302,6 +333,10 @@ def register(global_bytes,local_bytes,*,request_bytes,physical_custody,
     need(all(x.get('request_id')!=r['request_id']and x.get('submission_nonce')!=r['submission_nonce']
         for x in[*g['PBS_submissions'],*g.get(e.original.CORE_ROWS,{}).values()]),'E2ONLY_NEW_UNIQUE_BOTH_SITE_IDENTITY')
     physical.validate_custody(physical_custody,r,predecessor_binding=b)
+    if r.get('pre_native_cold_generation'):
+        from .minimal_e2only_pre_native import retired
+        p=r['pre_native_predecessor']
+        need(retired(g).get(p['request_id'])==p,'E2ONLY_REGISTER_ONLY_AFTER_REAL_PRE_NATIVE_CLOSE')
     physical.check_proof(physical_proof,physical_custody,r,now_epoch=now_epoch,observed_epoch=physical_observed_epoch)
     v=deepcopy(g);v['PBS_submissions'].append(dict(r,request_sha256=e.sha(request_bytes),status=e.STATES[0],job_id=None,submitted_epoch=now_epoch));v['used']['PBS_submissions']+=1
     for k in e.package.TRACKED:v['reserved'][k]+=native_resources()[k]
