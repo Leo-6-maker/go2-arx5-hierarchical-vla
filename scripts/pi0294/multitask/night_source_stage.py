@@ -122,7 +122,8 @@ manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_
  local_lease=str(lease_path),deadline_epoch=scope.DEADLINE,predeclared_tasks=['left','right'],attempts_this_chain_max=2,
  source_port_not_original_robot_benchmark=True,new_GR00T_training_queries_PBS=0)
 put(root/'RUN_MANIFEST.json',raw(manifest))
-env={k:v for k,v in os.environ.items()if k not in('PYTHONPATH','PYTHONHOME','LD_PRELOAD','LD_AUDIT','LD_LIBRARY_PATH')}
+env={k:v for k,v in os.environ.items()if k in('PATH','HOME','USER','LOGNAME','LANG','LC_ALL',
+ 'XDG_RUNTIME_DIR','DBUS_SESSION_BUS_ADDRESS')}
 env.update(TMPDIR=str(root/'tmp'),XDG_CACHE_HOME=str(root/'cache'),XDG_CONFIG_HOME=str(root/'cache'),
  CUDA_CACHE_PATH=str(root/'cache'),__GL_SHADER_DISK_CACHE_PATH=str(root/'cache'),PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',
  MUJOCO_GL='egl',MUJOCO_EGL_DEVICE_ID='0',CUDA_VISIBLE_DEVICES='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad',
@@ -142,4 +143,87 @@ result=dict(status='ACTUAL_NIGHT_SOURCE_SCOPE_REGISTERED_LOCAL_AND_COLD_BOUND_NO
  CPU_s=time.process_time()-started+resource.getrusage(resource.RUSAGE_CHILDREN).ru_utime+resource.getrusage(resource.RUSAGE_CHILDREN).ru_stime,
  observed_epoch=time.time())
 put(root/'COLD_ADOPTION_RESULT.json',raw(result));print(json.dumps(result))
+'''
+
+READBACK=r'''
+import hashlib,json,os,resource,sys,time
+from pathlib import Path
+assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
+resource.setrlimit(resource.RLIMIT_CPU,(15,15));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+sha=lambda b:hashlib.sha256(b).hexdigest();root=Path(P['root']);result=json.loads((root/'COLD_ADOPTION_RESULT.json').read_bytes())
+assert result['manifest_sha256']==P['manifest_sha256']and result['source_sha']==P['source_sha']
+mb=(root/'RUN_MANIFEST.json').read_bytes();assert sha(mb)==P['manifest_sha256'];m=json.loads(mb)
+code=root/m['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
+from scripts.pi0294.multitask import night_scope as scope
+from scripts.pi0294.task_path_entry import node_local_paths,registered_snapshot
+scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
+for name,pin in json.loads((root/'SOURCE_SEAL.json').read_bytes())['files'].items():assert sha((code/name).read_bytes())==pin
+for name,pin in m['sealed_inputs'].items():assert sha((root/name).read_bytes())==pin
+assets=json.loads((root/'ASSET_BINDINGS.private.json').read_bytes())
+for name,pin in assets['files'].items():
+ b=Path(pin['path']).read_bytes();assert len(b)==pin['bytes']and sha(b)==pin['sha256']
+binding=json.loads((root/'OUTPUT_BINDING.private.json').read_bytes());registry=Path(binding['registry']).read_bytes()
+assert sha(registry)==binding['registry_snapshot_sha256']==result['registry_after_sha256']
+assert (root/'control/CANONICAL_REGISTRY_READBACK.json').read_bytes()==registry
+registered_snapshot(registry,expected_sha256=sha(registry),run_root=str(root),role=binding['role'])
+localb=Path(P['LOCAL_path']).read_bytes();assert sha(localb)==result['LOCAL_after_sha256'];local=json.loads(localb)
+adoption=json.loads((root/'SOURCE_SCOPE_ADOPTION.json').read_bytes())
+assert local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']==adoption['marker']
+assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==result['account_sha256']
+account=scope.validate_account(json.loads((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes()))
+assert account['native_adopted']is True and account['charged_upper']['attempts']==0
+assert account['qualification_sha256']==sha((root/'SOURCE_QUALIFICATION.json').read_bytes())
+lease=json.loads(Path(binding['lease']).read_bytes());assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name
+paths=node_local_paths(json.loads((root/'RUNTIME_PATHS.private.json').read_bytes()))
+assert not(root/'STOP.json').exists()and not(root/'control/NATIVE_LAUNCH_INTENT.json').exists()
+print(json.dumps(dict(status='INDEPENDENT_ALL_SOURCE_ASSET_ACCOUNT_REGISTRY_LOCAL_LEASE_AND_ENTRY_BYTES_VERIFIED',
+ source_sha=m['source_sha'],manifest_sha256=sha(mb),account_sha256=result['account_sha256'],LOCAL_sha256=sha(localb),
+ registry_sha256=sha(registry),asset_files=len(assets['files']),source_members=result['source_members'],
+ local_paths=len(paths['paths']),new_physics=0,new_neural_queries_updates_PBS=0,observed_epoch=time.time())))
+'''
+
+LAUNCH=r'''
+import hashlib,json,os,subprocess,time
+from pathlib import Path
+assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
+sha=lambda b:hashlib.sha256(b).hexdigest();raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
+available=sorted(os.sched_getaffinity(0));assert len(available)>=4
+cpus=available[-3:];os.sched_setaffinity(0,{available[0]})
+root=Path(P['root']);mb=(root/'RUN_MANIFEST.json').read_bytes();assert sha(mb)==P['manifest_sha256'];m=json.loads(mb)
+assert m['source_sha']==P['source_sha']and m['predeclared_tasks']==['left','right']and m['attempts_this_chain_max']==2
+assert 0<=time.time()-P['independent_readback_epoch']<120
+assert sha(Path(P['LOCAL_path']).read_bytes())==P['LOCAL_sha256']
+assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==P['account_sha256']
+lease=json.loads((root/'control/NATIVE_SOURCE_LEASE.json').read_bytes())
+assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name and not(root/'STOP.json').exists()
+assert time.time()+1300<lease['deadline_epoch']and time.time()<1793318400
+for unit in P['idle_D25_units']:
+ q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','LoadState'],capture_output=True,text=True,timeout=4)
+ assert dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',LoadState='not-found')
+q=subprocess.run(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=4)
+assert q.returncode==0 and not q.stdout.strip()
+unit=root.name+'.service';intent=root/'control/NATIVE_LAUNCH_INTENT.json'
+fd=os.open(intent,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+with os.fdopen(fd,'wb')as f:f.write(raw(dict(unit=unit,manifest_sha256=sha(mb),source_sha=m['source_sha'],
+ independent_readback_sha256=P['independent_readback_sha256'],automatic_retry=False,observed_epoch=time.time())));f.flush();os.fsync(f.fileno())
+env=json.loads((root/'PROCESS_ENVIRONMENT.private.json').read_bytes())
+assert len(cpus)==3
+args=['/usr/bin/systemd-run','--user','--unit='+unit,'--property=RuntimeMaxSec=1250',
+ '--property=TimeoutStopSec=15','--property=KillMode=control-group','--property=CPUQuota=300%',
+ '--property=CPUAffinity='+' '.join(map(str,cpus)),'--property=RemainAfterExit=yes',
+ '--property=WorkingDirectory='+str(root/'entry/code/vla'),
+ '--property=StandardOutput=append:'+str(root/'logs/owner.log'),'--property=StandardError=inherit']
+for k,v in env.items():args.append('--setenv='+k+'='+v)
+args+=['/usr/bin/env','-i']+[k+'='+v for k,v in env.items()]
+args+=['/bin/bash',str(root/'entry/infrastructure/enter.sh'),'4080-simulation','python','-B','-m',
+ 'scripts.pi0294.multitask.night_book_chain',str(root)]
+q=subprocess.run(args,env=env,capture_output=True,text=True,timeout=10)
+assert q.returncode==0,'NATIVE_START_RESULT_UNKNOWN_NO_REPLAY'
+q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','InvocationID','-p','ControlGroup','-p','ActiveState'],
+ env=env,capture_output=True,text=True,timeout=4)
+assert q.returncode==0;facts=dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)
+print(json.dumps(dict(status='ONE_FINITE_SOURCE_NATIVE_UNIT_START_ACKNOWLEDGED_REQUIRES_ACTUAL_PROCESS_READBACK',
+ unit=unit,native=facts,launch_intent_sha256=sha(intent.read_bytes()),automatic_retry=False,
+ predeclared_tasks=['left','right'],new_GR00T_training_queries_PBS=0,observed_epoch=time.time())))
 '''
