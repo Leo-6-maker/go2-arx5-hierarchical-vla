@@ -1,0 +1,185 @@
+{
+  "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+  "launch_allowed": false,
+  "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+  "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+  "seed": 294,
+  "IK_initializations": 20,
+  "RRT_planning_time_s": 2.0,
+  "normal_sample_period_s": 0.05,
+  "joint_witness_is_student_or_controller_action": false,
+  "dynamic_reachability_proved": false,
+  "new_physics": 0,
+  "new_neural_queries": 0,
+  "status": "PLANNING_FAILED_NO_FEASIBLE_PATH_CERTIFIED",
+  "planner_reason": "IK Failed! Cannot find valid solution.",
+  "impossibility_proved": false,
+  "model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+  "model_bytes": 74468695,
+  "urdf_sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+  "collision_mesh_files": 1,
+  "source_metadata_sha256": "537a3a007873f1f87396aa185a03d5f9fa5700828c6990e4520097458bd1a2cd",
+  "original_state_qpos_unchanged": true,
+  "CPU_s": 0.8037441280000001,
+  "maximum_resident_KiB": 193620,
+  "physical_root_fixed": false,
+  "fixed_root_in_static_witness_only": true,
+  "goal_from_original_teacher": true,
+  "physical_scope_adopted": false,
+  "schema": "GO2_ARX5_ORIGINAL_W0_T1_STATIC_PATH_PREPARATION_V1",
+  "date": "2026-10-29",
+  "timezone": "Asia/Singapore",
+  "condition": "ORIGINAL_CLOSED_V2_DEV_W0_T1_FIRST_ACTUAL_STATE_TO_ORIGINAL_PICK_APPROACH_GOAL",
+  "historical_runtime_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+  "preparation_code_base_sha": "5c1b7cbe58c0177866426f0f3a7569b552458bdd",
+  "module": "scripts/pi0294/task_path_planning.py",
+  "module_sha256": "936370f81dd1726feeeabffd5f507213c3e9c285151809af6674201fc3c76e43",
+  "actual_sample_file_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961",
+  "actual_sample_file_bytes": 1271777,
+  "first_line_sha256": "cb0ed62c64a4f0ca5627b30ef28d4ee730706d1d3c9849e4ea28ca36c007bbcf",
+  "sample_matches_published_independent_audit": true,
+  "finite_independent_bounded_IK": {
+    "method": "scipy least_squares on native MuJoCo FK private copy",
+    "source": "BOUNDED_ENDPOINT_CHECK.private.json",
+    "seeds": 8,
+    "seed_stream": 294,
+    "maximum_function_evaluations_per_seed": 200,
+    "CPU_s": 0.461984611,
+    "residual_definition": "XYZ metres concatenated with SO3 rotation vector radians; one numerical diagnostic objective, not a reachability certificate",
+    "results": [
+      {
+        "seed_index": 0,
+        "position_error_m": 0.00531557010792902,
+        "orientation_error_rad": 0.0014884529236908156,
+        "evaluations": 13,
+        "at_limit_arm_joint_numbers": [
+          4
+        ]
+      },
+      {
+        "seed_index": 1,
+        "position_error_m": 0.005315570113982759,
+        "orientation_error_rad": 0.0014884529020718275,
+        "evaluations": 13,
+        "at_limit_arm_joint_numbers": [
+          4
+        ]
+      },
+      {
+        "seed_index": 2,
+        "position_error_m": 0.06971580900023015,
+        "orientation_error_rad": 1.4914628872389024,
+        "evaluations": 129,
+        "at_limit_arm_joint_numbers": [
+          3,
+          5
+        ]
+      },
+      {
+        "seed_index": 3,
+        "position_error_m": 0.00531557011101039,
+        "orientation_error_rad": 0.0014884529126866417,
+        "evaluations": 18,
+        "at_limit_arm_joint_numbers": [
+          4
+        ]
+      },
+      {
+        "seed_index": 4,
+        "position_error_m": 0.005315570102546051,
+        "orientation_error_rad": 0.0014884529429142017,
+        "evaluations": 12,
+        "at_limit_arm_joint_numbers": [
+          4
+        ]
+      },
+      {
+        "seed_index": 5,
+        "position_error_m": 0.5813339503728986,
+        "orientation_error_rad": 1.4560658587834792,
+        "evaluations": 62,
+        "at_limit_arm_joint_numbers": [
+          2,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "seed_index": 6,
+        "position_error_m": 0.005315570111549481,
+        "orientation_error_rad": 0.0014884529107622073,
+        "evaluations": 13,
+        "at_limit_arm_joint_numbers": [
+          4
+        ]
+      },
+      {
+        "seed_index": 7,
+        "position_error_m": 0.07958070415832837,
+        "orientation_error_rad": 1.4486338408913466,
+        "evaluations": 90,
+        "at_limit_arm_joint_numbers": [
+          1,
+          3,
+          5
+        ]
+      }
+    ],
+    "best_found_position_error_m": 0.005315570102546051,
+    "exact_kinematic_feasible_solution_found": false,
+    "impossibility_proved": false,
+    "native_root_legs_and_object_held_only_in_private_configuration_witness": true
+  },
+  "remaining_qualifications": [
+    "TASK_TARGET_AND_STATION_FEASIBILITY",
+    "FULL_NATIVE_DISCRETE_PATH_CONFIGURATION_CHECK_ON_A_FOUND_PATH",
+    "CONTINUOUS_SWEPT_ACCESS_IF_REQUIRED",
+    "CARTESIAN_PATH_TIMING_AND_H40_LABEL_BINDING",
+    "NATIVE_FROZEN_WBC_EXECUTION_AND_TASK_SUCCESS"
+  ],
+  "wholebody_collision_verified": false,
+  "path_output_produced": false,
+  "source_proprietary_assets_published": false,
+  "PC_only_dependency_environment": {
+    "python": "3.10",
+    "numpy": "1.24.4",
+    "mujoco": "3.2.7",
+    "mplib": "0.2.1",
+    "remote_environment_changed": false
+  },
+  "transfer_observation": {
+    "initial_read_timeout_s": 55,
+    "partial_bytes": 66813952,
+    "original_closed_model_full_bytes": 74468695,
+    "read_only_suffix_resume_then_full_SHA_match": true,
+    "remote_mutation_replayed": false
+  },
+  "validation": {
+    "focused_checks_passed": 14,
+    "scope": "four new real-MuJoCo boundary tests plus ten existing approach/time-reference checks",
+    "CI_claimed": false,
+    "warning": "host pytest does not recognize configured pythonpath; explicit PYTHONPATH used"
+  },
+  "new_training_updates": 0,
+  "new_PBS": 0,
+  "new_remote_workers": 0,
+  "new_WBC_parameter_changes": 0,
+  "original_failure_results_changed": false,
+  "scientific_conclusion": "A_FEASIBLE_TASK_PATH_IS_NOT_YET_CERTIFIED_CADENCE_ONLY_REPEAT_IS_NOT_A_REMEDY",
+  "executed_module_sha256": "936370f81dd1726feeeabffd5f507213c3e9c285151809af6674201fc3c76e43",
+  "preparation_call_inventory": {
+    "completed_MPlib_plan_pose_calls_same_original_target": 4,
+    "mesh_path_setup_failures_before_plan_pose": 2,
+    "additional_unbounded_IK_reason_checks_not_feasible_solutions": 6,
+    "independent_bounded_IK_checks": 8,
+    "native_physical_attempts": 0,
+    "final_versioned_probe_after_sample_cap_change": "VERSIONED_STATIC_PROBE_RESULT_02.private.json"
+  },
+  "private_receipt_sha256": {
+    "VERSIONED_STATIC_PROBE_RESULT_02.private.json": "f5a1e1023c16189823783c649c38644ff613beeaaae8661e47459a9f16dc4838",
+    "BOUNDED_ENDPOINT_CHECK.private.json": "5ddbab28ab1583b96b058dad8c56403e745314e90dc2bf9998f36ff644413052",
+    "CURRENT_ORIGINAL_SAMPLE_BYTES.private.json": "6eb87501d12084263a9f4e946e10f5c24539c826f2540dbbce6892b53c9a980e",
+    "MODEL_READBACK.private.json": "98c502e0fa0f6fea13a02cdec60d208eb19446f251107f6cb1a98ef9c3af70fd"
+  }
+}

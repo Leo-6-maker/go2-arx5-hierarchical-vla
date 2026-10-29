@@ -1,0 +1,299 @@
+{
+  "schema": "BOTH_APPROACH_AND_PLANNED_DESCENT_STATIC_PREPARATION_V1",
+  "date": "2026-10-29",
+  "status": "T1_T2_STATIC_PRECONTACT_AND_DESCENT_PREPARED_NO_ACTUAL_CONTACT",
+  "base_code_sha": "743b9435aaa5c3aab4d52c28c3dfa4fecee86f0a",
+  "original_saved_snapshot_source": "V2_DEV_W0_T1_FIRST_ACTUAL_STATE",
+  "all_T2_proposals_use_same_T1_snapshot_not_T2_rollout": true,
+  "new_push_geometry_results": {
+    "schema": "DIRECTION_PAD_PUSH_PRECONTACT_STATIC_RESULT_V1",
+    "plan_sha256": "c6e0a94768f735e1ac33388cabedc5f56bde474fc953408ea55b8726b263c41f",
+    "source_snapshot": "T1_CLOSED_FIRST_STATE_NOT_T2_ROLLOUT",
+    "results": [
+      {
+        "id": "VERTICAL",
+        "status": "REUSED_ORIGINAL_SAME_SNAPSHOT_T2_NEGATIVE",
+        "no_new_call": true
+      },
+      {
+        "id": "TILT_NEG30",
+        "planning": {
+          "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+          "launch_allowed": false,
+          "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+          "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+          "seed": 294,
+          "IK_initializations": 20,
+          "RRT_planning_time_s": 2.0,
+          "normal_sample_period_s": 0.05,
+          "joint_witness_is_student_or_controller_action": false,
+          "dynamic_reachability_proved": false,
+          "new_physics": 0,
+          "new_neural_queries": 0,
+          "status": "PLANNING_FAILED_NO_FEASIBLE_PATH_CERTIFIED",
+          "planner_reason": "IK Failed! Cannot find valid solution.",
+          "impossibility_proved": false
+        },
+        "path_produced": false
+      },
+      {
+        "id": "TILT_POS30",
+        "planning": {
+          "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+          "launch_allowed": false,
+          "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+          "native_TCP_frame_max_abs_difference": 4.440892098500626e-16,
+          "seed": 294,
+          "IK_initializations": 20,
+          "RRT_planning_time_s": 2.0,
+          "normal_sample_period_s": 0.05,
+          "joint_witness_is_student_or_controller_action": false,
+          "dynamic_reachability_proved": false,
+          "new_physics": 0,
+          "new_neural_queries": 0,
+          "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+          "native_configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 109,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "planner_duration_s": 3.197968178224931
+        },
+        "path_produced": true,
+        "planned_endpoint_not_actual_contact": {
+          "precontact_geometry_ready": true,
+          "actual_contact_alignment": false,
+          "pad_front_object_frame_m": -0.044998881462837675,
+          "pad_table_clearance_m": 0.08400002066405371,
+          "full_robot_clearance": "ACTUAL_NATIVE_OBSERVER_REMAINS_AUTHORITATIVE"
+        },
+        "retiming": {
+          "status": "TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED",
+          "factor": 3.5,
+          "duration_s": 11.200000000000001,
+          "samples": 225,
+          "linear_max_m_s": 0.03293998021456764,
+          "angular_max_rad_s": 0.2950000936605072,
+          "configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 225,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "continuous_swept_collision_proved": false,
+          "physical_execution_qualified": false,
+          "launch_allowed": false
+        }
+      }
+    ],
+    "CPU_s": 0.7589957860000001,
+    "new_planning_calls": 2,
+    "new_physics": 0,
+    "new_native_installs": 0,
+    "selected_for_physics": null
+  },
+  "planned_descents": {
+    "schema": "DESCENT_STATIC_PATHS_FROM_PLANNED_ENDPOINTS_V1",
+    "preplan_sha256": "66bb61dde99f60e5cd62aab517fc0bc59777b038bcf4a4af40417a4fefd319fa",
+    "results": [
+      {
+        "task": "T1",
+        "planning": {
+          "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+          "launch_allowed": false,
+          "input_state_role": "PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED",
+          "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+          "native_TCP_frame_max_abs_difference": 3.3306690738754696e-16,
+          "seed": 294,
+          "IK_initializations": 20,
+          "RRT_planning_time_s": 2.0,
+          "normal_sample_period_s": 0.05,
+          "joint_witness_is_student_or_controller_action": false,
+          "dynamic_reachability_proved": false,
+          "new_physics": 0,
+          "new_neural_queries": 0,
+          "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+          "native_configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 25,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "planner_duration_s": 1.0379015535606162
+        },
+        "path_produced": true,
+        "planned_endpoint_geometry": {
+          "precontact_geometry_ready": false,
+          "actual_gap_m": 0.08504805493263119,
+          "encloses_object_y": true,
+          "overlaps_object_x": true,
+          "pads_above_actual_object": false,
+          "within_precontact_slab": true,
+          "launch_allowed": false,
+          "grasp_success": false,
+          "whole_robot_clearance": "UNQUALIFIED",
+          "actual_contact_alignment": true,
+          "full_robot_clearance": "ACTUAL_NATIVE_OBSERVER_REMAINS_AUTHORITATIVE"
+        },
+        "retiming": {
+          "status": "TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED",
+          "factor": 2.2,
+          "duration_s": 2.3000000000000003,
+          "samples": 47,
+          "linear_max_m_s": 0.059547822502951854,
+          "angular_max_rad_s": 1.3328003749250104e-06,
+          "configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 47,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "continuous_swept_collision_proved": false,
+          "physical_execution_qualified": false,
+          "launch_allowed": false
+        }
+      },
+      {
+        "task": "T2",
+        "planning": {
+          "version": "ARX5_SAVED_STATE_MPLIB_TASK_PATH_PREPARATION_V1",
+          "launch_allowed": false,
+          "input_state_role": "PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED",
+          "evidence_role": "STATIC_KINEMATIC_PLANNING_NOT_WBC_EXECUTION",
+          "native_TCP_frame_max_abs_difference": 3.3306690738754696e-16,
+          "seed": 294,
+          "IK_initializations": 20,
+          "RRT_planning_time_s": 2.0,
+          "normal_sample_period_s": 0.05,
+          "joint_witness_is_student_or_controller_action": false,
+          "dynamic_reachability_proved": false,
+          "new_physics": 0,
+          "new_neural_queries": 0,
+          "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+          "native_configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 33,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "planner_duration_s": 1.236824703234106
+        },
+        "path_produced": true,
+        "planned_endpoint_geometry": {
+          "precontact_geometry_ready": true,
+          "actual_contact_alignment": true,
+          "pad_front_object_frame_m": -0.03200036251432829,
+          "pad_table_clearance_m": 0.004009265929207029,
+          "full_robot_clearance": "ACTUAL_NATIVE_OBSERVER_REMAINS_AUTHORITATIVE"
+        },
+        "retiming": {
+          "status": "TIMED_STATIC_REFERENCE_PREPARED_NOT_EXECUTED",
+          "factor": 2.2,
+          "duration_s": 2.75,
+          "samples": 56,
+          "linear_max_m_s": 0.05797094740253537,
+          "angular_max_rad_s": 5.230965566139488e-05,
+          "configuration_check": {
+            "status": "DISCRETE_NATIVE_CONFIGURATION_CHECK_PASS",
+            "samples": 56,
+            "max_joint_segment_rad": 0.02,
+            "violations": [],
+            "whole_robot_model_used": true,
+            "continuous_swept_collision_proved": false,
+            "physical_execution_qualified": false
+          },
+          "continuous_swept_collision_proved": false,
+          "physical_execution_qualified": false,
+          "launch_allowed": false
+        }
+      }
+    ],
+    "CPU_s": 0.656312422,
+    "new_physics": 0,
+    "new_actual_feedback": 0,
+    "input_state_role": "PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED"
+  },
+  "new_path_plan_calls": 4,
+  "original_vertical_T2_negative_reused": true,
+  "all_failed_proposals_retained": true,
+  "WBC_changes": 0,
+  "task_score_changes": 0,
+  "native_safety_threshold_changes": 0,
+  "evidence_roles": {
+    "approach_start": "SAVED_ACTUAL_OBSERVATION",
+    "descent_start": "PLANNED_FUTURE_CONFIGURATION_NOT_OBSERVED",
+    "native_install": "NOT_PERFORMED",
+    "physical_contact": "NOT_OBSERVED",
+    "selected_policy_consumption": "UNKNOWN"
+  },
+  "code_hashes": {
+    "scripts/pi0294/task_path_planning.py": "df0de32fd949b412f01bbddbe0be4632c5bbef1673d8b1bca0ab89895de89c37",
+    "scripts/pi0294/task_path_reference.py": "ff3b58531deafd5e007022399f9a23b42dadb2d5b88cfb555d2734774fd64c5f"
+  },
+  "descent_executed_reference_source_sha256": "bf5dc40dbf78620f2b77f759085672457f11ee76856314666ec2e499519dd976",
+  "reference_metadata_after_run_change": "ADD_INPUT_STATE_ROLE_TO_RETIMING_RECEIPT_ONLY_NO_NUMERICAL_CHANGE",
+  "private_receipt_hashes": {
+    "PUSH_GEOMETRY_CANDIDATES_PREPLAN.private.json": "c6e0a94768f735e1ac33388cabedc5f56bde474fc953408ea55b8726b263c41f",
+    "PUSH_GEOMETRY_CANDIDATES_RESULT.private.json": "91c190d4f53953ed35923b07ce442afcc7f86d7c13ed0d065341587043ef7e81",
+    "DESCENT_PREPLAN.private.json": "66bb61dde99f60e5cd62aab517fc0bc59777b038bcf4a4af40417a4fefd319fa",
+    "DESCENT_STATIC_RESULT.private.json": "b01b4887807e8bfd7389ba33e1eb5f103de58be0bd4e3552559745d152010e80"
+  },
+  "new_physical_scope": {
+    "status": "PROPOSED_NOT_ADOPTED",
+    "short_task_s_each_max": 20,
+    "full_task_s_each": 32,
+    "starts_max": 4,
+    "warmup_s_each_max": 5,
+    "integrations_total_max_including_tail": 62012,
+    "RGB_pairs_max": 2084,
+    "CPU_core_seconds_total_max": 14400,
+    "CPU_concurrent_max": 4,
+    "Core_output_and_staging_GiB_max": 8,
+    "PC_small_evidence_GiB_max": 1,
+    "new_transfer_GiB_max": 8,
+    "window_hours_max_after_adoption": 24,
+    "hard_deadline_SGT": "2026-11-01T20:52:29.813+08:00",
+    "original_clocks_and_protection_preserved": true,
+    "new_training_updates": 0,
+    "new_PBS": 0,
+    "new_GR00T_queries": 0,
+    "frozen_WBC_computation_included_in_physics_CPU_caps": true
+  },
+  "validation": {
+    "focused_tests_passed": 12,
+    "scope": "current planning/reference tests, including push directional geometry equivariance and separate unobserved stage witness",
+    "prior_15_checks_retained": "prior exact source results remain recorded; no new CI or task-success claim"
+  },
+  "remaining": [
+    "FROZEN_CURRENT_NATIVE_EXECUTION_ADMISSION_AND_NODE_LOCAL_DEPENDENCIES",
+    "ACTUAL_PRECONTACT_AND_ALIGNMENT_FEEDBACK",
+    "CLOSURE_GRASP_PUSH_RELEASE_WITHDRAW_AND_FINAL_SCORING_INTEGRATION",
+    "FULL_T1_T2_QUALIFICATION",
+    "HUMAN_ADOPTION_OF_NEW_FINITE_PHYSICS_SCOPE"
+  ],
+  "new_physics": 0,
+  "new_native_installs": 0,
+  "new_neural_queries": 0,
+  "new_training_updates": 0,
+  "new_PBS": 0,
+  "new_remote_workers": 0,
+  "successful_TARGET_demonstrations": 0,
+  "launch_allowed": false,
+  "goal_complete": false
+}

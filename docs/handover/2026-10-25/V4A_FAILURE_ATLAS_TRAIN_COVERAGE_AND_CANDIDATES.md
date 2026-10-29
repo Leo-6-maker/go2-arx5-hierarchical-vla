@@ -114,7 +114,9 @@ A 的 reader 虽加载新库支持，但实际新库通道消费为 **0**；B �
 
 这些结果支持优先检查任务侧参考进度／消费节奏，但**没有证明唯一动力学根因**。原日志缺少参考到被选 solver policy 的身份，状态仍为 `UNKNOWN_NO_SAVED_REFERENCE_TO_SOLVER_POLICY_ID`。安装 ACK 只证明安装，不证明某条控制策略实际消费了该参考。
 
-下一项明确问题是：**保持冻结WBC、原安全和原4mm接近条件时，持久世界阶段进度与真实消费的固定Prefix8，能否让实际TCP进入预接触区？** 未来独立获准验证需记录参考、被选policy与执行tick身份；若已证明连续8个样本被消费但仍不能接近目标，则“仅由覆盖节奏导致”的假说被否定，应分析站位／可执行路径，而不是放宽阈值或强制闭爪。现有 `persistent_approach_draft.py` 仍是未接入的冷态候选，本节不授新物理、采集、训练或WBC调参权限。原固定CORR／R0、无目标任务示范训练的DEC1比较与后继少样本目标执行域适配继续分开。
+原pilot审计时的下一问题（由下文后继终局接续）是：**保持冻结WBC、原安全和原4mm接近条件时，持久世界阶段进度与真实消费的固定Prefix8，能否让实际TCP进入预接触区？** 未来独立获准验证需记录参考、被选policy与执行tick身份；若已证明连续8个样本被消费但仍不能接近目标，则“仅由覆盖节奏导致”的假说被否定，应分析站位／可执行路径，而不是放宽阈值或强制闭爪。现有 `persistent_approach_draft.py` 仍是未接入的冷态候选，本节不授新物理、采集、训练或WBC调参权限。原固定CORR／R0、无目标任务示范训练的DEC1比较与后继少样本目标执行域适配继续分开。
+
+**同日后继证据纠正：** 上述下一问题及“草案仍未接入”只描述最早pilot分析出口。仓库已有[持久Teacher V1终局](../../../reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/REPORT.md)和[分量V2终局](../../../reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/REPORT.md)：各4次短尝试，均已关闭；V2三条有效任务各真实30次H40/Prefix8，位置游标平移仍0，无预接触/物体接触，一条任务前工程不完整。故下一干预应接续真实home到预接触的任务路径，不能重复“首次改0.4秒”或第三轮调游标阈值。三组分母、源身份和有效失败分别保留，selected-policy消费仍UNKNOWN。见[可执行顺序与待核范围](../../protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)。
 
 - [Failure Atlas JSON](../../../reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_FAILURE_ATLAS.json)
 - [TRAIN 覆盖与真实消费 JSON](../../../reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_TRAIN_COVERAGE.json)

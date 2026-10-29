@@ -1,5 +1,7 @@
 # 最新实验路线 · V6（2026-10-29）
 
+[Go2–ARX5 S0–S5后继修订](protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)：S0原数组分析与两轮持久Teacher终局已存在；下一整机增量是任务路径资格，不能重新把Prefix8当未做的修复。原CORR/R0的DEC1与少样本目标适配继续分开，新物理范围尚未采用。
+
 **预训练能力复用 → 最小ARX5适配 → 闭环与独立泛化 → 冻结WBC复用 / 少样本整机适配。** Rerun已作为只读工具，不再把开发Viewer、扩场景数或训练量当默认路线。
 
 [完整长程Goal V6](protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md) · [Codex交接](handover/2026-10-29/POST_RERUN_SCIENCE_FIRST_EXECUTION.md) · [计划卡](../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)。发布不是新GPU/PBS/物理授权。

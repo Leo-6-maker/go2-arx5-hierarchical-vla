@@ -35,9 +35,21 @@
     "reason": "No callable subagent execution tool in this conversation",
     "local_script_validation_status": "NOT_RUN_TOOL_EXECUTION_FAILED",
     "review_tasks": [
-      {"id": "REVIEW-A", "focus": "learning_data_and_causal_identification", "status": "NOT_DISPATCHED"},
-      {"id": "REVIEW-B", "focus": "control_teacher_timing_and_physical_execution", "status": "NOT_DISPATCHED"},
-      {"id": "REVIEW-C", "focus": "statistics_resource_denominators_and_critical_path", "status": "NOT_DISPATCHED"}
+      {
+        "id": "REVIEW-A",
+        "focus": "learning_data_and_causal_identification",
+        "status": "NOT_DISPATCHED"
+      },
+      {
+        "id": "REVIEW-B",
+        "focus": "control_teacher_timing_and_physical_execution",
+        "status": "NOT_DISPATCHED"
+      },
+      {
+        "id": "REVIEW-C",
+        "focus": "statistics_resource_denominators_and_critical_path",
+        "status": "NOT_DISPATCHED"
+      }
     ]
   },
   "outcomes": {
@@ -50,7 +62,10 @@
   },
   "acceptance_proposal": {
     "independent_geometry_groups": 20,
-    "tasks": ["T1", "T2"],
+    "tasks": [
+      "T1",
+      "T2"
+    ],
     "conditions_per_domain": 40,
     "source_conditions": 40,
     "target_conditions": 40,
@@ -67,7 +82,11 @@
     "intermediate_state_diagnostics_count_as_full_task_success": false,
     "threshold_is_engineering_pilot_not_statistical_guarantee": true,
     "analysis_unit": "INDEPENDENT_GEOMETRY_BLOCK",
-    "required_denominators": ["planned_conditions", "known_behavior_terminals", "all_attempts"],
+    "required_denominators": [
+      "planned_conditions",
+      "known_behavior_terminals",
+      "all_attempts"
+    ],
     "unrun_equals_policy_failure": false,
     "valid_rejection_equals_behavior_failure": true
   },
@@ -97,17 +116,63 @@
     "unit": "ATTEMPT_UPPER_BOUND_NOT_COMPLETED_EXPERIMENT",
     "includes_old_obligations_for_scheduling_not_double_billing": true,
     "pools": [
-      {"id": "OLD_FIXED_PANELS", "attempts_max": 96, "planning_wall_seconds_each": 600, "scope": "EXISTING_REMAINDER_ONLY"},
-      {"id": "TD03_SOURCE_ORACLE", "attempts_max": 12, "planning_wall_seconds_each": 600, "reuse_verified_evidence_first": true},
-      {"id": "TD04_SOURCE_MICROLOOPS", "attempts_max": 16, "planning_wall_seconds_each": 600},
-      {"id": "TD05_SOURCE_DEV", "attempts_max": 12, "planning_wall_seconds_each": 600},
-      {"id": "TD07_DIAGNOSTICS_RECOVERY_DATA_SHARED_POOL", "attempts_max": 32, "planning_wall_seconds_each": 1800},
-      {"id": "TD09_MATCHED_SUCCESSOR_DEV", "attempts_max": 24, "planning_wall_seconds_each": 1800},
-      {"id": "TD06_TARGET_TEACHER", "attempts_max": 24, "planning_wall_seconds_each": 1800},
-      {"id": "TD10_TARGET_DEV", "attempts_max": 12, "planning_wall_seconds_each": 1800},
-      {"id": "TD11_SOURCE_TEST", "attempts_max": 40, "planning_wall_seconds_each": 600},
-      {"id": "TD11_TARGET_TEST", "attempts_max": 40, "planning_wall_seconds_each": 1800},
-      {"id": "ZERO_EFFECT_MISSING_RESERVE", "attempts_max": 12, "planning_wall_seconds_each": 1800}
+      {
+        "id": "OLD_FIXED_PANELS",
+        "attempts_max": 96,
+        "planning_wall_seconds_each": 600,
+        "scope": "EXISTING_REMAINDER_ONLY"
+      },
+      {
+        "id": "TD03_SOURCE_ORACLE",
+        "attempts_max": 12,
+        "planning_wall_seconds_each": 600,
+        "reuse_verified_evidence_first": true
+      },
+      {
+        "id": "TD04_SOURCE_MICROLOOPS",
+        "attempts_max": 16,
+        "planning_wall_seconds_each": 600
+      },
+      {
+        "id": "TD05_SOURCE_DEV",
+        "attempts_max": 12,
+        "planning_wall_seconds_each": 600
+      },
+      {
+        "id": "TD07_DIAGNOSTICS_RECOVERY_DATA_SHARED_POOL",
+        "attempts_max": 32,
+        "planning_wall_seconds_each": 1800
+      },
+      {
+        "id": "TD09_MATCHED_SUCCESSOR_DEV",
+        "attempts_max": 24,
+        "planning_wall_seconds_each": 1800
+      },
+      {
+        "id": "TD06_TARGET_TEACHER",
+        "attempts_max": 24,
+        "planning_wall_seconds_each": 1800
+      },
+      {
+        "id": "TD10_TARGET_DEV",
+        "attempts_max": 12,
+        "planning_wall_seconds_each": 1800
+      },
+      {
+        "id": "TD11_SOURCE_TEST",
+        "attempts_max": 40,
+        "planning_wall_seconds_each": 600
+      },
+      {
+        "id": "TD11_TARGET_TEST",
+        "attempts_max": 40,
+        "planning_wall_seconds_each": 1800
+      },
+      {
+        "id": "ZERO_EFFECT_MISSING_RESERVE",
+        "attempts_max": 12,
+        "planning_wall_seconds_each": 1800
+      }
     ],
     "total_attempts_upper": 320,
     "old_attempts_upper": 96,
@@ -150,20 +215,238 @@
   },
   "dependencies_mean": "Evidence returned, including a valid FAIL; conditional activation still checks its explicit safety/data prerequisites. New dependencies do not retroactively block already qualified old work.",
   "tasks": [
-    {"id": "TD00", "title": "交接、一次范围采用与运行容量", "owner_role": "EXISTING_MANAGEMENT_OWNER", "days": [1], "depends_on": [], "status": "PLANNED", "deliverable": "SCOPE_AND_CAPACITY.json", "exit": "Fresh exact state plus explicit successor scope status and full-resource forecast; missing adoption is BLOCKED, not implicit GO"},
-    {"id": "TD01", "title": "72窗标签与表示闭环", "owner_role": "DATA_LEARNING", "days": [1, 2], "depends_on": ["TD00"], "status": "PLANNED", "deliverable": "CONTRACT72.json", "exit": "Exact twelve-parent population, original gate and actual processor round-trip; all discrepancies classified"},
-    {"id": "TD02", "title": "原始父与E1/E2的自由生成学习读数", "owner_role": "VANDA_LEARNING", "days": [2, 3, 4], "depends_on": ["TD00", "TD01"], "status": "PLANNED", "deliverable": "LEARNING_PANEL.json", "exit": "Matched input/noise physical and event metrics; E2 absence remains missing, not E1 victory"},
-    {"id": "TD02M", "title": "条件触发的一次16窗记忆诊断", "owner_role": "VANDA_LEARNING", "days": [3, 4], "depends_on": ["TD01", "TD02"], "status": "PLANNED", "conditional": "Severe exact TRAIN fit failure after semantic consistency", "deliverable": "MEMORY_DIAGNOSTIC.json", "exit": "At most128 updates and128 queries; classify learning or persistent failure, never a deployable policy claim"},
-    {"id": "TD03", "title": "源域Teacher阳性对照", "owner_role": "CORE_DATA", "days": [2, 3], "depends_on": ["TD00"], "status": "PLANNED", "deliverable": "SOURCE_ORACLE.json", "exit": "Verified existing evidence or <=12 full source conditions; teacher failure separated from student failure"},
-    {"id": "TD04", "title": "16次接近、接触、抓放微闭环", "owner_role": "CORE_EXECUTION", "days": [3, 4], "depends_on": ["TD01", "TD03"], "status": "PLANNED", "deliverable": "MICROLOOP_FAILURE_ATLAS.json", "exit": "First divergence and raw/installed/consumed/achieved chains; partial-state results not full-task scores"},
-    {"id": "TD05", "title": "同权重源域完整双任务", "owner_role": "CORE_EXECUTION", "days": [3, 4, 5], "depends_on": ["TD01", "TD03", "TD04"], "status": "PLANNED", "deliverable": "SOURCE_DEV12.json", "exit": "All12 outcomes; development candidate needs >=4/6 per task and no native safety violation"},
-    {"id": "TD06", "title": "现役目标版本审计与Teacher资格", "owner_role": "CONTROL_INTERFACE", "days": [2, 3, 4, 5], "depends_on": ["TD00"], "status": "PLANNED", "deliverable": "TARGET_TEACHER_QUALIFICATION.json", "exit": "<=16 development attempts plus8 fixed full conditions; >=3/4 each task and no safety violation; otherwise target BLOCKED"},
-    {"id": "TD07", "title": "选择一项机制并取得合格数据", "owner_role": "REVIEW_AND_DATA", "days": [4, 5, 6], "depends_on": ["TD02", "TD04", "TD05"], "status": "PLANNED", "deliverable": "DECISION.json", "exit": "One falsifiable intervention family or no intervention; <=32 total diagnostic/data attempts; exact label lineage"},
-    {"id": "TD08", "title": "至多一组双臂后继训练", "owner_role": "VANDA_TRAINING", "days": [5, 6, 7], "depends_on": ["TD07"], "status": "PLANNED", "conditional": "Intervention justified and admitted; target-data option also requires TD06 qualification", "deliverable": "SUCCESSOR_ENDPOINTS.json", "exit": "Two matched fixed endpoints <=512 new updates each; complete state and costs; stop D7, no second family"},
-    {"id": "TD09", "title": "后继双臂24条件完整开发比较", "owner_role": "CORE_EVALUATION", "days": [6, 7], "depends_on": ["TD08"], "status": "PLANNED", "conditional": "Successor family executed", "deliverable": "SUCCESSOR_PAIRED_DEV24.json", "exit": "All24 outcomes and predeclared selection; no intermediate-checkpoint cherry picking"},
-    {"id": "TD10", "title": "同权重目标12条件小面板", "owner_role": "CORE_EVALUATION", "days": [6, 7], "depends_on": ["TD05", "TD06"], "status": "PLANNED", "conditional": "Qualified target executor and fixed candidate; successor selection consumes TD09 when applicable", "deliverable": "TARGET_DEV12.json", "exit": "Complete12 outcomes or target blocked; separate zero-target-data and target-adapted claims"},
-    {"id": "TD11", "title": "冻结及源/目标各40条件新人口测试", "owner_role": "FROZEN_EVALUATION", "days": [8, 9], "depends_on": ["TD00", "TD05"], "status": "PLANNED", "conditional": "Successor route additionally consumes TD09; target half requires TD06 and TD10", "deliverable": "BLIND_TEST80.json", "exit": "One fixed policy, twenty geometry blocks, complete known denominators; target may remain NOT_RUN, never relabeled source"},
-    {"id": "TD12", "title": "策略包、复算与最终科学结论", "owner_role": "REVIEW_AND_PUBLISH", "days": [10], "depends_on": ["TD11"], "status": "PLANNED", "deliverable": "POLICY_MANIFEST.json", "exit": "Explicit target/source/single-task/negative tier; all evidence, boundaries and costs; usable only if criteria met"}
+    {
+      "id": "TD00",
+      "title": "交接、一次范围采用与运行容量",
+      "owner_role": "EXISTING_MANAGEMENT_OWNER",
+      "days": [
+        1
+      ],
+      "depends_on": [],
+      "status": "RUNNING",
+      "deliverable": "SCOPE_AND_CAPACITY.json",
+      "exit": "Fresh exact state plus explicit successor scope status and full-resource forecast; missing adoption is BLOCKED, not implicit GO",
+      "latest_evidence": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json",
+      "execution_coverage": "READONLY_SCOPE_RUNTIME_VERSION_AND_DEPENDENCY_AUDIT_ONLY_NO_NEW_PHYSICS",
+      "native_admitted": false
+    },
+    {
+      "id": "TD01",
+      "title": "72窗标签与表示闭环",
+      "owner_role": "DATA_LEARNING",
+      "days": [
+        1,
+        2
+      ],
+      "depends_on": [
+        "TD00"
+      ],
+      "status": "PLANNED",
+      "deliverable": "CONTRACT72.json",
+      "exit": "Exact twelve-parent population, original gate and actual processor round-trip; all discrepancies classified"
+    },
+    {
+      "id": "TD02",
+      "title": "原始父与E1/E2的自由生成学习读数",
+      "owner_role": "VANDA_LEARNING",
+      "days": [
+        2,
+        3,
+        4
+      ],
+      "depends_on": [
+        "TD00",
+        "TD01"
+      ],
+      "status": "PLANNED",
+      "deliverable": "LEARNING_PANEL.json",
+      "exit": "Matched input/noise physical and event metrics; E2 absence remains missing, not E1 victory"
+    },
+    {
+      "id": "TD02M",
+      "title": "条件触发的一次16窗记忆诊断",
+      "owner_role": "VANDA_LEARNING",
+      "days": [
+        3,
+        4
+      ],
+      "depends_on": [
+        "TD01",
+        "TD02"
+      ],
+      "status": "PLANNED",
+      "conditional": "Severe exact TRAIN fit failure after semantic consistency",
+      "deliverable": "MEMORY_DIAGNOSTIC.json",
+      "exit": "At most128 updates and128 queries; classify learning or persistent failure, never a deployable policy claim"
+    },
+    {
+      "id": "TD03",
+      "title": "源域Teacher阳性对照",
+      "owner_role": "CORE_DATA",
+      "days": [
+        2,
+        3
+      ],
+      "depends_on": [
+        "TD00"
+      ],
+      "status": "PLANNED",
+      "deliverable": "SOURCE_ORACLE.json",
+      "exit": "Verified existing evidence or <=12 full source conditions; teacher failure separated from student failure"
+    },
+    {
+      "id": "TD04",
+      "title": "16次接近、接触、抓放微闭环",
+      "owner_role": "CORE_EXECUTION",
+      "days": [
+        3,
+        4
+      ],
+      "depends_on": [
+        "TD01",
+        "TD03"
+      ],
+      "status": "PLANNED",
+      "deliverable": "MICROLOOP_FAILURE_ATLAS.json",
+      "exit": "First divergence and raw/installed/consumed/achieved chains; partial-state results not full-task scores"
+    },
+    {
+      "id": "TD05",
+      "title": "同权重源域完整双任务",
+      "owner_role": "CORE_EXECUTION",
+      "days": [
+        3,
+        4,
+        5
+      ],
+      "depends_on": [
+        "TD01",
+        "TD03",
+        "TD04"
+      ],
+      "status": "PLANNED",
+      "deliverable": "SOURCE_DEV12.json",
+      "exit": "All12 outcomes; development candidate needs >=4/6 per task and no native safety violation"
+    },
+    {
+      "id": "TD06",
+      "title": "现役目标版本审计与Teacher资格",
+      "owner_role": "CONTROL_INTERFACE",
+      "days": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "depends_on": [
+        "TD00"
+      ],
+      "status": "RUNNING",
+      "deliverable": "TARGET_TEACHER_QUALIFICATION.json",
+      "exit": "<=16 development attempts plus8 fixed full conditions; >=3/4 each task and no safety violation; otherwise target BLOCKED",
+      "latest_evidence": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json",
+      "execution_coverage": "READONLY_SCOPE_RUNTIME_VERSION_AND_DEPENDENCY_AUDIT_ONLY_NO_NEW_PHYSICS",
+      "native_admitted": false
+    },
+    {
+      "id": "TD07",
+      "title": "选择一项机制并取得合格数据",
+      "owner_role": "REVIEW_AND_DATA",
+      "days": [
+        4,
+        5,
+        6
+      ],
+      "depends_on": [
+        "TD02",
+        "TD04",
+        "TD05"
+      ],
+      "status": "PLANNED",
+      "deliverable": "DECISION.json",
+      "exit": "One falsifiable intervention family or no intervention; <=32 total diagnostic/data attempts; exact label lineage"
+    },
+    {
+      "id": "TD08",
+      "title": "至多一组双臂后继训练",
+      "owner_role": "VANDA_TRAINING",
+      "days": [
+        5,
+        6,
+        7
+      ],
+      "depends_on": [
+        "TD07"
+      ],
+      "status": "PLANNED",
+      "conditional": "Intervention justified and admitted; target-data option also requires TD06 qualification",
+      "deliverable": "SUCCESSOR_ENDPOINTS.json",
+      "exit": "Two matched fixed endpoints <=512 new updates each; complete state and costs; stop D7, no second family"
+    },
+    {
+      "id": "TD09",
+      "title": "后继双臂24条件完整开发比较",
+      "owner_role": "CORE_EVALUATION",
+      "days": [
+        6,
+        7
+      ],
+      "depends_on": [
+        "TD08"
+      ],
+      "status": "PLANNED",
+      "conditional": "Successor family executed",
+      "deliverable": "SUCCESSOR_PAIRED_DEV24.json",
+      "exit": "All24 outcomes and predeclared selection; no intermediate-checkpoint cherry picking"
+    },
+    {
+      "id": "TD10",
+      "title": "同权重目标12条件小面板",
+      "owner_role": "CORE_EVALUATION",
+      "days": [
+        6,
+        7
+      ],
+      "depends_on": [
+        "TD05",
+        "TD06"
+      ],
+      "status": "PLANNED",
+      "conditional": "Qualified target executor and fixed candidate; successor selection consumes TD09 when applicable",
+      "deliverable": "TARGET_DEV12.json",
+      "exit": "Complete12 outcomes or target blocked; separate zero-target-data and target-adapted claims"
+    },
+    {
+      "id": "TD11",
+      "title": "冻结及源/目标各40条件新人口测试",
+      "owner_role": "FROZEN_EVALUATION",
+      "days": [
+        8,
+        9
+      ],
+      "depends_on": [
+        "TD00",
+        "TD05"
+      ],
+      "status": "PLANNED",
+      "conditional": "Successor route additionally consumes TD09; target half requires TD06 and TD10",
+      "deliverable": "BLIND_TEST80.json",
+      "exit": "One fixed policy, twenty geometry blocks, complete known denominators; target may remain NOT_RUN, never relabeled source"
+    },
+    {
+      "id": "TD12",
+      "title": "策略包、复算与最终科学结论",
+      "owner_role": "REVIEW_AND_PUBLISH",
+      "days": [
+        10
+      ],
+      "depends_on": [
+        "TD11"
+      ],
+      "status": "PLANNED",
+      "deliverable": "POLICY_MANIFEST.json",
+      "exit": "Explicit target/source/single-task/negative tier; all evidence, boundaries and costs; usable only if criteria met"
+    }
   ],
   "task_return_template": {
     "task_id": null,
@@ -193,5 +476,6 @@
     "native_ledger_or_lease_mutations": 0,
     "new_infrastructure_changes": 0,
     "native_science_results_claimed": false
-  }
+  },
+  "latest_execution_receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ENTRY_AND_FULL14_PREPARATION_20261029.json"
 }
