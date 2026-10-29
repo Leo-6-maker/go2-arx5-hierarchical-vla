@@ -1,5 +1,7 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+**最新技术方向：** 最终上层采用[共享四任务源域后训练与恢复](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)：抓放、推物、开门、单书共用EEF10与权重，WBC冻结；E1/E2保留接口适配对照。物体关系几何、事件/恢复采样和原读器接线已实现，19项CPU检查通过；新技能接触示范与策略训练尚未执行，候选300示范/10000更新不从S1额度支付。
+
 **S1有限范围已批准，原标准入口的本地资格已实际通过：** [原件与独立回读](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_ORIGINAL_ENTRY_NATIVE_QUALIFICATION_ACTUAL_20261029.json)确认原三文件未改、解释器/工作目录正确，原registry仅追加本次角色，自有资格lease已CLOSED。PR #143已合并main `2c9ad348`。四次物理仍0/4，完整EEF10 worker与ACK/反馈/STOP/安全资格待接入；静态路径与入口资格不当Teacher成功。完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留，PR #144十天计划的新增训练/资源/延期未由S1批准自动采用。
 
 **2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。

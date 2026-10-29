@@ -1,6 +1,8 @@
 # 最新实验路线 · V6（2026-10-29）
 
-[Go2–ARX5 S0–S5后继修订](protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)：S0原数组分析与两轮持久Teacher终局已存在；下一整机增量是任务路径资格，不能重新把Prefix8当未做的修复。原CORR/R0的DEC1与少样本目标适配继续分开，新物理范围尚未采用。
+**最新方法选择见[共享四任务源域策略](protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)。** 最终技能来源是原始预训练先验＋抓放/推物/开门/单书联合后训练＋实际访问状态上的恢复监督。它更新下文“柜门先测后采、暂不放书”的方法优先级；E1/E2固定对照、旧评估和S0–S5依然保留。已有几何/采样代码与19项CPU证据不是新物理或10000更新授权。
+
+[Go2–ARX5 S0–S5后继修订](protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)：S0原数组分析与两轮持久Teacher终局已存在；下一整机增量是任务路径资格，不能重新把Prefix8当未做的修复。原CORR/R0的DEC1与少样本目标适配继续分开。S1有限四启动已直接批准，完整原生worker资格仍待完成。
 
 **预训练能力复用 → 最小ARX5适配 → 闭环与独立泛化 → 冻结WBC复用 / 少样本整机适配。** Rerun已作为只读工具，不再把开发Viewer、扩场景数或训练量当默认路线。
 
