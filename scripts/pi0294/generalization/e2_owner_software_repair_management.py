@@ -29,11 +29,15 @@ try:
  for name in ['SOURCE_REQUEST_INTENT','SOURCE_GLOBAL_RESERVED','SOURCE_QSUB_INTENT','SOURCE_QSUB_REPLY','SOURCE_JOB_BOUND']:
   assert not(oldbase/(name+'.private.json')).exists()
  assert not(root/'A40_NATIVE_EFFECT_LEDGER.json').exists()
- phases=[]
+ phases=[];setup_effects=[];renewals=0
  for p in(oldbase/'setup-rpc').glob('*-INTENT.json'):
-  v=read(p);intent=v['intent'];assert intent['effect']=='READ_ONLY'and intent['phase']in('AUTH','QUOTA','FRESH_EFFECTIVE_QUEUE')
-  receipt=read(p.with_name(p.name.replace('-INTENT.json','-CONFIRMED.json')));assert receipt['intent']==intent;phases.append(intent['phase'])
- assert sorted(phases)==['AUTH','FRESH_EFFECTIVE_QUEUE','QUOTA']
+  v=read(p);intent=v['intent'];rp=p.with_name(p.name.replace('-INTENT.json','-CONFIRMED.json'));receipt=read(rp);assert receipt['intent']==intent
+  assert (intent['effect']=='READ_ONLY'and intent['phase']in('AUTH','QUOTA','FRESH_EFFECTIVE_QUEUE')
+   or intent['effect']=='MUTATION'and intent['phase']=='AUTH_RENEW'
+   and sha(p.read_bytes())=='8ad153712a40835da808bc9a327c7911b5ee70d8e9e6d945357462e34bfb3773'
+   and sha(rp.read_bytes())=='da055514c9f17d1d50b77c456d311f8416a34f45e66b2852eea545f41d56fc13')
+  phases.append(intent['phase']);renewals+=int(intent['phase']=='AUTH_RENEW');setup_effects.append(dict(phase=intent['phase'],effect=intent['effect'],intent_sha256=sha(p.read_bytes()),receipt_sha256=sha(rp.read_bytes())))
+ assert sorted(phases)in(['AUTH','FRESH_EFFECTIVE_QUEUE','QUOTA'],['AUTH','AUTH','AUTH_RENEW','FRESH_EFFECTIVE_QUEUE','QUOTA'])and renewals<=1
  saved=read(oldbase/'SOURCE_REQUEST.private.json');old_request=saved['request'];assert old_request['request_id']==P['request_id']and old_request['source_sha']==P['old_source']
  prepared=root/'pbs/alloc-42';assert sorted(p.name for p in prepared.iterdir())==['EFFECTIVE_QUEUE_LIMITS.json','REQUEST.json']
  assert read(prepared/'REQUEST.json')==old_request
@@ -88,8 +92,9 @@ try:
   submit_count=len(g['PBS_submissions'])+1,created_epoch=time.time(),effective_queue_proof_sha256=sha(raw(effective)))
  x.request(request);guard=physical.Guard(root,request,manifest,lambda **_:None);guard.inspect(next_output_upper_bytes=physical.CONTROL_GROWTH_RESERVE)
  proof=dict(GLOBAL_sha256=sha(gb),request_id=P['request_id'],all_recorded_actors_terminal=True,native_requests=0,
-  only_readonly_setup_phases=True,owner_OS_sha256=sha(eb),owner_stop_sha256=sha(fb),old_owner_four_core_wall_upper_s=400,
-  original_setup_phases=phases,old_manifest_sha256=sha(mb),observed_epoch=time.time())
+  only_readonly_setup_phases=renewals==0,known_setup_effects_confirmed_no_dispatch=True,confirmed_project_session_renewals=renewals,
+  owner_OS_sha256=sha(eb),owner_stop_sha256=sha(fb),old_owner_four_core_wall_upper_s=400,
+  original_setup_effects=setup_effects,old_manifest_sha256=sha(mb),observed_epoch=time.time())
  local=base64.b64decode(read(root/'plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json')['LOCAL_base64'])
  proposal=cold.propose_software_repair(gb,local,old_request=old_request,new_request=request,proof=proof,now_epoch=time.time())
  target=proposal['proposed_global'];delta={k:v for k,v in target.items()if k not in g or g[k]!=v};assert set(delta)=={'revision',x.PREPAID}
@@ -103,4 +108,25 @@ try:
  put(stage/'RESULT.json',raw(result));print(json.dumps(result))
 except BaseException as error:
  put(stage/'FAILED_OR_UNKNOWN.json',raw(dict(type=type(error).__name__,message=str(error)[-2000:],traceback=traceback.format_exc()[-12000:],CPU_s=time.process_time()-began,originals_preserved=True)));raise
+'''
+
+SMALL_STAGE = r'''
+import hashlib,json,os
+from pathlib import Path
+assert os.getuid()==22182 and not os.environ.get('PBS_JOBID')
+sha=lambda b:hashlib.sha256(b).hexdigest();raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
+old=Path(P['previous_stage']);before=(old/'INPUTS.json').read_bytes()
+assert sha(before)==P['previous_payload_sha256']and sha((old/'PROGRAM.py').read_bytes())==P['previous_program_sha256']
+assert (old/'OS_EXIT.json').is_file()and json.loads((old/'OS_EXIT.json').read_bytes())['returncode']==1
+v=json.loads(before);assert set(P['changes'])=={'source','stage'}and set(P['changed_members'])<=set(v['delta'])
+v.update(P['changes']);v['delta'].update(P['changed_members']);body=raw(v);assert sha(body)==P['payload_sha256']
+parent=Path(v['parent']);assert sha((parent/'RUN_MANIFEST.json').read_bytes())==v['parent_sha']
+assert sha((parent/'HOPPER_RESOURCE_LEDGER.json').read_bytes())==v['GLOBAL_sha']
+binding=json.loads((parent/'OUTPUT_BINDING.private.json').read_bytes());assert json.loads(Path(binding['lease']).read_bytes())['status']=='ACTIVE_CONTROL_PLANE_ONLY'
+destination=Path(v['stage']);assert destination.parent==parent/'control'and not destination.exists();destination.mkdir(mode=0o700)
+program=P['program'].encode();assert sha(program)==P['program_sha256']
+for name,b in [('INPUTS.json',body),('PROGRAM.py',program)]:
+ fd=os.open(destination/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+ with os.fdopen(fd,'wb')as f:f.write(b);f.flush();os.fsync(f.fileno())
+print(json.dumps(dict(status='EXACT_PREVIOUS_STAGED_BYTES_REUSED_NEW_FINITE_STAGE',payload_sha256=sha(body),program_sha256=sha(program),old_stage_unchanged=True,new_GPU_PBS_model_permission=False)))
 '''

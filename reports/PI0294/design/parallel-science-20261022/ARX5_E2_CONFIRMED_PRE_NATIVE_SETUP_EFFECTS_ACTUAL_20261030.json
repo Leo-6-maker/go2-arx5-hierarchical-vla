@@ -1,0 +1,55 @@
+{
+  "status": "ACTUAL_PRE_NATIVE_OWNER_SETUP_PHASES_ONLY_NO_AUTH_OUTPUT",
+  "records": [
+    {
+      "phase": "AUTH",
+      "effect": "READ_ONLY",
+      "intent_sha256": "8b59d8b24ab89d0d49136f6f4c4cbf0219487bbc4f1ee366c7eaab93d945d939",
+      "confirmed": true,
+      "receipt_intent_matches": true,
+      "receipt_sha256": "8bc2ec2b6bed13f65223971137fe7d6038a9f252952c1e00281178ef9c763060"
+    },
+    {
+      "phase": "FRESH_EFFECTIVE_QUEUE",
+      "effect": "READ_ONLY",
+      "intent_sha256": "d1bb5a56473336af6e97bd7025cff8f25979a59f0547fcdc453e70ea03935bb6",
+      "confirmed": true,
+      "receipt_intent_matches": true,
+      "receipt_sha256": "53eafd66c8277afca63d412a29cb1fe4158f14027bd02746f07c3169a4068cf9"
+    },
+    {
+      "phase": "AUTH_RENEW",
+      "effect": "MUTATION",
+      "intent_sha256": "8ad153712a40835da808bc9a327c7911b5ee70d8e9e6d945357462e34bfb3773",
+      "confirmed": true,
+      "receipt_intent_matches": true,
+      "receipt_sha256": "da055514c9f17d1d50b77c456d311f8416a34f45e66b2852eea545f41d56fc13"
+    },
+    {
+      "phase": "QUOTA",
+      "effect": "READ_ONLY",
+      "intent_sha256": "078b361f9cc7652d488cc5f274d76ebdf61ecd9ebec1ff12f567a00430e74dcb",
+      "confirmed": true,
+      "receipt_intent_matches": true,
+      "receipt_sha256": "43c966461b22d824a348e9ede5e7785d25d0ccfa1f2bc2b83ee025f5b7d2d9d4"
+    },
+    {
+      "phase": "AUTH",
+      "effect": "READ_ONLY",
+      "intent_sha256": "bf8e60606fac77b71339a7a62df932025ce1cfe4ba85b45527ee8c048f04bfcd",
+      "confirmed": true,
+      "receipt_intent_matches": true,
+      "receipt_sha256": "3e5deea32fcc07519df86ccfd83dc4525d120d6bae68940ba5b05a1a9e7ac67a"
+    }
+  ],
+  "new_writes": 0,
+  "observed_epoch": 1793300940.4374936,
+  "schema": "ARX5_E2_PRE_NATIVE_SETUP_KNOWN_CONFIRMED_AUTH_SESSION_RENEWAL_NO_DISPATCH_V1",
+  "original_mature_authentication_route": true,
+  "confirmed_session_renewals": 1,
+  "all_receipts_confirmed": true,
+  "new_native_requests": 0,
+  "SSH_keys_passwords_permissions_and_mount_configuration_changes": 0,
+  "authorization_or_credential_material_disclosed": false,
+  "repair_note": "Preserve the actual confirmed project-session renewal; do not label all setup effects read-only. New source stage reuses already staged bytes under full hashes."
+}
