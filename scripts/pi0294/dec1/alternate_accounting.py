@@ -136,7 +136,11 @@ def validate_items(value):
     remaining_rows=[s for s in typed if s.get('platform_training_version')==remaining.VERSION]
     if remaining_rows or remaining.FIELD in value:
         if remaining.rows(value)!=remaining_rows:fail('EXACT_MINIMAL_REMAINING_AUDITED_PREFIX_MAIN')
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows and s not in retry_rows and s not in remaining_rows]
+    from scripts.pi0294.generalization import minimal_saved512_execution as saved512
+    saved512_rows=[s for s in typed if s.get('platform_training_version')==saved512.VERSION]
+    if saved512_rows or saved512.FIELD in value:
+        if saved512.rows(value)!=saved512_rows:fail('SAVED512_EXACT_ONE_ADOPTED_TYPED_ROW')
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows and s not in retry_rows and s not in remaining_rows and s not in saved512_rows]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:

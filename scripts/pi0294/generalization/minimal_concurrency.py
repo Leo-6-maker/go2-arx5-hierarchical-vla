@@ -18,11 +18,13 @@ RETRY_LOCAL_MIRROR='ARX5_minimal_first512_LOCAL_retry_inventory_mirror'
 
 
 def _version(adapter):
+    if adapter is adapters.saved512:return 'ARX5_SAVED512_VANDA_WITH_ORIGINAL_UNSTARTED_D25_CORE_HOLD_V1'
     if adapter is adapters.remaining:
         from .minimal_remaining_concurrency import VERSION as remaining_version
         return remaining_version
     return RETRY_VERSION if adapter is adapters.retry else VERSION
 def _mirror(adapter):
+    if adapter is adapters.saved512:return 'ARX5_minimal_saved512_LOCAL_inventory_mirror'
     if adapter is adapters.remaining:
         from .minimal_remaining_concurrency import LOCAL_MIRROR as remaining_mirror
         return remaining_mirror
@@ -89,6 +91,9 @@ def current_native_view(g,Core_record,*,queue_proof,terminal_proofs,independent_
 
 def validate_pair(g,pbs_rows,Core_rows):
     """Allow precisely the two different scopes/sites, never two trainers."""
+    if len(pbs_rows)==1 and pbs_rows[0].get('platform_training_version')==adapters.saved512.VERSION:
+        from .minimal_saved512_concurrency import validate_pair as saved_pair
+        return saved_pair(g,pbs_rows,Core_rows)
     if len(pbs_rows)==1 and pbs_rows[0].get('platform_training_version')==adapters.remaining.VERSION:
         from .minimal_remaining_concurrency import validate_pair as remaining_pair
         return remaining_pair(g,pbs_rows,Core_rows)

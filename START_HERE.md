@@ -18,7 +18,7 @@
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。该旧作业未执行正式训练；后继当前终态见下条。
 - **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。
 - **最新原生终态：1505362已F/Exit1，E1完整512步状态及原12项TRAIN探针已保存；E2两步资格COMPLETE，正式E2尚未启动。** [失败与冷修复回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_REAL512_NATIVE_EXPORT_NOISE_MODE_FAILURE_AND_COLD_REPAIR_ACTUAL_20261029.json)。E1导出对比记录了同观测/同seed却不同实际noise；整图评估模式接缝已有37项CPU回归，未native采用。原一次结算/own关闭已完成并全文独立回读（4162GPU秒/3585CPU秒）；接续保存状态独立审计，保护E1端点、不重训；随后只接未完成的固定工作，不复用死owner或旧qsub。
-- [保存端点接续的完整14维冷方案](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_RECOVERY_ALL14_AND_POSTF_AUDIT_CPU_SCOPE_PREPARED_20261029.json)保留E1已有512，只规划E1推理收尾及E2 fresh512；exact PBS42→43、control3600siteCPU/600PC/8MiB，其他上限及matrix/final不变。原130秒CPU审计实际SIGXCPU/134.93秒，未产出PASS；拟定600秒审计/metadata bank接续，费用仍保留。**当前只是完整captured复算，尚未采用或提交新GPU。**
+- **保存端点独立审计已真实PASS／OS0：E1完整512、E2两步资格及E1普通导出全部成员二次流读，实际CPU314.544秒；普通导出tensor逐项相等。** [实际回执及冷接线](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED_E1_512_FULL_STATE_AND_ORDINARY_TENSOR_AUDIT_REAL_PASS_RECOVERY_COLD_20261029.json)。接续控制和exact PBS43已一次采用、完整GLOBAL及原intent／receipt回读；used仍39。新typed候选只接E1推理0更新／25查询／3加载和E2 raw512／37查询／2加载，六个原owner门；当前尚未native登记／qsub，不能称GPU已启动或E1输出资格完成。原130秒超限审计和全部旧费用／UNKNOWN保留。
 - Rerun验证三条稀疏记录（Teacher各41/641、失败2/224），不是完整整机回放；full qpos/mesh不是训练Eval前置。
 - Go2+ARX5标定/12次任务pilot独立于当前12条源域示范；原DEC1仍固定CORR/R0，不混目标训练。
 

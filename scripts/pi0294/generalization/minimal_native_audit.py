@@ -175,6 +175,9 @@ def audit(root,request_path,*,native,inventory_sha256):
     from scripts.pi0294.e1.model import digest
     from . import minimal_execution_adapter as adapters
     root=Path(root);request_path=Path(request_path);r=read(request_path);adapter=adapters.request(r)
+    if adapter is adapters.saved512:
+        from .minimal_saved512_audit import audit as saved_audit
+        return saved_audit(root,request_path,native=native,inventory_sha256=inventory_sha256)
     remaining=adapter is adapters.remaining
     if remaining:
         from .minimal_remaining_effects import RemainingEffects as Effects

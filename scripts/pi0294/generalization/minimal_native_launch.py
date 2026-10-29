@@ -93,7 +93,7 @@ def programs(original,*,execution_version=e.VERSION,profile=None):
     e.need(e.sha(s.encode())==ORIGINAL_SUBMIT_SHA,'LAUNCH_EXACT_PREVIOUS_SUCCESSFUL_D25_SUBMIT_BYTES')
     replacements={
         'select=1:ngpus=1:ncpus=4:mem=32gb':'select=1:ngpus=1:ncpus=8:mem=64gb',
-        'walltime=06:15:00':'walltime=16:30:00',
+        'walltime=06:15:00':('walltime=08:00:00'if adapter is adapters.saved512 else'walltime=16:30:00'),
         'timeout=45':'timeout=30',
         'env=dict(PYTHONPATH=':"env=dict(PV1_RUN_MANIFEST=str(r/'RUN_MANIFEST.json'),GR00T_WBC_PROFILE="+repr(selected_profile)+',PYTHONPATH='}
     for before,after in replacements.items():

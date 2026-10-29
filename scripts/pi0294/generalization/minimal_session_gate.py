@@ -25,10 +25,20 @@ def remaining(request):
     return True
 
 
-def ticket_version(request=None):return REMAINING_VERSION if remaining(request)else VERSION
+def saved512(request):
+    from . import minimal_saved512_contract as c
+    if request is None or request.get('platform_training_version')!=c.VERSION:return False
+    e.need(request.get('profile')==c.PROFILE,'GATE_EXACT_SAVED512_PROFILE');return True
+
+
+def ticket_version(request=None):
+    return 'ARX5_SAVED512_SIX_ORIGINAL_OWNER_TICKETS_V1'if saved512(request)else REMAINING_VERSION if remaining(request)else VERSION
 
 
 def prefix_binding(request):
+    if saved512(request):
+        from . import minimal_saved512_contract as c
+        return dict(saved512_result_sha256=c.RESULT,saved512_OS_exit_sha256=c.OS_EXIT,completion_scope_grant_sha256=c.scope.GRANT_SHA)
     if not remaining(request):return {}
     from . import minimal_remaining_contract as r
     return dict(saved_prefix_result_sha256=r.RESULT,saved_prefix_closure_sha256=r.CLOSED,
@@ -36,6 +46,9 @@ def prefix_binding(request):
 
 
 def plan(request=None):
+    if saved512(request):
+        from .minimal_saved512_contract import tickets
+        return tickets()
     rows=[]
     if remaining(request):
         from . import minimal_remaining_contract as r
@@ -72,7 +85,11 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
         and value.get('raw_parent_files_identity')==e.training.RAW_PARENT_FILES_ID
         and value.get('statistics_sha256')==e.R0,
         'GATE_OWN_REQUEST_SOURCE_RAW_PARENT_AND_ORIGINAL_SCOPE')
-    if remaining(request):
+    if saved512(request):
+        from . import minimal_saved512_contract as c
+        from .minimal_saved512_effects import SCHEMA as effect_schema
+        e.need(effect_value.get('audited_saved512',{}).get('result_sha256')==c.RESULT,'GATE_REAL_SAVED512_AUDIT_IN_OWN_EFFECTS')
+    elif remaining(request):
         from . import minimal_remaining_contract as r
         from .minimal_remaining_effects import SCHEMA as effect_schema
         binding=effect_value.get('audited_saved_prefix',{})
@@ -91,6 +108,9 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
     counters={k:row[k]for k in ('optimizer_updates','generation_queries','model_loads')}
     e.need(value.get('session_counters')==counters,'GATE_READY_EFFECT_COUNTERS_CHANGED')
     phase=value['phase']
+    if saved512(request):
+        c.check_phase(value['session_id'],phase,counters)
+        return d
     if remaining(request):
         r.check_phase(value['session_id'],phase,counters)
         return d

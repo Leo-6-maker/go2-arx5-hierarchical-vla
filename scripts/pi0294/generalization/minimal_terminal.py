@@ -30,12 +30,27 @@ def digest(value):
     return value
 
 
-def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_global=None):
+def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_global=None,saved512_global=None):
     from . import minimal_remaining_contract as remainder
     is_remaining=row.get('platform_training_version')==remainder.VERSION
     specs=e.native_sessions();loads_by_session=(1,3,3,2,2);summary_schema=SUMMARY
     complete_field='all_five_sessions_runtime_complete';audit_status=AUDIT
-    if is_remaining:
+    from . import minimal_saved512_contract as saved512
+    is_saved512=row.get('platform_training_version')==saved512.VERSION
+    if is_saved512:
+        from . import minimal_saved512_execution as execution
+        from .minimal_saved512_effects import SUMMARY as summary_schema
+        from .minimal_saved512_audit import AUDIT as audit_status
+        need(saved512_global is not None and execution.basic(saved512_global)[1]==row
+            and retry_global is remaining_global is None,'TERMINAL_EXACT_SAVED512_ADOPTED_GLOBAL')
+        specs=saved512.sessions();loads_by_session=(3,2);complete_field='all_saved512_sessions_runtime_complete'
+        need(effects.get('audited_saved512')==execution.basic(saved512_global)[0]['saved_binding']
+            and effects.get('retained_old_native')==saved512.OLD_PAID
+            and audit.get('saved512_result_sha256')==saved512.RESULT
+            and audit.get('saved512_OS_exit_sha256')==saved512.OS_EXIT
+            and effects.get('E1_new_optimizer_calls')==audit.get('E1_new_optimizer_calls')==0
+            and effects.get('carried_queries_added_to_new_links')==0,'TERMINAL_REAL_SAVED_E1_ORIGIN_NOT_NEW_UPDATES')
+    elif is_remaining:
         from . import minimal_remaining_execution as execution
         from .minimal_remaining_effects import SUMMARY as summary_schema
         need(remaining_global is not None and retry_global is None
@@ -69,7 +84,7 @@ def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_globa
     cpu=bounded(native['conservative_CPU_s'],row['CPU_upper_s'])
     # The original 900s remains in its original settled row. Only the explicit
     # retry contract can prove that history and exclude a second charge here.
-    prior=0 if is_remaining else e.PREPARATION_CPU_UPPER
+    prior=0 if is_remaining or is_saved512 else e.PREPARATION_CPU_UPPER
     if retry_global is not None:
         from .minimal_retry_execution import terminal_CPU_prior
         prior=terminal_CPU_prior(retry_global,row)
@@ -122,6 +137,13 @@ def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_globa
             'TERMINAL_ACTUAL_MODEL_CONTRACT_NOT_CPU_FLAGS_OR_RUNTIME_COUNTS')
         endpoints=audit.get('endpoints',{})
         need(set(endpoints)==set(e.training.ARMS),'TERMINAL_BOTH_MATCHED512_ENDPOINTS')
+        if is_saved512:
+            need(endpoints[e.training.ARMS[0]].get('original_training_job_id')==saved512.scope.JOB
+                and endpoints[e.training.ARMS[0]].get('current_job_optimizer_updates')==0
+                and endpoints[e.training.ARMS[0]]['checkpoint_manifest_sha256']==saved512.E1_CP
+                and endpoints[e.training.ARMS[1]].get('original_training_job_id')==row['job_id']
+                and endpoints[e.training.ARMS[1]].get('current_job_optimizer_updates')==512,
+                'TERMINAL_TWO_DISTINCT_REAL_TRAINING_ORIGINS_NOT_TWO_NEW_TRAINS')
         for arm,cp in endpoints.items():
             need(cp.get('global_step')==512 and cp.get('cursor')==16384 and cp.get('scheduler_horizon')==1024
                 and cp.get('raw_parent_files_identity')==e.training.RAW_PARENT_FILES_ID
