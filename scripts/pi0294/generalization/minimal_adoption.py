@@ -95,15 +95,19 @@ def effective_caps(g, caps):
         entry_marker=entry.validate(g)
         from . import minimal_partial_completion_scope as completion
         completion_marker=completion.validate(g)
+        from . import minimal_saved512_recovery_scope as saved512
+        saved512_marker=saved512.validate(g)
         need(all(out[k] in (BEFORE[k], CAPS[k], repair.AFTER if extra and k=='H200_s' else CAPS[k],
             followup.AFTER if followup_marker and k=='PBS_submissions'else CAPS[k],
             entry.AFTER if entry_marker and k=='PBS_submissions'else CAPS[k],
-            completion.AFTER if completion_marker and k=='PBS_submissions'else CAPS[k]) for k in CAPS), 'ONLY_OLD_OR_EXACT_NEW_ADOPTED_CAPS')
+            completion.AFTER if completion_marker and k=='PBS_submissions'else CAPS[k],
+            saved512.AFTER if saved512_marker and k=='PBS_submissions'else CAPS[k]) for k in CAPS), 'ONLY_OLD_OR_EXACT_NEW_ADOPTED_CAPS')
         out.update(m['caps'])
         if extra is not None:out['H200_s']=repair.AFTER
         if followup_marker is not None:out['PBS_submissions']=followup.AFTER
         if entry_marker is not None:out['PBS_submissions']=entry.AFTER
         if completion_marker is not None:out['PBS_submissions']=completion.AFTER
+        if saved512_marker is not None:out['PBS_submissions']=saved512.AFTER
     return out
 
 
@@ -124,11 +128,14 @@ def global_limits(g, caps):
         entry_marker=entry.validate(g)
         from . import minimal_partial_completion_scope as completion
         completion_marker=completion.validate(g)
+        from . import minimal_saved512_recovery_scope as saved512
+        saved512_marker=saved512.validate(g)
         for k in set(out) & set(CAPS):
             ceiling=repair.AFTER if extra and k=='H200_s' else CAPS[k]
             if k=='PBS_submissions'and followup_marker is not None:ceiling=followup.AFTER
             if k=='PBS_submissions'and entry_marker is not None:ceiling=entry.AFTER
             if k=='PBS_submissions'and completion_marker is not None:ceiling=completion.AFTER
+            if k=='PBS_submissions'and saved512_marker is not None:ceiling=saved512.AFTER
             need(type(out[k]) in (int,float) and math.isfinite(out[k])
                  and 0 <= out[k] <= ceiling, 'KNOWN_GLOBAL_CEILING_INPUT:' + k)
             out[k] = ceiling

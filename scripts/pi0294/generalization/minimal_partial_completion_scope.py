@@ -85,13 +85,14 @@ def validate(g,*,generation=None):
         and m['adopted_epoch']+NATIVE['H200_s']<clock['stop_new_training_epoch'],
         'COMPLETION_EXACT_PAID_CONTROL_AND_UNRESET_WINDOW_NOT_NATIVE_GO')
     before=m['before']
+    from .minimal_saved512_recovery_scope import count_upper
     from . import minimal_remaining_execution as remaining
     selected=remaining.basic(g)
     e.need(g['CPU_s']>=before['CPU_s']+CONTROL['Hopper_CPU_s']
         and g['new_storage_current_bytes']>=before['new_storage_current_bytes']+CONTROL['Hopper_storage_bytes']
         and g['new_storage_peak_bytes']>=max(before['new_storage_peak_bytes'],g['new_storage_current_bytes'])
         and before['PBS_submissions']==38
-        and(g['used']['PBS_submissions']==38 if selected is None else 39<=g['used']['PBS_submissions']<=AFTER),
+        and(g['used']['PBS_submissions']==38 if selected is None else 39<=g['used']['PBS_submissions']<=count_upper(g,AFTER)),
         'COMPLETION_OLD_COSTS_CURRENT_PEAK_AND_NO_NEW_REQUEST_AT_CONTROL_STAGE')
     from . import minimal_remaining_install_control as install
     install.validate(g)

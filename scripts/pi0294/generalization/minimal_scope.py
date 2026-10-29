@@ -78,7 +78,9 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     entry_plan=entry.planned_unregistered(global_value)
     from . import minimal_partial_completion_scope as completion
     completion_plan=completion.planned_unregistered(global_value)
-    planned={k:planned[k]+entry_plan[k]+completion_plan[k]for k in planned}
+    from . import minimal_saved512_recovery_scope as saved512
+    saved512_plan=saved512.planned_unregistered(global_value)
+    planned={k:planned[k]+entry_plan[k]+completion_plan[k]+saved512_plan[k]for k in planned}
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
         projected = old['projected'] - own_credit[key] + additional[key] + planned[key]
