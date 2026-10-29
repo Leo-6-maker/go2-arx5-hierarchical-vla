@@ -1,0 +1,492 @@
+{
+  "schema": "GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_V1",
+  "date": "2026-10-29",
+  "timezone": "Asia/Singapore",
+  "kind": "REVIEWABLE_PLAN_NOT_EXECUTABLE_RUN_MANIFEST",
+  "status": "EVIDENCE_RECONCILED_FUTURE_TEACHER_SCOPE_NOT_ADOPTED",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "evidence_baseline_sha": "bec47e36352789ddd5ede81d6aef0ab62e68f7bb",
+  "protocol": "docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md",
+  "user_goal": "Pretrained GR00T adaptation, frozen-WBC transfer, low-shot target adaptation, then move-then-manipulate",
+  "completed_by_this_revision": [
+    "RECONCILE_ALL_THREE_CLOSED_TEACHER_SERIES",
+    "REUSE_EXISTING_S0_NOT_RERUN",
+    "CORRECT_80_H40_VS_640_ACTION_INTERVAL_ACCOUNTING",
+    "PREPARE_SEPARATE_FINITE_TEACHER_RESOURCE_PROPOSAL"
+  ],
+  "historical_series": [
+    {
+      "id": "ORIGINAL_FIXED_PILOT",
+      "attempts": [
+        {
+          "id": "TASK-PILOT-W0-T1-engineering03",
+          "status": "VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED",
+          "success": false
+        },
+        {
+          "id": "TASK-PILOT-W0-T2-engineering04",
+          "status": "COMPLETE_TASK_QUALITY_FAIL",
+          "success": false
+        },
+        {
+          "id": "TASK-PILOT-W1-T1",
+          "status": "COMPLETE_TASK_QUALITY_FAIL",
+          "success": false
+        },
+        {
+          "id": "TASK-PILOT-W1-T2",
+          "status": "COMPLETE_TASK_QUALITY_FAIL",
+          "success": false
+        }
+      ],
+      "fixed_success_denominator": 4,
+      "successes": 0,
+      "full_32s_quality_failures": 3,
+      "startup_native_safety_failures": 1,
+      "closed": true
+    },
+    {
+      "id": "PERSISTENT_TEACHER_V1",
+      "attempts": [
+        {
+          "id": "NEW_TEACHER_DEV_W0_T1",
+          "version": "FULLBODY_PERSISTENT_TEACHER_QUALIFICATION_V1",
+          "source_sha": "4a12eef87c10d437b4c204e9b6abbd83abefa1f0",
+          "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+          "observations": 84,
+          "submitted_and_installed": 11,
+          "task_duration_s": 4.15,
+          "native_safety_stops": 0,
+          "engineering_incomplete": false,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.2333706602416554,
+            0.21210238523738925,
+            0.21224420256910312
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/0"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W0_T2",
+          "version": "FULLBODY_PERSISTENT_TEACHER_QUALIFICATION_V1",
+          "source_sha": "4a12eef87c10d437b4c204e9b6abbd83abefa1f0",
+          "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+          "observations": 88,
+          "submitted_and_installed": 11,
+          "task_duration_s": 4.3500000000000005,
+          "native_safety_stops": 0,
+          "engineering_incomplete": false,
+          "milestones": {
+            "position_progress": false,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.26186292836589903,
+            0.24907596607164112,
+            0.25441885411621684
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/1"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W1_T1",
+          "version": "FULLBODY_PERSISTENT_TEACHER_QUALIFICATION_V1",
+          "source_sha": "4a12eef87c10d437b4c204e9b6abbd83abefa1f0",
+          "status": "ENGINEERING_INCOMPLETE_VALID_PREFIX_INTEGRITY_PASS",
+          "observations": 104,
+          "submitted_and_installed": 13,
+          "task_duration_s": 5.15,
+          "native_safety_stops": 0,
+          "engineering_incomplete": true,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.317769015358825,
+            0.2878888738439223,
+            0.30501036332141246
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/2"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W1_T2",
+          "version": "FULLBODY_PERSISTENT_TEACHER_QUALIFICATION_V1",
+          "source_sha": "4a12eef87c10d437b4c204e9b6abbd83abefa1f0",
+          "status": "ENGINEERING_INCOMPLETE_VALID_PREFIX_INTEGRITY_PASS",
+          "observations": 104,
+          "submitted_and_installed": 13,
+          "task_duration_s": 5.15,
+          "native_safety_stops": 0,
+          "engineering_incomplete": true,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.3369520953526578,
+            0.31534568228166043,
+            0.3322880657713308
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/3"
+        }
+      ],
+      "valid_short_milestone_failures": 2,
+      "engineering_incomplete": 2,
+      "full_confirmation_executed": 0,
+      "successful_fullbody_TRAIN": 0,
+      "closed": true,
+      "reference_diagnostics": [
+        {
+          "id": "NEW_TEACHER_DEV_W0_T1",
+          "queries": 11,
+          "cursor_total_position_advance_m": 0.0,
+          "reference_consumption": "UNKNOWN"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W0_T2",
+          "queries": 11,
+          "cursor_total_position_advance_m": 0.0,
+          "reference_consumption": "UNKNOWN"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W1_T1",
+          "queries": 13,
+          "cursor_total_position_advance_m": 0.0,
+          "reference_consumption": "UNKNOWN"
+        },
+        {
+          "id": "NEW_TEACHER_DEV_W1_T2",
+          "queries": 13,
+          "cursor_total_position_advance_m": 0.0,
+          "reference_consumption": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "id": "COMPONENT_TEACHER_V2",
+      "attempts": [
+        {
+          "id": "V2_DEV_W0_T1",
+          "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+          "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+          "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+          "observations": 241,
+          "submitted_and_installed": 30,
+          "task_duration_s": 12.0,
+          "native_safety_stops": 0,
+          "engineering_incomplete": false,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.2245824775957857,
+            0.165513928506363,
+            0.17834733856588889
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/0"
+        },
+        {
+          "id": "V2_DEV_W0_T2",
+          "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+          "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+          "status": "ENGINEERING_PRETASK_READINESS_INCOMPLETE_NOT_QUALITY",
+          "observations": 0,
+          "submitted_and_installed": 0,
+          "task_duration_s": 0.0,
+          "native_safety_stops": 0,
+          "engineering_incomplete": true,
+          "milestones": "NOT_OBSERVED_TASK_NOT_ENTERED",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/1"
+        },
+        {
+          "id": "V2_DEV_W1_T1",
+          "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+          "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+          "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+          "observations": 241,
+          "submitted_and_installed": 30,
+          "task_duration_s": 12.0,
+          "native_safety_stops": 0,
+          "engineering_incomplete": false,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.32021170124080317,
+            0.28125813975882374,
+            0.3001990083337617
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/2"
+        },
+        {
+          "id": "V2_DEV_W1_T2",
+          "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+          "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+          "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+          "observations": 241,
+          "submitted_and_installed": 30,
+          "task_duration_s": 12.0,
+          "native_safety_stops": 0,
+          "engineering_incomplete": false,
+          "milestones": {
+            "position_progress": true,
+            "safe_precontact": false,
+            "actual_contact": false,
+            "manipulation": false
+          },
+          "actual_position_goal_distance_initial_min_final_m": [
+            0.34786067247530744,
+            0.32051699261030503,
+            0.32051699261030503
+          ],
+          "actual_contact_ticks": 0,
+          "longest_actual_grasp_s": 0.0,
+          "selected_MPC_policy_consumption": "UNKNOWN",
+          "receipt": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/INDEPENDENT_CPU_SERIES.json",
+          "json_pointer": "/episodes/3"
+        }
+      ],
+      "valid_short_milestone_failures": 3,
+      "engineering_incomplete": 1,
+      "full_confirmation_executed": 0,
+      "successful_fullbody_TRAIN": 0,
+      "closed": true,
+      "reference_diagnostics": [
+        {
+          "id": "V2_DEV_W0_T1",
+          "queries": 30,
+          "cursor_total_position_advance_m": 0.0,
+          "cursor_total_rotation_advance_rad": 1.319999999999988,
+          "reference_consumption": "UNKNOWN",
+          "actual_BASE_max_forward_m": 0.15542569795735456
+        },
+        {
+          "id": "V2_DEV_W0_T2",
+          "queries": 0
+        },
+        {
+          "id": "V2_DEV_W1_T1",
+          "queries": 30,
+          "cursor_total_position_advance_m": 0.0,
+          "cursor_total_rotation_advance_rad": 1.4218856486931981,
+          "reference_consumption": "UNKNOWN",
+          "actual_BASE_max_forward_m": 0.17626685791851127
+        },
+        {
+          "id": "V2_DEV_W1_T2",
+          "queries": 30,
+          "cursor_total_position_advance_m": 0.0,
+          "cursor_total_rotation_advance_rad": 1.799999999999979,
+          "reference_consumption": "UNKNOWN",
+          "actual_BASE_max_forward_m": 0.17844615223309773
+        }
+      ]
+    }
+  ],
+  "historical_attempt_inventory_count": 12,
+  "pooled_policy_success_rate": null,
+  "pooling_forbidden_reason": "DIFFERENT_VERSIONS_DURATIONS_INITIAL_STATES_AND_ENGINEERING_MISSINGNESS",
+  "input_receipts": {
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/FIXED_PILOT_CLOSEOUT_RECEIPT.json": {
+      "sha256": "749e1e72d62a618917d2630ef13fcbebd8c592cc7a59c288730c43b4a2ce6258",
+      "git_blob_sha1": "a2c8a56a3faa1960cc1be070bdc88f52bb77aa42"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/INDEPENDENT_CPU_SERIES.json": {
+      "sha256": "e579d9425c87d16e7110aff70f48d9149e68934dca910978f619ccc8d554b07a",
+      "git_blob_sha1": "e330aac25dd00181953276c88efc215214a5c7c5"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/FINAL_EXECUTION_RECEIPT.json": {
+      "sha256": "146e351045c637d6d60f8b7fc64a0070e138bcb2f1d4484926e08a06a5575f6c",
+      "git_blob_sha1": "90540beb6a69c10c1dac172192a138cbccc183b6"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/persistent-teacher-v1/PERSISTENT_REFERENCE_DIAGNOSTICS.json": {
+      "sha256": "3880c1cb9e9dd8c5873472b697ddcaf3477ede53ec77d9a086495617e643ac9b",
+      "git_blob_sha1": "1000ba3a8130ad6398bff08e1b065e596baec517"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/INDEPENDENT_CPU_SERIES.json": {
+      "sha256": "eae8d112a8edad2854fbfa671842c0463a12680a91a2ecb7b0015e6b2a0ae5f0",
+      "git_blob_sha1": "95e50b07f4af8856f47ed4b598cf6a6175b580f2"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/FINAL_STATUS.json": {
+      "sha256": "e7503003caac7c3d8e2e1afff336ed0b5a3e85c144c938c702973ff09d3e277a",
+      "git_blob_sha1": "fc7ea921640a8d8e72904045200cc51924e8b568"
+    },
+    "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/component-teacher-v2/PERSISTENT_REFERENCE_DIAGNOSTICS.json": {
+      "sha256": "67541236583821551618430aa3b6fc36262f36604db0e5a7582145c503c4c17f",
+      "git_blob_sha1": "15b5bafcc38c0505f5247890d4cde600fb9fbf6b"
+    }
+  },
+  "stages": {
+    "S0": {
+      "status": "EXISTING_SAVED_ARRAY_ANALYSIS_COMPLETE_REUSED",
+      "raw_arrays_recomputed_this_revision": false,
+      "source": "reports/PI0294/20261014T170930Z-incoming-pi0294-r4/TASK_DATA_FIRST/approach-audit/TEACHER_APPROACH_PROGRESS.json"
+    },
+    "S1": {
+      "status": "TASK_PATH_AND_CURRENT_EEF10_EXECUTION_QUALIFICATION_PENDING",
+      "previous_prefix8_executed": true,
+      "new_path_implementation_complete": false,
+      "next_intervention": "FIXED_TASK_PATH_FROM_ACTUAL_HOME_TO_PRECONTACT_REUSING_REVIEWED_PLANNING_COMPONENTS",
+      "third_cursor_threshold_series": false,
+      "reference_selected_policy_consumption": "UNKNOWN",
+      "native_qualification_inherited_from_different_version": false
+    },
+    "S2": {
+      "status": "TARGET_EXECUTOR_BLOCKED_NOT_A_NEW_MEASURED_MATRIX",
+      "parent": "CORR2048",
+      "statistics": "R0",
+      "target_task_training_demonstrations": 0,
+      "geometry_blocks": 8,
+      "tasks": 2,
+      "executors": 2,
+      "interfaces": [
+        "I_TIME",
+        "I_PROGRESS"
+      ],
+      "noise_banks": 1,
+      "conditions": 64,
+      "E1_E2_winner_substitution": false
+    },
+    "S3": {
+      "status": "SEPARATE_TARGET_SCOPE_NOT_ADOPTED",
+      "calibration_records": 10,
+      "TRAIN_geometry_blocks": 6,
+      "first_task_attempts": 12,
+      "guaranteed_successful_demos": false,
+      "formal_low_shot_support_proposed_complete_task_pairs": 3,
+      "observations_per_complete_episode": 641,
+      "action_intervals_per_complete_episode": 640,
+      "normal_high_level_decisions_per_complete_episode": 80,
+      "H40_windows_max_per_complete_episode": 601,
+      "H40_windows_max_for_12_complete_admitted_episodes": 7212,
+      "independent_demonstrations_max": 12
+    },
+    "S4": {
+      "status": "PROPOSAL_NOT_ADOPTED",
+      "same_parent_fixed_before_target_results": true,
+      "arms": [
+        "P0",
+        "P-source",
+        "P-target"
+      ],
+      "TEST_geometry_blocks": 12,
+      "tasks": 2,
+      "conditions_all_three_arms": 72,
+      "conditions_two_trained_arms": 48,
+      "missing_P0_may_be_replaced_by_DEC1_population": false,
+      "training_candidate_steps": 512,
+      "effective_batch_candidate": 32,
+      "LR_schedule_candidate_steps": 1024,
+      "LoRA_candidate_only_not_qualified": true
+    },
+    "S5": {
+      "status": "AFTER_STANDING_AND_BASE_EXECUTION_EVIDENCE",
+      "first_system": "PRIVILEGED_STATION_PLANNER_THEN_EEF10_MANIPULATION",
+      "EEF13_only_if_visual_mobility_decision_gap_demonstrated": true,
+      "zero_padding_creates_BASE_supervision": false
+    }
+  },
+  "next_teacher_physics_proposal": {
+    "status": "PROPOSED_NOT_AUTHORIZED_OR_RESERVED",
+    "authorizes_execution": false,
+    "launch_allowed": false,
+    "version": "NEW_STANDING_EEF10_TASK_PATH_VERSION_TO_BE_SEALED",
+    "platform": "CoreLab_4080S_NODE_LOCAL_ONLY",
+    "concurrency": "ONE_EXISTING_OWNER_NO_EVAL_PREEMPTION",
+    "conditions": [
+      "NEW_STANDING_DEV_T1",
+      "NEW_STANDING_DEV_T2",
+      "CONDITIONAL_NEW_STANDING_FULL_T1",
+      "CONDITIONAL_NEW_STANDING_FULL_T2"
+    ],
+    "starts_max": 4,
+    "short_task_s_each_max": 12,
+    "conditional_full_task_s_each": 32,
+    "warmup_s_each_max": 5,
+    "integrations_all_live_shadow_warmup_and_tail_max": 54012,
+    "integration_formula": "2*(5+12)*500 + 2*(5+32)*500 + 4*3",
+    "RGB_pairs_max": 1764,
+    "CPU_core_seconds_total_max": 14400,
+    "CPU_concurrent_max": 4,
+    "Core_new_output_and_staging_GiB_max": 8,
+    "PC_small_evidence_GiB_max": 1,
+    "new_transfer_GiB_max": 8,
+    "GR00T_queries_max": 0,
+    "training_updates_max": 0,
+    "PBS_max": 0,
+    "graphics_device_usage": "MEASURE_AND_REPORT_RENDERING_NOT_ZERO_HARDWARE_USE_CLAIM",
+    "window_hours_from_explicit_adoption_max": 24,
+    "hard_deadline_SGT": "2026-11-01T20:52:29.813+08:00",
+    "old_stop_new_SGT": "2026-10-31T20:52:29.813+08:00",
+    "old_clocks_or_costs_reset": false,
+    "current_GPU_CPU_matrix_final_protection_preserved": true,
+    "actual_storage_peak_verified": false,
+    "before_launch": [
+      "FIXED_TASK_PATH_IMPLEMENTATION_AND_FULL_BODY_COLLISION_COVERAGE",
+      "FIXED_DEVELOPMENT_GEOMETRY_DISJOINT_FROM_CONFIRMATION_AND_TARGET_TEST",
+      "EXPLICIT_NEW_SCOPE_AUTHORITY",
+      "FRESH_FULL_RESOURCE_FIT",
+      "VERIFIED_CURRENT_NODE_LOCAL_DEPENDENCIES",
+      "CURRENT_VERSION_NATIVE_ACK_FEEDBACK_STOP_AND_SAFETY",
+      "ORIGINAL_OWNER_MANIFEST_PROFILE_LEASE_AND_OUTPUT_BINDING"
+    ],
+    "full_task_requires": "SAME_TASK_SHORT_REAL_CONTACT_AND_MANIPULATION_QUALIFICATION",
+    "valid_failure_retry": false,
+    "new_WBC_parameters_or_safety_or_final_scoring_changes": 0,
+    "new_dataset_production_or_GR00T_training_authorized": false
+  },
+  "publication_effects": {
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "new_training_updates": 0,
+    "new_PBS": 0,
+    "runtime_deployment": false,
+    "budget_or_lease_mutation": false,
+    "new_subagents": 0,
+    "paused_automations_resumed": false,
+    "historical_receipts_modified": false
+  },
+  "overall_system_goal_complete": false
+}

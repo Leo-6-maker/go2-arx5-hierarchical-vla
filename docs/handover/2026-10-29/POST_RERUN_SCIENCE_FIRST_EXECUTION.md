@@ -1,5 +1,7 @@
 # Codex接续：V6职责与执行修订
 
+**2026-10-29后继补充：** 用户Go2–ARX5目标按[S0–S5证据修订](../../protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)接续。本文后述四条固定pilot不覆盖全部整机历史；持久V1和分量V2各4次短尝试也已关闭，V2已真实执行Prefix8但无物体接触。S0成果复用，下一增量是实际home到预接触的路径资格。新的4启动Teacher范围是待核定提案，未替代原source工作或部署。
+
 2026-10-29，Asia/Singapore。基线main `636c192418a3180facef4fba11a61d462cf3ca3f`。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)、[当前科学状态](../../../CURRENT_SCIENCE_STATUS.md)和AGENTS。只修订职责、事实和执行依赖，不另开路线／调度体系；root唯一整合／mutation owner，不重启subagent或暂停自动化。
 
 ## 当前原件优先于旧快照
