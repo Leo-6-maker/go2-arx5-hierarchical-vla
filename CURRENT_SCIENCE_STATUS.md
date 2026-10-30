@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-10-31
 
+2026-10-31 01:42 SGT实际：E1@512已在Core GPU0真实加载并完成1次自由生成（40×10）。原动作门拒绝：最大线速度4.8249m/s、角速度15.7340rad/s、平移路径5.4238m；命令安装/物理为0。工作器27.56CPU/35.47墙钟秒，自然OS0、MainPID0且own lease CLOSED，结果/数组/关闭intent和receipt均独立读回。这是保存观测的推理冒烟，正式有效条件仍0；E2新512端点/合格新示范仍0/0。[实际模型结果](reports/PI0294/design/science-goal-v7-20261031/E1_FIRST_REAL_FREE_GENERATION_ACTUAL_20261031.json)。
+
 2026-10-31 01:21–01:35 SGT独立核验：E1原完整绑定/onceIO在隔离副本用36.7CPU/39.7墙钟秒，超旧30/35限制，正式账本未改；E2原1508345仍Q、原owner已退出；19条放书名义路径均未完成整段静态检查，没有新物理。新端点/有效模型条件/合格示范仍0/0/0。[实际证据](reports/PI0294/design/parallel-science-20261022/INDEPENDENT_E1_BIND_E2_LIFECYCLE_BOOK_CONSTRAINT_ACTUAL_20261031.json)。V7后继将先用同一E1加载器与Processor做一次独立生成冒烟，不冒充正式评价；源技能不等待完整E1/E2面板。
 
 2026-10-30 21:17 SGT后继：保存放书记录已定位到更早的link6本体顶书，原参考本身也侵入书体；上移抓点候选未通过完整静态IK路径检查，未物理重试。E1/E2固定512的独立计划/原session与label入口已补齐，并用实际E1 manifest与原24人口核验；新canonical分配/原生backend和600秒资格尚未完成，未加载或评价。E2同一1508345最新21:17仍Q且后台健康。新端点/有效模型条件/合格示范仍0/0/0。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
