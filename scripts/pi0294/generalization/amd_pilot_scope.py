@@ -160,6 +160,9 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     if 'GEN1_AMD_layout_CORR1024_authority'in g and 'independent_CORR1024_training'in g['GEN1_AMD_layout_CORR1024_authority']:
         from .amd_training_accounting import forecast_credit as training_credit
         for key,amount in training_credit(g).items():add[key]-=amount
+    completed_source=completed_source_storage(g)
+    if completed_source:
+        add['Core_storage_bytes']-=completed_source['future_Core_storage_bytes']
     rows={};required={}
     for key,v in base['dimensions'].items():
         cap=adopted.get(key,v['cap']);projected=v['projected']+add[key];shortfall=max(0,projected-cap)
@@ -170,9 +173,48 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     return dict(task=TASK,GLOBAL_sha256=hashlib.sha256(global_bytes).hexdigest(),
         LOCAL_is_historical=True,native_admission=False,scope_adopted=False,
         dimensions=rows,cap_changes_required=required,old_costs_refunded=False,
+        completed_GEN1_source_storage=completed_source,
         original_C_D_Eval_and_new_GEN_Eval_forecast_retained=True,
         matrix3_and_final20GPUh40GiB_retained=True,T_CD=g[s.FIELD]['T_CD'],
         deadline=g[s.FIELD]['deadline_epoch'],stop_new_training=g[s.FIELD]['stop_new_training_epoch'])
+
+
+def completed_source_storage(g):
+    """Remove only future source storage after the original bank reached1024.
+
+    Keep every historical storage/cost upper and every non-storage dimension.
+    This does not free disk, recollect data, or admit a native task.
+    """
+    from . import amd_training_accounting as training,amd_training_retry as retry
+    authority=g.get(training.authority.FIELD,{})
+    if training.FIELD not in authority:return None
+    items=training.rows(g)
+    if not items:return None
+    row=items[-1]
+    if row['status']!=training.STATES[-1]or not row['scientific_endpoint_complete']:return None
+    endpoint=(g[retry.FIELD]if len(items)>1 else authority[training.FIELD])['endpoint']
+    closed=authority[training.FIELD]['closed_export']
+    recovery=authority['teacher_pilot']['engineering_recovery']
+    ten=recovery['remaining_conditions'];reaudit=recovery['saved_data_reaudit']
+    need(row['native_exit_status']==0 and row['committed_optimizer_updates']==1024
+         and endpoint['status']==training.AUDIT and endpoint['actual_consumed_cursor']==32768
+         and endpoint['parent_checkpoint_manifest_sha256']==a.PARENT
+         and endpoint['statistics_sha256']==a.STATS
+         and training.sha(training.raw(endpoint))==row['full_checkpoint_audit_sha256']
+         and training.sha(training.raw(closed))==row['closed_export_sha256']
+         and closed['bank_manifest_sha256']==row['bank_manifest_sha256']
+         and ten['status']=='NATIVE_TEN_KNOWN_TERMINAL'
+         and ten['actual']['unknown_native_effects']==[]
+         and ten['saved_two_T1_not_recaptured']is True and ten['valid_failures_preserved']is True
+         and reaudit['status']=='KNOWN_SAVED_RAW_REAUDIT_SETTLED'
+         and reaudit['actual']['unknown_native_effects']==[],
+         'COMPLETED_SOURCE_EXACT_CLOSED_BANK_AND_AUDITED_1024_ENDPOINT')
+    return dict(request_id=row['request_id'],job_id=row['job_id'],
+        bank_manifest_sha256=row['bank_manifest_sha256'],
+        full_checkpoint_audit_sha256=row['full_checkpoint_audit_sha256'],
+        source_terminal_audit_sha256=ten['independent_terminal_audit_sha256'],
+        future_Core_storage_bytes=20*GIB+64*1024**2,
+        historical_costs_and_storage_uppers_retained=True,native_admission=False)
 
 
 def original_remaining_panels(g):
