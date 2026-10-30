@@ -28,6 +28,7 @@ SUCCESSOR_DEADLINE=datetime.fromisoformat('2026-10-31T09:00:00+08:00').timestamp
 # This is a phase storage forecast, not a reduction of the shared20GiB cap.
 FOUR_TASK_CORE_STORAGE=3*GiB
 V7_CARRY='v7_source_development_carry'
+V7_POLICY='b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a'
 
 
 def successor_authority(body):
@@ -155,7 +156,6 @@ def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,
     cabinet/book-specific budget class. Native custody still needs onceIO and
     independent old-process/registry/space checks by the existing owner.
     """
-    from scripts.pi0294.generalization.minimal_core_accounting import V7_POLICY
     need(type(policy_bytes)is bytes and hashlib.sha256(policy_bytes).hexdigest()==V7_POLICY,
          'EXACT_V7_DEVELOPMENT_POLICY')
     old=validate_account(json.loads(account_bytes));stop,_=account_window(old)
@@ -199,7 +199,6 @@ def validate_account(v):
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
     if V7_CARRY in v:
-        from scripts.pi0294.generalization.minimal_core_accounting import V7_POLICY
         carry=v[V7_CARRY]
         need(set(carry)=={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
              and carry['policy_sha256']==V7_POLICY,'EXACT_V7_CLOSED_SOURCE_CARRY')

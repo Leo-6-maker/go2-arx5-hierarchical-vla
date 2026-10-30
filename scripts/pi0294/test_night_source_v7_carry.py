@@ -67,3 +67,17 @@ def test_custody_transfer_requires_exact_preimage_and_leaves_historical_costs_un
     with pytest.raises(PermissionError):
         n.development_account(raw(old),raw(lease),raw(terminal),policy()+b' ',
                               destination='/owned/new-v7-book',now=n.STOP_NEW-1)
+
+
+def test_cold_preflight_validates_account_before_project_package_is_installed(monkeypatch):
+    import builtins
+    from scripts.pi0294.generalization.minimal_core_accounting import V7_POLICY
+    new=develop();original=builtins.__import__
+    def without_project(name,*args,**kwargs):
+        if name=='scripts'or name.startswith('scripts.'):raise ModuleNotFoundError(name)
+        return original(name,*args,**kwargs)
+    monkeypatch.setattr(builtins,'__import__',without_project)
+    standalone={'__name__':'cold_preflight'}
+    exec(compile(Path(n.__file__).read_bytes(),'cold_scope_without_installed_package','exec'),standalone)
+    assert standalone['V7_POLICY']==V7_POLICY
+    assert standalone['validate_account'](new)==new
