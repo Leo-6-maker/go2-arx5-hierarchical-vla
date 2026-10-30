@@ -1,0 +1,141 @@
+{
+  "schema": "ARX5_E2_EXACT_CLOSED_COLD01_SUCCESSOR_CPU_VANDA_DNS_STOP_V1",
+  "observed_epoch": 1793341207.2883303,
+  "direct_authority_sha256": "49506e3a135ad6ad931cd672cb9f0b9f6214e47fb072fd160b3f29b5932f007b",
+  "checkpoint_cleanup_deferred_to_user": true,
+  "actual_E2_closed_capture": {
+    "status": "ACTUAL_E2_COLD01_CLOSED_ALL_BYTES_STORAGE_SNAPSHOT_NO_NATIVE",
+    "observed_epoch": 1793338347.5782595,
+    "GLOBAL_sha256": "e602d251c9c1abaa48ae36e9018fa7a15b02e0b55c9932705a0cea67e2e8ae2e",
+    "record": {
+      "schema": "ARX5_E2_CLOSED_UNREGISTERED_PREPARATION_V1",
+      "request_id": "5a2c08f1-4d4d-41b0-bad0-e8f99257a229",
+      "run_uuid": "arx5-minimal-e2-only-raw-fixed512-02-cold01",
+      "source_sha": "123508f76068e96ea1f8adcc1b59a0f9a8c1067e",
+      "manifest_sha256": "3f6b6b955443e4ceacaa3141c5c6f258064511ffac5563ffed4a568cf598d027",
+      "owner_OS_sha256": "53d90d76e6ca3a78e2ab8402c2782bc60a441b2eede8033f11cfcb07e11a9afa",
+      "owner_stop_sha256": "54bb49f87d7fa5de9bfb67a251eab44b144ddd77b69ef7846bf8ca721eb45d43",
+      "native_requests": 0,
+      "all_recorded_actors_terminal": true,
+      "lease_status": "CLOSED",
+      "closed_lease_sha256": "1abed61c0c14f9d9151a5f5ff7a2a444c82729ca8393169e4913e9d5e3529ddd",
+      "allocated_bytes": 90546176,
+      "snapshot_sha256": "170c0ac1cae2f8c0f69f83030c3bc7397c6668109858ad4bd48a71680a82ddae",
+      "snapshot_identity_sha256": "7a37b2313e16b93f2c48e2e7e127790a9620d06d0b1c2620b9542475e2a03be9"
+    },
+    "packet_sha256": "f6cc7b7852d965dbcf255b5e6e77b1570f0d630afc46fb99641afac9189c2b5e",
+    "source_files": 1408,
+    "new_cold02_absent": true,
+    "model_calls": 0,
+    "new_native_requests": 0,
+    "new_mutations": 0
+  },
+  "implemented_not_deployed": {
+    "run_uuid": "arx5-minimal-e2-only-raw-fixed512-02-cold02",
+    "same_unused_request_id": "5a2c08f1-4d4d-41b0-bad0-e8f99257a229",
+    "original_raw_payment_marker_unchanged": true,
+    "new_payment": 0,
+    "new_native_reservation": 0,
+    "old_owner_CPU_s_retained": 400,
+    "old_metadata_CPU_s_retained": 600,
+    "new_owner_CPU_upper_s": 2600,
+    "new_owner_does_not_consume_maintenance_bank": true,
+    "original_12_demos_R0_fixed512_of1024_unchanged": true,
+    "original_two_full_states_70GB_and_clocks_unchanged": true,
+    "all_old_closed_roots_retained": true,
+    "old_program_bytes_unchanged": true,
+    "exact_source_and_input_verification": true,
+    "registry_CAS_original_same_parent_once_IO": true,
+    "new_lease_old_stop_fields_removed": true,
+    "alias_before_final_manifest": true,
+    "canonical_GLOBAL_adoption": false,
+    "native_permission": false
+  },
+  "CPU_validation": {
+    "command": "PYTHONPATH=<checkout>:<checkout>/src D25_NODE_LOCAL05_PRIVATE_CAPTURE_DIR=<private-captures> python3 -m pytest -q scripts/pi0294/test_e2_closed_cold01_successor.py --disable-warnings",
+    "passed": 11,
+    "seconds": 60.23,
+    "warnings": 1,
+    "coverage": [
+      "original registration with complete actual old history",
+      "all14 future dimensions unchanged, no shortfalls",
+      "single existing unused native request, original raw payment/costs",
+      "reject scientific/identity/started Core changes",
+      "both real closed physical roles required",
+      "retain unrelated registry/profile metadata",
+      "new lease does not inherit closed stop markers",
+      "changed environment binding requires full original bytes"
+    ],
+    "external_queue_auth_explicit_CPU_fixtures": true,
+    "new_role_source_is_future_CPU_fixture": true,
+    "remote_full_preparation_qualification": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "failures_retained": [
+      "initial negative Core field fixture tightened",
+      "missing old-zero byte fixture corrected",
+      "missing observed epoch fixture corrected",
+      "one test collection failed because src was absent from PYTHONPATH; full90 CPU upper retained"
+    ]
+  },
+  "Vanda_connection": {
+    "status": "DNS_RESOLUTION_FAILED_STOP_REMOTE_BRANCH",
+    "failed_readonly_epoch": 1793339258.102,
+    "error": "Could not resolve hostname vanda.nus.edu.sg: Name or service not known",
+    "last_local_readonly_DNS": {
+      "status": "LOCAL_READONLY_VANDA_DNS_CHECK",
+      "resolves": false,
+      "returncode": 2,
+      "observed_epoch": 1793341107.478782,
+      "network_or_DNS_changes": 0
+    },
+    "new_remote_mutations": 0,
+    "network_DNS_SSH_or_credentials_changes": 0
+  },
+  "Core_connection": {
+    "status": "PREVIOUS_PRESTART_CACHE_UNKNOWN_PRESERVED_NO_REPLAY",
+    "GLOBAL_last_confirmed_sha256": "e602d251c9c1abaa48ae36e9018fa7a15b02e0b55c9932705a0cea67e2e8ae2e",
+    "LOCAL_last_full_confirmed_sha256": "d98efaf9ab92234719e5db2c23635f122c87f39e9d862777980c11696484a89e",
+    "cache_state_sha256": "4591017c84bafdbe1dfcf1c90d5fe8f89e78b28f4cfe938a2c9185158f7de21b",
+    "new_Core_probe_this_turn": false,
+    "new_model_start_issued": false,
+    "NFS_health": "UNOBSERVED"
+  },
+  "maintenance": {
+    "CPU_spent": {
+      "core_cold": 992.0611688309999,
+      "core_close": 0,
+      "vanda": 733.950689624,
+      "local": 1717.8990724609996
+    },
+    "CPU_upper": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "wire_spent": {
+      "maintenance30_all": 174609112
+    },
+    "wire_caps": {
+      "maintenance30_all": 2147483648
+    },
+    "all_failed_full_uppers_retained": true
+  },
+  "new_training_endpoints": 0,
+  "new_valid_evaluation_conditions": 0,
+  "new_qualified_demonstrations": 0,
+  "new_model_calls": 0,
+  "new_PBS_submissions": 0,
+  "new_physics_ticks": 0,
+  "S1": "CLOSED",
+  "T2": "QUARANTINED",
+  "infrastructure_changes": 0,
+  "next_actions": [
+    "After external Vanda connectivity returns, refresh actual closure/source/registry/queue facts before one finite cold02 preparation using the existing launcher and remaining control.",
+    "Do not erase the Core cache UNKNOWN journal. Causally disjoint E2 management must retain the same owner, counters and an exact typed operation boundary.",
+    "Independently read back the finite child OS/result and all source/input/registry bytes before original onceIO scope adoption and native owner admission.",
+    "Only the original E2 owner may register/qsub once after actual auth/quota/queue/physical/full14 admission; no replay of UNKNOWN or old closed roles.",
+    "Core stays stopped until the unknown cache effect is independently reconciled. Existing Core07 cannot bind as an old capsule while E2 is active.",
+    "Continue original D25-first and ready E1/E2/GEN1 order; no new S1/freebody or infrastructure work."
+  ]
+}

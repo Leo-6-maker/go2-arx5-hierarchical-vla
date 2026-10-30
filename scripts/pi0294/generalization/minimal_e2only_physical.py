@@ -51,6 +51,13 @@ def validate_custody(p,r,*,predecessor_binding):
             and p['retained_initial_bytes']>=66671091712+old['allocated_bytes']
             and item['snapshot_file']=='plans/E2_ONLY_CLOSED_PRE_NATIVE.private.json',
             'E2ONLY_SEALED_UNSUBMITTED_PREPARATION_SNAPSHOT')
+        if r.get('pre_native_cold_generation')==2:
+            from .minimal_e2only_cold2 import closed_role,SNAPSHOT
+            recent=closed_role(r['closed_pre_native_role']);last=cold[1]
+            e.need(last['closure']==recent and Path(last['root']).is_absolute()
+                and Path(last['root']).name==recent['run_uuid']and last['snapshot_file']==SNAPSHOT
+                and p['retained_initial_bytes']>=66671091712+old['allocated_bytes']+recent['allocated_bytes'],
+                'E2ONLY_COLD02_RETAIN_BOTH_REAL_UNSUBMITTED_ROLES')
     return p
 
 
