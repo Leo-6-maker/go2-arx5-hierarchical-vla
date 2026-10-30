@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-10-31
 
+**2026-10-31 07:45 SGT：首条放书示范的真实官方数据链通过；E2旧入口存在明确内部额度阻断。** [实际回执](reports/PI0294/design/science-goal-v7-20261031/BOOK_FIRST_SEED_OFFICIAL_EXPORT_PASS_E2_OLD_FUTURE_GUARD_HELD_ACTUAL_20261031.json)。640已执行命令形成601个完整H40窗；641对实际任务RGB全部重验并经原NativeDataset读取，官方Processor实际batch与601窗codec均PASS（最大XYZ误差9.23e-9米、旋转2.98e-8rad、实际float32逆裁剪0）。CPU11.34秒、墙钟13.15秒、OS0，无模型/物理/训练。候选training_admitted仍false，等待独立种子集/DEV封存。E2同一1508345已独立H/u、无stime/exec_host；原源码实际完整未来检查因40,074,397,944字节项目上限差额必拒绝，但未测得实际站点缺口。保留原作业待冷修，不称其仍Q健康；没有新qsub或512端点。代码修复保留原成本、matrix/final、差额和实际quota/有限任务门，只取消V7已退休项目总额的重复GO门；原排队capsule未改。
+
 **2026-10-31 07:33 SGT：首条完整、安全、独立合格的放书源域示范。** [实际回执](reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_BOOK_SOURCE_DEMO_ACTUAL_20261031.json)：原5＋32秒、18,500积分、642对RGB、641任务观测/640已执行命令/80 H40；原LIBERO格判据、支撑/松爪/撤离/2秒保持、安全与完整性均PASS。累计10尝试、70,571积分、2,034对RGB，放书合格1、柜门0。原地释放修复了“已支撑后继续插入拖书”的机制，未改阈值、WBC或任务时长。源进程OS0、lease CLOSED。原始审计training_admitted仍false，尚无新技能checkpoint；下一步单独导出并验证官方processor，不能称GR00T已学会放书。E2同一作业仍Q且管理03/包装存活、新心跳；无新512。E1完整24条件负结果见下，后继不重试正式条件。
 
 2026-10-31 07:08 SGT实际：E1原DEV24已完成，T1为0/12、T2为0/12；全部24条件在初始参考门被拒绝，命令安装/主与影子积分均0。此前首条未重跑，本轮23条均独立审计及因果核验；615.6秒/80周期原生资格通过，两进程OS0，双账结算及三许可关闭已独立回读。该结果表明参考超出当前测试包络，不能冒充WBC跟踪结果。E2同一1508345已解除自己的临时H，管理03与包装进程存活且新Q心跳已读回；无qsub、无新512端点。源尝试9、完整示范0；放书支持后原地释放已通过整段静态检查，下一步在冷态Core做原32秒动态验证。[完整24条件、费用与接续证据](reports/PI0294/design/science-goal-v7-20261031/E1_COMPLETE_DEV24_ALL_REFERENCE_VETO_AND_E2_REATTACHED_ACTUAL_20261031.json)。WBC、安全、评分与基础设施未改，未清理checkpoint。

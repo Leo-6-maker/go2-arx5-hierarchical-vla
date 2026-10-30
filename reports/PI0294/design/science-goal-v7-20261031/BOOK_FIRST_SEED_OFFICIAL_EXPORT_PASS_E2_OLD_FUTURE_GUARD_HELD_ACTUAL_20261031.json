@@ -1,0 +1,159 @@
+{
+  "schema": "V7_BOOK_FIRST_SEED_OFFICIAL_EXPORT_E2_HELD_ACTUAL_V1",
+  "as_of": "2026-10-31 07:45 SGT",
+  "first_book_demo_report": "FIRST_COMPLETE_BOOK_SOURCE_DEMO_ACTUAL_20261031.json",
+  "source_export": {
+    "source_sha": "17ea53bbd936212a6a29aa4bddb8f3ac67fdfcb4",
+    "status": "SOURCE_BOOK_SEED_EXPORT_AND_OFFICIAL_CPU_CODEC_COMPLETE",
+    "result_sha256": "d217ff144923c9f5adaee2a4b58d0f2c65589e0535ccf14b455b91fa00ec12d4",
+    "manifest_sha256": "378baed005da48757bea71059be015acd468b1c8971417c0f475789139fe8ee7",
+    "numeric_sha256": "04ddf9edd666e4a72f4ef673c54b1cb5fb871856e9d7cde2ee303800e028a462",
+    "statistics_sha256": "abe1932989fc3df1abce5799e691cfa6bc7ba7d2c3e911d39afa8ec19e906235",
+    "committed_commands": 640,
+    "actual_observations": 641,
+    "actual_full_H40_windows": 601,
+    "all_raw_RGB_pairs_reverified": 641,
+    "native_loader_all_anchors": 601,
+    "official_processor_real_batch_anchors": [
+      0,
+      300,
+      600
+    ],
+    "action_shape": [
+      3,
+      40,
+      132
+    ],
+    "state_shape": [
+      3,
+      1,
+      132
+    ],
+    "real_dimensions": 10,
+    "rest_padded_masked": true,
+    "codec": {
+      "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+      "H40_windows_actually_checked": 601,
+      "committed_label_elements_checked": 240400,
+      "maximum_error": {
+        "XYZ_m": 9.228987296605595e-09,
+        "SO3_rad": 2.9802322387695312e-08,
+        "gripper": 0.0,
+        "relative_SE3_max_abs": 6.661338147750939e-16
+      },
+      "frozen_numeric_gates": {
+        "XYZ_m": 1e-05,
+        "SO3_rad": 0.0001,
+        "gripper": 1e-05,
+        "relative_SE3_max_abs": 1e-08
+      },
+      "action_preclip_components": 58,
+      "native_inverse_clip_components_float32": 0,
+      "inverse_clip_by_EEF10_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "state_preclip_components": 0,
+      "encode_clip_components": 0,
+      "statistics_refit": false,
+      "native_decode_unchanged": true,
+      "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+    },
+    "new_models_queries_optimizer_physics_PBS": 0,
+    "CUDA_initialized": false,
+    "wrapper_OS_exit": 0,
+    "CPU_s": 11.339754,
+    "wall_s": 13.152544341050088,
+    "all_actors_terminal": true,
+    "training_admitted": false,
+    "reason_not_yet_admitted": "Seed-set and disjoint DEV are not yet frozen/admitted for optimization; the raw audit and candidate manifest remain immutable.",
+    "original_E1_E2_R0_unchanged": true
+  },
+  "E2": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "actual_state": "H",
+    "user_hold": "u",
+    "independent_qstat": true,
+    "exec_host": null,
+    "stime": null,
+    "new_qsub": 0,
+    "new_512_endpoints": 0,
+    "original_worker_source": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b",
+    "original_exact_forecast_result_sha256": "e83c11de1c4fb745bbe431311ceb64ed2950af7b256c330708cc6369674b3b24",
+    "original_read_OS_exit": 0,
+    "original_forecast_CPU_s": 27.636597449,
+    "original_project_storage_cap_bytes": 1502164811776,
+    "original_full_future_projected_bytes": 1542239209720,
+    "legacy_project_storage_shortfall_bytes": 40074397944,
+    "actual_site_disk_shortfall_measured": false,
+    "hold_reason": "The unchanged old worker would reject CONTEXT_CURRENT_FULL_FUTURE_RESOURCES before model use; preserve the unstarted job while preparing a cold V7-compatible repair. Do not describe H as healthy waiting-to-train.",
+    "original_payload_request_and_science_unchanged": true,
+    "new_replacement_job_submitted": false
+  },
+  "repair": {
+    "files": [
+      "minimal_adoption.py",
+      "minimal_scope.py"
+    ],
+    "behavior": "For fully validated already-adopted V7 rows, retain all original project caps/deficits as diagnostics and all actual/reserved/matrix/final costs, while retiring project aggregate caps as new approval gates. Original per-job limits, recipe, quota, capacity, clocks and native admission remain separate.",
+    "CPU_regression": "18 PASS including exact current GLOBAL and E2 historical LOCAL; the original 40,074,397,944-byte deficit remains explicitly reported.",
+    "native_new_source_forecast": "NOT_RUN_AT_THIS_SNAPSHOT",
+    "deployed_to_old_queued_capsule": false
+  },
+  "seed_preparation": {
+    "TRAIN_existing_base_xy_offset_m": [
+      0.0,
+      0.0
+    ],
+    "TRAIN_new_declared_xy_offsets_m": [
+      [
+        0.004,
+        0.0
+      ],
+      [
+        -0.004,
+        0.0
+      ],
+      [
+        0.0,
+        0.004
+      ],
+      [
+        0.0,
+        -0.004
+      ]
+    ],
+    "full_route_seed001_discrete": "PASS",
+    "full_swept_checks": "RUNNING_NOT_YET_AUTHORITY",
+    "new_source_attempts_since_first_success": 0
+  },
+  "scientific_counters": {
+    "E1_original_valid_conditions": 24,
+    "E1_successes": 0,
+    "E2_new_complete512": 0,
+    "source_attempts": 10,
+    "qualified_complete_book_demos": 1,
+    "qualified_complete_cabinet_demos": 0,
+    "new_learned_skill_updates": 0,
+    "target_complex_task_successes": 0,
+    "goal_complete": false
+  },
+  "next_actions": [
+    "Finish full static seed checks; only then use distinct source initial conditions for finite sampling.",
+    "Verify the changed full-future function natively before cold replacement of the proven-unstarted incompatible E2 worker. Never hotpatch the sealed job or create a duplicate of an uncertain/running job."
+  ],
+  "invariants": {
+    "private_raw_or_assets_published": false,
+    "infrastructure_credentials_permissions_changed": false,
+    "WBC_safety_score_changed": false,
+    "checkpoints_deleted": false
+  }
+}

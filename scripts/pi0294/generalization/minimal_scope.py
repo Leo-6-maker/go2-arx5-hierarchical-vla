@@ -109,6 +109,16 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
                 numeric_legacy_projection_bound_only=cap)
         if any(planned.values()):dimensions[key]['planned_unregistered_original_first512']=planned[key]
         if any(completion_plan.values()):dimensions[key]['planned_saved_prefix_completion']=completion_plan[key]
+    from .minimal_adoption import v7_project_policy
+    v7 = v7_project_policy(global_value)
+    retired_changes = changes if v7 else {}
+    if v7:
+        # Retain every actual cost, future obligation and original cap for
+        # diagnosis. V7 retires aggregate project ceilings as approval gates;
+        # the original finite job and fresh site quota/space checks still run.
+        changes = {}
+        for row in dimensions.values():
+            row['project_cap_is_approval_gate'] = False
     return dict(schema='ARX5_MINIMAL_FIRST512_COMPLETE_FUTURE_FORECAST_V1', scope=SCOPE,
         status=('GLOBAL_PACKAGE_RESERVED_CORE_LOCAL_PENDING_NO_NATIVE_ADMISSION'if adopted_package is not None
                 else 'FIRST512_PACKAGE_NOT_RESERVED_NO_NATIVE_ADMISSION'),
@@ -118,6 +128,8 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
         LOCAL_is_historical=True, native_admission=False, scope_adopted=adopted_package is not None,
         baseline=baseline, components=parts, additional=additional,
         dimensions=dimensions, cap_changes_required=changes,
+        V7_project_aggregate_caps_retired=v7,
+        retired_project_cap_changes=retired_changes,
         formal_optimizer_updates=2*512, qualification_optimizer_updates=4,
         qualification_warmup_correction='First original LambdaLR optimizer call has LR0; two calls per arm required for actual update',
         finite_offline_generation_limit=147,
