@@ -1,0 +1,168 @@
+{
+  "schema": "D25_CANONICAL_LOCAL41_CATCHUP_AND_TWO_SITE_FIXED_SOURCE_ACTUAL_V1",
+  "status": "ACTUAL_LOCAL_HISTORY_CAUGHT_UP_AND_SOURCE_BYTES_STAGED_RUNTIME_NOT_ADMITTED",
+  "authority_sha256": "49506e3a135ad6ad931cd672cb9f0b9f6214e47fb072fd160b3f29b5932f007b",
+  "code_PR": 179,
+  "code_source": "c43bb07221b25cde6229d3db9980ccc8bb0c1fd3",
+  "merged_code_source": "371c5cc4fc9bebb8e823c14f6f27d1ddd41926fa",
+  "source_and_merged_four_changed_files_full_text_and_Git_blob_readback": true,
+  "actual_LOCAL_history": {
+    "before_rows": 38,
+    "after_rows": 41,
+    "before_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+    "after_sha256": "2e29f94251bec4ce7c08f824d0483b87b14be3eb67af805491b5f1a34effd4cd",
+    "closed_jobs": [
+      "1505362.stdct-mgmt-02",
+      "1506193.stdct-mgmt-02",
+      "1507480.stdct-mgmt-02"
+    ],
+    "terminal_rows": [
+      {
+        "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+        "job_id": "1505362.stdct-mgmt-02",
+        "row_sha256": "7258ce8fcb73ab8458e4f4c54312f0516304ce706d3c2a2a2ec11affec0f687d",
+        "native_sha256": "87b4de0a701711ee5b3cf26bd9cec26cee3a3425053101d662ece079a768af93",
+        "audit_sha256": "2e02abfc4f8b3f98566e2ef045fdc347c99dbbc53d878b15db30c9d15026763f"
+      },
+      {
+        "request_id": "586b6601-daf5-4823-950b-605896e611c0",
+        "job_id": "1506193.stdct-mgmt-02",
+        "row_sha256": "bca2e93f38bdcca3ec4d10dc79abe418d8a5fbcc20f9b627b06bb40fcd172f28",
+        "native_sha256": "f4a17724c97560981ad6a8b4f78a1d8df756f4bbee43c83c0966c0c8e1ee4537",
+        "audit_sha256": "8984ae03a11c7e955923fb05bd3dc2328d0f5213225544a0c3fb7e753f0bd70c"
+      },
+      {
+        "request_id": "920f2ed2-fa6b-41d5-9ad5-f1683e4759e8",
+        "job_id": "1507480.stdct-mgmt-02",
+        "row_sha256": "2f712ae8d8f4bcaafb54d2a2dd1d63e01c0850fac1f1a1cdd5c14bcd4ff152a6",
+        "native_sha256": "285fea92f3af4b97e3bbbe75862497312c21fc3d609bce290de51b3ff802415f",
+        "audit_sha256": "c20e041037071b676f661611dd34b293616071746a61d8d0f7e324f342c26dc3"
+      }
+    ],
+    "once_intent_sha256": "8684b2aa0b4adc55f9699da742f04ad08a810ad0de3d896b880e7375071d0a3e",
+    "once_receipt_sha256": "2f5ebed329ef9f36cbcb755ccad0fe9148f19235363ef52e384129f44c9656a3",
+    "original_before_bytes_archived_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+    "independent_readback": {
+      "status": "INDEPENDENT_CANONICAL_LOCAL41_FULL_SHA_ORIGINAL_ONCE_AND_OLD38_PREFIX_VERIFIED",
+      "LOCAL_sha256": "2e29f94251bec4ce7c08f824d0483b87b14be3eb67af805491b5f1a34effd4cd",
+      "GLOBAL_reference_sha256": "f27b086576ba42306920e4c5b860f2cf72463256c5bcc6ff5f448dcca9044afa",
+      "rows": 41,
+      "original38_unchanged": true,
+      "original_Core_stage_and_holds_unchanged": true,
+      "registry_sha256": "4025889f0261d8578f1bf4d41392246d7e9f8861a8cdae436483ad2e09566858",
+      "intent_sha256": "8684b2aa0b4adc55f9699da742f04ad08a810ad0de3d896b880e7375071d0a3e",
+      "receipt_sha256": "2f5ebed329ef9f36cbcb755ccad0fe9148f19235363ef52e384129f44c9656a3",
+      "preserved_before_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+      "new_mutations": 0,
+      "new_native_model_PBS_physics": 0,
+      "observed_epoch": 1793326661.09808
+    },
+    "original38_rows_and_Core_stage_escrows_unchanged": true,
+    "canonical_GLOBAL_unchanged_sha256": "f27b086576ba42306920e4c5b860f2cf72463256c5bcc6ff5f448dcca9044afa",
+    "registry_unchanged_sha256": "4025889f0261d8578f1bf4d41392246d7e9f8861a8cdae436483ad2e09566858"
+  },
+  "full_forecast": {
+    "all14_projected_totals_identical_before_after": true,
+    "cap_changes_required": {},
+    "historical_costs_caps_holds_matrix_final_and_clocks_retained": true,
+    "PC_actual_proposal_CPU_s": 22.442668596,
+    "source_CI": "NOT_RUN"
+  },
+  "source_staging": {
+    "source": "371c5cc4fc9bebb8e823c14f6f27d1ddd41926fa",
+    "files": 1497,
+    "bytes_per_site": 12444610,
+    "frozen_numerical_files": 15,
+    "frozen_numerical_identity_sha256": "7666e26ed616dc9facc93fc5b5ac554ab737ba99f1f3e6c2c9887bf5dd207f9b",
+    "sites": {
+      "core": {
+        "status": "ACTUAL_COMPLETE_COLD_SOURCE_SHA_READBACK",
+        "source_sha": "371c5cc4fc9bebb8e823c14f6f27d1ddd41926fa",
+        "source_seal_sha256": "6a5790d46329e10700c326dfa78381a8203904e63b4b03b113f7c6cf4c219542",
+        "source_files": 1497,
+        "all_member_SHA_verified": true,
+        "full_member_map_sha256": "0f19f470b7a1463806454e9eb1a17c6fd0bc32e43a9eb91622e0346d1f4f476c",
+        "copy_child_terminal_verified": true,
+        "child_actual_CPU_s": 0.23357151799999998,
+        "child_CPU_upper_s_retained": 120,
+        "copy_result_sha256": "b2b364ca5d35e344b599f5c4daaf0338503b0d75c260f392bc695901a6194f54",
+        "observed_epoch": 1793327113.6625118,
+        "model_calls": 0,
+        "physics_ticks": 0
+      },
+      "vanda": {
+        "status": "ACTUAL_COMPLETE_COLD_SOURCE_SHA_READBACK",
+        "source_sha": "371c5cc4fc9bebb8e823c14f6f27d1ddd41926fa",
+        "source_seal_sha256": "6a5790d46329e10700c326dfa78381a8203904e63b4b03b113f7c6cf4c219542",
+        "source_files": 1497,
+        "all_member_SHA_verified": true,
+        "full_member_map_sha256": "0f19f470b7a1463806454e9eb1a17c6fd0bc32e43a9eb91622e0346d1f4f476c",
+        "copy_child_terminal_verified": true,
+        "child_actual_CPU_s": 2.3585115510000003,
+        "child_CPU_upper_s_retained": 120,
+        "copy_result_sha256": "3b6b2ec3412d1ef54efd847564f4418ebf35ce9812e9168ef7b2a4a7baf517f1",
+        "observed_epoch": 1793327178.3901846,
+        "model_calls": 0,
+        "physics_ticks": 0
+      }
+    },
+    "original_ordered_copy_program_sha256": "f73798ef552689bc01fc5616dbc2e23e4f61164ef9bcdd99124bbe00f84f6687",
+    "runtime_deployment_or_role_activation": false,
+    "old_sources_and_closed_roles_unmodified": true
+  },
+  "bounded_read_failures": {
+    "failed_full_captures": 2,
+    "first": "324857-byte configuration exceeded the initial256KiB member bound",
+    "second": "complete historical-byte reply exceeded1MiB",
+    "full_capture_path_stopped": true,
+    "failed_cost_uppers_retained": true,
+    "failed_read_ops_replayed": false,
+    "subsequent_independent_checks_used_saved_exact_bytes_and_small_current_remote_SHA_reads": true
+  },
+  "validation": {
+    "targeted_CPU_cases_passed": 10,
+    "targeted_suite_wall_s": 51.16,
+    "new_source_future_peer_identities_in_tests": "EXPLICIT_CPU_FIXTURES_NOT_NATIVE_QUALIFICATION",
+    "CI": "NOT_RUN"
+  },
+  "maintenance_counter_snapshot": {
+    "CPU_upper": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "CPU_spent_including_retained_uppers": {
+      "core_cold": 372.27036441199994,
+      "core_close": 0,
+      "vanda": 213.43860433700002,
+      "local": 690.888508153
+    },
+    "wire_spent": {
+      "maintenance30_all": 32525662
+    },
+    "no_new_budget_or_counter_reset": true,
+    "aggregate_temporary_evidence_upper_bytes": 2147483648,
+    "transfer_upper_bytes": 2147483648
+  },
+  "actual_new_scientific_results": {
+    "new_optimizer_updates": 0,
+    "new_model_calls": 0,
+    "new_PBS": 0,
+    "new_physics": 0,
+    "new_valid_evaluation_conditions": 0,
+    "new_admitted_demonstrations": 0
+  },
+  "next": {
+    "D25": "Create/register new node-local05 owner/physical/neural custody and complete the original path/source/native qualification before the unchanged original24 panel.",
+    "E2": "Old cold01 stays CLOSED. Use a new authorized successor identity after the two real entry fixes; no E1 retraining or122-step fake resume.",
+    "source": "Mixed stage and four real conditions remain pending; carry old pool costs and the approved10/31 clock.",
+    "S1": "CLOSED; T2 safety quarantine unchanged"
+  },
+  "infrastructure_changes": {
+    "NFS_mounts_SSH_services_network_permissions_credentials": 0,
+    "new_scheduler_or_agents": 0,
+    "healthy_jobs_killed": 0
+  },
+  "private_paths_raw_models_and_assets_published": false
+}
