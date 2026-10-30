@@ -51,46 +51,93 @@
       "priority": "P0",
       "title": "Real model inference and first valid closed-loop condition",
       "site": "Core",
-      "status": "PLANNED",
+      "status": "IN_PROGRESS_FIRST_FORMAL_VALID_FAILURE",
       "depends_on": [],
-      "prerequisites": ["available_qualified_endpoint", "local_execution_and_real_resource_feasibility"],
-      "actions": ["reuse_local_E1_or_first_ready_existing_endpoint", "finish_required_control_before_GPU_launch", "actual_load_and_free_generation", "original_native_qualification_then_original_fixed_condition_order"],
-      "deliverables": ["model_and_processor_identity", "predicted_installed_actual_EEF_and_object_records", "valid_condition_count", "success_failure_and_first_failure_stage"],
+      "prerequisites": [
+        "available_qualified_endpoint",
+        "local_execution_and_real_resource_feasibility"
+      ],
+      "actions": [
+        "reuse_local_E1_or_first_ready_existing_endpoint",
+        "finish_required_control_before_GPU_launch",
+        "actual_load_and_free_generation",
+        "original_native_qualification_then_original_fixed_condition_order"
+      ],
+      "deliverables": [
+        "model_and_processor_identity",
+        "predicted_installed_actual_EEF_and_object_records",
+        "valid_condition_count",
+        "success_failure_and_first_failure_stage"
+      ],
       "formal_eval_target_per_candidate": 24,
       "preserve_original_eval_population_noise_32s": true,
       "valid_outcome_retry": false,
-      "debug_smoke_counts_as_formal_eval": false
+      "debug_smoke_counts_as_formal_eval": false,
+      "valid_conditions": 1,
+      "successes": 0,
+      "remaining_original_conditions": 23,
+      "completed_condition_no_repeat": "PI0294/PV1/DEV/F0/000/T1/N294101"
     },
     {
       "id": "V7-02",
       "priority": "P0_PARALLEL",
       "title": "Reconcile existing E2 queue and complete fixed512",
       "site": "Vanda",
-      "status": "PLANNED",
+      "status": "IN_PROGRESS_EXISTING_JOB_MANAGED_NO_NEW_512",
       "depends_on": [],
-      "actions": ["read_existing_job_and_owner_separately", "adopt_exact_job_when_supported", "cancel_only_proven_owned_unstarted_unrecoverable_job_then_confirm_terminal_before_replacement", "low_frequency_persistent_management", "original_E2_training_and_full_save"],
+      "actions": [
+        "read_existing_job_and_owner_separately",
+        "adopt_exact_job_when_supported",
+        "cancel_only_proven_owned_unstarted_unrecoverable_job_then_confirm_terminal_before_replacement",
+        "low_frequency_persistent_management",
+        "original_E2_training_and_full_save"
+      ],
       "raw_parent_and_12_demos_R0_unchanged": true,
       "optimizer_steps": 512,
       "scheduler_total_steps": 1024,
       "effective_batch_size": 32,
-      "complete_resume_steps": [256, 512],
-      "deliverables": ["512_committed_updates", "full_reloadable_checkpoint", "learning_curve", "same_panel_eval_when_ready"],
-      "blocks_V7_03_or_V7_04": false
+      "complete_resume_steps": [
+        256,
+        512
+      ],
+      "deliverables": [
+        "512_committed_updates",
+        "full_reloadable_checkpoint",
+        "learning_curve",
+        "same_panel_eval_when_ready"
+      ],
+      "blocks_V7_03_or_V7_04": false,
+      "new_qsub": 0
     },
     {
       "id": "V7-03",
       "priority": "P0_PARALLEL",
       "title": "Verified book and cabinet expert seeds",
       "site": "Source_ARX5_on_Core_or_existing_qualified_source_node",
-      "status": "PLANNED",
+      "status": "IN_PROGRESS_BOOK_STATIC_SWEPT_ROUTE_FEEDBACK_READY",
       "depends_on": [],
-      "actions": ["book_full_path_grasp_IK_swept_collision_repair", "cabinet_saved_contact_frame_timing_slip_diagnosis", "versioned_source_only_successor_after_evidence", "independent_full_task_score_and_command_data_check"],
+      "actions": [
+        "book_full_path_grasp_IK_swept_collision_repair",
+        "cabinet_saved_contact_frame_timing_slip_diagnosis",
+        "versioned_source_only_successor_after_evidence",
+        "independent_full_task_score_and_command_data_check"
+      ],
       "first_goal_successful_episodes_each_new_skill": 1,
-      "next_seed_target_each_new_skill": [5, 10],
+      "next_seed_target_each_new_skill": [
+        5,
+        10
+      ],
       "target_WBC_success_required": false,
       "old_source_STOP_reopened": false,
       "same_broken_reference_under_new_name_allowed": false,
-      "deliverables": ["all_attempts_and_failure_mechanisms", "qualified_full_episodes", "actual_RGB_state_submitted_executed_commands", "source_lineage_and_event_coverage"]
+      "deliverables": [
+        "all_attempts_and_failure_mechanisms",
+        "qualified_full_episodes",
+        "actual_RGB_state_submitted_executed_commands",
+        "source_lineage_and_event_coverage"
+      ],
+      "qualified_full_demonstrations": 0,
+      "source_attempts": 6
     },
     {
       "id": "V7-04",
@@ -98,12 +145,26 @@
       "title": "First learned new skill with real DEV rollouts",
       "site": "Vanda_training_Core_eval",
       "status": "PLANNED",
-      "depends_on": ["V7-01", "V7-03"],
+      "depends_on": [
+        "V7-01",
+        "V7-03"
+      ],
       "dependency_scope": "requires_working_loop_and_at_least_one_new_skill_seed_set_not_all_original_panels_or_both_new_skills",
-      "actions": ["freeze_small_qualified_dataset_and_DEV", "validate_actual_processor_and_generator", "train_one_declared_finite_recipe", "evaluate_actual_policy", "add_verified_recovery_when_needed"],
+      "actions": [
+        "freeze_small_qualified_dataset_and_DEV",
+        "validate_actual_processor_and_generator",
+        "train_one_declared_finite_recipe",
+        "evaluate_actual_policy",
+        "add_verified_recovery_when_needed"
+      ],
       "DEV_complete_conditions": 10,
       "minimum_success_rate_promised": null,
-      "deliverables": ["real_checkpoint", "task_success_and_safety_counts", "first_failure_mechanisms", "learning_or_recovery_decision"]
+      "deliverables": [
+        "real_checkpoint",
+        "task_success_and_safety_counts",
+        "first_failure_mechanisms",
+        "learning_or_recovery_decision"
+      ]
     },
     {
       "id": "V7-05",
@@ -111,14 +172,48 @@
       "title": "Shared four-skill source policy",
       "site": "Vanda_training_Core_eval",
       "status": "PLANNED",
-      "depends_on": ["V7-04"],
-      "required_task_families": ["pick_place", "push", "open_unlocked_cabinet", "single_book_named_location"],
-      "candidate_TRAIN_episode_totals": [300, 1300],
+      "depends_on": [
+        "V7-04"
+      ],
+      "required_task_families": [
+        "pick_place",
+        "push",
+        "open_unlocked_cabinet",
+        "single_book_named_location"
+      ],
+      "candidate_TRAIN_episode_totals": [
+        300,
+        1300
+      ],
       "totals_are_nested_not_additive": true,
-      "initial_candidate_recipe": {"optimizer": "AdamW", "lr": 0.0001, "weight_decay": 0.00001, "effective_batch": 32, "scheduler_updates": 10000, "warmup_updates": 500, "recorded_endpoints": [2000, 5000, 10000]},
+      "initial_candidate_recipe": {
+        "optimizer": "AdamW",
+        "lr": 0.0001,
+        "weight_decay": 1e-05,
+        "effective_batch": 32,
+        "scheduler_updates": 10000,
+        "warmup_updates": 500,
+        "recorded_endpoints": [
+          2000,
+          5000,
+          10000
+        ]
+      },
       "recipe_is_proposal_not_best_parameter_claim": true,
-      "release_pilot": {"frozen_heldout_conditions_per_skill": 20, "minimum_successes_per_skill": 16, "maximum_hard_safety_violations": 0, "all_failures_retained": true, "population_reliability_guarantee": false, "cannot_shrink_presealed_larger_TEST": true},
-      "deliverables": ["one_shared_weight_processor_decoder", "per_skill_complete_results_and_intervals", "failure_table", "reproducible_inference_package"]
+      "release_pilot": {
+        "frozen_heldout_conditions_per_skill": 20,
+        "minimum_successes_per_skill": 16,
+        "maximum_hard_safety_violations": 0,
+        "all_failures_retained": true,
+        "population_reliability_guarantee": false,
+        "cannot_shrink_presealed_larger_TEST": true
+      },
+      "deliverables": [
+        "one_shared_weight_processor_decoder",
+        "per_skill_complete_results_and_intervals",
+        "failure_table",
+        "reproducible_inference_package"
+      ]
     },
     {
       "id": "V7-06",
@@ -126,13 +221,51 @@
       "title": "Frozen WBC target transfer",
       "site": "Go2_ARX5_target_simulation",
       "status": "BLOCKED_ON_SEPARATE_TARGET_SAFETY_AND_SOURCE_POLICY",
-      "depends_on": ["V7-05"],
-      "prerequisites": ["independent_target_execution_safety_release", "same_high_level_weight_and_action_contract"],
+      "depends_on": [
+        "V7-05"
+      ],
+      "prerequisites": [
+        "independent_target_execution_safety_release",
+        "same_high_level_weight_and_action_contract"
+      ],
       "WBC_tuning": false,
       "source_release_equals_target_success": false,
-      "deliverables": ["target_complete_task_results", "decision_installation_tracking_object_error_attribution", "separate_no_target_data_and_target_adapted_claims"]
+      "deliverables": [
+        "target_complete_task_results",
+        "decision_installation_tracking_object_error_attribution",
+        "separate_no_target_data_and_target_adapted_claims"
+      ]
     }
   ],
-  "report_fields": ["actual_updates_and_complete_endpoints", "valid_policy_conditions_and_successes", "qualified_full_demonstrations_and_all_generation_attempts", "first_failure_mechanism", "next_action", "actual_resource_use"],
-  "this_publication_effects": {"runtime_code_changes": false, "remote_job_submission": false, "model_or_physics_execution": false, "raw_data_or_weights_published": false}
+  "report_fields": [
+    "actual_updates_and_complete_endpoints",
+    "valid_policy_conditions_and_successes",
+    "qualified_full_demonstrations_and_all_generation_attempts",
+    "first_failure_mechanism",
+    "next_action",
+    "actual_resource_use"
+  ],
+  "this_publication_effects": {
+    "runtime_code_changes": false,
+    "remote_job_submission": false,
+    "model_or_physics_execution": false,
+    "raw_data_or_weights_published": false
+  },
+  "current_actual": {
+    "report": "E1_FIRST_FORMAL_VETO_NATIVE_REAUDIT_AND_BOOK_FEEDBACK_ROUTE_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 04:56 SGT",
+    "E1_formal_valid_conditions": 1,
+    "E1_panel_target": 24,
+    "E1_successes": 0,
+    "E1_completed_condition": "PI0294/PV1/DEV/F0/000/T1/N294101",
+    "repeat_of_completed_condition": false,
+    "E1_remaining_conditions": 23,
+    "new_E2_512_endpoints": 0,
+    "source_attempts": 6,
+    "source_actual_integrations": 22046,
+    "source_actual_RGB_pairs": 488,
+    "qualified_full_skill_demonstrations": 0,
+    "book_route_feedback": "STATIC_MATCH_PASS_NATIVE_NOT_YET_RUN",
+    "goal_complete": false
+  }
 }

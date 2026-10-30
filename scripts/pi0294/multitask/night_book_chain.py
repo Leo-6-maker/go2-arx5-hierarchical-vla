@@ -29,6 +29,11 @@ def reserve_audit(root,side,task_kind):
         fixed=json.loads((Path(root)/'FIXED_TASK_CARDS.json').read_bytes())
         card=(fixed[task_kind]if task_kind in fixed else fixed)[side]
         if checked_card(card,side):op=attempt_operation(card,side)+'_INDEPENDENT_RAW_AUDIT'
+    else:
+        from .libero_book_teacher import attempt_operation
+        fixed=json.loads((Path(root)/'FIXED_TASK_CARDS.json').read_bytes())
+        card=(fixed[task_kind]if task_kind in fixed else fixed)[side]
+        if 'book_route_revision'in card:op=attempt_operation(card,side)+'_INDEPENDENT_RAW_AUDIT'
     w=scope.reserve(v,operation=op,kind='PREPARATION',upper=dict(Core_CPU_s=40),now=time.time())
     key='NIGHT30-'+op
     return once.commit(path,expected_before_sha256=sha(before),proposed_bytes=raw(w),request_id=key,
@@ -36,16 +41,25 @@ def reserve_audit(root,side,task_kind):
         lock_path=path.with_name('NIGHT_SOURCE_ACCOUNT.owner.lock'))
 
 
-def planned_tasks(task_kind):
+def planned_tasks(task_kind,*,side=None):
+    if side is not None:
+        if side not in ('left','right')or task_kind=='ALL_PINNED':raise ValueError('ONE_EXPLICIT_EXISTING_TASK_SIDE')
+        return tuple(x for x in planned_tasks(task_kind)if x[1]==side)
     if task_kind=='BOOK':return(('BOOK','left'),('BOOK','right'))
     if task_kind=='ROBOCASA_CABINET':return(('ROBOCASA_CABINET','right'),('ROBOCASA_CABINET','left'))
     if task_kind=='ALL_PINNED':return planned_tasks('BOOK')+planned_tasks('ROBOCASA_CABINET')
     raise ValueError('FIXED_SOURCE_CHAIN_KIND')
 
 
-def checked_plan(root,task_kind):
+def checked_plan(root,task_kind,*,side=None):
     """Reject incomplete mixed-task staging before the first child effect."""
-    plan=planned_tasks(task_kind);root=Path(root)
+    root=Path(root)
+    if (root/'RUN_MANIFEST.json').exists():
+        declared=json.loads((root/'RUN_MANIFEST.json').read_bytes()).get('condition_side')
+        if declared is not None:
+            if side is not None and side!=declared:raise PermissionError('SEALED_SINGLE_BOOK_SIDE')
+            side=declared
+    plan=planned_tasks(task_kind,side=side)
     fixed=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())
     from .libero_book_cards import cards as book_cards
     for kind,side in plan:
@@ -53,6 +67,10 @@ def checked_plan(root,task_kind):
         if kind=='ROBOCASA_CABINET':
             from .cabinet_repair02 import checked_card
             checked_card(selected,side)
+        elif 'book_route_revision'in selected:
+            from .libero_book_teacher import checked_route_card
+            if len(plan)!=1:raise PermissionError('ONE_STATIC_QUALIFIED_BOOK_ROUTE_CONDITION')
+            checked_route_card(selected,side)
         elif selected!=book_cards()[side]:raise PermissionError('ONE_SEALED_PREDECLARED_TASK_CARD_PER_CHILD')
     if any(kind=='ROBOCASA_CABINET'for kind,_ in plan):
         assets=json.loads((root/'ASSET_BINDINGS.private.json').read_bytes())
@@ -63,14 +81,14 @@ def checked_plan(root,task_kind):
     return plan
 
 
-def main(root,*,task_kind='BOOK'):
-    planned_tasks(task_kind)
+def main(root,*,task_kind='BOOK',side=None):
+    planned_tasks(task_kind,side=side)
     root=Path(root);start=time.monotonic()
     from .night_scope import for_root
     scope=for_root(root)
     if os.getuid()!=2009 or os.uname().nodename!='corelab-4080s':raise PermissionError('EXISTING_CORE_OWNER_ONLY')
     scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
-    plan=checked_plan(root,task_kind)
+    plan=checked_plan(root,task_kind,side=side)
     entry=root/'entry/infrastructure/enter.sh'
     unit_facts=dict(pid=os.getpid(),process_start_ticks=Path('/proc/self/stat').read_text().split()[21],
         cgroup=Path('/proc/self/cgroup').read_text(),uid=os.getuid(),host=os.uname().nodename,
@@ -94,6 +112,11 @@ def main(root,*,task_kind='BOOK'):
         folder=root/'outputs'/(prefix+side.upper()+'_FIRST01')
         if kind=='ROBOCASA_CABINET':
             from .cabinet_repair02 import attempt_operation
+            fixed=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())
+            card=(fixed[kind]if kind in fixed else fixed)[side]
+            folder=root/'outputs'/attempt_operation(card,side)
+        else:
+            from .libero_book_teacher import attempt_operation
             fixed=json.loads((root/'FIXED_TASK_CARDS.json').read_bytes())
             card=(fixed[kind]if kind in fixed else fixed)[side]
             folder=root/'outputs'/attempt_operation(card,side)

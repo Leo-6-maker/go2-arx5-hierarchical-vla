@@ -7,6 +7,7 @@ This module cannot launch a process, download assets or change any ledger.
 from copy import deepcopy
 from datetime import datetime
 import base64,hashlib,json,math
+from pathlib import Path
 
 APPROVAL_SHA='d7ba87c7711b484b71907fb22b7c6b334c5d67dceeef369ecb8ba12cdc8364e4'
 SCOPE='PINNED_OPEN_SOURCE_NIGHT_20261030_V1'
@@ -26,6 +27,7 @@ SUCCESSOR_DEADLINE=datetime.fromisoformat('2026-10-31T09:00:00+08:00').timestamp
 # <=128MiB owner/account metadata. A separate 768MiB margin makes3GiB.
 # This is a phase storage forecast, not a reduction of the shared20GiB cap.
 FOUR_TASK_CORE_STORAGE=3*GiB
+V7_CARRY='v7_source_development_carry'
 
 
 def successor_authority(body):
@@ -140,8 +142,48 @@ def for_root(root):
     return SimpleNamespace(SCOPE=SCOPE,CAPS=CAPS,APPROVAL_SHA=APPROVAL_SHA,
         STOP_NEW=SUCCESSOR_STOP,DEADLINE=SUCCESSOR_DEADLINE,
         authority=lambda original,*,now:authority(original,now=now,successor_body=body),
-        validate_account=validate_account,reserve=reserve,
+        validate_account=validate_account,reserve=reserve,V7_CARRY=V7_CARRY,
+        transfer_development_custody=transfer_development_custody,
         forecast=lambda original,g,l,*,observation,now:forecast(original,g,l,observation=observation,now=now,successor_body=body))
+
+
+def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,destination,now):
+    """Reuse this account after a V7 repair; never issue another source pool.
+
+    Old version-specific carries remain immutable inside the closed account.
+    Future source revisions use this same continuation instead of another
+    cabinet/book-specific budget class. Native custody still needs onceIO and
+    independent old-process/registry/space checks by the existing owner.
+    """
+    from scripts.pi0294.generalization.minimal_core_accounting import V7_POLICY
+    need(type(policy_bytes)is bytes and hashlib.sha256(policy_bytes).hexdigest()==V7_POLICY,
+         'EXACT_V7_DEVELOPMENT_POLICY')
+    old=validate_account(json.loads(account_bytes));stop,_=account_window(old)
+    need(old['native_adopted']is True and old.get('custody')=='ONE_NATIVE_CORE_SOURCE_OWNER'
+         and type(destination)is str and destination!=old['native_destination']
+         and type(now)in(int,float)and math.isfinite(now)and now<stop,
+         'CLOSED_SOURCE_CONTINUATION_WITHIN_EXISTING_WINDOW')
+    out=deepcopy(old);out.pop('qualification_sha256',None)
+    out.update(native_adopted=False,native_destination=destination,revision=old['revision']+1,
+               custody='V7_CLOSED_SOURCE_CUSTODY_PENDING_NATIVE_READBACK')
+    out[V7_CARRY]=dict(policy_sha256=V7_POLICY,destination=destination,
+        account_base64=base64.b64encode(account_bytes).decode(),
+        lease_base64=base64.b64encode(lease_bytes).decode(),
+        terminal_base64=base64.b64encode(terminal_bytes).decode())
+    validate_account(out);return out
+
+
+def transfer_development_custody(old_bytes,new_account_bytes,*,destination):
+    new=validate_account(json.loads(new_account_bytes));carry=new.get(V7_CARRY,{})
+    need(base64.b64decode(carry['account_base64'],validate=True)==old_bytes
+         and new['native_destination']==destination and new['native_adopted']is False,
+         'EXACT_ONCE_V7_PREDECESSOR_CUSTODY')
+    old=validate_account(json.loads(old_bytes))
+    need(old.get('custody')=='ONE_NATIVE_CORE_SOURCE_OWNER','OLD_SOURCE_NOT_ALREADY_TRANSFERRED')
+    out=deepcopy(old);out.update(custody='CLOSED_CARRIED_TO_ONE_V7_SOURCE_DEVELOPMENT',
+        custody_transferred_destination=destination,
+        custody_transferred_account_sha256=hashlib.sha256(new_account_bytes).hexdigest(),revision=old['revision']+1)
+    validate_account(out);return out
 
 
 def validate_account(v):
@@ -156,6 +198,27 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if V7_CARRY in v:
+        from scripts.pi0294.generalization.minimal_core_accounting import V7_POLICY
+        carry=v[V7_CARRY]
+        need(set(carry)=={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
+             and carry['policy_sha256']==V7_POLICY,'EXACT_V7_CLOSED_SOURCE_CARRY')
+        ab,lb,tb=[base64.b64decode(carry[k+'_base64'],validate=True)for k in ('account','lease','terminal')]
+        old=validate_account(json.loads(ab));lease,terminal=map(json.loads,(lb,tb))
+        need(old['native_adopted']is True and lease['status']=='CLOSED'and lease['all_children_terminal']is True
+             and lease['run_uuid']==Path(old['native_destination']).name
+             and lease['approval_sha256']==old['approval_sha256']
+             and terminal['status']=='FINITE_SOURCE_CHAIN_TERMINAL'
+             and terminal['closed_lease_sha256']==hashlib.sha256(lb).hexdigest(),
+             'ACTUAL_CLOSED_CHAIN_NOT_OLD_FAILURE_PROHIBITION_OR_LIVE_OWNER')
+        mutable={'native_destination','native_adopted','revision','custody','qualification_sha256',
+                 'charged_upper','operations',V7_CARRY}
+        need(all(v.get(k)==value for k,value in old.items()if k not in mutable)
+             and v['native_destination']==carry['destination']!=old['native_destination']
+             and v['operations'][:len(old['operations'])]==old['operations']
+             and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS),
+             'V7_SAME_POOL_ALL_OLD_COSTS_HISTORY_AND_CLOCK_RETAINED')
+        return v
     if 'closed_cabinet_turn_speed_port05_carry'in v:
         carry=v['closed_cabinet_turn_speed_port05_carry']
         pins=dict(account='2ee24cc0795f6a00067427fc8e28c6a5e347dc38cdfeb7ec3de548cbd6dab885',

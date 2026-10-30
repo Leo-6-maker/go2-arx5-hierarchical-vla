@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 04:15 SGT实际：E1后继06通过615.7秒/80轮原生资格，完成真实模型加载，并在原首个DEV条件的真实初始观测上生成1次H40。原安全门拒绝：线速度4.6988m/s、角速度15.8832rad/s、路径5.5828m；命令安装/物理积分0。零步审计误读缺失的physics.npz，因果审计尚未闭合，正式有效条件仍0。双账已实结、3许可关闭，原拒绝不换seed重跑；零步分支修复94项CPU检查通过，尚未原生回放。[模型真实结果与审计缺口](reports/PI0294/design/science-goal-v7-20261031/E1_FIRST_NATIVE_DEV_DRAW_VETO_ZERO_STEP_AUDIT_REPAIR_ACTUAL_20261031.json)。放书280组端点搜索得98组双端通过，8条新整段路径有2条离散通过，选定1条321段连续扫掠通过；这不是动态资格或示范，新物理/合格示范仍0。[完整静态参考](reports/PI0294/design/science-goal-v7-20261031/BOOK_TOP_EDGE_FRONT_CROSS_LOWER_STATIC_REFERENCE_ACTUAL_20261031.json)。E2同一作业04:00仍Q、管理进程04:01核验存活但包装进程已退出，未重投、无新512端点。
+2026-10-31 04:56 SGT实际：E1原首个DEV条件的独立原生重审及完整因果重算通过，正式有效条件 **1/24、成功0**。真实H40在原参考安全门被拒绝，安装/物理为0；旧失败审计与缺失physics原样保留，3许可已关闭，剩余23条件不重跑首条。放书已将321段扫掠通过的路线接入原反馈Teacher，9个名义路点与保存参考最大矩阵误差1.51e-13；只选左格，以实际TCP和书本几何决定进度，仍未动态验证。合格示范仍0、累计源尝试仍6；旧STOP、原32秒/评分/原生安全保持。[正式E1结果及放书入口](reports/PI0294/design/science-goal-v7-20261031/E1_FIRST_FORMAL_VETO_NATIVE_REAUDIT_AND_BOOK_FEEDBACK_ROUTE_ACTUAL_20261031.json)。下一项是一次真实左格源域运行，E1剩余面板与E2不作其前置。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
