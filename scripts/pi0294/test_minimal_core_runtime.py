@@ -141,3 +141,22 @@ def test_actual_fixed512_production_control_and_owner_only_contracts(tmp_path,ro
     m['authority']['scope_grant_sha256']=c.campaign.GRANT_SHA
     with pytest.raises(PermissionError):control_budget.validate(m,stage)
     with pytest.raises(PermissionError):control_heartbeat.owner_only(tmp_path,m)
+
+
+@pytest.mark.parametrize('outside',[False,True])
+def test_existing_nested_canonical_local_resident_directory(tmp_path,monkeypatch,outside):
+    from scripts.pi0294.generalization import minimal_core_context as context
+    from scripts.pi0294.pv1.mix_core_context import LOCAL_BINDING
+    m,r,p,a,row,_=fixture();root=tmp_path/'campaign/neural-children'/r['run_uuid'];root.mkdir(parents=True)
+    local=(tmp_path/'other'if outside else root.parent.parent/'control/original-resident')/'LOCAL_RESOURCE_LEDGER.private.json'
+    local.parent.mkdir(parents=True);binding=c.raw(dict(canonical_LOCAL_ledger=str(local)))
+    (root/LOCAL_BINDING).parent.mkdir(parents=True);(root/LOCAL_BINDING).write_bytes(binding)
+    m['authority']['request_id']=r['request_id'];m['execution']['sealed_inputs'][LOCAL_BINDING]=c.sha(binding)
+    mb=c.raw(m);r['run_manifest_sha256']=c.sha(mb);row.update(r,request=deepcopy(r),request_sha256=c.digest(r))
+    (root/'RUN_MANIFEST.json').write_bytes(mb);local.write_bytes(c.raw(dict(unknown_effects=[],pending_updates=[],pending_queries=[],**{c.FIELD:{r['request_id']:row}})))
+    monkeypatch.setattr(context.time,'time',lambda:1207.)
+    if outside:
+        with pytest.raises(PermissionError,match='ORIGINAL_CANONICAL_LOCAL'):context.ledger_binding(root)
+    else:
+        marker,path=context.ledger_binding(root)
+        assert path==local and marker['T_CD']==r['T_CD']and marker['deadline_epoch']==r['deadline_epoch']

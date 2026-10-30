@@ -17,7 +17,7 @@ def ledger_binding(root,*,closeout=False):
     need(c.typed(m) and m['execution']['sealed_inputs'].get(LOCAL_BINDING)==sha(root/LOCAL_BINDING),
          'EXPLICIT_TYPED_CANONICAL_LOCAL_BINDING')
     path=Path(read(root/LOCAL_BINDING)['canonical_LOCAL_ledger']).resolve()
-    need(path.name=='LOCAL_RESOURCE_LEDGER.private.json' and path.parent==root.parent.parent/'control',
+    need(path.name=='LOCAL_RESOURCE_LEDGER.private.json' and path.is_relative_to(root.parent.parent/'control'),
          'ORIGINAL_CANONICAL_LOCAL_NOT_A_COPIED_LEDGER')
     local=read(path);need(local['unknown_effects']==local['pending_updates']==local['pending_queries']==[],
          'LOCAL_UNKNOWN_AND_PENDING_FENCES')
