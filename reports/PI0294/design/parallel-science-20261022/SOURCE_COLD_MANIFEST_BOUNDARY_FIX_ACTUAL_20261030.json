@@ -1,0 +1,31 @@
+{
+  "status": "REGISTERED_COMPLETION_REACHED_CONFIRMED_LOCAL_ACCOUNT_AND_LOCALITY_BEFORE_EXTENSION_NAMEERROR",
+  "original_runtime_source_sha": "4e19b59fc32b00d5175ee308564d6d6caace97f7",
+  "registered_completion_source_sha": "cab4853c5125c89daa0b4dc126cb09f53b38a13d",
+  "exact_transport_returncode": 1,
+  "exact_failure": "NameError: extension is not defined; original-finite-control-operation line106",
+  "actual_readback_epoch": 1793352915.0029805,
+  "actual_records": {
+    "LOCAL_once_receipt_after_sha256": "37eb911740f21613cf94fcedd6d2fa1937768e129ba7a8458995022d2cbabfed",
+    "source_native_account_sha256": "1f2aa261294a14c7f4a4b2b6162dd756b44f3309cdadb05a1a3b66f6edb3fc99",
+    "scope_adoption_sha256": "21e45cf818620206fa60e21936eb7fe32d66967bfd50038ac03e983de8d4bdc2",
+    "output_binding_sha256": "ee50ebff7c14660c2413d3ac19c5266177dfbd713bc8847ce913c0db070031c5",
+    "local_path_proof_sha256": "99c073bd69369db7580661e6755ccb6ec39a3a50ae29d1d61cd4b660f049cab3",
+    "manifest_absent": true,
+    "native_start_intent_absent": true,
+    "prior_actor_not_live": true
+  },
+  "fix": "Bind the original successor authority explicitly; provide manifest/entry/result-only completion after independently reconciling the three existing CAS receipts. No registry, LOCAL or account write replay; old capsule remains unchanged.",
+  "validation": {
+    "focused_checks": 14,
+    "elapsed_s": 0.76,
+    "actual_private_LOCAL_and_assets": true,
+    "whole_program_top_level_name_binding_checked": true,
+    "CI": "NOT_RUN",
+    "native_manifest_completion": "NOT_YET_RUN"
+  },
+  "all_UNKNOWN_costs_and_original_receipts_retained": true,
+  "new_source_attempts": 0,
+  "new_physics": 0,
+  "new_GR00T_neural_updates_PBS": 0
+}
