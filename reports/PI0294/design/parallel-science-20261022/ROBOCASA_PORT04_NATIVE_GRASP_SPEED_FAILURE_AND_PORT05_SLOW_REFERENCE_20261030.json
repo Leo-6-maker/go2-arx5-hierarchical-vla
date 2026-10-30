@@ -1,0 +1,489 @@
+{
+  "schema": "PI0294_PORT04_NATIVE_TURN_GRASP_SPEED_FAILURE_AND_PORT05_SLOW_REFERENCE_V1",
+  "status": "PORT04_CLOSED_NORMAL_GRASP_FAILURE_PORT05_COLD_ONLY",
+  "runtime_source_sha": "c973f27338613b1de44dbc1e72dfcd79eae53ae6",
+  "manifest_sha256": "0980d7aec3b5f9b6375aaf0cb2ee10572d44149f275a1220e5efb56ff3ccd144",
+  "observed_epoch": 1793362487.2099652,
+  "native_result": {
+    "operation": "ROBOCASA_RIGHT_PORT04_HINGE",
+    "actual_integrations": 5950,
+    "actual_warmup_integrations": 2500,
+    "actual_task_integrations": 3450,
+    "actual_task_seconds": 6.9,
+    "actual_RGB_pairs": 139,
+    "completed20Hz_intervals": 138,
+    "planned_H40": 18,
+    "original_native_safety_pass": true,
+    "hinge_boundary_reference_executed": true,
+    "worker_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE",
+    "worker_exit_status": 1,
+    "worker_CPU_s": 8.477031933,
+    "worker_wall_s": 8.985770216211677,
+    "unit_MainPID": 0,
+    "unit_ExecMainStatus": 0,
+    "own_lease_status": "CLOSED",
+    "own_lease_sha256": "d952cd307e7644cd8c6a66dfaedd2c3dfd947c56e149341c807eea5c0b45c15b",
+    "left": "NOT_RUN_AFTER_FIRST_GRASP_FAILURE",
+    "full_task_or_qualified_demo": false
+  },
+  "independent_failure_components": {
+    "step": 5950,
+    "hinge_angle_rad": 0.000799143814486231,
+    "hinge_velocity_rad_s": 0.08403104147438627,
+    "force_qualified_opposing_contacts": true,
+    "minimum_opposing_dot": -0.999997946153704,
+    "contact_forces_N": {
+      "left": [
+        3.2820076891401175
+      ],
+      "right": [
+        3.988276797031232
+      ]
+    },
+    "relative_grasp_speed_m_s": 0.026789062796898237,
+    "original_relative_grasp_speed_max_m_s": 0.02,
+    "stored_native_grasp": false,
+    "interpretation": "Two force-qualified opposing pad contacts remain. The unchanged original relative-speed criterion rejects the measured grasp at0.026789m/s. This is retained as actual grasp failure, never relabelled successful."
+  },
+  "evidence": {
+    "raw_sha256": "40d1ca61dcffece55fa2cbd1f17932313ed6007fd850beff8682b1a34f6951e7",
+    "raw_bytes": 28685085,
+    "terminal_sha256": "bd5d34649b03157da79df9646f0b5a2c277f6fe41a222d65e3d55cbf27c894a9",
+    "independent_audit_sha256": "5414c3e395360f0c3aaaefcc39a6737f7bd7527c044875e2de8d761d7a874db1",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "40d1ca61dcffece55fa2cbd1f17932313ed6007fd850beff8682b1a34f6951e7",
+      "terminal_sha256": "bd5d34649b03157da79df9646f0b5a2c277f6fe41a222d65e3d55cbf27c894a9",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+      "native_ROBOCASA_goal_final": false,
+      "additional_support_release_withdraw_hold_pass": false,
+      "complete_episode": false,
+      "original_native_safety_pass": true,
+      "integrity_problems": [
+        "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+        "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+        "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+      ],
+      "actual_integrations": 5950,
+      "recorded_native_ticks": 5950,
+      "recorded_failed_native_ticks": 0,
+      "terminal_safety_states_checked": 1,
+      "actual_observations": 138,
+      "completed_intervals": 138,
+      "terminal_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE"
+    },
+    "selected_actual_contact_and_speed_states": [
+      {
+        "step": 5900,
+        "time_s": 11.80000000000061,
+        "native_grasp": true,
+        "safety_valid": true,
+        "hinge_angle_rad": -0.0012749542955516303,
+        "hinge_velocity_rad_s": -0.0009896968870391734,
+        "relative_grasp_speed_m_s": 0.00037183024744494764,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.9999986391045608,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.0003466921971161596,
+                -0.9999999399022586,
+                -0.0
+              ],
+              "force_N": 3.2237288826152994,
+              "distance_m": -0.0012529661512173276
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.0019964761657161835,
+                0.9999980070394741,
+                -0.0
+              ],
+              "force_N": 4.095890565598563,
+              "distance_m": -0.0015861682654417075
+            }
+          ]
+        },
+        "finger_q": [
+          0.010070244868936882,
+          0.012239051398019299
+        ],
+        "tool_linear_velocity": [
+          -6.028442100348573e-05,
+          0.00033932375345147514,
+          -6.96085977139856e-05
+        ],
+        "object_linear_velocity": [
+          0.00020078050648635986,
+          8.386831766279364e-05,
+          0.0
+        ]
+      },
+      {
+        "step": 5901,
+        "time_s": 11.80200000000061,
+        "native_grasp": true,
+        "safety_valid": true,
+        "hinge_angle_rad": -0.00127672074858129,
+        "hinge_velocity_rad_s": -0.0008832265148298118,
+        "relative_grasp_speed_m_s": 0.0005097549559964449,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.9999986496593362,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.0003495942455828251,
+                -0.99999993889193,
+                -0.0
+              ],
+              "force_N": 3.2161820450747096,
+              "distance_m": -0.0012529044116102743
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.0019929680992658836,
+                0.9999980140371058,
+                -0.0
+              ],
+              "force_N": 4.095884408975114,
+              "distance_m": -0.0015861943831432953
+            }
+          ]
+        },
+        "finger_q": [
+          0.010069456349903605,
+          0.012239289718483695
+        ],
+        "tool_linear_velocity": [
+          -0.00026816212260666946,
+          0.0003016123580975151,
+          -9.116541739699656e-05
+        ],
+        "object_linear_velocity": [
+          0.0001791809190887484,
+          7.484555082524127e-05,
+          0.0
+        ]
+      },
+      {
+        "step": 5905,
+        "time_s": 11.810000000000613,
+        "native_grasp": true,
+        "safety_valid": true,
+        "hinge_angle_rad": -0.0012776658396902137,
+        "hinge_velocity_rad_s": 0.0005048527389047445,
+        "relative_grasp_speed_m_s": 0.00227190973112854,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.9999987464557583,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.00038766813708523875,
+                -0.999999924856705,
+                -0.0
+              ],
+              "force_N": 3.2108814684383056,
+              "distance_m": -0.0012539129263768238
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.0019710458547194205,
+                0.9999980574872327,
+                -0.0
+              ],
+              "force_N": 4.0945238092843175,
+              "distance_m": -0.0015847571868866134
+            }
+          ]
+        },
+        "finger_q": [
+          0.010065426515566831,
+          0.012239071797456667
+        ],
+        "tool_linear_velocity": [
+          -0.0023719722525151173,
+          -7.707137512977203e-05,
+          -9.7623652755628e-05
+        ],
+        "object_linear_velocity": [
+          -0.00010241994771863176,
+          -4.278165929303047e-05,
+          0.0
+        ]
+      },
+      {
+        "step": 5910,
+        "time_s": 11.820000000000617,
+        "native_grasp": true,
+        "safety_valid": true,
+        "hinge_angle_rad": -0.0012581771768327352,
+        "hinge_velocity_rad_s": 0.0028883105606947925,
+        "relative_grasp_speed_m_s": 0.0031786019089739817,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.9999989068904805,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.00043813184687323996,
+                -0.9999999040202379,
+                -0.0
+              ],
+              "force_N": 3.2179206573177086,
+              "distance_m": -0.0012559365468252405
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.0019167176605532398,
+                0.9999981630950179,
+                -0.0
+              ],
+              "force_N": 4.093277908869108,
+              "distance_m": -0.0015815325261828133
+            }
+          ]
+        },
+        "finger_q": [
+          0.010062182081377831,
+          0.012236840179480674
+        ],
+        "tool_linear_velocity": [
+          -0.0037573852081474396,
+          -0.000458006625646852,
+          -5.9578248898894785e-06
+        ],
+        "object_linear_velocity": [
+          -0.0005859494969899648,
+          -0.0002447693633058005,
+          0.0
+        ]
+      },
+      {
+        "step": 5925,
+        "time_s": 11.850000000000627,
+        "native_grasp": true,
+        "safety_valid": true,
+        "hinge_angle_rad": -0.0010787737691604477,
+        "hinge_velocity_rad_s": 0.008169283747856464,
+        "relative_grasp_speed_m_s": 0.0021237603483626978,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.9999992610688538,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.0005033887405732592,
+                -0.9999998732998799,
+                -0.0
+              ],
+              "force_N": 3.2228924799517666,
+              "distance_m": -0.0012583372425029877
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.0017190615861622806,
+                0.99999852241254,
+                -0.0
+              ],
+              "force_N": 4.086101135330032,
+              "distance_m": -0.0015761388562094605
+            }
+          ]
+        },
+        "finger_q": [
+          0.01006758784794708,
+          0.012219424040018068
+        ],
+        "tool_linear_velocity": [
+          -0.0037790342621870946,
+          -0.0007823628169472407,
+          1.9309470373853922e-06
+        ],
+        "object_linear_velocity": [
+          -0.0016571725207119468,
+          -0.0006926018076768483,
+          0.0
+        ]
+      },
+      {
+        "step": 5950,
+        "time_s": 11.900000000000643,
+        "native_grasp": false,
+        "safety_valid": true,
+        "hinge_angle_rad": 0.000799143814486231,
+        "hinge_velocity_rad_s": 0.08403104147438627,
+        "relative_grasp_speed_m_s": 0.026789062796898237,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.999997946153704,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.007366186032634121,
+                -0.9999728692836285,
+                -0.0
+              ],
+              "force_N": 3.2820076891401175,
+              "distance_m": -0.001345785284232716
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.005339482598072562,
+                0.999985744861188,
+                -0.0
+              ],
+              "force_N": 3.988276797031232,
+              "distance_m": -0.0014391273815180386
+            }
+          ]
+        },
+        "finger_q": [
+          0.010135919003589464,
+          0.012079354712538895
+        ],
+        "tool_linear_velocity": [
+          -0.04373000630630759,
+          -0.009370021558143704,
+          -5.6941685914243395e-05
+        ],
+        "object_linear_velocity": [
+          -0.01703263061155551,
+          -0.007156252330373279,
+          0.0
+        ]
+      },
+      {
+        "step": 5950,
+        "time_s": 11.900000000000643,
+        "native_grasp": false,
+        "safety_valid": true,
+        "hinge_angle_rad": 0.000799143814486231,
+        "hinge_velocity_rad_s": 0.08403104147438627,
+        "relative_grasp_speed_m_s": 0.026789062796898237,
+        "original_relative_speed_max_m_s": 0.02,
+        "force_qualified_opposing_contact": true,
+        "minimum_opposing_dot": -0.999997946153704,
+        "contacts": {
+          "left": [
+            {
+              "normal": [
+                0.007366186032634121,
+                -0.9999728692836285,
+                -0.0
+              ],
+              "force_N": 3.2820076891401175,
+              "distance_m": -0.001345785284232716
+            }
+          ],
+          "right": [
+            {
+              "normal": [
+                -0.005339482598072562,
+                0.999985744861188,
+                -0.0
+              ],
+              "force_N": 3.988276797031232,
+              "distance_m": -0.0014391273815180386
+            }
+          ]
+        },
+        "finger_q": [
+          0.010135919003589464,
+          0.012079354712538895
+        ],
+        "tool_linear_velocity": [
+          -0.04373000630630759,
+          -0.009370021558143704,
+          -5.6941685914243395e-05
+        ],
+        "object_linear_velocity": [
+          -0.01703263061155551,
+          -0.007156252330373279,
+          0.0
+        ]
+      }
+    ]
+  },
+  "new_port05": {
+    "version": "ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE",
+    "only_change": "Door-turn reference maxlinear0.03m/s and maxangular0.15rad/s; all other geometry/home/camera/gripper/native thresholds and32s score remain unchanged.",
+    "original_grasp_threshold_m_s": 0.02,
+    "saved_pre_loss_actual_grasp_reference_check": {
+      "status": "SAVED_ACTUAL_PRE_LOSS_GRASP_SLOW_REFERENCE_ONLY_NO_SIMULATOR",
+      "actual_hinge_anchor_rad": -0.0012749542955516303,
+      "first_future_angle_rad": 0.006006874749792525,
+      "target_rad": 1.4915,
+      "reference_duration_s": 10.25,
+      "maximum_reference_linear_speed_m_s": 0.029978135302843968,
+      "maximum_reference_angular_speed_rad_s": 0.14563658090688492,
+      "anchor_TCP_error": 3.3306690738754696e-16,
+      "every_future_angle_in_original_range": true,
+      "actual_failed_PORT04_state_not_used_as_valid_grasp": true,
+      "new_constructors_integrations_queries": 0
+    },
+    "native_adopted": false,
+    "qualified_demonstrations": 0,
+    "one_evidenced_speed_fix_per_side": true,
+    "same_grasp_failure_again_stops_branch": true,
+    "failed_state_cannot_be_silently_resumed_as_valid_grasp": true
+  },
+  "source_aggregate": {
+    "native_attempts": 5,
+    "actual_integrations": 15221,
+    "actual_RGB_pairs": 314,
+    "qualified_demonstrations": 0,
+    "charged_upper": {
+      "attempts": 5,
+      "physics_integrations": 250000,
+      "RGB_pairs": 10000,
+      "Core_CPU_s": 16570,
+      "PC_CPU_s": 1660,
+      "render_device_s": 3000,
+      "Core_peak_bytes": 3489660928,
+      "PC_evidence_bytes": 917602304,
+      "transfer_bytes": 782467072
+    },
+    "all_prior_costs_and_unknown_uppers_retained": true,
+    "new_pool_issued": false
+  },
+  "model_status": {
+    "E2": "Same healthy queued1508345,20:13 SGT latest heartbeat/read; GLOBAL pending and unknown empty; no resubmission.",
+    "E1": "Original512 identity and local dependencies accepted; no model load/evaluation.",
+    "D25_valid_conditions": 0,
+    "new_training_endpoints": 0,
+    "new_valid_model_conditions": 0
+  },
+  "S1_and_infrastructure_changes": 0,
+  "validation": {
+    "targeted_CPU_passed": 39,
+    "PC_native_tests_skipped": 2,
+    "CI": "NOT_RUN",
+    "initial_private_fixture_key_and_PC_workdir_errors_retained": true
+  },
+  "limitations": "Partial source Teacher behavior is not a qualified task demonstration, original benchmark score or GR00T policy result. PORT05 currently only a frozen reference-speed change; native result pending. Full5s warmup/32s task and independent open/release/withdraw/hold score remain required."
+}

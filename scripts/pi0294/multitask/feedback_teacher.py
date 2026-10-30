@@ -177,9 +177,11 @@ class SourceSkillTeacher:
         elif stage in ('close', 'verify_grasp'): goal = self.grasp_goal.copy()
         elif stage == 'turn':
             turn=door_turn;boundary={}
-            if self.card.get('port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR':
+            if self.card.get('port_revision')in('ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR','ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'):
                 from .native_hinge_reference import from_native_boundary
                 turn=from_native_boundary;boundary['native_safety_valid']=s['safety_valid']
+            if self.card.get('port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE':
+                boundary.update(self.card['turn_reference_limits'])
             reference = turn(hinge_world=self.spec['hinge_world'], axis_hinge=[0, 0, 1],
                 actual_tcp_world=s['tcp'], actual_handle_world=s['object_pose'],
                 actual_angle_rad=s['hinge_angle_rad'], target_angle_rad=self.spec['target_angle_rad'],
