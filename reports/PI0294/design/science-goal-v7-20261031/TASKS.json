@@ -73,9 +73,9 @@
       "preserve_original_eval_population_noise_32s": true,
       "valid_outcome_retry": false,
       "debug_smoke_counts_as_formal_eval": false,
-      "valid_conditions": 1,
+      "valid_conditions": 24,
       "successes": 0,
-      "remaining_original_conditions": 23,
+      "remaining_original_conditions": 0,
       "completed_condition_no_repeat": "PI0294/PV1/DEV/F0/000/T1/N294101"
     },
     {
@@ -114,7 +114,7 @@
       "priority": "P0_PARALLEL",
       "title": "Verified book and cabinet expert seeds",
       "site": "Source_ARX5_on_Core_or_existing_qualified_source_node",
-      "status": "IN_PROGRESS_SUPPORTED_RELEASE_FULL_STATIC_PASS_PENDING_NATIVE",
+      "status": "FIRST_COMPLETE_BOOK_SOURCE_DEMO_QUALIFIED_PENDING_EXPORT_AND_DISTINCT_SEEDS",
       "depends_on": [],
       "actions": [
         "book_full_path_grasp_IK_swept_collision_repair",
@@ -136,15 +136,17 @@
         "actual_RGB_state_submitted_executed_commands",
         "source_lineage_and_event_coverage"
       ],
-      "qualified_full_demonstrations": 0,
-      "source_attempts": 9
+      "qualified_full_demonstrations": 1,
+      "source_attempts": 10,
+      "qualified_book_demonstrations": 1,
+      "qualified_cabinet_demonstrations": 0
     },
     {
       "id": "V7-04",
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Vanda_training_Core_eval",
-      "status": "PLANNED",
+      "status": "IN_PROGRESS_FIRST_BOOK_SEED_EXPORT_NO_TRAINING_YET",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -252,8 +254,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "E1_COMPLETE_DEV24_ALL_REFERENCE_VETO_AND_E2_REATTACHED_ACTUAL_20261031.json",
-    "as_of": "2026-10-31 07:08 SGT",
+    "report": "FIRST_COMPLETE_BOOK_SOURCE_DEMO_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 07:33 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -265,13 +267,15 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 9,
-    "source_actual_integrations": 52071,
-    "source_actual_RGB_pairs": 1392,
-    "qualified_full_skill_demos": 0,
+    "source_total_attempts": 10,
+    "source_actual_integrations": 70571,
+    "source_actual_RGB_pairs": 2034,
+    "qualified_full_skill_demos": 1,
     "new_shared_skill_training_updates": 0,
-    "Core_next": "SUPPORTED_RELEASE_SOURCE_NATIVE",
+    "Core_next": "BOOK_SOURCE_SEED_EXPORT_OFFICIAL_CODEC_THEN_DISTINCT_SEEDS",
     "E2_current": "SAME1508345_Q_MANAGED03_NO_NEW_QSUB",
-    "goal_complete": false
+    "goal_complete": false,
+    "qualified_book_demos": 1,
+    "qualified_cabinet_demos": 0
   }
 }
