@@ -26,6 +26,9 @@ def derive(files):
         'from scripts.pi0294.pv1 import mix_core_accounting as c,mix_accounting as a,mix_core_settlement as terminal,mix_core_admission as admission,mix_core_identity as identity,successor_cd as successor',
         'from scripts.pi0294.pv1 import mix_accounting as a,mix_core_settlement as terminal\nfrom scripts.pi0294.generalization import minimal_core_accounting as c,minimal_core_native as admission,minimal_core_identity as identity,minimal_core_accounting as successor')
     text=replace(text,"assert self.arm=='D25'","assert self.arm=='E1'")
+    text=replace(text,
+        "from scripts.pi0294.pv1.pre_model_qualification import require_current\n   require_current(Path(self.sites['hopper']['root']),proof['allocation'])",
+        "from scripts.pi0294.pv1.pre_model_qualification import require_resident\n   require_resident(Path(self.sites['hopper']['root']),self.local_ledger)")
     text=replace(text,'from scripts.pi0294.pv1.mix_core_d25_local_successor import finite_control_scope',
         'from scripts.pi0294.generalization.minimal_core_accounting import finite_control_scope')
     text=replace(text,'_NODE_LOCAL_ENVIRONMENT='+repr(LOCAL_ENVIRONMENT),'_NODE_LOCAL_ENVIRONMENT='+repr(ENVIRONMENT))

@@ -1,0 +1,117 @@
+{
+  "schema": "V7_E1_PANEL05_NATIVE_QUALIFICATION_AND_RESIDENT_READER_REPAIR_ACTUAL_V1",
+  "observed_epoch": 1793389240.6753194,
+  "execution_source": "d678492bb85e4cdcef3d7f2b79be3f53d45f3a9b",
+  "run": "arx5-e1-fixed512-n294101-05",
+  "request_id": "a30e053f-6984-4125-937a-5a6bdebe981c",
+  "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "qualification": {
+    "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+    "receipt_sha256": "a15ae4ba19ecffff88bce196ad65e31a10157ae238a575908946a0e0cfc36f9d",
+    "heartbeat_elapsed_s": 615.6370345707983,
+    "transport_cycles": 80,
+    "new_model_queries": 0,
+    "new_physics": 0
+  },
+  "failure": {
+    "phase": "RESIDENT_OWNER_CORE_MODEL_RELEASE_BEFORE_MODEL",
+    "error": "PV1_NATIVE_CURRENT_ALLOCATION_BEFORE_MODEL_OR_TRAINING",
+    "mechanism": "The CPU resident called the GPU-caller require_current API. It has no GPU handle. The ledger also refreshes native-process observation bytes, while qualification belongs to the immutable ALLOCATION_ADMISSION value.",
+    "owner_exception_sha256": "3ef654a69c36bd7fc98cccaad7b9bb242ae85bd6d87e8825fec829bbbc1039cb"
+  },
+  "actual": {
+    "model_loads": 0,
+    "model_queries": 0,
+    "valid_formal_conditions": 0,
+    "physics_integrations": 0,
+    "engine_starts": 0,
+    "new_training_updates": 0,
+    "new_qualified_demonstrations": 0
+  },
+  "terminal": {
+    "owner_and_neural_MainPID0": true,
+    "all_recorded_auxiliary_workers_terminal": true,
+    "original_receipt_chains_verified": true,
+    "effect_sequence": 0,
+    "dual_financial_settlement_complete": true,
+    "GLOBAL_after_sha256": "70d15262a9f163afd5aa4b51fca06a97d707351a71ed4af678f656c876cd4bc9",
+    "LOCAL_after_sha256": "dc6fa0abd91e02452ce78fb946a4d4c266eb59b2cb72bf911276e0c1dba6621e",
+    "three_own_leases_closed": true,
+    "closed_lease_sha256": {
+      "owner": "627918e1a583985cdeed226f283b128022668b3deb719dfd8c8904618234d222",
+      "core": "7cf9bc734da1b73430db0aa286625eb077e76cf06b4f02e36c69a6ff0bdf2dea",
+      "hopper": "7f2ea636071f1baffa45fd619eef5763fc5d2fe58f85bd2cc547898b3d477f6a"
+    },
+    "old_STOP_retained": true,
+    "terminal_native_sha256": "eb901dbb88d3e2f9bf66c0e3088d85c6cffc230fcdbe57b833fb3906b49b57de",
+    "costs": {
+      "GPU_s": 780,
+      "neural_CPU_s": 42,
+      "physical": {
+        "physical_CPU_s": 303.093447054,
+        "episodes": 0,
+        "constructors": 0,
+        "live": 0,
+        "shadow": 0
+      },
+      "query_attempts": 0,
+      "model_load_attempts": 0,
+      "Core_output_charged_upper_bytes": 38654705664,
+      "transfer_charged_upper_bytes": 77309411328,
+      "prepaid_control_actual_metrics": {
+        "CPU_s": 32.320907457,
+        "RPC_calls": 248
+      }
+    },
+    "cost_note": "Output and transfer are conservative charged uppers, not actual written/transferred bytes."
+  },
+  "repair": {
+    "status": "CPU_CHECKED_NOT_YET_NEW_NATIVE_DEPLOYED",
+    "owner_adapter": "Only the original pinned owner release call changes to require_resident with its existing read-only Ledger.",
+    "reader": "Checks the actual resident PID/start and fresh bound GPU/kernel/device/lease/STOP, joins immutable admission and runs the complete original raw600s/80cycle verifier. GPU require_current stays strict; no handle environment is assigned.",
+    "validation": {
+      "affected_tests_passed": 97,
+      "separate_real_CPU_process_identity_fixture": true,
+      "original_four_pinned_owner_files_derived_and_compiled": true,
+      "exact_generated_release_method_checked": true,
+      "Junit_sha256": [
+        "d7b12b7eb8c4e584853aa0f4a2652334aee4eac87c505329f7fad44f7a1ba5aa",
+        "3e321bb788ad758113bca0bfe3d9cf3a8e8dc98a3d28655f6de2eca3803d6a58"
+      ],
+      "generated_release_check_sha256": "67df6b7e39bdfe50f3190f6b9f566fb0462d5e38a8703426fd4cad0834d60800",
+      "raw_native_qualification_reverified_after_terminal": true,
+      "full_CI": "NOT_RUN"
+    },
+    "next": "Use a distinct cold identity after terminal reconciliation and actual capacity checks. PANEL05 stays closed; its qualification cannot qualify the successor."
+  },
+  "current_storage": {
+    "closed04": {
+      "allocated_bytes": 123699200,
+      "conservative_current_upper_bytes": 124780544,
+      "inventory_sha256": "1292f1b12693f0e9a5c131db5054b7b4c5963f967283833de8d63fe88e841c37",
+      "deleted_bytes": 0
+    },
+    "closed05": {
+      "allocated_bytes": 122445824,
+      "conservative_current_upper_bytes": 123731968,
+      "inventory_sha256": "2705127c09162afd1aa31a57c59406eb26ae8e7cc5b9a925d8c318fd64835969",
+      "deleted_bytes": 0
+    },
+    "meaning": "Two stable scoped inventories; historical costs and peaks retained. No deletion or physical space release is claimed."
+  },
+  "infrastructure_changes": 0,
+  "foreign_GPU_processes_modified": 0,
+  "E2_parallel_readonly": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "scheduler_state": "Q",
+    "wrapper_and_management_actual_processes_live": true,
+    "heartbeat_epoch": 1793389192.5673184,
+    "observed_epoch": 1793389200.7126093,
+    "evidence_sha256": "9ebbaa2e67dc95cffe0cea94bb68a0a93d2c68a02c6da4abca0675801f1275e8",
+    "qsub_calls": 0,
+    "new_training_updates_observed": 0,
+    "new_512_endpoint": 0,
+    "prior_SSH_timeout_retained": true
+  }
+}

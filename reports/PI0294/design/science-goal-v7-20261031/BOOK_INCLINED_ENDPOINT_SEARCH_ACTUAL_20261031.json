@@ -1,0 +1,67 @@
+{
+  "schema": "V7_BOOK_INCLINED_OBJECT_FRAME_ENDPOINT_SEARCH_ACTUAL_V1",
+  "observed_epoch": 1793388127.3575711,
+  "status": "SAVED_BOOK_INCLINED_GRASP_ENDPOINT_SEARCH_NOT_A_PATH_OR_DEMONSTRATION",
+  "inputs": {
+    "source_xml_sha256": "bf6b8f5297cab56085c4967641072b0d0d6dee70ec1250a192fcc5abb87c291e",
+    "saved_state_sha256": "131cea3e7e958b855819842aff5e66f91dd53c54dc97d824794d42e88379c647",
+    "analysis_source_sha256": "ffe43bd9c58d85f24cd074bbbfa66de66c04a4eab4134817e98a3ac2264f72fd",
+    "candidate_records_sha256": "6ac2887971e3cef0e2d1ddf5b25d91dade192851a6a8d65de308ad9ab31e8a20"
+  },
+  "search": {
+    "joint_margin_rad": 0.005,
+    "tilts_deg": [
+      -90,
+      -75,
+      -60,
+      -45,
+      45,
+      60,
+      75,
+      90
+    ],
+    "heights_m": [
+      0,
+      0.015,
+      0.03
+    ],
+    "depth_offsets_m": [
+      -0.01,
+      0,
+      0.01
+    ],
+    "jaw_roll_deg": [
+      0,
+      180
+    ],
+    "maximum_candidates": 144
+  },
+  "actual": {
+    "candidates": 144,
+    "grasp_IK_reachable": 58,
+    "grasp_geometry_pass": 0,
+    "both_endpoints_pass": 0,
+    "full_paths_qualified": 0,
+    "new_physics_integrations": 0,
+    "new_demonstrations": 0
+  },
+  "geometry": {
+    "native_link6_type": "capsule",
+    "native_link6_radius_m": 0.03,
+    "joint_bounds_margin_rad": 0.005,
+    "intended_pad_book_contact_only": true,
+    "minimum_projected_each_pad_contact_area_m2": 0.0002,
+    "table_caddy_book_robot_and_self_checked": true
+  },
+  "interpretation": "The finite low-height inclined search found no admissible grasp. Reachable candidates retain nonpad link6/book or fixture collisions. This does not prove all legal grasps infeasible. No path or dynamic qualification is claimed, and collision geometry and safety were not reduced.",
+  "execution": {
+    "initial_partial_search_preserved": true,
+    "initial_stop": "NumPy bool JSON serialization; no native effects",
+    "resume": "Same intent and18 saved rows retained; remaining cases evaluated once",
+    "second_segment_CPU_s": 5.827430517000001,
+    "first_segment_CPU_upper_retained_s": 100,
+    "total_CPU_exact_not_claimed": true,
+    "old_STOP_retained": true
+  },
+  "next": "Jointly search grasp height/depth/orientation and continuous full paths. Only a complete safe path can enter a new source simulation qualification."
+}

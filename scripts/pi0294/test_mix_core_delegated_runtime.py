@@ -10,6 +10,7 @@ from copy import deepcopy
 from pathlib import Path
 from types import SimpleNamespace
 import sys
+import subprocess
 
 import pytest
 
@@ -30,7 +31,7 @@ def put(path,value,*,mutable=False):
 
 
 @pytest.fixture
-def running(full,tmp_path,monkeypatch):
+def running(full,tmp_path,monkeypatch,request):
     v=deepcopy(full);m,r,p,g,l,snap=(json.loads(v[k]) for k in ('manifest_bytes','request_bytes','native_facts_bytes','global_bytes','local_bytes','snapshot_bytes'))
     parent=tmp_path/'campaign';root=parent/'neural-children'/r['run_uuid'];physical=parent/'children'/r['run_uuid']
     localpath=parent/'control'/'resident'/'LOCAL_RESOURCE_LEDGER.private.json'
@@ -39,7 +40,15 @@ def running(full,tmp_path,monkeypatch):
     for name,value in bindings.items():m['execution']['sealed_inputs'][name]=a.sha(a.raw(value))
     m['output_root']=str(root);r['run_manifest_sha256']=a.sha(a.raw(m))
     start=int(Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19]);boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
-    p.update(pid=os.getpid(),proc_start=start,boot_id=boot,native_handle=c.process_handle(boot,os.getpid(),start),
+    native_pid=os.getpid();native_start=start
+    if getattr(request,'param',None)=='separate-native':
+        # Separate real CPU process identities; GPU/unit readings remain fixtures.
+        child=subprocess.Popen([sys.executable,'-B','-c','import sys;sys.stdin.read()'],stdin=subprocess.PIPE)
+        def close_child():
+            child.stdin.close();child.wait(timeout=3)
+        request.addfinalizer(close_child)
+        native_pid=child.pid;native_start=int(Path('/proc',str(child.pid),'stat').read_text().rsplit(')',1)[1].split()[19])
+    p.update(pid=native_pid,proc_start=native_start,boot_id=boot,native_handle=c.process_handle(boot,native_pid,native_start),
              request_sha256=a.sha(a.raw(r)),run_manifest_sha256=a.sha(a.raw(m)))
     p['native_unit_properties']['MainPID']=str(p['pid'])
     for obj in (g,l):
@@ -126,6 +135,57 @@ def test_resident_readonly_observer_uses_same_fresh_proof_without_startup_heartb
     with pytest.raises(PermissionError,match='ONLY_BOUND_NEURAL'):observer.charge('model_loads',1)
     with pytest.raises(PermissionError,match='OBSERVER_CANNOT'):
         with observer.transaction() as state:state['CPU_s']+=1
+
+
+def resident_admission(v,monkeypatch):
+    from scripts.pi0294.pv1 import pre_model_qualification as q
+    admission=deepcopy(v.body['admission']['allocation'])
+    put(v.rp.parent/'ALLOCATION_ADMISSION.json',admission)
+    monkeypatch.setattr(q.socket,'gethostname',lambda:admission['hostname'])
+    monkeypatch.delenv('PV1_CORE_NATIVE_GPU_HANDLE',raising=False)
+    monkeypatch.delenv('PBS_JOBID',raising=False)
+    observer=local.Ledger(v.root,v.rp,resident_observer=True)
+    return q,admission,observer
+
+
+@pytest.mark.parametrize('running',['separate-native'],indirect=True)
+def test_resident_reads_stored_admission_after_live_observation_without_becoming_GPU(running,monkeypatch):
+    v=running;q,admission,observer=resident_admission(v,monkeypatch);seen=[]
+    assert admission['native_process']['pid']!=os.getpid()
+    v.clock[0]+=601
+    def qualified(root,directory,allocation):
+        # Raw 600s/80-cycle verification is a separate CPU fixture here.
+        seen.append(allocation)
+        assert root==v.root and directory==v.rp.parent and allocation==admission
+        assert q.Core_native.current_handle()is None
+        return dict(status='CPU_RAW_QUALIFICATION_FIXTURE')
+    monkeypatch.setattr(q,'require',qualified)
+    assert observer.live_proof()['allocation']!=admission
+    assert q.require_resident(v.root,observer)['status']=='CPU_RAW_QUALIFICATION_FIXTURE'
+    assert seen==[admission] and observer._confirmed()['sequence']==0
+    with pytest.raises(PermissionError,match='CURRENT_ALLOCATION'):
+        q.require_current(v.root,admission)
+
+
+@pytest.mark.parametrize('running',['separate-native'],indirect=True)
+@pytest.mark.parametrize('fault',['STOP','closed_lease','dead_unit','changed_admission','terminal','foreign_owner','wrong_root'])
+def test_resident_qualification_keeps_original_live_and_identity_fences(running,monkeypatch,fault):
+    v=running;q,admission,observer=resident_admission(v,monkeypatch)
+    monkeypatch.setattr(q,'require',lambda *args:pytest.fail('NO_QUALIFICATION_OR_RELEASE_ON_REJECTED_IDENTITY'))
+    root=v.root
+    if fault=='STOP':put(v.physical/'STOP.json',{})
+    if fault=='closed_lease':
+        p=v.physical/'own-lease.json';value=json.loads(p.read_bytes());value['status']='CLOSED';put(p,value,mutable=True)
+    if fault=='dead_unit':
+        p=deepcopy(v.process);p['native_unit_properties']['MainPID']='0'
+        monkeypatch.setattr(local.process_reader,'observe',lambda *args:p)
+    if fault=='changed_admission':
+        admission['source_sha']='b'*40;put(v.rp.parent/'ALLOCATION_ADMISSION.json',admission)
+    if fault=='terminal':put(v.rp.parent/'NATIVE_PROCESS_FINAL.json',{})
+    if fault=='foreign_owner':monkeypatch.setattr(identity,'current_owner',lambda *args,**kw:dict(pid=os.getpid()+100,proc_start=observer.actor_start))
+    if fault=='wrong_root':root=v.physical
+    with pytest.raises(PermissionError):q.require_resident(root,observer)
+    assert observer._confirmed()['sequence']==0
 
 
 def test_control_lost_reply_keeps_actual_receipt_and_never_repeats_metrics(running,monkeypatch):
