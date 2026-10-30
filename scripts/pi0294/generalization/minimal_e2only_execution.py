@@ -53,6 +53,9 @@ def request(v,*,central=False):
     if cold_generation:
         from .minimal_e2only_pre_native import binding
         binding(v.get('pre_native_predecessor',{}))
+        if cold_generation==2:
+            from .minimal_e2only_cold2 import request_shape
+            request_shape(v)
     else:need('pre_native_predecessor'not in v and 'pre_native_cold_generation'not in v,
         'E2ONLY_OLD_PRE_NATIVE_REQUEST_BYTES_UNCHANGED')
     for k in('physical_custody_sha256','effective_queue_proof_sha256'):
@@ -235,7 +238,8 @@ def paid_retry_controls(g):
             and all(type(m[k])is str and re.fullmatch('[0-9a-f]{64}',m[k])for k in
                 ('run_manifest_sha256','physical_custody_sha256','before_GLOBAL_sha256')),
             'E2ONLY_PAID_RETRY_EXACT_COSTS_IDENTITY_AND_HISTORY')
-    return items
+    from .minimal_e2only_cold2 import effective_controls
+    return effective_controls(g,items)
 
 
 def require_paid_retry(g,r):

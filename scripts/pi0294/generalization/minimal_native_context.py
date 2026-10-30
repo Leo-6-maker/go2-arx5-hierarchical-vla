@@ -104,6 +104,9 @@ def root_context(root,request_path,*,full=False,require_bound=True):
         need({adapter.PHYSICAL,physical.SNAPSHOT,saved.PLAN,saved.RESULT_FILE,saved.EXIT_FILE}<=set(inputs)
             and sealed(root,adapter.PHYSICAL)==index['physical_custody'],'CONTEXT_E2_ONLY_ALL_CLOSED_INPUTS')
         saved.binding(sealed(root,saved.RESULT_FILE,parse=False).read_bytes(),sealed(root,saved.EXIT_FILE,parse=False).read_bytes())
+        if r.get('pre_native_cold_generation')==2:
+            from .minimal_e2only_cold2 import sealed_context
+            sealed_context(root,m,r,g)
         dispatch.check(sealed(request_path.parent,dispatch.FILE,parse=False).read_bytes(),
             sealed(root,'control/resident-owner/SOURCE_QSUB_INTENT.private.json'),r,now_epoch=time.time())
     for name,h in inputs.items():need(sha(sealed(root,name,parse=False))==h,'CONTEXT_SEALED_INPUT:'+name)
@@ -143,6 +146,8 @@ def root_context(root,request_path,*,full=False,require_bound=True):
         if r.get('pre_native_cold_generation'):
             critical.update('scripts/pi0294/generalization/'+n for n in(
                 'minimal_e2only_pre_native.py','minimal_retry_physical_guard.py'))
+            if r.get('pre_native_cold_generation')==2:
+                critical.add('scripts/pi0294/generalization/minimal_e2only_cold2.py')
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

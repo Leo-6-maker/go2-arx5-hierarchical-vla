@@ -9,6 +9,7 @@ from scripts.pi0294.pv1 import mix_core_accounting as core,mix_core_d25_cold_sou
 VERSION='ARX5_REMAINING_ONE_VANDA_PLUS_ORIGINAL_D25_CORE_COLD_V1'
 LOCAL_MIRROR='ARX5_minimal_remaining_LOCAL_main_inventory_mirror'
 COLD_REQUEST_SHA='999d1da66157ab01e6a189907ab5b0746529b175de0e25c75900852eb3b71d60'
+COLD07_ROW_SHA='e510508076bfc5eed9ad70fc198796d5c072670becd0ff6b62fd9a95e4e9033a'
 
 
 def cold_Core_rows(g):
@@ -16,10 +17,18 @@ def cold_Core_rows(g):
     e.need(len(rows)<=1,'REMAINING_ONLY_ONE_ORIGINAL_CORE_SCOPE')
     if rows:
         row=rows[0]
-        e.need(row['request_id']==cold.REQUEST and row['request_sha256']==COLD_REQUEST_SHA
-            and row['evaluation_candidate']=='D25'and row['child_run_uuid']==cold.RUN
+        from scripts.pi0294.pv1 import mix_core_d25_admission_repair as repaired,mix_core_d25_local_successor as paid
+        marker=repaired.validate(g)
+        exact_repaired=marker is not None and row['request_id']==marker['replacement_request_id']
+        identity=cold.effective_identity(g,paid.validated(g))if exact_repaired else None
+        e.need((exact_repaired and e.sha(e.raw(row))==COLD07_ROW_SHA
+            and row['source_sha']==identity['source_sha']and row['child_run_uuid']==identity['run_uuid']
+            or row['request_id']==cold.REQUEST and row['request_sha256']==COLD_REQUEST_SHA and row['child_run_uuid']==cold.RUN)
+            and row['evaluation_candidate']=='D25'
             and row['status']==core.STATES[0]and row['native_handle']is None
-            and core.progress(row)==(0,0,0),
+            and core.progress(row)==(0,0,0)
+            and row.get('query_attempts',0)==row.get('model_load_attempts',0)==0
+            and row.get('unknown_query_intents',[])==[],
             'REMAINING_ONLY_EXACT_UNSTARTED_D25_NOT_A_LIVE_UNBOUND_GPU')
     return rows
 

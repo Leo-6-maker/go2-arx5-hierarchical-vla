@@ -34,7 +34,7 @@ def control_CPU_limits(request):
         need(adapters.select(request['platform_training_version'],request['profile'])in(adapters.remaining,adapters.saved512,adapters.e2only),
             'OWNER_REMAINDER_ORIGINAL_PREPAID3000_CPU_BANK')
         if 'pre_native_owner_CPU_upper_s'in request:
-            need(request.get('pre_native_cold_generation')==1
+            need(request.get('pre_native_cold_generation')in(1,2)
                 and request['platform_training_version']==adapters.e2only.VERSION
                 and type(request['pre_native_owner_CPU_upper_s'])is int
                 and request['pre_native_owner_CPU_upper_s']==2600,
@@ -158,6 +158,9 @@ class Owner(mature.Owner):
         self.e2only_physical=None
         if self.adapter is adapters.e2only:
             adapters.e2only.require_paid_retry(g,self.request_template)
+            if self.request_template.get('pre_native_cold_generation')==2:
+                from .minimal_e2only_cold2 import sealed_context
+                sealed_context(self.root,self.manifest,self.request_template,g)
             from .minimal_e2only_physical import Guard as Physical
             self.e2only_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
         if self.adapter is adapters.saved512:
