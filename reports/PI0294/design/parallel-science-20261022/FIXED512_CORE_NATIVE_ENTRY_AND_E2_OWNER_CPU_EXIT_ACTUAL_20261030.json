@@ -1,0 +1,190 @@
+{
+  "schema": "ARX5_FIXED512_CORE_NATIVE_ENTRY_AND_E2_OWNER_EXIT_ACTUAL_V1",
+  "observed_date": "2026-10-30",
+  "status": "COLD_SOURCE_IMPLEMENTED_NOT_DEPLOYED_NO_MODEL_OR_PHYSICS_GO",
+  "science": {
+    "new_complete_E2_endpoints": 0,
+    "new_valid_GR00T_conditions": 0,
+    "new_qualified_open_door_or_book_demonstrations": 0,
+    "source_attempts": 6,
+    "source_actual_integrations": 22046,
+    "source_RGB_pairs": 488
+  },
+  "E2": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "job_state": "Q",
+    "queue_observed_epoch": 1793369955.7769427,
+    "owner_exit": {
+      "returncode": 152,
+      "source_sha": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b",
+      "finished_epoch": 1793368532.1061149,
+      "foreground_wait_completed": true,
+      "agent_connection_required": false
+    },
+    "recorded_processes": [
+      {
+        "role": "control/RESIDENT_WRAPPER_PROCESS.private.json",
+        "pid": 572332,
+        "procstart": 85083367,
+        "live": false,
+        "state": null
+      },
+      {
+        "role": "control/resident-owner/SERVER_OWNER_PROCESS.private.json",
+        "pid": 572336,
+        "procstart": 85083369,
+        "live": false,
+        "state": null
+      }
+    ],
+    "heartbeat_last_native_state": "Q",
+    "heartbeat_last_epoch": 1793368468.2765093,
+    "premodel_or_update_records_present": false,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "automatic_resubmit": false,
+    "restart_performed": false,
+    "healthy_background_owner": false,
+    "blocker": "Original login owner hit its finite CPU soft limit while job remained queued; do not infer training or scheduler termination"
+  },
+  "Core": {
+    "observed_epoch": 1793370356.9100628,
+    "free_bytes": 169551593472,
+    "free_inodes": 111293265,
+    "filesystem": "ext4",
+    "compute_process_stdout": "",
+    "quota_format_reads": [
+      {
+        "type": 0,
+        "read_only_subcommand": "Q_GETFMT",
+        "returncode": -1,
+        "errno": 3,
+        "format": null
+      },
+      {
+        "type": 1,
+        "read_only_subcommand": "Q_GETFMT",
+        "returncode": -1,
+        "errno": 3,
+        "format": null
+      },
+      {
+        "type": 2,
+        "read_only_subcommand": "Q_GETFMT",
+        "returncode": -1,
+        "errno": 3,
+        "format": null
+      }
+    ],
+    "LOCAL_sha256": "f2535618ab92a4bad1ae1b087b387a54a00d6b8e7925474971e4e6e6540a3034",
+    "registry_sha256": "d23a291a42cf52b50bdb99ae8c6fd49d9b681a1e7fe356227cf7a69a6d5c58b2",
+    "metadata_reads_only": true,
+    "infrastructure_changes": 0,
+    "checkpoint_cleanup": 0
+  },
+  "E1": {
+    "candidate": "E1",
+    "checkpoint_step": 512,
+    "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+    "population_sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+    "scope": {
+      "schema": "ARX5_MINIMAL_E1_FIXED512_DIRECT_SCIENCE_FIRST_SCOPE_V1",
+      "directive_source": "28c6eb0fe97b7cb852e321bbcd19f8ed047abc34",
+      "directive_sha256": "c8c62b86ceaaf83b5eed2f6f89ed387e72761c52d9fd113b5160be47e1a72198",
+      "purpose": "Original E1 fixed512 first valid condition then original24, without modifying live E2 or D25",
+      "candidate": "E1",
+      "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+      "checkpoint_step": 512,
+      "raw_parent_files_identity": "0e493187af087d156f6352d46ce14e049ff18e7c1cb1eabc8671357ab4b96e71",
+      "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "population_plan_sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+      "noise_bank": 294101,
+      "conditions": 24,
+      "task_duration_s": 32,
+      "H40": 40,
+      "prefix": 8,
+      "denoise_steps": 4,
+      "optimizer_updates": 0,
+      "PBS_submissions": 0,
+      "new_target_WBC_physics": 0,
+      "additional_conservative_hold": {
+        "H200_s": 28860,
+        "neural_queries": 2097,
+        "Hopper_CPU_s": 80000,
+        "Core_CPU_s": 173900,
+        "Hopper_storage_bytes": 38654705664,
+        "Core_storage_bytes": 38654705664,
+        "transfer_bytes": 77309411328
+      },
+      "control_upper_paid_once": {
+        "Hopper_CPU_s": 1800,
+        "Core_CPU_s": 9000,
+        "local_CPU_s": 7200,
+        "transfer_bytes": 268435456,
+        "Core_storage_bytes": 134217728,
+        "Hopper_storage_bytes": 67108864
+      },
+      "old_escrows_and_costs_retained": true,
+      "old_package_and_D25_row_unchanged": true,
+      "project_internal_total_budget_limit": null,
+      "automatic_retry": false,
+      "same_fault_after_evidenced_fix": "STOP_AFFECTED_BRANCH",
+      "same_job_native_qualification": {
+        "heartbeat_s": 600,
+        "transport_cycles": 80
+      },
+      "deployment_requires_actual_devices_quota_space_and_original_onceIO": true
+    },
+    "implementation": "Distinct allocation family in original GLOBAL/LOCAL, original resident owner, onceIO custody/store, unchanged600s/80cycle qualification and production evaluator",
+    "original_package_D25_PBS_and_costs_unchanged": true,
+    "new_additional_holds_not_yet_adopted": true,
+    "combined_output_upper_bytes": 38654705664,
+    "inflight_closeout_inside_output_bound_bytes": 2147483648,
+    "future_copy_credit": {
+      "bytes": 17179869184,
+      "reason": "Already delivered E1 inference view, credit only duplicate future model copy after exact endpoint/panel proof",
+      "financial_refund": 0,
+      "old_physical_output_forecast_retained": true
+    },
+    "native_qualification": "NOT_RUN",
+    "model_load": "NOT_RUN",
+    "closed_loop": "NOT_RUN"
+  },
+  "validation": {
+    "targeted_CPU_tests_passed": 45,
+    "tests_are_not_native_admission": true,
+    "actual_ledger_registration_CPU": "b92d5fe46e14c2693787eb0864fa2e40191fb544ebf4ac3bc5ea8378bd400a3c",
+    "actual_ledger_terminal_CPU": "7903f07897a97c14ec4e54e55a879f19161469f48dc368e79db65836a03087c7",
+    "exact_live_E2_source_full_checker": {
+      "status": "EXACT_OLD_FULL_CHECK_COMPLETE_NEW512_ROW_AND_HOLDS_PASS",
+      "CPU_s": 6.109185146,
+      "source_sha": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b",
+      "remote_writes": 0,
+      "model_permission": false
+    },
+    "real_GPU_process_and_adoption_in_CPU_tests": false,
+    "CI": "NOT_VERIFIED"
+  },
+  "read_failures": {
+    "count": 2,
+    "causes": [
+      "Absolute qstat path required in non-login metadata environment",
+      "Full read reply exceeded its predeclared output cap"
+    ],
+    "native_writes": 0,
+    "replay_performed": false,
+    "full_CPU_and_wire_uppers_retained": true,
+    "reconciliation_sha256": "ba264ac08e5f84b6fe96e5b765fdf5d50ffd7de77ea1b5f8a678a2b083a95a7a"
+  },
+  "next": "Publish/read back cold source; original registry+GLOBAL/LOCAL once adoption and independent native reads; first qualified E1 condition then original24",
+  "retained_boundaries": {
+    "S1": "CLOSED",
+    "T2_startup": "QUARANTINED",
+    "cabinet_physics": "STOPPED",
+    "book_dynamic_retry": "NOT_AUTHORIZED_BY_STATIC_PREPARATION",
+    "WBC_controller_score_H40_Prefix8_32s": "FROZEN",
+    "new_four_task_training": "NO_QUALIFIED_NEW_SKILL_DATA"
+  },
+  "private_evidence_public": false
+}

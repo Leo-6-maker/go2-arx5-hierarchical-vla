@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+2026-10-30 22:19–22:27 SGT实测更新：E2原作业1508345仍Q，但原wrapper/server已终态；owner于21:55因CPU软时限OS152退出，无模型/更新启动证据，不能再称后台健康。Core目标盘约157.9GiB可用、计算进程为空，内核三类quota格式查询均ESRCH。E1独立fixed512计账/原生入口/原owner及完整终态接线已实现，仍未部署、采用新分配或加载模型；新端点/有效条件/合格示范0/0/0。 [实际状态与接入缺口](reports/PI0294/design/parallel-science-20261022/FIXED512_CORE_NATIVE_ENTRY_AND_E2_OWNER_CPU_EXIT_ACTUAL_20261030.json)。
+
 2026-10-30 21:17 SGT后继：保存放书记录已定位到更早的link6本体顶书，原参考本身也侵入书体；上移抓点候选未通过完整静态IK路径检查，未物理重试。E1/E2固定512的独立计划/原session与label入口已补齐，并用实际E1 manifest与原24人口核验；新canonical分配/原生backend和600秒资格尚未完成，未加载或评价。E2同一1508345最新21:17仍Q且后台健康。新端点/有效模型条件/合格示范仍0/0/0。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
 
 2026-10-30 20:36–20:48 SGT实测：[柜门PORT05慢速修复后仍失抓，支线已关闭并写入/独立读回STOP，禁止继续柜门物理重试](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)。门实际转到8.82°，6825积分/174对RGB，原生安全通过，但未完成32秒任务；左侧未运行。源域累计6尝试/22046积分/488对RGB/合格示范0；新训练端点/有效模型评价仍0/0。E2唯一1508345最新仍Q且owner健康、GLOBAL pending/unknown空；E1固定512已到Core校验，未加载/评价。书本仅对保存动作做纯IK检查，两目标可达，动态失败原因未确定；不以此启动新物理。

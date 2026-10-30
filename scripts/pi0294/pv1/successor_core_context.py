@@ -52,6 +52,10 @@ def need(ok,msg):
 
 
 def ledger_binding(root,*,closeout=False):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(read(Path(root)/'RUN_MANIFEST.json')):
+        from scripts.pi0294.generalization.minimal_core_context import ledger_binding as binding512
+        return binding512(root,closeout=closeout)
     root=Path(root);m=read(root/'RUN_MANIFEST.json');name='plans/V5_CD_CORE_LEDGER_BINDING.private.json'
     need(m['execution']['sealed_inputs'].get(name)==sha(root/name),'ACTUAL_CANONICAL_LOCAL_BINDING')
     b=read(root/name);path=Path(b['canonical_LOCAL_ledger']).resolve()
@@ -102,6 +106,11 @@ def validate_cpu_affinity(limits,actual):
 
 def validate(root,profile,*,closeout=False):
     need(type(closeout)is bool,'EXPLICIT_CLOSEOUT')
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(read(Path(root)/'RUN_MANIFEST.json')):
+        need(profile=='4080-simulation','RAW512_EXISTING_PHYSICAL_PROFILE')
+        from scripts.pi0294.generalization.minimal_core_context import validate as validate512
+        return validate512(root,closeout=closeout)[0]
     r=Path(root);need(r.is_absolute() and r.is_dir() and not r.is_symlink() and r.stat().st_uid==os.getuid()==2009 and os.uname().nodename=='corelab-4080s','REGISTERED_CORE_HOST_AND_UID')
     for name in ('RUN_MANIFEST.json','OUTPUT_BINDING.private.json'):
         p=r/name;need(p.is_file() and not p.is_symlink() and p.stat().st_uid==2009

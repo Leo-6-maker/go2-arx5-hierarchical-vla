@@ -24,6 +24,11 @@ def scope(grant_bytes,global_bytes):
     """Exact already-paid control slice, independently derived from GLOBAL."""
     from . import mix_core_accounting as c
     body=contract._body(grant_bytes);g=json.loads(global_bytes);rid=body['request']['request_id']
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(body['request']):
+        row=g[first512.FIELD][rid];first512.validate_row(row)
+        need(row['control_payment']==first512.CONTROL,'ACTUAL_NEW512_PAID_CONTROL')
+        return first512.finite_control_scope(g,rid)
     if 'V5_CD_D25_exact_e686_local_successor' in g:
         from .mix_core_d25_local_successor import finite_control_scope
         finite=finite_control_scope(g,rid)
@@ -70,7 +75,9 @@ def _fold(value,event,body):
         value['CPU_s']+=cpu;value['RPC_calls']+=calls
     elif kind=='CANDIDATE':
         request=body['request'];candidate=request['evaluation_candidate']
-        expected={candidate:dict(checkpoint_manifest_sha256=request['checkpoint_manifest_sha256'],global_step=1024)}
+        from scripts.pi0294.generalization import minimal_core_accounting as first512
+        step=512 if first512.typed(request) else 1024
+        expected={candidate:dict(checkpoint_manifest_sha256=request['checkpoint_manifest_sha256'],global_step=step)}
         need((event['actor_pid'],event['actor_start'])==(body['issued_row']['pid'],body['issued_row']['proc_start'])
              and vals==expected and not value['candidates'],'ONLY_BOUND_NEURAL_EXACT_CLOSED_CANDIDATE_ONCE')
         value['candidates']=deepcopy(expected)
@@ -130,6 +137,8 @@ def merge_terminal(root,grant_bytes,state_bytes,global_bytes,local_bytes,**termi
     confirmed=store.read_confirmed(root,expected_grant_sha256=a.sha(grant_bytes))
     need(confirmed['state_sha256']==a.sha(state_bytes),'CURRENT_CONFIRMED_EFFECT_BYTES')
     value=read_confirmed(root,grant_bytes);body=contract._body(grant_bytes)
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(body['request']):c=first512
     proof=terminal_inputs['native_proof'];rid=body['request']['request_id']
     need(all(event['epoch']<=terminal_inputs['now_epoch'] for event in value['events']),
          'ALL_ACTUAL_CONTROL_TERMINAL_RECORDS_PRECEDE_MERGE')
@@ -148,7 +157,7 @@ def merge_terminal(root,grant_bytes,state_bytes,global_bytes,local_bytes,**termi
     for key,endpoint in value['candidates'].items():
         need(key not in candidates or candidates[key]==endpoint,'NO_DIFFERENT_CANONICAL_CANDIDATE')
         candidates[key]=deepcopy(endpoint)
-    need(len(candidates)<=2,'ORIGINAL_TWO_CD_CANDIDATES')
+    need(len(candidates)<=1 if c is first512 else len(candidates)<=2,'DECLARED_CANDIDATES_ONLY')
     for ledger in (g,l):
         ledger[contract.FIELD][rid]['terminal_control_sha256']=a.sha(a.raw(value))
     c.checked(g);c.paired(g,l)

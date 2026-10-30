@@ -83,6 +83,10 @@ class Ledger:
         paths=list((self.root/'pbs').glob('alloc-*/REQUEST.json')) if request_path is None else [Path(request_path)]
         need(len(paths)==1,'ONE_EXACT_CURRENT_REQUEST')
         self.request_path=paths[0];raw=_immutable(self.request_path);self.request=json.loads(raw);self.request_sha=a.sha(raw)
+        from scripts.pi0294.generalization import minimal_core_accounting as first512
+        if first512.typed(self.request):
+            self.accounting=first512
+            self.candidate_field=first512.CANDIDATES
         need(selected(self.manifest,self.request) and self.request_path.parent.parent.resolve()==(self.root/'pbs').resolve()
              and self.request_path.name=='REQUEST.json'
              and self.request_path.parent.name=='alloc-'+str(self.request['allocation_number']).zfill(2),'EXACT_REGISTERED_REQUEST')
@@ -117,6 +121,10 @@ class Ledger:
         self.path=self.root/'evidence'/store.STATE
         self.partial_output_guard=None
         self.d25_output_guard=None
+        self.fixed512_output_guard=None
+        if first512.typed(self.request):
+            from scripts.pi0294.generalization.minimal_core_output import Guard
+            self.fixed512_output_guard=Guard(self.root,self.manifest,self.request,read(self.local_path))
         if 'D25_local_successor_sha256'in self.request:
             from .mix_core_d25_output_guard import Guard
             self.d25_output_guard=Guard(self.root,self.manifest,self.request,read(self.local_path))
@@ -158,7 +166,11 @@ class Ledger:
              and local.get('unknown_effects')==local.get('pending_updates')==local.get('pending_queries')==[],
              'ACTUAL_LOCAL_CUSTODY_HELD_AND_UNKNOWN_FENCES')
         from . import successor_cd as successor
-        marker=successor.validated(local)
+        from scripts.pi0294.generalization import minimal_core_accounting as first512
+        if first512.typed(self.request):
+            marker=local[first512.FIELD][self.request['request_id']]
+            first512.validate_row(marker)
+        else:marker=successor.validated(local)
         need(marker['T_CD']==self.request['T_CD'] and marker['deadline_epoch']==self.request['deadline_epoch'],
              'ACTUAL_LOCAL_UNCHANGED_SCOPE_CLOCK')
         physical=Path(self.binding['physical_peer_root'])
@@ -177,6 +189,7 @@ class Ledger:
             identity.current_owner(self.root,self.request,request_sha256=self.request_sha)
         if self.partial_output_guard is not None:self.partial_output_guard.check()
         if self.d25_output_guard is not None:self.d25_output_guard.check()
+        if self.fixed512_output_guard is not None:self.fixed512_output_guard.check()
         return now
 
     def live_proof(self,*,force_native=True):

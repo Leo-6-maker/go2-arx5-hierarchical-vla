@@ -15,6 +15,18 @@ def owner_only(root,manifest):
     policy=manifest.get('execution',{}).get('owner_heartbeat_policy')
     if policy is None:return False
     stage=read(Path(root)/'PV1_STAGE_BINDING.json')
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(manifest):
+        if (policy!=POLICY or stage.get('owner_heartbeat_policy')!=POLICY
+                or manifest.get('owner')!='EXISTING_LOCAL_PC'
+                or manifest.get('scope')not in(first512.ROLE,first512.PHYSICAL_ROLE)
+                or manifest['authority'].get('scope_grant_sha256')!=first512.GRANT_SHA
+                or stage.get('scope_grant_sha256')!=first512.GRANT_SHA
+                or stage.get('task')!=first512.plan.STAGE
+                or manifest['authority'].get('protocol_ref')!=first512.campaign.TASK_SOURCE
+                or stage.get('authority_release')!=first512.campaign.TASK_SOURCE):
+            raise PermissionError('RAW512_EXACT_SINGLE_OWNER_HEARTBEAT_AUTHORITY')
+        return True
     from . import mix_vanda_eval_identity as colocated
     from . import mix_core_identity as cd
     from .successor_core_context import EVAL_ROLE

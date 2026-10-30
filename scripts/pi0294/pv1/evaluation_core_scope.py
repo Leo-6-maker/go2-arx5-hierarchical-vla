@@ -43,6 +43,10 @@ def member(root,name):
 
 def validate(root,*,closeout=False):
     need(type(closeout) is bool,'EXPLICIT_CLOSEOUT_PHASE')
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(read(Path(root)/'RUN_MANIFEST.json')):
+        from scripts.pi0294.generalization.minimal_core_context import validate as validate512
+        return validate512(root,closeout=closeout)
     from . import mix_core_identity as cd
     if cd.typed(read(Path(root)/'RUN_MANIFEST.json')):
         from .mix_core_context import validate as validate_successor

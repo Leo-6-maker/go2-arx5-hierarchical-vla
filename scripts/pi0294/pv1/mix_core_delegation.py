@@ -44,6 +44,8 @@ def _digest(value):
 
 def _body(grant_bytes):
     grant = load(grant_bytes)
+    from scripts.pi0294.generalization import minimal_core_delegation as first512
+    if grant.get('schema')==first512.GRANT:return first512.body(grant_bytes)
     need(set(grant) == {'schema', 'body', 'body_sha256'}
          and grant['schema'] == GRANT and type(grant['body']) is dict
          and grant['body_sha256'] == _digest(grant['body']), 'GRANT_BODY_HASH')
@@ -116,6 +118,10 @@ def issue(**inputs):
     independent canonical readbacks are accepted by ``activate``. Issuance
     changes neither resource totals nor any row, package, cap or clock.
     """
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(load(inputs['request_bytes'])):
+        from scripts.pi0294.generalization.minimal_core_delegation import issue as issue512
+        return issue512(**inputs)
     need(set(inputs) == set(_INPUTS) | {'now_epoch'}, 'COMPLETE_ORIGINAL_ADMISSION_INPUTS')
     proof = admission.recompute(**inputs)
     g, l, m, r = (load(inputs[k]) for k in
@@ -182,6 +188,11 @@ def _initial(grant_bytes, activation):
 def activate(grant_bytes, *, global_bytes, local_bytes, global_intent_bytes,
              global_receipt_bytes, local_intent_bytes, local_receipt_bytes, now_epoch):
     """Accept actual two-site adoption; no process/model release is granted."""
+    from scripts.pi0294.generalization import minimal_core_delegation as first512
+    if load(grant_bytes).get('schema')==first512.GRANT:
+        return first512.activate(grant_bytes,global_bytes=global_bytes,local_bytes=local_bytes,
+            global_intent_bytes=global_intent_bytes,global_receipt_bytes=global_receipt_bytes,
+            local_intent_bytes=local_intent_bytes,local_receipt_bytes=local_receipt_bytes,now_epoch=now_epoch)
     b = _body(grant_bytes); marker = _marker(grant_bytes)
     g, l = load(global_bytes), load(local_bytes); c.checked(g); c.paired(g, l)
     rid = b['request']['request_id']; now = a.number(now_epoch)
@@ -375,6 +386,11 @@ def merge_terminal(grant_bytes, state_bytes, global_bytes, local_bytes, *,
     marker remains permanently, updated to terminal custody; lease closure
     and scientific stage advancement still require their original evidence.
     """
+    from scripts.pi0294.generalization import minimal_core_delegation as first512
+    if load(grant_bytes).get('schema')==first512.GRANT:
+        from scripts.pi0294.generalization.minimal_core_settlement import merge_terminal as merge512
+        return merge512(grant_bytes,state_bytes,global_bytes,local_bytes,native_proof=native_proof,effects=effects,
+            physical_bytes=physical_bytes,delivery_receipt_bytes=delivery_receipt_bytes,now_epoch=now_epoch)
     b = _body(grant_bytes); state = validate_state(grant_bytes, state_bytes)
     g, l = load(global_bytes), load(local_bytes); c.checked(g); c.paired(g, l)
     rid = b['request']['request_id']; marker = _marker(grant_bytes)

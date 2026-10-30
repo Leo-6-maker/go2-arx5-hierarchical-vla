@@ -23,10 +23,15 @@ def need(ok, message):
 
 
 def typed(value):
-    return value.get('platform_evaluation_version') == c.VERSION or value.get('scope') == c.ROLE
+    from scripts.pi0294.generalization.minimal_evaluation import typed as first512
+    return first512(value) or value.get('platform_evaluation_version') == c.VERSION or value.get('scope') == c.ROLE
 
 
 def cold_profile(m):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(m):
+        from scripts.pi0294.generalization.minimal_core_identity import cold_profile as checked
+        return checked(m)
     need(m.get('platform_evaluation_version') == c.VERSION and m.get('scope') == c.ROLE
          and m.get('execution', {}).get('profile') == c.PROFILE
          and 'platform_training_version' not in m, 'COMPLETE_NEW_NEURAL_ROLE')
@@ -34,6 +39,10 @@ def cold_profile(m):
 
 
 def request_identity(m, r, manifest_sha256):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(m) or first512.typed(r):
+        from scripts.pi0294.generalization.minimal_core_identity import request_identity as checked
+        return checked(m,r,manifest_sha256)
     cold_profile(m)
     need(m.get('schema') == 'PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1'
          and m.get('owner') == 'EXISTING_LOCAL_PC' and m.get('owner_user') == 'liuyu-nfs'
@@ -97,6 +106,10 @@ def request_identity(m, r, manifest_sha256):
 
 
 def check_clock(r, *, started_epoch, now_epoch):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(r):
+        from scripts.pi0294.generalization.minimal_core_identity import check_clock as checked
+        return checked(r,started_epoch=started_epoch,now_epoch=now_epoch)
     start = a.number(started_epoch); now = a.number(now_epoch)
     from .mix_core_partial_resume import envelope
     limits=envelope(r)
@@ -121,6 +134,11 @@ def current_owner(root, request, *, request_sha256):
     root = Path(root)
     mraw = _file(root, 'RUN_MANIFEST.json'); m = json.loads(mraw)
     request_identity(m, request, hashlib.sha256(mraw).hexdigest())
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    new=first512.typed(request)
+    owner_role=first512.OWNER_ROLE if new else OWNER_ROLE
+    grant_sha=first512.GRANT_SHA if new else s.GRANT_SHA
+    task=first512.plan.STAGE if new else s.TASK
     relative = 'pbs/alloc-'+str(request['allocation_number']).zfill(2)+'/REQUEST.json'
     raw = _file(root, relative)
     need(hashlib.sha256(raw).hexdigest() == request_sha256 and json.loads(raw) == request,
@@ -137,15 +155,15 @@ def current_owner(root, request, *, request_sha256):
     obraw = _file(control, 'OUTPUT_BINDING.private.json'); ob = json.loads(obraw)
     need(hashlib.sha256(omraw).hexdigest() == binding['owner_manifest_sha256']
          and om['run_uuid'] == control.name and om['output_root'] == str(control)
-         and om['scope'] == OWNER_ROLE and om['code']['vla_commit'] == request['source_sha']
+         and om['scope'] == owner_role and om['code']['vla_commit'] == request['source_sha']
          and om['authority']['protocol_ref'] == s.TASK_SOURCE
-         and om['authority']['scope_grant_sha256'] == s.GRANT_SHA
+         and om['authority']['scope_grant_sha256'] == grant_sha
          and om['limits']['T_CD'] == request['T_CD']
          and om['limits']['operation_deadline_epoch'] == request['deadline_epoch']
          and om['execution']['profile'] == '4080-cpu-data'
          and om['execution']['output_binding_sha256'] == hashlib.sha256(obraw).hexdigest()
          and ob['run_root'] == str(control) and ob['run_uuid'] == control.name and ob['uid'] == 2009
-         and ob['role'] == OWNER_ROLE+'__'+control.name
+         and ob['role'] == owner_role+'__'+control.name
          and om['execution']['private_path_role'] == ob['role']
          and Path(ob['registered_parent']) == control.parent,
          'REGISTERED_SUCCESSOR_OWNER_SAME_SOURCE_SCOPE_AND_CLOCK')
@@ -164,7 +182,7 @@ def current_owner(root, request, *, request_sha256):
         uid=2009, run_uuid=control.name, source_sha=request['source_sha'],
         request_id=request['request_id'], request_sha256=request_sha256,
         manifest_sha256=binding['owner_manifest_sha256'],
-        native_unit=control.name+'.service', task=s.TASK, scope_grant_sha256=s.GRANT_SHA,
+        native_unit=control.name+'.service', task=task, scope_grant_sha256=grant_sha,
         T_CD=request['T_CD'], deadline_epoch=request['deadline_epoch'])
     need(all(owner.get(k) == v and type(owner[k]) is type(v) for k, v in expected.items())
          and type(owner.get('pid')) is int and owner['pid'] > 0
@@ -194,7 +212,7 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
     p = allocation.get('native_process')
     need(type(p) is dict, 'REAL_NATIVE_PROCESS_REQUIRED')
     handle = c.process_handle(p.get('boot_id'), p.get('pid'), p.get('proc_start'))
-    expected = dict(status=STATUS, platform_evaluation_version=c.VERSION,
+    expected = dict(status=STATUS, platform_evaluation_version=r['platform_evaluation_version'],
         run_uuid=run_uuid, manifest_sha256=manifest_sha256, request_sha256=request_sha256,
         job_id=handle, native_handle=handle, model_loaded=False, new_optimizer_updates=0)
     need(m['run_uuid'] == r['run_uuid'] == run_uuid and
@@ -250,6 +268,10 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
 
 
 def require_device(request, allocation, *, visible, count, name, memory_bytes):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(request) or first512.typed(allocation):
+        from scripts.pi0294.generalization.minimal_core_identity import require_device as checked
+        return checked(request,allocation,visible=visible,count=count,name=name,memory_bytes=memory_bytes)
     r, v = request, allocation
     need(r.get('platform_evaluation_version') == v.get('platform_evaluation_version') == c.VERSION
          and v.get('status') == STATUS and r.get('stage') == v.get('stage') == 'V5_MATCHED_DEV24'

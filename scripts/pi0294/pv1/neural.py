@@ -42,6 +42,11 @@ def require_native_device(request,allocation,torch):
     visible=os.environ.get('CUDA_VISIBLE_DEVICES')
     count=torch.cuda.device_count() if visible else 0
     name=torch.cuda.get_device_name(0) if count==1 else None
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(request) or first512.typed(allocation):
+        from scripts.pi0294.generalization.minimal_core_identity import require_device
+        return require_device(request,allocation,visible=visible,count=count,name=name,
+            memory_bytes=torch.cuda.get_device_properties(0).total_memory if count==1 else 0)
     from . import evaluation_core_accounting as core
     from . import mix_accounting as cd
     from . import mix_vanda_eval_identity as colocated
@@ -350,7 +355,8 @@ def run(root,request_path):
     from . import evaluation_core_accounting as core
     from . import mix_accounting as cd
     from . import mix_vanda_eval_identity as colocated
-    if r.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION,colocated.VERSION):
+    from scripts.pi0294.generalization import minimal_evaluation as first512
+    if first512.typed(r) or r.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION,colocated.VERSION):
         from .evaluation_core_runtime import run as run_Core_evaluation
         return run_Core_evaluation(root,request_path)
     if r.get('stage') not in STAGES:

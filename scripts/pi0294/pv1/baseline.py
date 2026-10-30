@@ -47,7 +47,13 @@ def _validated_attempts(population_bytes,*,route,new_bank_manifest_sha256,eviden
             or (candidate=='B0_CORR')!=(checkpoint_manifest_sha256==PARENT)):
         raise PermissionError('PV1_ACTUAL_DEV_CANDIDATE_CHECKPOINT_IDENTITY_REQUIRED')
     successor=candidate in ('C50','D25')
-    if successor:
+    if candidate=='E1':
+        from scripts.pi0294.generalization import minimal_core_accounting as first512
+        from scripts.pi0294.dec1.authority import BANK
+        if route!='COVERAGE_FIRST' or new_bank_manifest_sha256!=BANK or checkpoint_manifest_sha256!=first512.CHECKPOINT:
+            raise PermissionError('RAW512_ONLY_KNOWN_CLOSED_E1_ORIGINAL_PANEL')
+        step=512;plan=first512.plan.candidate_plan(population['groups'],'E1',checkpoint_manifest_sha256=checkpoint_manifest_sha256)
+    elif successor:
         from scripts.pi0294.dec1.authority import BANK
         from .mix_evaluation import candidate_plan
         if route!='COVERAGE_FIRST' or new_bank_manifest_sha256!=BANK:
@@ -158,7 +164,7 @@ def _validated_attempts(population_bytes,*,route,new_bank_manifest_sha256,eviden
 def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
         candidate='B0_CORR',checkpoint_manifest_sha256=PARENT):
     """Original complete DEV48 gate, unchanged for training and selection."""
-    if candidate in ('C50','D25'):
+    if candidate in ('C50','D25','E1'):
         raise PermissionError('V5_CD_SINGLE_PANEL_HISTORY_IS_NOT_LEGACY_DEV48_TRAINING_ADMISSION')
     plan,rows,result_hashes,audit_hashes,attempt_hashes=_validated_attempts(population_bytes,
         route=route,new_bank_manifest_sha256=new_bank_manifest_sha256,evidence=evidence,
@@ -192,7 +198,7 @@ def partial_history(population_bytes,*,candidate,evidence,checkpoint_manifest_sh
     """
     from scripts.pi0294.dec1.authority import BANK
     from .evaluation_platform import ENDPOINTS
-    if candidate in ('C50','D25'):
+    if candidate in ('C50','D25','E1'):
         return _successor_history(population_bytes,candidate=candidate,evidence=evidence,
             checkpoint_manifest_sha256=checkpoint_manifest_sha256)
     if candidate not in ENDPOINTS:
@@ -219,6 +225,10 @@ def _successor_history(population_bytes,*,candidate,evidence,checkpoint_manifest
     """Original per-attempt audit/causal checks on the predeclared CD24 panel."""
     from scripts.pi0294.dec1.authority import BANK
     from .successor_cd import TASK_SOURCE
+    first512=candidate=='E1'
+    if first512:
+        from scripts.pi0294.generalization.minimal_core_accounting import CHECKPOINT
+        if checkpoint_manifest_sha256!=CHECKPOINT:raise PermissionError('RAW512_EXACT_KNOWN_E1_HISTORY')
     if (type(checkpoint_manifest_sha256)is not str
             or not re.fullmatch('[0-9a-f]{64}',checkpoint_manifest_sha256)
             or checkpoint_manifest_sha256==PARENT):
@@ -229,10 +239,10 @@ def _successor_history(population_bytes,*,candidate,evidence,checkpoint_manifest
     remaining={label:remaining_panel(rows,panel)for label,panel in plan['panels'].items()}
     valid=len(results);eligible=sum(len(cards)for cards in remaining.values())
     if len(attempts)-valid>4:raise PermissionError('V5_WHOLE_PAIR_ENGINEERING_MAX_FOUR')
-    return dict(schema='V5_CD_ORIGINAL_DEV24_VALIDATED_HISTORY_V1',authority_release=TASK_SOURCE,
+    return dict(schema='ARX5_MINIMAL_FIXED512_ORIGINAL_DEV24_VALIDATED_HISTORY_V1'if first512 else'V5_CD_ORIGINAL_DEV24_VALIDATED_HISTORY_V1',authority_release=TASK_SOURCE,
         status='VALIDATED_SUPPLIED_ORIGINAL_ATTEMPTS_NOT_NATIVE_OR_SELECTION_ADMISSION',candidate=candidate,
         population_plan_sha256=POPULATION,checkpoint_manifest_sha256=checkpoint_manifest_sha256,
-        checkpoint_step=1024,prior_rows=rows,all_actual_attempts=attempts,
+        checkpoint_step=512 if first512 else 1024,prior_rows=rows,all_actual_attempts=attempts,
         condition_result_sha256=results,independent_audit_sha256=audits,valid_conditions=valid,
         remaining_eligible_conditions=eligible,exhausted_engineering_conditions=24-valid-eligible,
         remaining_panels=remaining,successes={task:sum(r['task']==task and r['status']=='SUCCESS'for r in rows)for task in ('T1','T2')},
