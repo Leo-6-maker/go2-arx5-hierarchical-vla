@@ -6,7 +6,7 @@
 
 **S1两次恢复已实际关闭，仍无整机成功示范：** [首次结果与核账](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1安装1段H40并实际执行0.4秒，保存8对RGB；下一段被历史旋转解码错误误拒。T2在初始化第24步真实触发小腿关节安全停止，未进入任务，该版本已隔离。累计5启动、实际7727/计费7736步、RGB8对；两run/lease均关闭、旧费用原件保留，不重试。T1实际保存状态的正确行解码通过原1051点证书，48项CPU检查通过；冷修未部署，不代表任务成功。T2启动失稳原因未确立；四任务新物理/训练及十天延期未采用，完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留。
 
-**2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
+**2026-10-30最新实际：E1@512的固定HF包已完整到达Core，14项文件全文SHA与原私有元数据恢复通过；独立再读12.576GB、接收自然OS0且own lease CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/QUALIFIED_E1_CORE_FIXED512_DELIVERED_CLOSED_FULL_BYTES_ACTUAL_20261030.json)。模型尚未加载，E1闭环0；最新E2唯一作业1508345仍Q、原后台存活，D25原24仍待合法并发边界。未重训E1、未改健康E2或旧费用。
 
 
 
