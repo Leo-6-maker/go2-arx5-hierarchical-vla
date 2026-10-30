@@ -27,6 +27,8 @@ BOOK_MARGIN_VERSION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
 BOOK_MARGIN_CARD_SHA='d2ad227cd041b456fbe052aea2a716c4a10b1297e0a497fae6d2f30bdd93c09b'
 BOOK_DESCENT_VERSION='LIBERO_ARX5_PORT05_SLOW_SUPPORTED_DESCENT'
 BOOK_DESCENT_CARD_SHA='7a1b93f86b36fca9215477bd9f3c1032c9f90e3d0b876b1c0a8bab1a7fb6bbf4'
+BOOK_RELEASE_VERSION='LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE'
+BOOK_RELEASE_CARD_SHA='dccf632eef8342c5fe5fd23a6b57448736034e7b34ffd7fca87f323caed76b67'
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
     'desk_caddy/desk_caddy.xml': 'bb59530d8629878f8974efaed4abf79d31743ee3',
@@ -71,7 +73,7 @@ def checked_manifest(manifest):
     kind = manifest.get('task_kind', 'BOOK')
     side=manifest.get('condition_side')
     tasks = plan(kind,side=side)
-    if side is not None and manifest.get('book_route_revision')not in(BOOK_ROUTE_VERSION,BOOK_MARGIN_VERSION,BOOK_DESCENT_VERSION):
+    if side is not None and manifest.get('book_route_revision')not in(BOOK_ROUTE_VERSION,BOOK_MARGIN_VERSION,BOOK_DESCENT_VERSION,BOOK_RELEASE_VERSION):
         raise PermissionError('EXPLICIT_STATIC_BOOK_ROUTE_MANIFEST')
     declared = [x['side']for x in tasks] if kind == 'BOOK' else tasks
     if (manifest['predeclared_tasks'] != declared
@@ -130,7 +132,7 @@ def unpack(payload):
         raise PermissionError('EXPLICIT_SEPARATE_CABINET_REPAIR02_STAGE')
     book_revision=payload.get('book_route_revision')
     book_revisions={BOOK_ROUTE_VERSION:BOOK_ROUTE_CARD_SHA,BOOK_MARGIN_VERSION:BOOK_MARGIN_CARD_SHA,
-                    BOOK_DESCENT_VERSION:BOOK_DESCENT_CARD_SHA}
+                    BOOK_DESCENT_VERSION:BOOK_DESCENT_CARD_SHA,BOOK_RELEASE_VERSION:BOOK_RELEASE_CARD_SHA}
     if book_revision is not None:
         if (book_revision not in book_revisions or kind!='BOOK' or side!='left'
                 or revision is not None or qualification.get('book_route_revision')!=book_revision
