@@ -1,0 +1,235 @@
+{
+  "schema": "PI0294_PORT02_NATIVE_INITIAL_SAFETY_PASS_CAMERA_REJECTION_AND_PORT03_COLD_FIX_V1",
+  "status": "PORT02_NATIVE_CLOSED_CAMERA_FAILURE_PORT03_COLD_ONLY",
+  "runtime_source_sha": "cf29c4ce3b5efa2503176fd82680bfa0663ee857",
+  "manifest_sha256": "84297dc2d9c4e6012202709a064c0cbdb9df91533dea73897ccc162f3054b210",
+  "observed_epoch": 1793359777.1280496,
+  "native_result": {
+    "operation": "ROBOCASA_RIGHT_REPAIR02",
+    "unit_MainPID": 0,
+    "unit_ExecMainStatus": 0,
+    "worker_exit_status": 1,
+    "worker_terminal_sha256": "3d885ed7d0869e9e1b6b5957546a6bc79b55e1e0bbf8de635ae8d984b7aacced",
+    "worker_terminal": {
+      "status": "SOURCE_ATTEMPT_FAILED",
+      "operation": "ROBOCASA_RIGHT_REPAIR02",
+      "error": "PermissionError: QUALIFICATION_OBJECT_OUTSIDE_DECLARED_DUAL_CAMERA_VIEW",
+      "result": null,
+      "actual_integrations": 0,
+      "actual_RGB_pairs": 1,
+      "recorded_RGB_pairs": 0,
+      "events": {},
+      "CPU_s": 1.34487793,
+      "wall_s": 1.0553149818442762,
+      "render_device_s": 0.36354085290804505,
+      "task_success": null,
+      "training_admitted": false,
+      "automatic_retry": false,
+      "new_model_queries_updates_PBS": 0,
+      "observed_epoch": 1793359758.450507
+    },
+    "initial_state_safety_valid": true,
+    "initial_illegal_contact": false,
+    "initial_grasp": false,
+    "initial_IK_error": [
+      4.295675966321418e-08,
+      6.065541791056006e-09
+    ],
+    "raw_sha256": "e94ad30f7edb4fb8ed52d256549e1813853eab567fda58791b7565623e4cf6a7",
+    "scene_sha256": "06e3d21455af4aea4340e95cc6bb3680a3e1f6bb8614e038d1b8eaf14b0889ec",
+    "independent_audit_sha256": "bd438f2886d49a60485b803effbaa850bab7da8a1bfeb68529f98b01ffd7be39",
+    "audit": {
+      "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "e94ad30f7edb4fb8ed52d256549e1813853eab567fda58791b7565623e4cf6a7",
+      "terminal_sha256": "3d885ed7d0869e9e1b6b5957546a6bc79b55e1e0bbf8de635ae8d984b7aacced",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INCOMPLETE_BEFORE_NATIVE_QUALIFICATION",
+      "error": "PermissionError: QUALIFICATION_OBJECT_OUTSIDE_DECLARED_DUAL_CAMERA_VIEW"
+    },
+    "own_lease_sha256": "ad536698b7fb3a916fdf226ab38fd8f47dc18001141052b3284791fc9ace2a18",
+    "own_lease_once": {
+      "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+      "request_id": "NIGHT30-FINITE-SOURCE-CHAIN-CLOSE",
+      "actual_sha256": "ad536698b7fb3a916fdf226ab38fd8f47dc18001141052b3284791fc9ace2a18",
+      "receipt_binding_valid": true,
+      "read_only": true,
+      "native_dispatch_admitted": false,
+      "automatic_retry_allowed": false
+    },
+    "own_safety_STOP_exists": false,
+    "left_condition": "NOT_RUN_AFTER_FIRST_ENGINEERING_FAILURE",
+    "PC_or_other_site_runtime_dependency": false
+  },
+  "old_custody": {
+    "closed_once": {
+      "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+      "request_id": "NIGHT30-ONE-CABINET-REPAIR02-CUSTODY-TRANSFER",
+      "actual_sha256": "424c785468eaa459f752f8ffaaaa70505f776c204e6c1aeb2a835ea5c8f9d3f7",
+      "receipt_binding_valid": true,
+      "read_only": true,
+      "native_dispatch_admitted": false,
+      "automatic_retry_allowed": false
+    },
+    "account_sha256": "424c785468eaa459f752f8ffaaaa70505f776c204e6c1aeb2a835ea5c8f9d3f7",
+    "old_STOP_and_closed_lease_unchanged": true
+  },
+  "camera_diagnosis": {
+    "actual_initial_projection_counts": {
+      "wrist_rgb": 0,
+      "body_rgb": 8
+    },
+    "actual_png_files": {
+      "body_rgb": {
+        "bytes": 44854,
+        "sha256": "68554a125192be9d0f27cfa52fb1b5f4d6b1b60ab1f2e533c0ab3fe5c7dad66c"
+      },
+      "wrist_rgb": {
+        "bytes": 48068,
+        "sha256": "a0a716f04962e5152cfff9cf66937be8d8daa21cf38f9222aab0521548c92253"
+      }
+    },
+    "method": "Saved XML rigid FK and exact original camera xyaxes/FOV pinhole projection; no model construction, forward, integration or rendering during diagnosis.",
+    "cause": "Original fixed wrist camera points away from the handle at PORT02 home. Body projection passes8/8; wrist0/8. No collision or joint violation in the saved initial state."
+  },
+  "new_explicit_version": {
+    "name": "ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME",
+    "changes": "Only initial fixed home: xyz=(0.30,+/-0.30,0.59), common45degree world yaw/downward orientation. Condition-specific mirrored homes are declared before execution, never runtime object-relative resets.",
+    "unchanged": "PORT02 cabinet, grasp, withdrawal, original robot/driver/camera/FOV, safety/full37s recording and independent score.",
+    "reference_samples": {
+      "right": {
+        "states": 415,
+        "minimum": {
+          "stage": "turn",
+          "index": 195,
+          "angle_rad": 1.4542125000000001,
+          "minimum": {
+            "robot": "x5_link6",
+            "obstacle": "handle_connector_top",
+            "conservative_clearance_m": 0.00857564322869743
+          },
+          "IK_error": [
+            3.659549191951674e-09,
+            2.283513800630939e-08
+          ],
+          "arm_q": [
+            -0.23859677768058213,
+            1.2395142494823985,
+            0.5890179352250924,
+            -1.0414147258238757,
+            -0.7779911884551374,
+            -1.742502465997197
+          ],
+          "joint_limit_margin_rad": 0.3464975340028029
+        },
+        "maximum_IK_position_error_m": 4.131412632257321e-09,
+        "maximum_IK_rotation_error_rad": 2.5189993582027487e-08,
+        "minimum_joint_limit_margin_rad": 0.23829462697530546,
+        "first_illegal_collision_or_unreachable": null
+      },
+      "left": {
+        "states": 415,
+        "minimum": {
+          "stage": "turn",
+          "index": 195,
+          "angle_rad": -1.4542125000000001,
+          "minimum": {
+            "robot": "x5_link6",
+            "obstacle": "handle_connector_top",
+            "conservative_clearance_m": 0.00857564322869743
+          },
+          "IK_error": [
+            3.659549191951674e-09,
+            2.283513800630939e-08
+          ],
+          "arm_q": [
+            0.23859677768058213,
+            1.2395142494823985,
+            0.5890179352250924,
+            -1.0414147258238757,
+            0.7779911884551374,
+            1.742502465997197
+          ],
+          "joint_limit_margin_rad": 0.3464975340028029
+        },
+        "maximum_IK_position_error_m": 4.289819580913484e-09,
+        "maximum_IK_rotation_error_rad": 6.872983897518408e-08,
+        "minimum_joint_limit_margin_rad": 0.23829462697530546,
+        "first_illegal_collision_or_unreachable": null
+      }
+    },
+    "candidate_initial_camera_counts": {
+      "right": {
+        "wrist_rgb": 4,
+        "body_rgb": 8
+      },
+      "left": {
+        "wrist_rgb": 4,
+        "body_rgb": 8
+      }
+    },
+    "candidate_initial_min_clearance_m": {
+      "right": 0.031130715386454205,
+      "left": 0.033213854496283016
+    },
+    "native_adopted": false,
+    "physics_started": false,
+    "qualification": "PURE_GEOMETRY_ONLY_NOT_NATIVE",
+    "private_geometry_sha256": "20f994769cbecfe4033f32379e09ee3891db0b3934ff0659e76a120b671a3cb2",
+    "limitations": "No ray occlusion, actual RGB or dynamics proof for PORT03. At most one camera-fix attempt per side; same error again stops the branch. This is new source-port development, not old first conditions or original benchmark."
+  },
+  "source_aggregate": {
+    "native_attempts": 3,
+    "actual_integrations": 3371,
+    "actual_RGB_pairs": 37,
+    "qualified_source_demonstrations": 0,
+    "charged_upper": {
+      "attempts": 3,
+      "physics_integrations": 150000,
+      "RGB_pairs": 6000,
+      "Core_CPU_s": 10110,
+      "PC_CPU_s": 1420,
+      "render_device_s": 1800,
+      "Core_peak_bytes": 2147483648,
+      "PC_evidence_bytes": 783384576,
+      "transfer_bytes": 648249344
+    },
+    "old_uppers_refunded": false,
+    "new_pool_issued": false
+  },
+  "model_lines": {
+    "E2_job_id": "1508345.stdct-mgmt-02",
+    "E2_native_job_state": "Q",
+    "E2_processes": [
+      {
+        "pid": 572332,
+        "live": true,
+        "procstart": 85083367
+      },
+      {
+        "pid": 572336,
+        "live": true,
+        "procstart": 85083369
+      }
+    ],
+    "E2_observed_epoch": 1793359930.0217247,
+    "E2_GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "E2_pending_updates": [],
+    "E2_unknown_effects": [],
+    "E1_actual_original_loader_metadata_status": "ACTUAL_E1_FIXED512_ORIGINAL_MODEL_IDENTITY_AND_PINNED_LOCAL_COSMOS_ALIAS_METADATA_VERIFIED",
+    "E1_fixed_global_step": 512,
+    "E1_native_model_load_or_closed_loop": 0,
+    "D25_valid_conditions": 0,
+    "healthy_E2_or_D25_hold_row_changed": false
+  },
+  "new_complete_training_endpoints": 0,
+  "new_valid_model_evaluation_conditions": 0,
+  "new_qualified_source_demonstrations": 0,
+  "infrastructure_or_S1_changes": 0,
+  "validation": {
+    "targeted_CPU_passed": 28,
+    "CI": "NOT_RUN"
+  }
+}

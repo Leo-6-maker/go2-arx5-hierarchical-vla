@@ -34,6 +34,10 @@ def cards():
 
 def checked_card(card,side):
     if side not in('left','right'):raise ValueError('EXACT_CABINET_SIDE')
+    if card.get('port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME':
+        from .cabinet_camera_port03 import cards as camera_cards
+        if card!=camera_cards()[side]:raise PermissionError('EXACT_SEPARATE_PORT03_FIXED_CAMERA_HOME')
+        return True
     repair=card.get('port_revision')==VERSION
     if card!=(cards()if repair else original_cards())[side]:
         raise PermissionError('EXACT_PORT01_OR_SEPARATE_PORT02_CABINET_CARD')
@@ -41,7 +45,9 @@ def checked_card(card,side):
 
 
 def attempt_operation(card,side):
-    return 'ROBOCASA_'+side.upper()+('_REPAIR02'if checked_card(card,side)else'_FIRST01')
+    repair=checked_card(card,side)
+    suffix='_PORT03_CAMERA'if card.get('port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME'else'_REPAIR02'if repair else'_FIRST01'
+    return 'ROBOCASA_'+side.upper()+suffix
 
 
 def predecessor(bodies):
