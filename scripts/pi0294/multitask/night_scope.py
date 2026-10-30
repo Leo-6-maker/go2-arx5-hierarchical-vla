@@ -156,6 +156,28 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if 'closed_book_unrun_cabinet_carry'in v:
+        # Pure byte validation also runs before a native capsule exists.
+        # Keep this gate independent of filesystem imports/caller sys.path.
+        carry=v['closed_book_unrun_cabinet_carry']
+        pins=dict(account='39153fc64af24103ac9f79ffe0908210c75daf24e959a839aee353d9a9824bcf',
+            lease='c2e4eb4413fc23ddef235b8055d5b3b1ea980318ed168527cc57b84e588fe3c1',
+            terminal='00f37cb3a692f7cc7e61812e0c4b3226b8320cc85e750357d764333fd298dc46',
+            stop='c5cec8f8c78f5707c333b9d58eef4d44bd821ee6b55189aeea09a2edc75cf018')
+        need(set(carry)==set(pins),'EXACT_CLOSED_NATIVE_CABINET_CARRY_FIELDS')
+        bodies={k:base64.b64decode(b,validate=True)for k,b in carry.items()}
+        need(all(hashlib.sha256(b).hexdigest()==pins[k]for k,b in bodies.items()),
+             'EXACT_NATIVE_BOOK_POOL_AND_CLOSED_SAFETY_EVIDENCE')
+        old=json.loads(bodies['account']);validate_account(old)
+        need(v['operations'][:len(old['operations'])]==old['operations']
+             and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS)
+             and v['section5_successor']==old['section5_successor']
+             and v['native_destination'].endswith('-cabinet-unrun-night-source-four01'),
+             'CABINET_CARRY_ALL_OLD_UPPERS_NO_NEW_POOL')
+        for op in v['operations'][len(old['operations']):]:
+            if op['kind']=='ATTEMPT':
+                need(op['task']=='ROBOCASA_OPEN_CABINET'and op['operation']in(
+                    'ROBOCASA_RIGHT_FIRST01','ROBOCASA_LEFT_FIRST01'),'ONLY_TWO_UNRUN_CABINET_ATTEMPTS')
     return v
 
 
