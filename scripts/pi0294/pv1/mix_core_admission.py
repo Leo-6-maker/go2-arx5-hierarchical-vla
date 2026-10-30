@@ -19,6 +19,20 @@ def need(ok,why):
 def load(b):
     need(type(b)is bytes,'CAPTURED_BYTES_NOT_A_PASS_SUMMARY');return json.loads(b)
 
+def adjusted_full_dimension(global_ledger,key,full,used,reserved):
+    """Keep actual floors and every finite cap when joining the full forecast."""
+    total=full['projected']+max(0,used-full['used'])+max(0,reserved-full['reserved'])
+    cap=full['cap']
+    if cap is None:
+        from scripts.pi0294.generalization.pbs_count_authority import validate
+        need(key=='PBS_submissions'and validate(global_ledger)is not None
+             and full.get('PBS_submission_count_limit','MISSING')is None
+             and full.get('count_still_accounted')is True,
+             'ONLY_EXACT_HUMAN_ADOPTED_PBS_COUNT_IS_UNLIMITED')
+        shortfall=0
+    else:shortfall=max(0,total-cap)
+    return dict(full,projected=total,shortfall=shortfall)
+
 def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_bytes,
               training_capture_bytes,population_bytes,plan_bytes,prior_bytes,
               native_facts_bytes,now_epoch):
@@ -105,8 +119,7 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
         # The complete forecast retains GEN1 and both minimal-adaptation arms.
         # A larger actual snapshot can only increase its paid/reserved floors.
         for k,full in recovery_future['dimensions'].items():
-            total=full['projected']+max(0,used[k]-full['used'])+max(0,reserved[k]-full['reserved'])
-            dimensions[k]=dict(full,projected=total,shortfall=max(0,total-full['cap']))
+            dimensions[k]=adjusted_full_dimension(g,k,full,used[k],reserved[k])
     shortfalls={k:v['shortfall']for k,v in dimensions.items()if v['shortfall']}
     need(not shortfalls,'ALL_ORIGINAL_REMAINING_DIMENSIONS_AND_FINAL_PROTECTED:'+str(shortfalls))
     current_end=start+limits['reserved_GPU_s']
