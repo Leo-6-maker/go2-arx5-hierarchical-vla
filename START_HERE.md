@@ -1,5 +1,7 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+2026-10-30 22:19–22:27 SGT实测更新：E2原作业1508345仍Q，但原wrapper/server已终态；owner于21:55因CPU软时限OS152退出，无模型/更新启动证据，不能再称后台健康。Core目标盘约157.9GiB可用、计算进程为空，内核三类quota格式查询均ESRCH。E1独立fixed512计账/原生入口/原owner及完整终态接线已实现，仍未部署、采用新分配或加载模型；新端点/有效条件/合格示范0/0/0。 [实际状态与接入缺口](reports/PI0294/design/parallel-science-20261022/FIXED512_CORE_NATIVE_ENTRY_AND_E2_OWNER_CPU_EXIT_ACTUAL_20261030.json)。
+
 **2026-10-30 21:17后继：放书原参考顶书缺陷已从保存状态复现；512评价计划入口已修，原生分配/backend仍未接通。** E2同一1508345仍Q且owner健康；模型评价与新示范仍0。柜门停止、S1/T2隔离和基础设施保护保持。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
 
 **2026-10-30 20:48实际：柜门支线已按“同类失抓一次修复后再现”停止。** [独立回读与完整结果](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)：门转8.82°后失抓，own chain/lease CLOSED、STOP禁止新柜门尝试；源域6次/22046积分/488RGB对，合格示范0。E2同一1508345仍Q且后台健康，E1在Core已校验未加载，模型评价0；独立书本/模型工作继续，S1/T2隔离和基础设施保护不变。

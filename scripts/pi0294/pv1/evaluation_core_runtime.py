@@ -38,6 +38,10 @@ def put(path,value):
 
 
 def phase_deadline(request):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(request):
+        first512.request(request)
+        return request['deadline_epoch']
     from . import mix_core_identity as cd,successor_cd as successor
     from . import mix_vanda_eval_identity as colocated
     if colocated.typed(request):
@@ -89,6 +93,9 @@ def run(root,request_path):
         from . import mix_vanda_eval_context as process_identity,mix_vanda_eval_native as backend
         from .mix_vanda_eval_ledger import Ledger as ledger_type
         validator=process_identity.validate
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(request):
+        from scripts.pi0294.generalization import minimal_core_native as backend
     manifest,*_=validator(root)
     from . import mix_core_identity as cd
     successor=cohost or cd.typed(request)

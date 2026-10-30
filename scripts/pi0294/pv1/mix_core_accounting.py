@@ -55,6 +55,8 @@ def remaining_stage():
 
 
 def validate_row(r):
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(r):return first512.validate_row(r)
     arm = r.get('evaluation_candidate')
     key(arm)
     from .mix_core_partial_resume import envelope

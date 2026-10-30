@@ -55,6 +55,18 @@ def file_RPC_profile(manifest,role):
 
 def fixture_job_pattern(manifest,role):
     """Both sealed peers must explicitly name the Vanda evaluation seam."""
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(manifest):
+        need(role=='hopper' and manifest.get('scope')==first512.ROLE
+             and manifest.get('execution',{}).get('profile')==first512.PROFILE
+             or role=='core' and manifest.get('scope')==first512.PHYSICAL_ROLE
+             and manifest.get('candidate')=='E1'
+             and manifest.get('execution',{}).get('profile')=='4080-simulation',
+             'EXPLICIT_FIXED512_PHYSICAL_OR_NEURAL_PEER')
+        need(manifest['authority']['protocol_ref']==first512.campaign.TASK_SOURCE
+             and manifest['authority']['scope_grant_sha256']==first512.GRANT_SHA,
+             'EXACT_FIXED512_SCOPE_AUTHORITY')
+        return r'coregpu:[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}:[1-9][0-9]*:[1-9][0-9]*'
     from . import mix_vanda_eval_identity as colocated
     if colocated.typed(manifest):
         need(role=='hopper' and colocated.cold_profile(manifest)

@@ -131,6 +131,17 @@ def fixture_window(root,manifest,registry):
     """
     from . import mix_core_identity as cd,successor_core_context as core,successor_cd as scope
     root=Path(root)
+    from scripts.pi0294.generalization import minimal_core_accounting as first512
+    if first512.typed(manifest):
+        from scripts.pi0294.generalization.minimal_core_context import ledger_binding
+        marker,_=ledger_binding(root)
+        if (registry.get('execution_scope')!=first512.plan.STAGE
+            or registry.get('execution_authority_release')!=scope.TASK_SOURCE
+            or registry.get('scope_grant_sha256')!=first512.GRANT_SHA
+            or registry.get('T_CD')!=marker['T_CD']
+            or registry.get('execution_deadline_epoch')!=marker['deadline_epoch']):
+            raise PermissionError('ARX5_RAW512_TRANSPORT_EXACT_SCOPE_AND_WINDOW')
+        return dict(run_uuid=root.parent.parent.name,stop_new_physics_epoch=marker['deadline_epoch'])
     from . import mix_vanda_eval_identity as colocated
     if colocated.typed(manifest):
         from .mix_vanda_eval_context import row
