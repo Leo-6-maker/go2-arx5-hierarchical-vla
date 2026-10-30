@@ -284,8 +284,9 @@ def allocation(g, arm):
 def paired_control(g, l):
     m = validated(g)
     need(l.get(FIELD) == m, 'SAME_CANONICAL_NEW_MARKER')
-    from .mix_core_d25_cold_source import FIELD as cold_field
+    from .mix_core_d25_cold_source import FIELD as cold_field,LOCAL05_FIELD
     need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_COLD_SOURCE_SUCCESSOR')
+    need(l.get(LOCAL05_FIELD)==g.get(LOCAL05_FIELD),'SAME_CANONICAL_NODE_LOCAL05_SUCCESSOR')
     if m is None:
         return
     _LOCAL_paid(l,m)
