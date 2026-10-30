@@ -1,0 +1,78 @@
+{
+  "schema": "PR175_USER_FAILED_ARTIFACT_CLEANUP_AND_RESTART_REVIEW_V1",
+  "date": "2026-10-30",
+  "timezone": "Asia/Singapore",
+  "evidence_base_sha": "3c1ab6349a2fae7472c499171a23d7a9969b0f2e",
+  "document_path": "docs/operations/FAILED_ARTIFACT_CLEANUP_RESTART_20261030.md",
+  "direct_user_instruction_excerpt": "之前的失败尝试均可删除，清理后给出新授权",
+  "cleanup_authority": {
+    "status": "DIRECT_USER_PERMISSION_FOR_ELIGIBLE_FAILED_PAYLOAD",
+    "sites": ["CoreLab", "Vanda"],
+    "per_file_reapproval_required": false,
+    "scope": "PROJECT_OWNED_TERMINAL_FAILED_UNREFERENCED_PAYLOAD_NOT_VALID_ARTIFACTS_OR_INFRASTRUCTURE",
+    "supersedes_old_blanket_raw_failure_retention_only": true
+  },
+  "actual_this_review": {
+    "remote_inventory": "NOT_RUN",
+    "remote_cleanup": "NOT_RUN_NO_AUTHENTICATED_REMOTE_EXECUTOR",
+    "remote_files_deleted": 0,
+    "measured_bytes_released": null,
+    "native_scope_adopted": false,
+    "new_models_queries_training_physics": 0
+  },
+  "capacity_snapshot": {
+    "not_live": true,
+    "Core_available_bytes": 147014197248,
+    "old_remaining_conservative_upper_bytes": 151810439992,
+    "source_peak_upper_bytes": 21474836480,
+    "combined_upper_bytes": 173285276472,
+    "shortfall_bytes": 26271079224,
+    "old_only_shortfall_bytes": 4796242744,
+    "suggested_Core_net_reclaim_bytes": 32212254720,
+    "suggested_reclaim_is_not_known_reclaimable": true,
+    "future_bounds_and_free_must_not_double_count_reclaimed_bytes": true,
+    "Vanda_inventory": "UNKNOWN",
+    "Vanda_one_closed_failed_root_allocated_bytes": 92315648,
+    "Vanda_reclaim_releases_Core_ext4": false
+  },
+  "other_blockers": {
+    "D25_control_CPU_remaining_s": 2.4255479200003265,
+    "E2": ["undefined_owner_variable", "onceIO_auxiliary_same_directory_constraint", "night_branch_stopped_closed"],
+    "source": ["mixed_task_stage_manifest_not_adopted", "full_ARX5_native_qualification_NOT_RUN"],
+    "S1": "CLOSED_T2_SAFETY_QUARANTINE_PRESERVED"
+  },
+  "protected": [
+    "raw_pretrained_GR00T_and_Cosmos",
+    "E1_512_full_resume_and_inference",
+    "D25_GEN1_C50_A_B_required_comparison_endpoints",
+    "CORR2048_R0_DEC1",
+    "valid_required_E2_resume_state_if_any",
+    "TRAIN_DEV_TEST_processor_statistics_and_assets",
+    "canonical_ledgers_registries_costs_authority_and_once_receipts",
+    "active_or_unknown_effect_roots",
+    "minimum_unresolved_S1_diagnostic_raw"
+  ],
+  "required_remote_results": ["CLEANUP_INVENTORY", "CLEANUP_RESULT", "POST_CLEANUP_ADMISSION"],
+  "successor_authorization_draft": {
+    "status": "PROPOSED_TEXT_NOT_HUMAN_APPROVED_NOT_NATIVE_ADOPTED",
+    "additional_control_CPU_s": {"aggregate": 7200, "Core": 3600, "Vanda": 1800, "PC": 1800},
+    "maintenance_peak_bytes": 2147483648,
+    "maintenance_transfer_bytes": 2147483648,
+    "source_caps": "CARRY_FORWARD_REMAINING_OF_EXISTING_12_ATTEMPTS_POOL_NOT_RESET",
+    "initial_source_conditions": 4,
+    "initial_source_live_task_and_warmup_ticks_excluding_other_work": 74000,
+    "initial_source_RGB_pairs_including_qualification": 2568,
+    "stop_new_source_maintenance": "2026-10-31T08:00:00+08:00",
+    "hard_finish_source_maintenance": "2026-10-31T09:00:00+08:00",
+    "original_experiment_clocks_unchanged": true,
+    "E2_repair_release": "CONDITIONAL_NEW_VERSION_ONE_FIXED512_CYCLE_ORIGINAL_SCIENCE_AND_BUDGET",
+    "D25_evaluation": "ORIGINAL24_CONDITIONS_ORIGINAL_ACCOUNT_WITH_EXPLICIT_CONTROL_SUPPLEMENT",
+    "wholebody_S1_retry": false,
+    "new_four_task_training": false
+  },
+  "local_validation": {
+    "resource_arithmetic": "PASS_LOCAL_CALCULATION_ONLY",
+    "JSON_parse": "PASS_LOCAL_DRAFT",
+    "server_or_runtime_tests": "NOT_RUN"
+  }
+}
