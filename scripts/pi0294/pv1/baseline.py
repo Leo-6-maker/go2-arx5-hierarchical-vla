@@ -27,6 +27,19 @@ AUDIT_CHECKS = (
     'actual_RGB_count',
 )
 
+# ZERO_REFERENCE_VETO_V2 has real initial RGB and a causal model draw, but no
+# installed command, physics trajectory or task score. Do not demand the
+# full-trajectory check names or silently relabel this valid failure for retry.
+REFERENCE_VETO_CHECKS = (
+    'actual_attempt_identity', 'original_reference_veto_identity',
+    'actual_native_step_and_command_counts_zero', 'adjudication_original_result_sha',
+    'actual_source_matches_worker', 'all_existing_raw_manifest_members_exact',
+    'no_submitted_supervision_or_reference_labels', 'no_command_intent_command_or_ACK',
+    'actual_highrate_empty', 'no_S1_prefix_or_native_violation',
+    'exact_one_initial_paired_RGB', 'initial_RGB_0', 'initial_RGB_1',
+    'no_physics_or_task_score_fabricated',
+)
+
 
 def _read(raw):
     if not isinstance(raw,bytes):
@@ -118,9 +131,20 @@ def _validated_attempts(population_bytes,*,route,new_bank_manifest_sha256,eviden
                     or any(not re.fullmatch('[0-9a-f]{64}',chain.get(k,''))
                         for k in ('core_proof_sha256','hopper_proof_sha256'))):
                 raise PermissionError('PV1_BASELINE_INDEPENDENT_ACTUAL_CAUSAL_CHAIN_REQUIRED')
+            required_checks=AUDIT_CHECKS
+            if row['failure_stage']=='ORIGINAL_REFERENCE_GATE_REJECT'and row['main_integrations']==0:
+                if (row['status']!='VALID_TASK_FAIL'or row['S1_rejections']!=0 or row['RGB_pairs']!=1
+                        or audit.get('reference_veto_audit_revision')!='ZERO_REFERENCE_VETO_V2'
+                        or audit.get('original_reference_veto')is not True
+                        or audit.get('missing_physics_not_synthesized')is not True
+                        or audit.get('task_result_available')is not False
+                        or audit.get('physical_integrations')!=0 or audit.get('score')is not None
+                        or chain['draws']!=1 or chain['executed_ACKs']!=0):
+                    raise PermissionError('PV1_BASELINE_EXACT_ZERO_REFERENCE_VETO_HISTORY')
+                required_checks=REFERENCE_VETO_CHECKS
             if (row['pipeline_trustworthy'] is not True
                     or audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
-                    or not set(AUDIT_CHECKS)<=set(audit['checks'])):
+                    or not set(required_checks)<=set(audit['checks'])):
                 raise PermissionError('PV1_BASELINE_COMPLETE_ACTUAL_RAW_AUDIT_FOR_EACH_VALID_OUTCOME')
             if row['status']=='SUCCESS' and (row['main_integrations']!=16000 or row['duration_s']!=32.
                     or row['RGB_pairs']!=641 or row['S1_rejections']!=0
