@@ -141,6 +141,42 @@ class CausalAudit(unittest.TestCase):
             dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',adjudication=row))
         with self.assertRaisesRegex(PermissionError,'CONTIGUOUS'):self.proof()
 
+    def test_first_draw_veto_joins_versioned_zero_step_audit_and_original_saved_model_output(self):
+        # Reduce the existing explicit CPU packet fixture to one uninstalled
+        # first draw. No model/physics or native admission is claimed.
+        row=dict(self.row,main_integrations=0)
+        write(self.folder/'PV1_ADJUDICATION.json',row)
+        (self.relay/'observations/001.json').unlink()
+        for kind in ('commands','intents','acks'):
+            for p in(self.relay/kind).glob('*'):p.unlink()
+        (self.relay/'physics-000.npz').unlink()
+        for directory in ('inbox','outbox','receipts'):
+            for p in(self.resident/directory).glob('CPU_QUERY_1.*'):p.unlink()
+        packet=read(self.resident/'outbox/CPU_QUERY_0.json');body=packet['body']
+        physical=np.asarray(body['payload']['trajectory_eef10']);physical[:,0]=10.
+        body['payload']['trajectory_eef10']=physical.tolist();packet=sealed(body)
+        write(self.resident/'outbox/CPU_QUERY_0.json',packet)
+        array=self.resident/'receipts/CPU_QUERY_0.npz';np.savez(array,physical=physical)
+        receipt=read(self.resident/'receipts/CPU_QUERY_0.json')
+        receipt.update(action_sha256=packet['sha256'],arrays_sha256=sha(array))
+        write(self.resident/'receipts/CPU_QUERY_0.json',receipt)
+        query=read(self.resident/'QUERY_STATE.json');query['queries']=query['queries'][:1]
+        query['queries'][0]['response_sha256']=packet['sha256'];query['episodes']['CPU_EPISODE']['next_sequence']=1
+        write(self.resident/'QUERY_STATE.json',query)
+        state=read(self.relay/'observations/000.json')['body']['payload']['state_eef10']
+        write(self.folder/'MODEL_REJECT.json',dict(query_uuid='CPU_QUERY_0',action_sha256=packet['sha256'],
+              original_gate=gate_action(physical,state,0.,'CPU_REF')))
+        prior=self.core/'evidence/PV1_AUDIT_RECEIPTS'/(self.identifier+'.json')
+        write(prior,dict(status='ENGINEERING_AUDIT_INCOMPLETE',error='missing physics.npz'))
+        revised=self.core/'evidence/PV1_REFERENCE_VETO_AUDIT_RECEIPTS_V2'/(self.identifier+'.json')
+        write(revised,dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',adjudication=row,
+              reference_veto_audit_revision='ZERO_REFERENCE_VETO_V2',prior_PV1_audit_receipt_sha256=sha(prior)))
+        proof=self.proof();native=audit.hopper(self.hopper,proof)
+        self.assertEqual((native['draws'],native['executed_ACKs']),(1,0))
+        self.assertEqual(audit.join(proof,native)['status'],'PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN')
+        write(prior,dict(status='ENGINEERING_AUDIT_INCOMPLETE',error='CHANGED'))
+        with self.assertRaisesRegex(PermissionError,'PRESERVE_EXACT_PRIOR_AUDIT'):self.proof()
+
     def engineering_fixture(self):
         self.row.update(status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,failure_stage='ENGINEERING_OR_UNKNOWN')
         write(self.folder/'PV1_ADJUDICATION.json',self.row)

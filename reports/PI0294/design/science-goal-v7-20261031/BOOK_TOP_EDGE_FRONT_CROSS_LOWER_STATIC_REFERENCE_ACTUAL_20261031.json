@@ -1,0 +1,72 @@
+{
+  "schema": "V7_BOOK_TOP_EDGE_FRONT_CROSS_LOWER_FULL_STATIC_REFERENCE_ACTUAL_V1",
+  "observed_epoch": 1793391097.0611405,
+  "status": "COMPLETE_STATIC_REFERENCE_NOT_NATIVE_DYNAMIC_QUALIFICATION_OR_DEMONSTRATION",
+  "endpoint_search": {
+    "candidates": 280,
+    "grasp_geometry_pass": 171,
+    "both_endpoints_pass": 98,
+    "CPU_s": 17.260758808
+  },
+  "full_routes": {
+    "checked": 8,
+    "discrete_pass": 2,
+    "CPU_s": 56.875332016,
+    "chosen_parameters": {
+      "tilt_deg": 20,
+      "height_m": 0.05,
+      "depth_m": 0.025,
+      "roll_deg": 0
+    },
+    "reference_duration_s": 15.55,
+    "maximum_sampled_joint_speed_rad_s": 1.1200365875845097
+  },
+  "mechanism": "Avoid palm/book intrusion using a50mm top-edge grasp with20deg wrist inclination and25mm depth shift. Keep the common-home jaw orientation. Cross the low front wall only to TCPx456mm, lower inside that face, then advance to the original left target; withdraw60mm along the tool axis and100mm outward.",
+  "sweep": {
+    "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+    "failure": null,
+    "edges": 321,
+    "edges_finished": 321,
+    "checked_states": 11784,
+    "reused_complete_edges": 133,
+    "prior_checked_states_retained": 16001,
+    "prior_CPU_s_retained": 378.904711272,
+    "certified_subedges": 14013,
+    "CPU_s": 285.59467296500003,
+    "observed_epoch": 1793391097.0611405,
+    "native_dynamic_qualification": false,
+    "new_physics_models_queries": 0,
+    "scope": "STATIC_JOINT_INTERPOLANT_ONLY_NOT_DYNAMIC_TRACKING_OR_DEMONSTRATION"
+  },
+  "sweep_method": {
+    "path_sha256": "52f63f19ca0f65d63938d7821a283db4c0846184477f978cbb3123a86529a0a1",
+    "source_xml_sha256": "bf6b8f5297cab56085c4967641072b0d0d6dee70ec1250a192fcc5abb87c291e",
+    "robot_descendant_radius_upper_m": 1.5,
+    "book_descendant_radius_upper_m": 1.8,
+    "computed_tree_radius_upper_m": 1.4929212393707862,
+    "method": "Midpoint separation lower bounds minus bounded Hausdorff motion; recursively bisect uncertified edges. Bound uses R*sum(abs(dq))/2 and finger motion. Original arm bounds are convex under joint interpolation.",
+    "intended_contacts": "Only pad/book during close/held/release; initial book/table support remains fixed or all8 corners certified rising during lift. No new robot collision exemptions.",
+    "reused_complete_edges": 133
+  },
+  "prior_finite_sweep": {
+    "status": "STOPPED_AT_FINITE16000_STATE_LIMIT",
+    "complete_edges_reused": 133,
+    "CPU_s_retained": 378.904711272,
+    "old_result_sha256": "22efaa59dd85115c6e7bb17f64658e64bb8b230f1afcc84dcf6143bffc22f110"
+  },
+  "scope": "Same original source-port book/left caddy predicate and32s task; same native collision geometry and5mrad joint margin. Only static joint interpolation is proved; feedback tracking, grasp, real support/release and task success still require native qualification.",
+  "actual": {
+    "new_physics_integrations": 0,
+    "new_demonstrations": 0,
+    "source_attempts_cumulative_unchanged": 6,
+    "original_failed_STOPs_preserved": true
+  },
+  "evidence_sha256": {
+    "endpoint_records": "e70269dfe05a23c177b0faa569601191662b09127ca654c5fec3ac904e0d33a3",
+    "route": "52f63f19ca0f65d63938d7821a283db4c0846184477f978cbb3123a86529a0a1",
+    "certificate": "c663c1332d613a3401a731abe1b69ab173941fd96f6a76dcee492ada617d1aa4",
+    "certificate_leaves": "53b760c46ee88e0f654db22b971648d895f85241a80d809a56a6379b79867f56",
+    "certificate_source": "38865c4483066fb2333f7cd51c76e04738383253d2bcf4f3a2f9a2828025d2a5"
+  },
+  "next": "Implement this route in the existing feedback Teacher with actual waypoint barriers, preserve all safety/scoring, then qualify a distinct source-only version after the Core owner is free."
+}

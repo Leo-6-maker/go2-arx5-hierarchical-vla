@@ -41,7 +41,10 @@ def episode(root,identifier,*,adjudication_name='E1_ADJUDICATION.json'):
     result_path=folder/'RESULT.json';adjudication_path=folder/adjudication_name
     if result_path.exists() and adjudication_path.exists():
         raw,decision=read(result_path),read(adjudication_path)
-        if raw['physics_steps']==0 and decision['status']=='ENGINEERING_INCOMPLETE':
+        reference_veto=(decision['status']=='VALID_TASK_FAIL'
+            and decision['failure_stage']=='ORIGINAL_REFERENCE_GATE_REJECT'
+            and decision['pipeline_trustworthy']is True)
+        if raw['physics_steps']==0 and (decision['status']=='ENGINEERING_INCOMPLETE' or reference_veto):
             from .zero_step_audit import audit
             return audit(root,identifier,video,adjudication_name=adjudication_name)
     if out.exists():return read(out/'AUDIT.private.json')
