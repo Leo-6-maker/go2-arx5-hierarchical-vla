@@ -1,0 +1,254 @@
+{
+  "schema": "PI0294_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_INDEPENDENT_ACTUAL_V1",
+  "status": "CABINET_PHYSICAL_BRANCH_STOPPED_AFTER_ONE_EVIDENCED_SPEED_FIX_AND_REPEAT",
+  "runtime_source_sha": "c9583ae8ab1a66124c543be0d2b48020f2879a66",
+  "manifest_sha256": "d68e384a3acad1bd5e8872fcfcd19cd743559af1fc6bb56933285f8aafdce95d",
+  "observed_epoch": 1793364179.244225,
+  "native_result": {
+    "operation": "ROBOCASA_RIGHT_PORT05_SLOW_TURN",
+    "actual_integrations": 6825,
+    "warmup_integrations": 2500,
+    "task_integrations": 4325,
+    "task_seconds": 8.65,
+    "actual_RGB_pairs": 174,
+    "completed20Hz_intervals": 173,
+    "planned_H40": 22,
+    "hinge_angle_rad": 0.1539957078499512,
+    "hinge_angle_degrees": 8.823304122931845,
+    "hinge_velocity_rad_s": 0.02406632724386641,
+    "actual_grasp": false,
+    "original_native_safety_pass": true,
+    "worker_exit_status": 1,
+    "worker_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE",
+    "worker_CPU_s": 10.057605889000001,
+    "worker_wall_s": 10.673577860929072,
+    "chain_CPU_s": 11.424159,
+    "unit_MainPID": 0,
+    "unit_ExecMainStatus": 0,
+    "actor_terminal": true,
+    "own_lease_status": "CLOSED",
+    "own_lease_sha256": "f34ec055e25e821e2d332bfdf6a98ee6223eb14b6a41b1e9da22485eb7daec73",
+    "own_lease_once": {
+      "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+      "request_id": "NIGHT30-FINITE-SOURCE-CHAIN-CLOSE",
+      "actual_sha256": "f34ec055e25e821e2d332bfdf6a98ee6223eb14b6a41b1e9da22485eb7daec73",
+      "receipt_binding_valid": true,
+      "read_only": true,
+      "native_dispatch_admitted": false,
+      "automatic_retry_allowed": false
+    },
+    "full32s_task_completed": false,
+    "qualified_demo": false,
+    "left_condition": "NOT_RUN_AFTER_REPEATED_GRASP_FAILURE"
+  },
+  "stop_fence": {
+    "STOP_sha256": "c1c73bd0f01ed82ba6fe250e3735d12a22de3bb73960f46d7aa522e2de1d00fd",
+    "STOP": {
+      "status": "CABINET_BRANCH_STOPPED_AFTER_ONE_EVIDENCED_REFERENCE_SPEED_FIX_REPEATED_GRASP_FAILURE",
+      "run_uuid": "20261030T123253Z-cabinet-port05-night-source-four01",
+      "manifest_sha256": "d68e384a3acad1bd5e8872fcfcd19cd743559af1fc6bb56933285f8aafdce95d",
+      "reason": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE",
+      "original_native_safety_pass": true,
+      "native_attempts_aggregate": 6,
+      "automatic_cabinet_retry_allowed": false,
+      "extra_left_condition_allowed": false,
+      "independent_book_work_not_disabled": true,
+      "physical_safety_grasp_score_thresholds_unchanged": true,
+      "observed_epoch": 1793364063.8124423
+    },
+    "independent_readback_status": "INDEPENDENT_REPEATED_GRASP_STOP_CLOSED_LEASE_AND_OLD_CUSTODY_ONCE_VERIFIED",
+    "old_CLOSED_lease_unchanged": true,
+    "old_custody_once": {
+      "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+      "request_id": "NIGHT30-ONE-CABINET-PORT05-CUSTODY-TRANSFER",
+      "actual_sha256": "02d59d6ac95de6e2c82aae13f3abc08b596fcc133b1653946bf09a899aea7e11",
+      "receipt_binding_valid": true,
+      "read_only": true,
+      "native_dispatch_admitted": false,
+      "automatic_retry_allowed": false
+    },
+    "automatic_cabinet_retry_allowed": false,
+    "PORT06_or_equivalent_blind_retry_allowed": false,
+    "extra_left_condition_allowed": false,
+    "independent_book_or_model_work_disabled": false
+  },
+  "evidence": {
+    "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+    "raw_bytes": 33293284,
+    "terminal_sha256": "e51bd24ea32c933953f0d23c81e5bb6cc5d06a996ca3b06fbe91fa28bb34c830",
+    "independent_audit_sha256": "105e40dce480bea0e9d4e95f40aba0282a74eb36795e778ab2a20de902c048b7",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+      "terminal_sha256": "e51bd24ea32c933953f0d23c81e5bb6cc5d06a996ca3b06fbe91fa28bb34c830",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+      "native_ROBOCASA_goal_final": false,
+      "additional_support_release_withdraw_hold_pass": false,
+      "complete_episode": false,
+      "original_native_safety_pass": true,
+      "integrity_problems": [
+        "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+        "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+        "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+      ],
+      "actual_integrations": 6825,
+      "recorded_native_ticks": 6825,
+      "recorded_failed_native_ticks": 0,
+      "terminal_safety_states_checked": 1,
+      "actual_observations": 173,
+      "completed_intervals": 173,
+      "terminal_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE"
+    },
+    "chain_terminal_sha256": "38c5ae3d1614892efe072a3a4a6569d6930fa59a8d7f2d097c3f92473977d74a",
+    "account_sha256": "90db4db5cb932a94e6de647f8fb36362febad12c42b5c3d7e4132ebbedff9de0"
+  },
+  "source_aggregate": {
+    "native_attempts": 6,
+    "actual_integrations": 22046,
+    "actual_RGB_pairs": 488,
+    "qualified_source_demonstrations": 0,
+    "charged_upper": {
+      "attempts": 6,
+      "physics_integrations": 300000,
+      "RGB_pairs": 12000,
+      "Core_CPU_s": 19800,
+      "PC_CPU_s": 1780,
+      "render_device_s": 3600,
+      "Core_peak_bytes": 4160749568,
+      "PC_evidence_bytes": 984711168,
+      "transfer_bytes": 849575936
+    },
+    "all_previous_costs_and_unknown_uppers_retained": true,
+    "attempt_or_budget_pool_reset": false
+  },
+  "physical_capacity": {
+    "original_future_storage_bytes": 130268494648,
+    "source_full_retained_plus_two_future_upper_bytes": 4697620480,
+    "source_capacity_forecast_bytes": 5368709120,
+    "free_bytes": 169627152384,
+    "additional_margin_bytes": 2147483648,
+    "unchanged_source_financial_cap_bytes": 21474836480
+  },
+  "same_scope_invariants": {
+    "WBC_robot_driver_or_safety_gain_changes": 0,
+    "grasp_relative_speed_threshold_changed": false,
+    "full_task_duration_or_score_changed": false,
+    "S1_closed": true,
+    "T2_quarantine_preserved": true,
+    "infrastructure_NFS_mount_SSH_network_service_changes": 0,
+    "checkpoint_cleanup_actions": 0,
+    "private_assets_or_raw_data_published": false
+  },
+  "model_status": {
+    "E2_native_job_id": "1508345.stdct-mgmt-02",
+    "E2_native_job_state": "Q",
+    "E2_observed_epoch": 1793364508.8201456,
+    "E2_processes": [
+      {
+        "pid": 572332,
+        "procstart": 85083367,
+        "live": true
+      },
+      {
+        "pid": 572336,
+        "procstart": 85083369,
+        "live": true
+      }
+    ],
+    "E2_GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "E2_pending_updates": [],
+    "E2_unknown_effects": [],
+    "PBS_used": 42,
+    "E2_resubmissions_or_healthy_job_restarts": 0,
+    "E1_actual_original_loader_identity_status": "ACTUAL_E1_FIXED512_ORIGINAL_MODEL_IDENTITY_AND_PINNED_LOCAL_COSMOS_ALIAS_METADATA_VERIFIED",
+    "E1_fixed_step": 512,
+    "E1_model_loaded": false,
+    "E1_valid_closed_loop_conditions": 0,
+    "D25_valid_conditions": 0,
+    "healthy_E2_held_D25_row_changed": false
+  },
+  "independent_book_readonly_progress": {
+    "status": "READONLY_BOOK_FAILED_SUBMITTED_REFERENCE_PURE_XML_IK_NO_SIMULATOR",
+    "original_raw_sha256": "29b644aaf0b22ffa4fb276eb13cfb5a9c4d6646ab635b8ef969accd795005bc5",
+    "original_scene_sha256": "bf6b8f5297cab56085c4967641072b0d0d6dee70ec1250a192fcc5abb87c291e",
+    "submitted_reference_id": "13062843a3fdba1d3f32e22cd2e09803a0174452ec423757eb3264d98de88ebb",
+    "submitted_observation_index": 34,
+    "submitted_at_native_step": 3350,
+    "failed_native_step": 3371,
+    "source_joint_bounds_rad": [
+      [
+        -2.089,
+        3.13659
+      ],
+      [
+        0.005,
+        3.66
+      ],
+      [
+        0.005,
+        3.2350000000000003
+      ],
+      [
+        -1.6660000000000001,
+        1.6660000000000001
+      ],
+      [
+        -1.6660000000000001,
+        1.6660000000000001
+      ],
+      [
+        -2.089,
+        2.089
+      ]
+    ],
+    "submitted_reference_IK_q": [
+      -0.34791090203044556,
+      1.872382901353271,
+      1.2412192528168242,
+      -0.9396632944079336,
+      -1.5138519584565466e-07,
+      -1.9187082171633043
+    ],
+    "submitted_reference_IK_error": [
+      5.316035607957555e-11,
+      1.8949614342076723e-10
+    ],
+    "submitted_reference_minimum_joint_margin_rad": 0.17029178283669566,
+    "actual_failed_pose_IK_q": [
+      -0.3361520772260663,
+      1.805039354674353,
+      1.301972057971937,
+      -0.9567860037524646,
+      -0.013572309911990599,
+      -1.9180085433784957
+    ],
+    "actual_failed_pose_IK_error": [
+      2.0475260998816176e-11,
+      1.0227359088236083e-10
+    ],
+    "actual_TCP_minus_submitted_xyz_m": [
+      0.021075387925829858,
+      -0.0007999763599679521,
+      0.03649196510287478
+    ],
+    "both_poses_within_original_kinematic_tolerances": true,
+    "interpretation": "Only this actually submitted target and failed measured TCP are checked. A reachable static target does not establish the dynamic error cause, input speed, full path safety or a fix. Original book safety STOP remains closed; no new book attempt.",
+    "new_constructors_integrations_models": 0,
+    "CPU_s": 0.011998607000000008,
+    "observed_epoch": 1793364402.6187904
+  },
+  "new_complete_training_endpoints": 0,
+  "new_valid_model_evaluation_conditions": 0,
+  "new_qualified_source_demonstrations": 0,
+  "next_actions": [
+    "Keep repeated cabinet-grasp branch stopped; no new physics or threshold/gain workaround.",
+    "Keep the same healthy E2 queue job and reconcile its actual start/training/terminal through original owner.",
+    "Inspect the saved book reference/native controller inputs without new physics; static reachability alone does not diagnose the dynamic failure.",
+    "Prepare only legally admitted original-population model evaluation; preserve E2 identity, old D25 accounting and original qualification."
+  ],
+  "limitations": "Door motion to8.82degrees and a real grasp are partial source Teacher behavior, not a complete cabinet skill, original RoboCasa benchmark score, qualified demonstration or GR00T policy result. Source left/book-right remain unrun. Existing E1 is delivered but not loaded/evaluated. The overall policy goal remains incomplete."
+}
