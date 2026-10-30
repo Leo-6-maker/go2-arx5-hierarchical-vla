@@ -51,11 +51,16 @@ def audit(folder,*,task_kind='BOOK'):
             if pair&robots and pair&obstacles:return False
             if pair&arms and pair&{gb['table'],gb['floor']}:return False
         return True
-    all_native=warm+ticks
+    # A driver's failing tick may already have integrated. Its actual state
+    # must participate in safety even though it never completed an interval.
+    all_native=[r['value']for r in rows if r['kind']in('warmup_tick','native_tick','native_tick_failure')]
     for i,row in enumerate(all_native,1):
         s=row['actual_state']
         if row['native_step']!=i or abs(s['time_s']-i*.002)>1e-8:problems.append('NATIVE_CLOCK_OR_STEP_SEQUENCE');break
         if cabinet is not None:cabinet.validate(s)
+        if not native_safe(s):safe=False
+    terminal_states=[r['actual_state']for r in rows if r['kind']=='terminal_failure'and 'actual_state'in r]
+    for s in terminal_states:
         if not native_safe(s):safe=False
     # A mid-interval failure cannot be relabelled as a complete episode.
     complete=(terminal['status']=='RAW_SOURCE_COMPLETE_UNAUDITED' and len(warm)==2500 and len(ticks)==16000
@@ -134,5 +139,7 @@ def audit(folder,*,task_kind='BOOK'):
         **{('native_LIBERO_goal_final'if cabinet is None else'native_ROBOCASA_goal_final'):final_native_goal},additional_support_release_withdraw_hold_pass=hold,
         complete_episode=complete,original_native_safety_pass=safe,integrity_problems=sorted(set(problems)),
         actual_integrations=terminal['actual_integrations'],recorded_native_ticks=len(all_native),
+        recorded_failed_native_ticks=sum(r['kind']=='native_tick_failure'for r in rows),
+        terminal_safety_states_checked=len(terminal_states),
         actual_observations=len(obs),completed_intervals=len(completed),
         task_success=success,qualified_source_pilot=success,terminal_error=terminal['error'])

@@ -92,6 +92,27 @@ def test_full_synthetic_cabinet_and_existing_book_integrity_routes(synthetic):
         assert v['new_simulator_or_model_calls']==0 and not v['training_admitted']
 
 
+@pytest.mark.parametrize('failed_tick_recorded',[True,False])
+def test_failed_native_or_terminal_state_cannot_report_safety_pass(synthetic,failed_tick_recorded):
+    folder,original,_,image=synthetic
+    rows=deepcopy(original[:3])  # qualification plus two safe warmup ticks
+    unsafe=deepcopy(rows[-1]['value']['actual_state']);unsafe['time_s']=.006
+    unsafe.update(safety_valid=False,native_abort=True,contacts=[dict(
+        geom0=2,geom1=4,distance_m=-.000034,normal=[1.,0.,0.],normal_force_N=2.35)])
+    if failed_tick_recorded:
+        rows.append(dict(kind='native_tick_failure',value=dict(native_step=3,actual_state=unsafe,
+            error='RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION')))
+    rows.append(dict(kind='terminal_failure',actual_step=3,actual_state=unsafe,
+        error='RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION'))
+    terminal=dict(status='SOURCE_ATTEMPT_FAILED',error='RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION',
+        actual_integrations=3,actual_RGB_pairs=0,recorded_RGB_pairs=0)
+    write(folder,rows,terminal,image);v=book_audit(folder)
+    assert not v['original_native_safety_pass']and not v['qualified_source_pilot']and not v['task_success']
+    assert v['recorded_native_ticks']==(3 if failed_tick_recorded else 2)
+    assert v['recorded_failed_native_ticks']==int(failed_tick_recorded)
+    assert v['terminal_safety_states_checked']==1 and v['new_simulator_or_model_calls']==0
+
+
 @pytest.mark.parametrize('fault,expected',[
     ('late_command','COMMAND_MUST_PRECEDE'),('suffix_label','ONLY_ACTUALLY_COMPLETED'),
     ('altered_H40','ORIGINAL_H40_HASH'),('hidden_integration','FULL_5S'),('hidden_RGB','FULL_5S'),
