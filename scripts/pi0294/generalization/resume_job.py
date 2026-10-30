@@ -39,6 +39,12 @@ def cached_pure_validation(function):
     return check
 
 
+def metadata_CPU_limits(remaining, hard):
+    """Respect the site's inherited hard limit; never attempt to raise it."""
+    if remaining<=0 or hard==0:raise PermissionError('RESUME_NO_REMAINING_CONTROL_TIME')
+    return (remaining if hard==resource.RLIM_INFINITY else min(remaining,hard),hard)
+
+
 def attach(control):
     control=Path(control);h=read(control/'RUN_MANIFEST.json');root=Path(h['science_root'])
     if os.getuid()!=22182 or not os.uname().nodename.startswith('stdct-login-')or os.environ.get('PBS_JOBID'):
@@ -133,7 +139,8 @@ def main(control):
         # bounded by the original deadline and the detached launcher's wall
         # timer, with one CPU. This does not alter a PBS limit or science run.
         remaining=max(1,int(read(control/'RUN_MANIFEST.json')['deadline_epoch']-time.time()))
-        resource.setrlimit(resource.RLIMIT_CPU,(remaining,remaining+1))
+        hard=resource.getrlimit(resource.RLIMIT_CPU)[1]
+        resource.setrlimit(resource.RLIMIT_CPU,metadata_CPU_limits(remaining,hard))
         o,lock,cold=attach(control)
         terminal=cold.watch(o,secret,scope_binding=o.successor_scope)
         o.record('RESIDENT_TERMINAL_RETURNED',terminal)
