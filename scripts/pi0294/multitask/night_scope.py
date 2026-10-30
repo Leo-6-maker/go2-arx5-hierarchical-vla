@@ -156,6 +156,27 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if 'closed_cabinet_turn_speed_port05_carry'in v:
+        carry=v['closed_cabinet_turn_speed_port05_carry']
+        pins=dict(account='2ee24cc0795f6a00067427fc8e28c6a5e347dc38cdfeb7ec3de548cbd6dab885',
+            lease='d952cd307e7644cd8c6a66dfaedd2c3dfd947c56e149341c807eea5c0b45c15b',
+            terminal='185667a503009dccfa7edc2009c84fc0254287a0e8f2ad3780e4ca8b3ed3229b',
+            episode_terminal='bd5d34649b03157da79df9646f0b5a2c277f6fe41a222d65e3d55cbf27c894a9',
+            audit='5414c3e395360f0c3aaaefcc39a6737f7bd7527c044875e2de8d761d7a874db1')
+        need(set(carry)==set(pins),'EXACT_CLOSED_PORT05_CARRY_FIELDS')
+        bodies={k:base64.b64decode(b,validate=True)for k,b in carry.items()}
+        need(all(hashlib.sha256(b).hexdigest()==pins[k]for k,b in bodies.items()),'EXACT_CLOSED_PORT04_POOL_AND_SAFE_GRASP_SPEED_FAILURE')
+        old=json.loads(bodies['account']);validate_account(old)
+        need(not any(k in v for k in('closed_cabinet_hinge_port04_carry','closed_cabinet_camera_port03_carry','closed_cabinet_geometry_repair02_carry','closed_book_unrun_cabinet_carry'))
+            and v['operations'][:len(old['operations'])]==old['operations']
+            and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS)
+            and v['section5_successor']==old['section5_successor']
+            and v['native_destination'].endswith('-cabinet-port05-night-source-four01'),
+            'PORT05_RETAINS_EVERY_OLD_COST_AND_CLOCK_ONCE')
+        for op in v['operations'][len(old['operations']):]:
+            if op['kind']=='ATTEMPT':
+                need(op['task']=='ROBOCASA_OPEN_CABINET'and op['operation']in(
+                    'ROBOCASA_RIGHT_PORT05_SLOW_TURN','ROBOCASA_LEFT_PORT05_SLOW_TURN'),'ONE_SLOW_REFERENCE_FIX_PER_SIDE_NO_RETRY')
     if 'closed_cabinet_hinge_port04_carry'in v:
         carry=v['closed_cabinet_hinge_port04_carry']
         pins=dict(account='014f387d4392f3bed2a6c94974f939eb7bbaace62c84e44324d0e2904e08ebf4',

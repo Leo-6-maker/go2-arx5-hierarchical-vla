@@ -46,7 +46,9 @@ scope_ns['validate_account'](account)
 assert account['custody']=='CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK'
 assert account['native_adopted']is False
 if bundle['task_kind']=='ROBOCASA_CABINET':
- if P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR':
+ if P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE':
+  assert 'closed_cabinet_turn_speed_port05_carry'in account and account['charged_upper']['attempts']==5
+ elif P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR':
   assert 'closed_cabinet_hinge_port04_carry'in account and account['charged_upper']['attempts']==4
  elif P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME':
   assert 'closed_cabinet_camera_port03_carry'in account and account['charged_upper']['attempts']==3
@@ -197,7 +199,7 @@ assert local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']==adoption['marker']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==result['account_sha256']
 account=scope.validate_account(json.loads((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes()))
 assert account['native_adopted']is True
-expected_attempts=4 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR'else 3 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME'else 2 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR'else 1 if kind=='ROBOCASA_CABINET'else 0
+expected_attempts=5 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'else 4 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR'else 3 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME'else 2 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR'else 1 if kind=='ROBOCASA_CABINET'else 0
 assert account['charged_upper']['attempts']==expected_attempts
 assert account['qualification_sha256']==sha((root/'SOURCE_QUALIFICATION.json').read_bytes())
 lease=json.loads(Path(binding['lease']).read_bytes());assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name
