@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+**10月30日已实际清理，容量尚未放行：** [两站回执](reports/PI0294/design/parallel-science-20261022/FAILED_ARTIFACT_CLEANUP_TWO_SITE_ACTUAL_PARTIAL_CAPACITY_20261030.json)核实Core删除140个失败且未准入episode的92,956张冗余RGB，文件系统净增加3,305,263,104字节，2,220份保留状态/控制/诊断全文SHA通过；各保留首尾图并明确完整RGB重审已不可用。Vanda删除1,493个无人引用的旧失败源码文件，分配块44,466,176字节，7项来源/费用/许可字节保全；共享盘同时增加约15.67GB不能归因于本次删除。有效模型、数据、环境及S1证据未删，基础设施不改。[第5节已获直接批准](reports/PI0294/design/parallel-science-20261022/FAILED_CLEANUP_SECTION5_DIRECT_AUTHORITY_20261030.json)，新增7200控制核秒按同一owner有限记账；旧费用/时钟不重置，source仅沿用原池余额。Core仍比原全部剩余保守上界少约1.6GiB、含source少约21.6GiB；30GiB清理目标未达。实际owner登记方法与修复helper的同目录onceIO共4项CPU检查通过，未部署或启动新实验。
+
 **D25三项未启动准备lease已一次关闭，新冷任务尚未派发：** [独立关闭与本地接线回执](reports/PI0294/design/parallel-science-20261022/D25_UNUSED04_LEASES_CLOSED_LOCAL_CONTEXTS_CONTROL_STOP_ACTUAL_20261030.json)核实owner/physical/neural均CLOSED，原LOCAL及科学行不改，300 CPU秒旧费用和93,600秒物理预留保留。一次修正后的关闭成功并独立回读；旧UNKNOWN不重发。新冷态本地登记、26资产与入口校验代码通过6项定向检查，尚未部署。扩展历史账本检查在10项通过后停止，未完成不记PASS；本次60秒准备CPU上界保留，原D25本地控制仅余约2.4 CPU秒，不能继续派发新冷任务。D25仍0/24，新增模型/物理/RGB均0；科学scope未关闭，E2与源域仍各按原停止条件处理。
 
 **夜间新增源域分支已在原生采用前停止：** [容量与关闭回执](reports/PI0294/design/parallel-science-20261022/NIGHT_SOURCE_PRE_NATIVE_CAPACITY_STOPPED_ACTUAL_20261030.json)记录Core本地可用约137.1 GiB，原工作剩余保守存储上界约141.4 GiB；新增20 GiB没有获得容量准入。未发现另一块可用节点本地文件系统，Home大空间属NFS，未用于运行。PC准备账已关闭并保留全部上界；原GLOBAL/LOCAL/registry不改，新增试采/积分/RGB/合格示范均0。原[夜间授权](reports/PI0294/design/parallel-science-20261022/NIGHT_BOUNDED_AUTONOMY_DIRECT_AUTHORITY_20261030.json)不取消资源与NFS保护，不为推进删除历史文件或改挂载。

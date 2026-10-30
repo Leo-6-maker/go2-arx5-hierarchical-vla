@@ -64,7 +64,7 @@ try:
  sys.path[:0]=[str(code),str(code/'src')]
  from scripts.pi0294.dec1.source_cpu_once_io import commit
  def once(path,before,after,key):return commit(path,expected_before_sha256=sha(before),proposed_bytes=after,request_id=key,
-  intent_path=stage/(key+'.INTENT.json'),receipt_path=stage/(key+'.RECEIPT.json'),lock_path=root/'control/COLD_SOURCE_REPAIR.owner.lock')
+  intent_path=path.with_name(key+'.INTENT.json'),receipt_path=path.with_name(key+'.RECEIPT.json'),lock_path=path.with_name(path.name+'.COLD_SOURCE_REPAIR.owner.lock'))
  history=root/'control/closed-nameerror-owner-01';assert not history.exists();history.mkdir(mode=0o700)
  for name,body in [('RUN_MANIFEST.private.json',mb),('SOURCE_SEAL.private.json',sb),('OUTPUT_BINDING.private.json',bb),('CONFIG.private.json',cfgb),('LEASE.private.json',lb)]:put(history/name,body)
  start=read(root/'control/E2_PRE_NATIVE30_CREDENTIAL_OWNER_LAUNCH_INTENT.json')['epoch'];wall=json.loads(eb)['finished_epoch']-start
