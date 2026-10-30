@@ -157,6 +157,23 @@ def global_limits(g, caps):
             out[k] = ceiling
     from .pbs_count_authority import legacy_vector_bound
     if 'PBS_submissions'in out:out['PBS_submissions']=legacy_vector_bound(g,out['PBS_submissions'])
+    # V7 retires project aggregate ceilings for new finite scopes. Keep actual
+    # counters and every old package/matrix/final hold; native capacity is
+    # checked separately before compute. This is a validation-only bound for
+    # legacy numeric readers, not an extra allocation or a changed old grant.
+    from . import minimal_core_accounting as core512
+    rows=g.get(core512.FIELD,{})
+    if any(r.get('request',{}).get('execution_policy_sha256')==core512.V7_POLICY for r in rows.values()):
+        for row in rows.values():core512.validate_row(row)
+        from scripts.pi0294.pv1.evaluation_work import MATRIX
+        from scripts.pi0294.pv1.future_budget import FINAL
+        observed=dict(H200_s=g['used']['H200_s']+g['reserved']['H200_s'],
+            Hopper_CPU_s=g['CPU_s']+g['CPU_reserved_s'],
+            Hopper_storage_bytes=g['new_storage_current_bytes']+g['storage_reserved_bytes'])
+        for key in set(out)&set(observed):
+            need(type(observed[key])in(int,float)and math.isfinite(observed[key])and observed[key]>=0,
+                 'FINITE_V7_ACTUAL_AND_RESERVED_COUNTER:'+key)
+            out[key]=max(out[key],math.ceil(observed[key])+MATRIX.get(key,0)+FINAL.get(key,0))
     return out
 
 
