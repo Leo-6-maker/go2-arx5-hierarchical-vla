@@ -33,6 +33,18 @@ def need(ok,reason):
     if not ok:raise PermissionError('QUALIFIED_E1_DESTINATION_'+reason)
 
 
+def put_control(root,name,value):
+    """Original exclusive writer, with its actual nested parent prepared."""
+    from scripts.pi0294.dec1.source_cpu_once_io import _exclusive
+    root=Path(root);relative=PurePosixPath(name)
+    need(not relative.is_absolute()and str(relative)==name and '..'not in relative.parts,
+         'OWN_CONTROL_MEMBER_ONLY')
+    path=root/name
+    need(not any(p.is_symlink()for p in(path,*path.parents)),'NO_CONTROL_SYMLINK')
+    path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+    _exclusive(path,raw(value))
+
+
 def expected_members(cfg):
     """Exact existing model identity, not a new model or another HF revision."""
     from .minimal_delivery_control import model_identity
@@ -124,7 +136,7 @@ def main(root):
         fs=os.statvfs(root)
         need(fs.f_bavail*fs.f_frsize>=cfg['other_work_free_floor_bytes']+remaining,
              'REAL_FREE_SPACE_WITH_ALL_OTHER_WORK_RETAINED')
-    def save(name,value):put(root/name,raw(value))
+    def save(name,value):put_control(root,name,value)
     try:
         need(not(root/'DESTINATION_NATIVE_STARTED.json').exists(),'ONE_NATIVE_OWNER_NO_REPLAY')
         own_lease();code=root/'entry/code/vla';seal=json.loads((root/'SOURCE_SEAL.json').read_bytes())

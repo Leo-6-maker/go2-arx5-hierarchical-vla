@@ -42,3 +42,15 @@ def test_stream_is_once_and_full_bytes_are_checked_before_publish(tmp_path,corru
         assert d.stream_one('fixture',path,expected,**kwargs)==expected and path.read_bytes()==data
     with pytest.raises(PermissionError):d.stream_one('fixture',path,expected,**kwargs)
     assert len(calls)==1
+
+
+def test_actual_worker_control_writer_creates_both_nested_download_parents_once(tmp_path):
+    for name in('download-intents/FULL_SOURCE_CHECKPOINT_REFERENCE.json.json',
+                 'download-receipts/processor_statistics.json.json'):
+        value={'member':name,'fixture_only':True}
+        d.put_control(tmp_path,name,value)
+        assert json.loads((tmp_path/name).read_bytes())==value
+        with pytest.raises(FileExistsError):d.put_control(tmp_path,name,value)
+    with pytest.raises(PermissionError):d.put_control(tmp_path,'../outside.json',{})
+    outside=tmp_path/'linked';outside.symlink_to(tmp_path/'download-intents',target_is_directory=True)
+    with pytest.raises(PermissionError):d.put_control(tmp_path,'linked/new.json',{})
