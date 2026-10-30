@@ -96,12 +96,13 @@ def test_single_book_manifest_requires_the_actual_static_route_revision():
         with pytest.raises(PermissionError):bundle.checked_manifest(dict(m,**changes))
 
 
-def test_actual_static_book_card_assets_and_single_condition_are_bound_together(actual):
+@pytest.mark.parametrize('revision',[bundle.BOOK_ROUTE_VERSION,bundle.BOOK_MARGIN_VERSION])
+def test_actual_static_book_card_assets_and_single_condition_are_bound_together(actual,revision):
     from scripts.pi0294.multitask.libero_book_teacher import route_card
     p=deepcopy(actual[0]);p.update(task_kind='BOOK',condition_side='left',
-        book_route_revision=bundle.BOOK_ROUTE_VERSION,cards=dict(left=route_card(),right=book_cards()['right']))
-    p['qualification'].update(condition_side='left',book_route_revision=bundle.BOOK_ROUTE_VERSION,
-        fixed_task_cards_sha256=bundle.BOOK_ROUTE_CARD_SHA)
+        book_route_revision=revision,cards=dict(left=route_card(revision),right=book_cards()['right']))
+    pin=bundle.BOOK_ROUTE_CARD_SHA if revision==bundle.BOOK_ROUTE_VERSION else bundle.BOOK_MARGIN_CARD_SHA
+    p['qualification'].update(condition_side='left',book_route_revision=revision,fixed_task_cards_sha256=pin)
     assert bundle.unpack(p)['plan']==[dict(task_kind='BOOK',side='left')]
     for changes in [dict(condition_side=None),dict(book_route_revision='UNKNOWN')]:
         with pytest.raises(PermissionError):bundle.unpack(dict(p,**changes))

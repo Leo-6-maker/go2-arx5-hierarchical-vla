@@ -9,6 +9,7 @@ from scripts.pi0294.multitask.libero_book_cards import cards
 from scripts.pi0294.multitask.libero_book_teacher import (
     LiberoBookTeacher,RoutedLiberoBookTeacher,attempt_operation,checked_route_card,
     route_card,teacher_for_card)
+from scripts.pi0294.multitask.libero_book_teacher import MARGIN_REVISION
 from scripts.pi0294.multitask.feedback_teacher import CLOSED,OPEN
 from scripts.pi0294.multitask.night_book_chain import checked_plan,planned_tasks
 from scripts.pi0294.test_multitask_contact import state
@@ -126,3 +127,17 @@ def test_chain_selects_one_predeclared_left_condition_and_never_automatically_ru
     with pytest.raises(PermissionError,match='ONE_STATIC_QUALIFIED'):checked_plan(tmp_path,'BOOK')
     assert planned_tasks('BOOK')==(('BOOK','left'),('BOOK','right'))
     with pytest.raises(ValueError):planned_tasks('ALL_PINNED',side='left')
+
+
+def test_tracking_margin_changes_only_front_crossing_and_keeps_old_version_immutable():
+    old=route_card();new=route_card(MARGIN_REVISION);same=deepcopy(new)
+    same['id']=old['id'];same['book_route_revision']=old['book_route_revision']
+    same['book_route']['front_cross_book_x_m']-=.01
+    assert same==old
+    assert checked_route_card(new)
+    assert attempt_operation(new,'left')=='LIBERO_LEFT_PORT04_TRACKING_MARGIN'
+    teacher=teacher_for_card(new);B=object_pose();X=teacher.grasp_offset
+    B[2,3]+=.075;teacher.state=state('BOOK',tcp=B@X,object_pose=B,native_grasp=True)
+    teacher.lift_initial_object_z=B[2,3]-.075;teacher._book_targets()
+    cross=teacher.waypoints['preinsert'][1]@np.linalg.inv(X)
+    assert cross[0,3]==pytest.approx(.464214)

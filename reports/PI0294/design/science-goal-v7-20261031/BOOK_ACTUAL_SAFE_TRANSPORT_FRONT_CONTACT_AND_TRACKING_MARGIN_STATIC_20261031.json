@@ -1,0 +1,263 @@
+{
+  "schema": "ACTUAL_SOURCE_BOOK_TRANSPORT_FRONT_CONTACT_AND_STATIC_MARGIN_SUCCESSOR_V1",
+  "as_of": "2026-10-31 05:20 SGT",
+  "science": {
+    "E1_formal_valid_conditions": 1,
+    "E1_successes": 0,
+    "E1_remaining_original_conditions": 23,
+    "new_E2_512_endpoints": 0,
+    "source_attempts": 7,
+    "source_actual_integrations": 30471,
+    "source_actual_RGB_pairs": 726,
+    "qualified_full_skill_demonstrations": 0
+  },
+  "executed_book": {
+    "run_uuid": "20261030T210657Z-book-route-port03-night-source-book01",
+    "source_sha": "4f5b8c389a185bbf5d7ce9b7645041bede9844ab",
+    "operation": "LIBERO_LEFT_PORT03_TOP_EDGE_ROUTE",
+    "task_stop_s": 11.85,
+    "actual_integrations": 8425,
+    "actual_RGB_pairs": 238,
+    "completed_commands": 237,
+    "H40_plans": 30,
+    "terminal_sha256": "c8305dec5b3a9418ee5a93a8fe9b36ebf4b8b2d2e248d586a0d4e90442604221",
+    "raw_sha256": "70c8212a9b19ff75c7762f291a581e9289fa3939f6c7c2395588f50aee9fd64a",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "70c8212a9b19ff75c7762f291a581e9289fa3939f6c7c2395588f50aee9fd64a",
+      "terminal_sha256": "c8305dec5b3a9418ee5a93a8fe9b36ebf4b8b2d2e248d586a0d4e90442604221",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+      "native_LIBERO_goal_final": true,
+      "additional_support_release_withdraw_hold_pass": false,
+      "complete_episode": false,
+      "original_native_safety_pass": true,
+      "integrity_problems": [
+        "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+        "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+        "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+      ],
+      "actual_integrations": 8425,
+      "recorded_native_ticks": 8425,
+      "recorded_failed_native_ticks": 0,
+      "terminal_safety_states_checked": 1,
+      "actual_observations": 237,
+      "completed_intervals": 237,
+      "terminal_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE"
+    },
+    "independent_audit_sha256": "0c944606158bad0ee1ce8c1080ed4e9f925229eaf78910bf9dfe7066de607837",
+    "owner_all_children_terminal": true,
+    "CLOSED_lease_sha256": "c81b33caaae00390e6fa0caafd28963b46d4d62db3e3d398473cc357a3a0be0c",
+    "own_MainPID": 0,
+    "owner_total_CPU_s": 14.119503,
+    "worker_CPU_s_included": 12.687091949,
+    "render_device_s": 12.822033943142742,
+    "full_success": false
+  },
+  "attribution": {
+    "status": "ACTUAL_BOOK_FRONT_WALL_CONTACT_DURING_LOWERING_NOT_RELEASE_SUCCESS",
+    "source_raw_sha256": "70c8212a9b19ff75c7762f291a581e9289fa3939f6c7c2395588f50aee9fd64a",
+    "first_obstacle_contact_in_last150_ticks": {
+      "step": 8381,
+      "t": 11.762000000001589,
+      "grasp": true,
+      "relative": 0.007608625888417143,
+      "front_gap_m": -1.9561828118408453e-05,
+      "bottom_above_front_top_m": -0.003095387857096399,
+      "support": true,
+      "obstacle": [
+        {
+          "geom0": 75,
+          "geom1": 84,
+          "distance_m": -5.41700428345529e-07,
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 0.0
+        },
+        {
+          "geom0": 75,
+          "geom1": 84,
+          "distance_m": -9.780914059226724e-06,
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 2.9874856865890997
+        },
+        {
+          "geom0": 75,
+          "geom1": 84,
+          "distance_m": -7.8810911079041e-07,
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 0.9086480312895854
+        }
+      ],
+      "tool_x": 0.454117758829726,
+      "book_x": 0.4519153410045191,
+      "pads": {
+        "71": 3.6279677000487194,
+        "73": 6.349838794570998
+      }
+    },
+    "first_grasp_rejection_in_last150_ticks": {
+      "step": 8382,
+      "t": 11.764000000001587,
+      "grasp": false,
+      "relative": 0.05627607263950249,
+      "front_gap_m": 9.361500884497165e-05,
+      "bottom_above_front_top_m": -0.0031983577749988834,
+      "support": false,
+      "obstacle": [],
+      "tool_x": 0.4541197003768839,
+      "book_x": 0.45199511132338815,
+      "pads": {
+        "71": 4.326759258410137,
+        "73": 4.632001980588836
+      }
+    },
+    "final": {
+      "step": 8425,
+      "t": 11.85000000000154,
+      "grasp": false,
+      "relative": 0.02287154642052939,
+      "front_gap_m": -4.046843499244668e-05,
+      "bottom_above_front_top_m": -0.009018249281489643,
+      "support": true,
+      "obstacle": [
+        {
+          "geom0": 75,
+          "geom1": 84,
+          "distance_m": -2.023421749623944e-05,
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 3.378006145367492
+        },
+        {
+          "geom0": 75,
+          "geom1": 84,
+          "distance_m": -1.0184705956122606e-05,
+          "normal": [
+            -1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 1.1879147898260207
+        }
+      ],
+      "tool_x": 0.4539017512891126,
+      "book_x": 0.451984229079058,
+      "pads": {
+        "71": 3.7209606107035973,
+        "73": 6.893145792754332
+      }
+    },
+    "native_original_safety_pass": true,
+    "full_success": false,
+    "new_physics": 0,
+    "not_an_authorized_retry_by_itself": true,
+    "observed_epoch": 1793394791.1716669
+  },
+  "successor": {
+    "revision": "LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN",
+    "change": "Only move front-crossing book center +10mm in world X before lowering; same grasp/height/speed and runtime safety/score.",
+    "front_cross_book_x_m": 0.464214,
+    "full_sweep": {
+      "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+      "failure": null,
+      "edges": 320,
+      "edges_finished": 320,
+      "checked_states": 8940,
+      "reused_complete_edges": 170,
+      "prior_checked_states_retained": 11784,
+      "prior_CPU_s_retained": 285.59467296500003,
+      "certified_subedges": 13725,
+      "CPU_s": 209.60463585399998,
+      "observed_epoch": 1793395071.8326645,
+      "native_dynamic_qualification": false,
+      "new_physics_models_queries": 0,
+      "scope": "STATIC_JOINT_INTERPOLANT_ONLY_NOT_DYNAMIC_TRACKING_OR_DEMONSTRATION"
+    },
+    "sweep_result_sha256": "62a798c6efa3b924e54d74c5de9633b0a787c794bb02c6575cd0a047c6504a4a",
+    "sweep_intent_sha256": "db5fede6490cd2df01deb6ba849fc81ee0be7e481d9fdd14d2aae7660d01653b",
+    "sweep_leaves_sha256": "ef6d7c16af258d3e7c26781a0d11c7367e12b8850f5686ff07bca3ec9b62bdf0",
+    "exact_feedback_match": {
+      "status": "PUBLIC_FEEDBACK_ROUTE_EXACTLY_MATCHES_MARGIN_SWEPT_REFERENCE",
+      "static_path_sha256": "30589ced53382fb1a95d9b3aa3b3fc44da2d6498f21401a23382e1511f443852",
+      "teacher_sha256": "0273addccec33cffa0ce6adbcc0a27f25804ebafca21ff47e2bb6327e5c29efc",
+      "waypoint_max_matrix_errors": {
+        "approach": 5.2015821674360544e-14,
+        "align": 5.2015821674360544e-14,
+        "lift": 5.2015821674360544e-14,
+        "lateral_outside": 1.50712775592865e-13,
+        "preinsert": 5.168088179630104e-14,
+        "inside_lower": 5.168088179630104e-14,
+        "insert": 5.168088179630104e-14,
+        "withdraw": 5.168088179630104e-14,
+        "withdraw_out": 5.168088179630104e-14
+      },
+      "tolerance": 1e-12,
+      "new_physics": 0,
+      "observed_epoch": 1793395176.3772225
+    },
+    "nominal_route_s": 15.5,
+    "original_task_s": 32,
+    "required_final_hold_s": 2,
+    "native_attempt_started": false,
+    "qualification_or_demo_claim": false
+  },
+  "accounting": {
+    "original_source_charged_uppers": {
+      "attempts": 7,
+      "physics_integrations": 350000,
+      "RGB_pairs": 14000,
+      "Core_CPU_s": 22640,
+      "PC_CPU_s": 1780,
+      "render_device_s": 4200,
+      "Core_peak_bytes": 4697620480,
+      "PC_evidence_bytes": 984711168,
+      "transfer_bytes": 849575936
+    },
+    "original_pool_not_reissued": true,
+    "V7_ordinary_control_costs_separate": true,
+    "old_STOPs_and_failed_cold_artifacts_preserved": true,
+    "actual_usage_not_equal_to_charged_upper": true
+  },
+  "validation": {
+    "affected_tests": 30,
+    "affected_result": "PASS",
+    "original_private_assets_used": true,
+    "full_CI": "NOT_RUN",
+    "node_local_code_asset_reuse": "UNCHANGED_PREDECESSOR_MEMBERS_HASH_VERIFIED_AND_HARDLINKED_AT_COLD_BOUNDARY"
+  },
+  "E2": {
+    "job": "1508345.stdct-mgmt-02",
+    "latest_Q_heartbeat_epoch": 1793394994.085426,
+    "manager_kernel_observed_epoch": 1793395010.041087,
+    "manager_live": true,
+    "wrapper_live": false,
+    "wrapper_exit_cause_not_proven": true,
+    "qsub_added": 0
+  },
+  "boundaries": {
+    "infrastructure_changes": false,
+    "cleanup": false,
+    "S1_CLOSED": true,
+    "T2_quarantine": true,
+    "WBC_and_safety_thresholds_unchanged": true
+  },
+  "next": "Deploy exact successor source and one native left-book condition only after closed-account/capacity/source readback; E1 original remaining23 independently retained."
+}

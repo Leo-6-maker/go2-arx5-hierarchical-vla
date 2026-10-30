@@ -33,29 +33,35 @@ class LiberoBookTeacher(SourceSkillTeacher):
 
 
 ROUTE_REVISION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
+MARGIN_REVISION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
 
 
-def route_card():
+def route_card(revision=ROUTE_REVISION):
     """The one left condition with a complete saved static/swept reference."""
     from .libero_book_cards import cards
+    if revision not in(ROUTE_REVISION,MARGIN_REVISION):raise ValueError('KNOWN_STATIC_BOOK_ROUTE')
     card=deepcopy(cards()['left']);semantic=np.diag([-1.,1.,-1.])
     offset=np.array(card['book']['object_to_tcp_grasp']);angle=math.radians(20.)
     tilt=np.array([[1.,0.,0.],[0.,math.cos(angle),-math.sin(angle)],
                    [0.,math.sin(angle),math.cos(angle)]])
     offset[:3,:3]=semantic.T@tilt@semantic@offset[:3,:3]
     offset[:3,3]=[-.001786,.025,-.05]
-    card.update(id='NIGHT30_LIBERO_BOOK_LEFT_PORT03_TOP_EDGE_ROUTE',book_route_revision=ROUTE_REVISION)
+    identifier=('NIGHT30_LIBERO_BOOK_LEFT_PORT03_TOP_EDGE_ROUTE'if revision==ROUTE_REVISION
+                else'NIGHT30_LIBERO_BOOK_LEFT_PORT04_TRACKING_MARGIN')
+    card.update(id=identifier,book_route_revision=revision)
     card['book']['object_to_tcp_grasp']=offset.tolist()
     card['book_route']=dict(approach_m=.04,lift_m=.075,front_cross_book_x_m=.454214,
         front_wall_max_x_m=.43716,front_wall_top_z_m=.51268,
         corridor_y_min_m=.07432,corridor_y_max_m=.20462,clearance_m=.001,
         waypoint_position_m=.001,waypoint_angle_rad=.01,
         withdraw_tool_m=.06,withdraw_exterior_x_m=.10)
+    if revision==MARGIN_REVISION:card['book_route']['front_cross_book_x_m']=.464214
     return card
 
 
 def checked_route_card(card,side='left'):
-    if side!='left' or card!=route_card():
+    revision=card.get('book_route_revision')
+    if side!='left'or revision not in(ROUTE_REVISION,MARGIN_REVISION)or card!=route_card(revision):
         raise PermissionError('EXACT_STATIC_QUALIFIED_LEFT_BOOK_ROUTE_CARD')
     return True
 
@@ -63,7 +69,8 @@ def checked_route_card(card,side='left'):
 def attempt_operation(card,side):
     if 'book_route_revision'in card:
         checked_route_card(card,side)
-        return 'LIBERO_LEFT_PORT03_TOP_EDGE_ROUTE'
+        return ('LIBERO_LEFT_PORT03_TOP_EDGE_ROUTE'if card['book_route_revision']==ROUTE_REVISION
+                else'LIBERO_LEFT_PORT04_TRACKING_MARGIN')
     return 'LIBERO_'+side.upper()+'_FIRST01'
 
 

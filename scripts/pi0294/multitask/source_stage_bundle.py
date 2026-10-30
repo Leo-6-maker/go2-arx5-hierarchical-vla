@@ -23,6 +23,8 @@ PORT05_VERSION='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'
 PORT05_CARD_SHA='07e49210e58ad42cfb794a7a678ba8f6f4c2f4c6f9d649f4ddf01411665417bd'
 BOOK_ROUTE_VERSION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
 BOOK_ROUTE_CARD_SHA='080f49c2cb45cea7c13237cf62254b0c65a3da44f2f1af91abd34bf5cd2399fb'
+BOOK_MARGIN_VERSION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
+BOOK_MARGIN_CARD_SHA='d2ad227cd041b456fbe052aea2a716c4a10b1297e0a497fae6d2f30bdd93c09b'
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
     'desk_caddy/desk_caddy.xml': 'bb59530d8629878f8974efaed4abf79d31743ee3',
@@ -67,7 +69,7 @@ def checked_manifest(manifest):
     kind = manifest.get('task_kind', 'BOOK')
     side=manifest.get('condition_side')
     tasks = plan(kind,side=side)
-    if side is not None and manifest.get('book_route_revision')!=BOOK_ROUTE_VERSION:
+    if side is not None and manifest.get('book_route_revision')not in(BOOK_ROUTE_VERSION,BOOK_MARGIN_VERSION):
         raise PermissionError('EXPLICIT_STATIC_BOOK_ROUTE_MANIFEST')
     declared = [x['side']for x in tasks] if kind == 'BOOK' else tasks
     if (manifest['predeclared_tasks'] != declared
@@ -125,14 +127,15 @@ def unpack(payload):
             or qualification.get('cabinet_port_revision')!=revision):
         raise PermissionError('EXPLICIT_SEPARATE_CABINET_REPAIR02_STAGE')
     book_revision=payload.get('book_route_revision')
+    book_revisions={BOOK_ROUTE_VERSION:BOOK_ROUTE_CARD_SHA,BOOK_MARGIN_VERSION:BOOK_MARGIN_CARD_SHA}
     if book_revision is not None:
-        if (book_revision!=BOOK_ROUTE_VERSION or kind!='BOOK' or side!='left'
+        if (book_revision not in book_revisions or kind!='BOOK' or side!='left'
                 or revision is not None or qualification.get('book_route_revision')!=book_revision
                 or qualification.get('condition_side')!=side):
             raise PermissionError('EXACT_STATIC_BOOK_ROUTE_QUALIFICATION')
     elif side is not None:
         raise PermissionError('SINGLE_BOOK_CONDITION_NEEDS_STATIC_ROUTE')
-    expected_sha=BOOK_ROUTE_CARD_SHA if book_revision else revisions[revision]if revision else CARD_SHA[kind]
+    expected_sha=book_revisions[book_revision]if book_revision else revisions[revision]if revision else CARD_SHA[kind]
     if (card_sha != expected_sha
             or qualification['fixed_task_cards_sha256'] != card_sha
             or qualification['source_sha'] != payload['source_sha']):
