@@ -1,0 +1,163 @@
+{
+  "status": "CORE_RESTORED_SOURCE_FIRST_NATIVE_EPISODE_SAFETY_STOPPED_CLOSED_E2_QUEUED",
+  "observed_epoch": 1793353218.763511,
+  "source_runtime_sha": "4e19b59fc32b00d5175ee308564d6d6caace97f7",
+  "cold_completion_sources": [
+    "cab4853c5125c89daa0b4dc126cb09f53b38a13d",
+    "d84487480602384e69c0820c233a2171969db786"
+  ],
+  "cold_manifest_sha256": "1829c2aa09385f097e5012b30391fbd53c219b50cd016203a8fea8d3e7dbddd7",
+  "registry_after_sha256": "8f467071e4d57fcad43b41832aa540c1214101e14f8851ebcab88e3877a418e4",
+  "LOCAL_after_sha256": "37eb911740f21613cf94fcedd6d2fa1937768e129ba7a8458995022d2cbabfed",
+  "independent_cold_readback": {
+    "source_members": 2643,
+    "asset_files": 37,
+    "node_local_paths": 61,
+    "all_actual_full_bytes_verified": true,
+    "original_entry_probe_passed": true,
+    "original_full14_shortfalls": {},
+    "original_remaining_Core_bytes": 130268494648,
+    "new_four_condition_peak_bytes": 3221225472,
+    "storage_cap_reduced": false
+  },
+  "actual_source": {
+    "first_attempt": "LIBERO_BOOK_LEFT",
+    "actual_warmup_s": 5.0,
+    "task_elapsed_until_stop_s": 1.742,
+    "terminal_sha256": "a44dce4b812f68b1d2dc7af160b3d0dbdb9c0c97f7da2521a6b1f1f464b82efb",
+    "terminal": {
+      "status": "SOURCE_ATTEMPT_FAILED",
+      "operation": "LIBERO_LEFT_FIRST01",
+      "error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+      "result": null,
+      "actual_integrations": 3371,
+      "actual_RGB_pairs": 36,
+      "recorded_RGB_pairs": 36,
+      "events": {
+        "qualification": 1,
+        "warmup_tick": 2500,
+        "warmup_complete": 1,
+        "observation": 35,
+        "planned_H40": 5,
+        "submitted_interval": 35,
+        "native_tick": 870,
+        "completed_interval": 34,
+        "native_tick_failure": 1
+      },
+      "CPU_s": 4.631969087,
+      "wall_s": 4.54947178484872,
+      "render_device_s": 3.5789598948322237,
+      "task_success": null,
+      "training_admitted": false,
+      "automatic_retry": false,
+      "new_model_queries_updates_PBS": 0,
+      "observed_epoch": 1793353174.3620489
+    },
+    "raw_record_sha256": "29b644aaf0b22ffa4fb276eb13cfb5a9c4d6646ab635b8ef969accd795005bc5",
+    "raw_record_bytes": 14829561,
+    "completed_prefix_intervals": 34,
+    "failed_interval_not_admitted": true,
+    "independent_original_audit_sha256": "da0206a151b7dce9c435b9228e539c9539c05fdc4e244dc7f4dff8e3065362a0",
+    "task_success": false,
+    "qualified_demonstrations": 0,
+    "other_three_conditions": "UNRUN_AFTER_NATIVE_SAFETY_STOP",
+    "finite_chain_terminal_sha256": "00f37cb3a692f7cc7e61812e0c4b3226b8320cc85e750357d764333fd298dc46",
+    "native_owner_CPU_s": 5.375852999999999,
+    "closed_lease_sha256": "c2e4eb4413fc23ddef235b8055d5b3b1ea980318ed168527cc57b84e588fe3c1",
+    "all_processes_terminal": true,
+    "unit_remain_after_exit": true,
+    "STOP_preserved": true,
+    "retry": false
+  },
+  "saved_state_diagnosis": {
+    "new_constructors_integrations_model_calls": 0,
+    "last_safe_native_step": 3370,
+    "failed_native_step": 3371,
+    "stage": "align",
+    "XML_geom_map_matches_original_named_bindings": true,
+    "offending_contact": {
+      "geom0": 73,
+      "geom1": 85,
+      "distance_m": -3.399894551790817e-05,
+      "normal": [
+        1.0,
+        -0.0,
+        -0.0
+      ],
+      "normal_force_N": 2.3567048650859115,
+      "geom_names": [
+        "right_pad",
+        "libero_desk_caddy_geom_13"
+      ],
+      "body_names": [
+        "x5_link8",
+        "libero_desk_caddy"
+      ]
+    },
+    "rule": "Any robot contact with the pinned caddy obstacle is forbidden; collision threshold and scoring unchanged.",
+    "failed_state_safety_valid": false,
+    "failed_state_native_abort": true,
+    "failed_state_illegal_contact": true,
+    "original_audit_safety_flag_incorrect": true,
+    "reason": "Old auditor checked successful native_tick rows but omitted native_tick_failure and terminal_failure states. It still rejected the episode; no training admission occurred."
+  },
+  "audit_fix": {
+    "failed_and_terminal_states_now_checked": true,
+    "success_and_task_requirements_unchanged": true,
+    "focused_checks": 3,
+    "elapsed_s": 3.87,
+    "synthetic_fixtures_not_native_qualification": true,
+    "CI": "NOT_RUN",
+    "native_readonly_reaudit": "PENDING_AT_COMMIT_SNAPSHOT",
+    "original_audit_preserved": true
+  },
+  "source_shared_charged_upper": {
+    "attempts": 1,
+    "physics_integrations": 50000,
+    "RGB_pairs": 2000,
+    "Core_CPU_s": 3650,
+    "PC_CPU_s": 1220,
+    "render_device_s": 600,
+    "Core_peak_bytes": 805306368,
+    "PC_evidence_bytes": 649166848,
+    "transfer_bytes": 514031616
+  },
+  "source_charges_not_refunded": true,
+  "previous_PC_accounts_still_closed": true,
+  "old_UNKNOWN_operations_never_replayed": true,
+  "E2": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "source_sha": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b",
+    "observed_epoch": 1793353285.8819168,
+    "native_heartbeat_epoch": 1793353225.3207867,
+    "native_state": "Q",
+    "original_owner_processes_live": true,
+    "GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "used_PBS": 42,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "new_submission_or_restart": false,
+    "new_complete_endpoint": 0
+  },
+  "D25": {
+    "valid_conditions": 0,
+    "total_original_conditions": 24,
+    "current_E2_frozen_concurrency": "Exact unstarted Core07 row only; do not mutate it while the healthy current E2 owner validates it.",
+    "node_local07_runtime_preserved": true
+  },
+  "new_delivery_counts": {
+    "complete_training_endpoints": 0,
+    "valid_model_evaluation_conditions": 0,
+    "qualified_new_demonstrations": 0,
+    "source_attempts": 1,
+    "source_integrations": 3371,
+    "source_RGB_pairs": 36
+  },
+  "infrastructure": {
+    "NFS_SSH_mount_network_permissions_credentials_services_changed": false,
+    "checkpoint_cleanup_by_agent": false,
+    "VPN_cause_not_established": true,
+    "S1_closed": true,
+    "T2_quarantined": true
+  }
+}
