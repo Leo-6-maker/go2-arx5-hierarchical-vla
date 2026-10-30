@@ -1,5 +1,9 @@
 """Cold adapters of the exact existing Core owner; original driver untouched."""
 import hashlib
+import json
+import os
+from pathlib import Path
+import time
 from scripts.pi0294.pv1.node_local_owner_entry import derive_owner_environment,LOCAL_ENVIRONMENT
 
 PINS={'v5_core_resident_owner.py':'15b636f2e6f05545c7e3b7d22c3de57616d3f500ce8daf8681180fa446244177',
@@ -31,6 +35,13 @@ def derive(files):
     methods=replace(methods,anchor,"  local_env={k:str(Path(info['root'])/'control'/v)for k,v in "+repr(ENVIRONMENT)+".items()}\n"+anchor)
     anchor="  profile='4080-simulation' if role=='core' else '4080-neural-evaluation'"
     methods=replace(methods,anchor,"  bootstrap='import os;os.environ.update('+repr(local_env)+');'+bootstrap\n"+anchor)
+    anchor='        return drive(sessions,faults,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,'
+    methods=replace(methods,anchor,
+        '        from scripts.pi0294.generalization.minimal_core_owner import await_fixture_sessions\n'
+        '        try:await_fixture_sessions([*sessions.values(),*faults.values()],self.sites,heartbeat,job,deadline=min(ready["deadline_epoch"],time.time()+180))\n'
+        '        except BaseException:\n'
+        '            for session in [*sessions.values(),*faults.values()]:session.close()\n'
+        '            raise\n'+anchor)
     out['v5_core_resident_methods.py']=methods.encode()
     helper=files['ORIGINAL_RESIDENT_KERNEL_HELPERS.py'].decode()
     helper=replace(helper,"GPU_uuid=r['GPU_uuid'],own_pid=pid",
@@ -41,3 +52,36 @@ def derive(files):
         original_sha256=PINS,derived_sha256={n:hashlib.sha256(b).hexdigest()for n,b in out.items()},
         local_environment=ENVIRONMENT,original_driver_controller_safety_and_score_unchanged=True,
         native_admission=False)
+
+
+def await_fixture_sessions(sessions,sites,heartbeat,job,*,deadline):
+    """Wait for original local server initialization before any RPC clock.
+
+    The existing server writes its process record only after Endpoint has
+    validated its immutable inputs and ledger. No request is sent or retried
+    here, and the original per-call twenty-second watchdog stays unchanged.
+    """
+    from scripts.pi0294.dec1.source_cpu_once_io import _file
+    pending=list(sessions)
+    while pending:
+        heartbeat()
+        if time.time()>=deadline:
+            raise TimeoutError('FIXED512_LOCAL_RPC_INITIALIZATION_NOT_READY_NO_REQUEST_SENT')
+        for session in pending[:]:
+            if session.process.poll() is not None:
+                raise ChildProcessError('FIXED512_LOCAL_RPC_EXITED_BEFORE_FIRST_REQUEST')
+            info=sites[session.role];root=Path(info['root'])
+            if (root/'STOP.json').exists():
+                raise PermissionError('FIXED512_LOCAL_RPC_STOP_BEFORE_FIRST_REQUEST')
+            path=root/'aux_worker_processes'/('fixture-rpc-'+session.role+'-'+session.label+'.json')
+            try:record=json.loads(_file(path))
+            except FileNotFoundError:continue
+            fields=Path('/proc',str(session.process.pid),'stat').read_text().rsplit(')',1)[1].split()
+            if not (record['pid']==session.process.pid and record['proc_start']==fields[19]
+                    and fields[0]not in ('Z','X') and record['source_sha']==info['source_sha']
+                    and record['job_id']==job and record['source_live_worker']is False
+                    and record['work_type']=='PV1_ISOLATED_TRANSPORT_NO_MODEL_NO_PHYSICS'
+                    and record['maximum_CPU_s']==180):
+                raise PermissionError('FIXED512_EXACT_EXISTING_LOCAL_RPC_READY_PROCESS')
+            pending.remove(session)
+        if pending:time.sleep(.05)

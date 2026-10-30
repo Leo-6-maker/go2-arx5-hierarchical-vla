@@ -1,0 +1,92 @@
+{
+  "schema": "V7_E1_PANEL04_LOCAL_RPC_TERMINAL_AND_REPAIR_ACTUAL_V1",
+  "observed_epoch": 1793385647.532616,
+  "execution_source": "0f44074964b1b51cc5a2e751681c8f1a093b80df",
+  "run": "arx5-e1-fixed512-n294101-04",
+  "request_id": "5dd598d9-9a84-4e33-8e2d-3b74d4f000ed",
+  "request_sha256": "de2db10b60c2db8e64d67bbaa0efee8e21f1b850ec24b0411fca4ee8be2ef9f0",
+  "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "phase": "ACTUAL_NATIVE_600S_80_CYCLE_QUALIFICATION",
+  "status": "FAILED_BEFORE_MODEL; OWN_UNITS_AND_FOUR_STDIO_CHILDREN_TERMINAL; DUAL_FINANCIAL_SETTLEMENT_AND_LEASE_CLOSURE_PENDING",
+  "prior_binding": {
+    "status": "ACTUAL_GLOBAL_AND_LOCAL_BIND_AND_FINITE_DELEGATION_COMPLETED",
+    "GLOBAL_after_sha256": "31e26d042f64023be7f0b50a3e4372313d88a39bd3d0136699329a5602a728b3",
+    "LOCAL_after_sha256": "b4bcee09b85a0ae60fd8d3dc57c5c97a6aa3244352ea46f0314ce38fe9c84fac",
+    "original_resource_admission_shortfalls": {}
+  },
+  "failure": {
+    "first_observation_roundtrip_complete": true,
+    "first_query_request_bytes": 96066,
+    "first_query_started_epoch": 1793384544.9182956,
+    "first_query_failed_epoch": 1793384564.9387155,
+    "call_watchdog_s": 20,
+    "error": "ORIGINAL_FILE_RPC_WRITE_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY",
+    "query_request_did_not_complete_write": true,
+    "nominal_neural_process_started_epoch": 1793384543.7761211,
+    "nominal_neural_initialized_record_mtime": 1793384568.7914276,
+    "neural_startup_wall_s": 25.01530647277832,
+    "neural_endpoint_terminal_error": "PV1_BOUNDED_PRODUCTION_JSON_LINE after partial input was closed",
+    "secondary": "Concurrent guard observed an in-progress onceIO intent without sharing the writer lock; falsely raised UNKNOWN_OR_ORPHAN_CONTROL_INTENT.",
+    "terminal_original_read_confirmed": "PASS for all three control events and zero effect events; no write replay"
+  },
+  "control_events": {
+    "count": 3,
+    "kinds": [
+      "METRICS",
+      "METRICS",
+      "FINAL_NEURAL_CPU"
+    ],
+    "RPC_calls": 0,
+    "CPU_s": 0.0016223909999997232,
+    "final_neural_CPU_s": 17.661204258,
+    "original_receipts_independently_verified": true
+  },
+  "native_terminal": {
+    "neural_MainPID0": true,
+    "owner_MainPID0": true,
+    "neural_OS_status": 1,
+    "owner_OS_status": 1,
+    "own_auxiliary_actors_verified_terminal": 4,
+    "conservative_GPU_s": 187,
+    "conservative_neural_CPU_s": 19,
+    "physical_CPU_s": 300.014225058,
+    "terminal_inventory_sha256": "d59f5d45ed8dd7f927e8b9df5e45f9376e541b8a13b4b675777e4dd6cc0f6302",
+    "native_final_sha256": "bb109e09b4d404db865fdf77b32baf8c577431da9326129fd5d7abd0f69929a8",
+    "financial_settlement_complete": false,
+    "leases_closed": false
+  },
+  "actual": {
+    "qualification_passed": false,
+    "nominal_cycles_complete": 0,
+    "model_loads": 0,
+    "model_queries": 0,
+    "physics_integrations": 0,
+    "engine_starts": 0,
+    "valid_formal_conditions": 0,
+    "new_training_updates": 0,
+    "new_qualified_demonstrations": 0
+  },
+  "repair": {
+    "status": "CPU_CHECKED_NOT_NATIVE_DEPLOYED_OR_QUALIFIED",
+    "local_RPC": "Existing owner waits for each original local server process record before the first RPC request; original20s per-call timeout retained. Exact PID/start/source/job validated, heartbeat and finite180s startup bound retained; all channels close if preparation fails.",
+    "receipts": "Control and effect readers use their corresponding existing onceIO writer lock before replaying the complete chain; durable missing/orphan/tampered receipts still fail.",
+    "native_restart": "NONE; failed PANEL04 identity and STOP retained",
+    "next": "Settle known original finite grant, close own three leases, then cold-deploy the minimal repairs under a distinct V7 identity and perform the unchanged native qualification before formal evaluation.",
+    "validation": {
+      "affected_tests_passed": 49,
+      "junit_sha256": "2e3c27ad197985f9c2d999b58ffd66667e2a66c37b0d5ae3632ee85553fa2c87",
+      "concurrency": "Actual temporary onceIO + child paused after fsynced intent + concurrent reader; original implementation reproduced control orphan failure, repaired control/effect readers wait then verify full receipt chain.",
+      "readiness": "Real CPU subprocess delayed startup and exact record identity; timeout/wrong-source checks; original four pinned owner files derived and compiled.",
+      "native_GPU_qualification": "NOT_PASSED",
+      "full_CI": "NOT_RUN"
+    }
+  },
+  "source_evidence_sha256": {
+    "native_terminal": "21b9559ab7752de1d984f97cba6beebd0281741642ccf180d1215aa993b02e50",
+    "original_control_readback": "f665ef8ddc1c2ebf406f5324dbd2ea508603b351cdfe1920ccdef318e5d4ddd5",
+    "startup_process_record_timing": "aca7a41fe8b2c16259f03f7cae81d67f62b416c44aa1e2cd9518792f06d36e62"
+  },
+  "infrastructure_changes": 0,
+  "foreign_GPU_processes_modified": 0
+}
