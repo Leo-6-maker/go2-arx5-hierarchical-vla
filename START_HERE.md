@@ -1,5 +1,7 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+**2026-10-30 20:48实际：柜门支线已按“同类失抓一次修复后再现”停止。** [独立回读与完整结果](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)：门转8.82°后失抓，own chain/lease CLOSED、STOP禁止新柜门尝试；源域6次/22046积分/488RGB对，合格示范0。E2同一1508345仍Q且后台健康，E1在Core已校验未加载，模型评价0；独立书本/模型工作继续，S1/T2隔离和基础设施保护不变。
+
 > **2026-10-30 用户最新直接指令（覆盖下方旧预算停工优先级，仅用于后继新冷态科学scope）：** 用户本人执行历史清理；Codex以真实训练端点、闭环评价和合格开门／单书示范为第一目标，不再因项目内部预算总额或旧预算窗口反复等待人工GO。真实集群配额/空间、身份/原onceIO、冻结WBC安全、UNKNOWN禁止重放以及历史费用与原run时钟仍需遵守。**执行顺序与明确放行边界见[Science-First直接指令](docs/operations/SCIENCE_FIRST_DIRECT_USER_DIRECTIVE_20261030.md)。** 文件发布不等于Codex已后台运行。
 
 **最新技术方向：** [开源任务复用](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)优先把RoboCasa柜门和LIBERO单书左右格接入现有MuJoCo源执行器，再用已有示范和MimicGen式生成构建共享四任务数据。已固定来源并静态核对三个真实书本任务，10项CPU检查通过；尚无新任务运行或示范。300条pilot→累计1,300条及200–400段恢复均为候选投入；源域学习独立于目标WBC成功，原[四任务策略](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)、E1/E2对照和冻结WBC保留。

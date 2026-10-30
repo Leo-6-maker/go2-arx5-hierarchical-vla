@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+2026-10-30 20:36–20:48 SGT实测：[柜门PORT05慢速修复后仍失抓，支线已关闭并写入/独立读回STOP，禁止继续柜门物理重试](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)。门实际转到8.82°，6825积分/174对RGB，原生安全通过，但未完成32秒任务；左侧未运行。源域累计6尝试/22046积分/488对RGB/合格示范0；新训练端点/有效模型评价仍0/0。E2唯一1508345最新仍Q且owner健康、GLOBAL pending/unknown空；E1固定512已到Core校验，未加载/评价。书本仅对保存动作做纯IK检查，两目标可达，动态失败原因未确定；不以此启动新物理。
+
 2026-10-30 20:12–20:14 SGT实测：[柜门PORT04实际开始转动，100ms后由原相对速度抓握判据停止；PORT05仅减半turn参考速度，待原生](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT04_NATIVE_GRASP_SPEED_FAILURE_AND_PORT05_SLOW_REFERENCE_20261030.json)。双侧接触仍有3.28/3.99N，相对速度0.026789m/s超过原0.02；原生安全通过，5950积分/139RGB对，链/lease关闭。源域累计5尝试/15221积分/314RGB对/合格示范0；模型新端点/有效评价仍0。E2同一1508345仍Q且后台健康。相同失抓若在一次有证据的慢速修复后再现，停止该分支。
 
 2026-10-30 19:54–19:56 SGT实测：[柜门PORT03通过双相机/5秒预热并取得真实抓握，进入开门规划前被实测铰链边界拒绝；PORT04冷修待原生](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT03_ACTUAL_SAFE_GRASP_HINGE_REFERENCE_GATE_AND_PORT04_COLD_FIX_20261030.json)。5900积分、138对RGB、136完整20Hz间隔，原生安全独立通过；完整任务未完成、own lease已CLOSED，左侧未运行。源域累计4尝试/9271积分/175对RGB/合格示范0；新端点/有效模型评价/合格示范仍0/0/0。原部署超时已按进入前零效果、残留进程终止及原费用保留精确消解，未重放UNKNOWN或改基础设施。
