@@ -92,6 +92,16 @@ def _fold(value,event,body):
 
 
 def read_confirmed(root,grant_bytes,*,adopted_global_bytes=None):
+    # Readers share the writer's existing file lock: an fsynced intent is
+    # expected while commit is in progress, and is only an orphan after the
+    # writer releases this lock. Validation below remains unchanged.
+    once._file(Path(root)/'evidence'/FILE)
+    lock=Path(root)/'evidence'/'CORE_DELEGATED_CONTROL.owner.lock'
+    with once._lock(lock):
+        return _read_confirmed(root,grant_bytes,adopted_global_bytes=adopted_global_bytes)
+
+
+def _read_confirmed(root,grant_bytes,*,adopted_global_bytes=None):
     path=Path(root)/'evidence'/FILE;raw=once._file(path);value=json.loads(raw)
     body=contract._body(grant_bytes)
     adopted=_adopted(root,grant_bytes) if adopted_global_bytes is None else adopted_global_bytes

@@ -73,6 +73,12 @@ def _confirmed_chain(path, state_bytes, state):
 
 def read_confirmed(root, *, expected_grant_sha256):
     """Read-only reconciliation of local charges, never proof of a model call."""
+    once._file(Path(root)/'evidence'/STATE)
+    with once._lock(Path(root)/'evidence'/'CORE_DELEGATED_EFFECTS.owner.lock'):
+        return _read_confirmed(root, expected_grant_sha256=expected_grant_sha256)
+
+
+def _read_confirmed(root, *, expected_grant_sha256):
     path, gb, sb, state = _paths(root, expected_grant_sha256)
     _confirmed_chain(path, sb, state)
     return dict(status='CONFIRMED_FINITE_CORE_LOCAL_CHARGES_ONLY',
