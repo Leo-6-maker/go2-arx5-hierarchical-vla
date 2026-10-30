@@ -1,0 +1,992 @@
+{
+  "schema": "V7_E1_COMPLETE_ORIGINAL_DEV24_ALL_REFERENCE_VETO_AND_E2_REATTACHED_ACTUAL_V1",
+  "as_of": "2026-10-31 07:08 SGT",
+  "science": {
+    "E1_valid_conditions": 24,
+    "E1_successes": 0,
+    "E1_remaining_original_conditions": 0,
+    "T1_successes": 0,
+    "T1_conditions": 12,
+    "T2_successes": 0,
+    "T2_conditions": 12,
+    "E1_full_32s_executed_tasks": 0,
+    "E1_command_installs": 0,
+    "E1_main_and_shadow_integrations": 0,
+    "new_E2_complete512": 0,
+    "source_total_attempts": 9,
+    "source_actual_integrations": 52071,
+    "source_actual_RGB_pairs": 1392,
+    "qualified_full_skill_demos": 0,
+    "new_shared_skill_training_updates": 0
+  },
+  "interpretation": "E1 original DEV24 is complete with24 valid initial-reference veto failures. The configured unchanged test envelopes reject generated trajectories before execution; this is a negative policy-reference result, not missing inference or a measured WBC tracking failure. No target-WBC or independent TEST success is established.",
+  "frozen": {
+    "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+    "R0_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "source_TRAIN_demos": 12,
+    "training_updates": 512,
+    "H40": 40,
+    "prefix": 8,
+    "denoise_steps": 4,
+    "task_s": 32,
+    "noise_bank": 294101,
+    "same_original_population": true,
+    "Teacher_takeover": false,
+    "thresholds_changed": false
+  },
+  "formal_runs": [
+    {
+      "run_uuid": "arx5-e1-fixed512-n294101-06",
+      "execution_source_sha": "663a2a5bc67c3f58fdf4fca1d7a37f28e24972ac",
+      "valid_conditions": 1,
+      "model_loads": 1,
+      "queries": 1,
+      "original_reaudit_sha256": "f8d80fafe98eb8e9b11fa5141780f4018f7c0b9c0cf836204f1f1b1250b23940",
+      "repeated": false
+    },
+    {
+      "run_uuid": "arx5-e1-fixed512-n294101-08",
+      "execution_source_sha": "c0f069f627f4491ff822ab43f9a27c04b73fe0f2",
+      "valid_conditions": 23,
+      "independent_raw_audits": 23,
+      "independent_causal_joins": 23,
+      "model_loads": 1,
+      "queries": 23,
+      "native_qualification_s": 615.634326366242,
+      "native_real_transport_cycles": 80,
+      "native_exit_status": 0,
+      "owner_exit_status": 0,
+      "leases": "ALL_THREE_CLOSED"
+    }
+  ],
+  "proof": {
+    "combined_original24_history_sha256": "4d6e3d025a55bfbd50da3ce1bd1a98ab67b8736ccb361aa4549322429cb92776",
+    "independent_final_readback_sha256": "82ae7e15368f74a89fb41e68aa925d8dc4eb0d3afc5e47639c0b05205953263b",
+    "all_condition_result_sha256": {
+      "PI0294/PV1/DEV/F0/000/T1/N294101": "28d53223afce08a1a1ba4ecacb5f16f1c5a158946c63fa09b630ce0fb0224080",
+      "PI0294/PV1/DEV/F0/000/T2/N294101": "4aa3c28681d8bf6600f355fcbac392203bf89cb2a4dddefc6c44ff3cbb9b52a0",
+      "PI0294/PV1/DEV/F0/001/T1/N294101": "cca2ff1d1a876d9e59fa654029912c642e569059e7cd98440332169e48932ffe",
+      "PI0294/PV1/DEV/F0/001/T2/N294101": "29f21d445faff5d182905694b42e83466c29ade8834455c52b68a8ecaeb18019",
+      "PI0294/PV1/DEV/F1/000/T1/N294101": "fc2333c7c5d5aad3e3a45975d3f65ec7f5129a1439ce4920c1575c712e68c935",
+      "PI0294/PV1/DEV/F1/000/T2/N294101": "ede9558b4cd49a413871b5f10bcbc89c33f377a2c3b2bfd1d9b6913e969afcbc",
+      "PI0294/PV1/DEV/F1/001/T1/N294101": "4db96dcfd5f7f06b1e0bca6d9eb1e651d2abac68dccfe190bc4ad721940bcef7",
+      "PI0294/PV1/DEV/F1/001/T2/N294101": "89d1476efecdd961690652d4eb11a22938fc4478cd043a8ec21747d54684a809",
+      "PI0294/PV1/DEV/F1/002/T1/N294101": "2d0987b96340a1f6580f79ff19ba1c82955e73b89761eeb50e8d73339ae5ebf9",
+      "PI0294/PV1/DEV/F1/002/T2/N294101": "34e6569c94db3b39f6bff9a2081d45e399c9d8d533aad01e0ea10baac08183f1",
+      "PI0294/PV1/DEV/F1/003/T1/N294101": "3209013cdae54b5f7272f93300f7c05620678db400e57205d4d6be184458ae46",
+      "PI0294/PV1/DEV/F1/003/T2/N294101": "759d2900fd341e25edba46a8c138aa424516bc4fdc9d2a7df5472ef8fb359748",
+      "PI0294/PV1/DEV/F1/004/T1/N294101": "5da1f2f58ef7916eb0c4ca877f7f8bdb4038c53c28fc7c8db6e41db152886e37",
+      "PI0294/PV1/DEV/F1/004/T2/N294101": "43be93349d61eba637ec9fe4f3a1db3498c0eb066c4a2b6de8f6ff6e61dc28f0",
+      "PI0294/PV1/DEV/F2/000/T1/N294101": "c58f92e1b8d1a7ada8586e5e63598abb1c5fc20f2ea64893227790364dc782d4",
+      "PI0294/PV1/DEV/F2/000/T2/N294101": "08fa235d1953ffacab3b8a002a4a27a7b57e10ce8658d4d941b009a7039d5744",
+      "PI0294/PV1/DEV/F2/001/T1/N294101": "29c50c5298f8d2880dc5b94d1cc2e8b7f145a57f1f1f0fef861a3951d997912c",
+      "PI0294/PV1/DEV/F2/001/T2/N294101": "ff78eb98b83a9c8eb5c05483b7fe51ea1a7ce212fd4e0251146be9f72f7f216c",
+      "PI0294/PV1/DEV/F2/002/T1/N294101": "366ad82d344b47397398acb390cd50669b498f512004afd177a9675d2be11eb4",
+      "PI0294/PV1/DEV/F2/002/T2/N294101": "5990e6e330760c0552bc0313eb78850c861eed3f9686222cef1ff471b71ca0e9",
+      "PI0294/PV1/DEV/F2/003/T1/N294101": "c571f07ee2fbf83dbf0f7e5aeedb04314b1b684924aeee1724c56e5f6fd56dcb",
+      "PI0294/PV1/DEV/F2/003/T2/N294101": "ab10300d6d5811b4363ab3b3eb3e56b2150b792a2d658b2b0f2798bb2021ef20",
+      "PI0294/PV1/DEV/F2/004/T1/N294101": "8a78d120f368d329006606501993e92a1e4ca73992d959f801914c938a251b3b",
+      "PI0294/PV1/DEV/F2/004/T2/N294101": "d14a08753003c49f76049aa0cfa5f1134ce2541d238813e94dd8906f3400a7d8"
+    },
+    "all_independent_audit_sha256": {
+      "PI0294/PV1/DEV/F0/000/T1/N294101": "803d335536e58d7039738669a3c314d604c339b1a8441bd21edb1ab4cb740fba",
+      "PI0294/PV1/DEV/F0/000/T2/N294101": "3649a2f138b4c94f3ee9b88445c11a43e1d53a3722f5eb71cb900a583720cbec",
+      "PI0294/PV1/DEV/F0/001/T1/N294101": "d5ffbf94d9ebe0ff96669d02c6b161ddafa0f343b87c1d3782709cfa9a11eb33",
+      "PI0294/PV1/DEV/F0/001/T2/N294101": "046d701af7bf8f334180b4cd24708146229582a645ce31598a0c2ee4460b5883",
+      "PI0294/PV1/DEV/F1/000/T1/N294101": "8c017d2f2ab1d4d94f34a857f96076574e9f2e6335d3e312eb6b1403c11aac28",
+      "PI0294/PV1/DEV/F1/000/T2/N294101": "c8901b8064a6741cd1b96c1398218cdf4f47ebd22876f14338dbca4803650d61",
+      "PI0294/PV1/DEV/F1/001/T1/N294101": "7e3260e4d624ec62ba2078d0bda1e910285768d194d18272f130328d5de1cc35",
+      "PI0294/PV1/DEV/F1/001/T2/N294101": "dcb56feb1a798fb0b2f0d6aaf1fa2521b5c311a823832663abc14f4bed80f0e0",
+      "PI0294/PV1/DEV/F1/002/T1/N294101": "b87986ac89729771df6d4a1c8322245cf6a1d3f193a0486f59ba02ebefb5bed6",
+      "PI0294/PV1/DEV/F1/002/T2/N294101": "db9e9804028bab910117e35794c4288c6d1d21032535fbd3f3d9390091ecdf56",
+      "PI0294/PV1/DEV/F1/003/T1/N294101": "c3ddbd93aa77cfde2c7ce6b44ba13409fa65068d0c68be6daff00ef4672df2cf",
+      "PI0294/PV1/DEV/F1/003/T2/N294101": "7c2e80824b0d8acd034813189194efa07dfb6ad9826e8049c58d03429e285417",
+      "PI0294/PV1/DEV/F1/004/T1/N294101": "0b74c086694276037ac8d9de3035418966ac3859e9adb30384126a682c556f34",
+      "PI0294/PV1/DEV/F1/004/T2/N294101": "e4d0522b2a7d9ac0df8d9a541bad5ab1de77d815154d1cae5b2a0f48b946a8c5",
+      "PI0294/PV1/DEV/F2/000/T1/N294101": "946b6015d69fe7a677d50abbbe3fabefa9d48b09a6949f0a3d27d55a47018194",
+      "PI0294/PV1/DEV/F2/000/T2/N294101": "1ec0982d014e228b7857bef664a83456e1622bc78e93fdda936cf33179d2ac30",
+      "PI0294/PV1/DEV/F2/001/T1/N294101": "00982ecad4b5f3f51b6433f11c0ea4c30110cbff87a007808cb863160363aebb",
+      "PI0294/PV1/DEV/F2/001/T2/N294101": "a4a6c6d3c67721b22b4dcb4d8f602e2a8ff9102e355068a9e755a1f65ff7739a",
+      "PI0294/PV1/DEV/F2/002/T1/N294101": "46d8cb801c83cba59c5fb84e9bb2b0a7843ead3fff828a8444bd3f53e3fae35f",
+      "PI0294/PV1/DEV/F2/002/T2/N294101": "671f9e0bf3a394f96c5a8bb48ed097348d1e6118927863e87731f5dc6ce4123c",
+      "PI0294/PV1/DEV/F2/003/T1/N294101": "e9003a32560dd711919ca16b0b0b4aa882e822eb2c6d30ba3acee5a9260a5ed5",
+      "PI0294/PV1/DEV/F2/003/T2/N294101": "6177f3dbba3ea79b6e64e5daa5916441b1afd26e0262b5e1321fa29470ea02b7",
+      "PI0294/PV1/DEV/F2/004/T1/N294101": "872367e8114756ecf4cc5dceb1c3c202cd345139975cf705378e26d171928644",
+      "PI0294/PV1/DEV/F2/004/T2/N294101": "220b91b3b5a20624b7a53051bd4a5526106bfa162010788e1b20834f762214ae"
+    },
+    "complete_DEV24": true,
+    "GLOBAL_after_sha256": "f9700fdca62359f38c0ed125252d4700b880461d1f52809d0343ab03db4ec10d",
+    "LOCAL_after_sha256": "a15f052cc37c8438a4f34567629947e57465eadb806c78db6a833110994ffc94",
+    "closed_lease_sha256": {
+      "owner": "f8036448296263fa53ed1603a46a918a621c3fae1b101ab72d7f3328d08b7f0b",
+      "core": "061c9d3c1f520ba009f06c352e74b7ee1049bbad0eca090ced8628660cc5bade",
+      "hopper": "0f5dcd0b6318c7efb435cf9d2ee16b24e184f2f8fe49dbcce0691907c3cbf6ee"
+    }
+  },
+  "current_run_costs": {
+    "Core_GPU_allocation_s_with60s_pad": 1347,
+    "neural_CPU_s_charged": 390,
+    "physical_CPU_s_measured": 348.10382708199995,
+    "physical_constructors": 23,
+    "RGB_pairs": 23,
+    "main_integrations": 0,
+    "shadow_integrations": 0,
+    "prepaid_control_actual_metrics": {
+      "CPU_s": 50.773085796,
+      "RPC_calls": 379
+    },
+    "scoped_unknown_query_intents": [],
+    "actual_initial_own_allocated_bytes": 149204992,
+    "actual_final_own_allocated_bytes": 155320320,
+    "closing_reserve_bytes": 536870912,
+    "new_resident_output_charged_upper_bytes": 686817280,
+    "original_per_run_output_upper_bytes": 38654705664,
+    "Core_output_and_transfer_financial_uppers_retained": {
+      "Core_output_bytes": 38654705664,
+      "transfer_bytes": 77309411328
+    },
+    "older_run_costs_refunded": false
+  },
+  "E2": {
+    "job": "1508345.stdct-mgmt-02",
+    "state": "Q",
+    "user_hold_released": true,
+    "new_submissions": 0,
+    "manager03_and_wrapper_live": true,
+    "heartbeat_epoch": 1793401653.800471,
+    "readback_sha256": "b0ac8ed1e3b3b066dfadf14f60c8ba054496c89735b160eb159a1200684d5e98",
+    "old_manager02_closed": true,
+    "original_source_script_request_recipe_and_clock_unchanged": true,
+    "original_source_validator_after_E1_settlement": "PASS",
+    "no_model_load_or_update_yet": true
+  },
+  "book_next": {
+    "revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+    "existing_stager_card_sha256": "dccf632eef8342c5fe5fd23a6b57448736034e7b34ffd7fca87f323caed76b67",
+    "static_route_states": 410,
+    "static_sweep_edges": 409,
+    "dynamic_qualification": "NOT_RUN",
+    "task_and_score_unchanged": true,
+    "action": "Use the now-cold Core for the evidenced supported-release source condition, then independently audit the complete task."
+  },
+  "cases": [
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "28d53223afce08a1a1ba4ecacb5f16f1c5a158946c63fa09b630ce0fb0224080",
+      "result_sha256": "0284a505ad1affdf630a68d0439aee11b60342e412b72314019c2d96e2ad087f",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.698844950434891,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.883199396139387,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.582755906060499,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.698844950434891,
+      "angular_speed_max_rad_s": 15.883199396139387,
+      "translation_path_length_m": 5.582755906060499
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "4aa3c28681d8bf6600f355fcbac392203bf89cb2a4dddefc6c44ff3cbb9b52a0",
+      "result_sha256": "478c006e8168565a198a71975dbe2431892dc3e75ed78d51ffaf000a4de0b539",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 6.067030845892787,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.52399499138177,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 6.601802255461286,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 6.067030845892787,
+      "angular_speed_max_rad_s": 15.52399499138177,
+      "translation_path_length_m": 6.601802255461286
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "cca2ff1d1a876d9e59fa654029912c642e569059e7cd98440332169e48932ffe",
+      "result_sha256": "fe1041558d04b2396bb46245d12d6c6ced4462367e5db31073e308a47e45d166",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 6.124893698326021,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.32198711732536,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 6.292139018457813,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 6.124893698326021,
+      "angular_speed_max_rad_s": 15.32198711732536,
+      "translation_path_length_m": 6.292139018457813
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "29f21d445faff5d182905694b42e83466c29ade8834455c52b68a8ecaeb18019",
+      "result_sha256": "e25777c149ce0709394f056ce8969cf41d2166f8a87bf1c99b680eb021256375",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.845386066535041,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.261004804431344,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.430291579362774,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.845386066535041,
+      "angular_speed_max_rad_s": 15.261004804431344,
+      "translation_path_length_m": 5.430291579362774
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "fc2333c7c5d5aad3e3a45975d3f65ec7f5129a1439ce4920c1575c712e68c935",
+      "result_sha256": "c150beab8479c22d324289f702f14bcefb643f35c928ed09c6d2f742f17c1a3a",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.612880101906808,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.492498349928384,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.241713599871651,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.612880101906808,
+      "angular_speed_max_rad_s": 15.492498349928384,
+      "translation_path_length_m": 5.241713599871651
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "ede9558b4cd49a413871b5f10bcbc89c33f377a2c3b2bfd1d9b6913e969afcbc",
+      "result_sha256": "0949ed6fc5442c3c867fadc591176f6fdeb3e3bf8baf4b79b51da06031eadcb5",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.010067440010032,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.267311081120148,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.331475835641536,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.010067440010032,
+      "angular_speed_max_rad_s": 15.267311081120148,
+      "translation_path_length_m": 5.331475835641536
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "4db96dcfd5f7f06b1e0bca6d9eb1e651d2abac68dccfe190bc4ad721940bcef7",
+      "result_sha256": "937a8ed741419afb94ba3e30c1902a5abaa099152cc3f4de6408dd714329696e",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.596363794325223,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.630359432394265,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 6.078809516708356,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.596363794325223,
+      "angular_speed_max_rad_s": 15.630359432394265,
+      "translation_path_length_m": 6.078809516708356
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "89d1476efecdd961690652d4eb11a22938fc4478cd043a8ec21747d54684a809",
+      "result_sha256": "642bcd58326df79dbf05bac2c47d3ddad88251807f721ca85030b3c454bdc44f",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.763158145634526,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.780880098925993,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.772819072515311,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.763158145634526,
+      "angular_speed_max_rad_s": 15.780880098925993,
+      "translation_path_length_m": 5.772819072515311
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "2d0987b96340a1f6580f79ff19ba1c82955e73b89761eeb50e8d73339ae5ebf9",
+      "result_sha256": "57bc575f04e77820dbb51a8db0d600bdd21f1b8caa4ef501ea4277a71d1c6f5f",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.2677067726814535,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.302532115493241,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 6.199024502119701,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.2677067726814535,
+      "angular_speed_max_rad_s": 15.302532115493241,
+      "translation_path_length_m": 6.199024502119701
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "34e6569c94db3b39f6bff9a2081d45e399c9d8d533aad01e0ea10baac08183f1",
+      "result_sha256": "c451949ddd26df2e11fba42731aaf1e35d535a46fd0cb2c7e290ff0066d51ae0",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.78630554404234,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.609216592711617,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.78630554404234,
+      "angular_speed_max_rad_s": 15.609216592711617,
+      "translation_path_length_m": 4.831295678637322
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "3209013cdae54b5f7272f93300f7c05620678db400e57205d4d6be184458ae46",
+      "result_sha256": "4632a342f6724ca42b4e7449808a1b8d196212d4c611fd3ab69a73aa4051194d",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.518358232724625,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.73320874431524,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.953957647393912,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.518358232724625,
+      "angular_speed_max_rad_s": 15.73320874431524,
+      "translation_path_length_m": 5.953957647393912
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "759d2900fd341e25edba46a8c138aa424516bc4fdc9d2a7df5472ef8fb359748",
+      "result_sha256": "632620d2a5cb0e6a9c0e689b169af227fd32fa4fe347a7801f3ed127fa5de006",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.088305416492535,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.239382517839186,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.382779774942061,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.088305416492535,
+      "angular_speed_max_rad_s": 15.239382517839186,
+      "translation_path_length_m": 5.382779774942061
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "5da1f2f58ef7916eb0c4ca877f7f8bdb4038c53c28fc7c8db6e41db152886e37",
+      "result_sha256": "de72c17e412cb70146f729a2803cd11cda50a6cde7abcd79f08de637711e0370",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.73161280132384,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.462054954366938,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.736031961244252,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.73161280132384,
+      "angular_speed_max_rad_s": 15.462054954366938,
+      "translation_path_length_m": 5.736031961244252
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "43be93349d61eba637ec9fe4f3a1db3498c0eb066c4a2b6de8f6ff6e61dc28f0",
+      "result_sha256": "77ae005c4c073e1dfa9ba1241728a8cadd536f88593cb2b5c8c5d100dd02c838",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.048034723563154,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.853447872882361,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.599890468701754,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.048034723563154,
+      "angular_speed_max_rad_s": 15.853447872882361,
+      "translation_path_length_m": 5.599890468701754
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "c58f92e1b8d1a7ada8586e5e63598abb1c5fc20f2ea64893227790364dc782d4",
+      "result_sha256": "f5b25e79600956abad02aacedbfcab85a2a63a402402243e8f58b40bcbe8235a",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.325229949206572,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.509547256737743,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.793899905858087,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.325229949206572,
+      "angular_speed_max_rad_s": 15.509547256737743,
+      "translation_path_length_m": 5.793899905858087
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "08fa235d1953ffacab3b8a002a4a27a7b57e10ce8658d4d941b009a7039d5744",
+      "result_sha256": "964d2c05bb47d9d821799a68d584e21163db36ef3c313cdd85fe0f2809f38b54",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.5838129524167295,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.286805042623776,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.504040061840959,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.5838129524167295,
+      "angular_speed_max_rad_s": 15.286805042623776,
+      "translation_path_length_m": 5.504040061840959
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "29c50c5298f8d2880dc5b94d1cc2e8b7f145a57f1f1f0fef861a3951d997912c",
+      "result_sha256": "9ce70cf251b58d918c25597ee2dea36988a965bd6fd5fe82ae5800a3fc97748a",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.509593865241239,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.26753615965769,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.62332725714993,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.509593865241239,
+      "angular_speed_max_rad_s": 15.26753615965769,
+      "translation_path_length_m": 5.62332725714993
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "ff78eb98b83a9c8eb5c05483b7fe51ea1a7ce212fd4e0251146be9f72f7f216c",
+      "result_sha256": "18bceb139faec428f02f150fdff24caa170680c8fc266a8577dff0682ce4caff",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.563121148838522,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 14.743307980647701,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.75536121543005,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.563121148838522,
+      "angular_speed_max_rad_s": 14.743307980647701,
+      "translation_path_length_m": 5.75536121543005
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "366ad82d344b47397398acb390cd50669b498f512004afd177a9675d2be11eb4",
+      "result_sha256": "b8c84c428ae481807445665488395b7a0e6b0f1032d4dd60bc7db9eaeb396c86",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.74717176566593,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.061437806902969,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.491399258017117,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.74717176566593,
+      "angular_speed_max_rad_s": 15.061437806902969,
+      "translation_path_length_m": 5.491399258017117
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "5990e6e330760c0552bc0313eb78850c861eed3f9686222cef1ff471b71ca0e9",
+      "result_sha256": "59bd16c136f66bf17bfcabc9eb031e39e2dddb2196d07c054513d2e8d554ae76",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.878259036169267,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.461211454297565,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 7.1067854301366005,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.878259036169267,
+      "angular_speed_max_rad_s": 15.461211454297565,
+      "translation_path_length_m": 7.1067854301366005
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "c571f07ee2fbf83dbf0f7e5aeedb04314b1b684924aeee1724c56e5f6fd56dcb",
+      "result_sha256": "62611858bca4fdad510fc198cfdd2f657120642b42dd9c1868a577d4717bcfdf",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.691606331518065,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.645335338577567,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 6.368878208484296,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.691606331518065,
+      "angular_speed_max_rad_s": 15.645335338577567,
+      "translation_path_length_m": 6.368878208484296
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "ab10300d6d5811b4363ab3b3eb3e56b2150b792a2d658b2b0f2798bb2021ef20",
+      "result_sha256": "91fef9633ae61afb6cd1ea2a7ddb89d6dfaaa69ea2397bfe2840c63f757441d2",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.900593687617808,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.29754342082222,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.244865967351087,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.900593687617808,
+      "angular_speed_max_rad_s": 15.29754342082222,
+      "translation_path_length_m": 5.244865967351087
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T1/N294101",
+      "task": "T1",
+      "adjudication_sha256": "8a78d120f368d329006606501993e92a1e4ca73992d959f801914c938a251b3b",
+      "result_sha256": "f71800a423e232a7c58fef6c08f0eaa4e5aedfbbee2dff282f5335a56d9e1ccd",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 5.536211135034533,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.39130584349686,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.379532030364348,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 5.536211135034533,
+      "angular_speed_max_rad_s": 15.39130584349686,
+      "translation_path_length_m": 5.379532030364348
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T2/N294101",
+      "task": "T2",
+      "adjudication_sha256": "d14a08753003c49f76049aa0cfa5f1134ce2541d238813e94dd8906f3400a7d8",
+      "result_sha256": "cb01345d78cb2d441ed2a75312f14b7fe07852595161fb12b1ffcc68a7c6e94a",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "main_integrations": 0,
+      "installed_commands": 0,
+      "actual_initial_RGB_pairs": 1,
+      "reference_gate_issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "observed": 4.575362265197828,
+          "threshold": 2.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "observed": 15.345178407598077,
+          "threshold": 4.0,
+          "provenance": "TEST_ONLY"
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "observed": 5.9962698882726295,
+          "threshold": 5.0,
+          "provenance": "TEST_ONLY"
+        }
+      ],
+      "linear_speed_max_m_s": 4.575362265197828,
+      "angular_speed_max_rad_s": 15.345178407598077,
+      "translation_path_length_m": 5.9962698882726295
+    }
+  ],
+  "validation": {
+    "source_bundle_and_actual_replay_tests": 26,
+    "source_bundle_test_skips": 0,
+    "physical_native_tests_claimed": false
+  },
+  "goal_complete": false,
+  "infrastructure_or_WBC_changes": false,
+  "cleanup_performed": false
+}
