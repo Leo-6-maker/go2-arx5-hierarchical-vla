@@ -46,7 +46,22 @@ assert sha(raw(snapshot))==closed['snapshot_sha256']and inventory.identity(curre
 small={name:(old/name).read_bytes()for name in m['execution']['sealed_inputs']};assert all(sha(body)==m['execution']['sealed_inputs'][name]for name,body in small.items())
 prior=P['old_request'];cfg=json.loads(small['MIX_OWNER_CONFIG.private.json']);assert not any(str(old)in body for body in cfg['programs'].values())
 gp=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json';gb=gp.read_bytes();local=base64.b64decode(P['LOCAL_base64'],validate=True)
-scope=n.prepare_scope(gb,local,authority_bytes=base64.b64decode(P['authority_base64'],validate=True),closed_capture=P['closed_capture'],old_request=prior,old_manifest=m,old_physical_custody=json.loads(small[x.PHYSICAL]),source_seal_bytes=sb,frozen=m['code']['frozen_numerical_files'],source_readback=P['source_readback'],now_epoch=time.time())
+# The partial cold02 now exists: do not use a factory requiring its absence,
+# or restamp an old absence witness. Validate its actual immutable tentative
+# scope, then change only the new cold source and its measured readback.
+scope=read(root/n.BINDING);original_scope=deepcopy(scope);g=json.loads(gb);view=deepcopy(g)
+view[n.FIELD]=dict(scope=scope,binding=dict(manifest_sha256=sha(before_manifest),physical_custody_sha256=sha((root/x.PHYSICAL).read_bytes())))
+n.validate(view)
+fresh=P['closed_capture'];sr=P['source_readback'];now=time.time();partial=fresh['unregistered_tentative_cold02']
+assert sha(gb)==n.GLOBAL and sha(local)==n.LOCAL and sha(base64.b64decode(P['authority_base64'],validate=True))==n.AUTH
+assert fresh['GLOBAL_sha256']==n.GLOBAL and fresh['new_cold02_absent']is False and fresh['new_native_requests']==fresh['model_calls']==fresh['new_mutations']==0 and 0<=now-fresh['observed_epoch']<=120
+assert partial==dict(manifest_sha256=sha(before_manifest),lease_absent=True,owner_absent=True,PBS_rows=0)
+assert scope['old_request']==prior and scope['old_manifest']==m and scope['closed_role']==closed and scope['source_sha']==oldseal['source_sha']
+assert sr['status']=='ACTUAL_COMPLETE_COLD_SOURCE_SHA_READBACK'and sr['uid']==22182 and sr['hostname'].startswith('stdct-login-')and sr['source_sha']==seal['source_sha']and sr['source_seal_sha256']==sha(sb)and sr['file_sha256']==seal['files']and sr['model_calls']==sr['physics_ticks']==0 and 0<=now-sr['observed_epoch']<=120
+from scripts.pi0294.pv1.evaluation_core_scope import ORIGINAL_NUMERICAL_TABLE_SHA
+frozen=m['code']['frozen_numerical_files'];assert len(frozen)==15 and sha(json.dumps(frozen,sort_keys=True).encode())==ORIGINAL_NUMERICAL_TABLE_SHA
+assert all(seal['files'].get(name)==pin for name,pin in {**frozen,**n.TRAINING_FILES}.items())
+scope.update(source_sha=seal['source_sha'],source_seal_sha256=sha(sb),source_readback_sha256=n.digest(sr),adopted_epoch=now,preserved_tentative_scope_sha256=n.digest(original_scope),reseal_boundary_sha256=n.digest(partial))
 regpath,envpath=Path(oldb['registry']),Path(oldb['environment']);regb,envb=regpath.read_bytes(),envpath.read_bytes();assert sha(regb)==P['registry_sha256']and sha(envb)==P['environment_sha256']
 reg,env,binding=metadata(json.loads(regb),json.loads(envb),oldb,'0'*64)
 for path,key in[(regpath,'E2-COLD02-REGISTER-ROLE'),(envpath,'E2-COLD02-ENV-PROFILE')]:assert not path.with_name(key+'.INTENT.json').exists()and not path.with_name(key+'.RECEIPT.json').exists()
