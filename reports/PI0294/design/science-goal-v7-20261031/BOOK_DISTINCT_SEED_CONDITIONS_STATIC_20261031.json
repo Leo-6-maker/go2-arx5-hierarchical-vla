@@ -1,0 +1,99 @@
+{
+  "schema": "BOOK_DECLARED_DISTINCT_TRAIN_DEV_CONDITIONS_AND_STATIC_V1",
+  "as_of": "2026-10-31 07:51 SGT",
+  "teacher_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+  "TRAIN_xy_offsets_m": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.004,
+      0.0
+    ],
+    [
+      -0.004,
+      0.0
+    ],
+    [
+      0.0,
+      0.004
+    ],
+    [
+      0.0,
+      -0.004
+    ]
+  ],
+  "DEV_xy_offsets_m": [
+    [
+      0.006,
+      0.0
+    ],
+    [
+      -0.006,
+      0.0
+    ],
+    [
+      0.0,
+      0.006
+    ],
+    [
+      0.0,
+      -0.006
+    ],
+    [
+      0.004,
+      0.004
+    ],
+    [
+      0.004,
+      -0.004
+    ],
+    [
+      -0.004,
+      0.004
+    ],
+    [
+      -0.004,
+      -0.004
+    ],
+    [
+      0.008,
+      0.002
+    ],
+    [
+      -0.008,
+      -0.002
+    ]
+  ],
+  "TRAIN_DEV_distinct": true,
+  "DEV_for_training_or_Teacher_selection": false,
+  "initial_TCP_goal_caddy_grasp_route_and_original32s_safety_score_unchanged": true,
+  "conditions_not_original_LIBERO_benchmark_seeds": true,
+  "static_qualified_before_physics": [
+    {
+      "seed_index": 1,
+      "xy_offset_m": [
+        0.004,
+        0.0
+      ],
+      "route_states": 409,
+      "route_duration_s": 19.95,
+      "max_joint_speed_rad_s": 0.5067333088961234,
+      "discrete_path_sha256": "1a3e8901c9092f0296b972fc8dac4787fa5fcea238c4bad710d3c8c52b3ef7b1",
+      "discrete_result_sha256": "fa89d2e5d97219396e89b99d747dffc12e2150a40287c664056af78501a092b3",
+      "swept_result_sha256": "bf1ec8127e062124280ee2ad8281a45225c780382472f3cba9ba070c2187680e",
+      "swept_edges": 408,
+      "swept_checked_states": 11916,
+      "certified_subedges": 6162,
+      "static_CPU_s": 286.061601628,
+      "native_qualification": false
+    }
+  ],
+  "native_attempts_from_these_four_new_conditions": 0,
+  "seed000_existing_qualified_full_demo": true,
+  "checks": "15 affected PC tests PASS; native qualification for new seed conditions NOT_RUN",
+  "new_model_physics_training_PBS": 0,
+  "source_seed_plan_sha256": "226ad47057454be16c74994e5eba8899fa99f2bb1812357ae454d78af8d89387",
+  "other_static_conditions": "RUNNING_NO_DYNAMIC_AUTHORITY_UNTIL_PASS"
+}

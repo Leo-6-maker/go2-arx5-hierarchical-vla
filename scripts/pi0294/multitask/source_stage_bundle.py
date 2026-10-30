@@ -29,6 +29,11 @@ BOOK_DESCENT_VERSION='LIBERO_ARX5_PORT05_SLOW_SUPPORTED_DESCENT'
 BOOK_DESCENT_CARD_SHA='7a1b93f86b36fca9215477bd9f3c1032c9f90e3d0b876b1c0a8bab1a7fb6bbf4'
 BOOK_RELEASE_VERSION='LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE'
 BOOK_RELEASE_CARD_SHA='dccf632eef8342c5fe5fd23a6b57448736034e7b34ffd7fca87f323caed76b67'
+BOOK_SEED_CARD_SHA={
+    1:'b1fa2e4140573cb8273446ef1b240bf83c8916f022faf86341ac447ba2906db8',
+    2:'be10e8263b696a8e8207b2fd9630da54dc3e3ee359b7f04ef6f9048c4a4948cc',
+    3:'ff29fd3872406b645546f7a94f580e1ecdf25a0b0ef592a68487d4d6676ef187',
+    4:'e2693ca4b90bda7312be495ec3fdd6d3464667e32a7de60f5522737bf86d0211'}
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
     'desk_caddy/desk_caddy.xml': 'bb59530d8629878f8974efaed4abf79d31743ee3',
@@ -75,6 +80,10 @@ def checked_manifest(manifest):
     tasks = plan(kind,side=side)
     if side is not None and manifest.get('book_route_revision')not in(BOOK_ROUTE_VERSION,BOOK_MARGIN_VERSION,BOOK_DESCENT_VERSION,BOOK_RELEASE_VERSION):
         raise PermissionError('EXPLICIT_STATIC_BOOK_ROUTE_MANIFEST')
+    seed=manifest.get('book_seed_index')
+    if seed is not None and (type(seed)is not int or seed not in BOOK_SEED_CARD_SHA
+            or manifest.get('book_route_revision')!=BOOK_RELEASE_VERSION or kind!='BOOK' or side!='left'):
+        raise PermissionError('DECLARED_SOURCE_BOOK_SEED_MANIFEST')
     declared = [x['side']for x in tasks] if kind == 'BOOK' else tasks
     if (manifest['predeclared_tasks'] != declared
             or manifest['attempts_this_chain_max'] != len(tasks)):
@@ -141,6 +150,12 @@ def unpack(payload):
     elif side is not None:
         raise PermissionError('SINGLE_BOOK_CONDITION_NEEDS_STATIC_ROUTE')
     expected_sha=book_revisions[book_revision]if book_revision else revisions[revision]if revision else CARD_SHA[kind]
+    seed=payload.get('book_seed_index')
+    if seed is not None:
+        if (type(seed)is not int or seed not in BOOK_SEED_CARD_SHA
+                or book_revision!=BOOK_RELEASE_VERSION or qualification.get('book_seed_index')!=seed):
+            raise PermissionError('EXACT_DECLARED_SOURCE_BOOK_SEED')
+        expected_sha=BOOK_SEED_CARD_SHA[seed]
     if (card_sha != expected_sha
             or qualification['fixed_task_cards_sha256'] != card_sha
             or qualification['source_sha'] != payload['source_sha']):
