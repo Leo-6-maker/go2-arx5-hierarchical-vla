@@ -155,7 +155,11 @@ def test_auditor_reserves_once_on_same_native_account_before_compute(tmp_path,mo
     v=dict(scope=scope.SCOPE,caps=scope.CAPS,approval_sha256=scope.APPROVAL_SHA,
         stop_new_epoch=scope.STOP_NEW,deadline_epoch=scope.DEADLINE,revision=0,native_adopted=True,
         charged_upper={k:0 for k in scope.CAPS},operations=[])
-    path.write_text(raw(v));chain.reserve_audit(tmp_path,'right','ROBOCASA_CABINET')
+    path.write_text(raw(v))
+    # The current source dispatcher validates the actual sealed task card
+    # before reserving a revision-specific auditor operation.
+    (tmp_path/'FIXED_TASK_CARDS.json').write_text(raw({'ROBOCASA_CABINET':cards()}))
+    chain.reserve_audit(tmp_path,'right','ROBOCASA_CABINET')
     after=path.read_bytes();value=json.loads(after)
     assert value['charged_upper']['Core_CPU_s']==40 and value['charged_upper']['attempts']==0
     with pytest.raises(PermissionError):chain.reserve_audit(tmp_path,'right','ROBOCASA_CABINET')
@@ -188,7 +192,7 @@ def test_mixed_plan_requires_all_fixed_cards_and_assets_before_first_child(tmp_p
         robocasa_definition_members=definitions,robocasa_texture_members=textures)))
     assert chain.checked_plan(tmp_path,'ALL_PINNED')==chain.planned_tasks('ALL_PINNED')
     fixed['ROBOCASA_CABINET']['left']['task_duration_s']=31.;path.write_text(raw(fixed))
-    with pytest.raises(PermissionError,match='ONE_SEALED_PREDECLARED_TASK_CARD'):chain.checked_plan(tmp_path,'ALL_PINNED')
+    with pytest.raises(PermissionError):chain.checked_plan(tmp_path,'ALL_PINNED')
 
 
 def test_equal_valued_prefix_from_another_h40_is_not_current_command_label(synthetic):

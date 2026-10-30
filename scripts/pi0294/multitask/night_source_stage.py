@@ -20,12 +20,21 @@ assert sha(rb)==P['registry_sha256']and sha(lb)==P['LOCAL_sha256']
 reg=json.loads(rb);local=json.loads(lb)
 assert local['pending_queries']==local['pending_updates']==local['unknown_effects']==[]
 assert not any(x.get('role')==P['role']or x.get('path')==str(root)for x in reg['entries'])
-assert 'NIGHT_SOURCE30_BOUNDED_AUTONOMY'not in local
+assert 'NIGHT_SOURCE30_BOUNDED_AUTONOMY'not in local or P.get('predecessor_root')==str(Path(local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']['account_path']).parents[1])
 for unit in P['idle_D25_units']:
  q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','LoadState'],capture_output=True,text=True,timeout=4)
  assert dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',LoadState='not-found')
 q=subprocess.run(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=4)
-assert q.returncode==0 and not q.stdout.strip()
+assert q.returncode==0
+if not P.get('gpu0_shared'):assert not q.stdout.strip()
+else:
+ assert P['execution_policy_sha256']=='b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a'
+ q=subprocess.run(['nvidia-smi','--id=0','--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=4)
+ assert q.returncode==0
+ gpu_uuid,free_mib=q.stdout.strip().split(',');assert gpu_uuid==P['GPU_uuid']and int(free_mib)>=2048
+for unit in P.get('idle_owned_units',[]):
+ q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID'],capture_output=True,text=True,timeout=4)
+ assert q.returncode==0 and q.stdout.strip()=='MainPID=0'
 disk=os.statvfs(root.parent);assert disk.f_bavail*disk.f_frsize>=20*1024**3
 for line in Path('/proc/self/mountinfo').read_text().splitlines():
  before,after=line.split(' - ',1)
@@ -39,13 +48,15 @@ once_ns={};exec(compile(code['scripts/pi0294/dec1/source_cpu_once_io.py'],'<orig
 put=once_ns['_exclusive'];commit=once_ns['commit']
 scope_ns={};exec(compile(code['scripts/pi0294/multitask/night_scope.py'],'<published-night-scope>','exec'),scope_ns)
 approval=base64.b64decode(P['approval_base64']);extension=base64.b64decode(P['successor_authority_base64'],validate=True)if P.get('successor_authority_base64')else None
-assert extension is None or bundle['task_kind']in('ALL_PINNED','ROBOCASA_CABINET')
+assert extension is None or bundle['task_kind']in('ALL_PINNED','ROBOCASA_CABINET')or P.get('book_route_revision')
 scope_ns['authority'](approval,now=time.time(),successor_body=extension)
 pc=base64.b64decode(P['PC_closed_account_base64']);account=json.loads(pc)
 scope_ns['validate_account'](account)
-assert account['custody']=='CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK'
+assert account['custody']in('CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK','V7_CLOSED_SOURCE_CUSTODY_PENDING_NATIVE_READBACK')
 assert account['native_adopted']is False
-if bundle['task_kind']=='ROBOCASA_CABINET':
+if scope_ns.get('V7_CARRY')in account:
+ assert account[scope_ns['V7_CARRY']]['destination']==str(root)
+elif bundle['task_kind']=='ROBOCASA_CABINET':
  if P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE':
   assert 'closed_cabinet_turn_speed_port05_carry'in account and account['charged_upper']['attempts']==5
  elif P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR':
@@ -71,7 +82,16 @@ scope=scope.for_root(root)
 from scripts.pi0294.task_path_entry import ENTRY_FILES,node_local_paths,registered_snapshot
 gb=gzip.decompress(base64.b64decode(P['GLOBAL_gzip_base64']));assert sha(gb)==P['observation']['GLOBAL']['sha256']
 budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
-assert budget==P['full14_proof']
+if scope.V7_CARRY in account:
+ assert budget['original_forecast']['cap_changes_required']=={}
+ storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
+ future=max(0,storage['projected']-storage['used'])
+ retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
+ assert retained_and_next<=5368709120
+ free=os.statvfs(root).f_bavail*os.statvfs(root).f_frsize
+ assert free>=future+5368709120+2147483648
+ put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,source_retained_and_next_upper_bytes=retained_and_next,source_capacity_upper_bytes=5368709120,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
+else:assert budget==P['full14_proof']
 put(root/'FULL14_PROOF.json',raw(budget));put(root/'ORIGINAL_GLOBAL_CAPTURE.private.json',gb)
 put(root/'CLOSED_PC_PREPARATION_ACCOUNT.json',pc);put(root/'NIGHT_HUMAN_APPROVAL.json',approval)
 put(root/'SOURCE_SEAL.json',raw(dict(source_sha=P['source_sha'],files=P['source_members'])))
@@ -96,11 +116,24 @@ lease_path=root/'control/NATIVE_SOURCE_LEASE.json'
 lease=dict(run_uuid=root.name,owner='EXISTING_LOCAL_PC',status='ACTIVE',approval_sha256=scope.APPROVAL_SHA,
  deadline_epoch=scope.DEADLINE,scope=scope.SCOPE,automatic_retry=False,new_GR00T_training_queries_PBS=0)
 put(lease_path,raw(lease))
+if scope.V7_CARRY in account:
+ carry=account[scope.V7_CARRY];previous=Path(P['predecessor_root'])
+ previous_account=previous/'control/NIGHT_SOURCE_ACCOUNT.json'
+ for key,name in dict(account='control/NIGHT_SOURCE_ACCOUNT.json',lease='control/NATIVE_SOURCE_LEASE.json',terminal='outputs/SOURCE_CHAIN_TERMINAL.json').items():
+  assert(previous/name).read_bytes()==base64.b64decode(carry[key+'_base64'],validate=True)
+ q=subprocess.run(['systemctl','--user','show',previous.name+'.service','-p','MainPID','-p','SubState'],capture_output=True,text=True,timeout=4)
+ assert q.returncode==0 and dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',SubState='exited')
+ for name,pin in P.get('predecessor_preserved_files',{}).items():assert sha((previous/name).read_bytes())==pin
+ before=previous_account.read_bytes();closed=scope.transfer_development_custody(before,pc,destination=str(root))
+ key='V7-SOURCE-CUSTODY-TRANSFER-'+root.name
+ transfer=commit(previous_account,expected_before_sha256=sha(before),proposed_bytes=raw(closed),request_id=key,intent_path=previous_account.with_name(key+'.INTENT.json'),receipt_path=previous_account.with_name(key+'.RECEIPT.json'),lock_path=previous_account.with_name('NIGHT_SOURCE_ACCOUNT.owner.lock'))
+ put(root/'PREDECESSOR_CUSTODY_TRANSFER.json',raw(transfer))
 put(root/'control/NIGHT_SOURCE_ACCOUNT.json',raw(account))
 reg_new=json.loads(rb);reg_new['entries'].append(dict(role=P['role'],path=str(root),run_uuid=root.name,
  executor_node='corelab-4080s',owner='EXISTING_LOCAL_PC',scope=scope.SCOPE,
  authority_sha256=scope.APPROVAL_SHA,source_sha=P['source_sha'],local_lease=str(lease_path)))
 def cas(path,before,after,key):
+ if scope.V7_CARRY in account:key=key+'-'+root.name
  return commit(path,expected_before_sha256=before,proposed_bytes=raw(after),request_id=key,
   intent_path=path.with_name(key+'.INTENT.json'),receipt_path=path.with_name(key+'.RECEIPT.json'),
   lock_path=path.with_name(path.name+'.owner.lock'))
@@ -114,6 +147,7 @@ marker=dict(schema='NIGHT_SOURCE30_DISTINCT_ADDITIVE_ALLOWANCE_V1',approval_sha2
  original_GLOBAL_sha256=sha(gb),original_LOCAL_before_sha256=sha(lb),full14_proof_sha256=sha(raw(budget)),
  registry_after_sha256=sha(snapshot),stop_new_epoch=scope.STOP_NEW,deadline_epoch=scope.DEADLINE,
  caps=scope.CAPS,all_original_financial_fields_unchanged=True,old_work_cannot_spend_this_allowance=True)
+if 'NIGHT_SOURCE30_BOUNDED_AUTONOMY'in local:marker['closed_predecessor_source_marker']=local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']
 new_local=json.loads(lb);new_local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']=marker
 adoption=cas(local_path,sha(lb),new_local,'NIGHT30-ADOPT-DISTINCT-SOURCE-ALLOWANCE')
 put(root/'SOURCE_SCOPE_ADOPTION.json',raw(dict(marker=marker,LOCAL_once_receipt=adoption,original_registry_once_receipt=registration)))
@@ -140,15 +174,17 @@ manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_
  source_sha=P['source_sha'],capsule_relative='entry/code/vla',sealed_inputs={n:sha((root/n).read_bytes())for n in sealed_names},
  authority_sha256=scope.APPROVAL_SHA,original_entry_unchanged=True,original_registry_adopted=True,
  local_lease=str(lease_path),deadline_epoch=scope.DEADLINE,task_kind=bundle['task_kind'],
- predeclared_tasks=['left','right']if bundle['task_kind']=='BOOK'else bundle['plan'],attempts_this_chain_max=len(bundle['plan']),
+ predeclared_tasks=[x['side']for x in bundle['plan']]if bundle['task_kind']=='BOOK'else bundle['plan'],attempts_this_chain_max=len(bundle['plan']),
  source_port_not_original_robot_benchmark=True,new_GR00T_training_queries_PBS=0)
 if P.get('cabinet_port_revision'):manifest['cabinet_port_revision']=P['cabinet_port_revision']
+for key in('condition_side','book_route_revision','gpu0_shared','GPU_uuid','execution_policy_sha256','idle_owned_units'):
+ if key in P:manifest[key]=P[key]
 put(root/'RUN_MANIFEST.json',raw(manifest))
 env={k:v for k,v in os.environ.items()if k in('PATH','HOME','USER','LOGNAME','LANG','LC_ALL',
  'XDG_RUNTIME_DIR','DBUS_SESSION_BUS_ADDRESS')}
 env.update(TMPDIR=str(root/'tmp'),XDG_CACHE_HOME=str(root/'cache'),XDG_CONFIG_HOME=str(root/'cache'),
  CUDA_CACHE_PATH=str(root/'cache'),__GL_SHADER_DISK_CACHE_PATH=str(root/'cache'),PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1',
- MUJOCO_GL='egl',MUJOCO_EGL_DEVICE_ID='0',CUDA_VISIBLE_DEVICES='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad',
+ MUJOCO_GL='egl',MUJOCO_EGL_DEVICE_ID='0',CUDA_VISIBLE_DEVICES=P.get('GPU_uuid','GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'),
  OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
 put(root/'PROCESS_ENVIRONMENT.private.json',raw(env))
 probe='import os,sys,json,numpy,mujoco,PIL;print(json.dumps(dict(uid=os.getuid(),host=os.uname().nodename,cwd=os.getcwd(),python=sys.executable,origins={m.__name__:m.__file__ for m in[numpy,mujoco,PIL]},model_queries_physics=0)))'
@@ -200,7 +236,7 @@ assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==result['acc
 account=scope.validate_account(json.loads((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes()))
 assert account['native_adopted']is True
 expected_attempts=5 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'else 4 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR'else 3 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME'else 2 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR'else 1 if kind=='ROBOCASA_CABINET'else 0
-assert account['charged_upper']['attempts']==expected_attempts
+if scope.V7_CARRY not in account:assert account['charged_upper']['attempts']==expected_attempts
 assert account['qualification_sha256']==sha((root/'SOURCE_QUALIFICATION.json').read_bytes())
 lease=json.loads(Path(binding['lease']).read_bytes());assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name
 paths=node_local_paths(json.loads((root/'RUNTIME_PATHS.private.json').read_bytes()))
@@ -227,6 +263,8 @@ from scripts.pi0294.multitask.night_book_chain import checked_plan
 from scripts.pi0294.multitask.night_scope import for_root
 scope=for_root(root);scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
 kind,planned=checked_manifest(m);assert [dict(task_kind=k,side=s)for k,s in checked_plan(root,kind)]==planned
+for key in('gpu0_shared','GPU_uuid','execution_policy_sha256','idle_owned_units'):
+ if key in m:assert P.get(key)==m[key]
 assert 0<=time.time()-P['independent_readback_epoch']<120
 assert sha(Path(P['LOCAL_path']).read_bytes())==P['LOCAL_sha256']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==P['account_sha256']
@@ -237,7 +275,16 @@ for unit in P['idle_D25_units']:
  q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','LoadState'],capture_output=True,text=True,timeout=4)
  assert dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',LoadState='not-found')
 q=subprocess.run(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=4)
-assert q.returncode==0 and not q.stdout.strip()
+assert q.returncode==0
+if not P.get('gpu0_shared'):assert not q.stdout.strip()
+else:
+ assert P['execution_policy_sha256']=='b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a'
+ q=subprocess.run(['nvidia-smi','--id=0','--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=4)
+ assert q.returncode==0
+ gpu_uuid,free_mib=q.stdout.strip().split(',');assert gpu_uuid==P['GPU_uuid']and int(free_mib)>=2048
+for unit in P.get('idle_owned_units',[]):
+ q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID'],capture_output=True,text=True,timeout=4)
+ assert q.returncode==0 and q.stdout.strip()=='MainPID=0'
 unit=root.name+'.service';intent=root/'control/NATIVE_LAUNCH_INTENT.json'
 fd=os.open(intent,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
 with os.fdopen(fd,'wb')as f:f.write(raw(dict(unit=unit,manifest_sha256=sha(mb),source_sha=m['source_sha'],

@@ -34,7 +34,7 @@ def run(root,side,*,task_kind='BOOK'):
     import PIL
     from PIL import Image
     from .source_engine import make_engine
-    from .libero_book_teacher import LiberoBookTeacher
+    from .libero_book_teacher import teacher_for_card,attempt_operation as book_operation
     from .capture_core import capture
     root=Path(root);start=time.monotonic();cpu=time.process_time()
     from .night_scope import for_root
@@ -73,10 +73,14 @@ def run(root,side,*,task_kind='BOOK'):
         from .cabinet_repair02 import checked_card
         checked_card(card,side)
     elif card.get('task')!='BOOK':raise PermissionError('ORIGINAL_BOOK_TASK_CARD')
+    elif 'book_route_revision'in card:
+        from .libero_book_teacher import checked_route_card
+        checked_route_card(card,side)
     operation=('LIBERO_'if task_kind=='BOOK'else'ROBOCASA_')+side.upper()+'_FIRST01'
     if task_kind=='ROBOCASA_CABINET':
         from .cabinet_repair02 import attempt_operation
         operation=attempt_operation(card,side)
+    else:operation=book_operation(card,side)
     after=scope.reserve(account,operation=operation,kind='ATTEMPT',upper=dict(attempts=1,
         physics_integrations=50000,RGB_pairs=2000,Core_CPU_s=2800,render_device_s=600,
         Core_peak_bytes=512*1024**2),now=time.time(),task='LIBERO_BOOK_'+side.upper()if task_kind=='BOOK'else'ROBOCASA_OPEN_CABINET',
@@ -168,7 +172,7 @@ def run(root,side,*,task_kind='BOOK'):
             emit('warmup_tick',dict(native_step=engine.steps,actual_state=s))
             if s['safety_valid']is not True:raise PermissionError('ORIGINAL_NATIVE_SOURCE_WARMUP_SAFETY_STOP')
         emit('warmup_complete',dict(steps=engine.steps,actual_state=engine.snapshot()))
-        teacher=LiberoBookTeacher(card)if task_kind=='BOOK'else SourceSkillTeacher(card)
+        teacher=teacher_for_card(card)if task_kind=='BOOK'else SourceSkillTeacher(card)
         result=capture(engine,teacher,instruction=card['instruction'],guard=guard,emit=emit,duration_s=32.)
     except Exception as exc:
         error=type(exc).__name__+': '+str(exc)

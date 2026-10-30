@@ -1,0 +1,99 @@
+{
+  "schema": "V7_FIRST_FORMAL_E1_VETO_NATIVE_AUDITED_AND_BOOK_FEEDBACK_ROUTE_V1",
+  "as_of": "2026-10-31 04:56 SGT",
+  "science": {
+    "E1_formal_valid_conditions": 1,
+    "E1_panel_target": 24,
+    "E1_successes": 0,
+    "E1_completed_condition": "PI0294/PV1/DEV/F0/000/T1/N294101",
+    "repeat_of_completed_condition": false,
+    "E1_remaining_conditions": 23,
+    "new_E2_512_endpoints": 0,
+    "source_attempts": 6,
+    "source_actual_integrations": 22046,
+    "source_actual_RGB_pairs": 488,
+    "qualified_full_skill_demonstrations": 0
+  },
+  "E1": {
+    "run_uuid": "arx5-e1-fixed512-n294101-06",
+    "model_source": "663a2a5bc67c3f58fdf4fca1d7a37f28e24972ac",
+    "audit_source": "85c575c594d8f43493cd7ce49cd3e28a17f763fe",
+    "result_sha256": "f8d80fafe98eb8e9b11fa5141780f4018f7c0b9c0cf836204f1f1b1250b23940",
+    "new_audit_receipt_sha256": "803d335536e58d7039738669a3c314d604c339b1a8441bd21edb1ab4cb740fba",
+    "old_failed_audit_receipt_preserved_sha256": "3578baa2d1e42fea472369909a9c99eb2277ea413366d9e6d6fb90390ed19fb4",
+    "native_recomputation": "INDEPENDENT_NATIVE_REAUDIT_BYTES_AND_FULL_CAUSAL_RECOMPUTATION_PASS",
+    "original_gate": "REFERENCE_GATE_REJECT",
+    "linear_max_m_s": 4.698844950434891,
+    "angular_max_rad_s": 15.883199396139387,
+    "path_m": 5.582755906060499,
+    "executed_commands": 0,
+    "physical_integrations": 0,
+    "raw_missing_physics_not_synthesized": true,
+    "all_three_old_leases_closed": true
+  },
+  "book": {
+    "revision": "LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER",
+    "condition": "left_only",
+    "static_reference_report": "BOOK_TOP_EDGE_FRONT_CROSS_LOWER_STATIC_REFERENCE_ACTUAL_20261031.json",
+    "feedback_against_saved_static": {
+      "status": "PUBLIC_FEEDBACK_ROUTE_EXACTLY_MATCHES_SWEPT_CERTIFIED_NOMINAL_WAYPOINTS",
+      "static_path_sha256": "52f63f19ca0f65d63938d7821a283db4c0846184477f978cbb3123a86529a0a1",
+      "teacher_sha256": "fbfdeb21821c51331666abbb43a75026f076c51a50f65be9c9bc7be1846f160d",
+      "waypoint_max_matrix_errors": {
+        "approach": 5.2015821674360544e-14,
+        "align": 5.2015821674360544e-14,
+        "lift": 5.2015821674360544e-14,
+        "lateral_outside": 1.50712775592865e-13,
+        "preinsert": 5.168088179630104e-14,
+        "inside_lower": 5.168088179630104e-14,
+        "insert": 5.168088179630104e-14,
+        "withdraw": 5.168088179630104e-14,
+        "withdraw_out": 5.168088179630104e-14
+      },
+      "tolerance": 1e-12,
+      "native_physics": 0,
+      "observed_epoch": 1793393629.43662
+    },
+    "carry_subgoals": "actual_book_lateral_clear_then_cross_front_then_lower_then_insert",
+    "reference_progress": "actual_TCP_and_book_geometry_at_Prefix8_boundary_only",
+    "withdraw": "60mm_negative_tool_axis_then100mm_negative_world_X",
+    "task_duration_s": 32,
+    "warmup_s": 5,
+    "original_native_LIBERO_and_extra_support_release_withdraw_hold_scoring_unchanged": true,
+    "original_joint_native_collision_safety_unchanged": true,
+    "native_dynamic_run_started": false,
+    "native_qualified": false,
+    "qualified_demonstration": false
+  },
+  "resource_and_ownership": {
+    "previous_source_owner_terminal": true,
+    "previous_STOP_preserved": true,
+    "old_source_pool_all_charges_and_clocks_retained": true,
+    "fresh_source_pool": false,
+    "V7_ordinary_maintenance_separate_from_old_source_PC_remaining_s": 20,
+    "Core_free_bytes": 165345251328,
+    "GPU0_free_MiB": 26321,
+    "foreign_GPU_processes_untouched": true,
+    "infrastructure_changes": false,
+    "deletion": false
+  },
+  "validation": {
+    "affected_regressions": "85 PASS, including actual pinned private asset and closed-source carry records",
+    "full_CI": "NOT_RUN",
+    "native_book": "NOT_YET_RUN",
+    "static_not_physical": true,
+    "release_junit_sha256": "eaf9710f1cd413607f12860b710b1c603b15aeb2f151ea48934bde7712c15e12"
+  },
+  "next": "Deploy this exact source through original source owner/registry/onceIO, independently read back, then one left-book native attempt; do not wait for E1 remaining23 or E2.",
+  "E2_current": {
+    "original_job": "1508345.stdct-mgmt-02",
+    "native_state": "Q",
+    "observed_epoch": 1793393709.7461174,
+    "heartbeat_epoch": 1793393693.418186,
+    "manager_live": true,
+    "wrapper_live": false,
+    "wrapper_exit_cause_not_proven": true,
+    "qsub_added": 0,
+    "complete_512_endpoint_added": 0
+  }
+}

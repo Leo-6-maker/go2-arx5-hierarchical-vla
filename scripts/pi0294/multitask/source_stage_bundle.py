@@ -21,6 +21,8 @@ PORT04_VERSION='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR'
 PORT04_CARD_SHA='5b00e311f33acdcb804267cb0ee234497b16d851a3b02d866c1e75729dd94090'
 PORT05_VERSION='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'
 PORT05_CARD_SHA='07e49210e58ad42cfb794a7a678ba8f6f4c2f4c6f9d649f4ddf01411665417bd'
+BOOK_ROUTE_VERSION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
+BOOK_ROUTE_CARD_SHA='080f49c2cb45cea7c13237cf62254b0c65a3da44f2f1af91abd34bf5cd2399fb'
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
     'desk_caddy/desk_caddy.xml': 'bb59530d8629878f8974efaed4abf79d31743ee3',
@@ -46,9 +48,13 @@ def raw(value):
     return (json.dumps(value, indent=2, allow_nan=False)+'\n').encode()
 
 
-def plan(kind):
+def plan(kind, *, side=None):
     if kind not in CARD_SHA:
         raise ValueError('EXPLICIT_BOOK_OR_ALL_FOUR_SOURCE_STAGE')
+    if side is not None:
+        if kind!='BOOK' or side!='left':
+            raise PermissionError('ONE_STATIC_QUALIFIED_LEFT_BOOK_CONDITION')
+        return [dict(task_kind='BOOK',side=side)]
     tasks = [('BOOK', 'left'), ('BOOK', 'right')]
     if kind == 'ALL_PINNED':
         tasks += [('ROBOCASA_CABINET', 'right'), ('ROBOCASA_CABINET', 'left')]
@@ -59,8 +65,11 @@ def plan(kind):
 
 def checked_manifest(manifest):
     kind = manifest.get('task_kind', 'BOOK')
-    tasks = plan(kind)
-    declared = ['left', 'right'] if kind == 'BOOK' else tasks
+    side=manifest.get('condition_side')
+    tasks = plan(kind,side=side)
+    if side is not None and manifest.get('book_route_revision')!=BOOK_ROUTE_VERSION:
+        raise PermissionError('EXPLICIT_STATIC_BOOK_ROUTE_MANIFEST')
+    declared = [x['side']for x in tasks] if kind == 'BOOK' else tasks
     if (manifest['predeclared_tasks'] != declared
             or manifest['attempts_this_chain_max'] != len(tasks)):
         raise PermissionError('EXACT_COMPLETE_SOURCE_STAGE_PLAN')
@@ -106,7 +115,8 @@ def _binary(values, expected):
 def unpack(payload):
     """Validate actual transferred bytes, including both cabinet orientations."""
     kind = payload.get('task_kind', 'BOOK')
-    tasks = plan(kind)
+    side=payload.get('condition_side')
+    tasks = plan(kind,side=side)
     card_sha = hashlib.sha256(raw(payload['cards'])).hexdigest()
     qualification = payload['qualification']
     revision=payload.get('cabinet_port_revision')
@@ -114,7 +124,15 @@ def unpack(payload):
     if revision is not None and (revision not in revisions or kind!='ROBOCASA_CABINET'
             or qualification.get('cabinet_port_revision')!=revision):
         raise PermissionError('EXPLICIT_SEPARATE_CABINET_REPAIR02_STAGE')
-    expected_sha=revisions[revision]if revision else CARD_SHA[kind]
+    book_revision=payload.get('book_route_revision')
+    if book_revision is not None:
+        if (book_revision!=BOOK_ROUTE_VERSION or kind!='BOOK' or side!='left'
+                or revision is not None or qualification.get('book_route_revision')!=book_revision
+                or qualification.get('condition_side')!=side):
+            raise PermissionError('EXACT_STATIC_BOOK_ROUTE_QUALIFICATION')
+    elif side is not None:
+        raise PermissionError('SINGLE_BOOK_CONDITION_NEEDS_STATIC_ROUTE')
+    expected_sha=BOOK_ROUTE_CARD_SHA if book_revision else revisions[revision]if revision else CARD_SHA[kind]
     if (card_sha != expected_sha
             or qualification['fixed_task_cards_sha256'] != card_sha
             or qualification['source_sha'] != payload['source_sha']):
