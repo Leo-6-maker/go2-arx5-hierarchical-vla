@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+2026-10-30 19:54–19:56 SGT实测：[柜门PORT03通过双相机/5秒预热并取得真实抓握，进入开门规划前被实测铰链边界拒绝；PORT04冷修待原生](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT03_ACTUAL_SAFE_GRASP_HINGE_REFERENCE_GATE_AND_PORT04_COLD_FIX_20261030.json)。5900积分、138对RGB、136完整20Hz间隔，原生安全独立通过；完整任务未完成、own lease已CLOSED，左侧未运行。源域累计4尝试/9271积分/175对RGB/合格示范0；新端点/有效模型评价/合格示范仍0/0/0。原部署超时已按进入前零效果、残留进程终止及原费用保留精确消解，未重放UNKNOWN或改基础设施。
+
 2026-10-30 19:29–19:32 SGT实测：[柜门PORT02初态碰撞已修复，腕相机视野拒绝，原链已关闭；PORT03固定home冷修待原生](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT02_NATIVE_SAFETY_PASS_CAMERA_REJECTION_AND_PORT03_COLD_FIX_ACTUAL_20261030.json)。初态原安全通过、积分0／实际RGB1对；source累计3尝试、3371积分、37对RGB、合格示范0。E2唯一1508345仍Q、后台健康；E1原加载身份接受512且依赖本地，尚未加载，D25仍0/24。新端点／有效模型评价／合格示范=0/0/0。
 
 **10月30日18:56实际：首个RoboCasa柜门条件已真实构造完整源ARX5，但在time0初态安全检查失败；积分/RGB均0，链已关闭。** [原生初态与独立回执](reports/PI0294/design/parallel-science-20261022/ROBOCASA_FIRST_NATIVE_INITIAL_LAYOUT_SAFETY_STOP_CLOSED_ACTUAL_20261030.json)确认link5与柜顶/门板接触，门板最大穿入15.54毫米；关节范围通过、无预先抓握、原门关闭谓词成立，安全门未放宽。左右柜门卡home/柜体位姿/柜顶几何相同，左条件未运行，不能记失败成功率。该新冷角色仅接原未运行柜门卡；原放书账户全部费用/UNKNOWN上界一次转移，旧STOP与CLOSED许可不改。柜门own lease已CLOSED、MainPID0，合格示范0。源域累计2首次尝试、实际3371积分/36对RGB；书右和柜左仍未运行。E2最新18:58仍Q且原后台健康，E1固定512包已在Core全文核验，D25仍0/24；新增完整端点/有效模型评价/合格示范0。当前应处理源任务初态布局和跟踪证据，不能把更多训练当作初态碰撞的修复；本轮未改基础设施。

@@ -1,0 +1,148 @@
+{
+  "schema": "PI0294_PORT03_ACTUAL_SAFE_GRASP_HINGE_REFERENCE_REJECTION_PORT04_COLD_FIX_V1",
+  "status": "PORT03_NATIVE_CLOSED_SAFE_GRASP_PORT04_REFERENCE_ONLY",
+  "runtime_source_sha": "a75839348bdff13ee1639e62f06d049bac50765f",
+  "manifest_sha256": "727905c5e3fcd26ed1852008c635201575b867036300896908195621740a6bd6",
+  "observed_epoch": 1793361399.7143657,
+  "new_native": {
+    "operation": "ROBOCASA_RIGHT_PORT03_CAMERA",
+    "qualification_camera_in_frame_vertices": {
+      "body_rgb": 8,
+      "wrist_rgb": 4
+    },
+    "actual_integrations": 5900,
+    "actual_warmup_integrations": 2500,
+    "actual_task_integrations": 3400,
+    "actual_task_seconds": 6.8,
+    "actual_RGB_pairs": 138,
+    "completed20Hz_intervals": 136,
+    "planned_H40": 17,
+    "actual_contact_grasp_independently_verified": true,
+    "original_native_safety_pass": true,
+    "actual_terminal_hinge_position_rad": -0.0012749542955516303,
+    "actual_terminal_hinge_velocity_rad_s": -0.0009896968870391734,
+    "original_hinge_range_rad": [
+      0.0,
+      1.57
+    ],
+    "worker_exit_status": 1,
+    "worker_error": "ValueError: DECLARED_HINGE_LIMITS_AND_REFERENCE_SPEEDS_REQUIRED",
+    "native_CPU_s": 8.464814239,
+    "native_wall_s": 8.949424596969038,
+    "chain_CPU_s": 9.662579000000001,
+    "own_unit_MainPID": 0,
+    "own_unit_ExecMainStatus": 0,
+    "own_lease_sha256": "749f8d8f2d6cc17de25f95e521b91fe2fd5014d0e54a8ad4a810b3d10136226a",
+    "own_lease_status": "CLOSED",
+    "left": "NOT_RUN_AFTER_FIRST_REFERENCE_EXCEPTION",
+    "full_task_or_qualified_demo": false
+  },
+  "evidence": {
+    "raw_sha256": "faa76c3f9d89de52811d23b363c2d785c24757a9fbdb0c71138f4cf469974084",
+    "raw_bytes": 28394938,
+    "terminal_sha256": "1d591b8135857eb4f44029d22ad63028d173af279d7872a82ea3d8521eb2aed6",
+    "independent_audit_sha256": "dab59a469828cc8989ab3fc736502b330554a344a8f979c01d4b721adf5b082c",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "faa76c3f9d89de52811d23b363c2d785c24757a9fbdb0c71138f4cf469974084",
+      "terminal_sha256": "1d591b8135857eb4f44029d22ad63028d173af279d7872a82ea3d8521eb2aed6",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+      "native_ROBOCASA_goal_final": false,
+      "additional_support_release_withdraw_hold_pass": false,
+      "complete_episode": false,
+      "original_native_safety_pass": true,
+      "integrity_problems": [
+        "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+        "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+        "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+      ],
+      "actual_integrations": 5900,
+      "recorded_native_ticks": 5900,
+      "recorded_failed_native_ticks": 0,
+      "terminal_safety_states_checked": 1,
+      "actual_observations": 137,
+      "completed_intervals": 136,
+      "terminal_error": "ValueError: DECLARED_HINGE_LIMITS_AND_REFERENCE_SPEEDS_REQUIRED"
+    },
+    "source_chain_sha256": "eac473cb56e05ff1681974a8e3397f6e317af6bd6ef462d89daf24046d8824a6"
+  },
+  "transport_reconciliation": {
+    "original_cold_effect": "Exact pre-entry zero source effects; original UNKNOWN Journal preserved, full180CPU/transfer upper retained.",
+    "original_process_pid": 3997747,
+    "original_proc_start": "312970583",
+    "one_owned_experiment_SIGTERM": true,
+    "other_process_or_service_signals": 0,
+    "same_process_can_execute_again": false,
+    "original_write_replayed": false,
+    "canonical_LOCAL_registry_and_old_custody_unchanged_during_pre_entry": true,
+    "before_payload_bytes": 28332913,
+    "after_payload_bytes": 6902197,
+    "original_asset_bytes_hydrated_locally_and_rechecked": 18345876,
+    "cold_fix_once_confirmed": true,
+    "scope_root_native_launched_once": true,
+    "NFS_mount_SSH_network_or_system_service_changes": 0,
+    "underlying_VPN_or_NFS_fault_not_inferred": true
+  },
+  "new_port04_reference": {
+    "version": "ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR",
+    "method": "Reference coordinate zero is the measured safe physical hinge frame. Keep raw qpos and exact measured TCP anchor, require every subsequent20Hz reference angle inside the original physical range. No physical limit, score, speed, state or grip flag is relaxed/clamped.",
+    "saved_state_only_check": {
+      "status": "ACTUAL_SAVED_PORT03_SAFE_GRASP_ACCEPTED_BY_PORT04_REFERENCE_ONLY_NO_SIMULATOR",
+      "raw_sha256": "faa76c3f9d89de52811d23b363c2d785c24757a9fbdb0c71138f4cf469974084",
+      "actual_angle_preserved_rad": -0.0012749542955516303,
+      "first_future_angle_rad": 0.013218006425764406,
+      "last_angle_rad": 1.4915,
+      "original_limits_rad": [
+        0.0,
+        1.57
+      ],
+      "every_future_angle_in_original_limits": true,
+      "samples": 104,
+      "anchor_TCP_max_error": 3.3306690738754696e-16,
+      "maximum_reference_angular_speed_rad_s": 0.28985921442632456,
+      "maximum_reference_linear_speed_m_s": 0.059664830386912705,
+      "physical_joint_limit_or_native_score_changed": false,
+      "new_models_constructors_integrations": 0
+    },
+    "unchanged": "PORT03 geometry, declared home, original cameras/FOV, robot/driver/WBC, native safety and32s score.",
+    "native_deployed": false,
+    "new_simulator_calls": 0,
+    "one_evidenced_fix_per_side": true,
+    "stop_on_repeated_error": true
+  },
+  "source_aggregate": {
+    "native_attempts": 4,
+    "actual_integrations": 9271,
+    "actual_RGB_pairs": 175,
+    "qualified_demonstrations": 0,
+    "charged_upper": {
+      "attempts": 4,
+      "physics_integrations": 200000,
+      "RGB_pairs": 8000,
+      "Core_CPU_s": 13340,
+      "PC_CPU_s": 1540,
+      "render_device_s": 2400,
+      "Core_peak_bytes": 2818572288,
+      "PC_evidence_bytes": 850493440,
+      "transfer_bytes": 715358208
+    },
+    "all_prior_UNKNOWN_uppers_retained": true,
+    "new_pool_issued": false
+  },
+  "new_complete_training_endpoints": 0,
+  "new_valid_model_evaluation_conditions": 0,
+  "new_qualified_source_demonstrations": 0,
+  "E2": "Same1508345 queued with original healthy owner, no resubmission or changed D25 hold row.",
+  "E1": "Core original512 identity/dependencies accepted, not loaded/evaluated.",
+  "S1": "CLOSED; T2 quarantine retained",
+  "validation": {
+    "targeted_CPU_passed": 66,
+    "native_tests_skipped_on_PC_without_MuJoCo": 2,
+    "CI": "NOT_RUN"
+  },
+  "limitations": "A real grasp is not a complete open/release/withdraw/hold task or qualified demonstration. PORT03 stopped before turn command; no32s result. PORT04 currently only fixes/rechecks saved-state reference and remains pending native cold admission."
+}

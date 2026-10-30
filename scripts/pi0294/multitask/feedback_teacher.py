@@ -176,10 +176,14 @@ class SourceSkillTeacher:
         elif stage == 'align': goal = self.grasp_goal.copy()
         elif stage in ('close', 'verify_grasp'): goal = self.grasp_goal.copy()
         elif stage == 'turn':
-            reference = door_turn(hinge_world=self.spec['hinge_world'], axis_hinge=[0, 0, 1],
+            turn=door_turn;boundary={}
+            if self.card.get('port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR':
+                from .native_hinge_reference import from_native_boundary
+                turn=from_native_boundary;boundary['native_safety_valid']=s['safety_valid']
+            reference = turn(hinge_world=self.spec['hinge_world'], axis_hinge=[0, 0, 1],
                 actual_tcp_world=s['tcp'], actual_handle_world=s['object_pose'],
                 actual_angle_rad=s['hinge_angle_rad'], target_angle_rad=self.spec['target_angle_rad'],
-                angle_limits_rad=self.spec['angle_limits_rad'], actual_grasp_valid=bool(s['native_grasp']))
+                angle_limits_rad=self.spec['angle_limits_rad'], actual_grasp_valid=bool(s['native_grasp']),**boundary)
             self.path = reference.tcp_world.copy(); goal = self.path[-1].copy()
         elif stage == 'lift':
             goal = s['tcp'].copy(); goal[2, 3] += .08
