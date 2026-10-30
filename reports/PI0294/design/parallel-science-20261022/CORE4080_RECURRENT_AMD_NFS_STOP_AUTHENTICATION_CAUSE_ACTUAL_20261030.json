@@ -1,0 +1,76 @@
+{
+  "schema": "CORE4080_RECURRENT_AUTHENTICATION_STALL_AMD_NFS_STOP_ACTUAL_V1",
+  "observed_epoch": 1793343058.2696319,
+  "raw_private_receipt_sha256": "b6d25b94472db8fc25ea9ebe878b3c767c0e1b6b9c8d78276809c3ed06041bc4",
+  "AMD_reachable": true,
+  "AMD_boot_id": "eee6c717-6f74-4d14-88d9-a5bd725574f4",
+  "nfs_server": {
+    "status": "inactive/dead",
+    "inactive_at_SGT": "2026-10-30 13:05:04",
+    "previous_active_at_SGT": "2026-10-29 13:51:16",
+    "ExecMainStatus": 0
+  },
+  "nfs_mountd": {
+    "status": "inactive/dead",
+    "inactive_at_SGT": "2026-10-30 13:05:04"
+  },
+  "data_disk2": {
+    "mount_unit_status": "active/mounted",
+    "active_at_SGT": "2026-10-30 13:13:10",
+    "last_inactive_at_SGT": "2026-10-30 13:08:42",
+    "filesystem": "fuseblk"
+  },
+  "NFS_mount_dependencies": [
+    "LocalHDD1",
+    "LocalHDD1/HomeNFS",
+    "LocalHDD2",
+    "LocalHDD3",
+    "LocalHDD4",
+    "local_ssd"
+  ],
+  "NFS_RPC_program_registered": false,
+  "Core_SSH": {
+    "returncode": null,
+    "timed_out": true,
+    "phases": {
+      "TCP_connected": true,
+      "server_identification": true,
+      "authentication_started": true,
+      "public_key_offered": true,
+      "server_accepted_key": false,
+      "authentication_complete": false,
+      "remote_command_sent": false,
+      "exit_received": false
+    },
+    "errors": [],
+    "remote_command": "/bin/true",
+    "server_or_key_changes": 0
+  },
+  "system_logs": {
+    "visible": false,
+    "reason": "Current user lacks adm/systemd-journal access; journal says no visible entries, not no system events"
+  },
+  "known_timeline": {
+    "last_actual_Core_output_guard_pass_epoch": 1793336693.1950886,
+    "nfs_stop_epoch": 1793336704,
+    "Core_cache_write_attempt_epoch": 1793336730.6796696,
+    "cache_attempt_after_NFS_stop_s": 26.6796696
+  },
+  "assessment": {
+    "direct_service_outage": "AMD NFS service remains stopped; TCP/SSH handshake succeeds but Core public-key authentication stalls before any command",
+    "Home_authorized_keys_NFS_dependency": "Inference supported by previous actual Home mount evidence; current Core mount cannot be read before authentication",
+    "what_stopped_NFS": "UNDETERMINED_REQUIRES_ADMINISTRATOR_SYSTEM_EVENT_LOGS",
+    "LocalHDD2_dependency_can_stop_NFS": true,
+    "particular_unmount_or_trigger_attribution": "NOT_PROVEN_BY_CURRENT_READS",
+    "cache_write_did_not_precede_NFS_stop": true
+  },
+  "current_readonly_commands_modified_services_mounts_network_SSH_permissions_credentials": false,
+  "agent_runtime_new_infrastructure_mutations": 0,
+  "automatic_service_restart": false,
+  "Core_UNKNOWN_write_replayed": false,
+  "administrator_next_evidence": [
+    "System journal around13:05 SGT for nfs-server/mount/udisks/device events",
+    "Whether LocalHDD2 or another required mount was stopped, and the requester",
+    "Restore NFS through administrator process, then independently verify Core Home/SSH and original UNKNOWN effect"
+  ]
+}
