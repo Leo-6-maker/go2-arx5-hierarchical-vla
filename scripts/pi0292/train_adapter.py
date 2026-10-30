@@ -75,6 +75,8 @@ class NativeDataset:
         self.source,self.cosmos,self.split=str(source),str(cosmos),split
         self.for_optimization=for_optimization
         self.manifest=read(self.root/'DATASET_MANIFEST.json')
+        if for_optimization and self.manifest.get('training_admitted') is False:
+            raise PermissionError('SEED_CANDIDATE_REQUIRES_SEPARATE_TRAINING_ADMISSION')
         if self.manifest['domain']!=DOMAIN or self.manifest.get('purpose')=='NOT_ADMITTED_COMMISSIONING_DIAGNOSTIC':
             raise ValueError('WRONG_DATA_DOMAIN')
         self.statistics_sha=self.manifest['statistics_sha256']
