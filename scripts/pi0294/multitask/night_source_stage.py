@@ -40,10 +40,21 @@ disk=os.statvfs(root.parent);assert disk.f_bavail*disk.f_frsize>=20*1024**3
 for line in Path('/proc/self/mountinfo').read_text().splitlines():
  before,after=line.split(' - ',1)
  if before.split()[4]=='/var/cache':assert after.split()[0]in('ext4','xfs','btrfs')
-code={n:base64.b64decode(b,validate=True)for n,b in json.loads(gzip.decompress(base64.b64decode(P['source_gzip_base64']))).items()}
+if 'source_delta'in P:
+ donor=Path(P['predecessor_root'])/'entry/code/vla'
+ delta={n:base64.b64decode(b,validate=True)for n,b in P['source_delta'].items()}
+ assert set(delta)<=set(P['source_members'])and donor.is_dir()and not donor.is_symlink()
+ code={n:delta[n]if n in delta else(donor/n).read_bytes()for n in P['source_members']}
+else:code={n:base64.b64decode(b,validate=True)for n,b in json.loads(gzip.decompress(base64.b64decode(P['source_gzip_base64']))).items()}
 assert all(n.endswith('.py')and not Path(n).is_absolute()and '..'not in Path(n).parts for n in code)
 assert {n:sha(b)for n,b in code.items()}==P['source_members']
 bundle_ns={};exec(compile(code['scripts/pi0294/multitask/source_stage_bundle.py'],'<pinned-source-bundle>','exec'),bundle_ns)
+for name,row in P['libero_binary_files'].items():
+ if 'base64'not in row:
+  asset=Path(P['predecessor_root'])/'assets'/name
+  assert asset.is_file()and not asset.is_symlink()
+  body=asset.read_bytes();assert len(body)==row['bytes']and sha(body)==row['sha256']
+  row['base64']=base64.b64encode(body).decode()
 bundle=bundle_ns['unpack'](P)
 once_ns={};exec(compile(code['scripts/pi0294/dec1/source_cpu_once_io.py'],'<original-onceIO>','exec'),once_ns)
 put=once_ns['_exclusive'];commit=once_ns['commit']
@@ -75,7 +86,9 @@ for name in('entry/infrastructure','entry/code/vla','control','tmp','cache','log
  (root/name).mkdir(parents=True,mode=0o700,exist_ok=True)
 capsule=root/'entry/code/vla'
 for n,b in code.items():
- path=capsule/n;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True);put(path,b)
+ path=capsule/n;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True)
+ if 'source_delta'in P and n not in delta:os.link(donor/n,path)
+ else:put(path,b)
 sys.path[:0]=[str(capsule),str(capsule/'src')]
 from scripts.pi0294.multitask import night_scope as scope
 if extension is not None:put(root/'SOURCE_SUCCESSOR_AUTHORITY.json',extension)
