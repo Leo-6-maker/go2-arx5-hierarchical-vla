@@ -35,10 +35,18 @@ def inventory(root,*,uid,maximum=100000):
 class Guard:
     def __init__(self,root,manifest,request,local,*,clock=time.monotonic):
         self.root=Path(root);self.clock=clock;self.last=None;self.proof=None
-        marker=s.validated(local);need(marker is not None and request['request_id']==marker['replacement_request_id'],'EXACT_ADOPTED_REQUEST')
+        from .mix_core_context import d25_request_marker
+        marker=d25_request_marker(local,request['request_id']);need(marker is not None,'EXACT_ADOPTED_REQUEST')
         need(sha(self.root/BINDING)==manifest['execution']['sealed_inputs'].get(BINDING)==s.digest(marker)
              and read(self.root/BINDING)==marker,'IMMUTABLE_COMPLETE_PAID_IO_MARKER')
-        self.marker=marker;self.join=marker['physical_inventory_join']
+        self.marker=marker;self.request_id=request['request_id'];self.join=marker['physical_inventory_join']
+        from .mix_core_d25_admission_repair import validate as repair
+        from .mix_core_d25_unstarted07 import validate as cold07
+        repaired=repair(local,marker);latest=cold07(local,repaired)if repaired else None
+        self.closed_repair_roles=[]
+        if repaired and request['request_id']==repaired['replacement_request_id']:
+            self.closed_repair_roles.extend(repaired['closed05_readback']['roles'].values())
+            if latest:self.closed_repair_roles.extend(latest['closed06_readback']['roles'].values())
         binding=read(self.root/LOCAL_BINDING);self.owner=Path(binding['owner_root'])
         self.physical=self.root.parent.parent/'children'/self.root.name
         from .mix_core_d25_cold_source import effective_identity,validated
@@ -50,6 +58,9 @@ class Guard:
     def check(self,*,force=False):
         if not force and self.last is not None and self.clock()-self.last<30:return self.proof
         retained={}
+        for item in self.closed_repair_roles:
+            need(sha(Path(item['lease']))==item['closed_lease_sha256']
+                 and read(item['lease'])['status']=='CLOSED','RETAIN_ACTUAL_CLOSED05_AND_UNUSED06_LEASES')
         if getattr(self,'cold',None)is not None:
             for item in self.cold['closed_cold_roles'].values():
                 old,_=inventory(item['root'],uid=self.uid)
@@ -90,7 +101,7 @@ class Guard:
         site=total('neural','owner');core=total('physical')
         need(site<=self.marker['paid_IO_credit']['Hopper_storage_bytes']
              and core<=self.marker['paid_IO_credit']['Core_storage_bytes'],'ORIGINAL_PAID_GROSS_OUTPUT_ENVELOPES')
-        self.proof=dict(schema='D25_CURRENT_ACTUAL_PAID_OUTPUT_GUARD_V1',request_id=self.marker['replacement_request_id'],
+        self.proof=dict(schema='D25_CURRENT_ACTUAL_PAID_OUTPUT_GUARD_V1',request_id=self.request_id,
             model_inode_members=len(model_used),original_site_gross_current_bytes=site,original_Core_gross_current_bytes=core,
             entries=counts,new_tensor_copies=0,model_streams=0,canonical_GLOBAL_is_fresh=False,native_permission=False)
         self.last=self.clock();return self.proof
