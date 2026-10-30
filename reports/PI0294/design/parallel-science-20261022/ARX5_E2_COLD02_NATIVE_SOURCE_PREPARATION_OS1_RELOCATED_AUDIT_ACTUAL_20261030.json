@@ -1,0 +1,87 @@
+{
+  "schema": "ARX5_E2_COLD02_SOURCE_NATIVE_PREPARATION_OS1_RELOCATED_AUDIT_EXACT_PARTIAL_V1",
+  "observed_epoch": 1793342545.7291374,
+  "source": {
+    "source_sha": "84a8422bd6a0154090df8a2a471f66e02f1fe70c",
+    "source_seal_sha256": "d1b016d4a774d7316f0f8fe6e7d9ca2f332e7ef8d93f57e62ed7a1ab2814f52c",
+    "source_files": 1508,
+    "all_full_SHA_readback": true,
+    "same_child_terminal": true,
+    "actual_CPU_s": 2.506721481
+  },
+  "finite_preparation": {
+    "OS_exit_sha256": "923d13b0c9803b50ca5a83fab8e531d7961c8284e9eef79518d2871755372ec4",
+    "OS_exit": {
+      "returncode": 1,
+      "timeout": false,
+      "foreground_wait_completed": true,
+      "CPU_actual_s": 13.163303,
+      "finished_epoch": 1793342365.3820431
+    },
+    "failure_sha256": "f3f41f77df1554e0a23669b112df415ea29f3ffe82d43887877d2385c1829396",
+    "failure": "FileNotFoundError: original COLD_INPUT_AUDIT was archived under closed-nameerror-owner-01; management supplied old unarchived path",
+    "actors_terminal": true,
+    "manifest_sha256": "2801961013d2918ed7402c235c0f0fa5cacb05b2e9d7db4db10bc271850603f8",
+    "original_role_source_unchanged": true,
+    "new_lease_absent": true,
+    "registry_environment_GLOBAL_unchanged": true,
+    "no_native_owner": true
+  },
+  "exact_audit": {
+    "actual_relocated_full_SHA": "6fae118a970bc688fc613a82797e161d6d0a32758c09c9884c065b3d83cc994e",
+    "matches_original_request": true,
+    "actual_7212_reader_rows": true,
+    "all_new_role_sealed_inputs_reverified": true
+  },
+  "completion_candidate": {
+    "only_remaining_setup": true,
+    "rebuild_or_replace_role": false,
+    "source_manifest_unchanged": true,
+    "requires_exact_OS1_terminal_and_absent_registry_lease_intents": true,
+    "all_source_inputs_physical_and_full14_reverified_before_metadata_writes": true,
+    "original_same_parent_onceIO": true,
+    "new_canonical_GLOBAL_adoption": false,
+    "new_model_or_qsub": false,
+    "CPU_limit_s": 180,
+    "wall_limit_s": 600,
+    "qualification": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "local_program_compile": "PASS_NO_EXECUTION"
+  },
+  "Core": {
+    "cache_UNKNOWN_preserved": true,
+    "readonly_recheck_timeout_s": 35,
+    "new_start_issued": false,
+    "infrastructure_changes": 0
+  },
+  "same_unused_request": true,
+  "original_science_and_costs_unchanged": true,
+  "maintenance": {
+    "CPU_spent": {
+      "core_cold": 1012.0611688309999,
+      "core_close": 0,
+      "vanda": 1038.3239091780001,
+      "local": 1753.1500934639998
+    },
+    "CPU_upper": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "wire_spent": {
+      "maintenance30_all": 181472882
+    },
+    "wire_caps": {
+      "maintenance30_all": 2147483648
+    },
+    "failed_full_uppers_retained": true
+  },
+  "checkpoint_cleanup_deferred_to_user": true,
+  "new_endpoints": 0,
+  "new_valid_evaluation_conditions": 0,
+  "new_qualified_demonstrations": 0,
+  "new_GPU_PBS_models_queries_updates_physics": 0,
+  "S1": "CLOSED",
+  "T2": "QUARANTINED"
+}
