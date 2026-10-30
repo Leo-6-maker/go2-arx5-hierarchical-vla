@@ -262,7 +262,7 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
     from . import mix_core_desktop as desktop
     device=(desktop.recorded_device(p,r)if desktop.FIELD in r else
         original.parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],
-            GPU_uuid=r['GPU_uuid']))
+            GPU_uuid=r['GPU_uuid'],shared_request=r if 'shared_GPU_grant_sha256'in r else None))
     need(device == p['device'], 'EXACT_DEVICE_RAW_READ_MATCH_WITHOUT_OLD_SHARED_GRANT')
     return allocation
 

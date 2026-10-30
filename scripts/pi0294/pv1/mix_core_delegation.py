@@ -345,7 +345,8 @@ def _live_process(b, row, p):
         process_raw, receipt = desktop.filter_processes(process_raw, r,
             proof=proof, now_epoch=p['observed_epoch'])
     device = original.parse_GPU_rows(raw['devices']['stdout'], process_raw,
-        GPU_uuid=r['GPU_uuid'], own_pid=row['pid'] if loads else None)
+        GPU_uuid=r['GPU_uuid'], own_pid=row['pid'] if loads else None,
+        shared_request=r if 'shared_GPU_grant_sha256'in r else None)
     if receipt is not None:
         if not loads:
             need(device['total_bytes']-device['used_bytes'] >= 30*1024**3,

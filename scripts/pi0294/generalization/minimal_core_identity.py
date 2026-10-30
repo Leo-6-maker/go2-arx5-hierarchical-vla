@@ -19,6 +19,8 @@ def cold_profile(m):
 
 def request_identity(m,r,manifest_sha256):
     cold_profile(m);c.request(r)
+    from .minimal_core_sharing import manifest
+    manifest(m,r)
     need(m.get('schema')=='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1'
         and m.get('owner')=='EXISTING_LOCAL_PC' and m.get('owner_user')=='liuyu-nfs'
         and m.get('owner_uid')==2009 and m['execution'].get('uid')==2009

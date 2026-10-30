@@ -15,7 +15,8 @@ need=c.need
 def validate(g):
     if FIELD not in g:return None
     m=g[FIELD];old=m['preserved_old_row'];c.validate_row(old)
-    row=g[c.FIELD][m['request_id']]
+    from .minimal_core_sharing import predecessor
+    row=predecessor(g) or g[c.FIELD][m['request_id']]
     need(m['schema']==SCHEMA and m['old_row_sha256']==c.digest(old)
         and old['status']==c.STATES[0]and old['native_handle']is None and c.progress(old)==(0,0,0)
         and old['run_uuid']=='arx5-e1-fixed512-n294101-01'

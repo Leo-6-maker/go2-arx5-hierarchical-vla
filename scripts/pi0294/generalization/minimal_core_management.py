@@ -9,6 +9,8 @@ PROGRAMS={}
 for name,body in original.PROGRAMS.items():
     if body.startswith(original.COMMON):body=COMMON+body[len(original.COMMON):]
     PROGRAMS[name]=body
+PROGRAMS['prestart']=replace(PROGRAMS['prestart'],"GPU_uuid=r['GPU_uuid'],desktop_request=",
+    "GPU_uuid=r['GPU_uuid'],shared_request=r if 'shared_GPU_grant_sha256'in r else None,desktop_request=")
 PROGRAMS['prepare_bind']=replace(PROGRAMS['prepare_bind'],
     "b['proposed_global']['revision']+=1;c.checked(b['proposed_global']);c.paired(b['proposed_global'],b['proposed_LOCAL'])",'')
 old=original.ISSUE[len(original.COMMON):]

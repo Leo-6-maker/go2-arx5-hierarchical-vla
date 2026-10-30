@@ -1,0 +1,35 @@
+{
+  "schema": "ARX5_E1_DIRECT_GPU0_SHARING_ACTUAL_PRESTART_BOUNDARY_V1",
+  "human_answer": "GPU0允许共享任务挂载",
+  "grant_sha256": "9f992f6121befd45537c44e193ed3652183a0bfb0b16fd8ca143b49cbb0e99d8",
+  "observed_epoch": 1793375046.647812,
+  "predecessor_source": "d96fe0d60abcdbc80c5ec17cd8cb93a8c5a60c5b",
+  "predecessor_canonical_LOCAL_sha256": "157110d97061def02fae66e5d72baf7bbce464f1e5bd8c7806c51640eab20dcb",
+  "predecessor_cold_context": "PASS_BOTH_REGISTERED_PEERS_AND_LOCAL_REFERENCE",
+  "predecessor_prestart": "REJECTED_FOREIGN_GPU_COMPUTE_BEFORE_ANY_MODEL_OR_NATIVE_UNIT",
+  "actual_effect": "ONE_EMPTY_PRESTART_DIRECTORY_RETAINED",
+  "GPU0": {
+    "total_MiB": 32760,
+    "used_MiB": 5907,
+    "available_MiB": 26853,
+    "foreign_compute_MiB": 5770,
+    "foreign_process_touched": false
+  },
+  "actual_native_models": 0,
+  "actual_queries": 0,
+  "actual_physics": 0,
+  "new_complete_E2_endpoints": 0,
+  "valid_GR00T_conditions": 0,
+  "qualified_new_source_demonstrations": 0,
+  "CPU_checks": {
+    "passed": 53,
+    "native_or_CI": false
+  },
+  "original_model_numerics_24_population_32s_safety_clocks_and_holds": "UNCHANGED",
+  "deployment": "NOT_YET_DEPLOYED_OR_ADOPTED",
+  "remaining": [
+    "Close unused cold02 roles with original onceIO and independent readback",
+    "Adopt exact same-allocation sharing boundary in both original canonical ledgers",
+    "Run original native admission and qualification before actual evaluation"
+  ]
+}

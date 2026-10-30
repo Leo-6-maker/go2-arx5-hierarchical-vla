@@ -65,6 +65,7 @@ def observe(root, body, row):
         raw[name]=dict(stdout=value.stdout,stderr=value.stderr,returncode=value.returncode)
     device=identity.parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],
         GPU_uuid=request['GPU_uuid'],own_pid=pid if row.get('charged_model_loads',0)>0 else None,
+        shared_request=request if 'shared_GPU_grant_sha256'in request else None,
         desktop_request=request if 'Core_desktop_coexistence_grant_sha256' in request else None)
     value=deepcopy(body['admission']['allocation']['native_process'])
     value.update(observed_epoch=time.time(),kernel_limits=limits,native_unit_properties=properties,

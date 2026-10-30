@@ -113,12 +113,14 @@ def request(r):
     need(type(r.get('GPU_uuid')) is str and re.fullmatch(r'GPU-[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}',r['GPU_uuid']),
          'ACTUAL_DEVICE_UUID')
     need(not any(k in r for k in ('request_sha256','native_handle','status','project','PBS_JOBID',
-        'platform_training_version','shared_GPU_grant_sha256','startup_recovery_sha256',
+        'platform_training_version','startup_recovery_sha256',
         'parent_checkpoint_manifest_sha256')), 'NO_CORR_PARENT_OR_OLD_SCOPE_ALIAS')
     clock=campaign.scope(r.get('T_CD'))
     need(r.get('deadline_epoch')==clock['deadline_epoch'] and type(r.get('created_epoch')) in (int,float)
         and math.isfinite(r['created_epoch']) and clock['T_CD']<=r['created_epoch']<clock['deadline_epoch']-28860,
         'FINITE_RUN_INSIDE_DECLARED_WINDOW')
+    from .minimal_core_sharing import allowed
+    allowed(r)
     return r
 
 
@@ -153,6 +155,8 @@ def validate(g):
              'DIRECT_AUTHORITY_AND_ONCE_PAID_CONTROL')
     from .minimal_core_cold import validate as cold_rebind
     cold_rebind(g)
+    from .minimal_core_sharing import validate as shared
+    shared(g)
     active=[v for v in rows.values()if v['status']!=STATES[3]]
     if not active:return rows
     need(g['unknown_effects']==g['pending_updates']==[], 'GLOBAL_UNKNOWN_AND_PENDING_FENCES')
@@ -199,6 +203,8 @@ def paired(g,l):
     need(l.get(FIELD,{})==g.get(FIELD,{}) and l['unknown_effects']==l['pending_updates']==l['pending_queries']==[],
          'SAME_CANONICAL_NEW_FAMILY_AND_LOCAL_FENCES')
     need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_EXACT_COLD_REBIND')
+    from .minimal_core_sharing import FIELD as shared_field
+    need(l.get(shared_field)==g.get(shared_field),'SAME_CANONICAL_DIRECT_GPU0_SHARING')
 
 
 def register(global_bytes,local_bytes,*,request_bytes,manifest_bytes,physical_manifest_bytes,now_epoch):
