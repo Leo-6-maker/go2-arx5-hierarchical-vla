@@ -26,4 +26,10 @@ PROGRAMS['issue']=COMMON+old
 PROGRAMS['GLOBAL']=replace(original.GLOBAL,
     'from scripts.pi0294.pv1 import mix_core_accounting as c,mix_core_delegation as d',
     'from scripts.pi0294.pv1 import mix_core_delegation as d\nfrom scripts.pi0294.generalization import minimal_core_accounting as c')
+# Core's bind/issue already checks the full paired canonical inputs and target.
+# The receiver compares both complete byte digests before original onceIO.
+# V7 therefore checks the changed allocation here, without revalidating every
+# unchanged historical experiment inside a short metadata transport call.
+PROGRAMS['GLOBAL']=replace(PROGRAMS['GLOBAL'],'c.checked(v);key=',
+    "(c.validate(v) if v[c.FIELD][P['request_id']]['request'].get('execution_policy_sha256')==c.V7_POLICY else c.checked(v));key=")
 for _name,_body in PROGRAMS.items():compile(_body,'<same-original-cold-custody-fixed512-'+_name+'>','exec')

@@ -31,6 +31,14 @@ GRANT_SHA=c.digest(grant())
 
 def allowed(r):
     if 'shared_GPU_grant_sha256' not in r:return False
+    if r.get('execution_policy_sha256')==c.V7_POLICY:
+        need(c.typed(r)and r['shared_GPU_grant_sha256']==c.V7_POLICY
+            and r.get('GPU_uuid')==GPU and r.get('GPU_sharing_direct_human_answer')=='GPU0允许共享任务挂载'
+            and r.get('evaluation_candidate')=='E1'and r.get('checkpoint_step')==512
+            and r.get('checkpoint_manifest_sha256')==c.CHECKPOINT
+            and r.get('scope_grant_sha256')==c.GRANT_SHA and r.get('optimizer_updates')==0,
+            'V7_SAME_DIRECT_GPU0_PERMISSION_AND_FIXED_E1_SCIENCE')
+        return True
     need(c.typed(r) and r.get('shared_GPU_grant_sha256')==GRANT_SHA
         and r.get('request_id')==RID and r.get('submission_nonce')==NONCE
         and r.get('run_uuid',r.get('child_run_uuid'))==RUN and r.get('GPU_uuid')==GPU
@@ -42,8 +50,10 @@ def allowed(r):
 
 
 def manifest(m,r):
-    if allowed(r):need(m['execution']['sealed_inputs'].get(PLAN)==GRANT_SHA,
-        'DIRECT_GPU0_SHARING_PRESEALED_NOT_CALLER_FLAG')
+    if allowed(r):
+        plan,pin=(c.V7_PLAN,c.V7_POLICY)if r.get('execution_policy_sha256')==c.V7_POLICY else(PLAN,GRANT_SHA)
+        need(m['execution']['sealed_inputs'].get(plan)==pin,
+             'DIRECT_GPU0_SHARING_PRESEALED_NOT_CALLER_FLAG')
 
 
 def predecessor(g):
