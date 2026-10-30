@@ -17,12 +17,14 @@ OPEN, CLOSED = .042/.044, .002/.044
 HELD_STAGES = {'close', 'verify_grasp', 'turn', 'lift', 'preinsert', 'insert'}
 
 
-def straight_path(start, goal):
+def straight_path(start, goal, *, linear_speed=.06):
     """Geometric SE3 reference; contact/collision feasibility remains unproved."""
     start, goal = pose(start), pose(goal)
+    if type(linear_speed)not in(int,float)or not math.isfinite(linear_speed)or not 0<linear_speed<=.06:
+        raise ValueError('FINITE_SOURCE_REFERENCE_SPEED_AT_MOST_ORIGINAL')
     distance = np.linalg.norm(goal[:3, 3]-start[:3, 3])
     angle = float(geodesic_angle(start[:3, :3], goal[:3, :3]))
-    ticks = max(1, math.ceil(max(distance/.06, angle/.3)/.05))
+    ticks = max(1, math.ceil(max(distance/linear_speed, angle/.3)/.05))
     if ticks > 640:
         raise ValueError('SOURCE_STAGE_PATH_EXCEEDS_32_SECONDS')
     amount = np.linspace(0, 1, ticks+1)

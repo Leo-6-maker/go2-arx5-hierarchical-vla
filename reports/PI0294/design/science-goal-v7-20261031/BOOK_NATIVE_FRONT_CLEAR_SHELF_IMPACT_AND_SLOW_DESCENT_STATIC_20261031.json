@@ -1,0 +1,180 @@
+{
+  "schema": "ACTUAL_BOOK_FRONT_CLEAR_SUPPORT_IMPACT_AND_SLOW_DESCENT_STATIC_V1",
+  "as_of": "2026-10-31 05:38 SGT",
+  "science": {
+    "E1_formal_valid_conditions": 1,
+    "E1_successes": 0,
+    "E1_remaining_original_conditions": 23,
+    "new_E2_512_endpoints": 0,
+    "source_attempts": 8,
+    "source_actual_integrations": 39921,
+    "source_actual_RGB_pairs": 1005,
+    "qualified_full_skill_demonstrations": 0
+  },
+  "actual_book": {
+    "run_uuid": "20261030T212313Z-book-route-margin04-night-source-book01",
+    "source_sha": "43eb7b93fa829da4c4bd9a5122b81cc8c197c6b0",
+    "operation": "LIBERO_LEFT_PORT04_TRACKING_MARGIN",
+    "task_stop_s": 13.9,
+    "actual_integrations": 9450,
+    "RGB_pairs": 279,
+    "completed_commands": 278,
+    "H40_plans": 35,
+    "terminal_sha256": "aa2f1d4249d8c348302c9f8daf4e994cdf121133ae50ed70f452c321d28b9d37",
+    "raw_sha256": "79fc07c4a704fb97ef70af7e746117d440776dbf725768d4b750d5940916445e",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "79fc07c4a704fb97ef70af7e746117d440776dbf725768d4b750d5940916445e",
+      "terminal_sha256": "aa2f1d4249d8c348302c9f8daf4e994cdf121133ae50ed70f452c321d28b9d37",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+      "native_LIBERO_goal_final": true,
+      "additional_support_release_withdraw_hold_pass": false,
+      "complete_episode": false,
+      "original_native_safety_pass": true,
+      "integrity_problems": [
+        "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+        "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+        "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+      ],
+      "actual_integrations": 9450,
+      "recorded_native_ticks": 9450,
+      "recorded_failed_native_ticks": 0,
+      "terminal_safety_states_checked": 1,
+      "actual_observations": 278,
+      "completed_intervals": 278,
+      "terminal_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE"
+    },
+    "audit_sha256": "855b0079cc55019068687c0812dc277b6cfbe718e1125c0748a2fae98b38268a",
+    "CLOSED_lease_sha256": "991689554225dff6f8c3f8b96d0f9b1855082921f865a25ada94372b63fe2bd3",
+    "own_MainPID": 0,
+    "all_children_terminal": true,
+    "owner_total_CPU_s": 15.811864,
+    "worker_CPU_s_included": 14.279295881,
+    "render_device_s": 14.42505028983578,
+    "full_success": false
+  },
+  "contact_attribution": {
+    "status": "FULL_SAVED_NATIVE_CONTACT_RECOMPUTATION_NO_NEW_PHYSICS",
+    "raw_sha256": "79fc07c4a704fb97ef70af7e746117d440776dbf725768d4b750d5940916445e",
+    "new_physics": 0,
+    "native_ticks": 6950,
+    "contact_counts": {
+      "77": 3
+    },
+    "first_support_contact": {
+      "step": 9448,
+      "task_s": 13.896000000000406,
+      "geom_ids": [
+        75,
+        77
+      ],
+      "initial_normal_force_N": 16.92627206851323,
+      "relative_speed_m_s": 0.00262543548339261
+    },
+    "earliest_native_grasp_transient": {
+      "step": 7332,
+      "task_s": 9.664000000001566,
+      "relative_speed_m_s": 0.02006103928166607
+    },
+    "raw_states_and_vendor_XML_not_published": true,
+    "observed_epoch": 1793395886.914955
+  },
+  "interpretation": {
+    "prior_front_wall_contacts_in_all_6950_task_ticks": 0,
+    "support_contact_geom": 77,
+    "support_first_contact_task_s": 13.896,
+    "support_final_force_N": 18.644501687242208,
+    "high_level_grasp_stop_task_s": 13.9,
+    "terminal_relative_speed_m_s": 0.027634270576115734,
+    "original_relative_grasp_limit_m_s": 0.02,
+    "first_native_grasp_transient_task_s": 9.664,
+    "transient_before_support_was_not_a_new20Hz_teacher_stop": true,
+    "not_normal_release": true,
+    "not_only_goal_region_success": true
+  },
+  "successor": {
+    "revision": "LIBERO_ARX5_PORT05_SLOW_SUPPORTED_DESCENT",
+    "only_scientific_change": "Lowering linear reference speed60mm/s to10mm/s after front crossing; same grip/position/path endpoints/other speeds/32s/native safety/scoring.",
+    "lowering_speed_m_s": 0.01,
+    "nominal_whole_route_s": 20.7,
+    "original_task_s": 32,
+    "required_hold_s": 2,
+    "full_sweep": {
+      "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+      "failure": null,
+      "edges": 424,
+      "edges_finished": 424,
+      "checked_states": 5346,
+      "reused_complete_edges": 206,
+      "prior_checked_states_retained": 8940,
+      "prior_CPU_s_retained": 209.60463585399998,
+      "certified_subedges": 13691,
+      "CPU_s": 128.92150536199998,
+      "observed_epoch": 1793396175.4149318,
+      "native_dynamic_qualification": false,
+      "new_physics_models_queries": 0,
+      "scope": "STATIC_JOINT_INTERPOLANT_ONLY_NOT_DYNAMIC_TRACKING_OR_DEMONSTRATION"
+    },
+    "sweep_result_sha256": "0179c44569739de6fb14ee4aa38dd989520cc8883f49775c6daae12e26b70b13",
+    "sweep_intent_sha256": "ad54dbd42887298de3b3343088eb05876cf5fb6886d8b33690a60f47983f1dc8",
+    "sweep_leaves_sha256": "c971eb0b60c19fc5abded803e796d75abfdb559a1c02583fe56d952759214087",
+    "exact_public_nominal_match": {
+      "status": "PUBLIC_SLOW_DESCENT_EQUALS_COMPLETE_STATIC_NOMINAL_REFERENCE",
+      "static_path_sha256": "0d84a4a27f7fcd94925713813513a5a92c004a58ece392ed3cd4fc178adbe1f1",
+      "teacher_sha256": "b1cdbdb47a5c24be87e9876cbec78c81d1fdfb44c62b800db4ce082e36e0a5de",
+      "waypoint_max_matrix_errors": {
+        "approach": 5.2015821674360544e-14,
+        "align": 5.2015821674360544e-14,
+        "lift": 5.2015821674360544e-14,
+        "lateral_outside": 1.50712775592865e-13,
+        "preinsert": 5.168088179630104e-14,
+        "inside_lower": 5.168088179630104e-14,
+        "insert": 5.168088179630104e-14,
+        "withdraw": 5.168088179630104e-14,
+        "withdraw_out": 5.168088179630104e-14
+      },
+      "all_lowering_poses": 126,
+      "full_lower_path_max_matrix_error": 5.140332604014475e-14,
+      "new_physics": 0,
+      "observed_epoch": 1793396213.771028
+    },
+    "native_attempt_started": false,
+    "qualified_demo": false
+  },
+  "operations": {
+    "old_source_costs_and_pool_unchanged": true,
+    "charged_uppers": {
+      "attempts": 8,
+      "physics_integrations": 400000,
+      "RGB_pairs": 16000,
+      "Core_CPU_s": 25480,
+      "PC_CPU_s": 1780,
+      "render_device_s": 4800,
+      "Core_peak_bytes": 5234491392,
+      "PC_evidence_bytes": 984711168,
+      "transfer_bytes": 849575936
+    },
+    "old_STOPs_and_failed_artifacts_retained": true,
+    "real_capacity_envelope": "Round retained source plus one next episode and64MiB to GiB, minimum5GiB; require old protected future plus this envelope plus2GiB physical margin.",
+    "source_financial_caps_not_increased": true
+  },
+  "validation": {
+    "affected_CPU_tests": 119,
+    "passed": 119,
+    "skipped_MuJoCo_unavailable_on_PC": 2,
+    "junit_sha256": "f9932127c03d54cb70219e614504db2922a8250fde3bc69904f08f0e45ed153d",
+    "full_CI": "NOT_RUN"
+  },
+  "boundaries": {
+    "NFS_SSH_mount_network_services_credentials_changes": false,
+    "cleanup": false,
+    "S1_CLOSED": true,
+    "T2_quarantined": true,
+    "WBC_and_safety_thresholds_unchanged": true
+  },
+  "next": "One finite exact-source left-book dynamic test after old closed-custody/capacity/full changed-source readback. If supported touchdown fails again without new information, stop this implementation and advance original E1 remaining23 while doing saved-state diagnosis."
+}
