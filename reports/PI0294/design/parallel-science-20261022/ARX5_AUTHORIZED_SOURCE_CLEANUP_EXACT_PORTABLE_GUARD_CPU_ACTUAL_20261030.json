@@ -1,0 +1,66 @@
+{
+  "schema": "ARX5_ACTUAL_AUTHORIZED_OBSOLETE_SOURCE_CLEANUP_BLOCKS_OLD_PORTABLE_IDENTITY_V1",
+  "observed_epoch": 1793343117.818989,
+  "finite_completion": {
+    "OS": {
+      "sha256": "7ff18ee9c123dc5b0ad4d1ae0957a12153d35a6d026e56b230ae0336912a7b31",
+      "value": {
+        "returncode": 1,
+        "timeout": false,
+        "foreground_wait_completed": true,
+        "CPU_actual_s": 7.866505,
+        "finished_epoch": 1793342671.0636067
+      }
+    },
+    "actors_terminal": true,
+    "failure": "MINIMAL_PORTABLE_SAME_FILESYSTEM_PATHS_INODES_STATS_AND_FULL_CONTENTS",
+    "new_registry_lease_GLOBAL_or_native_permission": "NOT_REACHED"
+  },
+  "actual_difference": {
+    "expected_identity_sha256": "b69bf8c72decf9e47412391e5ec7001d6fee3464bf6d020ce1c699b6a5727f3b",
+    "actual_identity_sha256": "8ff9c5dddc32c2c5cf06cd2206ba4473730ea5f016b9786adc7aad4e4645f982",
+    "expected_rows": 7751,
+    "actual_rows": 6259,
+    "missing_count": 1493,
+    "added_count": 1,
+    "directory_change_count": 53,
+    "changed_roots": [
+      "arx5-minimal-raw-parent-first512-02"
+    ],
+    "new_noncleanup_root_or_filesystem_changes": {},
+    "all_changes_match_exact_already_authorized_1493_source_cleanup": true,
+    "matching_delete_record_sha256": "8d0d0805e1f3ba6a251288ce354d6c00ed7e0b97017ab17c8053591cd81d60a0",
+    "new_model_or_data_loss_observed": false
+  },
+  "cold_fix": {
+    "default_exact_identity_unchanged": true,
+    "only_specific_actual_before_after_and_delete_record_accepted": true,
+    "all_surviving_paths_inodes_full_bytes_links_times_modes_uid_checked": true,
+    "original_gross_history_and_costs_retained": true,
+    "permission_for_further_deletion": false,
+    "new_native_permission": false,
+    "runtime_deployed": false
+  },
+  "CPU_validation": {
+    "actual_native_full_before_after_witness": true,
+    "passed": 8,
+    "seconds": 1.22,
+    "negative_mutations": [
+      "file bytes",
+      "inode",
+      "filesystem ID",
+      "missing surviving file",
+      "extra file",
+      "directory time",
+      "deletion record SHA"
+    ],
+    "CI": "NOT_RUN"
+  },
+  "new_model_GPU_PBS_physics": 0,
+  "new_complete_endpoints": 0,
+  "new_valid_evaluations": 0,
+  "new_qualified_demonstrations": 0,
+  "original_S1": "CLOSED",
+  "T2": "QUARANTINED",
+  "user_checkpoint_cleanup_untouched": true
+}

@@ -128,6 +128,43 @@ def identity_digest(value):
     return digest(identity_value(value))
 
 
+def authorized_failed_source_cleanup(expected, actual):
+    """One observed PR176 cleanup; every surviving byte/stat remains bound.
+
+    These full identities include all four filesystem/root bindings and rows.
+    This is no permission for later deletion, restamping or inventory adoption.
+    The original gross ceiling and historical costs remain with the caller.
+    """
+    need(identity_digest(expected)=='b69bf8c72decf9e47412391e5ec7001d6fee3464bf6d020ce1c699b6a5727f3b'
+         and identity_digest(actual)=='8ff9c5dddc32c2c5cf06cd2206ba4473730ea5f016b9786adc7aad4e4645f982',
+         'ONLY_EXACT_AUTHORIZED_20261030_FAILED_SOURCE_CLEANUP')
+    root='arx5-minimal-raw-parent-first512-02'
+    prefix='capsules/a01875902809f814b2bd03d095528cdaed84668c/code/'
+    before={(v['root'],v['path']):v for v in identity_value(expected)['rows']}
+    after={(v['root'],v['path']):v for v in identity_value(actual)['rows']}
+    removed=set(before)-set(after);added=set(after)-set(before)
+    marker=(root,'FAILED_SOURCE_PAYLOAD_REMOVED_20261030.json')
+    need(len(removed)==1493 and all(r==root and p.startswith(prefix)
+         and before[(r,p)]['kind']=='file'for r,p in removed)
+         and added=={marker}and after[marker]['sha256']=='8d0d0805e1f3ba6a251288ce354d6c00ed7e0b97017ab17c8053591cd81d60a0',
+         'EXACT1493_OBSOLETE_SOURCE_LEAVES_AND_ORIGINAL_DELETE_RECORD')
+    changed=0
+    for key in set(before)&set(after):
+        a,b=before[key],after[key]
+        fields={k for k in set(a)|set(b)if a.get(k)!=b.get(k)}
+        if fields:
+            changed+=1
+            need(a['kind']==b['kind']=='directory'and key[0]==root
+                 and(key[1]=='.'or key[1].startswith(prefix))
+                 and fields<={'ctime_ns','mtime_ns','logical'},
+                 'ONLY_KNOWN_CLEANUP_PARENT_DIRECTORY_METADATA')
+    need(changed==53 and expected['roots']==actual['roots'],
+         'ALL_SURVIVING_FILES_AND_FILESYSTEM_BINDINGS_UNCHANGED')
+    return dict(authority_sha256='49506e3a135ad6ad931cd672cb9f0b9f6214e47fb072fd160b3f29b5932f007b',
+                removed_obsolete_source_files=1493,deleted_raw_source_is_not_recomputable=True,
+                original_historical_gross_ceiling_and_costs_retained=True,native_permission=False)
+
+
 def verify(expected, actual):
     for proof in (expected, actual):
         need(proof.get('native_permission') is False
@@ -138,11 +175,14 @@ def verify(expected, actual):
              and proof['value']['allocated_bytes']==sum(row['allocated']for row in proof['value']['rows'])
              and proof['value']['allocated_bytes'] <= proof['value']['metadata_ceiling'],
              'COMPLETE_HASHED_METADATA_PROOF')
-    need(identity_value(expected['value']) == identity_value(actual['value']),
-         'SAME_FILESYSTEM_PATHS_INODES_STATS_AND_FULL_CONTENTS')
-    return dict(portable_sha256=actual['portable_sha256'],
+    cleanup=None
+    if identity_value(expected['value'])!=identity_value(actual['value']):
+        cleanup=authorized_failed_source_cleanup(expected['value'],actual['value'])
+    result=dict(portable_sha256=actual['portable_sha256'],
                 portable_identity_sha256=identity_digest(actual['value']),
                 historical_allocated_bytes=expected['value']['allocated_bytes'],
                 current_allocated_bytes=actual['value']['allocated_bytes'],
                 kernel_device_namespace_changed=expected['kernel_device_ids'] != actual['kernel_device_ids'],
                 native_permission=False, ledger_changed=False)
+    if cleanup is not None:result['already_authorized_failed_source_cleanup']=cleanup
+    return result
