@@ -115,7 +115,9 @@ def _node_local05(g,original,prior):
 def runtime_marker(g,original,*,request_id=None):
     from .mix_core_d25_admission_repair import validate as repaired
     continuation=repaired(g,original)
-    if continuation and request_id in(None,continuation['replacement_request_id']):return continuation
+    if continuation and request_id in(None,continuation['replacement_request_id']):
+        from .mix_core_d25_unstarted07 import validate as cold07
+        return cold07(g,continuation)or continuation
     return validated(g,original)
 
 

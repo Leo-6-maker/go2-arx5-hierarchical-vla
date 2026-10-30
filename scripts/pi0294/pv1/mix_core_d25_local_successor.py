@@ -303,6 +303,8 @@ def paired_control(g, l):
     need(l.get(LOCAL05_FIELD)==g.get(LOCAL05_FIELD),'SAME_CANONICAL_NODE_LOCAL05_SUCCESSOR')
     from .mix_core_d25_admission_repair import FIELD as admission_repair_field
     need(l.get(admission_repair_field)==g.get(admission_repair_field),'SAME_CANONICAL_EXACT_PREGRANT06_REPAIR')
+    from .mix_core_d25_unstarted07 import FIELD as cold07_field
+    need(l.get(cold07_field)==g.get(cold07_field),'SAME_CANONICAL_UNSTARTED06_COLD07')
     if m is None:
         return
     _LOCAL_paid(l,m)

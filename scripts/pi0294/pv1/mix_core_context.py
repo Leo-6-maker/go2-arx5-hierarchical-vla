@@ -39,6 +39,17 @@ def captured_endpoint(value):
     return proof
 
 
+def d25_request_marker(local,request_id):
+    """Select the paid D25 route for its exact cold pre-grant successor too."""
+    from . import mix_core_d25_local_successor as paid
+    from .mix_core_d25_admission_repair import validate as repair
+    original=paid.validated(local)
+    if original is None:return None
+    continuation=repair(local,original)
+    allowed=(original['replacement_request_id'],)+((continuation['replacement_request_id'],)if continuation else())
+    return original if request_id in allowed else None
+
+
 def validate(root, *, closeout=False):
     need(type(closeout) is bool, 'EXPLICIT_CLOSEOUT_PHASE')
     root = Path(root)
@@ -102,8 +113,8 @@ def validate(root, *, closeout=False):
          'ACTUAL_ESCROW_ROW_BINDS_REQUEST_AND_MANIFEST')
     from . import mix_core_premodel_repair as repair
     from . import mix_core_d25_local_successor as d25_local
-    d25_marker=d25_local.validated(local)
-    exact_d25=d25_marker is not None and request['request_id']==d25_marker['replacement_request_id']
+    d25_marker=d25_request_marker(local,request['request_id'])
+    exact_d25=d25_marker is not None
     if exact_d25:
         need(sealed('plans/V5_CD_D25_FINITE_LOCAL_SUCCESSOR.private.json')==d25_marker
              and m.get('D25_local_successor_sha256')==d25_local.digest(d25_marker)
