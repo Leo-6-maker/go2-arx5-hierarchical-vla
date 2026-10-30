@@ -13,6 +13,8 @@ CARD_SHA = {
     'ALL_PINNED': '6ac4ec4e979b28dc2a2c24a697caed54d8abde4a47df62fa1d00f8de96f60057',
     'ROBOCASA_CABINET': '6ac4ec4e979b28dc2a2c24a697caed54d8abde4a47df62fa1d00f8de96f60057',
 }
+REPAIR02_VERSION='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR'
+REPAIR02_CARD_SHA='4ac838e931633fedb3a89a2c6a7c58df4ba044176d1eb2808426944484323df8'
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
     'desk_caddy/desk_caddy.xml': 'bb59530d8629878f8974efaed4abf79d31743ee3',
@@ -101,7 +103,12 @@ def unpack(payload):
     tasks = plan(kind)
     card_sha = hashlib.sha256(raw(payload['cards'])).hexdigest()
     qualification = payload['qualification']
-    if (card_sha != CARD_SHA[kind]
+    revision=payload.get('cabinet_port_revision')
+    if revision is not None and (revision!=REPAIR02_VERSION or kind!='ROBOCASA_CABINET'
+            or qualification.get('cabinet_port_revision')!=revision):
+        raise PermissionError('EXPLICIT_SEPARATE_CABINET_REPAIR02_STAGE')
+    expected_sha=REPAIR02_CARD_SHA if revision else CARD_SHA[kind]
+    if (card_sha != expected_sha
             or qualification['fixed_task_cards_sha256'] != card_sha
             or qualification['source_sha'] != payload['source_sha']):
         raise PermissionError('FIXED_COMPLETE_SOURCE_CARDS_AND_QUALIFICATION')
