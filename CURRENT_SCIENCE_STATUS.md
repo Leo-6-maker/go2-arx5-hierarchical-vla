@@ -1,5 +1,8 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+2026-10-30 23:54至10-31 00:00 SGT实际：GPU0共享授权已在原双账采用，原生owner/neural进程实际启动并通过共享设备检查；Vanda绑定SSH255，独立两次读回canonical未变且onceIO三路径全无。原180秒保护随后退出，两unit实际OS1；模型/查询/资格/物理和有效条件0，不重启或重放。241 GPU秒（含60秒pad）/6 neural CPU秒待正式核账，原全hold和lease仍保留，未宣称结算/关闭。[实际失败及未完成项](reports/PI0294/design/parallel-science-20261022/E1_GPU0_SHARED_ACTUAL_NATIVE_PREBIND_FAILURE_20261031.json)。E2原1508345最新23:53仍Q，管理owner已OS152；新端点/有效评价/合格示范0/0/0。
+
+
 2026-10-30 23:44 SGT：E1两个冷态上下文已实际通过；原prestart因GPU0其他计算进程拒绝，只留下空目录，无owner/GPU/model/query/physics。用户现直接允许GPU0共享，实测可用26.2GiB，原进程保持；新冷态共享边界待部署/采用及原生资格。53项CPU检查通过，非native成功；新端点/有效评价/合格示范仍0/0/0。[实际边界](reports/PI0294/design/parallel-science-20261022/E1_DIRECT_GPU0_SHARING_PRESTART_BOUNDARY_ACTUAL_20261030.json)。
 
 
