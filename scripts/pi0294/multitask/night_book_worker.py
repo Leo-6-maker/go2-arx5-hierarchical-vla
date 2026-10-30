@@ -37,6 +37,8 @@ def run(root,side,*,task_kind='BOOK'):
     from .libero_book_teacher import LiberoBookTeacher
     from .capture_core import capture
     root=Path(root);start=time.monotonic();cpu=time.process_time()
+    from .night_scope import for_root
+    scope=for_root(root)
     if os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or side not in('left','right'):
         raise PermissionError('ONE_REGISTERED_CORE_SOURCE_ATTEMPT')
     resource.setrlimit(resource.RLIMIT_CPU,(2800,2800));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
