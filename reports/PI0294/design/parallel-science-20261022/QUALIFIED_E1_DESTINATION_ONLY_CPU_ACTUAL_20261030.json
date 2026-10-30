@@ -1,0 +1,44 @@
+{
+  "status": "ACTUAL_QUALIFIED_E1_FROZEN_PLAN_AND_ONCE_STREAM_CHECKS_PASSED_NATIVE_NOT_RUN",
+  "candidate": "E1_ADAPTER_ONLY",
+  "checkpoint_step": 512,
+  "cursor": 16384,
+  "HF_repo": "leoyuer/pi0294-public-artifacts",
+  "HF_revision": "f410cd2b92cd543606d54b46f710197454606d9b",
+  "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+  "inference_members": 10,
+  "all_members_with_original_notices": 14,
+  "HTTP_payload_bytes": 12576408728,
+  "finite_destination": {
+    "Core_CPU_s": 300,
+    "active_CPU_cores": 1,
+    "wall_s": 7200,
+    "Core_peak_bytes": 12884901888,
+    "HTTP_transfer_upper_bytes": 13958643712,
+    "models": 0,
+    "queries": 0,
+    "updates": 0,
+    "physics": 0,
+    "PBS": 0
+  },
+  "validation": {
+    "checks": 6,
+    "elapsed_s": 6.45,
+    "actual_original_closed_E1_evidence": true,
+    "failed_E2_allocation_still_incomplete": true,
+    "fixed_revision_substitution_rejected": true,
+    "corrupt_member_and_unknown_partial_never_replayed": true,
+    "CI": "NOT_RUN",
+    "Core_delivery": "NOT_YET_RUN"
+  },
+  "implementation": "Receive existing fixed public revision, stream full member SHA, then reuse original private restorer. No source upload, cross-site SSH or model/physics permission. Uses existing owner/registry/lease/onceIO; preserves active E2 and original D25 row.",
+  "cold_native_requirements": [
+    "Fresh actual free space retaining all old remaining work and source/maintenance margins",
+    "Original all14 forecast and exact original E1 closure",
+    "New registered destination role, local paths and independent full readback",
+    "One original finite native launch and terminal reconciliation"
+  ],
+  "original_weights_recipe_R0_and_scoring_unchanged": true,
+  "E1_retraining": false,
+  "healthy_E2_restart": false
+}
