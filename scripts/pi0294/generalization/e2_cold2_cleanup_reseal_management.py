@@ -41,8 +41,11 @@ from scripts.pi0294.pv1.model_inputs import preflight
 from scripts.pi0294.dec1.source_cpu_once_io import commit
 old=Path(P['old_root']);mb=(old/'RUN_MANIFEST.json').read_bytes();m=json.loads(mb);oldb=read(old/'OUTPUT_BINDING.private.json');lb=Path(oldb['lease']).read_bytes()
 assert sha(mb)==n.OLD_MANIFEST and sha(lb)==n.LEASE and json.loads(lb)['status']=='CLOSED'
-snapshot=P['snapshot'];closed=n.closed_role(P['closed_capture']['record']);current=inventory.prefix_inventory(old)
-assert sha(raw(snapshot))==closed['snapshot_sha256']and inventory.identity(current)==inventory.identity(snapshot)==closed['snapshot_identity_sha256']
+snapshot=read(root/n.SNAPSHOT);closed=n.closed_role(read(root/n.BINDING)['closed_role'])
+fresh_snapshot=P['snapshot'];fresh_closed=n.closed_role(P['closed_capture']['record']);current=inventory.prefix_inventory(old)
+assert sha(raw(snapshot))==closed['snapshot_sha256']and sha(raw(fresh_snapshot))==fresh_closed['snapshot_sha256']
+assert {k:v for k,v in closed.items()if k not in('allocated_bytes','snapshot_sha256')}=={k:v for k,v in fresh_closed.items()if k not in('allocated_bytes','snapshot_sha256')}
+assert inventory.identity(current)==inventory.identity(fresh_snapshot)==inventory.identity(snapshot)==closed['snapshot_identity_sha256']
 small={name:(old/name).read_bytes()for name in m['execution']['sealed_inputs']};assert all(sha(body)==m['execution']['sealed_inputs'][name]for name,body in small.items())
 prior=P['old_request'];cfg=json.loads(small['MIX_OWNER_CONFIG.private.json']);assert not any(str(old)in body for body in cfg['programs'].values())
 gp=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json';gb=gp.read_bytes();local=base64.b64decode(P['LOCAL_base64'],validate=True)
@@ -66,7 +69,9 @@ regpath,envpath=Path(oldb['registry']),Path(oldb['environment']);regb,envb=regpa
 reg,env,binding=metadata(json.loads(regb),json.loads(envb),oldb,'0'*64)
 for path,key in[(regpath,'E2-COLD02-REGISTER-ROLE'),(envpath,'E2-COLD02-ENV-PROFILE')]:assert not path.with_name(key+'.INTENT.json').exists()and not path.with_name(key+'.RECEIPT.json').exists()
 oldenv=small[ENV];v=json.loads(oldenv);v['environment_registry_sha256']=sha(raw(env));small[ENV]=raw(v)
-p=json.loads(small[x.PHYSICAL]);p['run_uuid']=n.RUN;p['retained_initial_bytes']+=max(snapshot['allocated_bytes'],current['allocated_bytes']);p['closed_pre_native_roots'].append(dict(root=str(old),closure=closed,snapshot_file=n.SNAPSHOT))
+# Preserve the already sealed historical custody. The original live Guard
+# below charges current allocation (including changed st_blocks) independently.
+p=json.loads(small[x.PHYSICAL]);p['run_uuid']=n.RUN;p['retained_initial_bytes']+=closed['allocated_bytes'];p['closed_pre_native_roots'].append(dict(root=str(old),closure=closed,snapshot_file=n.SNAPSHOT))
 small[x.PHYSICAL]=raw(p);assert small[x.PHYSICAL]==(root/x.PHYSICAL).read_bytes()
 small[n.BINDING]=raw(scope);small[n.SNAPSHOT]=raw(snapshot);v=json.loads(small[LOCAL]);v.update(LOCAL_base64=base64.b64encode(local).decode(),LOCAL_sha256=sha(local),source='ACTUAL_CANONICAL_CORE_LOCAL_READONLY',capture_is_fresh_native_authority=False);small[LOCAL]=raw(v)
 for name in('SOURCE_SEAL.json','MIX_OWNER_CONFIG.private.json',PACKET):small.pop(name,None)
