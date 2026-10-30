@@ -1,0 +1,234 @@
+{
+  "schema": "HISTORICAL_FAILED_CHECKPOINT_CLEANUP_AND_FUTURE_STORAGE_CORRECTION_ACTUAL_V1",
+  "status": "ACTUAL_DELETE_INDEPENDENTLY_VERIFIED_RUNTIME_NOT_ADMITTED",
+  "direct_user_instruction": "历史失败checkpoint可以直接删除，清理更多空间",
+  "direct_authority_sha256": "abb2212940af8411a9d21f17eadefac1efcc1a78f47ca246a13db79a4ad6d932",
+  "prior_cleanup_receipt": "FAILED_ARTIFACT_CLEANUP_TWO_SITE_ACTUAL_PARTIAL_CAPACITY_20261030.json",
+  "Vanda": {
+    "groups": [
+      {
+        "run_uuid": "vap1-a40-b-heartbeat-recovery1-01",
+        "lease_status": "CLOSED",
+        "removed_members": [
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00002-of-00003.safetensors",
+            "allocated_bytes": 4971536384
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/optimizer.pt",
+            "allocated_bytes": 10428686336
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00003-of-00003.safetensors",
+            "allocated_bytes": 2618466304
+          }
+        ],
+        "allocated_bytes": 18018689024
+      },
+      {
+        "run_uuid": "vap1-a40-b-recovery1-b2-retry1-01",
+        "lease_status": "CLOSED",
+        "removed_members": [
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00002-of-00003.safetensors",
+            "allocated_bytes": 4971536384
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/optimizer.pt",
+            "allocated_bytes": 10428710912
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00003-of-00003.safetensors",
+            "allocated_bytes": 2618482688
+          }
+        ],
+        "allocated_bytes": 18018729984
+      },
+      {
+        "run_uuid": "vap1-a40-heartbeat-recovery2-01",
+        "lease_status": "CLOSED",
+        "removed_members": [
+          {
+            "relative": "training/A_CONTROL/checkpoint-1024/model-00002-of-00003.safetensors",
+            "allocated_bytes": 4971585536
+          },
+          {
+            "relative": "training/A_CONTROL/checkpoint-1024/optimizer.pt",
+            "allocated_bytes": 10429489152
+          },
+          {
+            "relative": "training/A_CONTROL/checkpoint-1024/model-00003-of-00003.safetensors",
+            "allocated_bytes": 2618564608
+          }
+        ],
+        "allocated_bytes": 18019639296
+      },
+      {
+        "run_uuid": "vap1-a40-source-a-recovery-01",
+        "lease_status": "CLOSED",
+        "removed_members": [
+          {
+            "relative": "training/A_CONTROL/checkpoint-32/model-00001-of-00003.safetensors",
+            "allocated_bytes": 4987437056
+          },
+          {
+            "relative": "training/A_CONTROL/checkpoint-32/model-00002-of-00003.safetensors",
+            "allocated_bytes": 4979818496
+          },
+          {
+            "relative": "training/A_CONTROL/checkpoint-32/optimizer.pt",
+            "allocated_bytes": 10444857344
+          },
+          {
+            "relative": "training/A_CONTROL/checkpoint-32/model-00003-of-00003.safetensors",
+            "allocated_bytes": 2620260352
+          }
+        ],
+        "allocated_bytes": 23032373248
+      },
+      {
+        "run_uuid": "vap1-a40-zero-update-b1-01",
+        "lease_status": "CLOSED",
+        "removed_members": [
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00002-of-00003.safetensors",
+            "allocated_bytes": 4977090560
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/optimizer.pt",
+            "allocated_bytes": 10444562432
+          },
+          {
+            "relative": "training/B_COVERAGE/checkpoint-1024/model-00003-of-00003.safetensors",
+            "allocated_bytes": 2620481536
+          }
+        ],
+        "allocated_bytes": 18042134528
+      }
+    ],
+    "deleted_files": 16,
+    "own_removed_allocated_bytes": 95131566080,
+    "own_removed_allocated_GiB": 88.59817504882812,
+    "observed_shared_filesystem_free_change_bytes": 95034540032,
+    "shared_change_not_fully_attributable": true,
+    "inventory_sha256": "3552f5c01a6e9edd9008c31e01ee4b1836419b2461e8a7746445f68fc2d2ab67",
+    "state_sha256": "c7fa2eded0d0f51f8921f2744e4ef48453dfefb555860ed0a0899734f3c98222",
+    "independent_readback": {
+      "status": "INDEPENDENT_16_FAILED_PAYLOADS_ABSENT_92_PROTECTED_IDENTITIES_64_PROVENANCE_BYTES_VERIFIED",
+      "deleted_files": 16,
+      "protected_members": 92,
+      "retained_provenance": 64,
+      "own_removed_allocated_bytes": 95131566080,
+      "state_sha256": "c7fa2eded0d0f51f8921f2744e4ef48453dfefb555860ed0a0899734f3c98222",
+      "new_mutations": 0,
+      "observed_epoch": 1793323996.3837287
+    },
+    "protected_checkpoint_member_identities_unchanged": 92,
+    "small_original_provenance_SHA_bytes_unchanged": 64,
+    "shared_or_hardlinked_tensor_files_skipped": true,
+    "old_deleted_checkpoint_full_restore_available": false,
+    "per_checkpoint_raw_removed_records_written": true,
+    "current_E1_full512_D25_GEN1_C50_A_B4096_CORR2048_and_original_parents_preserved": true,
+    "quota_qualified_for_new_training": false
+  },
+  "Core": {
+    "further_failed_checkpoint_files_deleted": 0,
+    "reason": "Only protected current comparison endpoints and shared hardlink aliases were found in the bounded registered project scan.",
+    "actual_prior_RGB_net_free_gain_bytes": 3305263104,
+    "storage_only_observation": {
+      "status": "POST_CLEANUP_STORAGE_ONLY_READONLY_NOT_RUNTIME_ADMISSION",
+      "free_bytes": 149819564032,
+      "free_inodes": 111144578,
+      "quota": {
+        "status": "UTILITY_UNAVAILABLE_NO_QUOTA_PASS_INFERRED"
+      },
+      "required_original_remaining_Core_bytes": 130268494648,
+      "full_maintenance_aggregate_peak_conservatively_held_on_Core_bytes": 2147483648,
+      "old_work_storage_margin_bytes": 17403585736,
+      "source20GiB_with_maintenance_shortfall_bytes": 4071250744,
+      "LOCAL_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+      "registry_sha256": "4025889f0261d8578f1bf4d41392246d7e9f8861a8cdae436483ad2e09566858",
+      "registry_entries": 293,
+      "old_owner_lease_sha256": "3bb1b22a0cee23f795cb678cb16e9c66c059c34b6a1ae539655ddac6c36395a8",
+      "old_owner_lease_status": "CLOSED",
+      "new_mutations": 0,
+      "native_admission": false,
+      "observed_epoch": 1793324614.4458752
+    },
+    "filesystem": {
+      "type": "ext4",
+      "root_mount_options": "rw,relatime"
+    },
+    "not_new_native_admission": true
+  },
+  "future_storage_correction": {
+    "published_main_before_source": "bf295b2014cb721304130376a7044f4fedc48fcd",
+    "old_main_pilot_file_sha256": "9caf90039a112a0274758cddaaa24a7204643a18cd78516b57620c8432c24653",
+    "new_pilot_file_sha256": "b5004721bdb4eedc3f01c797b3f50c9effde1266232ff582f3689b88cffe3890",
+    "GLOBAL_sha256": "f27b086576ba42306920e4c5b860f2cf72463256c5bcc6ff5f448dcca9044afa",
+    "historical_LOCAL_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+    "before_future_Core_bytes": 151810439992,
+    "after_future_Core_bytes": 130268494648,
+    "completed_source_future_only_credit": {
+      "request_id": "99eb0b5b-5f6a-4483-a00a-513ecc343311",
+      "job_id": "1497959.stdct-mgmt-02",
+      "bank_manifest_sha256": "4dd8a677a00b21ecbea6f8649ce17ebce8e68811741c3c14b5dd5bef58138f64",
+      "full_checkpoint_audit_sha256": "83c94983e640855acb6bc0fff2d0161f31280a762553575ce878c9e784e39901",
+      "source_terminal_audit_sha256": "ddbe00daf508eb8e50bf241515c2ac27400f29f70c1164996d2f3ab805b6bbc5",
+      "future_Core_storage_bytes": 21541945344,
+      "historical_costs_and_storage_uppers_retained": true,
+      "native_admission": false
+    },
+    "all_other_13_dimensions_exactly_unchanged": true,
+    "original_storage_used_uppers_caps_matrix_final_and_clocks_unchanged": true,
+    "does_not_measure_or_free_disk": true,
+    "does_not_refund_past_cost": true,
+    "source_and_maintenance_extra_space_counted_separately": true,
+    "CPU_s_for_both_exact_main_forecasts": 19.482572
+  },
+  "validation": {
+    "targeted_actual_history_cases": "7 passed; original complete bank, incomplete endpoint and five inconsistent-history refusals",
+    "full_actual_main_14_dimension_differential": "PASS; only future Core storage changes",
+    "CI": "NOT_RUN",
+    "new_training_updates": 0,
+    "new_model_calls": 0,
+    "new_physics": 0,
+    "new_PBS": 0,
+    "canonical_GLOBAL_LOCAL_and_registry_writes": 0,
+    "earlier_PC_calculation_legacy_import_assertion_preserved": true,
+    "main_verification_ran_in_fresh_process_with_explicit_module_paths": true
+  },
+  "maintenance": {
+    "direct_section5_authority_sha256": "49506e3a135ad6ad931cd672cb9f0b9f6214e47fb072fd160b3f29b5932f007b",
+    "CPU_upper": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "CPU_spent_at_snapshot": {
+      "core_cold": 192.109562549,
+      "core_close": 0,
+      "vanda": 92.34093684400003,
+      "local": 390.6841159759999
+    },
+    "wire_spent_at_snapshot": {
+      "maintenance30_all": 21297401
+    },
+    "aggregate_temporary_evidence_upper_bytes": 2147483648,
+    "transfer_upper_bytes": 2147483648,
+    "all_prior_costs_preserved": true
+  },
+  "next": {
+    "Core": "Finish a new cold D25 role with local registration custody, immutable original input bindings and native admission; closed04 is not reopened.",
+    "Vanda": "Build the explicitly authorized new E2 identity after the two real entry fixes, retain all original fees and fixed512 recipe.",
+    "source": "Retain cumulative original pool and complete mixed deployment; no physical launch while full storage admission is short.",
+    "S1": "CLOSED; T2 safety quarantine retained"
+  },
+  "infrastructure": {
+    "NFS_mount_SSH_network_service_permission_credential_changes": 0,
+    "other_users_data_deleted": 0,
+    "healthy_processes_killed": 0
+  },
+  "private_paths_raw_models_and_assets_published": false
+}

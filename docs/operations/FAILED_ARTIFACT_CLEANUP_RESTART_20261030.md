@@ -1,5 +1,7 @@
 # PR175审核、失败产物清理与后继授权草案
 
+**最新实际补充：** [失败checkpoint删除及原未来空间修正](../../reports/PI0294/design/parallel-science-20261022/HISTORICAL_FAILED_CHECKPOINT_CLEANUP_STORAGE_CORRECTION_ACTUAL_20261030.json)已独立核验Vanda额外删除16文件/88.60GiB原分配块，保护模型与证据保全；Core块容量可覆盖修正后的旧工作加全额维护峰值，source仍缺约3.79GiB，完整native准入未完成。下文旧空间表是审核时历史读数，不代表当前准入。
+
 **执行会话更新：** 用户已对第5节全文直接回复“正式批准第5节全文并执行”。[固定人类授权记录](../../reports/PI0294/design/parallel-science-20261022/FAILED_CLEANUP_SECTION5_DIRECT_AUTHORITY_20261030.json)及[实际清理回执](../../reports/PI0294/design/parallel-science-20261022/FAILED_ARTIFACT_CLEANUP_TWO_SITE_ACTUAL_PARTIAL_CAPACITY_20261030.json)优先于下文原审核时的“草案未批准/清理未执行”状态；原审核内容和旧费用保留。清理只部分完成，容量及原生运行仍未放行。
 
 日期：2026-10-30，Asia/Singapore。审核基线：`3c1ab6349a2fae7472c499171a23d7a9969b0f2e`，PR #175已合并。
