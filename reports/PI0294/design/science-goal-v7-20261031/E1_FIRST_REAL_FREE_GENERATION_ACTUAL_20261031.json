@@ -1,0 +1,182 @@
+{
+  "schema": "V7_FIRST_ACTUAL_E1_FREE_GENERATION_V1",
+  "source": "6297e33797bb0197d136833d3b46b5ddc035d58b",
+  "run_uuid": "v7-e1-one-recorded-draw-01",
+  "manifest_sha256": "17c1e7b3a655d978065630d6c13b8a83ae3da15c5dc1f6ed32760ceaa07fb59d",
+  "worker_sha256": "471753ef442e9b6cf7517b448cae8fa54c35b7532ecca31105667dc882b54cdd",
+  "authority": "Goal V7@e2f7d034c0c6986a2024e9aa67b557ddbe981e98",
+  "candidate": "E1",
+  "checkpoint_step": 512,
+  "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+  "actual": {
+    "model_loads": 1,
+    "free_generations": 1,
+    "formal_valid_conditions": 0,
+    "physics_integrations": 0,
+    "optimizer_updates": 0,
+    "new_complete_E2_endpoints": 0,
+    "new_qualified_skill_demonstrations": 0
+  },
+  "result": {
+    "status": "COMPLETE",
+    "phase": "COMPLETE_ONE_REAL_DRAW_NOT_FORMAL_EVAL",
+    "error": null,
+    "model_load_attempts": 1,
+    "generation_attempts": 1,
+    "completed_generations": 1,
+    "CPU_s": 27.559262073,
+    "wall_s": 35.47288735304028,
+    "completed_epoch": 1793382123.3698332,
+    "physics_integrations": 0,
+    "optimizer_updates": 0,
+    "formal_valid_conditions": 0,
+    "task_success_claimed": false
+  },
+  "result_sha256": "e96ba4648c66d7e8769af9c0429cd141283a2adb054466046e831372b0fce6ba",
+  "generation": {
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "a5212a570304bd3e5d77995e8a48866c30d28d878b1fecde0be3b6d2e714e8bb"
+    },
+    "inference_precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "gate": {
+      "decision": "REJECT",
+      "issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "severity": "REJECT",
+          "message": "linear_speed exceeds rejection threshold (m/s)",
+          "provenance": "TEST_ONLY",
+          "observed": 4.824868050920349,
+          "threshold": 2.0
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "severity": "REJECT",
+          "message": "angular_speed exceeds rejection threshold (rad/s)",
+          "provenance": "TEST_ONLY",
+          "observed": 15.734037247863604,
+          "threshold": 4.0
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "severity": "REJECT",
+          "message": "trajectory translation path exceeds the configured test envelope",
+          "provenance": "TEST_ONLY",
+          "observed": 5.423809138041486,
+          "threshold": 5.0
+        }
+      ],
+      "metrics": {
+        "chunk_id": "v7-e1-one-recorded-draw-01",
+        "linear_speed_mps": {
+          "mean": 2.781440583611019,
+          "median": 2.7878217503925264,
+          "p95": 4.723451207898693,
+          "max": 4.824868050920349
+        },
+        "angular_speed_radps": {
+          "mean": 6.94218386212003,
+          "median": 6.143026059076936,
+          "p95": 15.151023670597457,
+          "max": 15.734037247863604
+        },
+        "translation_path_length_m": 5.423809138041486,
+        "se3_arc_length_m": 6.020073607316288,
+        "initial_position_discontinuity_m": 0.08488815239898091,
+        "initial_rotation_discontinuity_rad": 0.34525697887716417,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "physical_shape": [
+      40,
+      10
+    ],
+    "arrays_sha256": "58cb77e8c9d232c551a9b179d5bf73c953f421699ac4b133f1203f1de9fcdef3",
+    "recorded_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "observed_epoch": 1793382121.1331935
+  },
+  "draw_sha256": "2e2caaccee08113288752079949e1bac6d9ac48e13427ef8a05336b82bba2207",
+  "arrays_sha256": "58cb77e8c9d232c551a9b179d5bf73c953f421699ac4b133f1203f1de9fcdef3",
+  "arrays_bytes": 22924,
+  "interpretation": "Actual recorded-observation inference smoke. Unchanged safety gate rejects action before any command installation or physical execution. Not a fresh closed-loop observation, formal Eval condition, task failure rate or task success.",
+  "control": {
+    "remote_binding_or_queue_wait_after_GPU_launch": false,
+    "existing_model_Processor_and_generator": true,
+    "existing_per_GPU_lock": true,
+    "registered_local_output": true,
+    "user_GPU0_sharing_observed": true,
+    "foreign_process_control": 0,
+    "old_closed_actor_restarted": false
+  },
+  "closeout": {
+    "native_unit": {
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive"
+    },
+    "lease_status": "CLOSED",
+    "lease_sha256": "74764430d2f04b7176009522d2e55bcc2a3a8f00be0b1fbc3aa754fd72f9749e",
+    "lease_intent_sha256": "150b3c9eaafdafec2665de9ccf14b8b2f8c999aa72f3ffc6fe1bfcf5331b50a4",
+    "lease_receipt_sha256": "67fb0163ed1ad24294093da239b8eef55c0a928021d7bc697c19ec588b380c77",
+    "independent_readback_epoch": 1793382377.399234,
+    "terminal_and_closed": true
+  },
+  "usage": {
+    "model_worker_CPU_s": 27.559262073,
+    "model_worker_wall_s": 35.47288735304028,
+    "conservative_GPU_device_seconds": 37,
+    "actual_metadata_calls_retained_in_existing_control_journal": true,
+    "deleted_files": 0
+  },
+  "next": {
+    "V7_01": "Qualify unchanged native evaluator and then first original fixed condition; retain this rejected diagnostic separately from formal denominator.",
+    "V7_02": "New same-job management attachment reuses original heartbeat/release/watch; no submit path and no immutable PBS payload changes. Native deployment pending.",
+    "V7_03": "Whole-path source repair independent of E1/E2 panels; old safety thresholds and evidence preserved."
+  },
+  "boundaries": {
+    "NFS_SSH_mount_network_services_credentials_modified": false,
+    "WBC_or_safety_thresholds_changed": false,
+    "S1_T2_quarantine_released": false
+  },
+  "validation": {
+    "local_CPU_seed_or_checkpoint_checks_passed": 6,
+    "local_CPU_Torch_seed_check": "UNAVAILABLE_TORCH_ABSENT_ON_PC",
+    "CI": "NOT_RUN",
+    "real_native_model_and_generation": "COMPLETE",
+    "formal_Eval": "NOT_RUN"
+  }
+}
