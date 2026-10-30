@@ -11,6 +11,7 @@ from pathlib import PurePosixPath
 CARD_SHA = {
     'BOOK': '5d7226641adccd4a6a1eb935f3c29824893a0a22d16ee6447b90554f0a824c8b',
     'ALL_PINNED': '6ac4ec4e979b28dc2a2c24a697caed54d8abde4a47df62fa1d00f8de96f60057',
+    'ROBOCASA_CABINET': '6ac4ec4e979b28dc2a2c24a697caed54d8abde4a47df62fa1d00f8de96f60057',
 }
 BOOK_XML = {
     'black_book/black_book.xml': '73481d4f87d7480cc75add0fe7cce147e5ea2921',
@@ -43,6 +44,8 @@ def plan(kind):
     tasks = [('BOOK', 'left'), ('BOOK', 'right')]
     if kind == 'ALL_PINNED':
         tasks += [('ROBOCASA_CABINET', 'right'), ('ROBOCASA_CABINET', 'left')]
+    elif kind == 'ROBOCASA_CABINET':
+        tasks = [('ROBOCASA_CABINET', 'right'), ('ROBOCASA_CABINET', 'left')]
     return [dict(task_kind=k, side=s) for k, s in tasks]
 
 
@@ -105,7 +108,7 @@ def unpack(payload):
     definitions = _definitions(payload['definition_files'], BOOK_XML)
     binaries = _binary(payload['libero_binary_files'], BOOK_BINARY)
     cabinet_definitions, cabinet_textures = {}, {}
-    if kind == 'ALL_PINNED':
+    if kind in ('ALL_PINNED','ROBOCASA_CABINET'):
         ds = _definitions(payload['robocasa_definition_files'], CABINET_XML)
         ts = _binary(payload['robocasa_texture_files'], CABINET_TEXTURE)
         for name, body in ds.items():

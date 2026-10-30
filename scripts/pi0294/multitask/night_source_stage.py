@@ -39,12 +39,15 @@ once_ns={};exec(compile(code['scripts/pi0294/dec1/source_cpu_once_io.py'],'<orig
 put=once_ns['_exclusive'];commit=once_ns['commit']
 scope_ns={};exec(compile(code['scripts/pi0294/multitask/night_scope.py'],'<published-night-scope>','exec'),scope_ns)
 approval=base64.b64decode(P['approval_base64']);extension=base64.b64decode(P['successor_authority_base64'],validate=True)if P.get('successor_authority_base64')else None
-assert extension is None or bundle['task_kind']=='ALL_PINNED'
+assert extension is None or bundle['task_kind']in('ALL_PINNED','ROBOCASA_CABINET')
 scope_ns['authority'](approval,now=time.time(),successor_body=extension)
 pc=base64.b64decode(P['PC_closed_account_base64']);account=json.loads(pc)
 scope_ns['validate_account'](account)
 assert account['custody']=='CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK'
-assert account['native_adopted']is False and account['charged_upper']['attempts']==0
+assert account['native_adopted']is False
+if bundle['task_kind']=='ROBOCASA_CABINET':
+ assert 'closed_book_unrun_cabinet_carry'in account and account['charged_upper']['attempts']==1
+else:assert account['charged_upper']['attempts']==0
 assert P['PC_closed_account_sha256']==sha(pc)and account['native_destination']==str(root)
 assert all(time.time()-P['observation'][k]['observed_epoch']<120 for k in('GLOBAL','LOCAL'))
 root.mkdir(mode=0o700)
@@ -186,7 +189,8 @@ adoption=json.loads((root/'SOURCE_SCOPE_ADOPTION.json').read_bytes())
 assert local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']==adoption['marker']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==result['account_sha256']
 account=scope.validate_account(json.loads((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes()))
-assert account['native_adopted']is True and account['charged_upper']['attempts']==0
+assert account['native_adopted']is True
+assert account['charged_upper']['attempts']==(1 if kind=='ROBOCASA_CABINET'else 0)
 assert account['qualification_sha256']==sha((root/'SOURCE_QUALIFICATION.json').read_bytes())
 lease=json.loads(Path(binding['lease']).read_bytes());assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name
 paths=node_local_paths(json.loads((root/'RUNTIME_PATHS.private.json').read_bytes()))
@@ -238,7 +242,7 @@ args=['/usr/bin/systemd-run','--user','--unit='+unit,'--property=RuntimeMaxSec=1
 for k,v in env.items():args.append('--setenv='+k+'='+v)
 args+=['/usr/bin/env','-i']+[k+'='+v for k,v in env.items()]
 args+=['/bin/bash',str(root/'entry/infrastructure/enter.sh'),'4080-simulation','python','-B','-m',
- 'scripts.pi0294.multitask.'+('night_source_chain'if kind=='ALL_PINNED'else'night_book_chain'),str(root)]
+ 'scripts.pi0294.multitask.'+('night_source_chain'if kind=='ALL_PINNED'else'night_cabinet_chain'if kind=='ROBOCASA_CABINET'else'night_book_chain'),str(root)]
 q=subprocess.run(args,env=env,capture_output=True,text=True,timeout=10)
 assert q.returncode==0,'NATIVE_START_RESULT_UNKNOWN_NO_REPLAY'
 q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','InvocationID','-p','ControlGroup','-p','ActiveState'],
