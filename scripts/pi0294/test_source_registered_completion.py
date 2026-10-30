@@ -3,7 +3,7 @@ import base64,gzip,hashlib,json,os
 from pathlib import Path
 import pytest
 from scripts.pi0294.multitask import night_source_stage as stage
-from scripts.pi0294.multitask.source_registered_completion import program
+from scripts.pi0294.multitask.source_registered_completion import program,manifest_program
 
 
 def test_actual_local_additive_adoption_preserves_all_existing_fields():
@@ -28,3 +28,13 @@ def test_registered_completion_contains_no_registry_replay_or_capsule_write():
     assert 'cas(registry'not in body and 'root.mkdir'not in body
     assert "new_local['revision']"not in body
     assert 'subprocess.run(args'not in body and 'systemd-run'not in body
+
+
+def test_complete_entry_programs_have_no_unbound_top_level_names():
+    import builtins,symtable
+    for body in(program(),manifest_program()):
+        table=symtable.symtable(body,'complete','exec')
+        declared={s.get_name()for s in table.get_symbols()if s.is_assigned()or s.is_imported()}
+        referenced={s.get_name()for s in table.get_symbols()if s.is_referenced()}
+        assert referenced-declared-set(dir(builtins))-{'P'}==set()
+    assert 'cas('not in manifest_program()and 'commit('not in manifest_program()
