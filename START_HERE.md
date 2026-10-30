@@ -1,14 +1,6 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
-2026-10-30 23:54至10-31 00:00 SGT实际：GPU0共享授权已在原双账采用，原生owner/neural进程实际启动并通过共享设备检查；Vanda绑定SSH255，独立两次读回canonical未变且onceIO三路径全无。原180秒保护随后退出，两unit实际OS1；模型/查询/资格/物理和有效条件0，不重启或重放。241 GPU秒（含60秒pad）/6 neural CPU秒待正式核账，原全hold和lease仍保留，未宣称结算/关闭。[实际失败及未完成项](reports/PI0294/design/parallel-science-20261022/E1_GPU0_SHARED_ACTUAL_NATIVE_PREBIND_FAILURE_20261031.json)。E2原1508345最新23:53仍Q，管理owner已OS152；新端点/有效评价/合格示范0/0/0。
-
-
-2026-10-30 23:44 SGT：E1两个冷态上下文已实际通过；原prestart因GPU0其他计算进程拒绝，只留下空目录，无owner/GPU/model/query/physics。用户现直接允许GPU0共享，实测可用26.2GiB，原进程保持；新冷态共享边界待部署/采用及原生资格。53项CPU检查通过，非native成功；新端点/有效评价/合格示范仍0/0/0。[实际边界](reports/PI0294/design/parallel-science-20261022/E1_DIRECT_GPU0_SHARING_PRESTART_BOUNDARY_ACTUAL_20261030.json)。
-
-
-2026-10-30 23:26 SGT接续：E1新分配已在原GLOBAL/LOCAL一次采用并独立读回；首个冷态检查在模型前因新增canonical LOCAL路径深度检查错误被拒绝，未启动owner/GPU，模型/查询/构造/积分0。三个cold01角色已用原onceIO关闭并独立回读；现修正这一个有证据入口，后继仍用同一request/nonce/clock和原24条件，不增加GPU/物理hold。 [实际采用、失败与关闭](reports/PI0294/design/parallel-science-20261022/E1_CANONICAL_ADOPTED_ZERO_COLD_PATH_REJECTION_CLOSED_ACTUAL_20261030.json)。E2原1508345最新仍Q，owner已OS152；新端点/有效条件/合格示范仍0/0/0。
-
-2026-10-30 22:19–22:27 SGT实测更新：E2原作业1508345仍Q，但原wrapper/server已终态；owner于21:55因CPU软时限OS152退出，无模型/更新启动证据，不能再称后台健康。Core目标盘约157.9GiB可用、计算进程为空，内核三类quota格式查询均ESRCH。E1独立fixed512计账/原生入口/原owner及完整终态接线已实现，仍未部署、采用新分配或加载模型；新端点/有效条件/合格示范0/0/0。 [实际状态与接入缺口](reports/PI0294/design/parallel-science-20261022/FIXED512_CORE_NATIVE_ENTRY_AND_E2_OWNER_CPU_EXIT_ACTUAL_20261030.json)。
+2026-10-31 00:43–00:55 SGT实际：E1共享启动失败已在原GLOBAL/LOCAL正式结算（243 GPU秒、6 neural CPU秒、300物理元数据CPU秒、144MiB保守输出），本次未用hold解除且三own lease CLOSED并独立回读；模型/查询/积分/有效条件0，旧进程不重启。Vanda原绑定目标完整只读校验实测26.1CPU/26.8墙钟秒，接近旧30CPU/35墙钟调用上限；尚未证明SSH255唯一根因，下一修复针对有界控制传输，不删校验。E2原唯一1508345最新00:55仍Q，管理owner已OS152，未重投。新端点/有效评价/合格示范0/0/0；完整S0–S5未完成。[实际结算、关闭及耗时证据](reports/PI0294/design/parallel-science-20261022/E1_SHARED03_DUAL_SETTLED_THREE_CLOSED_AND_BIND_VALIDATION_TIMING_ACTUAL_20261031.json)。
 
 **2026-10-30 21:17后继：放书原参考顶书缺陷已从保存状态复现；512评价计划入口已修，原生分配/backend仍未接通。** E2同一1508345仍Q且owner健康；模型评价与新示范仍0。柜门停止、S1/T2隔离和基础设施保护保持。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
 

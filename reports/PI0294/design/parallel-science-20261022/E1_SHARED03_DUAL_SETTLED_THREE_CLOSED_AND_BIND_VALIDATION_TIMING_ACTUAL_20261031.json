@@ -1,0 +1,98 @@
+{
+  "schema": "ARX5_E1_SHARED03_ACTUAL_DUAL_FINANCIAL_TERMINAL_THREE_LEASES_CLOSED_AND_EXACT_VALIDATION_TIMING_V1",
+  "observed_epoch": 1793378618.3021894,
+  "implementation_source": "1d170b83c816fb68a6b6ee7c9e8863952aea6102",
+  "failed_native_source": "cf62052564a838c5b99ec13b4c80b14f987403e4",
+  "actual_canonical_GLOBAL_sha256": "d130ea834a6b927b6d71325712c1755becd693e35bb75a08ce1eaae6ec34bea4",
+  "actual_canonical_LOCAL_sha256": "0625bede5ed0d08c923a6fe1b861fac74cd7bd4c58abe47522ddcce4d6795550",
+  "both_original_once_receipts_independently_read": true,
+  "terminal_native_sha256": "ab12f5775dcf1110ecb68e10c8f0ff383c117f36da3001fef3b330fd927d0ecf",
+  "actual_financial": {
+    "schema": "ARX5_E1_SHARED03_ACTUAL_PREBIND_RELEASE_TIMEOUT_TERMINAL_V1",
+    "request_id": "f6eb2990-707d-439a-b99a-f8c89c05e0ff",
+    "source_sha": "cf62052564a838c5b99ec13b4c80b14f987403e4",
+    "terminal_native_sha256": "ab12f5775dcf1110ecb68e10c8f0ff383c117f36da3001fef3b330fd927d0ecf",
+    "native_handle": null,
+    "actual_start_is_terminal_witness_only": true,
+    "query_attempts": 0,
+    "model_load_attempts": 0,
+    "new_physics": 0,
+    "new_episodes": 0,
+    "stage_completed": false,
+    "new_native_permission": false,
+    "old_control_costs_retained": true,
+    "observed_epoch": 1793377141.5061338,
+    "GPU_s": 243,
+    "neural_CPU_s": 6,
+    "physical_CPU_s": 300,
+    "Core_output_bytes": 150994944,
+    "new_runtime_transfer_bytes": 0,
+    "leases_closed_at_receipt_creation": false,
+    "financial_adopted": true
+  },
+  "all_three_leases_closed_independent": {
+    "owner": "CLOSED",
+    "core": "CLOSED",
+    "hopper": "CLOSED"
+  },
+  "unused_current_E1_holds_released": true,
+  "old_E2_D25_package_rows_costs_clocks_and_protected_resources_unchanged": true,
+  "raw_files_deleted": 0,
+  "infrastructure_or_foreign_GPU_process_changes": 0,
+  "close_first_attempt": {
+    "result": "GLOBAL_READBACK_120S_TTL_REJECTED_BEFORE_ANY_LEASE_WRITE",
+    "all_three_leases_and_all_nine_once_paths_independently_seen_unwritten": true,
+    "old_CPU_wire_upper_retained": true,
+    "old_write_not_replayed": true,
+    "completion": "Fresh GLOBAL read and distinct-key lease close in one original bounded operation; all three independently CLOSED"
+  },
+  "exact_original_bind_validation": {
+    "source": "cf62052564a838c5b99ec13b4c80b14f987403e4",
+    "historical_target_sha256": "c26c02d0d5ce0e14ad8c1ed77ad3373fe7da63b74a52bf83da3e59d4a1e3424e",
+    "import_CPU_s": 0.26584006299999996,
+    "complete_check_CPU_s": 26.106071339,
+    "complete_check_wall_s": 26.833640472963452,
+    "outer_finite_CPU_s": 27.092570738,
+    "same_finite_process_terminal": true,
+    "canonical_unchanged": true,
+    "new_models_queries_physics_PBS_writes": 0,
+    "interpretation": "Full pure validation completes but approaches original 30CPU/35wall transport bounds; original SSH255 trigger not proven uniquely. Bounded finite control transport is the next repair target."
+  },
+  "unhelpful_byte_cache_trial_removed_and_not_deployed": true,
+  "qualification_models_queries_physics_valid_conditions": 0,
+  "new_complete_E2_endpoints": 0,
+  "qualified_new_source_demonstrations": 0,
+  "E2_latest_actual": {
+    "observed_epoch": 1793379349.9809997,
+    "rows": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1508345.stdct-mgmt-02",
+        "state": "Q",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train",
+        "ngpus": 1
+      }
+    ],
+    "management_owner": "TERMINAL_OS152",
+    "resubmitted": false
+  },
+  "CPU_checks": {
+    "focused": 39,
+    "actual_captured_legacy_regressions": 24,
+    "CI_native": false
+  },
+  "continuation_native_started": false,
+  "next_actions": [
+    "Implement one bounded cold control-transport repair without removing semantic validation or replaying closed native actors",
+    "Run original native qualification before any GR00T closed-loop condition",
+    "Keep E2 unique job, S1/T2 quarantine and cabinet physical STOP"
+  ],
+  "full_S0_S5_policy_goal": "INCOMPLETE",
+  "prior_receipts": [
+    "E1_GPU0_SHARED_ACTUAL_NATIVE_PREBIND_FAILURE_20261031.json",
+    "E1_SHARED03_KNOWN_ZERO_PREBIND_CLOSEOUT_PROPOSED_20261031.json",
+    "E1_DIRECT_GPU0_SHARING_PRESTART_BOUNDARY_ACTUAL_20261030.json",
+    "E1_CANONICAL_ADOPTED_ZERO_COLD_PATH_REJECTION_CLOSED_ACTUAL_20261030.json"
+  ]
+}
