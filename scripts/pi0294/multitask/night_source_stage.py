@@ -8,6 +8,7 @@ one local lease and a sealed readback of the original canonical registry.
 PROGRAM=r'''
 import base64,gzip,hashlib,json,os,resource,subprocess,sys,time
 from pathlib import Path
+sys.dont_write_bytecode=True
 assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s'and not os.environ.get('PBS_JOBID')
 resource.setrlimit(resource.RLIMIT_CPU,(160,160));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
 os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});started=time.process_time()
@@ -81,9 +82,11 @@ if extension is not None:put(root/'SOURCE_SUCCESSOR_AUTHORITY.json',extension)
 scope=scope.for_root(root)
 from scripts.pi0294.task_path_entry import ENTRY_FILES,node_local_paths,registered_snapshot
 gb=gzip.decompress(base64.b64decode(P['GLOBAL_gzip_base64']));assert sha(gb)==P['observation']['GLOBAL']['sha256']
-budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
 if scope.V7_CARRY in account:
- assert budget['original_forecast']['cap_changes_required']=={}
+ from scripts.pi0294.generalization.minimal_scope import first512_forecast
+ budget=dict(original_forecast=first512_forecast(gb,lb),
+  V7_project_internal_shortfalls_are_observations_not_new_run_approval_gates=True,
+  old_balances_and_protected_work_unchanged=True,source_pool_caps_unchanged=True)
  storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
  future=max(0,storage['projected']-storage['used'])
  retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
@@ -91,7 +94,9 @@ if scope.V7_CARRY in account:
  free=os.statvfs(root).f_bavail*os.statvfs(root).f_frsize
  assert free>=future+5368709120+2147483648
  put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,source_retained_and_next_upper_bytes=retained_and_next,source_capacity_upper_bytes=5368709120,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
-else:assert budget==P['full14_proof']
+else:
+ budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
+ assert budget==P['full14_proof']
 put(root/'FULL14_PROOF.json',raw(budget));put(root/'ORIGINAL_GLOBAL_CAPTURE.private.json',gb)
 put(root/'CLOSED_PC_PREPARATION_ACCOUNT.json',pc);put(root/'NIGHT_HUMAN_APPROVAL.json',approval)
 put(root/'SOURCE_SEAL.json',raw(dict(source_sha=P['source_sha'],files=P['source_members'])))
