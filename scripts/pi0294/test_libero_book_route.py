@@ -1,6 +1,8 @@
 """Synthetic actual-observation feedback tests; no MuJoCo or native GO."""
 from copy import deepcopy
 import json
+import os
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -9,7 +11,7 @@ from scripts.pi0294.multitask.libero_book_cards import cards
 from scripts.pi0294.multitask.libero_book_teacher import (
     LiberoBookTeacher,RoutedLiberoBookTeacher,attempt_operation,checked_route_card,
     route_card,teacher_for_card)
-from scripts.pi0294.multitask.libero_book_teacher import MARGIN_REVISION,DESCENT_REVISION
+from scripts.pi0294.multitask.libero_book_teacher import MARGIN_REVISION,DESCENT_REVISION,RELEASE_REVISION
 from scripts.pi0294.multitask.feedback_teacher import CLOSED,OPEN
 from scripts.pi0294.multitask.night_book_chain import checked_plan,planned_tasks
 from scripts.pi0294.test_multitask_contact import state
@@ -157,3 +159,60 @@ def test_supported_descent_slows_only_lowering_without_changing_grip_or_goals():
     assert np.max(np.linalg.norm(np.diff(teacher.path[:,:3,3],axis=0),axis=1))/.05<=.01+1e-12
     np.testing.assert_allclose(teacher.path[-1],teacher.waypoints['preinsert'][2],atol=1e-14,rtol=0)
     assert slow['task_duration_s']==32. and attempt_operation(slow,'left')=='LIBERO_LEFT_PORT05_SLOW_DESCENT'
+
+
+def test_supported_release_keeps_the_old_carry_geometry_and_does_not_command_a_floor_drag():
+    old=route_card(DESCENT_REVISION);new=route_card(RELEASE_REVISION);same=deepcopy(new)
+    same['id']=old['id'];same['book_route_revision']=old['book_route_revision'];assert same==old
+    teacher=teacher_for_card(new);B=np.array(new['book']['target_book_world']);B[0,3]=new['book_route']['front_cross_book_x_m']
+    tcp=B@teacher.grasp_offset
+    teacher.observe(state('BOOK',tcp=tcp,object_pose=B,native_grasp=True))
+    teacher.stage='preinsert';teacher.waypoints['preinsert']=[tcp.copy()for _ in range(3)]
+    teacher.waypoint_index['preinsert']=2;teacher.goal=tcp.copy()
+    teacher.plan()
+    next_boundary(teacher,tcp,B,native_libero_goal=True,object_supported_by_shelf=True)
+    assert teacher.stage=='release'
+    plan=teacher.plan();np.testing.assert_allclose(plan['poses'],np.repeat(tcp[None],40,axis=0),atol=1e-14)
+    np.testing.assert_array_equal(plan['opening'],np.full(40,OPEN))
+    assert new['task_duration_s']==32. and new['independent_demo_conditions']==old['independent_demo_conditions']
+    assert attempt_operation(new,'left')=='LIBERO_LEFT_PORT06_SUPPORTED_RELEASE'
+
+
+@pytest.mark.parametrize('changed',[
+    {'native_libero_goal':False},{'object_supported_by_shelf':False},
+    {'object_linear_velocity':[.021,0,0]},{'object_angular_velocity':[0,0,.101]}])
+def test_supported_release_waits_for_each_real_placement_condition(changed):
+    teacher=teacher_for_card(route_card(RELEASE_REVISION));B=np.array(teacher.spec['target_book_world'])
+    B[0,3]=teacher.route['front_cross_book_x_m'];tcp=B@teacher.grasp_offset
+    teacher.observe(state('BOOK',tcp=tcp,object_pose=B,native_grasp=True))
+    teacher.stage='preinsert';teacher.waypoints['preinsert']=[tcp.copy()for _ in range(3)]
+    teacher.waypoint_index['preinsert']=2;teacher.goal=tcp.copy();teacher.plan()
+    conditions=dict(native_libero_goal=True,object_supported_by_shelf=True);conditions.update(changed)
+    next_boundary(teacher,tcp,B,**conditions)
+    assert teacher.stage=='preinsert'
+    np.testing.assert_array_equal(teacher.plan()['opening'],np.full(40,CLOSED))
+
+
+def test_saved_actual_port05_prefix_is_unchanged_until_supported_release():
+    path=os.environ.get('BOOK_PORT05_CLOSED_ACTUAL_REPLAY')
+    if not path:pytest.skip('Explicit closed native PORT05 observation/plan capture required')
+    from go2arx5_vla.task_data.codec import pose10
+    packet=json.loads(Path(path).read_bytes())
+    assert packet['raw_sha256']=='7a3b31968ccb538536f33ab0e868ad44bc0491354e7fe7c2e2aed5fd7fca96aa'
+    old=teacher_for_card(route_card(DESCENT_REVISION));new=teacher_for_card(route_card(RELEASE_REVISION))
+    plans={p['observation_index']:p for p in packet['plans']};changed=[]
+    for row in packet['observations']:
+        i=row['index'];s=row['state'];old.observe(s);new.observe(s)
+        if i%8:continue
+        original=old.plan();reference=new.plan();actual=np.array(plans[i]['rows10'])
+        original_rows=np.array([pose10(p,g)for p,g in zip(original['poses'],original['opening'])])
+        new_rows=np.array([pose10(p,g)for p,g in zip(reference['poses'],reference['opening'])])
+        np.testing.assert_allclose(original_rows,actual,atol=1e-12,rtol=0)
+        if i<384:np.testing.assert_allclose(new_rows,actual,atol=1e-12,rtol=0)
+        else:
+            changed.append(i)
+            assert new.stage=='release'and old.stage=='insert'
+            assert s['native_grasp']and s['native_libero_goal']and s['object_supported_by_shelf']
+            np.testing.assert_allclose(reference['poses'],np.repeat(np.array(s['tcp'])[None],40,axis=0),atol=1e-12)
+            np.testing.assert_array_equal(reference['opening'],np.full(40,OPEN))
+    assert changed==[384]and len(plans)==49

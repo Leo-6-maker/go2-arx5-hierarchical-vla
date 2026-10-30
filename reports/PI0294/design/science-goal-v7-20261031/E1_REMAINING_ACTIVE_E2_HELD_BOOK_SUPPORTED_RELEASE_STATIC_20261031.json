@@ -1,0 +1,103 @@
+{
+  "schema": "V7_E1_REMAINING_ACTIVE_E2_EXACT_HOLD_BOOK_SUPPORTED_RELEASE_STATIC_V1",
+  "as_of": "2026-10-31 06:40 SGT",
+  "science": {
+    "E1_valid_conditions": 1,
+    "E1_successes": 0,
+    "E1_original_panel": 24,
+    "E1_remaining": 23,
+    "new_E2_512": 0,
+    "source_attempts": 9,
+    "source_actual_integrations": 52071,
+    "source_actual_RGB_pairs": 1392,
+    "qualified_full_demos": 0,
+    "new_skill_training_updates": 0
+  },
+  "E1": {
+    "run_uuid": "arx5-e1-fixed512-n294101-08",
+    "source_sha": "c0f069f627f4491ff822ab43f9a27c04b73fe0f2",
+    "request_sha256": "e65d03af7c4f414a3767410d645e3dd9d50c143e5a6b45929470d1a321c31c44",
+    "state": "ACTUAL_DURABLE_LOCAL_ACTIVATION_AND_NATIVE_QUALIFICATION_RUNNING",
+    "actual_real_transport_cycles": 80,
+    "native_600s_qualification_complete": false,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_physics": 0,
+    "first_valid_veto_not_repeated": true,
+    "old_aggregate_cap_reader_repair": "PR234",
+    "prior_valid_history_repair": "PR233"
+  },
+  "E2": {
+    "job": "1508345.stdct-mgmt-02",
+    "state": "H",
+    "hold_type": "u",
+    "unstarted": true,
+    "management02_terminal": true,
+    "management_error": "V5_CD_ACCOUNTING_OUTPUT_MATRIX_AND_FINAL_PROTECTED",
+    "hold_readback_sha256": "a59babea5df7aedcd23cf8e7c18aeebdb9432a62183242fc5d12ec3b67ef9d98",
+    "new_qsub": 0,
+    "new_models_updates": 0,
+    "next": "Restore the existing job lifecycle at a verified cold boundary; release only this own user hold after compatibility and owner readiness, never duplicate the job."
+  },
+  "book": {
+    "new_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+    "old_PORT05_raw_sha256": "7a3b31968ccb538536f33ab0e868ad44bc0491354e7fe7c2e2aed5fd7fca96aa",
+    "mechanism": "At actual task19.2s the book is already stable, in the native goal and supported while still grasped. Release there rather than commanding an extra horizontal floor drag that lost grasp at19.3s.",
+    "actual_replay": {
+      "observations": 386,
+      "old_plans": 49,
+      "prefix_H40_max_error": 5.551115123125783e-16,
+      "only_changed_observation_index": 384,
+      "task_time_s": 19.2,
+      "object_speed_m_s": 3.336018235363688e-05,
+      "object_angular_speed_rad_s": 0.0012202595892080732,
+      "new_reference_TCP_motion_m": 0.0,
+      "new_opening": 0.9545454545454547,
+      "saved_replay_not_execution": true,
+      "proof_sha256": "03ac25104cc5edf25bfaeb3af8bcc6ed272747e6ed320abb6848f47d4a6dc614"
+    },
+    "static_full_route": {
+      "states": 410,
+      "nominal_motion_s": 20.0,
+      "task_duration_s": 32.0,
+      "unchanged_final_hold_s": 2.0,
+      "path_sha256": "0cb858c2c0fc60ce6ca910960923adcd25d1061cc7126bf55a64b30b212be3b3",
+      "maximum_sampled_joint_speed_rad_s": 0.5117267971874107
+    },
+    "static_sweep": {
+      "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+      "edges": 409,
+      "reused_complete_edges": 331,
+      "new_checked_states": 414,
+      "retained_prior_checked_states": 5346,
+      "certified_subedges": 11794,
+      "result_sha256": "1b17080bc33bcc5db41b4ca0b4a87bde4233bca9b7ea55f36b2946acf659cbf7"
+    },
+    "actual_pre_release_local_geometry": {
+      "states": 77,
+      "worst_robot_clearance_m": 0.0019775712307825433,
+      "failure": null,
+      "asymmetric_actual_fingers_used": true,
+      "continuous_sweep_qualified": false,
+      "result_sha256": "4644aa3ee961f4134b96c9834a5501f197a312be6f6fa9ff7b058320a89a08a0"
+    },
+    "new_dynamic_attempts": 0,
+    "new_integrations": 0,
+    "native_success_claimed": false,
+    "old_STOPs_retained": true
+  },
+  "validation": {
+    "CPU_passed": 32,
+    "skipped": 3,
+    "skips_reason": "Pinned private XML fixture and local MuJoCo unavailable; no native qualification claimed",
+    "WBC_safety_scoring_unchanged": true,
+    "infrastructure_changes": 0,
+    "checkpoint_cleanup": 0,
+    "foreign_GPU_control": 0
+  },
+  "next": [
+    "Complete the same active E1 remaining23 panel, retain all valid failures without reseeding.",
+    "Restore the original held E2 job lifecycle without qsub duplication.",
+    "Only after Core execution is cold, native-qualify the evidenced supported-release book version."
+  ]
+}
