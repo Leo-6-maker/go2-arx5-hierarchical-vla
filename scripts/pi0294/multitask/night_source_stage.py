@@ -13,7 +13,8 @@ resource.setrlimit(resource.RLIMIT_CPU,(160,160));resource.setrlimit(resource.RL
 os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});started=time.process_time()
 raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode();sha=lambda b:hashlib.sha256(b).hexdigest()
 root=Path(P['root']);registry=Path(P['registry']);local_path=Path(P['LOCAL_path'])
-assert root.is_absolute()and root.parent.name=='PI0294'and root.name.endswith('-night-source-book01')and not root.exists()
+suffix='-night-source-book01'if P.get('task_kind','BOOK')=='BOOK'else'-night-source-four01'
+assert root.is_absolute()and root.parent.name=='PI0294'and root.name.endswith(suffix)and not root.exists()
 rb=registry.read_bytes();lb=local_path.read_bytes()
 assert sha(rb)==P['registry_sha256']and sha(lb)==P['LOCAL_sha256']
 reg=json.loads(rb);local=json.loads(lb)
@@ -32,6 +33,8 @@ for line in Path('/proc/self/mountinfo').read_text().splitlines():
 code={n:base64.b64decode(b,validate=True)for n,b in json.loads(gzip.decompress(base64.b64decode(P['source_gzip_base64']))).items()}
 assert all(n.endswith('.py')and not Path(n).is_absolute()and '..'not in Path(n).parts for n in code)
 assert {n:sha(b)for n,b in code.items()}==P['source_members']
+bundle_ns={};exec(compile(code['scripts/pi0294/multitask/source_stage_bundle.py'],'<pinned-source-bundle>','exec'),bundle_ns)
+bundle=bundle_ns['unpack'](P)
 once_ns={};exec(compile(code['scripts/pi0294/dec1/source_cpu_once_io.py'],'<original-onceIO>','exec'),once_ns)
 put=once_ns['_exclusive'];commit=once_ns['commit']
 scope_ns={};exec(compile(code['scripts/pi0294/multitask/night_scope.py'],'<published-night-scope>','exec'),scope_ns)
@@ -64,12 +67,13 @@ assets=dict(robot_root=P['robot_asset_root'],files={},libero_binary_names=list(P
 for name,pin in P['robot_asset_files'].items():
  path=Path(P['robot_asset_root'])/name;b=path.read_bytes();assert sha(b)==pin['sha256']and len(b)==pin['bytes']
  assets['files']['robot/'+name]=dict(path=str(path),sha256=sha(b),bytes=len(b))
-for name,pin in P['libero_binary_files'].items():
- b=base64.b64decode(pin['base64']);assert len(b)==pin['bytes']and sha(b)==pin['sha256']
+for name,b in bundle['binaries'].items():
  path=root/'assets'/name;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True);put(path,b)
  assets['files'][name]=dict(path=str(path),sha256=sha(b),bytes=len(b))
-for name,encoded in P['definition_files'].items():
- path=root/'inputs'/name;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True);put(path,base64.b64decode(encoded))
+for name,b in bundle['definitions'].items():
+ path=root/'inputs'/name;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True);put(path,b)
+ assets['files']['definition/'+name]=dict(path=str(path),sha256=sha(b),bytes=len(b))
+assets.update(robocasa_definition_members=bundle['robocasa_definition_members'],robocasa_texture_members=bundle['robocasa_texture_members'])
 put(root/'ASSET_BINDINGS.private.json',raw(assets));put(root/'FIXED_TASK_CARDS.json',raw(P['cards']))
 put(root/'ORIGINAL_ACTION_SEMANTICS_ACTUAL.json',raw(P['action_semantics']))
 put(root/'SOURCE_QUALIFICATION.json',raw(P['qualification']))
@@ -107,7 +111,7 @@ paths={k:[]for k in('code','entry','doctor','profile','python','libraries','mode
 for name in('NATIVE_JOURNAL.json','NATIVE_OWNER_HEARTBEAT.json'):put(root/'control'/name,raw(dict(status='COLD_NOT_STARTED',run_uuid=root.name)))
 paths.update(code=[str(capsule)],entry=[str(root/'entry/infrastructure/enter.sh')],doctor=[str(root/'entry/infrastructure/doctor.py')],
  profile=[str(root/'entry/infrastructure/ENVIRONMENTS.json')],python=[P['python']],libraries=P['library_paths'],
- model=[str(root/'inputs/black_book/black_book.xml'),str(root/'inputs/desk_caddy/desk_caddy.xml')],
+ model=[str(root/'inputs'/name)for name in bundle['definitions']],
  assets=[r['path']for r in assets['files'].values()],data=[str(root/'FIXED_TASK_CARDS.json')],cwd=[str(capsule)],
  tmp=[str(root/'tmp')],cache=[str(root/'cache')],control=[str(root/'control')],lease=[str(lease_path)],
  journal=[str(root/'control/NATIVE_JOURNAL.json')],heartbeat=[str(root/'control/NATIVE_OWNER_HEARTBEAT.json')],logs=[str(root/'logs')],output=[str(root/'outputs')])
@@ -115,11 +119,12 @@ put(root/'RUNTIME_PATHS.private.json',raw(paths));locality=node_local_paths(path
 put(root/'ACTUAL_LOCAL_PATHS.json',raw(locality))
 sealed_names=['NIGHT_HUMAN_APPROVAL.json','SOURCE_SCOPE_ADOPTION.json','SOURCE_QUALIFICATION.json','FIXED_TASK_CARDS.json',
  'ASSET_BINDINGS.private.json','RUNTIME_PATHS.private.json','ORIGINAL_ACTION_SEMANTICS_ACTUAL.json','OUTPUT_BINDING.private.json',
- 'FULL14_PROOF.json','inputs/black_book/black_book.xml','inputs/desk_caddy/desk_caddy.xml']
+ 'FULL14_PROOF.json']+['inputs/'+name for name in bundle['definitions']]
 manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_PC',scope=scope.SCOPE,
  source_sha=P['source_sha'],capsule_relative='entry/code/vla',sealed_inputs={n:sha((root/n).read_bytes())for n in sealed_names},
  authority_sha256=scope.APPROVAL_SHA,original_entry_unchanged=True,original_registry_adopted=True,
- local_lease=str(lease_path),deadline_epoch=scope.DEADLINE,predeclared_tasks=['left','right'],attempts_this_chain_max=2,
+ local_lease=str(lease_path),deadline_epoch=scope.DEADLINE,task_kind=bundle['task_kind'],
+ predeclared_tasks=['left','right']if bundle['task_kind']=='BOOK'else bundle['plan'],attempts_this_chain_max=len(bundle['plan']),
  source_port_not_original_robot_benchmark=True,new_GR00T_training_queries_PBS=0)
 put(root/'RUN_MANIFEST.json',raw(manifest))
 env={k:v for k,v in os.environ.items()if k in('PATH','HOME','USER','LOGNAME','LANG','LC_ALL',
@@ -137,7 +142,7 @@ put(root/'ACTUAL_ORIGINAL_ENTRY_PROBE.json',raw(entry))
 result=dict(status='ACTUAL_NIGHT_SOURCE_SCOPE_REGISTERED_LOCAL_AND_COLD_BOUND_NO_PHYSICS',run_uuid=root.name,
  source_sha=P['source_sha'],manifest_sha256=sha(raw(manifest)),account_sha256=ac['after_sha256'],
  LOCAL_before_sha256=sha(lb),LOCAL_after_sha256=adoption['after_sha256'],registry_after_sha256=sha(snapshot),
- source_members=len(code),binary_asset_bytes=sum(v['bytes']for v in P['libero_binary_files'].values()),
+ source_members=len(code),binary_asset_bytes=bundle['total_binary_bytes'],task_kind=bundle['task_kind'],predeclared_tasks=bundle['plan'],
  actual_entry=entry,all14_old_shortfalls=budget['original_forecast']['cap_changes_required'],
  independent_readback_required_before_launch=True,new_physics=0,new_model_queries_updates_PBS=0,
  CPU_s=time.process_time()-started+resource.getrusage(resource.RUSAGE_CHILDREN).ru_utime+resource.getrusage(resource.RUSAGE_CHILDREN).ru_stime,
@@ -156,10 +161,13 @@ assert result['manifest_sha256']==P['manifest_sha256']and result['source_sha']==
 mb=(root/'RUN_MANIFEST.json').read_bytes();assert sha(mb)==P['manifest_sha256'];m=json.loads(mb)
 code=root/m['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
 from scripts.pi0294.multitask import night_scope as scope
+from scripts.pi0294.multitask.source_stage_bundle import checked_manifest
+from scripts.pi0294.multitask.night_book_chain import checked_plan
 from scripts.pi0294.task_path_entry import node_local_paths,registered_snapshot
 scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
 for name,pin in json.loads((root/'SOURCE_SEAL.json').read_bytes())['files'].items():assert sha((code/name).read_bytes())==pin
 for name,pin in m['sealed_inputs'].items():assert sha((root/name).read_bytes())==pin
+kind,planned=checked_manifest(m);assert [dict(task_kind=k,side=s)for k,s in checked_plan(root,kind)]==planned
 assets=json.loads((root/'ASSET_BINDINGS.private.json').read_bytes())
 for name,pin in assets['files'].items():
  b=Path(pin['path']).read_bytes();assert len(b)==pin['bytes']and sha(b)==pin['sha256']
@@ -191,7 +199,12 @@ sha=lambda b:hashlib.sha256(b).hexdigest();raw=lambda v:(json.dumps(v,indent=2,a
 available=sorted(os.sched_getaffinity(0));assert len(available)>=4
 cpus=available[-3:];os.sched_setaffinity(0,{available[0]})
 root=Path(P['root']);mb=(root/'RUN_MANIFEST.json').read_bytes();assert sha(mb)==P['manifest_sha256'];m=json.loads(mb)
-assert m['source_sha']==P['source_sha']and m['predeclared_tasks']==['left','right']and m['attempts_this_chain_max']==2
+assert m['source_sha']==P['source_sha']
+import sys
+code=root/m['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
+from scripts.pi0294.multitask.source_stage_bundle import checked_manifest
+from scripts.pi0294.multitask.night_book_chain import checked_plan
+kind,planned=checked_manifest(m);assert [dict(task_kind=k,side=s)for k,s in checked_plan(root,kind)]==planned
 assert 0<=time.time()-P['independent_readback_epoch']<120
 assert sha(Path(P['LOCAL_path']).read_bytes())==P['LOCAL_sha256']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==P['account_sha256']
@@ -217,7 +230,7 @@ args=['/usr/bin/systemd-run','--user','--unit='+unit,'--property=RuntimeMaxSec=1
 for k,v in env.items():args.append('--setenv='+k+'='+v)
 args+=['/usr/bin/env','-i']+[k+'='+v for k,v in env.items()]
 args+=['/bin/bash',str(root/'entry/infrastructure/enter.sh'),'4080-simulation','python','-B','-m',
- 'scripts.pi0294.multitask.night_book_chain',str(root)]
+ 'scripts.pi0294.multitask.'+('night_source_chain'if kind=='ALL_PINNED'else'night_book_chain'),str(root)]
 q=subprocess.run(args,env=env,capture_output=True,text=True,timeout=10)
 assert q.returncode==0,'NATIVE_START_RESULT_UNKNOWN_NO_REPLAY'
 q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','InvocationID','-p','ControlGroup','-p','ActiveState'],
@@ -225,5 +238,5 @@ q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','Invocati
 assert q.returncode==0;facts=dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)
 print(json.dumps(dict(status='ONE_FINITE_SOURCE_NATIVE_UNIT_START_ACKNOWLEDGED_REQUIRES_ACTUAL_PROCESS_READBACK',
  unit=unit,native=facts,launch_intent_sha256=sha(intent.read_bytes()),automatic_retry=False,
- predeclared_tasks=['left','right'],new_GR00T_training_queries_PBS=0,observed_epoch=time.time())))
+ task_kind=kind,predeclared_tasks=planned,new_GR00T_training_queries_PBS=0,observed_epoch=time.time())))
 '''
