@@ -1,0 +1,133 @@
+{
+  "schema": "ARX5_E2_COLD02_NATIVE_QUALIFICATION_AND_OWNER_ACTUAL_V1",
+  "observed_epoch": 1793345144.339783,
+  "runtime_source": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b",
+  "management_source": "02aeb0662315eef3cff108f5716526fee9c58ec8",
+  "source_files": 1510,
+  "sealed_inputs": 37,
+  "frozen_numerical_files": 15,
+  "preparation": {
+    "OS_returncode": 0,
+    "timeout": false,
+    "actual_CPU_s": 50.61551,
+    "OS_sha256": "d661c4f2c16a89aafd9d5da0b4e81b1d67b89f55257e8f540da3e32e720f84d0",
+    "result_sha256": "1f409a356a90a4d6d7d61554a683f34001c5d9137d3721d9de7c1e0c73528b9f",
+    "all_recorded_actors_terminal": true,
+    "full14_shortfalls": {},
+    "resealed_metadata_files": 6,
+    "original_tentative_manifest_sha256": "2801961013d2918ed7402c235c0f0fa5cacb05b2e9d7db4db10bc271850603f8",
+    "physical_proof": {
+      "status": "ACTUAL_E2_ONLY_ALL_OLD_GROSS_AND_NEW70GB_NO_PERMISSION",
+      "observed_epoch": 1793344801.2009275,
+      "custody_sha256": "abf6199ed28d8653238675e2329f53dace53691aba68cf099e8e7be83ddc4efa",
+      "previous_snapshot_identity_sha256": "21aac059a5a957bae36383863e15222b1611c231cf6e5a09775dd183a15c9066",
+      "retained_allocated_bytes": 66910871552,
+      "new_allocated_bytes": 52412416,
+      "next_output_upper_bytes": 67108864,
+      "ledger_changed": false,
+      "native_permission": false
+    }
+  },
+  "identity": {
+    "run_uuid": "arx5-minimal-e2-only-raw-fixed512-02-cold02",
+    "same_unused_request_id": "5a2c08f1-4d4d-41b0-bad0-e8f99257a229",
+    "manifest_sha256": "d438535558bd56421d381b6aa896f21582d49cf4c378dac615da88d90f964d11",
+    "scope_sha256": "90ef08c3a249fc8342ff1c5f6a8930ee8a1f58b31fcfc6c3ee171e29bf7916f4",
+    "lease_sha256": "4f9630f5382f709794ed3a32863bb16b73a526b33f1393223a51e6b957c1b33d",
+    "registry_sha256": "509ff76cf9b960be9e329547ec5fa4c88d3fe4d0cb493d55fe7fe75d22d3caf7",
+    "environment_sha256": "b85683ab82f35b24306c41baa3f93aa0efaf3c1c14270e7966e7334b65af9110"
+  },
+  "canonical_adoption": {
+    "before_sha256": "e602d251c9c1abaa48ae36e9018fa7a15b02e0b55c9932705a0cea67e2e8ae2e",
+    "after_sha256": "369068cd55644ca73c73f55251244384fcdbc60fca3485f20bc7ec2757ae8107",
+    "changed_fields": [
+      "revision",
+      "ARX5_minimal_E2_only_raw512_closed_cold01_repair"
+    ],
+    "independent_full_readback": true,
+    "intent_sha256": "18c39ded3e76b994e1ea2613b51effae5a32fdf8c6564b5e2e151fed85d6e393",
+    "receipt_sha256": "fecfc7863ef9b545490ce24d92a332cdf604d635032dfc4cee66d92eb98478dd",
+    "historical_finance_and_PBS_rows_unchanged": true
+  },
+  "original_owner": {
+    "wrapper_pid": 572332,
+    "wrapper_procstart": 85083367,
+    "agent_liveness_required": false,
+    "owner_CPU_upper_s": 2600,
+    "all_original_paid_CPU_bank_s": 3600,
+    "processes": [
+      {
+        "role": "control/RESIDENT_WRAPPER_PROCESS.private.json",
+        "pid": 572332,
+        "procstart": 85083367,
+        "live": true,
+        "state": "S"
+      },
+      {
+        "role": "control/resident-owner/SERVER_OWNER_PROCESS.private.json",
+        "pid": 572336,
+        "procstart": 85083369,
+        "live": true,
+        "state": "R"
+      }
+    ],
+    "observed_epoch": 1793345144.339783,
+    "own_native_rows": [],
+    "used_PBS": 41,
+    "new_GPU_job_confirmed": false,
+    "model_start_or_update_confirmed": false,
+    "automatic_retry": false,
+    "credential_persisted": false,
+    "source_request_sha256": "4d77baf5822c24f9e89ffc9e6f007a9da8af223a39021d17fd13177820d70019",
+    "source_submit_count": 42,
+    "authentication_renewal_once_confirmed": true
+  },
+  "allocation_observation": {
+    "closed_rows": 2993,
+    "changed_allocated_block_rows": 1,
+    "before_allocated_bytes": 90546176,
+    "after_allocated_bytes": 91512832,
+    "other_row_fields_changed": 0,
+    "sealed_snapshot_and_custody_preserved": true,
+    "current_allocation_charged_by_original_live_guard": true
+  },
+  "accounting": {
+    "CPU_upper": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "CPU_spent": {
+      "core_cold": 1012.149553025,
+      "core_close": 0,
+      "vanda": 1582.7917269740008,
+      "local": 1773.7922464179994
+    },
+    "wire_caps": {
+      "maintenance30_all": 2147483648
+    },
+    "wire_spent": {
+      "maintenance30_all": 194236532
+    },
+    "all_failed_and_finite_child_uppers_retained": true
+  },
+  "science": {
+    "new_complete_E2_endpoints": 0,
+    "new_valid_closed_loop_conditions": 0,
+    "new_qualified_demos": 0,
+    "raw_parent_original_twelve_demos_R0_batch32_fixed_first512_of1024_unchanged": true,
+    "original_Trainer_complete_256_and512_states_unchanged": true,
+    "E1_not_retrained": true,
+    "S1_closed_T2_quarantined": true
+  },
+  "Core": {
+    "branch": "STOPPED_PENDING_ADMINISTRATOR_RECOVERY_AND_EXACT_UNKNOWN_READBACK",
+    "unknown_state_sha256": "4591017c84bafdbe1dfcf1c90d5fe8f89e78b28f4cfe938a2c9185158f7de21b",
+    "unknown_replayed": false,
+    "infrastructure_changes": 0,
+    "cause_report": "CORE4080_RECURRENT_AMD_NFS_STOP_AUTHENTICATION_CAUSE_ACTUAL_20261030.json",
+    "VPN_causation_not_established": true
+  },
+  "claim": "Actual cold preparation and original owner start are confirmed; GPU training and a completed endpoint are not yet confirmed. No further checkpoint cleanup or infrastructure change."
+}
