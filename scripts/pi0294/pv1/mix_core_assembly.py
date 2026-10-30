@@ -52,16 +52,18 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         from .mix_core_d25_local_successor import validated,finite_control_scope,digest
         from . import mix_core_d25_cold_source as cold_source
         finite_marker=validated(g)
+        from .mix_core_d25_admission_repair import validate as admission_repair
+        current_financial_identity=admission_repair(g,finite_marker)or finite_marker
         effective=cold_source.effective_identity(g,finite_marker)if finite_marker else None
         need(global_accounting_mode==MODE and arm=='D25' and finite_marker is not None
              and finite_control_scope(g,request_id) is not None
              and (source_sha,request_id,nonce,run_name)==(effective['source_sha'],
-                 finite_marker['replacement_request_id'],finite_marker['replacement_submission_nonce'],effective['run_uuid']),
+                 current_financial_identity['replacement_request_id'],current_financial_identity['replacement_submission_nonce'],effective['run_uuid']),
              'EXACT_NEW_D25_FINITE_CUSTODY_SELECTOR')
         need(om['execution'].get('global_accounting_mode')==MODE
              and om['execution'].get('sealed_inputs',{}).get(finite_binding)==digest(finite_marker),
              'EXACT_PRESEALED_RESIDENT_FINITE_MODE_AND_PAID_CONTROL_MARKER')
-        cold_marker=cold_source.validated(g,finite_marker)
+        cold_marker=cold_source.runtime_marker(g,finite_marker)
         if cold_marker is not None:
             need(om['execution']['sealed_inputs'].get(cold_source.BINDING)==cold_source.digest(cold_marker)
                  and a.sha(source_seal_bytes)==cold_marker['source_seal_sha256'],

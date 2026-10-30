@@ -112,19 +112,26 @@ def _node_local05(g,original,prior):
     return m
 
 
-def effective_identity(g,original):
-    m=validated(g,original)
+def runtime_marker(g,original,*,request_id=None):
+    from .mix_core_d25_admission_repair import validate as repaired
+    continuation=repaired(g,original)
+    if continuation and request_id in(None,continuation['replacement_request_id']):return continuation
+    return validated(g,original)
+
+
+def effective_identity(g,original,*,request_id=None):
+    m=runtime_marker(g,original,request_id=request_id)
     return dict(source_sha=m['source_sha'],run_uuid=m['run_uuid'])if m else dict(
         source_sha=original['source_sha'],run_uuid=original['replacement_run_uuid'])
 
 
-def descriptor(g,original):
-    m=validated(g,original)
+def descriptor(g,original,*,request_id=None):
+    m=runtime_marker(g,original,request_id=request_id)
     return {DESCRIPTOR:digest(m)}if m else {}
 
 
 def sealed_context(root,manifest,request,local,original,read,sha):
-    m=validated(local,original)
+    m=runtime_marker(local,original,request_id=request['request_id'])
     if m is None:
         need(DESCRIPTOR not in manifest and DESCRIPTOR not in request,'NO_ORPHAN_SELECTOR')
         return

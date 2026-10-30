@@ -236,14 +236,16 @@ def validated(g):
              and g['CPU_s'] >= m['financial_before']['site_CPU_s']+CONTROL['Hopper_CPU_s']
              and g['new_storage_current_bytes'] >= m['financial_before']['site_current_bytes']+CONTROL['Hopper_storage_bytes']
              and g['new_storage_peak_bytes'] >= m['financial_before']['site_peak_bytes'], 'NO_REFUND_CONTROL_ACTUALLY_PROJECTED')
-    allowed = (FIRST,FAILED,m['replacement_request_id'])
+    from . import mix_core_d25_admission_repair as admission_repair
+    next_panel=admission_repair.validate(g,m)
+    allowed = (FIRST,FAILED,m['replacement_request_id'])+((next_panel['replacement_request_id'],)if next_panel else())
     need(all(rid in allowed for rid,r in g[c.FIELD].items() if r['evaluation_candidate']=='D25'),
          'NO_FOURTH_D25_OR_OTHER_CREDIT_CONSUMER')
     row = g[c.FIELD].get(m['replacement_request_id'])
     if row is not None:
         from . import mix_core_d25_cold_source as cold
-        effective=cold.effective_identity(g,m)
-        selected=cold.descriptor(g,m)
+        effective=cold.effective_identity(g,m,request_id=m['replacement_request_id'])
+        selected=cold.descriptor(g,m,request_id=m['replacement_request_id'])
         need(row['submission_nonce'] == m['replacement_submission_nonce'] and row['child_run_uuid'] == effective['run_uuid']
              and row['source_sha'] == effective['source_sha'] and row['evaluation_candidate'] == 'D25'
              and row['checkpoint_manifest_sha256'] == CHECKPOINT
@@ -258,9 +260,12 @@ def validated(g):
 
 def finite_control_scope(g, request_id):
     m = validated(g)
-    if m is None or request_id != m['replacement_request_id']:
+    from . import mix_core_d25_admission_repair as repair
+    continuation=repair.validate(g,m)if m else None
+    current=continuation if continuation and request_id==continuation['replacement_request_id']else m
+    if current is None or request_id != current['replacement_request_id']:
         return None
-    return dict(schema='V5_CD_D25_FINITE_CONTROL_SCOPE_V1', marker_sha256=digest(m),
+    result=dict(schema='V5_CD_D25_FINITE_CONTROL_SCOPE_V1', marker_sha256=digest(m),
         request_id=request_id, CPU_s=7200, RPC_calls=150000, source_preparation_CPU_s=600,
         total_control_CPU_s=9000, owner_process_CPU_limit_s=1200, owner_output_limit_bytes=3*GiB,
         closing_output_reserve_bytes=512*MiB, financial_costs=deepcopy(CONTROL),
@@ -268,10 +273,19 @@ def finite_control_scope(g, request_id):
         wire_phase_upper_bytes=deepcopy(WIRE),
         owner_output_attribution='ORIGINAL_ALREADY_PAID_PANEL_SITE_IO',
         fresh_control_output_attribution='SEPARATE_FINITE_64_128_64_MIB_CONTROL')
+    if current is continuation:
+        # The failed pre-grant owner used five CPU seconds from this same paid
+        # envelope. Preserve them and reduce new aggregate RPC room equally.
+        result['source_preparation_CPU_s']+=5
+        result['Core_CPU_components_s']['original_RPC']-=5
+        result['Core_CPU_components_s']['retained_pregrant_owner']=5
+        result['retained_pregrant_owner_CPU_s']=5
+        result['admission_repair_sha256']=digest(continuation)
+    return result
 
 
-def allocation(g, arm):
-    m = validated(g)
+def allocation(g, arm, *, _validated_marker=None):
+    m = _validated_marker or validated(g)
     if m is None or arm != 'D25':
         return None
     from . import mix_core_accounting as c
@@ -287,6 +301,8 @@ def paired_control(g, l):
     from .mix_core_d25_cold_source import FIELD as cold_field,LOCAL05_FIELD
     need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_COLD_SOURCE_SUCCESSOR')
     need(l.get(LOCAL05_FIELD)==g.get(LOCAL05_FIELD),'SAME_CANONICAL_NODE_LOCAL05_SUCCESSOR')
+    from .mix_core_d25_admission_repair import FIELD as admission_repair_field
+    need(l.get(admission_repair_field)==g.get(admission_repair_field),'SAME_CANONICAL_EXACT_PREGRANT06_REPAIR')
     if m is None:
         return
     _LOCAL_paid(l,m)
@@ -294,7 +310,10 @@ def paired_control(g, l):
 
 def output_credit(g, row):
     m = validated(g)
-    if m is None or row['request_id'] != m['replacement_request_id']:
+    from .mix_core_d25_admission_repair import validate as repaired
+    continuation=repaired(g,m)if m else None
+    allowed=(m['replacement_request_id'],)+((continuation['replacement_request_id'],)if continuation else())if m else()
+    if m is None or row['request_id'] not in allowed:
         need('D25_local_successor_sha256' not in row, 'NO_ORPHAN_D25_CREDIT')
         return None
     need(row.get('D25_local_successor_sha256') == digest(m), 'OWN_EXACT_MARKER_BINDING')
