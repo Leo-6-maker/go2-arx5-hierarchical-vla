@@ -145,7 +145,9 @@ def validate_rows(g):
     d25_marker=d25.validate(g)
     from . import mix_core_d25_local_successor as d25_local
     d25_local_marker=d25_local.validated(g)
-    need(type(rows) is dict and 1 <= len(rows) <= (14 if d25_local_marker else 13 if d25_marker else 12 if partial_marker else 11 if control_retry else 10 if limit_retry else 9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
+    from . import mix_core_d25_admission_repair as admission_repair
+    repaired05=admission_repair.validate(g,d25_local_marker)
+    need(type(rows) is dict and 1 <= len(rows) <= (15 if repaired05 else 14 if d25_local_marker else 13 if d25_marker else 12 if partial_marker else 11 if control_retry else 10 if limit_retry else 9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
@@ -153,7 +155,7 @@ def validate_rows(g):
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
         repair.output_credit(g,r)
         partial.record_binding(g,r)
-        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED)and(not limit_retry or request_id!=caps_cont.LIMIT_FAILED)and(not control_retry or request_id!=caps_cont.CONTROL_FAILED)and(not partial_marker or request_id!=partial.prior.FAILED)and(not d25_marker or request_id!=d25.FAILED)and(not d25_local_marker or request_id!=d25_local.FAILED):arms.append(r['evaluation_candidate'])
+        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED)and(not limit_retry or request_id!=caps_cont.LIMIT_FAILED)and(not control_retry or request_id!=caps_cont.CONTROL_FAILED)and(not partial_marker or request_id!=partial.prior.FAILED)and(not d25_marker or request_id!=d25.FAILED)and(not d25_local_marker or request_id!=d25_local.FAILED)and(not repaired05 or request_id!=admission_repair.FAILED):arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -238,9 +240,22 @@ def prepay_control(g, l, *, terminal_capture, arm, now_epoch):
                 native_IO_performed=False, model_or_physics_admission=False)
 
 
-def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epoch):
+def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epoch, training_capture_bytes=None):
     """Move an escrow slice, never reserve or charge the complete package twice."""
     arm = record.get('evaluation_candidate'); proof = closed_training(g, l, terminal_capture, arm)
+    if training_capture_bytes is not None:
+        from .mix_core_d25_admission_repair import validate as admission_repair,FAILED
+        from .mix_core_context import captured_endpoint
+        continuation=admission_repair(g)
+        need(continuation is not None and arm=='D25'
+             and record['request_id']==continuation['replacement_request_id'],
+             'ONLY_EXACT_CLOSED05_REPAIR_CAN_PRESERVE_TRAINING_CAPTURE')
+        captured=captured_endpoint(handoff.load(training_capture_bytes))
+        need({k:v for k,v in captured.items()if k!='global_sha256'}==
+             {k:v for k,v in proof.items()if k!='global_sha256'}
+             and a.sha(a.raw(captured))==g[FIELD][FAILED]['training_handoff_sha256'],
+             'SAME_ALL_TERMINAL_BYTES_AND_ORIGINAL_TRAINING_SNAPSHOT')
+        proof=captured
     from . import mix_core_partial_resume as partial
     limits=partial.envelope(record);partial_marker=partial.record_binding(g,record)
     r = deepcopy(validate_row(record)); p = a.package_view(g); stage = key(arm)
@@ -289,6 +304,8 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
             from .mix_core_d25_continuation import validate as d25_continuation
             from .mix_core_d25_local_successor import validated as d25_local_continuation
             repair_marker=d25_local_continuation(g) or d25_continuation(g)
+            from .mix_core_d25_admission_repair import validate as admission_repair
+            repair_marker=admission_repair(g,repair_marker)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
         prior_stage=w['V5_CD_Core_CPU_substages'][stage];prior_id=prior_stage['request_id']

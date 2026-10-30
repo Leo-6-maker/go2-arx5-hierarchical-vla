@@ -74,6 +74,9 @@ def validate(g):
     from . import mix_core_d25_local_successor as successor
     next_marker = successor.validated(g)
     permitted = (FAILED, m['replacement_request_id']) + ((next_marker['replacement_request_id'],) if next_marker else ())
+    from .mix_core_d25_admission_repair import validate as admission_repair
+    repaired05=admission_repair(g,next_marker)if next_marker else None
+    if repaired05:permitted+=(repaired05['replacement_request_id'],)
     need(all(row['request_id'] in permitted
              for row in g[c.FIELD].values() if row['evaluation_candidate'] == 'D25'), 'ONLY_EXACT_REPLACEMENT')
     if replacement is not None:
