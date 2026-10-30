@@ -73,13 +73,16 @@ def validate(g,financial_marker=None):
              and re.fullmatch('[0-9a-f]{64}',item['closed_lease_sha256']), 'OLD_LOCAL_CLOSED_ROLE:'+name)
     new=g[c.FIELD].get(m['replacement_request_id'])
     if new is not None:
-        need(new['evaluation_candidate']=='D25'and new['child_run_uuid']==RUN
-             and new['source_sha']==m['source_sha']and new['submission_nonce']==m['replacement_submission_nonce']
+        from .mix_core_d25_unstarted07 import validate as cold07
+        latest=cold07(g,m)
+        selected=latest if latest and new!=latest['preserved_prestart_row']else m
+        need(new['evaluation_candidate']=='D25'and new['child_run_uuid']==selected['run_uuid']
+             and new['source_sha']==selected['source_sha']and new['submission_nonce']==m['replacement_submission_nonce']
              and new['checkpoint_manifest_sha256']==row['checkpoint_manifest_sha256']
              and new['planned_panel_sha256']==row['planned_panel_sha256']
              and new['training_handoff_sha256']==row['training_handoff_sha256']
              and new.get('D25_local_successor_sha256')==digest(original)
-             and new.get(cold.DESCRIPTOR)==digest(m),'ONLY_SAME_MODEL_POPULATION_AND_NEW_BOUND_IDENTITY')
+             and new.get(cold.DESCRIPTOR)==digest(selected),'ONLY_SAME_MODEL_POPULATION_AND_NEW_BOUND_IDENTITY')
     return m
 
 
