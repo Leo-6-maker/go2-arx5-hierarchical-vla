@@ -79,6 +79,9 @@ def final_confirmation(groups,freeze):
 
 def session_spec(root,label):
     root=Path(root);m=read(root/'RUN_MANIFEST.json')
+    from scripts.pi0294.generalization import minimal_evaluation as first512
+    if first512.typed(m):
+        return first512.session_spec(root,label)
     from . import successor_core_context as successor
     from . import mix_core_identity as cd,mix_vanda_eval_identity as colocated
     if m.get('scope')==successor.EVAL_ROLE or cd.typed(m) or colocated.typed(m):
