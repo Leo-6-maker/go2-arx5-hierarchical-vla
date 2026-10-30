@@ -29,6 +29,24 @@ def current_directory(root,allocation):
             or socket.gethostname()!=allocation['hostname']
             or not allocation['allocation_start_epoch']<=time.time()<allocation['allocation_end_epoch']-2700):
         raise PermissionError('PV1_NATIVE_CURRENT_ALLOCATION_BEFORE_MODEL_OR_TRAINING')
+    directory=admitted_directory(root,allocation)
+    manifest=read(root/'RUN_MANIFEST.json') if allocation['status'] in (evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES) else None
+    request=read(directory/'REQUEST.json')
+    if allocation['status']==COLOCATED_STATUS:
+        from .mix_vanda_eval_context import current_identity
+        current_identity(root,manifest,request,allocation)
+    elif allocation['status']in CORE_STATUSES:
+        Core_native.current_identity(root,manifest,request,allocation,qualified_model_readback=True)
+    elif allocation['status']==evaluation.STATUS:
+        evaluation.sealed_identity(manifest,request,allocation,
+            run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+            request_sha256=sha(directory/'REQUEST.json'))
+    return directory
+
+
+def admitted_directory(root,allocation):
+    """Find immutable admission bytes without claiming the reader is the GPU."""
+    root=Path(root)
     paths=sorted((root/'pbs').glob('alloc-[0-9][0-9]'))
     matches=[p for p in paths if (p/'ALLOCATION_ADMISSION.json').exists() and read(p/'ALLOCATION_ADMISSION.json')==allocation]
     if len(matches)!=1:raise PermissionError('PV1_ONE_EXACT_CURRENT_ADMISSION')
@@ -44,24 +62,53 @@ def current_directory(root,allocation):
             or sha(directory/'REQUEST.json')!=allocation['request_sha256']
             or (directory/'PBS_PROCESS_FINAL.json').exists() or (directory/'NATIVE_PROCESS_FINAL.json').exists()):
         raise PermissionError('PV1_CURRENT_IMMUTABLE_REQUEST_NOT_A_TERMINAL_ALLOCATION')
-    manifest=read(root/'RUN_MANIFEST.json') if allocation['status'] in (evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES) else None
     request=read(directory/'REQUEST.json')
     if allocation['status'] not in (evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES) and any('platform_evaluation_version' in x for x in (request,allocation)):
         raise PermissionError('PV1_EVALUATION_IDENTITY_CANNOT_FALL_BACK_TO_H200')
-    if allocation['status']==COLOCATED_STATUS:
-        from .mix_vanda_eval_context import current_identity
-        current_identity(root,manifest,request,allocation)
-    elif allocation['status']in CORE_STATUSES:
-        Core_native.current_identity(root,manifest,request,allocation,qualified_model_readback=True)
-    elif allocation['status']==evaluation.STATUS:
-        evaluation.sealed_identity(manifest,request,allocation,
-            run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
-            request_sha256=sha(directory/'REQUEST.json'))
     return directory
 
 
 def require_current(root,allocation):
     return require(root,current_directory(root,allocation),allocation)
+
+
+def require_resident(root,ledger):
+    """Read the bound GPU's proof from its actual read-only resident owner.
+
+    The GPU keeps using require_current. The resident's existing ledger checks
+    its own actor and fresh GPU/kernel/device/lease/STOP fences; its refreshed
+    process observation must join the immutable admission used by qualification.
+    No environment handle is assigned and no admission or permission is written.
+    """
+    from .mix_core_delegated_ledger import Ledger
+    from .mix_core_identity import current_owner
+    root=Path(root)
+    if type(ledger) is not Ledger or ledger.resident_observer is not True or root.resolve()!=ledger.root.resolve():
+        raise PermissionError('PV1_QUALIFICATION_ACTUAL_RESIDENT_READER_REQUIRED')
+    ledger._actor()
+    owner=current_owner(root,ledger.request,request_sha256=ledger.request_sha)
+    if owner['pid']!=ledger.actor_pid or owner['proc_start']!=ledger.actor_start:
+        raise PermissionError('PV1_QUALIFICATION_EXACT_RESIDENT_ACTOR')
+    proof=ledger.live_proof(force_native=True)
+    path=ledger.request_path.parent/'ALLOCATION_ADMISSION.json'
+    if path.is_symlink() or path.stat().st_mode&0o222:
+        raise PermissionError('PV1_QUALIFICATION_IMMUTABLE_RESIDENT_ADMISSION')
+    allocation=read(path);fresh=proof['allocation'];now=time.time()
+    if (proof['status']!='PASS_EXACT_FINITE_CORE_DELEGATED_RESERVATION'
+            or proof['request_id']!=ledger.request['request_id'] or proof['request_sha256']!=ledger.request_sha
+            or allocation.get('status')not in CORE_STATUSES
+            or not allocation['allocation_start_epoch']<=now<allocation['allocation_end_epoch']-2700
+            or socket.gethostname()!=allocation['hostname']
+            or {k:v for k,v in allocation.items()if k not in ('native_process','native_process_sha256')}
+               !={k:v for k,v in fresh.items()if k not in ('native_process','native_process_sha256')}
+            or any(allocation['native_process'][k]!=fresh['native_process'][k]for k in (
+                'boot_id','pid','proc_start','native_handle','hostname','uid','source_sha','request_id',
+                'request_sha256','submission_nonce','run_manifest_sha256','GPU_uuid','started_epoch'))):
+        raise PermissionError('PV1_QUALIFICATION_SAME_LIVE_BOUND_GPU_AND_IMMUTABLE_ADMISSION')
+    directory=admitted_directory(root,allocation)
+    if directory!=ledger.request_path.parent:
+        raise PermissionError('PV1_QUALIFICATION_RESIDENT_EXACT_REQUEST_DIRECTORY')
+    return require(root,directory,allocation)
 
 
 def require(root,directory,allocation):
