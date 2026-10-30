@@ -218,7 +218,10 @@ def checked(g):
             v['reserved']['neural_queries']-=row['reserved_neural_queries']
             v['CPU_reserved_s']-=80000-progress(row)[2]
             v['storage_reserved_bytes']-=HOLD['Hopper_storage_bytes']
-        del v[FIELD]
+        # V7 rows also carry the retired aggregate-cap policy for legacy
+        # readers. Preserve their identities in this validation-only view;
+        # remove only their own holds, so old package escrow is still proved.
+        if not any(r['request'].get('execution_policy_sha256')==V7_POLICY for r in active):del v[FIELD]
         check(v,allow_unknown=True)
     return g
 
