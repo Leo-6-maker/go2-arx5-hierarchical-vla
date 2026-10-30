@@ -156,6 +156,26 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if 'closed_cabinet_camera_port03_carry'in v:
+        carry=v['closed_cabinet_camera_port03_carry']
+        pins=dict(account='a01769f8f49b73a05166837314d5cb3f45ea76f17f0e04912c7961847542e62f',
+            lease='ad536698b7fb3a916fdf226ab38fd8f47dc18001141052b3284791fc9ace2a18',
+            terminal='00073f699854b814100c1c881d8c70bc35c8ad8c3e3ae0607afcbdc19caafb68',
+            episode_terminal='3d885ed7d0869e9e1b6b5957546a6bc79b55e1e0bbf8de635ae8d984b7aacced')
+        need(set(carry)==set(pins),'EXACT_CLOSED_PORT03_CARRY_FIELDS')
+        bodies={k:base64.b64decode(b,validate=True)for k,b in carry.items()}
+        need(all(hashlib.sha256(b).hexdigest()==pins[k]for k,b in bodies.items()),'EXACT_CLOSED_PORT02_POOL_AND_CAMERA_FAILURE')
+        old=json.loads(bodies['account']);validate_account(old)
+        need(not any(k in v for k in('closed_cabinet_geometry_repair02_carry','closed_book_unrun_cabinet_carry'))
+            and v['operations'][:len(old['operations'])]==old['operations']
+            and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS)
+            and v['section5_successor']==old['section5_successor']
+            and v['native_destination'].endswith('-cabinet-port03-night-source-four01'),
+            'PORT03_RETAINS_ALL_OLD_COSTS_AND_CLOCKS_ONCE')
+        for op in v['operations'][len(old['operations']):]:
+            if op['kind']=='ATTEMPT':
+                need(op['task']=='ROBOCASA_OPEN_CABINET'and op['operation']in(
+                    'ROBOCASA_RIGHT_PORT03_CAMERA','ROBOCASA_LEFT_PORT03_CAMERA'),'ONE_CAMERA_FIX_PER_SIDE_NO_RETRY')
     if 'closed_cabinet_geometry_repair02_carry'in v:
         carry=v['closed_cabinet_geometry_repair02_carry']
         pins=dict(account='33b195275c1078221ebc9dee4dccf7dcf063666bb3b234df55b3f3a2661161bc',
