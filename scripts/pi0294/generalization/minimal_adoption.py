@@ -119,6 +119,17 @@ def effective_caps(g, caps):
     return out
 
 
+def v7_project_policy(g):
+    """Recognize an already adopted complete V7 row, never a loose flag."""
+    from . import minimal_core_accounting as core512
+    rows = g.get(core512.FIELD, {})
+    if not any(r.get('request', {}).get('execution_policy_sha256') == core512.V7_POLICY for r in rows.values()):
+        return False
+    for row in rows.values():
+        core512.validate_row(row)
+    return True
+
+
 def global_limits(g, caps):
     """Versioned aggregate ceilings for the existing ledger's legacy readers.
 
@@ -162,9 +173,7 @@ def global_limits(g, caps):
     # checked separately before compute. This is a validation-only bound for
     # legacy numeric readers, not an extra allocation or a changed old grant.
     from . import minimal_core_accounting as core512
-    rows=g.get(core512.FIELD,{})
-    if any(r.get('request',{}).get('execution_policy_sha256')==core512.V7_POLICY for r in rows.values()):
-        for row in rows.values():core512.validate_row(row)
+    if v7_project_policy(g):
         from scripts.pi0294.pv1.evaluation_work import MATRIX
         from scripts.pi0294.pv1.future_budget import FINAL
         observed=dict(H200_s=g['used']['H200_s']+g['reserved']['H200_s'],
