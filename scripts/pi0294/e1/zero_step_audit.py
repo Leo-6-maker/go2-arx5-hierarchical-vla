@@ -1,5 +1,6 @@
-"""Account for engineering attempts stopped before the first physical step."""
+"""Audit actual zero-step evidence without fabricating a physics trajectory."""
 from pathlib import Path
+import re
 
 import numpy as np
 from PIL import Image
@@ -11,7 +12,12 @@ from scripts.pi0294.native_dataset import sha
 def audit(root,identifier,video_writer,*,adjudication_name='E1_ADJUDICATION.json'):
     if adjudication_name not in ['E1_ADJUDICATION.json','MP1_ADJUDICATION.json','PV1_ADJUDICATION.json']:
         raise PermissionError('EXACT_VERSIONED_ADJUDICATION_ONLY')
-    root=Path(root);folder=root/'episodes'/identifier;out=root/'evidence/zero-step-audits'/identifier
+    root=Path(root);folder=root/'episodes'/identifier
+    decision=read(folder/adjudication_name)
+    reference_veto=(decision.get('status')=='VALID_TASK_FAIL'
+        and decision.get('failure_stage')=='ORIGINAL_REFERENCE_GATE_REJECT'
+        and decision.get('pipeline_trustworthy')is True)
+    out=root/'evidence'/('zero-step-reference-veto-audits'if reference_veto else'zero-step-audits')/identifier
     if out.exists():return read(out/'AUDIT.private.json')
     out.mkdir(parents=True,mode=0o700);checks={};errors=[];value=dict(attempt_id=identifier)
     def check(name,condition):
@@ -20,7 +26,15 @@ def audit(root,identifier,video_writer,*,adjudication_name='E1_ADJUDICATION.json
     try:
         a=read(folder/adjudication_name);result=read(folder/'RESULT.json');worker=read(folder/'WORKER_RECEIPT.json');card=read(folder/'CARD.json')
         check('actual_attempt_identity',a['attempt_id']==card['id']==result['id']==worker['id']==identifier)
-        check('actual_engineering_not_policy_outcome',a['status']=='ENGINEERING_INCOMPLETE' and a['pipeline_trustworthy'] is False)
+        if reference_veto:
+            reject=read(folder/'MODEL_REJECT.json')
+            check('original_reference_veto_identity',a['status']=='VALID_TASK_FAIL'
+                and a['failure_stage']=='ORIGINAL_REFERENCE_GATE_REJECT' and a['pipeline_trustworthy']is True
+                and reject['original_gate']['decision']=='REJECT' and bool(reject['original_gate']['issues'])
+                and isinstance(reject['query_uuid'],str) and bool(reject['query_uuid'])
+                and re.fullmatch('[0-9a-f]{64}',reject['action_sha256'])is not None)
+        else:
+            check('actual_engineering_not_policy_outcome',a['status']=='ENGINEERING_INCOMPLETE' and a['pipeline_trustworthy'] is False)
         check('actual_native_step_and_command_counts_zero',result['physics_steps']==worker['physics_steps']==a['main_integrations']==0)
         check('adjudication_original_result_sha',a['result_sha256']==sha(folder/'RESULT.json'))
         check('actual_source_matches_worker',result['source_sha']==worker['source_sha'])
@@ -38,13 +52,17 @@ def audit(root,identifier,video_writer,*,adjudication_name='E1_ADJUDICATION.json
         prior=root/'evidence/audits'/identifier/'AUDIT.private.json'
         movie=video_writer(folder,out/'actual-initial-body-wrist.mp4',1)
         prefix={'MP1_ADJUDICATION.json':'MP1_ZERO_STEP/','E1_ADJUDICATION.json':'E1_ZERO_STEP/','PV1_ADJUDICATION.json':'PV1_ZERO_STEP/'}[adjudication_name]
+        if reference_veto:prefix=prefix.replace('_ZERO_STEP/','_MAIN/')
         movie.update(logical_id=prefix+identifier,relative_path=str((out/'actual-initial-body-wrist.mp4').relative_to(root)),native_duration_s=0.,
             initial_frame_only=True,task_trajectory_video=False)
-        value.update(status='PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE' if not errors else 'FAIL_ZERO_INTEGRATION_EVIDENCE',
+        passed='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'if reference_veto else'PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE'
+        value.update(status=passed if not errors else 'FAIL_ZERO_INTEGRATION_EVIDENCE',
             adjudication=a,score=None,video=movie,actual_native_safety_flag_rows=0,physical_integrations=0,
             model_autonomous_evaluation=True,execution_source_sha=result['source_sha'],
-            task_result_available=False,scientific_policy_outcome_valid=False,
+            task_result_available=False,scientific_policy_outcome_valid=None if reference_veto else False,
+            original_reference_veto=reference_veto,policy_outcome_requires_complete_causal_join=reference_veto,
             prior_incomplete_audit_sha256=sha(prior) if prior.exists() else None,
             prior_incomplete_audit_preserved=True,missing_physics_not_synthesized=True)
+        if reference_veto:value['reference_veto_audit_revision']='ZERO_REFERENCE_VETO_V2'
     except Exception as exc:value.update(status='ZERO_INTEGRATION_AUDIT_INCOMPLETE',error=type(exc).__name__+': '+str(exc))
     value.update(checks=checks,errors=errors);write(out/'AUDIT.private.json',value);return value

@@ -28,20 +28,39 @@ def terminal_attempt(root,identifier):
     return {n:sha(folder/n) for n in ('RESULT.json','PV1_ADJUDICATION.json','FILE_MANIFEST.json')}
 
 
+def audit_terminal_evidence(root,identifier):
+    """Derived audit of terminal saved bytes; grants no runtime or lease.
+
+    A caller outside run() must account its finite metadata work separately.
+    Original raw files and failed audit receipts remain unchanged.
+    """
+    root=Path(root);before=terminal_attempt(root,identifier)
+    value=episode(root,identifier,adjudication_name='PV1_ADJUDICATION.json')
+    if terminal_attempt(root,identifier)!=before:
+        raise PermissionError('PV1_ORIGINAL_ATTEMPT_CHANGED_DURING_READ_SIDE_AUDIT')
+    result=dict(value,new_integrations=0,new_native_constructors=0,new_model_queries=0)
+    target=root/'evidence/PV1_AUDIT_RECEIPTS'/(identifier+'.json');target.parent.mkdir(exist_ok=True)
+    if target.exists():
+        if read(target)!=result:
+            if (read(target).get('status')!='ENGINEERING_AUDIT_INCOMPLETE'
+                    or result.get('status')!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
+                    or result.get('reference_veto_audit_revision')!='ZERO_REFERENCE_VETO_V2'):
+                raise PermissionError('PV1_PRESERVE_PRIOR_AUDIT_RECEIPT')
+            result['prior_PV1_audit_receipt_sha256']=sha(target)
+            target=root/'evidence/PV1_REFERENCE_VETO_AUDIT_RECEIPTS_V2'/(identifier+'.json')
+            target.parent.mkdir(exist_ok=True)
+    if target.exists():
+        if read(target)!=result:raise PermissionError('PV1_PRESERVE_PRIOR_AUDIT_RECEIPT')
+    else:write(target,result)
+    return result
+
+
 def run(root,identifier):
     root=Path(root);validate_runtime(root,'4080-simulation',closeout=True)
-    ledger=Ledger(root);ledger.guard(closeout=True);before=terminal_attempt(root,identifier)
+    ledger=Ledger(root);ledger.guard(closeout=True)
     started=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
     try:
-        value=episode(root,identifier,adjudication_name='PV1_ADJUDICATION.json')
-        if terminal_attempt(root,identifier)!=before:
-            raise PermissionError('PV1_ORIGINAL_ATTEMPT_CHANGED_DURING_READ_SIDE_AUDIT')
-        result=dict(value,new_integrations=0,new_native_constructors=0,new_model_queries=0)
-        target=root/'evidence/PV1_AUDIT_RECEIPTS'/(identifier+'.json');target.parent.mkdir(exist_ok=True)
-        if target.exists():
-            if read(target)!=result:raise PermissionError('PV1_PRESERVE_PRIOR_AUDIT_RECEIPT')
-        else:write(target,result)
-        return result
+        return audit_terminal_evidence(root,identifier)
     finally:
         after=resource.getrusage(resource.RUSAGE_CHILDREN)
         ledger.cpu(time.process_time()-started+after.ru_utime+after.ru_stime-children.ru_utime-children.ru_stime)

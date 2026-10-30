@@ -41,7 +41,16 @@ def core(root,identifier,*,engineering=False):
     if type(engineering) is not bool:raise PermissionError('PV1_EXPLICIT_ENGINEERING_READ_SIDE_ONLY')
     root=Path(root);before=terminal_attempt(root,identifier);folder=root/'episodes'/identifier
     row=read(folder/'PV1_ADJUDICATION.json');card=read(folder/'CARD.json');relay=folder/'relay'
-    audit=read(root/'evidence/PV1_AUDIT_RECEIPTS'/(identifier+'.json'))
+    audit_path=root/'evidence/PV1_AUDIT_RECEIPTS'/(identifier+'.json')
+    audit=read(audit_path)
+    if (audit.get('status')=='ENGINEERING_AUDIT_INCOMPLETE'
+            and row['status']=='VALID_TASK_FAIL' and row['pipeline_trustworthy']is True
+            and row['failure_stage']=='ORIGINAL_REFERENCE_GATE_REJECT' and row['main_integrations']==0):
+        revised=read(root/'evidence/PV1_REFERENCE_VETO_AUDIT_RECEIPTS_V2'/(identifier+'.json'))
+        if (revised.get('reference_veto_audit_revision')!='ZERO_REFERENCE_VETO_V2'
+                or revised.get('prior_PV1_audit_receipt_sha256')!=sha(audit_path)):
+            raise PermissionError('PV1_REFERENCE_VETO_REPAIR_MUST_PRESERVE_EXACT_PRIOR_AUDIT')
+        audit=revised
     valid=(row['status']=='ENGINEERING_INCOMPLETE' and row['pipeline_trustworthy'] is False
         if engineering else row['status'] in ('SUCCESS','VALID_TASK_FAIL') and row['pipeline_trustworthy'] is True)
     if (not valid

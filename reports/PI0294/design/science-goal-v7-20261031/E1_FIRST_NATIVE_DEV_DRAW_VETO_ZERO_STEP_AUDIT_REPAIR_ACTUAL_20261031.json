@@ -1,0 +1,167 @@
+{
+  "schema": "V7_E1_FIRST_NATIVE_DEV_OBSERVATION_DRAW_VETO_AND_ZERO_STEP_AUDIT_REPAIR_V1",
+  "observed_epoch": 1793391492.5627892,
+  "run": "arx5-e1-fixed512-n294101-06",
+  "request_id": "f612637b-8445-4984-b115-585041af6b1e",
+  "execution_source": "663a2a5bc67c3f58fdf4fca1d7a37f28e24972ac",
+  "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+  "actual": {
+    "native_qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "40c4e2638c67a91f32a539dba23f9e9debd686dd2e351158b469785db1c42809",
+      "heartbeat_elapsed_s": 615.6535802283324,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "model_loaded": true,
+    "model_state_sha256": "262ea185471288d58fe3fd8625e9443aae28cd787fe4a459d81418b2e347c4bf",
+    "free_generation_queries": 1,
+    "raw_H40_EEF10_shape": [
+      40,
+      10
+    ],
+    "real_initial_camera_pairs": 1,
+    "physical_episode_starts": 1,
+    "engine_constructors": 1,
+    "physical_integrations": 0,
+    "installed_commands": 0,
+    "valid_formal_conditions": 0
+  },
+  "original_gate": {
+    "original_gate": {
+      "decision": "REJECT",
+      "issues": [
+        {
+          "code": "LINEAR_SPEED_REJECT",
+          "severity": "REJECT",
+          "message": "linear_speed exceeds rejection threshold (m/s)",
+          "provenance": "TEST_ONLY",
+          "observed": 4.698844950434891,
+          "threshold": 2.0
+        },
+        {
+          "code": "ANGULAR_SPEED_REJECT",
+          "severity": "REJECT",
+          "message": "angular_speed exceeds rejection threshold (rad/s)",
+          "provenance": "TEST_ONLY",
+          "observed": 15.883199396139387,
+          "threshold": 4.0
+        },
+        {
+          "code": "PATH_LENGTH_SANITY",
+          "severity": "REJECT",
+          "message": "trajectory translation path exceeds the configured test envelope",
+          "provenance": "TEST_ONLY",
+          "observed": 5.582755906060499,
+          "threshold": 5.0
+        }
+      ],
+      "metrics": {
+        "chunk_id": "61828895-f5ea-40ee-bc5a-48db73be3293",
+        "linear_speed_mps": {
+          "mean": 2.862951746697692,
+          "median": 3.106392803771864,
+          "p95": 4.592900515081112,
+          "max": 4.698844950434891
+        },
+        "angular_speed_radps": {
+          "mean": 7.832483414643264,
+          "median": 7.808602679942142,
+          "p95": 15.508444172649451,
+          "max": 15.883199396139387
+        },
+        "translation_path_length_m": 5.582755906060499,
+        "se3_arc_length_m": 6.232327705103868,
+        "initial_position_discontinuity_m": 0.13703585907683644,
+        "initial_rotation_discontinuity_rad": 0.056032229051751245,
+        "chunk_age_s": 0.0
+      },
+      "provenance": {
+        "gate": "TrajectorySafetyGateV1",
+        "corrective_action": "NONE",
+        "threshold_provenance": {
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT"
+        }
+      }
+    },
+    "action_sha256": "6795d6a923544a8d6cb55388e538b3f12e03e1cd1bd2504b44d726587c0ef49b",
+    "query_uuid": "0e357cd6-9180-4d53-8087-393562b084ab"
+  },
+  "classification": {
+    "raw_adjudication": "VALID_TASK_FAIL / ORIGINAL_REFERENCE_GATE_REJECT",
+    "audit": "ENGINEERING_AUDIT_INCOMPLETE: absent physics.npz on zero-step owner stop",
+    "formal_count_pending": true,
+    "policy_or_task_success": false,
+    "causal_audit_not_yet_complete": true,
+    "seed_retried": false
+  },
+  "repair": {
+    "status": "CPU_CHECKED_NOT_YET_NATIVE_REPLAYED",
+    "meaning": "First-draw reference veto uses real zero-command/highrate/camera/manifest evidence without inventing physics.npz or SCORE. Preserve prior failed audit and receipt; complete causal join still rechecks saved H40, fixed noise/precision, exact observation/action/receipt hashes and original gate.",
+    "affected_tests_passed": 94,
+    "JUnit_sha256": "f0515c8bdf97c0e11d45cdd4438e21e0c6c2750e04618565cdc27347ef6c7fe0",
+    "full_CI": "NOT_RUN"
+  },
+  "terminal": {
+    "financial_dual_settled": true,
+    "GLOBAL_after_sha256": "7806ef769eb596a190c4eb3d99ce6b8a115e1a73de139ae87364c54ce99df3e5",
+    "LOCAL_after_sha256": "1135c8459c842b515e78201d2feda27c560cf844a6dc879ab26730328fa9ffd3",
+    "three_own_leases_closed": true,
+    "closed_lease_sha256": {
+      "owner": "03969ee145a987fad63b1a01e89dae4f316a507ca98de139f9a54ba34d9bef04",
+      "core": "03da19f3cdf356b517bc097e27754a61852ce7a70187d068e100c7c06cb6a6b7",
+      "hopper": "a0d29ccaef01c911ed6f996a8f2d8b78921756113422a4bf894fc308ed4bcaad"
+    },
+    "old_STOP_retained": true,
+    "costs": {
+      "GPU_s": 857,
+      "neural_CPU_s": 112,
+      "physical": {
+        "physical_CPU_s": 305.57571839400003,
+        "episodes": 1,
+        "constructors": 1,
+        "live": 0,
+        "shadow": 0
+      },
+      "query_attempts": 1,
+      "model_load_attempts": 1,
+      "Core_output_charged_upper_bytes": 38654705664,
+      "transfer_charged_upper_bytes": 77309411328
+    },
+    "conservative_storage_transfer_not_actual_bytes": true
+  },
+  "E2": {
+    "job": "1508345.stdct-mgmt-02",
+    "last_scheduler_heartbeat_state": "Q",
+    "last_heartbeat_epoch": 1793390339.410518,
+    "manager_verified_alive_epoch": 1793390505.3464391,
+    "manager_parent_pid_is_init": true,
+    "manager_CPU_hard_and_soft_limit_s": 31800,
+    "wrapper_process_absent": true,
+    "wrapper_exit_reason_not_proven": true,
+    "new_qsub": 0,
+    "new_512_endpoint": 0
+  },
+  "next": "Replay the revised auditor on existing terminal data; do not regenerate the first condition. Source book work remains independent of completing the model panel.",
+  "infrastructure_changes": 0,
+  "foreign_GPU_processes_modified": 0
+}
