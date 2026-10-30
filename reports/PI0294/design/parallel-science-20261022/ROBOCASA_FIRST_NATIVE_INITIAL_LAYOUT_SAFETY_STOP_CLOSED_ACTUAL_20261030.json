@@ -1,0 +1,286 @@
+{
+  "schema": "UNRUN_CABINET_FIRST_NATIVE_INITIAL_SAFETY_STOP_CLOSED_ACTUAL_V1",
+  "status": "CABINET_PORT_INITIAL_LAYOUT_UNSAFE_NO_INTEGRATION_NO_DEMONSTRATION",
+  "runtime_source_sha": "dca266ac549949fd72a816989ec21567e205460c",
+  "observed_epoch": 1793357815.6865127,
+  "scope": "Only the two original previously unrun cabinet conditions, same source pool; no book retry or new neural work.",
+  "cold_admission": {
+    "source_members": 2649,
+    "binary_asset_bytes": 18345876,
+    "independent_asset_files": 37,
+    "independent_node_local_paths": 61,
+    "manifest_sha256": "4f3083454fbf70e630443c1349e494a338d68173170c1f08b48250f038308b47",
+    "registry_sha256": "6d8d2343b6bc9e878d6ccacc6a0e0aa1f16d6e4b500209edad6f1de3f16043e0",
+    "LOCAL_after_sha256": "5fa58816f5b0d0483093529df3e016212435be8167d912d7646e647390b97b56",
+    "all14_original_shortfalls": {},
+    "original_entry_passed": true,
+    "new_model_queries_updates_PBS": 0
+  },
+  "original_pool_carry": {
+    "predecessor_account_before_sha256": "39153fc64af24103ac9f79ffe0908210c75daf24e959a839aee353d9a9824bcf",
+    "predecessor_account_closed_custody_sha256": "7603ad344dc536886f3d8f6d82be5859df3816466f15f6119a7236ddec0f5fec",
+    "predecessor_original_once_custody_transfer_verified": true,
+    "predecessor_book_STOP_and_CLOSED_lease_unchanged": true,
+    "all_prior_unknown_upper_charges_and_operations_carried": true,
+    "source_aggregate_charged_upper": {
+      "attempts": 2,
+      "physics_integrations": 100000,
+      "RGB_pairs": 4000,
+      "Core_CPU_s": 6880,
+      "PC_CPU_s": 1300,
+      "render_device_s": 1200,
+      "Core_peak_bytes": 1476395008,
+      "PC_evidence_bytes": 716275712,
+      "transfer_bytes": 581140480
+    },
+    "refunds": 0,
+    "no_new_source_pool": true
+  },
+  "native_episode": {
+    "condition": "ROBOCASA_RIGHT_FIRST01",
+    "native_constructors": 1,
+    "actual_integrations": 0,
+    "actual_RGB_pairs": 0,
+    "warmup_started": false,
+    "task_started": false,
+    "initial_simulation_time_s": 0.0,
+    "terminal_sha256": "60670a512fe1ccc994a0901337e12b5a0c47d1fea920c6fbfdc11674e03cedcc",
+    "terminal": {
+      "status": "SOURCE_ATTEMPT_FAILED",
+      "operation": "ROBOCASA_RIGHT_FIRST01",
+      "error": "PermissionError: ACTUAL_NATIVE_INITIAL_SAFETY_OR_UNINTENDED_GRASP",
+      "result": null,
+      "actual_integrations": 0,
+      "actual_RGB_pairs": 0,
+      "recorded_RGB_pairs": 0,
+      "events": {},
+      "CPU_s": 1.0015613909999999,
+      "wall_s": 0.7204356826841831,
+      "render_device_s": 0,
+      "task_success": null,
+      "training_admitted": false,
+      "automatic_retry": false,
+      "new_model_queries_updates_PBS": 0,
+      "observed_epoch": 1793357803.9973094
+    },
+    "raw_record_sha256": "3e604d7f83c1eb1a824f2aeee159dea3cd416a3b7628218c14e06bc5d5e88d35",
+    "raw_record_bytes": 4961,
+    "raw_record_rows": 1,
+    "scene_XML_sha256": "747d4b2a121dd0a04bf892da63b9eaffdf8f4cb01b7808a5765f59b6627e67e8",
+    "independent_audit_sha256": "33727e94efd2908eb7bdde6edf082c4e52bf82a6543bb03a54b0fe9aeebc69be",
+    "independent_audit": {
+      "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+      "raw_sha256": "3e604d7f83c1eb1a824f2aeee159dea3cd416a3b7628218c14e06bc5d5e88d35",
+      "terminal_sha256": "60670a512fe1ccc994a0901337e12b5a0c47d1fea920c6fbfdc11674e03cedcc",
+      "new_simulator_or_model_calls": 0,
+      "task_success": false,
+      "qualified_source_pilot": false,
+      "training_admitted": false,
+      "status": "INCOMPLETE_BEFORE_NATIVE_QUALIFICATION",
+      "error": "PermissionError: ACTUAL_NATIVE_INITIAL_SAFETY_OR_UNINTENDED_GRASP"
+    },
+    "qualified_demonstrations": 0,
+    "training_admitted": false
+  },
+  "saved_state_diagnosis": {
+    "native_safety": {
+      "safety_valid": false,
+      "native_abort": false,
+      "illegal_contact": true,
+      "joint_limit_penetration": false,
+      "native_grasp": false,
+      "left_object_contact": false,
+      "right_object_contact": false,
+      "finger_q": [
+        0.042,
+        0.042
+      ],
+      "arm_q": [
+        -0.34742848038734986,
+        1.8000752124039072,
+        1.4617526529876188,
+        -1.2324735234556035,
+        7.20550841827941e-07,
+        -1.9182242817956252
+      ],
+      "last_ik_error": [
+        7.039821391756579e-07,
+        9.24512380677196e-07
+      ],
+      "native_robocasa_door_status": {
+        "normalized_openness": {
+          "rc_doorhinge": 0.0
+        },
+        "native_is_open": false,
+        "native_is_closed": true,
+        "joint_positions_within_declared_ranges": true,
+        "release_withdrawal_support_or_hold_in_native_predicate": false
+      }
+    },
+    "initial_robot_contacts": [
+      {
+        "geom0": 67,
+        "geom1": 74,
+        "distance_m": -0.0035524537675450246,
+        "normal": [
+          0.46242255160833456,
+          0.6226526545602199,
+          -0.6312440538596374
+        ],
+        "normal_force_N": 0.0,
+        "geom_names": [
+          null,
+          "rc_top"
+        ],
+        "body_names": [
+          "x5_link5",
+          "rc_cabinet_frame"
+        ]
+      },
+      {
+        "geom0": 67,
+        "geom1": 74,
+        "distance_m": -0.003231587279422757,
+        "normal": [
+          0.33205316929082906,
+          0.6618814103806313,
+          -0.6720518516873994
+        ],
+        "normal_force_N": 0.0,
+        "geom_names": [
+          null,
+          "rc_top"
+        ],
+        "body_names": [
+          "x5_link5",
+          "rc_cabinet_frame"
+        ]
+      },
+      {
+        "geom0": 67,
+        "geom1": 81,
+        "distance_m": -0.015543875069186565,
+        "normal": [
+          0.46237102396640867,
+          0.6283643641386022,
+          -0.6255967247971693
+        ],
+        "normal_force_N": 41.600974917259514,
+        "geom_names": [
+          null,
+          "rc_door"
+        ],
+        "body_names": [
+          "x5_link5",
+          "rc_door_panel"
+        ]
+      },
+      {
+        "geom0": 67,
+        "geom1": 81,
+        "distance_m": -0.0029128545918533505,
+        "normal": [
+          2.6157749816874936e-06,
+          0.7020544062274289,
+          -0.7121233114354634
+        ],
+        "normal_force_N": 0.0,
+        "geom_names": [
+          null,
+          "rc_door"
+        ],
+        "body_names": [
+          "x5_link5",
+          "rc_door_panel"
+        ]
+      }
+    ],
+    "maximum_robot_penetration_m": 0.015543875069186565,
+    "native_cabinet_closed_predicate": true,
+    "door_within_declared_range": true,
+    "LIBERO_caddy_absent": true,
+    "interpretation": "The original common home places link5 inside the cabinet top/panel at time0. Native initial safety rejected the port layout before any integration or rendering. This is not evidence of a neural or task policy failure.",
+    "shared_left_condition": {
+      "status": "ACTUAL_PINNED_BOTH_CABINET_CARDS_SHARE_TOP_AND_HOME_GEOMETRY_NO_SIMULATOR",
+      "both_have_same_top_initial_TCP_and_cabinet_transform": true,
+      "top_geom": {
+        "pos": "0 0.014999999999999999 0.13500000000000001",
+        "size": "0.12 0.095000000000000001 0.014999999999999999",
+        "type": "box",
+        "mass": ".2",
+        "material": "mat",
+        "class": "cab",
+        "name": "top"
+      },
+      "new_constructors_integrations_model_calls": 0,
+      "conclusion": "Observed link5/top initial collision is shared geometry; left condition remains unrun rather than repeating an already exposed setup defect.",
+      "not_full_dynamic_or_left_native_qualification": true
+    }
+  },
+  "finite_owner": {
+    "chain_terminal_sha256": "3f8eb186864be93683b0b9879681e9fc9bb8d0c6a3438af6d59f99f524e6c9e2",
+    "chain_CPU_s": 1.4399250000000001,
+    "chain_wall_s": 1.1959236413240433,
+    "unit": {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "CPUUsageNSec": "1447337000",
+      "ActiveState": "active",
+      "SubState": "exited"
+    },
+    "actor_terminal": true,
+    "closed_lease_sha256": "5261f2a5ea196ee2484bd401e1d576df7e8d0d5172f04c3ae38a33727a5e2b70",
+    "STOP_sha256": "fb6a5cdeafd653c4cfa9e52dc6f13021c65e0be92feb170d9beb83acc1afa3b3",
+    "left_condition": "UNRUN_AFTER_SHARED_INITIAL_SAFETY_FAILURE",
+    "book_right_condition": "UNRUN_BOOK_BRANCH_QUARANTINED",
+    "automatic_retry": false
+  },
+  "cumulative_source_actual": {
+    "first_condition_attempts": 2,
+    "native_integrations": 3371,
+    "RGB_pairs": 36,
+    "qualified_source_demonstrations": 0,
+    "unrun_conditions": [
+      "LIBERO_BOOK_RIGHT",
+      "ROBOCASA_CABINET_LEFT"
+    ]
+  },
+  "E2": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "observed_epoch": 1793357879.8673513,
+    "native_state": "Q",
+    "owner_actors_live": true,
+    "GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "pending_updates": [],
+    "unknown_effects": [],
+    "restart_or_resubmit": false
+  },
+  "E1": {
+    "Core_fixed512_package_full_bytes_verified": true,
+    "model_loaded": false,
+    "behavior_conditions": 0
+  },
+  "D25": {
+    "original_valid_conditions": 0,
+    "total": 24,
+    "exact_current_E2_unstarted_Core07_binding_preserved": true
+  },
+  "new_scientific_results": {
+    "complete_training_endpoints": 0,
+    "valid_model_evaluation_conditions": 0,
+    "qualified_demonstrations": 0,
+    "new_source_attempts": 1,
+    "new_native_integrations": 0,
+    "new_RGB_pairs": 0,
+    "new_models_queries_updates_PBS": 0
+  },
+  "safety": {
+    "S1_CLOSED_T2_quarantine_preserved": true,
+    "WBC_driver_thresholds_scoring_unchanged": true,
+    "closed_roles_not_reopened": true,
+    "no_infrastructure_mount_SSH_NFS_network_services_permissions_credentials_changes": true,
+    "no_checkpoint_cleanup": true
+  },
+  "next": "Keep both source safety branches closed. Resolve port initial/layout geometry from saved evidence before considering a separately versioned future condition; no blind retry or threshold change. Keep healthy E2 and next legal Core evaluation boundary."
+}
