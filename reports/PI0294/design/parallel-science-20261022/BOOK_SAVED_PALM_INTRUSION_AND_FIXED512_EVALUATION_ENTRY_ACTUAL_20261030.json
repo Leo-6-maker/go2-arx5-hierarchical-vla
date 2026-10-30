@@ -1,0 +1,191 @@
+{
+  "schema": "SAVED_BOOK_PALM_INTRUSION_AND_FIXED512_PLAN_ENTRY_ACTUAL_V1",
+  "observed_epoch": 1793366407.1954198,
+  "scientific_results": {
+    "new_complete_training_endpoints": 0,
+    "new_valid_model_conditions": 0,
+    "new_qualified_source_demonstrations": 0,
+    "source_total_native_attempts": 6,
+    "source_actual_integrations": 22046,
+    "source_actual_RGB_pairs": 488
+  },
+  "book": {
+    "raw_sha256": "29b644aaf0b22ffa4fb276eb13cfb5a9c4d6646ab635b8ef969accd795005bc5",
+    "native_XML_sha256": "bf6b8f5297cab56085c4967641072b0d0d6dee70ec1250a192fcc5abb87c291e",
+    "first_palm_contact": {
+      "pair": [
+        69,
+        75
+      ],
+      "step": 3058,
+      "task_s": 1.116,
+      "TCP_z": 0.5518619205624633,
+      "reference_z": 0.5495751494075366,
+      "actual_palm_book_clearance_m": -0.0001135313113171943,
+      "reference_palm_book_clearance_m": -0.002395824119141854,
+      "native_distance_m": -0.00011353131131730532
+    },
+    "first_safety_stop": {
+      "pair": [
+        73,
+        85
+      ],
+      "step": 3371,
+      "task_s": 1.742,
+      "TCP_z": 0.550617088753192,
+      "reference_z": 0.5141251236503173,
+      "actual_palm_book_clearance_m": -0.0017163714250122974,
+      "reference_palm_book_clearance_m": -0.024696080494363358,
+      "native_distance_m": -3.399894551790817e-05
+    },
+    "original_goal_palm_book_clearance_m": -0.03,
+    "diagnosis": "Original align reference itself intersects the book with the link6 capsule before the later right-pad/caddy stop. Native first contact reproduced from saved XML/actual pose to floating-point precision. TCP deviation then increases. This demonstrates a reference/grasp geometry defect; it does not isolate all dynamics or justify gain changes.",
+    "proposed_upper_grasp": {
+      "world_height_increase_m": 0.06,
+      "palm_book_clearance_m": 0.01919999999999987,
+      "native_admission": false,
+      "path_check": {
+        "left": {
+          "path_states": 262,
+          "reference_duration_s": 12.8,
+          "maximum_IK_error": [
+            0.12652404554566818,
+            0.5440556081951123
+          ],
+          "minimum_joint_margin_rad": 0.0,
+          "full_pose_IK_pass": false
+        },
+        "right": {
+          "path_states": 219,
+          "reference_duration_s": 10.650000000000002,
+          "maximum_IK_error": [
+            0.14805823228746365,
+            0.5767183376965733
+          ],
+          "minimum_joint_margin_rad": 0.0,
+          "full_pose_IK_pass": false
+        }
+      },
+      "caveats": "One warm-started static DLS path scan reaches joint bounds and fails pose tolerance; this is not a proof of global unreachability. Fixture minima in that scan are at solved/clipped configurations, not necessarily commanded poses. Finger joints were held at the open value: right-side overlap is a conservative open-hand witness, not proof of a closed-hand insertion collision. Candidate is not deployed or qualified."
+    },
+    "failed_raw_read": {
+      "error": "KeyError: 'value' on terminal_failure flat record",
+      "effect": "READ_ONLY",
+      "remote_mutations": 0,
+      "full_CPU_and_wire_upper_retained": true,
+      "corrected_reader_accepts_wrapped_events_and_flat_terminal_without_replaying_a_write": true
+    },
+    "new_simulators_integrations_queries": 0,
+    "old_STOP_and_CLOSED_lease_unchanged": true,
+    "geometry_metric": "Distance from capsule axis segment to book OBB minus original capsule radius. Negative values prove intersection; deep-inside values are not an exact minimum-separation penetration depth. At first contact this reproduces native distance to floating-point precision."
+  },
+  "fixed512_entry": {
+    "plan_contract": {
+      "status": "ACTUAL_SAVED_POPULATION_AND_E1_512_IDENTITY_ACCEPT_NEW_TYPED_PLAN_CPU_ONLY",
+      "population_sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+      "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+      "checkpoint_step": 512,
+      "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "plan_sha256": "b77aa4afb5675dc1c73f62727f520afc70731eb1650766f3098c50aa5a1b6272",
+      "actual_condition_ids": [
+        "PI0294/PV1/DEV/F0/000/T1/N294101",
+        "PI0294/PV1/DEV/F0/000/T2/N294101",
+        "PI0294/PV1/DEV/F0/001/T1/N294101",
+        "PI0294/PV1/DEV/F0/001/T2/N294101",
+        "PI0294/PV1/DEV/F1/000/T1/N294101",
+        "PI0294/PV1/DEV/F1/000/T2/N294101",
+        "PI0294/PV1/DEV/F1/001/T1/N294101",
+        "PI0294/PV1/DEV/F1/001/T2/N294101",
+        "PI0294/PV1/DEV/F1/002/T1/N294101",
+        "PI0294/PV1/DEV/F1/002/T2/N294101",
+        "PI0294/PV1/DEV/F1/003/T1/N294101",
+        "PI0294/PV1/DEV/F1/003/T2/N294101",
+        "PI0294/PV1/DEV/F1/004/T1/N294101",
+        "PI0294/PV1/DEV/F1/004/T2/N294101",
+        "PI0294/PV1/DEV/F2/000/T1/N294101",
+        "PI0294/PV1/DEV/F2/000/T2/N294101",
+        "PI0294/PV1/DEV/F2/001/T1/N294101",
+        "PI0294/PV1/DEV/F2/001/T2/N294101",
+        "PI0294/PV1/DEV/F2/002/T1/N294101",
+        "PI0294/PV1/DEV/F2/002/T2/N294101",
+        "PI0294/PV1/DEV/F2/003/T1/N294101",
+        "PI0294/PV1/DEV/F2/003/T2/N294101",
+        "PI0294/PV1/DEV/F2/004/T1/N294101",
+        "PI0294/PV1/DEV/F2/004/T2/N294101"
+      ],
+      "groups": 12,
+      "conditions": 24,
+      "noise_namespace": "PI0294/PV1/DEV/N294101",
+      "native_admission": false,
+      "model_loads_queries_physics": 0
+    },
+    "old_immutable_E2_concurrency_audit": {
+      "status": "EXACT_SEALED_E2_SOURCE_REJECTS_ADDITIONAL_CORE_E1_OLD_FAMILY",
+      "GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+      "old_cold_D25_row_sha256": "e510508076bfc5eed9ad70fc198796d5c072670becd0ff6b62fd9a95e4e9033a",
+      "existing_pair_proof": {
+        "schema": "ARX5_E2_ONLY_VANDA_WITH_ORIGINAL_UNSTARTED_D25_CORE_HOLD_V1",
+        "main_request_id": "5a2c08f1-4d4d-41b0-bad0-e8f99257a229",
+        "Core_request_id": "9c771bec-ba9c-4a44-aefa-f424c58f5909",
+        "Core_unstarted": true,
+        "Core_native_permission": false,
+        "remote_liveness_required": false
+      },
+      "new_E1_rejection": "ARX5_MINIMAL_ADOPTION_E2_ONLY_ONLY_EXACT_COLD_D25_NO_OLD_LIVE_SOURCE_PERMISSION",
+      "no_native_mutations": true,
+      "sealed_source_sha": "6ec5327e7f805fc9cd9b7ed17604dc489123ed4b"
+    },
+    "implementation": [
+      "scripts/pi0294/generalization/minimal_evaluation.py",
+      "scripts/pi0294/pv1/evaluation_plan.py::session_spec",
+      "scripts/pi0294/pv1/neural.py::evaluation_labels"
+    ],
+    "behavior": "Separate raw-parent512 E1/E2 typed plans use exactly the original12 DEV geometries/two tasks, N294101 namespace,32-second duration and original remaining-panel rule. Legacy C/D1024 contracts remain1024. Actual saved E1 manifest and sealed population passed the new session/label contract.",
+    "not_implemented_or_not_verified": [
+      "New canonical fixed512 GPU allocation/accounting family and its compatible independent-owner/concurrency admission",
+      "New512 native entry/backend and same-job600-second/80-cycle qualification",
+      "Actual E1 model loading and original24 closed-loop conditions"
+    ],
+    "healthy_E2_not_hotpatched": true,
+    "D25_old_row_not_modified": true,
+    "old_family_rejection_does_not_prove_every_possible_new_versioned_family_is_impossible": true
+  },
+  "latest_E2": {
+    "job_id": "1508345.stdct-mgmt-02",
+    "state": "Q",
+    "observed_epoch": 1793366232.8061724,
+    "observed_SGT": "2026-10-30T21:17:12.806172+08:00",
+    "processes": [
+      {
+        "pid": 572332,
+        "procstart": 85083367,
+        "live": true,
+        "state": "S"
+      },
+      {
+        "pid": 572336,
+        "procstart": 85083369,
+        "live": true,
+        "state": "S"
+      }
+    ],
+    "GLOBAL_sha256": "50132823aa7bd9b6e2c12790f98aac0a2d0046fd6efd1570b948c220d2883c40",
+    "global_unknown_effects": [],
+    "new_submission": 0
+  },
+  "validation": {
+    "targeted_CPU_tests": "21 passed",
+    "native_qualification": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "book_pure_nominal_scan_CPU_s": 11.008831466
+  },
+  "invariants": {
+    "cabinet_PORT05_repeated_grasp_branch": "STOPPED_NO_RETRY",
+    "S1": "CLOSED",
+    "T2": "QUARANTINED",
+    "WBC_driver_safety_score_changes": 0,
+    "infrastructure_NFS_mount_SSH_network_service_credential_changes": 0,
+    "checkpoint_deletions": 0
+  },
+  "next_action": "Finish the distinct fixed512 canonical allocation/accounting and native evaluator adapter through the existing owner/onceIO. Preserve exact old E2/D25/package identities and all costs; verify compatibility with sealed healthy E2 before any adoption. Book upper-grasp candidate stays unadmitted until a complete task reference passes reach/contact checks."
+}

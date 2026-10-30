@@ -1,5 +1,7 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+**2026-10-30 21:17后继：放书原参考顶书缺陷已从保存状态复现；512评价计划入口已修，原生分配/backend仍未接通。** E2同一1508345仍Q且owner健康；模型评价与新示范仍0。柜门停止、S1/T2隔离和基础设施保护保持。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
+
 **2026-10-30 20:48实际：柜门支线已按“同类失抓一次修复后再现”停止。** [独立回读与完整结果](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)：门转8.82°后失抓，own chain/lease CLOSED、STOP禁止新柜门尝试；源域6次/22046积分/488RGB对，合格示范0。E2同一1508345仍Q且后台健康，E1在Core已校验未加载，模型评价0；独立书本/模型工作继续，S1/T2隔离和基础设施保护不变。
 
 > **2026-10-30 用户最新直接指令（覆盖下方旧预算停工优先级，仅用于后继新冷态科学scope）：** 用户本人执行历史清理；Codex以真实训练端点、闭环评价和合格开门／单书示范为第一目标，不再因项目内部预算总额或旧预算窗口反复等待人工GO。真实集群配额/空间、身份/原onceIO、冻结WBC安全、UNKNOWN禁止重放以及历史费用与原run时钟仍需遵守。**执行顺序与明确放行边界见[Science-First直接指令](docs/operations/SCIENCE_FIRST_DIRECT_USER_DIRECTIVE_20261030.md)。** 文件发布不等于Codex已后台运行。

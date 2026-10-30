@@ -61,6 +61,8 @@ def require_native_device(request,allocation,torch):
 def evaluation_labels(request,plan,prior):
     """V4 requests own one original whole noise panel; legacy owns both."""
     if 'platform_evaluation_version' not in request:return tuple(plan['panels'])
+    from scripts.pi0294.generalization import minimal_evaluation as first512
+    if first512.typed(request):return first512.labels(request,plan,prior)
     from . import mix_accounting as cd
     from . import mix_vanda_eval_identity as colocated
     if request['platform_evaluation_version'] in (cd.CORE_VERSION,colocated.VERSION):
