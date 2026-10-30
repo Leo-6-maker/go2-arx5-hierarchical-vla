@@ -141,7 +141,8 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
                     raise ValueError('ACTUAL_256_RGB_REQUIRED')
     output.mkdir(parents=True, exist_ok=False)
     (output / 'episodes').mkdir()
-    numeric = output / 'episodes/BOOK_SOURCE_SEED000.npz'
+    episode_id = 'BOOK_SOURCE_SEED' + str(card.get('book_seed_index', 0)).zfill(3)
+    numeric = output / 'episodes' / (episode_id + '.npz')
     np.savez_compressed(numeric, **arrays)
     future = np.arange(601)[:, None] + np.arange(40)
     state, commands = arrays['actual_state10'][:601], arrays['committed_absolute10']
@@ -162,7 +163,7 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
         TRAIN_windows=601, DEV_windows=0, model_calls=0, optimizer_updates=0,
         raw_audit_training_admitted_flag_unchanged=audit['training_admitted'],
         required_before_optimization=['official_processor_codec_qualification', 'frozen_seed_set_and_disjoint_DEV_admission'],
-        episodes=[dict(id='BOOK_SOURCE_SEED000', task='BOOK', family='LIBERO_ARX5_LEFT_PORT', origin='SOURCE_TEACHER',
+        episodes=[dict(id=episode_id, task='BOOK', family='LIBERO_ARX5_LEFT_PORT', origin='SOURCE_TEACHER',
             split='TRAIN', windows=601, raw_root=str(folder), file=numeric.relative_to(output).as_posix(),
             sha256=sha(numeric), source_sha=json.loads((root / 'RUN_MANIFEST.json').read_bytes())['source_sha'],
             raw_sha256=raw_sha256, audit_sha256=audit_sha256, terminal_sha256=terminal_sha256,
