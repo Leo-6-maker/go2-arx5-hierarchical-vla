@@ -20,6 +20,14 @@ need=e.need;once=mature.once
 HEARTBEAT='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1'
 
 
+def check_submission_count(g,count):
+    need(type(count)is int and count>0,'OWNER_EXACT_POSITIVE_ACTUAL_SUBMISSION_COUNT')
+    from .pbs_count_authority import validate
+    if validate(g)is not None:return
+    cap=e.authority.effective_caps(g,e.authority.CAPS)['PBS_submissions']
+    need(type(cap)is int and count<=cap,'OWNER_ORIGINAL_EXACT_ADOPTED_PBS_CAP')
+
+
 def control_CPU_limits(request):
     """The second cold continuation shares its prepaid3600s with preparation."""
     if request.get('platform_training_version')in(adapters.remaining.VERSION,adapters.saved512.VERSION,adapters.e2only.VERSION):
@@ -247,7 +255,7 @@ class Owner(mature.Owner):
         r=dict(self.request_template,run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),
             cold_input_audit_sha256=sha(cold),effective_queue_proof_sha256=e.sha(queue_bytes),
             created_epoch=created,submit_count=len(g['PBS_submissions'])+1)
-        self.adapter.request(r);need(r['submit_count']<=e.authority.effective_caps(g,e.authority.CAPS)['PBS_submissions'],'OWNER_ORIGINAL_EXACT_ADOPTED_PBS_CAP')
+        self.adapter.request(r);check_submission_count(g,r['submit_count'])
         d=self.root/'pbs'/('alloc-'+str(r['submit_count']).zfill(2));d.mkdir(mode=0o700,parents=True)
         once(d/'EFFECTIVE_QUEUE_LIMITS.json',queue_proof)
         once(d/'REQUEST.json',r);request_bytes=(d/'REQUEST.json').read_bytes()
