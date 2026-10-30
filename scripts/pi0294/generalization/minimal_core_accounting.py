@@ -106,8 +106,13 @@ def request_fields():
 
 
 def request(r):
-    need(all(r.get(k)==v and type(r.get(k)) is type(v) for k,v in request_fields().items()),
+    need(all(r.get(k)==v and type(r.get(k)) is type(v) for k,v in request_fields().items()
+             if k!='remaining_conditions'),
          'EXACT_E1_RAW512_ORIGINAL24_ZERO_TRAINING_REQUEST')
+    remaining=r.get('remaining_conditions')
+    need(type(remaining)is int and 1<=remaining<=24
+         and(remaining==24 or r.get('execution_policy_sha256')==V7_POLICY),
+         'ORIGINAL24_OR_V7_VALIDATED_REMAINING_WITHOUT_OUTCOME_REPLAY')
     need(canonical_uuid(r.get('request_id')) and canonical_uuid(r.get('submission_nonce')),
          'NEW_CANONICAL_REQUEST_AND_NONCE')
     for k,n in [('source_sha',40),('run_manifest_sha256',64),('cold_input_audit_sha256',64),

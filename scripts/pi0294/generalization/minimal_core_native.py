@@ -53,6 +53,9 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
     need(c.sha(population_bytes)==c.plan.POPULATION,'ORIGINAL_SEALED_POPULATION')
     plan=c.plan.candidate_plan(json.loads(population_bytes)['groups'],'E1',checkpoint_manifest_sha256=c.CHECKPOINT)
     need(json.loads(plan_bytes)==plan and c.sha(plan_bytes)==r['planned_panel_sha256'], 'EXACT_ORIGINAL24_PLAN')
+    if r['remaining_conditions']<24:
+        need(c.sha(prior_bytes)==m['execution']['sealed_inputs'].get('plans/PRIOR_EVALUATION_OUTCOMES.json'),
+             'SEALED_ORIGINAL_PRIOR_FOR_REMAINING_PANEL')
     c.plan.labels(r,plan,json.loads(prior_bytes))
     need(s.get('schema')==SNAPSHOT and s.get('GLOBAL_sha256')==c.sha(global_bytes)
         and s.get('LOCAL_sha256')==c.sha(local_bytes)
