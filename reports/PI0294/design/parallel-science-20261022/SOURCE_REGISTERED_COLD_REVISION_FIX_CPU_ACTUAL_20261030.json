@@ -1,0 +1,31 @@
+{
+  "status": "ACTUAL_LOCAL_SCHEMA_KEYERROR_REPRODUCED_AND_COLD_ONLY_FIX_TESTED_NATIVE_COMPLETION_NOT_YET_RUN",
+  "original_runtime_source_sha": "4e19b59fc32b00d5175ee308564d6d6caace97f7",
+  "actual_LOCAL_sha256": "d98efaf9ab92234719e5db2c23635f122c87f39e9d862777980c11696484a89e",
+  "registry_before_sha256": "2d588888b638df5b578eba87b0feac42e4ad13b4fc54b265ba7a0f6dd2ea418e",
+  "registry_after_sha256": "8f467071e4d57fcad43b41832aa540c1214101e14f8851ebcab88e3877a418e4",
+  "registry_once_receipt_sha256": "0e027b77d1f634c63f0816ca13fe877e2b513f0c152653f1bb176dd75667c744",
+  "actual_facts": {
+    "registry_write_confirmed_once": true,
+    "LOCAL_source_marker_absent": true,
+    "LOCAL_adoption_intent_absent": true,
+    "native_manifest_absent": true,
+    "source_attempts": 0,
+    "prior_stage_actor_not_live_in_readback": true
+  },
+  "fault": "Original Core LOCAL has no revision key; cold source stage increments that missing key after successful registry receipt and before LOCAL intent.",
+  "fix": "Add only the named source marker, preserving every original LOCAL field; complete only the verified unwritten tail after exact registry, capsule, asset, account, lease, full14 and freshness checks. No registry replay or immutable runtime edit.",
+  "validation": {
+    "focused_tests": 13,
+    "elapsed_s": 0.68,
+    "actual_private_LOCAL_and_asset_bytes": true,
+    "CI": "NOT_RUN",
+    "native_completion": "NOT_YET_RUN"
+  },
+  "old_UNKNOWN_and_all_charges_retained": true,
+  "new_physics": 0,
+  "new_neural_queries_updates_PBS": 0,
+  "E2_existing_job": "1508345.stdct-mgmt-02",
+  "E2_latest_observed_state": "Q",
+  "E2_not_restarted": true
+}

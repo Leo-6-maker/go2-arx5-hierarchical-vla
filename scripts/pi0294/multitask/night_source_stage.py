@@ -103,7 +103,7 @@ marker=dict(schema='NIGHT_SOURCE30_DISTINCT_ADDITIVE_ALLOWANCE_V1',approval_sha2
  original_GLOBAL_sha256=sha(gb),original_LOCAL_before_sha256=sha(lb),full14_proof_sha256=sha(raw(budget)),
  registry_after_sha256=sha(snapshot),stop_new_epoch=scope.STOP_NEW,deadline_epoch=scope.DEADLINE,
  caps=scope.CAPS,all_original_financial_fields_unchanged=True,old_work_cannot_spend_this_allowance=True)
-new_local=json.loads(lb);new_local['revision']+=1;new_local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']=marker
+new_local=json.loads(lb);new_local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']=marker
 adoption=cas(local_path,sha(lb),new_local,'NIGHT30-ADOPT-DISTINCT-SOURCE-ALLOWANCE')
 put(root/'SOURCE_SCOPE_ADOPTION.json',raw(dict(marker=marker,LOCAL_once_receipt=adoption,original_registry_once_receipt=registration)))
 ac=cas(root/'control/NIGHT_SOURCE_ACCOUNT.json',sha(pc),account,'NIGHT30-ADOPT-ONE-NATIVE-SOURCE-ACCOUNT')
