@@ -139,6 +139,9 @@ def validate_row(row):
     need(row.get('reserved_neural_queries')==(len(row.get('unknown_query_intents',[])) if row['status']==STATES[3] else HOLD['neural_queries']-q),
          'ALL_UNSPENT_QUERIES_HELD')
     if row['status']==STATES[0]: need(row.get('native_handle') is None and (q,loads,cpu)==(0,0,0),'NO_UNBOUND_EFFECT')
+    elif row['status']==STATES[3] and row.get('native_handle')is None:
+        from .minimal_core_prebind_terminal import row as exact_unbound_terminal
+        exact_unbound_terminal(row)
     else:
         from scripts.pi0294.pv1.evaluation_core_accounting import process_handle
         need(row.get('native_handle')==process_handle(row.get('boot_id'),row.get('pid'),row.get('proc_start')),
@@ -157,6 +160,8 @@ def validate(g):
     cold_rebind(g)
     from .minimal_core_sharing import validate as shared
     shared(g)
+    from .minimal_core_prebind_terminal import validate as prebind_terminal
+    prebind_terminal(g)
     active=[v for v in rows.values()if v['status']!=STATES[3]]
     if not active:return rows
     need(g['unknown_effects']==g['pending_updates']==[], 'GLOBAL_UNKNOWN_AND_PENDING_FENCES')
@@ -205,6 +210,8 @@ def paired(g,l):
     need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_EXACT_COLD_REBIND')
     from .minimal_core_sharing import FIELD as shared_field
     need(l.get(shared_field)==g.get(shared_field),'SAME_CANONICAL_DIRECT_GPU0_SHARING')
+    from .minimal_core_prebind_terminal import FIELD as terminal_field
+    need(l.get(terminal_field)==g.get(terminal_field),'SAME_KNOWN_ZERO_PREBIND_TERMINAL')
 
 
 def register(global_bytes,local_bytes,*,request_bytes,manifest_bytes,physical_manifest_bytes,now_epoch):
