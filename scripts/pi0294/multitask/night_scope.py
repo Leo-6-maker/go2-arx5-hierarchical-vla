@@ -156,6 +156,26 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if 'closed_cabinet_hinge_port04_carry'in v:
+        carry=v['closed_cabinet_hinge_port04_carry']
+        pins=dict(account='014f387d4392f3bed2a6c94974f939eb7bbaace62c84e44324d0e2904e08ebf4',
+            lease='749f8d8f2d6cc17de25f95e521b91fe2fd5014d0e54a8ad4a810b3d10136226a',
+            terminal='eac473cb56e05ff1681974a8e3397f6e317af6bd6ef462d89daf24046d8824a6',
+            episode_terminal='1d591b8135857eb4f44029d22ad63028d173af279d7872a82ea3d8521eb2aed6')
+        need(set(carry)==set(pins),'EXACT_CLOSED_PORT04_CARRY_FIELDS')
+        bodies={k:base64.b64decode(b,validate=True)for k,b in carry.items()}
+        need(all(hashlib.sha256(b).hexdigest()==pins[k]for k,b in bodies.items()),'EXACT_CLOSED_PORT03_POOL_AND_REFERENCE_FAILURE')
+        old=json.loads(bodies['account']);validate_account(old)
+        need(not any(k in v for k in('closed_cabinet_camera_port03_carry','closed_cabinet_geometry_repair02_carry','closed_book_unrun_cabinet_carry'))
+            and v['operations'][:len(old['operations'])]==old['operations']
+            and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS)
+            and v['section5_successor']==old['section5_successor']
+            and v['native_destination'].endswith('-cabinet-port04-night-source-four01'),
+            'PORT04_RETAINS_EVERY_OLD_COST_AND_CLOCK_ONCE')
+        for op in v['operations'][len(old['operations']):]:
+            if op['kind']=='ATTEMPT':
+                need(op['task']=='ROBOCASA_OPEN_CABINET'and op['operation']in(
+                    'ROBOCASA_RIGHT_PORT04_HINGE','ROBOCASA_LEFT_PORT04_HINGE'),'ONE_REFERENCE_FIX_PER_SIDE_NO_RETRY')
     if 'closed_cabinet_camera_port03_carry'in v:
         carry=v['closed_cabinet_camera_port03_carry']
         pins=dict(account='a01769f8f49b73a05166837314d5cb3f45ea76f17f0e04912c7961847542e62f',
