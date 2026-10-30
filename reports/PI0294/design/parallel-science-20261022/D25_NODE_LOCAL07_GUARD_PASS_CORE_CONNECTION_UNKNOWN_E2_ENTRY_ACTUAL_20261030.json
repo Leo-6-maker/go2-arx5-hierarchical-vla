@@ -1,0 +1,115 @@
+{
+  "schema": "D25_ACTUAL_NODELOCAL07_READY_CORE_CACHE_CONNECTION_UNKNOWN_AND_E2_ACTUAL_ENTRY_V1",
+  "observed_epoch": 1793337669.79129,
+  "human_direct_authority_sha256": "49506e3a135ad6ad931cd672cb9f0b9f6214e47fb072fd160b3f29b5932f007b",
+  "checkpoint_cleanup_deferred_to_user": true,
+  "D25": {
+    "source_sha": "8966c66ec468e3c246e7751cc1d73be39436af1f",
+    "source_seal_sha256": "148d71f82546e0d408e4415a746c7ef5fb3c1807d7698528444822abf40fd6b9",
+    "source_files": 1504,
+    "frozen_numerical_files": 15,
+    "run_uuid": "v5-cd-d25-n294101-07",
+    "request_id": "9c771bec-ba9c-4a44-aefa-f424c58f5909",
+    "same_unused_request_rebound": true,
+    "GLOBAL_sha256": "e602d251c9c1abaa48ae36e9018fa7a15b02e0b55c9932705a0cea67e2e8ae2e",
+    "LOCAL_sha256": "d98efaf9ab92234719e5db2c23635f122c87f39e9d862777980c11696484a89e",
+    "registry_sha256": "2d588888b638df5b578eba87b0feac42e4ad13b4fc54b265ba7a0f6dd2ea418e",
+    "original_registry_entries_retained": 299,
+    "registry_entries": 302,
+    "three_role_full_source_entry_input_readback": true,
+    "actual_guard": {
+      "status": "ACTUAL_NODE_LOCAL07_EXACT_CONTEXT_AND_COMPLETE_PAID_OUTPUT_GUARD_PASS_NO_MODEL",
+      "guard": {
+        "schema": "D25_CURRENT_ACTUAL_PAID_OUTPUT_GUARD_V1",
+        "request_id": "9c771bec-ba9c-4a44-aefa-f424c58f5909",
+        "model_inode_members": 9,
+        "original_site_gross_current_bytes": 12678684672,
+        "original_Core_gross_current_bytes": 12615352320,
+        "entries": {
+          "physical": 3279,
+          "neural": 3292,
+          "owner": 3263
+        },
+        "new_tensor_copies": 0,
+        "model_streams": 0,
+        "canonical_GLOBAL_is_fresh": false,
+        "native_permission": false
+      },
+      "LOCAL_sha256": "d98efaf9ab92234719e5db2c23635f122c87f39e9d862777980c11696484a89e",
+      "canonical_LOCAL_used": true,
+      "model_loads": 0,
+      "queries": 0,
+      "physics_ticks": 0,
+      "observed_epoch": 1793336693.1950886
+    },
+    "closed05_costs": {
+      "GPU_s": 243,
+      "neural_CPU_s": 7,
+      "owner_CPU_s_carried": 5,
+      "physical_metadata_CPU_upper_s": 300
+    },
+    "cold06_roles_CLOSED_no_native": true,
+    "model_owner_start_request_issued": false,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_physics_ticks": 0,
+    "valid_evaluation_conditions": 0,
+    "native_full_resource_admission": "NOT_RUN",
+    "current_native_status_not_inferred_from_failed_SSH": true
+  },
+  "Core_connection": {
+    "status": "PRESTART_CACHE_WRITE_UNKNOWN_READBACK_TIMED_OUT_BRANCH_STOPPED",
+    "operation": "NL07FIX_FIXED_GLOBAL_CONTROL_INPUT",
+    "started_epoch": 1793336730.6796696,
+    "transport_timeout_s": 35,
+    "original_RPC_state_sha256": "4591017c84bafdbe1dfcf1c90d5fe8f89e78b28f4cfe938a2c9185158f7de21b",
+    "cache_unknown_never_replayed": true,
+    "Core_model_start_not_issued": true,
+    "infrastructure_changes": 0,
+    "NFS_mount_health": "NOT_OBSERVED_NO_MOUNT_CHANGE",
+    "cache_effect": "UNKNOWN"
+  },
+  "E2": {
+    "last_actual_readback_status": "ACTUAL_VANDA_E2_COLD01_CLOSED_UNREGISTERED_NO_NEW_EFFECT",
+    "observed_epoch": 1793337126.2771335,
+    "GLOBAL_sha256": "e602d251c9c1abaa48ae36e9018fa7a15b02e0b55c9932705a0cea67e2e8ae2e",
+    "closed_lease_sha256": "1abed61c0c14f9d9151a5f5ff7a2a444c82729ca8393169e4913e9d5e3529ddd",
+    "request_unregistered": true,
+    "actual_owner_submit_CPU_regression_pass": 1,
+    "actual_original_CAS_and_replay_rejection_pass": 1,
+    "count_authority_and_finite_limits_regression_pass": 1,
+    "tests_total": 3,
+    "tests_seconds": 8.25,
+    "external_queue_auth_fixtures": true,
+    "native_training_started": false,
+    "new_complete512_endpoints": 0,
+    "new_cold_role_required": true
+  },
+  "conservative_maintenance_accounted": {
+    "CPU_s": {
+      "core_cold": 992.0611688309999,
+      "core_close": 0,
+      "vanda": 671.083121102,
+      "local": 1352.8669251719996
+    },
+    "CPU_caps": {
+      "core_cold": 3600,
+      "core_close": 0,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "wire_bytes": 172007277,
+    "wire_cap_bytes": 2147483648,
+    "unknown_call_full_uppers_retained": true
+  },
+  "S1": "CLOSED",
+  "T2": "QUARANTINED",
+  "new_training_endpoints": 0,
+  "new_qualified_demonstrations": 0,
+  "CI": "NOT_RUN",
+  "next_actions": [
+    "Do not replay cache write or start Core until its effect and connection are independently reconciled.",
+    "Use Vanda for the exact E2 closed-cold01 successor, preserving original fixed512/12 demos/R0/fees/clocks and all protected work.",
+    "No further checkpoint cleanup by agent."
+  ]
+}
