@@ -35,6 +35,8 @@ HOLD=dict(H200_s=28860,neural_queries=2097,Hopper_CPU_s=80000,
 HOLD['transfer_bytes']=2*HOLD['Core_storage_bytes']
 CPU_UPPER=80000
 GPU_UPPER=28860
+V7_POLICY='b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a'
+V7_PLAN='plans/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md'
 
 
 def raw(v): return (json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
@@ -71,8 +73,11 @@ GRANT_FILE='plans/ARX5_MINIMAL_E1_FIXED512_SCOPE.json'
 
 def validated(value):
     rows=validate(value)
-    need(len(rows)==1,'ONE_ACTUAL_FIXED512_CLOCK')
-    row=next(iter(rows.values()))
+    need(bool(rows),'ACTUAL_FIXED512_CLOCK')
+    active=[r for r in rows.values()if r['status']!=STATES[3]]
+    row=active[0]if active else max(rows.values(),key=lambda r:r['created_epoch'])
+    need(all(r['T_CD']==row['T_CD']and r['deadline_epoch']==row['deadline_epoch']for r in rows.values()),
+         'PRESERVE_ORIGINAL_FIXED512_CLOCK')
     return dict(task=TASK,task_source=TASK_SOURCE,grant_sha256=GRANT_SHA,
         T_CD=row['T_CD'],deadline_epoch=row['deadline_epoch'])
 
@@ -121,6 +126,8 @@ def request(r):
         'FINITE_RUN_INSIDE_DECLARED_WINDOW')
     from .minimal_core_sharing import allowed
     allowed(r)
+    if 'execution_policy_sha256'in r:
+        need(r['execution_policy_sha256']==V7_POLICY,'EXACT_ADOPTED_V7_EXECUTION_POLICY')
     return r
 
 
@@ -151,7 +158,15 @@ def validate_row(row):
 
 def validate(g):
     rows=g.get(FIELD,{})
-    need(type(rows) is dict and len(rows)<=1,'ONE_E1_PANEL_NO_AUTOMATIC_RETRY')
+    need(type(rows)is dict,'CANONICAL_FIXED512_INDEX')
+    if rows:
+        first=next(iter(rows.values()))
+        need(all(row['T_CD']==first['T_CD']and row['deadline_epoch']==first['deadline_epoch']for row in rows.values()),
+             'PRESERVE_ORIGINAL_FIXED512_CLOCK')
+    if len(rows)>1:
+        legacy=[r for r in rows.values()if 'execution_policy_sha256'not in r['request']]
+        need(len(legacy)<=1 and all(r['status']==STATES[3]for r in legacy),
+             'V7_SUCCESSORS_PRESERVE_TERMINAL_LEGACY_RUN')
     for rid,row in rows.items():
         validate_row(row);need(row['request_id']==rid,'CANONICAL_INDEX')
         need(row.get('control_payment')==CONTROL and row.get('scope_grant_sha256')==GRANT_SHA,
@@ -163,6 +178,7 @@ def validate(g):
     from .minimal_core_prebind_terminal import validate as prebind_terminal
     prebind_terminal(g)
     active=[v for v in rows.values()if v['status']!=STATES[3]]
+    need(len(active)<=1,'ONE_LIVE_FIXED512_OWNER')
     if not active:return rows
     need(g['unknown_effects']==g['pending_updates']==[], 'GLOBAL_UNKNOWN_AND_PENDING_FENCES')
     # The legacy D25 reservation is not an actual GPU process. It stays exact
@@ -216,7 +232,16 @@ def paired(g,l):
 
 def register(global_bytes,local_bytes,*,request_bytes,manifest_bytes,physical_manifest_bytes,now_epoch):
     g,l,r,m,p=map(json.loads,(global_bytes,local_bytes,request_bytes,manifest_bytes,physical_manifest_bytes))
-    checked(g);request(r);need(FIELD not in g and FIELD not in l,'ONE_NEW_FAMILY_REGISTRATION')
+    paired(g,l);request(r)
+    prior=g.get(FIELD,{})
+    if prior:
+        need(r.get('execution_policy_sha256')==V7_POLICY
+            and all(row['status']==STATES[3]for row in prior.values())
+            and r['request_id']not in prior
+            and all(r['run_uuid']!=row['run_uuid']for row in prior.values())
+            and m['execution']['sealed_inputs'].get(V7_PLAN)==V7_POLICY
+            and p['execution']['sealed_inputs'].get(V7_PLAN)==V7_POLICY,
+            'V7_NEW_COLD_IDENTITY_AFTER_ALL_PRIOR_TERMINAL')
     from .minimal_core_identity import request_identity
     request_identity(m,r,sha(manifest_bytes))
     need(request_bytes==raw(r) and manifest_bytes==raw(m) and r['created_epoch']<=now_epoch<r['deadline_epoch']-28860,
@@ -234,7 +259,7 @@ def register(global_bytes,local_bytes,*,request_bytes,manifest_bytes,physical_ma
         reservation_floor_before=floor,control_payment=deepcopy(CONTROL),
         physical_manifest_sha256=sha(physical_manifest_bytes),created_epoch=r['created_epoch'])
     v,w=deepcopy(g),deepcopy(l)
-    for x in (v,w):x[FIELD]={r['request_id']:deepcopy(row)}
+    for x in (v,w):x.setdefault(FIELD,{})[r['request_id']]=deepcopy(row)
     for key in ('H200_s','neural_queries'):v['reserved'][key]+=HOLD[key]
     v['CPU_reserved_s']+=80000;v['storage_reserved_bytes']+=HOLD['Hopper_storage_bytes']
     v['CPU_s']+=CONTROL['Hopper_CPU_s'];v['new_storage_current_bytes']+=CONTROL['Hopper_storage_bytes']
