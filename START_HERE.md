@@ -17,6 +17,8 @@ Codex可自主处理应用级路径、超时、类型、入口、队列管理、
 
 ## 最新实际与历史基线
 
+2026-10-31 01:53 SGT实际：原E2作业1508345已由新的单一管理角色接管；包装/owner两进程按PID＋proc_start核验存活，原作业新Q态心跳已写出并独立读回。没有qsub、没有改原训练脚本/请求/时钟；尚无训练更新和512端点。首次管理接管因试图超过继承CPU硬限制在入口前退出，后继保留站点硬限制后接管成功，旧失败/关闭记录保留。[实际接管证据](reports/PI0294/design/science-goal-v7-20261031/E2_EXISTING_JOB_MANAGEMENT_REATTACHED_ACTUAL_20261031.json)。E1已真实加载/生成1次并被原动作门拒绝，正式有效条件0；合格新示范0。
+
 2026-10-31 01:42 SGT实际：E1@512已在Core GPU0真实加载并完成1次自由生成（40×10）。原动作门拒绝：最大线速度4.8249m/s、角速度15.7340rad/s、平移路径5.4238m；命令安装/物理为0。工作器27.56CPU/35.47墙钟秒，自然OS0、MainPID0且own lease CLOSED，结果/数组/关闭intent和receipt均独立读回。这是保存观测的推理冒烟，正式有效条件仍0；E2新512端点/合格新示范仍0/0。[实际模型结果](reports/PI0294/design/science-goal-v7-20261031/E1_FIRST_REAL_FREE_GENERATION_ACTUAL_20261031.json)。
 
 2026-10-31 01:21–01:35 SGT独立核验：E1原完整绑定/onceIO在隔离副本用36.7CPU/39.7墙钟秒，超旧30/35限制，正式账本未改；E2原1508345仍Q、原owner已退出；19条放书名义路径均未完成整段静态检查，没有新物理。新端点/有效模型条件/合格示范仍0/0/0。[实际证据](reports/PI0294/design/parallel-science-20261022/INDEPENDENT_E1_BIND_E2_LIFECYCLE_BOOK_CONSTRAINT_ACTUAL_20261031.json)。V7后继将先用同一E1加载器与Processor做一次独立生成冒烟，不冒充正式评价；源技能不等待完整E1/E2面板。
