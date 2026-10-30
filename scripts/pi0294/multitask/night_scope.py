@@ -156,6 +156,26 @@ def validate_account(v):
         and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+    if 'closed_cabinet_geometry_repair02_carry'in v:
+        carry=v['closed_cabinet_geometry_repair02_carry']
+        pins=dict(account='33b195275c1078221ebc9dee4dccf7dcf063666bb3b234df55b3f3a2661161bc',
+            lease='5261f2a5ea196ee2484bd401e1d576df7e8d0d5172f04c3ae38a33727a5e2b70',
+            terminal='3f8eb186864be93683b0b9879681e9fc9bb8d0c6a3438af6d59f99f524e6c9e2',
+            stop='fb6a5cdeafd653c4cfa9e52dc6f13021c65e0be92feb170d9beb83acc1afa3b3')
+        need(set(carry)==set(pins),'EXACT_CLOSED_GEOMETRY_REPAIR_CARRY_FIELDS')
+        bodies={k:base64.b64decode(b,validate=True)for k,b in carry.items()}
+        need(all(hashlib.sha256(b).hexdigest()==pins[k]for k,b in bodies.items()),'EXACT_CLOSED_CABINET_POOL_AND_STOP')
+        old=json.loads(bodies['account']);validate_account(old)
+        need('closed_book_unrun_cabinet_carry'not in v
+            and v['operations'][:len(old['operations'])]==old['operations']
+            and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS)
+            and v['section5_successor']==old['section5_successor']
+            and v['native_destination'].endswith('-cabinet-repair02-night-source-four01'),
+            'GEOMETRY_REPAIR_CARRIES_EVERY_OLD_UPPER_AND_OPERATION_ONCE')
+        for op in v['operations'][len(old['operations']):]:
+            if op['kind']=='ATTEMPT':
+                need(op['task']=='ROBOCASA_OPEN_CABINET'and op['operation']in(
+                    'ROBOCASA_RIGHT_REPAIR02','ROBOCASA_LEFT_REPAIR02'),'ONLY_ONE_EVIDENCED_REPAIR_PER_CABINET_SIDE')
     if 'closed_book_unrun_cabinet_carry'in v:
         # Pure byte validation also runs before a native capsule exists.
         # Keep this gate independent of filesystem imports/caller sys.path.

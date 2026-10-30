@@ -3,7 +3,6 @@ import hashlib,json
 import xml.etree.ElementTree as ET
 import numpy as np
 
-from .robocasa_cabinet_cards import cards
 from .robocasa_cabinet_scene import VERSION
 from .robocasa_cabinet_assets import native_door_status
 from scripts.pi0291_arx5_data.config import PARAMETERS as P
@@ -12,7 +11,9 @@ from scripts.pi0291_arx5_data.config import PARAMETERS as P
 class CabinetChecks:
     def __init__(self,folder,qualification):
         q=qualification;card_bytes=(folder/'CARD.json').read_bytes();card=json.loads(card_bytes)
-        if card not in cards().values()or q['source_port']!=VERSION or q['card_sha256']!=hashlib.sha256(card_bytes).hexdigest():
+        from .cabinet_repair02 import checked_card
+        checked_card(card,card['cabinet']['orientation'])
+        if q['source_port']!=VERSION or q['card_sha256']!=hashlib.sha256(card_bytes).hexdigest():
             raise ValueError('EXACT_PREDECLARED_CABINET_CARD_NOT_A_CALLER_THRESHOLD')
         scene=(folder/'NATIVE_SCENE.private.xml').read_bytes()
         if hashlib.sha256(scene).hexdigest()!=q['native_scene_sha256']:

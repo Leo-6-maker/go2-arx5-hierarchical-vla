@@ -46,7 +46,9 @@ scope_ns['validate_account'](account)
 assert account['custody']=='CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK'
 assert account['native_adopted']is False
 if bundle['task_kind']=='ROBOCASA_CABINET':
- assert 'closed_book_unrun_cabinet_carry'in account and account['charged_upper']['attempts']==1
+ if P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR':
+  assert 'closed_cabinet_geometry_repair02_carry'in account and account['charged_upper']['attempts']==2
+ else:assert 'closed_book_unrun_cabinet_carry'in account and account['charged_upper']['attempts']==1
 else:assert account['charged_upper']['attempts']==0
 assert P['PC_closed_account_sha256']==sha(pc)and account['native_destination']==str(root)
 assert all(time.time()-P['observation'][k]['observed_epoch']<120 for k in('GLOBAL','LOCAL'))
@@ -134,6 +136,7 @@ manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_
  local_lease=str(lease_path),deadline_epoch=scope.DEADLINE,task_kind=bundle['task_kind'],
  predeclared_tasks=['left','right']if bundle['task_kind']=='BOOK'else bundle['plan'],attempts_this_chain_max=len(bundle['plan']),
  source_port_not_original_robot_benchmark=True,new_GR00T_training_queries_PBS=0)
+if P.get('cabinet_port_revision'):manifest['cabinet_port_revision']=P['cabinet_port_revision']
 put(root/'RUN_MANIFEST.json',raw(manifest))
 env={k:v for k,v in os.environ.items()if k in('PATH','HOME','USER','LOGNAME','LANG','LC_ALL',
  'XDG_RUNTIME_DIR','DBUS_SESSION_BUS_ADDRESS')}
@@ -190,7 +193,8 @@ assert local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']==adoption['marker']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==result['account_sha256']
 account=scope.validate_account(json.loads((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes()))
 assert account['native_adopted']is True
-assert account['charged_upper']['attempts']==(1 if kind=='ROBOCASA_CABINET'else 0)
+expected_attempts=2 if m.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR'else 1 if kind=='ROBOCASA_CABINET'else 0
+assert account['charged_upper']['attempts']==expected_attempts
 assert account['qualification_sha256']==sha((root/'SOURCE_QUALIFICATION.json').read_bytes())
 lease=json.loads(Path(binding['lease']).read_bytes());assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name
 paths=node_local_paths(json.loads((root/'RUNTIME_PATHS.private.json').read_bytes()))

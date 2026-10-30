@@ -1,0 +1,609 @@
+{
+  "schema": "PI0294_ROBOCASA_PORT02_GEOMETRY_REPAIR_COLD_REFERENCE_V1",
+  "status": "COLD_ONLY_NOT_NATIVE_QUALIFIED_OR_DEPLOYED",
+  "observed_epoch": 1793359205.9956684,
+  "predecessor_native_raw_sha256": "3e604d7f83c1eb1a824f2aeee159dea3cd416a3b7628218c14e06bc5d5e88d35",
+  "original_native_xml_sha256": "747d4b2a121dd0a04bf892da63b9eaffdf8f4cb01b7808a5765f59b6627e67e8",
+  "same_original_robot_xml_from_saved_book_scene_sha256": "bf6b8f5297cab56085c4967641072b0d0d6dee70ec1250a192fcc5abb87c291e",
+  "method": "Pure rigid XML forward kinematics, original joint ranges and damped IK formula; capsule/box exact segment clearance, OBB separating axes and conservative cylinder/capsule. No MuJoCo import, construction, forward or integration. Sampled references are not actual commands.",
+  "FK_saved_native_IK_error_reproduced": [
+    7.039821391239345e-07,
+    9.245123806357507e-07
+  ],
+  "old_link5_door_penetration_m": -0.015543875069186724,
+  "old_link5_top_penetration_m": -0.003552453767545233,
+  "new_explicit_port_revision": "ROBOCASA_ARX5_PORT02_GEOMETRY_REPAIR",
+  "changes": {
+    "common_home_xyz_m": [
+      0.3,
+      0,
+      0.59
+    ],
+    "home_rotation": "Canonical downward source TCP, common to both sides",
+    "cabinet_world_y_translation_m": {
+      "right": 0.2,
+      "left": -0.2
+    },
+    "grasp": "45degree downward tool X, finger closure along world Y at actual handle center",
+    "withdrawal": "Only after measured release/open gripper; original outward 0.13m translation plus return to common home rotation"
+  },
+  "unchanged": [
+    "Original PORT01 cards and first failures",
+    "Robot XML and source driver, WBC",
+    "Fixture primitive sizes, passive hinge/ranges, handle and textures",
+    "Native safety, full5s warmup plus32s task, independent score",
+    "Two seconds hold, released withdrawal, actual command labels",
+    "Original12attempt/600000physics pool, prior charges and source clocks"
+  ],
+  "selected_reference_conditions": {
+    "right": {
+      "cabinet_world_y_shift_m": 0.2,
+      "grasp": [
+        [
+          0.7071067811865475,
+          0.0,
+          0.7071067811865476,
+          0.38500000000000006
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.2977625
+        ],
+        [
+          -0.7071067811865476,
+          0.0,
+          0.7071067811865475,
+          0.5579999999999999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "withdraw": [
+        [
+          2.220446049250313e-16,
+          0.0,
+          1.0,
+          0.20480445544159503
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.053420042475608776
+        ],
+        [
+          -1.0,
+          0.0,
+          2.220446049250313e-16,
+          0.5579999999999999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "states": 441,
+      "minimum": {
+        "stage": "turn",
+        "index": 195,
+        "angle_rad": 1.4542125000000001,
+        "minimum": {
+          "robot": "x5_link6",
+          "obstacle": "handle_connector_top",
+          "conservative_clearance_m": 0.008575643228697277
+        },
+        "IK_error": [
+          3.6595492794780837e-09,
+          2.2835138353610497e-08
+        ],
+        "arm_q": [
+          -0.238596777680582,
+          1.2395142494823985,
+          0.5890179352250925,
+          -1.0414147258238755,
+          -0.7779911884551375,
+          -1.7425024659971968
+        ],
+        "joint_limit_margin_rad": 0.34649753400280314
+      },
+      "maximum_IK_position_error_m": 4.295675943854929e-08,
+      "maximum_IK_rotation_error_rad": 2.518999356978537e-08,
+      "minimum_joint_limit_margin_rad": 0.2382946269753059,
+      "first_illegal_collision_or_unreachable": null
+    },
+    "left": {
+      "cabinet_world_y_shift_m": -0.2,
+      "grasp": [
+        [
+          0.7071067811865475,
+          0.0,
+          0.7071067811865476,
+          0.38500000000000006
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.2977625
+        ],
+        [
+          -0.7071067811865476,
+          0.0,
+          0.7071067811865475,
+          0.5579999999999999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "withdraw": [
+        [
+          2.220446049250313e-16,
+          0.0,
+          1.0,
+          0.20480445544159503
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.053420042475608776
+        ],
+        [
+          -1.0,
+          0.0,
+          2.220446049250313e-16,
+          0.5579999999999999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "states": 441,
+      "minimum": {
+        "stage": "turn",
+        "index": 195,
+        "angle_rad": -1.4542125000000001,
+        "minimum": {
+          "robot": "x5_link6",
+          "obstacle": "handle_connector_top",
+          "conservative_clearance_m": 0.008575643228697277
+        },
+        "IK_error": [
+          3.6595492794780837e-09,
+          2.2835138353610497e-08
+        ],
+        "arm_q": [
+          0.238596777680582,
+          1.2395142494823985,
+          0.5890179352250925,
+          -1.0414147258238755,
+          0.7779911884551375,
+          1.7425024659971968
+        ],
+        "joint_limit_margin_rad": 0.34649753400280314
+      },
+      "maximum_IK_position_error_m": 4.295675943854929e-08,
+      "maximum_IK_rotation_error_rad": 2.518999356978537e-08,
+      "minimum_joint_limit_margin_rad": 0.2382946269753059,
+      "first_illegal_collision_or_unreachable": null
+    }
+  },
+  "selected_private_evidence_sha256": "9d3f503e93f8f653be6cbe0d1b4ef0ca837d63189de0f6dac23773e2054a0881",
+  "rejected_geometric_candidates": [
+    {
+      "evidence_sha256": "b353efc30b3b08b89cec9d61214394cf93c4d43a42f61ccbb3d4570159477a07",
+      "status": "PURE_PREDECLARED_TEACHER_APPROACH_ALIGN_FROM_RETRACTED_HOME_NO_SIMULATOR",
+      "conditions": {
+        "right": {
+          "first_rejected": {
+            "stage": "approach",
+            "index": 76,
+            "minimum": {
+              "robot": "right_pad",
+              "obstacle": "handle",
+              "conservative_clearance_m": 0.06082192421371874
+            },
+            "IK_error": [
+              6.89803766980199e-07,
+              0.006509609778476739
+            ],
+            "tcp_target": [
+              [
+                0.7170780437904489,
+                -0.6135714855397105,
+                -0.3306495293301594,
+                0.3027142857142857
+              ],
+              [
+                -0.3306495293301594,
+                -0.7170780437904491,
+                0.6135714855397105,
+                0.0018024999999999985
+              ],
+              [
+                -0.6135714855397105,
+                -0.3306495293301594,
+                -0.7170780437904491,
+                0.5726285714285714
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "arm_q": [
+              0.42252981807124923,
+              0.924408888772153,
+              0.3687998874559321,
+              -0.3136439444404838,
+              0.6380396961229714,
+              -2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": null
+        },
+        "left": {
+          "first_rejected": {
+            "stage": "approach",
+            "index": 17,
+            "minimum": {
+              "robot": "right_pad",
+              "obstacle": "handle",
+              "conservative_clearance_m": 0.02327193049328026
+            },
+            "IK_error": [
+              8.773039981422972e-07,
+              0.008284092148697594
+            ],
+            "tcp_target": [
+              [
+                0.15597543628888322,
+                -0.978556498967111,
+                -0.13453193525599427,
+                0.30060714285714285
+              ],
+              [
+                -0.13453193525599427,
+                -0.15597543628888344,
+                0.978556498967111,
+                -0.11040294642857143
+              ],
+              [
+                -0.978556498967111,
+                -0.13453193525599427,
+                -0.15597543628888344,
+                0.5861142857142857
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "arm_q": [
+              -0.3723804442948758,
+              1.4157796939825436,
+              1.0268965904125171,
+              -0.9859709256323715,
+              0.06861636813549486,
+              -2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": null
+        }
+      }
+    },
+    {
+      "evidence_sha256": "5b0889c65d534ede442e7ba989cb6582fb2e294656ac747dfe98b2729fd49b15",
+      "status": "PURE_CABINET_COMMON_HOME_AND_PARALLEL_GRIPPER_ROLL_EQUIVALENT_REFERENCE_NO_SIMULATOR",
+      "conditions": {
+        "right": {
+          "first_rejected": {
+            "stage": "approach",
+            "index": 0,
+            "minimum": {
+              "robot": "left_pad",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.0958442094704341
+            },
+            "minimum_including_handle": {
+              "robot": "left_pad",
+              "obstacle": "handle",
+              "conservative_clearance_m": 0.07640673112000135
+            },
+            "IK_error": [
+              0.10174766261392366,
+              0.13882903253598644
+            ],
+            "tcp_target": [
+              [
+                1.0,
+                0.0,
+                0.0,
+                0.3
+              ],
+              [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0,
+                0.59
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "arm_q": [
+              0.0,
+              0.005,
+              0.005,
+              0.13882903253598644,
+              0.0,
+              0.0
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 2.113458756024653
+        },
+        "left": {
+          "first_rejected": {
+            "stage": "approach",
+            "index": 0,
+            "minimum": {
+              "robot": "right_pad",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.0975242481246544
+            },
+            "minimum_including_handle": {
+              "robot": "right_pad",
+              "obstacle": "handle",
+              "conservative_clearance_m": 0.07835271899503445
+            },
+            "IK_error": [
+              0.10174766261392366,
+              0.13882903253598644
+            ],
+            "tcp_target": [
+              [
+                1.0,
+                0.0,
+                0.0,
+                0.3
+              ],
+              [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0,
+                0.59
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "arm_q": [
+              0.0,
+              0.005,
+              0.005,
+              0.13882903253598644,
+              0.0,
+              0.0
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 2.113458756024653
+        }
+      }
+    },
+    {
+      "evidence_sha256": "e1fd2fbc0a72f9690f253a2e9976779d5d5f2944d771c9e2668ede905d3cd9d5",
+      "status": "PURE_TILTED_GRASP_HYPOTHETICAL_DOOR_TURN_KINEMATICS_NO_SIMULATOR",
+      "conditions": {
+        "right": {
+          "first_rejected": {
+            "index": 144,
+            "hinge_angle_rad": 1.0738800000000002,
+            "minimum": {
+              "robot": "x5_link6",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.008575645081782886
+            },
+            "IK_error": [
+              1.680083814856382e-06,
+              0.015857569685159084
+            ],
+            "arm_q": [
+              -0.8929900585120729,
+              1.4603996656788054,
+              0.7352019145250516,
+              -1.2138030225543892,
+              -0.7107001065118584,
+              -2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.563358929997276
+        },
+        "left": {
+          "first_rejected": {
+            "index": 144,
+            "hinge_angle_rad": -1.0738800000000002,
+            "minimum": {
+              "robot": "x5_link6",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.008575645081782886
+            },
+            "IK_error": [
+              1.680083814856382e-06,
+              0.015857569685159084
+            ],
+            "arm_q": [
+              0.8929900585120729,
+              1.4603996656788054,
+              0.7352019145250516,
+              -1.2138030225543892,
+              0.7107001065118584,
+              2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.563358929997276
+        }
+      }
+    },
+    {
+      "evidence_sha256": "9a03d1db868e5e39edbf3016148a07037fb80619ff2d0353192da260b98df910",
+      "status": "PURE_CABINET_30DEGREE_HANDLE_GRASP_APPROACH_ALIGN_TURN_REFERENCE",
+      "conditions": {
+        "right": {
+          "first_rejected": {
+            "stage": "turn",
+            "index": 125,
+            "angle_rad": 0.9321875000000001,
+            "minimum": {
+              "robot": "right_pad",
+              "obstacle": "door",
+              "conservative_clearance_m": 0.009659541536014985
+            },
+            "IK_error": [
+              2.4850461961453515e-06,
+              0.023449544295747103
+            ],
+            "arm_q": [
+              -0.9308358165385835,
+              1.4946223769265834,
+              0.5822038288026272,
+              -1.1212077723227052,
+              -0.9778716160233307,
+              -2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.7133941574303919
+        },
+        "left": {
+          "first_rejected": {
+            "stage": "turn",
+            "index": 125,
+            "angle_rad": -0.9321875000000001,
+            "minimum": {
+              "robot": "left_pad",
+              "obstacle": "door",
+              "conservative_clearance_m": 0.009701369135878624
+            },
+            "IK_error": [
+              2.4850461961453515e-06,
+              0.023449544295747103
+            ],
+            "arm_q": [
+              0.9308358165385835,
+              1.4946223769265834,
+              0.5822038288026272,
+              -1.1212077723227052,
+              0.9778716160233307,
+              2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.7133941574303919
+        }
+      }
+    },
+    {
+      "evidence_sha256": "609a203c4d261bd0fe88e26bb1026783f977a5d83df3fdae137a4e339042ebfa",
+      "status": "PURE_CABINET_MIRRORED_WORKSPACE_45DEGREE_GRASP_COMPLETE_REFERENCE",
+      "conditions": {
+        "right": {
+          "first_rejected": {
+            "stage": "turn",
+            "index": 194,
+            "angle_rad": 1.446755,
+            "minimum": {
+              "robot": "x5_link6",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.008575641569528655
+            },
+            "IK_error": [
+              1.2518293237397422e-06,
+              0.011812977002534093
+            ],
+            "arm_q": [
+              -0.516832745137412,
+              1.3969252709497224,
+              0.6827493777676696,
+              -1.2221845365830175,
+              -0.7118775145391286,
+              -2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.101988997124551
+        },
+        "left": {
+          "first_rejected": {
+            "stage": "turn",
+            "index": 194,
+            "angle_rad": -1.446755,
+            "minimum": {
+              "robot": "x5_link6",
+              "obstacle": "handle_connector_top",
+              "conservative_clearance_m": 0.008575641569528655
+            },
+            "IK_error": [
+              1.2518293237397422e-06,
+              0.011812977002534093
+            ],
+            "arm_q": [
+              0.516832745137412,
+              1.3969252709497224,
+              0.6827493777676696,
+              -1.2221845365830175,
+              0.7118775145391286,
+              2.089
+            ]
+          },
+          "maximum_IK_rotation_error_rad": 0.101988997124551
+        }
+      }
+    }
+  ],
+  "qualified_demonstrations": 0,
+  "new_native_constructors_integrations_queries_updates_PBS": 0,
+  "prior_source_native_attempts": 2,
+  "prior_source_actual_integrations": 3371,
+  "prior_source_RGB_pairs": 36,
+  "prospective_native_plan": "At most one new PORT02 attempt per side, right then left, no retries; stop chain on first engineering or safety failure. Original owner/registry/onceIO, full inherited cost and closed predecessor proof required.",
+  "limitations": "Pure samples do not prove swept/dynamic feasibility, camera qualification, actual grasp/release, task success or data admission. This changes the source-port development layout and is neither the old first-attempt score nor the original RoboCasa benchmark. Native cold deployment remains pending.",
+  "validation": {
+    "targeted_CPU_passed": 43,
+    "skipped_native_without_MuJoCo": 2,
+    "CI": "NOT_RUN"
+  }
+}

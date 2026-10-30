@@ -70,10 +70,13 @@ def run(root,side,*,task_kind='BOOK'):
     card=(fixed[task_kind]if task_kind in fixed else fixed)[side]
     if card['task_duration_s']!=32. or card['warmup_s']!=5.:raise PermissionError('FIXED_FULL_TASK_DURATION')
     if task_kind=='ROBOCASA_CABINET':
-        from .robocasa_cabinet_cards import cards as fixed_cards
-        if card!=fixed_cards()[side]:raise PermissionError('EXACT_PREDECLARED_CABINET_PORT_CARD')
+        from .cabinet_repair02 import checked_card
+        checked_card(card,side)
     elif card.get('task')!='BOOK':raise PermissionError('ORIGINAL_BOOK_TASK_CARD')
     operation=('LIBERO_'if task_kind=='BOOK'else'ROBOCASA_')+side.upper()+'_FIRST01'
+    if task_kind=='ROBOCASA_CABINET':
+        from .cabinet_repair02 import attempt_operation
+        operation=attempt_operation(card,side)
     after=scope.reserve(account,operation=operation,kind='ATTEMPT',upper=dict(attempts=1,
         physics_integrations=50000,RGB_pairs=2000,Core_CPU_s=2800,render_device_s=600,
         Core_peak_bytes=512*1024**2),now=time.time(),task='LIBERO_BOOK_'+side.upper()if task_kind=='BOOK'else'ROBOCASA_OPEN_CABINET',

@@ -39,6 +39,12 @@ class SourceSkillTeacher:
         if card.get('task') not in ('DOOR', 'BOOK'):
             raise ValueError('SOURCE_DOOR_OR_BOOK_TASK_REQUIRED')
         self.card, self.task = deepcopy(card), card['task']
+        self.withdraw_rotation=None
+        if 'withdraw_tcp_rotation_world'in card or 'port_revision'in card:
+            from .cabinet_repair02 import checked_card
+            side=card['cabinet']['orientation']
+            if not checked_card(card,side):raise ValueError('ONLY_EXPLICIT_PORT02_RELEASED_WRIST_RETURN')
+            self.withdraw_rotation=np.asarray(card['withdraw_tcp_rotation_world'],dtype=float)
         self.spec = self.card['door' if self.task == 'DOOR' else 'book']
         self.grasp_offset = pose(self.spec['object_to_tcp_grasp'])
         direction = np.asarray(self.spec['approach_direction_object'], dtype=float)
@@ -153,6 +159,8 @@ class SourceSkillTeacher:
             self.withdraw = s['tcp'].copy()
             direction = self._withdraw_direction()
             self.withdraw[:3, 3] += direction*.13
+            if self.withdraw_rotation is not None:
+                self.withdraw[:3,:3]=self.withdraw_rotation
             self._transition('withdraw')
         elif stage == 'withdraw' and reached and not s['robot_object_contact']:
             self._transition('hold')
