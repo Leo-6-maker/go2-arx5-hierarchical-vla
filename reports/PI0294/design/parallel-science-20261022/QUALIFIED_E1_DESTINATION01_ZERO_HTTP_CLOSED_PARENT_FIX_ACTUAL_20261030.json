@@ -1,0 +1,27 @@
+{
+  "status": "INDEPENDENT_E1_DESTINATION01_CLOSED_ZERO_HTTP_EMPTY_VIEW_NO_REPLAY",
+  "original_runtime_source": "aec14e2d2f5f6e5d0e05c379ac3dc2d46e79c786",
+  "original_manifest_sha256": "47baefe178aba81dfdb79c4fd85211610a0ca6cbed93b794055070a4e4dc9bc2",
+  "original_closed_lease_sha256": "88a380880d469d018566b72906c7633193c6da218e5b427bd41bcea7fb751b1a",
+  "native_final_sha256": "20a3f520a2bd37c347935a597299135a492455ad98e364e3ee46b4af19bd88f7",
+  "preserved_failure_sha256": "8343a38cc6dda8820ae9bda309ae0af2f1c0efbe9244ac6252887ea21c1cc63e",
+  "actual_Core_CPU_s": 3.257455527,
+  "actual_HTTP_requests": 0,
+  "actual_HTTP_bytes": 0,
+  "actual_model_files": 0,
+  "old_process_terminal": true,
+  "old_lease_once_close_verified": true,
+  "failure": "Actual worker exclusive control writer did not create its nested download-intents parent; stopped before first request.",
+  "fix": "Actual save path now prepares owned nested parents and rejects traversal/symlinks before original exclusive write.",
+  "validation": {
+    "relevant_checks": 3,
+    "elapsed_s": 0.04,
+    "one_new_unique_parent_writer_check": true,
+    "earlier_closed_E1_contract_checks_reused_unchanged": true,
+    "CI": "NOT_RUN"
+  },
+  "old_closed_role_not_reopened": true,
+  "old_costs_and_source_bytes_retained": true,
+  "new_cold_identity_required": true,
+  "new_models_queries_updates_physics_PBS": 0
+}
