@@ -60,6 +60,8 @@ def checked_plan(root,task_kind):
 def main(root,*,task_kind='BOOK'):
     planned_tasks(task_kind)
     root=Path(root);start=time.monotonic()
+    from .night_scope import for_root
+    scope=for_root(root)
     if os.getuid()!=2009 or os.uname().nodename!='corelab-4080s':raise PermissionError('EXISTING_CORE_OWNER_ONLY')
     scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
     plan=checked_plan(root,task_kind)

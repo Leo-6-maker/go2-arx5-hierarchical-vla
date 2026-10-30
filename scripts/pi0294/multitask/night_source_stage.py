@@ -38,7 +38,9 @@ bundle=bundle_ns['unpack'](P)
 once_ns={};exec(compile(code['scripts/pi0294/dec1/source_cpu_once_io.py'],'<original-onceIO>','exec'),once_ns)
 put=once_ns['_exclusive'];commit=once_ns['commit']
 scope_ns={};exec(compile(code['scripts/pi0294/multitask/night_scope.py'],'<published-night-scope>','exec'),scope_ns)
-approval=base64.b64decode(P['approval_base64']);scope_ns['authority'](approval,now=time.time())
+approval=base64.b64decode(P['approval_base64']);extension=base64.b64decode(P['successor_authority_base64'],validate=True)if P.get('successor_authority_base64')else None
+assert extension is None or bundle['task_kind']=='ALL_PINNED'
+scope_ns['authority'](approval,now=time.time(),successor_body=extension)
 pc=base64.b64decode(P['PC_closed_account_base64']);account=json.loads(pc)
 scope_ns['validate_account'](account)
 assert account['custody']=='CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK'
@@ -53,6 +55,8 @@ for n,b in code.items():
  path=capsule/n;path.parent.mkdir(parents=True,mode=0o700,exist_ok=True);put(path,b)
 sys.path[:0]=[str(capsule),str(capsule/'src')]
 from scripts.pi0294.multitask import night_scope as scope
+if extension is not None:put(root/'SOURCE_SUCCESSOR_AUTHORITY.json',extension)
+scope=scope.for_root(root)
 from scripts.pi0294.task_path_entry import ENTRY_FILES,node_local_paths,registered_snapshot
 gb=gzip.decompress(base64.b64decode(P['GLOBAL_gzip_base64']));assert sha(gb)==P['observation']['GLOBAL']['sha256']
 budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
@@ -120,6 +124,7 @@ put(root/'ACTUAL_LOCAL_PATHS.json',raw(locality))
 sealed_names=['NIGHT_HUMAN_APPROVAL.json','SOURCE_SCOPE_ADOPTION.json','SOURCE_QUALIFICATION.json','FIXED_TASK_CARDS.json',
  'ASSET_BINDINGS.private.json','RUNTIME_PATHS.private.json','ORIGINAL_ACTION_SEMANTICS_ACTUAL.json','OUTPUT_BINDING.private.json',
  'FULL14_PROOF.json']+['inputs/'+name for name in bundle['definitions']]
+if extension is not None:sealed_names.append('SOURCE_SUCCESSOR_AUTHORITY.json')
 manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_PC',scope=scope.SCOPE,
  source_sha=P['source_sha'],capsule_relative='entry/code/vla',sealed_inputs={n:sha((root/n).read_bytes())for n in sealed_names},
  authority_sha256=scope.APPROVAL_SHA,original_entry_unchanged=True,original_registry_adopted=True,
@@ -163,6 +168,7 @@ code=root/m['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
 from scripts.pi0294.multitask import night_scope as scope
 from scripts.pi0294.multitask.source_stage_bundle import checked_manifest
 from scripts.pi0294.multitask.night_book_chain import checked_plan
+scope=scope.for_root(root)
 from scripts.pi0294.task_path_entry import node_local_paths,registered_snapshot
 scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
 for name,pin in json.loads((root/'SOURCE_SEAL.json').read_bytes())['files'].items():assert sha((code/name).read_bytes())==pin
@@ -204,13 +210,15 @@ import sys
 code=root/m['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
 from scripts.pi0294.multitask.source_stage_bundle import checked_manifest
 from scripts.pi0294.multitask.night_book_chain import checked_plan
+from scripts.pi0294.multitask.night_scope import for_root
+scope=for_root(root);scope.authority((root/'NIGHT_HUMAN_APPROVAL.json').read_bytes(),now=time.time())
 kind,planned=checked_manifest(m);assert [dict(task_kind=k,side=s)for k,s in checked_plan(root,kind)]==planned
 assert 0<=time.time()-P['independent_readback_epoch']<120
 assert sha(Path(P['LOCAL_path']).read_bytes())==P['LOCAL_sha256']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==P['account_sha256']
 lease=json.loads((root/'control/NATIVE_SOURCE_LEASE.json').read_bytes())
 assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name and not(root/'STOP.json').exists()
-assert time.time()+1300<lease['deadline_epoch']and time.time()<1793318400
+assert lease['deadline_epoch']==scope.DEADLINE and time.time()+1300<lease['deadline_epoch']and time.time()<scope.STOP_NEW
 for unit in P['idle_D25_units']:
  q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','LoadState'],capture_output=True,text=True,timeout=4)
  assert dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',LoadState='not-found')
