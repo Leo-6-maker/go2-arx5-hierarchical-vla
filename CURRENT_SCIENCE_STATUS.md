@@ -1,6 +1,6 @@
-# 当前科学状态 · 2026-10-29实际核验
+# 当前科学状态 · Goal V7 · 2026-10-31
 
-2026-10-31 00:43–00:55 SGT实际：E1共享启动失败已在原GLOBAL/LOCAL正式结算（243 GPU秒、6 neural CPU秒、300物理元数据CPU秒、144MiB保守输出），本次未用hold解除且三own lease CLOSED并独立回读；模型/查询/积分/有效条件0，旧进程不重启。Vanda原绑定目标完整只读校验实测26.1CPU/26.8墙钟秒，接近旧30CPU/35墙钟调用上限；尚未证明SSH255唯一根因，下一修复针对有界控制传输，不删校验。E2原唯一1508345最新00:55仍Q，管理owner已OS152，未重投。新端点/有效评价/合格示范0/0/0；完整S0–S5未完成。[实际结算、关闭及耗时证据](reports/PI0294/design/parallel-science-20261022/E1_SHARED03_DUAL_SETTLED_THREE_CLOSED_AND_BIND_VALIDATION_TIMING_ACTUAL_20261031.json)。
+2026-10-31 01:21–01:35 SGT独立核验：E1原完整绑定/onceIO在隔离副本用36.7CPU/39.7墙钟秒，超旧30/35限制，正式账本未改；E2原1508345仍Q、原owner已退出；19条放书名义路径均未完成整段静态检查，没有新物理。新端点/有效模型条件/合格示范仍0/0/0。[实际证据](reports/PI0294/design/parallel-science-20261022/INDEPENDENT_E1_BIND_E2_LIFECYCLE_BOOK_CONSTRAINT_ACTUAL_20261031.json)。V7后继将先用同一E1加载器与Processor做一次独立生成冒烟，不冒充正式评价；源技能不等待完整E1/E2面板。
 
 2026-10-30 21:17 SGT后继：保存放书记录已定位到更早的link6本体顶书，原参考本身也侵入书体；上移抓点候选未通过完整静态IK路径检查，未物理重试。E1/E2固定512的独立计划/原session与label入口已补齐，并用实际E1 manifest与原24人口核验；新canonical分配/原生backend和600秒资格尚未完成，未加载或评价。E2同一1508345最新21:17仍Q且后台健康。新端点/有效模型条件/合格示范仍0/0/0。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
 
