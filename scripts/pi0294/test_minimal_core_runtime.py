@@ -67,6 +67,43 @@ def test_raw512_reuses_actual_original_native_identity_device_parsers():
     assert protocol._body(grant)['issued_row']==row
 
 
+def shared_fixture():
+    from scripts.pi0294.generalization import minimal_core_sharing as sharing
+    m,r,*_=fixture();r.update(request_id=sharing.RID,submission_nonce=sharing.NONCE,
+        run_uuid=sharing.RUN,native_unit=sharing.RUN+'-neural.service',
+        shared_GPU_grant_sha256=sharing.GRANT_SHA)
+    m['run_uuid']=r['run_uuid'];m['execution']['sealed_inputs'][sharing.PLAN]=sharing.GRANT_SHA
+    r['run_manifest_sha256']=c.digest(m)
+    return m,r
+
+
+def test_exact_direct_GPU0_shared_device_keeps_foreign_rows_and_original_total_memory_gate():
+    from scripts.pi0294.generalization import minimal_core_sharing as sharing
+    m,r=shared_fixture();identity.request_identity(m,r,c.digest(m))
+    processes=GPU+', 4101246, /foreign/python, 5770\n'
+    device=hardware.parse_GPU_rows(DEVICE,processes,GPU_uuid=GPU,shared_request=r)
+    assert device['human_authorized_shared_GPU_grant_sha256']==sharing.GRANT_SHA
+    with pytest.raises(PermissionError):hardware.parse_GPU_rows(DEVICE,processes,GPU_uuid=GPU)
+    low=DEVICE.replace('32760','16376')
+    with pytest.raises(PermissionError):hardware.parse_GPU_rows(low,processes,GPU_uuid=GPU,shared_request=r)
+    with pytest.raises(PermissionError):hardware.parse_GPU_rows(DEVICE,processes.replace('5770','unknown'),GPU_uuid=GPU,shared_request=r)
+
+
+@pytest.mark.parametrize('key,value',[('request_id','12345678-1234-4234-8234-123456789abc'),
+    ('GPU_uuid','GPU-845348f1-1511-dc19-0877-cc97658e3edd'),('evaluation_candidate','D25'),
+    ('optimizer_updates',1),('shared_GPU_grant_sha256','0'*64)])
+def test_direct_share_cannot_authorize_another_request_device_or_scientific_change(key,value):
+    m,r=shared_fixture();r[key]=value
+    with pytest.raises(PermissionError):identity.request_identity(m,r,c.digest(m))
+
+
+def test_direct_share_requires_real_manifest_seal_and_all_original_cold_owner_seams():
+    from scripts.pi0294.generalization import minimal_core_sharing as sharing,minimal_core_management as manager
+    m,r=shared_fixture();del m['execution']['sealed_inputs'][sharing.PLAN]
+    with pytest.raises(PermissionError):identity.request_identity(m,r,c.digest(m))
+    assert "shared_request=r if 'shared_GPU_grant_sha256'in r else None"in manager.PROGRAMS['prestart']
+
+
 @pytest.mark.parametrize('key,value',[('checkpoint_step',1024),('optimizer_updates',False),('evaluation_candidate','D25'),
     ('statistics_sha256','0'*64),('checkpoint_manifest_sha256','0'*64),('shared_GPU_grant_sha256','a'*64),
     ('parent_checkpoint_manifest_sha256','a'*64),('native_unit','foreign-neural.service')])

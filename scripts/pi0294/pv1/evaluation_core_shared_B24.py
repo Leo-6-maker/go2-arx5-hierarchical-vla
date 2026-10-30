@@ -18,6 +18,10 @@ def grant(raw):
  g=json.loads(raw);need(g['direct_human_answer']=='允许直接共享GPU0做eval，显存充足，如果失败可以尝试GPU1' and g['new_request_id']==RID and g['new_control_id']==CONTROL and g['latest_native_start_epoch']==late.LATEST and g['budget_changes']=={},'EXACT_ONLY_B24_AND_UNCHANGED_CAPS_CLOCKS')
  return g
 def allowed(r):
+ from scripts.pi0294.generalization.minimal_evaluation import typed
+ if typed(r):
+  from scripts.pi0294.generalization.minimal_core_sharing import allowed as fixed512
+  return fixed512(r)
  if 'shared_owner_repair_scope_sha256' in r:
   from .evaluation_core_shared_repair import allowed as repair_allowed
   return repair_allowed(r)

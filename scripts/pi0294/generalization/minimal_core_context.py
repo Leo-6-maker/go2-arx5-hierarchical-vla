@@ -89,6 +89,8 @@ def validate(root,*,closeout=False):
     need(sealed(c.GRANT_FILE)==c.grant() and sha(root/c.GRANT_FILE)==c.GRANT_SHA,'EXACT_DIRECT_SCIENCE_SCOPE')
     marker,path=ledger_binding(root,closeout=closeout);local=read(path);row=local[c.FIELD][m['authority']['request_id']]
     request=row['request']
+    from .minimal_core_sharing import manifest as shared_manifest
+    shared_manifest(m,request)
     if not physical:
         identity.request_identity(m,request,sha(root/'RUN_MANIFEST.json'))
         rp=root/'pbs/alloc-01/REQUEST.json'

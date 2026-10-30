@@ -32,6 +32,10 @@ def derive(files):
     anchor="  profile='4080-simulation' if role=='core' else '4080-neural-evaluation'"
     methods=replace(methods,anchor,"  bootstrap='import os;os.environ.update('+repr(local_env)+');'+bootstrap\n"+anchor)
     out['v5_core_resident_methods.py']=methods.encode()
+    helper=files['ORIGINAL_RESIDENT_KERNEL_HELPERS.py'].decode()
+    helper=replace(helper,"GPU_uuid=r['GPU_uuid'],own_pid=pid",
+        "GPU_uuid=r['GPU_uuid'],shared_request=r if 'shared_GPU_grant_sha256'in r else None,own_pid=pid")
+    out['ORIGINAL_RESIDENT_KERNEL_HELPERS.py']=helper.encode()
     for n,b in out.items():compile(b,'<new-cold-fixed512-'+n+'>','exec')
     return out,dict(schema='ARX5_FIXED512_EXACT_ORIGINAL_CORE_OWNER_ADAPTER_V1',
         original_sha256=PINS,derived_sha256={n:hashlib.sha256(b).hexdigest()for n,b in out.items()},
