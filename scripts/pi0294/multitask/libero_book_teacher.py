@@ -34,20 +34,22 @@ class LiberoBookTeacher(SourceSkillTeacher):
 
 ROUTE_REVISION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
 MARGIN_REVISION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
+DESCENT_REVISION='LIBERO_ARX5_PORT05_SLOW_SUPPORTED_DESCENT'
 
 
 def route_card(revision=ROUTE_REVISION):
     """The one left condition with a complete saved static/swept reference."""
     from .libero_book_cards import cards
-    if revision not in(ROUTE_REVISION,MARGIN_REVISION):raise ValueError('KNOWN_STATIC_BOOK_ROUTE')
+    if revision not in(ROUTE_REVISION,MARGIN_REVISION,DESCENT_REVISION):raise ValueError('KNOWN_STATIC_BOOK_ROUTE')
     card=deepcopy(cards()['left']);semantic=np.diag([-1.,1.,-1.])
     offset=np.array(card['book']['object_to_tcp_grasp']);angle=math.radians(20.)
     tilt=np.array([[1.,0.,0.],[0.,math.cos(angle),-math.sin(angle)],
                    [0.,math.sin(angle),math.cos(angle)]])
     offset[:3,:3]=semantic.T@tilt@semantic@offset[:3,:3]
     offset[:3,3]=[-.001786,.025,-.05]
-    identifier=('NIGHT30_LIBERO_BOOK_LEFT_PORT03_TOP_EDGE_ROUTE'if revision==ROUTE_REVISION
-                else'NIGHT30_LIBERO_BOOK_LEFT_PORT04_TRACKING_MARGIN')
+    identifier={ROUTE_REVISION:'NIGHT30_LIBERO_BOOK_LEFT_PORT03_TOP_EDGE_ROUTE',
+        MARGIN_REVISION:'NIGHT30_LIBERO_BOOK_LEFT_PORT04_TRACKING_MARGIN',
+        DESCENT_REVISION:'NIGHT30_LIBERO_BOOK_LEFT_PORT05_SLOW_DESCENT'}[revision]
     card.update(id=identifier,book_route_revision=revision)
     card['book']['object_to_tcp_grasp']=offset.tolist()
     card['book_route']=dict(approach_m=.04,lift_m=.075,front_cross_book_x_m=.454214,
@@ -55,13 +57,14 @@ def route_card(revision=ROUTE_REVISION):
         corridor_y_min_m=.07432,corridor_y_max_m=.20462,clearance_m=.001,
         waypoint_position_m=.001,waypoint_angle_rad=.01,
         withdraw_tool_m=.06,withdraw_exterior_x_m=.10)
-    if revision==MARGIN_REVISION:card['book_route']['front_cross_book_x_m']=.464214
+    if revision in(MARGIN_REVISION,DESCENT_REVISION):card['book_route']['front_cross_book_x_m']=.464214
+    if revision==DESCENT_REVISION:card['book_route']['lower_speed_m_s']=.01
     return card
 
 
 def checked_route_card(card,side='left'):
     revision=card.get('book_route_revision')
-    if side!='left'or revision not in(ROUTE_REVISION,MARGIN_REVISION)or card!=route_card(revision):
+    if side!='left'or revision not in(ROUTE_REVISION,MARGIN_REVISION,DESCENT_REVISION)or card!=route_card(revision):
         raise PermissionError('EXACT_STATIC_QUALIFIED_LEFT_BOOK_ROUTE_CARD')
     return True
 
@@ -69,8 +72,9 @@ def checked_route_card(card,side='left'):
 def attempt_operation(card,side):
     if 'book_route_revision'in card:
         checked_route_card(card,side)
-        return ('LIBERO_LEFT_PORT03_TOP_EDGE_ROUTE'if card['book_route_revision']==ROUTE_REVISION
-                else'LIBERO_LEFT_PORT04_TRACKING_MARGIN')
+        return {ROUTE_REVISION:'LIBERO_LEFT_PORT03_TOP_EDGE_ROUTE',
+                MARGIN_REVISION:'LIBERO_LEFT_PORT04_TRACKING_MARGIN',
+                DESCENT_REVISION:'LIBERO_LEFT_PORT05_SLOW_DESCENT'}[card['book_route_revision']]
     return 'LIBERO_'+side.upper()+'_FIRST01'
 
 
@@ -148,4 +152,5 @@ class RoutedLiberoBookTeacher(LiberoBookTeacher):
             goal=self.waypoints[stage][self.waypoint_index[stage]].copy()
         else:return super()._build_stage_path()
         from .feedback_teacher import straight_path
-        self.path=straight_path(s['tcp'],goal);self.goal=goal;self.path_start=self.index
+        speed=(self.route.get('lower_speed_m_s',.06)if stage=='preinsert'and self.waypoint_index[stage]==2 else .06)
+        self.path=straight_path(s['tcp'],goal,linear_speed=speed);self.goal=goal;self.path_start=self.index

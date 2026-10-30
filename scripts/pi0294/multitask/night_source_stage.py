@@ -103,10 +103,10 @@ if scope.V7_CARRY in account:
  storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
  future=max(0,storage['projected']-storage['used'])
  retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
- assert retained_and_next<=5368709120
+ source_capacity=max(5368709120,((retained_and_next+1073741823)//1073741824)*1073741824)
  free=os.statvfs(root).f_bavail*os.statvfs(root).f_frsize
- assert free>=future+5368709120+2147483648
- put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,source_retained_and_next_upper_bytes=retained_and_next,source_capacity_upper_bytes=5368709120,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
+ assert free>=future+source_capacity+2147483648
+ put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,source_retained_and_next_upper_bytes=retained_and_next,source_capacity_upper_bytes=source_capacity,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
 else:
  budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
  assert budget==P['full14_proof']

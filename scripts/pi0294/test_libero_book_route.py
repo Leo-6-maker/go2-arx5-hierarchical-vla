@@ -9,7 +9,7 @@ from scripts.pi0294.multitask.libero_book_cards import cards
 from scripts.pi0294.multitask.libero_book_teacher import (
     LiberoBookTeacher,RoutedLiberoBookTeacher,attempt_operation,checked_route_card,
     route_card,teacher_for_card)
-from scripts.pi0294.multitask.libero_book_teacher import MARGIN_REVISION
+from scripts.pi0294.multitask.libero_book_teacher import MARGIN_REVISION,DESCENT_REVISION
 from scripts.pi0294.multitask.feedback_teacher import CLOSED,OPEN
 from scripts.pi0294.multitask.night_book_chain import checked_plan,planned_tasks
 from scripts.pi0294.test_multitask_contact import state
@@ -141,3 +141,19 @@ def test_tracking_margin_changes_only_front_crossing_and_keeps_old_version_immut
     teacher.lift_initial_object_z=B[2,3]-.075;teacher._book_targets()
     cross=teacher.waypoints['preinsert'][1]@np.linalg.inv(X)
     assert cross[0,3]==pytest.approx(.464214)
+
+
+def test_supported_descent_slows_only_lowering_without_changing_grip_or_goals():
+    margin=route_card(MARGIN_REVISION);slow=route_card(DESCENT_REVISION);same=deepcopy(slow)
+    same['id']=margin['id'];same['book_route_revision']=margin['book_route_revision']
+    assert same['book_route'].pop('lower_speed_m_s')==.01
+    assert same==margin
+    teacher=teacher_for_card(slow);B=object_pose();B[2,3]+=.075;X=teacher.grasp_offset
+    teacher.state=state('BOOK',tcp=B@X,object_pose=B,native_grasp=True)
+    teacher.lift_initial_object_z=B[2,3]-.075;teacher._book_targets()
+    cross=teacher.waypoints['preinsert'][1].copy();teacher.state['tcp']=cross
+    teacher.stage='preinsert';teacher.waypoint_index['preinsert']=2;teacher.index=0
+    teacher._build_stage_path()
+    assert np.max(np.linalg.norm(np.diff(teacher.path[:,:3,3],axis=0),axis=1))/.05<=.01+1e-12
+    np.testing.assert_allclose(teacher.path[-1],teacher.waypoints['preinsert'][2],atol=1e-14,rtol=0)
+    assert slow['task_duration_s']==32. and attempt_operation(slow,'left')=='LIBERO_LEFT_PORT05_SLOW_DESCENT'
