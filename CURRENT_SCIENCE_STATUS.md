@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+2026-10-30 23:26 SGT接续：E1新分配已在原GLOBAL/LOCAL一次采用并独立读回；首个冷态检查在模型前因新增canonical LOCAL路径深度检查错误被拒绝，未启动owner/GPU，模型/查询/构造/积分0。三个cold01角色已用原onceIO关闭并独立回读；现修正这一个有证据入口，后继仍用同一request/nonce/clock和原24条件，不增加GPU/物理hold。 [实际采用、失败与关闭](reports/PI0294/design/parallel-science-20261022/E1_CANONICAL_ADOPTED_ZERO_COLD_PATH_REJECTION_CLOSED_ACTUAL_20261030.json)。E2原1508345最新仍Q，owner已OS152；新端点/有效条件/合格示范仍0/0/0。
+
 2026-10-30 22:19–22:27 SGT实测更新：E2原作业1508345仍Q，但原wrapper/server已终态；owner于21:55因CPU软时限OS152退出，无模型/更新启动证据，不能再称后台健康。Core目标盘约157.9GiB可用、计算进程为空，内核三类quota格式查询均ESRCH。E1独立fixed512计账/原生入口/原owner及完整终态接线已实现，仍未部署、采用新分配或加载模型；新端点/有效条件/合格示范0/0/0。 [实际状态与接入缺口](reports/PI0294/design/parallel-science-20261022/FIXED512_CORE_NATIVE_ENTRY_AND_E2_OWNER_CPU_EXIT_ACTUAL_20261030.json)。
 
 2026-10-30 21:17 SGT后继：保存放书记录已定位到更早的link6本体顶书，原参考本身也侵入书体；上移抓点候选未通过完整静态IK路径检查，未物理重试。E1/E2固定512的独立计划/原session与label入口已补齐，并用实际E1 manifest与原24人口核验；新canonical分配/原生backend和600秒资格尚未完成，未加载或评价。E2同一1508345最新21:17仍Q且后台健康。新端点/有效模型条件/合格示范仍0/0/0。 [完整证据与未完成项](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。

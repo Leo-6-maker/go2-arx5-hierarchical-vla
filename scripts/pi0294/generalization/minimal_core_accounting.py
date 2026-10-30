@@ -151,6 +151,8 @@ def validate(g):
         validate_row(row);need(row['request_id']==rid,'CANONICAL_INDEX')
         need(row.get('control_payment')==CONTROL and row.get('scope_grant_sha256')==GRANT_SHA,
              'DIRECT_AUTHORITY_AND_ONCE_PAID_CONTROL')
+    from .minimal_core_cold import validate as cold_rebind
+    cold_rebind(g)
     active=[v for v in rows.values()if v['status']!=STATES[3]]
     if not active:return rows
     need(g['unknown_effects']==g['pending_updates']==[], 'GLOBAL_UNKNOWN_AND_PENDING_FENCES')
@@ -193,8 +195,10 @@ def checked(g):
 
 def paired(g,l):
     checked(g)
+    from .minimal_core_cold import FIELD as cold_field
     need(l.get(FIELD,{})==g.get(FIELD,{}) and l['unknown_effects']==l['pending_updates']==l['pending_queries']==[],
          'SAME_CANONICAL_NEW_FAMILY_AND_LOCAL_FENCES')
+    need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_EXACT_COLD_REBIND')
 
 
 def register(global_bytes,local_bytes,*,request_bytes,manifest_bytes,physical_manifest_bytes,now_epoch):

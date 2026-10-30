@@ -1,0 +1,116 @@
+{
+  "schema": "ARX5_E1_ACTUAL_CANONICAL_ADOPTION_ZERO_COLD_REJECTION_AND_CLOSED_V1",
+  "status": "ONE_EVIDENCED_PATH_REPAIR_NOT_DEPLOYED_NEW_NATIVE_EFFECTS_ZERO",
+  "request_id": "f6eb2990-707d-439a-b99a-f8c89c05e0ff",
+  "first_source": "262cadd5f953f27d093d26cda62e3d71097fab88",
+  "canonical_adoption": {
+    "GLOBAL_sha256": "530b5f97585de572f4682e92963de4d850c255848494fcac1afe4cd7f1ab1732",
+    "LOCAL_sha256": "4e566f9055071d486c5bd3c3e250d7a24e8161f154ef20991576ddf4da0fe858",
+    "actual_both_original_once_receipts_independently_verified": true,
+    "old_PBS_D25_first512_package_unchanged": true,
+    "additional_scope_grant_sha256": "8f2a11c2938684407f8c974ae816a417e448209d65487d73a088f4a2029b1b9f"
+  },
+  "first_transport_failure": {
+    "remote_exit": 255,
+    "write_effect_initially_unknown": true,
+    "exact_second_read_matches_original": true,
+    "original_once_intent_receipt_temp_absent": true,
+    "same_host_birth_window_no_live_actor": true,
+    "original_unknown_and_full_costs_retained": true,
+    "old_write_replayed": false,
+    "followup_small_delta_full_target_SHA_unchanged": true
+  },
+  "native_cold_rejection": {
+    "role": "physical",
+    "gate": "ORIGINAL_CANONICAL_LOCAL_NOT_A_COPIED_LEDGER",
+    "cause": "New validator required LOCAL file directly in control; original canonical file is inside the original resident subdirectory",
+    "models": 0,
+    "queries": 0,
+    "constructors": 0,
+    "integrations": 0,
+    "owner_unit_started": false,
+    "neural_unit_started": false
+  },
+  "actual_closed": {
+    "roles": {
+      "owner": {
+        "run_uuid": "arx5-e1-fixed512-eval-owner-01",
+        "manifest_sha256": "3780efb5be1e78ccc8fc0460bd7db1e00ffd14a3e000fdab73f7fdb1b3b71470",
+        "lease_status": "CLOSED"
+      },
+      "core": {
+        "run_uuid": "arx5-e1-fixed512-n294101-01",
+        "manifest_sha256": "2770878b7569a9d8c0e396728777b48bcfbdbff66d69a99cc56854ddb024c1d6",
+        "lease_status": "CLOSED"
+      },
+      "hopper": {
+        "run_uuid": "arx5-e1-fixed512-n294101-01",
+        "manifest_sha256": "3cf47fb58fc3a59027cb677a459ca3d454824c3eb44d34d43372dadaef8de69f",
+        "lease_status": "CLOSED"
+      }
+    },
+    "native_units": {
+      "owner": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive"
+      },
+      "neural": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive"
+      }
+    },
+    "physical_metadata_CPU_upper_retained_s": 300,
+    "independent_lease_and_once_receipt_readback": true,
+    "observed_epoch": 1793373978.0463135
+  },
+  "fix": {
+    "canonical_file_name_and_registered_control_subtree_required": true,
+    "same_original_finite_allocation_and_request_nonce_clock": true,
+    "new_GPU_query_physics_hold": 0,
+    "exact_old_row_and_closed_evidence_retained": true,
+    "new_cold_roles_required": true,
+    "automatic_retry": false
+  },
+  "CPU_validation": {
+    "targeted_tests": 39,
+    "actual_ledger_cold_rebind": {
+      "status": "EXACT_ACTUAL_CLOSED_ZERO_ROLES_AND_FULL_LEDGER_COLD_REBIND_CPU_PASS",
+      "GLOBAL_before": "530b5f97585de572f4682e92963de4d850c255848494fcac1afe4cd7f1ab1732",
+      "LOCAL_before": "4e566f9055071d486c5bd3c3e250d7a24e8161f154ef20991576ddf4da0fe858",
+      "closed_readback_sha256": "874b3bff2676b258311dff5fc0b173d46bb5f93bfbd5d67562ec27e4a0ab08cd",
+      "old_row_sha256": "24cd63226cac36b7c5392b0aede9237231dd14adcaa602ce7f133658fad9fec4",
+      "scope_grant_sha256": "8f2a11c2938684407f8c974ae816a417e448209d65487d73a088f4a2029b1b9f",
+      "CPU_s": 26.143719172,
+      "remote_writes": 0,
+      "new_GPU_queries_physics_hold": 0,
+      "new_source_and_manifests_are_CPU_fixtures": true,
+      "native_permission": false
+    },
+    "all_processes_in_CPU_rebind_are_fixtures": true
+  },
+  "science": {
+    "new_complete_E2_endpoint": 0,
+    "new_valid_GR00T_conditions": 0,
+    "new_qualified_source_demonstrations": 0,
+    "source_attempts": 6,
+    "source_integrations": 22046,
+    "source_RGB_pairs": 488
+  },
+  "E2": {
+    "last_native_state": "Q",
+    "job_id": "1508345.stdct-mgmt-02",
+    "owner_OS_exit": 152,
+    "healthy_background_owner": false,
+    "resubmits": 0,
+    "restarts": 0,
+    "new_training_not_verified": true
+  },
+  "infra": {
+    "NFS_SSH_mount_network_permission_service_changes": 0,
+    "checkpoint_cleanup": 0
+  },
+  "next": "Adopt one exact closed-zero source rebind, native cold-check, original600s/80cycle qualification, first valid E1 condition then original24",
+  "private_paths_assets_weights_published": false
+}
