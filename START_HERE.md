@@ -1,5 +1,7 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
+> **2026-10-30 用户最新直接指令（覆盖下方旧预算停工优先级，仅用于后继新冷态科学scope）：** 用户本人执行历史清理；Codex以真实训练端点、闭环评价和合格开门／单书示范为第一目标，不再因项目内部预算总额或旧预算窗口反复等待人工GO。真实集群配额/空间、身份/原onceIO、冻结WBC安全、UNKNOWN禁止重放以及历史费用与原run时钟仍需遵守。**执行顺序与明确放行边界见[Science-First直接指令](docs/operations/SCIENCE_FIRST_DIRECT_USER_DIRECTIVE_20261030.md)。** 文件发布不等于Codex已后台运行。
+
 **最新技术方向：** [开源任务复用](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)优先把RoboCasa柜门和LIBERO单书左右格接入现有MuJoCo源执行器，再用已有示范和MimicGen式生成构建共享四任务数据。已固定来源并静态核对三个真实书本任务，10项CPU检查通过；尚无新任务运行或示范。300条pilot→累计1,300条及200–400段恢复均为候选投入；源域学习独立于目标WBC成功，原[四任务策略](docs/protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)、E1/E2对照和冻结WBC保留。
 
 **S1两次恢复已实际关闭，仍无整机成功示范：** [首次结果与核账](reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)。T1安装1段H40并实际执行0.4秒，保存8对RGB；下一段被历史旋转解码错误误拒。T2在初始化第24步真实触发小腿关节安全停止，未进入任务，该版本已隔离。累计5启动、实际7727/计费7736步、RGB8对；两run/lease均关闭、旧费用原件保留，不重试。T1实际保存状态的正确行解码通过原1051点证书，48项CPU检查通过；冷修未部署，不代表任务成功。T2启动失稳原因未确立；四任务新物理/训练及十天延期未采用，完整[S0–S5序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)和原DEC1保留。
