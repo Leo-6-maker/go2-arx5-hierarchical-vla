@@ -1,0 +1,570 @@
+{
+  "schema": "FIRST_CUSTOM_SOURCE_CABINET_FULL_TEACHER_SUCCESS_AND_SAVED_BOOK_REFERENCE_CLEARANCE_V1",
+  "as_of_SGT": "2026-10-31 14:34 SGT",
+  "cabinet": {
+    "status": "FIRST_COMPLETE_NATIVE_TASK_SAFETY_AND_DATA_INTEGRITY_QUALIFIED_SOURCE_TEACHER_EPISODE",
+    "run": "20261031T062926Z-cabinet-braked08-night-source-four01",
+    "source_sha": "98abe6c8bc539cf579e5cb13b2d6cb65f6df346d",
+    "manifest_sha256": "765d93bc4e137ba6b4bb260636c28cc1cefd2fa1c86abb8f59c74c55c13c46b6",
+    "task": "RoboCasa_asset_derived_custom_ARX5_source_cabinet",
+    "exact_original_RoboCasa_benchmark": false,
+    "learned_GR00T_policy": false,
+    "target_Go2_WBC_success": false,
+    "native_original_open_goal": true,
+    "release_withdraw_2s_hold_pass": true,
+    "original_native_safety_pass": true,
+    "complete_full32s_task": true,
+    "actual_integrations": 18500,
+    "warmup_integrations": 2500,
+    "task_integrations": 16000,
+    "actual_RGB_pairs": 642,
+    "task_observation_pairs": 641,
+    "completed_expert_commands": 640,
+    "H40_plans": 80,
+    "final_angle_deg": 85.18437561462632,
+    "final_angular_speed_rad_s": 0.0,
+    "final_tool_handle_distance_m": 0.139820104659869,
+    "actual_hold_s": 6.800000000005113,
+    "raw_sha256": "3f135b4ef8746be5c2fb6a1b369d19e489af3ac82b06a42052c68741280b8662",
+    "XML_sha256": "6c575e543020121c47d263c305966e6894c86ab2b6a4a819dfcd16f922b57bde",
+    "independent_native_audit": {
+      "sha256": "b95ee9e63ee4c8e401b09f70e692a081136e03d712a22362ab7aa90ade9e1fff",
+      "value": {
+        "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+        "raw_sha256": "3f135b4ef8746be5c2fb6a1b369d19e489af3ac82b06a42052c68741280b8662",
+        "terminal_sha256": "6b8dfe107592a3b4e119b25713f2dc8c96eb6a1c98d415774f08ca4752d5a42c",
+        "new_simulator_or_model_calls": 0,
+        "task_success": true,
+        "qualified_source_pilot": true,
+        "training_admitted": false,
+        "status": "COMPLETE_SOURCE_PILOT_QUALIFIED",
+        "native_ROBOCASA_goal_final": true,
+        "additional_support_release_withdraw_hold_pass": true,
+        "complete_episode": true,
+        "original_native_safety_pass": true,
+        "integrity_problems": [],
+        "actual_integrations": 18500,
+        "recorded_native_ticks": 18500,
+        "recorded_failed_native_ticks": 0,
+        "terminal_safety_states_checked": 0,
+        "actual_observations": 641,
+        "completed_intervals": 640,
+        "terminal_error": null
+      }
+    },
+    "independent_PC_all80_Teacher_plans_replayed_and640_prefixes_rejoined": true,
+    "max_PC_reference_replay_difference": 2.220446049250313e-16,
+    "stage_events": [
+      {
+        "observation_index": 80,
+        "time_s": 8.999999999999675,
+        "previous": "approach",
+        "stage": "align",
+        "actual_grasp": false
+      },
+      {
+        "observation_index": 112,
+        "time_s": 10.60000000000021,
+        "previous": "align",
+        "stage": "close",
+        "actual_grasp": false
+      },
+      {
+        "observation_index": 128,
+        "time_s": 11.400000000000476,
+        "previous": "close",
+        "stage": "verify_grasp",
+        "actual_grasp": true
+      },
+      {
+        "observation_index": 136,
+        "time_s": 11.80000000000061,
+        "previous": "verify_grasp",
+        "stage": "turn",
+        "actual_grasp": true
+      },
+      {
+        "observation_index": 368,
+        "time_s": 23.39999999999791,
+        "previous": "turn",
+        "stage": "release",
+        "actual_grasp": true
+      },
+      {
+        "observation_index": 392,
+        "time_s": 24.599999999997245,
+        "previous": "release",
+        "stage": "withdraw",
+        "actual_grasp": false
+      },
+      {
+        "observation_index": 504,
+        "time_s": 30.19999999999414,
+        "previous": "withdraw",
+        "stage": "hold",
+        "actual_grasp": false
+      }
+    ],
+    "independent_PC_replay_sha256": "9284aaa46b826fc25748b894b186a62109895a444425207c4a22df3092002069",
+    "actor_OS_exit_status": 0,
+    "auditor_OS_exit_status": 0,
+    "MainPID": 0,
+    "owner_and_children_terminal": true,
+    "lease": {
+      "sha256": "ac4746ea5fd0a1b41c0633e59099693aef27cfeb629b308d178bb90a21960c8e",
+      "value": {
+        "run_uuid": "20261031T062926Z-cabinet-braked08-night-source-four01",
+        "owner": "EXISTING_LOCAL_PC",
+        "status": "CLOSED",
+        "approval_sha256": "d7ba87c7711b484b71907fb22b7c6b334c5d67dceeef369ecb8ba12cdc8364e4",
+        "deadline_epoch": 1793429366.1485927,
+        "scope": "PINNED_OPEN_SOURCE_NIGHT_20261030_V1",
+        "automatic_retry": false,
+        "new_GR00T_training_queries_PBS": 0,
+        "execution_policy_sha256": "b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a",
+        "finite_job_profile_sha256": "7614b6363917a2d21a55ddd3cb97f0369693338f349536dcb2e90b9f697b4d86",
+        "terminal_reason": "FINITE_PREDECLARED_SOURCE_TASKS_TERMINAL_NO_RETRY",
+        "closed_epoch": 1793428235.8680153,
+        "all_children_terminal": true
+      }
+    },
+    "owner_total_CPU_s": 30.001196999999998,
+    "owner_wall_s": 32.954004778992385,
+    "source_child_CPU_s": 26.368322133,
+    "render_device_s": 27.06628655642271,
+    "training_admitted": false,
+    "official_multitask_data_export_not_yet_done": true,
+    "intervention": "Keep PORT07 outer-edge-hinge geometry; decelerate its final0.8s at unchanged peak speeds. Same original scoring, safety and32s task. PORT07 negative result remains closed."
+  },
+  "book_saved_reference_geometry": {
+    "status": "RECOVERY_APPROACH_GRIPPER_COORDINATION_AND_REFERENCE_CLEARANCE_EVIDENCE_BOOK1024_IK_BRANCH_PARTLY_UNRESOLVED",
+    "method": "Original saved model inputs/predictions/installed commands and actual qpos; native static converged IK endpoint at every submitted interval, actual or commanded finger width. Collision masks retained, native narrowphase contacts required for collision claims.",
+    "source_report_sha256": "f605a113331eaa6b089af1f9d5d1056e126c600cbe9a29e1b794ab9ce200f475",
+    "native_model_constructors": 2,
+    "physics_integrations": 0,
+    "neural_queries": 0,
+    "CPU_s": 2.4033757070000004,
+    "recovery512": {
+      "raw_sha256": "b9e258c2331d172cbc94dee4557839043a7df825192b01686ccb5df057cbda81",
+      "all32_IK_endpoints_converged": true,
+      "maximum_IK_XYZ_error_m": 2.4002995486072376e-07,
+      "maximum_IK_rotation_error_rad": 4.976932053526482e-07,
+      "selected_intervals": [
+        {
+          "index": 0,
+          "task_time_s": 0.0,
+          "actual_clearance": {
+            "distance_m": 0.02236203672767156,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": 0.009164967782318506,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 78,
+              "name": "libero_desk_caddy_geom_6",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": 0.009165347703688162,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 78,
+              "name": "libero_desk_caddy_geom_6",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "IK_error": [
+            1.041746422782808e-07,
+            4.976932053526482e-07
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.00992592484594002,
+          "native_grasp": false
+        },
+        {
+          "index": 8,
+          "task_time_s": 0.4,
+          "actual_clearance": {
+            "distance_m": 0.0225516505842775,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": 0.007407148182251356,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": 0.00580362779525633,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "IK_error": [
+            1.360424431112975e-07,
+            1.7589885900788484e-07
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.019129183080029387,
+          "native_grasp": false
+        },
+        {
+          "index": 16,
+          "task_time_s": 0.8,
+          "actual_clearance": {
+            "distance_m": 0.005543820105899579,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": 0.00037814345750634997,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": 0.0004484662386869262,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "IK_error": [
+            3.849622240857453e-08,
+            7.331567371924308e-08
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.013930502634655813,
+          "native_grasp": false
+        },
+        {
+          "index": 24,
+          "task_time_s": 1.2000000000000002,
+          "actual_clearance": {
+            "distance_m": 0.0033191160537107173,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": -0.00258320693135621,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": [
+              -0.0024780988580230296,
+              -0.002446459551483549,
+              -0.00258320693135621,
+              -0.0025066642996407727,
+              -0.0025107373614369935
+            ]
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": 0.001521968686084877,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "IK_error": [
+            1.4179903607706765e-11,
+            1.0230458627815842e-10
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.018113944966706798,
+          "native_grasp": false
+        },
+        {
+          "index": 30,
+          "task_time_s": 1.5,
+          "actual_clearance": {
+            "distance_m": 0.0008687535565393179,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": 4.595330474549772e-05,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": -0.00021461899076849115,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": [
+              -0.0001111676965157149,
+              -7.323368882743027e-05,
+              -0.00021461899076849115,
+              -0.000126348189049332,
+              -0.00014318132028970772
+            ]
+          },
+          "IK_error": [
+            3.8270563303687345e-11,
+            2.38915392923791e-10
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.0020900304731706113,
+          "native_grasp": false
+        },
+        {
+          "index": 31,
+          "task_time_s": 1.55,
+          "actual_clearance": {
+            "distance_m": 0.0005962726357735376,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": []
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "distance_m": -0.0002921318926482116,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": [
+              -0.00017319809953563324,
+              -0.00014767558813706704,
+              -0.0002921318926482116,
+              -0.00020722801234166553,
+              -0.00022103076243045958
+            ]
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "distance_m": -0.0001794733861379457,
+            "robot": {
+              "geom": 73,
+              "name": "right_pad",
+              "body": "x5_link8"
+            },
+            "obstacle": {
+              "geom": 85,
+              "name": "libero_desk_caddy_geom_13",
+              "body": "libero_desk_caddy"
+            },
+            "native_pair_contact_distances_m": [
+              -6.0531104806834313e-05,
+              -3.501443731276841e-05,
+              -0.0001794733861379457,
+              -9.456950583139966e-05,
+              -0.00010837225592019371
+            ]
+          },
+          "IK_error": [
+            7.116551404040239e-09,
+            4.552755057030909e-09
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.0061415228256974895,
+          "native_grasp": false
+        }
+      ],
+      "actual_terminal_clearance": {
+        "distance_m": -1.573884963230733e-05,
+        "robot": {
+          "geom": 73,
+          "name": "right_pad",
+          "body": "x5_link8"
+        },
+        "obstacle": {
+          "geom": 85,
+          "name": "libero_desk_caddy_geom_13",
+          "body": "libero_desk_caddy"
+        },
+        "native_pair_contact_distances_m": [
+          -1.573884963230733e-05
+        ]
+      },
+      "actual_terminal_native_speed_m_s": 0.06238782585083675,
+      "actual_terminal_time_s": 1.565999999999499,
+      "actual_native_grasp_ever_in_prefix": false,
+      "finding": "At1.2s, requested TCP endpoint with actual open fingers collides2.583mm while commanded narrower fingers would clear1.522mm. At1.5/1.55s the requested endpoint with commanded finger width itself collides0.215/0.179mm. Actual right-pad/caddy contact at1.566s matches15.74micrometres. Learned reference/arm-gripper coordination is insufficient; no evidence justifies cancelling native contact gates."
+    },
+    "book1024": {
+      "raw_sha256": "ce1de46640dd449c4a827f44beb4f1096ee860f25435d9abc97f60c8851217f4",
+      "submitted_intervals": 199,
+      "IK_converged_endpoints": 165,
+      "IK_unresolved_endpoints": 34,
+      "first_unresolved_IK": {
+        "index": 72,
+        "task_time_s": 3.6,
+        "XYZ_residual_m": 0.006187654715589831,
+        "SO3_residual_rad": 0.027906436495608297
+      },
+      "actual_terminal_clearance": {
+        "distance_m": 0.08200445583232252,
+        "robot": {
+          "geom": 8,
+          "name": null,
+          "body": "base_link"
+        },
+        "obstacle": {
+          "geom": 84,
+          "name": "libero_desk_caddy_geom_12",
+          "body": "libero_desk_caddy"
+        },
+        "native_pair_contact_distances_m": []
+      },
+      "actual_terminal_native_TCP_speed_m_s": 0.40468707739297344,
+      "native_speed_limit_m_s": 0.4,
+      "finding": "34 same-branch static IK endpoints do not converge within original position/rotation qualification. They are not certified references or collision evidence. Negative geom-distance-only values without narrowphase contacts are not called true collisions. Original9.902s native TCP stop remains valid; no globally unreachable-path claim is made."
+    },
+    "original_decoding_and_installed_prefix_rejoin": "Existing independent native-array audits rejoined RGB/proprio/language/noise and each installed Prefix8 command to its predicted H40. No coordinate/time installation discrepancy identified in these checked fields.",
+    "limitations": "Static converged IK endpoint at each actual saved observation, with actual or commanded finger widths. It does not reproduce internal slew/controller trajectory or certify swept/dynamic feasibility. Retained original geometry, no reference correction or threshold change.",
+    "next": "Prioritize varied legal approach/grasp TRAIN and early genuine recovery states; predeclare event/recovery exposure and new shared statistics, then one finite interface/action-side capacity comparison. No immediate blind interface512 extension."
+  },
+  "source_totals": {
+    "attempts": 31,
+    "physics_integrations": 239336,
+    "RGB_pairs": 6724,
+    "pure_Teacher_attempts": 17,
+    "formal_book_DEV_attempts": 13,
+    "mixed_TRAIN_recovery_attempts": 1,
+    "qualified_full_book_Teacher_demos": 5,
+    "qualified_full_custom_cabinet_Teacher_demos": 1,
+    "mixed_safe_recovery_completions": 1,
+    "learned_autonomous_full_task_successes": 0
+  },
+  "maintenance": {
+    "plan": "docs/protocols/CORE32_MAINTENANCE_EXPERIMENT_PLAN_20261031.md",
+    "Vanda_not_probed_before": "2026-11-02T17:00:00+08:00",
+    "existing_job_not_resubmitted": true,
+    "no_NFS_mount_SSH_network_service_credentials_or_WBC_changes": true,
+    "cleanup_owner": "USER",
+    "new_shared_four_task_training": false
+  },
+  "next": [
+    "Return to book TRAIN approach/recovery support and M32-01 unresolved IK/chunk diagnosis; do not repeat existing failed DEV or extend interfaces blindly.",
+    "Export the successful custom cabinet episode through the official Processor/codec before any training; source qualification is not training admission.",
+    "Expand custom cabinet to five seeds only as a bounded independent source-data line after static checks, without blocking the primary book work."
+  ],
+  "goal_complete": false
+}
