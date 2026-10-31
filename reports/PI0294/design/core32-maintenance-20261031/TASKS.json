@@ -70,7 +70,7 @@
     {
       "id": "M32-01",
       "priority": "P0",
-      "status": "RECOVERY_REFERENCE_FINGER_COLLISION_IDENTIFIED_BOOK1024_IK_BRANCH_PARTLY_UNRESOLVED",
+      "status": "A_REFERENCE_ENDPOINT_CADDY_OVERLAP_B_LIFT_CARRY_THEN_LOST_GRASP_TCP_STOP",
       "title": "Diagnose saved recovery512 collision before more optimization",
       "deliverables": [
         "reference_vs_actual_full_body_clearance",
@@ -79,7 +79,7 @@
         "one_falsifiable_next_intervention"
       ],
       "repeat_old_formal_outcome": false,
-      "source_report": "reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_CABINET_TEACHER_AND_RECOVERY512_REFERENCE_CLEARANCE_ACTUAL_20261031.json"
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json"
     },
     {
       "id": "M32-02",
@@ -113,7 +113,7 @@
     {
       "id": "M32-03",
       "priority": "P0",
-      "status": "MATCHED_A512_RESTORED_CLOSED_DEV0_OF1_CONTACT_STOP_NINE_UNRUN_B512_NATIVE_STARTED",
+      "status": "MATCHED_AB512_RESTORED_CLOSED_EACH_DEV0_OF1_NINE_UNRUN_TRAIN_REPRODUCTION_NEXT",
       "title": "One declared learning-to-DEV cycle",
       "depends_on": [
         "M32-01",
@@ -138,7 +138,7 @@
         "not_population_reliability_guarantee": true,
         "cannot_shrink_presealed_larger_TEST": true
       },
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
       "A_updates": 512,
       "A_TRAIN_visits": 16384,
       "A_valid_DEV": 1,
@@ -146,13 +146,18 @@
       "A_DEV_unrun": 9,
       "A_first_task_stop_s": 1.698,
       "B512_native_started": true,
-      "B512_complete": false,
-      "autonomous_full_successes": 0
+      "B512_complete": true,
+      "autonomous_full_successes": 0,
+      "B_valid_DEV": 1,
+      "B_DEV_successes": 0,
+      "B_DEV_unrun": 9,
+      "B_first_task_stop_s": 22.262,
+      "next_diagnostic": "M32_POST_AB_TRAIN_FEEDBACK_PROTOCOL_20261031.json"
     },
     {
       "id": "M32-04",
       "priority": "CONDITIONAL_P1",
-      "status": "NATIVE_TEN_UPDATE_LAST2_DIT_SAVE_RELOAD_CAPACITY_PASS_CLOSED",
+      "status": "LAST2_DIT_NATIVE512_CAPACITY_RESTORE_CLOSED_AND_REAL_DEV_NEGATIVE",
       "title": "Limited action-side capacity test",
       "trainable_candidate": "target_interface_plus_last_two_actual_DiT_blocks",
       "fallback_candidate": "target_interface_plus_last_one_actual_DiT_block",
@@ -174,9 +179,9 @@
         31
       ],
       "minimum_observed_free_bytes": 10840965120,
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
       "B512_native_started": true,
-      "B512_complete": false
+      "B512_complete": true
     },
     {
       "id": "M32-05",
@@ -218,5 +223,5 @@
     "new_model_or_physics_calls": 0,
     "CI_or_native_validation_claimed": false
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json"
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json"
 }

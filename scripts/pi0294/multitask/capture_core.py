@@ -15,7 +15,7 @@ from go2arx5_vla.task_data.codec import pose10
 from .object_relations import pose
 
 
-def capture(engine, teacher, *, instruction, guard, emit, duration_s=32.):
+def capture(engine, teacher, *, instruction, guard, emit, duration_s=32., execution_prefix=8):
     """Emit actual observations, submitted plans and completed physical intervals.
 
     `guard` enforces the already-reserved owner lifetime/budgets; `emit` writes
@@ -27,7 +27,7 @@ def capture(engine, teacher, *, instruction, guard, emit, duration_s=32.):
     if (not callable(guard) or not callable(emit) or not isinstance(instruction, str) or not instruction
             or type(duration_s) not in (int, float) or not math.isfinite(duration_s)
             or not .4 <= duration_s <= 32 or abs(duration_s/.4-round(duration_s/.4)) > 1e-8
-            or teacher.index != -1):
+            or teacher.index != -1 or type(execution_prefix) is not int or execution_prefix not in (4, 8)):
         raise ValueError('FINITE_SOURCE_CAPTURE_WITH_FRESH_TEACHER_AND_OWNER_CALLBACKS')
     intervals = round(duration_s/.05)
     begin_steps = engine.steps
@@ -59,7 +59,7 @@ def capture(engine, teacher, *, instruction, guard, emit, duration_s=32.):
             actual_state=state, calibration=calibration, privileged_teacher_stage=teacher.stage))
         rgb_pairs += 1
         if index == intervals: break
-        if index % 8 == 0:
+        if index % execution_prefix == 0:
             active = teacher.plan()
             rows = np.stack([pose10(p, g) for p, g in zip(active['poses'], active['opening'])])
             if rows.shape != (40, 10) or not np.isfinite(rows).all():
@@ -70,7 +70,7 @@ def capture(engine, teacher, *, instruction, guard, emit, duration_s=32.):
                 source_time_s=state['time_s'], rows10=rows, stage=teacher.stage,
                 role='UNEXECUTED_REFERENCE_EVIDENCE_NOT_TRAINING_LABEL', committed_prefix_count=0))
             plans += 1
-        k = index % 8
+        k = index % execution_prefix
         target, opening = active['poses'][k].copy(), float(active['opening'][k])
         command = pose10(target, opening)
         start_step = engine.steps

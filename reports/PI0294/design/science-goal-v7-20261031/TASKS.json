@@ -141,7 +141,7 @@
         "source_lineage_and_event_coverage"
       ],
       "qualified_full_demonstrations": 16,
-      "source_attempts": 48,
+      "source_attempts": 49,
       "qualified_book_demonstrations": 15,
       "qualified_cabinet_demonstrations": 1,
       "book_seed_minimum_met": true,
@@ -151,7 +151,7 @@
       "cabinet_exact_original_RoboCasa_benchmark": false,
       "qualified_pure_book_Teacher_demonstrations": 15,
       "qualified_cabinet_Teacher_demonstrations": 1,
-      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
       "eligible_new_expert_recovery_windows": 2949,
       "early_recovery_training_admitted": true
     },
@@ -160,7 +160,7 @@
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "M32_A512_RESTORED_CLOSED_DEV0_OF1_CONTACT_STOP_NINE_UNRUN_MATCHED_B512_NATIVE_RUNNING",
+      "status": "MATCHED_AB512_RESTORED_CLOSED_EACH_DEV0_OF1_NINE_UNRUN_TRAIN_REPRODUCTION_NEXT",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -231,8 +231,52 @@
         "DEV_unrun": 9,
         "safety_stop": true
       },
-      "M32_B512": "NATIVE_STARTED_NOT_COMPLETE",
-      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json"
+      "M32_B512": {
+        "status": "COMPLETE512_RESTORED_CLOSED",
+        "actual": {
+          "model_loads": 1,
+          "optimizer_updates": 512,
+          "TRAIN_window_visits": 16384,
+          "generation_queries": 32,
+          "native_diagnostic_loss_forwards": 32,
+          "physics_integrations": 0,
+          "source_episode_starts": 0,
+          "new_RGB_pairs": 0,
+          "formal_DEV_conditions": 0,
+          "CPU_s": 2896.976827,
+          "GPU_allocated_s_upper": 2666,
+          "own_allocated_bytes_before_closing": 976277504,
+          "result_sha256": "1d3b117d5140b8f2f6c6ce9f95cd6c632f6854582a4ea6bf1d924ebeb931a0cc",
+          "fit_sha256": "2cd4d4482bd098d327301e5b6d1e765b9d1f441df1bf6cc456518d1b509fb91d",
+          "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+          "actual_delta_restore_sha256": "60e8d68acdabf760c2946f091ef209b99bc81c1d1c5a1c7505c2c517b76cca02",
+          "independent_audit_sha256": "c7f14db67e3cef4f70ce8e4d1973a7ac86a917714a8a9614fde31f386f344a6b",
+          "checkpoint_requires_retained_full_parent": true,
+          "OS_exit_code_not_retained_after_transient_unit_GC": true
+        },
+        "DEV": {
+          "model_loads": 1,
+          "generation_queries": 56,
+          "valid_DEV_conditions": 1,
+          "DEV_successes": 0,
+          "unrun_DEV_conditions": 9,
+          "hard_native_safety_conditions": 1,
+          "physics_integrations": 13631,
+          "source_episode_starts": 1,
+          "source_constructors": 1,
+          "RGB_pairs": 447,
+          "optimizer_updates": 0,
+          "CPU_s": 97.548282,
+          "GPU_allocated_s_upper": 72,
+          "own_allocated_bytes_before_closing": 133591040,
+          "result_sha256": "0345b4c933d9434b410de6cd91dbea1ebef251bdabc42e19f3346ada4a98014d",
+          "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+          "independent_audit_sha256": "68e846dfe0e01c6722cd5e67d30eaccd1733d9e348751dcbc86f36978f592da9",
+          "OS_exit_code_not_retained_after_transient_unit_GC": true,
+          "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+        }
+      },
+      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json"
     },
     {
       "id": "V7-05",
@@ -327,7 +371,7 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
     "as_of": "2026-10-31 18:30 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
@@ -340,9 +384,9 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 48,
-    "source_actual_integrations": 522946,
-    "source_actual_RGB_pairs": 16401,
+    "source_total_attempts": 49,
+    "source_actual_integrations": 536577,
+    "source_actual_RGB_pairs": 16848,
     "qualified_full_skill_demos": 16,
     "new_shared_skill_training_updates": 0,
     "Core_next": "MATCHED_B_INTERFACE_LAST2_FIXED512_THEN_ORIGINAL_DEV10",
@@ -366,12 +410,12 @@
       "new_DEV_conditions": 1,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "Finish matched B512 and real DEV; interpret A/B failure mechanisms. Do not repeat A valid safety failure or treat TRAIN fit as autonomous success.",
+    "next_action": "Fixed B512 autonomous TRAIN0/7/13 reproduction, separately declared Prefix8/4 diagnostic, then fixed-data/statistics longer optimization and event sampling comparison; no original outcome retry.",
     "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
     "source_all_attempts": {
-      "attempts": 48,
-      "physics_integrations": 522946,
-      "RGB_pairs": 16401,
+      "attempts": 49,
+      "physics_integrations": 536577,
+      "RGB_pairs": 16848,
       "pure_Teacher_attempts": 27,
       "formal_book_DEV_attempts": 14,
       "mixed_TRAIN_recovery_attempts": 7,
@@ -424,7 +468,51 @@
       "hard_safety": 1,
       "task_stop_s": 1.698
     },
-    "M32_B512": "NATIVE_STARTED_NOT_COMPLETE",
+    "M32_B512": {
+      "status": "COMPLETE512_RESTORED_CLOSED",
+      "actual": {
+        "model_loads": 1,
+        "optimizer_updates": 512,
+        "TRAIN_window_visits": 16384,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "physics_integrations": 0,
+        "source_episode_starts": 0,
+        "new_RGB_pairs": 0,
+        "formal_DEV_conditions": 0,
+        "CPU_s": 2896.976827,
+        "GPU_allocated_s_upper": 2666,
+        "own_allocated_bytes_before_closing": 976277504,
+        "result_sha256": "1d3b117d5140b8f2f6c6ce9f95cd6c632f6854582a4ea6bf1d924ebeb931a0cc",
+        "fit_sha256": "2cd4d4482bd098d327301e5b6d1e765b9d1f441df1bf6cc456518d1b509fb91d",
+        "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+        "actual_delta_restore_sha256": "60e8d68acdabf760c2946f091ef209b99bc81c1d1c5a1c7505c2c517b76cca02",
+        "independent_audit_sha256": "c7f14db67e3cef4f70ce8e4d1973a7ac86a917714a8a9614fde31f386f344a6b",
+        "checkpoint_requires_retained_full_parent": true,
+        "OS_exit_code_not_retained_after_transient_unit_GC": true
+      },
+      "DEV": {
+        "model_loads": 1,
+        "generation_queries": 56,
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "hard_native_safety_conditions": 1,
+        "physics_integrations": 13631,
+        "source_episode_starts": 1,
+        "source_constructors": 1,
+        "RGB_pairs": 447,
+        "optimizer_updates": 0,
+        "CPU_s": 97.548282,
+        "GPU_allocated_s_upper": 72,
+        "own_allocated_bytes_before_closing": 133591040,
+        "result_sha256": "0345b4c933d9434b410de6cd91dbea1ebef251bdabc42e19f3346ada4a98014d",
+        "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+        "independent_audit_sha256": "68e846dfe0e01c6722cd5e67d30eaccd1733d9e348751dcbc86f36978f592da9",
+        "OS_exit_code_not_retained_after_transient_unit_GC": true,
+        "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+      }
+    },
     "historical_book128": {
       "new_book_only_training_updates": 128,
       "new_book_only_qualified_endpoints": 1,
@@ -589,11 +677,11 @@
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
-    "attempts": 48,
-    "physics_integrations": 522946,
-    "RGB_pairs": 16401,
+    "attempts": 49,
+    "physics_integrations": 536577,
+    "RGB_pairs": 16848,
     "pure_Teacher_attempts": 27,
     "formal_book_DEV_attempts": 14,
     "mixed_TRAIN_recovery_attempts": 7,
