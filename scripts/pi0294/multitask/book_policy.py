@@ -206,8 +206,9 @@ def run(root,manifest_sha256):
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
     is_recovery_learning=m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'
     is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING')
-    is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING')
+    is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
+    is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -217,7 +218,10 @@ def run(root,manifest_sha256):
         from scripts.pi0294.multitask.book_fit import validate_manifest
         validate_manifest(m,read(root/'TRAIN_FIT_PLAN.json'))
     if is_recovery:
-        from scripts.pi0294.multitask.book_recovery import validate_manifest
+        if is_early_recovery:
+            from scripts.pi0294.multitask.book_early_recovery import validate_manifest
+        else:
+            from scripts.pi0294.multitask.book_recovery import validate_manifest
         validate_manifest(m)
     lease=read(root/'control/LEASE.json')
     if lease['status']!='ACTIVE'or lease['manifest_sha256']!=manifest_sha256:raise PermissionError('BOOK_DEV10_ACTIVE_OWNER_LEASE')
@@ -346,8 +350,12 @@ def run(root,manifest_sha256):
         if sha(root/'TRAIN_DEV_SEAL.json')!=m['TRAIN_DEV_seal_sha256']:raise PermissionError('BOOK_DEV10_FIXED_POPULATION')
         conditions=seal['DEV'];episode_options={}
         if is_recovery:
-            from scripts.pi0294.multitask import book_recovery as recovery
-            conditions=[recovery.CONDITION.copy()]
+            if is_early_recovery:
+                from scripts.pi0294.multitask import book_early_recovery as recovery
+                conditions=recovery.conditions()
+            else:
+                from scripts.pi0294.multitask import book_recovery as recovery
+                conditions=[recovery.CONDITION.copy()]
             episode_options=dict(card_factory=recovery.recovery_card,
                 student_factory=lambda *args:recovery.make_student(Student,*args))
         for condition in conditions:
@@ -371,7 +379,7 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status=('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC')if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+        else:write(root/'RESULT.json',dict(status=(('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
             scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery else sum(r['valid_model_condition']for r in rows),
             student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
             evaluated_checkpoint_manifest_sha256=m.get('delta_checkpoint_manifest_sha256',m['checkpoint_manifest_sha256']),

@@ -1,0 +1,111 @@
+{
+  "schema": "BOOK_M32_EARLY_TRAIN_RECOVERY_PANEL_V1",
+  "checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+  "conditions": [
+    {
+      "id": "BOOK_M32_RECOVERY000",
+      "TRAIN_parent": 0,
+      "takeover_index": 8,
+      "xy_offset_m": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY001",
+      "TRAIN_parent": 0,
+      "takeover_index": 16,
+      "xy_offset_m": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY002",
+      "TRAIN_parent": 1,
+      "takeover_index": 8,
+      "xy_offset_m": [
+        0.004,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY003",
+      "TRAIN_parent": 1,
+      "takeover_index": 16,
+      "xy_offset_m": [
+        0.004,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY004",
+      "TRAIN_parent": 2,
+      "takeover_index": 8,
+      "xy_offset_m": [
+        -0.004,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY005",
+      "TRAIN_parent": 2,
+      "takeover_index": 16,
+      "xy_offset_m": [
+        -0.004,
+        0.0
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY006",
+      "TRAIN_parent": 3,
+      "takeover_index": 8,
+      "xy_offset_m": [
+        0.0,
+        0.004
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY007",
+      "TRAIN_parent": 3,
+      "takeover_index": 16,
+      "xy_offset_m": [
+        0.0,
+        0.004
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY008",
+      "TRAIN_parent": 4,
+      "takeover_index": 8,
+      "xy_offset_m": [
+        0.0,
+        -0.004
+      ]
+    },
+    {
+      "id": "BOOK_M32_RECOVERY009",
+      "TRAIN_parent": 4,
+      "takeover_index": 16,
+      "xy_offset_m": [
+        0.0,
+        -0.004
+      ]
+    }
+  ],
+  "source_population": "BOOK_M32_POSITION_AND_EARLY_RECOVERY_V1",
+  "student_generation_queries": 15,
+  "original_TRAIN_only": true,
+  "DEV_or_TEST_states_or_labels": false,
+  "expert_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+  "full_task_seconds": 32,
+  "warmup_seconds": 5,
+  "H40": 40,
+  "prefix": 8,
+  "student_prefix_is_expert": false,
+  "expert_uses_actual_takeover_state": true,
+  "training_admitted": false,
+  "full_task_and_native_safety_and_independent_audit_required_for_suffix": true,
+  "hard_native_safety_stops_panel": true,
+  "automatic_retry": false
+}
