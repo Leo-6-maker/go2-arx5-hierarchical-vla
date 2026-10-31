@@ -24,3 +24,21 @@ def test_parent_bound_delta_requires_full_state_and_exact_retained_parent():
         with pytest.raises(PermissionError):validate_delta_header(bad,'retained-parent')
     bad=deepcopy(c);del bad['files']['optimizer.pt']
     with pytest.raises(PermissionError):validate_delta_header(bad,'retained-parent')
+
+
+def test_full_book_delta_requires_exact_recipe_and_committed_endpoint():
+    from copy import deepcopy
+    from scripts.pi0294.multitask.book_fit import full_plan
+    p=full_plan()
+    fields=('target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json',
+        'statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json')
+    value=dict(schema='BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=1024,cursor=32768,recipe=p,
+        standalone_model=False,full_resume_with_required_parent=True,
+        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],files=dict.fromkeys(fields,'hash'))
+    assert validate_delta_header(value,p['checkpoint_manifest_sha256'])is value
+    for key,changed in [('global_step',256),('cursor',8192),('schema','UNKNOWN'),('standalone_model',True)]:
+        bad=deepcopy(value);bad[key]=changed
+        with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
+    for key,changed in [('DEV_or_TEST_used',True),('shared_DiT_frozen',False),('TRAIN_windows',16)]:
+        bad=deepcopy(value);bad['recipe'][key]=changed
+        with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
