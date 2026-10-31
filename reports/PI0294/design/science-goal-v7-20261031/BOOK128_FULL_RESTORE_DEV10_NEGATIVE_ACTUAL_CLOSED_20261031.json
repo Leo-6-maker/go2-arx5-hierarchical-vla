@@ -1,0 +1,454 @@
+{
+  "schema": "BOOK128_ACTUAL_FULL_RECOVERY_FIXED_DEV10_NEGATIVE_AND_CLOSED_V1",
+  "as_of": "2026-10-31 09:36 SGT",
+  "training_source_sha": "a92f7430e2659a9998bc28f00df30f0fa50c357b",
+  "restore_and_DEV_source_sha": "54682fcee01a2c194a59243eb35355671dead4f5",
+  "actual_training": {
+    "optimizer_updates": 128,
+    "TRAIN_window_visits": 4096,
+    "model_loads": 1,
+    "DEV_conditions": 0,
+    "physics_integrations": 0,
+    "CPU_s": 724.992442,
+    "GPU_allocated_s_upper": 677,
+    "own_allocated_bytes_before_closing": 12700774400,
+    "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+    "result_sha256": "db37886b8100988a902175ab4f8b64dbd36d8c1cc7a53f11fa514b08f5b0f7d3",
+    "actual_reload_qualified": false,
+    "phase": "SAVED128_RELOAD_PENDING_EXACT_TIED_WEIGHT_ERROR"
+  },
+  "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+  "qualified_reloadable_endpoint": true,
+  "actual_full_restore": {
+    "sha256": "a52da7d24db20573384fa831b6d5059f28ebca297a26a43a8561a9e4f1f1ab4a",
+    "value": {
+      "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "model_restore": {
+        "all_non_alias_model_members_strict": true,
+        "missing_serialized_keys": [
+          "backbone.model.lm_head.weight"
+        ],
+        "actual_shared_saved_parameter_aliases": [
+          "backbone.model.model.language_model.embed_tokens.weight"
+        ],
+        "arbitrary_missing_keys_allowed": false
+      },
+      "optimizer_state_entries": 14,
+      "optimizer_steps_restored": 128,
+      "scheduler_restored": true,
+      "RNG_restored": true,
+      "sampler_cursor": 4096,
+      "new_optimizer_updates": 0,
+      "DEV_started": false,
+      "observed_epoch": 1793409850.6503885
+    }
+  },
+  "original_failed_training_reload_result_preserved": true,
+  "old_checkpoint_manifest_not_rewritten": true,
+  "science_identity": {
+    "skill": "BOOK_ONLY",
+    "initialization": "QUALIFIED_E1_512_WARMSTART",
+    "target_interface_parameters": 10180740,
+    "shared_DiT_updated": false,
+    "controlled_E1_E2_comparison_changed": false,
+    "old_E1_E2_R0_changed": false,
+    "TRAIN_episodes": 5,
+    "TRAIN_full_H40_windows": 3005,
+    "TRAIN_window_visits": 4096,
+    "new_joint_TRAIN_statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+    "population_seal_sha256": "3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf",
+    "DEV_used_for_optimization_or_statistics": false
+  },
+  "actual_policy_DEV": {
+    "valid_conditions": 10,
+    "successes": 0,
+    "first_reference_rejections": 10,
+    "hard_native_safety_violations": 0,
+    "main_task_commands_installed": 0,
+    "main_task_integrations": 0,
+    "warmup_integrations": 25000,
+    "RGB_pairs": 20,
+    "model_queries": 10,
+    "completed_generations": 10,
+    "same_candidate_outcome_retries": 0,
+    "nominal_task_duration_s": 32,
+    "H40": 40,
+    "prefix": 8,
+    "denoise_steps": 4,
+    "full_32s_tasks_executed": 0,
+    "condition_metrics": [
+      {
+        "id": "BOOK_DEV000",
+        "max_linear_m_s": 3.675545957495985,
+        "max_angular_rad_s": 3.1611293758623487,
+        "H40_translation_length_m": 3.2226667536475686,
+        "initial_jump_m": 0.027842257144464973,
+        "native_normalized_outside_unit_components": 64,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.675545957495985,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.1611293758623487,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "4918c173e2b1176450f23afc82009e817922bac14911ea2e57e7e446f7d62169",
+        "audit_sha256": "13cf8e99c2215ef012b2acd779795b56a91025c250b2748a15fe8ab761d14dc2"
+      },
+      {
+        "id": "BOOK_DEV001",
+        "max_linear_m_s": 3.7783086772412733,
+        "max_angular_rad_s": 4.036802687185188,
+        "H40_translation_length_m": 3.356695050984267,
+        "initial_jump_m": 0.09521771477536857,
+        "native_normalized_outside_unit_components": 76,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.7783086772412733,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "angular_speed exceeds rejection threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 4.036802687185188,
+            "threshold": 4.0
+          }
+        ],
+        "raw_sha256": "5d0789d839179e531f525ea0ecaefc46cdd2df5b96dbb3d592b1477dca86f7de",
+        "audit_sha256": "2d96ef470ca917178cd4628374523986899d0f97a58a91ef2a1d92775291b26c"
+      },
+      {
+        "id": "BOOK_DEV002",
+        "max_linear_m_s": 3.8035545696566646,
+        "max_angular_rad_s": 3.4860029514888473,
+        "H40_translation_length_m": 3.7763021713329246,
+        "initial_jump_m": 0.08327283398055721,
+        "native_normalized_outside_unit_components": 78,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.8035545696566646,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.4860029514888473,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "33aa27bf737a43a801fd8d7bf76ae872c2444fbd4639ee91eaa7d05ed6c34261",
+        "audit_sha256": "fc1930720ff47158f7d402a2bee06d59614028900a72c0905ce102108aca795a"
+      },
+      {
+        "id": "BOOK_DEV003",
+        "max_linear_m_s": 3.367599431198658,
+        "max_angular_rad_s": 3.7924154930392193,
+        "H40_translation_length_m": 3.5534836215763153,
+        "initial_jump_m": 0.09522027412433219,
+        "native_normalized_outside_unit_components": 74,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.367599431198658,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.7924154930392193,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "2840baeb67e32c1dd670b51b5c60f2444f453784a04cd5e0b697ea7db1aaaba8",
+        "audit_sha256": "08a2f10956d6146e00ddcd771e722ba3a6b3beeee5318a800b0c00cb7dfc08d1"
+      },
+      {
+        "id": "BOOK_DEV004",
+        "max_linear_m_s": 2.9389025507844737,
+        "max_angular_rad_s": 3.912755124149984,
+        "H40_translation_length_m": 3.1116530963212488,
+        "initial_jump_m": 0.05468086087830304,
+        "native_normalized_outside_unit_components": 51,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 2.9389025507844737,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.912755124149984,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "07c43ec078bf2a5a61ddadcfa6c6bed5d20327f44265ead3b863c2c534ed043f",
+        "audit_sha256": "4d071b770bab3df8f826ca6e6871412dbf0d3cf71d94682e841df3d6dea1094f"
+      },
+      {
+        "id": "BOOK_DEV005",
+        "max_linear_m_s": 2.9838236635373065,
+        "max_angular_rad_s": 3.4315725328829156,
+        "H40_translation_length_m": 2.9207236896798494,
+        "initial_jump_m": 0.10162363940921976,
+        "native_normalized_outside_unit_components": 63,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 2.9838236635373065,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.4315725328829156,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "a8b8599211fdad3090ef17b18758fa1d04f315609d326856e61d17b2c6a55373",
+        "audit_sha256": "86dedeaeacd0a48341751068b10eacd84d801abc638b9d543b30e905f4705aac"
+      },
+      {
+        "id": "BOOK_DEV006",
+        "max_linear_m_s": 3.456708442985806,
+        "max_angular_rad_s": 2.8109515830082423,
+        "H40_translation_length_m": 3.2538622101374934,
+        "initial_jump_m": 0.07653492283816266,
+        "native_normalized_outside_unit_components": 62,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.456708442985806,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 2.8109515830082423,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "9e18ed97d45284b61532c2c7a38dc0b5ed7ad40e0c6ed7fde0256787cc624824",
+        "audit_sha256": "f66fa8d08773e3b485a4ed16366241ed4c400776f88fefef5bafa68b40bd1080"
+      },
+      {
+        "id": "BOOK_DEV007",
+        "max_linear_m_s": 3.4104167120426583,
+        "max_angular_rad_s": 3.9052354616232843,
+        "H40_translation_length_m": 3.0560906878408316,
+        "initial_jump_m": 0.05551405147430411,
+        "native_normalized_outside_unit_components": 58,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.4104167120426583,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.9052354616232843,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "fb5322dc57ac37dbbc3fce47c010758cbfd3195b016d6048ab91414bb9a86ac0",
+        "audit_sha256": "640c7cceb46ebfd65e044efa0333cb86c59c785300e937d6766e0e9e0163e6dc"
+      },
+      {
+        "id": "BOOK_DEV008",
+        "max_linear_m_s": 3.2637699967325955,
+        "max_angular_rad_s": 3.079552083947505,
+        "H40_translation_length_m": 3.1084788383263198,
+        "initial_jump_m": 0.059216389491169884,
+        "native_normalized_outside_unit_components": 78,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.2637699967325955,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 3.079552083947505,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "01ac721f47af42aed5776bcbe3b60dd05cbad14edbce3bf18d4d8a138757d334",
+        "audit_sha256": "83e08b6761c2c724b1c3098512a94006d764b5b3b0eaa53cc2ede99206d5301c"
+      },
+      {
+        "id": "BOOK_DEV009",
+        "max_linear_m_s": 4.465605635608922,
+        "max_angular_rad_s": 2.6294745910612165,
+        "H40_translation_length_m": 3.950930202406913,
+        "initial_jump_m": 0.11019282881480096,
+        "native_normalized_outside_unit_components": 66,
+        "gate_issues": [
+          {
+            "code": "LINEAR_SPEED_REJECT",
+            "severity": "REJECT",
+            "message": "linear_speed exceeds rejection threshold (m/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 4.465605635608922,
+            "threshold": 2.0
+          },
+          {
+            "code": "ANGULAR_SPEED_WARN",
+            "severity": "WARNING",
+            "message": "angular_speed exceeds warning threshold (rad/s)",
+            "provenance": "TEST_ONLY",
+            "observed": 2.6294745910612165,
+            "threshold": 2.0
+          }
+        ],
+        "raw_sha256": "80ec5e6d9267d017a3e13b663036805e4b88ecd77a62cada011a75dcadbf19f9",
+        "audit_sha256": "8086be817609e4cf2d1f7873291aefd9d625661fc0ac943b56a380cbda74e799"
+      }
+    ],
+    "task_skill_learned": false
+  },
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_RAW_CAUSAL_INPUT_PREDICTION_AND_ORIGINAL_GATE_AUDIT_DEV10",
+    "sha256": "ab7cfcd2b272e5d3007cad488c349a19c9bbf7d4b8a380e47f52ddb0703df5dc",
+    "result_sha256": "f8210a52b320060e1b29adf83965ae92a57c7e6fce067f4ea52746565c757b83",
+    "actual_observations_images_language_and_predictions_joined": true,
+    "original_gate_recomputed": true,
+    "privileged_student_input": false,
+    "raw_score_recomputed": true,
+    "new_models_queries_optimizer_physics": 0
+  },
+  "canonical_closure": {
+    "status": "BOOK128_RESTORE_DEV10_CANONICAL_SETTLEMENT_LEASE_CLOSED_INDEPENDENT_READBACK",
+    "actual": {
+      "model_loads": 1,
+      "checkpoint_restore_qualification": true,
+      "optimizer_updates": 0,
+      "neural_queries": 10,
+      "valid_model_conditions": 10,
+      "successes": 0,
+      "source_constructors": 10,
+      "source_episode_starts": 10,
+      "physics_integrations": 25000,
+      "main_task_integrations": 0,
+      "RGB_pairs": 20,
+      "CPU_s": 62.534016,
+      "GPU_allocated_s_upper": 53,
+      "own_allocated_bytes_before_closing": 141213696,
+      "result_sha256": "f8210a52b320060e1b29adf83965ae92a57c7e6fce067f4ea52746565c757b83",
+      "restore_sha256": "a52da7d24db20573384fa831b6d5059f28ebca297a26a43a8561a9e4f1f1ab4a",
+      "independent_raw_causal_audit_sha256": "ab7cfcd2b272e5d3007cad488c349a19c9bbf7d4b8a380e47f52ddb0703df5dc",
+      "native_terminal_evidence": "COMPLETE_RESULT_NO_OWN_ACTOR_TRANSIENT_UNIT_REAPED_AND_CPU_JOURNAL",
+      "OS_exit_code_not_retained_after_unit_GC": true
+    },
+    "LOCAL_sha256": "c95919f24b3366b30a2e35a0872376f476189c4a78763eb4be04c9dfcf55729e",
+    "lease_sha256": "729324c2cb5dccbdbdc4f694051892d9af72c31eebff0671e1aa63bfe2e4a424",
+    "independent_readback_sha256": "a1815db1911ff2ca2079abd78a35eb629c2437c8ddf80a09ddfb4e3d0a720dc4",
+    "OS_exit_status_not_retained_after_transient_unit_GC": true,
+    "all_own_actors_absent": true,
+    "native_CPU_journal_used": true,
+    "no_unknown_write_or_replay": true
+  },
+  "source_totals": {
+    "Teacher_generation_attempts": 14,
+    "Teacher_integrations": 144571,
+    "Teacher_RGB_pairs": 4602,
+    "qualified_book_Teacher_demonstrations": 5,
+    "qualified_cabinet_Teacher_demonstrations": 0,
+    "policy_DEV_attempts": 10,
+    "policy_DEV_integrations": 25000,
+    "policy_DEV_RGB_pairs": 20,
+    "all_source_physical_attempts": 24,
+    "all_source_integrations": 169571,
+    "all_source_RGB_pairs": 4622
+  },
+  "other_lines": {
+    "E1_original_DEV24": "COMPLETE_0_OF24_ALL_REFERENCE_GATE_REJECT",
+    "E2_complete512": 0,
+    "E2_current": "UNVERIFIED_AFTER_VANDA_SSH_AUTH_REFUSAL_LAST_NATIVE_UNSTARTED_HELD",
+    "D25_valid_original_conditions": 0,
+    "S1_closed": true,
+    "T2_quarantined": true,
+    "infrastructure_and_credentials_modified": false,
+    "checkpoint_or_data_deleted": false
+  },
+  "cabinet_saved_attribution": {
+    "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+    "maximum_published_rigid_hinge_path_residual_m": 1.6653345369377348e-16,
+    "last_actual_vs_reference_hinge_lag_rad": 0.10816677456192475,
+    "last_relative_pose_and_tracking": {
+      "index": 173,
+      "time_s": 13.650000000001228,
+      "hinge_angle_rad": 0.1539957078499512,
+      "hinge_speed_rad_s": 0.02406632724386641,
+      "original_relative_speed_m_s": 0.020257719633948436,
+      "same_TCP_point_relative_speed_m_s": 0.02038167993753564,
+      "rigid_grasp_translation_drift_m": 0.015027412042844671,
+      "rigid_grasp_rotation_drift_rad": 0.08621299679971949,
+      "actual_end_to_submitted_command_XYZ_m": 0.009592400321793836,
+      "actual_end_to_submitted_command_SO3_rad": 0.03796747088884214
+    },
+    "inference": "Published arc obeys the rigid hinge. Same-point correction does not remove the measured slip. Growing fixture contact resistance and tracking lag remain candidates for causal tests; no new cabinet physical attempt.",
+    "old_STOP_unchanged": true
+  },
+  "next_actions": [
+    "Frozen TRAIN-window loss/free-generation diagnosis before changing optimization or action-side capacity; no blind repeat of this DEV candidate.",
+    "Saved-state cabinet contact/hinge-lag attribution and static qualification of an evidenced reference feedback mechanism.",
+    "E2 access remains stopped until authenticated Vanda access is restored; never duplicate an unknown scheduler job."
+  ],
+  "goal_complete": false,
+  "new_policy_task_success_claimed": false,
+  "source_Teacher_success_is_not_GR00T_or_target_success": true
+}
