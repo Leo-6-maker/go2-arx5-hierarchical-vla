@@ -1,0 +1,30 @@
+{
+  "status": "BOOK128_IMPORT_FAILURE_KNOWN_ZERO_CLOSED",
+  "terminal": {
+    "status": "CLOSED_ENTRY_IMPORT_FAILURE_BEFORE_MODEL",
+    "manifest_sha256": "70859680cc1ccacf3a01ea4facb6dc3ee8b8ff992399f596f94ec1ecf644e4b1",
+    "native_unit": {
+      "MainPID": "0",
+      "ExecMainStatus": "1",
+      "CPUUsageNSec": "83512000"
+    },
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "observation_sha256": "68bfd75efc23369c9cf59f8976060dca8666ff1d9d3862cf1fc1af9a5dd1b07c",
+    "CPU_s": 0.083512,
+    "completed_epoch": 1793408459.2114084,
+    "all_prior_costs_retained": true
+  },
+  "terminal_sha256": "a64b16bc2dfdb2ac601653389e4507edf95c94f71189690790dfdf8055b6b48d",
+  "lease_sha256": "14fedd6cf4c603f0c9b9d1af326ccd9d728ed4f3b6506d9d91d97cac4a927e41",
+  "LOCAL_sha256": "c736dadb66022e2fd254902fbf50f421fffac5c152fe5e600f8291f8e130bd8d",
+  "schema": "BOOK128_STANDALONE_ENTRY_FIX_ACTUAL_V1",
+  "as_of": "2026-10-31T09:01:15.241285+08:00",
+  "defect": "Sealed file launched from registered output directory imported project package before setting its separately sealed capsule path.",
+  "fix": "Validate manifest SHA and resolve sealed dependency capsule before first project import; standalone external-cwd CLI regression.",
+  "training128_result": "NOT_RUN",
+  "new_DEV10_result": "NOT_RUN",
+  "old_run_reopened": false,
+  "source_recipe_and_parent_unchanged": true
+}

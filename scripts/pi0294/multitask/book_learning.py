@@ -9,7 +9,21 @@ import os
 from pathlib import Path
 import shutil
 import signal
+import sys
 import time
+
+# The registered entry executes this sealed file from its output directory.
+# Resolve the separately sealed dependency capsule before project imports.
+if __name__ == '__main__':
+    import argparse
+    import hashlib
+    parser=argparse.ArgumentParser();parser.add_argument('--root',required=True);parser.add_argument('--manifest-sha256',required=True)
+    entry_args=parser.parse_args()
+    entry_manifest=(Path(entry_args.root)/'RUN_MANIFEST.json').read_bytes()
+    if hashlib.sha256(entry_manifest).hexdigest()!=entry_args.manifest_sha256:
+        raise PermissionError('BOOK_ENTRY_SEALED_MANIFEST_BEFORE_PROJECT_IMPORT')
+    dependency=json.loads(entry_manifest)['dependency_code']
+    sys.path[:0]=[dependency,dependency+'/src']
 
 from scripts.pi0292.train_adapter import CyclicSampler
 
@@ -253,6 +267,4 @@ def run(root, manifest_sha256):
 
 
 if __name__=='__main__':
-    import argparse
-    parser=argparse.ArgumentParser();parser.add_argument('--root',required=True);parser.add_argument('--manifest-sha256',required=True)
-    args=parser.parse_args();run(args.root,args.manifest_sha256)
+    run(entry_args.root,entry_args.manifest_sha256)
