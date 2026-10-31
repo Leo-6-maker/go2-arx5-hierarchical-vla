@@ -64,6 +64,7 @@ def dev_card(condition):
 class Student:
     stage='STUDENT_NO_PRIVILEGED_STAGE'
     candidate_complete=False
+    execution_prefix=8
     def __init__(self,instance,identifier,record,guard,*,seed_namespace='BOOK5_DEV10'):
         self.instance,self.identifier,self.record,self.guard=instance,identifier,record,guard
         self.seed_namespace=seed_namespace
@@ -82,11 +83,11 @@ class Student:
 
     def plan(self):
         self.guard()
-        if self.index%8 or self.index==self.last_plan or self.images is None:
+        if self.index%self.execution_prefix or self.index==self.last_plan or self.images is None:
             raise PermissionError('ONE_FRESH_MODEL_QUERY_PER_REAL_PREFIX8_OBSERVATION')
-        self.last_plan=self.index;sequence=self.index//8
+        self.last_plan=self.index;sequence=self.index//self.execution_prefix
         request=payload(self.state,self.images,self.instruction)
-        seed=int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
+        seed=self.generation_seed(sequence)
         self.record('intent',dict(sequence=sequence,index=self.index,seed=seed,
             observation_sha256=hashlib.sha256(json.dumps(request,sort_keys=True).encode()).hexdigest(),
             student_state_eef10=self.state.tolist(),language=self.instruction,
@@ -98,8 +99,11 @@ class Student:
         matrices=matrix10(value['physical_H40'])
         return dict(poses=matrices,opening=np.asarray(value['physical_H40'])[:,9].copy())
 
+    def generation_seed(self,sequence):
+        return int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
 
-def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2):
+
+def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8):
     from PIL import Image
     import mujoco
     from scripts.pi0294.multitask.source_engine import make_engine
@@ -168,7 +172,7 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
             condition_guard();engine.step(home,.042/.044);s=engine.snapshot();emit('warmup_tick',dict(native_step=engine.steps,actual_state=s))
             if s['safety_valid']is not True:raise PermissionError('ORIGINAL_BOOK_NATIVE_WARMUP_SAFETY')
         emit('warmup_complete',dict(steps=engine.steps,actual_state=engine.snapshot()))
-        result=capture(engine,student,instruction=card['instruction'],guard=condition_guard,emit=emit,duration_s=32.)
+        result=capture(engine,student,instruction=card['instruction'],guard=condition_guard,emit=emit,duration_s=32.,execution_prefix=execution_prefix)
         result['model_calls']=student.queries
     except ModelReferenceRejected as exc:
         error=str(exc);gate_rejected=True
@@ -183,7 +187,7 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         actual_integrations=engine.steps if engine else 0,actual_RGB_pairs=getattr(engine,'render_pairs',0)if engine else 0,
         recorded_RGB_pairs=recorded,events=events,model_queries=student.queries,gate_rejected=gate_rejected,
         CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,training_admitted=False,observed_epoch=time.time())
-    write(folder/'TERMINAL.json',terminal);a=audit(folder);write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
+    write(folder/'TERMINAL.json',terminal);a=audit(folder,execution_prefix=execution_prefix);write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
     valid=valid_model_condition(a,student.completed_generations,gate_rejected)
     hard_safety=a.get('original_native_safety_pass')is False
     return dict(id=condition['id'],xy_offset_m=condition['xy_offset_m'],valid_model_condition=valid,
@@ -209,7 +213,8 @@ def run(root,manifest_sha256):
     is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_M32_FINITE_LEARNING')
     is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
     is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING')
+    is_rollout=m['kind']=='V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC'
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -223,6 +228,9 @@ def run(root,manifest_sha256):
             from scripts.pi0294.multitask.book_early_recovery import validate_manifest
         else:
             from scripts.pi0294.multitask.book_recovery import validate_manifest
+        validate_manifest(m)
+    if is_rollout:
+        from scripts.pi0294.multitask.book_rollout_diagnostic import validate_manifest
         validate_manifest(m)
     lease=read(root/'control/LEASE.json')
     if lease['status']!='ACTIVE'or lease['manifest_sha256']!=manifest_sha256:raise PermissionError('BOOK_DEV10_ACTIVE_OWNER_LEASE')
@@ -350,6 +358,12 @@ def run(root,manifest_sha256):
         seal=read(root/'TRAIN_DEV_SEAL.json')
         if sha(root/'TRAIN_DEV_SEAL.json')!=m['TRAIN_DEV_seal_sha256']:raise PermissionError('BOOK_DEV10_FIXED_POPULATION')
         conditions=seal['DEV'];episode_options={}
+        if is_rollout:
+            from scripts.pi0294.multitask import book_rollout_diagnostic as diagnostic
+            plan=m['rollout_diagnostic'];conditions=plan['conditions']
+            episode_options=dict(card_factory=diagnostic.card,
+                student_factory=diagnostic.student_factory(Student,plan['execution_prefix']),
+                execution_prefix=plan['execution_prefix'])
         if is_recovery:
             if is_early_recovery:
                 from scripts.pi0294.multitask import book_early_recovery as recovery
@@ -381,8 +395,8 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status=(('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
-            scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery else sum(r['valid_model_condition']for r in rows),
+        else:write(root/'RESULT.json',dict(status=('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+            scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery or is_rollout else sum(r['valid_model_condition']for r in rows),
             student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
             evaluated_checkpoint_manifest_sha256=m.get('delta_checkpoint_manifest_sha256',m['checkpoint_manifest_sha256']),
             checkpoint_requires_retained_full_parent=bool(m.get('delta_checkpoint')),

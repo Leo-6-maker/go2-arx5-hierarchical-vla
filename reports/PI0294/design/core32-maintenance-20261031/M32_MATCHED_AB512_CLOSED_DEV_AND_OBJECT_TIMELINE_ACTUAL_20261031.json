@@ -1,0 +1,1176 @@
+{
+  "schema": "M32_MATCHED_AB512_COMPLETE_REAL_DEV_AND_TRAIN_FEEDBACK_SUCCESSOR_V1",
+  "as_of_SGT": "2026-10-31T19:55:14.190527+08:00",
+  "runtime_source_sha": "ca5251dd87f6cd8370e47952c50cfa6ed93e3d93",
+  "matched_initialization_and_exposure": {
+    "status": "ACTUAL_MATCHED_A_B_INITIAL_OUTPUTS_AND_ALL_COMMITTED_TRAIN_EXPOSURES_IDENTICAL",
+    "all_16384_TRAIN_identities_exact": true,
+    "actual_TRAIN_trace_sha256": "69216a5f9efd06d2cfac1718e7e5245726d1e6cd96040cfa9b83f8c0d343f69f",
+    "matched_initial_saved_input_label_prediction_noise_array_packets": 16,
+    "initial_float_arrays_bit_exact": true,
+    "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+    "new_models_queries_physics": 0,
+    "observed_epoch": 1793445484.753294
+  },
+  "A": {
+    "training": {
+      "status": "M32_FINITE_LEARNING_CLOSED_FULL_INDEPENDENT_READBACK",
+      "actual": {
+        "model_loads": 1,
+        "optimizer_updates": 512,
+        "TRAIN_window_visits": 16384,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "physics_integrations": 0,
+        "source_episode_starts": 0,
+        "new_RGB_pairs": 0,
+        "formal_DEV_conditions": 0,
+        "CPU_s": 2797.437714,
+        "GPU_allocated_s_upper": 2557,
+        "own_allocated_bytes_before_closing": 164225024,
+        "result_sha256": "e0cdca0bde4743dd20a90bd77d00ae623d37e3969137161ef65ab4bbe1871765",
+        "fit_sha256": "bd811354f9b1b6c4c0aec966e4ba9b58e97e1005c2e44e636c426f5e6bf21bd1",
+        "checkpoint_manifest_sha256": "c15f492c70d8a67646626e2a796052f0370f363a39acfb92552719c22a4c13e7",
+        "actual_delta_restore_sha256": "8e9a0688804b961b6ca81445e4ce03de7a150eaa0dfb8bc629fe5eb4f35da81f",
+        "independent_audit_sha256": "af645cf9e794d174218a8985b945436e9666dfb107c5d75c5d3d1251532af1af",
+        "checkpoint_requires_retained_full_parent": true,
+        "OS_exit_code_not_retained_after_transient_unit_GC": true
+      },
+      "LOCAL_sha256": "3372d6c1b0b2a2123e6fed58ebd27e5fc58758ea6decfad8b47ba8d64b7a310b",
+      "lease_sha256": "5ce7e423ff2fa90087e9f0e90642fe948842286ed08aa53c88a89e1110a84712",
+      "observed_epoch": 1793442286.7321694,
+      "new_mutations": 0
+    },
+    "actual_trainable_tensors": 14,
+    "actual_trainable_parameters": 10180740,
+    "fixed_TRAIN16": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.04357982281362638,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.01637211787421943,
+        "H40_SO3_mean_rad": 0.013789333188802417,
+        "H40_gripper_MAE": 0.046042520468207934
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.035116951577947475,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.012342866295764638,
+        "H40_SO3_mean_rad": 0.012055402762926834,
+        "H40_gripper_MAE": 0.04161466332152487
+      }
+    },
+    "capacity": {
+      "qualification_only": false,
+      "actual_optimizer_updates": 512,
+      "saved_and_restored": true,
+      "contract": {
+        "schema": "ARX5_MINIMAL_ADAPTER_PARAMETER_CONTRACT_V1",
+        "upstream_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+        "arm": "E1_ADAPTER_ONLY",
+        "target_category": 10,
+        "module_mode": "MATCHED_ACTION_HEAD_AND_BACKBONE_EVAL_WITH_AUTOGRAD_V1",
+        "trainable": [
+          {
+            "name": "action_head.state_encoder.layer1.target_W",
+            "shape": [
+              132,
+              1024
+            ],
+            "numel": 135168
+          },
+          {
+            "name": "action_head.state_encoder.layer1.target_b",
+            "shape": [
+              1024
+            ],
+            "numel": 1024
+          },
+          {
+            "name": "action_head.state_encoder.layer2.target_W",
+            "shape": [
+              1024,
+              1536
+            ],
+            "numel": 1572864
+          },
+          {
+            "name": "action_head.state_encoder.layer2.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W1.target_W",
+            "shape": [
+              132,
+              1536
+            ],
+            "numel": 202752
+          },
+          {
+            "name": "action_head.action_encoder.W1.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W2.target_W",
+            "shape": [
+              3072,
+              1536
+            ],
+            "numel": 4718592
+          },
+          {
+            "name": "action_head.action_encoder.W2.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W3.target_W",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.action_encoder.W3.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_decoder.layer1.target_W",
+            "shape": [
+              1024,
+              1024
+            ],
+            "numel": 1048576
+          },
+          {
+            "name": "action_head.action_decoder.layer1.target_b",
+            "shape": [
+              1024
+            ],
+            "numel": 1024
+          },
+          {
+            "name": "action_head.action_decoder.layer2.target_W",
+            "shape": [
+              1024,
+              132
+            ],
+            "numel": 135168
+          },
+          {
+            "name": "action_head.action_decoder.layer2.target_b",
+            "shape": [
+              132
+            ],
+            "numel": 132
+          }
+        ],
+        "trainable_numel": 10180740,
+        "parameter_numel_including_target_slices": 2828413060,
+        "frozen_buffer_numel": 325783760,
+        "real_model_qualification": false,
+        "native_adopted": false
+      },
+      "minimum_observed_free_bytes": 12357206016,
+      "maximum_allocated_bytes": 14597748224,
+      "maximum_reserved_bytes": 14820573184,
+      "capacity_pass": true,
+      "measured_points": 22,
+      "measured_free_is_shared_device_not_exclusive_allocation": true
+    },
+    "DEV": {
+      "actual": {
+        "model_loads": 1,
+        "generation_queries": 5,
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "hard_native_safety_conditions": 1,
+        "physics_integrations": 3349,
+        "source_episode_starts": 1,
+        "source_constructors": 1,
+        "RGB_pairs": 35,
+        "optimizer_updates": 0,
+        "CPU_s": 68.506145,
+        "GPU_allocated_s_upper": 45,
+        "own_allocated_bytes_before_closing": 49664000,
+        "result_sha256": "9bed63c814472df83433bee15a1a67fa748cd8be1a7fa45fdc18f80825aa8c8e",
+        "checkpoint_manifest_sha256": "c15f492c70d8a67646626e2a796052f0370f363a39acfb92552719c22a4c13e7",
+        "independent_audit_sha256": "fe5fb65eaafb5034e1cfc206fcc89d659be0731b52415aaaf7865c166f153001",
+        "OS_exit_code_not_retained_after_transient_unit_GC": true,
+        "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+      },
+      "independently_closed": true,
+      "lease_sha256": "0c6b1aa2dbbb10c3cc60d77d1309db9498dfb778402ab5d6a5628fa054778c1a",
+      "submitted_intervals": 34,
+      "completed_intervals": 33,
+      "all_gates": [
+        {
+          "index": 0,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 8,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 16,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 24,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 32,
+          "decision": "ACCEPT",
+          "issues": []
+        }
+      ]
+    },
+    "static_reference_geometry": {
+      "run": "v7-book-m32-b0-fixed-dev10-01",
+      "raw_sha256": "4b57c3c5deac8edbdee87ea2f6a3755222e6c291d12a638719c9ed4640c0f79b",
+      "XML_sha256": "55187eb09cf1c1e3852474f2f09bcd2f5cd52fc2c49984ea2f40800ef69167f7",
+      "submitted_prefix_intervals": 34,
+      "first_converged_hypothetical_reference_endpoint_collision": {
+        "index": 32,
+        "task_time_s": 1.6,
+        "actual_clearance": {
+          "distance_m": 0.002908243245558055,
+          "robot": {
+            "geom": 73,
+            "name": "right_pad",
+            "body": "x5_link8"
+          },
+          "obstacle": {
+            "geom": 85,
+            "name": "libero_desk_caddy_geom_13",
+            "body": "libero_desk_caddy"
+          },
+          "native_pair_contact_distances_m": []
+        },
+        "reference_endpoint_with_actual_fingers": {
+          "distance_m": -0.004026844947670862,
+          "robot": {
+            "geom": 73,
+            "name": "right_pad",
+            "body": "x5_link8"
+          },
+          "obstacle": {
+            "geom": 78,
+            "name": "libero_desk_caddy_geom_6",
+            "body": "libero_desk_caddy"
+          },
+          "native_pair_contact_distances_m": [
+            -0.004026844947670862,
+            -0.004012759696303407
+          ]
+        },
+        "reference_endpoint_with_commanded_fingers": {
+          "distance_m": -0.0007387779721162776,
+          "robot": {
+            "geom": 73,
+            "name": "right_pad",
+            "body": "x5_link8"
+          },
+          "obstacle": {
+            "geom": 78,
+            "name": "libero_desk_caddy_geom_6",
+            "body": "libero_desk_caddy"
+          },
+          "native_pair_contact_distances_m": [
+            -0.0007387779721162776,
+            -0.0005353607042359722,
+            -0.0006825755543012702
+          ]
+        },
+        "IK_error": [
+          9.101780253117982e-11,
+          3.619370140348058e-10
+        ],
+        "reference_endpoint_from_actual_observation_XYZ_m": 0.034101897447186856,
+        "native_grasp": false
+      },
+      "IK_converged_endpoints": 34,
+      "IK_unconverged_not_reference_geometry_evidence": 0,
+      "actual_terminal_clearance": {
+        "distance_m": -4.399358074014392e-06,
+        "robot": {
+          "geom": 73,
+          "name": "right_pad",
+          "body": "x5_link8"
+        },
+        "obstacle": {
+          "geom": 85,
+          "name": "libero_desk_caddy_geom_13",
+          "body": "libero_desk_caddy"
+        },
+        "native_pair_contact_distances_m": [
+          -4.399358074014392e-06
+        ]
+      },
+      "actual_terminal_grasp": false,
+      "actual_terminal_tool_speed_m_s": 0.2598227933257884,
+      "actual_terminal_task_s": 1.6979999999994844,
+      "max_IK_error_m": 4.1674795946180726e-07,
+      "max_IK_error_rad": 6.5284434390665765e-06
+    },
+    "static_analysis": {
+      "CPU_s": 1.122321508,
+      "integrations": 0,
+      "neural_queries": 0,
+      "model_constructors": 1,
+      "not_swept_or_dynamic_certification": true
+    }
+  },
+  "B": {
+    "training": {
+      "status": "M32_FINITE_LEARNING_CLOSED_FULL_INDEPENDENT_READBACK",
+      "actual": {
+        "model_loads": 1,
+        "optimizer_updates": 512,
+        "TRAIN_window_visits": 16384,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "physics_integrations": 0,
+        "source_episode_starts": 0,
+        "new_RGB_pairs": 0,
+        "formal_DEV_conditions": 0,
+        "CPU_s": 2896.976827,
+        "GPU_allocated_s_upper": 2666,
+        "own_allocated_bytes_before_closing": 976277504,
+        "result_sha256": "1d3b117d5140b8f2f6c6ce9f95cd6c632f6854582a4ea6bf1d924ebeb931a0cc",
+        "fit_sha256": "2cd4d4482bd098d327301e5b6d1e765b9d1f441df1bf6cc456518d1b509fb91d",
+        "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+        "actual_delta_restore_sha256": "60e8d68acdabf760c2946f091ef209b99bc81c1d1c5a1c7505c2c517b76cca02",
+        "independent_audit_sha256": "c7f14db67e3cef4f70ce8e4d1973a7ac86a917714a8a9614fde31f386f344a6b",
+        "checkpoint_requires_retained_full_parent": true,
+        "OS_exit_code_not_retained_after_transient_unit_GC": true
+      },
+      "LOCAL_sha256": "bcfc608f03b632471fcd78093169de889f2818a97da64bf03426e3affab4bb15",
+      "lease_sha256": "a02c2585090ade2577395432c5870aee1b395b142ca8612025ef28fcaaf19822",
+      "observed_epoch": 1793445358.890259,
+      "new_mutations": 0
+    },
+    "actual_trainable_tensors": 42,
+    "actual_trainable_parameters": 77847684,
+    "fixed_TRAIN16": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.04357982281362638,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.01637211787421943,
+        "H40_SO3_mean_rad": 0.013789333188802417,
+        "H40_gripper_MAE": 0.046042520468207934
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.028503346504294313,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.00924256711706899,
+        "H40_SO3_mean_rad": 0.009761516336810971,
+        "H40_gripper_MAE": 0.03322099212726409
+      }
+    },
+    "capacity": {
+      "qualification_only": false,
+      "actual_optimizer_updates": 512,
+      "saved_and_restored": true,
+      "contract": {
+        "schema": "M32_LIMITED_ACTION_PARAMETER_CONTRACT_V1",
+        "arm": "M32_INTERFACE_PLUS_LAST_2_DIT_BLOCKS",
+        "target_category": 10,
+        "upstream_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+        "module_mode": "MATCHED_ACTION_HEAD_AND_BACKBONE_EVAL_WITH_AUTOGRAD_V1",
+        "actual_DiT_block_indices": [
+          30,
+          31
+        ],
+        "trainable": [
+          {
+            "name": "action_head.model.transformer_blocks.30.norm1.linear.weight",
+            "shape": [
+              3072,
+              1536
+            ],
+            "numel": 4718592
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.norm1.linear.bias",
+            "shape": [
+              3072
+            ],
+            "numel": 3072
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_q.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_q.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_k.weight",
+            "shape": [
+              1536,
+              2048
+            ],
+            "numel": 3145728
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_k.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_v.weight",
+            "shape": [
+              1536,
+              2048
+            ],
+            "numel": 3145728
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_v.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_out.0.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.attn1.to_out.0.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.ff.net.0.proj.weight",
+            "shape": [
+              6144,
+              1536
+            ],
+            "numel": 9437184
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.ff.net.0.proj.bias",
+            "shape": [
+              6144
+            ],
+            "numel": 6144
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.ff.net.2.weight",
+            "shape": [
+              1536,
+              6144
+            ],
+            "numel": 9437184
+          },
+          {
+            "name": "action_head.model.transformer_blocks.30.ff.net.2.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.norm1.linear.weight",
+            "shape": [
+              3072,
+              1536
+            ],
+            "numel": 4718592
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.norm1.linear.bias",
+            "shape": [
+              3072
+            ],
+            "numel": 3072
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_q.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_q.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_k.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_k.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_v.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_v.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_out.0.weight",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.attn1.to_out.0.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.ff.net.0.proj.weight",
+            "shape": [
+              6144,
+              1536
+            ],
+            "numel": 9437184
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.ff.net.0.proj.bias",
+            "shape": [
+              6144
+            ],
+            "numel": 6144
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.ff.net.2.weight",
+            "shape": [
+              1536,
+              6144
+            ],
+            "numel": 9437184
+          },
+          {
+            "name": "action_head.model.transformer_blocks.31.ff.net.2.bias",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.state_encoder.layer1.target_W",
+            "shape": [
+              132,
+              1024
+            ],
+            "numel": 135168
+          },
+          {
+            "name": "action_head.state_encoder.layer1.target_b",
+            "shape": [
+              1024
+            ],
+            "numel": 1024
+          },
+          {
+            "name": "action_head.state_encoder.layer2.target_W",
+            "shape": [
+              1024,
+              1536
+            ],
+            "numel": 1572864
+          },
+          {
+            "name": "action_head.state_encoder.layer2.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W1.target_W",
+            "shape": [
+              132,
+              1536
+            ],
+            "numel": 202752
+          },
+          {
+            "name": "action_head.action_encoder.W1.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W2.target_W",
+            "shape": [
+              3072,
+              1536
+            ],
+            "numel": 4718592
+          },
+          {
+            "name": "action_head.action_encoder.W2.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_encoder.W3.target_W",
+            "shape": [
+              1536,
+              1536
+            ],
+            "numel": 2359296
+          },
+          {
+            "name": "action_head.action_encoder.W3.target_b",
+            "shape": [
+              1536
+            ],
+            "numel": 1536
+          },
+          {
+            "name": "action_head.action_decoder.layer1.target_W",
+            "shape": [
+              1024,
+              1024
+            ],
+            "numel": 1048576
+          },
+          {
+            "name": "action_head.action_decoder.layer1.target_b",
+            "shape": [
+              1024
+            ],
+            "numel": 1024
+          },
+          {
+            "name": "action_head.action_decoder.layer2.target_W",
+            "shape": [
+              1024,
+              132
+            ],
+            "numel": 135168
+          },
+          {
+            "name": "action_head.action_decoder.layer2.target_b",
+            "shape": [
+              132
+            ],
+            "numel": 132
+          }
+        ],
+        "trainable_numel": 77847684,
+        "original_target_interface_parameters": 14,
+        "all_other_parameters_and_buffers_frozen": true,
+        "real_model_qualification": false,
+        "native_adopted": false
+      },
+      "minimum_observed_free_bytes": 10840965120,
+      "maximum_allocated_bytes": 15447903744,
+      "maximum_reserved_bytes": 16336814080,
+      "capacity_pass": true,
+      "measured_points": 22,
+      "measured_free_is_shared_device_not_exclusive_allocation": true
+    },
+    "DEV": {
+      "actual": {
+        "model_loads": 1,
+        "generation_queries": 56,
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "hard_native_safety_conditions": 1,
+        "physics_integrations": 13631,
+        "source_episode_starts": 1,
+        "source_constructors": 1,
+        "RGB_pairs": 447,
+        "optimizer_updates": 0,
+        "CPU_s": 97.548282,
+        "GPU_allocated_s_upper": 72,
+        "own_allocated_bytes_before_closing": 133591040,
+        "result_sha256": "0345b4c933d9434b410de6cd91dbea1ebef251bdabc42e19f3346ada4a98014d",
+        "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+        "independent_audit_sha256": "68e846dfe0e01c6722cd5e67d30eaccd1733d9e348751dcbc86f36978f592da9",
+        "OS_exit_code_not_retained_after_transient_unit_GC": true,
+        "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+      },
+      "independently_closed": true,
+      "lease_sha256": "ef9bf0482b3425d0def55ef53f279c20d6b250911e05c8fc0a0c14168fd3983f",
+      "submitted_intervals": 446,
+      "completed_intervals": 445,
+      "all_gates": [
+        {
+          "index": 0,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 8,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 16,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 24,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 32,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 40,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 48,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 56,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 64,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 72,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 80,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 88,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 96,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 104,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 112,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 120,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 128,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 136,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 144,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 152,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 160,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 168,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 176,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 184,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 192,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 200,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 208,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 216,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 224,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 232,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 240,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 248,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 256,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 264,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 272,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 280,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 288,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 296,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 304,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 312,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 320,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 328,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 336,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 344,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 352,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 360,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 368,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 376,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 384,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 392,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 400,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 408,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 416,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 424,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 432,
+          "decision": "ACCEPT",
+          "issues": []
+        },
+        {
+          "index": 440,
+          "decision": "ACCEPT",
+          "issues": []
+        }
+      ]
+    },
+    "static_reference_geometry": {
+      "run": "v7-book-m32-b2-fixed-dev10-01",
+      "raw_sha256": "0c1d8318343bbca1105294f3f8fb970bcefe8dce6c971e0b33ace46e34176fc0",
+      "XML_sha256": "55187eb09cf1c1e3852474f2f09bcd2f5cd52fc2c49984ea2f40800ef69167f7",
+      "submitted_prefix_intervals": 446,
+      "first_converged_hypothetical_reference_endpoint_collision": null,
+      "IK_converged_endpoints": 440,
+      "IK_unconverged_not_reference_geometry_evidence": 6,
+      "actual_terminal_clearance": {
+        "distance_m": 0.029112745040256818,
+        "robot": {
+          "geom": 73,
+          "name": "right_pad",
+          "body": "x5_link8"
+        },
+        "obstacle": {
+          "geom": 89,
+          "name": "libero_desk_caddy_geom_17",
+          "body": "libero_desk_caddy"
+        },
+        "native_pair_contact_distances_m": []
+      },
+      "actual_terminal_grasp": false,
+      "actual_terminal_tool_speed_m_s": 0.4021492340521253,
+      "actual_terminal_task_s": 22.26199999999577,
+      "max_IK_error_m": 0.04167986390992776,
+      "max_IK_error_rad": 0.15327797632017756
+    },
+    "static_analysis": {
+      "CPU_s": 2.460735639,
+      "integrations": 0,
+      "neural_queries": 0,
+      "model_constructors": 1,
+      "not_swept_or_dynamic_certification": true
+    }
+  },
+  "B_actual_object_contact_timeline": {
+    "native_libero_goal": {
+      "observations": 0,
+      "first_task_s": null,
+      "last_task_s": null
+    },
+    "object_supported_by_shelf": {
+      "observations": 211,
+      "first_task_s": 8.5,
+      "last_task_s": 22.25
+    },
+    "left_object_contact": {
+      "observations": 190,
+      "first_task_s": 2.45,
+      "last_task_s": 12.700000000000001
+    },
+    "right_object_contact": {
+      "observations": 188,
+      "first_task_s": 2.6500000000000004,
+      "last_task_s": 12.0
+    },
+    "opposing_contact": {
+      "observations": 187,
+      "first_task_s": 2.6500000000000004,
+      "last_task_s": 11.950000000000001
+    },
+    "relative_motion_valid": {
+      "observations": 81,
+      "first_task_s": 0.0,
+      "last_task_s": 17.8
+    },
+    "native_grasp": {
+      "observations": 78,
+      "first_task_s": 2.75,
+      "last_task_s": 11.9
+    },
+    "sample_interval_s": 0.05,
+    "max_observed_book_origin_rise_m": 0.05480282376434209,
+    "max_rise_task_s": 5.800000000000001,
+    "initial_book_origin": [
+      0.3655300008186381,
+      -0.1121499866469258,
+      0.5071709548372156
+    ],
+    "final_observed_book_origin": [
+      0.4073457661587962,
+      0.2126210452108083,
+      0.5061022933848925
+    ],
+    "native_goal_observations": 0,
+    "interpretation": "Actual bilateral contact and lift/carry, then loss of persistent grasp and book resting on table near caddy. Shelf support alone does not establish native containment or release/withdraw/hold. Native_grasp intermittently false despite bilateral contact; first false frame is not asserted to be loss."
+  },
+  "interpretation": [
+    "Both completed actual512, exact16384 visits, all12533 windows covered; full parent/delta/AdamW/scheduler/RNG/cursor saved and restored.",
+    "B improves fixed TRAIN16 and reaches lift/carry; one negative DEV per arm does not establish success probability, statistical superiority, convergence, BC failure or sufficient training.",
+    "A converged reference endpoint overlaps caddy at1.6s even with commanded fingers. B440 converged endpoint IKs and6 unresolved; no colliding converged endpoint found. Not swept feasibility certification.",
+    "B stops22.262s TCP0.4021492340521253m/s above unchanged0.4; all56 reference gates accepted. Native containment/support-release-withdraw-hold not completed."
+  ],
+  "source_cumulative": {
+    "attempts": 49,
+    "physics_integrations": 536577,
+    "RGB_pairs": 16848,
+    "pure_teacher_attempts": 27,
+    "formal_book_DEV_attempts": 15,
+    "mixed_recovery_attempts": 7,
+    "pure_full_book_demonstrations": 15,
+    "full_custom_cabinet_demonstrations": 1,
+    "full_mixed_recoveries": 6,
+    "autonomous_full_task_successes": 0
+  },
+  "new_diagnostic_code": {
+    "native_started": false,
+    "affected_checks_passed": 50,
+    "CI": "NOT_RUN",
+    "original_Prefix8_default_and_score_preserved": true
+  },
+  "next_action": "Fixed closed B512; declared TRAIN0/7/13 autonomous32s from home without takeover. Paired Prefix8/4 separate diagnostics; no DEV/CONF admission or original-score replacement.",
+  "full_goal_achieved": false
+}

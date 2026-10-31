@@ -1,0 +1,131 @@
+{
+  "schema": "M32_POST_AB_SCIENTIFIC_DECISION_CHAIN_V1",
+  "authority": "User pasted review20261031 plus current V7/M1; internal aggregate budgets canceled.",
+  "architecture": "GR00T dualRGB+EEF/gripper, H40, frozen WBC; no privileged Teacher input or RL switch.",
+  "predeclared_first_diagnostics": [
+    {
+      "schema": "BOOK_M32_B512_TRAIN_REPRODUCTION_FEEDBACK_V1",
+      "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+      "conditions": [
+        {
+          "id": "BOOK_TRAIN000",
+          "TRAIN_parent": 0,
+          "xy_offset_m": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "BOOK_TRAIN007",
+          "TRAIN_parent": 7,
+          "xy_offset_m": [
+            0.0,
+            0.012
+          ]
+        },
+        {
+          "id": "BOOK_TRAIN013",
+          "TRAIN_parent": 13,
+          "xy_offset_m": [
+            0.016,
+            0.004
+          ]
+        }
+      ],
+      "execution_prefix": 8,
+      "H40": 40,
+      "warmup_seconds": 5,
+      "task_seconds": 32,
+      "task_scoring_and_native_safety_unchanged": true,
+      "original_DEV_or_confirmation": false,
+      "expert_takeover": false,
+      "training_admitted": false,
+      "noise": "SHA256_BOOK_M32_TRAIN_FEEDBACK_V1_condition_absolute_observation_index",
+      "common_observation_boundaries_have_identical_seed": true,
+      "automatic_retry": false,
+      "hard_native_safety_stops_panel": true
+    },
+    {
+      "schema": "BOOK_M32_B512_TRAIN_REPRODUCTION_FEEDBACK_V1",
+      "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+      "conditions": [
+        {
+          "id": "BOOK_TRAIN000",
+          "TRAIN_parent": 0,
+          "xy_offset_m": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "BOOK_TRAIN007",
+          "TRAIN_parent": 7,
+          "xy_offset_m": [
+            0.0,
+            0.012
+          ]
+        },
+        {
+          "id": "BOOK_TRAIN013",
+          "TRAIN_parent": 13,
+          "xy_offset_m": [
+            0.016,
+            0.004
+          ]
+        }
+      ],
+      "execution_prefix": 4,
+      "H40": 40,
+      "warmup_seconds": 5,
+      "task_seconds": 32,
+      "task_scoring_and_native_safety_unchanged": true,
+      "original_DEV_or_confirmation": false,
+      "expert_takeover": false,
+      "training_admitted": false,
+      "noise": "SHA256_BOOK_M32_TRAIN_FEEDBACK_V1_condition_absolute_observation_index",
+      "common_observation_boundaries_have_identical_seed": true,
+      "automatic_retry": false,
+      "hard_native_safety_stops_panel": true
+    }
+  ],
+  "diagnostic_order": [
+    8,
+    4
+  ],
+  "safety": "One physical owner; hard safety stops current panel, remaining unrun. No retry of original formal outcomes. Feedback arm is a separate execution protocol, not erasure of old STOP.",
+  "questions": [
+    "Can fixed model reproduce seen full TRAIN task?",
+    "Does0.2s feedback instead of0.4s change actual stages or failure at same checkpoint/H40/20Hz targets/native driver?"
+  ],
+  "longer_optimization": {
+    "status": "NEXT_RECIPE_NOT_LAUNCHED",
+    "selected_parameter_range": "Interface plus actual DiT30/31, selected for partial stage progression, not demonstrated success.",
+    "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+    "statistics_sha256": "6230b09b5ac90ae1c391629a88513aeb5fe491f8c5ce453cd0aad689bc98dd3c",
+    "sampling": "Keep uniform cyclic sampler for longer curve; event sampling is separate matched intervention.",
+    "candidate_total_updates": [
+      1024,
+      2048,
+      4096
+    ],
+    "initialization_and_learning_rate_schedule": "Declare before launch; do not accidentally continue exhausted512 cosine. Prefer continuous fresh4096 schedule from common closed initialb248, retaining intermediate full1024/2048/4096 states.",
+    "endpoint_not_convergence_claim": true
+  },
+  "event_sampling": {
+    "status": "NOT_RUN",
+    "first_action": "Measure actual early recovery/task transitions on existing TRAIN; declare partial uniform/event exposures with matched total visits/parameters/statistics before comparison.",
+    "no_new_loss": true,
+    "no_large_collection_before_diagnostic": true
+  },
+  "confirmation": {
+    "presealed20_unexposed": true,
+    "original_DEV_is_development_not_blind_TEST": true
+  },
+  "invariants": {
+    "Vanda_no_access_before": "2026-11-02T17:00:00+08:00",
+    "S1_closed": true,
+    "T2_quarantined": true,
+    "WBC_and_native_safety_frozen": true,
+    "cleanup_owner": "USER"
+  }
+}

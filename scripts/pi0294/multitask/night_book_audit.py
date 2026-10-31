@@ -11,13 +11,17 @@ from scripts.pi0291_arx5_data.config import PARAMETERS as P
 from .object_relations import pose
 
 
-def audit(folder,*,task_kind='BOOK'):
+def audit(folder,*,task_kind='BOOK',execution_prefix=8):
     if task_kind not in('BOOK','ROBOCASA_CABINET'):raise ValueError('EXPLICIT_FIXED_SOURCE_RAW_AUDIT_KIND')
+    if type(execution_prefix)is not int or execution_prefix not in(4,8)or(execution_prefix==4 and task_kind!='BOOK'):
+        raise ValueError('EXPLICIT_BOOK_FEEDBACK_DIAGNOSTIC_PREFIX')
     folder=Path(folder);terminal=json.loads((folder/'TERMINAL.json').read_bytes())
     sha=lambda b:hashlib.sha256(b).hexdigest()
     proof={'schema':'NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1'if task_kind=='BOOK'else'NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1','raw_sha256':sha((folder/'ACTUAL_RECORDS.jsonl').read_bytes()),
         'terminal_sha256':sha((folder/'TERMINAL.json').read_bytes()),'new_simulator_or_model_calls':0,
         'task_success':False,'qualified_source_pilot':False,'training_admitted':False}
+    if execution_prefix==4:
+        proof.update(schema='BOOK_STUDENT_PREFIX4_INDEPENDENT_RAW_AUDIT_V1',execution_prefix=4,formal_original_DEV=False)
     rows=[json.loads(s)for s in(folder/'ACTUAL_RECORDS.jsonl').read_text().splitlines()]
     qualification=[r['value']for r in rows if r['kind']=='qualification']
     if len(qualification)!=1:
@@ -64,19 +68,19 @@ def audit(folder,*,task_kind='BOOK'):
         if not native_safe(s):safe=False
     # A mid-interval failure cannot be relabelled as a complete episode.
     complete=(terminal['status']=='RAW_SOURCE_COMPLETE_UNAUDITED' and len(warm)==2500 and len(ticks)==16000
-        and len(obs)==641 and len(submitted)==len(completed)==640 and len(plans)==80
+        and len(obs)==641 and len(submitted)==len(completed)==640 and len(plans)==640//execution_prefix
         and terminal['actual_integrations']==18500 and terminal['actual_RGB_pairs']==terminal['recorded_RGB_pairs']==642)
     if not complete:problems.append('FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE')
     expected=['qualification']+['warmup_tick']*2500+['warmup_complete']
     for i in range(640):
-        expected+=['observation']+(['planned_H40']if i%8==0 else[])+['submitted_interval']+['native_tick']*25+['completed_interval']
+        expected+=['observation']+(['planned_H40']if i%execution_prefix==0 else[])+['submitted_interval']+['native_tick']*25+['completed_interval']
     expected+=['observation']
     if [r['kind']for r in rows]!=expected:problems.append('COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION')
     if q['steps']!=0 or q['simulation_time']!=0 or q['new_constructor']!=1:
         problems.append('QUALIFICATION_BEFORE_ANY_INTEGRATION')
-    if len(plan_rows)!=80:problems.append('ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY')
+    if len(plan_rows)!=640//execution_prefix:problems.append(f'ONE_ACTUAL_H40_PER_PREFIX{execution_prefix}_BOUNDARY')
     for k,p in enumerate(plan_rows):
-        action=np.asarray(p['rows10']);index=k*8
+        action=np.asarray(p['rows10']);index=k*execution_prefix
         expected_id=sha(json.dumps(dict(index=p['observation_index'],source_time_s=p['source_time_s'],
             rows10=action.tolist()),sort_keys=True,separators=(',',':'),allow_nan=False).encode())
         if (p['ref_id']!=expected_id or p['observation_index']!=index or action.shape!=(40,10)
@@ -104,15 +108,15 @@ def audit(folder,*,task_kind='BOOK'):
     for i,c in enumerate(completed):
         if i>=len(submitted):problems.append('COMPLETED_WITHOUT_SUBMITTED_INTERVAL');break
         s=submitted[i];p=plans.get(c['ref_id'])
-        if (p is None or p['observation_index']!=i-i%8 or c['ref_id']!=s['ref_id'] or c['observation_index']!=i
-                or s['observation_index']!=i or c['prefix_index']!=s['prefix_index']or c['prefix_index']!=i%8
+        if (p is None or p['observation_index']!=i-i%execution_prefix or c['ref_id']!=s['ref_id'] or c['observation_index']!=i
+                or s['observation_index']!=i or c['prefix_index']!=s['prefix_index']or c['prefix_index']!=i%execution_prefix
                 or c['start_native_step']!=2500+i*25 or c['end_native_step']!=2525+i*25
                 or s['start_native_step']!=c['start_native_step']or s['expected_end_native_step']!=c['end_native_step']
                 or abs(c['source_time_s']-5-i*.05)>1e-8 or c['source_time_s']!=s['source_time_s']
                 or s['completed']is not False or c['completed']is not True
                 or s['training_admitted']is not False or c['training_admitted']is not False
                 or not np.array_equal(c['action_EEF10'],s['action_EEF10'])
-                or not np.array_equal(c['action_EEF10'],p['rows10'][i%8])):
+                or not np.array_equal(c['action_EEF10'],p['rows10'][i%execution_prefix])):
             problems.append('ONLY_ACTUALLY_COMPLETED_SUBMITTED_PREFIX_CAN_LABEL');break
     def goal_and_extra(s):
         if cabinet is not None:return cabinet.goal_and_extra(s)
@@ -142,4 +146,4 @@ def audit(folder,*,task_kind='BOOK'):
         recorded_failed_native_ticks=sum(r['kind']=='native_tick_failure'for r in rows),
         terminal_safety_states_checked=len(terminal_states),
         actual_observations=len(obs),completed_intervals=len(completed),
-        task_success=success,qualified_source_pilot=success,terminal_error=terminal['error'])
+        task_success=success,qualified_source_pilot=success and execution_prefix==8,terminal_error=terminal['error'])
