@@ -22,6 +22,16 @@ class ModelReferenceRejected(RuntimeError):
     pass
 
 
+def valid_model_condition(audit,completed_generations,gate_rejected):
+    """Native safety after a real prediction is a negative policy outcome.
+
+    A failure before any completed prediction remains an engineering failure.
+    A safety stop ends the panel; it does not disappear from its denominator.
+    """
+    return bool(gate_rejected or audit.get('complete_episode',False)
+        or(completed_generations>0 and audit.get('original_native_safety_pass')is False))
+
+
 def dev_card(condition):
     # Caller binds the complete frozen TRAIN_DEV_SEAL by its exact digest.
     from scripts.pi0294.multitask.libero_book_teacher import route_card,RELEASE_REVISION
@@ -42,7 +52,7 @@ class Student:
     candidate_complete=False
     def __init__(self,instance,identifier,record,guard):
         self.instance,self.identifier,self.record,self.guard=instance,identifier,record,guard
-        self.index=self.last_plan=-1;self.queries=0;self.state=self.images=None
+        self.index=self.last_plan=-1;self.queries=self.completed_generations=0;self.state=self.images=None
 
     def observe(self,state):
         self.index+=1
@@ -66,7 +76,7 @@ class Student:
             observation_sha256=hashlib.sha256(json.dumps(request,sort_keys=True).encode()).hexdigest(),
             student_state_eef10=self.state.tolist(),language=self.instruction,
             image_SHA256=[r['sha256']for r in request['images']],privileged_student_inputs=False))
-        self.queries+=1;value=self.instance.generate(request,seed)
+        self.queries+=1;value=self.instance.generate(request,seed);self.completed_generations+=1
         gate=gate_action(value['physical_H40'],self.state,self.index*.05,self.identifier+'-'+str(sequence))
         self.record('prediction',dict(sequence=sequence,index=self.index,gate=gate,value=value))
         if gate['decision']=='REJECT':raise ModelReferenceRejected('MODEL_REFERENCE_GATE_REJECT')
@@ -159,11 +169,11 @@ def episode(root,condition,instance,template,guard):
         recorded_RGB_pairs=recorded,events=events,model_queries=student.queries,gate_rejected=gate_rejected,
         CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,training_admitted=False,observed_epoch=time.time())
     write(folder/'TERMINAL.json',terminal);a=audit(folder);write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
-    valid=bool(gate_rejected or a.get('complete_episode',False))
+    valid=valid_model_condition(a,student.completed_generations,gate_rejected)
     hard_safety=a.get('original_native_safety_pass')is False
     return dict(id=condition['id'],xy_offset_m=condition['xy_offset_m'],valid_model_condition=valid,
         success=bool(a['task_success']),gate_rejected=gate_rejected,hard_native_safety=hard_safety,error=error,
-        model_queries=student.queries,integrations=terminal['actual_integrations'],RGB_pairs=terminal['actual_RGB_pairs'],
+        model_queries=student.queries,completed_generations=student.completed_generations,integrations=terminal['actual_integrations'],RGB_pairs=terminal['actual_RGB_pairs'],
         raw_sha256=a['raw_sha256'],audit_sha256=sha(folder/'INDEPENDENT_RAW_AUDIT.json'),terminal_sha256=sha(folder/'TERMINAL.json'))
 
 
@@ -194,7 +204,7 @@ def run(root,manifest_sha256):
     sys.path.append(str(node_local(m['physics_packages'])))
     import mujoco
     from transformers import AutoModel
-    from transformers.modeling_utils import load_sharded_checkpoint
+    from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     import gr00t.model.gr00t_n1d7.gr00t_n1d7
     from scripts.pi0292.train_adapter import build_processor
     configure_torch(torch,MODE);torch.set_num_threads(4)
@@ -215,9 +225,37 @@ def run(root,manifest_sha256):
         if torch.cuda.device_count()!=1 or torch.cuda.mem_get_info()[0]<24*1024**3:raise PermissionError('BOOK_DEV10_SHARED_GPU_REAL_FREE24GIB')
         put(root/'MODEL_LOAD_INTENT.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],epoch=time.time()));loads+=1
         model,info=AutoModel.from_pretrained(m['parent_checkpoint'],**loader_kwargs(local_model_name(root,bindings),bindings['cosmos_hub'],COSMOS_REVISION));validate_loading(model,info)
-        contract=ParameterContract(model,'E1_ADAPTER_ONLY',10);load_sharded_checkpoint(model,str(checkpoint),strict=True,prefer_safe=True)
+        contract=ParameterContract(model,'E1_ADAPTER_ONLY',10);restore_keys=load_wrapped(model,checkpoint)
         if contract.describe()!=read(checkpoint/'ADAPTER_PARAMETER_CONTRACT.json'):raise PermissionError('BOOK_DEV10_EXACT_WRAPPED_ARCHITECTURE')
-        model.to('cuda').eval().requires_grad_(False)
+        model.to('cuda').eval()
+        # Exercise the original Trainer's optimizer/scheduler/RNG restoration
+        # before any DEV physics, without train() or optimizer.step().
+        from scripts.pi0294.multitask.book_learning import make_trainer_class,recipe,BookSampler
+        from scripts.pi0294.native_dataset import NativeDataset,ProcessedCollator
+        from transformers import TrainingArguments,TrainerState
+        data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True)
+        data.initialize();args=TrainingArguments(output_dir=str(root/'restore_only_no_training'),max_steps=128,
+            per_device_train_batch_size=1,gradient_accumulation_steps=32,learning_rate=1e-4,weight_decay=1e-5,
+            adam_beta1=.9,adam_beta2=.999,adam_epsilon=1e-8,max_grad_norm=1.,bf16=True,tf32=True,optim='adamw_torch',
+            remove_unused_columns=False,eval_strategy='no',save_strategy='no',save_total_limit=None,report_to=[],disable_tqdm=True)
+        trainer=make_trainer_class(contract,guard)(model=model,args=args,train_dataset=data,
+            data_collator=ProcessedCollator(data.processor),evidence_dir=root/'restore_evidence',recipe=recipe())
+        trainer.create_optimizer();trainer.create_scheduler(128)
+        saved_optimizer=torch.load(checkpoint/'optimizer.pt',map_location='cpu',weights_only=False)
+        trainer.optimizer.load_state_dict(saved_optimizer)
+        saved_scheduler=torch.load(checkpoint/'scheduler.pt',map_location='cpu',weights_only=False)
+        trainer.lr_scheduler.load_state_dict(saved_scheduler);trainer._load_rng_state(str(checkpoint))
+        trainer.state=TrainerState.load_from_json(str(checkpoint/'trainer_state.json'))
+        sampler=read(checkpoint/'SAMPLER_STATE.json')
+        if trainer.state.global_step!=128 or sampler['recipe']!=recipe()or sampler['sampler']!=BookSampler(data).state_dict(4096):
+            raise PermissionError('BOOK_DEV10_EXACT_FULL_STATE128_AND_SAMPLE_CURSOR4096')
+        if not saved_optimizer['state']or any(int(s['step'])!=128 for s in saved_optimizer['state'].values()):
+            raise PermissionError('BOOK_DEV10_ACTUAL_ADAMW_UPDATE128_STATE')
+        if trainer.lr_scheduler.state_dict()!=saved_scheduler:raise PermissionError('BOOK_DEV10_ACTUAL_SCHEDULER_RESTORE')
+        write(root/'ACTUAL_FULL_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
+            model_restore=restore_keys,optimizer_state_entries=len(saved_optimizer['state']),optimizer_steps_restored=128,
+            scheduler_restored=True,RNG_restored=True,sampler_cursor=4096,new_optimizer_updates=0,DEV_started=False,observed_epoch=time.time()))
+        trainer=data=saved_optimizer=None;gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
         instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
         instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(checkpoint/'statistics.json'))
         instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(checkpoint/'statistics.json'))

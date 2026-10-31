@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 import pytest
-from scripts.pi0294.multitask.book_policy import Student,ModelReferenceRejected,dev_card
+from scripts.pi0294.multitask.book_policy import Student,ModelReferenceRejected,dev_card,valid_model_condition
 from scripts.pi0294.multitask.seed_set_export import DEV_OFFSETS
 
 
@@ -32,3 +32,11 @@ def test_student_projects_only_proprio_rgb_language_and_rejects_without_command_
     assert records[-1][1]['value']['physical_H40'][1,0]==.2
     with pytest.raises(PermissionError):student.plan()
     assert student.queries==1
+
+
+def test_native_safety_negative_is_retained_but_pre_model_failures_are_not_policy_results():
+    stopped=dict(complete_episode=False,original_native_safety_pass=False)
+    assert valid_model_condition(stopped,1,False)
+    assert not valid_model_condition(stopped,0,False)
+    assert not valid_model_condition(dict(complete_episode=False,original_native_safety_pass=True),0,False)
+    assert valid_model_condition(dict(complete_episode=False,original_native_safety_pass=True),1,True)

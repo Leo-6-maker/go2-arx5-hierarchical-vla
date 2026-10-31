@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
+2026-10-31 09:20 SGT实际：五条合格放书TRAIN已联合官方准入；新书本接口学习真实更新128步、消耗4,096窗口并保存完整状态。恢复检查在lm_head共享权重键处失败，旧actor已终态/CLOSED，现有权重保留；可重载端点暂不宣称，下一步只修复并资格恢复、不重训。固定DEV10尚未执行。E1原DEV24仍0/24参考门拒绝，柜门示范0、旧STOP保持，E2当前状态因Vanda认证拒绝未核实。
+
 2026-10-31 08:46 SGT实际：**已取得5条不同初态的完整、安全放书源域Teacher示范，五条真实数据出口与官方Processor/codec均PASS**，合计3,005个完整H40窗、3,200段已执行命令、3,205对任务观测。全部原32秒/原目标与2秒保持/安全通过，OS0、许可CLOSED；累计源尝试14、实际144,571积分/4,602对RGB，柜门合格0。新技能优化仍0；五条TRAIN与10个独立DEV已固定，下一步联合统计准入和真实学习。E1原DEV24为0/24，均原参考门拒绝、已结算。E2最后独立H/u无执行；Vanda只读SSH后续认证拒绝，当前状态不臆断、未取消/重投/热改。Core后两次源运行独立完成，远端旧账快照只作保护工作预测，未冒充当前余额。[五条原生完整示范和官方数据证据](reports/PI0294/design/science-goal-v7-20261031/FIVE_COMPLETE_BOOK_SOURCE_SEEDS_ALL_OFFICIAL_EXPORT_PASS_ACTUAL_20261031.json)。原WBC/安全/评分、S1/T2隔离和NFS/SSH/挂载保持，未清理checkpoint。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
