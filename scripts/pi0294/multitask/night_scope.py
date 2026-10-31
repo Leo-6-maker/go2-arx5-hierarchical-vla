@@ -172,7 +172,7 @@ def for_root(root):
             STOP_NEW=p['stop_new_epoch'],DEADLINE=p['deadline_epoch'],
             authority=lambda original,*,now:authority(original,now=now,v7_policy_body=policy,job=p),
             validate_account=validate_account,reserve=reserve,V7_CARRY=V7_CARRY,
-            transfer_development_custody=transfer_development_custody)
+            transfer_development_custody=transfer_development_custody,closed_carry_bytes=closed_carry_bytes)
     path=Path(root)/'SOURCE_SUCCESSOR_AUTHORITY.json'
     if not path.exists():return sys.modules[__name__]
     body=path.read_bytes();successor_authority(body)
@@ -180,7 +180,7 @@ def for_root(root):
         STOP_NEW=SUCCESSOR_STOP,DEADLINE=SUCCESSOR_DEADLINE,
         authority=lambda original,*,now:authority(original,now=now,successor_body=body),
         validate_account=validate_account,reserve=reserve,V7_CARRY=V7_CARRY,
-        transfer_development_custody=transfer_development_custody,
+        transfer_development_custody=transfer_development_custody,closed_carry_bytes=closed_carry_bytes,
         forecast=lambda original,g,l,*,observation,now:forecast(original,g,l,observation=observation,now=now,successor_body=body))
 
 
