@@ -1,0 +1,80 @@
+{
+  "schema": "M32_MATCHED_DATA_A_B_AND_TEN_UPDATE_MEMORY_QUALIFICATION_DECLARATION_V1",
+  "status": "CPU_CHECKED_NOT_NATIVELY_RUN",
+  "parent_delta_checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+  "new_TRAIN": {
+    "pure_full_episodes": 15,
+    "actual_expert_suffixes": 6,
+    "H40_windows": 12533,
+    "data_statistics_population_pins": "BIND_EXACT_NATIVE_ADMITTED_SNAPSHOT_BEFORE_LAUNCH",
+    "DEV_or_CONFIRM_in_fit": false,
+    "original_six_numeric_and_DEV_seal_unchanged": true
+  },
+  "arms": {
+    "A": {
+      "target_interface_tensors": 14,
+      "DiT_blocks": []
+    },
+    "B": {
+      "target_interface_tensors": 14,
+      "DiT_blocks": [
+        30,
+        31
+      ]
+    },
+    "fallback": {
+      "DiT_blocks": [
+        31
+      ],
+      "only_after_actual_two_block_capacity_failure": true,
+      "maximum_one_fallback": true
+    }
+  },
+  "actual_source_structure": {
+    "source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "DiT_block_count": 32,
+    "checkpoint_index_name_scan_actual": true,
+    "parameter_numel": "MEASURE_ON_ACTUAL_LOADED_MODEL",
+    "no_new_model_or_optimizer_call_for_enumeration": true
+  },
+  "shared": {
+    "initial_weights": "SAME_CLOSED_RECOVERY512",
+    "effective_batch": 32,
+    "microbatch": 1,
+    "accumulation": 32,
+    "precision": "EXISTING_BF16_AUTOCAST_LOAD_BF16_FALSE",
+    "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+    "optimizer": "ADAMW_1E_4_WD_1E_5",
+    "seed": 2026103105,
+    "warmup_updates": 16,
+    "scheduler_horizon": 512,
+    "sampling": "EXISTING_PCG64_CYCLIC_ALL_EXPERT_WINDOWS",
+    "recovery_fraction_per_complete_cycle": 0.28069895475943507,
+    "checkpoint": "RETAINED_FULL_BOOK128_PARENT_PLUS_ALL_TRAINABLE_DELTA_AND_ADAMW_SCHEDULER_RNG_CURSOR"
+  },
+  "capacity": {
+    "real_optimizer_updates": 10,
+    "comparison_training_warmstart_from_probe": false,
+    "actual_save_and_reload_required": true,
+    "free_shared_device_margin_bytes": 2147483648,
+    "peak_allocated_and_reserved": true,
+    "capacity_probe_as_formal_DEV_candidate": false,
+    "full_comparison_requires_native_capacity_pass": true,
+    "full_comparison_updates_each": 512
+  },
+  "reuse": {
+    "owner": "EXISTING_BOOK_OWNER",
+    "Trainer": "EXISTING_NATIVE_BOOK_FIT",
+    "model_loader": "EXISTING_PARENT_PLUS_DELTA",
+    "evaluator": "ORIGINAL_DEV10",
+    "new_scheduler_or_platform": false
+  },
+  "scoring_safety_WBC_changed": false,
+  "tests": {
+    "affected": 40,
+    "status": "PASS",
+    "native_capacity": "NOT_RUN",
+    "CI": "NOT_RUN"
+  },
+  "optimizer_updates_actually_run": 0
+}

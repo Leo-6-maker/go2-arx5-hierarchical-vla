@@ -34,7 +34,7 @@ def valid_model_condition(audit,completed_generations,gate_rejected):
 
 def restoration_dataset(m,bindings):
     """Old full-state cursor restoration uses its original population only."""
-    if m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING':
+    if m['kind']in('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_M32_FINITE_LEARNING'):
         if not bindings.get('parent_dataset')or bindings['parent_dataset']==bindings['dataset']:
             raise PermissionError('RECOVERY_SEPARATE_PARENT_RESTORE_DATA_REQUIRED')
         return bindings['parent_dataset']
@@ -42,7 +42,7 @@ def restoration_dataset(m,bindings):
 
 
 def generation_statistics(m,bindings):
-    if m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING':return Path(bindings['dataset'])/'statistics.json'
+    if m['kind']in('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_M32_FINITE_LEARNING'):return Path(bindings['dataset'])/'statistics.json'
     return Path(m.get('delta_checkpoint',m['checkpoint']))/'statistics.json'
 
 
@@ -204,11 +204,12 @@ def run(root,manifest_sha256):
     from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
-    is_recovery_learning=m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'
-    is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING')
+    is_m32=m['kind']=='V7_BOOK_M32_FINITE_LEARNING'
+    is_recovery_learning=m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'or is_m32
+    is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_M32_FINITE_LEARNING')
     is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
     is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL')
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -268,7 +269,7 @@ def run(root,manifest_sha256):
         data=NativeDataset(node_local(restoration_dataset(m,bindings)),bindings['source'],bindings['cosmos'],for_optimization=True)
         if is_recovery_learning:
             from scripts.pi0294.multitask.book_fit import recovery_plan
-            p=recovery_plan()
+            p=read(root/'TRAIN_FIT_PLAN.json')if is_m32 else recovery_plan()
             if data.manifest_sha!=p['parent_restore_dataset_manifest_sha256']or data.statistics_sha!=p['parent_restore_statistics_sha256']:
                 raise PermissionError('RECOVERY_PARENT_CURSOR_REQUIRES_ORIGINAL_SEALED_POPULATION')
         data.initialize();args=TrainingArguments(output_dir=str(root/'restore_only_no_training'),max_steps=128,
@@ -317,7 +318,7 @@ def run(root,manifest_sha256):
         gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
         instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
         statistics=node_local(generation_statistics(m,bindings))
-        if is_recovery_learning and sha(statistics)!=recovery_plan()['statistics_sha256']:
+        if is_recovery_learning and sha(statistics)!=(read(root/'TRAIN_FIT_PLAN.json')if is_m32 else recovery_plan())['statistics_sha256']:
             raise PermissionError('RECOVERY_GENERATION_EXACT_NEW_TRAIN_STATISTICS')
         instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(statistics))
         instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(statistics))

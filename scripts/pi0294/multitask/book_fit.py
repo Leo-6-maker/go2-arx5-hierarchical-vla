@@ -61,13 +61,15 @@ def recovery_plan():
 
 
 def validate_manifest(m,p):
-    if p not in(plan(),full_plan(),recovery_plan())or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
+    from .book_m32_learning import is_plan,KIND
+    m32=is_plan(p)
+    if (not m32 and p not in(plan(),full_plan(),recovery_plan()))or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
         raise PermissionError('EXACT_FROZEN_BOOK_TRAIN16_FIT_PLAN')
     for key,value in dict(optimizer_updates=p['max_steps'],physics_integrations=0,generation_queries=32,model_loads=1).items():
         if m['limits'].get(key)!=value:raise PermissionError('BOOK_TRAIN16_FIT_FINITE_'+key)
-    expected='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'if p==recovery_plan()else'V7_BOOK5_FINITE_TARGET_LEARNING')
+    expected=KIND if m32 else 'V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'if p==recovery_plan()else'V7_BOOK5_FINITE_TARGET_LEARNING')
     if m.get('kind',expected)!=expected:raise PermissionError('BOOK_EXACT_SEPARATE_SCIENTIFIC_RUN_KIND')
-    if p==recovery_plan()and m.get('delta_checkpoint_manifest_sha256')!=p['initial_delta_checkpoint_manifest_sha256']:
+    if (p==recovery_plan()or m32)and m.get('delta_checkpoint_manifest_sha256')!=p['initial_delta_checkpoint_manifest_sha256']:
         raise PermissionError('RECOVERY_LEARNING_EXACT_QUALIFIED1024_INITIAL_WEIGHTS')
 
 
@@ -84,6 +86,16 @@ def select_rows(rows,fit_recipe=None):
 
 def optimization_rows(rows,p):
     if p==plan():return select_rows(rows)
+    from .book_m32_learning import is_plan
+    if is_plan(p):
+        from .book_m32_export import COUNTS
+        ids=[*[f'BOOK_SOURCE_SEED{i:03}'for i in range(15)],'BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX',
+             *[f'BOOK_M32_RECOVERY{i:03}_EXPERT_SUFFIX'for i in range(5)]]
+        expected={(name,a)for name,count in zip(ids,COUNTS)for a in range(count)}
+        if (len(rows)!=len(expected)or {(r['id'],a)for r,a in rows}!=expected
+                or any(r['split']!='TRAIN'for r,a in rows)):
+            raise PermissionError('EXACT_ADMITTED_M32_TRAIN_POPULATION')
+        return list(rows)
     if p not in(full_plan(),recovery_plan()):raise PermissionError('EXACT_FINITE_BOOK_OPTIMIZATION_POPULATION')
     expected={(f'BOOK_SOURCE_SEED{i:03}',a)for i in range(5)for a in range(601)}
     if p==recovery_plan():expected|={('BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX',a)for a in range(569)}
@@ -95,7 +107,8 @@ def optimization_rows(rows,p):
 class FitSampler(CyclicSampler):
     def __init__(self,dataset,*,start=0,stop=None,fit_recipe=None):
         p=plan()if fit_recipe is None else fit_recipe
-        if p not in(plan(),full_plan(),recovery_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
+        from .book_m32_learning import is_plan
+        if not is_plan(p)and p not in(plan(),full_plan(),recovery_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
         if len(dataset)!=(16 if p==plan()else p['TRAIN_windows']):raise ValueError('FIT_EXACT_DECLARED_TRAIN_POPULATION')
         stop=p['TRAIN_visits']if stop is None else stop
         if stop>p['TRAIN_visits']:raise ValueError('FIT_NO_SAMPLER_EXPOSURE_EXTENSION')
@@ -108,8 +121,8 @@ class FitSampler(CyclicSampler):
         return int(np.random.Generator(np.random.PCG64(self.seed+cycle)).permutation(self.size)[offset])
 
 
-def validate_delta(delta,parameters,names):
-    if set(delta)!=set(names)or len(names)!=14:raise ValueError('EXACT_FOURTEEN_TARGET_TENSORS_REQUIRED')
+def validate_delta(delta,parameters,names,*,expected_count=14):
+    if set(delta)!=set(names)or len(names)!=expected_count:raise ValueError('EXACT_DECLARED_TRAINABLE_TENSORS_REQUIRED')
     for name in names:
         a,b=delta[name],parameters[name]
         if a.shape!=b.shape or a.dtype!=b.dtype:raise ValueError('TARGET_DELTA_SHAPE_DTYPE:'+name)
@@ -180,19 +193,37 @@ def run(root,instance,contract,guard):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     root=Path(root);p=read(root/'TRAIN_FIT_PLAN.json');validate_manifest(read(root/'RUN_MANIFEST.json'),p)
+    from .book_m32_learning import is_plan,promote_contract
+    m32=is_plan(p)
     steps=p['max_steps'];visits=p['TRAIN_visits'];sampler_class=partial(FitSampler,fit_recipe=p)
     model=instance.model;parameters=dict(model.named_parameters());names=contract.trainable_names
     for name in names:parameters[name].requires_grad_(True)
-    contract.validate();frozen=frozen_fingerprint(model)
+    contract.validate()
+    if m32:
+        contract=promote_contract(contract,p);names=contract.trainable_names
+    frozen=frozen_fingerprint(model)
     before_parameters={n:tensor_identity(parameters[n])for n in names}
     binding=instance.bindings
     data=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=True,trace_root=root/'fit_trace')
     probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
+        if m32 and (sha(ds.root/'TRAIN_POPULATION.json')!=p['TRAIN_population_sha256']
+                or ds.manifest['schema']!='BOOK_M32_TRAIN15_SIX_EXPERT_SUFFIXES_V1'):
+            raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
         ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows,p);ds.initialize()
     if instance.identity['statistics_sha256']!=data.statistics_sha:raise PermissionError('FIT_GENERATION_AND_TRAINING_SAME_STATISTICS')
     data.make_sampler=sampler_class;set_seed(p['seed'])
+    memory=[]
+    def record_memory(phase):
+        if not m32:return
+        torch.cuda.synchronize();free,total=torch.cuda.mem_get_info()
+        memory.append(dict(phase=phase,free_bytes=free,total_bytes=total,
+            allocated_bytes=torch.cuda.memory_allocated(),reserved_bytes=torch.cuda.memory_reserved(),
+            maximum_allocated_bytes=torch.cuda.max_memory_allocated(),maximum_reserved_bytes=torch.cuda.max_memory_reserved()))
+        write(root/'ACTUAL_M32_MEMORY.json',dict(measurements=memory,observed_epoch=time.time()))
+    if m32:
+        torch.cuda.reset_peak_memory_stats();record_memory('BEFORE_ACTUAL_ADAMW_ALLOCATION')
 
     class FitTrainer(make_trainer_class()):
         def get_train_dataloader(self):
@@ -209,7 +240,7 @@ def run(root,instance,contract,guard):
 
         def create_scheduler(self,num_training_steps,optimizer=None):
             if self.lr_scheduler is None:
-                self.lr_scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer or self.optimizer,lambda step:learning_rate_multiplier(step,steps,p['warmup_updates']))
+                self.lr_scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer or self.optimizer,lambda step:learning_rate_multiplier(step,p.get('scheduler_horizon_steps',steps),p['warmup_updates']))
                 self._created_lr_scheduler=True
             return self.lr_scheduler
 
@@ -225,6 +256,7 @@ def run(root,instance,contract,guard):
             self._save_optimizer_and_scheduler(str(cp));self._save_rng_state(str(cp));self.state.save_to_json(str(cp/'trainer_state.json'))
             self.train_dataset.processor.save_pretrained(cp/'processor')
             for name in('statistics.json','TRAIN_DEV_SEAL.json'):shutil.copyfile(data.root/name,cp/name)
+            if m32:shutil.copyfile(data.root/'TRAIN_POPULATION.json',cp/'TRAIN_POPULATION.json')
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
@@ -232,7 +264,7 @@ def run(root,instance,contract,guard):
             members={str(x.relative_to(cp)):sha(x)for x in sorted(cp.rglob('*'))if x.is_file()}
             required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','statistics.json','TRAIN_DEV_SEAL.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
             if not required<=set(members):raise ValueError('FIT_PARENT_DEPENDENT_FULL_RESUME_MEMBERS')
-            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=steps,cursor=visits,
+            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'if m32 else 'BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=steps,cursor=visits,
                 full_resume_with_required_parent=True,standalone_model=False,required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],
                 recipe=p,files=members,actual_reload_check='PENDING'))
 
@@ -249,6 +281,8 @@ def run(root,instance,contract,guard):
                 if value.grad is not None and(name not in names or not torch.isfinite(value.grad).all()):raise ValueError('FIT_ONLY_FINITE_DECLARED_GRADIENTS:'+name)
         def on_step_end(self,args,state,control,**kwargs):
             torch.cuda.synchronize();t=holder['trainer']
+            if state.global_step in(1,2,10,steps)or state.global_step%32==0:
+                record_memory('AFTER_UPDATE_'+str(state.global_step))
             if t.consumed!=state.global_step*32:raise ValueError('FIT_ACTUAL_COMMITTED_CURSOR')
             r=dict(step=state.global_step,cursor=t.consumed,native_loss=t.last_native_loss,learning_rate=t.lr_scheduler.get_last_lr(),epoch=time.time())
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as f:f.write(json.dumps(r)+'\n');f.flush()
@@ -271,24 +305,34 @@ def run(root,instance,contract,guard):
     expected_optimizer=tree_identity(trainer.optimizer.state_dict());expected_scheduler=trainer.lr_scheduler.state_dict();expected_rng=rng_identity()
     # Reconstruct the actual model from the retained full parent plus the delta.
     load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
-    delta=torch.load(cp/'target_parameters.pt',map_location='cpu',weights_only=True);validate_delta(delta,parameters,names)
+    delta=torch.load(cp/'target_parameters.pt',map_location='cpu',weights_only=True);validate_delta(delta,parameters,names,expected_count=len(names)if m32 else 14)
     with torch.no_grad():
         for name in names:parameters[name].copy_(delta[name])
     if {n:tensor_identity(parameters[n])for n in names}!=after_parameters or frozen_fingerprint(model)!=frozen:raise ValueError('FIT_ACTUAL_PARENT_PLUS_DELTA_RECONSTRUCTION')
     restored=torch.load(cp/'optimizer.pt',map_location='cpu',weights_only=False)
-    if not restored['state']or len(restored['state'])!=14 or any(int(x['step'])!=steps for x in restored['state'].values()):raise ValueError('FIT_ACTUAL_DECLARED_ADAMW_STEPS_REQUIRED')
+    if not restored['state']or len(restored['state'])!=len(names)or any(int(x['step'])!=steps for x in restored['state'].values()):raise ValueError('FIT_ACTUAL_DECLARED_ADAMW_STEPS_REQUIRED')
     trainer.optimizer.state.clear();trainer.optimizer.load_state_dict(restored)
     trainer.lr_scheduler.load_state_dict(torch.load(cp/'scheduler.pt',map_location='cpu',weights_only=False));trainer._load_rng_state(str(cp))
     if tree_identity(trainer.optimizer.state_dict())!=expected_optimizer or trainer.lr_scheduler.state_dict()!=expected_scheduler or rng_identity()!=expected_rng:raise ValueError('FIT_EXACT_OPTIMIZER_SCHEDULER_RNG_RESTORE')
+    record_memory('AFTER_ACTUAL_MODEL_ADAMW_SCHEDULER_RNG_RESTORE')
     saved=read(cp/'SAMPLER_STATE.json')
     trainer.state=TrainerState.load_from_json(str(cp/'trainer_state.json'))
     restored_sampler=sampler_class(data,start=saved['sampler']['cursor'])
     if trainer.state.global_step!=steps or saved['sampler']!=restored_sampler.state_dict(visits):raise ValueError('FIT_ACTUAL_STEP_AND_SAMPLE_CURSOR_RESTORE')
     write(root/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
-        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,optimizer_state_entries=14,
+        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,optimizer_state_entries=len(names),
         optimizer_updates=steps,scheduler_restored=True,RNG_restored=True,sampler_cursor=visits,frozen_parent_unchanged=True,
         changed_trainable_parameters=changed,standalone_model=False))
     after=measure(root,'after',instance,probe,trainer,guard,p)
+    if m32:
+        record_memory('AFTER_MATCHED_TRAIN_GENERATION')
+        write(root/'M32_CAPACITY_RESULT.json',dict(qualification_only=p['capacity_qualification_only'],
+            actual_optimizer_updates=steps,saved_and_restored=True,contract=contract.describe(),
+            minimum_observed_free_bytes=min(x['free_bytes']for x in memory),
+            maximum_allocated_bytes=max(x['maximum_allocated_bytes']for x in memory),
+            maximum_reserved_bytes=max(x['maximum_reserved_bytes']for x in memory),
+            capacity_pass=min(x['free_bytes']for x in memory)>=2*1024**3,
+            measured_points=len(memory),measured_free_is_shared_device_not_exclusive_allocation=True))
     for a,b in zip(before['records'],after['records']):
         if a['window']!=b['window']or a['noise']!=b['noise']or a['image_SHA256']!=b['image_SHA256']:raise ValueError('FIT_MATCHED_BEFORE_AFTER_NOISE_INPUTS')
     trainer=None;gc.collect()
