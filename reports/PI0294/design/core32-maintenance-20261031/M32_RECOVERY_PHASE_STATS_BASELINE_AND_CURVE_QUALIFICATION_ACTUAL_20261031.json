@@ -1,0 +1,1165 @@
+{
+  "schema": "M32_CACHED_RECOVERY_PHASE_STATS_SWITCH_AND_INTERMEDIATE_QUALIFICATION_V1",
+  "as_of_SGT": "2026-10-31T20:38:26.930521+08:00",
+  "continuous_uniform4096": {
+    "status": "RUNNING_NOT_COMPLETE",
+    "run_manifest_sha256": "9dd491b0129098e4522edd8483c07716e5a6fa70a2852f0eebb46299995363ca",
+    "runtime_source_sha": "abaec48ac7a5d8079df07da774ad97658b03438b",
+    "unit": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "CPUUsageNSec": "1432528552000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "actual_progress": {
+      "step": 246,
+      "cursor": 7872,
+      "native_loss": 0.019500618800520897,
+      "learning_rate": [
+        9.98037602205185e-05,
+        9.98037602205185e-05
+      ],
+      "epoch": 1793450302.724698
+    },
+    "minimum_sampled_free_GPU_bytes": 10840965120,
+    "maximum_reserved_GPU_bytes": 16336814080,
+    "own_GPU_samples": [
+      {
+        "used_MiB": 15944.0
+      }
+    ],
+    "intermediate1024_2048_or4096_available": false,
+    "checkpoint_endpoints": [
+      1024,
+      2048,
+      4096
+    ],
+    "healthy_job_uninterrupted": true,
+    "training_data_statistics_recipe_or_runtime_modified": false
+  },
+  "actual_six_recovery_phase_exposure": {
+    "status": "SIX_ADMITTED_EXPERT_SUFFIXES_ACTUAL_TEACHER_PHASE_AND_COMMITTED_EXPOSURE_JOIN",
+    "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+    "actual_TRAIN_trace_sha256": "69216a5f9efd06d2cfac1718e7e5245726d1e6cd96040cfa9b83f8c0d343f69f",
+    "cases": [
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "takeover_source_index": 32,
+        "first_close_source_index": 56,
+        "actual_approach_align_input_frames": 24,
+        "actual_approach_align_duration_s": 1.2000000000000002,
+        "admitted_H40_windows": 569,
+        "phase_windows": {
+          "approach": 8,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 280,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 113
+        },
+        "actual512_phase_visits": {
+          "approach": 8,
+          "align": 19,
+          "close": 22,
+          "verify_grasp": 11,
+          "lift": 37,
+          "preinsert": 361,
+          "release": 32,
+          "withdraw": 98,
+          "hold": 150
+        },
+        "stage_transitions": [
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "approach"
+          },
+          {
+            "source_index": 40,
+            "task_s": 2.0,
+            "stage": "align"
+          },
+          {
+            "source_index": 56,
+            "task_s": 2.8000000000000003,
+            "stage": "close"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 80,
+            "task_s": 4.0,
+            "stage": "lift"
+          },
+          {
+            "source_index": 112,
+            "task_s": 5.6000000000000005,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 392,
+            "task_s": 19.6,
+            "stage": "release"
+          },
+          {
+            "source_index": 416,
+            "task_s": 20.8,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 488,
+            "task_s": 24.400000000000002,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "a3d934f78b2449939beb97fd6384dc78f0f9ad8ac08f627f6b9d1cbeaef8db3f"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "takeover_source_index": 8,
+        "first_close_source_index": 48,
+        "actual_approach_align_input_frames": 40,
+        "actual_approach_align_duration_s": 2.0,
+        "admitted_H40_windows": 593,
+        "phase_windows": {
+          "approach": 24,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 280,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 121
+        },
+        "actual512_phase_visits": {
+          "approach": 28,
+          "align": 18,
+          "close": 22,
+          "verify_grasp": 10,
+          "lift": 43,
+          "preinsert": 348,
+          "release": 30,
+          "withdraw": 96,
+          "hold": 157
+        },
+        "stage_transitions": [
+          {
+            "source_index": 8,
+            "task_s": 0.4,
+            "stage": "approach"
+          },
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "align"
+          },
+          {
+            "source_index": 48,
+            "task_s": 2.4000000000000004,
+            "stage": "close"
+          },
+          {
+            "source_index": 64,
+            "task_s": 3.2,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "lift"
+          },
+          {
+            "source_index": 104,
+            "task_s": 5.2,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 384,
+            "task_s": 19.200000000000003,
+            "stage": "release"
+          },
+          {
+            "source_index": 408,
+            "task_s": 20.400000000000002,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 480,
+            "task_s": 24.0,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "e730362f8c646a6a3f1a612928fc4cbc8aafe6ad03a70d0e4b4d9c6609a74a5b"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "takeover_source_index": 16,
+        "first_close_source_index": 48,
+        "actual_approach_align_input_frames": 32,
+        "actual_approach_align_duration_s": 1.6,
+        "admitted_H40_windows": 585,
+        "phase_windows": {
+          "approach": 16,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 280,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 121
+        },
+        "actual512_phase_visits": {
+          "approach": 19,
+          "align": 19,
+          "close": 21,
+          "verify_grasp": 11,
+          "lift": 42,
+          "preinsert": 362,
+          "release": 31,
+          "withdraw": 93,
+          "hold": 154
+        },
+        "stage_transitions": [
+          {
+            "source_index": 16,
+            "task_s": 0.8,
+            "stage": "approach"
+          },
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "align"
+          },
+          {
+            "source_index": 48,
+            "task_s": 2.4000000000000004,
+            "stage": "close"
+          },
+          {
+            "source_index": 64,
+            "task_s": 3.2,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "lift"
+          },
+          {
+            "source_index": 104,
+            "task_s": 5.2,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 384,
+            "task_s": 19.200000000000003,
+            "stage": "release"
+          },
+          {
+            "source_index": 408,
+            "task_s": 20.400000000000002,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 480,
+            "task_s": 24.0,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "b363418c6e45bac5a75c4fdf3fb99aac3b7535fabf84411a9d4ea7de71a7f67a"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "takeover_source_index": 8,
+        "first_close_source_index": 48,
+        "actual_approach_align_input_frames": 40,
+        "actual_approach_align_duration_s": 2.0,
+        "admitted_H40_windows": 593,
+        "phase_windows": {
+          "approach": 24,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 256,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 145
+        },
+        "actual512_phase_visits": {
+          "approach": 29,
+          "align": 21,
+          "close": 19,
+          "verify_grasp": 11,
+          "lift": 39,
+          "preinsert": 336,
+          "release": 28,
+          "withdraw": 95,
+          "hold": 193
+        },
+        "stage_transitions": [
+          {
+            "source_index": 8,
+            "task_s": 0.4,
+            "stage": "approach"
+          },
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "align"
+          },
+          {
+            "source_index": 48,
+            "task_s": 2.4000000000000004,
+            "stage": "close"
+          },
+          {
+            "source_index": 64,
+            "task_s": 3.2,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "lift"
+          },
+          {
+            "source_index": 104,
+            "task_s": 5.2,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 360,
+            "task_s": 18.0,
+            "stage": "release"
+          },
+          {
+            "source_index": 384,
+            "task_s": 19.200000000000003,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 456,
+            "task_s": 22.8,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "74b3817767634024f66c7370520a7f5d417acbfd13c126d7187c60b3bbeaebc0"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "takeover_source_index": 16,
+        "first_close_source_index": 48,
+        "actual_approach_align_input_frames": 32,
+        "actual_approach_align_duration_s": 1.6,
+        "admitted_H40_windows": 585,
+        "phase_windows": {
+          "approach": 16,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 256,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 145
+        },
+        "actual512_phase_visits": {
+          "approach": 22,
+          "align": 21,
+          "close": 20,
+          "verify_grasp": 12,
+          "lift": 41,
+          "preinsert": 342,
+          "release": 30,
+          "withdraw": 91,
+          "hold": 183
+        },
+        "stage_transitions": [
+          {
+            "source_index": 16,
+            "task_s": 0.8,
+            "stage": "approach"
+          },
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "align"
+          },
+          {
+            "source_index": 48,
+            "task_s": 2.4000000000000004,
+            "stage": "close"
+          },
+          {
+            "source_index": 64,
+            "task_s": 3.2,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "lift"
+          },
+          {
+            "source_index": 104,
+            "task_s": 5.2,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 360,
+            "task_s": 18.0,
+            "stage": "release"
+          },
+          {
+            "source_index": 384,
+            "task_s": 19.200000000000003,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 456,
+            "task_s": 22.8,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "e573bfa545e1ef74d8c916f627fd7ca13bfc161c6470565c63abcf2fd13ef54e"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "takeover_source_index": 8,
+        "first_close_source_index": 48,
+        "actual_approach_align_input_frames": 40,
+        "actual_approach_align_duration_s": 2.0,
+        "admitted_H40_windows": 593,
+        "phase_windows": {
+          "approach": 24,
+          "align": 16,
+          "close": 16,
+          "verify_grasp": 8,
+          "lift": 32,
+          "preinsert": 280,
+          "release": 24,
+          "withdraw": 72,
+          "hold": 121
+        },
+        "actual512_phase_visits": {
+          "approach": 32,
+          "align": 21,
+          "close": 20,
+          "verify_grasp": 10,
+          "lift": 45,
+          "preinsert": 374,
+          "release": 32,
+          "withdraw": 92,
+          "hold": 152
+        },
+        "stage_transitions": [
+          {
+            "source_index": 8,
+            "task_s": 0.4,
+            "stage": "approach"
+          },
+          {
+            "source_index": 32,
+            "task_s": 1.6,
+            "stage": "align"
+          },
+          {
+            "source_index": 48,
+            "task_s": 2.4000000000000004,
+            "stage": "close"
+          },
+          {
+            "source_index": 64,
+            "task_s": 3.2,
+            "stage": "verify_grasp"
+          },
+          {
+            "source_index": 72,
+            "task_s": 3.6,
+            "stage": "lift"
+          },
+          {
+            "source_index": 104,
+            "task_s": 5.2,
+            "stage": "preinsert"
+          },
+          {
+            "source_index": 384,
+            "task_s": 19.200000000000003,
+            "stage": "release"
+          },
+          {
+            "source_index": 408,
+            "task_s": 20.400000000000002,
+            "stage": "withdraw"
+          },
+          {
+            "source_index": 480,
+            "task_s": 24.0,
+            "stage": "hold"
+          }
+        ],
+        "raw_sha256": "6160467b33ff219a8fc79c12eaeb5ecd1d41561cb863638f041a59567eddd404"
+      }
+    ],
+    "phase_windows": {
+      "approach": 112,
+      "align": 96,
+      "close": 96,
+      "verify_grasp": 48,
+      "lift": 192,
+      "preinsert": 1632,
+      "release": 144,
+      "withdraw": 432,
+      "hold": 766
+    },
+    "actual512_phase_visits": {
+      "approach": 138,
+      "align": 119,
+      "close": 124,
+      "verify_grasp": 65,
+      "lift": 247,
+      "preinsert": 2123,
+      "release": 183,
+      "withdraw": 565,
+      "hold": 989
+    },
+    "approach_align_windows": 208,
+    "approach_align_visits": 257,
+    "total_actual_visits": 16384,
+    "interpretation": "Actual Teacher approach/align labels, not measured return-to-nominal correction duration. Privileged metadata for analysis/sampling only, never student input. Every admitted RGB anchor joined to successful expert records; failed student prefixes/DEV excluded.",
+    "new_models_queries_physics": 0
+  },
+  "cached_zero_update_statistics_baseline": {
+    "status": "CACHED_ACTUAL_ZERO_UPDATE_WARMSTART_STATISTICS_SWITCH_EIGHT_MATCHED_TRAIN_INPUTS",
+    "same_delta_checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+    "old_statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "new_statistics_sha256": "6230b09b5ac90ae1c391629a88513aeb5fe491f8c5ce453cd0aad689bc98dd3c",
+    "actual_state_expert_RGB_seed_initial_noise_equal": true,
+    "unchanged_inference_precision_loader_source_modules": {
+      "scripts/pi0294/e1/model.py": true,
+      "scripts/pi0294/resident.py": true,
+      "scripts/pi0294/neural.py": true,
+      "scripts/pi0292/train_adapter.py": true,
+      "scripts/pi0294/numerics.py": true
+    },
+    "windows": [
+      {
+        "anchor": 0,
+        "H40_mean_XYZ_shift_m": 0.004915404530028344,
+        "prefix8_mean_XYZ_shift_m": 0.005019582826277317,
+        "maximum_XYZ_shift_m": 0.005522886382073272,
+        "H40_gripper_fraction_MAE_shift": 0.007039779966527765,
+        "normalized_max_difference": 0.11767573654651642,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 48,
+        "H40_mean_XYZ_shift_m": 0.00549428015119618,
+        "prefix8_mean_XYZ_shift_m": 0.0049884515810892285,
+        "maximum_XYZ_shift_m": 0.00652828207319182,
+        "H40_gripper_fraction_MAE_shift": 0.0047638653354211274,
+        "normalized_max_difference": 0.1142578125,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 80,
+        "H40_mean_XYZ_shift_m": 0.004907251563880654,
+        "prefix8_mean_XYZ_shift_m": 0.004436955855271013,
+        "maximum_XYZ_shift_m": 0.0057007857268638416,
+        "H40_gripper_fraction_MAE_shift": 0.006911010904745626,
+        "normalized_max_difference": 0.078125,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 160,
+        "H40_mean_XYZ_shift_m": 0.0062238817744049695,
+        "prefix8_mean_XYZ_shift_m": 0.00579288479569481,
+        "maximum_XYZ_shift_m": 0.006863948088456279,
+        "H40_gripper_fraction_MAE_shift": 0.0,
+        "normalized_max_difference": 0.017578125,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 240,
+        "H40_mean_XYZ_shift_m": 0.0037122498223762816,
+        "prefix8_mean_XYZ_shift_m": 0.003676702002178629,
+        "maximum_XYZ_shift_m": 0.0043386544040742245,
+        "H40_gripper_fraction_MAE_shift": 0.001010725444013422,
+        "normalized_max_difference": 0.0966796875,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 320,
+        "H40_mean_XYZ_shift_m": 0.004406519835563808,
+        "prefix8_mean_XYZ_shift_m": 0.0040338191851450895,
+        "maximum_XYZ_shift_m": 0.0050814953715757555,
+        "H40_gripper_fraction_MAE_shift": 0.0,
+        "normalized_max_difference": 0.115234375,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 400,
+        "H40_mean_XYZ_shift_m": 0.004493597025307425,
+        "prefix8_mean_XYZ_shift_m": 0.0054270181024514575,
+        "maximum_XYZ_shift_m": 0.005991256428132292,
+        "H40_gripper_fraction_MAE_shift": 0.002618493004278702,
+        "normalized_max_difference": 0.0991210788488388,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      },
+      {
+        "anchor": 600,
+        "H40_mean_XYZ_shift_m": 0.003458310488443142,
+        "prefix8_mean_XYZ_shift_m": 0.0038441823077732576,
+        "maximum_XYZ_shift_m": 0.004140865573791237,
+        "H40_gripper_fraction_MAE_shift": 0.0061897229064594664,
+        "normalized_max_difference": 0.12109375,
+        "old_stats_gate": "ACCEPT",
+        "new_stats_gate": "ACCEPT"
+      }
+    ],
+    "mean_H40_XYZ_shift_m": 0.0047014368989001,
+    "mean_prefix8_XYZ_shift_m": 0.0046524495819851,
+    "new_optimizer_updates": 0,
+    "new_model_queries": 0,
+    "new_physics_integrations": 0,
+    "limitation": "Archived matched on-expert inference baseline only. Statistics changes affect both state normalization/model response and physical decoding; this is not isolated decoder shift, task outcome or evidence that all historical failures were caused by statistics."
+  },
+  "future_sampling_description": {
+    "schema": "M32_FUTURE_EVENT_SAMPLING_DESCRIPTION_NOT_EXECUTED_V1",
+    "status": "OFFLINE_CACHED_DATA_EXPOSURE_SIMULATION_ONLY_NOT_TRAINER_OR_NATIVE_ADOPTED",
+    "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+    "statistics_sha256": "6230b09b5ac90ae1c391629a88513aeb5fe491f8c5ce453cd0aad689bc98dd3c",
+    "TRAIN_population_sha256": "f4bc8afbb0ecf1863db76d912def0bbc1f9f29852131a9ba4a4672c9c7c1c390",
+    "episode_ranges": [
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          384
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            376,
+            393
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "bf5e95b02bd64f5d9b2c5ac5832777db036c0fecb6b225afd3e24f466261daf7"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED001",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          360
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            352,
+            369
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "1cb43fbc1ea4fa8fca9f3edea4c55ff9dff2a8a0065bea66dd644d7373fed41b"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED002",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          384
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            376,
+            393
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "92342138c0a4a3cd868df243e3c0d31a8e298a7d454c5a2940257ff1a9e47f53"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED003",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          384
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            376,
+            393
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "652a6264b1c1ebf06353681b764ccb3ca8957588701c03a26bac15860f08f7ff"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED004",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          392
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            384,
+            401
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "f42caa835727bab7e56c26c1290d26a344213b137500e251e0abadf0312d2af4"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED005",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          360
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            352,
+            369
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "e5ccd5977b503436616f6f60dfc42cf3c75c57e97b73825668e9db477085b4ee"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED006",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "ff29ea6cce96ee016b6cbb06233e44e117f561fd6df9c2b6b41851520869bb51"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED007",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          384
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            376,
+            393
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "90c27816d0a2dfc21d802feaf184d5349c21d06d822035163928b4cec83f60c8"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED008",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          392
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            384,
+            401
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "879592f234540fcd7b17d6266e660e888af7f4943d178cf11ef0c401040b0aba"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED009",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          360
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            352,
+            369
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "19c58b7496291744f340150e193f6c951d9750bd4d1d5565542236b2c2dd5afb"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED010",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "fda4f147936553085069411f8a033edf651aeddfba3c1857b81db957137d33ef"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED011",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "77ff5e27c36a0a9930c7bf6d687f6020dd45e7cf94355a7c56a0c27db4878195"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED012",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          376
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            368,
+            385
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "6e14dcf4de96620344002591c05b524082b403a71b5b6b62eb7f8810ce7637ea"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED013",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "17665024b82cad85033bc2643acf4fdd590dadde1838a1641414829c51a0b083"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED014",
+        "windows": 601,
+        "recovery_approach_align_range": null,
+        "observed_submitted_gripper_transition_indices": [
+          48,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            40,
+            57
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 0,
+        "raw_sha256": "703028d6afc9e891b7bf3cfc104f0f9bfd616f91a301965945e070406f0a83c2"
+      },
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "windows": 569,
+        "recovery_approach_align_range": [
+          0,
+          24
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          24,
+          360
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            16,
+            33
+          ],
+          [
+            352,
+            369
+          ]
+        ],
+        "source_observation_start": 32,
+        "raw_sha256": "a3d934f78b2449939beb97fd6384dc78f0f9ad8ac08f627f6b9d1cbeaef8db3f"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "windows": 593,
+        "recovery_approach_align_range": [
+          0,
+          40
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          40,
+          376
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            32,
+            49
+          ],
+          [
+            368,
+            385
+          ]
+        ],
+        "source_observation_start": 8,
+        "raw_sha256": "e730362f8c646a6a3f1a612928fc4cbc8aafe6ad03a70d0e4b4d9c6609a74a5b"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "windows": 585,
+        "recovery_approach_align_range": [
+          0,
+          32
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          32,
+          368
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            24,
+            41
+          ],
+          [
+            360,
+            377
+          ]
+        ],
+        "source_observation_start": 16,
+        "raw_sha256": "b363418c6e45bac5a75c4fdf3fb99aac3b7535fabf84411a9d4ea7de71a7f67a"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "windows": 593,
+        "recovery_approach_align_range": [
+          0,
+          40
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          40,
+          352
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            32,
+            49
+          ],
+          [
+            344,
+            361
+          ]
+        ],
+        "source_observation_start": 8,
+        "raw_sha256": "74b3817767634024f66c7370520a7f5d417acbfd13c126d7187c60b3bbeaebc0"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "windows": 585,
+        "recovery_approach_align_range": [
+          0,
+          32
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          32,
+          344
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            24,
+            41
+          ],
+          [
+            336,
+            353
+          ]
+        ],
+        "source_observation_start": 16,
+        "raw_sha256": "e573bfa545e1ef74d8c916f627fd7ca13bfc161c6470565c63abcf2fd13ef54e"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "windows": 593,
+        "recovery_approach_align_range": [
+          0,
+          40
+        ],
+        "observed_submitted_gripper_transition_indices": [
+          40,
+          376
+        ],
+        "transition_anchor_ranges_half_open": [
+          [
+            32,
+            49
+          ],
+          [
+            368,
+            385
+          ]
+        ],
+        "source_observation_start": 8,
+        "raw_sha256": "6160467b33ff219a8fc79c12eaeb5ecd1d41561cb863638f041a59567eddd404"
+      }
+    ],
+    "pool_sizes": {
+      "uniform": 12533,
+      "recovery_approach_align": 208,
+      "gripper_transition": 714
+    },
+    "proposed_batch_slots": {
+      "uniform": 24,
+      "recovery_approach_align": 4,
+      "gripper_transition": 4
+    },
+    "proposed_total_updates": 4096,
+    "effective_batch": 32,
+    "planned_total_visits": 131072,
+    "planned_visits_by_stream": {
+      "gripper_transition": 16384,
+      "uniform": 98304,
+      "recovery_approach_align": 16384
+    },
+    "planned_distinct_TRAIN_windows": 12533,
+    "planned_recovery_approach_align_total_visits": 19118,
+    "planned_first16_each_suffix_total_visits": 8314,
+    "eligibility": "Only original admitted expert windows; duplicate exposure changes sampling, never labels/statistics/data. Phase metadata influences training selection only, never student observations.",
+    "gripper_event_rule": "abs(consecutive actual submitted/executed expert gripper command difference)>=0.1; anchor band[event-8,event+9), clipped to eligible complete H40 anchors. Diagnostic sampling definition, not a safety or task-threshold change.",
+    "comparison": "One potential matched counterpart to the fixed uniform4096. Same initialb248, DiT30/31, data/statistics,131072 visits, noise/seed/learning rate/loss/checkpoints; only sampler changes. Actual decision/runtime/native results remain pending.",
+    "current_uniform4096_modified": false,
+    "new_model_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physics_integrations": 0
+  },
+  "intermediate_evaluation_seam": {
+    "defect": "Existing evaluator used the final ACTUAL_DELTA_CHECKPOINT_RESTORE.json filename for every delta. Actual continuous curve saves separate full-state qualification files for1024/2048; final file describes4096 and cannot qualify another point.",
+    "change": "Same evaluator selects only exact step-specific native restore certificate for declared intermediate curve points. Retain exact checkpoint/parent/optimizer/cursor/RNG/closed-producer/SHA checks; require producer fully closed before evaluation.",
+    "default_old_final_endpoints_unchanged": true,
+    "new_framework": false,
+    "working_trainer_hotpatched": false,
+    "native_new_evaluation": "NOT_RUN_UNTIL_PRODUCER4096_CLOSED_AND_NATIVE_AUDITED",
+    "affected_CPU_checks_passed": 21,
+    "initial_local_fixture_scope_error_corrected": true,
+    "CI": "NOT_RUN"
+  },
+  "source_cumulative": {
+    "attempts": 51,
+    "physics_integrations": 541979,
+    "RGB_pairs": 16867,
+    "pure_full_book_demos": 15,
+    "custom_cabinet_full_demos": 1,
+    "full_mixed_recoveries": 6,
+    "autonomous_full_successes": 0
+  },
+  "next_action": "Keep healthy fixed uniform4096 running; actual1024/2048/4096 full saves/restores and matched diagnostics first, then original DEV at closed producer boundary. Event sampling remains an unlaunched independent counterpart, never a mid-run recipe change.",
+  "new_data_or_model_queries_for_cached_analyses": 0,
+  "new_physics_integrations": 0,
+  "full_goal_achieved": false
+}

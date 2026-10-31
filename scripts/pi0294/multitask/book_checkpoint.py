@@ -54,6 +54,20 @@ def validate_delta_header(value,parent_sha256):
     return value
 
 
+def qualification_file_name(manifest,complete):
+    """Select the actual full-state restore proof for a retained curve point."""
+    default='ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
+    name=manifest.get('delta_native_qualification_file',default)
+    p=complete.get('recipe',{});step=complete.get('global_step')
+    from .book_m32_learning import is_plan
+    intermediate=(is_plan(p)and p.get('schema')=='BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1'
+        and step in p['checkpoint_steps'][:-1])
+    expected=f'ACTUAL_DELTA_CHECKPOINT_RESTORE_{step}.json'if intermediate else default
+    if name!=expected:
+        raise PermissionError('EXACT_CURVE_POINT_NATIVE_FULL_RESTORE_CERTIFICATE')
+    return name
+
+
 def load_parent_delta(model,contract,checkpoint,*,manifest_sha256,parent_sha256):
     """Apply only after strict parent reconstruction and producer qualification.
 

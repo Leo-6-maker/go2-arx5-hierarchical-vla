@@ -113,7 +113,7 @@
     {
       "id": "M32-03",
       "priority": "P0",
-      "status": "B512_TRAIN_P8_P4_EACH0_OF1_TWO_UNRUN_CLOSED_FIXED_DATA4096_NEXT",
+      "status": "UNIFORM4096_NATIVE_RUNNING_PENDING_COMPLETE_ENDPOINTS",
       "title": "One declared learning-to-DEV cycle",
       "depends_on": [
         "M32-01",
@@ -138,7 +138,7 @@
         "not_population_reliability_guarantee": true,
         "cannot_shrink_presealed_larger_TEST": true
       },
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_RECOVERY_PHASE_STATS_BASELINE_AND_CURVE_QUALIFICATION_ACTUAL_20261031.json",
       "A_updates": 512,
       "A_TRAIN_visits": 16384,
       "A_valid_DEV": 1,
@@ -175,7 +175,20 @@
         ],
         "status": "PUBLISHED_NOT_STARTED",
         "same_TRAIN_statistics_and_uniform_sampling": true
-      }
+      },
+      "continuous4096_actual_progress": {
+        "step": 246,
+        "cursor": 7872,
+        "native_loss": 0.019500618800520897,
+        "learning_rate": [
+          9.98037602205185e-05,
+          9.98037602205185e-05
+        ],
+        "epoch": 1793450302.724698
+      },
+      "continuous4096_runtime_source": "abaec48ac7a5d8079df07da774ad97658b03438b",
+      "intermediate_evaluation_requires_full_producer_CLOSED": true,
+      "future_sampling_candidate_status": "OFFLINE_ONLY_NOT_ADOPTED"
     },
     {
       "id": "M32-04",
@@ -246,5 +259,5 @@
     "new_model_or_physics_calls": 0,
     "CI_or_native_validation_claimed": false
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json"
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_RECOVERY_PHASE_STATS_BASELINE_AND_CURVE_QUALIFICATION_ACTUAL_20261031.json"
 }
