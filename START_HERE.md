@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 15:21 SGT实际：早期TRAIN恢复面板完成5项专家接续，均原32秒/安全通过；第6项学生在0.522秒右指垫碰架，尚未到0.8秒接管，按原安全门停止，另4项未运行。五项独立重放了393个专家H40及3144实际专家命令，2949个专家后缀窗仅具资格，尚未Processor/统计准入；失败与学生前缀不作专家标签。原owner/lease已关闭。纯书本Teacher7、柜门1、混合恢复完整6，学生自主完整成功0；累计39尝试/371597积分/11230RGB。复用Rerun完整双相机回放保留；继续静态合格的源位置与数据准入，随后有限学习/DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/FIVE_EARLY_TRAIN_RECOVERIES_ELIGIBLE_SIXTH_PREHANDOVER_CONTACT_STOP_CLOSED_ACTUAL_20261031.json)。
+2026-10-31 16:13 SGT实际：纯放书Teacher累计10条；新增SEED007/008/009均完整32秒、安全和独立评分通过，owner/lease CLOSED。累计源物理42次/427097积分/13156对RGB，柜门1条、混合恢复完整6条，自主完整成功仍0。五条早期恢复可形成2949专家后缀窗，仍待新统计与官方Processor准入。新增导出复用原Reader/codec并保全原6份数值文件与DEV10；29项相关CPU检查通过，尚未部署或训练。未来增量空间检查已在三条原生运行通过，历史费用、旧工作保护不减，未清理数据。继续剩余TRAIN采集→准入→同数据有限学习/DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/TEN_COMPLETE_BOOK_TEACHERS_AND_EXPANDED_DATA_EXPORT_READY_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
