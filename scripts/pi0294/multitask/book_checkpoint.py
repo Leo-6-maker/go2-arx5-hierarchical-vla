@@ -36,7 +36,10 @@ def validate_delta_header(value,parent_sha256):
     required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json',
         'statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
     schema=value.get('schema')
-    if schema=='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1':endpoint=(256,8192)
+    from .book_m32_learning import is_plan
+    if schema=='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'and is_plan(value.get('recipe',{})):
+        p=value['recipe'];endpoint=(p['max_steps'],p['TRAIN_visits']);required.update(('TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json'))
+    elif schema=='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1':endpoint=(256,8192)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==full_plan():endpoint=(1024,32768)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==recovery_plan():
         endpoint=(512,16384);required.add('TRAIN_DEV_SEAL.json')
@@ -64,6 +67,11 @@ def load_parent_delta(model,contract,checkpoint,*,manifest_sha256,parent_sha256)
     root=Path(checkpoint)
     if sha(root/'CHECKPOINT_COMPLETE.json')!=manifest_sha256:raise PermissionError('EXACT_FIT256_DELTA_MANIFEST')
     complete=validate_delta_header(read(root/'CHECKPOINT_COMPLETE.json'),parent_sha256)
+    m32=complete['schema']=='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'
+    if m32:
+        if complete['recipe']['capacity_qualification_only']:raise PermissionError('TEN_UPDATE_CAPACITY_PROBE_IS_NOT_A_DEV_CANDIDATE')
+        from .book_m32_learning import promote_contract
+        contract=promote_contract(contract,complete['recipe'])
     for name,pin in complete['files'].items():
         file=root/name
         if not file.resolve().is_relative_to(root.resolve())or sha(file)!=pin:raise PermissionError('FIT256_DELTA_MEMBER_CHANGED:'+name)
@@ -72,7 +80,7 @@ def load_parent_delta(model,contract,checkpoint,*,manifest_sha256,parent_sha256)
     frozen=frozen_fingerprint(model)
     if frozen!=read(root/'FROZEN_PARENT_TENSORS.json'):raise PermissionError('FIT256_DELTA_EXACT_FROZEN_PARENT_TENSORS')
     delta=torch.load(root/'target_parameters.pt',map_location='cpu',weights_only=True);params=dict(model.named_parameters())
-    validate_delta(delta,params,contract.trainable_names)
+    validate_delta(delta,params,contract.trainable_names,expected_count=len(contract.trainable_names)if m32 else 14)
     if not all(torch.isfinite(x).all()for x in delta.values()):raise ValueError('FIT256_FINITE_TARGET_TENSORS')
     with torch.no_grad():
         for name in contract.trainable_names:params[name].copy_(delta[name])
