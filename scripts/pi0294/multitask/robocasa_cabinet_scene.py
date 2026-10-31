@@ -16,6 +16,11 @@ def overlay(source_xml,card,*,definitions,texture_paths):
         raise ValueError('EXPLICIT_PINNED_SINGLE_CABINET_SOURCE_PORT')
     spec=card['cabinet'];door_spec=card['door']
     fixture,meta=single_cabinet_geometry(definitions,size=spec['size_m'],orientation=spec['orientation'])
+    mechanical_meta={}
+    if spec.get('mechanical_variant')is not None:
+        from .cabinet_edge_hinge import MECHANICS,geometry
+        if spec['mechanical_variant']!=MECHANICS:raise ValueError('EXPLICIT_DECLARED_CABINET_MECHANICAL_VARIANT')
+        fixture,mechanical_meta=geometry(fixture,size=spec['size_m'],orientation=spec['orientation'])
     fixture,texture_meta=bind_minimum_textures(fixture,texture_paths);fixture=ET.fromstring(fixture)
     cabinet_world=pose(spec['cabinet_world'])
     joint=fixture.find(".//joint[@name='doorhinge']");hinge_local=np.fromstring(joint.get('pos'),sep=' ')
@@ -83,4 +88,4 @@ def overlay(source_xml,card,*,definitions,texture_paths):
         obstacle_geoms=obstacles,goal_kind='ROBOCASA_NATIVE_DOOR',joint_ranges={'rc_doorhinge':meta['joint_range']},
         original_handle_origin_separate_from_grasp_frame=True,robot_XML_preserved=True,
         texture_members=texture_meta['files'],qualification='UNCOMPILED_UNEXECUTED_SOURCE_PORT',
-        original_kitchen_benchmark=False,new_actuators_equalities_mocap=0)
+        original_kitchen_benchmark=False,new_actuators_equalities_mocap=0,**mechanical_meta)

@@ -1,0 +1,376 @@
+{
+  "schema": "BOOK_RECOVERY512_ACTIVE_AND_DECLARED_CABINET_EDGE_STATIC_ACTUAL_V1",
+  "as_of_SGT": "2026-10-31 13:35 SGT",
+  "training": {
+    "status": "ACTUAL_MODEL_LOADED_AND_OPTIMIZER_UPDATES_RUNNING_ENDPOINT_PENDING",
+    "run": "v7-book5-recovery3574-target512-01",
+    "source_sha": "044aa0eeb27187b7042518f810b9f0be347f0c69",
+    "manifest_sha256": "1bb4274e9a6319333dc4b2e9d6f96b0a97a4467c31c5369c4d742193e620bd96",
+    "dataset_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+    "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "original_parent_full_state_restoration": {
+      "sha256": "79442707ad3af4aa99430c4aa5eabfbb1a7ffecf5f41c9baa85939a7ecef52ad",
+      "value": {
+        "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+        "model_restore": {
+          "all_non_alias_model_members_strict": true,
+          "missing_serialized_keys": [
+            "backbone.model.lm_head.weight"
+          ],
+          "actual_shared_saved_parameter_aliases": [
+            "backbone.model.model.language_model.embed_tokens.weight"
+          ],
+          "arbitrary_missing_keys_allowed": false
+        },
+        "optimizer_state_entries": 14,
+        "optimizer_steps_restored": 128,
+        "scheduler_restored": true,
+        "RNG_restored": true,
+        "sampler_cursor": 4096,
+        "new_optimizer_updates": 0,
+        "DEV_started": false,
+        "observed_epoch": 1793424309.1206558
+      }
+    },
+    "actual_initial_weight_delta_sha256": "b8327ab9501eac641eae8947a04040fe84844a01e9e5f59cea1c2ffd17ad11f8",
+    "fresh_optimizer": true,
+    "actual_progress": {
+      "sha256": "61aea3e2c952a6f48aea711af3398c49ea65a26bb2696468f3a198f1274910fa",
+      "value": {
+        "step": 125,
+        "cursor": 4000,
+        "native_loss": 0.7427954077720642,
+        "learning_rate": [
+          8.969488760762177e-05,
+          8.969488760762177e-05
+        ],
+        "epoch": 1793424940.4214246
+      }
+    },
+    "original_unit_active": true,
+    "unit_CPU_s_so_far": 732.142882,
+    "endpoint_updates": 512,
+    "endpoint_TRAIN_visits": 16384,
+    "new_qualified_endpoint": false,
+    "new_DEV_conditions": 0,
+    "physics_integrations": 0,
+    "generation_statistics_match_new_training_statistics": true,
+    "changed_statistics_is_exploratory_not_isolated_recovery_comparison": true,
+    "frozen_shared_DiT_and_backbone": true,
+    "finite_job": {
+      "wall_s": 5400,
+      "cores": 4,
+      "output_bytes": 536870912
+    },
+    "project_aggregate_budget_removed": true
+  },
+  "cabinet": {
+    "status": "NEW_MECHANICAL_VARIANT_STATIC_ONLY_DYNAMIC_NOT_STARTED",
+    "causal_evidence": {
+      "saved_raw_sha256": "997551ab6c594f4c3b3a529c55c13c07cc2461d60247510dea99d606a1d36129",
+      "saved_XML_sha256": "bb0f88b1a6dc8d601195c589ea4f4337751acf8ff4e2bafe573d75632334f10d",
+      "angle_rad": 0.15413973057791916,
+      "independent_corner_intrusion_m": 0.001716975372416718,
+      "actual_native_intrusion_m": 0.0017174109311638467,
+      "pinned_upstream_primitive_formulas_match_port": true,
+      "upstream_runtime_collision_policy_or_unique_dynamic_cause_not_proven": true,
+      "original_right_axis_local": [
+        0.105,
+        -0.11,
+        0.0
+      ],
+      "candidate_right_axis_local": [
+        0.1185,
+        -0.11,
+        0.0
+      ],
+      "axis_shift_m": 0.013499999999999998,
+      "SAT_sweep": [
+        {
+          "side": "right",
+          "angle_samples": 302,
+          "minimum_by_variant": {
+            "UPSTREAM_PIVOT_PORT06": {
+              "angle_rad": 0.4225916666666667,
+              "minimum": {
+                "frame": "bottom",
+                "clearance_m": -0.002898064653136301
+              }
+            },
+            "PROPOSED_OUTER_PANEL_EDGE_AXIS": {
+              "angle_rad": 0.0,
+              "minimum": {
+                "frame": "top",
+                "clearance_m": -4.163336342344337e-17
+              }
+            }
+          },
+          "at_actual_terminal_angle": {
+            "UPSTREAM_PIVOT_PORT06": [
+              {
+                "angle_rad": 0.15413973057791916,
+                "minimum": {
+                  "frame": "bottom",
+                  "clearance_m": -0.0017175143761564982
+                }
+              }
+            ],
+            "PROPOSED_OUTER_PANEL_EDGE_AXIS": [
+              {
+                "angle_rad": 0.15413973057791916,
+                "minimum": {
+                  "frame": "top",
+                  "clearance_m": 0.0003556807907683368
+                }
+              }
+            ]
+          }
+        },
+        {
+          "side": "left",
+          "angle_samples": 302,
+          "minimum_by_variant": {
+            "UPSTREAM_PIVOT_PORT06": {
+              "angle_rad": -0.4225916666666667,
+              "minimum": {
+                "frame": "bottom",
+                "clearance_m": -0.002898064653136301
+              }
+            },
+            "PROPOSED_OUTER_PANEL_EDGE_AXIS": {
+              "angle_rad": 0.0,
+              "minimum": {
+                "frame": "top",
+                "clearance_m": -4.163336342344337e-17
+              }
+            }
+          },
+          "at_actual_terminal_angle": {
+            "UPSTREAM_PIVOT_PORT06": [
+              {
+                "angle_rad": -0.15413973057791916,
+                "minimum": {
+                  "frame": "bottom",
+                  "clearance_m": -0.0017175143761564982
+                }
+              }
+            ],
+            "PROPOSED_OUTER_PANEL_EDGE_AXIS": [
+              {
+                "angle_rad": -0.15413973057791916,
+                "minimum": {
+                  "frame": "top",
+                  "clearance_m": 0.0003556807907683368
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "declared_variant": {
+      "version": "ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60",
+      "mechanics": "OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1",
+      "exact_RoboCasa_benchmark": false,
+      "fixture_translation_from_PORT05_world_m": [
+        0.06,
+        0,
+        0
+      ],
+      "additional_translation_from_PORT06_world_m": [
+        0.02,
+        0,
+        0
+      ],
+      "pivot_shift_local_m": [
+        0.0135,
+        0,
+        0
+      ],
+      "panel_euler_x_from_rad": 1.5708,
+      "panel_euler_x_to_rad": 1.5707963267948966,
+      "existing_masks_contacts_friction_force_solver_safety_score_WBC_unchanged": true,
+      "old_failed_runs_and_STOP_preserved": true
+    },
+    "rejected_layout40": {
+      "complete_route_IK_speed_pass": true,
+      "conservative_clearance_pass": false,
+      "minimum_clearance_m": 0.00042875142884994666,
+      "reason": "Only0.429mm full-body clearance; not admitted dynamically."
+    },
+    "candidate_layout60": {
+      "reference_knots": 468,
+      "stages": [
+        {
+          "stage": "approach",
+          "points": 74,
+          "reference_duration_s": 3.6500000000000004,
+          "max_IK_position_error_m": 7.621594340611688e-10,
+          "max_IK_rotation_error_rad": 1.7309254267499344e-09,
+          "max_joint_speed_rad_s": 0.2957578856642451,
+          "minimum_full_robot_fixture_clearance_m": 0.08302228759846499,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.08302228759846499
+          }
+        },
+        {
+          "stage": "align",
+          "points": 28,
+          "reference_duration_s": 1.35,
+          "max_IK_position_error_m": 7.595313950865119e-10,
+          "max_IK_rotation_error_rad": 1.458549477073546e-09,
+          "max_joint_speed_rad_s": 0.18033592887718886,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239380931169468,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380931169468
+          }
+        },
+        {
+          "stage": "close",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 4.741699756650718e-10,
+          "max_IK_rotation_error_rad": 1.36946389119665e-09,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239380931169468,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380931169468
+          }
+        },
+        {
+          "stage": "turn",
+          "points": 220,
+          "reference_duration_s": 10.950000000000001,
+          "max_IK_position_error_m": 1.6594474842382045e-09,
+          "max_IK_rotation_error_rad": 9.519021276930112e-09,
+          "max_joint_speed_rad_s": 0.43982233690346817,
+          "minimum_full_robot_fixture_clearance_m": 0.003023937742694811,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.003023937742694811
+          }
+        },
+        {
+          "stage": "release",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 1.16005057932036e-09,
+          "max_IK_rotation_error_rad": 7.267685055576649e-09,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239378520751144,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239378520751144
+          }
+        },
+        {
+          "stage": "withdraw",
+          "points": 112,
+          "reference_duration_s": 5.550000000000001,
+          "max_IK_position_error_m": 1.16005057932036e-09,
+          "max_IK_rotation_error_rad": 7.267685358982996e-09,
+          "max_joint_speed_rad_s": 0.2961351017717817,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239378520751144,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239378520751144
+          }
+        }
+      ],
+      "reference_duration_s": 23.1,
+      "with_minimum_hold_s": 25.5,
+      "full_original_task_s": 32,
+      "complete_route_IK_speed_pass": true,
+      "conservative_clearance_pass": true,
+      "old_saved_finger_width_is_only_static_hypothesis": true
+    },
+    "actual_native_static": {
+      "native_model_constructors": 1,
+      "native_forward_calls": 11676,
+      "physics_integrations": 0,
+      "RGB_pairs": 0,
+      "original_XML_sha256": "3cf52b8cec2d2b2404868948e33c0ac21d5802727da39105fede53d1a458a004",
+      "original_control_safety_contact_and_solver_XML_unchanged": true,
+      "hypothetical_fixture_translation_world_m": [
+        0.06,
+        0.0,
+        0.0
+      ],
+      "proposed_joint_axis_local": [
+        0.1185,
+        -0.11,
+        0.0
+      ],
+      "proposed_XML_sha256": "f36ad7b37aeb36a595585873c55c448891ca9e11fcc3fe7bd5e1159ec74a1790",
+      "full_robot_body_descendant_classification": true,
+      "analysis_CPUs": 1,
+      "analysis_inside_active_training_cpuset": true,
+      "source_knots": 468,
+      "linear_joint_interpolation_substeps_per_20Hz_interval": 25,
+      "native_geometry_sample_hz": 500,
+      "native_penetration_or_joint_or_arm_table_violation": false,
+      "strict_unexpected_robot_contact_samples": 0,
+      "contact_summary": {
+        "FIXTURE_INTERNAL": {
+          "contact_samples": 23808,
+          "max_penetration_m": 3.4139358007223563e-17
+        },
+        "EXPECTED_PAD_HANDLE": {
+          "contact_samples": 11124,
+          "max_penetration_m": 0.0016498429058595956
+        }
+      },
+      "worst_unexpected_contacts": [],
+      "task_fixture_internal_max_penetration_m": 3.4139358007223563e-17,
+      "expected_pad_handle_max_penetration_m": 0.0016498429058595956,
+      "original_penetration_stop_m": 0.004,
+      "CPU_s": 1.177305857,
+      "qualification": false,
+      "native_dynamic_grasp_and_tracking_unmeasured": true,
+      "limitations": "Hypothetical prescribed joint interpolation and saved finger width. Native forward/contact geometry is sampled, no dynamics, forces, physical attempts or full continuous collision certificate. Task success is not measured."
+    },
+    "native_static_receipt_sha256": "0c32c6d97846eeb6d7183206a59a3983cbe02f79bf01f711c4c44501b0936ede",
+    "first_static_entry_failure": {
+      "reason": "Absent optional equality XML element serialized as a real node; fixed None handling before constructor.",
+      "native_constructors": 0,
+      "physics_integrations": 0,
+      "full_control_CPU_upper_retained_s": 60,
+      "unknown_read_reply_independently_reconciled": true
+    },
+    "actual_PC_analysis_CPU_s": 23.112147957,
+    "new_dynamic_attempts": 0,
+    "new_task_successes": 0,
+    "new_RGB_pairs": 0,
+    "limitations": "Sampled prescribed joints and saved hypothetical finger widths, no dynamics or forces. New source/camera/grasp qualification still required; no cabinet success or unique root cause claimed."
+  },
+  "validation": {
+    "affected_CPU_tests_passed": 55,
+    "explicit_private_pinned_asset_and_saved_route_inputs": true,
+    "CI_result": "NOT_CLAIMED",
+    "native_static_integrations": 0
+  },
+  "retained_source_totals": {
+    "attempts": 28,
+    "physics_integrations": 206128,
+    "RGB_pairs": 5691,
+    "pure_book_full_Teacher_demos": 5,
+    "cabinet_full_demos": 0,
+    "mixed_TRAIN_recovery_completions": 1,
+    "learned_autonomous_full_task_successes": 0
+  },
+  "next": [
+    "Allow healthy recovery512 training to reach its declared endpoint; verify actual complete model/AdamW/scheduler/RNG/cursor restore, then original fixed DEV10 with new saved statistics.",
+    "At a verified cold owner boundary, separately admit the right edge-hinge source variant using real asset/camera/safety qualification; do not displace active training or reopen PORT06.",
+    "Vanda access remains unavailable per user; no reconnection or E2 submission. No cleanup or infrastructure changes."
+  ],
+  "goal_complete": false
+}
