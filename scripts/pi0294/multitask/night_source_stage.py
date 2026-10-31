@@ -84,7 +84,17 @@ elif bundle['task_kind']=='ROBOCASA_CABINET':
  else:assert 'closed_book_unrun_cabinet_carry'in account and account['charged_upper']['attempts']==1
 else:assert account['charged_upper']['attempts']==0
 assert P['PC_closed_account_sha256']==sha(pc)and account['native_destination']==str(root)
-assert all(time.time()-P['observation'][k]['observed_epoch']<120 for k in('GLOBAL','LOCAL'))
+assert 0<=time.time()-P['observation']['LOCAL']['observed_epoch']<120
+if P.get('GLOBAL_capture_custody'):
+ custody=P['GLOBAL_capture_custody'];observation=P['observation']['GLOBAL']
+ assert v7_policy is not None and P.get('v7_finite_source_job')
+ assert custody['role']=='VERIFIED_CORE_CUSTODY_PROTECTED_FORECAST_NOT_CURRENT_GLOBAL_AUTHORITY'
+ assert observation['capture_is_fresh_native_authority']is False
+ assert custody['canonical_observed_epoch']==observation['observed_epoch']and 0<=observation['observed_epoch']<=time.time()
+ captured=Path(P['predecessor_root'])/'ORIGINAL_GLOBAL_CAPTURE.private.json';body=captured.read_bytes()
+ assert sha(body)==custody['sha256']==observation['sha256']and len(body)==observation['bytes']
+ assert gzip.decompress(base64.b64decode(P['GLOBAL_gzip_base64'],validate=True))==body
+else:assert 0<=time.time()-P['observation']['GLOBAL']['observed_epoch']<120
 root.mkdir(mode=0o700)
 for name in('entry/infrastructure','entry/code/vla','control','tmp','cache','logs','outputs','inputs','assets'):
  (root/name).mkdir(parents=True,mode=0o700,exist_ok=True)
@@ -108,6 +118,7 @@ if scope.V7_CARRY in account:
   V7_project_internal_shortfalls_are_observations_not_new_run_approval_gates=True,
   old_balances_and_protected_work_unchanged=True,source_pool_caps_unchanged=True)
  if v7_policy is not None:budget.update(v7_finite_source_job=P['v7_finite_source_job'],historical_source_caps_retained_not_reissued=True)
+ if P.get('GLOBAL_capture_custody'):budget.update(GLOBAL_capture_custody=P['GLOBAL_capture_custody'],GLOBAL_is_current_authority=False,fresh_Core_LOCAL_and_actual_capacity_required=True)
  storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
  future=max(0,storage['projected']-storage['used'])
  retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
