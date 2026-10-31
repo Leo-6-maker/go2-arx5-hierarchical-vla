@@ -260,8 +260,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "BOOK128_FULL_RESTORE_DEV10_NEGATIVE_ACTUAL_CLOSED_20261031.json",
-    "as_of": "2026-10-31 09:36 SGT",
+    "report": "BOOK128_TRAIN16_SAMPLER_NEGATIVE_AND_CABINET_STATIC_ACTUAL_CLOSED_20261031.json",
+    "as_of": "2026-10-31 09:59 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -278,7 +278,7 @@
     "source_actual_RGB_pairs": 4622,
     "qualified_full_skill_demos": 5,
     "new_shared_skill_training_updates": 0,
-    "Core_next": "TRAIN_ONLY_FIT_AND_FREE_GENERATION_DIAGNOSIS_CABINET_SAVED_HINGE_LAG_STATIC_MECHANISM",
+    "Core_next": "BOUNDED_TRAIN_FIT_DIAGNOSTIC_AND_CABINET_STATIC_REFERENCE_FEEDBACK_MECHANISM",
     "E2_current": "LAST_H_HELD_UNSTARTED_NOW_SSH_AUTH_REFUSED_CURRENT_UNVERIFIED",
     "goal_complete": false,
     "qualified_book_demos": 5,
@@ -289,6 +289,11 @@
     "new_book_only_training_updates": 128,
     "new_book_only_qualified_endpoints": 1,
     "book_policy_DEV_valid_conditions": 10,
-    "book_policy_DEV_successes": 0
+    "book_policy_DEV_successes": 0,
+    "TRAIN16_native_loss_forwards": 16,
+    "TRAIN16_generation_queries": 32,
+    "TRAIN16_D4_rejects": 16,
+    "TRAIN16_D16_rejects": 16,
+    "TRAIN16_optimizer_updates": 0
   }
 }
