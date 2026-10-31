@@ -1,0 +1,337 @@
+{
+  "schema": "BOOK5_PLUS_EXPERT_RECOVERY_DATA_OFFICIAL_NATIVE_ADMITTED_ACTUAL_V1",
+  "as_of": "2026-10-31 13:16 SGT",
+  "status": "RECOVERY_SUFFIX_DATA_NATIVE_COMPLETE_ADMITTED_AND_INDEPENDENT_VERIFIED",
+  "source_sha": "f5d5fa2ed502b6cc453d5fae471544e0e488d60c",
+  "implementation_PR": 261,
+  "native": {
+    "status": "BOOK5_PLUS_EXPERT_RECOVERY_SUFFIX_OFFICIAL_NATIVE_QUALIFIED_AND_ADMITTED",
+    "source": "f5d5fa2ed502b6cc453d5fae471544e0e488d60c",
+    "admitted_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+    "candidate_manifest_sha256": "88be80b38aac507ac363306ec5b84e02ae21398ab5d0c545cc6f129ce7358385",
+    "qualification_sha256": "271d59b660712411bd335fd04b73d810901382758c62d7d6b31df9d946db28c0",
+    "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "TRAIN_DEV_seal_sha256": "3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf",
+    "TRAIN_windows": 3574,
+    "pure_full_Teacher_episodes": 5,
+    "mixed_recovery_episodes": 1,
+    "expert_suffix_windows": 569,
+    "student_prefix_expert_labels": 0,
+    "original_book5_numeric_unchanged": true,
+    "old_book5_E1_E2_R0_unchanged": true,
+    "DEV_in_fit": 0,
+    "all_actual_loader_anchors_verified": true,
+    "all_76_expert_H40_replayed": true,
+    "actual_processor_batches": 6,
+    "codecs": [
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.298748882002883e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 16,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      },
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.376390663895506e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 17,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      },
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.375059784044737e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 16,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      },
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.201997774876958e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 16,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      },
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.397876254979565e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 40,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      },
+      {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 569,
+        "committed_label_elements_checked": 227600,
+        "maximum_error": {
+          "XYZ_m": 9.370494491456327e-09,
+          "SO3_rad": 2.9802322387695312e-08,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 7.771561172376096e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 1e-05,
+          "SO3_rad": 0.0001,
+          "gripper": 1e-05,
+          "relative_SE3_max_abs": 1e-08
+        },
+        "action_preclip_components": 23,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    ],
+    "training_admitted": true,
+    "new_models_queries_optimizer_physics_PBS": 0,
+    "CUDA_initialized": false,
+    "own_bytes_before_terminal": 1613824,
+    "CPU_s": 46.461646466000005,
+    "wall_s": 55.59859235910699,
+    "observed_epoch": 1793423559.06137
+  },
+  "wrapper_actual": {
+    "returncode": 0,
+    "CPU_s": 47.063301,
+    "wall_s": 56.31068746885285,
+    "all_processes_terminal": true
+  },
+  "independent_numeric_labels_and_statistics_audit": {
+    "status": "PASS_INDEPENDENT_ALL_NUMERIC_SOURCE_LABELS_AND_NEW_TRAIN_ONLY_STATISTICS",
+    "manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+    "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "old_five_numeric_bytes_unchanged": true,
+    "expert_commands_exactly_completed_source32_through639": true,
+    "actual_states_and_RGB_exactly_source32_through640": true,
+    "student_prefix_expert_labels": 0,
+    "TRAIN_windows": 3574,
+    "all_new_statistics_independently_recomputed": true,
+    "max_cross_platform_statistics_difference": 1.1102230246251565e-16,
+    "CUDA_models_optimizer_physics": 0,
+    "observed_epoch": 1793423715.749671
+  },
+  "private_terminal_record_sha256": "f9f3c7b532c6bc59dda41158c3a293e745a6e4d62f8bf2ad60768ca30c48c368",
+  "data_identity": {
+    "admitted_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+    "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "unchanged_original_TRAIN_DEV_seal_sha256": "3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf"
+  },
+  "population": {
+    "pure_full_Teacher_book_episodes": 5,
+    "complete_mixed_TRAIN_recovery_episodes": 1,
+    "new_independent_initial_conditions": 0,
+    "scene_geometry_families": 1,
+    "original_TRAIN_windows": 3005,
+    "expert_recovery_windows": 569,
+    "total_TRAIN_windows": 3574,
+    "student_prefix_expert_labels": 0,
+    "expert_suffix_source_commands": [
+      32,
+      639
+    ],
+    "expert_suffix_source_observations": [
+      32,
+      640
+    ],
+    "expert_suffix_actual_commands": 608,
+    "expert_suffix_actual_observations": 609,
+    "overlapping_windows_not_independent_episodes": true
+  },
+  "qualification_scope": {
+    "actual_reader_windows": 3574,
+    "official_action_codec_windows": 3574,
+    "actual_multimodal_Processor_batches": 6,
+    "actual_Processor_anchor_samples": 18,
+    "new_recovery_RGB_pairs_reverified": 609,
+    "all_76_expert_H40_replayed_from_actual_states": true,
+    "native_float64_preclip_components": 128,
+    "native_float32_inverse_clip_components": 0,
+    "old_original_five_numeric_bytes_unchanged": true,
+    "new_TRAIN_only_statistics_fitted_separately": true,
+    "original_book5_E1_E2_R0_overwritten": false,
+    "CUDA_initialized": false,
+    "new_models_queries_optimizer_physics_PBS": 0
+  },
+  "scientific_result": {
+    "new_data_admitted": true,
+    "new_optimizer_updates": 0,
+    "new_model_endpoint": false,
+    "new_autonomous_learned_task_successes": 0,
+    "original_book1024_DEV_successes": 0,
+    "original_book1024_valid_DEV_conditions": 1,
+    "original_book1024_unrun": 9,
+    "source_all_attempts": 28,
+    "source_physics_integrations": 206128,
+    "source_RGB_pairs": 5691
+  },
+  "next_learning_contract_requirements": [
+    "New finite run using this admitted3574-window manifest/statistics; original book5/E1/E2 remain unchanged.",
+    "Model generation and training Processor must both use the new73cc statistics; the retained book128 full-state reconstruction must still bind its original3005-window dataset.",
+    "Initialize declared target tensors from the qualified full1024 endpoint with fresh optimizer; proposed fixed512 new updates, declare recipe before execution. Shared DiT/backbone remain frozen for this recovery-learning candidate.",
+    "New statistics and additional data change more than one input of the old candidate, so this is an exploratory successor rather than a pure causal estimate of recovery-data benefit.",
+    "Evaluate a frozen successor on unchanged DEV10 with original safety stop; preserve all old valid outcomes, no success selection or target-quarantine release."
+  ],
+  "Vanda": "USER_CONFIRMS_UNAVAILABLE_NO_CONNECTION_ATTEMPTS",
+  "NFS_SSH_mount_service_or_credential_changes": 0,
+  "checkpoint_or_data_deletions": 0,
+  "project_internal_budget_limits_removed": true
+}
