@@ -1,0 +1,123 @@
+{
+  "schema": "BOOK5_EXPERT_RECOVERY3574_TARGET512_V1",
+  "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+  "dataset_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+  "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+  "max_steps": 512,
+  "effective_batch_size": 32,
+  "TRAIN_visits": 16384,
+  "trainable": "EXACT_EXISTING_FOURTEEN_TARGET_CATEGORY10_PARAMETERS",
+  "shared_DiT_frozen": true,
+  "backbone_frozen": true,
+  "optimizer_initialization": "FRESH_ADAMW_FROM_QUALIFIED_BOOK5_TARGET1024",
+  "learning_rate": 0.0001,
+  "weight_decay": 1e-05,
+  "warmup_updates": 16,
+  "scheduler_horizon_steps": 512,
+  "seed": 2026103104,
+  "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+  "checkpoint": "PARENT_BOUND_TARGET_DELTA_WITH_ADAMW_SCHEDULER_RNG_CURSOR",
+  "denoise_steps": 4,
+  "generation_queries": 32,
+  "native_diagnostic_loss_forwards": 32,
+  "matched_before_after_inputs_and_noise": true,
+  "statistics_refit": false,
+  "DEV_or_TEST_used": false,
+  "formal_DEV_conditions": 0,
+  "physics_integrations": 0,
+  "original_book_DEV10_unchanged": true,
+  "original_E1_E2_unchanged": true,
+  "purpose": "Exploratory recovery-data successor with separately qualified new TRAIN statistics; not an isolated causal recovery comparison, formal E2 or task-success claim.",
+  "diagnostic_windows": [
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 48,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 240,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 320,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 400,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 600,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 8,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 16,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 32,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 48,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+      "anchor": 568,
+      "split": "TRAIN"
+    }
+  ],
+  "optimization_population": "ORIGINAL_3005_PLUS_569_EXECUTED_EXPERT_RECOVERY_SUFFIX_WINDOWS",
+  "TRAIN_episodes": 6,
+  "TRAIN_windows": 3574,
+  "initial_delta_checkpoint_manifest_sha256": "b8327ab9501eac641eae8947a04040fe84844a01e9e5f59cea1c2ffd17ad11f8",
+  "parent_restore_dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+  "parent_restore_statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+  "pure_full_teacher_episodes": 5,
+  "mixed_recovery_episodes": 1,
+  "student_prefix_expert_labels": 0,
+  "statistics_version_changed": true
+}

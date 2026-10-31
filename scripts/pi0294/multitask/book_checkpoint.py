@@ -32,12 +32,14 @@ def load_wrapped(model,checkpoint):
 
 
 def validate_delta_header(value,parent_sha256):
-    from scripts.pi0294.multitask.book_fit import full_plan
+    from scripts.pi0294.multitask.book_fit import full_plan,recovery_plan
     required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json',
         'statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
     schema=value.get('schema')
     if schema=='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1':endpoint=(256,8192)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==full_plan():endpoint=(1024,32768)
+    elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==recovery_plan():
+        endpoint=(512,16384);required.add('TRAIN_DEV_SEAL.json')
     else:raise PermissionError('EXACT_FROZEN_BOOK_DELTA_RECIPE_REQUIRED')
     if((value.get('global_step'),value.get('cursor'))!=endpoint or value.get('standalone_model')is not False
             or value.get('full_resume_with_required_parent')is not True

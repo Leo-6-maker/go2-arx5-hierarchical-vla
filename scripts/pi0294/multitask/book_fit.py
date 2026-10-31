@@ -40,19 +40,42 @@ def full_plan():
     return p
 
 
+def recovery_plan():
+    p=full_plan()
+    p.update(schema='BOOK5_EXPERT_RECOVERY3574_TARGET512_V1',
+        dataset_manifest_sha256='d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31',
+        statistics_sha256='73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763',
+        initial_delta_checkpoint_manifest_sha256='b8327ab9501eac641eae8947a04040fe84844a01e9e5f59cea1c2ffd17ad11f8',
+        parent_restore_dataset_manifest_sha256=full_plan()['dataset_manifest_sha256'],
+        parent_restore_statistics_sha256=full_plan()['statistics_sha256'],
+        max_steps=512,TRAIN_visits=16384,TRAIN_episodes=6,TRAIN_windows=3574,
+        pure_full_teacher_episodes=5,mixed_recovery_episodes=1,student_prefix_expert_labels=0,
+        optimization_population='ORIGINAL_3005_PLUS_569_EXECUTED_EXPERT_RECOVERY_SUFFIX_WINDOWS',
+        diagnostic_windows=[dict(id='BOOK_SOURCE_SEED000',anchor=a,split='TRAIN')for a in(0,48,80,160,240,320,400,600)]
+            +[dict(id='BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX',anchor=a,split='TRAIN')for a in(0,8,16,32,48,80,160,568)],
+        warmup_updates=16,scheduler_horizon_steps=512,seed=2026103104,
+        optimizer_initialization='FRESH_ADAMW_FROM_QUALIFIED_BOOK5_TARGET1024',
+        statistics_version_changed=True,statistics_refit=False,
+        purpose='Exploratory recovery-data successor with separately qualified new TRAIN statistics; not an isolated causal recovery comparison, formal E2 or task-success claim.')
+    return p
+
+
 def validate_manifest(m,p):
-    if p not in(plan(),full_plan())or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
+    if p not in(plan(),full_plan(),recovery_plan())or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
         raise PermissionError('EXACT_FROZEN_BOOK_TRAIN16_FIT_PLAN')
     for key,value in dict(optimizer_updates=p['max_steps'],physics_integrations=0,generation_queries=32,model_loads=1).items():
         if m['limits'].get(key)!=value:raise PermissionError('BOOK_TRAIN16_FIT_FINITE_'+key)
-    expected='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else'V7_BOOK5_FINITE_TARGET_LEARNING'
+    expected='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'if p==recovery_plan()else'V7_BOOK5_FINITE_TARGET_LEARNING')
     if m.get('kind',expected)!=expected:raise PermissionError('BOOK_EXACT_SEPARATE_SCIENTIFIC_RUN_KIND')
+    if p==recovery_plan()and m.get('delta_checkpoint_manifest_sha256')!=p['initial_delta_checkpoint_manifest_sha256']:
+        raise PermissionError('RECOVERY_LEARNING_EXACT_QUALIFIED1024_INITIAL_WEIGHTS')
 
 
-def select_rows(rows):
+def select_rows(rows,fit_recipe=None):
     lookup={(r['id'],a):(r,a)for r,a in rows}
     selected=[]
-    for row in plan()['windows']:
+    p=plan()if fit_recipe is None else fit_recipe
+    for row in p.get('diagnostic_windows',p.get('windows',[])):
         value=lookup[row['id'],row['anchor']]
         if value[0]['split']!='TRAIN':raise PermissionError('TRAIN16_FIT_NO_DEV_OR_TEST')
         selected.append(value)
@@ -61,9 +84,10 @@ def select_rows(rows):
 
 def optimization_rows(rows,p):
     if p==plan():return select_rows(rows)
-    if p!=full_plan():raise PermissionError('EXACT_FINITE_BOOK_OPTIMIZATION_POPULATION')
+    if p not in(full_plan(),recovery_plan()):raise PermissionError('EXACT_FINITE_BOOK_OPTIMIZATION_POPULATION')
     expected={(f'BOOK_SOURCE_SEED{i:03}',a)for i in range(5)for a in range(601)}
-    if(len(rows)!=3005 or {(r['id'],a)for r,a in rows}!=expected or any(r['split']!='TRAIN'for r,a in rows)):
+    if p==recovery_plan():expected|={('BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX',a)for a in range(569)}
+    if(len(rows)!=len(expected)or {(r['id'],a)for r,a in rows}!=expected or any(r['split']!='TRAIN'for r,a in rows)):
         raise PermissionError('ALL_AND_ONLY_FIVE_ADMITTED_COMPLETE_TRAIN_POPULATIONS')
     return list(rows)
 
@@ -71,8 +95,8 @@ def optimization_rows(rows,p):
 class FitSampler(CyclicSampler):
     def __init__(self,dataset,*,start=0,stop=None,fit_recipe=None):
         p=plan()if fit_recipe is None else fit_recipe
-        if p not in(plan(),full_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
-        if len(dataset)!=(16 if p==plan()else 3005):raise ValueError('FIT_EXACT_DECLARED_TRAIN_POPULATION')
+        if p not in(plan(),full_plan(),recovery_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
+        if len(dataset)!=(16 if p==plan()else p['TRAIN_windows']):raise ValueError('FIT_EXACT_DECLARED_TRAIN_POPULATION')
         stop=p['TRAIN_visits']if stop is None else stop
         if stop>p['TRAIN_visits']:raise ValueError('FIT_NO_SAMPLER_EXPOSURE_EXTENSION')
         super().__init__(len(dataset),seed=p['seed'],start=start,stop=stop,positioned=True)
@@ -91,7 +115,7 @@ def validate_delta(delta,parameters,names):
         if a.shape!=b.shape or a.dtype!=b.dtype:raise ValueError('TARGET_DELTA_SHAPE_DTYPE:'+name)
 
 
-def measure(root,phase,instance,data,trainer,guard):
+def measure(root,phase,instance,data,trainer,guard,fit_recipe=None):
     import numpy as np
     import torch
     from scripts.pi0294.native_train import NativeNoiseAudit
@@ -103,7 +127,8 @@ def measure(root,phase,instance,data,trainer,guard):
     from scripts.pi0292.durable import write
     folder=root/phase;folder.mkdir(exist_ok=False);records=[]
     instance.model.eval()
-    for index,row in enumerate(plan()['windows']):
+    p=plan()if fit_recipe is None else fit_recipe
+    for index,row in enumerate(p.get('diagnostic_windows',p.get('windows',[]))):
         guard();key=row['id']+'-'+str(row['anchor']).zfill(3)
         state,expert,images,text=data.raw(index)
         seed=int.from_bytes(hashlib.sha256(f"BOOK128_TRAIN16/{row['id']}/{row['anchor']}".encode()).digest()[:8],'big')%(2**63)
@@ -165,7 +190,8 @@ def run(root,instance,contract,guard):
     probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
-        ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows);ds.initialize()
+        ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows,p);ds.initialize()
+    if instance.identity['statistics_sha256']!=data.statistics_sha:raise PermissionError('FIT_GENERATION_AND_TRAINING_SAME_STATISTICS')
     data.make_sampler=sampler_class;set_seed(p['seed'])
 
     class FitTrainer(make_trainer_class()):
@@ -231,7 +257,7 @@ def run(root,instance,contract,guard):
             return control
     trainer=FitTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),callbacks=[Audit()],evidence_dir=root/'fit_evidence',recipe=p)
     holder['trainer']=trainer
-    before=measure(root,'before',instance,probe,trainer,guard)
+    before=measure(root,'before',instance,probe,trainer,guard,p)
     # A probe uses fork_rng and deterministic preprocessing, but the training
     # seed is reset explicitly; no diagnostic random draw enters optimization.
     set_seed(p['seed']);trainer.train()
@@ -262,7 +288,7 @@ def run(root,instance,contract,guard):
         required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,optimizer_state_entries=14,
         optimizer_updates=steps,scheduler_restored=True,RNG_restored=True,sampler_cursor=visits,frozen_parent_unchanged=True,
         changed_trainable_parameters=changed,standalone_model=False))
-    after=measure(root,'after',instance,probe,trainer,guard)
+    after=measure(root,'after',instance,probe,trainer,guard,p)
     for a,b in zip(before['records'],after['records']):
         if a['window']!=b['window']or a['noise']!=b['noise']or a['image_SHA256']!=b['image_SHA256']:raise ValueError('FIT_MATCHED_BEFORE_AFTER_NOISE_INPUTS')
     trainer=None;gc.collect()
