@@ -299,7 +299,10 @@ assert sha(Path(P['LOCAL_path']).read_bytes())==P['LOCAL_sha256']
 assert sha((root/'control/NIGHT_SOURCE_ACCOUNT.json').read_bytes())==P['account_sha256']
 lease=json.loads((root/'control/NATIVE_SOURCE_LEASE.json').read_bytes())
 assert lease['status']=='ACTIVE'and lease['run_uuid']==root.name and not(root/'STOP.json').exists()
-assert lease['deadline_epoch']==scope.DEADLINE and time.time()+1300<lease['deadline_epoch']and time.time()<scope.STOP_NEW
+finite='SOURCE_V7_FINITE_JOB.json'in m['sealed_inputs']
+runtime_upper=650 if finite else 1250
+assert not finite or len(planned)==1
+assert lease['deadline_epoch']==scope.DEADLINE and time.time()+runtime_upper+50<lease['deadline_epoch']and time.time()<scope.STOP_NEW
 for unit in P['idle_D25_units']:
  q=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','LoadState'],capture_output=True,text=True,timeout=4)
  assert dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',LoadState='not-found')
@@ -320,7 +323,7 @@ with os.fdopen(fd,'wb')as f:f.write(raw(dict(unit=unit,manifest_sha256=sha(mb),s
  independent_readback_sha256=P['independent_readback_sha256'],automatic_retry=False,observed_epoch=time.time())));f.flush();os.fsync(f.fileno())
 env=json.loads((root/'PROCESS_ENVIRONMENT.private.json').read_bytes())
 assert len(cpus)==3
-args=['/usr/bin/systemd-run','--user','--unit='+unit,'--property=RuntimeMaxSec=1250',
+args=['/usr/bin/systemd-run','--user','--unit='+unit,'--property=RuntimeMaxSec='+str(runtime_upper),
  '--property=TimeoutStopSec=15','--property=KillMode=control-group','--property=CPUQuota=300%',
  '--property=CPUAffinity='+' '.join(map(str,cpus)),'--property=RemainAfterExit=yes',
  '--property=WorkingDirectory='+str(root/'entry/code/vla'),
