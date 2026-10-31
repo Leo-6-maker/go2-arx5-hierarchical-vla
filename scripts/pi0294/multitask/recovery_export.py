@@ -26,15 +26,17 @@ COUNTS=(601,601,601,601,601,569)
 def raw(v):return (json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
 
 
-def expert_suffix_packet(full):
+def expert_suffix_packet(full, takeover=TAKEOVER):
+    if type(takeover) is not int or takeover not in (8,16,TAKEOVER):
+        raise ValueError('DECLARED_ACTUAL_EXPERT_TAKEOVER_ONLY')
     if (full['actual_state10'].shape!=(641,10)or full['committed_absolute10'].shape!=(640,10)
             or not np.array_equal(full['valid_window'],np.arange(640)<601)):
         raise ValueError('FIRST_VALIDATE_THE_COMPLETE_ACTUAL_SOURCE_PACKET')
-    suffix={k:full[k][TAKEOVER:].copy()for k in('actual_state10','committed_absolute10','rgb_paths','rgb_sha256')}
-    suffix.update(valid_window=np.arange(608)<569,anchor_time_s=np.arange(TAKEOVER,601)/20,
-        source_observation_index=np.arange(TAKEOVER,641),offset_s=full['offset_s'].copy(),
+    suffix={k:full[k][takeover:].copy()for k in('actual_state10','committed_absolute10','rgb_paths','rgb_sha256')}
+    suffix.update(valid_window=np.arange(640-takeover)<601-takeover,anchor_time_s=np.arange(takeover,601)/20,
+        source_observation_index=np.arange(takeover,641),offset_s=full['offset_s'].copy(),
         instruction=full['instruction'].copy(),label_representation=full['label_representation'].copy())
-    assert suffix['actual_state10'].shape==(609,10)and suffix['committed_absolute10'].shape==(608,10)
+    assert suffix['actual_state10'].shape==(641-takeover,10)and suffix['committed_absolute10'].shape==(640-takeover,10)
     return suffix
 
 
