@@ -145,7 +145,9 @@
       "qualified_book_demonstrations": 5,
       "qualified_cabinet_demonstrations": 0,
       "book_seed_minimum_met": true,
-      "cabinet_next": "Native layout06 failed8.7s/8.8316deg, both pads remain loaded; relative speed and frame-panel contacts remain. Investigate assembly/contact mechanism, no blind retry."
+      "cabinet_next": "Native layout06 failed8.7s/8.8316deg, both pads remain loaded; relative speed and frame-panel contacts remain. Investigate assembly/contact mechanism, no blind retry.",
+      "complete_safe_mixed_TRAIN_recovery_episodes": 1,
+      "mixed_recovery_is_pure_Teacher_or_student_success": false
     },
     {
       "id": "V7-04",
@@ -193,7 +195,15 @@
       "full3005_valid_DEV_conditions": 1,
       "full3005_DEV_successes": 0,
       "full3005_unrun_DEV_conditions": 9,
-      "full3005_panel_stopped_for_native_safety": true
+      "full3005_panel_stopped_for_native_safety": true,
+      "recovery_supervision": {
+        "status": "ONE_COMPLETE_SAFE_TRAIN_STUDENT32_EXPERT608_RECOVERY_CLOSED",
+        "candidate_expert_windows": 569,
+        "student_prefix_labels": 0,
+        "official_export_qualification": "PENDING",
+        "training_admitted": false,
+        "new_optimizer_updates": 0
+      }
     },
     {
       "id": "V7-05",
@@ -489,15 +499,17 @@
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
   },
-  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK5_ALL3005_TARGET1024_RESTORED_DEV_TCP_STOP_CABINET_LAYOUT_FAILURE_CLOSED_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK_TRAIN32_EXPERT_RECOVERY_FULL_SUCCESS_INDEPENDENT_SUFFIX_CLOSED_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
-    "attempts": 27,
-    "physics_integrations": 187628,
-    "RGB_pairs": 5049,
-    "Teacher_attempts": 15,
-    "model_DEV_attempts": 12,
-    "qualified_book_Teacher": 5,
-    "qualified_cabinet_Teacher": 0,
-    "learned_full_task_success": 0
+    "attempts": 28,
+    "physics_integrations": 206128,
+    "RGB_pairs": 5691,
+    "pure_Teacher_attempts": 15,
+    "formal_book_DEV_attempts": 12,
+    "mixed_TRAIN_recovery_attempts": 1,
+    "qualified_pure_book_Teacher_demonstrations": 5,
+    "qualified_cabinet_Teacher_demonstrations": 0,
+    "complete_safe_mixed_recovery_episodes": 1,
+    "learned_full_task_successes": 0
   }
 }
