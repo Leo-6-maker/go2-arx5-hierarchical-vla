@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 08:01 SGT实际：**已有3条不同初态的完整安全放书源域示范，全部真实导出并通过官方Processor/codec**（合计1,803个H40窗、1,920段已执行命令、1,923对任务观测）；尚未优化训练。累计源尝试12、实际107,571积分/3,318对RGB，柜门合格0。旧12次夜间范围所有演员已终态关闭，不重置旧账或时钟。E1原DEV24为0/24，全部原参考门拒绝、已结算关闭。E2原1508345仍为已证实未启动的H/u；新V7未来检查已在Vanda原生CPU验证OS0，保留原存储差额与matrix/final，未热改旧capsule、未取消/重投、无512端点。[三条实际示范及数据出口](reports/PI0294/design/science-goal-v7-20261031/THREE_DISTINCT_BOOK_SEEDS_OFFICIAL_EXPORT_AND_V7_FORECAST_NATIVE_PASS_20261031.json)。下一步完成另两个初态种子及冷态E2接续，再训练新技能；S1/T2隔离和原WBC/安全/评分/基础设施不变。
+2026-10-31 08:46 SGT实际：**已取得5条不同初态的完整、安全放书源域Teacher示范，五条真实数据出口与官方Processor/codec均PASS**，合计3,005个完整H40窗、3,200段已执行命令、3,205对任务观测。全部原32秒/原目标与2秒保持/安全通过，OS0、许可CLOSED；累计源尝试14、实际144,571积分/4,602对RGB，柜门合格0。新技能优化仍0；五条TRAIN与10个独立DEV已固定，下一步联合统计准入和真实学习。E1原DEV24为0/24，均原参考门拒绝、已结算。E2最后独立H/u无执行；Vanda只读SSH后续认证拒绝，当前状态不臆断、未取消/重投/热改。Core后两次源运行独立完成，远端旧账快照只作保护工作预测，未冒充当前余额。[五条原生完整示范和官方数据证据](reports/PI0294/design/science-goal-v7-20261031/FIVE_COMPLETE_BOOK_SOURCE_SEEDS_ALL_OFFICIAL_EXPORT_PASS_ACTUAL_20261031.json)。原WBC/安全/评分、S1/T2隔离和NFS/SSH/挂载保持，未清理checkpoint。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 

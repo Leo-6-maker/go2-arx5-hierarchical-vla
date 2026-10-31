@@ -83,7 +83,7 @@
       "priority": "P0_PARALLEL",
       "title": "Reconcile existing E2 queue and complete fixed512",
       "site": "Vanda",
-      "status": "ORIGINAL_JOB_HELD_UNSTARTED_V7_FORECAST_NATIVE_PASS_PENDING_COLD_REPLACEMENT",
+      "status": "LAST_VERIFIED_UNSTARTED_HELD_V7_FORECAST_NATIVE_PASS_VANDA_SSH_AUTH_REFUSED_CURRENT_UNVERIFIED",
       "depends_on": [],
       "actions": [
         "read_existing_job_and_owner_separately",
@@ -114,7 +114,7 @@
       "priority": "P0_PARALLEL",
       "title": "Verified book and cabinet expert seeds",
       "site": "Source_ARX5_on_Core_or_existing_qualified_source_node",
-      "status": "THREE_DISTINCT_BOOK_SOURCE_DEMOS_EXPORTED_OFFICIAL_CODEC_PASS",
+      "status": "FIVE_DISTINCT_BOOK_SEEDS_COMPLETE_EXPORTED_CABINET_STILL_ZERO",
       "depends_on": [],
       "actions": [
         "book_full_path_grasp_IK_swept_collision_repair",
@@ -136,17 +136,18 @@
         "actual_RGB_state_submitted_executed_commands",
         "source_lineage_and_event_coverage"
       ],
-      "qualified_full_demonstrations": 3,
-      "source_attempts": 12,
-      "qualified_book_demonstrations": 3,
-      "qualified_cabinet_demonstrations": 0
+      "qualified_full_demonstrations": 5,
+      "source_attempts": 14,
+      "qualified_book_demonstrations": 5,
+      "qualified_cabinet_demonstrations": 0,
+      "book_seed_minimum_met": true
     },
     {
       "id": "V7-04",
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Vanda_training_Core_eval",
-      "status": "THREE_BOOK_SEEDS_OFFICIAL_CODEC_PASS_NO_OPTIMIZER_PENDING_COMPLETE_SEED_SET_DEV",
+      "status": "FIVE_BOOK_SEEDS_OFFICIAL_CODEC_PASS_FROZEN_DEV10_PENDING_JOINT_ADMISSION_AND_LEARNING",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -254,8 +255,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "THREE_DISTINCT_BOOK_SEEDS_OFFICIAL_EXPORT_AND_V7_FORECAST_NATIVE_PASS_20261031.json",
-    "as_of": "2026-10-31 08:01 SGT",
+    "report": "FIVE_COMPLETE_BOOK_SOURCE_SEEDS_ALL_OFFICIAL_EXPORT_PASS_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 08:46 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -267,16 +268,16 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 12,
-    "source_actual_integrations": 107571,
-    "source_actual_RGB_pairs": 3318,
-    "qualified_full_skill_demos": 3,
+    "source_total_attempts": 14,
+    "source_actual_integrations": 144571,
+    "source_actual_RGB_pairs": 4602,
+    "qualified_full_skill_demos": 5,
     "new_shared_skill_training_updates": 0,
-    "Core_next": "V7_COLD_FINITE_REMAINING_BOOK_SEEDS_THEN_LEARNING",
-    "E2_current": "SAME1508345_HELD_UNSTARTED_NEW_V7_FORECAST_NATIVE_PASS_NO_REPLACEMENT_YET",
+    "Core_next": "JOINT_BOOK5_TRAIN_ONLY_STATS_ADMISSION_THEN_ACTUAL_LEARNING_DEV10",
+    "E2_current": "LAST_H_HELD_UNSTARTED_NOW_SSH_AUTH_REFUSED_CURRENT_UNVERIFIED",
     "goal_complete": false,
-    "qualified_book_demos": 3,
+    "qualified_book_demos": 5,
     "qualified_cabinet_demos": 0,
-    "first_book_candidate_export": "ALL_THREE_OFFICIAL_CODEC_PASS_1803_WINDOWS_NO_OPTIMIZER"
+    "first_book_candidate_export": "ALL_FIVE_OFFICIAL_CODEC_PASS_3005_WINDOWS_NO_OPTIMIZER"
   }
 }
