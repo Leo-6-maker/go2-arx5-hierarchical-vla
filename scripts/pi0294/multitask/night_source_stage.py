@@ -149,7 +149,12 @@ if scope.V7_CARRY in account:
  for key,name in dict(account='control/NIGHT_SOURCE_ACCOUNT.json',lease='control/NATIVE_SOURCE_LEASE.json',terminal='outputs/SOURCE_CHAIN_TERMINAL.json').items():
   assert(previous/name).read_bytes()==base64.b64decode(carry[key+'_base64'],validate=True)
  q=subprocess.run(['systemctl','--user','show',previous.name+'.service','-p','MainPID','-p','SubState'],capture_output=True,text=True,timeout=4)
- assert q.returncode==0 and dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)==dict(MainPID='0',SubState='exited')
+ facts=dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)
+ prior_terminal=json.loads(base64.b64decode(carry['terminal_base64'],validate=True))
+ cold=prior_terminal.get('cold_never_started')is True
+ if cold:
+  assert prior_terminal['results']==[]and not(previous/'control/NATIVE_LAUNCH_INTENT.json').exists()and not(previous/'control/ACTUAL_DETACHED_OWNER_STARTED.json').exists()
+ assert q.returncode==0 and facts==dict(MainPID='0',SubState='dead'if cold else'exited')
  for name,pin in P.get('predecessor_preserved_files',{}).items():assert sha((previous/name).read_bytes())==pin
  before=previous_account.read_bytes();closed=scope.transfer_development_custody(before,pc,destination=str(root))
  key='V7-SOURCE-CUSTODY-TRANSFER-'+root.name
