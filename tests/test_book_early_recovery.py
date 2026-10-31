@@ -52,7 +52,7 @@ def test_real_observed_handover_queries_stop_and_ineligible_prefix_excluded(cond
 def test_early_recovery_manifest_keeps_frozen_checkpoint_and_query_bounds():
     m=dict(kind=r.KIND,recovery_plan=r.plan(),delta_checkpoint_manifest_sha256=r.CHECKPOINT,
            limits=dict(optimizer_updates=0,physics_integrations=185000,generation_queries=15,
-                       RGB_pairs=6420,source_constructors=10,model_loads=1))
+                       RGB_pairs=6420,source_constructors=10,model_loads=1,output_bytes=r.OWNER_OUTPUT_BYTES))
     r.validate_manifest(m)
     for key in('physics_integrations','generation_queries','source_constructors'):
         bad=deepcopy(m);bad['limits'][key]+=1

@@ -4,6 +4,8 @@ from .libero_book_teacher import route_card, seed_card, RELEASE_REVISION, teache
 
 CHECKPOINT = population_plan()['recovery']['checkpoint_manifest_sha256']
 KIND = 'V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
+CONDITION_OUTPUT_BYTES = 288*1024**2
+OWNER_OUTPUT_BYTES = 3328*1024**2
 
 
 def conditions():
@@ -20,13 +22,15 @@ def plan():
         expert_revision=RELEASE_REVISION, full_task_seconds=32, warmup_seconds=5,
         H40=40, prefix=8, student_prefix_is_expert=False,
         expert_uses_actual_takeover_state=True, training_admitted=False,
+        condition_output_upper_bytes=CONDITION_OUTPUT_BYTES, owner_output_upper_bytes=OWNER_OUTPUT_BYTES,
         full_task_and_native_safety_and_independent_audit_required_for_suffix=True,
         hard_native_safety_stops_panel=True, automatic_retry=False)
 
 
 def validate_manifest(m):
     required=dict(optimizer_updates=0, physics_integrations=185000,
-                  generation_queries=15, RGB_pairs=6420, source_constructors=10, model_loads=1)
+                  generation_queries=15, RGB_pairs=6420, source_constructors=10, model_loads=1,
+                  output_bytes=OWNER_OUTPUT_BYTES)
     if (m['kind']!=KIND or m.get('recovery_plan')!=plan()
             or m.get('delta_checkpoint_manifest_sha256')!=CHECKPOINT
             or any(m['limits'].get(k)!=v for k,v in required.items())):

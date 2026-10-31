@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 14:34 SGT实际：**取得首条完整合格柜门Teacher示范（自定义源ARX5机械变体）**。PORT08原5秒预热＋32秒任务、18500积分/642RGB、640完成命令/80H40；原生开启、释放、撤离和保持6.8秒、安全/完整性均通过。末角85.18°、速度0，进程终态/lease关闭；PC独立回放全部80计划及640前缀，最大差2.22e-16。尚未官方数据准入，不是GR00T或目标整机成功。书本recovery512保存几何显示1.2秒TCP目标与实际张开的夹爪碰架2.58mm，1.55秒连目标夹爪配置也碰架0.179mm；首DEV接触原结果保持，不降门。book1024的34个静态IK点未收敛，不能用它们宣称参考碰撞/全局不可达。累计31尝试/239336积分/6724RGB，纯书本Teacher5、柜门1、学生自主完整成功0。按Core32维护计划回到书本数据/恢复主线，Vanda维护期不探测，NFS/挂载不变。[首柜门成功与书本参考余隙实际证据](reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_CABINET_TEACHER_AND_RECOVERY512_REFERENCE_CLEARANCE_ACTUAL_20261031.json)。
+2026-10-31 15:04 SGT实际：新增±12mm的两条放书Teacher均完整成功并关闭，纯书本示范增至7条；柜门1条，学生自主完整成功仍0。新增10位置全段离散及102410次原生forward检查无非预期机器人接触，连续扫掠已通过3项。复用现有Rerun0.40平台，柜门PORT08与book-SEED005各641帧双RGB、640实际命令的完整32秒回放已导出/官方读器逐图SHA回读，并在本机Viewer实际显示；私有RRD不公开。下一步十项早期TRAIN恢复、冻结新数据后有限学习和DEV；Vanda维护期不探测，冻结WBC及S1隔离不变。 [本轮实际证据](reports/PI0294/design/core32-maintenance-20261031/BOOK_TWO_CENTIMETRE_POSITION_SEEDS_AND_EXISTING_RERUN_FULL_REPLAY_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
