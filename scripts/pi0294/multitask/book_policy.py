@@ -189,12 +189,16 @@ def run(root,manifest_sha256):
     from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC')
+    is_fit=m['kind']=='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
         from scripts.pi0294.multitask.book_probe import validate_manifest
         validate_manifest(m,read(root/'TRAIN_PROBE_PLAN.json'))
+    if is_fit:
+        from scripts.pi0294.multitask.book_fit import validate_manifest
+        validate_manifest(m,read(root/'TRAIN_FIT_PLAN.json'))
     lease=read(root/'control/LEASE.json')
     if lease['status']!='ACTIVE'or lease['manifest_sha256']!=manifest_sha256:raise PermissionError('BOOK_DEV10_ACTIVE_OWNER_LEASE')
     if not any(r.get('path')==str(root)and r.get('role')==m['role']for r in read(root/'control/REGISTERED_PATHS.json')['entries']):raise PermissionError('BOOK_DEV10_ORIGINAL_REGISTRY')
@@ -217,7 +221,7 @@ def run(root,manifest_sha256):
     for n,h in complete['files'].items():
         if sha(checkpoint/n)!=h:raise PermissionError('BOOK_DEV10_CHECKPOINT_CHANGED:'+n)
     lock=OwnerLock(root.parent/'global-native-GPU-locks'/(m['GPU_uuid']+'.lock'))
-    model=None;instance=None;rows=[];loads=0;failure=None;probe=None;started=time.monotonic();CPU=time.process_time()
+    model=None;instance=None;rows=[];loads=0;failure=None;probe=None;fit=None;started=time.monotonic();CPU=time.process_time()
     def guard():
         if time.time()>=m['deadline_epoch']or(root/'STOP.json').exists():raise PermissionError('BOOK_DEV10_FINITE_OWNER_STOP')
         fs=os.statvfs(root)
@@ -272,6 +276,9 @@ def run(root,manifest_sha256):
             finally:signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
         instance.generate=timed_generate
         write(root/'MODEL_LOADED.json',dict(identity=instance.identity,observed_epoch=time.time(),mujoco_origin=mujoco.__file__))
+        if is_fit:
+            from scripts.pi0294.multitask.book_fit import run as run_fit
+            fit=run_fit(root,instance,contract,guard);write(root/'TRAIN_FIT_RESULT.json',fit);return
         if is_probe:
             from scripts.pi0294.multitask.book_probe import run as run_probe
             probe=run_probe(root,instance,trainer,guard);write(root/'TRAIN_PROBE_RESULT.json',probe);return
@@ -291,7 +298,13 @@ def run(root,manifest_sha256):
         failure=type(error).__name__+': '+str(error);raise
     finally:
         signal.alarm(0)
-        if is_probe:
+        if is_fit:
+            progress=read(root/'FIT_PROGRESS.json')if(root/'FIT_PROGRESS.json').exists()else dict(step=0,cursor=0)
+            write(root/'RESULT.json',dict(status='COMPLETE_TRAIN16_FIT_DIAGNOSTIC'if fit is not None else'FAILED_TRAIN16_FIT_DIAGNOSTIC',error=failure,
+                model_load_attempts=loads,generation_attempts=len(list(root.glob('*/*.INTENT.json'))),
+                completed_generations=len(list(root.glob('*/*.RESULT.json'))),optimizer_updates=progress['step'],TRAIN_visits=progress['cursor'],
+                physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
+        elif is_probe:
             write(root/'RESULT.json',dict(status='COMPLETE_TRAIN16_DIAGNOSTIC'if probe is not None else'FAILED_TRAIN16_DIAGNOSTIC',error=failure,
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
