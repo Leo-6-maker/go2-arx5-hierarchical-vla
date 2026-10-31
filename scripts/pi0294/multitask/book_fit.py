@@ -1,9 +1,10 @@
-"""Finite TRAIN16 fitting study, using the unchanged native loss and Trainer.
+"""Finite book fitting/learning using the unchanged native loss and Trainer.
 
 The small checkpoint is a parent-dependent training delta, never a standalone
 model. Every frozen tensor belongs to the exact retained full book128 parent.
 """
 import hashlib
+from functools import partial
 from pathlib import Path
 import shutil
 
@@ -29,11 +30,23 @@ def plan():
         purpose='Can the existing target interface fit sixteen actual TRAIN expert windows? Not a generalization or task-success claim.')
 
 
+def full_plan():
+    p=plan();p['diagnostic_windows']=p.pop('windows')
+    p.update(schema='BOOK128_BOOK5_ALL3005_TARGET1024_V1',max_steps=1024,TRAIN_visits=32768,
+        optimization_population='ALL_3005_WINDOWS_FROM_FIVE_ADMITTED_TRAIN_EPISODES',TRAIN_episodes=5,TRAIN_windows=3005,
+        warmup_updates=32,scheduler_horizon_steps=1024,seed=2026103103,
+        optimizer_initialization='FRESH_ADAMW_FROM_BOOK128_NOT_TRAIN16_OVERFIT_DELTA',
+        purpose='Train on the existing complete five-demo population after the fixed16 fit passed generation gates but failed real DEV. No DEV/TEST optimization, new data, shared-action update or task-success claim.')
+    return p
+
+
 def validate_manifest(m,p):
-    if p!=plan()or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
+    if p not in(plan(),full_plan())or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
         raise PermissionError('EXACT_FROZEN_BOOK_TRAIN16_FIT_PLAN')
-    for key,value in dict(optimizer_updates=256,physics_integrations=0,generation_queries=32,model_loads=1).items():
+    for key,value in dict(optimizer_updates=p['max_steps'],physics_integrations=0,generation_queries=32,model_loads=1).items():
         if m['limits'].get(key)!=value:raise PermissionError('BOOK_TRAIN16_FIT_FINITE_'+key)
+    expected='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else'V7_BOOK5_FINITE_TARGET_LEARNING'
+    if m.get('kind',expected)!=expected:raise PermissionError('BOOK_EXACT_SEPARATE_SCIENTIFIC_RUN_KIND')
 
 
 def select_rows(rows):
@@ -46,10 +59,23 @@ def select_rows(rows):
     return selected
 
 
+def optimization_rows(rows,p):
+    if p==plan():return select_rows(rows)
+    if p!=full_plan():raise PermissionError('EXACT_FINITE_BOOK_OPTIMIZATION_POPULATION')
+    expected={(f'BOOK_SOURCE_SEED{i:03}',a)for i in range(5)for a in range(601)}
+    if(len(rows)!=3005 or {(r['id'],a)for r,a in rows}!=expected or any(r['split']!='TRAIN'for r,a in rows)):
+        raise PermissionError('ALL_AND_ONLY_FIVE_ADMITTED_COMPLETE_TRAIN_POPULATIONS')
+    return list(rows)
+
+
 class FitSampler(CyclicSampler):
-    def __init__(self,dataset,*,start=0,stop=8192):
-        if len(dataset)!=16:raise ValueError('FIT_EXACT_SIXTEEN_TRAIN_WINDOWS')
-        super().__init__(len(dataset),seed=plan()['seed'],start=start,stop=stop,positioned=True)
+    def __init__(self,dataset,*,start=0,stop=None,fit_recipe=None):
+        p=plan()if fit_recipe is None else fit_recipe
+        if p not in(plan(),full_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
+        if len(dataset)!=(16 if p==plan()else 3005):raise ValueError('FIT_EXACT_DECLARED_TRAIN_POPULATION')
+        stop=p['TRAIN_visits']if stop is None else stop
+        if stop>p['TRAIN_visits']:raise ValueError('FIT_NO_SAMPLER_EXPOSURE_EXTENSION')
+        super().__init__(len(dataset),seed=p['seed'],start=start,stop=stop,positioned=True)
 
     def index_at(self,cursor):
         import numpy as np
@@ -129,6 +155,7 @@ def run(root,instance,contract,guard):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     root=Path(root);p=read(root/'TRAIN_FIT_PLAN.json');validate_manifest(read(root/'RUN_MANIFEST.json'),p)
+    steps=p['max_steps'];visits=p['TRAIN_visits'];sampler_class=partial(FitSampler,fit_recipe=p)
     model=instance.model;parameters=dict(model.named_parameters());names=contract.trainable_names
     for name in names:parameters[name].requires_grad_(True)
     contract.validate();frozen=frozen_fingerprint(model)
@@ -138,13 +165,13 @@ def run(root,instance,contract,guard):
     probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
-        ds.rows=select_rows(ds.rows);ds.initialize()
-    data.make_sampler=FitSampler;set_seed(p['seed'])
+        ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows);ds.initialize()
+    data.make_sampler=sampler_class;set_seed(p['seed'])
 
     class FitTrainer(make_trainer_class()):
         def get_train_dataloader(self):
             self.start_cursor=self.consumed=self.state.global_step*32
-            self.sampler=FitSampler(self.train_dataset,start=self.consumed)
+            self.sampler=sampler_class(self.train_dataset,start=self.consumed)
             return MeasuredLoader(torch.utils.data.DataLoader(self.train_dataset,batch_size=1,sampler=self.sampler,
                 collate_fn=self.data_collator,num_workers=0,pin_memory=True,drop_last=True,
                 generator=torch.Generator().manual_seed(p['seed'])))
@@ -156,7 +183,7 @@ def run(root,instance,contract,guard):
 
         def create_scheduler(self,num_training_steps,optimizer=None):
             if self.lr_scheduler is None:
-                self.lr_scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer or self.optimizer,lambda step:learning_rate_multiplier(step,256,8))
+                self.lr_scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer or self.optimizer,lambda step:learning_rate_multiplier(step,steps,p['warmup_updates']))
                 self._created_lr_scheduler=True
             return self.lr_scheduler
 
@@ -165,8 +192,8 @@ def run(root,instance,contract,guard):
 
         def _save_checkpoint(self,model,trial):
             guard()
-            if self.state.global_step!=256 or self.consumed!=8192:raise ValueError('FIT_ONLY_FIXED256_COMMITTED_ENDPOINT')
-            cp=Path(self.args.output_dir)/'checkpoint-256';cp.mkdir(parents=True,exist_ok=False)
+            if self.state.global_step!=steps or self.consumed!=visits:raise ValueError('FIT_ONLY_DECLARED_COMMITTED_ENDPOINT')
+            cp=Path(self.args.output_dir)/f'checkpoint-{steps}';cp.mkdir(parents=True,exist_ok=False)
             if frozen_fingerprint(model)!=frozen:raise ValueError('FIT_FROZEN_PARENT_CHANGED')
             torch.save({n:parameters[n].detach().cpu().clone()for n in names},cp/'target_parameters.pt')
             self._save_optimizer_and_scheduler(str(cp));self._save_rng_state(str(cp));self.state.save_to_json(str(cp/'trainer_state.json'))
@@ -175,15 +202,15 @@ def run(root,instance,contract,guard):
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
-                worker_trace=check_trace(data.trace_root,data,0,8192),dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
+                worker_trace=check_trace(data.trace_root,data,0,visits),dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
             members={str(x.relative_to(cp)):sha(x)for x in sorted(cp.rglob('*'))if x.is_file()}
             required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','statistics.json','TRAIN_DEV_SEAL.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
             if not required<=set(members):raise ValueError('FIT_PARENT_DEPENDENT_FULL_RESUME_MEMBERS')
-            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1',global_step=256,cursor=8192,
+            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=steps,cursor=visits,
                 full_resume_with_required_parent=True,standalone_model=False,required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],
                 recipe=p,files=members,actual_reload_check='PENDING'))
 
-    args=TrainingArguments(output_dir=str(root/'training'),max_steps=256,per_device_train_batch_size=1,
+    args=TrainingArguments(output_dir=str(root/'training'),max_steps=steps,per_device_train_batch_size=1,
         gradient_accumulation_steps=32,learning_rate=1e-4,weight_decay=1e-5,adam_beta1=.9,adam_beta2=.999,
         adam_epsilon=1e-8,max_grad_norm=1.,bf16=True,tf32=True,optim='adamw_torch',dataloader_num_workers=0,
         remove_unused_columns=False,seed=p['seed'],data_seed=p['seed'],eval_strategy='no',logging_strategy='steps',logging_steps=1,
@@ -200,7 +227,7 @@ def run(root,instance,contract,guard):
             r=dict(step=state.global_step,cursor=t.consumed,native_loss=t.last_native_loss,learning_rate=t.lr_scheduler.get_last_lr(),epoch=time.time())
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as f:f.write(json.dumps(r)+'\n');f.flush()
             write(root/'FIT_PROGRESS.json',r)
-            if state.global_step==256:control.should_save=True;control.should_training_stop=True
+            if state.global_step==steps:control.should_save=True;control.should_training_stop=True
             return control
     trainer=FitTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),callbacks=[Audit()],evidence_dir=root/'fit_evidence',recipe=p)
     holder['trainer']=trainer
@@ -208,11 +235,11 @@ def run(root,instance,contract,guard):
     # A probe uses fork_rng and deterministic preprocessing, but the training
     # seed is reset explicitly; no diagnostic random draw enters optimization.
     set_seed(p['seed']);trainer.train()
-    if trainer.state.global_step!=256 or trainer.consumed!=8192 or frozen_fingerprint(model)!=frozen:raise ValueError('FIT_FIXED256_FROZEN_ENDPOINT')
+    if trainer.state.global_step!=steps or trainer.consumed!=visits or frozen_fingerprint(model)!=frozen:raise ValueError('FIT_DECLARED_FROZEN_ENDPOINT')
     after_parameters={n:tensor_identity(parameters[n])for n in names}
     changed=[n for n in names if before_parameters[n]!=after_parameters[n]]
     if not changed:raise ValueError('FIT_NO_ACTUAL_PARAMETER_UPDATE')
-    cp=root/'training/checkpoint-256';complete=read(cp/'CHECKPOINT_COMPLETE.json')
+    cp=root/f'training/checkpoint-{steps}';complete=read(cp/'CHECKPOINT_COMPLETE.json')
     for name,digest in complete['files'].items():
         if sha(cp/name)!=digest:raise ValueError('FIT_SAVED_MEMBER_CHANGED:'+name)
     expected_optimizer=tree_identity(trainer.optimizer.state_dict());expected_scheduler=trainer.lr_scheduler.state_dict();expected_rng=rng_identity()
@@ -223,23 +250,23 @@ def run(root,instance,contract,guard):
         for name in names:parameters[name].copy_(delta[name])
     if {n:tensor_identity(parameters[n])for n in names}!=after_parameters or frozen_fingerprint(model)!=frozen:raise ValueError('FIT_ACTUAL_PARENT_PLUS_DELTA_RECONSTRUCTION')
     restored=torch.load(cp/'optimizer.pt',map_location='cpu',weights_only=False)
-    if not restored['state']or len(restored['state'])!=14 or any(int(x['step'])!=256 for x in restored['state'].values()):raise ValueError('FIT_ACTUAL_ADAMW256_REQUIRED')
+    if not restored['state']or len(restored['state'])!=14 or any(int(x['step'])!=steps for x in restored['state'].values()):raise ValueError('FIT_ACTUAL_DECLARED_ADAMW_STEPS_REQUIRED')
     trainer.optimizer.state.clear();trainer.optimizer.load_state_dict(restored)
     trainer.lr_scheduler.load_state_dict(torch.load(cp/'scheduler.pt',map_location='cpu',weights_only=False));trainer._load_rng_state(str(cp))
     if tree_identity(trainer.optimizer.state_dict())!=expected_optimizer or trainer.lr_scheduler.state_dict()!=expected_scheduler or rng_identity()!=expected_rng:raise ValueError('FIT_EXACT_OPTIMIZER_SCHEDULER_RNG_RESTORE')
     saved=read(cp/'SAMPLER_STATE.json')
     trainer.state=TrainerState.load_from_json(str(cp/'trainer_state.json'))
-    restored_sampler=FitSampler(data,start=saved['sampler']['cursor'])
-    if trainer.state.global_step!=256 or saved['sampler']!=restored_sampler.state_dict(8192):raise ValueError('FIT_ACTUAL_STEP_AND_SAMPLE_CURSOR_RESTORE')
+    restored_sampler=sampler_class(data,start=saved['sampler']['cursor'])
+    if trainer.state.global_step!=steps or saved['sampler']!=restored_sampler.state_dict(visits):raise ValueError('FIT_ACTUAL_STEP_AND_SAMPLE_CURSOR_RESTORE')
     write(root/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
         required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,optimizer_state_entries=14,
-        optimizer_updates=256,scheduler_restored=True,RNG_restored=True,sampler_cursor=8192,frozen_parent_unchanged=True,
+        optimizer_updates=steps,scheduler_restored=True,RNG_restored=True,sampler_cursor=visits,frozen_parent_unchanged=True,
         changed_trainable_parameters=changed,standalone_model=False))
     after=measure(root,'after',instance,probe,trainer,guard)
     for a,b in zip(before['records'],after['records']):
         if a['window']!=b['window']or a['noise']!=b['noise']or a['image_SHA256']!=b['image_SHA256']:raise ValueError('FIT_MATCHED_BEFORE_AFTER_NOISE_INPUTS')
     trainer=None;gc.collect()
-    return dict(status='COMPLETE_TRAIN16_FIT256_DIAGNOSTIC',optimizer_updates=256,TRAIN_visits=8192,
+    return dict(status='COMPLETE_TRAIN16_FIT256_DIAGNOSTIC'if p==plan()else'COMPLETE_BOOK5_FINITE_TARGET_LEARNING',optimizer_updates=steps,TRAIN_visits=visits,
         checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),checkpoint_requires_retained_full_parent=True,
         generation_queries=32,native_diagnostic_loss_forwards=32,physics_integrations=0,DEV_conditions=0,
         before=before,after=after,learned_task_success_not_measured=True)

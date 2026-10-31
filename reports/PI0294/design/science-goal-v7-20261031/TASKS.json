@@ -148,7 +148,7 @@
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "BOOK128_DEV0OF10_PLUS_QUALIFIED_TRAIN16_FIT256_GENERATION_GATES16OF16_NEW_DEV_NOT_RUN",
+      "status": "FIT256_REAL_DEV_0OF1_NATIVE_SAFETY_STOP_REMAINING9_UNRUN_FULL_BOOK5_LEARNING_NEXT",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -178,7 +178,11 @@
       "qualified_parent_dependent_delta_endpoints": 1,
       "TRAIN_generation_gate_passes": 16,
       "TRAIN_generation_conditions": 16,
-      "new_delta_DEV_conditions": 0
+      "new_delta_DEV_conditions": 0,
+      "fit256_valid_DEV_conditions": 1,
+      "fit256_DEV_successes": 0,
+      "fit256_unrun_DEV_conditions": 9,
+      "fit256_panel_stopped_for_native_safety": true
     },
     {
       "id": "V7-05",
@@ -309,6 +313,12 @@
       "new_DEV_conditions": 0,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "New finite fixedDEV10 on qualified fit256 parent delta; cabinet full body layout repair independently."
+    "next_action": "Finite1024 target-interface updates on all3005 existing admitted TRAIN windows, from book128; no DEV as training; cabinet full-body placement independently.",
+    "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
+    "source_all_attempts": {
+      "attempts": 25,
+      "integrations": 173327,
+      "RGB_pairs": 4674
+    }
   }
 }

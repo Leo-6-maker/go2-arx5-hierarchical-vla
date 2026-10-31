@@ -1,0 +1,809 @@
+{
+  "schema": "BOOK_FIT256_FIRST_REAL_DEV_NATIVE_SAFETY_NEGATIVE_ACTUAL_V1",
+  "as_of": "2026-10-31T10:54:00+08:00",
+  "source_sha": "edefb59c63fcbacc27c43d9d43133e06273419f2",
+  "evaluated_checkpoint_manifest_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480",
+  "actual": {
+    "model_loads": 1,
+    "generation_queries": 7,
+    "valid_DEV_conditions": 1,
+    "DEV_successes": 0,
+    "unrun_DEV_conditions": 9,
+    "physics_integrations": 3756,
+    "source_episode_starts": 1,
+    "source_constructors": 1,
+    "RGB_pairs": 52,
+    "submitted_intervals": 51,
+    "completed_intervals": 50,
+    "optimizer_updates": 0,
+    "CPU_s": 65.161,
+    "GPU_allocated_s_upper": 41,
+    "own_allocated_bytes_before_closing": 53039104,
+    "result_sha256": "d887a4158b0efa442ac2ba470db04aa7f319787c8e0151d41dd73afa51af41fd",
+    "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d",
+    "checkpoint_manifest_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480",
+    "independent_audit_sha256": "affbbc583299a0b2cefebcc06d0866657391bf1fd0f09ab167fd01fa1ae9e14e",
+    "OS_exit_code_not_retained_after_transient_unit_GC": true
+  },
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_REAL_POLICY_EXECUTION_NATIVE_SAFETY_NEGATIVE",
+    "result_sha256": "d887a4158b0efa442ac2ba470db04aa7f319787c8e0151d41dd73afa51af41fd",
+    "evaluated_checkpoint_manifest_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480",
+    "valid_conditions": 1,
+    "successes": 0,
+    "remaining_unrun": 9,
+    "actual_model_queries": 7,
+    "reference_gate_rejects": 0,
+    "submitted_intervals": 51,
+    "completed_intervals": 50,
+    "failed_interval_native_ticks": 6,
+    "physics_integrations": 3756,
+    "warmup_integrations": 2500,
+    "task_integrations": 1256,
+    "task_duration_to_stop_s": 2.512,
+    "RGB_pairs": 52,
+    "original_bad_contacts": [
+      {
+        "contact": {
+          "geom0": 73,
+          "geom1": 85,
+          "distance_m": -2.481986541913316e-06,
+          "normal": [
+            0.9999800635021833,
+            -0.006251641323136939,
+            -0.0008885825434680754
+          ],
+          "normal_force_N": 3.143229226619397
+        },
+        "body0": "x5_link8",
+        "body1": "libero_desk_caddy",
+        "reasons": [
+          "ORIGINAL_ROBOT_OBSTACLE_CONTACT"
+        ]
+      },
+      {
+        "contact": {
+          "geom0": 73,
+          "geom1": 85,
+          "distance_m": -7.4192795924994936e-06,
+          "normal": [
+            0.9999800635021833,
+            -0.006251641323136939,
+            -0.0008885825434680754
+          ],
+          "normal_force_N": 7.728076036340064
+        },
+        "body0": "x5_link8",
+        "body1": "libero_desk_caddy",
+        "reasons": [
+          "ORIGINAL_ROBOT_OBSTACLE_CONTACT"
+        ]
+      }
+    ],
+    "tracking_completed_intervals": [
+      {
+        "index": 0,
+        "position_error_m": 0.006527311935620976,
+        "rotation_error_rad": 0.00837339607841852
+      },
+      {
+        "index": 1,
+        "position_error_m": 0.010086196391089847,
+        "rotation_error_rad": 0.008675154475501495
+      },
+      {
+        "index": 2,
+        "position_error_m": 0.005002390505234897,
+        "rotation_error_rad": 0.01579024529735252
+      },
+      {
+        "index": 3,
+        "position_error_m": 0.007524099305411824,
+        "rotation_error_rad": 0.02120834652794157
+      },
+      {
+        "index": 4,
+        "position_error_m": 0.003342328295941951,
+        "rotation_error_rad": 0.016194310102546634
+      },
+      {
+        "index": 5,
+        "position_error_m": 0.003037772648684448,
+        "rotation_error_rad": 0.016710463489211236
+      },
+      {
+        "index": 6,
+        "position_error_m": 0.002975945171197757,
+        "rotation_error_rad": 0.02554496032328368
+      },
+      {
+        "index": 7,
+        "position_error_m": 0.00506722850457714,
+        "rotation_error_rad": 0.015092986850053064
+      },
+      {
+        "index": 8,
+        "position_error_m": 0.005392757458967182,
+        "rotation_error_rad": 0.02713310090750555
+      },
+      {
+        "index": 9,
+        "position_error_m": 0.006021635007631589,
+        "rotation_error_rad": 0.017181980596292824
+      },
+      {
+        "index": 10,
+        "position_error_m": 0.005407470415727111,
+        "rotation_error_rad": 0.017660241670599593
+      },
+      {
+        "index": 11,
+        "position_error_m": 0.005691746869523976,
+        "rotation_error_rad": 0.018284342641953732
+      },
+      {
+        "index": 12,
+        "position_error_m": 0.0068151602692372555,
+        "rotation_error_rad": 0.014565762817229535
+      },
+      {
+        "index": 13,
+        "position_error_m": 0.008112176456660666,
+        "rotation_error_rad": 0.006893324891324727
+      },
+      {
+        "index": 14,
+        "position_error_m": 0.007350445998370085,
+        "rotation_error_rad": 0.02963779788372732
+      },
+      {
+        "index": 15,
+        "position_error_m": 0.0049124514629353645,
+        "rotation_error_rad": 0.02371151589640398
+      },
+      {
+        "index": 16,
+        "position_error_m": 0.011217145858466029,
+        "rotation_error_rad": 0.03498542240950165
+      },
+      {
+        "index": 17,
+        "position_error_m": 0.011814218705395733,
+        "rotation_error_rad": 0.02292288635536546
+      },
+      {
+        "index": 18,
+        "position_error_m": 0.005600721283368169,
+        "rotation_error_rad": 0.02020369028770476
+      },
+      {
+        "index": 19,
+        "position_error_m": 0.002816272745715806,
+        "rotation_error_rad": 0.02002405175187336
+      },
+      {
+        "index": 20,
+        "position_error_m": 0.004715614504536066,
+        "rotation_error_rad": 0.02622611151408502
+      },
+      {
+        "index": 21,
+        "position_error_m": 0.011910429890941003,
+        "rotation_error_rad": 0.02007186892821924
+      },
+      {
+        "index": 22,
+        "position_error_m": 0.0034904970700321203,
+        "rotation_error_rad": 0.01585592178455524
+      },
+      {
+        "index": 23,
+        "position_error_m": 0.003144831171306649,
+        "rotation_error_rad": 0.01793421006872347
+      },
+      {
+        "index": 24,
+        "position_error_m": 0.009792572647213536,
+        "rotation_error_rad": 0.042558897705149264
+      },
+      {
+        "index": 25,
+        "position_error_m": 0.00889635452382244,
+        "rotation_error_rad": 0.022364471303355348
+      },
+      {
+        "index": 26,
+        "position_error_m": 0.006525136485745052,
+        "rotation_error_rad": 0.015195641472092332
+      },
+      {
+        "index": 27,
+        "position_error_m": 0.007223083959786039,
+        "rotation_error_rad": 0.014463559837501512
+      },
+      {
+        "index": 28,
+        "position_error_m": 0.005369162942138106,
+        "rotation_error_rad": 0.015493169938009938
+      },
+      {
+        "index": 29,
+        "position_error_m": 0.00268357948598692,
+        "rotation_error_rad": 0.005600748637009728
+      },
+      {
+        "index": 30,
+        "position_error_m": 0.0031050186137542577,
+        "rotation_error_rad": 0.008666082262912232
+      },
+      {
+        "index": 31,
+        "position_error_m": 0.002986505635865488,
+        "rotation_error_rad": 0.0067192858568408615
+      },
+      {
+        "index": 32,
+        "position_error_m": 0.01485468853497585,
+        "rotation_error_rad": 0.018348749655762442
+      },
+      {
+        "index": 33,
+        "position_error_m": 0.005117514106202835,
+        "rotation_error_rad": 0.012373841920429495
+      },
+      {
+        "index": 34,
+        "position_error_m": 0.006036181541360232,
+        "rotation_error_rad": 0.014985413929124076
+      },
+      {
+        "index": 35,
+        "position_error_m": 0.005197297864124965,
+        "rotation_error_rad": 0.01778328056788432
+      },
+      {
+        "index": 36,
+        "position_error_m": 0.007056213557606593,
+        "rotation_error_rad": 0.01540373509807968
+      },
+      {
+        "index": 37,
+        "position_error_m": 0.006728786462901386,
+        "rotation_error_rad": 0.015509115585489388
+      },
+      {
+        "index": 38,
+        "position_error_m": 0.0023483494152497127,
+        "rotation_error_rad": 0.009902909836881708
+      },
+      {
+        "index": 39,
+        "position_error_m": 0.0033950230047834072,
+        "rotation_error_rad": 0.015591033680314757
+      },
+      {
+        "index": 40,
+        "position_error_m": 0.014216273095547302,
+        "rotation_error_rad": 0.005884841932564898
+      },
+      {
+        "index": 41,
+        "position_error_m": 0.012091253133460607,
+        "rotation_error_rad": 0.012649672455902887
+      },
+      {
+        "index": 42,
+        "position_error_m": 0.0008739619191302255,
+        "rotation_error_rad": 0.027083868731251258
+      },
+      {
+        "index": 43,
+        "position_error_m": 0.005913899590301313,
+        "rotation_error_rad": 0.031640984456282446
+      },
+      {
+        "index": 44,
+        "position_error_m": 0.00666881868026725,
+        "rotation_error_rad": 0.024829254304592627
+      },
+      {
+        "index": 45,
+        "position_error_m": 0.0039046722374948403,
+        "rotation_error_rad": 0.011215297636189343
+      },
+      {
+        "index": 46,
+        "position_error_m": 0.0032957757930244286,
+        "rotation_error_rad": 0.012133421945089163
+      },
+      {
+        "index": 47,
+        "position_error_m": 0.006476188528080521,
+        "rotation_error_rad": 0.007646719433092896
+      },
+      {
+        "index": 48,
+        "position_error_m": 0.022365302088130153,
+        "rotation_error_rad": 0.008980482522298647
+      },
+      {
+        "index": 49,
+        "position_error_m": 0.008974894870580495,
+        "rotation_error_rad": 0.01892468103823472
+      }
+    ],
+    "max_completed_tracking_position_error_m": 0.022365302088130153,
+    "max_completed_tracking_rotation_error_rad": 0.042558897705149264,
+    "gates": [
+      {
+        "index": 0,
+        "gate": {
+          "decision": "WARN",
+          "issues": [
+            {
+              "code": "ANGULAR_SPEED_WARN",
+              "severity": "WARNING",
+              "message": "angular_speed exceeds warning threshold (rad/s)",
+              "provenance": "TEST_ONLY",
+              "observed": 2.807424254230586,
+              "threshold": 2.0
+            }
+          ],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-0",
+            "linear_speed_mps": {
+              "mean": 0.13148013916025675,
+              "median": 0.11025018996078553,
+              "p95": 0.28876973625936225,
+              "max": 0.48115957047823893
+            },
+            "angular_speed_radps": {
+              "mean": 0.3312576337523593,
+              "median": 0.17855758115003428,
+              "p95": 0.8762563174751508,
+              "max": 2.807424254230586
+            },
+            "translation_path_length_m": 0.2563862713625007,
+            "se3_arc_length_m": 0.2857427016841511,
+            "initial_position_discontinuity_m": 0.008189574621350284,
+            "initial_rotation_discontinuity_rad": 0.01404281006928776,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 8,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-1",
+            "linear_speed_mps": {
+              "mean": 0.11636981482090708,
+              "median": 0.11056562528191137,
+              "p95": 0.22896634851350056,
+              "max": 0.24099016200321163
+            },
+            "angular_speed_radps": {
+              "mean": 0.20572230979743358,
+              "median": 0.14710205937898024,
+              "p95": 0.5761352173633553,
+              "max": 0.6503114958881919
+            },
+            "translation_path_length_m": 0.2269211389007688,
+            "se3_arc_length_m": 0.241053215127208,
+            "initial_position_discontinuity_m": 0.0063407234888559726,
+            "initial_rotation_discontinuity_rad": 0.04123341236583012,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 16,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-2",
+            "linear_speed_mps": {
+              "mean": 0.1206028263954101,
+              "median": 0.10082211228748812,
+              "p95": 0.22853688954592719,
+              "max": 0.34345167995485476
+            },
+            "angular_speed_radps": {
+              "mean": 0.22827624239402042,
+              "median": 0.190026497625776,
+              "p95": 0.5118942820525474,
+              "max": 0.9070153342623125
+            },
+            "translation_path_length_m": 0.2351755114710497,
+            "se3_arc_length_m": 0.2517629107891636,
+            "initial_position_discontinuity_m": 0.013394194834500453,
+            "initial_rotation_discontinuity_rad": 0.05390959974571212,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 24,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-3",
+            "linear_speed_mps": {
+              "mean": 0.10334753880383293,
+              "median": 0.09624916612524172,
+              "p95": 0.16611511290775988,
+              "max": 0.20149180852484322
+            },
+            "angular_speed_radps": {
+              "mean": 0.13568536472329687,
+              "median": 0.111117421792545,
+              "p95": 0.34671780683957243,
+              "max": 0.3851908328561686
+            },
+            "translation_path_length_m": 0.20152770066747422,
+            "se3_arc_length_m": 0.20787418332693983,
+            "initial_position_discontinuity_m": 0.01195498564585476,
+            "initial_rotation_discontinuity_rad": 0.05884953794742767,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 32,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-4",
+            "linear_speed_mps": {
+              "mean": 0.10606880079261234,
+              "median": 0.09748295211338273,
+              "p95": 0.1886378267774847,
+              "max": 0.20727035325241408
+            },
+            "angular_speed_radps": {
+              "mean": 0.1186060002736301,
+              "median": 0.093732664876833,
+              "p95": 0.27930334373918225,
+              "max": 0.2945961868083639
+            },
+            "translation_path_length_m": 0.20683416154559395,
+            "se3_arc_length_m": 0.2118993098994414,
+            "initial_position_discontinuity_m": 0.019442652575522388,
+            "initial_rotation_discontinuity_rad": 0.02402817007647351,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 40,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-5",
+            "linear_speed_mps": {
+              "mean": 0.09740231827018901,
+              "median": 0.10759776556929042,
+              "p95": 0.16514422566554543,
+              "max": 0.19949385149641638
+            },
+            "angular_speed_radps": {
+              "mean": 0.1604016349088621,
+              "median": 0.14017011927250492,
+              "p95": 0.35820154903717777,
+              "max": 0.4777412648665332
+            },
+            "translation_path_length_m": 0.18993452062686864,
+            "se3_arc_length_m": 0.20250030764044652,
+            "initial_position_discontinuity_m": 0.017435366158001644,
+            "initial_rotation_discontinuity_rad": 0.005446311308248546,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      },
+      {
+        "index": 48,
+        "gate": {
+          "decision": "ACCEPT",
+          "issues": [],
+          "metrics": {
+            "chunk_id": "BOOK_DEV000-6",
+            "linear_speed_mps": {
+              "mean": 0.13569428547414314,
+              "median": 0.11632825003219645,
+              "p95": 0.2537181076221581,
+              "max": 0.2896760682625273
+            },
+            "angular_speed_radps": {
+              "mean": 0.10740828128822137,
+              "median": 0.09527787277079405,
+              "p95": 0.2266619767052185,
+              "max": 0.3330054107329209
+            },
+            "translation_path_length_m": 0.2646038566745791,
+            "se3_arc_length_m": 0.267942938214614,
+            "initial_position_discontinuity_m": 0.0267427818105242,
+            "initial_rotation_discontinuity_rad": 0.007282897183137478,
+            "chunk_age_s": 0.0
+          },
+          "provenance": {
+            "gate": "TrajectorySafetyGateV1",
+            "corrective_action": "NONE",
+            "threshold_provenance": {
+              "initial_position_warn_m": "BENCHMARK_DERIVED",
+              "initial_position_reject_m": "BENCHMARK_DERIVED",
+              "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+              "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+              "linear_speed_warn_mps": "TEST_ONLY",
+              "linear_speed_reject_mps": "TEST_ONLY",
+              "angular_speed_warn_radps": "TEST_ONLY",
+              "angular_speed_reject_radps": "TEST_ONLY",
+              "workspace_warn_min_m": "GENERATOR_SUPPORT",
+              "workspace_warn_max_m": "GENERATOR_SUPPORT",
+              "workspace_reject_min_m": "TEST_ONLY",
+              "workspace_reject_max_m": "TEST_ONLY",
+              "max_path_length_m": "TEST_ONLY",
+              "min_arc_length_m": "CONTROLLER_CONTRACT",
+              "aging_age_s": "CONTROLLER_CONTRACT",
+              "stale_age_s": "CONTROLLER_CONTRACT",
+              "min_points": "CONTROLLER_CONTRACT"
+            }
+          }
+        }
+      }
+    ],
+    "failed_command_NOT_expert_label": true,
+    "new_training_admission": false,
+    "full_task_success": false,
+    "actual_RGB_proprio_language_and_predicted_plans_rejoined": true,
+    "actual_submitted_and_completed_prefixes_verified": true,
+    "input_digest_limitation": "Opaque full-packet SHA includes an unpersisted random snapshot_uuid. RGB/proprio/language/seed and code projection were independently joined; that full UUID-bearing digest was not recomputed.",
+    "original_full_parent_retained": true,
+    "observed_epoch": 1793414837.5893905
+  },
+  "original_native_raw_audit": {
+    "schema": "NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1",
+    "raw_sha256": "72316ebcacef1da56ecfcdea8eff421c26e9d56f6c43bbff67c92824a90608cc",
+    "terminal_sha256": "9320feb1fed9cc04c5d541617d9de6200e80bfd47996e3223c1f9fc8bb50a0cb",
+    "new_simulator_or_model_calls": 0,
+    "task_success": false,
+    "qualified_source_pilot": false,
+    "training_admitted": false,
+    "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+    "native_LIBERO_goal_final": false,
+    "additional_support_release_withdraw_hold_pass": false,
+    "complete_episode": false,
+    "original_native_safety_pass": false,
+    "integrity_problems": [
+      "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+      "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+      "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+    ],
+    "actual_integrations": 3756,
+    "recorded_native_ticks": 3756,
+    "recorded_failed_native_ticks": 1,
+    "terminal_safety_states_checked": 1,
+    "actual_observations": 51,
+    "completed_intervals": 50,
+    "terminal_error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION"
+  },
+  "native_parent_delta_inference_reconstruction_sha256": "6093d58691a1447fad5cfcad8d544faaba32fdab309ea03452dff044c876d955",
+  "canonical_closed": {
+    "LOCAL_sha256": "17233a7e7e09e63f19b37a46aaf5bded49cc20c68785f20fc428271b75e81aa9",
+    "lease_sha256": "27932dfbd3dd74fb6a54a3c5499bfdfc73871c3cb853d61ad1d977fa736e1dfa",
+    "registry_sha256": "982e5a80b766911e932f3990e3c96e0b5131f1f0dd0f170ed53858f4a2dd8f40",
+    "independent_readback": true
+  },
+  "result_scope": {
+    "valid_conditions": 1,
+    "successes": 0,
+    "conditions_unrun": 9,
+    "panel_stopped_for_native_safety": true,
+    "not_a_complete_ten_condition_panel": true,
+    "old_book128_DEV": "0/10_ALL_REFERENCE_REJECTS_UNCHANGED",
+    "original_E1_DEV": "0/24_ALL_REFERENCE_REJECTS_UNCHANGED",
+    "policy_Teacher_takeover": false,
+    "failed_command_training_admitted": false,
+    "scene_scoring_safety_WBC_unchanged": true
+  },
+  "first_failure": {
+    "task_time_s": 2.512,
+    "total_native_step": 3756,
+    "task_integrations": 1256,
+    "warmup_integrations": 2500,
+    "native_error": "ILLEGAL_CONTACT_OR_PENETRATION",
+    "body_pair": [
+      "x5_link8",
+      "libero_desk_caddy"
+    ],
+    "actual_contact_distances_m": [
+      -2.481986541913316e-06,
+      -7.4192795924994936e-06
+    ],
+    "reason": "Original robot-obstacle contact prohibition, not4mm penetration threshold.",
+    "maximum_completed_tracking_position_error_m": 0.022365302088130153,
+    "maximum_completed_tracking_rotation_error_rad": 0.042558897705149264,
+    "cause_not_established": "Full path supervision coverage, predicted geometry and actual tracking require separation; a2.24cm tracking maximum alone does not prove root cause."
+  },
+  "source_cumulative": {
+    "Teacher_generation_attempts": 14,
+    "book128_policy_attempts": 10,
+    "fit256_policy_attempts": 1,
+    "total_physical_episode_attempts": 25,
+    "actual_integrations": 173327,
+    "actual_RGB_pairs": 4674,
+    "qualified_full_book_Teacher_demos": 5,
+    "qualified_full_cabinet_Teacher_demos": 0,
+    "learned_full_task_successes": 0
+  },
+  "conclusions": [
+    "The new fit256 checkpoint made7 true model queries, all passed the original reference gate, and50 submitted source20Hz intervals actually completed.",
+    "The original native safety stop is a retained policy-negative condition, not an engineering startup failure. The remaining9 conditions were not executed.",
+    "Sixteen isolated TRAIN windows can be fitted but do not establish complete-trajectory or closed-loop ability. Failed/partial policy output does not enter expert supervision."
+  ],
+  "next_experiment": {
+    "plan": "BOOK5_ALL3005_TARGET1024_PLAN_20261031.json",
+    "status": "NOT_RUN_IN_THIS_PUBLICATION",
+    "retained_start_parent": "BOOK128_FULL_CHECKPOINT_NOT_FIT256",
+    "optimization_population": "ALL_3005_WINDOWS_IN_FIVE_COMPLETE_ADMITTED_TRAIN_EPISODES",
+    "fixed_updates": 1024,
+    "sampling_visits": 32768,
+    "shared_DiT_and_backbone_frozen": true,
+    "optimizer": "FRESH_ADAMW",
+    "separate_from_E1_E2": true,
+    "no_new_data_or_DEV_optimization": true,
+    "no_new_physics_in_training": true,
+    "why": "Fit256 established optimizer/interface capacity on a sparse set; train the complete existing trajectory population before choosing a capacity or recovery change."
+  },
+  "E2_current_state": "UNVERIFIED_AFTER_VANDA_SSH_AUTH_REFUSAL_NO_DUPLICATE_SUBMISSION",
+  "S1": "CLOSED",
+  "T2": "QUARANTINED",
+  "infrastructure_or_checkpoint_cleanup_changes": 0,
+  "CPU_checks": {
+    "affected_pass": 24,
+    "CI": "NOT_RUN"
+  }
+}

@@ -189,8 +189,8 @@ def run(root,manifest_sha256):
     from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
-    is_fit=m['kind']=='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC')
+    is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING')
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -321,7 +321,8 @@ def run(root,manifest_sha256):
         signal.alarm(0)
         if is_fit:
             progress=read(root/'FIT_PROGRESS.json')if(root/'FIT_PROGRESS.json').exists()else dict(step=0,cursor=0)
-            write(root/'RESULT.json',dict(status='COMPLETE_TRAIN16_FIT_DIAGNOSTIC'if fit is not None else'FAILED_TRAIN16_FIT_DIAGNOSTIC',error=failure,
+            status=('COMPLETE_TRAIN16_FIT_DIAGNOSTIC'if m['kind']=='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'else'COMPLETE_BOOK5_FINITE_TARGET_LEARNING')if fit is not None else'FAILED_BOOK_FINITE_OPTIMIZATION'
+            write(root/'RESULT.json',dict(status=status,error=failure,scientific_kind=m['kind'],
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('*/*.INTENT.json'))),
                 completed_generations=len(list(root.glob('*/*.RESULT.json'))),optimizer_updates=progress['step'],TRAIN_visits=progress['cursor'],
                 physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))

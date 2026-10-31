@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 10:36 SGT实际：**新增16个TRAIN窗口的256步拟合端点已真实重建并完整恢复**，14项AdamW/scheduler/RNG/8192游标核验，运行与许可CLOSED。同输入/同噪声下，原参考门拒绝16/16→0/16，位置误差6.53→1.73cm，原生loss均值0.4554→0.03451。只证明已见窗口拟合，尚无该端点DEV或任务成功；原book128 DEV0/10、E1原DEV0/24保持。增量依赖完整book128父模型，整个新运行占用159,887,360字节，未复制冻结大权重。柜门8mm浅抓候选虽解除掌部顶把手，但原生全机体密集检查发现把手/门板撞FL_hip（4.326/14.470mm），未进行新动态尝试。下一步先测该新端点固定DEV10，柜门继续修场景/全体几何；E2认证拒绝后当前队列仍未核实。 [实际拟合、恢复、关闭及柜门静态停止证据](reports/PI0294/design/science-goal-v7-20261031/BOOK_TRAIN16_FIT256_GENERATION_PASS_CLOSED_AND_CABINET_FULL_BODY_STATIC_STOP_ACTUAL_20261031.json)。
+2026-10-31 10:54 SGT实际：**256步TRAIN16拟合模型首次真实闭环为0/1，原生安全停止，其余9个DEV未运行**。7次自由生成均通过原参考门、实际完成50段20Hz命令；任务2.512秒右指垫接触收纳架，原机器人—障碍接触门停止。共3756积分/52对RGB，独立输入/预测/实际命令及原生审计通过，许可与核账CLOSED。已见TRAIN门通过16/16不代表完整任务成功；保留book128原DEV0/10、E1原DEV0/24。现有合格Teacher书本5/柜门0，全部源物理累计25尝试/173327积分/4674对RGB。下一步从book128用5条完整TRAIN的全部3005窗独立训练1024步，统计/DEV不变、共享DiT仍冻结；这是待运行计划，不冒充完成。E2认证后状态仍未知，柜门全机体碰撞候选未动态重试。 [实际闭环安全失败及关闭证据](reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
