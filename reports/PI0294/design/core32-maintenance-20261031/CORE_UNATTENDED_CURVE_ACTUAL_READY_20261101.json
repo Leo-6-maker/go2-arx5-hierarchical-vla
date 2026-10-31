@@ -1,0 +1,152 @@
+{
+  "schema": "CORE_UNATTENDED_CURVE_ACTUAL_RESIDENT_READY_V1",
+  "status": "READY_FOR_DISCONNECT",
+  "observed_SGT": "2026-11-01T01:36:09.117040+08:00",
+  "authorization_commit": "1e12257104b84d81636aafbbdcfb8d5b2ea61f96",
+  "queue_id": "core-unattended-curve-20261101-01",
+  "resident_unit": "core-unattended-curve-20261101-01.service",
+  "resident_started_SGT": "2026-11-01T01:34:19+08:00",
+  "resident_status": {
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "capsule_seal_sha256": "08e54f7e75a3948c412b6fd9a3a249dd9344e070b099ce4d246ec9a8c491b9c4",
+  "queue_sha256": "31f857b81465080bad0f389ab6b04cf4d9687e0177fb0d87124519114c1cd17d",
+  "private_full_receipt_sha256": "ba63f7a1c6ffcb9c0004fbb6920eefc010bfbd79d9a677f54069fb2b5cb360c2",
+  "qualification_sha256": "25a966c8851e095004fc49d085d9afe73ed170b2b312ed15689767f945e84d16",
+  "preflight_sha256": "a91f4fe30c14c65d392e9674c0a3d4e49597fd61823ad13d8c53670931d524d0",
+  "disconnect_test": {
+    "PASS": true,
+    "initial_control_call_completed_epoch": 1793468059.3018024,
+    "independent_connection_epoch": 1793468169.117005,
+    "same_PID_and_invocation": true,
+    "heartbeat_advanced": true,
+    "user_linger_already_enabled": true,
+    "SSH_or_forwarded_or_GitHub_credentials_in_resident_environment": false
+  },
+  "runtime_requires_PC_Vanda_browser_or_forwarded_credentials": false,
+  "existing_user_linger_verified_without_modification": true,
+  "node_local_filesystem": "ext4",
+  "same_existing_mutation_owner_now_resident": true,
+  "scientific_producer_unchanged": {
+    "run": "v7-book-m32-b2-updates4096-01",
+    "source": "abaec48ac7a5d8079df07da774ad97658b03438b",
+    "manifest_sha256": "9dd491b0129098e4522edd8483c07716e5a6fa70a2852f0eebb46299995363ca",
+    "same_PID_and_proc_start_verified": true,
+    "status": "RUNNING",
+    "actual_optimizer_updates": 3764,
+    "actual_TRAIN_visits": 120448,
+    "actual_progress_SGT": "2026-11-01T01:35:46.300653+08:00",
+    "whole_producer_closed": false
+  },
+  "queue": [
+    {
+      "id": "Q0",
+      "task": "WAIT_ORIGINAL_TERMINAL_FULL_TRACE_STATE_AUDIT_CLOSE",
+      "status": "WAITING"
+    },
+    {
+      "id": "Q1",
+      "endpoint": 1024,
+      "task": "ORIGINAL_FIXED_DEV10",
+      "status": "PENDING",
+      "valid": 0,
+      "successes": 0,
+      "unrun": 10
+    },
+    {
+      "id": "Q2",
+      "endpoint": 2048,
+      "task": "ORIGINAL_FIXED_DEV10",
+      "status": "PENDING",
+      "valid": 0,
+      "successes": 0,
+      "unrun": 10
+    },
+    {
+      "id": "Q3",
+      "endpoint": 4096,
+      "task": "ORIGINAL_FIXED_DEV10",
+      "status": "PENDING",
+      "valid": 0,
+      "successes": 0,
+      "unrun": 10
+    },
+    {
+      "id": "Q4",
+      "task": "EVENT_4096",
+      "status": "SKIPPED_NOT_READY"
+    },
+    {
+      "id": "Q5",
+      "task": "EVENT_DEV10",
+      "status": "SKIPPED_NO_EVENT_CHECKPOINT"
+    },
+    {
+      "id": "Q6",
+      "task": "PERSIST_LOCAL_SUMMARY",
+      "status": "CONFIGURED"
+    }
+  ],
+  "invariants": {
+    "serial_GPU": true,
+    "original_model_data_statistics_noise_H40_Prefix8_32s_scoring_safety": true,
+    "full_producer_audit_and_CLOSED_before_GPU_eval": true,
+    "unknown_start_not_replayed": true,
+    "completed_conditions_not_repeated": true,
+    "no_automatic_restart": true,
+    "hard_native_stop_closes_current_panel_and_pauses_successor_physics": true,
+    "automatic_safety_reset_NOT_QUALIFIED": true,
+    "original_GPU_global_lock_and_onceIO_reused": true,
+    "S1_CLOSED_T2_quarantined": true,
+    "frozen_WBC": true
+  },
+  "validation": {
+    "existing_original_audit_close_functions_AST_identical": true,
+    "Core_CPU_replayed_actual_B512_train_visits": 16384,
+    "Core_CPU_replayed_actual_B512_DEV_queries": 56,
+    "Core_CPU_replayed_actual_B512_completed_intervals": 445,
+    "PC_failure_route_checks": [
+      "complete",
+      "safety1024",
+      "producer_failure",
+      "unknown_step_not_replayed"
+    ],
+    "actual_end_to_end_GPU_transition_not_yet_occurred": true,
+    "new_model_loads": 0,
+    "new_inference_queries": 0,
+    "new_integrations": 0,
+    "new_RGB": 0
+  },
+  "deployment_code_files": {
+    "resident_common.py": "2bf00d6bb672a821b3b403e7b2780ac8115eec94e0da43fd5b0cace7734bdbe4",
+    "resident_driver.py": "45700bee92b8f198f3fd5adb9904de886225934aa244a6a9ad4a2118ac3d8c59",
+    "resident_fit.py": "d1adfa645084fc35a694e514a39fefb1c462d96d01fc8570007926ce7187bdbf",
+    "resident_fit_close.py": "9be64f2e32c2392975d5a958fa11352acedac3d224beb68aedc890e0ebd7d7d3",
+    "resident_dev.py": "3187baafb3a8f14075a98cffdaf720047c4d7ed5be78442cd06b3edc00f730eb",
+    "resident_dev_close.py": "50c6593bfcaf63a36b97b0bdd06b9847fd1617c15f0bb07427fde2c42ac8825d",
+    "qualification.py": "22f312dc91d8e1a38116bb02d22ca6658642fdf7d8ce60cb4cec77d050ca77f6"
+  },
+  "frozen_evaluator_source": "76062cfe3870fc4a110f0b62151cdb59be5f3d09",
+  "frozen_source_files": 2703,
+  "source_files_reused_by_verified_bytes": 2701,
+  "source_changed_files": 2,
+  "result_files": [
+    "READY_FOR_DISCONNECT.json",
+    "STATE.json",
+    "SUMMARY.json",
+    "SUMMARY.txt",
+    "stdout.log",
+    "stderr.log",
+    "steps/",
+    "calls/"
+  ],
+  "result_location": "Node-local queue root; exact private paths are in the local READY_FOR_DISCONNECT receipt.",
+  "publication": "Local summary is independent of GitHub. Reconcile through the existing publisher on next connection; no server GitHub credentials were added.",
+  "capability": {
+    "new_qualified_teacher_demonstrations": 0,
+    "new_formal_DEV_conditions": 0,
+    "new_autonomous_full_skill_successes": 0,
+    "whole_goal_complete": false
+  }
+}

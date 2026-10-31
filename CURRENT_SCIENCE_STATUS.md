@@ -1,4 +1,6 @@
-# 当前科学状态 · Goal V7 · 2026-10-31
+# 当前科学状态 · Goal V7 · 2026-11-01
+
+2026-11-01 01:36 SGT实测：**Core服务器端接续已挂载，READY_FOR_DISCONNECT通过**；既有用户级常驻unit `core-unattended-curve-20261101-01.service`在控制连接退出后仍以同一进程身份存活且自主更新状态，运行不依赖PC、Vanda或转发认证。原uniform4096未改，最近实际3764步/120448次TRAIN访问；完整终态/全状态与trace审计/CLOSED后按1024→2048→4096串行原DEV10。事件采样尚未实现资格，本队列明确跳过；原生安全停止后关闭本面板并暂停后续物理，不自动解除STOP。当前新增评价/自主成功仍0，尚未发生训练后GPU接续。摘要和全记录驻Core本地，GitHub在现有发布通道恢复时核账同步。[实际部署与断线生存回执](reports/PI0294/design/core32-maintenance-20261031/CORE_UNATTENDED_CURVE_ACTUAL_READY_20261101.json)。
 
 2026-10-31T23:11:49+08:00实测：同一4096训练已继续到2055步/65760次TRAIN访问；2048完整状态保存及42项AdamW、scheduler/RNG/cursor65536原生恢复证书已独立读回，生产者仍活动。固定TRAIN16 H40位置均误16.37→9.03→5.53mm，初始Prefix8 8.50→9.58→2.99mm；初始首夹爪误差降为0，闭爪锚点48的Prefix8夹爪MAE 0.0966→0.2655→0.0112。初始Prefix8旋转误差仍非单调，闭环成绩未取得。继续原均匀4096；完整终态/审计/CLOSED后依次评价1024/2048/4096。无新增物理尝试，纯书15/柜门1/恢复6，自主完整成功仍0。 [实际2048学习曲线](reports/PI0294/design/core32-maintenance-20261031/M32_ACTUAL2048_RESTORED_MATCHED_TRAIN_LEARNING_CURVE_20261031.json)。
 
