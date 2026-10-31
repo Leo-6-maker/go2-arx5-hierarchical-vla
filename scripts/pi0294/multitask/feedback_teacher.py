@@ -179,15 +179,21 @@ class SourceSkillTeacher:
         elif stage in ('close', 'verify_grasp'): goal = self.grasp_goal.copy()
         elif stage == 'turn':
             turn=door_turn;boundary={}
-            if self.card.get('port_revision')in('ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR','ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE','ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8','ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60'):
+            if self.card.get('port_revision')in('ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR','ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE','ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8','ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60','ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'):
                 from .native_hinge_reference import from_native_boundary
                 turn=from_native_boundary;boundary['native_safety_valid']=s['safety_valid']
-            if self.card.get('port_revision')in('ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE','ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8','ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60'):
+            if self.card.get('port_revision')in('ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE','ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8','ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60','ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'):
                 boundary.update(self.card['turn_reference_limits'])
             reference = turn(hinge_world=self.spec['hinge_world'], axis_hinge=[0, 0, 1],
                 actual_tcp_world=s['tcp'], actual_handle_world=s['object_pose'],
                 actual_angle_rad=s['hinge_angle_rad'], target_angle_rad=self.spec['target_angle_rad'],
                 angle_limits_rad=self.spec['angle_limits_rad'], actual_grasp_valid=bool(s['native_grasp']),**boundary)
+            if self.card.get('turn_time_profile')is not None:
+                from .cabinet_braked_turn import PROFILE,brake
+                if self.card['turn_time_profile']!=PROFILE:raise ValueError('EXPLICIT_SOURCE_TURN_BRAKING_PROFILE')
+                reference=brake(reference,self.spec['hinge_world'])
+                if not np.all((reference.hinge_angles_rad[1:]>=self.spec['angle_limits_rad'][0])&(reference.hinge_angles_rad[1:]<=self.spec['angle_limits_rad'][1])):
+                    raise ValueError('BRAKED_FUTURE_REFERENCES_INSIDE_ORIGINAL_RANGE')
             self.path = reference.tcp_world.copy(); goal = self.path[-1].copy()
         elif stage == 'lift':
             goal = s['tcp'].copy(); goal[2, 3] += .08

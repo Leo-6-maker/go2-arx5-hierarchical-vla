@@ -25,6 +25,8 @@ PORT06_VERSION='ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8'
 PORT06_CARD_SHA='8d51b23e78f925fb66de2611f0d32fe0e5d5701f7e129dd7860a8d69215b1908'
 PORT07_VERSION='ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60'
 PORT07_CARD_SHA='ebdd82b5b12bf8f6949b03271c7f1235284229e6a491cbbdbb243cbe013640f9'
+PORT08_VERSION='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'
+PORT08_CARD_SHA='821420e0840aac479599d0dd85729f14b0802f701f7ad35f07768532fde2550e'
 BOOK_ROUTE_VERSION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
 BOOK_ROUTE_CARD_SHA='080f49c2cb45cea7c13237cf62254b0c65a3da44f2f1af91abd34bf5cd2399fb'
 BOOK_MARGIN_VERSION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
@@ -82,12 +84,12 @@ def checked_manifest(manifest):
     kind = manifest.get('task_kind', 'BOOK')
     side=manifest.get('condition_side')
     tasks = plan(kind,side=side)
-    if manifest.get('cabinet_port_revision')in(PORT06_VERSION,PORT07_VERSION)and(kind,side)!=('ROBOCASA_CABINET','right'):
+    if manifest.get('cabinet_port_revision')in(PORT06_VERSION,PORT07_VERSION,PORT08_VERSION)and(kind,side)!=('ROBOCASA_CABINET','right'):
         raise PermissionError('ONLY_STATIC_CHECKED_RIGHT_LAYOUT40_MANIFEST')
     if side is not None:
         if kind=='BOOK'and manifest.get('book_route_revision')not in(BOOK_ROUTE_VERSION,BOOK_MARGIN_VERSION,BOOK_DESCENT_VERSION,BOOK_RELEASE_VERSION):
             raise PermissionError('EXPLICIT_STATIC_BOOK_ROUTE_MANIFEST')
-        if kind=='ROBOCASA_CABINET'and manifest.get('cabinet_port_revision')not in(PORT06_VERSION,PORT07_VERSION):
+        if kind=='ROBOCASA_CABINET'and manifest.get('cabinet_port_revision')not in(PORT06_VERSION,PORT07_VERSION,PORT08_VERSION):
             raise PermissionError('EXPLICIT_STATIC_RIGHT_CABINET_LAYOUT_MANIFEST')
     seed=manifest.get('book_seed_index')
     if seed is not None and (type(seed)is not int or seed not in BOOK_SEED_CARD_SHA
@@ -144,11 +146,11 @@ def unpack(payload):
     card_sha = hashlib.sha256(raw(payload['cards'])).hexdigest()
     qualification = payload['qualification']
     revision=payload.get('cabinet_port_revision')
-    revisions={REPAIR02_VERSION:REPAIR02_CARD_SHA,PORT03_VERSION:PORT03_CARD_SHA,PORT04_VERSION:PORT04_CARD_SHA,PORT05_VERSION:PORT05_CARD_SHA,PORT06_VERSION:PORT06_CARD_SHA,PORT07_VERSION:PORT07_CARD_SHA}
+    revisions={REPAIR02_VERSION:REPAIR02_CARD_SHA,PORT03_VERSION:PORT03_CARD_SHA,PORT04_VERSION:PORT04_CARD_SHA,PORT05_VERSION:PORT05_CARD_SHA,PORT06_VERSION:PORT06_CARD_SHA,PORT07_VERSION:PORT07_CARD_SHA,PORT08_VERSION:PORT08_CARD_SHA}
     if revision is not None and (revision not in revisions or kind!='ROBOCASA_CABINET'
             or qualification.get('cabinet_port_revision')!=revision):
         raise PermissionError('EXPLICIT_SEPARATE_CABINET_REPAIR02_STAGE')
-    if revision in(PORT06_VERSION,PORT07_VERSION)and(side!='right'or qualification.get('condition_side')!='right'):
+    if revision in(PORT06_VERSION,PORT07_VERSION,PORT08_VERSION)and(side!='right'or qualification.get('condition_side')!='right'):
         raise PermissionError('ONLY_STATIC_CHECKED_RIGHT_LAYOUT40_CONDITION')
     book_revision=payload.get('book_route_revision')
     book_revisions={BOOK_ROUTE_VERSION:BOOK_ROUTE_CARD_SHA,BOOK_MARGIN_VERSION:BOOK_MARGIN_CARD_SHA,
@@ -158,7 +160,7 @@ def unpack(payload):
                 or revision is not None or qualification.get('book_route_revision')!=book_revision
                 or qualification.get('condition_side')!=side):
             raise PermissionError('EXACT_STATIC_BOOK_ROUTE_QUALIFICATION')
-    elif side is not None and not(kind=='ROBOCASA_CABINET'and revision in(PORT06_VERSION,PORT07_VERSION)):
+    elif side is not None and not(kind=='ROBOCASA_CABINET'and revision in(PORT06_VERSION,PORT07_VERSION,PORT08_VERSION)):
         raise PermissionError('SINGLE_BOOK_CONDITION_NEEDS_STATIC_ROUTE')
     expected_sha=book_revisions[book_revision]if book_revision else revisions[revision]if revision else CARD_SHA[kind]
     seed=payload.get('book_seed_index')
