@@ -1,0 +1,200 @@
+{
+  "schema": "BOOK_RECOVERY3574_TARGET512_RESTORED_CLOSED_AND_FIRST_DEV_NATIVE_CONTACT_NEGATIVE_V1",
+  "as_of_SGT": "2026-10-31 14:17 SGT",
+  "training": {
+    "run": "v7-book5-recovery3574-target512-01",
+    "source_sha": "044aa0eeb27187b7042518f810b9f0be347f0c69",
+    "manifest_sha256": "1bb4274e9a6319333dc4b2e9d6f96b0a97a4467c31c5369c4d742193e620bd96",
+    "actual": {
+      "model_loads": 1,
+      "optimizer_updates": 512,
+      "TRAIN_window_visits": 16384,
+      "generation_queries": 32,
+      "native_diagnostic_loss_forwards": 32,
+      "physics_integrations": 0,
+      "source_episode_starts": 0,
+      "new_RGB_pairs": 0,
+      "formal_DEV_conditions": 0,
+      "CPU_s": 2712.571087,
+      "GPU_allocated_s_upper": 2471,
+      "own_allocated_bytes_before_closing": 163938304,
+      "result_sha256": "c3007053ee402877e1f80b2c61407d59bf2eec1ed305f8e38d27619c43327861",
+      "fit_sha256": "bf18254d2c6d361b2ac10d5456529b830f8cd20263f8bf8965e6bffefd81ae3e",
+      "checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+      "actual_delta_restore_sha256": "216fdd7515c2351ccc63385a776fdaa9f96afb72347eb21a0455c88e509e48b0",
+      "independent_audit_sha256": "db9ce42aa8ee59537ea51e2ece23746895bbfd1f54206aa38638cb9e8ccc07c1",
+      "checkpoint_requires_retained_full_parent": true,
+      "OS_exit_code_not_retained_after_transient_unit_GC": true
+    },
+    "dataset_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
+    "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
+    "required_retained_parent_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+    "initial_qualified_target_delta_sha256": "b8327ab9501eac641eae8947a04040fe84844a01e9e5f59cea1c2ffd17ad11f8",
+    "full_model_plus_delta_optimizer_scheduler_RNG_cursor_native_restore": true,
+    "shared_DiT_and_backbone_frozen": true,
+    "trainable_target_tensor_count": 14,
+    "independent_actual_TRAIN_trace": {
+      "visits": 16384,
+      "distinct_windows": 3574,
+      "episode_counts": {
+        "BOOK_SOURCE_SEED003": 2748,
+        "BOOK_SOURCE_SEED004": 2760,
+        "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX": 2625,
+        "BOOK_SOURCE_SEED000": 2747,
+        "BOOK_SOURCE_SEED001": 2744,
+        "BOOK_SOURCE_SEED002": 2760
+      },
+      "trace_sha256": "88cad3bf58d590599e1a5e282ff469420aec765fe9c2eefa4dc29c278c87be13",
+      "all_committed_visits_replayed": true
+    },
+    "matched_TRAIN16_before_after": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.08639780001249164,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.02186210830040398,
+        "H40_SO3_mean_rad": 0.013179406615216594,
+        "H40_gripper_MAE": 0.06794067163189706
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.04445424042933155,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.01560021320176326,
+        "H40_SO3_mean_rad": 0.009180594883245088,
+        "H40_gripper_MAE": 0.04654512418942018
+      }
+    },
+    "maximum_cross_platform_metric_difference": 6.938893903907228e-18,
+    "current_producer_lease_status": "CLOSED",
+    "closed_lease_sha256": "b6c8320a5859431fbf35f319e11d4605cf2a4aa4833c3ad5a6ff0a9e42593d8f",
+    "independently_read_back": true,
+    "inference_package_is_standalone": false,
+    "statistics_and_dataset_changed_exploratory_not_pure_recovery_causal_comparison": true
+  },
+  "DEV": {
+    "run": "v7-book5-recovery512-fixed-dev10-01",
+    "manifest_sha256": "2d82c82b8d8e4bbc0c262c07d17ac1d36722746179809c001282beb89e77303d",
+    "actual": {
+      "model_loads": 1,
+      "generation_queries": 4,
+      "valid_DEV_conditions": 1,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 9,
+      "physics_integrations": 3283,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 33,
+      "submitted_intervals": 32,
+      "completed_intervals": 31,
+      "optimizer_updates": 0,
+      "CPU_s": 65.649196,
+      "GPU_allocated_s_upper": 41,
+      "own_allocated_bytes_before_closing": 49074176,
+      "result_sha256": "706c645733ff56cfc45c6036da4c70901d82e1d576db7d6dd7bb3f66fa3c845c",
+      "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d",
+      "checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+      "independent_audit_sha256": "476ea98ece823109685420e83c7593975e2d5153047a23004c547d18acdc138a",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true
+    },
+    "valid_conditions": 1,
+    "successes": 0,
+    "unrun_conditions": 9,
+    "panel_status": "STOPPED_FOR_ORIGINAL_NATIVE_SAFETY_CLOSED_NO_RETRY",
+    "first_condition": "BOOK_DEV000",
+    "original_xy_offset_m": [
+      0.006,
+      0.0
+    ],
+    "task_time_to_stop_s": 1.566,
+    "reference_gate_rejects": 0,
+    "first_failure": "ORIGINAL_ROBOT_OBSTACLE_CONTACT",
+    "actual_bad_contacts": [
+      {
+        "contact": {
+          "geom0": 73,
+          "geom1": 85,
+          "distance_m": -1.573884963230733e-05,
+          "normal": [
+            1.0,
+            -0.0,
+            -0.0
+          ],
+          "normal_force_N": 3.2386731878568984
+        },
+        "body0": "x5_link8",
+        "body1": "libero_desk_caddy",
+        "reasons": [
+          "ORIGINAL_ROBOT_OBSTACLE_CONTACT"
+        ]
+      }
+    ],
+    "actual_model_inputs_and_seeds_and_predictions_and_completed_prefixes_independently_rejoined": true,
+    "maximum_completed_EEF_tracking_XYZ_m": 0.016653947462804828,
+    "maximum_completed_EEF_tracking_SO3_rad": 0.07315236654603555,
+    "original_noise_H40_Prefix8_task32s_scoring_safety_WBC_unchanged": true,
+    "teacher_takeover": false,
+    "new_training_admission": false,
+    "failed_command_NOT_expert_label": true,
+    "closed_lease_sha256": "46fde5af7389654a5d8f800119a946549e275f1abdf5c6308ee8f05585aee21d",
+    "closure_independently_read_back": true,
+    "input_digest_limitation": "Opaque full-packet SHA includes an unpersisted random snapshot_uuid. RGB/proprio/language/seed and code projection were independently joined; that full UUID-bearing digest was not recomputed.",
+    "storage_bound": {
+      "status": "PROSPECTIVE_ORIGINAL_DEV10_OUTPUT_BOUND_WITH_ACTUAL_PRIOR_METADATA_AND_CONSERVATIVE_BLOCK_ROUNDING",
+      "output_upper_bytes": 5368709120,
+      "conditions": 10,
+      "original_per_condition_logical_output_guard_bytes": 524288000,
+      "unchanged_task_s": 32,
+      "original_condition_population_and_scoring_unchanged": true,
+      "actual_prior_noncondition_allocated_bytes": 31551488,
+      "conservative_files_max_per_condition": 1600,
+      "conservative_extra_block_allocation_bytes": 65536000,
+      "conservatively_reserved_guard_overshoot_bytes": 5242880,
+      "residual_metadata_margin_bytes": 23498752,
+      "observed_free_bytes": 146365014016,
+      "required_bytes": 146240404280,
+      "free_above_complete_output_plus_original_protection": 124609736,
+      "protected_remaining_bytes": 138724211512,
+      "free_margin_bytes": 2147483648,
+      "no_old_protected_forecast_reduced": true,
+      "no_files_deleted": true,
+      "limitation": "Metadata/cache allowance is supported by actual same-shape prior runs; original fresh filesystem headroom guard remains active throughout execution.",
+      "observed_epoch": 1793427044.025623
+    }
+  },
+  "availability": {
+    "existing_T1_T2_full_success_TRAIN_examples_rejoined": 2,
+    "report": "EXISTING_T1_T2_SOURCE_SEEDS_CURRENT_BYTES_ORIGINAL_LABEL_REJOIN_ACTUAL_20261031.json",
+    "not_original_E1_E2_12_demo_substitution": true,
+    "new_joint_training_admission": false
+  },
+  "V7_source_physical_totals": {
+    "attempts": 29,
+    "pure_Teacher_attempts": 15,
+    "policy_DEV_attempts": 13,
+    "mixed_TRAIN_recovery_attempts": 1,
+    "physics_integrations": 209411,
+    "RGB_pairs": 5724,
+    "pure_book_full_Teacher_demos": 5,
+    "cabinet_full_demos": 0,
+    "mixed_safe_complete_recovery_episodes": 1,
+    "autonomous_learned_full_task_successes": 0,
+    "newly_revalidated_historical_T1_T2_not_new_attempts": true
+  },
+  "interpretation": "The recovery-data target-only successor is restorable and improves its matched TRAIN16 errors, but still has zero complete autonomous task success and a first-condition native safety failure. It does not establish policy improvement or a benefit of recovery data alone. More target-only optimization is not yet justified by these results.",
+  "next": [
+    "Keep this DEV STOP and9UNRUN; diagnose saved reference clearance versus actual tracking and sampler/action-side capacity before another learning version.",
+    "Cold-admit the previously published, statically checked cabinet outer-edge-hinge mechanical variant through the existing source owner; no active work is preempted.",
+    "Use the independently revalidated existing T1/T2 exports when constructing a future separate shared four-task dataset, after cabinet supervision is qualified.",
+    "Vanda remains unavailable per user; no E2 reconnection/submission. Target S1/T2 quarantine, WBC, original E1/E2 recipes/R0 and infrastructure remain unchanged."
+  ],
+  "goal_complete": false
+}

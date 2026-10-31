@@ -1,0 +1,99 @@
+{
+  "schema": "EXISTING_T1_T2_SOURCE_SEEDS_ACTUAL_CURRENT_BYTES_AND_ORIGINAL_LABEL_REJOIN_V1",
+  "as_of_SGT": "2026-10-31 13:57 SGT",
+  "status": "TWO_PRIOR_FULL_SUCCESS_TRAIN_EXPORTS_AVAILABLE_FOR_FUTURE_SHARED_POLICY_DATA_PREPARATION",
+  "episodes": [
+    {
+      "id": "PI0294-PV1-TRAIN-F2-030-T1-C04",
+      "task": "T1",
+      "split": "TRAIN",
+      "full_task_success_original": true,
+      "independent_original_raw_admitted": true,
+      "native_manifest_sha256": "dc18e4d53521e75c3c57fae5a107957a4e29ca9d49b1fad3e6d346f209867e0e",
+      "numeric_sha256": "9c036dd78d7a8d1da2fc43d25577911628d8a953d4bec72334594bf9d37aaecc",
+      "original_export_receipt_sha256": "8891b779e8e4dbc18e1508c540b21c07bda8a8a525119e886ef4f9038982fdb7",
+      "raw_FILE_MANIFEST_sha256": "fdaad4039add03fa7a2298a48498739e6dfc0fa7e8fb75593dcbd29c81a17a65",
+      "raw_full_audit_sha256": "922d2bf1a1141a749bca858d616364062776bafc8ff70964485cc374f03fa1ab",
+      "source_samples_sha256": "9071b10343297102e62391cb63912c763509393cc072ab32220925bebdee67d3",
+      "actual_observations": 641,
+      "actual_executed_command_labels": 640,
+      "valid_full_H40_windows": 601,
+      "all_observed_states_and_executed_labels_and_RGB_identities_recomputed_exact": true,
+      "frame": "ORIGINAL_FIXED_BASE_ARX5_WORLD_EEF10",
+      "original_language_retained": true,
+      "old_E1_E2_original12_substitution": false
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F2-035-T2-C04",
+      "task": "T2",
+      "split": "TRAIN",
+      "full_task_success_original": true,
+      "independent_original_raw_admitted": true,
+      "native_manifest_sha256": "448c7e311390a05dc87098ca915fc357475b82d600aa78ef4f11ea4c16b3da29",
+      "numeric_sha256": "ed0622dffc1680a12394217c9327a561610b7694213bdd5b6b5efe3cafb29ef8",
+      "original_export_receipt_sha256": "9574e575c33b3cd6c0f400945efe7bcb540c8bd444c0e4ef9a449dc88e7ee7f0",
+      "raw_FILE_MANIFEST_sha256": "503fae1b180d13e2efbcb5fccf6d00311e7f2250168930f59f54be29da2ebeff",
+      "raw_full_audit_sha256": "53a319840545740a8466c0b576db3d12b53c61d892c4a974f367b77c2c95a914",
+      "source_samples_sha256": "20c3da5fd09d470aed3e51e36ccf6b85a8a9125e046ebcc2870c267f7105beba",
+      "actual_observations": 641,
+      "actual_executed_command_labels": 640,
+      "valid_full_H40_windows": 601,
+      "all_observed_states_and_executed_labels_and_RGB_identities_recomputed_exact": true,
+      "frame": "ORIGINAL_FIXED_BASE_ARX5_WORLD_EEF10",
+      "original_language_retained": true,
+      "old_E1_E2_original12_substitution": false
+    }
+  ],
+  "actual_file_validation": {
+    "RGB_files": 2564,
+    "observations_pairs": 1282,
+    "numeric_windows": 1202,
+    "actual_executed_command_labels": 1280,
+    "current_RGB_hashes_and_RGB256_IHDR_pass": true,
+    "current_full_PNG_decode_not_repeated": true,
+    "prior_official_full_RGB_decode_and_codec_receipts_retained": true,
+    "current_states_labels_RGB_paths_hashes_all_reconstructed_from_pinned_original_samples": true
+  },
+  "prior_official_qualification": [
+    {
+      "id": "PI0294-PV1-TRAIN-F2-030-T1-C04",
+      "manifest_sha256": "dc18e4d53521e75c3c57fae5a107957a4e29ca9d49b1fad3e6d346f209867e0e",
+      "export_receipt_sha256": "8891b779e8e4dbc18e1508c540b21c07bda8a8a525119e886ef4f9038982fdb7",
+      "native_numeric_sha256": "9c036dd78d7a8d1da2fc43d25577911628d8a953d4bec72334594bf9d37aaecc",
+      "original_gr00t_full_Processor_single_samples": 6,
+      "original_mixed_batch_samples": 2,
+      "codec_H40_windows": 601,
+      "float32_inverse_clip_components": 0
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F2-035-T2-C04",
+      "manifest_sha256": "448c7e311390a05dc87098ca915fc357475b82d600aa78ef4f11ea4c16b3da29",
+      "export_receipt_sha256": "9574e575c33b3cd6c0f400945efe7bcb540c8bd444c0e4ef9a449dc88e7ee7f0",
+      "native_numeric_sha256": "ed0622dffc1680a12394217c9327a561610b7694213bdd5b6b5efe3cafb29ef8",
+      "original_gr00t_full_Processor_single_samples": 6,
+      "original_mixed_batch_samples": 2,
+      "codec_H40_windows": 601,
+      "float32_inverse_clip_components": 0
+    }
+  ],
+  "actual_incremental_known_CPU": {
+    "Core_RGB_bytes_headers_s": 0.166034496,
+    "Core_original_sample_metadata_read_s": 0.044234652000000006,
+    "PC_complete_sample_array_rejoin_s": 0.381431917
+  },
+  "boundaries": {
+    "new_source_episodes": 0,
+    "new_physics": 0,
+    "new_model_forwards": 0,
+    "new_optimizer_updates": 0,
+    "new_joint_training_admission": false,
+    "not_original_E1_E2_12_demo_population": true,
+    "old_R0_and_closed_E1_DEV_unchanged": true,
+    "active_book_recovery512_inputs_unchanged": true,
+    "four_task_dataset_complete": false,
+    "cabinet_full_demo_still_missing": true
+  },
+  "purpose": "Reuse verified existing source grab/place and push demonstrations when constructing a separately versioned shared four-task dataset; do not require Vanda for these two current Core inputs or count them as new collected successes.",
+  "private_audit_sha256": "210ac9f3f2e2518696ba1d6e02138c1f73d87eda7c6f1db540edb67c16b21d80",
+  "goal_complete": false
+}
