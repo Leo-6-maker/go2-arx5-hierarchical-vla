@@ -113,7 +113,7 @@
     {
       "id": "M32-03",
       "priority": "P0",
-      "status": "MATCHED_A_B_FIXED512_READY_AFTER_NATIVE_DATA_AND_CAPACITY",
+      "status": "MATCHED_A512_RESTORED_CLOSED_DEV0_OF1_CONTACT_STOP_NINE_UNRUN_B512_NATIVE_STARTED",
       "title": "One declared learning-to-DEV cycle",
       "depends_on": [
         "M32-01",
@@ -138,7 +138,16 @@
         "not_population_reliability_guarantee": true,
         "cannot_shrink_presealed_larger_TEST": true
       },
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/FIFTEEN_BOOK_TEACHERS_EXPANDED_DATA_ADMITTED_M32_CAPACITY_ACTUAL_20261031.json"
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+      "A_updates": 512,
+      "A_TRAIN_visits": 16384,
+      "A_valid_DEV": 1,
+      "A_DEV_successes": 0,
+      "A_DEV_unrun": 9,
+      "A_first_task_stop_s": 1.698,
+      "B512_native_started": true,
+      "B512_complete": false,
+      "autonomous_full_successes": 0
     },
     {
       "id": "M32-04",
@@ -165,7 +174,9 @@
         31
       ],
       "minimum_observed_free_bytes": 10840965120,
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/FIFTEEN_BOOK_TEACHERS_EXPANDED_DATA_ADMITTED_M32_CAPACITY_ACTUAL_20261031.json"
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json",
+      "B512_native_started": true,
+      "B512_complete": false
     },
     {
       "id": "M32-05",
@@ -207,5 +218,5 @@
     "new_model_or_physics_calls": 0,
     "CI_or_native_validation_claimed": false
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/FIFTEEN_BOOK_TEACHERS_EXPANDED_DATA_ADMITTED_M32_CAPACITY_ACTUAL_20261031.json"
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json"
 }

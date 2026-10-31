@@ -1,0 +1,257 @@
+{
+  "schema": "M32_MATCHED_INTERFACE512_RESTORED_DEV_AND_COMPLETED_E1_FUTURE_STORAGE_V1",
+  "as_of_SGT": "2026-10-31 18:30 SGT",
+  "source_sha": "ca5251dd87f6cd8370e47952c50cfa6ed93e3d93",
+  "A_interface512": {
+    "run": "v7-book-m32-b0-updates512-02",
+    "run_manifest_sha256": "62f4dfb83b77eddb69defc1fa199ba21d05307aa4cb27e59db5330d47b4e61d0",
+    "actual": {
+      "model_loads": 1,
+      "optimizer_updates": 512,
+      "TRAIN_window_visits": 16384,
+      "generation_queries": 32,
+      "native_diagnostic_loss_forwards": 32,
+      "physics_integrations": 0,
+      "source_episode_starts": 0,
+      "new_RGB_pairs": 0,
+      "formal_DEV_conditions": 0,
+      "CPU_s": 2797.437714,
+      "GPU_allocated_s_upper": 2557,
+      "own_allocated_bytes_before_closing": 164225024,
+      "result_sha256": "e0cdca0bde4743dd20a90bd77d00ae623d37e3969137161ef65ab4bbe1871765",
+      "fit_sha256": "bd811354f9b1b6c4c0aec966e4ba9b58e97e1005c2e44e636c426f5e6bf21bd1",
+      "checkpoint_manifest_sha256": "c15f492c70d8a67646626e2a796052f0370f363a39acfb92552719c22a4c13e7",
+      "actual_delta_restore_sha256": "8e9a0688804b961b6ca81445e4ce03de7a150eaa0dfb8bc629fe5eb4f35da81f",
+      "independent_audit_sha256": "af645cf9e794d174218a8985b945436e9666dfb107c5d75c5d3d1251532af1af",
+      "checkpoint_requires_retained_full_parent": true,
+      "OS_exit_code_not_retained_after_transient_unit_GC": true
+    },
+    "lease_sha256": "5ce7e423ff2fa90087e9f0e90642fe948842286ed08aa53c88a89e1110a84712",
+    "independent_close_readback": true,
+    "actual_distinct_TRAIN_windows": 12533,
+    "actual_episode_visit_counts": {
+      "BOOK_SOURCE_SEED014": 795,
+      "BOOK_SOURCE_SEED013": 786,
+      "BOOK_SOURCE_SEED003": 794,
+      "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX": 738,
+      "BOOK_M32_RECOVERY000_EXPERT_SUFFIX": 752,
+      "BOOK_SOURCE_SEED012": 791,
+      "BOOK_SOURCE_SEED002": 792,
+      "BOOK_SOURCE_SEED004": 794,
+      "BOOK_M32_RECOVERY004_EXPERT_SUFFIX": 778,
+      "BOOK_M32_RECOVERY002_EXPERT_SUFFIX": 771,
+      "BOOK_SOURCE_SEED007": 782,
+      "BOOK_M32_RECOVERY003_EXPERT_SUFFIX": 762,
+      "BOOK_SOURCE_SEED006": 774,
+      "BOOK_SOURCE_SEED009": 792,
+      "BOOK_SOURCE_SEED011": 800,
+      "BOOK_SOURCE_SEED001": 785,
+      "BOOK_SOURCE_SEED005": 783,
+      "BOOK_SOURCE_SEED010": 794,
+      "BOOK_SOURCE_SEED008": 789,
+      "BOOK_SOURCE_SEED000": 780,
+      "BOOK_M32_RECOVERY001_EXPERT_SUFFIX": 752
+    },
+    "all_actual_TRAIN_visits_independently_replayed": true,
+    "matched_fixed_TRAIN16_metrics": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.04357982281362638,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.01637211787421943,
+        "H40_SO3_mean_rad": 0.013789333188802417,
+        "H40_gripper_MAE": 0.046042520468207934
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.035116951577947475,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.012342866295764638,
+        "H40_SO3_mean_rad": 0.012055402762926834,
+        "H40_gripper_MAE": 0.04161466332152487
+      }
+    },
+    "memory": {
+      "qualification_only": false,
+      "actual_optimizer_updates": 512,
+      "saved_and_restored": true,
+      "contract": {
+        "schema": "ARX5_MINIMAL_ADAPTER_PARAMETER_CONTRACT_V1",
+        "upstream_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+        "arm": "E1_ADAPTER_ONLY",
+        "target_category": 10,
+        "module_mode": "MATCHED_ACTION_HEAD_AND_BACKBONE_EVAL_WITH_AUTOGRAD_V1",
+        "trainable_numel": 10180740,
+        "parameter_numel_including_target_slices": 2828413060,
+        "frozen_buffer_numel": 325783760,
+        "real_model_qualification": false,
+        "native_adopted": false
+      },
+      "minimum_observed_free_bytes": 12357206016,
+      "maximum_allocated_bytes": 14597748224,
+      "maximum_reserved_bytes": 14820573184,
+      "capacity_pass": true,
+      "measured_points": 22,
+      "measured_free_is_shared_device_not_exclusive_allocation": true
+    }
+  },
+  "DEV": {
+    "status": "VALID_FIRST_CONDITION_NATIVE_CONTACT_SAFETY_STOP_CLOSED_NINE_UNRUN",
+    "run": "v7-book-m32-b0-fixed-dev10-01",
+    "run_manifest_sha256": "8e303d053432da8431b44b422f972a38e908a4bb83acd6bbd54728747f5ea0db",
+    "actual": {
+      "model_loads": 1,
+      "generation_queries": 5,
+      "valid_DEV_conditions": 1,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 9,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 3349,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 35,
+      "optimizer_updates": 0,
+      "CPU_s": 68.506145,
+      "GPU_allocated_s_upper": 45,
+      "own_allocated_bytes_before_closing": 49664000,
+      "result_sha256": "9bed63c814472df83433bee15a1a67fa748cd8be1a7fa45fdc18f80825aa8c8e",
+      "checkpoint_manifest_sha256": "c15f492c70d8a67646626e2a796052f0370f363a39acfb92552719c22a4c13e7",
+      "independent_audit_sha256": "fe5fb65eaafb5034e1cfc206fcc89d659be0731b52415aaaf7865c166f153001",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true,
+      "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+    },
+    "lease_sha256": "0c6b1aa2dbbb10c3cc60d77d1309db9498dfb778402ab5d6a5628fa054778c1a",
+    "independent_close_readback": true,
+    "valid_conditions": 1,
+    "successes": 0,
+    "unrun": 9,
+    "hard_safety_conditions": 1,
+    "contact_diagnostic": {
+      "first_failed_native_step": 3349,
+      "task_duration_to_stop_s": 1.698,
+      "bad_contacts": [
+        {
+          "contact": {
+            "geom0": 73,
+            "geom1": 85,
+            "distance_m": -4.399358074014392e-06,
+            "normal": [
+              1.0,
+              -0.0,
+              -0.0
+            ],
+            "normal_force_N": 13.160445848249317
+          },
+          "body0": "x5_link8",
+          "body1": "libero_desk_caddy"
+        }
+      ],
+      "submitted_intervals": 34,
+      "completed_intervals": 33,
+      "max_completed_tracking_position_error_m": 0.028894706979216752,
+      "max_completed_tracking_rotation_error_rad": 0.08060498907766854,
+      "last_submitted_gripper": 0.7901772477410057,
+      "last_precommand_actual_gripper": 0.8878808211943205,
+      "reference_collision_or_tracking_root_cause_not_yet_proven": true
+    },
+    "independent_native_raw_reaudit_and_actual_prediction_command_join": true,
+    "input_digest_limitation": "Original opaque request SHA includes an unpersisted snapshot UUID; actual RGB SHA/proprio/language/seed and original code projection were joined.",
+    "original_task_s": 32,
+    "original_DEV_population": 10,
+    "Teacher_takeover": false,
+    "DEV_into_TRAIN": false
+  },
+  "B_interface_last2_fixed512": {
+    "status": "NATIVE_UNIT_ACTUALLY_STARTED_NOT_YET_COMPLETE",
+    "same_closed_initial_delta": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+    "probe_weights_initialize_comparison": false,
+    "run": "v7-book-m32-b2-updates512-01",
+    "run_manifest_sha256": "42f45c114751e09d23df988806029bdfa57b51122f1f1480d42e003c8b18885e",
+    "actual_recipe_differences_from_A": [
+      "limited_DiT_blocks",
+      "shared_DiT_frozen"
+    ],
+    "data_stats_sampling_schedule_optimizer_and_parent_identical": true
+  },
+  "prospective_capacity": {
+    "native": {
+      "status": "COMPLETED_E1_ORIGINAL24_ALL_NATIVE_TERMINAL_CLOSED_PROSPECTIVE_STORAGE_PROOF",
+      "proposal_sha256": "7af3244cdb1c92ba03ae521354596620debd01b635894de011a44cf682f6edd3",
+      "combined_history_sha256": "4d6e3d025a55bfbd50da3ce1bd1a98ab67b8736ccb361aa4549322429cb92776",
+      "valid_conditions": 24,
+      "remaining_conditions": 0,
+      "leases": {
+        "owner": "f8036448296263fa53ed1603a46a918a621c3fae1b101ab72d7f3328d08b7f0b",
+        "core": "061c9d3c1f520ba009f06c352e74b7ee1049bbad0eca090ced8628660cc5bade",
+        "hopper": "0f5dcd0b6318c7efb435cf9d2ee16b24e184f2f8fe49dbcce0691907c3cbf6ee"
+      },
+      "E1_allocation_rows": [
+        {
+          "request_id": "f6eb2990-707d-439a-b99a-f8c89c05e0ff",
+          "status": "NATIVE_TERMINAL",
+          "run": "arx5-e1-fixed512-n294101-03"
+        },
+        {
+          "request_id": "5dd598d9-9a84-4e33-8e2d-3b74d4f000ed",
+          "status": "NATIVE_TERMINAL",
+          "run": "arx5-e1-fixed512-n294101-04"
+        },
+        {
+          "request_id": "a30e053f-6984-4125-937a-5a6bdebe981c",
+          "status": "NATIVE_TERMINAL",
+          "run": "arx5-e1-fixed512-n294101-05"
+        },
+        {
+          "request_id": "f612637b-8445-4984-b115-585041af6b1e",
+          "status": "NATIVE_TERMINAL",
+          "run": "arx5-e1-fixed512-n294101-06"
+        },
+        {
+          "request_id": "8b3c15e4-c573-49fd-94fc-f3345dc3ad2d",
+          "status": "NATIVE_TERMINAL",
+          "run": "arx5-e1-fixed512-n294101-08"
+        }
+      ],
+      "free_bytes": 134092660736,
+      "observed_epoch": 1793439957.1959634,
+      "new_mutations": 0
+    },
+    "old_forecast_sha256": "dc01a4a5546b7f07c1dcf7d9e0407a4a0771b844e0bb88fd95346efd20f56fd0",
+    "old_original_future_bytes": 130268494648,
+    "completed_E1_future_output_bytes": 38788923392,
+    "new_original_future_bytes": 91479571256,
+    "subtraction_exactly_once": true,
+    "other_thirteen_forecast_dimensions_unchanged": true,
+    "all_other_Core_future_components_including_E2_D25_GEN_matrix_final_unchanged": true,
+    "all_historical_costs_and_raw_artifacts_retained": true,
+    "canonical_account_or_old_manifests_changed": false,
+    "active_A_training_unchanged": true,
+    "files_deleted": 0
+  },
+  "source": {
+    "pure_full_book_teacher": 15,
+    "custom_full_cabinet_teacher": 1,
+    "complete_mixed_recoveries": 6,
+    "cumulative_physical_attempts": 48,
+    "integrations": 522946,
+    "RGB_pairs": 16401
+  },
+  "autonomous_full_task_successes": 0,
+  "not_original_E2": true,
+  "new_E2_complete512": 0,
+  "CI": "NOT_RUN",
+  "WBC_safety_score_changed": false,
+  "S1_closed": true,
+  "T2_quarantined": true,
+  "Vanda_access_during_maintenance": false,
+  "cleanup_or_infrastructure_changes": false,
+  "interpretation": "Improved TRAIN diagnostic error did not produce a complete autonomous task: first DEV stopped on the original right-finger/caddy contact gate. This endpoint is not retried. Matched limited-DiT arm remains to test; no original E2 or target-WBC success is established."
+}

@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 17:37 SGT实际：纯放书Teacher累计15条，均原32秒完整任务与原生安全通过、许可CLOSED；扩展数据已官方准入并独立重算：15条纯示范＋6段真实专家后缀、12,533个H40窗，原6份数值/DEV封存不变、失败学生前缀与DEV/确认标签0。末两DiT（30/31）＋接口共77,847,684参数，实际10次更新/320访问、保存并真实恢复42项AdamW/scheduler/RNG/cursor通过，进程/许可CLOSED；峰值allocated/reserved约14.39/15.21 GiB、最低测得free10.10 GiB。仅容量资格，未作为正式模型评价。源累计47尝试/519597积分/16366对RGB，柜门完整1、混合恢复完整6、自主完整成功仍0。下一步同b248父、同新数据/统计/采样/512日程，从fresh AdamW开展A接口/B末两层的匹配比较及真实DEV；10步权重不续作比较初值。 [实际数据与容量证据](reports/PI0294/design/core32-maintenance-20261031/FIFTEEN_BOOK_TEACHERS_EXPANDED_DATA_ADMITTED_M32_CAPACITY_ACTUAL_20261031.json)。
+2026-10-31 18:30 SGT实际：新数据匹配A臂（接口层）已完成512步/16384访问，12533个TRAIN窗均实际覆盖、14项AdamW及完整父链/调度器/RNG/游标恢复通过，端点与许可CLOSED。固定TRAIN16位置误差16.37→12.34mm；真实DEV为0/1＋9未运行，5次参考门均通过，任务1.698秒右指垫/link8碰caddy触发原安全停止，33段命令完成；原生审计、因果核对及关闭回读通过。不重试该成绩。匹配B臂（接口＋DiT30/31）已原生启动512步，仅解冻范围不同，不从10步探针续训。纯书本Teacher15、自定义柜门1、完整混合恢复6，自主完整成功仍0；累计源物理48次/522946积分/16401对RGB。后继存储仅扣除已完成E1原24的38788923392字节未来预留，其他工作/费用保留，无文件清理。 [实际训练、DEV与接续证据](reports/PI0294/design/core32-maintenance-20261031/M32_INTERFACE512_RESTORED_REAL_DEV_AND_STORAGE_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
