@@ -6,6 +6,7 @@ import pytest
 
 from scripts.pi0294.multitask import night_scope as n,night_source_stage as stage
 from scripts.pi0294.test_night_source_v7_carry import closed,policy,raw
+from scripts.pi0294.test_night_source_v7_finite import profile
 
 
 def successor(old,lease,terminal,destination):
@@ -46,12 +47,15 @@ def test_second_compressed_generation_carries_exact_prior_bytes_without_growth()
 
 def test_native_stage_compares_decoded_exact_parent_preimage(tmp_path):
     old,lease,terminal=closed();new=successor(old,lease,terminal,'/owned/next')
+    (tmp_path/'SOURCE_V7_FINITE_JOB.json').write_bytes(raw(profile(n.SUCCESSOR_DEADLINE+100)))
+    (tmp_path/'SOURCE_V7_EXECUTION_POLICY.md').write_bytes(policy())
+    runtime=n.for_root(tmp_path)
     for name,value in {'control/NIGHT_SOURCE_ACCOUNT.json':old,'control/NATIVE_SOURCE_LEASE.json':lease,
                        'outputs/SOURCE_CHAIN_TERMINAL.json':terminal}.items():
         file=tmp_path/name;file.parent.mkdir(parents=True,exist_ok=True);file.write_bytes(raw(value))
     code=stage.PROGRAM.split(" for key,name in dict(account='control/NIGHT_SOURCE_ACCOUNT.json'",1)[1]
     code="for key,name in dict(account='control/NIGHT_SOURCE_ACCOUNT.json'"+code.split('\n q=subprocess.run',1)[0]
-    exec(compile(code,'actual_native_carry_preimage_check','exec'),dict(previous=tmp_path,carry=new[n.V7_CARRY],scope=n))
+    exec(compile(code,'actual_native_carry_preimage_check','exec'),dict(previous=tmp_path,carry=new[n.V7_CARRY],scope=runtime))
     (tmp_path/'control/NIGHT_SOURCE_ACCOUNT.json').write_bytes(raw(old)+b' ')
     with pytest.raises(AssertionError):
-        exec(compile(code,'actual_native_carry_preimage_check','exec'),dict(previous=tmp_path,carry=new[n.V7_CARRY],scope=n))
+        exec(compile(code,'actual_native_carry_preimage_check','exec'),dict(previous=tmp_path,carry=new[n.V7_CARRY],scope=runtime))
