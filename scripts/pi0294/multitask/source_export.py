@@ -112,7 +112,11 @@ def source_identity(card, audit):
             and card.get('original_benchmark_robot_or_seed') is False
             and audit.get('schema') == 'NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1'
             and audit.get('native_ROBOCASA_goal_final') is True):
-        return dict(episode_id='CUSTOM_CABINET_PORT08_SOURCE_SEED000', task='DOOR',
+        seed = card.get('cabinet_seed_index', 0)
+        if 'cabinet_seed_index' in card:
+            from .cabinet_repair02 import checked_card
+            checked_card(card, 'right')
+        return dict(episode_id='CUSTOM_CABINET_PORT08_SOURCE_SEED' + str(seed).zfill(3), task='DOOR',
                     family='ROBOCASA_ARX5_CUSTOM_EDGE_HINGE_BRAKED_PORT',
                     purpose='NEW_CUSTOM_CABINET_SKILL_SEED_CANDIDATE_SEPARATE_FROM_E1_E2')
     raise PermissionError('EXACT_QUALIFIED_SOURCE_TASK_AND_NATIVE_GOAL_REQUIRED')

@@ -87,6 +87,21 @@ def test_manifest_cannot_silently_drop_two_conditions_and_native_programs_compil
         compile(getattr(stage, name), name, 'exec')
 
 
+def test_four_cabinet_seeds_bind_real_pinned_assets_and_original_independent_auditors(actual):
+    from scripts.pi0294.multitask.cabinet_braked_turn import cards,VERSION
+    from scripts.pi0294.multitask.cabinet_seed_cards import seed_card
+    for index in range(1,5):
+        p=deepcopy(actual[1]);cabinet=cards();cabinet['right']=seed_card(index)
+        p.update(task_kind='ROBOCASA_CABINET',condition_side='right',cabinet_port_revision=VERSION,
+                 cabinet_seed_index=index,cards=dict(BOOK=book_cards(),ROBOCASA_CABINET=cabinet))
+        p['qualification'].update(condition_side='right',cabinet_port_revision=VERSION,
+            cabinet_seed_index=index,fixed_task_cards_sha256=bundle.CABINET_SEED_CARD_SHA[index])
+        result=bundle.unpack(p)
+        assert result['plan']==[dict(task_kind='ROBOCASA_CABINET',side='right')]
+        assert result['total_binary_bytes']==18345876
+        assert len(result['definitions'])==5 and len(result['binaries'])==6
+
+
 def test_single_book_manifest_requires_the_actual_static_route_revision():
     m=dict(task_kind='BOOK',condition_side='left',book_route_revision=bundle.BOOK_ROUTE_VERSION,
            predeclared_tasks=['left'],attempts_this_chain_max=1)
