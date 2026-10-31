@@ -61,13 +61,17 @@ put=once_ns['_exclusive'];commit=once_ns['commit']
 scope_ns={};exec(compile(code['scripts/pi0294/multitask/night_scope.py'],'<published-night-scope>','exec'),scope_ns)
 approval=base64.b64decode(P['approval_base64']);extension=base64.b64decode(P['successor_authority_base64'],validate=True)if P.get('successor_authority_base64')else None
 assert extension is None or bundle['task_kind']in('ALL_PINNED','ROBOCASA_CABINET')or P.get('book_route_revision')
-scope_ns['authority'](approval,now=time.time(),successor_body=extension)
+v7_policy=base64.b64decode(P['V7_policy_base64'],validate=True)if P.get('v7_finite_source_job')else None
+if v7_policy is not None:
+ scope_ns['authority'](approval,now=time.time(),v7_policy_body=v7_policy,job=P['v7_finite_source_job'])
+else:scope_ns['authority'](approval,now=time.time(),successor_body=extension)
 pc=base64.b64decode(P['PC_closed_account_base64']);account=json.loads(pc)
 scope_ns['validate_account'](account)
 assert account['custody']in('CLOSED_CARRIED_TO_NATIVE_OWNER_PENDING_INDEPENDENT_READBACK','V7_CLOSED_SOURCE_CUSTODY_PENDING_NATIVE_READBACK')
 assert account['native_adopted']is False
 if scope_ns.get('V7_CARRY')in account:
  assert account[scope_ns['V7_CARRY']]['destination']==str(root)
+ if v7_policy is not None:assert account[scope_ns['V7_FINITE']]==P['v7_finite_source_job']
 elif bundle['task_kind']=='ROBOCASA_CABINET':
  if P.get('cabinet_port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE':
   assert 'closed_cabinet_turn_speed_port05_carry'in account and account['charged_upper']['attempts']==5
@@ -92,6 +96,9 @@ for n,b in code.items():
 sys.path[:0]=[str(capsule),str(capsule/'src')]
 from scripts.pi0294.multitask import night_scope as scope
 if extension is not None:put(root/'SOURCE_SUCCESSOR_AUTHORITY.json',extension)
+if v7_policy is not None:
+ put(root/'SOURCE_V7_EXECUTION_POLICY.md',v7_policy)
+ put(root/'SOURCE_V7_FINITE_JOB.json',raw(P['v7_finite_source_job']))
 scope=scope.for_root(root)
 from scripts.pi0294.task_path_entry import ENTRY_FILES,node_local_paths,registered_snapshot
 gb=gzip.decompress(base64.b64decode(P['GLOBAL_gzip_base64']));assert sha(gb)==P['observation']['GLOBAL']['sha256']
@@ -100,6 +107,7 @@ if scope.V7_CARRY in account:
  budget=dict(original_forecast=first512_forecast(gb,lb),
   V7_project_internal_shortfalls_are_observations_not_new_run_approval_gates=True,
   old_balances_and_protected_work_unchanged=True,source_pool_caps_unchanged=True)
+ if v7_policy is not None:budget.update(v7_finite_source_job=P['v7_finite_source_job'],historical_source_caps_retained_not_reissued=True)
  storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
  future=max(0,storage['projected']-storage['used'])
  retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
@@ -133,6 +141,7 @@ put(root/'SOURCE_QUALIFICATION.json',raw(P['qualification']))
 lease_path=root/'control/NATIVE_SOURCE_LEASE.json'
 lease=dict(run_uuid=root.name,owner='EXISTING_LOCAL_PC',status='ACTIVE',approval_sha256=scope.APPROVAL_SHA,
  deadline_epoch=scope.DEADLINE,scope=scope.SCOPE,automatic_retry=False,new_GR00T_training_queries_PBS=0)
+if v7_policy is not None:lease.update(execution_policy_sha256=scope_ns['V7_POLICY'],finite_job_profile_sha256=sha(raw(P['v7_finite_source_job'])))
 put(lease_path,raw(lease))
 if scope.V7_CARRY in account:
  carry=account[scope.V7_CARRY];previous=Path(P['predecessor_root'])
@@ -165,6 +174,7 @@ marker=dict(schema='NIGHT_SOURCE30_DISTINCT_ADDITIVE_ALLOWANCE_V1',approval_sha2
  original_GLOBAL_sha256=sha(gb),original_LOCAL_before_sha256=sha(lb),full14_proof_sha256=sha(raw(budget)),
  registry_after_sha256=sha(snapshot),stop_new_epoch=scope.STOP_NEW,deadline_epoch=scope.DEADLINE,
  caps=scope.CAPS,all_original_financial_fields_unchanged=True,old_work_cannot_spend_this_allowance=True)
+if v7_policy is not None:marker.update(execution_policy_sha256=scope_ns['V7_POLICY'],finite_job_profile_sha256=sha(raw(P['v7_finite_source_job'])),historical_caps_retained_not_reissued=True)
 if 'NIGHT_SOURCE30_BOUNDED_AUTONOMY'in local:marker['closed_predecessor_source_marker']=local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']
 new_local=json.loads(lb);new_local['NIGHT_SOURCE30_BOUNDED_AUTONOMY']=marker
 adoption=cas(local_path,sha(lb),new_local,'NIGHT30-ADOPT-DISTINCT-SOURCE-ALLOWANCE')
@@ -188,6 +198,7 @@ sealed_names=['NIGHT_HUMAN_APPROVAL.json','SOURCE_SCOPE_ADOPTION.json','SOURCE_Q
  'ASSET_BINDINGS.private.json','RUNTIME_PATHS.private.json','ORIGINAL_ACTION_SEMANTICS_ACTUAL.json','OUTPUT_BINDING.private.json',
  'FULL14_PROOF.json']+['inputs/'+name for name in bundle['definitions']]
 if extension is not None:sealed_names.append('SOURCE_SUCCESSOR_AUTHORITY.json')
+if v7_policy is not None:sealed_names+=['SOURCE_V7_EXECUTION_POLICY.md','SOURCE_V7_FINITE_JOB.json']
 manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_PC',scope=scope.SCOPE,
  source_sha=P['source_sha'],capsule_relative='entry/code/vla',sealed_inputs={n:sha((root/n).read_bytes())for n in sealed_names},
  authority_sha256=scope.APPROVAL_SHA,original_entry_unchanged=True,original_registry_adopted=True,
