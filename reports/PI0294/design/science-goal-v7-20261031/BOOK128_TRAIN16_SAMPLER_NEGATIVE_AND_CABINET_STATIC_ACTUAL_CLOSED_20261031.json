@@ -1,0 +1,570 @@
+{
+  "schema": "BOOK128_NATIVE_TRAIN16_SAMPLER_DIAG_AND_CABINET_STATIC_GEOMETRY_ACTUAL_V1",
+  "as_of": "2026-10-31 09:59 SGT",
+  "source_sha": "eedef724cad39b7885c2c88a3a65b5baad818da4",
+  "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+  "actual_TRAIN_diagnostic": {
+    "status": "COMPLETE_NATIVE_TRAIN16_MATCHED_NOISE_SAMPLER_DIAGNOSTIC",
+    "windows": 16,
+    "native_loss_mean": 0.45543741434812546,
+    "expert_gate_rejects": 0,
+    "summary": {
+      "4": {
+        "generation_queries": 16,
+        "gate_rejects": 16,
+        "H40_XYZ_mean_m": 0.06532869168255315,
+        "H40_SO3_mean_rad": 0.05349976714046403,
+        "H40_gripper_MAE": 0.15444820382716984
+      },
+      "16": {
+        "generation_queries": 16,
+        "gate_rejects": 16,
+        "H40_XYZ_mean_m": 0.06569618099898739,
+        "H40_SO3_mean_rad": 0.05359916706798635,
+        "H40_gripper_MAE": 0.172322690486908
+      }
+    },
+    "generation_queries": 32,
+    "native_flow_loss_forwards": 16,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "DEV_conditions": 0,
+    "original_DEV10_result_unchanged": true
+  },
+  "native_result_sha256": "9239104efc0882a8ef8e364e136c8472fb73693a99e6451faa7428f269d0368c",
+  "per_window": [
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 0,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.7030172944068909,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06213377842648249,
+          "H40_SO3_mean_rad": 0.17136711662353743,
+          "H40_gripper_MAE": 0.15820029648867523
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06308037080814236,
+          "H40_SO3_mean_rad": 0.17984342408431245,
+          "H40_gripper_MAE": 0.179091020741246
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 80,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.593202531337738,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07691705444216249,
+          "H40_SO3_mean_rad": 0.030322515919730862,
+          "H40_gripper_MAE": 0.2131315625526689
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07755263155883128,
+          "H40_SO3_mean_rad": 0.029478454641425306,
+          "H40_gripper_MAE": 0.2273239811713046
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 160,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.42693600058555603,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07683918782321154,
+          "H40_SO3_mean_rad": 0.0437090430499889,
+          "H40_gripper_MAE": 0.03931060772050511
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07733948422084555,
+          "H40_SO3_mean_rad": 0.04304163401459946,
+          "H40_gripper_MAE": 0.043720107864249846
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 240,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.39088401198387146,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05872199601376885,
+          "H40_SO3_mean_rad": 0.04798669555498296,
+          "H40_gripper_MAE": 0.11209791492332113
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.058466457248184014,
+          "H40_SO3_mean_rad": 0.045750806480062724,
+          "H40_gripper_MAE": 0.14624945345250046
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 320,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.4347284734249115,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06699886471183351,
+          "H40_SO3_mean_rad": 0.035571367251449555,
+          "H40_gripper_MAE": 0.09430704739960759
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06670219259459631,
+          "H40_SO3_mean_rad": 0.034489934237415774,
+          "H40_gripper_MAE": 0.12677117098461502
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 400,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.7319443225860596,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06340404856071617,
+          "H40_SO3_mean_rad": 0.042806087094305854,
+          "H40_gripper_MAE": 0.13399663161147726
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06357256392531481,
+          "H40_SO3_mean_rad": 0.04009892148890635,
+          "H40_gripper_MAE": 0.1504490991885012
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 480,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.3089766502380371,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05799544351732464,
+          "H40_SO3_mean_rad": 0.05349728384494531,
+          "H40_gripper_MAE": 0.15690200911326846
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.059893313488584045,
+          "H40_SO3_mean_rad": 0.051703376374791755,
+          "H40_gripper_MAE": 0.1634766046296467
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 600,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.2902597188949585,
+      "expert_gate": "WARN",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.055697323850301725,
+          "H40_SO3_mean_rad": 0.03107624252536544,
+          "H40_gripper_MAE": 0.12072143500501462
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05737302862541334,
+          "H40_SO3_mean_rad": 0.031349885115244336,
+          "H40_gripper_MAE": 0.12901690534570004
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 0,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.6536990404129028,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07528477429634126,
+          "H40_SO3_mean_rad": 0.1590762480719961,
+          "H40_gripper_MAE": 0.24334957924756143
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07512389292484223,
+          "H40_SO3_mean_rad": 0.16663258723840496,
+          "H40_gripper_MAE": 0.2735113907944073
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 80,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.5098816156387329,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06945868962547683,
+          "H40_SO3_mean_rad": 0.02760965339571896,
+          "H40_gripper_MAE": 0.10984089090065523
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.0695452090236904,
+          "H40_SO3_mean_rad": 0.02771248126214008,
+          "H40_gripper_MAE": 0.12847820872610266
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 160,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.5189319849014282,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07822076143137946,
+          "H40_SO3_mean_rad": 0.04367689952759701,
+          "H40_gripper_MAE": 0.15359184281392532
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07845193477016099,
+          "H40_SO3_mean_rad": 0.04329707670846726,
+          "H40_gripper_MAE": 0.17619859630411322
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 240,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.3537202477455139,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05019373240943744,
+          "H40_SO3_mean_rad": 0.03476903933556176,
+          "H40_gripper_MAE": 0.06165662543340165
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05003309107472681,
+          "H40_SO3_mean_rad": 0.03359360601344193,
+          "H40_gripper_MAE": 0.08963132785125213
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 320,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.4110696315765381,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07206660897057313,
+          "H40_SO3_mean_rad": 0.0447319256291334,
+          "H40_gripper_MAE": 0.11818446625362747
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.07201394414588277,
+          "H40_SO3_mean_rad": 0.042522816732832217,
+          "H40_gripper_MAE": 0.14270397478883917
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 400,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.362863153219223,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06904625441650207,
+          "H40_SO3_mean_rad": 0.02438322179945993,
+          "H40_gripper_MAE": 0.44210386208512575
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06881706442512926,
+          "H40_SO3_mean_rad": 0.023319181296041335,
+          "H40_gripper_MAE": 0.42464341020042246
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 480,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.28040042519569397,
+      "expert_gate": "ACCEPT",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.061035298071007216,
+          "H40_SO3_mean_rad": 0.0334236821615832,
+          "H40_gripper_MAE": 0.14527403224598281
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.06109906524818065,
+          "H40_SO3_mean_rad": 0.03271295574965149,
+          "H40_gripper_MAE": 0.16475594246929343
+        }
+      ]
+    },
+    {
+      "window": {
+        "id": "BOOK_SOURCE_SEED004",
+        "anchor": 600,
+        "split": "TRAIN"
+      },
+      "native_loss": 0.3164835274219513,
+      "expert_gate": "WARN",
+      "actual_initial_noise_matched": true,
+      "samplers": [
+        {
+          "denoise_steps": 4,
+          "actual_native_DiT_calls": 4,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.05124525035433165,
+          "H40_SO3_mean_rad": 0.031989252462067845,
+          "H40_gripper_MAE": 0.1685024574398995
+        },
+        {
+          "denoise_steps": 16,
+          "actual_native_DiT_calls": 16,
+          "gate": "REJECT",
+          "H40_XYZ_mean_m": 0.0520746519012734,
+          "H40_SO3_mean_rad": 0.032039531650044126,
+          "H40_gripper_MAE": 0.1911418532783335
+        }
+      ]
+    }
+  ],
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_TRAIN16_RAW_INPUT_LABEL_NOISE_SAMPLER_CALLS_AND_METRIC_AUDIT",
+    "sha256": "96aa844cf6ddd29b5437f274fee8d3fdcfea2079078d0f78df022be609984484",
+    "actual_input_images_labels_arrays_metrics_and_noise_verified": true,
+    "new_models_queries_optimizer_physics": 0
+  },
+  "canonical_closure": {
+    "status": "BOOK_TRAIN16_DIAGNOSTIC_CLOSED_FULL_INDEPENDENT_READBACK",
+    "actual": {
+      "model_loads": 1,
+      "generation_queries": 32,
+      "native_loss_forward_calls": 16,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "source_episode_starts": 0,
+      "new_RGB_pairs": 0,
+      "formal_DEV_conditions": 0,
+      "CPU_s": 46.627602,
+      "GPU_allocated_s_upper": 36,
+      "own_allocated_bytes_before_closing": 33587200,
+      "result_sha256": "3619249d548aa3f34ebfa268d0cfce33bb75f118bb4e13d6545b50e0244d3acb",
+      "probe_sha256": "9239104efc0882a8ef8e364e136c8472fb73693a99e6451faa7428f269d0368c",
+      "independent_audit_sha256": "96aa844cf6ddd29b5437f274fee8d3fdcfea2079078d0f78df022be609984484",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true
+    },
+    "LOCAL_sha256": "3935375a74f6b509429b369dc87ec11da674e82b97000212f3c2e3f392dd8665",
+    "lease_sha256": "47c5cf665c3c9f3026cdfb219f5867b9225de460387ad302ea3467a6dd1372e1",
+    "readback_sha256": "e70e4eb0f5c5c77c76b1cc79a1183dced774710de2fd47e7ee1170a61bd2f180"
+  },
+  "conclusion": "The current128-step interface-only model fails original trajectory gates even on16 actual TRAIN observations. Increasing denoising4 to16 did not improve the measured position/rotation/gripper fit or rejection count. This does not prove the architecture cannot learn; it motivates a bounded TRAIN-fitting diagnostic before more DEV or data scaling.",
+  "unchanged": {
+    "book_DEV_successes": 0,
+    "book_DEV_conditions": 10,
+    "qualified_book_Teacher_demos": 5,
+    "qualified_cabinet_Teacher_demos": 0,
+    "new_book_training_updates": 128,
+    "E1_successes": 0,
+    "E1_conditions": 24,
+    "new_E2_complete512": 0,
+    "all_source_physical_attempts": 24,
+    "all_source_integrations": 169571,
+    "all_source_RGB_pairs": 4622,
+    "goal_complete": false
+  },
+  "cabinet_static": {
+    "status": "SAVED_PINNED_CABINET_FIXTURE_FULL_OPENING_SAT_GEOMETRY_NO_INTEGRATION",
+    "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+    "native_XML_sha256": "3cf52b8cec2d2b2404868948e33c0ac21d5802727da39105fede53d1a458a004",
+    "actual_saved_hinge_angle_rad": 0.1539957078499512,
+    "saved_angle_static": {
+      "angle_rad": 0.1539957078499512,
+      "SAT_signed_box_separation_m": {
+        "top": -0.001715281574744279,
+        "bottom": -0.0017162561588516118,
+        "back": 0.1600519300456519,
+        "right": -0.0017161527115451825,
+        "left": 0.02955515650049327
+      },
+      "maximum_geometric_overlap_m": 0.0017162561588516118
+    },
+    "full_opening_maximum": {
+      "angle_rad": 0.4225916666666667,
+      "SAT_signed_box_separation_m": {
+        "top": -0.0028971651595286196,
+        "bottom": -0.002898064653136301,
+        "back": 0.15710203082279045,
+        "right": -0.002897969176311646,
+        "left": 0.07733490520830168
+      },
+      "maximum_geometric_overlap_m": 0.002898064653136301
+    },
+    "original_native_penetration_stop_m": 0.004,
+    "original_hinge_and_fixture_geometry_unchanged": true,
+    "constructors_integrations_models": 0,
+    "CPU_s": 0.378226622,
+    "limitation": "Primitive OBB SAT separation is a static overlap measure, not native contact force or proof of dynamic causality. Original native contacts remain the force evidence.",
+    "observed_epoch": 1793411384.1357198
+  },
+  "cabinet_static_sha256": "3b13d9cfb271d605503da5fe45d421c210cf65663391f5e77c46ea023f695922",
+  "cabinet_conclusion": "The pinned fixture itself statically reproduces the saved1.716mm overlap and reaches about2.898mm on the full opening sweep, below the unchanged4mm penetration stop. This supports investigating fixture resistance and reference tracking lag; static overlap does not establish force causality or authorize a blind retry.",
+  "next_actions": [
+    "Bounded TRAIN16 fitting study to distinguish insufficient optimization from interface/action-side capacity; not yet started.",
+    "Full static path and grasp checks for any evidenced cabinet reference-feedback successor; old STOP remains.",
+    "E2 remains externally inaccessible after authentication refusal; current scheduler state unverified, no resubmission."
+  ]
+}

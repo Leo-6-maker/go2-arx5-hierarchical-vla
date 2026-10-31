@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
+2026-10-31 09:59 SGT实际：128步书本端点在16个固定TRAIN窗口上完成16次原生loss前向＋32次匹配噪声生成；专家参考0/16拒绝，而4步与16步生成均16/16拒绝，平均位置误差6.53/6.57cm，增加采样步数未改善。新增优化/物理/DEV均0，原DEV仍0/10；核账及许可CLOSED。下一步应做有界TRAIN拟合诊断，不能据此宣布架构无法学习或立即扩采。柜门原几何静态复现1.716mm重叠、全弧最大2.898mm，旧STOP和4mm原生门限未改，未新增柜门物理。 [实际诊断与关闭证据](reports/PI0294/design/science-goal-v7-20261031/BOOK128_TRAIN16_SAMPLER_NEGATIVE_AND_CABINET_STATIC_ACTUAL_CLOSED_20261031.json)。
+
 2026-10-31 09:36 SGT实际：**书本接口学习128步端点已实际完整恢复；固定DEV10为0/10**，十项首参考线速度2.94–4.47 m/s超过原2 m/s门限，任务命令/积分0；预热实际25,000积分、20对RGB。模型/AdamW/scheduler/RNG/4096采样位置恢复通过，原失败及权重保留，原生核账与许可CLOSED。此模型为E1暖启动、仅接口层更新，不能冒充E2或已学会任务。另有5条合格书本Teacher示范、柜门0；Teacher14次＋policy10次共24次源物理、169,571积分/4,622对RGB。E1原DEV24仍0/24；E2完整512仍0，Vanda认证拒绝后当前状态未核实。下一步TRAIN窗口拟合/生成诊断与柜门保存接触归因；WBC/安全/评分、S1/T2隔离不变，未改NFS/SSH或删除checkpoint。 [实际恢复、DEV10和关闭证据](reports/PI0294/design/science-goal-v7-20261031/BOOK128_FULL_RESTORE_DEV10_NEGATIVE_ACTUAL_CLOSED_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
