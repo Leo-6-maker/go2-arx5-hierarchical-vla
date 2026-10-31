@@ -159,7 +159,7 @@ if scope.V7_CARRY in account:
  carry=account[scope.V7_CARRY];previous=Path(P['predecessor_root'])
  previous_account=previous/'control/NIGHT_SOURCE_ACCOUNT.json'
  for key,name in dict(account='control/NIGHT_SOURCE_ACCOUNT.json',lease='control/NATIVE_SOURCE_LEASE.json',terminal='outputs/SOURCE_CHAIN_TERMINAL.json').items():
-  assert(previous/name).read_bytes()==base64.b64decode(carry[key+'_base64'],validate=True)
+  assert(previous/name).read_bytes()==scope.closed_carry_bytes(carry,key)
  q=subprocess.run(['systemctl','--user','show',previous.name+'.service','-p','MainPID','-p','SubState'],capture_output=True,text=True,timeout=4)
  facts=dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)
  prior_terminal=json.loads(base64.b64decode(carry['terminal_base64'],validate=True))

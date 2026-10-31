@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 16:13 SGT实际：纯放书Teacher累计10条；新增SEED007/008/009均完整32秒、安全和独立评分通过，owner/lease CLOSED。累计源物理42次/427097积分/13156对RGB，柜门1条、混合恢复完整6条，自主完整成功仍0。五条早期恢复可形成2949专家后缀窗，仍待新统计与官方Processor准入。新增导出复用原Reader/codec并保全原6份数值文件与DEV10；29项相关CPU检查通过，尚未部署或训练。未来增量空间检查已在三条原生运行通过，历史费用、旧工作保护不减，未清理数据。继续剩余TRAIN采集→准入→同数据有限学习/DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/TEN_COMPLETE_BOOK_TEACHERS_AND_EXPANDED_DATA_EXPORT_READY_ACTUAL_20261031.json)。
+2026-10-31 16:34 SGT实际：纯放书Teacher累计13条；新增SEED010/011/012均原32秒、独立任务与安全通过，owner/lease CLOSED。累计源物理45次/482597积分/15082对RGB；柜门完整1条、混合恢复完整6条，自主完整成功仍0。新增数据尚未官方准入，M32新训练更新0。第12号准备文件因递归嵌入旧账增至694,479,835字节；新版本只做无损压缩、保留原字节与全历史费用，34项检查通过，尚未原生部署。PR274同数据有限解冻/10步容量入口已发布，显存资格仍待测。继续最后两个初态→数据准入→有限学习/真实DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/THIRTEEN_BOOK_TEACHERS_AND_COMPACT_CARRY_REPAIR_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
