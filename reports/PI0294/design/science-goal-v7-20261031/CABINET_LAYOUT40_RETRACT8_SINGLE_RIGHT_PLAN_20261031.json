@@ -1,0 +1,235 @@
+{
+  "schema": "V7_SEPARATE_CABINET_LAYOUT40_RETRACT8_SINGLE_RIGHT_PLAN_V1",
+  "card_version": "ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8",
+  "fixed_full_asset_cards_sha256": "8d51b23e78f925fb66de2611f0d32fe0e5d5701f7e129dd7860a8d69215b1908",
+  "plan": [
+    {
+      "task_kind": "ROBOCASA_CABINET",
+      "side": "right"
+    }
+  ],
+  "attempts_this_chain_max": 1,
+  "candidate_card": {
+    "id": "V7_ROBOCASA_RIGHT_PORT06_LAYOUT40_RETRACT8",
+    "task": "DOOR",
+    "source_port": "ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1",
+    "task_duration_s": 32.0,
+    "warmup_s": 5.0,
+    "initial_tcp": [
+      [
+        0.0,
+        -0.7071067811865476,
+        0.7071067811865476,
+        0.3
+      ],
+      [
+        0.0,
+        0.7071067811865476,
+        0.7071067811865476,
+        0.3
+      ],
+      [
+        -1.0,
+        0.0,
+        0.0,
+        0.59
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "source_base_card": {
+      "id": "PINNED_CABINET_PORT_BASE",
+      "source_xy": [
+        0.36,
+        -0.1
+      ],
+      "goal_xy": [
+        0.5700000000000001,
+        0.2
+      ],
+      "cube_yaw": 0.0
+    },
+    "cabinet": {
+      "size_m": [
+        0.24,
+        0.22,
+        0.3
+      ],
+      "orientation": "right",
+      "cabinet_world": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.5700000000000001
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.59
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "door": {
+      "initial_angle_rad": 0.0,
+      "target_angle_rad": 1.4915,
+      "angle_limits_rad": [
+        0.0,
+        1.57
+      ],
+      "hinge_world": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.46
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          0.09500000000000001
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.59
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "handle_radius_m": 0.013,
+      "handle_length_m": 0.21699999999999997,
+      "object_to_tcp_grasp": [
+        [
+          0.0008048159934325564,
+          -0.9999854830281223,
+          -0.005327851746279447,
+          0.0005307630193694401
+        ],
+        [
+          0.7040823569633692,
+          -0.0032167562928536657,
+          0.7101110385649975,
+          -0.009052363890440451
+        ],
+        [
+          -0.7101178683036526,
+          -0.004322755136021947,
+          0.7040695469226818,
+          0.005237507732047453
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "approach_direction_object": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    "instruction": "Open the cabinet door.",
+    "original_benchmark_robot_or_seed": false,
+    "independent_demo_conditions": {
+      "native_all_doors_90_percent": true,
+      "actual_hinge_motion_and_handle_grasp": true,
+      "gripper_released": true,
+      "no_robot_object_contact": true,
+      "withdrawal_m": 0.08,
+      "angular_speed_max_rad_s": 0.05,
+      "continuous_hold_s": 2.0
+    },
+    "port_revision": "ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8",
+    "withdraw_tcp_rotation_world": [
+      [
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        -1.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "hinge_boundary_reference": "NATIVE_SAFE_HINGE_ANCHOR_FUTURE_IN_ORIGINAL_RANGE_V1",
+    "turn_reference_limits": {
+      "max_linear_m_s": 0.03,
+      "max_angular_rad_s": 0.15
+    }
+  },
+  "static_evidence_file": "BOOK5_ALL3005_LEARNING_ACTIVE_E1_DECODE_AND_CABINET_LAYOUT_STATIC_ACTUAL_20261031.json",
+  "static_evidence_file_sha256": "a971f0bb56733a606e0470554b680da9a806ff919014a8003dcb2228dff78b5f",
+  "static_native_constructors": 1,
+  "static_native_forward_calls": 11351,
+  "static_native_integrations": 0,
+  "source_original_geometry_contact_masks_friction_force_safety_and_score_unchanged": true,
+  "changed_only": {
+    "cabinet_translation_world_m": [
+      0.04,
+      0.0,
+      0.0
+    ],
+    "measured_tool_axis_retract_m": 0.008,
+    "private_source_Teacher_calibration_not_policy_input": true
+  },
+  "actual_source_engine_initial_camera_and_dynamic_qualification": false,
+  "source_dynamic_attempts_for_this_version": 0,
+  "runtime": "Existing V7 finite source owner, original registry/LOCAL/onceIO and night_book_chain/night_cabinet_worker. New cold run identity after active training device boundary; no added scheduler or source account class.",
+  "historical": "Old PORT05 result/STOP and all prior costs remain. The latest closed source custody is carried once under V7; no old role is reopened or total pool reset.",
+  "prerequisites": [
+    "active healthy book training completes and releases device",
+    "actual source custody and fresh Core registration/space/VRAM checks",
+    "native unchanged engine initial safety and actual dual-camera admission",
+    "complete task32s, warmup5s, original independent scorer"
+  ],
+  "finite_upper": {
+    "attempts": 1,
+    "physics_integrations": 50000,
+    "RGB_pairs": 2000,
+    "CPU_cores": 4,
+    "Core_CPU_s": 2840,
+    "render_device_s": 600,
+    "Core_output_bytes": 536870912
+  },
+  "failure": "Original native safety or lost grasp stops the new condition. Preserve raw result and diagnose; no automatic same-version retry or left-condition expansion.",
+  "validation": {
+    "affected_CPU_checks_passed": 61,
+    "private_actual_asset_bundle_and_saved_boundary_included": true,
+    "fixtures_or_static_checks_are_not_dynamic_qualification": true
+  },
+  "target_S1_closed_T2_quarantined": true,
+  "new_GR00T_training_or_neural_query_or_PBS": 0,
+  "new_dynamic_task_started": false
+}
