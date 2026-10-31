@@ -1,0 +1,317 @@
+{
+  "schema": "CABINET_EDGE07_NATIVE_GOAL_REACHED_INCOMPLETE_AND_BRAKED08_STATIC_V1",
+  "as_of_SGT": "2026-10-31 14:29 SGT",
+  "actual_PORT07": {
+    "source_sha": "d4f3b27154bb7483a07ec234bd013be99f22c55a",
+    "manifest_sha256": "0480c7f0fc61f3339b9f2ec177283feb5f5034b966d0f0a7fd185be03e4cd009",
+    "terminal": {
+      "sha256": "a7a2100f7c8254715fd57c7769d38acc7372d7c6fe646eea97bc8bd4900268a0",
+      "value": {
+        "status": "SOURCE_ATTEMPT_FAILED",
+        "operation": "ROBOCASA_RIGHT_PORT07_EDGE_HINGE_LAYOUT60",
+        "error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE",
+        "result": null,
+        "actual_integrations": 11425,
+        "actual_RGB_pairs": 358,
+        "recorded_RGB_pairs": 358,
+        "events": {
+          "qualification": 1,
+          "warmup_tick": 2500,
+          "warmup_complete": 1,
+          "observation": 357,
+          "planned_H40": 45,
+          "submitted_interval": 357,
+          "native_tick": 8925,
+          "completed_interval": 357
+        },
+        "CPU_s": 16.623708677,
+        "wall_s": 18.189780324697495,
+        "render_device_s": 16.342459664214402,
+        "task_success": null,
+        "training_admitted": false,
+        "automatic_retry": false,
+        "new_model_queries_updates_PBS": 0,
+        "observed_epoch": 1793427801.645692
+      }
+    },
+    "independent_raw_audit": {
+      "sha256": "98b5eab0b71f3cf8bfe84dc60362acf9b56a812b6e4c0f5ce55951e73774855f",
+      "value": {
+        "schema": "NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1",
+        "raw_sha256": "7738f4bcffe9414ee5e9fa12462beaeca74d013803c02c42e1cf08832618cefd",
+        "terminal_sha256": "a7a2100f7c8254715fd57c7769d38acc7372d7c6fe646eea97bc8bd4900268a0",
+        "new_simulator_or_model_calls": 0,
+        "task_success": false,
+        "qualified_source_pilot": false,
+        "training_admitted": false,
+        "status": "INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE",
+        "native_ROBOCASA_goal_final": true,
+        "additional_support_release_withdraw_hold_pass": false,
+        "complete_episode": false,
+        "original_native_safety_pass": true,
+        "integrity_problems": [
+          "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+          "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+          "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+        ],
+        "actual_integrations": 11425,
+        "recorded_native_ticks": 11425,
+        "recorded_failed_native_ticks": 0,
+        "terminal_safety_states_checked": 1,
+        "actual_observations": 357,
+        "completed_intervals": 357,
+        "terminal_error": "PermissionError: ACTUAL_GRASP_LOST_REQUIRES_NEW_RECOVERY_FROM_THIS_STATE"
+      }
+    },
+    "owner_terminal": {
+      "sha256": "d9745360bdfc8f3f2f2c62924d2836818ee54636559e60dc99206684df368b1f",
+      "value": {
+        "status": "FINITE_SOURCE_CHAIN_TERMINAL",
+        "results": [
+          {
+            "task_kind": "ROBOCASA_CABINET",
+            "side": "right",
+            "OS_exit_status": 1,
+            "raw_terminal_exists": true,
+            "audit_OS_exit_status": 0,
+            "independent_audit_sha256": "98b5eab0b71f3cf8bfe84dc60362acf9b56a812b6e4c0f5ce55951e73774855f",
+            "task_success": false,
+            "qualified_source_pilot": false
+          }
+        ],
+        "closed_lease_sha256": "fe2d9e8090493e440bc5e9f3a863d06eec9859fe0415dd616c7fc1401e7c6837",
+        "qualified_source_pilots": 0,
+        "CPU_s": 19.249204,
+        "wall_s": 20.875018673948944,
+        "pc_or_external_site_runtime_dependency": false,
+        "automatic_retry": false,
+        "new_model_queries_updates_PBS": 0,
+        "observed_epoch": 1793427804.108601
+      }
+    },
+    "lease": {
+      "sha256": "fe2d9e8090493e440bc5e9f3a863d06eec9859fe0415dd616c7fc1401e7c6837",
+      "value": {
+        "run_uuid": "20261031T062209Z-cabinet-edge07-night-source-four01",
+        "owner": "EXISTING_LOCAL_PC",
+        "status": "CLOSED",
+        "approval_sha256": "d7ba87c7711b484b71907fb22b7c6b334c5d67dceeef369ecb8ba12cdc8364e4",
+        "deadline_epoch": 1793428929.23532,
+        "scope": "PINNED_OPEN_SOURCE_NIGHT_20261030_V1",
+        "automatic_retry": false,
+        "new_GR00T_training_queries_PBS": 0,
+        "execution_policy_sha256": "b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a",
+        "finite_job_profile_sha256": "8155feadbc9e873f845aa0371922e35dcb38e7186e7e5c01a2c3486ca8c6a447",
+        "terminal_reason": "FINITE_PREDECLARED_SOURCE_TASKS_TERMINAL_NO_RETRY",
+        "closed_epoch": 1793427804.0832303,
+        "all_children_terminal": true
+      }
+    },
+    "MainPID": 0,
+    "all_children_terminal": true,
+    "actual_diagnosis": {
+      "status": "PORT07_NATIVE_GOAL_REACHED_SAFE_BUT_FINAL_CONSTANT_SPEED_REFERENCE_STOP_GRASP_FAILURE",
+      "raw_sha256": "7738f4bcffe9414ee5e9fa12462beaeca74d013803c02c42e1cf08832618cefd",
+      "native_goal_threshold_rad": 1.413,
+      "maximum_angle_rad": 1.4780052981517877,
+      "maximum_angle_deg": 84.68346568207232,
+      "first_observed_native_goal": {
+        "index": 348,
+        "task_time_s": 17.399999999998464,
+        "angle_rad": 1.4180931493886495
+      },
+      "terminal_task_time_s": 17.849999999998214,
+      "terminal_relative_speed_m_s": 0.02305311997525931,
+      "original_relative_speed_gate_m_s": 0.02,
+      "both_pad_force_N": {
+        "left": 3.867279652913175,
+        "right": 3.462007468781025
+      },
+      "terminal_hinge_speed_rad_s": 0.09259963626740417,
+      "terminal_native_safety": true,
+      "terminal_grasp": false,
+      "prior_reference_angular_speed_rad_s": 0.13622577639704342,
+      "last_reference_angular_speed_rad_s": 0.0,
+      "prior_reference_linear_speed_m_s": 0.029915697759232307,
+      "last_reference_linear_speed_m_s": 0.0,
+      "observed_fixture_panel_contact_samples": 244,
+      "observed_fixture_panel_max_penetration_m": 4.08231715243864e-05,
+      "full_demo_qualified": false,
+      "new_physics": 0,
+      "new_queries": 0,
+      "mechanism": "One20Hz interval removes reference velocity; original grasp speed gate fails at the transition with both pads loaded. An evidenced deceleration/lag hypothesis, not proof of repair.",
+      "observed_epoch": 1793428026.7760963
+    },
+    "qualified_full_demonstrations": 0,
+    "original_mechanical_benchmark": false
+  },
+  "prospective_PORT08": {
+    "status": "PUBLISHED_IMPLEMENTATION_STATIC_CHECKED_DYNAMIC_NOT_STARTED",
+    "version": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+    "evidence": "PORT07 first loss coincides with original constant-speed reference reaching its repeated endpoint:0.136226rad/s and0.029916m/s→0 within one20Hz interval; both pads remain loaded and relative speed0.023053>original0.02m/s.",
+    "change": "Cosine velocity deceleration during final0.8s; retain original arc and measured anchor/endpoints; peak reference speeds cannot increase, duration increases0.4–0.45s.",
+    "common_home_grasp_geometry_placement_hinge_limits_friction_force_safety_score_WBC_unchanged": true,
+    "old_PORT07_closed_preserved": true,
+    "exact_RoboCasa_benchmark": false,
+    "full_task_s": 32,
+    "task_predicates_not_relaxed": true,
+    "route": {
+      "knots": 477,
+      "stages": [
+        {
+          "stage": "approach",
+          "points": 74,
+          "reference_duration_s": 3.6500000000000004,
+          "max_IK_position_error_m": 7.621594340611688e-10,
+          "max_IK_rotation_error_rad": 1.7309254267499344e-09,
+          "max_joint_speed_rad_s": 0.2957578856642451,
+          "minimum_full_robot_fixture_clearance_m": 0.08302228759846499,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.08302228759846499
+          }
+        },
+        {
+          "stage": "align",
+          "points": 28,
+          "reference_duration_s": 1.35,
+          "max_IK_position_error_m": 7.595313950865119e-10,
+          "max_IK_rotation_error_rad": 1.458549477073546e-09,
+          "max_joint_speed_rad_s": 0.18033592887718886,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239380931169468,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380931169468
+          }
+        },
+        {
+          "stage": "close",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 4.741699756650718e-10,
+          "max_IK_rotation_error_rad": 1.36946389119665e-09,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_full_robot_fixture_clearance_m": 0.0030239380931169468,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380931169468
+          }
+        },
+        {
+          "stage": "turn",
+          "points": 229,
+          "reference_duration_s": 11.4,
+          "max_IK_position_error_m": 7.777540667896388e-07,
+          "max_IK_rotation_error_rad": 9.664682818490386e-06,
+          "max_joint_speed_rad_s": 0.43782682722800725,
+          "minimum_full_robot_fixture_clearance_m": 0.003023937589893366,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.003023937589893366
+          }
+        },
+        {
+          "stage": "release",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 8.048303748665838e-11,
+          "max_IK_rotation_error_rad": 5.625434157364256e-10,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_full_robot_fixture_clearance_m": 0.003023937589893366,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.003023937589893366
+          }
+        },
+        {
+          "stage": "withdraw",
+          "points": 112,
+          "reference_duration_s": 5.550000000000001,
+          "max_IK_position_error_m": 1.201927396206679e-10,
+          "max_IK_rotation_error_rad": 9.329734108873576e-10,
+          "max_joint_speed_rad_s": 0.2961351366617171,
+          "minimum_full_robot_fixture_clearance_m": 0.003023937589893366,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.003023937589893366
+          }
+        }
+      ],
+      "geometric_reference_duration_s": 23.55,
+      "with_minimum_original_verify_hold_s": 25.95,
+      "all_IK_joint_speed_pass": true,
+      "all_full_robot_fixture_knots_clear": true,
+      "private_receipt_sha256": "a41de8be4a02f8d89c3d229e815b15437b02d5b528cd731b2ee039fd41a4c0d7"
+    },
+    "actual_native_static": {
+      "native_model_constructors": 1,
+      "native_forward_calls": 11901,
+      "physics_integrations": 0,
+      "RGB_pairs": 0,
+      "original_XML_sha256": "3cf52b8cec2d2b2404868948e33c0ac21d5802727da39105fede53d1a458a004",
+      "original_control_safety_contact_and_solver_XML_unchanged": true,
+      "hypothetical_fixture_translation_world_m": [
+        0.06,
+        0.0,
+        0.0
+      ],
+      "proposed_joint_axis_local": [
+        0.1185,
+        -0.11,
+        0.0
+      ],
+      "proposed_XML_sha256": "f36ad7b37aeb36a595585873c55c448891ca9e11fcc3fe7bd5e1159ec74a1790",
+      "full_robot_body_descendant_classification": true,
+      "analysis_CPUs": 1,
+      "analysis_cold_boundary_no_active_training": true,
+      "source_knots": 477,
+      "linear_joint_interpolation_substeps_per_20Hz_interval": 25,
+      "native_geometry_sample_hz": 500,
+      "native_penetration_or_joint_or_arm_table_violation": false,
+      "strict_unexpected_robot_contact_samples": 0,
+      "contact_summary": {
+        "FIXTURE_INTERNAL": {
+          "contact_samples": 23808,
+          "max_penetration_m": 3.4139358007223563e-17
+        },
+        "EXPECTED_PAD_HANDLE": {
+          "contact_samples": 11574,
+          "max_penetration_m": 0.0016504066339884291
+        }
+      },
+      "worst_unexpected_contacts": [],
+      "task_fixture_internal_max_penetration_m": 3.4139358007223563e-17,
+      "expected_pad_handle_max_penetration_m": 0.0016504066339884291,
+      "original_penetration_stop_m": 0.004,
+      "CPU_s": 1.184813105,
+      "qualification": false,
+      "native_dynamic_grasp_and_tracking_unmeasured": true,
+      "limitations": "Hypothetical prescribed joint interpolation and saved finger width. Native forward/contact geometry is sampled, no dynamics, forces, physical attempts or full continuous collision certificate. Task success is not measured."
+    },
+    "native_static_receipt_sha256": "bc603a697d726a8288d33fdc4ae2f0f384a4a19087f6a1021085010f0128b92e",
+    "affected_CPU_tests_passed": 60,
+    "actual_saved_boundary_and_both_direction_limit_checks": true,
+    "limitations": "Static prescribed joint interpolation and saved hypothetical finger widths, not dynamic force/tracking qualification. Endpoint braking is an evidenced hypothesis; no successful task is promised."
+  },
+  "source_totals": {
+    "attempts": 30,
+    "physics_integrations": 220836,
+    "RGB_pairs": 6082,
+    "pure_Teacher_attempts": 16,
+    "formal_book_DEV_attempts": 13,
+    "mixed_TRAIN_recovery_attempts": 1,
+    "qualified_pure_book_Teacher_demos": 5,
+    "qualified_cabinet_full_demos": 0,
+    "mixed_safe_recovery_completions": 1,
+    "learned_autonomous_full_task_successes": 0
+  },
+  "new_models_or_training_or_PBS": 0,
+  "next": "After full source readback and cold owner/capacity admission, one right-cabinet braked-turn native qualification and full32s attempt. Preserve all original stops and classify actual terminal honestly.",
+  "goal_complete": false
+}
