@@ -242,8 +242,8 @@ def run(root, manifest_sha256):
             raise ValueError('BOOK_SAVED_OPTIMIZER_STATE_REQUIRED')
         # Actual strict reload of every wrapped model member into the qualified
         # architecture; no second live model, extra checkpoint or inference export.
-        from transformers.modeling_utils import load_sharded_checkpoint
-        load_sharded_checkpoint(model,str(cp),strict=True,prefer_safe=True)
+        from scripts.pi0294.multitask.book_checkpoint import load_wrapped
+        load_wrapped(model,cp)
         if {n:tensor_identity(p)for n,p in model.named_parameters()if p.requires_grad}!=after or frozen_fingerprint(model)!=frozen:
             raise ValueError('BOOK_ACTUAL_FULL_WRAPPED_MODEL_RELOAD_DIFFERS')
         trainer.optimizer.load_state_dict(restored);trainer.lr_scheduler.load_state_dict(torch.load(cp/'scheduler.pt',map_location='cpu',weights_only=False))
