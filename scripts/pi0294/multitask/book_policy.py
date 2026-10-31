@@ -263,12 +263,33 @@ def run(root,manifest_sha256):
         write(root/'ACTUAL_FULL_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
             model_restore=restore_keys,optimizer_state_entries=len(saved_optimizer['state']),optimizer_steps_restored=128,
             scheduler_restored=True,RNG_restored=True,sampler_cursor=4096,new_optimizer_updates=0,DEV_started=False,observed_epoch=time.time()))
+        if m.get('delta_checkpoint'):
+            if is_probe or is_fit:raise PermissionError('DELTA_INFERENCE_ONLY_ON_NEW_FIXED_DEV_PANEL')
+            producer=node_local(m['delta_producer_root']);certificate=producer/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
+            if (read(producer/'control/LEASE.json')['status']!='CLOSED'
+                    or sha(producer/'control/LEASE.json')!=m['delta_producer_closed_lease_sha256']
+                    or Path(m['delta_checkpoint'])!=producer/'training/checkpoint-256'
+                    or sha(certificate)!=m['delta_native_qualification_sha256']):raise PermissionError('FIT256_PRODUCER_CLOSED_AND_NATIVE_RESTORE_QUALIFIED')
+            qualification=read(certificate)
+            if(qualification['checkpoint_manifest_sha256']!=m['delta_checkpoint_manifest_sha256']
+                    or qualification['required_parent_checkpoint_manifest_sha256']!=m['checkpoint_manifest_sha256']
+                    or not all(qualification[k]for k in('model_reconstruction','scheduler_restored','RNG_restored','frozen_parent_unchanged'))
+                    or qualification['optimizer_updates']!=256 or qualification['sampler_cursor']!=8192):raise PermissionError('FIT256_ACTUAL_FULL_STATE_QUALIFICATION')
+            from scripts.pi0294.multitask.book_checkpoint import load_parent_delta
+            reconstruction=load_parent_delta(model,contract,node_local(m['delta_checkpoint']),
+                manifest_sha256=m['delta_checkpoint_manifest_sha256'],parent_sha256=m['checkpoint_manifest_sha256'])
+            write(root/'ACTUAL_PARENT_DELTA_INFERENCE_RECONSTRUCTION.json',dict(**reconstruction,
+                producer_native_qualification_sha256=m['delta_native_qualification_sha256'],observed_epoch=time.time()))
         data=saved_optimizer=None
         if not is_probe:trainer=None
         gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
         instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
         instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(checkpoint/'statistics.json'))
         instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(checkpoint/'statistics.json'))
+        if m.get('delta_checkpoint'):
+            instance.identity=dict(kind='BOOK128_TRAIN16_FIT256_PARENT_DELTA',new_optimizer_updates=256,parent_book_updates=128,
+                checkpoint_manifest_sha256=m['delta_checkpoint_manifest_sha256'],parent_checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
+                statistics_sha256=sha(checkpoint/'statistics.json'),training_population='SIXTEEN_FIXED_TRAIN_WINDOWS_NOT_FORMAL_E2')
         original_generate=instance.generate
         def timed_generate(request,seed):
             signal.alarm(max(1,min(60,int(m['deadline_epoch']-time.time()))))
@@ -310,6 +331,8 @@ def run(root,manifest_sha256):
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
         else:write(root/'RESULT.json',dict(status='COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10',error=failure,
+            evaluated_checkpoint_manifest_sha256=m.get('delta_checkpoint_manifest_sha256',m['checkpoint_manifest_sha256']),
+            checkpoint_requires_retained_full_parent=bool(m.get('delta_checkpoint')),
             conditions=rows,valid_conditions=sum(r['valid_model_condition']for r in rows),successes=sum(r['success']for r in rows),
             model_load_attempts=loads,model_queries=sum(r['model_queries']for r in rows),integrations=sum(r['integrations']for r in rows),
             RGB_pairs=sum(r['RGB_pairs']for r in rows),optimizer_updates=0,training_data_admission=False,

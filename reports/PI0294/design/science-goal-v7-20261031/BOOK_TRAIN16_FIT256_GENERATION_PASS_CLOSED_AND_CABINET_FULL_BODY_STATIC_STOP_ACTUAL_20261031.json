@@ -1,0 +1,476 @@
+{
+  "schema": "BOOK_TRAIN16_NATIVE_FIT256_AND_CABINET_DENSE_FULL_BODY_ACTUAL_V1",
+  "as_of": "2026-10-31T10:36:02+08:00",
+  "learning_source_sha": "6b239a37fcbece48dab152595b071ee885efca4b",
+  "fit_recipe": "BOOK128_TRAIN16_TARGET_FIT256_V1",
+  "learning_actual": {
+    "model_loads": 1,
+    "optimizer_updates": 256,
+    "TRAIN_window_visits": 8192,
+    "generation_queries": 32,
+    "native_diagnostic_loss_forwards": 32,
+    "physics_integrations": 0,
+    "source_episode_starts": 0,
+    "new_RGB_pairs": 0,
+    "formal_DEV_conditions": 0,
+    "CPU_s": 1385.198379,
+    "GPU_allocated_s_upper": 1263,
+    "own_allocated_bytes_before_closing": 159887360,
+    "result_sha256": "91d63affdef043c5eb5c53293d5048f271c322a0ec2a7c94ecc5f632a47a3515",
+    "fit_sha256": "5b2ba49f1bb79499d0f058eed9c7390b5b4ee8332ab351c91973d9553c00b38e",
+    "checkpoint_manifest_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480",
+    "actual_delta_restore_sha256": "c1aeb7a32675c2f951230b365c83e311a626901f0cc3b1c4b97094fec745ba7a",
+    "independent_audit_sha256": "553086129fe84f8d5e9b84bc9d23f87492454223b8e11b33f63558341a5abae0",
+    "checkpoint_requires_retained_full_parent": true,
+    "OS_exit_code_not_retained_after_transient_unit_GC": true
+  },
+  "before_after": {
+    "before": {
+      "phase": "before",
+      "TRAIN_windows": 16,
+      "generation_queries": 16,
+      "native_loss_forwards": 16,
+      "native_loss_mean": 0.45543741434812546,
+      "expert_gate_rejects": 0,
+      "gate_rejects": 16,
+      "H40_XYZ_mean_m": 0.06532869168255315,
+      "H40_SO3_mean_rad": 0.05349976714046403,
+      "H40_gripper_MAE": 0.15444820382716984
+    },
+    "after": {
+      "phase": "after",
+      "TRAIN_windows": 16,
+      "generation_queries": 16,
+      "native_loss_forwards": 16,
+      "native_loss_mean": 0.03451435489114374,
+      "expert_gate_rejects": 0,
+      "gate_rejects": 0,
+      "H40_XYZ_mean_m": 0.017287349766236026,
+      "H40_SO3_mean_rad": 0.015120996098029348,
+      "H40_gripper_MAE": 0.026577698701823305
+    }
+  },
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_ACTUAL_TRAIN16_FIT_AND_RESTORABLE_PARENT_DELTA",
+    "raw_collected_sha256": "1e7102e677ff7c47edabffc68a2eef7ad983884e24a4a56eb21b672886724172",
+    "files": {
+      "RESULT.json": "91d63affdef043c5eb5c53293d5048f271c322a0ec2a7c94ecc5f632a47a3515",
+      "TRAIN_FIT_RESULT.json": "5b2ba49f1bb79499d0f058eed9c7390b5b4ee8332ab351c91973d9553c00b38e",
+      "ACTUAL_DELTA_CHECKPOINT_RESTORE.json": "c1aeb7a32675c2f951230b365c83e311a626901f0cc3b1c4b97094fec745ba7a",
+      "ACTUAL_FULL_CHECKPOINT_RESTORE.json": "41b66560a963063a69699452acc411de60329c33ff636ed223f2d2cfc9a71382",
+      "FIT_PROGRESS.json": "4daf2256cb4b8f9ca1b05771a78287fe4fb152dcb3bc558db561b90f463a4eec",
+      "training/checkpoint-256/CHECKPOINT_COMPLETE.json": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
+    },
+    "actual_optimizer_updates": 256,
+    "actual_TRAIN_window_visits": 8192,
+    "matched_generation_queries": 32,
+    "physics": 0,
+    "DEV": 0,
+    "every_input_label_and_original_gate_recomputed": true,
+    "checkpoint_actual_parent_reconstruction_and_all_state_restoration": true,
+    "recomputed_decisions_issues_and_provenance_exact": true,
+    "metric_numeric_comparison_tolerance": {
+      "relative": 1e-10,
+      "absolute": 1e-10
+    },
+    "maximum_cross_platform_metric_difference": 1.3877787807814457e-17,
+    "metrics": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.45543741434812546,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 16,
+        "H40_XYZ_mean_m": 0.06532869168255315,
+        "H40_SO3_mean_rad": 0.05349976714046403,
+        "H40_gripper_MAE": 0.15444820382716984
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.03451435489114374,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.017287349766236026,
+        "H40_SO3_mean_rad": 0.015120996098029348,
+        "H40_gripper_MAE": 0.026577698701823305
+      }
+    },
+    "optimizer_first_loss": 0.2948666214942932,
+    "optimizer_last_loss": 0.07231008261442184,
+    "full_task_success_not_measured": true,
+    "checkpoint_standalone": false,
+    "observed_epoch": 1793413855.5355425
+  },
+  "checkpoint": {
+    "manifest_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480",
+    "required_retained_parent_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+    "standalone_model": false,
+    "full_resume_with_required_parent": true,
+    "actual_native_reconstruction_sha256": "c1aeb7a32675c2f951230b365c83e311a626901f0cc3b1c4b97094fec745ba7a",
+    "optimizer_state_entries": 14,
+    "optimizer_updates": 256,
+    "scheduler_RNG_restored": true,
+    "sampler_cursor": 8192,
+    "frozen_parent_tensors_unchanged": true
+  },
+  "closure": {
+    "LOCAL_sha256": "8c0aa4037346afcb886f5e1d75fe9f14768b22081dc71c014945aeec724fc4b9",
+    "lease_sha256": "5c7a7bdd0828e42754237fada8453c840695c39b85bdf6fa37c894bbffcd00fc",
+    "registry_sha256": "c0cae4a2f6ac7bb1c6e9f14e25f6d94b4535b010da52290a431a8b9f75bfe372",
+    "independent_closed_readback": true,
+    "transient_OS_exit_status_not_retained": true
+  },
+  "interpretation": [
+    "The existing target interface can substantially fit these16 previously measured TRAIN windows with additional optimization.",
+    "This is a fresh-optimizer fixed16 fitting diagnostic, not uniform full-five-demo continuation or original E2.",
+    "All16 matched after-training reference gates pass; learned task success and DEV generalization have not been measured for this delta.",
+    "The earlier book128 formal DEV0/10 and E1 original DEV0/24 remain unchanged."
+  ],
+  "cabinet": {
+    "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+    "xml_sha256": "3cf52b8cec2d2b2404868948e33c0ac21d5802727da39105fede53d1a458a004",
+    "old_real_palm_handle_contact": [
+      {
+        "geom0": 69,
+        "geom1": 82,
+        "distance_m": -0.002607804018389333,
+        "normal": [
+          0.9997435116975811,
+          0.01089430011275269,
+          0.01985510119948953
+        ],
+        "normal_force_N": 3.6318135895420145
+      }
+    ],
+    "old_native_palm_body": "x5_link6",
+    "original_grasp_full_turn_IK": {
+      "points": 206,
+      "target_angle_rad": 1.4915,
+      "max_position_error_m": 3.7736271601503795e-09,
+      "max_rotation_error_rad": 2.3127858936253126e-08,
+      "max_joint_reference_speed_rad_s": 0.5379675738747869,
+      "original_joint_reference_max_rad_s": 0.7
+    },
+    "retracted_grasp_candidate": {
+      "tool_axis_retraction_m": 0.008,
+      "palm_handle_endpoint_clearance_m": 0.0030239524778380624,
+      "original20Hz_route_knots": 455,
+      "reference_duration_s": 22.450000000000003,
+      "stages": [
+        {
+          "stage": "approach",
+          "points": 74,
+          "reference_duration_s": 3.6500000000000004,
+          "max_IK_position_error_m": 9.485626532779853e-10,
+          "max_IK_rotation_error_rad": 3.4693216118777146e-09,
+          "max_joint_speed_rad_s": 0.31931376051766325,
+          "minimum_non_grasp_primitive_clearance_m": 0.038276527732289255,
+          "worst_pair": {
+            "robot": "right_pad",
+            "obstacle": "handle_connector_top",
+            "clearance_m": 0.038276527732289255
+          }
+        },
+        {
+          "stage": "align",
+          "points": 28,
+          "reference_duration_s": 1.35,
+          "max_IK_position_error_m": 9.485626532779853e-10,
+          "max_IK_rotation_error_rad": 2.7732560689464867e-09,
+          "max_joint_speed_rad_s": 0.20643107388588433,
+          "minimum_non_grasp_primitive_clearance_m": 0.0030239380833551235,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380833551235
+          }
+        },
+        {
+          "stage": "close",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 5.0286839728363e-10,
+          "max_IK_rotation_error_rad": 1.4412784839278488e-09,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_non_grasp_primitive_clearance_m": 0.0030239380833551235,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239380833551235
+          }
+        },
+        {
+          "stage": "turn",
+          "points": 207,
+          "reference_duration_s": 10.3,
+          "max_IK_position_error_m": 4.005370486963186e-09,
+          "max_IK_rotation_error_rad": 2.49624303854183e-08,
+          "max_joint_speed_rad_s": 0.545554155343102,
+          "minimum_non_grasp_primitive_clearance_m": 0.0030239377247792323,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239377247792323
+          }
+        },
+        {
+          "stage": "release",
+          "points": 17,
+          "reference_duration_s": 0.8,
+          "max_IK_position_error_m": 2.183537911085948e-09,
+          "max_IK_rotation_error_rad": 1.5336484211990428e-08,
+          "max_joint_speed_rad_s": 0.0,
+          "minimum_non_grasp_primitive_clearance_m": 0.0030239379693760195,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239379693760195
+          }
+        },
+        {
+          "stage": "withdraw",
+          "points": 112,
+          "reference_duration_s": 5.550000000000001,
+          "max_IK_position_error_m": 2.183537911085948e-09,
+          "max_IK_rotation_error_rad": 1.53364845742865e-08,
+          "max_joint_speed_rad_s": 0.28383573992135425,
+          "minimum_non_grasp_primitive_clearance_m": 0.0030239379693760195,
+          "worst_pair": {
+            "robot": "x5_link6",
+            "obstacle": "handle",
+            "clearance_m": 0.0030239379693760195
+          }
+        }
+      ],
+      "pointwise_arm_only_primitive_check_was_not_full_robot_qualification": true
+    },
+    "native_dense_full_body": {
+      "native_model_constructors": 1,
+      "native_forward_calls": 11351,
+      "physics_integrations": 0,
+      "RGB_pairs": 0,
+      "original_XML_sha256": "3cf52b8cec2d2b2404868948e33c0ac21d5802727da39105fede53d1a458a004",
+      "original_control_safety_contact_and_solver_XML_unchanged": true,
+      "source_knots": 455,
+      "linear_joint_interpolation_substeps_per_20Hz_interval": 25,
+      "native_geometry_sample_hz": 500,
+      "native_penetration_or_joint_or_arm_table_violation": true,
+      "strict_unexpected_robot_contact_samples": 4868,
+      "contact_summary": {
+        "FIXTURE_INTERNAL": {
+          "contact_samples": 44325,
+          "max_penetration_m": 0.0028979702027893284
+        },
+        "EXPECTED_PAD_HANDLE": {
+          "contact_samples": 10474,
+          "max_penetration_m": 0.0016498422752396047
+        },
+        "UNEXPECTED_ROBOT_FIXTURE": {
+          "contact_samples": 4924,
+          "max_penetration_m": 0.01447034096033118
+        }
+      },
+      "full_robot_body_descendant_classification": true,
+      "worst_over_original_stop_by_pair": [
+        {
+          "stage": "turn",
+          "index": 164,
+          "angle_rad": 1.186857965637937,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE",
+          "geom0": 12,
+          "geom1": 82,
+          "body0": "FL_hip",
+          "body1": "rc_door_handle",
+          "geom0_name": null,
+          "geom1_name": "rc_handle",
+          "depth_m": 0.004325824654972038
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "angle_rad": 1.488891267070163,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE",
+          "geom0": 12,
+          "geom1": 81,
+          "body0": "FL_hip",
+          "body1": "rc_door_panel",
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.01447034096033118
+        }
+      ],
+      "worst_unexpected_contacts": [
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.01447034096033118,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014466041196525531,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014461753032222344,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014457476454110385,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014453211448904858,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014448958003329179,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 205,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014445520925647833,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.01444471610413393,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 205,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014441212107408244,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014440485738093003,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 205,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014436915334430502,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        },
+        {
+          "stage": "turn",
+          "index": 206,
+          "geom0": 12,
+          "geom1": 81,
+          "geom0_name": null,
+          "geom1_name": "rc_door",
+          "depth_m": 0.014436266891996199,
+          "kind": "UNEXPECTED_ROBOT_FIXTURE"
+        }
+      ],
+      "task_fixture_internal_max_penetration_m": 0.0028979702027893284,
+      "expected_pad_handle_max_penetration_m": 0.0016498422752396047,
+      "original_penetration_stop_m": 0.004,
+      "CPU_s": 1.2137056480000001,
+      "qualification": false,
+      "native_dynamic_grasp_and_tracking_unmeasured": true,
+      "limitations": "Hypothetical prescribed joint interpolation and saved finger width. Native forward/contact geometry is sampled, no dynamics, forces, physical attempts or full continuous collision certificate. Task success is not measured."
+    },
+    "native_dense_full_body_receipt_sha256": "83c97e46c1c00ea3966d7dd4d44fc33b386bac7a2b348d64c171ca37235fd807",
+    "actual_no_integration_analysis_totals": {
+      "native_model_constructors": 3,
+      "native_forward_calls": 34053,
+      "physics_integrations": 0,
+      "RGB_pairs": 0,
+      "dynamic_episode_starts": 0
+    },
+    "classification_correction": "The first two dense native analyses used an arm-name heuristic; their non-arm collision bucket was not a body identity. Full base_link descendant classification identifies FL_hip versus rc_handle/rc_door. Original receipts retained.",
+    "decision": "NOT_QUALIFIED_NO_DYNAMIC_RETRY: the retracted grasp clears the palm but the opening handle/door collides with the fixed source Go2 front-left hip. Inspect placement/full geometry; never remove that geometry or relax4mm safety.",
+    "constructor_only_pre_dispatch_failure": "One operation name exceeded the existing64-character Journal phase limit. Exact code/event/transport absence proves no dispatch; its60CPU upper and wire reserve remain charged. A shorter diagnostic name was used only after reconciliation."
+  },
+  "unchanged": {
+    "qualified_book_Teacher_demonstrations": 5,
+    "qualified_cabinet_demonstrations": 0,
+    "source_physical_episode_attempts": 24,
+    "source_integrations": 169571,
+    "source_RGB_pairs": 4622,
+    "original_E1_valid_conditions": 24,
+    "original_E1_successes": 0,
+    "book128_valid_DEV_conditions": 10,
+    "book128_DEV_successes": 0,
+    "original_E2_complete512_endpoints": 0,
+    "E2_current_scheduler_state": "UNVERIFIED_AFTER_VANDA_SSH_AUTH_REFUSAL",
+    "S1": "CLOSED",
+    "T2": "QUARANTINED",
+    "WBC_safety_scoring_infrastructure_unchanged": true,
+    "checkpoint_cleanup": 0
+  },
+  "next_actions": [
+    "Use the existing fixedDEV10 evaluator and original noise/physics/scoring on this qualified parent-bound checkpoint, under a new finite identity. No new DEV has run in this report.",
+    "Cabinet remains dynamically stopped; the next candidate needs complete source body clearance as well as a safe grasp, IK, sweeps and unchanged native safety."
+  ],
+  "code_validation": {
+    "affected_CPU_tests": 23,
+    "passed": 23,
+    "CI": "NOT_RUN",
+    "new_delta_DEV_loader_native": "NOT_RUN_IN_THIS_PUBLICATION"
+  }
+}
