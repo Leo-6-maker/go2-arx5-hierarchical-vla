@@ -677,7 +677,7 @@
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_RECOVERY_PHASE_STATS_BASELINE_AND_CURVE_QUALIFICATION_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
     "attempts": 51,
     "physics_integrations": 541979,
@@ -713,5 +713,21 @@
       4096
     ],
     "next_curve_native_started": false
+  },
+  "maintenance_continuous4096": {
+    "status": "RUNNING_NOT_COMPLETE",
+    "actual_progress": {
+      "step": 246,
+      "cursor": 7872,
+      "native_loss": 0.019500618800520897,
+      "learning_rate": [
+        9.98037602205185e-05,
+        9.98037602205185e-05
+      ],
+      "epoch": 1793450302.724698
+    },
+    "original_source_immutable": "abaec48ac7a5d8079df07da774ad97658b03438b",
+    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_RECOVERY_PHASE_STATS_BASELINE_AND_CURVE_QUALIFICATION_ACTUAL_20261031.json",
+    "intermediate_native_or_DEV_results_complete": false
   }
 }

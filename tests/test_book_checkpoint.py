@@ -1,5 +1,5 @@
 import pytest
-from scripts.pi0294.multitask.book_checkpoint import validate_missing,LM_HEAD,validate_delta_header
+from scripts.pi0294.multitask.book_checkpoint import validate_missing,LM_HEAD,validate_delta_header,qualification_file_name
 
 
 def test_only_proven_saved_language_embedding_alias_can_be_omitted():
@@ -61,3 +61,19 @@ def test_recovery_delta_requires_new_population_statistics_and_committed512():
     with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
     bad=deepcopy(value);del bad['files']['TRAIN_DEV_SEAL.json']
     with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
+
+
+def test_intermediate_curve_requires_its_own_exact_full_state_qualification_file():
+    from scripts.pi0294.multitask.book_m32_learning import curve_plan,plan
+    p=curve_plan('1'*64,'2'*64,'3'*64)
+    for step in(1024,2048):
+        c=dict(recipe=p,global_step=step)
+        name=f'ACTUAL_DELTA_CHECKPOINT_RESTORE_{step}.json'
+        assert qualification_file_name(dict(delta_native_qualification_file=name),c)==name
+        with pytest.raises(PermissionError):qualification_file_name({},c)
+        for invalid in('../'+name,'/tmp/'+name,'ACTUAL_DELTA_CHECKPOINT_RESTORE_4096.json',name.replace(str(step),'512')):
+            with pytest.raises(PermissionError):qualification_file_name(dict(delta_native_qualification_file=invalid),c)
+    assert qualification_file_name({},dict(recipe=p,global_step=4096))=='ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
+    short=plan('1'*64,'2'*64,'3'*64,blocks=2,steps=512)
+    assert qualification_file_name({},dict(recipe=short,global_step=512))=='ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
+    with pytest.raises(PermissionError):qualification_file_name(dict(delta_native_qualification_file='ACTUAL_DELTA_CHECKPOINT_RESTORE_1024.json'),dict(recipe=short,global_step=512))

@@ -303,11 +303,12 @@ def run(root,manifest_sha256):
             scheduler_restored=True,RNG_restored=True,sampler_cursor=4096,new_optimizer_updates=0,DEV_started=False,observed_epoch=time.time()))
         if m.get('delta_checkpoint'):
             if is_probe or(is_fit and not is_recovery_learning):raise PermissionError('DELTA_INFERENCE_ONLY_ON_NEW_FIXED_DEV_PANEL')
-            producer=node_local(m['delta_producer_root']);certificate=producer/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
-            from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,load_parent_delta
+            producer=node_local(m['delta_producer_root'])
+            from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,load_parent_delta,qualification_file_name
             delta=node_local(m['delta_checkpoint'])
             delta_complete=validate_delta_header(read(delta/'CHECKPOINT_COMPLETE.json'),m['checkpoint_manifest_sha256'])
             delta_steps=delta_complete['global_step'];delta_cursor=delta_complete['cursor']
+            certificate=producer/qualification_file_name(m,delta_complete)
             if (read(producer/'control/LEASE.json')['status']!='CLOSED'
                     or sha(producer/'control/LEASE.json')!=m['delta_producer_closed_lease_sha256']
                     or delta!=producer/f'training/checkpoint-{delta_steps}'
