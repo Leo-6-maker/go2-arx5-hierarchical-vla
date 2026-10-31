@@ -140,14 +140,15 @@
       "source_attempts": 14,
       "qualified_book_demonstrations": 5,
       "qualified_cabinet_demonstrations": 0,
-      "book_seed_minimum_met": true
+      "book_seed_minimum_met": true,
+      "cabinet_next": "Repair full body placement clearance after native saved-state door/FL_hip collision; old STOP retained, no new dynamic attempt."
     },
     {
       "id": "V7-04",
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "FIRST_BOOK128_CHECKPOINT_FULL_RESTORED_DEV10_COMPLETE_ZERO_TASK_SUCCESS",
+      "status": "BOOK128_DEV0OF10_PLUS_QUALIFIED_TRAIN16_FIT256_GENERATION_GATES16OF16_NEW_DEV_NOT_RUN",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -172,7 +173,12 @@
       "qualified_reloadable_endpoints": 1,
       "actual_DEV_conditions": 10,
       "actual_DEV_successes": 0,
-      "skill_success_demonstrated": false
+      "skill_success_demonstrated": false,
+      "separate_TRAIN16_fit_optimizer_updates": 256,
+      "qualified_parent_dependent_delta_endpoints": 1,
+      "TRAIN_generation_gate_passes": 16,
+      "TRAIN_generation_conditions": 16,
+      "new_delta_DEV_conditions": 0
     },
     {
       "id": "V7-05",
@@ -294,6 +300,15 @@
     "TRAIN16_generation_queries": 32,
     "TRAIN16_D4_rejects": 16,
     "TRAIN16_D16_rejects": 16,
-    "TRAIN16_optimizer_updates": 0
+    "TRAIN16_optimizer_updates": 0,
+    "latest_fit256_and_cabinet_full_body_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_TRAIN16_FIT256_GENERATION_PASS_CLOSED_AND_CABINET_FULL_BODY_STATIC_STOP_ACTUAL_20261031.json",
+    "TRAIN16_fit256": {
+      "native_updates": 256,
+      "generation_gate_passes": 16,
+      "TRAIN_windows": 16,
+      "new_DEV_conditions": 0,
+      "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
+    },
+    "next_action": "New finite fixedDEV10 on qualified fit256 parent delta; cabinet full body layout repair independently."
   }
 }
