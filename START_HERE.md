@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 15:04 SGT实际：新增±12mm的两条放书Teacher均完整成功并关闭，纯书本示范增至7条；柜门1条，学生自主完整成功仍0。新增10位置全段离散及102410次原生forward检查无非预期机器人接触，连续扫掠已通过3项。复用现有Rerun0.40平台，柜门PORT08与book-SEED005各641帧双RGB、640实际命令的完整32秒回放已导出/官方读器逐图SHA回读，并在本机Viewer实际显示；私有RRD不公开。下一步十项早期TRAIN恢复、冻结新数据后有限学习和DEV；Vanda维护期不探测，冻结WBC及S1隔离不变。 [本轮实际证据](reports/PI0294/design/core32-maintenance-20261031/BOOK_TWO_CENTIMETRE_POSITION_SEEDS_AND_EXISTING_RERUN_FULL_REPLAY_ACTUAL_20261031.json)。
+2026-10-31 15:21 SGT实际：早期TRAIN恢复面板完成5项专家接续，均原32秒/安全通过；第6项学生在0.522秒右指垫碰架，尚未到0.8秒接管，按原安全门停止，另4项未运行。五项独立重放了393个专家H40及3144实际专家命令，2949个专家后缀窗仅具资格，尚未Processor/统计准入；失败与学生前缀不作专家标签。原owner/lease已关闭。纯书本Teacher7、柜门1、混合恢复完整6，学生自主完整成功0；累计39尝试/371597积分/11230RGB。复用Rerun完整双相机回放保留；继续静态合格的源位置与数据准入，随后有限学习/DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/FIVE_EARLY_TRAIN_RECOVERIES_ELIGIBLE_SIXTH_PREHANDOVER_CONTACT_STOP_CLOSED_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
