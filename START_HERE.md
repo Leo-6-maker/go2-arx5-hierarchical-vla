@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 16:34 SGT实际：纯放书Teacher累计13条；新增SEED010/011/012均原32秒、独立任务与安全通过，owner/lease CLOSED。累计源物理45次/482597积分/15082对RGB；柜门完整1条、混合恢复完整6条，自主完整成功仍0。新增数据尚未官方准入，M32新训练更新0。第12号准备文件因递归嵌入旧账增至694,479,835字节；新版本只做无损压缩、保留原字节与全历史费用，34项检查通过，尚未原生部署。PR274同数据有限解冻/10步容量入口已发布，显存资格仍待测。继续最后两个初态→数据准入→有限学习/真实DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/THIRTEEN_BOOK_TEACHERS_AND_COMPACT_CARRY_REPAIR_20261031.json)。
+2026-10-31 17:37 SGT实际：纯放书Teacher累计15条，均原32秒完整任务与原生安全通过、许可CLOSED；扩展数据已官方准入并独立重算：15条纯示范＋6段真实专家后缀、12,533个H40窗，原6份数值/DEV封存不变、失败学生前缀与DEV/确认标签0。末两DiT（30/31）＋接口共77,847,684参数，实际10次更新/320访问、保存并真实恢复42项AdamW/scheduler/RNG/cursor通过，进程/许可CLOSED；峰值allocated/reserved约14.39/15.21 GiB、最低测得free10.10 GiB。仅容量资格，未作为正式模型评价。源累计47尝试/519597积分/16366对RGB，柜门完整1、混合恢复完整6、自主完整成功仍0。下一步同b248父、同新数据/统计/采样/512日程，从fresh AdamW开展A接口/B末两层的匹配比较及真实DEV；10步权重不续作比较初值。 [实际数据与容量证据](reports/PI0294/design/core32-maintenance-20261031/FIFTEEN_BOOK_TEACHERS_EXPANDED_DATA_ADMITTED_M32_CAPACITY_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
