@@ -141,7 +141,7 @@
         "source_lineage_and_event_coverage"
       ],
       "qualified_full_demonstrations": 16,
-      "source_attempts": 49,
+      "source_attempts": 51,
       "qualified_book_demonstrations": 15,
       "qualified_cabinet_demonstrations": 1,
       "book_seed_minimum_met": true,
@@ -151,7 +151,7 @@
       "cabinet_exact_original_RoboCasa_benchmark": false,
       "qualified_pure_book_Teacher_demonstrations": 15,
       "qualified_cabinet_Teacher_demonstrations": 1,
-      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
+      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
       "eligible_new_expert_recovery_windows": 2949,
       "early_recovery_training_admitted": true
     },
@@ -276,7 +276,7 @@
           "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
         }
       },
-      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json"
+      "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json"
     },
     {
       "id": "V7-05",
@@ -371,7 +371,7 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
+    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
     "as_of": "2026-10-31 18:30 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
@@ -384,9 +384,9 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 49,
-    "source_actual_integrations": 536577,
-    "source_actual_RGB_pairs": 16848,
+    "source_total_attempts": 51,
+    "source_actual_integrations": 541979,
+    "source_actual_RGB_pairs": 16867,
     "qualified_full_skill_demos": 16,
     "new_shared_skill_training_updates": 0,
     "Core_next": "MATCHED_B_INTERFACE_LAST2_FIXED512_THEN_ORIGINAL_DEV10",
@@ -410,12 +410,12 @@
       "new_DEV_conditions": 1,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "Fixed B512 autonomous TRAIN0/7/13 reproduction, separately declared Prefix8/4 diagnostic, then fixed-data/statistics longer optimization and event sampling comparison; no original outcome retry.",
+    "next_action": "TRAIN P8/P4 each0/1+2unrun closed; no successful autonomous reproduction. Freeze same12533 data/statistics/last2/uniform sampler and continuous4096 schedule with full1024/2048/4096 restore. Event sampling remains separate.",
     "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
     "source_all_attempts": {
-      "attempts": 49,
-      "physics_integrations": 536577,
-      "RGB_pairs": 16848,
+      "attempts": 51,
+      "physics_integrations": 541979,
+      "RGB_pairs": 16867,
       "pure_Teacher_attempts": 27,
       "formal_book_DEV_attempts": 14,
       "mixed_TRAIN_recovery_attempts": 7,
@@ -677,11 +677,11 @@
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
-    "attempts": 49,
-    "physics_integrations": 536577,
-    "RGB_pairs": 16848,
+    "attempts": 51,
+    "physics_integrations": 541979,
+    "RGB_pairs": 16867,
     "pure_Teacher_attempts": 27,
     "formal_book_DEV_attempts": 14,
     "mixed_TRAIN_recovery_attempts": 7,
@@ -696,5 +696,22 @@
     "qualified_full_book_Teacher_demos": 15,
     "qualified_full_custom_cabinet_Teacher_demos": 1,
     "early_TRAIN_recovery_subset_attempts": 6
+  },
+  "maintenance_TRAIN_feedback_actual": {
+    "P8_valid": 1,
+    "P8_success": 0,
+    "P8_unrun": 2,
+    "P4_valid": 1,
+    "P4_success": 0,
+    "P4_unrun": 2,
+    "formal_DEV_conditions": 0,
+    "both_closed": true,
+    "report": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
+    "next_uniform_fixed_curve_endpoints": [
+      1024,
+      2048,
+      4096
+    ],
+    "next_curve_native_started": false
   }
 }

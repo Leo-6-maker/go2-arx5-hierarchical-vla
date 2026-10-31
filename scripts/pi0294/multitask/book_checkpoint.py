@@ -38,7 +38,9 @@ def validate_delta_header(value,parent_sha256):
     schema=value.get('schema')
     from .book_m32_learning import is_plan
     if schema=='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'and is_plan(value.get('recipe',{})):
-        p=value['recipe'];endpoint=(p['max_steps'],p['TRAIN_visits']);required.update(('TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json'))
+        p=value['recipe'];step=value.get('global_step')
+        if step not in p.get('checkpoint_steps',[p['max_steps']]):raise PermissionError('EXACT_DECLARED_LEARNING_CURVE_ENDPOINT')
+        endpoint=(step,step*32);required.update(('TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json'))
     elif schema=='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1':endpoint=(256,8192)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==full_plan():endpoint=(1024,32768)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==recovery_plan():

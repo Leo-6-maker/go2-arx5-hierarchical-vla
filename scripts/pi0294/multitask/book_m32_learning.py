@@ -39,10 +39,26 @@ def plan(dataset_sha256,statistics_sha256,population_sha256,*,blocks,steps):
 
 
 def is_plan(p):
+    if p.get('schema')=='BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1':
+        try:return p==curve_plan(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'])
+        except(KeyError,TypeError,ValueError):return False
     if p.get('schema')!=SCHEMA:return False
     try:return p==plan(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'],
                        blocks=p['limited_DiT_blocks'],steps=p['max_steps'])
     except(KeyError,TypeError,ValueError):return False
+
+
+def curve_plan(dataset_sha256,statistics_sha256,population_sha256):
+    """One new continuous schedule, not continuation of exhausted short cosine."""
+    p=plan(dataset_sha256,statistics_sha256,population_sha256,blocks=2,steps=512)
+    p.update(schema='BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1',max_steps=4096,
+        TRAIN_visits=131072,scheduler_horizon_steps=4096,warmup_updates=128,
+        checkpoint_steps=[1024,2048,4096],comparison_endpoint=4096,
+        generation_queries=64,native_diagnostic_loss_forwards=64,
+        optimizer_initialization='FRESH_ADAMW_FROM_SAME_CLOSED_RECOVERY512_CONTINUOUS4096_NOT_B512_RESUME',
+        sufficient_training_or_convergence_claim=False,
+        purpose='Fixed TRAIN/data/statistics/last2 DiT/uniform sampler learning curve. Fresh closed initialb248 and one4096 cosine; full1024/2048/4096 states plus matched TRAIN diagnostics. Schedule differs from short512; not an update-count-only causal effect.')
+    return p
 
 
 def block_parameter_names(names,count):

@@ -1,0 +1,554 @@
+{
+  "schema": "M32_B512_AUTONOMOUS_TRAIN_PREFIX8_PREFIX4_ACTUAL_NEGATIVES_AND_FIXED4096_SUCCESSOR_V1",
+  "as_of_SGT": "2026-10-31T20:12:46.734632+08:00",
+  "runtime_source_sha": "5eeb6f5ff3be25ba24a9e52b04adc40be94259e9",
+  "evaluated_checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+  "P8": {
+    "status": "M32_TRAIN_FEEDBACK_CLOSED_FULL_INDEPENDENT_READBACK",
+    "actual": {
+      "formal_DEV_conditions": 0,
+      "execution_prefix": 8,
+      "model_loads": 1,
+      "generation_queries": 2,
+      "valid_TRAIN_diagnostic_conditions": 1,
+      "TRAIN_diagnostic_successes": 0,
+      "unrun_TRAIN_diagnostic_conditions": 2,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 2757,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 12,
+      "optimizer_updates": 0,
+      "CPU_s": 65.487059,
+      "GPU_allocated_s_upper": 43,
+      "own_allocated_bytes_before_closing": 44756992,
+      "result_sha256": "77e3f885cc2d7f8a7998636086c0c4c2b71daefe8e9ffcb820e955b49e23ef33",
+      "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+      "independent_audit_sha256": "1d05f70fd2fbcd8a0b0ac2258c51254fa4fbabca5be9962944b7a2549178dc8f",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true,
+      "STOP_sha256": "ba4227a7040c1bf66ba438e8a5a9c86dbc2a4fc15607252bac1d403e64eb4387"
+    },
+    "LOCAL_sha256": "13e60d0cccc9a5097014fd32c503e20524f9d37bcb754a824acf260d6b6916dd",
+    "lease_sha256": "4714fd6b6ffefc967603c138e60be530f64dbcd3ca2ef70b2b18f46a4d990684",
+    "observed_epoch": 1793448190.8105295,
+    "new_mutations": 0
+  },
+  "P4": {
+    "status": "M32_TRAIN_FEEDBACK_CLOSED_FULL_INDEPENDENT_READBACK",
+    "actual": {
+      "formal_DEV_conditions": 0,
+      "execution_prefix": 4,
+      "model_loads": 1,
+      "generation_queries": 2,
+      "valid_TRAIN_diagnostic_conditions": 1,
+      "TRAIN_diagnostic_successes": 0,
+      "unrun_TRAIN_diagnostic_conditions": 2,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 2645,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 7,
+      "optimizer_updates": 0,
+      "CPU_s": 66.514417,
+      "GPU_allocated_s_upper": 43,
+      "own_allocated_bytes_before_closing": 43790336,
+      "result_sha256": "a8ed13df211a77bcef80b5cbfc8a6821015f29b843c86dc3def138e6112f0aef",
+      "checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+      "independent_audit_sha256": "4536cd7b9e3dcf5920b3031c5c3ef0ba8a3787a9c83f886fe2a95141e2fe35b4",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true,
+      "STOP_sha256": "ba4227a7040c1bf66ba438e8a5a9c86dbc2a4fc15607252bac1d403e64eb4387"
+    },
+    "LOCAL_sha256": "26d55dd37731ff9fe914480ff1bc926da8d1f4b28ea215aa2d61c0d480626b87",
+    "lease_sha256": "1dab60986c9cdae2a689dc338f38720d6662c22bd6ea1cbe64dbe06c49ad4b54",
+    "observed_epoch": 1793448473.2057033,
+    "new_mutations": 0
+  },
+  "actual_pair": {
+    "status": "DECLARED_SAME_CHECKPOINT_INITIAL_PHYSICS_XML_NOISE_SEED_DIFFERENT_PREFIX_ACTUAL_NEGATIVES",
+    "initial_physical_state_exact": true,
+    "initial_noise_metadata_equal": true,
+    "same_checkpoint_manifest_sha256": "862cabd5657ebfe952fbc200c3162d6a63dcd299784694e0f3e78d3a27c57030",
+    "initial_RGB": {
+      "initial_RGB": {
+        "body_rgb": {
+          "pixel_components_different": 3,
+          "total_components": 196608,
+          "maximum_abs_difference": 1.0,
+          "MAE": 1.52587890625e-05,
+          "RMSE": 0.00390625
+        },
+        "wrist_rgb": {
+          "pixel_components_different": 0,
+          "total_components": 196608,
+          "maximum_abs_difference": 0.0,
+          "MAE": 0.0,
+          "RMSE": 0.0
+        }
+      },
+      "scene_XML_sha256": [
+        "215cac87de4508ef384c41c65cee6f72ef4a316ef21c40c57b1d636bafe950a7",
+        "215cac87de4508ef384c41c65cee6f72ef4a316ef21c40c57b1d636bafe950a7"
+      ],
+      "new_models_physics": 0,
+      "observed_epoch": 1793448530.4467893
+    },
+    "initial_prediction_difference": {
+      "max_XYZ_component_m": 0.0006455172990467717,
+      "max_XYZ_euclidean_m": 0.0006754980608340209,
+      "max_rotation6_component": 0.0009629949668872873,
+      "max_gripper_fraction": 0.0035511363636363535,
+      "max_normalized_component": 0.0078125
+    },
+    "P8_stop_task_s": 0.514,
+    "P4_stop_task_s": 0.29,
+    "each_successes": 0,
+    "each_valid_conditions": 1,
+    "each_unrun_conditions": 2,
+    "formal_DEV_conditions": 0,
+    "new_model_queries_physics": 0,
+    "limitation": "Initial physics/XML/noise seed matched, body camera differs3 uint8 components by1 and first predictions are not bitwise equal. One negative per arm is not a clean isolated causal feedback estimate, performance ranking or general conclusion. Retain both, no success-seeking retry."
+  },
+  "actual_uniform_sampling_exposure": {
+    "status": "ACTUAL_COMMITTED_A_B_TRAIN_EXPOSURE_RECOUNT",
+    "trace_sha256": "69216a5f9efd06d2cfac1718e7e5245726d1e6cd96040cfa9b83f8c0d343f69f",
+    "total_visits": 16384,
+    "expert_suffix_visits": 4553,
+    "first16_each_suffix_visits": 119,
+    "first16_each_suffix_fraction": 0.00726318359375,
+    "per_suffix_first16_visits": {
+      "BOOK_M32_RECOVERY004_EXPERT_SUFFIX": 21,
+      "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX": 17,
+      "BOOK_M32_RECOVERY002_EXPERT_SUFFIX": 20,
+      "BOOK_M32_RECOVERY001_EXPERT_SUFFIX": 19,
+      "BOOK_M32_RECOVERY000_EXPERT_SUFFIX": 20,
+      "BOOK_M32_RECOVERY003_EXPERT_SUFFIX": 22
+    },
+    "anchor_band": "First16 suffix input frames; descriptive0.8s band, not measured correction duration or success label.",
+    "new_models_physics": 0
+  },
+  "static_native_forward_contact_only": {
+    "runs": [
+      {
+        "run": "v7-book-m32-b2-fixed-dev10-01",
+        "raw_sha256": "0c1d8318343bbca1105294f3f8fb970bcefe8dce6c971e0b33ace46e34176fc0",
+        "XML_sha256": "55187eb09cf1c1e3852474f2f09bcd2f5cd52fc2c49984ea2f40800ef69167f7",
+        "submitted_prefix_intervals": 446,
+        "first_converged_hypothetical_reference_endpoint_collision": null,
+        "IK_converged_endpoints": 440,
+        "IK_unconverged_not_reference_geometry_evidence": 6,
+        "actual_terminal_clearance": {
+          "all_native_robot_obstacle_contacts": [],
+          "geom_distance_query_used": false
+        },
+        "actual_terminal_grasp": false,
+        "actual_terminal_tool_speed_m_s": 0.4021492340521253,
+        "actual_terminal_task_s": 22.26199999999577,
+        "max_IK_error_m": 0.04167986390992776,
+        "max_IK_error_rad": 0.15327797632017756,
+        "reference_commanded_finger_native_contact_endpoints": 0
+      },
+      {
+        "run": "v7-book-m32-b512-train-p8-01",
+        "raw_sha256": "8b0c4b861cc8b5e17ecf14d29de55182993e78f13aa6a72481f8d89dd6f3e67c",
+        "XML_sha256": "215cac87de4508ef384c41c65cee6f72ef4a316ef21c40c57b1d636bafe950a7",
+        "submitted_prefix_intervals": 11,
+        "first_converged_hypothetical_reference_endpoint_collision": {
+          "index": 8,
+          "task_time_s": 0.4,
+          "actual_clearance": {
+            "all_native_robot_obstacle_contacts": [],
+            "geom_distance_query_used": false
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "all_native_robot_obstacle_contacts": [
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0026297559657794114
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0025939057661020473
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.002674358943236651
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0026466023468961477
+              }
+            ],
+            "geom_distance_query_used": false
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "all_native_robot_obstacle_contacts": [
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0029113297379960044
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0028754795383186403
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0029559304300079492
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.002928173833667446
+              }
+            ],
+            "geom_distance_query_used": false
+          },
+          "IK_error": [
+            8.549408742173516e-07,
+            7.537473579861483e-07
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.014898862615520408,
+          "native_grasp": false
+        },
+        "IK_converged_endpoints": 11,
+        "IK_unconverged_not_reference_geometry_evidence": 0,
+        "actual_terminal_clearance": {
+          "all_native_robot_obstacle_contacts": [
+            {
+              "geom0": 73,
+              "geom1": 85,
+              "distance_m": -0.00015959446426801945
+            }
+          ],
+          "geom_distance_query_used": false
+        },
+        "actual_terminal_grasp": false,
+        "actual_terminal_tool_speed_m_s": 0.13242068668038284,
+        "actual_terminal_task_s": 0.5139999999996148,
+        "max_IK_error_m": 9.916307290758818e-07,
+        "max_IK_error_rad": 1.5816303357883357e-06,
+        "reference_commanded_finger_native_contact_endpoints": 3
+      },
+      {
+        "run": "v7-book-m32-b512-train-p4-01",
+        "raw_sha256": "7ef3185dcfd60d1defe69ed9e79d08e9aaa91fc4ba5ea20bc7933d50fdb1d950",
+        "XML_sha256": "215cac87de4508ef384c41c65cee6f72ef4a316ef21c40c57b1d636bafe950a7",
+        "submitted_prefix_intervals": 6,
+        "first_converged_hypothetical_reference_endpoint_collision": {
+          "index": 4,
+          "task_time_s": 0.2,
+          "actual_clearance": {
+            "all_native_robot_obstacle_contacts": [],
+            "geom_distance_query_used": false
+          },
+          "reference_endpoint_with_actual_fingers": {
+            "all_native_robot_obstacle_contacts": [
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0035188079976635534
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.00346174185977948
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.003521805456573107
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.003470083855343393
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0034150416720389247
+              }
+            ],
+            "geom_distance_query_used": false
+          },
+          "reference_endpoint_with_commanded_fingers": {
+            "all_native_robot_obstacle_contacts": [
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.00294962022059882
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0028924004608048438
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0029963068907059905
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.002941264707401522
+              },
+              {
+                "geom0": 73,
+                "geom1": 85,
+                "distance_m": -0.0028895431061718084
+              }
+            ],
+            "geom_distance_query_used": false
+          },
+          "IK_error": [
+            9.094546482936276e-08,
+            1.6258771462208363e-08
+          ],
+          "reference_endpoint_from_actual_observation_XYZ_m": 0.015026399539578683,
+          "native_grasp": false
+        },
+        "IK_converged_endpoints": 6,
+        "IK_unconverged_not_reference_geometry_evidence": 0,
+        "actual_terminal_clearance": {
+          "all_native_robot_obstacle_contacts": [
+            {
+              "geom0": 73,
+              "geom1": 85,
+              "distance_m": -7.230182744982071e-05
+            },
+            {
+              "geom0": 73,
+              "geom1": 85,
+              "distance_m": -4.263514342838096e-05
+            },
+            {
+              "geom0": 73,
+              "geom1": 85,
+              "distance_m": -0.00011631990185988432
+            },
+            {
+              "geom0": 73,
+              "geom1": 85,
+              "distance_m": -8.277535463055118e-05
+            }
+          ],
+          "geom_distance_query_used": false
+        },
+        "actual_terminal_grasp": false,
+        "actual_terminal_tool_speed_m_s": 0.20066691566225808,
+        "actual_terminal_task_s": 0.28999999999963944,
+        "max_IK_error_m": 8.761543178838282e-07,
+        "max_IK_error_rad": 1.4013431007277621e-06,
+        "reference_commanded_finger_native_contact_endpoints": 2
+      }
+    ],
+    "CPU_s": 2.5537093929999997,
+    "analysis_CPUs": 1,
+    "model_constructors": 3,
+    "physics_integrations": 0,
+    "neural_queries": 0,
+    "limitation": "Endpoint IK/forward geometry only, not swept/dynamic certification. Never treat uncorroborated negative mj_geomDistance output as collision or clearance; all native forward contacts are inspected. Recorded poststep contact values need not equal a distance query after rebuilding/forwarding saved qpos."
+  },
+  "source_cumulative": {
+    "attempts": 51,
+    "physics_integrations": 541979,
+    "RGB_pairs": 16867,
+    "pure_teacher_attempts": 27,
+    "formal_book_DEV_attempts": 15,
+    "mixed_recovery_attempts": 7,
+    "TRAIN_autonomous_diagnostic_attempts": 2,
+    "pure_full_book_demonstrations": 15,
+    "custom_cabinet_full_demonstrations": 1,
+    "full_mixed_recoveries": 6,
+    "autonomous_full_successes": 0
+  },
+  "interpretation": [
+    "Both valid autonomous seen-TRAIN diagnostics failed with hard pad/caddy contact; each0/1+2unrun, not0/3 and not formalDEV/TEST. No takeover or data admission.",
+    "P8 nominal reference collides at0.4s, including commanded-finger geometry(~2.96mm maximum penetration); P4 nominal reference collides at0.2s, including commanded fingers(~3.00mm). Current high-level references themselves are geometrically unsafe in these observed states.",
+    "No observed rescue by faster feedback in this single condition. Tiny initial render differences and non-identical first predictions preclude a clean isolated feedback-effect estimate. No success-seeking retries.",
+    "Existing recovery-source exposure4553/16384, but first16 input frames per suffix119/16384 (~0.73%). This band is descriptive, not measured correction duration.",
+    "Still no adequate basis for BC-failure, convergence, generalized B superiority or unconditional extra-data conclusion. Test fixed-data sufficient optimization before large collection/RL."
+  ],
+  "successor": {
+    "status": "CODE_AND_FINITE_RECIPE_PUBLISHED_NATIVE_NOT_YET_STARTED",
+    "recipe": {
+      "schema": "BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1",
+      "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+      "statistics_sha256": "6230b09b5ac90ae1c391629a88513aeb5fe491f8c5ce453cd0aad689bc98dd3c",
+      "max_steps": 4096,
+      "effective_batch_size": 32,
+      "TRAIN_visits": 131072,
+      "trainable": "EXACT_TARGET_INTERFACE_PLUS_DECLARED_LAST_DIT_BLOCKS",
+      "shared_DiT_frozen": false,
+      "backbone_frozen": true,
+      "optimizer_initialization": "FRESH_ADAMW_FROM_SAME_CLOSED_RECOVERY512_CONTINUOUS4096_NOT_B512_RESUME",
+      "learning_rate": 0.0001,
+      "weight_decay": 1e-05,
+      "warmup_updates": 128,
+      "scheduler_horizon_steps": 4096,
+      "seed": 2026103105,
+      "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+      "checkpoint": "PARENT_BOUND_TARGET_DELTA_WITH_ADAMW_SCHEDULER_RNG_CURSOR",
+      "denoise_steps": 4,
+      "generation_queries": 64,
+      "native_diagnostic_loss_forwards": 64,
+      "matched_before_after_inputs_and_noise": true,
+      "statistics_refit": false,
+      "DEV_or_TEST_used": false,
+      "formal_DEV_conditions": 0,
+      "physics_integrations": 0,
+      "original_book_DEV10_unchanged": true,
+      "original_E1_E2_unchanged": true,
+      "purpose": "Fixed TRAIN/data/statistics/last2 DiT/uniform sampler learning curve. Fresh closed initialb248 and one4096 cosine; full1024/2048/4096 states plus matched TRAIN diagnostics. Schedule differs from short512; not an update-count-only causal effect.",
+      "diagnostic_windows": [
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 0,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 48,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 80,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 160,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 240,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 320,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 400,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 600,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 0,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 8,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 16,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 32,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 48,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 80,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 160,
+          "split": "TRAIN"
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 592,
+          "split": "TRAIN"
+        }
+      ],
+      "optimization_population": "DECLARED_TRAIN15_PLUS_SIX_ACTUAL_EXPERT_SUFFIXES_12533_WINDOWS",
+      "TRAIN_episodes": 21,
+      "TRAIN_windows": 12533,
+      "initial_delta_checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+      "parent_restore_dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+      "parent_restore_statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+      "pure_full_teacher_episodes": 15,
+      "mixed_recovery_episodes": 6,
+      "student_prefix_expert_labels": 0,
+      "statistics_version_changed": true,
+      "TRAIN_population_sha256": "f4bc8afbb0ecf1863db76d912def0bbc1f9f29852131a9ba4a4672c9c7c1c390",
+      "limited_DiT_blocks": 2,
+      "capacity_qualification_only": false,
+      "comparison_endpoint": 4096,
+      "sampling": "EXISTING_PCG64_CYCLIC_ALL_EXPERT_H40_WINDOWS_AB_IDENTICAL",
+      "recovery_fraction_per_complete_cycle": 0.28069895475943507,
+      "parent_data_or_original_E1_E2_changed": false,
+      "gradient_checkpointing": false,
+      "checkpoint_steps": [
+        1024,
+        2048,
+        4096
+      ],
+      "sufficient_training_or_convergence_claim": false
+    },
+    "checkpoint_steps": [
+      1024,
+      2048,
+      4096
+    ],
+    "new_total_updates": 4096,
+    "nominal_dataset_traversals": 10.458150482725605,
+    "CPU_cores": 4,
+    "wall_upper_s": 27000,
+    "own_output_upper_bytes": 4294967296,
+    "actual_capacity_admission_required": true,
+    "optimizer_fresh_from_closed_b248_not_B512": true,
+    "intermediate_full_parent_delta_AdamW_scheduler_RNG_cursor_reload_required": true,
+    "matched_TRAIN16_at_steps": [
+      0,
+      1024,
+      2048,
+      4096
+    ],
+    "original_task_DEV_and_safety_unchanged": true,
+    "event_weighting": "SEPARATE_FUTURE_MATCHED_INTERVENTION_NOT_BUNDLED_WITH_UNIFORM_LONG_CURVE"
+  },
+  "validation": {
+    "affected_checks": 51,
+    "CI": "NOT_RUN",
+    "new4096_native": "NOT_RUN_AT_PUBLICATION"
+  },
+  "control_failure": {
+    "exact_readonly_static_assertion_preserved": true,
+    "full_CPU_upper_s_retained": 60,
+    "static_constructors_upper": 3,
+    "physics_integrations": 0,
+    "unknown_persistent_native_writes": false,
+    "replay": false
+  },
+  "full_goal_achieved": false
+}
