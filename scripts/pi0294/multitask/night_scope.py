@@ -29,6 +29,22 @@ SUCCESSOR_DEADLINE=datetime.fromisoformat('2026-10-31T09:00:00+08:00').timestamp
 FOUR_TASK_CORE_STORAGE=3*GiB
 V7_CARRY='v7_source_development_carry'
 V7_POLICY='b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a'
+V7_FINITE='v7_finite_source_job'
+FINITE_UPPER=dict(attempts=1,physics_integrations=50000,RGB_pairs=2000,
+    Core_CPU_s=2840,PC_CPU_s=0,render_device_s=600,
+    Core_peak_bytes=512*1024**2,PC_evidence_bytes=0,transfer_bytes=0)
+
+
+def finite_profile(value):
+    """One source-only finite job under V7; no total pool is reissued."""
+    need(type(value)is dict and set(value)=={'policy_sha256','created_epoch','stop_new_epoch','deadline_epoch','upper'}
+         and value['policy_sha256']==V7_POLICY and value['upper']==FINITE_UPPER,
+         'EXACT_V7_FINITE_SOURCE_ONLY_PROFILE')
+    need(all(type(x)is int for x in value['upper'].values()),'TYPED_FINITE_SOURCE_UPPERS')
+    a,b,c=[value[k]for k in('created_epoch','stop_new_epoch','deadline_epoch')]
+    need(all(type(x)in(int,float)and math.isfinite(x)for x in(a,b,c))
+         and a<b<=a+300 and b+90<=c<=a+1200,'FINITE_FIVE_MINUTE_START_TWENTY_MINUTE_END')
+    return value
 
 
 def successor_authority(body):
@@ -46,9 +62,16 @@ def need(ok,why):
     if not ok:raise PermissionError('NIGHT_SOURCE_'+why)
 
 
-def authority(body,*,now,successor_body=None):
+def authority(body,*,now,successor_body=None,v7_policy_body=None,job=None):
     need(type(body)is bytes and hashlib.sha256(body).hexdigest()==APPROVAL_SHA,'EXACT_DIRECT_HUMAN_AUTHORITY')
     value=json.loads(body)
+    if v7_policy_body is not None:
+        need(type(v7_policy_body)is bytes and hashlib.sha256(v7_policy_body).hexdigest()==V7_POLICY,
+             'EXACT_V7_POLICY_BYTES_NOT_A_LOOSE_FLAG')
+        p=finite_profile(job)
+        need(type(now)in(int,float)and math.isfinite(now)and p['created_epoch']<=now<p['deadline_epoch'],
+             'CURRENT_V7_FINITE_JOB_WINDOW')
+        return value
     need(value['direct_answer']=='正式批准全文并执行'
         and value['aggregate_new_source_caps']==dict(physics_attempts=12,all_physics_integrations=600000,
             RGB_pairs=24000,CPU_core_seconds=43200,active_CPU_cores_per_node=4,
@@ -98,6 +121,9 @@ def forecast(approval,global_bytes,local_bytes,*,observation,now,successor_body=
 
 
 def account_window(v):
+    if V7_FINITE in v:
+        p=finite_profile(v[V7_FINITE])
+        return p['stop_new_epoch'],p['deadline_epoch']
     extension=v.get('section5_successor')
     if extension is None:return STOP_NEW,DEADLINE
     need(extension['authority_sha256']==SUCCESSOR_AUTH,'ACCOUNT_SECTION5_AUTHORITY')
@@ -137,6 +163,16 @@ def for_root(root):
     from pathlib import Path
     from types import SimpleNamespace
     import sys
+    profile=Path(root)/'SOURCE_V7_FINITE_JOB.json'
+    if profile.exists():
+        p=finite_profile(json.loads(profile.read_bytes()))
+        policy=(Path(root)/'SOURCE_V7_EXECUTION_POLICY.md').read_bytes()
+        need(hashlib.sha256(policy).hexdigest()==V7_POLICY,'SEALED_V7_RUNTIME_POLICY')
+        return SimpleNamespace(SCOPE=SCOPE,CAPS=CAPS,APPROVAL_SHA=APPROVAL_SHA,
+            STOP_NEW=p['stop_new_epoch'],DEADLINE=p['deadline_epoch'],
+            authority=lambda original,*,now:authority(original,now=now,v7_policy_body=policy,job=p),
+            validate_account=validate_account,reserve=reserve,V7_CARRY=V7_CARRY,
+            transfer_development_custody=transfer_development_custody)
     path=Path(root)/'SOURCE_SUCCESSOR_AUTHORITY.json'
     if not path.exists():return sys.modules[__name__]
     body=path.read_bytes();successor_authority(body)
@@ -148,7 +184,7 @@ def for_root(root):
         forecast=lambda original,g,l,*,observation,now:forecast(original,g,l,observation=observation,now=now,successor_body=body))
 
 
-def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,destination,now):
+def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,destination,now,job=None):
     """Reuse this account after a V7 repair; never issue another source pool.
 
     Old version-specific carries remain immutable inside the closed account.
@@ -161,11 +197,18 @@ def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,
     old=validate_account(json.loads(account_bytes));stop,_=account_window(old)
     need(old['native_adopted']is True and old.get('custody')=='ONE_NATIVE_CORE_SOURCE_OWNER'
          and type(destination)is str and destination!=old['native_destination']
-         and type(now)in(int,float)and math.isfinite(now)and now<stop,
+         and type(now)in(int,float)and math.isfinite(now)and (job is not None or now<stop),
          'CLOSED_SOURCE_CONTINUATION_WITHIN_EXISTING_WINDOW')
     out=deepcopy(old);out.pop('qualification_sha256',None)
     out.update(native_adopted=False,native_destination=destination,revision=old['revision']+1,
                custody='V7_CLOSED_SOURCE_CUSTODY_PENDING_NATIVE_READBACK')
+    if job is not None:
+        p=finite_profile(job)
+        need(p['created_epoch']<=now<p['stop_new_epoch'],'FRESH_V7_COLD_FINITE_JOB')
+        out[V7_FINITE]=deepcopy(p)
+        out.update(stop_new_epoch=p['stop_new_epoch'],deadline_epoch=p['deadline_epoch'])
+    else:
+        need(V7_FINITE not in old,'NEW_FINITE_JOB_PROFILE_REQUIRED_AFTER_CLOSED_V7_JOB')
     out[V7_CARRY]=dict(policy_sha256=V7_POLICY,destination=destination,
         account_base64=base64.b64encode(account_bytes).decode(),
         lease_base64=base64.b64encode(lease_bytes).decode(),
@@ -188,14 +231,15 @@ def transfer_development_custody(old_bytes,new_account_bytes,*,destination):
 
 def validate_account(v):
     stop,deadline=account_window(v)
+    finite=finite_profile(v[V7_FINITE])if V7_FINITE in v else None
     need(v['scope']==SCOPE and v['caps']==CAPS and v['approval_sha256']==APPROVAL_SHA
         and v['stop_new_epoch']==stop and v['deadline_epoch']==deadline
         and type(v['operations'])is list and type(v['native_adopted'])is bool,
         'ONE_SHARED_ACCOUNT_NOT_PER_TASK_REPLICATED')
     need(set(v['charged_upper'])==set(CAPS)
-        and all(type(x)in(int,float)and math.isfinite(x)and 0<=x<=CAPS[k]
+        and all(type(x)in(int,float)and math.isfinite(x)and 0<=x and (finite is not None or x<=CAPS[k])
             for k,x in v['charged_upper'].items())
-        and v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200,
+        and (finite is not None or v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200),
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
     if V7_CARRY in v:
@@ -212,12 +256,17 @@ def validate_account(v):
              'ACTUAL_CLOSED_CHAIN_NOT_OLD_FAILURE_PROHIBITION_OR_LIVE_OWNER')
         mutable={'native_destination','native_adopted','revision','custody','qualification_sha256',
                  'charged_upper','operations',V7_CARRY}
+        if finite is not None:
+            mutable.update({V7_FINITE,'stop_new_epoch','deadline_epoch'})
+            need(all(0<=v['charged_upper'][k]-old['charged_upper'][k]<=finite['upper'][k]for k in CAPS),
+                 'ONE_FINITE_JOB_DELTA_OLD_COSTS_NEVER_RESET')
         need(all(v.get(k)==value for k,value in old.items()if k not in mutable)
              and v['native_destination']==carry['destination']!=old['native_destination']
              and v['operations'][:len(old['operations'])]==old['operations']
              and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS),
              'V7_SAME_POOL_ALL_OLD_COSTS_HISTORY_AND_CLOCK_RETAINED')
         return v
+    need(finite is None,'FINITE_V7_JOB_REQUIRES_FULL_CLOSED_PREDECESSOR_CARRY')
     if 'closed_cabinet_turn_speed_port05_carry'in v:
         carry=v['closed_cabinet_turn_speed_port05_carry']
         pins=dict(account='2ee24cc0795f6a00067427fc8e28c6a5e347dc38cdfeb7ec3de548cbd6dab885',

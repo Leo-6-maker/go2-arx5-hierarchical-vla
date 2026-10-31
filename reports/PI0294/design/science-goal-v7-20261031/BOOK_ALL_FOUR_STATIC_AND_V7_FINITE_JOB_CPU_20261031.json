@@ -1,0 +1,108 @@
+{
+  "schema": "V7_ALL_FOUR_BOOK_STATIC_AND_SINGLE_FINITE_SOURCE_ENTRY_CPU_V1",
+  "as_of": "2026-10-31 08:07 SGT",
+  "static_results": [
+    {
+      "seed_index": 1,
+      "initial_xy_offset_m": [
+        0.004,
+        0.0
+      ],
+      "path_sha256": "1a3e8901c9092f0296b972fc8dac4787fa5fcea238c4bad710d3c8c52b3ef7b1",
+      "sweep_sha256": "bf1ec8127e062124280ee2ad8281a45225c780382472f3cba9ba070c2187680e",
+      "swept_edges": 408,
+      "checked_states": 11916,
+      "certified_subedges": 6162,
+      "CPU_s": 286.061601628,
+      "max_joint_speed_rad_s": 0.5067333088961234
+    },
+    {
+      "seed_index": 2,
+      "initial_xy_offset_m": [
+        -0.004,
+        0.0
+      ],
+      "path_sha256": "07a23b1b0b45e4f6009c35d68ceded7cda2e7d0af12acdb5205b1b644368d83b",
+      "sweep_sha256": "2dbe49580afbf40e1af1d2553a0189434b2be56b090153adbffba0a2062c17c9",
+      "swept_edges": 411,
+      "checked_states": 12041,
+      "certified_subedges": 6226,
+      "CPU_s": 289.31152795599996,
+      "max_joint_speed_rad_s": 0.5027126223391409
+    },
+    {
+      "seed_index": 3,
+      "initial_xy_offset_m": [
+        0.0,
+        0.004
+      ],
+      "path_sha256": "d99e9c729ac9d677dc137d4eb46304a63ca6a63ace54499670cc796ac436076d",
+      "sweep_sha256": "5cbae7273144b1541ad36b069e52dcd5e0d835ebfb35c507a1c738a8d4c9c028",
+      "swept_edges": 408,
+      "checked_states": 11916,
+      "certified_subedges": 6162,
+      "CPU_s": 288.99887419900006,
+      "max_joint_speed_rad_s": 0.5117267971874107
+    },
+    {
+      "seed_index": 4,
+      "initial_xy_offset_m": [
+        0.0,
+        -0.004
+      ],
+      "path_sha256": "072faf4dd84bb961f8904b9505e9cfc6eea51b03d46f20aa33e8153e76e24663",
+      "sweep_sha256": "dff051de8491f94c1968cd424882040d9be4339c6df4ac70376550cacb44804b",
+      "swept_edges": 411,
+      "checked_states": 12105,
+      "certified_subedges": 6258,
+      "CPU_s": 287.94994952499997,
+      "max_joint_speed_rad_s": 0.5117267971874107
+    }
+  ],
+  "qualified_complete_demos_current": 3,
+  "source_total_attempts_current": 12,
+  "new_physics_at_this_snapshot": 0,
+  "new_runtime": "Existing night source chain gains a cold V7 finite job profile after the exact closed predecessor. One condition, start within5min, finish within20min; original per-attempt integration/RGB/render/CPU and original native safety/32s scoring remain.",
+  "policy_sha256": "b57b75cacdc3d8611b9f8d13cd5f4f4e15ed0d4dccd9a69b7469bc62f4c9b99a",
+  "per_job_upper": {
+    "attempts": 1,
+    "physics_integrations": 50000,
+    "RGB_pairs": 2000,
+    "Core_CPU_s": 2840,
+    "PC_CPU_s": 0,
+    "render_device_s": 600,
+    "Core_peak_bytes": 536870912,
+    "PC_evidence_bytes": 0,
+    "transfer_bytes": 0
+  },
+  "old_source12_account_sha256": "466f243fd9dc28278c716f0bfe74a82284888195c2c8817ddaa866d43ca8100f",
+  "old_source12_lease_sha256": "14217f34468735a27af740032d4a58ca5c530b294c7922b7ecbd526c7be431b9",
+  "old_source12_terminal_sha256": "5f6739207e44a9a85fe3893d61a2030900224ec86640f57f5f672b959524c3c1",
+  "old_charged_upper": {
+    "attempts": 12,
+    "physics_integrations": 600000,
+    "RGB_pairs": 24000,
+    "Core_CPU_s": 36840,
+    "PC_CPU_s": 1780,
+    "render_device_s": 7200,
+    "Core_peak_bytes": 7381975040,
+    "PC_evidence_bytes": 984711168,
+    "transfer_bytes": 849575936
+  },
+  "all_old_costs_operations_and_clocks_retained": true,
+  "new_whole_night_pool_issued": false,
+  "project_aggregate_caps_retired_for_new_V7_job_only": true,
+  "new_finite_clock_does_not_rewrite_historical_clock": true,
+  "existing_owner_onceIO_registry_and_actual_space_GGPU_checks_unchanged": true,
+  "GR00T_models_queries_updates_PBS": 0,
+  "CPU_checks": {
+    "passed": 34,
+    "legacy_private_fixture_skips": 3,
+    "actual_closed12_PC_proposal_and_delta": "PASS_NO_CANONICAL_WRITE"
+  },
+  "native_cold_profile_admission": "NOT_RUN",
+  "next": "Use individually static-qualified seed003/004 in separate finite source jobs, then complete five-seed/DEV admission and learning.",
+  "infrastructure_changed": false,
+  "checkpoint_cleanup": false,
+  "target_S1_T2_quarantine_release": false
+}

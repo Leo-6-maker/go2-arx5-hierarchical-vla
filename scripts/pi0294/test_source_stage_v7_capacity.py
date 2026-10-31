@@ -9,7 +9,8 @@ from scripts.pi0294.generalization import minimal_scope
 
 
 @pytest.mark.parametrize('free_gib,retained_gib,passes',[(108,3,True),(106,3,False),(108,5,True),(108,7,False)])
-def test_v7_preserves_old_shortfalls_as_observations_but_requires_real_space(monkeypatch,free_gib,retained_gib,passes):
+@pytest.mark.parametrize('finite',[False,True])
+def test_v7_preserves_old_shortfalls_as_observations_but_requires_real_space(monkeypatch,free_gib,retained_gib,passes,finite):
     GiB=1024**3
     old=dict(cap_changes_required={'local_CPU_s':{'before':48,'after':56}},
              dimensions={'Core_storage_bytes':dict(projected=120*GiB,used=20*GiB)})
@@ -22,6 +23,7 @@ def test_v7_preserves_old_shortfalls_as_observations_but_requires_real_space(mon
     scope=SimpleNamespace(V7_CARRY='v7')
     ns=dict(scope=scope,account={'v7':{},'charged_upper':{'Core_peak_bytes':retained_gib*GiB}},
             gb=b'GLOBAL',lb=b'LOCAL',root=Path('/owned/source'),
+            v7_policy=b'ALREADY_CHECKED_EXACT_POLICY'if finite else None,P={'v7_finite_source_job':{'fixture':True}},
             os=SimpleNamespace(statvfs=lambda p:SimpleNamespace(f_bavail=free_gib*GiB,f_frsize=1)),
             put=lambda p,v:outputs.update({p.name:v}),raw=lambda v:v)
     if passes:
