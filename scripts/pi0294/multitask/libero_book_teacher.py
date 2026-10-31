@@ -64,16 +64,19 @@ def route_card(revision=ROUTE_REVISION):
     return card
 
 
-SEED_OFFSETS_M=((.004,0.),(-.004,0.),(0.,.004),(0.,-.004))
+from .book_seed_population import ADDITIONAL_TRAIN_OFFSETS_M, VERSION as POPULATION_VERSION
+
+SEED_OFFSETS_M=((.004,0.),(-.004,0.),(0.,.004),(0.,-.004))+ADDITIONAL_TRAIN_OFFSETS_M
 
 
 def seed_card(index):
-    """Four declared TRAIN initial positions; common home/goal stay fixed."""
+    """Declared TRAIN initial positions; common home/goal stay fixed."""
     if type(index)is not int or not 1<=index<=len(SEED_OFFSETS_M):
         raise ValueError('DECLARED_BOOK_SOURCE_SEED_INDEX')
     card=route_card(RELEASE_REVISION);dx,dy=SEED_OFFSETS_M[index-1]
     card.update(id=card['id']+'_SEED'+str(index).zfill(3),book_seed_index=index,
-                source_seed_set='BOOK_DISTINCT_INITIAL_POSITION_SEEDS_V1',initial_xy_offset_m=[dx,dy])
+                source_seed_set=('BOOK_DISTINCT_INITIAL_POSITION_SEEDS_V1'if index<=4 else POPULATION_VERSION),
+                initial_xy_offset_m=[dx,dy])
     native=np.array(card['initial_book_native_world']);native[:2,3]+=[dx,dy]
     card['initial_book_native_world']=native.tolist()
     card['source_base_card']['source_xy']=[.36+dx,-.10+dy]
