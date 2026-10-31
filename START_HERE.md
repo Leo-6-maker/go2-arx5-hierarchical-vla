@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31T21:56:18+08:00实测：同一连续4096训练已完成1164步/37248次TRAIN访问；1024完整端点已实际保存，42项AdamW及scheduler/RNG/cursor32768恢复通过，但生产者仍活动，未启动评价。固定16窗H40位置均误16.37→9.03mm；最初TRAIN000 Prefix8却8.50→9.58mm，首夹爪误差0.0935→0.0313。B512原500Hz记录定位8.500秒先触架、12.054秒后持续失去双指接触，原native-grasp最后12.044秒；没有完全张爪命令，单一根因仍未证实。24+4+4离线候选提升恢复/夹爪曝光但降低纯Teacher起步与抓握验证曝光，当前均匀训练不变。四任务缓存18条完整轨迹＋6专家后缀，柜门601窗仍待官方Processor准入；无新增物理/自主成功。 [实际1024与PC并行科学结果](reports/PI0294/design/core32-maintenance-20261031/M32_ACTUAL1024_GRASP_MECHANISM_EXPOSURE_AND_FOUR_TASK_GAPS_20261031.json)。
+2026-10-31T23:11:49+08:00实测：同一4096训练已继续到2055步/65760次TRAIN访问；2048完整状态保存及42项AdamW、scheduler/RNG/cursor65536原生恢复证书已独立读回，生产者仍活动。固定TRAIN16 H40位置均误16.37→9.03→5.53mm，初始Prefix8 8.50→9.58→2.99mm；初始首夹爪误差降为0，闭爪锚点48的Prefix8夹爪MAE 0.0966→0.2655→0.0112。初始Prefix8旋转误差仍非单调，闭环成绩未取得。继续原均匀4096；完整终态/审计/CLOSED后依次评价1024/2048/4096。无新增物理尝试，纯书15/柜门1/恢复6，自主完整成功仍0。 [实际2048学习曲线](reports/PI0294/design/core32-maintenance-20261031/M32_ACTUAL2048_RESTORED_MATCHED_TRAIN_LEARNING_CURVE_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
