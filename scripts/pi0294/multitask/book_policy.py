@@ -50,8 +50,9 @@ def dev_card(condition):
 class Student:
     stage='STUDENT_NO_PRIVILEGED_STAGE'
     candidate_complete=False
-    def __init__(self,instance,identifier,record,guard):
+    def __init__(self,instance,identifier,record,guard,*,seed_namespace='BOOK5_DEV10'):
         self.instance,self.identifier,self.record,self.guard=instance,identifier,record,guard
+        self.seed_namespace=seed_namespace
         self.index=self.last_plan=-1;self.queries=self.completed_generations=0;self.state=self.images=None
 
     def observe(self,state):
@@ -71,7 +72,7 @@ class Student:
             raise PermissionError('ONE_FRESH_MODEL_QUERY_PER_REAL_PREFIX8_OBSERVATION')
         self.last_plan=self.index;sequence=self.index//8
         request=payload(self.state,self.images,self.instruction)
-        seed=int.from_bytes(hashlib.sha256(f'BOOK5_DEV10/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
+        seed=int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
         self.record('intent',dict(sequence=sequence,index=self.index,seed=seed,
             observation_sha256=hashlib.sha256(json.dumps(request,sort_keys=True).encode()).hexdigest(),
             student_state_eef10=self.state.tolist(),language=self.instruction,
@@ -84,7 +85,7 @@ class Student:
         return dict(poses=matrices,opening=np.asarray(value['physical_H40'])[:,9].copy())
 
 
-def episode(root,condition,instance,template,guard):
+def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card):
     from PIL import Image
     import mujoco
     from scripts.pi0294.multitask.source_engine import make_engine
@@ -94,7 +95,7 @@ def episode(root,condition,instance,template,guard):
     from scripts.pi0292.durable import write,read
     from scripts.pi0294.native_dataset import sha
     folder=root/'conditions'/condition['id'];folder.mkdir(parents=True,exist_ok=False)
-    card=dev_card(condition);write(folder/'CARD.json',card);(folder/'predictions').mkdir()
+    card=card_factory(condition);write(folder/'CARD.json',card);(folder/'predictions').mkdir()
     stream=(folder/'ACTUAL_RECORDS.jsonl').open('x');engine=None;result=None;error=None;gate_rejected=False;events={};recorded=0;written=0
     def encode(v):
         if isinstance(v,np.ndarray):return v.tolist()
@@ -114,7 +115,7 @@ def episode(root,condition,instance,template,guard):
     def condition_guard():
         guard()
         if written>=500*1024**2 or time.monotonic()-started>=900:raise PermissionError('BOOK_DEV_FINITE_CONDITION_OUTPUT_OR_WALL')
-    student=Student(instance,condition['id'],record,condition_guard)
+    student=student_factory(instance,condition['id'],record,condition_guard)
     def emit(kind,row):
         nonlocal recorded,written
         condition_guard();events[kind]=events.get(kind,0)+1
@@ -190,7 +191,8 @@ def run(root,manifest_sha256):
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
     is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING')
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING')
+    is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -199,6 +201,9 @@ def run(root,manifest_sha256):
     if is_fit:
         from scripts.pi0294.multitask.book_fit import validate_manifest
         validate_manifest(m,read(root/'TRAIN_FIT_PLAN.json'))
+    if is_recovery:
+        from scripts.pi0294.multitask.book_recovery import validate_manifest
+        validate_manifest(m)
     lease=read(root/'control/LEASE.json')
     if lease['status']!='ACTIVE'or lease['manifest_sha256']!=manifest_sha256:raise PermissionError('BOOK_DEV10_ACTIVE_OWNER_LEASE')
     if not any(r.get('path')==str(root)and r.get('role')==m['role']for r in read(root/'control/REGISTERED_PATHS.json')['entries']):raise PermissionError('BOOK_DEV10_ORIGINAL_REGISTRY')
@@ -315,8 +320,14 @@ def run(root,manifest_sha256):
             if sha(node_local(pin['path']))!=pin['sha256']:raise PermissionError('BOOK_DEV10_ACTUAL_SOURCE_ASSET_CHANGED')
         seal=read(root/'TRAIN_DEV_SEAL.json')
         if sha(root/'TRAIN_DEV_SEAL.json')!=m['TRAIN_DEV_seal_sha256']:raise PermissionError('BOOK_DEV10_FIXED_POPULATION')
-        for condition in seal['DEV']:
-            guard();row=episode(root,condition,instance,template,guard);rows.append(row)
+        conditions=seal['DEV'];episode_options={}
+        if is_recovery:
+            from scripts.pi0294.multitask import book_recovery as recovery
+            conditions=[recovery.CONDITION.copy()]
+            episode_options=dict(card_factory=recovery.recovery_card,
+                student_factory=lambda *args:recovery.make_student(Student,*args))
+        for condition in conditions:
+            guard();row=episode(root,condition,instance,template,guard,**episode_options);rows.append(row)
             write(root/'PROGRESS.json',dict(conditions=rows,valid=sum(r['valid_model_condition']for r in rows),successes=sum(r['success']for r in rows),observed_epoch=time.time()))
             if row['hard_native_safety']or not row['valid_model_condition']:
                 write(root/'STOP.json',dict(reason='ORIGINAL_NATIVE_SAFETY_OR_ENGINEERING_FAILURE',condition=row['id'],automatic_retry=False));break
@@ -336,7 +347,9 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status='COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10',error=failure,
+        else:write(root/'RESULT.json',dict(status=('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC')if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+            scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery else sum(r['valid_model_condition']for r in rows),
+            student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
             evaluated_checkpoint_manifest_sha256=m.get('delta_checkpoint_manifest_sha256',m['checkpoint_manifest_sha256']),
             checkpoint_requires_retained_full_parent=bool(m.get('delta_checkpoint')),
             conditions=rows,valid_conditions=sum(r['valid_model_condition']for r in rows),successes=sum(r['success']for r in rows),
