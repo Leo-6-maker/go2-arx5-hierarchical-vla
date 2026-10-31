@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 13:03 SGT实际：**首条TRAIN学生前缀＋专家恢复轨迹完整成功，原安全和32秒任务判据通过**。冻结book1024学生先执行1.6秒/4次生成/32段命令，原版PORT06专家从实际状态接手完成608段；全部76个专家H40独立重生成与真实记录零差异。18500积分/642对RGB，CPU86.966秒、GPU占用上界64秒，进程及许可CLOSED。仅专家后缀32..600的569窗候选，学生前缀标签0；尚待数据出口/官方Processor资格，未准入或新增训练。纯Teacher书本5/柜门0，另有完整混合恢复1；学生自主完整成功仍0，book1024原DEV0/1＋9未运行保持。全部源物理28尝试/206128积分/5691对RGB。下一步实际恢复数据准入及独立后训练；柜门不盲重试，Vanda依用户确认暂不连接，NFS/挂载/WBC/安全隔离不变。 [实际恢复成功、专家后缀核验与关闭](reports/PI0294/design/science-goal-v7-20261031/BOOK_TRAIN32_EXPERT_RECOVERY_FULL_SUCCESS_INDEPENDENT_SUFFIX_CLOSED_ACTUAL_20261031.json)。
+2026-10-31 13:16 SGT实际：**恢复专家后缀已完成真实导出、官方资格并准入，独立核验全部数组/标签/新TRAIN统计通过**。原5条示范3005窗保持字节不变，恢复后缀609观测/608专家命令形成569窗，合计3574窗；学生32段前缀标签0。实际读取及官方动作codec检查3574窗，官方多模态Processor为6批/18样本，609对恢复RGB全验；float64微小越界128分量透明保留，float32解码裁剪0。新数据manifest d3f49998、统计73cc6e2f，原DEV封存3d5c4a9a不变。CPU47.063秒/墙钟56.311秒，OS0、父子进程终态；无新增神经调用/训练/物理。下一步独立512步恢复学习须同时绑定新统计及原父数据恢复，不把新3574人口塞入旧3005合同。当前自主完整成功仍0，book1024原DEV0/1＋9未运行；全部源物理28尝试/206128积分/5691RGB，纯书本Teacher5/柜门0、完整混合恢复1。Vanda暂不连接，NFS/挂载及安全隔离不变。 [实际恢复数据准入与独立统计核验](reports/PI0294/design/science-goal-v7-20261031/BOOK5_PLUS_EXPERT_RECOVERY_DATA_NATIVE_ADMITTED_INDEPENDENT_STATS_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 
