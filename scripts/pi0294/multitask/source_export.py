@@ -97,8 +97,29 @@ def statistics(values, axis):
         q99=np.quantile(values, .99, axis=axis)).items()}
 
 
+def source_identity(card, audit):
+    """Keep native book and custom cabinet success contracts distinct."""
+    if card.get('task') == 'BOOK':
+        if audit.get('native_LIBERO_goal_final') is not True:
+            raise PermissionError('NATIVE_LIBERO_GOAL_REQUIRED_FOR_BOOK')
+        return dict(episode_id='BOOK_SOURCE_SEED' + str(card.get('book_seed_index', 0)).zfill(3),
+                    task='BOOK', family='LIBERO_ARX5_LEFT_PORT',
+                    purpose='NEW_BOOK_SKILL_SEED_CANDIDATE_SEPARATE_FROM_E1_E2')
+    if (card.get('task') == 'DOOR'
+            and card.get('source_port') == 'ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1'
+            and card.get('port_revision') == 'ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'
+            and card.get('cabinet', {}).get('mechanical_variant') == 'OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1'
+            and card.get('original_benchmark_robot_or_seed') is False
+            and audit.get('schema') == 'NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1'
+            and audit.get('native_ROBOCASA_goal_final') is True):
+        return dict(episode_id='CUSTOM_CABINET_PORT08_SOURCE_SEED000', task='DOOR',
+                    family='ROBOCASA_ARX5_CUSTOM_EDGE_HINGE_BRAKED_PORT',
+                    purpose='NEW_CUSTOM_CABINET_SKILL_SEED_CANDIDATE_SEPARATE_FROM_E1_E2')
+    raise PermissionError('EXACT_QUALIFIED_SOURCE_TASK_AND_NATIVE_GOAL_REQUIRED')
+
+
 def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
-    """Export a pinned independently qualified book episode, never resimulate."""
+    """Export a pinned qualified book or explicit custom cabinet, never resimulate."""
     folder, output = Path(folder).resolve(), Path(output)
     if output.exists():
         raise FileExistsError('PRESERVE_PRIOR_DERIVATIVE_AND_RAW_RECORDS')
@@ -108,10 +129,12 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
     audit = json.loads(audit_path.read_bytes())
     if (audit['status'] != 'COMPLETE_SOURCE_PILOT_QUALIFIED'
             or any(audit[k] is not True for k in ('task_success', 'qualified_source_pilot', 'complete_episode',
-                   'original_native_safety_pass', 'native_LIBERO_goal_final', 'additional_support_release_withdraw_hold_pass'))
+                   'original_native_safety_pass', 'additional_support_release_withdraw_hold_pass'))
             or audit['integrity_problems'] or audit['raw_sha256'] != raw_sha256
             or audit['terminal_sha256'] != terminal_sha256):
-        raise PermissionError('COMPLETE_SAFE_INDEPENDENTLY_SCORED_BOOK_SEED_REQUIRED')
+        raise PermissionError('COMPLETE_SAFE_INDEPENDENTLY_SCORED_SOURCE_SEED_REQUIRED')
+    card = json.loads((folder / 'CARD.json').read_bytes())
+    identity = source_identity(card, audit)
     root = folder.parent.parent
     lease = json.loads((root / 'control/NATIVE_SOURCE_LEASE.json').read_bytes())
     chain = json.loads((root / 'outputs/SOURCE_CHAIN_TERMINAL.json').read_bytes())
@@ -127,7 +150,6 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
                 rows.append(row)
     if h.hexdigest() != raw_sha256:
         raise ValueError('RAW_RECORDS_CHANGED_SINCE_INDEPENDENT_AUDIT')
-    card = json.loads((folder / 'CARD.json').read_bytes())
     arrays = packet(rows, card)
     from PIL import Image
     for o in (r['value'] for r in rows if r['kind'] == 'observation'):
@@ -141,7 +163,7 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
                     raise ValueError('ACTUAL_256_RGB_REQUIRED')
     output.mkdir(parents=True, exist_ok=False)
     (output / 'episodes').mkdir()
-    episode_id = 'BOOK_SOURCE_SEED' + str(card.get('book_seed_index', 0)).zfill(3)
+    episode_id = identity['episode_id']
     numeric = output / 'episodes' / (episode_id + '.npz')
     np.savez_compressed(numeric, **arrays)
     future = np.arange(601)[:, None] + np.arange(40)
@@ -157,16 +179,21 @@ def export(folder, output, *, audit_sha256, terminal_sha256, raw_sha256):
             f.write('\n')
     put('statistics.json', fitted)
     manifest = dict(schema='SOURCE_SKILL_SEED_CANDIDATE_V1', domain=DOMAIN,
-        purpose='NEW_BOOK_SKILL_SEED_CANDIDATE_SEPARATE_FROM_E1_E2', training_admitted=False,
+        purpose=identity['purpose'], training_admitted=False,
         official_source_sha=OFFICIAL_SHA, statistics_sha256=sha(output / 'statistics.json'),
         statistics_rule='THIS_SOURCE_TRAIN_CANDIDATE_ONLY_601_FULL_H40_MINMAX_NOT_E1_E2_R0',
         TRAIN_windows=601, DEV_windows=0, model_calls=0, optimizer_updates=0,
         raw_audit_training_admitted_flag_unchanged=audit['training_admitted'],
         required_before_optimization=['official_processor_codec_qualification', 'frozen_seed_set_and_disjoint_DEV_admission'],
-        episodes=[dict(id=episode_id, task='BOOK', family='LIBERO_ARX5_LEFT_PORT', origin='SOURCE_TEACHER',
+        episodes=[dict(id=episode_id, task=identity['task'], family=identity['family'], origin='SOURCE_TEACHER',
             split='TRAIN', windows=601, raw_root=str(folder), file=numeric.relative_to(output).as_posix(),
             sha256=sha(numeric), source_sha=json.loads((root / 'RUN_MANIFEST.json').read_bytes())['source_sha'],
             raw_sha256=raw_sha256, audit_sha256=audit_sha256, terminal_sha256=terminal_sha256,
             instruction=card['instruction'], complete_commands=640, actual_observations=641)])
+    if identity['task'] == 'DOOR':
+        manifest['custom_source_variant'] = dict(port_revision=card['port_revision'],
+            mechanical_variant=card['cabinet']['mechanical_variant'],
+            original_RoboCasa_benchmark=False, target_Go2_WBC_qualification=False,
+            native_goal_field='native_ROBOCASA_goal_final')
     put('DATASET_MANIFEST.json', manifest)
     return manifest
