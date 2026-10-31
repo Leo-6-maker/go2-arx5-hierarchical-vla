@@ -76,7 +76,8 @@
       "valid_conditions": 24,
       "successes": 0,
       "remaining_original_conditions": 0,
-      "completed_condition_no_repeat": "PI0294/PV1/DEV/F0/000/T1/N294101"
+      "completed_condition_no_repeat": "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "saved_output_diagnosis": "Official frozen R0/row6D/SE3 math reproduces all24 saved actions and speed gates;34.0625% normalized components outside unit interval before official clipping. No downstream decode discrepancy found; original12 TRAIN numeric recheck unavailable at known binding."
     },
     {
       "id": "V7-02",
@@ -141,14 +142,14 @@
       "qualified_book_demonstrations": 5,
       "qualified_cabinet_demonstrations": 0,
       "book_seed_minimum_met": true,
-      "cabinet_next": "Repair full body placement clearance after native saved-state door/FL_hip collision; old STOP retained, no new dynamic attempt."
+      "cabinet_next": "Shift40mm/retract8mm full-body static candidate passes11351 native forwards with0 integrations; actual engine/camera/dynamic qualification pending, old STOP retained."
     },
     {
       "id": "V7-04",
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "FIT256_REAL_DEV_0OF1_NATIVE_SAFETY_STOP_REMAINING9_UNRUN_FULL_BOOK5_LEARNING_NEXT",
+      "status": "ALL3005_FINITE_TARGET1024_NATIVE_TRAINING_ACTIVE_NOT_COMPLETE",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -178,11 +179,14 @@
       "qualified_parent_dependent_delta_endpoints": 1,
       "TRAIN_generation_gate_passes": 16,
       "TRAIN_generation_conditions": 16,
-      "new_delta_DEV_conditions": 0,
+      "new_delta_DEV_conditions": 1,
       "fit256_valid_DEV_conditions": 1,
       "fit256_DEV_successes": 0,
       "fit256_unrun_DEV_conditions": 9,
-      "fit256_panel_stopped_for_native_safety": true
+      "fit256_panel_stopped_for_native_safety": true,
+      "full3005_training_updates_observed": 171,
+      "full3005_TRAIN_visits_observed": 5472,
+      "full3005_qualified_endpoints": 0
     },
     {
       "id": "V7-05",
@@ -270,8 +274,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "BOOK128_TRAIN16_SAMPLER_NEGATIVE_AND_CABINET_STATIC_ACTUAL_CLOSED_20261031.json",
-    "as_of": "2026-10-31 09:59 SGT",
+    "report": "BOOK5_ALL3005_LEARNING_ACTIVE_E1_DECODE_AND_CABINET_LAYOUT_STATIC_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 11:12 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -283,19 +287,19 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 24,
-    "source_actual_integrations": 169571,
-    "source_actual_RGB_pairs": 4622,
+    "source_total_attempts": 25,
+    "source_actual_integrations": 173327,
+    "source_actual_RGB_pairs": 4674,
     "qualified_full_skill_demos": 5,
     "new_shared_skill_training_updates": 0,
-    "Core_next": "BOUNDED_TRAIN_FIT_DIAGNOSTIC_AND_CABINET_STATIC_REFERENCE_FEEDBACK_MECHANISM",
+    "Core_next": "FINISH_ACTIVE_ALL3005_BOOK1024_THEN_NATIVE_RESTORE_AND_FIXED_DEV",
     "E2_current": "LAST_H_HELD_UNSTARTED_NOW_SSH_AUTH_REFUSED_CURRENT_UNVERIFIED",
     "goal_complete": false,
     "qualified_book_demos": 5,
     "qualified_cabinet_demos": 0,
     "first_book_candidate_export": "JOINT_BOOK5_ADMITTED_3005_WINDOWS_ACTUAL_BOOK128_TRAINED_RESTORED_DEV10_ZERO_SUCCESS",
     "Teacher_generation_attempts": 14,
-    "source_policy_DEV_attempts": 10,
+    "source_policy_DEV_attempts": 11,
     "new_book_only_training_updates": 128,
     "new_book_only_qualified_endpoints": 1,
     "book_policy_DEV_valid_conditions": 10,
@@ -310,15 +314,171 @@
       "native_updates": 256,
       "generation_gate_passes": 16,
       "TRAIN_windows": 16,
-      "new_DEV_conditions": 0,
+      "new_DEV_conditions": 1,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "Finite1024 target-interface updates on all3005 existing admitted TRAIN windows, from book128; no DEV as training; cabinet full-body placement independently.",
+    "next_action": "Finish healthy all3005/book1024 native training, independently qualify the complete parent-delta endpoint, then its unchanged fixed DEV panel; cabinet native engine/camera qualification follows at a free device boundary.",
     "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
     "source_all_attempts": {
       "attempts": 25,
       "integrations": 173327,
       "RGB_pairs": 4674
+    },
+    "active_book5_all3005_learning": {
+      "status": "ACTUAL_NATIVE_TRAINING_ACTIVE_NOT_COMPLETE",
+      "run_uuid": "v7-book5-all3005-target1024-01",
+      "source_sha": "85b6cb436024e866d53ed4fc96d827ed70777dc6",
+      "PR": 255,
+      "manifest_sha256": "80603e76ede4a6b5dfd07460a2f08a99db5de4f8357f2da30f6dc86857faee82",
+      "registered_then_independently_read_then_launched_once": true,
+      "actual_native_progress": {
+        "sha256": "232db420fe6380393bff64626781d8f0ec83ed26b46ad438ba704df6e3c2ceb8",
+        "value": {
+          "step": 171,
+          "cursor": 5472,
+          "native_loss": 0.03276925906538963,
+          "learning_rate": [
+            9.570993299395237e-05,
+            9.570993299395237e-05
+          ],
+          "epoch": 1793416318.2080476
+        }
+      },
+      "progress_observed_epoch": 1793416319.2242315,
+      "process_active": true,
+      "full_book128_parent_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "TRAIN_dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+      "statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+      "recipe": {
+        "schema": "BOOK128_BOOK5_ALL3005_TARGET1024_V1",
+        "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+        "dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+        "statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+        "max_steps": 1024,
+        "effective_batch_size": 32,
+        "TRAIN_visits": 32768,
+        "trainable": "EXACT_EXISTING_FOURTEEN_TARGET_CATEGORY10_PARAMETERS",
+        "shared_DiT_frozen": true,
+        "backbone_frozen": true,
+        "optimizer_initialization": "FRESH_ADAMW_FROM_BOOK128_NOT_TRAIN16_OVERFIT_DELTA",
+        "learning_rate": 0.0001,
+        "weight_decay": 1e-05,
+        "warmup_updates": 32,
+        "scheduler_horizon_steps": 1024,
+        "seed": 2026103103,
+        "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+        "checkpoint": "PARENT_BOUND_TARGET_DELTA_WITH_ADAMW_SCHEDULER_RNG_CURSOR",
+        "denoise_steps": 4,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "matched_before_after_inputs_and_noise": true,
+        "statistics_refit": false,
+        "DEV_or_TEST_used": false,
+        "formal_DEV_conditions": 0,
+        "physics_integrations": 0,
+        "original_book_DEV10_unchanged": true,
+        "original_E1_E2_unchanged": true,
+        "purpose": "Train on the existing complete five-demo population after the fixed16 fit passed generation gates but failed real DEV. No DEV/TEST optimization, new data, shared-action update or task-success claim.",
+        "diagnostic_windows": [
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 80,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 240,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 320,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 400,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED000",
+            "anchor": 600,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 0,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 80,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 160,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 240,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 320,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 400,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 480,
+            "split": "TRAIN"
+          },
+          {
+            "id": "BOOK_SOURCE_SEED004",
+            "anchor": 600,
+            "split": "TRAIN"
+          }
+        ],
+        "optimization_population": "ALL_3005_WINDOWS_FROM_FIVE_ADMITTED_TRAIN_EPISODES",
+        "TRAIN_episodes": 5,
+        "TRAIN_windows": 3005
+      },
+      "new_physics_integrations": 0,
+      "new_RGB_pairs": 0,
+      "new_PBS": 0,
+      "limits": {
+        "wall_seconds": 9000,
+        "CPU_cores": 4,
+        "CPU_upper_s": 36000,
+        "output_bytes": 536870912
+      },
+      "snapshot_receipt_sha256": "e88f6ae6eda72e8656aff5af447a80c1af6b46082a9b9887d65b5461b497366f",
+      "registration_receipt_sha256": "e1979ad677d800e140720cf738d7aaf616f5fd71d4a5fdf81e2210d16cf0ef48",
+      "independent_stage_read_sha256": "3a1998a3e8c0b213b07dd3cf8b94f05dbc2fa67dafe7bc9fd0d53e1d6421d8dd",
+      "actual_start_sha256": "8393c2dd3eaaa24568ec41888793eafe55ab5ac51fb550280a695fb23e0d69b4",
+      "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
   }
 }

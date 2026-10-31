@@ -266,17 +266,20 @@ def run(root,manifest_sha256):
         if m.get('delta_checkpoint'):
             if is_probe or is_fit:raise PermissionError('DELTA_INFERENCE_ONLY_ON_NEW_FIXED_DEV_PANEL')
             producer=node_local(m['delta_producer_root']);certificate=producer/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
+            from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,load_parent_delta
+            delta=node_local(m['delta_checkpoint'])
+            delta_complete=validate_delta_header(read(delta/'CHECKPOINT_COMPLETE.json'),m['checkpoint_manifest_sha256'])
+            delta_steps=delta_complete['global_step'];delta_cursor=delta_complete['cursor']
             if (read(producer/'control/LEASE.json')['status']!='CLOSED'
                     or sha(producer/'control/LEASE.json')!=m['delta_producer_closed_lease_sha256']
-                    or Path(m['delta_checkpoint'])!=producer/'training/checkpoint-256'
-                    or sha(certificate)!=m['delta_native_qualification_sha256']):raise PermissionError('FIT256_PRODUCER_CLOSED_AND_NATIVE_RESTORE_QUALIFIED')
+                    or delta!=producer/f'training/checkpoint-{delta_steps}'
+                    or sha(certificate)!=m['delta_native_qualification_sha256']):raise PermissionError('BOOK_DELTA_PRODUCER_CLOSED_AND_NATIVE_RESTORE_QUALIFIED')
             qualification=read(certificate)
             if(qualification['checkpoint_manifest_sha256']!=m['delta_checkpoint_manifest_sha256']
                     or qualification['required_parent_checkpoint_manifest_sha256']!=m['checkpoint_manifest_sha256']
                     or not all(qualification[k]for k in('model_reconstruction','scheduler_restored','RNG_restored','frozen_parent_unchanged'))
-                    or qualification['optimizer_updates']!=256 or qualification['sampler_cursor']!=8192):raise PermissionError('FIT256_ACTUAL_FULL_STATE_QUALIFICATION')
-            from scripts.pi0294.multitask.book_checkpoint import load_parent_delta
-            reconstruction=load_parent_delta(model,contract,node_local(m['delta_checkpoint']),
+                    or qualification['optimizer_updates']!=delta_steps or qualification['sampler_cursor']!=delta_cursor):raise PermissionError('BOOK_DELTA_ACTUAL_FULL_STATE_QUALIFICATION')
+            reconstruction=load_parent_delta(model,contract,delta,
                 manifest_sha256=m['delta_checkpoint_manifest_sha256'],parent_sha256=m['checkpoint_manifest_sha256'])
             write(root/'ACTUAL_PARENT_DELTA_INFERENCE_RECONSTRUCTION.json',dict(**reconstruction,
                 producer_native_qualification_sha256=m['delta_native_qualification_sha256'],observed_epoch=time.time()))
@@ -287,9 +290,11 @@ def run(root,manifest_sha256):
         instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(checkpoint/'statistics.json'))
         instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(checkpoint/'statistics.json'))
         if m.get('delta_checkpoint'):
-            instance.identity=dict(kind='BOOK128_TRAIN16_FIT256_PARENT_DELTA',new_optimizer_updates=256,parent_book_updates=128,
+            instance.identity=dict(kind='BOOK128_TRAIN16_FIT256_PARENT_DELTA'if delta_steps==256 else'BOOK5_ALL3005_TARGET1024_PARENT_DELTA',
+                new_optimizer_updates=delta_steps,parent_book_updates=128,
                 checkpoint_manifest_sha256=m['delta_checkpoint_manifest_sha256'],parent_checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
-                statistics_sha256=sha(checkpoint/'statistics.json'),training_population='SIXTEEN_FIXED_TRAIN_WINDOWS_NOT_FORMAL_E2')
+                statistics_sha256=sha(checkpoint/'statistics.json'),
+                training_population='SIXTEEN_FIXED_TRAIN_WINDOWS_NOT_FORMAL_E2'if delta_steps==256 else'ALL_3005_WINDOWS_FROM_FIVE_ADMITTED_TRAIN_EPISODES_NOT_FORMAL_E2')
         original_generate=instance.generate
         def timed_generate(request,seed):
             signal.alarm(max(1,min(60,int(m['deadline_epoch']-time.time()))))
