@@ -58,7 +58,7 @@ def physical_errors(expected,actual):
         SO3_rad=float(np.max(np.arccos(cosine))),gripper=float(np.max(np.abs(expected[:,9]-actual[:,9]))))
 
 
-def codec_packet(arrays,processor,guard=lambda:None,*,diagnostic_sink=None):
+def codec_packet(arrays,processor,guard=lambda:None,*,diagnostic_sink=None,anchors=None):
     from gr00t.data.types import ActionType,ActionFormat
     from gr00t.data.embodiment_tags import EmbodimentTag
     sap=processor.state_action_processor
@@ -67,7 +67,12 @@ def codec_packet(arrays,processor,guard=lambda:None,*,diagnostic_sink=None):
     maxima=dict(XYZ_m=0.,SO3_rad=0.,gripper=0.,relative_SE3_max_abs=0.)
     preclip=inverseclip=state_preclip=0
     per_channel=np.zeros(10,dtype=np.int64)
-    for anchor in range(601):
+    anchors=tuple(range(601))if anchors is None else tuple(anchors)
+    if (not anchors or len(set(anchors))!=len(anchors)
+            or any(type(a)is not int or a<0 or a+40>len(arrays['committed_absolute10'])
+                   or a>=len(arrays['actual_state10'])or not arrays['valid_window'][a]for a in anchors)):
+        raise ValueError('ONLY_DISTINCT_COMPLETE_VALID_COMMITTED_H40_ANCHORS')
+    for anchor in anchors:
         guard()
         state=arrays['actual_state10'][anchor]
         target=arrays['committed_absolute10'][anchor:anchor+40]
@@ -94,7 +99,7 @@ def codec_packet(arrays,processor,guard=lambda:None,*,diagnostic_sink=None):
                 native_relative=relative.copy(),normalized=normalized.copy(),packed=packed.copy(),actual=actual.copy())
     passed=all(maxima[k]<=v for k,v in GATES.items())
     return dict(status='PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP' if passed else 'BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR',
-        H40_windows_actually_checked=601,committed_label_elements_checked=601*40*10,
+        H40_windows_actually_checked=len(anchors),committed_label_elements_checked=len(anchors)*40*10,
         maximum_error=maxima,frozen_numeric_gates=GATES,action_preclip_components=preclip,
         native_inverse_clip_components_float32=inverseclip,inverse_clip_by_EEF10_channel=per_channel.tolist(),
         state_preclip_components=state_preclip,encode_clip_components=0,statistics_refit=False,
