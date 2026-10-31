@@ -1,0 +1,113 @@
+{
+  "schema": "BOOK128_TRAIN16_TARGET_FIT256_V1",
+  "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+  "dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+  "statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+  "windows": [
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 240,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 320,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 400,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 480,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 600,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 240,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 320,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 400,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 480,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 600,
+      "split": "TRAIN"
+    }
+  ],
+  "max_steps": 256,
+  "effective_batch_size": 32,
+  "TRAIN_visits": 8192,
+  "trainable": "EXACT_EXISTING_FOURTEEN_TARGET_CATEGORY10_PARAMETERS",
+  "shared_DiT_frozen": true,
+  "backbone_frozen": true,
+  "optimizer_initialization": "FRESH_ADAMW_DISTINCT_DIAGNOSTIC",
+  "learning_rate": 0.0001,
+  "weight_decay": 1e-05,
+  "warmup_updates": 8,
+  "scheduler_horizon_steps": 256,
+  "seed": 2026103102,
+  "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+  "checkpoint": "PARENT_BOUND_TARGET_DELTA_WITH_ADAMW_SCHEDULER_RNG_CURSOR",
+  "denoise_steps": 4,
+  "generation_queries": 32,
+  "native_diagnostic_loss_forwards": 32,
+  "matched_before_after_inputs_and_noise": true,
+  "statistics_refit": false,
+  "DEV_or_TEST_used": false,
+  "formal_DEV_conditions": 0,
+  "physics_integrations": 0,
+  "original_book_DEV10_unchanged": true,
+  "original_E1_E2_unchanged": true,
+  "purpose": "Can the existing target interface fit sixteen actual TRAIN expert windows? Not a generalization or task-success claim."
+}
