@@ -6,7 +6,7 @@ import json
 import numpy as np
 import pytest
 
-from scripts.pi0294.multitask.source_export import packet
+from scripts.pi0294.multitask.source_export import packet, source_identity
 from scripts.pi0292.train_adapter import NativeDataset
 
 
@@ -79,3 +79,22 @@ def test_candidate_cannot_enter_optimizer(tmp_path):
     (tmp_path / 'DATASET_MANIFEST.json').write_text(json.dumps({'training_admitted': False}))
     with pytest.raises(PermissionError, match='SEPARATE_TRAINING_ADMISSION'):
         NativeDataset(tmp_path, 'unused', 'unused', for_optimization=True)
+
+
+def test_book_and_custom_cabinet_require_their_own_native_goal():
+    book = {'task': 'BOOK', 'book_seed_index': 5}
+    door = dict(task='DOOR', source_port='ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1',
+        port_revision='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN',
+        cabinet={'mechanical_variant': 'OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1'},
+        original_benchmark_robot_or_seed=False)
+    cabinet_audit = dict(schema='NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1', native_ROBOCASA_goal_final=True)
+    assert source_identity(book, {'native_LIBERO_goal_final': True})['episode_id'] == 'BOOK_SOURCE_SEED005'
+    cabinet = source_identity(door, cabinet_audit)
+    assert cabinet['task'] == 'DOOR' and 'CUSTOM' in cabinet['family']
+    with pytest.raises(PermissionError):
+        source_identity(book, cabinet_audit)
+    with pytest.raises(PermissionError):
+        source_identity(door, {'native_LIBERO_goal_final': True})
+    for key, value in [('original_benchmark_robot_or_seed', True), ('port_revision', 'unqualified-port')]:
+        with pytest.raises(PermissionError):
+            source_identity(dict(door, **{key: value}), cabinet_audit)
