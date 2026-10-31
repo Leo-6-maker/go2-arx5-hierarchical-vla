@@ -36,7 +36,12 @@ def checked_card(card,side):
     if side not in('left','right'):raise ValueError('EXACT_CABINET_SIDE')
     if card.get('port_revision')=='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN':
         from .cabinet_braked_turn import cards as braked_cards
-        if side!='right'or card!=braked_cards()[side]:raise PermissionError('EXACT_SEPARATE_RIGHT_BRAKED_TURN')
+        expected=braked_cards()['right']
+        if 'cabinet_seed_index'in card:
+            from .cabinet_seed_cards import seed_card
+            try:expected=seed_card(card['cabinet_seed_index'])
+            except ValueError as error:raise PermissionError('EXACT_DECLARED_CABINET_SEED')from error
+        if side!='right'or card!=expected:raise PermissionError('EXACT_SEPARATE_RIGHT_BRAKED_TURN')
         return True
     if card.get('port_revision')=='ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60':
         from .cabinet_edge_hinge import cards as edge_cards
@@ -66,7 +71,8 @@ def checked_card(card,side):
 
 def attempt_operation(card,side):
     repair=checked_card(card,side)
-    if card.get('port_revision')=='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN':return 'ROBOCASA_RIGHT_PORT08_BRAKED_TURN'
+    if card.get('port_revision')=='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN':
+        return 'ROBOCASA_RIGHT_PORT08_BRAKED_TURN'+(f"_SEED{card['cabinet_seed_index']:03}"if 'cabinet_seed_index'in card else'')
     if card.get('port_revision')=='ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60':return 'ROBOCASA_RIGHT_PORT07_EDGE_HINGE_LAYOUT60'
     if card.get('port_revision')=='ROBOCASA_ARX5_PORT06_LAYOUT40_RETRACT8':return 'ROBOCASA_RIGHT_PORT06_LAYOUT40_RETRACT8'
     suffix='_PORT05_SLOW_TURN'if card.get('port_revision')=='ROBOCASA_ARX5_PORT05_SLOWER_TURN_REFERENCE'else'_PORT04_HINGE'if card.get('port_revision')=='ROBOCASA_ARX5_PORT04_MEASURED_HINGE_ANCHOR'else'_PORT03_CAMERA'if card.get('port_revision')=='ROBOCASA_ARX5_PORT03_FIXED_CAMERA_HOME'else'_REPAIR02'if repair else'_FIRST01'

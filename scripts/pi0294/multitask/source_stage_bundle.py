@@ -27,6 +27,11 @@ PORT07_VERSION='ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60'
 PORT07_CARD_SHA='ebdd82b5b12bf8f6949b03271c7f1235284229e6a491cbbdbb243cbe013640f9'
 PORT08_VERSION='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'
 PORT08_CARD_SHA='821420e0840aac479599d0dd85729f14b0802f701f7ad35f07768532fde2550e'
+CABINET_SEED_CARD_SHA={
+    1:'cf17c8bfd6a91a79ed7f025c03356a79623edd37a420c6152d1c71a0560f99da',
+    2:'368a54284509a7c2fd9de27868259789d7b49f40ff042e4e6d9bd18536d82534',
+    3:'3faacae7c26ff1e27f116faadb8b2f77cc70c7e2b58e17c5c470cd06b2a641dd',
+    4:'34f4fa55f081825ab6c8ea4ac10d44470ccf36a85ee41baf7349dc53c522ead8'}
 BOOK_ROUTE_VERSION='LIBERO_ARX5_PORT03_TOP_EDGE_FRONT_CROSS_LOWER'
 BOOK_ROUTE_CARD_SHA='080f49c2cb45cea7c13237cf62254b0c65a3da44f2f1af91abd34bf5cd2399fb'
 BOOK_MARGIN_VERSION='LIBERO_ARX5_PORT04_FRONT_TRACKING_MARGIN'
@@ -105,6 +110,10 @@ def checked_manifest(manifest):
     if seed is not None and (type(seed)is not int or seed not in BOOK_SEED_CARD_SHA
             or manifest.get('book_route_revision')!=BOOK_RELEASE_VERSION or kind!='BOOK' or side!='left'):
         raise PermissionError('DECLARED_SOURCE_BOOK_SEED_MANIFEST')
+    cabinet_seed=manifest.get('cabinet_seed_index')
+    if cabinet_seed is not None and (type(cabinet_seed)is not int or cabinet_seed not in CABINET_SEED_CARD_SHA
+            or manifest.get('cabinet_port_revision')!=PORT08_VERSION or kind!='ROBOCASA_CABINET'or side!='right'):
+        raise PermissionError('DECLARED_CUSTOM_CABINET_TRAIN_SEED_MANIFEST')
     declared = [x['side']for x in tasks] if kind == 'BOOK' else tasks
     if (manifest['predeclared_tasks'] != declared
             or manifest['attempts_this_chain_max'] != len(tasks)):
@@ -179,6 +188,13 @@ def unpack(payload):
                 or book_revision!=BOOK_RELEASE_VERSION or qualification.get('book_seed_index')!=seed):
             raise PermissionError('EXACT_DECLARED_SOURCE_BOOK_SEED')
         expected_sha=BOOK_SEED_CARD_SHA[seed]
+    cabinet_seed=payload.get('cabinet_seed_index')
+    if cabinet_seed is not None:
+        if (type(cabinet_seed)is not int or cabinet_seed not in CABINET_SEED_CARD_SHA
+                or revision!=PORT08_VERSION or kind!='ROBOCASA_CABINET'or side!='right'
+                or qualification.get('cabinet_seed_index')!=cabinet_seed):
+            raise PermissionError('EXACT_DECLARED_CUSTOM_CABINET_TRAIN_SEED')
+        expected_sha=CABINET_SEED_CARD_SHA[cabinet_seed]
     if (card_sha != expected_sha
             or qualification['fixed_task_cards_sha256'] != card_sha
             or qualification['source_sha'] != payload['source_sha']):

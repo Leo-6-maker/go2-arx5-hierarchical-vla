@@ -72,3 +72,21 @@ def test_two_port_selectors_reject_before_any_native_import(monkeypatch):
     monkeypatch.setattr(builtins,'__import__',guarded)
     with pytest.raises(ValueError,match='ONE_EXPLICIT_PINNED_SOURCE_TASK_PORT'):
         make_engine({},'/unused',pinned_libero={},pinned_robocasa={})
+
+
+def test_custom_seed_scene_moves_whole_fixture_preserving_relative_hinge_and_robot(inputs):
+    from scripts.pi0294.multitask.cabinet_braked_turn import cards as braked_cards
+    from scripts.pi0294.multitask.cabinet_seed_cards import seed_card,OFFSETS_M
+    original_xml,original_meta=overlay(SOURCE,braked_cards()['right'],**inputs)
+    original=ET.fromstring(original_xml)
+    for index,offset in enumerate(OFFSETS_M,1):
+        xml,meta=overlay(SOURCE,seed_card(index),**inputs);new=ET.fromstring(xml)
+        before=original.find(".//body[@name='rc_cabinet_frame']")
+        after=new.find(".//body[@name='rc_cabinet_frame']")
+        np.testing.assert_allclose(np.fromstring(after.get('pos'),sep=' ')-np.fromstring(before.get('pos'),sep=' '),
+                                  [*offset,0],rtol=0,atol=1e-15)
+        after.set('pos',before.get('pos'))
+        assert ET.tostring(new)==ET.tostring(original)
+        np.testing.assert_allclose(np.array(meta['hinge_world'])[:3,3]-np.array(original_meta['hinge_world'])[:3,3],
+                                  [*offset,0],rtol=0,atol=1e-15)
+        assert meta['qualification']=='UNCOMPILED_UNEXECUTED_SOURCE_PORT'

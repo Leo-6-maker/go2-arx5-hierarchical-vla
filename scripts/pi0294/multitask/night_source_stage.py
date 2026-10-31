@@ -223,7 +223,7 @@ manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=root.name,owner='EXISTING_LOCAL_
  predeclared_tasks=[x['side']for x in bundle['plan']]if bundle['task_kind']=='BOOK'else bundle['plan'],attempts_this_chain_max=len(bundle['plan']),
  source_port_not_original_robot_benchmark=True,new_GR00T_training_queries_PBS=0)
 if P.get('cabinet_port_revision'):manifest['cabinet_port_revision']=P['cabinet_port_revision']
-for key in('condition_side','book_route_revision','book_seed_index','gpu0_shared','GPU_uuid','execution_policy_sha256','idle_owned_units'):
+for key in('condition_side','book_route_revision','book_seed_index','cabinet_seed_index','gpu0_shared','GPU_uuid','execution_policy_sha256','idle_owned_units'):
  if key in P:manifest[key]=P[key]
 put(root/'RUN_MANIFEST.json',raw(manifest))
 env={k:v for k,v in os.environ.items()if k in('PATH','HOME','USER','LOGNAME','LANG','LC_ALL',
