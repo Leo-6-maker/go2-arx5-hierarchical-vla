@@ -113,7 +113,7 @@
     {
       "id": "M32-03",
       "priority": "P0",
-      "status": "MATCHED_AB512_RESTORED_CLOSED_EACH_DEV0_OF1_NINE_UNRUN_TRAIN_REPRODUCTION_NEXT",
+      "status": "B512_TRAIN_P8_P4_EACH0_OF1_TWO_UNRUN_CLOSED_FIXED_DATA4096_NEXT",
       "title": "One declared learning-to-DEV cycle",
       "depends_on": [
         "M32-01",
@@ -138,7 +138,7 @@
         "not_population_reliability_guarantee": true,
         "cannot_shrink_presealed_larger_TEST": true
       },
-      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json",
+      "source_report": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json",
       "A_updates": 512,
       "A_TRAIN_visits": 16384,
       "A_valid_DEV": 1,
@@ -152,7 +152,30 @@
       "B_DEV_successes": 0,
       "B_DEV_unrun": 9,
       "B_first_task_stop_s": 22.262,
-      "next_diagnostic": "M32_POST_AB_TRAIN_FEEDBACK_PROTOCOL_20261031.json"
+      "next_diagnostic": "M32_POST_AB_TRAIN_FEEDBACK_PROTOCOL_20261031.json",
+      "TRAIN_feedback": {
+        "P8": {
+          "valid": 1,
+          "success": 0,
+          "unrun": 2,
+          "stop_s": 0.514
+        },
+        "P4": {
+          "valid": 1,
+          "success": 0,
+          "unrun": 2,
+          "stop_s": 0.29
+        }
+      },
+      "next_fixed_curve": {
+        "endpoints": [
+          1024,
+          2048,
+          4096
+        ],
+        "status": "PUBLISHED_NOT_STARTED",
+        "same_TRAIN_statistics_and_uniform_sampling": true
+      }
     },
     {
       "id": "M32-04",
@@ -223,5 +246,5 @@
     "new_model_or_physics_calls": 0,
     "CI_or_native_validation_claimed": false
   },
-  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json"
+  "latest_actual_receipt": "reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json"
 }

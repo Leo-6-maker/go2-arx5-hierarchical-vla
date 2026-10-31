@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 from scripts.pi0294.multitask.book_m32_learning import plan,is_plan,block_parameter_names,LimitedContract,KIND
+from scripts.pi0294.multitask.book_m32_learning import curve_plan
 from scripts.pi0294.multitask.book_fit import FitSampler,optimization_rows,validate_manifest
 from scripts.pi0294.multitask.book_checkpoint import validate_delta_header
 from scripts.pi0294.multitask.book_m32_export import COUNTS
@@ -95,3 +96,28 @@ def test_capacity_ten_updates_is_finite_and_checkpoint_bound():
     cp['cursor']=321
     with pytest.raises(PermissionError):validate_delta_header(cp,p['checkpoint_manifest_sha256'])
     with pytest.raises(ValueError):recipe(0,10)
+
+
+def test_continuous_curve_keeps_data_sampler_and_parent_but_declares_new_schedule():
+    short=recipe();long=curve_plan('1'*64,'2'*64,'3'*64)
+    assert is_plan(long)and long['TRAIN_visits']==4096*32
+    for key in('dataset_manifest_sha256','statistics_sha256','TRAIN_population_sha256',
+            'initial_delta_checkpoint_manifest_sha256','sampling','seed','limited_DiT_blocks'):
+        assert short[key]==long[key]
+    assert long['checkpoint_steps']==[1024,2048,4096]
+    assert long['scheduler_horizon_steps']==4096 and long['warmup_updates']==128
+    population=rows();a=FitSampler(population,fit_recipe=short);b=FitSampler(population,fit_recipe=long)
+    assert [a.index_at(i)for i in range(32)]==[b.index_at(i)for i in range(32)]
+    from scripts.pi0294.e1.trainer import learning_rate_multiplier
+    assert learning_rate_multiplier(512,4096,128)>learning_rate_multiplier(512,512,16)
+    required=['target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json',
+        'statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json','TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json']
+    for step in(1024,2048,4096):
+        cp=dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1',recipe=long,global_step=step,cursor=step*32,
+            standalone_model=False,full_resume_with_required_parent=True,
+            required_parent_checkpoint_manifest_sha256=long['checkpoint_manifest_sha256'],files={k:'pin'for k in required})
+        validate_delta_header(cp,long['checkpoint_manifest_sha256'])
+        cp.update(global_step=512,cursor=16384)
+        with pytest.raises(PermissionError):validate_delta_header(cp,long['checkpoint_manifest_sha256'])
+    bad=deepcopy(long);bad['checkpoint_steps']=[512,4096];assert not is_plan(bad)
+    bad=deepcopy(long);bad['initial_delta_checkpoint_manifest_sha256']='4'*64;assert not is_plan(bad)

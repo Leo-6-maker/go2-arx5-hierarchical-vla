@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 19:40 SGT实际：匹配A/B均完成512步、16384访问、12533窗覆盖及完整父链/AdamW/调度器/RNG/游标恢复，许可独立CLOSED。A真实DEV为0/1＋9未运行（1.698秒指垫碰架）；B为0/1＋9未运行（22.262秒TCP0.40215m/s触发原0.4门）。B确有双指接触、抓起及搬运，最大书本抬升约54.8mm，随后失持并落回桌面，原生目标始终未满足。固定TRAIN16位置误差A12.34mm、B9.24mm；仅1.31轮曝光，不能据此宣告收敛、BC失败或完整技能成功。下一步固定B做预定TRAIN0/7/13完整自主复现，并单列Prefix8/4反馈诊断，再固定数据/统计/参数范围检验长日程与关键状态采样。纯书本Teacher15、自定义柜门1、完整混合恢复6，自主完整成功0；累计源物理49次/536577积分/16848对RGB。 [A/B端点、DEV与物体时间线](reports/PI0294/design/core32-maintenance-20261031/M32_MATCHED_AB512_CLOSED_DEV_AND_OBJECT_TIMELINE_ACTUAL_20261031.json)。
+2026-10-31 20:15 SGT实际：固定B512在预定已见TRAIN0自主复现仍失败：Prefix8在0.514秒碰架，Prefix4在0.290秒碰架，各0/1＋2未运行、均独立审计及CLOSED。原生forward确认两者预测端点用命令夹爪仍与架相交约3mm；并非只由跟踪造成。初始物理/XML/噪声相同，但body RGB有3个色值差1且首预测非逐值相同，不据单条件排名反馈频率。两次均不算正式DEV，不进入TRAIN。原A/B512各DEV0/1＋9未运行；纯Teacher书15/自定义柜门1，混合恢复6，自主完整成功仍0。累计源物理51次/541979积分/16867对RGB。下一步固定12533窗/统计/DiT30-31/均匀采样，fresh同一b248父链执行连续4096日程并保存恢复1024/2048/4096；新代码51项检查通过，尚待原生启动。[实际诊断与有限后继](reports/PI0294/design/core32-maintenance-20261031/M32_TRAIN_FEEDBACK_NEGATIVES_FIXED4096_SUCCESSOR_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 

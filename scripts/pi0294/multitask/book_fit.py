@@ -65,7 +65,7 @@ def validate_manifest(m,p):
     m32=is_plan(p)
     if (not m32 and p not in(plan(),full_plan(),recovery_plan()))or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
         raise PermissionError('EXACT_FROZEN_BOOK_TRAIN16_FIT_PLAN')
-    for key,value in dict(optimizer_updates=p['max_steps'],physics_integrations=0,generation_queries=32,model_loads=1).items():
+    for key,value in dict(optimizer_updates=p['max_steps'],physics_integrations=0,generation_queries=p['generation_queries'],model_loads=1).items():
         if m['limits'].get(key)!=value:raise PermissionError('BOOK_TRAIN16_FIT_FINITE_'+key)
     expected=KIND if m32 else 'V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'if p==plan()else('V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'if p==recovery_plan()else'V7_BOOK5_FINITE_TARGET_LEARNING')
     if m.get('kind',expected)!=expected:raise PermissionError('BOOK_EXACT_SEPARATE_SCIENTIFIC_RUN_KIND')
@@ -179,6 +179,10 @@ def measure(root,phase,instance,data,trainer,guard,fit_recipe=None):
         H40_XYZ_mean_m=float(np.mean([r['errors']['H40']['XYZ_euclidean_m']['mean']for r in records])),
         H40_SO3_mean_rad=float(np.mean([r['errors']['H40']['SO3_rad']['mean']for r in records])),
         H40_gripper_MAE=float(np.mean([r['errors']['H40']['gripper_MAE']for r in records])),records=records)
+    if 'checkpoint_steps'in p:
+        result.update(prefix8_XYZ_mean_m=float(np.mean([r['errors']['prefix8']['XYZ_euclidean_m']['mean']for r in records])),
+            prefix8_SO3_mean_rad=float(np.mean([r['errors']['prefix8']['SO3_rad']['mean']for r in records])),
+            prefix8_gripper_MAE=float(np.mean([r['errors']['prefix8']['gripper_MAE']for r in records])))
     write(folder/'SUMMARY.json',result);return result
 
 
@@ -225,6 +229,45 @@ def run(root,instance,contract,guard):
     if m32:
         torch.cuda.reset_peak_memory_stats();record_memory('BEFORE_ACTUAL_ADAMW_ALLOCATION')
 
+    def qualify_intermediate(trainer,cp,step,cursor):
+        """Exercise the same full restore at the committed intermediate boundary."""
+        complete=read(cp/'CHECKPOINT_COMPLETE.json')
+        for name,digest in complete['files'].items():
+            if sha(cp/name)!=digest:raise ValueError('CURVE_SAVED_MEMBER_CHANGED:'+name)
+        expected_parameters={n:tensor_identity(parameters[n])for n in names}
+        expected_optimizer=tree_identity(trainer.optimizer.state_dict())
+        expected_scheduler=trainer.lr_scheduler.state_dict();expected_rng=rng_identity()
+        load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
+        delta=torch.load(cp/'target_parameters.pt',map_location='cpu',weights_only=True)
+        validate_delta(delta,parameters,names,expected_count=len(names))
+        with torch.no_grad():
+            for name in names:parameters[name].copy_(delta[name])
+        if {n:tensor_identity(parameters[n])for n in names}!=expected_parameters or frozen_fingerprint(model)!=frozen:
+            raise ValueError('CURVE_ACTUAL_PARENT_PLUS_DELTA_RECONSTRUCTION')
+        restored=torch.load(cp/'optimizer.pt',map_location='cpu',weights_only=False)
+        if len(restored['state'])!=len(names)or any(int(x['step'])!=step for x in restored['state'].values()):
+            raise ValueError('CURVE_ACTUAL_ADAMW_STATE_STEP')
+        trainer.optimizer.state.clear();trainer.optimizer.load_state_dict(restored)
+        trainer.lr_scheduler.load_state_dict(torch.load(cp/'scheduler.pt',map_location='cpu',weights_only=False))
+        trainer._load_rng_state(str(cp))
+        saved=read(cp/'SAMPLER_STATE.json');saved_state=TrainerState.load_from_json(str(cp/'trainer_state.json'))
+        if (tree_identity(trainer.optimizer.state_dict())!=expected_optimizer
+                or trainer.lr_scheduler.state_dict()!=expected_scheduler or rng_identity()!=expected_rng
+                or saved_state.global_step!=step or saved['sampler']!=sampler_class(data,start=cursor).state_dict(cursor)):
+            raise ValueError('CURVE_EXACT_FULL_STATE_RESTORE')
+        write(root/f'ACTUAL_DELTA_CHECKPOINT_RESTORE_{step}.json',dict(checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
+            required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,
+            optimizer_state_entries=len(names),optimizer_updates=step,scheduler_restored=True,RNG_restored=True,
+            sampler_cursor=cursor,frozen_parent_unchanged=True,standalone_model=False))
+        intermediate=measure(root,f'after-{step}',instance,probe,trainer,guard,p)
+        for original,current in zip(before['records'],intermediate['records']):
+            if any(original[k]!=current[k]for k in('window','noise','image_SHA256')):
+                raise ValueError('CURVE_MATCHED_INTERMEDIATE_NOISE_AND_INPUTS')
+        # Diagnostics must not consume the next optimization draw.
+        trainer._load_rng_state(str(cp))
+        if rng_identity()!=expected_rng:raise ValueError('CURVE_DIAGNOSTICS_CHANGED_TRAIN_RNG')
+        record_memory('AFTER_INTERMEDIATE_FULL_RESTORE_AND_DIAGNOSTICS_'+str(step))
+
     class FitTrainer(make_trainer_class()):
         def get_train_dataloader(self):
             self.start_cursor=self.consumed=self.state.global_step*32
@@ -249,8 +292,10 @@ def run(root,instance,contract,guard):
 
         def _save_checkpoint(self,model,trial):
             guard()
-            if self.state.global_step!=steps or self.consumed!=visits:raise ValueError('FIT_ONLY_DECLARED_COMMITTED_ENDPOINT')
-            cp=Path(self.args.output_dir)/f'checkpoint-{steps}';cp.mkdir(parents=True,exist_ok=False)
+            checkpoint_step=self.state.global_step;checkpoint_cursor=checkpoint_step*32
+            if checkpoint_step not in p.get('checkpoint_steps',[steps])or self.consumed!=checkpoint_cursor:
+                raise ValueError('FIT_ONLY_DECLARED_COMMITTED_ENDPOINT')
+            cp=Path(self.args.output_dir)/f'checkpoint-{checkpoint_step}';cp.mkdir(parents=True,exist_ok=False)
             if frozen_fingerprint(model)!=frozen:raise ValueError('FIT_FROZEN_PARENT_CHANGED')
             torch.save({n:parameters[n].detach().cpu().clone()for n in names},cp/'target_parameters.pt')
             self._save_optimizer_and_scheduler(str(cp));self._save_rng_state(str(cp));self.state.save_to_json(str(cp/'trainer_state.json'))
@@ -260,13 +305,14 @@ def run(root,instance,contract,guard):
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
-                worker_trace=check_trace(data.trace_root,data,0,visits),dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
+                worker_trace=check_trace(data.trace_root,data,0,checkpoint_cursor),dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
             members={str(x.relative_to(cp)):sha(x)for x in sorted(cp.rglob('*'))if x.is_file()}
             required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','statistics.json','TRAIN_DEV_SEAL.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
             if not required<=set(members):raise ValueError('FIT_PARENT_DEPENDENT_FULL_RESUME_MEMBERS')
-            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'if m32 else 'BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=steps,cursor=visits,
+            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'if m32 else 'BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=checkpoint_step,cursor=checkpoint_cursor,
                 full_resume_with_required_parent=True,standalone_model=False,required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],
                 recipe=p,files=members,actual_reload_check='PENDING'))
+            if checkpoint_step!=steps:qualify_intermediate(self,cp,checkpoint_step,checkpoint_cursor)
 
     args=TrainingArguments(output_dir=str(root/'training'),max_steps=steps,per_device_train_batch_size=1,
         gradient_accumulation_steps=32,learning_rate=1e-4,weight_decay=1e-5,adam_beta1=.9,adam_beta2=.999,
@@ -287,7 +333,8 @@ def run(root,instance,contract,guard):
             r=dict(step=state.global_step,cursor=t.consumed,native_loss=t.last_native_loss,learning_rate=t.lr_scheduler.get_last_lr(),epoch=time.time())
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as f:f.write(json.dumps(r)+'\n');f.flush()
             write(root/'FIT_PROGRESS.json',r)
-            if state.global_step==steps:control.should_save=True;control.should_training_stop=True
+            if state.global_step in p.get('checkpoint_steps',[steps]):control.should_save=True
+            if state.global_step==steps:control.should_training_stop=True
             return control
     trainer=FitTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),callbacks=[Audit()],evidence_dir=root/'fit_evidence',recipe=p)
     holder['trainer']=trainer
@@ -338,5 +385,5 @@ def run(root,instance,contract,guard):
     trainer=None;gc.collect()
     return dict(status='COMPLETE_TRAIN16_FIT256_DIAGNOSTIC'if p==plan()else'COMPLETE_BOOK5_FINITE_TARGET_LEARNING',optimizer_updates=steps,TRAIN_visits=visits,
         checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),checkpoint_requires_retained_full_parent=True,
-        generation_queries=32,native_diagnostic_loss_forwards=32,physics_integrations=0,DEV_conditions=0,
+        generation_queries=p['generation_queries'],native_diagnostic_loss_forwards=p['native_diagnostic_loss_forwards'],physics_integrations=0,DEV_conditions=0,
         before=before,after=after,learned_task_success_not_measured=True)
