@@ -1,6 +1,6 @@
 # 当前入口 · Goal V7 · 2026-10-31
 
-2026-10-31 13:35 SGT实际：**Core恢复数据学习已真实加载并更新125/512步（4000次TRAIN访问），仍在运行，完整端点及新DEV结果待完成**。3574窗使用新统计73cc6e2f，原父状态在原3005数据上恢复，初始化权重为已资格book1024；共享DiT/backbone冻结。柜门保存状态的独立几何计算复现1.717mm门框侵入；明确的新外缘铰链候选在完整468节点/11676次原生静态forward中非预期机器人接触0、积分/RGB均0，尚未动态启动。该候选改变机械几何，单列源ARX5任务版本，不称原RoboCasa精确成绩。旧40mm布局候选因仅0.429mm全身余隙被否决，60mm候选静态通过。源物理总计仍28尝试/206128积分/5691RGB，自主学生完整成功仍0；Vanda暂不连接，不改NFS/挂载。[实际训练与柜门静态证据](reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY512_ACTIVE_AND_CABINET_EDGE_NATIVE_STATIC_ACTUAL_20261031.json)。
+2026-10-31 14:17 SGT实际：**恢复数据3574窗学习已完成512步/16384访问并完整重载、关闭；新端点b248513a的DEV为0/1＋9未运行**。4次真实生成均通过参考门，但任务1.566秒右指垫/x5_link8接触desk_caddy触发原生安全停止，穿透约15.74微米；面板关闭，不重试。独立重放全部16384访问并覆盖3574窗，原父＋增量权重/AdamW/调度器/RNG/游标恢复通过；共享DiT/backbone仍冻结。匹配TRAIN16位置误差21.86→15.60mm，不代表学会任务。Core既有抓放/推物各一条完整合格导出已重连全部原始状态/实际命令及2564张RGB哈希，可供未来共享数据准备，不替代E1/E2原12条。源物理累计29尝试/209411积分/5724RGB，纯书本Teacher5、柜门0、学生自主完整成功0。下一步核清学习失败机制，并在冷态推进已静态验证的柜门外缘铰链版本；Vanda仍不连接，NFS/挂载不变。[训练端点与DEV实际结果](reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY3574_TARGET512_RESTORED_CLOSED_DEV_CONTACT_NEGATIVE_ACTUAL_20261031.json)。
 
 **用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
 

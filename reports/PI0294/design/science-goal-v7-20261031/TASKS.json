@@ -154,7 +154,7 @@
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "RECOVERY3574_TARGET512_ACTUAL_UPDATES125_RUNNING_ENDPOINT_AND_DEV_PENDING",
+      "status": "RECOVERY3574_TARGET512_COMPLETE_RESTORED_CLOSED_DEV0_OF1_CONTACT_SAFETY_STOP_9_UNRUN",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -202,13 +202,18 @@
         "student_prefix_labels": 0,
         "official_export_qualification": "PASS_ALL3574_CODEC_AND_READER_WINDOWS",
         "training_admitted": true,
-        "new_optimizer_updates": 125,
+        "new_optimizer_updates": 512,
         "dataset_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
         "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
         "next_endpoint_proposed_updates": 512,
-        "TRAIN_visits": 4000,
-        "learning_status": "RUNNING",
-        "qualified_endpoint": false
+        "TRAIN_visits": 16384,
+        "learning_status": "COMPLETE_RESTORED_CLOSED",
+        "qualified_endpoint": true,
+        "checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "DEV_safety_stopped": true
       }
     },
     {
@@ -258,7 +263,13 @@
         "per_skill_complete_results_and_intervals",
         "failure_table",
         "reproducible_inference_package"
-      ]
+      ],
+      "verified_existing_T1_T2_source_examples": {
+        "count": 2,
+        "new_collection": false,
+        "report": "EXISTING_T1_T2_SOURCE_SEEDS_CURRENT_BYTES_ORIGINAL_LABEL_REJOIN_ACTUAL_20261031.json",
+        "joint_training_admitted": false
+      }
     },
     {
       "id": "V7-06",
@@ -298,8 +309,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY512_ACTIVE_AND_CABINET_EDGE_NATIVE_STATIC_ACTUAL_20261031.json",
-    "as_of": "2026-10-31 13:35 SGT",
+    "report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY3574_TARGET512_RESTORED_CLOSED_DEV_CONTACT_NEGATIVE_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 14:17 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -311,9 +322,9 @@
     "E1_command_installs": 0,
     "E1_main_and_shadow_integrations": 0,
     "new_E2_complete512": 0,
-    "source_total_attempts": 25,
-    "source_actual_integrations": 173327,
-    "source_actual_RGB_pairs": 4674,
+    "source_total_attempts": 29,
+    "source_actual_integrations": 209411,
+    "source_actual_RGB_pairs": 5724,
     "qualified_full_skill_demos": 5,
     "new_shared_skill_training_updates": 0,
     "Core_next": "FINISH_ACTIVE_ALL3005_BOOK1024_THEN_NATIVE_RESTORE_AND_FIXED_DEV",
@@ -323,7 +334,7 @@
     "qualified_cabinet_demos": 0,
     "first_book_candidate_export": "JOINT_BOOK5_ADMITTED_3005_WINDOWS_ACTUAL_BOOK128_TRAINED_RESTORED_DEV10_ZERO_SUCCESS",
     "Teacher_generation_attempts": 14,
-    "source_policy_DEV_attempts": 11,
+    "source_policy_DEV_attempts": 13,
     "new_book_only_training_updates": 128,
     "new_book_only_qualified_endpoints": 1,
     "book_policy_DEV_valid_conditions": 10,
@@ -341,12 +352,12 @@
       "new_DEV_conditions": 1,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "Allow healthy recovery512 training to reach its declared endpoint; verify actual complete model/AdamW/scheduler/RNG/cursor restore, then original fixed DEV10 with new saved statistics.",
+    "next_action": "Keep this DEV STOP and9UNRUN; diagnose saved reference clearance versus actual tracking and sampler/action-side capacity before another learning version.",
     "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
     "source_all_attempts": {
-      "attempts": 25,
-      "integrations": 173327,
-      "RGB_pairs": 4674
+      "attempts": 29,
+      "integrations": 209411,
+      "RGB_pairs": 5724
     },
     "active_book5_all3005_learning": {
       "status": "ACTUAL_NATIVE_TRAINING_ACTIVE_NOT_COMPLETE",
@@ -505,20 +516,23 @@
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     },
     "recovery3574_learning": {
-      "status": "RUNNING",
-      "optimizer_updates": 125,
-      "TRAIN_visits": 4000,
-      "qualified_endpoint": false,
-      "DEV_conditions": 0
-    }
+      "status": "COMPLETE_RESTORED_CLOSED",
+      "optimizer_updates": 512,
+      "TRAIN_visits": 16384,
+      "qualified_endpoint": true,
+      "DEV_conditions": 1,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 9
+    },
+    "book_policy_DEV_valid_conditions_scope": "ORIGINAL_BOOK128_PANEL_ONLY_SEE_SEPARATE_FIT256_FULL1024_AND_RECOVERY512_RESULTS"
   },
-  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY512_ACTIVE_AND_CABINET_EDGE_NATIVE_STATIC_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY3574_TARGET512_RESTORED_CLOSED_DEV_CONTACT_NEGATIVE_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
-    "attempts": 28,
-    "physics_integrations": 206128,
-    "RGB_pairs": 5691,
+    "attempts": 29,
+    "physics_integrations": 209411,
+    "RGB_pairs": 5724,
     "pure_Teacher_attempts": 15,
-    "formal_book_DEV_attempts": 12,
+    "formal_book_DEV_attempts": 13,
     "mixed_TRAIN_recovery_attempts": 1,
     "qualified_pure_book_Teacher_demonstrations": 5,
     "qualified_cabinet_Teacher_demonstrations": 0,
