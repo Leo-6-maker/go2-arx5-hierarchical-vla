@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 import pytest
-from scripts.pi0294.multitask.book_policy import Student,ModelReferenceRejected,dev_card,valid_model_condition
+from scripts.pi0294.multitask.book_policy import Student,ModelReferenceRejected,dev_card,valid_model_condition,restoration_dataset,generation_statistics
 from scripts.pi0294.multitask.seed_set_export import DEV_OFFSETS
 
 
@@ -40,3 +40,20 @@ def test_native_safety_negative_is_retained_but_pre_model_failures_are_not_polic
     assert not valid_model_condition(stopped,0,False)
     assert not valid_model_condition(dict(complete_episode=False,original_native_safety_pass=True),0,False)
     assert valid_model_condition(dict(complete_episode=False,original_native_safety_pass=True),1,True)
+
+
+def test_recovery_restores_original_cursor_but_generates_with_new_training_statistics():
+    from pathlib import Path
+    b=dict(dataset='/new3574',parent_dataset='/old3005')
+    m=dict(kind='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING',checkpoint='/parent128',delta_checkpoint='/initial1024')
+    assert restoration_dataset(m,b)=='/old3005'
+    assert generation_statistics(m,b)==Path('/new3574/statistics.json')
+    for bad in (dict(dataset='/new3574'),dict(dataset='/new3574',parent_dataset='/new3574')):
+        with pytest.raises(PermissionError):restoration_dataset(m,bad)
+    # A later DEV of the new512 must decode with that delta's statistics,
+    # while its original128 optimizer/cursor qualification still uses old3005.
+    m.update(kind='V7_BOOK_FROZEN_DEV10',delta_checkpoint='/qualified-recovery512')
+    assert restoration_dataset(m,dict(dataset='/old3005'))=='/old3005'
+    assert generation_statistics(m,b)==Path('/qualified-recovery512/statistics.json')
+    del m['delta_checkpoint']
+    assert generation_statistics(m,b)==Path('/parent128/statistics.json')

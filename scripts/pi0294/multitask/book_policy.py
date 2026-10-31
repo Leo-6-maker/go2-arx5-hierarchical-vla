@@ -32,6 +32,20 @@ def valid_model_condition(audit,completed_generations,gate_rejected):
         or(completed_generations>0 and audit.get('original_native_safety_pass')is False))
 
 
+def restoration_dataset(m,bindings):
+    """Old full-state cursor restoration uses its original population only."""
+    if m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING':
+        if not bindings.get('parent_dataset')or bindings['parent_dataset']==bindings['dataset']:
+            raise PermissionError('RECOVERY_SEPARATE_PARENT_RESTORE_DATA_REQUIRED')
+        return bindings['parent_dataset']
+    return bindings['dataset']
+
+
+def generation_statistics(m,bindings):
+    if m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING':return Path(bindings['dataset'])/'statistics.json'
+    return Path(m.get('delta_checkpoint',m['checkpoint']))/'statistics.json'
+
+
 def dev_card(condition):
     # Caller binds the complete frozen TRAIN_DEV_SEAL by its exact digest.
     from scripts.pi0294.multitask.libero_book_teacher import route_card,RELEASE_REVISION
@@ -190,9 +204,10 @@ def run(root,manifest_sha256):
     from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
     is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
-    is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING')
+    is_recovery_learning=m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'
+    is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING')
     is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC')
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_probe:
@@ -246,7 +261,12 @@ def run(root,manifest_sha256):
         from scripts.pi0294.multitask.book_learning import make_trainer_class,recipe,BookSampler
         from scripts.pi0294.native_dataset import NativeDataset,ProcessedCollator
         from transformers import TrainingArguments,TrainerState
-        data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True)
+        data=NativeDataset(node_local(restoration_dataset(m,bindings)),bindings['source'],bindings['cosmos'],for_optimization=True)
+        if is_recovery_learning:
+            from scripts.pi0294.multitask.book_fit import recovery_plan
+            p=recovery_plan()
+            if data.manifest_sha!=p['parent_restore_dataset_manifest_sha256']or data.statistics_sha!=p['parent_restore_statistics_sha256']:
+                raise PermissionError('RECOVERY_PARENT_CURSOR_REQUIRES_ORIGINAL_SEALED_POPULATION')
         data.initialize();args=TrainingArguments(output_dir=str(root/'restore_only_no_training'),max_steps=128,
             per_device_train_batch_size=1,gradient_accumulation_steps=32,learning_rate=1e-4,weight_decay=1e-5,
             adam_beta1=.9,adam_beta2=.999,adam_epsilon=1e-8,max_grad_norm=1.,bf16=True,tf32=True,optim='adamw_torch',
@@ -269,7 +289,7 @@ def run(root,manifest_sha256):
             model_restore=restore_keys,optimizer_state_entries=len(saved_optimizer['state']),optimizer_steps_restored=128,
             scheduler_restored=True,RNG_restored=True,sampler_cursor=4096,new_optimizer_updates=0,DEV_started=False,observed_epoch=time.time()))
         if m.get('delta_checkpoint'):
-            if is_probe or is_fit:raise PermissionError('DELTA_INFERENCE_ONLY_ON_NEW_FIXED_DEV_PANEL')
+            if is_probe or(is_fit and not is_recovery_learning):raise PermissionError('DELTA_INFERENCE_ONLY_ON_NEW_FIXED_DEV_PANEL')
             producer=node_local(m['delta_producer_root']);certificate=producer/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json'
             from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,load_parent_delta
             delta=node_local(m['delta_checkpoint'])
@@ -292,14 +312,18 @@ def run(root,manifest_sha256):
         if not is_probe:trainer=None
         gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
         instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
-        instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(checkpoint/'statistics.json'))
-        instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(checkpoint/'statistics.json'))
+        statistics=node_local(generation_statistics(m,bindings))
+        if is_recovery_learning and sha(statistics)!=recovery_plan()['statistics_sha256']:
+            raise PermissionError('RECOVERY_GENERATION_EXACT_NEW_TRAIN_STATISTICS')
+        instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(statistics))
+        instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(statistics))
         if m.get('delta_checkpoint'):
-            instance.identity=dict(kind='BOOK128_TRAIN16_FIT256_PARENT_DELTA'if delta_steps==256 else'BOOK5_ALL3005_TARGET1024_PARENT_DELTA',
+            instance.identity=dict(kind='BOOK_PARENT_BOUND_TARGET_DELTA',
                 new_optimizer_updates=delta_steps,parent_book_updates=128,
                 checkpoint_manifest_sha256=m['delta_checkpoint_manifest_sha256'],parent_checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
-                statistics_sha256=sha(checkpoint/'statistics.json'),
-                training_population='SIXTEEN_FIXED_TRAIN_WINDOWS_NOT_FORMAL_E2'if delta_steps==256 else'ALL_3005_WINDOWS_FROM_FIVE_ADMITTED_TRAIN_EPISODES_NOT_FORMAL_E2')
+                statistics_sha256=sha(statistics),
+                training_population=delta_complete.get('recipe',{}).get('optimization_population','SIXTEEN_FIXED_TRAIN_WINDOWS_NOT_FORMAL_E2'),
+                generation_statistics_changed_from_initial_delta=sha(statistics)!=sha(delta/'statistics.json'))
         original_generate=instance.generate
         def timed_generate(request,seed):
             signal.alarm(max(1,min(60,int(m['deadline_epoch']-time.time()))))

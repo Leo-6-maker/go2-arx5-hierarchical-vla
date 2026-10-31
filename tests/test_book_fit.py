@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 import pytest
-from scripts.pi0294.multitask.book_fit import plan,full_plan,validate_manifest,select_rows,optimization_rows,FitSampler,validate_delta
+from scripts.pi0294.multitask.book_fit import plan,full_plan,recovery_plan,validate_manifest,select_rows,optimization_rows,FitSampler,validate_delta
 
 
 def test_fit_train_population_and_every_committed_sampler_visit():
@@ -48,4 +48,29 @@ def test_full_five_episode_population_excludes_dev_and_visits_every_window():
     with pytest.raises(PermissionError):optimization_rows(rows[:-1],p)
     with pytest.raises(PermissionError):optimization_rows(rows[:-1]+rows[:1],p)
     m['kind']='V7_BOOK_TRAIN16_FIT_DIAGNOSTIC'
+    with pytest.raises(PermissionError):validate_manifest(m,p)
+
+
+def test_recovery_population_visits_and_restores_only_actual_expert_suffix():
+    p=recovery_plan()
+    rows=[(dict(id=f'BOOK_SOURCE_SEED{s:03}',split='TRAIN'),a)for s in range(5)for a in range(601)]
+    rows += [(dict(id='BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX',split='TRAIN'),a)for a in range(569)]
+    assert optimization_rows(rows,p)==rows
+    diagnostic=select_rows(rows,p)
+    assert len(diagnostic)==16 and sum(r['id'].endswith('EXPERT_SUFFIX')for r,a in diagnostic)==8
+    sampler=FitSampler(rows,fit_recipe=p);visits=list(sampler)
+    assert len(visits)==16384 and sorted(i for c,i in visits[:3574])==list(range(3574))
+    assert list(FitSampler(rows,start=16000,fit_recipe=p))==visits[16000:]
+    assert visits[-1][1]==sampler.index_at(16383)
+    assert p['parent_restore_statistics_sha256']==full_plan()['statistics_sha256']!=p['statistics_sha256']
+    assert p['student_prefix_expert_labels']==0 and not p['DEV_or_TEST_used']
+    for bad in (rows[:-1],rows[:-1]+rows[:1],rows+[(dict(id='STUDENT_PREFIX',split='TRAIN'),0)]):
+        with pytest.raises(PermissionError):optimization_rows(bad,p)
+    bad=deepcopy(rows);bad[-1][0]['split']='DEV'
+    with pytest.raises(PermissionError):optimization_rows(bad,p)
+    m=dict(kind='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING',checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],
+        delta_checkpoint_manifest_sha256=p['initial_delta_checkpoint_manifest_sha256'],
+        limits=dict(optimizer_updates=512,physics_integrations=0,generation_queries=32,model_loads=1))
+    validate_manifest(m,p)
+    m['delta_checkpoint_manifest_sha256']='wrong-initial-weights'
     with pytest.raises(PermissionError):validate_manifest(m,p)

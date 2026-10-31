@@ -42,3 +42,22 @@ def test_full_book_delta_requires_exact_recipe_and_committed_endpoint():
     for key,changed in [('DEV_or_TEST_used',True),('shared_DiT_frozen',False),('TRAIN_windows',16)]:
         bad=deepcopy(value);bad['recipe'][key]=changed
         with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
+
+
+def test_recovery_delta_requires_new_population_statistics_and_committed512():
+    from copy import deepcopy
+    from scripts.pi0294.multitask.book_fit import recovery_plan
+    p=recovery_plan()
+    fields=('target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json',
+        'statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json','TRAIN_DEV_SEAL.json')
+    value=dict(schema='BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=512,cursor=16384,recipe=p,
+        standalone_model=False,full_resume_with_required_parent=True,
+        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],files=dict.fromkeys(fields,'hash'))
+    validate_delta_header(value,p['checkpoint_manifest_sha256'])
+    for key,changed in [('statistics_sha256',p['parent_restore_statistics_sha256']),('TRAIN_windows',3005),('shared_DiT_frozen',False)]:
+        bad=deepcopy(value);bad['recipe'][key]=changed
+        with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
+    bad=deepcopy(value);bad['cursor']=32768
+    with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
+    bad=deepcopy(value);del bad['files']['TRAIN_DEV_SEAL.json']
+    with pytest.raises(PermissionError):validate_delta_header(bad,p['checkpoint_manifest_sha256'])
