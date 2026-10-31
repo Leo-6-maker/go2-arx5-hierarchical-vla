@@ -99,7 +99,7 @@ class Student:
         return dict(poses=matrices,opening=np.asarray(value['physical_H40'])[:,9].copy())
 
 
-def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card):
+def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2):
     from PIL import Image
     import mujoco
     from scripts.pi0294.multitask.source_engine import make_engine
@@ -128,7 +128,7 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         written+=path.with_suffix('.json').stat().st_size
     def condition_guard():
         guard()
-        if written>=500*1024**2 or time.monotonic()-started>=900:raise PermissionError('BOOK_DEV_FINITE_CONDITION_OUTPUT_OR_WALL')
+        if written>=output_upper_bytes or time.monotonic()-started>=900:raise PermissionError('BOOK_DEV_FINITE_CONDITION_OUTPUT_OR_WALL')
     student=student_factory(instance,condition['id'],record,condition_guard)
     def emit(kind,row):
         nonlocal recorded,written
@@ -358,6 +358,7 @@ def run(root,manifest_sha256):
                 conditions=[recovery.CONDITION.copy()]
             episode_options=dict(card_factory=recovery.recovery_card,
                 student_factory=lambda *args:recovery.make_student(Student,*args))
+            if is_early_recovery:episode_options['output_upper_bytes']=recovery.CONDITION_OUTPUT_BYTES
         for condition in conditions:
             guard();row=episode(root,condition,instance,template,guard,**episode_options);rows.append(row)
             write(root/'PROGRESS.json',dict(conditions=rows,valid=sum(r['valid_model_condition']for r in rows),successes=sum(r['success']for r in rows),observed_epoch=time.time()))

@@ -1,0 +1,188 @@
+{
+  "schema": "M32_NEW_BOOK_POSITION_SUPPORT_AND_EXISTING_RERUN_FULL_REPLAY_ACTUAL_V1",
+  "as_of_SGT": "2026-10-31 15:04 SGT",
+  "new_complete_book_Teacher_episodes": [
+    {
+      "seed_index": 5,
+      "initial_xy_offset_m": [
+        0.012,
+        0.0
+      ],
+      "source_sha": "abe09db49c523da70f17a5f0beaa6b54d705817e",
+      "run": "20261031T064718Z-book-seed005-night-source-book01",
+      "manifest_sha256": "b1b581a62e799ab8e48af58f9be41f24d60f60e6fe64baed9ba52fc4ece24acb",
+      "raw_sha256": "e5ccd5977b503436616f6f60dfc42cf3c75c57e97b73825668e9db477085b4ee",
+      "audit_sha256": "d2f3654385e4fa06660339cdd35bbe650171e01b8a04ca006703b68bfca07689",
+      "terminal_sha256": "9655dc16860411be39308d99041c15d504ba773174c3f0bbe611a822b6331a98",
+      "full32s_task": true,
+      "original_native_LIBERO_goal": true,
+      "additional_release_withdraw_hold": true,
+      "original_safety": true,
+      "completed_commands": 640,
+      "task_observations": 641,
+      "H40_plans": 80,
+      "physics_integrations": 18500,
+      "RGB_pairs": 642,
+      "owner_CPU_s": 34.445077999999995,
+      "render_device_s": 30.344256678130478,
+      "actor_OS_exit_status": 0,
+      "auditor_OS_exit_status": 0,
+      "closed_lease_sha256": "7ff3b4a1fc25f2914e8b0a40138085c357a62769aa2e9f71a7625faf75ce3418",
+      "training_admitted": false
+    },
+    {
+      "seed_index": 6,
+      "initial_xy_offset_m": [
+        -0.012,
+        0.0
+      ],
+      "source_sha": "abe09db49c523da70f17a5f0beaa6b54d705817e",
+      "run": "20261031T065508Z-book-seed006-night-source-book01",
+      "manifest_sha256": "c4d4c4ca404d37046bbbfc7568f2bf242d3d5d14a89fa149d0efcab6966f57e3",
+      "raw_sha256": "ff29ea6cce96ee016b6cbb06233e44e117f561fd6df9c2b6b41851520869bb51",
+      "audit_sha256": "e7d7331c827ca016fc73673266eecdcbb1ab4d48f0e709c665df3b0f6c42b19d",
+      "terminal_sha256": "fb47862ff809fbbe0fd71e91e57221ddbe06cbce0decd071d55951394195d081",
+      "full32s_task": true,
+      "original_native_LIBERO_goal": true,
+      "additional_release_withdraw_hold": true,
+      "original_safety": true,
+      "completed_commands": 640,
+      "task_observations": 641,
+      "H40_plans": 80,
+      "physics_integrations": 18500,
+      "RGB_pairs": 642,
+      "owner_CPU_s": 36.359329,
+      "render_device_s": 30.37111685425043,
+      "actor_OS_exit_status": 0,
+      "auditor_OS_exit_status": 0,
+      "closed_lease_sha256": "bf2baeca0dc7369f6389a400b1d49c52290f92c5cde94c41542388dfa86ef444",
+      "training_admitted": false
+    }
+  ],
+  "position_population": {
+    "declared_pure_TRAIN_target": 15,
+    "qualified_pure_TRAIN_now": 7,
+    "additional_attempted": 2,
+    "additional_remaining_unrun": 8,
+    "same_assets_and_home_and_goal": true,
+    "not_asset_or_layout_generalization": true,
+    "original_DEV10_unchanged": true,
+    "independent_confirmation20_predeclared": true
+  },
+  "static_checks": {
+    "complete_discrete_paths": 10,
+    "discrete_CPU_s": 103.59218016899999,
+    "discrete_analysis_plan_sha256": "39e2a766e4550a9fa1b894bdfb71b9c4f40ea3044f65896d979638f8ca5b9318",
+    "native_forward_calls": 102410,
+    "native_CPU_s": 6.327022126,
+    "native_unexpected_robot_contacts": 0,
+    "continuous_sweeps": [
+      {
+        "seed_index": 5,
+        "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+        "checked_states": 11727,
+        "CPU_s": 288.063326959,
+        "failure": null
+      },
+      {
+        "seed_index": 6,
+        "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+        "checked_states": 12231,
+        "CPU_s": 300.934803596,
+        "failure": null
+      },
+      {
+        "seed_index": 7,
+        "status": "PASS_CONSERVATIVE_STATIC_JOINT_SWEEP",
+        "checked_states": 11727,
+        "CPU_s": 346.448721911,
+        "failure": null
+      }
+    ],
+    "static_checks_new_physics_RGB_neural_queries": 0
+  },
+  "source_totals": {
+    "attempts": 33,
+    "physics_integrations": 276336,
+    "RGB_pairs": 8008,
+    "pure_Teacher_attempts": 19,
+    "formal_book_DEV_attempts": 13,
+    "mixed_TRAIN_recovery_attempts": 1,
+    "qualified_full_book_Teacher_demos": 7,
+    "qualified_full_custom_cabinet_Teacher_demos": 1,
+    "mixed_safe_recovery_completions": 1,
+    "learned_autonomous_full_task_successes": 0
+  },
+  "existing_Rerun": {
+    "status": "ACTUAL_TWO_COMPLETE_EPISODES_EXPORTED_OFFICIAL_READER_VERIFIED_AND_LOCAL_WEB_VIEWER_DISPLAYED",
+    "existing_adapter": "scripts/pi0294/replay_viewer/episode_to_rerun.py",
+    "SDK": "0.40.0",
+    "actual_semantic_readback": {
+      "schema": "TWO_COMPLETE_SOURCE_EPISODES_EXISTING_RERUN_SEMANTIC_READBACK_V1",
+      "results": [
+        {
+          "id": "cabinet-port08-complete",
+          "original_raw_sha256": "3f135b4ef8746be5c2fb6a1b369d19e489af3ac82b06a42052c68741280b8662",
+          "actual_observations": 641,
+          "original_commands_rejoined": 640,
+          "all_Teacher_H40_replayed": 80,
+          "max_reference_replay_difference": 0.0,
+          "encoded_original_RGB_SHA_matches": 1282,
+          "full_source_seconds": 31.99999999999958,
+          "RRD_sha256": "b18e7c4e06bdec59c3e046ef5efba3e53c94b506c7df8e03ecc8962b5bb724a4",
+          "official_reader_semantics_pass": true,
+          "task_rescoring": false,
+          "new_models_physics_render": 0
+        },
+        {
+          "id": "book-seed005-complete",
+          "original_raw_sha256": "e5ccd5977b503436616f6f60dfc42cf3c75c57e97b73825668e9db477085b4ee",
+          "actual_observations": 641,
+          "original_commands_rejoined": 640,
+          "all_Teacher_H40_replayed": 80,
+          "max_reference_replay_difference": 0.0,
+          "encoded_original_RGB_SHA_matches": 1282,
+          "full_source_seconds": 31.99999999999958,
+          "RRD_sha256": "c7281ab6033d8f700fbbe8e8aff1aec117bfe204e082b6a3feaff686821ed5cd",
+          "official_reader_semantics_pass": true,
+          "task_rescoring": false,
+          "new_models_physics_render": 0
+        }
+      ],
+      "CPU_s": 3.07005841,
+      "viewer_SDK": "0.40.0",
+      "observed_epoch": 1793429955.8671062
+    },
+    "full_dual_camera_20Hz_observations_per_episode": 641,
+    "new_queries_integrations_render_calls": 0,
+    "local_private_RRD_and_raw": true,
+    "public_raw_upload": false,
+    "new_custom_playback_or_renderer": false,
+    "displayed_panels": [
+      "original_BODY_RGB",
+      "original_WRIST_RGB",
+      "actual_TCP_object_and_completed_reference",
+      "actual_and_reference_gripper",
+      "original_audit_and_recorded_events"
+    ],
+    "derivation": "Existing fixed-base Episode input layout, extracted only from actual observation and same-index completed command packets; raw audit bytes copied verbatim and all original frame/image clocks and hashes rejoined. No new state/score or future achieved-state label."
+  },
+  "early_recovery": {
+    "status": "PUBLISHED_RECIPE_NOT_YET_NATIVELY_STARTED",
+    "planned_conditions": 10,
+    "planned_student_queries": 15,
+    "TRAIN_only": true,
+    "new_optimizer_updates": 0,
+    "original_5s_warmup_and32s_task": true,
+    "prospective_output_profile": {
+      "condition_upper_bytes": 301989888,
+      "owner_upper_bytes": 3489660928,
+      "remaining_owner_metadata_and_block_slack_bytes": 469762048,
+      "reason": "Finite prospective output guard, retaining original protected remainder and2GiB free margin. Actual closed source RGB+raw costs inform feasibility; no deletion or resource protection reduction. Existing DEV output guards unchanged."
+    }
+  },
+  "Vanda_not_probed_before": "2026-11-02T17:00:00+08:00",
+  "S1_closed_T2_quarantined_WBC_frozen": true,
+  "infrastructure_changes_or_cleanup": false,
+  "goal_complete": false
+}
