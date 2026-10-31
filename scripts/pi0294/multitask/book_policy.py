@@ -188,9 +188,13 @@ def run(root,manifest_sha256):
     from scripts.pi0294.neural import COSMOS_REVISION
     from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']!='V7_BOOK_FROZEN_DEV10'
+    is_probe=m['kind']=='V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC'
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC')
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
+    if is_probe:
+        from scripts.pi0294.multitask.book_probe import validate_manifest
+        validate_manifest(m,read(root/'TRAIN_PROBE_PLAN.json'))
     lease=read(root/'control/LEASE.json')
     if lease['status']!='ACTIVE'or lease['manifest_sha256']!=manifest_sha256:raise PermissionError('BOOK_DEV10_ACTIVE_OWNER_LEASE')
     if not any(r.get('path')==str(root)and r.get('role')==m['role']for r in read(root/'control/REGISTERED_PATHS.json')['entries']):raise PermissionError('BOOK_DEV10_ORIGINAL_REGISTRY')
@@ -213,7 +217,7 @@ def run(root,manifest_sha256):
     for n,h in complete['files'].items():
         if sha(checkpoint/n)!=h:raise PermissionError('BOOK_DEV10_CHECKPOINT_CHANGED:'+n)
     lock=OwnerLock(root.parent/'global-native-GPU-locks'/(m['GPU_uuid']+'.lock'))
-    model=None;instance=None;rows=[];loads=0;failure=None;started=time.monotonic();CPU=time.process_time()
+    model=None;instance=None;rows=[];loads=0;failure=None;probe=None;started=time.monotonic();CPU=time.process_time()
     def guard():
         if time.time()>=m['deadline_epoch']or(root/'STOP.json').exists():raise PermissionError('BOOK_DEV10_FINITE_OWNER_STOP')
         fs=os.statvfs(root)
@@ -255,7 +259,9 @@ def run(root,manifest_sha256):
         write(root/'ACTUAL_FULL_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],
             model_restore=restore_keys,optimizer_state_entries=len(saved_optimizer['state']),optimizer_steps_restored=128,
             scheduler_restored=True,RNG_restored=True,sampler_cursor=4096,new_optimizer_updates=0,DEV_started=False,observed_epoch=time.time()))
-        trainer=data=saved_optimizer=None;gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
+        data=saved_optimizer=None
+        if not is_probe:trainer=None
+        gc.collect();torch.cuda.empty_cache();model.eval().requires_grad_(False)
         instance=E1ResidentModel.__new__(E1ResidentModel);instance.root=root;instance.bindings=bindings;instance.model=model
         instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(checkpoint/'statistics.json'))
         instance.identity=dict(kind='BOOK5_E1_WARMSTART_FIXED128',global_step=128,checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],statistics_sha256=sha(checkpoint/'statistics.json'))
@@ -266,6 +272,9 @@ def run(root,manifest_sha256):
             finally:signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
         instance.generate=timed_generate
         write(root/'MODEL_LOADED.json',dict(identity=instance.identity,observed_epoch=time.time(),mujoco_origin=mujoco.__file__))
+        if is_probe:
+            from scripts.pi0294.multitask.book_probe import run as run_probe
+            probe=run_probe(root,instance,trainer,guard);write(root/'TRAIN_PROBE_RESULT.json',probe);return
         template=node_local(m['source_template'])
         if sha(template/'RUN_MANIFEST.json')!=m['source_template_manifest_sha256']or read(template/'control/NATIVE_SOURCE_LEASE.json')['status']!='CLOSED':raise PermissionError('BOOK_DEV10_IMMUTABLE_CLOSED_SOURCE_TEMPLATE')
         assets=read(template/'ASSET_BINDINGS.private.json')
@@ -281,7 +290,13 @@ def run(root,manifest_sha256):
     except BaseException as error:
         failure=type(error).__name__+': '+str(error);raise
     finally:
-        signal.alarm(0);write(root/'RESULT.json',dict(status='COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10',error=failure,
+        signal.alarm(0)
+        if is_probe:
+            write(root/'RESULT.json',dict(status='COMPLETE_TRAIN16_DIAGNOSTIC'if probe is not None else'FAILED_TRAIN16_DIAGNOSTIC',error=failure,
+                model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
+                completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
+                optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
+        else:write(root/'RESULT.json',dict(status='COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10',error=failure,
             conditions=rows,valid_conditions=sum(r['valid_model_condition']for r in rows),successes=sum(r['success']for r in rows),
             model_load_attempts=loads,model_queries=sum(r['model_queries']for r in rows),integrations=sum(r['integrations']for r in rows),
             RGB_pairs=sum(r['RGB_pairs']for r in rows),optimizer_updates=0,training_data_admission=False,

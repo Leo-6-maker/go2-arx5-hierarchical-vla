@@ -1,0 +1,104 @@
+{
+  "schema": "BOOK128_TRAIN16_NATIVE_LOSS_SAMPLER4_VS16_DIAGNOSTIC_V1",
+  "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+  "dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+  "statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+  "windows": [
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 240,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 320,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 400,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 480,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED000",
+      "anchor": 600,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 0,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 80,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 160,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 240,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 320,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 400,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 480,
+      "split": "TRAIN"
+    },
+    {
+      "id": "BOOK_SOURCE_SEED004",
+      "anchor": 600,
+      "split": "TRAIN"
+    }
+  ],
+  "denoise_steps": [
+    4,
+    16
+  ],
+  "generation_queries": 32,
+  "native_flow_loss_forwards": 16,
+  "same_window_and_initial_noise_across_samplers": true,
+  "noise_bank": "SHA256_BOOK128_TRAIN16/id/anchor_first8bytes_mod2pow63",
+  "native_masked_flow_matching_loss": true,
+  "optimizer_updates": 0,
+  "statistics_refit": false,
+  "physics_integrations": 0,
+  "DEV_or_TEST_used": false,
+  "formal_DEV_conditions": 0,
+  "original_DEV10_result_unchanged": true,
+  "purpose": "Distinguish TRAIN fit and fixed four-step generation limitations before further optimization or action-side capacity changes."
+}
