@@ -4,18 +4,188 @@
   "timezone": "Asia/Singapore",
   "evidence_base_sha": "0bab1a484967c47d4e3a31bbb2beb021a4314bf4",
   "plan": "docs/protocols/CORE32_MAINTENANCE_EXPERIMENT_PLAN_20261031.md",
-  "user_provided_environment": {"Vanda_maintenance_until": "2026-11-02T17:00:00+08:00", "maintenance_end_is_estimate_not_verified_availability": true, "CoreLab_GPU": "4080S", "reported_VRAM_GB": 32, "actual_device_total_free_and_shared_consumers_must_be_read": true},
+  "user_provided_environment": {
+    "Vanda_maintenance_until": "2026-11-02T17:00:00+08:00",
+    "maintenance_end_is_estimate_not_verified_availability": true,
+    "CoreLab_GPU": "4080S",
+    "reported_VRAM_GB": 32,
+    "actual_device_total_free_and_shared_consumers_must_be_read": true
+  },
   "baseline_as_of": "2026-10-31T14:17:00+08:00",
-  "baseline": {"E1_valid_DEV": 24, "E1_successes": 0, "book_full_teacher_episodes": 5, "cabinet_full_teacher_episodes": 0, "book128_DEV_successes": 0, "book128_DEV_valid": 10, "fit256_DEV_successes": 0, "fit256_DEV_valid": 1, "fit256_DEV_unrun": 9, "book1024_updates": 1024, "book1024_DEV_successes": 0, "book1024_DEV_valid": 1, "book1024_DEV_unrun": 9, "recovery512_updates": 512, "recovery512_TRAIN_visits": 16384, "recovery512_DEV_successes": 0, "recovery512_DEV_valid": 1, "recovery512_DEV_unrun": 9, "recovery512_first_native_contact_task_s": 1.566, "recovery_dataset_windows": 3574, "expert_recovery_suffix_windows": 569, "autonomous_full_book_successes": 0, "source_attempts": 29, "source_integrations": 209411, "source_RGB_pairs": 5724, "cabinet_PORT07": "STATIC_NATIVE_FORWARD_ONLY_NO_DYNAMIC_RESULT", "E2_current_queue_state": "UNVERIFIED_DURING_MAINTENANCE_LAST_KNOWN_H_USER_HOLD_UNSTARTED"},
-  "operations": {"Vanda_access_before_maintenance_end": false, "Core_training_allowed_by_current_user_route": true, "training_inference_rendering_GPU_serial": true, "project_internal_total_budget_cap": null, "cleanup_owner": "USER", "runtime_safety_and_real_resource_checks_retained": true, "no_unknown_effect_replay": true, "source_local_work_requires_live_Vanda": false, "target_S1_T2_quarantine_released": false, "real_robot_authorized": false, "infrastructure_or_foreign_process_changes": false},
-  "verified_training_route": {"trainable_parameter_numel": 10180740, "trainable_tensors": 14, "shared_DiT_frozen": true, "backbone_frozen": true, "microbatch": 1, "accumulation": 32, "effective_batch": 32, "bf16_autocast": true, "loader_load_bf16": false, "full_shared_E2_32GB_feasibility": "NOT_MEASURED"},
+  "baseline": {
+    "E1_valid_DEV": 24,
+    "E1_successes": 0,
+    "book_full_teacher_episodes": 5,
+    "cabinet_full_teacher_episodes": 0,
+    "book128_DEV_successes": 0,
+    "book128_DEV_valid": 10,
+    "fit256_DEV_successes": 0,
+    "fit256_DEV_valid": 1,
+    "fit256_DEV_unrun": 9,
+    "book1024_updates": 1024,
+    "book1024_DEV_successes": 0,
+    "book1024_DEV_valid": 1,
+    "book1024_DEV_unrun": 9,
+    "recovery512_updates": 512,
+    "recovery512_TRAIN_visits": 16384,
+    "recovery512_DEV_successes": 0,
+    "recovery512_DEV_valid": 1,
+    "recovery512_DEV_unrun": 9,
+    "recovery512_first_native_contact_task_s": 1.566,
+    "recovery_dataset_windows": 3574,
+    "expert_recovery_suffix_windows": 569,
+    "autonomous_full_book_successes": 0,
+    "source_attempts": 29,
+    "source_integrations": 209411,
+    "source_RGB_pairs": 5724,
+    "cabinet_PORT07": "STATIC_NATIVE_FORWARD_ONLY_NO_DYNAMIC_RESULT",
+    "E2_current_queue_state": "UNVERIFIED_DURING_MAINTENANCE_LAST_KNOWN_H_USER_HOLD_UNSTARTED"
+  },
+  "operations": {
+    "Vanda_access_before_maintenance_end": false,
+    "Core_training_allowed_by_current_user_route": true,
+    "training_inference_rendering_GPU_serial": true,
+    "project_internal_total_budget_cap": null,
+    "cleanup_owner": "USER",
+    "runtime_safety_and_real_resource_checks_retained": true,
+    "no_unknown_effect_replay": true,
+    "source_local_work_requires_live_Vanda": false,
+    "target_S1_T2_quarantine_released": false,
+    "real_robot_authorized": false,
+    "infrastructure_or_foreign_process_changes": false
+  },
+  "verified_training_route": {
+    "trainable_parameter_numel": 10180740,
+    "trainable_tensors": 14,
+    "shared_DiT_frozen": true,
+    "backbone_frozen": true,
+    "microbatch": 1,
+    "accumulation": 32,
+    "effective_batch": 32,
+    "bf16_autocast": true,
+    "loader_load_bf16": false,
+    "full_shared_E2_32GB_feasibility": "NOT_MEASURED"
+  },
   "tasks": [
-    {"id": "M32-01", "priority": "P0", "status": "PROPOSED", "title": "Diagnose saved recovery512 collision before more optimization", "deliverables": ["reference_vs_actual_full_body_clearance", "first_divergence_stage", "chunk_time_and_installed_command_alignment", "one_falsifiable_next_intervention"], "repeat_old_formal_outcome": false},
-    {"id": "M32-02", "priority": "P0", "status": "PROPOSED", "title": "Broaden source TRAIN and genuine recovery states", "suggested_nested_full_TRAIN_totals": [15, 20, 30], "suggested_distinct_recovery_starts": [10, 20], "numbers_are_planning_targets_not_sufficiency_claims": true, "DEV_or_TEST_into_TRAIN": false, "student_prefix_as_expert_label": false, "shared_new_TRAIN_statistics_required": true},
-    {"id": "M32-03", "priority": "P0", "status": "PROPOSED", "title": "One declared learning-to-DEV cycle", "depends_on": ["M32-01", "qualified_admitted_TRAIN_snapshot"], "candidate_update_endpoints": [512, 1024], "one_selected_recipe_before_launch": true, "DEV_conditions": 10, "physical_safety_stop_reports_remaining_as_unrun": true, "minimum_breakthrough": "ONE_AUTONOMOUS_FULL_TASK_NO_TEACHER_NO_HARD_SAFETY", "aspirational_DEV": {"successes": 7, "conditions": 10, "hard_safety_violations": 0}, "later_frozen_confirmation": {"successes_target": 16, "conditions": 20, "not_population_reliability_guarantee": true, "cannot_shrink_presealed_larger_TEST": true}},
-    {"id": "M32-04", "priority": "CONDITIONAL_P1", "status": "PROPOSED_NOT_FIT_PROVEN", "title": "Limited action-side capacity test", "trainable_candidate": "target_interface_plus_last_two_actual_DiT_blocks", "fallback_candidate": "target_interface_plus_last_one_actual_DiT_block", "memory_probe_optimizer_updates": 10, "save_and_restore_required": true, "record_actual_names_numel_allocated_reserved_and_free": true, "candidate_reserve_GiB": [2, 3], "same_training_data_stats_parent_and_schedule_for_comparison": true, "not_original_E2": true, "no_new_offload_or_quantization_framework": true},
-    {"id": "M32-05", "priority": "SECONDARY_INDEPENDENT", "status": "PROPOSED", "title": "Native dynamic qualification of cabinet PORT07", "requires": ["verified_static_evidence", "cold_source_identity", "GPU_not_training_or_evaluating"], "mechanics_changed": true, "exact_RoboCasa_benchmark_claim": false, "first_full_teacher_target": 1, "subsequent_seed_target": 5, "does_not_block_book_learning": true},
-    {"id": "M32-06", "priority": "AFTER_MAINTENANCE", "status": "WAIT_FOR_NORMAL_SITE_RECOVERY", "not_before": "2026-11-02T17:00:00+08:00", "title": "Reconcile exact E2 job and migrate evidence to Vanda", "must_verify_maintenance_ended": true, "old_job_id": "1508345.stdct-mgmt-02", "duplicate_submission": false, "rewrite_old_deadlines": false, "preserve_original_E2_science": true}
+    {
+      "id": "M32-01",
+      "priority": "P0",
+      "status": "RECOVERY_REFERENCE_FINGER_COLLISION_IDENTIFIED_BOOK1024_IK_BRANCH_PARTLY_UNRESOLVED",
+      "title": "Diagnose saved recovery512 collision before more optimization",
+      "deliverables": [
+        "reference_vs_actual_full_body_clearance",
+        "first_divergence_stage",
+        "chunk_time_and_installed_command_alignment",
+        "one_falsifiable_next_intervention"
+      ],
+      "repeat_old_formal_outcome": false,
+      "source_report": "reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_CABINET_TEACHER_AND_RECOVERY512_REFERENCE_CLEARANCE_ACTUAL_20261031.json"
+    },
+    {
+      "id": "M32-02",
+      "priority": "P0",
+      "status": "PROPOSED",
+      "title": "Broaden source TRAIN and genuine recovery states",
+      "suggested_nested_full_TRAIN_totals": [
+        15,
+        20,
+        30
+      ],
+      "suggested_distinct_recovery_starts": [
+        10,
+        20
+      ],
+      "numbers_are_planning_targets_not_sufficiency_claims": true,
+      "DEV_or_TEST_into_TRAIN": false,
+      "student_prefix_as_expert_label": false,
+      "shared_new_TRAIN_statistics_required": true
+    },
+    {
+      "id": "M32-03",
+      "priority": "P0",
+      "status": "PROPOSED",
+      "title": "One declared learning-to-DEV cycle",
+      "depends_on": [
+        "M32-01",
+        "qualified_admitted_TRAIN_snapshot"
+      ],
+      "candidate_update_endpoints": [
+        512,
+        1024
+      ],
+      "one_selected_recipe_before_launch": true,
+      "DEV_conditions": 10,
+      "physical_safety_stop_reports_remaining_as_unrun": true,
+      "minimum_breakthrough": "ONE_AUTONOMOUS_FULL_TASK_NO_TEACHER_NO_HARD_SAFETY",
+      "aspirational_DEV": {
+        "successes": 7,
+        "conditions": 10,
+        "hard_safety_violations": 0
+      },
+      "later_frozen_confirmation": {
+        "successes_target": 16,
+        "conditions": 20,
+        "not_population_reliability_guarantee": true,
+        "cannot_shrink_presealed_larger_TEST": true
+      }
+    },
+    {
+      "id": "M32-04",
+      "priority": "CONDITIONAL_P1",
+      "status": "PROPOSED_NOT_FIT_PROVEN",
+      "title": "Limited action-side capacity test",
+      "trainable_candidate": "target_interface_plus_last_two_actual_DiT_blocks",
+      "fallback_candidate": "target_interface_plus_last_one_actual_DiT_block",
+      "memory_probe_optimizer_updates": 10,
+      "save_and_restore_required": true,
+      "record_actual_names_numel_allocated_reserved_and_free": true,
+      "candidate_reserve_GiB": [
+        2,
+        3
+      ],
+      "same_training_data_stats_parent_and_schedule_for_comparison": true,
+      "not_original_E2": true,
+      "no_new_offload_or_quantization_framework": true
+    },
+    {
+      "id": "M32-05",
+      "priority": "SECONDARY_INDEPENDENT",
+      "status": "FIRST_FULL_CUSTOM_CABINET_TEACHER_NATIVE_SUCCESS_CLOSED",
+      "title": "Native dynamic qualification of cabinet PORT07",
+      "requires": [
+        "verified_static_evidence",
+        "cold_source_identity",
+        "GPU_not_training_or_evaluating"
+      ],
+      "mechanics_changed": true,
+      "exact_RoboCasa_benchmark_claim": false,
+      "first_full_teacher_target": 1,
+      "subsequent_seed_target": 5,
+      "does_not_block_book_learning": true,
+      "actual_version": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+      "qualified_full_teacher_episodes": 1,
+      "training_admitted": false,
+      "source_report": "reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_CABINET_TEACHER_AND_RECOVERY512_REFERENCE_CLEARANCE_ACTUAL_20261031.json"
+    },
+    {
+      "id": "M32-06",
+      "priority": "AFTER_MAINTENANCE",
+      "status": "WAIT_FOR_NORMAL_SITE_RECOVERY",
+      "not_before": "2026-11-02T17:00:00+08:00",
+      "title": "Reconcile exact E2 job and migrate evidence to Vanda",
+      "must_verify_maintenance_ended": true,
+      "old_job_id": "1508345.stdct-mgmt-02",
+      "duplicate_submission": false,
+      "rewrite_old_deadlines": false,
+      "preserve_original_E2_science": true
+    }
   ],
-  "publication": {"plan_only": true, "runtime_code_changed": false, "remote_jobs_submitted": false, "new_model_or_physics_calls": 0, "CI_or_native_validation_claimed": false}
+  "publication": {
+    "plan_only": true,
+    "runtime_code_changed": false,
+    "remote_jobs_submitted": false,
+    "new_model_or_physics_calls": 0,
+    "CI_or_native_validation_claimed": false
+  },
+  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_CABINET_TEACHER_AND_RECOVERY512_REFERENCE_CLEARANCE_ACTUAL_20261031.json"
 }
