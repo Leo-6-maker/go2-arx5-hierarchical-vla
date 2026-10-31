@@ -1,0 +1,39 @@
+{
+  "schema": "BOOK5_TRAIN_STUDENT32_EXPERT_RECOVERY_DIAGNOSTIC_V1",
+  "checkpoint_manifest_sha256": "b8327ab9501eac641eae8947a04040fe84844a01e9e5f59cea1c2ffd17ad11f8",
+  "condition": {
+    "id": "BOOK_RECOVERY_TRAIN000",
+    "xy_offset_m": [
+      0.0,
+      0.0
+    ]
+  },
+  "original_TRAIN_parent": "BOOK_SOURCE_SEED000",
+  "takeover_observation": 32,
+  "student_queries": 4,
+  "student_prefix_intervals": 32,
+  "task_intervals": 640,
+  "warmup_integrations": 2500,
+  "task_seconds": 32,
+  "H40": 40,
+  "prefix": 8,
+  "actual_integrations_upper": 18500,
+  "actual_RGB_pairs_upper": 642,
+  "original_common_home_goal_and_safety_unchanged": true,
+  "DEV_or_TEST_used": false,
+  "optimizer_updates": 0,
+  "formal_DEV_conditions": 0,
+  "student_prefix_is_expert": false,
+  "training_admission": false,
+  "purpose": "Can the unchanged expert recover from this frozen student on an existing TRAIN layout? Not a formal DEV retry or a learned full-task success.",
+  "status": "PLAN_NOT_NATIVE_EXECUTION",
+  "old_DEV_result": "FULL1024_DEV0_OF1_NINE_UNRUN_NATIVE_TCP_STOP_RETAINED",
+  "one_source_owner": true,
+  "source_safety_and_score_unchanged": true,
+  "no_new_optimizer_or_statistics": true,
+  "expert_implementation": "EXACT_QUALIFIED_LIBERO_PORT06_ROUTED_SUPPORTED_RELEASE",
+  "seed_namespace": "BOOK_RECOVERY_TRAIN32",
+  "candidate_expert_suffix_windows": 569,
+  "student_prefix_expert_labels": 0,
+  "actual_success_and_data_admission_pending": true
+}
