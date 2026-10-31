@@ -30,7 +30,8 @@
     "blind_identical_retry": false,
     "target_S1_T2_quarantine_release": false,
     "real_robot_execution": false,
-    "infrastructure_credentials_other_users_modification": false
+    "infrastructure_credentials_other_users_modification": false,
+    "latest_direct_user_text": "允许推进，取消预算限制"
   },
   "execution_rules": {
     "E1_E2_ablation_blocks_new_skill_data": false,
@@ -108,14 +109,16 @@
         "same_panel_eval_when_ready"
       ],
       "blocks_V7_03_or_V7_04": false,
-      "new_qsub": 0
+      "new_qsub": 0,
+      "user_latest_auth_status": "USER_CONFIRMS_UNAVAILABLE_DEFER_UNTIL_RECOVERY_EVIDENCE",
+      "further_SSH_attempts_until_recovery_evidence": false
     },
     {
       "id": "V7-03",
       "priority": "P0_PARALLEL",
       "title": "Verified book and cabinet expert seeds",
       "site": "Source_ARX5_on_Core_or_existing_qualified_source_node",
-      "status": "FIVE_DISTINCT_BOOK_SEEDS_COMPLETE_EXPORTED_CABINET_STILL_ZERO",
+      "status": "FIVE_COMPLETE_BOOK_SEEDS_CABINET_LAYOUT06_NATIVE_GRASP_NEGATIVE_CLOSED",
       "depends_on": [],
       "actions": [
         "book_full_path_grasp_IK_swept_collision_repair",
@@ -138,18 +141,18 @@
         "source_lineage_and_event_coverage"
       ],
       "qualified_full_demonstrations": 5,
-      "source_attempts": 14,
+      "source_attempts": 15,
       "qualified_book_demonstrations": 5,
       "qualified_cabinet_demonstrations": 0,
       "book_seed_minimum_met": true,
-      "cabinet_next": "Shift40mm/retract8mm full-body static candidate passes11351 native forwards with0 integrations; actual engine/camera/dynamic qualification pending, old STOP retained."
+      "cabinet_next": "Native layout06 failed8.7s/8.8316deg, both pads remain loaded; relative speed and frame-panel contacts remain. Investigate assembly/contact mechanism, no blind retry."
     },
     {
       "id": "V7-04",
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "ALL3005_FINITE_TARGET1024_NATIVE_TRAINING_ACTIVE_NOT_COMPLETE",
+      "status": "ALL3005_TARGET1024_RESTORED_CLOSED_DEV0_OF1_TCP_SAFETY_STOP_9_UNRUN",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -184,9 +187,13 @@
       "fit256_DEV_successes": 0,
       "fit256_unrun_DEV_conditions": 9,
       "fit256_panel_stopped_for_native_safety": true,
-      "full3005_training_updates_observed": 171,
-      "full3005_TRAIN_visits_observed": 5472,
-      "full3005_qualified_endpoints": 0
+      "full3005_training_updates_observed": 1024,
+      "full3005_TRAIN_visits_observed": 32768,
+      "full3005_qualified_endpoints": 1,
+      "full3005_valid_DEV_conditions": 1,
+      "full3005_DEV_successes": 0,
+      "full3005_unrun_DEV_conditions": 9,
+      "full3005_panel_stopped_for_native_safety": true
     },
     {
       "id": "V7-05",
@@ -256,7 +263,8 @@
         "target_complete_task_results",
         "decision_installation_tracking_object_error_attribution",
         "separate_no_target_data_and_target_adapted_claims"
-      ]
+      ],
+      "saved_T2_diagnosis": "Recorded first nonzero leg vector held20 integration samples/nominal40ms; next update at first limit violation. Scheduling mechanism supported, unique cause/fix unproven; quarantine retained."
     }
   ],
   "report_fields": [
@@ -480,5 +488,16 @@
       "actual_start_sha256": "8393c2dd3eaaa24568ec41888793eafe55ab5ac51fb550280a695fb23e0d69b4",
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
     }
+  },
+  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK5_ALL3005_TARGET1024_RESTORED_DEV_TCP_STOP_CABINET_LAYOUT_FAILURE_CLOSED_ACTUAL_20261031.json",
+  "latest_source_all_attempts": {
+    "attempts": 27,
+    "physics_integrations": 187628,
+    "RGB_pairs": 5049,
+    "Teacher_attempts": 15,
+    "model_DEV_attempts": 12,
+    "qualified_book_Teacher": 5,
+    "qualified_cabinet_Teacher": 0,
+    "learned_full_task_success": 0
   }
 }
