@@ -6,7 +6,7 @@ This module cannot launch a process, download assets or change any ledger.
 """
 from copy import deepcopy
 from datetime import datetime
-import base64,hashlib,json,math
+import base64,gzip,hashlib,json,math
 from pathlib import Path
 
 APPROVAL_SHA='d7ba87c7711b484b71907fb22b7c6b334c5d67dceeef369ecb8ba12cdc8364e4'
@@ -184,6 +184,14 @@ def for_root(root):
         forecast=lambda original,g,l,*,observation,now:forecast(original,g,l,observation=observation,now=now,successor_body=body))
 
 
+def closed_carry_bytes(carry,key):
+    """Lossless parent bytes; legacy carries retain their original encoding."""
+    body=base64.b64decode(carry[key+'_base64'],validate=True)
+    encoding=carry.get('account_encoding')
+    need(encoding in(None,'GZIP_BASE64_V1'),'KNOWN_LOSSLESS_ACCOUNT_CARRY_ENCODING')
+    return gzip.decompress(body)if key=='account'and encoding=='GZIP_BASE64_V1'else body
+
+
 def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,destination,now,job=None):
     """Reuse this account after a V7 repair; never issue another source pool.
 
@@ -210,7 +218,8 @@ def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,
     else:
         need(V7_FINITE not in old,'NEW_FINITE_JOB_PROFILE_REQUIRED_AFTER_CLOSED_V7_JOB')
     out[V7_CARRY]=dict(policy_sha256=V7_POLICY,destination=destination,
-        account_base64=base64.b64encode(account_bytes).decode(),
+        account_encoding='GZIP_BASE64_V1',
+        account_base64=base64.b64encode(gzip.compress(account_bytes,mtime=0)).decode(),
         lease_base64=base64.b64encode(lease_bytes).decode(),
         terminal_base64=base64.b64encode(terminal_bytes).decode())
     validate_account(out);return out
@@ -218,7 +227,7 @@ def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,
 
 def transfer_development_custody(old_bytes,new_account_bytes,*,destination):
     new=validate_account(json.loads(new_account_bytes));carry=new.get(V7_CARRY,{})
-    need(base64.b64decode(carry['account_base64'],validate=True)==old_bytes
+    need(closed_carry_bytes(carry,'account')==old_bytes
          and new['native_destination']==destination and new['native_adopted']is False,
          'EXACT_ONCE_V7_PREDECESSOR_CUSTODY')
     old=validate_account(json.loads(old_bytes))
@@ -244,9 +253,10 @@ def validate_account(v):
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
     if V7_CARRY in v:
         carry=v[V7_CARRY]
-        need(set(carry)=={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
+        fields={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
+        need(set(carry)in(fields,fields|{'account_encoding'})
              and carry['policy_sha256']==V7_POLICY,'EXACT_V7_CLOSED_SOURCE_CARRY')
-        ab,lb,tb=[base64.b64decode(carry[k+'_base64'],validate=True)for k in ('account','lease','terminal')]
+        ab,lb,tb=[closed_carry_bytes(carry,k)for k in ('account','lease','terminal')]
         old=validate_account(json.loads(ab));lease,terminal=map(json.loads,(lb,tb))
         need(old['native_adopted']is True and lease['status']=='CLOSED'and lease['all_children_terminal']is True
              and lease['run_uuid']==Path(old['native_destination']).name

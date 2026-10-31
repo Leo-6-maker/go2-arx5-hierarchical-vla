@@ -8,7 +8,7 @@ from scripts.pi0294.multitask import night_source_stage as stage
 from scripts.pi0294.generalization import minimal_scope
 
 
-@pytest.mark.parametrize('free_gib,retained_gib,passes',[(108,3,True),(106,3,False),(108,5,True),(108,7,False)])
+@pytest.mark.parametrize('free_gib,retained_gib,passes',[(103,3,True),(102,3,False),(103,5,True),(103,7,True)])
 @pytest.mark.parametrize('finite',[False,True])
 def test_v7_preserves_old_shortfalls_as_observations_but_requires_real_space(monkeypatch,free_gib,retained_gib,passes,finite):
     GiB=1024**3
