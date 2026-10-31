@@ -118,7 +118,7 @@
       "priority": "P0_PARALLEL",
       "title": "Verified book and cabinet expert seeds",
       "site": "Source_ARX5_on_Core_or_existing_qualified_source_node",
-      "status": "FIVE_COMPLETE_BOOK_SEEDS_CABINET_LAYOUT06_NATIVE_GRASP_NEGATIVE_CLOSED",
+      "status": "FIVE_BOOK_SEEDS_CABINET_PORT06_CLOSED_NEW_EDGE_MECHANICS_STATIC_ONLY",
       "depends_on": [],
       "actions": [
         "book_full_path_grasp_IK_swept_collision_repair",
@@ -145,7 +145,7 @@
       "qualified_book_demonstrations": 5,
       "qualified_cabinet_demonstrations": 0,
       "book_seed_minimum_met": true,
-      "cabinet_next": "Native layout06 failed8.7s/8.8316deg, both pads remain loaded; relative speed and frame-panel contacts remain. Investigate assembly/contact mechanism, no blind retry.",
+      "cabinet_next": "New outer-edge hinge/layout60 is an explicit mechanical source variant.11676 sampled native forwards show no unexpected robot contacts; camera/grasp/dynamics not qualified. Do not displace healthy training.",
       "complete_safe_mixed_TRAIN_recovery_episodes": 1,
       "mixed_recovery_is_pure_Teacher_or_student_success": false
     },
@@ -154,7 +154,7 @@
       "priority": "P1",
       "title": "First learned new skill with real DEV rollouts",
       "site": "Core_GPU0_shared_new_book_only",
-      "status": "ALL3005_TARGET1024_RESTORED_CLOSED_DEV0_OF1_TCP_SAFETY_STOP_9_UNRUN",
+      "status": "RECOVERY3574_TARGET512_ACTUAL_UPDATES125_RUNNING_ENDPOINT_AND_DEV_PENDING",
       "depends_on": [
         "V7-01",
         "V7-03"
@@ -202,10 +202,13 @@
         "student_prefix_labels": 0,
         "official_export_qualification": "PASS_ALL3574_CODEC_AND_READER_WINDOWS",
         "training_admitted": true,
-        "new_optimizer_updates": 0,
+        "new_optimizer_updates": 125,
         "dataset_manifest_sha256": "d3f4999809a9f57288fe5ba62116b70cc8660cff2fb70821d583b81834039d31",
         "statistics_sha256": "73cc6e2f903f8e56e2de6384bb16d9f4eb9ff98a3a28acd74f1dd0d1b5b80763",
-        "next_endpoint_proposed_updates": 512
+        "next_endpoint_proposed_updates": 512,
+        "TRAIN_visits": 4000,
+        "learning_status": "RUNNING",
+        "qualified_endpoint": false
       }
     },
     {
@@ -295,8 +298,8 @@
     "raw_data_or_weights_published": false
   },
   "current_actual": {
-    "report": "BOOK5_ALL3005_LEARNING_ACTIVE_E1_DECODE_AND_CABINET_LAYOUT_STATIC_ACTUAL_20261031.json",
-    "as_of": "2026-10-31 11:12 SGT",
+    "report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY512_ACTIVE_AND_CABINET_EDGE_NATIVE_STATIC_ACTUAL_20261031.json",
+    "as_of": "2026-10-31 13:35 SGT",
     "E1_valid_conditions": 24,
     "E1_successes": 0,
     "E1_remaining_original_conditions": 0,
@@ -338,7 +341,7 @@
       "new_DEV_conditions": 1,
       "parent_dependent_checkpoint_sha256": "923fe36d5842241a5a7ee9ad7143f5cd72a13cbde83a7515a689e98c29a0a480"
     },
-    "next_action": "Finish healthy all3005/book1024 native training, independently qualify the complete parent-delta endpoint, then its unchanged fixed DEV panel; cabinet native engine/camera qualification follows at a free device boundary.",
+    "next_action": "Allow healthy recovery512 training to reach its declared endpoint; verify actual complete model/AdamW/scheduler/RNG/cursor restore, then original fixed DEV10 with new saved statistics.",
     "latest_fit256_real_DEV_report": "reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json",
     "source_all_attempts": {
       "attempts": 25,
@@ -500,9 +503,16 @@
       "independent_stage_read_sha256": "3a1998a3e8c0b213b07dd3cf8b94f05dbc2fa67dafe7bc9fd0d53e1d6421d8dd",
       "actual_start_sha256": "8393c2dd3eaaa24568ec41888793eafe55ab5ac51fb550280a695fb23e0d69b4",
       "inference_loader_extension": "CPU checks passed for exact1024 parent-delta recipe/endpoint. The active sealed training capsule is unchanged; future native inference still requires the actual completed endpoint, restore qualification and CLOSED producer."
+    },
+    "recovery3574_learning": {
+      "status": "RUNNING",
+      "optimizer_updates": 125,
+      "TRAIN_visits": 4000,
+      "qualified_endpoint": false,
+      "DEV_conditions": 0
     }
   },
-  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK5_PLUS_EXPERT_RECOVERY_DATA_NATIVE_ADMITTED_INDEPENDENT_STATS_ACTUAL_20261031.json",
+  "latest_actual_receipt": "reports/PI0294/design/science-goal-v7-20261031/BOOK_RECOVERY512_ACTIVE_AND_CABINET_EDGE_NATIVE_STATIC_ACTUAL_20261031.json",
   "latest_source_all_attempts": {
     "attempts": 28,
     "physics_integrations": 206128,
