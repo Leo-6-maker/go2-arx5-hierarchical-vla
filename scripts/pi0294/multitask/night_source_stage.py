@@ -121,11 +121,12 @@ if scope.V7_CARRY in account:
  if P.get('GLOBAL_capture_custody'):budget.update(GLOBAL_capture_custody=P['GLOBAL_capture_custody'],GLOBAL_is_current_authority=False,fresh_Core_LOCAL_and_actual_capacity_required=True)
  storage=budget['original_forecast']['dimensions']['Core_storage_bytes']
  future=max(0,storage['projected']-storage['used'])
- retained_and_next=account['charged_upper']['Core_peak_bytes']+536870912+67108864
- source_capacity=max(5368709120,((retained_and_next+1073741823)//1073741824)*1073741824)
+ # statvfs free already excludes every retained historical output. Historical
+ # cumulative per-attempt peak charges remain costs, not future writes.
+ source_capacity=536870912+67108864
  free=os.statvfs(root).f_bavail*os.statvfs(root).f_frsize
  assert free>=future+source_capacity+2147483648
- put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,source_retained_and_next_upper_bytes=retained_and_next,source_capacity_upper_bytes=source_capacity,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
+ put(root/'ACTUAL_SOURCE_CAPACITY.json',raw(dict(old_future_bytes=future,next_source_increment_upper_bytes=source_capacity,source_capacity_upper_bytes=source_capacity,historical_cumulative_peak_charged_bytes=account['charged_upper']['Core_peak_bytes'],retained_historical_files_already_excluded_from_free=True,free_bytes=free,margin_bytes=2147483648,financial_pool_caps_unchanged=True)))
 else:
  budget=scope.forecast(approval,gb,lb,observation=P['observation'],now=time.time())
  assert budget==P['full14_proof']

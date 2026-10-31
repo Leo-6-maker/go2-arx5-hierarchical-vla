@@ -1,6 +1,6 @@
 # 当前科学状态 · Goal V7 · 2026-10-31
 
-2026-10-31 15:04 SGT实际：新增±12mm的两条放书Teacher均完整成功并关闭，纯书本示范增至7条；柜门1条，学生自主完整成功仍0。新增10位置全段离散及102410次原生forward检查无非预期机器人接触，连续扫掠已通过3项。复用现有Rerun0.40平台，柜门PORT08与book-SEED005各641帧双RGB、640实际命令的完整32秒回放已导出/官方读器逐图SHA回读，并在本机Viewer实际显示；私有RRD不公开。下一步十项早期TRAIN恢复、冻结新数据后有限学习和DEV；Vanda维护期不探测，冻结WBC及S1隔离不变。 [本轮实际证据](reports/PI0294/design/core32-maintenance-20261031/BOOK_TWO_CENTIMETRE_POSITION_SEEDS_AND_EXISTING_RERUN_FULL_REPLAY_ACTUAL_20261031.json)。
+2026-10-31 15:21 SGT实际：早期TRAIN恢复面板完成5项专家接续，均原32秒/安全通过；第6项学生在0.522秒右指垫碰架，尚未到0.8秒接管，按原安全门停止，另4项未运行。五项独立重放了393个专家H40及3144实际专家命令，2949个专家后缀窗仅具资格，尚未Processor/统计准入；失败与学生前缀不作专家标签。原owner/lease已关闭。纯书本Teacher7、柜门1、混合恢复完整6，学生自主完整成功0；累计39尝试/371597积分/11230RGB。复用Rerun完整双相机回放保留；继续静态合格的源位置与数据准入，随后有限学习/DEV。 [实际证据](reports/PI0294/design/core32-maintenance-20261031/FIVE_EARLY_TRAIN_RECOVERIES_ELIGIBLE_SIXTH_PREHANDOVER_CONTACT_STOP_CLOSED_ACTUAL_20261031.json)。
 
 2026-10-31 10:54 SGT实际：**256步TRAIN16拟合模型首次真实闭环为0/1，原生安全停止，其余9个DEV未运行**。7次自由生成均通过原参考门、实际完成50段20Hz命令；任务2.512秒右指垫接触收纳架，原机器人—障碍接触门停止。共3756积分/52对RGB，独立输入/预测/实际命令及原生审计通过，许可与核账CLOSED。已见TRAIN门通过16/16不代表完整任务成功；保留book128原DEV0/10、E1原DEV0/24。现有合格Teacher书本5/柜门0，全部源物理累计25尝试/173327积分/4674对RGB。下一步从book128用5条完整TRAIN的全部3005窗独立训练1024步，统计/DEV不变、共享DiT仍冻结；这是待运行计划，不冒充完成。E2认证后状态仍未知，柜门全机体碰撞候选未动态重试。 [实际闭环安全失败及关闭证据](reports/PI0294/design/science-goal-v7-20261031/BOOK_FIT256_FIRST_REAL_DEV_NATIVE_FINGER_CADDY_SAFETY_STOP_CLOSED_ACTUAL_20261031.json)。
 
