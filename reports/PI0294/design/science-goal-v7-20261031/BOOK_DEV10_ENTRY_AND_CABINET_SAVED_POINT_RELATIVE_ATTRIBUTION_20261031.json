@@ -1,0 +1,47 @@
+{
+  "schema": "BOOK_FIXED_DEV10_ENTRY_AND_CABINET_SAVED_ATTRIBUTION_V1",
+  "as_of": "2026-10-31T09:11:40.241781+08:00",
+  "book_DEV": {
+    "status": "NOT_RUN",
+    "population_seal_sha256": "3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf",
+    "selected_checkpoint": "BOOK5_E1_WARMSTART_TARGET_ONLY128_V1_FIXED128_ENDPOINT_ONLY",
+    "conditions": 10,
+    "TRAIN_or_statistics_use": false,
+    "sampling": "H40_FOUR_DENOISE_PREFIX8_20HZ_5S_WARMUP_32S_TASK",
+    "noise": "SHA256_BOOK5_DEV10/condition_ID/sequence_first8bytes_mod2pow63",
+    "gate": "ORIGINAL_UNCHANGED_REFERENCE_GATE_NO_EXTRA_CLIP",
+    "original_source_driver_and_native_goal_support_release_withdraw_hold_and_safety": true,
+    "hard_native_safety_or_engineering_failure_stops_panel": true,
+    "no_Teacher_or_object_ground_truth_student_input": true,
+    "reuse": "Original ResidentModel.generate, source_engine, capture_core, night_book_audit",
+    "new_installs": 0,
+    "existing_user_libraries_CPU_ABI_import_qualified": true,
+    "ABI_qualification_sha256": "948e8def4ed55468aef244ecc2c888ca54f5a9bccda824ae98002179805d0f68",
+    "CUDA_initialized_during_ABI_qualification": false,
+    "new_model_or_physics_constructors_during_ABI_qualification": 0
+  },
+  "cabinet": {
+    "status": "SAVED_CABINET_SAME_POINT_RELATIVE_AND_COMMAND_TRACKING_ANALYSIS",
+    "raw_sha256": "f8819eff7e3f888b20d8390365c2952ad5f4f281a4b52228f4c49445ae5e6f27",
+    "analysis_sha256": "f6a18bfd37d0c08050c589c3620ce731a698dea919ce74afb214d38401f68c89",
+    "anchor_observation_index": 136,
+    "last_state": {
+      "index": 173,
+      "time_s": 13.650000000001228,
+      "hinge_angle_rad": 0.1539957078499512,
+      "hinge_speed_rad_s": 0.02406632724386641,
+      "original_relative_speed_m_s": 0.020257719633948436,
+      "same_TCP_point_relative_speed_m_s": 0.02038167993753564,
+      "rigid_grasp_translation_drift_m": 0.015027412042844671,
+      "rigid_grasp_rotation_drift_rad": 0.08621299679971949,
+      "actual_end_to_submitted_command_XYZ_m": 0.009592400321793836,
+      "actual_end_to_submitted_command_SO3_rad": 0.03796747088884214
+    },
+    "original_relative_speed_gate_m_s": 0.02,
+    "observed_handle_contacts_remain_bilateral_at_stop": true,
+    "interpretation": "Same-point angular correction does not remove the original speed violation; measured relative pose drift supports real slip. At the same time cabinet-frame/door self-contact force rises to about45N while the door slows and TCP tracking error grows. Causality between fixture geometry/resistance and slip is not yet independently established.",
+    "next": "Check saved/native fixture collision geometry and upstream constructor semantics before any new cabinet physics.",
+    "old_STOP_and_score_unchanged": true,
+    "new_physics_models": 0
+  }
+}
