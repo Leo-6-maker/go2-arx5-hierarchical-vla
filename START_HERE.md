@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-11-01
 
+2026-11-01 17:37 SGT实际挂载：**Core源采集后继READY_FOR_DISCONNECT通过，PID1969815在分离控制连接后保持同一身份、独立心跳前进；当前仅等待整条旧训练—双TRAIN32—原DEV关闭。** 原正式训练同一身份1551/4096、49632次TRAIN访问，1024已保存/恢复，采样不改。后继顺序为柜门1→条件通过再3、持夹恢复2→通过再6、新几何放书2→通过再4，最后原生数据导出/联合统计与既有Rerun配置；不自动新训练。CPU原生绑定资格通过，采集注册/新物理/新示范仍0。旧资格失败与费用保留；完整历史账户接续须冷态实际通过，READY不保证未来作业全部成功。[实际常驻接续、资格与边界](reports/PI0294/design/science-goal-v7-20261031/CORE_AFTER_PHASE_SOURCE_COLLECTION_NATIVE_CPU_READY_ACTUAL_20261101.json)。
+
 2026-11-01 17:14 SGT实测：**phase1024已保存并原生恢复42项AdamW/model/scheduler/RNG/cursor32768；同一正式训练已至1281/4096、40992次TRAIN访问。** 同输入/噪声TRAIN16与uniform1024比较，H40位置9.026→8.507mm、Prefix8夹爪MAE0.04533→0.03296；Prefix8位置均误几乎不变，home与部分搬运窗口反而变差，不能称完整任务改善。4096仍为主DEV端点，不改现役采样。**新采集接续仍未通过原生资格、未ARM**：已确认旧源账户约342MB；PC相同历史验证峰值RSS由约5.38降到2.09GiB，冷态CPU反而增加，修复未部署。无新增采集注册/物理/合格示范；全部资格失败效果已独立核清。原服务器训练—双诊断—DEV链继续有效。[1024实际对照与采集接续阻断](reports/PI0294/design/science-goal-v7-20261031/PHASE1024_MATCHED_TRAIN_AND_SOURCE_LINEAGE_COLD_BLOCKER_ACTUAL_20261101.json)。
 
 2026-11-01后继采集CPU实测：**phase4096同一正式训练已至980/4096、31360次TRAIN访问，当前训练—双TRAIN32—原DEV10接续不变。** 新增真实持夹事件接管/仅专家后缀导出、6张独立yaw±3°或抓点±2mm TRAIN卡及既有冷态采集顺序已实现；6/6新书名义整段静态路径通过，3类保存TRAIN持夹状态初始化和MuJoCo完整状态非修改捕获通过，尚无新增动态资格/示范。柜门原4张TRAIN卡保持；10张候选DEV静态8过2失败，归因为大开角把手—底座相交，保留候选失败，不能冒充模型泛化成绩。**新Teacher后继尚未挂载**，原服务器链已挂载；现役数据/统计/模型/队列不改。[后继准备、静态结果与部署边界](reports/PI0294/design/science-goal-v7-20261031/NEXT_SOURCE_COLLECTION_HELD_RECOVERY_GEOMETRY_CPU_ACTUAL_20261101.json)。
