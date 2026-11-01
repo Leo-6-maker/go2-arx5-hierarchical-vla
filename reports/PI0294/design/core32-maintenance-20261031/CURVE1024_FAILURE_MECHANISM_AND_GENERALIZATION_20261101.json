@@ -1,0 +1,237 @@
+{
+  "schema": "CURVE1024_FAILURE_MECHANISM_AND_GENERALIZATION_BOUNDARIES_V1",
+  "as_of_SGT": "2026-11-01T12:07:00.112422+08:00",
+  "status": "SAVED_EVIDENCE_ONLY_NO_NEW_MODEL_OR_PHYSICS",
+  "endpoint": 1024,
+  "formal_outcome": {
+    "valid": 2,
+    "successes": 0,
+    "unrun": 8
+  },
+  "cases": [
+    {
+      "id": "BOOK_DEV000",
+      "original_raw_sha256": "d6ad8ee74ca83eed32ac0e4bbae2d71d034cef382bfa98630e7a5010a4a6685a",
+      "packet_sha256": "2f165fb7dbc514893a12183dcfec1ee483ed4f0187f7c16300e3875d0add8070",
+      "all500Hz_projection_sha256": "e70559370a02314fc86c975f8e66ab9cc4fb879546fa52b5f83292788ed1da42",
+      "task_ticks": 10000,
+      "new_chunk_s": 6.0,
+      "previous_gripper_target": 0.22494168715043505,
+      "new_gripper_target": 0.434816983613101,
+      "measured_aperture_before_chunk": 0.32927508534843414,
+      "pad_force_before_N": {
+        "left_pad": 1.8112679454593326,
+        "right_pad": 1.7419703366579002
+      },
+      "pad_force_last_bilateral_N": {
+        "left_pad": 0.1751612693199506,
+        "right_pad": 0.24489412807148722
+      },
+      "last_bilateral_s": 6.104,
+      "persistent_bilateral_loss_s": 6.106,
+      "object_TCP_drift_at_last_bilateral_mm": 3.390158543544447,
+      "first_caddy_contact_s": 6.494,
+      "first_floor_contact_s": null,
+      "maximum_book_rise_mm": 47.17728368426077,
+      "holding_TCP_tracking_error_mm": {
+        "median": 3.5951304438565064,
+        "p95": 8.45453494168165,
+        "max": 16.513090304664402
+      },
+      "goal_ever_true": false,
+      "all_submitted_H40_Prefix8_completed_next_state_joins_exact": true
+    },
+    {
+      "id": "BOOK_DEV001",
+      "original_raw_sha256": "c719abd613dc5e2f69cb94459198c8d528e084fa0c412be9e4c32033e8263465",
+      "packet_sha256": "0df8459771774d725b78c1d2e388184d4209bcd28b6f5dd35498da40fff5b133",
+      "all500Hz_projection_sha256": "199a6bd55f6b0add6bf54584066340cbef53e6464778ceb42e668db75396d9b1",
+      "task_ticks": 4037,
+      "new_chunk_s": 7.6,
+      "previous_gripper_target": 0.18880566683682531,
+      "new_gripper_target": 0.4095799706198953,
+      "measured_aperture_before_chunk": 0.31326341897014875,
+      "pad_force_before_N": {
+        "left_pad": 2.215983743458156,
+        "right_pad": 2.1612468723829643
+      },
+      "pad_force_last_bilateral_N": {
+        "left_pad": 0.1762017463696317,
+        "right_pad": 0.13132341935487493
+      },
+      "last_bilateral_s": 7.734,
+      "persistent_bilateral_loss_s": 7.736,
+      "object_TCP_drift_at_last_bilateral_mm": 1.2736139098550836,
+      "first_caddy_contact_s": null,
+      "first_floor_contact_s": 8.072000000000001,
+      "maximum_book_rise_mm": 42.34291950615088,
+      "holding_TCP_tracking_error_mm": {
+        "median": 3.679317804017878,
+        "p95": 11.573334883159882,
+        "max": 16.085697893480994
+      },
+      "goal_ever_true": false,
+      "all_submitted_H40_Prefix8_completed_next_state_joins_exact": true
+    }
+  ],
+  "interpretation": "The decisive persistent losses follow a new chunk widening the target beyond the measured holding aperture, weakening pad force and losing bilateral contact. This strongly supports premature grip unloading during carry. EEF path and tracking can contribute; temporal evidence does not isolate a unique counterfactual cause.",
+  "gripper_semantics": {
+    "zero_closed_one_open": true,
+    "all21_actual_expert_targets_binary": true,
+    "expert_closed": 0.045454545454545456,
+    "expert_open": 0.9545454545454547,
+    "actual_closed_commands": 6864,
+    "actual_open_commands": 6488,
+    "below_half_target_can_still_widen_fingers": true,
+    "explanation": "Measured holding apertures are0.31–0.33. Targets0.41–0.44 ask for widening even below the descriptive0.5 crossing. No action or threshold was changed."
+  },
+  "terminal_reject": {
+    "case": "BOOK_DEV000",
+    "stop_s": 20.0,
+    "earlier_grip_loss_s": 6.106,
+    "max_reference_speed_mps": 2.4448312400462626,
+    "H40_segment_zero_based": [
+      36,
+      37
+    ],
+    "future_offset_s": [
+      1.8,
+      1.85
+    ],
+    "unexecuted_tail": true,
+    "prefix8_internal_max_speed_mps": 0.11033624857371281,
+    "rejected_H40_not_installed": true,
+    "original_whole_H40_gate_retained": true
+  },
+  "held_chunk_profile": [
+    {
+      "id": "BOOK_DEV000",
+      "chunks": 8,
+      "first_target_wider_than_actual": 2,
+      "positive_boundary_jump": 6,
+      "median_first_target": 0.16801528226245535,
+      "median_later_prefix_target": 0.13107439024107798
+    },
+    {
+      "id": "BOOK_DEV001",
+      "chunks": 12,
+      "first_target_wider_than_actual": 2,
+      "positive_boundary_jump": 11,
+      "median_first_target": 0.17644944787025452,
+      "median_later_prefix_target": 0.1281634464666441
+    }
+  ],
+  "actual4096_exposure": {
+    "status": "ACTUAL4096_TRACE_PHASE_COUNTS_MATCH_CLOSED_AUDIT",
+    "actual_trace_sha256": "99213c8723e2b42bfb722c3141cb5c650f9d20e0ff13fba303fcf86229dfc025",
+    "counts": {
+      "total": 131072,
+      "all_recovery": 36814,
+      "gripper_transition": 7482,
+      "early_recovery": 2188,
+      "pure_first8": 1253
+    },
+    "fractions": {
+      "total": 1.0,
+      "all_recovery": 0.2808685302734375,
+      "gripper_transition": 0.0570831298828125,
+      "early_recovery": 0.016693115234375,
+      "pure_first8": 0.00955963134765625
+    },
+    "all12533_windows_visited": true,
+    "teacher_phase_definitions_are_saved_TRAIN_only": true,
+    "new_models_physics": 0,
+    "observed_epoch": 1793505552.0982559
+  },
+  "geometry_generalization": {
+    "TRAIN_full_teacher": 15,
+    "expert_suffixes": 6,
+    "unique_H40_windows": 12533,
+    "actual_TRAIN_visits": 131072,
+    "same_book_caddy_camera_home_goal_language": true,
+    "only_initial_XY_varied": true,
+    "TRAIN_X_extent_mm": [
+      -16,
+      16
+    ],
+    "TRAIN_Y_extent_mm": [
+      -12,
+      12
+    ],
+    "tested_DEV_XY_mm": [
+      [
+        6,
+        0
+      ],
+      [
+        -6,
+        0
+      ]
+    ],
+    "nearest_TRAIN_XY_mm": [
+      [
+        4,
+        0
+      ],
+      [
+        -4,
+        0
+      ]
+    ],
+    "nearest_TRAIN_distance_mm": [
+      2,
+      2
+    ],
+    "tested_X_positions_interpolate_between_TRAIN4_and12mm": true,
+    "novel_objects_layouts_backgrounds_cameras_NOT_TESTED": true,
+    "confirmation20_NOT_RUN": true,
+    "conclusion": "Local closed-loop robustness failed within the same scene. Two fixed cases and a safety-truncated panel do not establish a broad generalization rate."
+  },
+  "multitask_retention": {
+    "current_optimization_only_BOOK": true,
+    "shared_four_task_policy_not_trained_or_accepted": true,
+    "last_two_shared_DiT_blocks_updated": true,
+    "target_interface_updated": true,
+    "other_parameters_and_backbone_frozen_verified": true,
+    "forgetting_possible_not_measured": true,
+    "matched_old_task_before_after_NOT_RUN": true,
+    "book_specific_statistics": true,
+    "retention_comparison_requires_valid_common_interface_statistics": true,
+    "position_diversity_ablation_NOT_RUN": true
+  },
+  "learning_curve": {
+    "checkpoints": [
+      0,
+      1024,
+      2048,
+      4096
+    ],
+    "fixed_TRAIN16_H40_XYZ_mm": [
+      16.37211787421943,
+      9.025517250497828,
+      5.531264196617808,
+      4.264644765228208
+    ],
+    "only1024_has_new_real_DEV": true,
+    "later_endpoints_behavior_NOT_RUN": true,
+    "overfitting_or_improved_behavior_not_established": true
+  },
+  "next_actions": [
+    "Qualify a cold source reset and corrected manager labels, then the fixed2048/4096 DEV panels; no safety/gate/noise changes or reopening completed1024 conditions.",
+    "If unloading persists, separately declare a matched holding-state/event sampling diagnostic. Candidate24+4+4 is not proven effective and lowers some uniform exposure.",
+    "New recovery supervision comes from separate TRAIN states, not evaluated DEV. Preserve unseen confirmation conditions.",
+    "Measure new scene diversity and old-task retention separately with qualified common interfaces/statistics and matched baselines."
+  ],
+  "limitations": [
+    "No counterfactual physics/inference; temporal association does not identify a unique cause.",
+    "native_grasp false alone is not treated as physical detachment; forces, bilateral contact, relative pose and fall are joined.",
+    "Object-to-TCP drift assumes a rigid anchor and is not a new task score.",
+    "H40 tail rejection is not observed executed overspeed.",
+    "All training windows seen does not equal independent scene coverage; contiguous H40 windows overlap.",
+    "No new model, optimizer, simulator constructor, integration, RGB render or formal condition. No Go2-WBC capability or quarantine release claim."
+  ],
+  "figure_sha256": "f2cc2c16dd04cbe3db79986a42405b88de41c70de9db9229b0b17497bf228f8a",
+  "new_queries": 0,
+  "new_integrations": 0,
+  "new_evaluations": 0
+}
