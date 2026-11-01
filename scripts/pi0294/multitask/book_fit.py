@@ -117,7 +117,7 @@ class FitSampler(CyclicSampler):
         from .book_phase_sampling import SCHEMA,sequence
         if p['schema']==SCHEMA:
             if phase_index is None:raise PermissionError('PHASE_SAMPLER_REQUIRES_SEALED_TRAIN_INDEX')
-            self.phase_sequence=sequence(dataset,phase_index,p)
+            self.phase_sequence=sequence(getattr(dataset,'rows',dataset),phase_index,p)
             self.phase_index_sha256=p['phase_index_sha256']
 
     def __iter__(self):

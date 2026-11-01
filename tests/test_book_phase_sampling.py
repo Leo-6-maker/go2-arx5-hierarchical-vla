@@ -68,3 +68,14 @@ def test_no_index_substitution_dev_or_unknown_phase():
     probe=phase_plan('1'*64,'2'*64,'3'*64,digest(index),steps=10)
     assert is_plan(probe)and probe['TRAIN_visits']==320 and probe['scheduler_horizon_steps']==4096
     assert probe['capacity_qualification_only']and probe['warmup_updates']==128
+
+
+def test_native_dataset_uses_row_identities_without_loading_a_batch():
+    rows,index,p=fixture()
+    class AuditedDataset:
+        def __init__(self):self.rows=rows
+        def __len__(self):return len(self.rows)
+        def __getitem__(self,index):raise AssertionError('SAMPLER_MUST_NOT_READ_MODEL_BATCH')
+    actual=FitSampler(AuditedDataset(),fit_recipe=p,phase_index=index)
+    expected=FitSampler(rows,fit_recipe=p,phase_index=index)
+    assert list(actual)==list(expected)
