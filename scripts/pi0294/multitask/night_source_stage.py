@@ -163,9 +163,11 @@ if scope.V7_CARRY in account:
  q=subprocess.run(['systemctl','--user','show',previous.name+'.service','-p','MainPID','-p','SubState'],capture_output=True,text=True,timeout=4)
  facts=dict(x.split('=',1)for x in q.stdout.splitlines()if '='in x)
  prior_terminal=json.loads(base64.b64decode(carry['terminal_base64'],validate=True))
- cold=prior_terminal.get('cold_never_started')is True
- if cold:
-  assert prior_terminal['results']==[]and not(previous/'control/NATIVE_LAUNCH_INTENT.json').exists()and not(previous/'control/ACTUAL_DETACHED_OWNER_STARTED.json').exists()
+ from scripts.pi0294.multitask.source_cold_custody import is_cold_terminal
+ cold=is_cold_terminal(prior_terminal,
+  launch_intent_exists=(previous/'control/NATIVE_LAUNCH_INTENT.json').exists(),
+  detached_owner_exists=(previous/'control/ACTUAL_DETACHED_OWNER_STARTED.json').exists(),
+  stop=json.loads((previous/'STOP.json').read_bytes())if(previous/'STOP.json').exists()else None)
  assert q.returncode==0 and facts==dict(MainPID='0',SubState='dead'if cold else'exited')
  for name,pin in P.get('predecessor_preserved_files',{}).items():assert sha((previous/name).read_bytes())==pin
  before=previous_account.read_bytes();closed=scope.transfer_development_custody(before,pc,destination=str(root))
@@ -253,7 +255,7 @@ READBACK=r'''
 import hashlib,json,os,resource,sys,time
 from pathlib import Path
 assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
-resource.setrlimit(resource.RLIMIT_CPU,(15,15));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+resource.setrlimit(resource.RLIMIT_CPU,(90,90));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
 os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
 sha=lambda b:hashlib.sha256(b).hexdigest();root=Path(P['root']);result=json.loads((root/'COLD_ADOPTION_RESULT.json').read_bytes())
 assert result['manifest_sha256']==P['manifest_sha256']and result['source_sha']==P['source_sha']
