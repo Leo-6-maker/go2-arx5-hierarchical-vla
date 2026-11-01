@@ -1,0 +1,611 @@
+{
+  "schema": "CORE_V7_NIGHT10_DAG_V1",
+  "duration_s": 36000,
+  "max_cpu_parallel": 3,
+  "disk_margin_gib": 30,
+  "gpu1_training_admitted": false,
+  "tasks": [
+    {
+      "id": "wait_source",
+      "lane": "gate",
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cpu_static_cards",
+      "lane": "cpu",
+      "after": [],
+      "needs": [],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/cpu_static_cards.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 900,
+      "write_gib": 3,
+      "cpus": [
+        4,
+        5
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/cpu_static_cards.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    },
+    {
+      "id": "cpu_export",
+      "lane": "cpu",
+      "after": [],
+      "needs": [
+        "wait_source"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/cpu_export.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 2400,
+      "write_gib": 3,
+      "cpus": [
+        6,
+        7
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/cpu_export.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    },
+    {
+      "id": "freeze_D0",
+      "lane": "cpu",
+      "after": [],
+      "needs": [
+        "wait_source"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/freeze_D0.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 1200,
+      "write_gib": 3,
+      "cpus": [
+        8,
+        9
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D0.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    },
+    {
+      "id": "freeze_D1",
+      "lane": "cpu",
+      "after": [],
+      "needs": [
+        "cpu_export"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/qualified_geometry.json",
+          "minimum": {
+            "new_complete_book_experts": 1
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/freeze_D1.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 1600,
+      "write_gib": 3,
+      "cpus": [
+        6,
+        7
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D1.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    },
+    {
+      "id": "freeze_D2",
+      "lane": "cpu",
+      "after": [],
+      "needs": [
+        "cpu_export"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/qualified_recovery.json",
+          "minimum": {
+            "new_expert_suffixes": 1
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/freeze_D2.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 1600,
+      "write_gib": 3,
+      "cpus": [
+        8,
+        9
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D2.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    },
+    {
+      "id": "train_D0",
+      "lane": "gpu_train",
+      "after": [],
+      "needs": [
+        "freeze_D0"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/common_statistics_frozen.json",
+          "equals": {
+            "status": "QUALIFIED"
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D0.json",
+          "equals": {
+            "training_admitted": true
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/train_D0.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 27000,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/train_D0.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576
+    },
+    {
+      "id": "train_D1",
+      "lane": "gpu_train",
+      "after": [],
+      "needs": [
+        "freeze_D1"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/common_statistics_frozen.json",
+          "equals": {
+            "status": "QUALIFIED"
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D1.json",
+          "equals": {
+            "training_admitted": true
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/train_D1.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 27000,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/train_D1.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576
+    },
+    {
+      "id": "train_D2",
+      "lane": "gpu_train",
+      "after": [],
+      "needs": [
+        "freeze_D2"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/common_statistics_frozen.json",
+          "equals": {
+            "status": "QUALIFIED"
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/freeze_D2.json",
+          "equals": {
+            "training_admitted": true
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/train_D2.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 27000,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/train_D2.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576
+    },
+    {
+      "id": "gpu1_train32_diagnostic",
+      "lane": "gpu_inference",
+      "after": [],
+      "needs": [
+        "wait_source"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/gpu1_inference_native_qualified.json",
+          "equals": {
+            "inference_admitted": true
+          }
+        }
+      ],
+      "admission": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/gpu1_inference_native_qualified.json",
+          "equals": {
+            "inference_admitted": true
+          }
+        }
+      ],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/gpu1_train32_diagnostic.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 1200,
+      "write_gib": 24,
+      "cpus": [
+        10,
+        11
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/gpu1_train32_diagnostic.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 1,
+      "gpu_uuid": "GPU-__BIND__1",
+      "min_free_mib": 2048
+    },
+    {
+      "id": "eval_D0",
+      "lane": "physics",
+      "after": [],
+      "needs": [
+        "train_D0"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/physical_owner_available.json",
+          "equals": {
+            "status": "COLD_VERIFIED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/eval_D0.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 3600,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/eval_D0.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576,
+      "preflight": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "/__BIND__/core_v7_night10/native_owner_cold_preflight.py",
+        "--task",
+        "eval_D0"
+      ]
+    },
+    {
+      "id": "eval_D1",
+      "lane": "physics",
+      "after": [],
+      "needs": [
+        "train_D1"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/physical_owner_available.json",
+          "equals": {
+            "status": "COLD_VERIFIED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/eval_D1.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 3600,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/eval_D1.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576,
+      "preflight": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "/__BIND__/core_v7_night10/native_owner_cold_preflight.py",
+        "--task",
+        "eval_D1"
+      ]
+    },
+    {
+      "id": "eval_D2",
+      "lane": "physics",
+      "after": [],
+      "needs": [
+        "train_D2"
+      ],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        },
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/physical_owner_available.json",
+          "equals": {
+            "status": "COLD_VERIFIED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/eval_D2.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 3600,
+      "write_gib": 24,
+      "cpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/eval_D2.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      },
+      "gpu": 0,
+      "gpu_uuid": "GPU-__BIND__0",
+      "min_free_mib": 24576,
+      "preflight": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "/__BIND__/core_v7_night10/native_owner_cold_preflight.py",
+        "--task",
+        "eval_D2"
+      ]
+    },
+    {
+      "id": "policy_review",
+      "lane": "cpu",
+      "after": [
+        "eval_D0",
+        "eval_D1",
+        "eval_D2"
+      ],
+      "needs": [],
+      "readiness": [
+        {
+          "path": "/__BIND__/core_v7_night10/native_receipts/source_cold_closed.json",
+          "equals": {
+            "status": "CLOSED"
+          }
+        }
+      ],
+      "admission": [],
+      "command": [
+        "/__BIND__/core_v7_night10/venv/bin/python",
+        "-u",
+        "/__BIND__/core_v7_night10/native_entry/policy_review.py"
+      ],
+      "cwd": "/__BIND__/core_v7_night10",
+      "max_seconds": 900,
+      "write_gib": 3,
+      "cpus": [
+        8,
+        9
+      ],
+      "receipt": {
+        "path": "/__BIND__/core_v7_night10/native_receipts/policy_review.json",
+        "equals": {
+          "status": "COMPLETE"
+        }
+      }
+    }
+  ]
+}
