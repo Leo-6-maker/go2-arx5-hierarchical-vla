@@ -1,0 +1,91 @@
+{
+  "schema": "ISSUE299_PHASE_RECONCILED_GPU1_NATIVE10_AND_SOURCE_DATA_READY_ACTUAL_V1",
+  "observed_epoch": 1793550407.8559225,
+  "phase4096": {
+    "updates": 4096,
+    "TRAIN_window_visits": 131072,
+    "full_restore_tensors": 42,
+    "original_valid": 4,
+    "original_successes": 1,
+    "original_unrun": 6,
+    "hard_native_safety": 1,
+    "all_original_training_diagnostics_DEV_CLOSED": true,
+    "original_RESULT_sha256": "a7600c5c6b109d2b6e423d3c950af55eeb9d0909ac48d3a56f7b1b4cadef6492",
+    "independent_audit_sha256": "89aa856699fe6e36bff2b38b7f93a40f44537aaf8fa79fdb2279f015f789a428",
+    "RECONCILED_RESULT_sha256": "41ca49e5da5eab1ca395d9aa5c011a003c9c317cf528b632c4f2f2ee6407293e",
+    "original_files_unchanged": true,
+    "new_same_model_formal_retries": 0
+  },
+  "GPU1": {
+    "physical_total_MiB": 16376,
+    "native_updates": 10,
+    "TRAIN_visits": 320,
+    "full_AdamW_model_scheduler_RNG_cursor_restore": true,
+    "tensor_entries": 42,
+    "minimum_free_bytes": 611123200,
+    "required_headroom_bytes": 1073741824,
+    "training_admitted": false,
+    "decision": "GPU0_SERIAL_FALLBACK",
+    "qualification_CLOSED": true,
+    "CPU_s": 181.731071,
+    "GPU_allocated_s_upper": 129,
+    "checkpoint_manifest_sha256": "f7303ac55b0aaa8a43e194fd0e45a94d1723b63cadf44b42508fd3022799873f",
+    "current_foreign_processes_present": true,
+    "foreign_processes_untouched": true
+  },
+  "resource": {
+    "GPU0_physical_total_MiB": 32760,
+    "initial_free_bytes": 354035392512,
+    "later_free_bytes": 336608034816,
+    "source_predicted_increment_bytes": 21474836480,
+    "required_SSD_margin_bytes": 32212254720,
+    "manager_CPU_affinity": "0-3",
+    "GPU1_qualification_CPU_affinity": "4-7",
+    "no_cleanup_infrastructure_or_other_user_changes": true
+  },
+  "source_stage": {
+    "status": "READY_FOR_DISCONNECT_SOURCE_DATA_STAGE",
+    "full_DAG_ready": false,
+    "unit": "core-source-collection-20261102-06.service",
+    "PID": 2293919,
+    "proc_start": 331905082,
+    "InvocationID": "4689bccc39e94fa8a23ddb576ff290b8",
+    "source": "154d617aacfa4fed94ca9d60e73f87cb1d0477ef",
+    "seal_sha256": "48b822b314e9e897b624e89ca10ff0206bdebd31ae83044b154399dcc54d52b2",
+    "same_identity_independent_heartbeats": [
+      1793550238.8191385,
+      1793550384.7580035
+    ],
+    "initial_task": "20261101T161904Z-cabinet-seed001-night-source-four01",
+    "initial_manifest_sha256": "f079e2fe6097f1748f752e3d4ac49379486e0183045fc4adbc016efa7b5373c5",
+    "first_cabinet_full_safe_success": true,
+    "official_export": true,
+    "actual_integrations": 18500,
+    "completed_commands": 640,
+    "original_audit_sha256": "0cda9ccb09e6d4237682711b91f5f34798b259dcc3f3286a99452bc9f4e63ffe",
+    "raw_sha256": "4fd32691a4c362022df4f29c0505158e2e4455b379f1a4c9f8f0b8b429be5812",
+    "new_cabinet_full": 1,
+    "total_cabinet_full": 2,
+    "new_BOOK_full": 0,
+    "new_held_recovery_suffix": 0,
+    "current_task": "CABINET002",
+    "GPU0": "ONE_SOURCE_PHYSICS_AND_DUAL_RGB",
+    "GPU1": "NO_FORMAL_TRAINING_HEADROOM; CURRENT_FOREIGN_OCCUPANCY",
+    "next_data": "ACTUAL_NEW_EXPERT_EXPORT_COMMON_STATS_D0_D1_D2; NO_EMPTY_ARM_ADMISSION"
+  },
+  "cold_failures": {
+    "manager04": "Registered but unstarted; embedded readonly CPU15 expired; original registration canonically closed with STOP and costs retained",
+    "manager05": "Partial files/lease only; explicit unstarted terminal format rejected before canonical transfer; lease closed, original canonical unchanged",
+    "native_source_physics_in_these_failures": 0,
+    "summary_fix_PR": 300,
+    "capacity_entry_PR": 301,
+    "matched_recipe_PR": 302,
+    "cold_readback_and_custody_PR": 303
+  },
+  "limitations": [
+    "READY applies to source/data stage, not the complete BC/DAgger/shared training DAG; that later resident stage remains required.",
+    "Phase1/4 is a truncated development panel, not 1/10 or a generalization estimate.",
+    "Custom cabinet source Teacher success is not GR00T cabinet success or original RoboCasa benchmark.",
+    "Student DEV002 is not expert TRAIN; WBC/S1/T2 and TEST/confirmation restrictions remain."
+  ]
+}
