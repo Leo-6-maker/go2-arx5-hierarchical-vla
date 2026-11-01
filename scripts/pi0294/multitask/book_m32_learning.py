@@ -39,6 +39,10 @@ def plan(dataset_sha256,statistics_sha256,population_sha256,*,blocks,steps):
 
 
 def is_plan(p):
+    from .book_phase_sampling import SCHEMA as PHASE_SCHEMA
+    if p.get('schema')==PHASE_SCHEMA:
+        try:return p==phase_plan(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'],p['phase_index_sha256'],steps=p['max_steps'])
+        except(KeyError,TypeError,ValueError):return False
     if p.get('schema')=='BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1':
         try:return p==curve_plan(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'])
         except(KeyError,TypeError,ValueError):return False
@@ -58,6 +62,22 @@ def curve_plan(dataset_sha256,statistics_sha256,population_sha256):
         optimizer_initialization='FRESH_ADAMW_FROM_SAME_CLOSED_RECOVERY512_CONTINUOUS4096_NOT_B512_RESUME',
         sufficient_training_or_convergence_claim=False,
         purpose='Fixed TRAIN/data/statistics/last2 DiT/uniform sampler learning curve. Fresh closed initialb248 and one4096 cosine; full1024/2048/4096 states plus matched TRAIN diagnostics. Schedule differs from short512; not an update-count-only causal effect.')
+    return p
+
+
+def phase_plan(dataset_sha256,statistics_sha256,population_sha256,index_sha256,*,steps=4096):
+    from .book_phase_sampling import SCHEMA,INDEX_SCHEMA,SLOTS
+    if type(steps)is not int or steps not in(10,4096):raise ValueError('PHASE_10_QUALIFICATION_OR_MATCHED4096_ONLY')
+    if type(index_sha256)is not str or re.fullmatch('[0-9a-f]{64}',index_sha256)is None:raise ValueError('EXACT_PHASE_INDEX_PIN')
+    p=curve_plan(dataset_sha256,statistics_sha256,population_sha256)
+    p.update(schema=SCHEMA,sampling='DETERMINISTIC_EPISODE_BALANCED_PHASE_STREAMS_V1',
+        phase_index_schema=INDEX_SCHEMA,phase_index_sha256=index_sha256,
+        phase_slots_per_batch=dict(SLOTS),phase_metadata_student_input=False,
+        capacity_qualification_only=steps==10,
+        purpose='Matched uniform4096 control: only TRAIN sample selection/exposure changes; original continuous grip, parent, data, statistics, parameters, seed and4096 schedule. No phase metadata or changed labels in student inputs.')
+    if steps==10:
+        p.update(max_steps=10,TRAIN_visits=320,checkpoint_steps=[10],comparison_endpoint=10,
+                 generation_queries=32,native_diagnostic_loss_forwards=32)
     return p
 
 

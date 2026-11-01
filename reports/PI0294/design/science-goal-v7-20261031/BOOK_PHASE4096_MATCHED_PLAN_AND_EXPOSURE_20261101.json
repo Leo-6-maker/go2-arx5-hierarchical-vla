@@ -1,0 +1,586 @@
+{
+  "status": "IMPLEMENTED_OFFLINE_VALIDATED_NOT_NATIVE_QUALIFIED_NOT_STARTED",
+  "experiment": "BOOK_PHASE4096_V1",
+  "recipe": {
+    "schema": "BOOK_PHASE4096_V1",
+    "checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+    "dataset_manifest_sha256": "33bfe736abd2599012e07b6e6bcbd43efe41b5934a5994cd32c22c91aaa1010b",
+    "statistics_sha256": "6230b09b5ac90ae1c391629a88513aeb5fe491f8c5ce453cd0aad689bc98dd3c",
+    "max_steps": 4096,
+    "effective_batch_size": 32,
+    "TRAIN_visits": 131072,
+    "trainable": "EXACT_TARGET_INTERFACE_PLUS_DECLARED_LAST_DIT_BLOCKS",
+    "shared_DiT_frozen": false,
+    "backbone_frozen": true,
+    "optimizer_initialization": "FRESH_ADAMW_FROM_SAME_CLOSED_RECOVERY512_CONTINUOUS4096_NOT_B512_RESUME",
+    "learning_rate": 0.0001,
+    "weight_decay": 1e-05,
+    "warmup_updates": 128,
+    "scheduler_horizon_steps": 4096,
+    "seed": 2026103105,
+    "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+    "checkpoint": "PARENT_BOUND_TARGET_DELTA_WITH_ADAMW_SCHEDULER_RNG_CURSOR",
+    "denoise_steps": 4,
+    "generation_queries": 64,
+    "native_diagnostic_loss_forwards": 64,
+    "matched_before_after_inputs_and_noise": true,
+    "statistics_refit": false,
+    "DEV_or_TEST_used": false,
+    "formal_DEV_conditions": 0,
+    "physics_integrations": 0,
+    "original_book_DEV10_unchanged": true,
+    "original_E1_E2_unchanged": true,
+    "purpose": "Matched uniform4096 control: only TRAIN sample selection/exposure changes; original continuous grip, parent, data, statistics, parameters, seed and4096 schedule. No phase metadata or changed labels in student inputs.",
+    "diagnostic_windows": [
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 0,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 48,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 80,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 160,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 240,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 320,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 400,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 600,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 0,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 8,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 16,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 32,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 48,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 80,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 160,
+        "split": "TRAIN"
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 592,
+        "split": "TRAIN"
+      }
+    ],
+    "optimization_population": "DECLARED_TRAIN15_PLUS_SIX_ACTUAL_EXPERT_SUFFIXES_12533_WINDOWS",
+    "TRAIN_episodes": 21,
+    "TRAIN_windows": 12533,
+    "initial_delta_checkpoint_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+    "parent_restore_dataset_manifest_sha256": "47163b091f60c6d30e49b50699177727f8909e2100533fa4bc4555b8431c010d",
+    "parent_restore_statistics_sha256": "060ff05d4c34205593e234d43a5a76bd5c2305171289489d51fb78b68122e096",
+    "pure_full_teacher_episodes": 15,
+    "mixed_recovery_episodes": 6,
+    "student_prefix_expert_labels": 0,
+    "statistics_version_changed": true,
+    "TRAIN_population_sha256": "f4bc8afbb0ecf1863db76d912def0bbc1f9f29852131a9ba4a4672c9c7c1c390",
+    "limited_DiT_blocks": 2,
+    "capacity_qualification_only": false,
+    "comparison_endpoint": 4096,
+    "sampling": "DETERMINISTIC_EPISODE_BALANCED_PHASE_STREAMS_V1",
+    "recovery_fraction_per_complete_cycle": 0.28069895475943507,
+    "parent_data_or_original_E1_E2_changed": false,
+    "gradient_checkpointing": false,
+    "checkpoint_steps": [
+      1024,
+      2048,
+      4096
+    ],
+    "sufficient_training_or_convergence_claim": false,
+    "phase_index_schema": "BOOK_SAVED_TRAIN_PHASE_INDEX_V1",
+    "phase_index_sha256": "470b24ae6553abab7c756dae3e994bbfb3b667ed53ad8d9db2534f04ea8a77b1",
+    "phase_slots_per_batch": {
+      "uniform": 16,
+      "approach_align": 2,
+      "close_verify": 2,
+      "carry_boundary": 4,
+      "carry_other": 4,
+      "release": 1,
+      "withdraw": 1,
+      "early_recovery": 2
+    },
+    "phase_metadata_student_input": false
+  },
+  "exposure": {
+    "schema": "BOOK_PHASE4096_FULL_EXPOSURE_SIMULATION_V1",
+    "phase_index_sha256": "470b24ae6553abab7c756dae3e994bbfb3b667ed53ad8d9db2534f04ea8a77b1",
+    "actual_control_trace_sha256": "99213c8723e2b42bfb722c3141cb5c650f9d20e0ff13fba303fcf86229dfc025",
+    "uniform4096_ACTUAL": {
+      "total": 131072,
+      "unique": 12533,
+      "episodes": 21,
+      "stage": {
+        "hold": 28485,
+        "preinsert": 59499,
+        "verify_grasp": 1753,
+        "close": 3511,
+        "withdraw": 15795,
+        "align": 3523,
+        "lift": 7037,
+        "release": 5277,
+        "approach": 6192
+      },
+      "episode": {
+        "BOOK_SOURCE_SEED014": 6293,
+        "BOOK_SOURCE_SEED013": 6269,
+        "BOOK_SOURCE_SEED003": 6285,
+        "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX": 5974,
+        "BOOK_M32_RECOVERY000_EXPERT_SUFFIX": 6198,
+        "BOOK_SOURCE_SEED012": 6280,
+        "BOOK_SOURCE_SEED002": 6304,
+        "BOOK_SOURCE_SEED004": 6294,
+        "BOOK_M32_RECOVERY004_EXPERT_SUFFIX": 6199,
+        "BOOK_M32_RECOVERY002_EXPERT_SUFFIX": 6204,
+        "BOOK_SOURCE_SEED007": 6269,
+        "BOOK_M32_RECOVERY003_EXPERT_SUFFIX": 6120,
+        "BOOK_SOURCE_SEED006": 6281,
+        "BOOK_SOURCE_SEED009": 6272,
+        "BOOK_SOURCE_SEED011": 6292,
+        "BOOK_SOURCE_SEED001": 6278,
+        "BOOK_SOURCE_SEED005": 6261,
+        "BOOK_SOURCE_SEED010": 6279,
+        "BOOK_SOURCE_SEED008": 6300,
+        "BOOK_SOURCE_SEED000": 6301,
+        "BOOK_M32_RECOVERY001_EXPERT_SUFFIX": 6119
+      },
+      "signals": {
+        "true_block_boundary": 16577,
+        "holding_boundary": 8321,
+        "early_recovery": 2188,
+        "gripper_transition_H40": 17284,
+        "closed_prefix_open_H40_tail": 7024,
+        "pure_home_first8": 1253
+      },
+      "repeat_visit_fraction": 0.9043807983398438,
+      "mean_batch_repeated_windows": 0.0,
+      "per_window_min": 10,
+      "per_window_max": 11
+    },
+    "phase4096_PLANNED": {
+      "total": 131072,
+      "unique": 12533,
+      "episodes": 21,
+      "stage": {
+        "lift": 7049,
+        "align": 8734,
+        "preinsert": 58943,
+        "close": 7205,
+        "approach": 12506,
+        "verify_grasp": 3623,
+        "hold": 14254,
+        "release": 6749,
+        "withdraw": 12009
+      },
+      "episode": {
+        "BOOK_M32_RECOVERY004_EXPERT_SUFFIX": 7185,
+        "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX": 7079,
+        "BOOK_SOURCE_SEED000": 5874,
+        "BOOK_SOURCE_SEED001": 5866,
+        "BOOK_M32_RECOVERY003_EXPERT_SUFFIX": 7148,
+        "BOOK_SOURCE_SEED003": 5867,
+        "BOOK_SOURCE_SEED014": 5871,
+        "BOOK_SOURCE_SEED004": 5887,
+        "BOOK_SOURCE_SEED008": 5877,
+        "BOOK_SOURCE_SEED013": 5881,
+        "BOOK_SOURCE_SEED012": 5876,
+        "BOOK_SOURCE_SEED002": 5856,
+        "BOOK_SOURCE_SEED006": 5873,
+        "BOOK_M32_RECOVERY000_EXPERT_SUFFIX": 7184,
+        "BOOK_SOURCE_SEED010": 5876,
+        "BOOK_SOURCE_SEED005": 5869,
+        "BOOK_SOURCE_SEED011": 5876,
+        "BOOK_SOURCE_SEED009": 5873,
+        "BOOK_M32_RECOVERY001_EXPERT_SUFFIX": 7172,
+        "BOOK_M32_RECOVERY002_EXPERT_SUFFIX": 7197,
+        "BOOK_SOURCE_SEED007": 5885
+      },
+      "signals": {
+        "true_block_boundary": 28767,
+        "holding_boundary": 20524,
+        "early_recovery": 11623,
+        "gripper_transition_H40": 27827,
+        "closed_prefix_open_H40_tail": 7037,
+        "pure_home_first8": 1598
+      },
+      "repeat_visit_fraction": 0.9043807983398438,
+      "mean_batch_repeated_windows": 0.021484375,
+      "per_window_min": 5,
+      "per_window_max": 79
+    },
+    "stage_change": {
+      "align": {
+        "control": 3523,
+        "phase": 8734,
+        "difference": 5211
+      },
+      "approach": {
+        "control": 6192,
+        "phase": 12506,
+        "difference": 6314
+      },
+      "close": {
+        "control": 3511,
+        "phase": 7205,
+        "difference": 3694
+      },
+      "hold": {
+        "control": 28485,
+        "phase": 14254,
+        "difference": -14231
+      },
+      "lift": {
+        "control": 7037,
+        "phase": 7049,
+        "difference": 12
+      },
+      "preinsert": {
+        "control": 59499,
+        "phase": 58943,
+        "difference": -556
+      },
+      "release": {
+        "control": 5277,
+        "phase": 6749,
+        "difference": 1472
+      },
+      "verify_grasp": {
+        "control": 1753,
+        "phase": 3623,
+        "difference": 1870
+      },
+      "withdraw": {
+        "control": 15795,
+        "phase": 12009,
+        "difference": -3786
+      }
+    },
+    "slot_visits": {
+      "uniform": 65536,
+      "approach_align": 8192,
+      "close_verify": 8192,
+      "carry_boundary": 16384,
+      "carry_other": 16384,
+      "release": 4096,
+      "withdraw": 4096,
+      "early_recovery": 8192
+    },
+    "eligible_pool_windows": {
+      "uniform": 12533,
+      "approach_align": 928,
+      "close_verify": 504,
+      "carry_boundary": 795,
+      "carry_other": 5418,
+      "release": 504,
+      "withdraw": 1512,
+      "early_recovery": 208
+    },
+    "unique_data_not_increased": true,
+    "not_actual_phase_training": true,
+    "labels_and_RGB_unchanged": true
+  },
+  "TRAIN32_diagnostic": {
+    "schema": "BOOK_PHASE_MATCHED_TRAIN32_DIAGNOSTIC_V1",
+    "phase_index_sha256": "470b24ae6553abab7c756dae3e994bbfb3b667ed53ad8d9db2534f04ea8a77b1",
+    "windows": [
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 40,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 48
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "anchor": 48,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 64
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "anchor": 45,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 53
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "anchor": 50,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 66
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "anchor": 50,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 58
+      },
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "anchor": 45,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 77
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 63,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 63
+      },
+      {
+        "id": "BOOK_SOURCE_SEED001",
+        "anchor": 71,
+        "split": "TRAIN",
+        "category": "grasp_establishment",
+        "source_observation_index": 71
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 64,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 72
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "anchor": 57,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 73
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "anchor": 176,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 184
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "anchor": 171,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 187
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "anchor": 280,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 288
+      },
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "anchor": 261,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 293
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 376,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 376
+      },
+      {
+        "id": "BOOK_SOURCE_SEED001",
+        "anchor": 351,
+        "split": "TRAIN",
+        "category": "holding_carry",
+        "source_observation_index": 351
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 376,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 384
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "anchor": 368,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 384
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "anchor": 360,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 368
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "anchor": 352,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 368
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "anchor": 391,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 399
+      },
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "anchor": 375,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 407
+      },
+      {
+        "id": "BOOK_SOURCE_SEED000",
+        "anchor": 407,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 407
+      },
+      {
+        "id": "BOOK_SOURCE_SEED001",
+        "anchor": 383,
+        "split": "TRAIN",
+        "category": "legal_release",
+        "source_observation_index": 383
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 0,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 8
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "anchor": 16,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 32
+      },
+      {
+        "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+        "anchor": 8,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 16
+      },
+      {
+        "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+        "anchor": 21,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 37
+      },
+      {
+        "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+        "anchor": 15,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 23
+      },
+      {
+        "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+        "anchor": 18,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 50
+      },
+      {
+        "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+        "anchor": 23,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 31
+      },
+      {
+        "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+        "anchor": 31,
+        "split": "TRAIN",
+        "category": "actual_early_recovery",
+        "source_observation_index": 47
+      }
+    ],
+    "noise_replicates": [
+      0,
+      1,
+      2
+    ],
+    "phase_metadata_student_input": false,
+    "labels_changed": false,
+    "physics_integrations": 0,
+    "optimizer_updates": 0
+  },
+  "qualification": "One ten-update native phase-sampler check, then formal fresh initialization from the original closedb248, never from qualification weights.",
+  "primary": "4096 original continuous-grip DEV10 only;1024/2048 originalTRAIN16 offline curves, no repeated old panel.",
+  "serial_queue": [
+    "phase10_qualification_full_close",
+    "phase4096_fresh_formal",
+    "full_save_restore_audit_close",
+    "uniform4096_fixed_TRAIN32",
+    "phase4096_fixed_TRAIN32",
+    "phase4096_original_DEV10",
+    "stage_summary"
+  ],
+  "four_task": "Compatible source-library inventory and frozen future seed/DEV preparation; existing common statistics candidate is not used for this matched book experiment.",
+  "stop": "Original hard safety ends the new panel, retaining unrun. No retry by score. No automatic longer training or second intervention.",
+  "native_result": false,
+  "server_chain_mounted": false,
+  "checks": "34 affected tests passed, including actual dataset.rows sampler seam; first native qualification failed at sampler construction before updates due to iterating the audited Dataset instead of its metadata rows; fixed in this source successor. Original failed identity/costs retained."
+}
