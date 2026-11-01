@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-11-01
 
+2026-11-02 00:26 SGT Core实测：**Phase4096已独立恢复真实1成功/4有效、6未运行；原评分/STOP不改，旧训练、双TRAIN32与DEV均CLOSED。** GPU1真实10更新及42项全状态恢复完成，但最低空闲仅0.57GiB<1GiB，正式训练不准入，采用GPU0串行。新采集/数据阶段常驻manager已通过两次独立连接同身份心跳核验，首个柜门新TRAIN完整安全成功并完成官方导出，累计柜门2；第二个正在运行。**READY仅覆盖采集与数据冻结，完整BC/DAgger训练接续尚未部署，不宣称整条DAG可断线完成。** [实际核对、容量及阶段READY回执](reports/PI0294/design/science-goal-v7-20261031/ISSUE299_PHASE_RECONCILED_GPU1_NATIVE10_SOURCE_DATA_READY_ACTUAL_20261102.json)。
+
 2026-11-01 17:37 SGT实际挂载：**Core源采集后继READY_FOR_DISCONNECT通过，PID1969815在分离控制连接后保持同一身份、独立心跳前进；当前仅等待整条旧训练—双TRAIN32—原DEV关闭。** 原正式训练同一身份1551/4096、49632次TRAIN访问，1024已保存/恢复，采样不改。后继顺序为柜门1→条件通过再3、持夹恢复2→通过再6、新几何放书2→通过再4，最后原生数据导出/联合统计与既有Rerun配置；不自动新训练。CPU原生绑定资格通过，采集注册/新物理/新示范仍0。旧资格失败与费用保留；完整历史账户接续须冷态实际通过，READY不保证未来作业全部成功。[实际常驻接续、资格与边界](reports/PI0294/design/science-goal-v7-20261031/CORE_AFTER_PHASE_SOURCE_COLLECTION_NATIVE_CPU_READY_ACTUAL_20261101.json)。
 
 2026-11-01 17:14 SGT实测：**phase1024已保存并原生恢复42项AdamW/model/scheduler/RNG/cursor32768；同一正式训练已至1281/4096、40992次TRAIN访问。** 同输入/噪声TRAIN16与uniform1024比较，H40位置9.026→8.507mm、Prefix8夹爪MAE0.04533→0.03296；Prefix8位置均误几乎不变，home与部分搬运窗口反而变差，不能称完整任务改善。4096仍为主DEV端点，不改现役采样。**新采集接续仍未通过原生资格、未ARM**：已确认旧源账户约342MB；PC相同历史验证峰值RSS由约5.38降到2.09GiB，冷态CPU反而增加，修复未部署。无新增采集注册/物理/合格示范；全部资格失败效果已独立核清。原服务器训练—双诊断—DEV链继续有效。[1024实际对照与采集接续阻断](reports/PI0294/design/science-goal-v7-20261031/PHASE1024_MATCHED_TRAIN_AND_SOURCE_LINEAGE_COLD_BLOCKER_ACTUAL_20261101.json)。
