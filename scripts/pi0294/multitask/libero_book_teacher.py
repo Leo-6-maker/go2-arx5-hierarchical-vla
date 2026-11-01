@@ -87,6 +87,10 @@ def checked_route_card(card,side='left'):
     revision=card.get('book_route_revision')
     seed=card.get('book_seed_index')
     expected=seed_card(seed)if seed is not None else route_card(revision)if revision in(ROUTE_REVISION,MARGIN_REVISION,DESCENT_REVISION,RELEASE_REVISION)else None
+    if 'book_geometry_index'in card:
+        from .book_geometry_cards import geometry_card
+        if seed is not None:raise PermissionError('NEW_GEOMETRY_NOT_OLD_POSITION_SEED')
+        expected=geometry_card(card['book_geometry_index'])
     if side!='left'or card!=expected:
         raise PermissionError('EXACT_STATIC_QUALIFIED_LEFT_BOOK_ROUTE_CARD')
     return True
@@ -99,7 +103,7 @@ def attempt_operation(card,side):
                 MARGIN_REVISION:'LIBERO_LEFT_PORT04_TRACKING_MARGIN',
                 DESCENT_REVISION:'LIBERO_LEFT_PORT05_SLOW_DESCENT',
                 RELEASE_REVISION:'LIBERO_LEFT_PORT06_SUPPORTED_RELEASE'}[card['book_route_revision']]
-        return operation+('_SEED'+str(card['book_seed_index']).zfill(3)if'book_seed_index'in card else'')
+        return operation+('_GEOMETRY'+str(card['book_geometry_index']).zfill(3)if'book_geometry_index'in card else'_SEED'+str(card['book_seed_index']).zfill(3)if'book_seed_index'in card else'')
     return 'LIBERO_'+side.upper()+'_FIRST01'
 
 

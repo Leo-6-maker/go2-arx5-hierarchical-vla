@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-11-01
 
+2026-11-01后继采集CPU实测：**phase4096同一正式训练已至980/4096、31360次TRAIN访问，当前训练—双TRAIN32—原DEV10接续不变。** 新增真实持夹事件接管/仅专家后缀导出、6张独立yaw±3°或抓点±2mm TRAIN卡及既有冷态采集顺序已实现；6/6新书名义整段静态路径通过，3类保存TRAIN持夹状态初始化和MuJoCo完整状态非修改捕获通过，尚无新增动态资格/示范。柜门原4张TRAIN卡保持；10张候选DEV静态8过2失败，归因为大开角把手—底座相交，保留候选失败，不能冒充模型泛化成绩。**新Teacher后继尚未挂载**，原服务器链已挂载；现役数据/统计/模型/队列不改。[后继准备、静态结果与部署边界](reports/PI0294/design/science-goal-v7-20261031/NEXT_SOURCE_COLLECTION_HELD_RECOVERY_GEOMETRY_CPU_ACTUAL_20261101.json)。
+
 2026-11-01阶段采样实测：**BOOK_PHASE4096_V1已在Core真实启动，最近53/4096更新、1696次TRAIN访问；服务器接续READY_FOR_DISCONNECT通过，同一manager在分离控制连接后存活并自主心跳。** 原生10更新资格完成并恢复42项AdamW/model/scheduler/RNG/cursor后CLOSED；正式模型重新从原b248初始化，数据12533窗与book统计不变，连续夹爪不变。训练完整关闭后自动串行uniform4096与phase4096的固定TRAIN32×3噪声诊断，再仅新4096原DEV10；安全STOP保留未运行，不重跑旧面板。另核对现有T1/T2各16条成功导出，PC选各10条形成42条目/25154窗的新共享候选；新统计未用于现役训练，柜门仍只有1条真实成功、4张新增TRAIN卡未执行。新增正式完整端点/有效DEV/自主成功仍0/0/0。[实际启动、断线生存与数据复用](reports/PI0294/design/science-goal-v7-20261031/BOOK_PHASE4096_NATIVE_STARTED_RESIDENT_READY_AND_REUSE42_ACTUAL_20261101.json)。
 
 2026-11-01后继实测：**1024二值夹爪独立诊断0/1成功、9未运行，12.892秒link6接触书架停止；258条已提交命令全为OPEN，未建立双侧抓持，不能把二值化当成已修复。** 保存握持状态的匹配反事实仍精确支持“卸载导致失抓”，但不代表从home到释放的完整任务已解决。柜门已有示范完成官方Processor601窗口资格；共同TRAIN统计候选通过四任务24条目/14336窗口原生编解码及12样例联合批次，无CUDA/模型/优化。候选不替换原书本统计，也未准入共享训练或独立DEV。下一训练干预选择阶段分层采样，尚未实现/启动；不同时加分类头、不加长book-only链。当前相关GPU运行均已CLOSED。[解码负结果与共同处理链实际资格](reports/PI0294/design/core32-maintenance-20261031/BINARY_GRIP_AND_COMMON_FOUR_TASK_CODEC_ACTUAL_20261101.json)。

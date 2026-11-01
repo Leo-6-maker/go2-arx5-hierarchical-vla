@@ -27,6 +27,13 @@ PORT07_VERSION='ROBOCASA_ARX5_PORT07_EDGE_HINGE_LAYOUT60'
 PORT07_CARD_SHA='ebdd82b5b12bf8f6949b03271c7f1235284229e6a491cbbdbb243cbe013640f9'
 PORT08_VERSION='ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN'
 PORT08_CARD_SHA='821420e0840aac479599d0dd85729f14b0802f701f7ad35f07768532fde2550e'
+BOOK_GEOMETRY_CARD_SHA={
+    1:'e89627d4217e264aa3f11bd7ea740cac192e042f723cb5ea9461815e73807209',
+    2:'dbe93e9373d4bfe4ae667beedba3dd5db90c4149bfae2c5c47d0f4cc300d9b68',
+    3:'e9271a8cfa60df31acf90bb659f4e5044ccabadcc09d7c6119577ae3aff2222b',
+    4:'371f44cea5ee34dd7dc4ce50cd98215a2299f8ba431500877adfa1eae5953ef8',
+    5:'5471c262be191e5c5a1716b44344469a111a5116fdc12976555ff3596bec8032',
+    6:'847482706842c230f5c6a510515bf0da595f9b384021f0084e905d70373dcce9'}
 CABINET_SEED_CARD_SHA={
     1:'cf17c8bfd6a91a79ed7f025c03356a79623edd37a420c6152d1c71a0560f99da',
     2:'368a54284509a7c2fd9de27868259789d7b49f40ff042e4e6d9bd18536d82534',
@@ -110,6 +117,10 @@ def checked_manifest(manifest):
     if seed is not None and (type(seed)is not int or seed not in BOOK_SEED_CARD_SHA
             or manifest.get('book_route_revision')!=BOOK_RELEASE_VERSION or kind!='BOOK' or side!='left'):
         raise PermissionError('DECLARED_SOURCE_BOOK_SEED_MANIFEST')
+    geometry=manifest.get('book_geometry_index')
+    if geometry is not None and(type(geometry)is not int or geometry not in BOOK_GEOMETRY_CARD_SHA
+            or seed is not None or manifest.get('book_route_revision')!=BOOK_RELEASE_VERSION or kind!='BOOK'or side!='left'):
+        raise PermissionError('DECLARED_NEW_BOOK_TRAIN_GEOMETRY_MANIFEST')
     cabinet_seed=manifest.get('cabinet_seed_index')
     if cabinet_seed is not None and (type(cabinet_seed)is not int or cabinet_seed not in CABINET_SEED_CARD_SHA
             or manifest.get('cabinet_port_revision')!=PORT08_VERSION or kind!='ROBOCASA_CABINET'or side!='right'):
@@ -188,6 +199,13 @@ def unpack(payload):
                 or book_revision!=BOOK_RELEASE_VERSION or qualification.get('book_seed_index')!=seed):
             raise PermissionError('EXACT_DECLARED_SOURCE_BOOK_SEED')
         expected_sha=BOOK_SEED_CARD_SHA[seed]
+    geometry=payload.get('book_geometry_index')
+    if geometry is not None:
+        if(type(geometry)is not int or geometry not in BOOK_GEOMETRY_CARD_SHA or seed is not None
+                or book_revision!=BOOK_RELEASE_VERSION or kind!='BOOK'or side!='left'
+                or qualification.get('book_geometry_index')!=geometry):
+            raise PermissionError('EXACT_NEW_BOOK_TRAIN_GEOMETRY_QUALIFICATION')
+        expected_sha=BOOK_GEOMETRY_CARD_SHA[geometry]
     cabinet_seed=payload.get('cabinet_seed_index')
     if cabinet_seed is not None:
         if (type(cabinet_seed)is not int or cabinet_seed not in CABINET_SEED_CARD_SHA

@@ -102,6 +102,12 @@ def source_identity(card, audit):
     if card.get('task') == 'BOOK':
         if audit.get('native_LIBERO_goal_final') is not True:
             raise PermissionError('NATIVE_LIBERO_GOAL_REQUIRED_FOR_BOOK')
+        if 'book_geometry_index'in card:
+            from .libero_book_teacher import checked_route_card
+            checked_route_card(card)
+            return dict(episode_id='BOOK_GEOMETRY_TRAIN'+str(card['book_geometry_index']).zfill(3),
+                task='BOOK',family='LIBERO_ARX5_LEFT_NEW_TRAIN_GEOMETRY_PORT',
+                purpose='NEW_BOOK_YAW_OR_GRASP_TRAIN_CANDIDATE_NOT_OLD_CONFIRMATION')
         return dict(episode_id='BOOK_SOURCE_SEED' + str(card.get('book_seed_index', 0)).zfill(3),
                     task='BOOK', family='LIBERO_ARX5_LEFT_PORT',
                     purpose='NEW_BOOK_SKILL_SEED_CANDIDATE_SEPARATE_FROM_E1_E2')
