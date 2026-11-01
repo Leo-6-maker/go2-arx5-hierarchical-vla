@@ -1,0 +1,359 @@
+{
+  "schema": "ORIGINAL_CURVE_REMAINING_AND_MATCHED_GRIP_INTERVENTION_V1",
+  "as_of_SGT": "2026-11-01T14:08:18.144363+08:00",
+  "original_source": "76062cfe3870fc4a110f0b62151cdb59be5f3d09",
+  "formal_original_curve": [
+    {
+      "endpoint": 2048,
+      "checkpoint": "5d4008f79cfa0b409d5b007b081933b5a683255e5034e6450f134bea77139d4e",
+      "valid": 1,
+      "successes": 0,
+      "unrun": 9,
+      "queries": 30,
+      "integrations": 8397,
+      "RGB_pairs": 237,
+      "first_native_stop_task_s": 11.794,
+      "stop": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+      "max_book_rise_mm": 72.57355272869992,
+      "first_native_grasp_s": 2.716,
+      "last_bilateral_s": 10.836,
+      "lease_status": "CLOSED",
+      "closed_lease_sha256": "748c7a00ba570bd3eaeb451862be27c2aa351d48ed8862c63bf2808a27308e8e",
+      "closed_full_independent_readback": "e022e6ea547eee86fcfcd48f84d540c06462c8ee1d9da0891f5103293ab09a06",
+      "CPU_s": 80.775599,
+      "actual_usage": {
+        "model_loads": 1,
+        "generation_queries": 30,
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "hard_native_safety_conditions": 1,
+        "physics_integrations": 8397,
+        "source_episode_starts": 1,
+        "source_constructors": 1,
+        "RGB_pairs": 237,
+        "optimizer_updates": 0,
+        "CPU_s": 80.775599,
+        "GPU_allocated_s_upper": 59,
+        "own_allocated_bytes_before_closing": 94388224,
+        "result_sha256": "17d4b78f363f521a1d2b63a6f1290bb668492eee391d4af884cacd1f1340f01c",
+        "checkpoint_manifest_sha256": "5d4008f79cfa0b409d5b007b081933b5a683255e5034e6450f134bea77139d4e",
+        "independent_audit_sha256": "26cbe323f593a69cd1126f605604900e25612f7cffbe7fc064b0c70f49e56d29",
+        "OS_exit_code_not_retained_after_transient_unit_GC": true,
+        "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+      }
+    },
+    {
+      "endpoint": 4096,
+      "checkpoint": "63617414f841e5225662995c8fa0921a831da51c1f17260364e77ae08b92613a",
+      "valid": 1,
+      "successes": 0,
+      "unrun": 9,
+      "queries": 8,
+      "integrations": 3984,
+      "RGB_pairs": 61,
+      "first_native_stop_task_s": 2.968,
+      "stop": "RuntimeError: FINGER_VELOCITY",
+      "max_book_rise_mm": 0.7063256096293546,
+      "first_native_grasp_s": 2.968,
+      "last_bilateral_s": 2.968,
+      "lease_status": "CLOSED",
+      "closed_lease_sha256": "9da35cfb8dbe60647e10540c613fe6ae157bec4983dae9bc61e649f9a6505345",
+      "closed_full_independent_readback": "9c2f3192960460ddc54005a819022494869ee9e2473b9689466453729adb80f7",
+      "CPU_s": 73.887625,
+      "actual_usage": {
+        "model_loads": 1,
+        "generation_queries": 8,
+        "valid_DEV_conditions": 1,
+        "DEV_successes": 0,
+        "unrun_DEV_conditions": 9,
+        "hard_native_safety_conditions": 1,
+        "physics_integrations": 3984,
+        "source_episode_starts": 1,
+        "source_constructors": 1,
+        "RGB_pairs": 61,
+        "optimizer_updates": 0,
+        "CPU_s": 73.887625,
+        "GPU_allocated_s_upper": 54,
+        "own_allocated_bytes_before_closing": 54992896,
+        "result_sha256": "5b21a9ec9a0dc1075665f0340818d9600b9721957b66663451bdc06fc574ec82",
+        "checkpoint_manifest_sha256": "63617414f841e5225662995c8fa0921a831da51c1f17260364e77ae08b92613a",
+        "independent_audit_sha256": "614e52175ba88a3682b6aa3865e814fc2665f95ad40562cd23420f54c89a17e2",
+        "OS_exit_code_not_retained_after_transient_unit_GC": true,
+        "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+      }
+    }
+  ],
+  "existing1024": {
+    "valid": 2,
+    "successes": 0,
+    "unrun": 8,
+    "unchanged": true
+  },
+  "original_protocol_unchanged": {
+    "H40": 40,
+    "prefix": 8,
+    "task_s": 32,
+    "warmup_s": 5,
+    "noise_seeds_unchanged": true,
+    "safety_and_scoring_unchanged": true
+  },
+  "management": {
+    "status": "COMPLETE_CLOSED_INACTIVE",
+    "serial2048_then4096": true,
+    "stage_and_closed_read_labels_distinct": true,
+    "legacy_STOP_preserved": true,
+    "fresh_constructor_initial_cameras_and2500_safe_warmup_before_each_task": true,
+    "PC_Vanda_dependency": false
+  },
+  "same_future_time_cross_chunk": [
+    {
+      "id": "BOOK_DEV000",
+      "critical": {
+        "index": 120,
+        "task_s": 6.0,
+        "previous_same_time_gripper": 0.2107140584425493,
+        "new_same_time_gripper": 0.434816983613101,
+        "same_time_gripper_delta": 0.2241029251705517,
+        "previous_installed_gripper": 0.22494168715043505,
+        "actual_gripper": 0.32927508534843414,
+        "new_target_wider_than_actual": true,
+        "previous_same_time_target_wider_than_actual": false,
+        "gripper_binary_intent_switch": false,
+        "new_binary_intent": "CLOSED",
+        "new_binary_target": 0.045454545454545456,
+        "bilateral": true,
+        "supported_by_shelf": false,
+        "native_goal": false,
+        "same_time_XYZ_change_mm": 3.3149398089341484,
+        "overlap32_XYZ_mean_mm": 13.473208037004479,
+        "overlap32_gripper_MAE": 0.11871952309527184,
+        "gate": "ACCEPT"
+      },
+      "held_boundaries": 8,
+      "held_binary_switches": 0
+    },
+    {
+      "id": "BOOK_DEV001",
+      "critical": {
+        "index": 152,
+        "task_s": 7.6000000000000005,
+        "previous_same_time_gripper": 0.19168530269102618,
+        "new_same_time_gripper": 0.4095799706198953,
+        "same_time_gripper_delta": 0.21789466792886913,
+        "previous_installed_gripper": 0.18880566683682531,
+        "actual_gripper": 0.31326341897014875,
+        "new_target_wider_than_actual": true,
+        "previous_same_time_target_wider_than_actual": false,
+        "gripper_binary_intent_switch": false,
+        "new_binary_intent": "CLOSED",
+        "new_binary_target": 0.045454545454545456,
+        "bilateral": true,
+        "supported_by_shelf": false,
+        "native_goal": false,
+        "same_time_XYZ_change_mm": 9.554588224713639,
+        "overlap32_XYZ_mean_mm": 14.70496437317786,
+        "overlap32_gripper_MAE": 0.04639933647757227,
+        "gate": "ACCEPT"
+      },
+      "held_boundaries": 12,
+      "held_binary_switches": 1
+    }
+  ],
+  "matched_counterfactual": {
+    "status": "MATCHED_GRIP_COUNTERFACTUAL_COMPLETE",
+    "cases": [
+      {
+        "id": "BOOK_DEV000",
+        "prefix_reproduction_max_error": 0.0,
+        "window_reproduction_max_error": 0.0,
+        "restore_check_bit_exact": true,
+        "branch_start_task_s": 6.0,
+        "duration_s": 0.4,
+        "branches": {
+          "original": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 52,
+            "first_nonbilateral_task_s": 6.106,
+            "final_bilateral": false,
+            "final_object_TCP_drift_mm": 53.669566832876185,
+            "final_pad_force_N": {
+              "left_pad": 0,
+              "right_pad": 0
+            }
+          },
+          "original_restore_check": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 52,
+            "first_nonbilateral_task_s": 6.106,
+            "final_bilateral": false,
+            "final_object_TCP_drift_mm": 53.669566832876185,
+            "final_pad_force_N": {
+              "left_pad": 0,
+              "right_pad": 0
+            }
+          },
+          "expert_closed": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 200,
+            "first_nonbilateral_task_s": null,
+            "final_bilateral": true,
+            "final_object_TCP_drift_mm": 0.193160078720625,
+            "final_pad_force_N": {
+              "left_pad": 4.923482598531143,
+              "right_pad": 4.711571219588066
+            }
+          }
+        }
+      },
+      {
+        "id": "BOOK_DEV001",
+        "prefix_reproduction_max_error": 0.0,
+        "window_reproduction_max_error": 0.0,
+        "restore_check_bit_exact": true,
+        "branch_start_task_s": 7.6000000000000005,
+        "duration_s": 0.4,
+        "branches": {
+          "original": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 64,
+            "first_nonbilateral_task_s": 7.72,
+            "final_bilateral": false,
+            "final_object_TCP_drift_mm": 276.08302619657275,
+            "final_pad_force_N": {
+              "left_pad": 0,
+              "right_pad": 0
+            }
+          },
+          "original_restore_check": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 64,
+            "first_nonbilateral_task_s": 7.72,
+            "final_bilateral": false,
+            "final_object_TCP_drift_mm": 276.08302619657275,
+            "final_pad_force_N": {
+              "left_pad": 0,
+              "right_pad": 0
+            }
+          },
+          "expert_closed": {
+            "ticks": 200,
+            "error": null,
+            "bilateral_ticks": 200,
+            "first_nonbilateral_task_s": null,
+            "final_bilateral": true,
+            "final_object_TCP_drift_mm": 0.09101302208912894,
+            "final_pad_force_N": {
+              "left_pad": 4.718714108939496,
+              "right_pad": 4.671474708615062
+            }
+          }
+        }
+      }
+    ],
+    "error": null,
+    "actual_integrations": 13000,
+    "source_constructors": 2,
+    "CPU_s": 7.903987978,
+    "model_queries": 0,
+    "RGB_pairs": 0,
+    "optimizer_updates": 0,
+    "formal_DEV_conditions": 0,
+    "training_admitted": false,
+    "limits": {
+      "physics_integrations": 13000,
+      "source_constructors": 2,
+      "CPU_s": 160,
+      "CPU_cores": 4,
+      "RGB_pairs": 0,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "output_bytes": 2147483648
+    },
+    "epoch": 1793513201.5532944
+  },
+  "counterfactual_closed_lease_sha256": "7cfc2cccd827b966649a09f1b75a1b1c7cfe5068f695ce54ba59a9185d1d34f5",
+  "diagnostic_attempts": [
+    {
+      "attempt": 1,
+      "status": "MATCHED_GRIP_COUNTERFACTUAL_STOPPED",
+      "error": "AssertionError: ",
+      "integrations": 0,
+      "constructors": 1,
+      "CPU_s": 1.279123467,
+      "lease_CLOSED": true
+    },
+    {
+      "attempt": 2,
+      "status": "MATCHED_GRIP_COUNTERFACTUAL_STOPPED",
+      "error": "AssertionError: ('EXACT_SCENE_DIFFERENCE', 18348, ' -0.9 1.1\" xyaxes=\"0.8448190755542285 0.5350520811843448 0.0 -0.25584293802661273 0.40396253372623064 0.8782702672909946\" fovy=\"55\" /><body name=\"libero_black_book\" pos=\"0.36599999999999999 -0.1000000', ' -0.9 1.1\" xyaxes=\"0.8448190755542285 0.5350520811843448 0.0 -0.2558429380266127 0.40396253372623053 0.8782702672909943\" fovy=\"55\" /><body name=\"libero_black_book\" pos=\"0.36599999999999999 -0.10000000')",
+      "integrations": 0,
+      "constructors": 1,
+      "CPU_s": 1.270454212,
+      "lease_CLOSED": true
+    },
+    {
+      "attempt": 3,
+      "status": "MATCHED_GRIP_COUNTERFACTUAL_STOPPED",
+      "error": "AssertionError: ('ORIGINAL_PREFIX_NOT_REPRODUCED', 9.597839597358382e-05)",
+      "integrations": 5500,
+      "constructors": 1,
+      "CPU_s": 3.851321446,
+      "lease_CLOSED": true
+    },
+    {
+      "attempt": 4,
+      "status": "MATCHED_GRIP_COUNTERFACTUAL_COMPLETE",
+      "error": null,
+      "integrations": 13000,
+      "constructors": 2,
+      "CPU_s": 7.903987978,
+      "lease_CLOSED": true
+    }
+  ],
+  "all_diagnostic_costs": {
+    "integrations": 18500,
+    "constructors": 5,
+    "CPU_s": 14.304887103,
+    "model_queries": 0,
+    "RGB_pairs": 0,
+    "formal_conditions": 0,
+    "training_data_admitted": 0
+  },
+  "replay_repairs": [
+    "Two XML identity checks failed before integration. The second localized camera-axis last-bit differences to a different NumPy interpreter path. Switched to the original neural interpreter and appended the original physics library path.",
+    "A5500-tick prefix from re-decoded committed rows differed by9.60e-5 in the maximum mixed state-component norm. No counterfactual was run. Reconstructed exact installed matrices from saved raw H40 using the original matrix10 path and matched observation-boundary snapshot calls.",
+    "Final successful replay reproduced both prefixes and all original200-tick windows with zero numerical difference. Full MjData, IK MjData, finger/arm targets, IK cache and counters were copied; an identical restored control branch was bit exact."
+  ],
+  "interpretation": [
+    "Longer training reduced fixed TRAIN errors but did not produce full task success in the observed safety-truncated original panels; one2048 and one4096 condition do not establish their full10-condition success rate.",
+    "Changing only grip to the original expert CLOSED target prevents loss in both matched0.4s windows with unchanged EEF references and force/gain/safety. This identifies grip command unloading as a causal contributor in these saved windows, not a complete-task solution.",
+    "Nearest-prototype decoder is implemented for a separately named diagnostic; native result is NOT_RUN at this publication. Raw-policy scoring remains unchanged."
+  ],
+  "next": [
+    "Run independently versioned binary-grip diagnostic including original32s task/release and unmodified safety. Preserve raw and decoded H40.",
+    "Select one subsequent training intervention after decoder behavior; no new longer book training now.",
+    "Continue common four-task semantics/statistics and matched retention preparation; no multi-scene or Go2 success claim."
+  ],
+  "generalization": {
+    "same_scene_position_only": true,
+    "novel_object_scene_camera_tested": false,
+    "language_task_selection_tested": false,
+    "old_task_retention_tested": false,
+    "frozen_WBC_transfer_tested": false,
+    "geometric_interpolation_does_not_imply_closed_loop_state_support": true
+  },
+  "tests": {
+    "passed": 40,
+    "skipped": 2,
+    "CI": "NOT_RUN"
+  },
+  "new_training_updates": 0,
+  "new_qualified_demos": 0,
+  "new_full_autonomous_successes": 0
+}

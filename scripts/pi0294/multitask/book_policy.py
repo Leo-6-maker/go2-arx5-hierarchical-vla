@@ -65,9 +65,10 @@ class Student:
     stage='STUDENT_NO_PRIVILEGED_STAGE'
     candidate_complete=False
     execution_prefix=8
-    def __init__(self,instance,identifier,record,guard,*,seed_namespace='BOOK5_DEV10'):
+    def __init__(self,instance,identifier,record,guard,*,seed_namespace='BOOK5_DEV10',gripper_decoder=None):
         self.instance,self.identifier,self.record,self.guard=instance,identifier,record,guard
         self.seed_namespace=seed_namespace
+        self.gripper_decoder=gripper_decoder
         self.index=self.last_plan=-1;self.queries=self.completed_generations=0;self.state=self.images=None
 
     def observe(self,state):
@@ -93,6 +94,11 @@ class Student:
             student_state_eef10=self.state.tolist(),language=self.instruction,
             image_SHA256=[r['sha256']for r in request['images']],privileged_student_inputs=False))
         self.queries+=1;value=self.instance.generate(request,seed);self.completed_generations+=1
+        if self.gripper_decoder is not None:
+            from .book_grip_decoder import VERSION,decode
+            if self.gripper_decoder!=VERSION:raise PermissionError('DECLARED_GRIP_DECODER_VERSION')
+            value=dict(value,raw_physical_H40=np.asarray(value['physical_H40']).copy(),
+                physical_H40=decode(value['physical_H40']),grip_decoder=VERSION)
         gate=gate_action(value['physical_H40'],self.state,self.index*.05,self.identifier+'-'+str(sequence))
         self.record('prediction',dict(sequence=sequence,index=self.index,gate=gate,value=value))
         if gate['decision']=='REJECT':raise ModelReferenceRejected('MODEL_REFERENCE_GATE_REJECT')
@@ -123,7 +129,11 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         nonlocal written
         path=folder/'predictions'/(str(row['sequence']).zfill(2)+'_'+kind)
         if kind=='prediction':
-            row=dict(row);v=row.pop('value');atomic_npz(path.with_suffix('.npz'),physical_H40=v['physical_H40'],normalized=v['normalized'])
+            row=dict(row);v=row.pop('value')
+            arrays=dict(physical_H40=v['physical_H40'],normalized=v['normalized'])
+            if 'raw_physical_H40'in v:
+                arrays['raw_physical_H40']=v['raw_physical_H40'];row['grip_decoder']=v['grip_decoder']
+            atomic_npz(path.with_suffix('.npz'),**arrays)
             written+=path.with_suffix('.npz').stat().st_size
             row.update(arrays_sha256=sha(path.with_suffix('.npz')),noise=v['noise'],inference_precision=v['inference_precision'],
                 normalized_outside_unit_components=v['normalized_outside_unit_components'])
@@ -214,9 +224,12 @@ def run(root,manifest_sha256):
     is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
     is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
     is_rollout=m['kind']=='V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC'
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC')
+    from .book_grip_decoder import KIND as GRIP_KIND,VERSION as GRIP_VERSION,validate_manifest as validate_grip_manifest
+    is_grip_diagnostic=m['kind']==GRIP_KIND
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND)
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
+    if is_grip_diagnostic:validate_grip_manifest(m)
     if is_probe:
         from scripts.pi0294.multitask.book_probe import validate_manifest
         validate_manifest(m,read(root/'TRAIN_PROBE_PLAN.json'))
@@ -359,6 +372,8 @@ def run(root,manifest_sha256):
         seal=read(root/'TRAIN_DEV_SEAL.json')
         if sha(root/'TRAIN_DEV_SEAL.json')!=m['TRAIN_DEV_seal_sha256']:raise PermissionError('BOOK_DEV10_FIXED_POPULATION')
         conditions=seal['DEV'];episode_options={}
+        if is_grip_diagnostic:
+            episode_options['student_factory']=lambda *args:Student(*args,gripper_decoder=GRIP_VERSION)
         if is_rollout:
             from scripts.pi0294.multitask import book_rollout_diagnostic as diagnostic
             plan=m['rollout_diagnostic'];conditions=plan['conditions']
@@ -396,8 +411,9 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status=('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
-            scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery or is_rollout else sum(r['valid_model_condition']for r in rows),
+        else:write(root/'RESULT.json',dict(status=('COMPLETE_BINARY_GRIP_DIAGNOSTIC'if len(rows)==10 else'STOPPED_PARTIAL_BINARY_GRIP_DIAGNOSTIC')if is_grip_diagnostic else ('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+            scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery or is_rollout or is_grip_diagnostic else sum(r['valid_model_condition']for r in rows),
+            grip_diagnostic_conditions=sum(r['valid_model_condition']for r in rows)if is_grip_diagnostic else 0,
             student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
             evaluated_checkpoint_manifest_sha256=m.get('delta_checkpoint_manifest_sha256',m['checkpoint_manifest_sha256']),
             checkpoint_requires_retained_full_parent=bool(m.get('delta_checkpoint')),
