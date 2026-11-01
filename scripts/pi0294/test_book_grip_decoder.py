@@ -22,7 +22,7 @@ class GripDecoderTests(unittest.TestCase):
         for mode in (None,decoder.VERSION):
             rows=[];s=Student(Generator(),'BOOK_DEV000',lambda kind,v:rows.append((kind,v)),lambda:None,gripper_decoder=mode)
             s.index=0;s.state=np.array([.2,0,.5,1,0,0,0,1,0,.32]);s.images=[np.zeros((256,256,3),dtype=np.uint8)]*2;s.instruction='place the book'
-            with patch('scripts.pi0294.multitask.book_policy.payload',return_value={'images':[{'sha256':'a'},{'sha256':'b'}]}),patch('scripts.pi0294.multitask.book_policy.gate_action',return_value={'decision':'ACCEPT'})as gate:
+            with patch.dict(Student.plan.__globals__,{'__package__':None}),patch('scripts.pi0294.multitask.book_policy.payload',return_value={'images':[{'sha256':'a'},{'sha256':'b'}]}),patch('scripts.pi0294.multitask.book_policy.gate_action',return_value={'decision':'ACCEPT'})as gate:
                 plan=s.plan()
             expected=.43 if mode is None else decoder.CLOSED
             np.testing.assert_array_equal(plan['opening'],np.full(40,expected))
