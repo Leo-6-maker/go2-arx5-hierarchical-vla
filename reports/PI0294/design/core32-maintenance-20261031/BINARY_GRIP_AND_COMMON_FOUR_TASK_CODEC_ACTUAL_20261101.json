@@ -1,0 +1,350 @@
+{
+  "schema": "BINARY_GRIP_AND_FOUR_TASK_COMMON_CODEC_ACTUAL_V1",
+  "as_of_SGT": "2026-11-01T14:31:16.125013+08:00",
+  "decoder_source": "7d0a14eab692e1f71e52e1fd2835389df96d40ae",
+  "binary_diagnostic": {
+    "checkpoint": "4fafaa8c2405922f5525a9c1e36b8db9416cd13b7fa10e08f2dd6eb1e7da1e09",
+    "diagnostic_conditions": 1,
+    "successes": 0,
+    "unrun": 9,
+    "formal_original_DEV_conditions": 0,
+    "task_stop_s": 12.892,
+    "stop": "ORIGINAL_NATIVE_ILLEGAL_CONTACT: link6 versus caddy geom6",
+    "contact_penetration_m": -8.565680681577037e-05,
+    "normal_force_N": 16.553697422481164,
+    "first_native_grasp_s": null,
+    "last_bilateral_s": null,
+    "max_book_rise_mm": 4.305340097556565,
+    "legal_release_reached": false,
+    "submitted_commands": 258,
+    "closed_commands": 0,
+    "all_submitted_grip_commands": "EXPERT_OPEN_PROTOTYPE",
+    "raw_decoded_H40_and_unchanged_EEF_verified": true,
+    "actual_usage": {
+      "model_loads": 1,
+      "generation_queries": 33,
+      "valid_DEV_conditions": 0,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 0,
+      "diagnostic_conditions": 1,
+      "diagnostic_successes": 0,
+      "unrun_diagnostic_conditions": 9,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 8946,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 259,
+      "optimizer_updates": 0,
+      "CPU_s": 83.159779,
+      "GPU_allocated_s_upper": 64,
+      "own_allocated_bytes_before_closing": 98263040,
+      "result_sha256": "e0f5c06c0c52f1ee196760ccdf691670af6ada6c16373794a90d5a6375271a4e",
+      "checkpoint_manifest_sha256": "4fafaa8c2405922f5525a9c1e36b8db9416cd13b7fa10e08f2dd6eb1e7da1e09",
+      "independent_audit_sha256": "ad834261527a1123212a36ea682db77a63972595fa13a3fbbe965bca8cccaeaf",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true,
+      "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+    },
+    "lease_status": "CLOSED",
+    "lease_sha256": "f8fb8ae29217fb44f74acec35a97b8207cd9bde9e7cec6e1184383b0e680d125",
+    "interpretation": "From home the binary decoder never establishes grasp. Changing grip alters subsequent observations and raw EEF predictions. This single full rollout is not the fixed-EEF matched counterfactual and is not a successful repair."
+  },
+  "initial_comparison": {
+    "first_raw_H40_max_abs_difference": 0.001997514204545414,
+    "first_executed_grip_difference_s": 0.8,
+    "original_grip": 0.9293843291022562,
+    "binary_grip": 0.9545454545454547,
+    "binary_executed_commands": 258,
+    "binary_closed_commands": 0,
+    "binary_all_prefix_predictions_open_side": true,
+    "limitation": "Same initial proprio and noise seed; one body-camera channel at one pixel differs by one level. First raw H40 is not bit exact. This single diagnostic is not an estimated treatment effect or generalization rate.",
+    "first_raw_Prefix8_max_difference": 0.0013851435095208475,
+    "first_observation_images_states_and_seed_identical": false,
+    "RGB": {
+      "body_rgb": {
+        "mean_abs_pixel_difference": 5.086263020833333e-06,
+        "max_abs_pixel_difference": 1,
+        "different_component_fraction": 5.086263020833333e-06,
+        "different_pixel_fraction": 1.52587890625e-05,
+        "decoded_pixels_equal": false,
+        "PNG_sha256": [
+          "60b4e3be6496f6b4b7e7ec9a5e283235525b6f5035ba6a2dc5d8d06c9cd4d0d4",
+          "58f212df768979acb35d5c049f17f6ba616f41359e178d0a7e8ef002a1d220c5"
+        ]
+      },
+      "wrist_rgb": {
+        "mean_abs_pixel_difference": 0.0,
+        "max_abs_pixel_difference": 0,
+        "different_component_fraction": 0.0,
+        "different_pixel_fraction": 0.0,
+        "decoded_pixels_equal": true,
+        "PNG_sha256": [
+          "f860d0d8190a0afc8b7f263ae0846aedf38588a6b86527015402d6bc7379c668",
+          "f860d0d8190a0afc8b7f263ae0846aedf38588a6b86527015402d6bc7379c668"
+        ]
+      }
+    }
+  },
+  "matched_holding_intervention": {
+    "report": "UNIFORM_CURVE_REMAINING_AND_MATCHED_GRIP_COUNTERFACTUAL_20261101.json",
+    "cases": 2,
+    "window_s": 0.4,
+    "prefix_and_original_window_max_error": 0.0,
+    "restored_repeat_bit_exact": true,
+    "closed_target_bilateral_ticks": [
+      200,
+      200
+    ],
+    "original_final_drift_mm": [
+      53.669566832876185,
+      276.08302619657275
+    ],
+    "closed_final_drift_mm": [
+      0.193160078720625,
+      0.09101302208912894
+    ],
+    "formal_conditions": 0,
+    "complete_task_success": false,
+    "training_admitted": false,
+    "figure_sha256": "c3fde1f1c4642db7684cd16a4bf4bb22d5cfac603570b4fb134044c9b9535e36"
+  },
+  "cabinet_official_processor": {
+    "status": "SOURCE_CUSTOM_CABINET_SEED_EXPORT_AND_OFFICIAL_CPU_CODEC_COMPLETE",
+    "source": "ee62e0559d1e667e8873c993585d14a250aa931f",
+    "manifest_sha256": "89d8b03da15852d7715c72dc85a36d9e069e99cd91ad0c07dcbcce4d2ecbd568",
+    "numeric_sha256": "2bb904c1fb89ceefae131285b5e05f64bf16c163aae8b78213d4722473656d73",
+    "statistics_sha256": "badb390f6c3e74dcc6d2c0af3a5d30b5330d833d99716485b324f4b757950253",
+    "actual_full_H40_windows": 601,
+    "raw_RGB_pairs_verified": 641,
+    "native_loader_all_anchors": 601,
+    "actual_processor_batch_anchors": [
+      0,
+      300,
+      600
+    ],
+    "codec": {
+      "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+      "H40_windows_actually_checked": 601,
+      "committed_label_elements_checked": 240400,
+      "maximum_error": {
+        "XYZ_m": 6.122025331123382e-09,
+        "SO3_rad": 4.2146848510894035e-08,
+        "gripper": 0.0,
+        "relative_SE3_max_abs": 7.771561172376096e-16
+      },
+      "frozen_numeric_gates": {
+        "XYZ_m": 1e-05,
+        "SO3_rad": 0.0001,
+        "gripper": 1e-05,
+        "relative_SE3_max_abs": 1e-08
+      },
+      "action_preclip_components": 7,
+      "native_inverse_clip_components_float32": 0,
+      "inverse_clip_by_EEF10_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "state_preclip_components": 0,
+      "encode_clip_components": 0,
+      "statistics_refit": false,
+      "native_decode_unchanged": true,
+      "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+    },
+    "training_admitted": false,
+    "old_E1_E2_R0_unchanged": true,
+    "new_models_queries_optimizer_physics_PBS": 0,
+    "torch_CUDA_initialized": false,
+    "CPU_s": 10.838651252,
+    "wall_s": 13.862763643730432,
+    "observed_epoch": 1793513899.2438557
+  },
+  "common_four_task": {
+    "status": "PASS_FOUR_TASK_COMMON_TRAIN_STATISTICS_OFFICIAL_CODEC",
+    "statistics_candidate_sha256": "ce80327e8359b36ac5cd444530c0917ee68bd53a00a4f40d2d3c13fd9e816025",
+    "entries": 24,
+    "full_episodes": 18,
+    "actual_expert_suffixes": 6,
+    "windows": 14336,
+    "committed_H40_elements_checked": 5734400,
+    "maximum_codec_error": {
+      "XYZ_m": 1.0529831784289456e-08,
+      "SO3_rad": 5.16191365590357e-08,
+      "gripper": 4.3348832412526406e-08,
+      "relative_SE3_max_abs": 7.771561172376096e-16
+    },
+    "native_float32_inverse_clip_components": 0,
+    "state_preclip_components": 0,
+    "batch_examples": 12,
+    "batch_inventory": {
+      "inputs": {
+        "action": {
+          "shape": [
+            12,
+            40,
+            132
+          ],
+          "dtype": "float32",
+          "sha256": "1d04e2745297b318fdd471d4cfa37240ed7b5e97f77fe92d3b51cccda41afd4c"
+        },
+        "action_mask": {
+          "shape": [
+            12,
+            40,
+            132
+          ],
+          "dtype": "float64",
+          "sha256": "70b93dd09199d36b61481b4e0f2dc75d7c9a86e0f536ac08afb7e578f92dab2a"
+        },
+        "attention_mask": {
+          "shape": [
+            12,
+            157
+          ],
+          "dtype": "int64",
+          "sha256": "8c442a5ddc7a3e052ba44d20ce9ade1fe70d124dd338be58da9985702a52aaf5"
+        },
+        "embodiment_id": {
+          "shape": [
+            12
+          ],
+          "dtype": "int64",
+          "sha256": "4ec4c1c1731c77363c2fcea0b59208989404b00ea2e0b0263ed30dce12e87868"
+        },
+        "image_grid_thw": {
+          "shape": [
+            24,
+            3
+          ],
+          "dtype": "int64",
+          "sha256": "0b96c9dee2cd32febe8c7434e5df4166d2390bdfdf558e42239837646c8907af"
+        },
+        "input_ids": {
+          "shape": [
+            12,
+            157
+          ],
+          "dtype": "int64",
+          "sha256": "5c1e2a4effafc5ba63e6d6660810acb0291d1e205f5255a16bb1e7e6b63d1bb2"
+        },
+        "pixel_values": {
+          "shape": [
+            6144,
+            1536
+          ],
+          "dtype": "float32",
+          "sha256": "cc3369c9f5caa9f8edc05f2d2f140109ffad0329625790a7c99a1f26a532e139"
+        },
+        "state": {
+          "shape": [
+            12,
+            1,
+            132
+          ],
+          "dtype": "float32",
+          "sha256": "2d671a139455968315e634df20df116592cc0e01d927e98eca52cd4bae9e3bf7"
+        }
+      }
+    },
+    "embodiment": "ONE_NEW_EMBODIMENT",
+    "task_entry_counts": {
+      "T1": 1,
+      "T2": 1,
+      "BOOK": 21,
+      "DOOR": 1
+    },
+    "training_admitted": false,
+    "disjoint_four_task_DEV_admitted": false,
+    "old_book_statistics_changed": false,
+    "new_models_queries_optimizer_physics": 0,
+    "CPU_attempts": [
+      {
+        "terminal_sha256": "8e989526789f501212bfc4e3759ceb9abd335890fd74779f28b7d397357449b8",
+        "returncode": 1,
+        "CPU_s": 9.461658,
+        "wall_s": 11.34315171977505,
+        "completed_epoch": 1793514105.651808,
+        "GPU_models_physics": 0
+      },
+      {
+        "terminal_sha256": "c3a0e87dd3bfd421eb26f734f6e6a7920adb73a46af613729d1320dca2d230b6",
+        "returncode": 1,
+        "CPU_s": 15.299747,
+        "wall_s": 18.056058160960674,
+        "completed_epoch": 1793514230.3740702,
+        "GPU_models_physics": 0
+      },
+      {
+        "terminal_sha256": "a437f46f19e52e72589e8de87cec2d83622a25a4feeab2a5561974a12e8342fa",
+        "returncode": 0,
+        "CPU_s": 143.680539,
+        "wall_s": 166.69109647301957,
+        "completed_epoch": 1793514479.631276,
+        "GPU_models_physics": 0
+      }
+    ],
+    "preparation_repairs": [
+      "First stopped at the historical RGB placeholder. Second used explicit immutable dataset/raw/episode bindings, then stopped at a guessed book dataset path. Final used the actual CLOSED producer dataset path and verified all four roots/numeric identities before the finite run. Both failed CPU attempts are terminal; costs retained."
+    ]
+  },
+  "old_book_statistics_diagnostic": {
+    "meaning": "Fraction of cached TRAIN anchors with at least one state component outside book-only min/max. This is not measured task degradation or a claim that these states were clipped.",
+    "T1": 1.0,
+    "T2": 1.0,
+    "DOOR": 1.0,
+    "BOOK": 0.0
+  },
+  "next_training": {
+    "intervention": "TRAIN_PHASE_STRATIFIED_SAMPLING_ONLY",
+    "must_cover": [
+      "initial_approach",
+      "close_and_verify",
+      "sustained_hold",
+      "legal_release",
+      "actual_recovery"
+    ],
+    "status": "SELECTED_NOT_IMPLEMENTED_OR_STARTED",
+    "same_parent_data_statistics_optimizer_schedule_and_parameter_scope": true,
+    "teacher_metadata_for_sampling_only_not_student_input": true,
+    "old24plus4plus4_not_adopted": true,
+    "new_classification_head": false,
+    "longer_book_only_training": false
+  },
+  "generalization": {
+    "local_same_scene_closed_loop_failures_observed": true,
+    "new_objects_scenes_cameras": "NOT_TESTED",
+    "language_task_selection": "NOT_TESTED",
+    "old_task_before_after_retention": "NOT_TESTED",
+    "Go2_frozen_WBC_transfer": "NOT_TESTED",
+    "geometric_interpolation_does_not_imply_closed_loop_state_support": true,
+    "common_codec_qualification_is_not_policy_generalization_or_retention": true
+  },
+  "all_added_actual_work": {
+    "original_DEV_conditions": 2,
+    "original_successes": 0,
+    "decoder_diagnostic_conditions": 1,
+    "decoder_successes": 0,
+    "model_loads": 3,
+    "queries": 71,
+    "integrations_including_failed_replay_preparations": 39827,
+    "source_constructors": 8,
+    "RGB_pairs": 557,
+    "optimizer_updates": 0,
+    "new_full_qualified_demonstrations": 0
+  },
+  "final_status": {
+    "related_GPU_actors": "CLOSED_INACTIVE",
+    "cabinet_and_common_CPU_children_terminal": true,
+    "new_training_or_continuation_mounted": false,
+    "NFS_mount_SSH_network_services_credentials_changed": false,
+    "Vanda_probed": false,
+    "target_S1_T2_quarantine_unchanged": true,
+    "WBC_or_safety_gains_changed": false
+  }
+}
