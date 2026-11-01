@@ -95,7 +95,7 @@ class Student:
             image_SHA256=[r['sha256']for r in request['images']],privileged_student_inputs=False))
         self.queries+=1;value=self.instance.generate(request,seed);self.completed_generations+=1
         if self.gripper_decoder is not None:
-            from .book_grip_decoder import VERSION,decode
+            from scripts.pi0294.multitask.book_grip_decoder import VERSION,decode
             if self.gripper_decoder!=VERSION:raise PermissionError('DECLARED_GRIP_DECODER_VERSION')
             value=dict(value,raw_physical_H40=np.asarray(value['physical_H40']).copy(),
                 physical_H40=decode(value['physical_H40']),grip_decoder=VERSION)
@@ -224,7 +224,7 @@ def run(root,manifest_sha256):
     is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
     is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
     is_rollout=m['kind']=='V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC'
-    from .book_grip_decoder import KIND as GRIP_KIND,VERSION as GRIP_VERSION,validate_manifest as validate_grip_manifest
+    from scripts.pi0294.multitask.book_grip_decoder import KIND as GRIP_KIND,VERSION as GRIP_VERSION,validate_manifest as validate_grip_manifest
     is_grip_diagnostic=m['kind']==GRIP_KIND
     if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND)
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
