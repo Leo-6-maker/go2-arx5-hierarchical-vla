@@ -208,6 +208,8 @@ def development_account(account_bytes,lease_bytes,terminal_bytes,policy_bytes,*,
          and type(now)in(int,float)and math.isfinite(now)and (job is not None or now<stop),
          'CLOSED_SOURCE_CONTINUATION_WITHIN_EXISTING_WINDOW')
     out=deepcopy(old);out.pop('qualification_sha256',None)
+    if job is not None:
+        for key in DUPLICATED_CLOSED_HISTORY:out.pop(key,None)
     out.update(native_adopted=False,native_destination=destination,revision=old['revision']+1,
                custody='V7_CLOSED_SOURCE_CUSTODY_PENDING_NATIVE_READBACK')
     if job is not None:
@@ -238,7 +240,80 @@ def transfer_development_custody(old_bytes,new_account_bytes,*,destination):
     validate_account(out);return out
 
 
+# A closed ancestor already contains these exact historical records. New
+# finite descendants keep them once in the existing lossless gzip carry,
+# rather than duplicating hundreds of megabytes at every lineage level.
+DUPLICATED_CLOSED_HISTORY=frozenset(('section5_successor',
+    'closed_cabinet_turn_speed_port05_carry','closed_cabinet_hinge_port04_carry',
+    'closed_cabinet_camera_port03_carry','closed_cabinet_geometry_repair02_carry',
+    'closed_book_unrun_cabinet_carry'))
+_VALIDATED_ACCOUNT_IDENTITIES=[]
+
+def _account_fingerprint(v):
+    return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).digest()
+
+def _remember_accounts(identities):
+    for identity in identities:
+        if identity not in _VALIDATED_ACCOUNT_IDENTITIES:_VALIDATED_ACCOUNT_IDENTITIES.append(identity)
+    del _VALIDATED_ACCOUNT_IDENTITIES[:-64]
+
 def validate_account(v):
+    """Check the identical lineage iteratively; cache only fully checked bytes.
+
+    The bounded cache holds hashes, never mutable dictionaries. Any changed
+    cost, history, clock, custody or grant receives a different identity.
+    Historical ledgers and scientific/runtime safety checks are unchanged.
+    """
+    original=v;pending=[]
+    while True:
+        identity=_account_fingerprint(v)
+        if identity in _VALIDATED_ACCOUNT_IDENTITIES:
+            _remember_accounts(pending);return original
+        pending.append(identity)
+        stop,deadline=account_window(v)
+        finite=finite_profile(v[V7_FINITE])if V7_FINITE in v else None
+        need(v['scope']==SCOPE and v['caps']==CAPS and v['approval_sha256']==APPROVAL_SHA
+            and v['stop_new_epoch']==stop and v['deadline_epoch']==deadline
+            and type(v['operations'])is list and type(v['native_adopted'])is bool,
+            'ONE_SHARED_ACCOUNT_NOT_PER_TASK_REPLICATED')
+        need(set(v['charged_upper'])==set(CAPS)
+            and all(type(x)in(int,float)and math.isfinite(x)and 0<=x and (finite is not None or x<=CAPS[k])
+                for k,x in v['charged_upper'].items())
+            and (finite is not None or v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200),
+            'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
+        need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
+        if V7_CARRY in v:
+            carry=v[V7_CARRY]
+            fields={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
+            need(set(carry)in(fields,fields|{'account_encoding'})
+                 and carry['policy_sha256']==V7_POLICY,'EXACT_V7_CLOSED_SOURCE_CARRY')
+            ab,lb,tb=[closed_carry_bytes(carry,k)for k in ('account','lease','terminal')]
+            old=json.loads(ab);lease,terminal=map(json.loads,(lb,tb))
+            need(old['native_adopted']is True and lease['status']=='CLOSED'and lease['all_children_terminal']is True
+                 and lease['run_uuid']==Path(old['native_destination']).name
+                 and lease['approval_sha256']==old['approval_sha256']
+                 and terminal['status']=='FINITE_SOURCE_CHAIN_TERMINAL'
+                 and terminal['closed_lease_sha256']==hashlib.sha256(lb).hexdigest(),
+                 'ACTUAL_CLOSED_CHAIN_NOT_OLD_FAILURE_PROHIBITION_OR_LIVE_OWNER')
+            mutable={'native_destination','native_adopted','revision','custody','qualification_sha256',
+                     'charged_upper','operations',V7_CARRY}
+            if finite is not None:
+                mutable.update({V7_FINITE,'stop_new_epoch','deadline_epoch'})
+                need(all(0<=v['charged_upper'][k]-old['charged_upper'][k]<=finite['upper'][k]for k in CAPS),
+                     'ONE_FINITE_JOB_DELTA_OLD_COSTS_NEVER_RESET')
+            need(all(v.get(k)==value for k,value in old.items()if k not in mutable and not(k in DUPLICATED_CLOSED_HISTORY and k not in v))
+                 and v['native_destination']==carry['destination']!=old['native_destination']
+                 and v['operations'][:len(old['operations'])]==old['operations']
+                 and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS),
+                 'V7_SAME_POOL_ALL_OLD_COSTS_HISTORY_AND_CLOCK_RETAINED')
+            v=old
+            del ab,lb,tb
+            continue
+        _validate_legacy_account(v)
+        _remember_accounts(pending);return original
+
+
+def _validate_legacy_account(v):
     stop,deadline=account_window(v)
     finite=finite_profile(v[V7_FINITE])if V7_FINITE in v else None
     need(v['scope']==SCOPE and v['caps']==CAPS and v['approval_sha256']==APPROVAL_SHA
@@ -251,31 +326,6 @@ def validate_account(v):
         and (finite is not None or v['charged_upper']['Core_CPU_s']+v['charged_upper']['PC_CPU_s']<=43200),
         'AGGREGATE_WHOLE_NIGHT_RESOURCE_BOUNDS')
     need(type(v['revision'])is int and v['revision']>=0,'NONNEGATIVE_ACCOUNT_REVISION')
-    if V7_CARRY in v:
-        carry=v[V7_CARRY]
-        fields={'policy_sha256','destination','account_base64','lease_base64','terminal_base64'}
-        need(set(carry)in(fields,fields|{'account_encoding'})
-             and carry['policy_sha256']==V7_POLICY,'EXACT_V7_CLOSED_SOURCE_CARRY')
-        ab,lb,tb=[closed_carry_bytes(carry,k)for k in ('account','lease','terminal')]
-        old=validate_account(json.loads(ab));lease,terminal=map(json.loads,(lb,tb))
-        need(old['native_adopted']is True and lease['status']=='CLOSED'and lease['all_children_terminal']is True
-             and lease['run_uuid']==Path(old['native_destination']).name
-             and lease['approval_sha256']==old['approval_sha256']
-             and terminal['status']=='FINITE_SOURCE_CHAIN_TERMINAL'
-             and terminal['closed_lease_sha256']==hashlib.sha256(lb).hexdigest(),
-             'ACTUAL_CLOSED_CHAIN_NOT_OLD_FAILURE_PROHIBITION_OR_LIVE_OWNER')
-        mutable={'native_destination','native_adopted','revision','custody','qualification_sha256',
-                 'charged_upper','operations',V7_CARRY}
-        if finite is not None:
-            mutable.update({V7_FINITE,'stop_new_epoch','deadline_epoch'})
-            need(all(0<=v['charged_upper'][k]-old['charged_upper'][k]<=finite['upper'][k]for k in CAPS),
-                 'ONE_FINITE_JOB_DELTA_OLD_COSTS_NEVER_RESET')
-        need(all(v.get(k)==value for k,value in old.items()if k not in mutable)
-             and v['native_destination']==carry['destination']!=old['native_destination']
-             and v['operations'][:len(old['operations'])]==old['operations']
-             and all(v['charged_upper'][k]>=old['charged_upper'][k]for k in CAPS),
-             'V7_SAME_POOL_ALL_OLD_COSTS_HISTORY_AND_CLOCK_RETAINED')
-        return v
     need(finite is None,'FINITE_V7_JOB_REQUIRES_FULL_CLOSED_PREDECESSOR_CARRY')
     if 'closed_cabinet_turn_speed_port05_carry'in v:
         carry=v['closed_cabinet_turn_speed_port05_carry']

@@ -1,0 +1,298 @@
+{
+  "schema": "PHASE1024_ACTUAL_RESTORE_MATCHED_TRAIN_AND_SOURCE_CHAIN_COLD_BLOCKER_V1",
+  "status": "PHASE4096_RUNNING_SOURCE_SUCCESSOR_NOT_ARMED",
+  "observed_epoch": 1793524493.3060093,
+  "TRAIN": {
+    "step": 1281,
+    "cursor": 40992,
+    "native_loss": 0.00385077646933496,
+    "learning_rate": [
+      8.251658687330787e-05,
+      8.251658687330787e-05
+    ],
+    "epoch": 1793524491.2729545
+  },
+  "checkpoint1024": {
+    "checkpoint_manifest_sha256": "d67600c6b293d13ca25cf464e58cfcc5c761b9ae8d9b41498488809732965f4c",
+    "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+    "model_reconstruction": true,
+    "optimizer_state_entries": 42,
+    "optimizer_updates": 1024,
+    "scheduler_restored": true,
+    "RNG_restored": true,
+    "sampler_cursor": 32768,
+    "frozen_parent_unchanged": true,
+    "standalone_model": false,
+    "certificate_sha256": "1396c437b464b63d6cd27acbdccc3366d318c33705df10cbfeb3f432c20f411f"
+  },
+  "matched_TRAIN16": {
+    "same_actual_inputs_seeds_noise": true,
+    "uniform": {
+      "phase": "after-1024",
+      "TRAIN_windows": 16,
+      "generation_queries": 16,
+      "native_loss_forwards": 16,
+      "native_loss_mean": 0.02560109313344583,
+      "expert_gate_rejects": 0,
+      "gate_rejects": 0,
+      "H40_XYZ_mean_m": 0.009025517250497828,
+      "H40_SO3_mean_rad": 0.00905750484013517,
+      "H40_gripper_MAE": 0.0388024258427322,
+      "prefix8_XYZ_mean_m": 0.008194754409408644,
+      "prefix8_SO3_mean_rad": 0.009162582749986624,
+      "prefix8_gripper_MAE": 0.04533264151012356
+    },
+    "phase": {
+      "phase": "after-1024",
+      "TRAIN_windows": 16,
+      "generation_queries": 16,
+      "native_loss_forwards": 16,
+      "native_loss_mean": 0.024200480038416572,
+      "expert_gate_rejects": 0,
+      "gate_rejects": 0,
+      "H40_XYZ_mean_m": 0.00850731465841387,
+      "H40_SO3_mean_rad": 0.007753434925821624,
+      "H40_gripper_MAE": 0.024293529631739322,
+      "prefix8_XYZ_mean_m": 0.008187125131492955,
+      "prefix8_SO3_mean_rad": 0.008233799314365272,
+      "prefix8_gripper_MAE": 0.032962541603906596
+    },
+    "windows": [
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 0,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 9.576842135151525,
+        "phase_Prefix8_XYZ_mm": 12.325664569709806,
+        "uniform_Prefix8_grip_MAE": 0.006093504753979767,
+        "phase_Prefix8_grip_MAE": 0.00014181841503489723
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 48,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 6.226233370668053,
+        "phase_Prefix8_XYZ_mm": 7.745411619319256,
+        "uniform_Prefix8_grip_MAE": 0.265485898337581,
+        "phase_Prefix8_grip_MAE": 0.05863517861474646
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 80,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 5.379999101936959,
+        "phase_Prefix8_XYZ_mm": 13.318407260265747,
+        "uniform_Prefix8_grip_MAE": 0.0750969553535635,
+        "phase_Prefix8_grip_MAE": 0.07407392290505498
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 160,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 4.200672057362652,
+        "phase_Prefix8_XYZ_mm": 10.251303707976293,
+        "uniform_Prefix8_grip_MAE": 0.0,
+        "phase_Prefix8_grip_MAE": 0.0
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 240,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 7.814320178498179,
+        "phase_Prefix8_XYZ_mm": 6.395457117287517,
+        "uniform_Prefix8_grip_MAE": 0.04451665688644757,
+        "phase_Prefix8_grip_MAE": 0.02530445090749047
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 320,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 3.5781145798835237,
+        "phase_Prefix8_XYZ_mm": 7.816951240736822,
+        "uniform_Prefix8_grip_MAE": 0.024987885897809814,
+        "phase_Prefix8_grip_MAE": 0.005105804990638388
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 400,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 7.318018314484191,
+        "phase_Prefix8_XYZ_mm": 5.450752359639207,
+        "uniform_Prefix8_grip_MAE": 0.0,
+        "phase_Prefix8_grip_MAE": 0.002969557588750671
+      },
+      {
+        "window": {
+          "id": "BOOK_SOURCE_SEED000",
+          "anchor": 600,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 10.391937173341239,
+        "phase_Prefix8_XYZ_mm": 6.569860705820087,
+        "uniform_Prefix8_grip_MAE": 0.0,
+        "phase_Prefix8_grip_MAE": 0.0
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 0,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 12.457416221834277,
+        "phase_Prefix8_XYZ_mm": 10.308898457956975,
+        "uniform_Prefix8_grip_MAE": 0.004973540251905273,
+        "phase_Prefix8_grip_MAE": 0.04036727954040874
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 8,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 15.921744896374175,
+        "phase_Prefix8_XYZ_mm": 15.46602738962851,
+        "uniform_Prefix8_grip_MAE": 0.0,
+        "phase_Prefix8_grip_MAE": 0.0
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 16,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 9.149162550606896,
+        "phase_Prefix8_XYZ_mm": 6.022275683562307,
+        "uniform_Prefix8_grip_MAE": 0.0,
+        "phase_Prefix8_grip_MAE": 0.0018312375653873753
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 32,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 8.325588445699223,
+        "phase_Prefix8_XYZ_mm": 6.024892651183783,
+        "uniform_Prefix8_grip_MAE": 0.11655055663802408,
+        "phase_Prefix8_grip_MAE": 0.2019930089061911
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 48,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 5.95088977560883,
+        "phase_Prefix8_XYZ_mm": 8.121487580766484,
+        "uniform_Prefix8_grip_MAE": 0.06113049997524783,
+        "phase_Prefix8_grip_MAE": 0.02606304193084891
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 80,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 7.577519259353515,
+        "phase_Prefix8_XYZ_mm": 4.1099096283981025,
+        "uniform_Prefix8_grip_MAE": 0.06928089328787544,
+        "phase_Prefix8_grip_MAE": 0.04695210605859758
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 160,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 9.80494328808961,
+        "phase_Prefix8_XYZ_mm": 6.9774047621636095,
+        "uniform_Prefix8_grip_MAE": 0.05371870981021362,
+        "phase_Prefix8_grip_MAE": 0.043939213183793166
+      },
+      {
+        "window": {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "anchor": 592,
+          "split": "TRAIN"
+        },
+        "uniform_Prefix8_XYZ_mm": 7.442669201645473,
+        "phase_Prefix8_XYZ_mm": 4.089297369472767,
+        "uniform_Prefix8_grip_MAE": 0.003487162969329133,
+        "phase_Prefix8_grip_MAE": 2.4045055562804674e-05
+      }
+    ]
+  },
+  "interpretation": [
+    "1024 TRAIN16 gripper errors improve on average; full Prefix8 position average is almost unchanged, and several home/grasp/carry windows worsen.",
+    "These are16 saved TRAIN windows; no learned task success, population score or unseen generalization claim.",
+    "Do not change active phase4096 sampling or select intermediate weights; final4096 remains the original DEV10 endpoint."
+  ],
+  "new_full4096_endpoint": 0,
+  "new_valid_DEV": 0,
+  "new_qualified_Teacher_demos": 0,
+  "original_resident_chain": {
+    "status": "ACTIVE_READY_FOR_DISCONNECT_PREVIOUSLY_VERIFIED",
+    "manager_PID": 1864125,
+    "producer_PID": 1864146,
+    "training_diagnostics_DEV_unchanged": true
+  },
+  "future_source_collection": {
+    "status": "STAGED_NOT_QUALIFIED_NOT_ARMED",
+    "new_GPU_physics_registrations": 0,
+    "actual_current_closed_source": "BOOK_SOURCE_SEED014",
+    "actual_account_bytes": 342425564,
+    "prearm_failures": [
+      "Module alias import; corrected additively before any arm.",
+      "Historical source006 differed from canonical current source014; corrected from native LOCAL.",
+      "CPU qualification ended without a certificate; no source registration or manager launch."
+    ],
+    "all_unknown_mutation_effects_independently_resolved": true,
+    "brief_SSH255_read_failed": true,
+    "subsequent_same_original_training_observed_healthy": true,
+    "NFS_or_SSH_configuration_changes": 0
+  },
+  "account_repair": {
+    "status": "PC_VALIDATED_NOT_NATIVE_DEPLOYED",
+    "same_old_account_history_checked": true,
+    "PC_cached_account_bytes": 342424730,
+    "baseline_full_validation_CPU_s": 19.893427534,
+    "baseline_peak_RSS_KiB": 5642844,
+    "iterative_full_validation_CPU_s": 28.200469566,
+    "iterative_peak_RSS_KiB": 2192120,
+    "cold_CPU_not_faster": true,
+    "method": "Validate the same full lineage iteratively; bounded hashes only after complete validation. New finite descendants keep duplicate closed history once in the existing lossless gzip carry.",
+    "costs_grants_caps_clocks_and_operations_retained": true,
+    "historical_records_not_deleted_or_rewritten": true,
+    "tests": {
+      "passed": 28,
+      "skipped": 3,
+      "skipped_reason": "Original section5 tests require explicit actual closed PC custody; not claimed passed."
+    }
+  },
+  "Rerun": {
+    "existing_saved_book_adapter_frames": 641,
+    "completed_commands": 640,
+    "actual_RGB_files_verified": 1282,
+    "no_new_render": true,
+    "new_source_RRD_not_generated": true
+  },
+  "next": [
+    "Deploy repaired source version into a separate inactive successor and complete native CPU qualification before arming wait-only manager.",
+    "Keep current TRAIN and existing diagnostic/DEV chain unchanged.",
+    "No new source registration until the whole old chain closes; pilot gates and original native safety remain."
+  ]
+}

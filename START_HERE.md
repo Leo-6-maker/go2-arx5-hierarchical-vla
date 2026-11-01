@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-11-01
 
+2026-11-01 17:14 SGT实测：**phase1024已保存并原生恢复42项AdamW/model/scheduler/RNG/cursor32768；同一正式训练已至1281/4096、40992次TRAIN访问。** 同输入/噪声TRAIN16与uniform1024比较，H40位置9.026→8.507mm、Prefix8夹爪MAE0.04533→0.03296；Prefix8位置均误几乎不变，home与部分搬运窗口反而变差，不能称完整任务改善。4096仍为主DEV端点，不改现役采样。**新采集接续仍未通过原生资格、未ARM**：已确认旧源账户约342MB；PC相同历史验证峰值RSS由约5.38降到2.09GiB，冷态CPU反而增加，修复未部署。无新增采集注册/物理/合格示范；全部资格失败效果已独立核清。原服务器训练—双诊断—DEV链继续有效。[1024实际对照与采集接续阻断](reports/PI0294/design/science-goal-v7-20261031/PHASE1024_MATCHED_TRAIN_AND_SOURCE_LINEAGE_COLD_BLOCKER_ACTUAL_20261101.json)。
+
 2026-11-01后继采集CPU实测：**phase4096同一正式训练已至980/4096、31360次TRAIN访问，当前训练—双TRAIN32—原DEV10接续不变。** 新增真实持夹事件接管/仅专家后缀导出、6张独立yaw±3°或抓点±2mm TRAIN卡及既有冷态采集顺序已实现；6/6新书名义整段静态路径通过，3类保存TRAIN持夹状态初始化和MuJoCo完整状态非修改捕获通过，尚无新增动态资格/示范。柜门原4张TRAIN卡保持；10张候选DEV静态8过2失败，归因为大开角把手—底座相交，保留候选失败，不能冒充模型泛化成绩。**新Teacher后继尚未挂载**，原服务器链已挂载；现役数据/统计/模型/队列不改。[后继准备、静态结果与部署边界](reports/PI0294/design/science-goal-v7-20261031/NEXT_SOURCE_COLLECTION_HELD_RECOVERY_GEOMETRY_CPU_ACTUAL_20261101.json)。
 
 2026-11-01阶段采样实测：**BOOK_PHASE4096_V1已在Core真实启动，最近53/4096更新、1696次TRAIN访问；服务器接续READY_FOR_DISCONNECT通过，同一manager在分离控制连接后存活并自主心跳。** 原生10更新资格完成并恢复42项AdamW/model/scheduler/RNG/cursor后CLOSED；正式模型重新从原b248初始化，数据12533窗与book统计不变，连续夹爪不变。训练完整关闭后自动串行uniform4096与phase4096的固定TRAIN32×3噪声诊断，再仅新4096原DEV10；安全STOP保留未运行，不重跑旧面板。另核对现有T1/T2各16条成功导出，PC选各10条形成42条目/25154窗的新共享候选；新统计未用于现役训练，柜门仍只有1条真实成功、4张新增TRAIN卡未执行。新增正式完整端点/有效DEV/自主成功仍0/0/0。[实际启动、断线生存与数据复用](reports/PI0294/design/science-goal-v7-20261031/BOOK_PHASE4096_NATIVE_STARTED_RESIDENT_READY_AND_REUSE42_ACTUAL_20261101.json)。
