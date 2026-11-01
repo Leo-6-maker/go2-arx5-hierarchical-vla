@@ -105,7 +105,7 @@ def optimization_rows(rows,p):
 
 
 class FitSampler(CyclicSampler):
-    def __init__(self,dataset,*,start=0,stop=None,fit_recipe=None):
+    def __init__(self,dataset,*,start=0,stop=None,fit_recipe=None,phase_index=None):
         p=plan()if fit_recipe is None else fit_recipe
         from .book_m32_learning import is_plan
         if not is_plan(p)and p not in(plan(),full_plan(),recovery_plan()):raise ValueError('FIT_EXACT_FROZEN_RECIPE')
@@ -113,10 +113,28 @@ class FitSampler(CyclicSampler):
         stop=p['TRAIN_visits']if stop is None else stop
         if stop>p['TRAIN_visits']:raise ValueError('FIT_NO_SAMPLER_EXPOSURE_EXTENSION')
         super().__init__(len(dataset),seed=p['seed'],start=start,stop=stop,positioned=True)
+        self.phase_sequence=None
+        from .book_phase_sampling import SCHEMA,sequence
+        if p['schema']==SCHEMA:
+            if phase_index is None:raise PermissionError('PHASE_SAMPLER_REQUIRES_SEALED_TRAIN_INDEX')
+            self.phase_sequence=sequence(dataset,phase_index,p)
+            self.phase_index_sha256=p['phase_index_sha256']
+
+    def __iter__(self):
+        if self.phase_sequence is None:
+            yield from super().__iter__();return
+        for cursor in range(self.start,self.stop):yield cursor,int(self.phase_sequence[cursor])
+
+    def state_dict(self,consumed):
+        value=super().state_dict(consumed)
+        if self.phase_sequence is not None:
+            value.update(algorithm='DETERMINISTIC_EPISODE_BALANCED_PHASE_STREAMS_V1',phase_index_sha256=self.phase_index_sha256)
+        return value
 
     def index_at(self,cursor):
         import numpy as np
         if not self.start<=cursor<self.stop:raise IndexError('FIT_FINITE_CURSOR')
+        if self.phase_sequence is not None:return int(self.phase_sequence[cursor])
         cycle,offset=divmod(cursor,self.size)
         return int(np.random.Generator(np.random.PCG64(self.seed+cycle)).permutation(self.size)[offset])
 
@@ -200,6 +218,9 @@ def run(root,instance,contract,guard):
     from .book_m32_learning import is_plan,promote_contract
     m32=is_plan(p)
     steps=p['max_steps'];visits=p['TRAIN_visits'];sampler_class=partial(FitSampler,fit_recipe=p)
+    from .book_phase_sampling import SCHEMA as PHASE_SCHEMA,load_index
+    if p['schema']==PHASE_SCHEMA:
+        sampler_class=partial(FitSampler,fit_recipe=p,phase_index=load_index(root,p))
     model=instance.model;parameters=dict(model.named_parameters());names=contract.trainable_names
     for name in names:parameters[name].requires_grad_(True)
     contract.validate()
@@ -302,6 +323,7 @@ def run(root,instance,contract,guard):
             self.train_dataset.processor.save_pretrained(cp/'processor')
             for name in('statistics.json','TRAIN_DEV_SEAL.json'):shutil.copyfile(data.root/name,cp/name)
             if m32:shutil.copyfile(data.root/'TRAIN_POPULATION.json',cp/'TRAIN_POPULATION.json')
+            if p['schema']==PHASE_SCHEMA:shutil.copyfile(root/'TRAIN_PHASE_INDEX.json',cp/'TRAIN_PHASE_INDEX.json')
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),

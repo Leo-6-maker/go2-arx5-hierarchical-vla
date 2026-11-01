@@ -41,6 +41,7 @@ def validate_delta_header(value,parent_sha256):
         p=value['recipe'];step=value.get('global_step')
         if step not in p.get('checkpoint_steps',[p['max_steps']]):raise PermissionError('EXACT_DECLARED_LEARNING_CURVE_ENDPOINT')
         endpoint=(step,step*32);required.update(('TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json'))
+        if p.get('schema')=='BOOK_PHASE4096_V1':required.add('TRAIN_PHASE_INDEX.json')
     elif schema=='BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1':endpoint=(256,8192)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==full_plan():endpoint=(1024,32768)
     elif schema=='BOOK_PARENT_BOUND_TARGET_DELTA_V2'and value.get('recipe')==recovery_plan():
@@ -60,7 +61,7 @@ def qualification_file_name(manifest,complete):
     name=manifest.get('delta_native_qualification_file',default)
     p=complete.get('recipe',{});step=complete.get('global_step')
     from .book_m32_learning import is_plan
-    intermediate=(is_plan(p)and p.get('schema')=='BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1'
+    intermediate=(is_plan(p)and p.get('schema')in('BOOK_M32_FIXED_DATA_LAST2_CONTINUOUS4096_V1','BOOK_PHASE4096_V1')
         and step in p['checkpoint_steps'][:-1])
     expected=f'ACTUAL_DELTA_CHECKPOINT_RESTORE_{step}.json'if intermediate else default
     if name!=expected:
