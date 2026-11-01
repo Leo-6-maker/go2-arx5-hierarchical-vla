@@ -20,6 +20,7 @@ def validate_manifest(m,p):
 
 def run(root,instance,guard):
     import numpy as np
+    import torch
     from scripts.pi0292.durable import read,write
     from scripts.pi0294.native_dataset import NativeDataset,sha
     from scripts.pi0294.e1.model import payload
@@ -33,7 +34,25 @@ def run(root,instance,guard):
     lookup={(r['id'],a):(r,a)for r,a in data.rows}
     data.rows=[lookup[r['id'],r['anchor']]for r in p['windows']];data.initialize()
     if any(r['split']!='TRAIN'for r,a in data.rows):raise PermissionError('TRAIN_DIAGNOSTICS_ONLY')
-    records=[]
+    records=[];memory=[]
+    request=read(root/'RUN_MANIFEST.json').get('GPU_inference_qualification')
+    def measure_capacity(phase):
+        if request is None:return
+        from .book_gpu_capacity import INFERENCE_REQUEST,entry_requirement
+        if request!=INFERENCE_REQUEST:raise PermissionError('EXACT_INFERENCE_CAPACITY_REQUEST')
+        entry_requirement(read(root/'RUN_MANIFEST.json'))
+        torch.cuda.synchronize();free,total=torch.cuda.mem_get_info()
+        memory.append(dict(phase=phase,free_bytes=free,total_bytes=total,
+            allocated_bytes=torch.cuda.memory_allocated(),reserved_bytes=torch.cuda.memory_reserved(),
+            maximum_allocated_bytes=torch.cuda.max_memory_allocated(),maximum_reserved_bytes=torch.cuda.max_memory_reserved()))
+        passed=min(r['free_bytes']for r in memory)>=request['minimum_headroom_bytes']
+        write(root/'GPU_INFERENCE_CAPACITY.json',dict(measurements=memory,
+            minimum_free_bytes=min(r['free_bytes']for r in memory),capacity_pass=passed,
+            completed_generations=len(records),optimizer_updates=0,physics_integrations=0,
+            training_admitted=False,free_is_shared_device_observation=True))
+        if not passed:raise PermissionError('INFERENCE_REQUIRES_ONE_GIB_ACTUAL_HEADROOM')
+    if request is not None:torch.cuda.reset_peak_memory_stats()
+    measure_capacity('AFTER_ACTUAL_MODEL_AND_PARENT_RESTORE')
     for i,window in enumerate(p['windows']):
         state,expert,images,text=data.raw(i);request=payload(state,images,text)
         for replicate in p['noise_replicates']:
@@ -55,6 +74,7 @@ def run(root,instance,guard):
                 prefix8_grip_signed_error_mean=float(np.mean(predicted[:8,9]-expert[:8,9])),
                 first_grip_absolute_error=float(abs(predicted[0,9]-expert[0,9])))
             put(root/(key+'.RESULT.json'),row);records.append(row)
+            measure_capacity('AFTER_GENERATION_'+str(len(records)))
             write(root/'DIAGNOSTIC_PROGRESS.json',dict(completed_generations=len(records),total=96))
     result=dict(status='COMPLETE_MATCHED_TRAIN32_PHASE_DIAGNOSTIC',records=records,generation_queries=96,
                 TRAIN_windows=32,noise_replicates=3,optimizer_updates=0,physics_integrations=0,formal_DEV_conditions=0,
