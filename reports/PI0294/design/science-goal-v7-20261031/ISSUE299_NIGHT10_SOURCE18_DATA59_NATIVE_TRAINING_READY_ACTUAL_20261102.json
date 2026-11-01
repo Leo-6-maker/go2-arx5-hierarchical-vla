@@ -1,0 +1,138 @@
+{
+  "schema": "ISSUE299_NIGHT10_SOURCE18_DATA59_ACTUAL_NATIVE_TRAINING_AND_RESIDENT_V1",
+  "as_of_SGT": "2026-11-02 02:07",
+  "publication": "ACTUAL_CORE_EXECUTION_NOT_A_PLAN",
+  "supplied_zip_sha256": "9cde548fd6f44ef11f989fa7243345f8548e43f29015a2f0cedc8c57311c5bc9",
+  "source_collection": {
+    "all18_first_attempts_executed": true,
+    "new_full_cabinet": 4,
+    "total_full_cabinet": 5,
+    "new_full_BOOK_geometry": 6,
+    "total_full_BOOK": 21,
+    "late_recovery_attempts": 8,
+    "qualified_expert_suffixes": 7,
+    "no_event_zero_expert_suffixes": 1,
+    "old_valid_DEV_retries": 0,
+    "old_source_manager07_status": "COMPLETE_TERMINAL",
+    "source_publication_kind": "PORT08_CUSTOM_TEACHER_NOT_ORIGINAL_ROBOCASA_BENCHMARK_OR_STUDENT_DEV"
+  },
+  "data": {
+    "status": "COMPLETE_ACTUAL_DATA_AUDIT",
+    "native_effects_closed": true,
+    "manifest_sha256": "95f2a8186ca5003d3757b0a6fe670d766cad12e0f3e2deb2deb364c575b2410f",
+    "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+    "entries": 59,
+    "windows": 34563,
+    "arms": {
+      "D0": {
+        "status": "ADMITTED_EXACT_OFFICIAL_TRAIN_SUBSET",
+        "entries": 21,
+        "windows": 12533,
+        "new_qualified_entries": 0
+      },
+      "D1": {
+        "status": "ADMITTED_EXACT_OFFICIAL_TRAIN_SUBSET",
+        "entries": 27,
+        "windows": 16139,
+        "new_qualified_entries": 6
+      },
+      "D2": {
+        "status": "ADMITTED_EXACT_OFFICIAL_TRAIN_SUBSET",
+        "entries": 28,
+        "windows": 15932,
+        "new_qualified_entries": 7
+      }
+    },
+    "source_attempts": 18,
+    "official_all_numeric_H40_and_both_RGB_qualification": true,
+    "old_book_statistics_unchanged": true,
+    "student_prefix_expert_labels": 0
+  },
+  "training": {
+    "D0_native10": {
+      "updates": 10,
+      "visits": 320,
+      "capacity": {
+        "qualification_only": true,
+        "actual_optimizer_updates": 10,
+        "saved_and_restored": true,
+        "minimum_observed_free_bytes": 10840965120,
+        "maximum_allocated_bytes": 15447903744,
+        "maximum_reserved_bytes": 16336814080,
+        "capacity_pass": true,
+        "measured_points": 6,
+        "measured_free_is_shared_device_not_exclusive_allocation": true
+      }
+    },
+    "D0_formal": {
+      "updates": 78,
+      "TRAIN_visits": 2496,
+      "PID": 2397166,
+      "proc_start": 332505222,
+      "InvocationID": "814d880dff4d471289bb20eaf63cff94",
+      "manifest_sha256": "3153fd6e7a6f5002d76524f77395e7aa8905a93e3aca50238f71d2dd4306518d",
+      "lease_sha256": "7f1853b1b6c56869d58d0857ac4e61364a3e5b711341444297662ea7b28d15d3",
+      "GPU": "GPU0",
+      "same_live_job_adopted_without_restart": true
+    },
+    "D1": {
+      "updates": 0,
+      "status": "ADMITTED_PENDING_FINITE_WINDOW"
+    },
+    "D2": {
+      "updates": 0,
+      "status": "ADMITTED_PENDING_FINITE_WINDOW"
+    }
+  },
+  "resident": {
+    "status": "READY_FOR_DISCONNECT_NIGHT10_MATCHED_ARMS",
+    "full_Issue299_scientific_DAG_complete": false,
+    "scope": "DATA_AUDIT_D0_ADOPTION_THREE_MATCHED_ARMS_TRAIN32_ORIGINAL_DEV_AND_DEV_CANDIDATE_REVIEW",
+    "unit": "core-night10-bound-20261102-02.service",
+    "PID": 2403766,
+    "proc_start": 332545246,
+    "InvocationID": "d5e27df9abb540ed880f3ae51f5a0eff",
+    "seal_sha256": "ffb39d2a804c763cb0b32ab590cff17a86a899047a1faed1ac1d372332580c33",
+    "plan_sha256": "22d7d05a6f26e7e6cf713c4b41a25f7fada61fbe1c3698a43de71ab0bbbb5ca6",
+    "started_epoch": 1793556345.377916,
+    "dispatch_deadline_epoch": 1793592345.377916,
+    "new_dispatch_window_s": 36000,
+    "stop_new_dispatch_SGT": "2026-11-02 12:05:45",
+    "independent_control_connection_heartbeat_epochs": [
+      1793556348.4158938,
+      1793556436.9027498
+    ],
+    "preexisting_linger": true,
+    "no_SSH_KRB_PC_or_Vanda_dependency": true,
+    "global_native_owner_lock_held": true,
+    "tasks": 9,
+    "data_audit": "COMPLETE",
+    "train_D0": "RUNNING_ADOPTED_ORIGINAL_NATIVE_WORKER",
+    "GPU1_inference": "PENDING_ACTUAL_EXTERNAL_OCCUPANCY",
+    "single_policy_failure_isolated_by_needs_and_after": true,
+    "unknown_native_effects_stop_new_dispatch": true,
+    "original_phase_result": {
+      "valid": 4,
+      "successes": 1,
+      "unrun": 6
+    }
+  },
+  "resources": {
+    "GPU0_total_MiB": 32760,
+    "GPU1_total_MiB": 16376,
+    "GPU1_free_MiB": 1125,
+    "GPU1_current_foreign_UID": 1005,
+    "GPU1_formal_training_admitted": false,
+    "GPU1_inference_entry_MiB": 13312,
+    "GPU1_inference_starts": 0,
+    "foreign_processes_untouched": true,
+    "free_SSD_bytes": 314546991104,
+    "SSD_margin_bytes": 32212254720
+  },
+  "limitations": [
+    "No new D0/D1/D2 DEV result yet; 10h window does not guarantee three4096 arms complete.",
+    "Source full Teacher and assisted recovery are not autonomous model DEV successes.",
+    "Shared raw-parent5000 four-task and target WBC are not included in this mounted matched-arm stage.",
+    "Private model inputs/logs/RGB and host-bound paths remain on Core."
+  ]
+}
