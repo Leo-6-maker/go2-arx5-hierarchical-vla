@@ -86,6 +86,14 @@ def select_rows(rows,fit_recipe=None):
 
 def optimization_rows(rows,p):
     if p==plan():return select_rows(rows)
+    from .book_bc_dagger import SCHEMA as BC_SCHEMA,is_plan as is_bc_plan
+    if p.get('schema')==BC_SCHEMA:
+        if not is_bc_plan(p):raise PermissionError('EXACT_FROZEN_BC_DAGGER_POPULATION')
+        expected={(r['id'],a)for r in p['TRAIN_entries']for a in range(r['windows'])}
+        if (len(rows)!=len(expected)or {(r['id'],a)for r,a in rows}!=expected
+                or any(r['split']!='TRAIN'or r.get('task')!='BOOK'for r,a in rows)):
+            raise PermissionError('ALL_AND_ONLY_DECLARED_BOOK_TRAIN_EXPERT_WINDOWS')
+        return list(rows)
     from .book_m32_learning import is_plan
     if is_plan(p):
         from .book_m32_export import COUNTS
@@ -233,9 +241,14 @@ def run(root,instance,contract,guard):
     probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
-        if m32 and (sha(ds.root/'TRAIN_POPULATION.json')!=p['TRAIN_population_sha256']
-                or ds.manifest['schema']!='BOOK_M32_TRAIN15_SIX_EXPERT_SUFFIXES_V1'):
-            raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
+        if m32:
+            if sha(ds.root/'TRAIN_POPULATION.json')!=p['TRAIN_population_sha256']:
+                raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
+            from .book_bc_dagger import SCHEMA as BC_SCHEMA,validate_population
+            if p['schema']==BC_SCHEMA:
+                validate_population(ds.manifest,read(ds.root/'TRAIN_POPULATION.json'),p)
+            elif ds.manifest['schema']!='BOOK_M32_TRAIN15_SIX_EXPERT_SUFFIXES_V1':
+                raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
         ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows,p);ds.initialize()
     if instance.identity['statistics_sha256']!=data.statistics_sha:raise PermissionError('FIT_GENERATION_AND_TRAINING_SAME_STATISTICS')
     data.make_sampler=sampler_class;set_seed(p['seed'])

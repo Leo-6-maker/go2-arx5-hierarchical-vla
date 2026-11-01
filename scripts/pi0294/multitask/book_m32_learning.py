@@ -39,6 +39,8 @@ def plan(dataset_sha256,statistics_sha256,population_sha256,*,blocks,steps):
 
 
 def is_plan(p):
+    from .book_bc_dagger import SCHEMA as BC_SCHEMA,is_plan as is_bc_plan
+    if p.get('schema')==BC_SCHEMA:return is_bc_plan(p)
     from .book_phase_sampling import SCHEMA as PHASE_SCHEMA
     if p.get('schema')==PHASE_SCHEMA:
         try:return p==phase_plan(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'],p['phase_index_sha256'],steps=p['max_steps'])
