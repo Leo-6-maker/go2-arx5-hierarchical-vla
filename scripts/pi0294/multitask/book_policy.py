@@ -288,7 +288,8 @@ def run(root,manifest_sha256):
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop);signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
     try:
         guard()
-        if torch.cuda.device_count()!=1 or torch.cuda.mem_get_info()[0]<24*1024**3:raise PermissionError('BOOK_DEV10_SHARED_GPU_REAL_FREE24GIB')
+        from scripts.pi0294.multitask.book_gpu_capacity import entry_requirement
+        if torch.cuda.device_count()!=1 or torch.cuda.mem_get_info()[0]<entry_requirement(m):raise PermissionError('BOOK_DEV10_EXPLICIT_NATIVE_GPU_CAPACITY_ENTRY')
         put(root/'MODEL_LOAD_INTENT.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],epoch=time.time()));loads+=1
         model,info=AutoModel.from_pretrained(m['parent_checkpoint'],**loader_kwargs(local_model_name(root,bindings),bindings['cosmos_hub'],COSMOS_REVISION));validate_loading(model,info)
         contract=ParameterContract(model,'E1_ADAPTER_ONLY',10);restore_keys=load_wrapped(model,checkpoint)
