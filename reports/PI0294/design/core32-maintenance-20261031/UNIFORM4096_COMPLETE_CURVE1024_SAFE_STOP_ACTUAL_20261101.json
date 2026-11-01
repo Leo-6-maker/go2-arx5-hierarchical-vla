@@ -1,0 +1,234 @@
+{
+  "schema": "UNIFORM4096_COMPLETE_CURVE1024_PARTIAL_DEV_ACTUAL_V1",
+  "observed_SGT": "2026-11-01T11:46:30.565286+08:00",
+  "status": "PRODUCER_COMPLETE_AND_REAL_AUTOMATIC_DEV_SAFE_STOP",
+  "training": {
+    "run": "v7-book-m32-b2-updates4096-01",
+    "source": "abaec48ac7a5d8079df07da774ad97658b03438b",
+    "closed_SGT": "2026-11-01T02:04:54.568757+08:00",
+    "optimizer_updates": 4096,
+    "actual_TRAIN_visits": 131072,
+    "distinct_TRAIN_windows": 12533,
+    "TRAIN_episodes": 21,
+    "full_actual_trace_and_inputs_labels_gates_independently_checked": true,
+    "checkpoint_parent_model_AdamW_scheduler_RNG_cursor_restored": true,
+    "optimizer_states": 42,
+    "checkpoints": {
+      "1024": "4fafaa8c2405922f5525a9c1e36b8db9416cd13b7fa10e08f2dd6eb1e7da1e09",
+      "2048": "5d4008f79cfa0b409d5b007b081933b5a683255e5034e6450f134bea77139d4e",
+      "4096": "63617414f841e5225662995c8fa0921a831da51c1f17260364e77ae08b92613a"
+    },
+    "full_parent_required": true,
+    "metrics_fixed_TRAIN16": {
+      "before": {
+        "phase": "before",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.04357982281362638,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.01637211787421943,
+        "H40_SO3_mean_rad": 0.013789333188802417,
+        "H40_gripper_MAE": 0.046042520468207934,
+        "prefix8_XYZ_mean_m": 0.01674602169250794,
+        "prefix8_SO3_mean_rad": 0.013833693687363249,
+        "prefix8_gripper_MAE": 0.0654690450226719
+      },
+      "after-1024": {
+        "phase": "after-1024",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.02560109313344583,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.009025517250497828,
+        "H40_SO3_mean_rad": 0.00905750484013517,
+        "H40_gripper_MAE": 0.0388024258427322,
+        "prefix8_XYZ_mean_m": 0.008194754409408644,
+        "prefix8_SO3_mean_rad": 0.009162582749986624,
+        "prefix8_gripper_MAE": 0.04533264151012356
+      },
+      "after-2048": {
+        "phase": "after-2048",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.012094084369891789,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.005531264196617808,
+        "H40_SO3_mean_rad": 0.005769024424410773,
+        "H40_gripper_MAE": 0.017448239875110717,
+        "prefix8_XYZ_mean_m": 0.005342280636620223,
+        "prefix8_SO3_mean_rad": 0.006602680248657894,
+        "prefix8_gripper_MAE": 0.0063042603009803725
+      },
+      "after": {
+        "phase": "after",
+        "TRAIN_windows": 16,
+        "generation_queries": 16,
+        "native_loss_forwards": 16,
+        "native_loss_mean": 0.007409466139506549,
+        "expert_gate_rejects": 0,
+        "gate_rejects": 0,
+        "H40_XYZ_mean_m": 0.004264644765228208,
+        "H40_SO3_mean_rad": 0.0031572491192566297,
+        "H40_gripper_MAE": 0.008013057480142877,
+        "prefix8_XYZ_mean_m": 0.0035544000473141197,
+        "prefix8_SO3_mean_rad": 0.004309847421340234,
+        "prefix8_gripper_MAE": 0.0025540025142783457
+      }
+    },
+    "actual_CPU_s": 22393.9394,
+    "actual_GPU_allocated_s_upper": 20865,
+    "own_allocated_bytes_before_closing": 2903179264,
+    "source_audit_sha256": "a20daeed2d95dba51ceb5df78cdb3520f9fff04ae20db7ae8dc2d28a6a90f545",
+    "closed_lease_sha256": "4b1c1f2237813867d2310b65931dc1fc59f754e685743e1645227b638ffab0fa"
+  },
+  "automatic_continuation": {
+    "actually_started_first_eval": true,
+    "queue_state": "SAFE_STOP",
+    "stopped_SGT": "2026-11-01T02:07:00.328145+08:00",
+    "resident_owner_now_inactive": true,
+    "reason": "NATIVE_SAFETY_STOP_AUTOMATIC_RESET_NOT_QUALIFIED",
+    "panels": [
+      {
+        "endpoint": 1024,
+        "valid": 2,
+        "successes": 0,
+        "unrun": 8,
+        "hard_native_safety": 1,
+        "status": "CLOSED_INDEPENDENTLY_READ_BACK"
+      },
+      {
+        "endpoint": 2048,
+        "valid": 0,
+        "successes": 0,
+        "unrun": 10,
+        "status": "PAUSED_PRIOR_NATIVE_SAFETY_STOP"
+      },
+      {
+        "endpoint": 4096,
+        "valid": 0,
+        "successes": 0,
+        "unrun": 10,
+        "status": "PAUSED_PRIOR_NATIVE_SAFETY_STOP"
+      }
+    ],
+    "event_training": "SKIPPED_NOT_READY"
+  },
+  "DEV1024": {
+    "conditions": [
+      {
+        "id": "BOOK_DEV000",
+        "valid": true,
+        "success": false,
+        "completed_intervals": 400,
+        "model_queries": 51,
+        "task_stop_s": 20.0,
+        "reason": "MODEL_REFERENCE_LINEAR_SPEED_REJECT",
+        "observed_speed_mps": 2.444831240046228,
+        "original_limit_mps": 2.0,
+        "raw_sha256": "d6ad8ee74ca83eed32ac0e4bbae2d71d034cef382bfa98630e7a5010a4a6685a"
+      },
+      {
+        "id": "BOOK_DEV001",
+        "valid": true,
+        "success": false,
+        "completed_intervals": 161,
+        "model_queries": 21,
+        "task_stop_s": 8.074,
+        "reason": "BOOK_FELL_FLOOR_PENETRATION_NATIVE_SAFETY_STOP",
+        "engine_time_including_5s_warmup": 13.074,
+        "contact": [
+          "floor",
+          "libero_black_book_geom_1"
+        ],
+        "penetration_m": 0.007002646654303529,
+        "raw_sha256": "c719abd613dc5e2f69cb94459198c8d528e084fa0c412be9e4c32033e8263465"
+      }
+    ],
+    "phase_statistics": {
+      "cases": [
+        {
+          "id": "BOOK_DEV000",
+          "actual_observations": 401,
+          "observed_task_duration_s": 19.99999999999735,
+          "maximum_20Hz_book_center_rise_m": 0.04713011817129287,
+          "native_grasp_observations": 26,
+          "first_observed_native_grasp_s": 3.1499999999997197,
+          "last_observed_native_grasp_s": 6.100000000000705,
+          "final_observed_native_grasp": false,
+          "final_observed_book_center_z_m": 0.46032446845190367
+        },
+        {
+          "id": "BOOK_DEV001",
+          "actual_observations": 162,
+          "observed_task_duration_s": 8.050000000001356,
+          "maximum_20Hz_book_center_rise_m": 0.042227573024619436,
+          "native_grasp_observations": 41,
+          "first_observed_native_grasp_s": 3.1499999999997197,
+          "last_observed_native_grasp_s": 7.600000000001206,
+          "final_observed_native_grasp": false,
+          "final_observed_book_center_z_m": 0.13870526936006908
+        }
+      ],
+      "sampling": "20Hz saved observations; not exact first/last 500Hz event",
+      "observed_epoch": 1793504855.7538767,
+      "new_models_physics": 0
+    },
+    "actual": {
+      "model_loads": 1,
+      "generation_queries": 72,
+      "valid_DEV_conditions": 2,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 8,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 19037,
+      "source_episode_starts": 2,
+      "source_constructors": 2,
+      "RGB_pairs": 565,
+      "optimizer_updates": 0,
+      "CPU_s": 105.896172,
+      "GPU_allocated_s_upper": 85,
+      "own_allocated_bytes_before_closing": 169922560,
+      "result_sha256": "b89127a27698779761ef54fbfd2ef8eb66d67e5640b57b73884d1b3b4b153508",
+      "checkpoint_manifest_sha256": "4fafaa8c2405922f5525a9c1e36b8db9416cd13b7fa10e08f2dd6eb1e7da1e09",
+      "OS_exit_code_not_retained_after_transient_unit_GC": true,
+      "STOP_sha256": "5906fd37172d8bcb025e6597a9a4c272369286141e3fc4a398d978c166b5b52d"
+    },
+    "audit_sha256": "9cbb55b3570eb9975bb2edf2c9a513993395aaff4a58d77fb88693e9aa9d1f19",
+    "closed_lease_sha256": "bb6b751e4de7307d91331b0d2a610b81d04edd8304f49dd026a0bdaf9333bc49"
+  },
+  "control_defect": {
+    "problem": "Staging read and final closed read shared one deduplication label; the final readonly step was skipped.",
+    "closure_writes_and_actual_condition_audit_succeeded": true,
+    "final_readback_completed_on_Core_this_morning": true,
+    "new_eval_or_close_write_replayed": false,
+    "actual_readback_sha256": "53bc20877ba8f2aa72226316b40fd45b7b515e68b7c1c29b14702591288238e2",
+    "future_fix": "Separate stage_read and closed_read labels; original defect reproduced and three endpoint final outputs verified through the real command deduplication path.",
+    "future_fix_not_deployed": true,
+    "old_capsule_inputs_unchanged": true
+  },
+  "source_population": {
+    "full_book_teacher": 15,
+    "full_custom_cabinet_teacher": 1,
+    "expert_recovery_suffixes": 6,
+    "new_qualified_teacher_this_night": 0,
+    "autonomous_full_skill_successes": 0,
+    "total_source_attempts": 53,
+    "total_source_integrations": 561016,
+    "total_source_RGB_pairs": 17432
+  },
+  "interpretation": "TRAIN fitting improves along the uniform curve. Only1024 has new real DEV evidence;2048/4096 task capability is unmeasured.0/2 observed successes, not0/10 or0/30.",
+  "limits": {
+    "same_frozen_model_data_noise_H40_Prefix8_scoring_safety": true,
+    "no_S1_T2_release": true,
+    "no_WBC_or_infrastructure_change": true,
+    "Vanda_not_probed_during_maintenance": true,
+    "full_goal_complete": false
+  },
+  "next_action": "Diagnose the recorded grip loss/book fall and independently qualify a cold safe source reset before considering the already fixed2048/4096 panels. Do not repeat completed1024 conditions or restart the closed queue blindly."
+}
