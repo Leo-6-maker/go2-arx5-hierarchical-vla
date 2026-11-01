@@ -162,6 +162,7 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         definitions={n:(template/'inputs'/n/(n+'.xml')).read_bytes()for n in ('black_book','desk_caddy')}
         engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
             asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        if hasattr(student,'bind_engine'):student.bind_engine(engine)
         (folder/'NATIVE_SCENE.private.xml').write_text(engine.xml)
         initial=engine.snapshot();images,cal=engine.render(initial)
         if initial['safety_valid']is not True or initial['native_grasp']:raise PermissionError('ORIGINAL_BOOK_NATIVE_INITIAL_SAFETY')
@@ -200,10 +201,12 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
     write(folder/'TERMINAL.json',terminal);a=audit(folder,execution_prefix=execution_prefix);write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
     valid=valid_model_condition(a,student.completed_generations,gate_rejected)
     hard_safety=a.get('original_native_safety_pass')is False
+    recovery=student.recovery_status()if hasattr(student,'recovery_status')else None
     return dict(id=condition['id'],xy_offset_m=condition['xy_offset_m'],valid_model_condition=valid,
         success=bool(a['task_success']),gate_rejected=gate_rejected,hard_native_safety=hard_safety,error=error,
         model_queries=student.queries,completed_generations=student.completed_generations,integrations=terminal['actual_integrations'],RGB_pairs=terminal['actual_RGB_pairs'],
-        raw_sha256=a['raw_sha256'],audit_sha256=sha(folder/'INDEPENDENT_RAW_AUDIT.json'),terminal_sha256=sha(folder/'TERMINAL.json'))
+        raw_sha256=a['raw_sha256'],audit_sha256=sha(folder/'INDEPENDENT_RAW_AUDIT.json'),terminal_sha256=sha(folder/'TERMINAL.json'),
+        **(dict(late_recovery=recovery,qualified_expert_recovery=bool(a['task_success']and a['original_native_safety_pass']and recovery['takeover_index']is not None))if recovery is not None else{}))
 
 
 def run(root,manifest_sha256):
@@ -222,13 +225,15 @@ def run(root,manifest_sha256):
     is_recovery_learning=m['kind']=='V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING'or is_m32
     is_fit=m['kind']in('V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_M32_FINITE_LEARNING')
     is_early_recovery=m['kind']=='V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL'
-    is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery
+    from scripts.pi0294.multitask.book_late_recovery import KIND as LATE_RECOVERY_KIND
+    is_late_recovery=m['kind']==LATE_RECOVERY_KIND
+    is_recovery=m['kind']=='V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC'or is_early_recovery or is_late_recovery
     is_rollout=m['kind']=='V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC'
     from scripts.pi0294.multitask.book_phase_diagnostic import KIND as PHASE_DIAGNOSTIC_KIND
     is_phase_diagnostic=m['kind']==PHASE_DIAGNOSTIC_KIND
     from scripts.pi0294.multitask.book_grip_decoder import KIND as GRIP_KIND,VERSION as GRIP_VERSION,validate_manifest as validate_grip_manifest
     is_grip_diagnostic=m['kind']==GRIP_KIND
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND,PHASE_DIAGNOSTIC_KIND)
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND,PHASE_DIAGNOSTIC_KIND,LATE_RECOVERY_KIND)
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_grip_diagnostic:validate_grip_manifest(m)
@@ -239,7 +244,9 @@ def run(root,manifest_sha256):
         from scripts.pi0294.multitask.book_fit import validate_manifest
         validate_manifest(m,read(root/'TRAIN_FIT_PLAN.json'))
     if is_recovery:
-        if is_early_recovery:
+        if is_late_recovery:
+            from scripts.pi0294.multitask.book_late_recovery import validate_manifest
+        elif is_early_recovery:
             from scripts.pi0294.multitask.book_early_recovery import validate_manifest
         else:
             from scripts.pi0294.multitask.book_recovery import validate_manifest
@@ -325,6 +332,8 @@ def run(root,manifest_sha256):
             from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,load_parent_delta,qualification_file_name
             delta=node_local(m['delta_checkpoint'])
             delta_complete=validate_delta_header(read(delta/'CHECKPOINT_COMPLETE.json'),m['checkpoint_manifest_sha256'])
+            if is_late_recovery and(delta_complete.get('recipe',{}).get('schema')!='BOOK_PHASE4096_V1'or delta_complete['global_step']!=4096):
+                raise PermissionError('LATE_RECOVERY_REQUIRES_FINAL_PHASE4096_NOT_CAPACITY_OR_OTHER_POLICY')
             delta_steps=delta_complete['global_step'];delta_cursor=delta_complete['cursor']
             certificate=producer/qualification_file_name(m,delta_complete)
             if (read(producer/'control/LEASE.json')['status']!='CLOSED'
@@ -389,7 +398,10 @@ def run(root,manifest_sha256):
                 student_factory=diagnostic.student_factory(Student,plan['execution_prefix']),
                 execution_prefix=plan['execution_prefix'])
         if is_recovery:
-            if is_early_recovery:
+            if is_late_recovery:
+                from scripts.pi0294.multitask import book_late_recovery as recovery
+                conditions=recovery.conditions(m['recovery_plan']['phase'])
+            elif is_early_recovery:
                 from scripts.pi0294.multitask import book_early_recovery as recovery
                 conditions=recovery.conditions()
             else:
@@ -425,7 +437,7 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status=('COMPLETE_BINARY_GRIP_DIAGNOSTIC'if len(rows)==10 else'STOPPED_PARTIAL_BINARY_GRIP_DIAGNOSTIC')if is_grip_diagnostic else ('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+        else:write(root/'RESULT.json',dict(status=('COMPLETE_BINARY_GRIP_DIAGNOSTIC'if len(rows)==10 else'STOPPED_PARTIAL_BINARY_GRIP_DIAGNOSTIC')if is_grip_diagnostic else ('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_LATE_TRAIN_RECOVERY_PANEL'if len(rows)==len(m['recovery_plan']['conditions'])else'STOPPED_PARTIAL_LATE_TRAIN_RECOVERY_PANEL')if is_late_recovery else ('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
             scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery or is_rollout or is_grip_diagnostic else sum(r['valid_model_condition']for r in rows),
             grip_diagnostic_conditions=sum(r['valid_model_condition']for r in rows)if is_grip_diagnostic else 0,
             student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
