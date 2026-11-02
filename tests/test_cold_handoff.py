@@ -48,3 +48,17 @@ def test_gpu1_unavailable_does_not_block_ready_gpu0():
     assert c.inference_choice(True,True)==1
     assert c.inference_choice(False,True)==1
     assert c.inference_choice(False,False)is None
+
+
+def test_authorized_gpu0_sharing_does_not_require_other_processes_to_exit():
+    args=(28000,24576,40*1024**3,36*1024**3)
+    assert c.gpu_resource_ready(*args,other_compute_present=True,shared_authorized=True)
+    assert not c.gpu_resource_ready(*args,other_compute_present=True)
+    assert c.gpu_resource_ready(*args,other_compute_present=False)
+
+
+def test_sharing_never_bypasses_actual_vram_or_host_ram():
+    assert not c.gpu_resource_ready(24000,24576,40*1024**3,36*1024**3,
+        other_compute_present=True,shared_authorized=True)
+    assert not c.gpu_resource_ready(28000,24576,35*1024**3,36*1024**3,
+        other_compute_present=True,shared_authorized=True)
