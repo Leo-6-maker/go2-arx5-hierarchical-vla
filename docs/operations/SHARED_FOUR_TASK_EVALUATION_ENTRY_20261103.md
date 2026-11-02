@@ -63,7 +63,17 @@ book/cabinet raw audits, reset faults, the raw Trainer, original T1/T2 score
 projection, fixed noise and same-device inference certificate rejection.
 These are fixtures, not physical success or GPU qualification.
 
-Core constructor/close checks, actual four-task camera/reset fault qualification,
-raw-model native10/native16, DEV rollouts and resident successor integration
-are still pending. The existing D2→CONTROL→BOUNDARY queue remains unchanged.
+Core subsequently adopted published source `d8e72055` in a new isolated CPU
+directory. Four tasks × two independent processes constructed and closed
+the original source scenes; all eight child exits were0, with identical
+initial witnesses within each task, original node-local assets, zero
+integrations/render pairs and no Torch/CUDA. Actual total child CPU was
+6.924105 seconds and independent source/result readback passed. This checks
+one representative condition per task, not all68 scenes or dynamic execution.
+See [the actual Core receipt](../../reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_CPU_CONSTRUCTOR_CLOSE_ACTUAL_20261103.json).
+The later asset-root node-local guard is a worker pre-model check; the GPU
+worker itself has not run.
+
+Actual four-task camera/reset fault qualification, raw-model native10/native16,
+DEV rollouts and resident successor integration are still pending. The existing D2→CONTROL→BOUNDARY queue remains unchanged.
 No new shared model endpoint, valid DEV condition or success is claimed.

@@ -139,6 +139,7 @@ def run(root,manifest_sha256):
         if sha(template/'RUN_MANIFEST.json')!=template_info['manifest_sha256']:raise PermissionError('EXACT_ORIGINAL_SOURCE_TEMPLATE')
         if read(template/'control/NATIVE_SOURCE_LEASE.json')['status']!='CLOSED':raise PermissionError('CLOSED_SOURCE_TEMPLATE')
         assets=read(template/'ASSET_BINDINGS.private.json')
+        node_local(assets['robot_root'])
         for pin in assets['files'].values():
             if sha(node_local(pin['path']))!=pin['sha256']:raise PermissionError('ORIGINAL_SHARED_SOURCE_ASSET_CHANGED')
     lock=OwnerLock(root.parent/'global-native-GPU-locks'/(m['GPU_uuid']+'.lock'))

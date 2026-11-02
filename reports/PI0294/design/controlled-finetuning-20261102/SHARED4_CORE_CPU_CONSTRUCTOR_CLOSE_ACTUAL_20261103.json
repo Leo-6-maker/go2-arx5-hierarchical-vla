@@ -1,0 +1,255 @@
+{
+  "schema": "SHARED4_ACTUAL_CORE_CPU_CONSTRUCT_CLOSE_ONLY_V1",
+  "observed_at_SGT": "2026-11-03T00:25:59.079375+08:00",
+  "source_commit": "d8e720550609017ba9fef4563e2836354d46e33a",
+  "result": {
+    "status": "ACTUAL_CORE_FOUR_TASK_CPU_CONSTRUCTOR_CLOSURE_PASSED",
+    "source_commit": "d8e720550609017ba9fef4563e2836354d46e33a",
+    "tasks": {
+      "T1": {
+        "passed": true,
+        "two_processes": true,
+        "identical_initial_witness": true,
+        "conditions": [
+          {
+            "repeat": 0,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          },
+          {
+            "repeat": 1,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          }
+        ]
+      },
+      "T2": {
+        "passed": true,
+        "two_processes": true,
+        "identical_initial_witness": true,
+        "conditions": [
+          {
+            "repeat": 0,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          },
+          {
+            "repeat": 1,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          }
+        ]
+      },
+      "BOOK": {
+        "passed": true,
+        "two_processes": true,
+        "identical_initial_witness": true,
+        "conditions": [
+          {
+            "repeat": 0,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          },
+          {
+            "repeat": 1,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          }
+        ]
+      },
+      "DOOR": {
+        "passed": true,
+        "two_processes": true,
+        "identical_initial_witness": true,
+        "conditions": [
+          {
+            "repeat": 0,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          },
+          {
+            "repeat": 1,
+            "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+            "error": null,
+            "physics_integrations": 0,
+            "render_pairs": 0
+          }
+        ]
+      }
+    },
+    "actual_native_children": 8,
+    "child_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "CPU_s": 6.924105,
+    "physics_integrations": 0,
+    "render_pairs": 0,
+    "CUDA_initialized": false,
+    "neural_models": 0,
+    "optimizer_updates": 0,
+    "native_GPU_camera_dynamic_or_RESET_fault_qualification": false,
+    "shared_training_or_DEV_mounted": false,
+    "epoch": 1793636634.5015242
+  },
+  "result_sha256": "7696d5d5efc6f062213bb0c68f8ff44b6f320183cb7a475619be0a96596a995e",
+  "children": [
+    {
+      "task": "T1",
+      "repeat": 0,
+      "PID": 4123515,
+      "proc_start": "340573430",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.578783045,
+      "maximum_RSS_bytes": 350175232
+    },
+    {
+      "task": "T1",
+      "repeat": 1,
+      "PID": 4123533,
+      "proc_start": "340573521",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.5651112199999999,
+      "maximum_RSS_bytes": 350240768
+    },
+    {
+      "task": "T2",
+      "repeat": 0,
+      "PID": 4123553,
+      "proc_start": "340573601",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.5626130890000001,
+      "maximum_RSS_bytes": 350212096
+    },
+    {
+      "task": "T2",
+      "repeat": 1,
+      "PID": 4123573,
+      "proc_start": "340573676",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.564779787,
+      "maximum_RSS_bytes": 350232576
+    },
+    {
+      "task": "BOOK",
+      "repeat": 0,
+      "PID": 4123594,
+      "proc_start": "340573756",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.937317788,
+      "maximum_RSS_bytes": 530702336
+    },
+    {
+      "task": "BOOK",
+      "repeat": 1,
+      "PID": 4123618,
+      "proc_start": "340573876",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.939844745,
+      "maximum_RSS_bytes": 530288640
+    },
+    {
+      "task": "DOOR",
+      "repeat": 0,
+      "PID": 4123638,
+      "proc_start": "340573995",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.6412993039999999,
+      "maximum_RSS_bytes": 412078080
+    },
+    {
+      "task": "DOOR",
+      "repeat": 1,
+      "PID": 4123712,
+      "proc_start": "340574079",
+      "status": "PASS_FRESH_SOURCE_CONSTRUCTOR_AND_CLOSE_NO_RENDER_OR_STEP",
+      "MuJoCo_version": "3.2.7",
+      "numpy_version": "1.26.4",
+      "Torch_imported": false,
+      "CPU_s": 0.635237827,
+      "maximum_RSS_bytes": 412225536
+    }
+  ],
+  "independent_all_staged_source_and_native_receipt_readback": true,
+  "task_asset_roots_node_local_and_same_filesystem": true,
+  "original_controller_and_score_sources_unchanged": true,
+  "CPU_cost_note": "6.924105 child CPU seconds are already included in existing ControlIO actual call; not added twice.",
+  "targeted_PC_regressions_passed": 95,
+  "D2": {
+    "GPU": 1,
+    "PID": 3918079,
+    "manager_PID": 3892803,
+    "progress": {
+      "step": 779,
+      "cursor": 24928,
+      "native_loss": 0.004290879238396883,
+      "learning_rate": [
+        9.415391459989203e-05,
+        9.415391459989203e-05
+      ],
+      "epoch": 1793636757.9583042
+    },
+    "same_native_identity": true,
+    "active_source_and_queue_unchanged": true
+  },
+  "existing_mounted_queue": [
+    "D2",
+    "PHASE_CONTROL",
+    "EXTRA_BOUNDARY",
+    "SUMMARY"
+  ],
+  "shared_model_GPU_training_native10": false,
+  "shared_model_GPU_inference_native16": false,
+  "all_four_native_cameras_and_fault_injection_qualification": false,
+  "shared_formal_training_or_DEV_mounted": false,
+  "new_shared_endpoints": 0,
+  "new_shared_valid_DEV_conditions": 0,
+  "pending": [
+    "Original native dual-camera checks for all four source task entries",
+    "Core native reset/cold predecessor and failure-injection qualification",
+    "Raw GR00T native10 full training/restore with same-device2GiB margin",
+    "Same-checkpoint native16 inference qualification with1GiB margin",
+    "Registered cold-boundary continuation and actual68-condition DEV execution"
+  ]
+}

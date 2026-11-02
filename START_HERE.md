@@ -1,4 +1,6 @@
-# 当前入口 · Goal V7 · 2026-11-02
+# 当前入口 · Goal V7 · 2026-11-03
+
+2026-11-03 00:25 SGT Core实测：**四任务共享评价入口已接通原采集、控制与各任务评分，保留T1/T2各24、BOOK10、DOOR10全部已暴露DEV；未运行面板。** 在独立新目录采用已发布源码，四类任务各两个原生独立进程实际重建／关闭同一初态，8个子进程OS0、MuJoCo3.2.7／NumPy1.26.4、总6.924 CPU秒，无Torch／CUDA、积分或渲染；原资产实际节点本地。95项定向CPU检查通过。**D2同GPU1身份继续779/4096、24928访问，原自动队列未改；完整相机／reset故障、raw模型GPU原生训练及推理资格、共享正式任务仍未挂载，新增共享端点／DEV为0。** [实际构造／关闭与剩余边界](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_CPU_CONSTRUCTOR_CLOSE_ACTUAL_20261103.json)。
 
 2026-11-02 23:35 SGT Core实测：**共享raw-parent训练入口与独立delta恢复消费已实现，复用原NativeDataset／官方loss／Trainer，不继承book128或b248。** 隔离CPU接缝在Core PyTorch2.9.0／NumPy1.26.4实际读34563窗、核四任务各4诊断窗；42项原始BF16张量与PC逐值身份一致，FP32参数容器的改动拒绝／恢复及320前缀／cursor131072通过，子进程OS0／2.996 CPU秒、未初始化CUDA或构建GR00T模型。66项定向CPU检查通过。**D2同身份继续594/4096、19008访问，自动PB队列原字节不变；raw模型GPU native10、完整任务评价和共享正式8192仍未挂载，新共享端点／DEV为0。** [实际Core验证与剩余准入](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_RAW_TRAINER_CORE_CPU_ACTUAL_20261102.json)。
 
