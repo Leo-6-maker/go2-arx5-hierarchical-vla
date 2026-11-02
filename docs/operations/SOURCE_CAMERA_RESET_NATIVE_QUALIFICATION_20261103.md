@@ -62,6 +62,21 @@ reset, sampling/data/training and Night10 regressions. These are CPU fixtures,
 not native qualification. Source compilation and diff checks passed. Full CI
 has not been claimed.
 
-At this publication the new native command is implemented but **not yet
-mounted or GPU-qualified**. Deployment and actual outcome must be reported
-from the real Core unit and its separate connection readback.
+At 2026-11-03 01:19 SGT, the corrected immutable capsule was actually
+registered, passed the original Core entry preflight and independent 37-file
+readback, and was mounted in the existing Night10 user mechanism. PID4174758
+and InvocationID 07e2faa06f144ec9bcb935d3d51fa8a8 stayed identical after separate
+control connections, with advancing heartbeat. The task remains **PENDING**:
+GPU0 has 1668 MiB free, below its original 2048 MiB entry. No qualification
+constructor or RGB pair has run and no qualification certificate exists yet.
+The ten-hour dispatch window ends at 2026-11-03 11:17 SGT; expired waits are
+reported unrun rather than restarted automatically.
+
+The first staged capsule was closed before any launch when review found the
+probe needed an explicit node-local working directory. Its source, preflight
+and costs are retained. No active job was patched. D2 continued to 976/4096
+updates on GPU1, and the original M13 training source and queue are unchanged.
+
+See the [actual finite queue receipt](../../reports/PI0294/design/controlled-finetuning-20261102/SOURCE_CAMERA_RESET_QUEUED_ACTUAL_20261103.json).
+This is READY_FOR_RESOURCE_WAIT_ONLY; native camera/reset qualification and
+all subsequent neural training/inference and formal DEV remain unproven.
