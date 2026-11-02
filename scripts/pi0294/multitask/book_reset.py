@@ -93,19 +93,102 @@ def unit_state(name):
     if not isinstance(name, str) or '/' in name or not name.endswith('.service'):
         raise PermissionError('EXACT_PREDECESSOR_USER_UNIT')
     p = subprocess.run(['systemctl', '--user', 'show', name, '-p', 'MainPID',
-        '-p', 'ControlGroup', '-p', 'SubState'], capture_output=True, text=True, check=True, timeout=5)
+        '-p', 'ControlGroup', '-p', 'SubState', '-p', 'InvocationID'],
+        capture_output=True, text=True, check=True, timeout=5)
     return dict(line.split('=', 1) for line in p.stdout.splitlines() if '=' in line)
 
 
-def live_writers(root, *, proc=Path('/proc')):
-    """Inspect only this uid's writable descriptors; never scan Home or kill."""
-    root = Path(root).resolve(); found = []
+def process_identity(pid, *, proc=Path('/proc')):
+    """Linux start ticks disambiguate a registered PID, including names with ')'."""
+    path = proc/str(pid)
+    if path.stat().st_uid != os.getuid():
+        raise PermissionError('REGISTERED_PROCESS_OWNER_CHANGED')
+    fields = (path/'stat').read_text().rsplit(')', 1)[1].split()
+    return dict(PID=int(pid), start_ticks=int(fields[19]), PPID=int(fields[1]))
+
+
+def registered_writer_scope(root, unit, state, *, extra_pids=()):
+    """Capture the live launch identity for sealing in RESET_PREDECESSOR.json.
+
+    Every external project consumer must be registered here before custody is
+    closed. Ordinary children remain covered by ancestry and the unit cgroup.
+    No name-based daemon exemption or same-UID descriptor census is used.
+    """
+    group = state.get('ControlGroup', '')
+    invocation = state.get('InvocationID', '')
+    main = int(state.get('MainPID', '0'))
+    if (unit != Path(root).name+'.service' or not group.startswith('/')
+            or '..' in Path(group).parts or Path(group).name != unit or main <= 0
+            or len(invocation) != 32 or any(c not in '0123456789abcdef' for c in invocation)):
+        raise PermissionError('LIVE_REGISTERED_UNIT_IDENTITY_REQUIRED')
+    processes = [process_identity(pid) for pid in sorted({main, *extra_pids})]
+    membership = (Path('/proc')/str(main)/'cgroup').read_text().splitlines()
+    if '0::'+group not in membership:
+        raise PermissionError('REGISTERED_MAIN_PID_CGROUP_MISMATCH')
+    return dict(schema='REGISTERED_PROJECT_WRITER_SCOPE_V1', root=str(Path(root).resolve()),
+        unit=unit, InvocationID=invocation, ControlGroup=group,
+        host=os.uname().nodename, uid=os.getuid(),
+        boot_id=Path('/proc/sys/kernel/random/boot_id').read_text().strip(), processes=processes)
+
+
+def validate_writer_scope(root, scope):
+    if (not isinstance(scope, dict) or scope.get('schema') != 'REGISTERED_PROJECT_WRITER_SCOPE_V1'
+            or scope.get('root') != str(Path(root).resolve())
+            or scope.get('unit') != Path(root).name+'.service'
+            or scope.get('host') != os.uname().nodename or scope.get('uid') != os.getuid()
+            or scope.get('boot_id') != Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+            or not isinstance(scope.get('processes'), list) or not scope['processes']):
+        raise PermissionError('REGISTERED_PROJECT_WRITER_SCOPE_REQUIRED')
+    group = scope.get('ControlGroup', '')
+    invocation = scope.get('InvocationID', '')
+    if (not isinstance(group, str) or not group.startswith('/') or '..' in Path(group).parts
+            or Path(group).name != scope['unit'] or not isinstance(invocation, str)
+            or len(invocation) != 32 or any(c not in '0123456789abcdef' for c in invocation)
+            or any(not isinstance(p, dict) or type(p.get('PID')) is not int or p['PID'] <= 0
+                or type(p.get('start_ticks')) is not int or p['start_ticks'] <= 0 for p in scope['processes'])
+            or len({p['PID'] for p in scope['processes']}) != len(scope['processes'])):
+        raise PermissionError('AMBIGUOUS_REGISTERED_PROCESS_SCOPE')
+
+
+def scoped_processes(scope, proc):
+    """Read ancestry metadata; open FDs only for registered processes/children."""
+    registered = {p['PID']:p['start_ticks'] for p in scope['processes']}
+    rows = {}
     for process in proc.iterdir():
         if not process.name.isdecimal():
             continue
+        pid = int(process.name)
         try:
-            if process.stat().st_uid != os.getuid():
-                continue
+            rows[pid] = process_identity(pid, proc=proc)
+        except FileNotFoundError:
+            if process.exists():
+                raise PermissionError('PROCESS_IDENTITY_UNKNOWN')
+        except PermissionError:
+            if pid in registered:
+                raise  # Relevant identity denied is UNKNOWN, never a waiver.
+    for pid, start in registered.items():
+        if pid in rows and rows[pid]['start_ticks'] != start:
+            raise PermissionError('REGISTERED_PID_REUSED_OR_AMBIGUOUS')
+    selected = set(registered) & rows.keys()
+    while True:
+        children = {pid for pid, row in rows.items() if row['PPID'] in selected}
+        if children <= selected:
+            return {pid:rows[pid] for pid in selected}
+        selected |= children
+
+
+def live_writers(root, *, scope, proc=Path('/proc')):
+    """Inspect sealed project identities and descendants, not unrelated user FDs."""
+    root = Path(root).resolve(); validate_writer_scope(root, scope); found = []
+    selected = scoped_processes(scope, proc)
+    for pid, identity in selected.items():
+        process = proc/str(pid); handle = None
+        try:
+            # Pin the actual live process while inspecting its descriptors.
+            if proc == Path('/proc') and hasattr(os, 'pidfd_open'):
+                handle = os.pidfd_open(pid)
+            if process_identity(pid, proc=proc) != identity:
+                raise PermissionError('REGISTERED_PROCESS_CHANGED_DURING_INSPECTION')
             for fd in (process/'fd').iterdir():
                 try:
                     target = Path(os.readlink(fd).removesuffix(' (deleted)'))
@@ -117,8 +200,16 @@ def live_writers(root, *, proc=Path('/proc')):
                         found.append(dict(PID=int(process.name), fd=int(fd.name), relative_path=str(target.relative_to(root))))
                 except FileNotFoundError:
                     continue  # That process/descriptor has actually gone away.
-        except FileNotFoundError:
-            continue
+            if process_identity(pid, proc=proc) != identity:
+                raise PermissionError('REGISTERED_PROCESS_CHANGED_DURING_INSPECTION')
+        except (FileNotFoundError, ProcessLookupError):
+            if process.exists():
+                raise PermissionError('RELEVANT_PROCESS_DESCRIPTORS_UNKNOWN')
+        finally:
+            if handle is not None:
+                os.close(handle)
+    if scoped_processes(scope, proc) != selected:
+        raise PermissionError('PROJECT_PROCESS_SET_CHANGED_DURING_INSPECTION')
     return found
 
 
@@ -175,7 +266,13 @@ def verify_predecessor(predecessor, *, current_root, expected_previous=None,
     state = observe_unit(predecessor['unit'])
     if state.get('MainPID') != '0' or state.get('SubState') not in ('dead', 'failed', 'exited'):
         raise PermissionError('PREDECESSOR_PROCESS_STILL_LIVE_OR_UNKNOWN')
-    group = state.get('ControlGroup')
+    scope = predecessor.get('process_scope')
+    if writers is live_writers:
+        validate_writer_scope(root, scope)
+        if (state.get('InvocationID') != scope['InvocationID']
+                or state.get('ControlGroup') not in ('', scope['ControlGroup'])):
+            raise PermissionError('PREDECESSOR_UNIT_INVOCATION_OR_CGROUP_CHANGED')
+    group = scope['ControlGroup'] if writers is live_writers else state.get('ControlGroup')
     if group:
         relative = Path(group.lstrip('/'))
         if '..' in relative.parts:
@@ -186,8 +283,10 @@ def verify_predecessor(predecessor, *, current_root, expected_previous=None,
             for f in directory.rglob('cgroup.procs'):
                 if f.read_text().strip():
                     raise PermissionError('PREDECESSOR_CHILD_PROCESS_STILL_LIVE')
-    if writers(root):
+    if (writers(root, scope=scope) if writers is live_writers else writers(root)):
         raise PermissionError('PREDECESSOR_RESIDUAL_WRITER')
+    if observe_unit(predecessor['unit']) != state:
+        raise PermissionError('PREDECESSOR_UNIT_CHANGED_DURING_WRITER_INSPECTION')
     return dict(protocol=PROTOCOL, predecessor=root.name, process_terminal=True,
         cgroup_empty=True, no_residual_writers=True, CLOSED_lease_verified=True)
 

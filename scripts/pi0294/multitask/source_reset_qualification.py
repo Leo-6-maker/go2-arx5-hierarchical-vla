@@ -172,7 +172,7 @@ def child(root, task, repeat, *, dirty=False):
 
 def predecessor_faults(root):
     """Use a real finite user unit and a real writer; no mocked OS observer."""
-    from .book_reset import verify_predecessor, unit_state
+    from .book_reset import verify_predecessor, unit_state, registered_writer_scope
     from scripts.pi0292.durable import write
     root = Path(root); previous = root.with_name(root.name+'-probe'); previous.mkdir(exist_ok=False)
     (previous/'control').mkdir()
@@ -185,8 +185,10 @@ def predecessor_faults(root):
             manifest_sha256=sha(previous/'RUN_MANIFEST.json'), result_sha256=sha(previous/'RESULT.json'))
     write(previous/'control/LEASE.json', dict(lease('CLOSED'), deliberate_fault_injection_only=True))
     put(previous/'FAULT_CLOSED_LEASE.json', read(previous/'control/LEASE.json'))
+    scope = None
     def predecessor():
         return dict(root=str(previous), unit=previous.name+'.service',
+            process_scope=scope,
             files={n:sha(previous/n) for n in ('RUN_MANIFEST.json','RESULT.json','control/LEASE.json')})
     def reject(label, expected):
         try:
@@ -210,6 +212,9 @@ def predecessor_faults(root):
         live = unit_state(previous.name+'.service')
         if int(live['MainPID']) != read(previous/'ACTOR_READY.json')['PID']:
             raise PermissionError('REAL_PREDECESSOR_PROCESS_IDENTITY')
+        scope = registered_writer_scope(previous, previous.name+'.service', live,
+            extra_pids=(os.getpid(),))
+        put(previous/'REGISTERED_WRITER_SCOPE.json',scope)
         evidence['live_predecessor_rejected'] = dict(reject('live','PROCESS_STILL_LIVE'), actual_unit=live)
         (previous/'EXIT_REQUESTED').touch(exist_ok=False)
         stop = time.monotonic()+12
@@ -224,6 +229,13 @@ def predecessor_faults(root):
             actual_unit=state, actual_actor=read(previous/'ACTOR_READY.json'), error=None))
         write(previous/'control/LEASE.json',lease('CLOSED'))
         evidence['positive_closed_predecessor'] = verify_predecessor(predecessor(),current_root=root)
+        # A reused/ambiguous live registered PID remains a hard refusal.
+        owner = next(p for p in scope['processes'] if p['PID']==os.getpid())
+        owner['start_ticks'] += 1
+        try:
+            evidence['registered_pid_reuse_rejected'] = reject('pid_reuse','PID_REUSED_OR_AMBIGUOUS')
+        finally:
+            owner['start_ticks'] -= 1
         write(previous/'control/LEASE.json',lease('UNKNOWN'))
         evidence['unknown_close_rejected'] = reject('unknown','CLOSE_NOT_ESTABLISHED')
         put(previous/'FAULT_UNKNOWN_LEASE.json',read(previous/'control/LEASE.json'))
