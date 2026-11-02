@@ -216,12 +216,19 @@ def initial_witness(engine,student,card):
 def run_condition(root,condition,instance,template,guard):
     from .night_book_audit import audit
     task=condition['task'];kind='ROBOCASA_CABINET'if task=='DOOR'else task
+    def policy_audit(folder,**kwargs):
+        value=audit(folder,task_kind=kind,**kwargs)
+        return dict(value,schema='SHARED4_POLICY_CONDITION_RAW_AUDIT_V1',
+            source_raw_integrity_status=value['status'],
+            status='COMPLETE_SOURCE_POLICY_CONDITION'if value.get('complete_episode',False)else'SOURCE_POLICY_CONDITION_INCOMPLETE',
+            qualified_source_pilot=False,training_admitted=False,expert_supervision_eligible=False,
+            student_actions_are_not_expert_labels=True)
     row=episode(root,condition,instance,template,guard,
         student_factory=lambda inst,identifier,record,check:SharedStudent(inst,condition,record,check),
         card_factory=card_for_condition,engine_factory=make_engine,qualification_extra=qualification_extra,
         initial_witness=initial_witness,reset_protocol={'schema':PROTOCOL},
         warmup_opening=1. if task in('T1','T2')else .042/.044,
-        raw_auditor=lambda folder,**kw:audit(folder,task_kind=kind,**kw))
+        raw_auditor=policy_audit)
     return dict(row,task=task,protocol=PROTOCOL)
 
 

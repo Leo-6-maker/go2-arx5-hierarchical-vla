@@ -174,6 +174,37 @@ def test_original_cube_target_visibility_uses_the_existing_qualification_pair(mo
     assert len(seen)==1
 
 
+@pytest.mark.parametrize('complete',[True,False])
+def test_successful_student_policy_is_never_admitted_as_an_expert_pilot(monkeypatch,tmp_path,complete):
+    from scripts.pi0294.multitask import night_book_audit
+    def raw_audit(*a,**kw):
+        return dict(status='COMPLETE_SOURCE_PILOT_QUALIFIED',qualified_source_pilot=True,
+            **({'complete_episode':True}if complete else{}),task_success=complete,training_admitted=False)
+    monkeypatch.setattr(night_book_audit,'audit',raw_audit)
+    captured=[]
+    def existing_episode(root,condition,instance,template,guard,**kwargs):
+        captured.append(kwargs['raw_auditor'](root,execution_prefix=8))
+        return dict(id=condition['id'],success=True,valid_model_condition=True)
+    monkeypatch.setattr(shared,'episode',existing_episode)
+    c=population()['tasks']['T1'][0];row=shared.run_condition(tmp_path,c,None,None,None)
+    assert row['success']and captured[0]['task_success']==complete
+    assert not captured[0]['qualified_source_pilot']and not captured[0]['expert_supervision_eligible']
+    assert captured[0]['student_actions_are_not_expert_labels']
+
+
+def test_reconstructed_checkpoint_identity_does_not_keep_raw_zero_step(monkeypatch,tmp_path):
+    from scripts.pi0294.multitask.shared_policy import candidate
+    from scripts.pi0294.multitask import shared_checkpoint
+    m=inference_manifest();v=candidate(tmp_path,m,None,None,None,None)
+    assert v['raw_zero_step']and v['global_step']==0
+    m.update(raw_zero_step=False,evaluation_checkpoint_manifest_sha256='a'*64,raw_parent='pinned')
+    cp=tmp_path/'checkpoint-2048';cp.mkdir();(cp/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(global_step=2048)))
+    (tmp_path/'RAW_PARENT_AUDIT.json').write_text('{}')
+    monkeypatch.setattr(shared_checkpoint,'load_delta',lambda *a,**kw:dict(frozen_parent_unchanged=True))
+    v=candidate(tmp_path,m,None,None,lambda:None,cp)
+    assert v['kind']=='SHARED4_RAW_PARENT_BOUND_DELTA'and v['global_step']==2048 and not v['raw_zero_step']
+
+
 def cube_rows(task):
     from go2arx5_vla.target_sim.scorer import BOOL_FIELDS
     def state(t):

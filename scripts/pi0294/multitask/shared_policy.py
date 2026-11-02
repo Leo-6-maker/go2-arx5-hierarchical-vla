@@ -99,10 +99,12 @@ def candidate(root,m,model,contract,guard,checkpoint):
     from .shared_checkpoint import load_delta
     if m['raw_zero_step']:
         return dict(evaluation_checkpoint_manifest_sha256=PARENT_ID,raw_zero_step=True,
+            kind='SHARED4_RAW_PARENT_ZERO_STEP',global_step=0,
             full_raw_loading_and_42_parameter_comparison=True,frozen_parent_unchanged=True)
     value=load_delta(model,contract,checkpoint,manifest_sha256=m['evaluation_checkpoint_manifest_sha256'],
         raw_parent=m['raw_parent'],audit=read(root/'RAW_PARENT_AUDIT.json'),guard=guard)
-    return dict(value,evaluation_checkpoint_manifest_sha256=m['evaluation_checkpoint_manifest_sha256'],raw_zero_step=False)
+    return dict(value,evaluation_checkpoint_manifest_sha256=m['evaluation_checkpoint_manifest_sha256'],raw_zero_step=False,
+        kind='SHARED4_RAW_PARENT_BOUND_DELTA',global_step=read(checkpoint/'CHECKPOINT_COMPLETE.json')['global_step'])
 
 
 def run(root,manifest_sha256):

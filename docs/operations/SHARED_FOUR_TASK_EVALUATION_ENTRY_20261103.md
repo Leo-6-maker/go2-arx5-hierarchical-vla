@@ -58,10 +58,12 @@ with their finite upper bound.
 
 ## Actual validation boundary
 
-Initial local validation:95 targeted CPU checks passed, including original
+Final local validation:98 targeted CPU checks passed, including original
 book/cabinet raw audits, reset faults, the raw Trainer, original T1/T2 score
 projection, fixed noise and same-device inference certificate rejection.
-These are fixtures, not physical success or GPU qualification.
+The final checks additionally exclude successful student rollouts from expert
+supervision and keep restored checkpoint step identities distinct from raw
+zero-step. These are fixtures, not physical success or GPU qualification.
 
 Core subsequently adopted published source `d8e72055` in a new isolated CPU
 directory. Four tasks × two independent processes constructed and closed
@@ -72,7 +74,9 @@ integrations/render pairs and no Torch/CUDA. Actual total child CPU was
 one representative condition per task, not all68 scenes or dynamic execution.
 See [the actual Core receipt](../../reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_CPU_CONSTRUCTOR_CLOSE_ACTUAL_20261103.json).
 The later asset-root node-local guard is a worker pre-model check; the GPU
-worker itself has not run.
+worker itself has not run. The later policy-audit eligibility and model-step
+identity fixes were covered by CPU regressions; they do not change the tested
+constructor functions or establish GPU/physical qualification.
 
 Actual four-task camera/reset fault qualification, raw-model native10/native16,
 DEV rollouts and resident successor integration are still pending. The existing D2→CONTROL→BOUNDARY queue remains unchanged.
