@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-02
 
+2026-11-02 23:35 SGT Core实测：**共享raw-parent训练入口与独立delta恢复消费已实现，复用原NativeDataset／官方loss／Trainer，不继承book128或b248。** 隔离CPU接缝在Core PyTorch2.9.0／NumPy1.26.4实际读34563窗、核四任务各4诊断窗；42项原始BF16张量与PC逐值身份一致，FP32参数容器的改动拒绝／恢复及320前缀／cursor131072通过，子进程OS0／2.996 CPU秒、未初始化CUDA或构建GR00T模型。66项定向CPU检查通过。**D2同身份继续594/4096、19008访问，自动PB队列原字节不变；raw模型GPU native10、完整任务评价和共享正式8192仍未挂载，新共享端点／DEV为0。** [实际Core验证与剩余准入](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_RAW_TRAINER_CORE_CPU_ACTUAL_20261102.json)。
+
 2026-11-02 22:40 SGT Core实测：**原raw GR00T七文件已完成节点本地交付／全流SHA及独立身份核验（6,914,922,850字节），未加载模型。** 共同59条目新V2训练reader已实际冻结：46完整专家＋13专家后缀／34563窗，数值6377253字节逐份SHA一致、原统计和RGB引用不变。发现首次DEV引用缺少另存的BOOK定义后，在无共享模型消费者的冷态新建V2，完整保留T1/T2各24、BOOK10、DOOR10；初版及费用保留。Core NumPy1.26.4无Torch/CUDA的262144次采样与PC一致，每批四任务各8、全部窗口覆盖和320前缀／恢复通过。**D2同身份继续392/4096、12544访问，自动PB队列未改；共享raw模型零步／训练器／GPU原生全态资格／四任务评价与Core RESET仍待完成，新共享端点/DEV为0。** [实际输入、V2冻结、修正与边界](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_RAW_INPUTS_AND_FROZEN59_ACTUAL_20261102.json)。
 
 2026-11-02 21:19 SGT：**D2同一GPU1正式进程继续95/4096、3040次TRAIN访问；现役source和队列未改。** 新BOOK_RESET_DEV10_V1独立条件入口已实现：每条件单进程，模型前核真实前驱终态／子cgroup／残余writer与CLOSED原字节，保留原Student、噪声、32秒、安全和评分。PC相关66项检查通过，两个独立原生SourceEngine进程实际重建同一初态并退出、零积分／渲染／神经模型；发现并修正“初始化加速度缓存必须为零”的错误假设，改为独立原生数据两次forward逐值重算、不修改状态。**Core双相机／原生复位故障资格与新DEV尚未完成或挂载，PC检查不自动放行。** [实现、实际PC结果与剩余资格](docs/operations/BOOK_RESET_DEV10_IMPLEMENTATION_20261102.md)。

@@ -49,9 +49,19 @@ sampler, delta restoration and capacity-certificate rejection, alongside the
 existing book/phase regressions. Compilation and fixtures do not constitute
 native GR00T forward/backward or a successful policy.
 
-Core CPU adoption, raw-model native10, four-task evaluation qualification and
-resident successor integration must be reported from actual receipts before
-calling this READY. The current D2→CONTROL→BOUNDARY resident training queue is
+Core subsequently adopted the published code in an isolated CPU test namespace.
+Its actual PyTorch2.9.0/NumPy1.26.4 reader validated34,563 rows and all16
+diagnostic anchors; raw42 identities match PC, and a CPU FP32 parameter
+container passed mutation rejection and restoration. Native child exit0,
+2.996 CPU seconds, maximum RSS1,155,338,240 bytes. This container is not the
+GR00T graph; no CUDA context, neural model or optimizer was created. See
+[the independent Core receipt](../../reports/PI0294/design/controlled-finetuning-20261102/SHARED4_RAW_TRAINER_CORE_CPU_ACTUAL_20261102.json).
+The first observation had an SSH key-exchange reset before authentication;
+normal read access later recovered without infrastructure changes or retries
+of a mutation. Old failed-read costs remain.
+
+Raw-model native10, four-task evaluation qualification and resident successor
+integration still require actual receipts before calling this READY. The current D2→CONTROL→BOUNDARY resident training queue is
 not hotpatched or replaced by this change. Independent reset DEV qualification
 and shared training are still outside its mounted scope. Shared endpoints,
 valid DEV conditions and successes remain zero.

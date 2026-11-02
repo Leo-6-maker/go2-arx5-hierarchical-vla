@@ -1,0 +1,95 @@
+{
+  "schema": "SHARED4_ACTUAL_CORE_CPU_TRAINER_SEAM_NOT_GPU_ADMISSION_V1",
+  "observed_at_SGT": "2026-11-02T23:35:39.634628+08:00",
+  "result": {
+    "status": "ACTUAL_CORE_SHARED_DATA_RAW42_AND_CPU_RESTORE_SEAM_PASSED_NOT_MODEL_ADMISSION",
+    "source_commit": "e665ffc8dafbc51247406123eb80ea20d54bd8f4",
+    "torch_version": "2.9.0+cu128",
+    "numpy_version": "1.26.4",
+    "native_reader_rows": 34563,
+    "diagnostic_windows": 16,
+    "diagnostic_task_counts": {
+      "T1": 4,
+      "T2": 4,
+      "BOOK": 4,
+      "DOOR": 4
+    },
+    "data_pins": {
+      "manifest_sha256": "d45216f21428b8aa9036e083fd4b8e118adb736832201713ca1c7cac10fdf1a2",
+      "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+      "population_sha256": "9dae20deb20886441fa81625324ef1ac33a807129c42293ee977d11d61b886aa",
+      "task_DEV_sha256": "ac16e9db37a6ca8ee4da3422425bf5d6adf0835297250627c27b959ac456df87"
+    },
+    "sequence_sha256": "9b1dab7cdaa52a29756268a3e42632291129deebef23ce3fbe313a29fb981208",
+    "native10_prefix320_exact": true,
+    "sampler_resume_cursor": 131072,
+    "original_raw_tensors": 42,
+    "original_raw_numel": 77847684,
+    "PC_Core_raw_tensor_identity_exact": true,
+    "CPU_FP32_raw_initialization_and_restore_exact": true,
+    "mutated_parameter_rejected": true,
+    "actual_GR00T_models_loaded": 0,
+    "CUDA_initialized": false,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "official_Processor_not_rerun_frozen_bytes_prior_qualification": true,
+    "CPU_s": 2.6942773499999997,
+    "wall_s": 4.230266019236296,
+    "maximum_RSS_bytes": 1155338240,
+    "native_GPU_qualification": false,
+    "shared_training_mounted": false,
+    "epoch": 1793633671.6373842
+  },
+  "result_sha256": "c54f73dcaf4729045f108ab73e246f3383fed54ea852bfa500eaa2e89eb9a5b5",
+  "actual_native_child_exit": {
+    "OS_exit_code": 0,
+    "CPU_s": 2.9963249999999997,
+    "epoch": 1793633672.3037765,
+    "new_models_GPU_physics_updates": 0
+  },
+  "independent_result_source_and_exit_readback": true,
+  "code_adopted_in_isolated_CPU_test_namespace": true,
+  "registered_raw_GPU_worker_not_started": true,
+  "CPU_parameter_container_used_real_raw_values_but_not_GR00T_model": true,
+  "no_duplicate_cost_note": "Child CPU already included in the existing ControlIO actual RPC charge; not separately re-added.",
+  "first_SSH_key_exchange_reset": {
+    "pre_authentication": true,
+    "read_only": true,
+    "old_cost_upper_retained": true,
+    "subsequent_normal_read_succeeded": true,
+    "no_infrastructure_changes": true
+  },
+  "current_D2": {
+    "GPU": 1,
+    "PID": 3918079,
+    "manager_PID": 3892803,
+    "progress": {
+      "step": 594,
+      "cursor": 19008,
+      "native_loss": 0.02182459831237793,
+      "learning_rate": [
+        9.697184047099033e-05,
+        9.697184047099033e-05
+      ],
+      "epoch": 1793633738.1347895
+    },
+    "manager_heartbeat": 1793633734.0110981,
+    "queue_and_source_unchanged": true
+  },
+  "existing_mounted_queue": [
+    "D2",
+    "PHASE_CONTROL",
+    "EXTRA_BOUNDARY",
+    "SUMMARY"
+  ],
+  "shared_model_GPU_native10": false,
+  "shared_formal8192_mounted": false,
+  "shared_endpoints": 0,
+  "shared_DEV_conditions": 0,
+  "pending": [
+    "Raw model actual CUDA forward/backward and same-device full AdamW/scheduler/RNG/cursor native10 restore with original2GiB margin",
+    "Four-task evaluation entry and actual task-specific native qualification",
+    "Cold-boundary successor ownership/queue integration",
+    "Core BOOK_RESET dual-camera and fault-stop qualification; no new RESET DEV yet"
+  ]
+}
