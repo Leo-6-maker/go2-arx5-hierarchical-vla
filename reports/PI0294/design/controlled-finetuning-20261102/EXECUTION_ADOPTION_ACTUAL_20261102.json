@@ -1,0 +1,105 @@
+{
+  "schema": "CONTROLLED_FINETUNING_NATIVE_ADOPTION_PROGRESS_V1",
+  "observed_SGT": "2026-11-02T17:25:34.408642+08:00",
+  "status": "EXISTING_GPU0_CHAIN_ACTIVE_NEW_PB_CPU_PREPARED",
+  "D1": {
+    "updates": 3716,
+    "TRAIN_visits": 118912,
+    "target": 4096,
+    "worker_PID": 2982055,
+    "worker_InvocationID": "c901c0247fdb44459d11eb0319cae7a4",
+    "lease": "ACTIVE",
+    "full4096_complete": false,
+    "checkpoint_restores": {
+      "1024": {
+        "sha256": "152b665dcf45ffe4891e1c176a3533b3c85ef6e0b31cb69d1bcfa34325c18143",
+        "value": {
+          "checkpoint_manifest_sha256": "9e45499b8afe0e113cbe6ef1cb92056858e0aa5e97e6287046339b1bb38335e6",
+          "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+          "model_reconstruction": true,
+          "optimizer_state_entries": 42,
+          "optimizer_updates": 1024,
+          "scheduler_restored": true,
+          "RNG_restored": true,
+          "sampler_cursor": 32768,
+          "frozen_parent_unchanged": true,
+          "standalone_model": false
+        }
+      },
+      "2048": {
+        "sha256": "0143cdbb7e1ef7167add411b8d726af0ae2bc7951344016e0ed0d7c50a65d97f",
+        "value": {
+          "checkpoint_manifest_sha256": "1e52fc561ce5489f8396e5b0f37c0907dddf12812176fca7be373395cfcd6d34",
+          "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+          "model_reconstruction": true,
+          "optimizer_state_entries": 42,
+          "optimizer_updates": 2048,
+          "scheduler_restored": true,
+          "RNG_restored": true,
+          "sampler_cursor": 65536,
+          "frozen_parent_unchanged": true,
+          "standalone_model": false
+        }
+      }
+    },
+    "formal_valid_DEV": 0
+  },
+  "resident_successor": {
+    "PID": 3077247,
+    "proc_start": "337188323",
+    "InvocationID": "aad6fbd2b14b4b03b78772cd49d291af",
+    "heartbeat_epoch": 1793611482.7519987,
+    "status": "WAITING_EXISTING_CHAIN",
+    "same_identity_as_PR316": true,
+    "mutation_custody_claimed": false,
+    "queued_scope": [
+      "D1 original evaluation after producer closes",
+      "D2 one additional resource qualification, then matched fresh4096 and original evaluation if qualified"
+    ],
+    "GPU0_shared_authorized": true,
+    "foreign_GPU0_presence_alone_is_not_a_blocker": true,
+    "GPU1_optional": true,
+    "no_PC_or_Vanda_or_forwarded_auth_runtime_dependency": true
+  },
+  "sharing_observation": {
+    "epoch": 1793611192.0589843,
+    "own_GPU0_used_MiB": 15944,
+    "foreign_GPU0_used_MiB": 6490,
+    "GPU0_free_MiB": 9653,
+    "GPU1_free_MiB": 5457,
+    "MemAvailable_kB": 42214252,
+    "performance_isolation_proven": false,
+    "foreign_processes_modified": false
+  },
+  "PB_preparation": {
+    "full_visits_per_arm": 131072,
+    "new_first16_windows": 112,
+    "control_first16_visits": 1055,
+    "boundary_first16_visits": 9196,
+    "Core_reader_CPU_s": 0.832912015,
+    "new_models": 0,
+    "new_physics": 0,
+    "runtime_binding_or_native_training_admission": false
+  },
+  "pending": [
+    "F0 D1 full4096 close and original evaluation; D2 qualification/formal/evaluation",
+    "F1 independent reset native qualification",
+    "F2 native training binding/qualification after F0 review",
+    "F4 shared raw-parent baseline binding/qualification"
+  ],
+  "preserved_scores": {
+    "Phase4096": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6
+    },
+    "D0": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    }
+  },
+  "no_active_capsule_or_current_training_changed": true,
+  "no_NFS_SSH_services_or_credentials_changed": true,
+  "all_control_effects_reconciled": true
+}

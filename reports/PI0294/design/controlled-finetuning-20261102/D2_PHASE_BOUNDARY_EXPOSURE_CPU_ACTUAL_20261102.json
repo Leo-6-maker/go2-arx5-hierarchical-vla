@@ -1,0 +1,933 @@
+{
+  "schema": "BOOK_D2_PHASE_BOUNDARY_FULL_EXPOSURE_CPU_ACTUAL_V1",
+  "observed_epoch": 1793611469.8261366,
+  "status": "CPU_INDEX_AND_SEQUENCE_PREPARATION_ONLY_NOT_NATIVE_TRAINING_ADMISSION",
+  "protocol_source": "1d6167bb77b837dc82b1a4c2affd4deea167209e",
+  "index_sha256": "4b2056dc56eb9627fffbb35b0e733991e60fb1c41af334027242b45455f4f8ae",
+  "dataset_sha256": "f6f375233430c88f6e3909345ba64920a7768c9030306108e070f5e6a1b139f1",
+  "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+  "population_sha256": "b345432f30e3edf696224f95e9aabda94c6aab9a411015d84bb193223ff3bf74",
+  "seed": 2026103105,
+  "data": {
+    "entries": 28,
+    "windows": 15932,
+    "new_late_suffixes": 7,
+    "new_first8_windows": 56,
+    "new_first16_windows": 112
+  },
+  "control_slots": {
+    "uniform": 16,
+    "approach_align": 2,
+    "close_verify": 2,
+    "carry_boundary": 4,
+    "carry_other": 4,
+    "release": 1,
+    "withdraw": 1,
+    "early_recovery": 2,
+    "new_late_takeover_first16": 0
+  },
+  "boundary_slots": {
+    "uniform": 14,
+    "approach_align": 2,
+    "close_verify": 2,
+    "carry_boundary": 4,
+    "carry_other": 4,
+    "release": 1,
+    "withdraw": 1,
+    "early_recovery": 2,
+    "new_late_takeover_first16": 2
+  },
+  "direct_extra_boundary_visits": 8192,
+  "direct_extra_boundary_fraction": 0.0625,
+  "pool_windows": {
+    "uniform": 15932,
+    "approach_align": 928,
+    "close_verify": 504,
+    "carry_boundary": 1005,
+    "carry_other": 6839,
+    "release": 672,
+    "withdraw": 2016,
+    "early_recovery": 208,
+    "new_late_takeover_first16": 112
+  },
+  "pool_episodes": {
+    "uniform": 28,
+    "approach_align": 21,
+    "close_verify": 21,
+    "carry_boundary": 28,
+    "carry_other": 28,
+    "release": 28,
+    "withdraw": 28,
+    "early_recovery": 6,
+    "new_late_takeover_first16": 7
+  },
+  "sequences": {
+    "D2_UNIFORM4096_PLANNED": {
+      "total_visits": 131072,
+      "unique_windows": 15932,
+      "episodes": 28,
+      "by_stage": {
+        "hold": 31050,
+        "preinsert": 60331,
+        "withdraw": 16607,
+        "lift": 5790,
+        "release": 5534,
+        "approach": 4876,
+        "align": 2756,
+        "close": 2755,
+        "verify_grasp": 1373
+      },
+      "late_first8_visits": 456,
+      "late_first16_visits": 918,
+      "late_first16_visit_fraction": 0.0070037841796875,
+      "per_window_min": 8,
+      "per_window_max": 9,
+      "longest_consecutive_same_window": 1,
+      "repeated_visit_fraction": 0.878448486328125,
+      "batches_with_duplicate_windows": 0,
+      "sequence_int64_le_sha256": "6e026194fe682f1dc9d242fb4e805e16df2555a680199805e1b17616a88de12a",
+      "per_episode": [
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "windows": 601,
+          "visits": 4952,
+          "unique_windows": 601,
+          "first8_visits": 65,
+          "first16_visits": 131,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED001",
+          "windows": 601,
+          "visits": 4955,
+          "unique_windows": 601,
+          "first8_visits": 67,
+          "first16_visits": 133,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED002",
+          "windows": 601,
+          "visits": 4934,
+          "unique_windows": 601,
+          "first8_visits": 65,
+          "first16_visits": 132,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED003",
+          "windows": 601,
+          "visits": 4944,
+          "unique_windows": 601,
+          "first8_visits": 66,
+          "first16_visits": 133,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED004",
+          "windows": 601,
+          "visits": 4945,
+          "unique_windows": 601,
+          "first8_visits": 64,
+          "first16_visits": 130,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED005",
+          "windows": 601,
+          "visits": 4943,
+          "unique_windows": 601,
+          "first8_visits": 67,
+          "first16_visits": 135,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED006",
+          "windows": 601,
+          "visits": 4949,
+          "unique_windows": 601,
+          "first8_visits": 68,
+          "first16_visits": 134,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED007",
+          "windows": 601,
+          "visits": 4940,
+          "unique_windows": 601,
+          "first8_visits": 66,
+          "first16_visits": 131,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED008",
+          "windows": 601,
+          "visits": 4942,
+          "unique_windows": 601,
+          "first8_visits": 65,
+          "first16_visits": 129,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED009",
+          "windows": 601,
+          "visits": 4946,
+          "unique_windows": 601,
+          "first8_visits": 67,
+          "first16_visits": 134,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED010",
+          "windows": 601,
+          "visits": 4945,
+          "unique_windows": 601,
+          "first8_visits": 66,
+          "first16_visits": 131,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED011",
+          "windows": 601,
+          "visits": 4949,
+          "unique_windows": 601,
+          "first8_visits": 67,
+          "first16_visits": 131,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED012",
+          "windows": 601,
+          "visits": 4948,
+          "unique_windows": 601,
+          "first8_visits": 66,
+          "first16_visits": 131,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED013",
+          "windows": 601,
+          "visits": 4953,
+          "unique_windows": 601,
+          "first8_visits": 66,
+          "first16_visits": 134,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED014",
+          "windows": 601,
+          "visits": 4942,
+          "unique_windows": 601,
+          "first8_visits": 65,
+          "first16_visits": 134,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 569,
+          "visits": 4692,
+          "unique_windows": 569,
+          "first8_visits": 67,
+          "first16_visits": 135,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 4873,
+          "unique_windows": 593,
+          "first8_visits": 67,
+          "first16_visits": 136,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 4811,
+          "unique_windows": 585,
+          "first8_visits": 65,
+          "first16_visits": 130,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 4865,
+          "unique_windows": 593,
+          "first8_visits": 64,
+          "first16_visits": 128,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 4820,
+          "unique_windows": 585,
+          "first8_visits": 68,
+          "first16_visits": 133,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 4872,
+          "unique_windows": 593,
+          "first8_visits": 66,
+          "first16_visits": 133,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 513,
+          "visits": 4234,
+          "unique_windows": 513,
+          "first8_visits": 66,
+          "first16_visits": 130,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN002_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 4084,
+          "unique_windows": 497,
+          "first8_visits": 65,
+          "first16_visits": 133,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN001_EXPERT_SUFFIX",
+          "windows": 529,
+          "visits": 4347,
+          "unique_windows": 529,
+          "first8_visits": 64,
+          "first16_visits": 130,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN003_EXPERT_SUFFIX",
+          "windows": 521,
+          "visits": 4286,
+          "unique_windows": 521,
+          "first8_visits": 64,
+          "first16_visits": 130,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN004_EXPERT_SUFFIX",
+          "windows": 481,
+          "visits": 3952,
+          "unique_windows": 481,
+          "first8_visits": 65,
+          "first16_visits": 131,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN005_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 4088,
+          "unique_windows": 497,
+          "first8_visits": 67,
+          "first16_visits": 132,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN006_EXPERT_SUFFIX",
+          "windows": 361,
+          "visits": 2961,
+          "unique_windows": 361,
+          "first8_visits": 65,
+          "first16_visits": 132,
+          "new_late_takeover": true
+        }
+      ]
+    },
+    "PB_CONTROL4096_PLANNED": {
+      "total_visits": 131072,
+      "unique_windows": 15932,
+      "episodes": 28,
+      "by_stage": {
+        "preinsert": 60210,
+        "align": 8376,
+        "close": 6835,
+        "approach": 11820,
+        "lift": 5639,
+        "hold": 15505,
+        "release": 6870,
+        "withdraw": 12394,
+        "verify_grasp": 3423
+      },
+      "late_first8_visits": 528,
+      "late_first16_visits": 1055,
+      "late_first16_visit_fraction": 0.00804901123046875,
+      "per_window_min": 4,
+      "per_window_max": 78,
+      "longest_consecutive_same_window": 2,
+      "repeated_visit_fraction": 0.878448486328125,
+      "batches_with_duplicate_windows": 82,
+      "sequence_int64_le_sha256": "2627b228816863761fd7aea08ed8db9bca7e0d89d28d6b7ecf213939b5ac2c99",
+      "per_episode": [
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "windows": 601,
+          "visits": 4712,
+          "unique_windows": 601,
+          "first8_visits": 99,
+          "first16_visits": 196,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED001",
+          "windows": 601,
+          "visits": 4707,
+          "unique_windows": 601,
+          "first8_visits": 96,
+          "first16_visits": 193,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED002",
+          "windows": 601,
+          "visits": 4721,
+          "unique_windows": 601,
+          "first8_visits": 98,
+          "first16_visits": 196,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED003",
+          "windows": 601,
+          "visits": 4715,
+          "unique_windows": 601,
+          "first8_visits": 97,
+          "first16_visits": 195,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED004",
+          "windows": 601,
+          "visits": 4714,
+          "unique_windows": 601,
+          "first8_visits": 97,
+          "first16_visits": 195,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED005",
+          "windows": 601,
+          "visits": 4716,
+          "unique_windows": 601,
+          "first8_visits": 97,
+          "first16_visits": 194,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED006",
+          "windows": 601,
+          "visits": 4723,
+          "unique_windows": 601,
+          "first8_visits": 96,
+          "first16_visits": 194,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED007",
+          "windows": 601,
+          "visits": 4707,
+          "unique_windows": 601,
+          "first8_visits": 98,
+          "first16_visits": 195,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED008",
+          "windows": 601,
+          "visits": 4715,
+          "unique_windows": 601,
+          "first8_visits": 98,
+          "first16_visits": 195,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED009",
+          "windows": 601,
+          "visits": 4710,
+          "unique_windows": 601,
+          "first8_visits": 99,
+          "first16_visits": 196,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED010",
+          "windows": 601,
+          "visits": 4696,
+          "unique_windows": 601,
+          "first8_visits": 98,
+          "first16_visits": 196,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED011",
+          "windows": 601,
+          "visits": 4715,
+          "unique_windows": 601,
+          "first8_visits": 98,
+          "first16_visits": 197,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED012",
+          "windows": 601,
+          "visits": 4715,
+          "unique_windows": 601,
+          "first8_visits": 97,
+          "first16_visits": 196,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED013",
+          "windows": 601,
+          "visits": 4715,
+          "unique_windows": 601,
+          "first8_visits": 99,
+          "first16_visits": 197,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED014",
+          "windows": 601,
+          "visits": 4710,
+          "unique_windows": 601,
+          "first8_visits": 96,
+          "first16_visits": 193,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 569,
+          "visits": 5969,
+          "unique_windows": 569,
+          "first8_visits": 619,
+          "first16_visits": 1239,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 6055,
+          "unique_windows": 593,
+          "first8_visits": 383,
+          "first16_visits": 767,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 6013,
+          "unique_windows": 585,
+          "first8_visits": 471,
+          "first16_visits": 942,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 6044,
+          "unique_windows": 593,
+          "first8_visits": 385,
+          "first16_visits": 768,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 6037,
+          "unique_windows": 585,
+          "first8_visits": 472,
+          "first16_visits": 945,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 6050,
+          "unique_windows": 593,
+          "first8_visits": 384,
+          "first16_visits": 769,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 513,
+          "visits": 3585,
+          "unique_windows": 513,
+          "first8_visits": 71,
+          "first16_visits": 140,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN002_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 3504,
+          "unique_windows": 497,
+          "first8_visits": 72,
+          "first16_visits": 146,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN001_EXPERT_SUFFIX",
+          "windows": 529,
+          "visits": 3644,
+          "unique_windows": 529,
+          "first8_visits": 65,
+          "first16_visits": 132,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN003_EXPERT_SUFFIX",
+          "windows": 521,
+          "visits": 3601,
+          "unique_windows": 521,
+          "first8_visits": 69,
+          "first16_visits": 137,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN004_EXPERT_SUFFIX",
+          "windows": 481,
+          "visits": 3438,
+          "unique_windows": 481,
+          "first8_visits": 75,
+          "first16_visits": 150,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN005_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 3502,
+          "unique_windows": 497,
+          "first8_visits": 72,
+          "first16_visits": 143,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN006_EXPERT_SUFFIX",
+          "windows": 361,
+          "visits": 2939,
+          "unique_windows": 361,
+          "first8_visits": 104,
+          "first16_visits": 207,
+          "new_late_takeover": true
+        }
+      ]
+    },
+    "PB_BOUNDARY4096_PLANNED": {
+      "total_visits": 131072,
+      "unique_windows": 15932,
+      "episodes": 28,
+      "by_stage": {
+        "approach": 11534,
+        "preinsert": 63439,
+        "lift": 6445,
+        "hold": 13603,
+        "release": 6518,
+        "close": 6674,
+        "align": 8188,
+        "withdraw": 11325,
+        "verify_grasp": 3346
+      },
+      "late_first8_visits": 4597,
+      "late_first16_visits": 9196,
+      "late_first16_visit_fraction": 0.070159912109375,
+      "per_window_min": 3,
+      "per_window_max": 112,
+      "longest_consecutive_same_window": 2,
+      "repeated_visit_fraction": 0.878448486328125,
+      "batches_with_duplicate_windows": 91,
+      "sequence_int64_le_sha256": "95ea52b83088a2874020db66e69182e383a86dbc01531f7618dd0beedc61de96",
+      "per_episode": [
+        {
+          "id": "BOOK_SOURCE_SEED000",
+          "windows": 601,
+          "visits": 4416,
+          "unique_windows": 601,
+          "first8_visits": 92,
+          "first16_visits": 185,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED001",
+          "windows": 601,
+          "visits": 4404,
+          "unique_windows": 601,
+          "first8_visits": 93,
+          "first16_visits": 185,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED002",
+          "windows": 601,
+          "visits": 4406,
+          "unique_windows": 601,
+          "first8_visits": 94,
+          "first16_visits": 187,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED003",
+          "windows": 601,
+          "visits": 4402,
+          "unique_windows": 601,
+          "first8_visits": 94,
+          "first16_visits": 191,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED004",
+          "windows": 601,
+          "visits": 4423,
+          "unique_windows": 601,
+          "first8_visits": 96,
+          "first16_visits": 190,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED005",
+          "windows": 601,
+          "visits": 4404,
+          "unique_windows": 601,
+          "first8_visits": 93,
+          "first16_visits": 189,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED006",
+          "windows": 601,
+          "visits": 4401,
+          "unique_windows": 601,
+          "first8_visits": 91,
+          "first16_visits": 183,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED007",
+          "windows": 601,
+          "visits": 4380,
+          "unique_windows": 601,
+          "first8_visits": 97,
+          "first16_visits": 190,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED008",
+          "windows": 601,
+          "visits": 4398,
+          "unique_windows": 601,
+          "first8_visits": 94,
+          "first16_visits": 187,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED009",
+          "windows": 601,
+          "visits": 4407,
+          "unique_windows": 601,
+          "first8_visits": 95,
+          "first16_visits": 190,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED010",
+          "windows": 601,
+          "visits": 4394,
+          "unique_windows": 601,
+          "first8_visits": 92,
+          "first16_visits": 187,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED011",
+          "windows": 601,
+          "visits": 4421,
+          "unique_windows": 601,
+          "first8_visits": 95,
+          "first16_visits": 189,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED012",
+          "windows": 601,
+          "visits": 4411,
+          "unique_windows": 601,
+          "first8_visits": 95,
+          "first16_visits": 187,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED013",
+          "windows": 601,
+          "visits": 4412,
+          "unique_windows": 601,
+          "first8_visits": 93,
+          "first16_visits": 188,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_SOURCE_SEED014",
+          "windows": 601,
+          "visits": 4409,
+          "unique_windows": 601,
+          "first8_visits": 91,
+          "first16_visits": 187,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 569,
+          "visits": 5653,
+          "unique_windows": 569,
+          "first8_visits": 613,
+          "first16_visits": 1228,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY000_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 5753,
+          "unique_windows": 593,
+          "first8_visits": 381,
+          "first16_visits": 760,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY001_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 5699,
+          "unique_windows": 585,
+          "first8_visits": 466,
+          "first16_visits": 933,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY002_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 5747,
+          "unique_windows": 593,
+          "first8_visits": 379,
+          "first16_visits": 754,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY003_EXPERT_SUFFIX",
+          "windows": 585,
+          "visits": 5699,
+          "unique_windows": 585,
+          "first8_visits": 468,
+          "first16_visits": 936,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_M32_RECOVERY004_EXPERT_SUFFIX",
+          "windows": 593,
+          "visits": 5742,
+          "unique_windows": 593,
+          "first8_visits": 380,
+          "first16_visits": 759,
+          "new_late_takeover": false
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN000_EXPERT_SUFFIX",
+          "windows": 513,
+          "visits": 4480,
+          "unique_windows": 513,
+          "first8_visits": 654,
+          "first16_visits": 1305,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN002_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 4425,
+          "unique_windows": 497,
+          "first8_visits": 652,
+          "first16_visits": 1307,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN001_EXPERT_SUFFIX",
+          "windows": 529,
+          "visits": 4545,
+          "unique_windows": 529,
+          "first8_visits": 647,
+          "first16_visits": 1294,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN003_EXPERT_SUFFIX",
+          "windows": 521,
+          "visits": 4502,
+          "unique_windows": 521,
+          "first8_visits": 648,
+          "first16_visits": 1298,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN004_EXPERT_SUFFIX",
+          "windows": 481,
+          "visits": 4361,
+          "unique_windows": 481,
+          "first8_visits": 657,
+          "first16_visits": 1313,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN005_EXPERT_SUFFIX",
+          "windows": 497,
+          "visits": 4437,
+          "unique_windows": 497,
+          "first8_visits": 653,
+          "first16_visits": 1307,
+          "new_late_takeover": true
+        },
+        {
+          "id": "BOOK_LATE_RECOVERY_TRAIN006_EXPERT_SUFFIX",
+          "windows": 361,
+          "visits": 3941,
+          "unique_windows": 361,
+          "first8_visits": 686,
+          "first16_visits": 1372,
+          "new_late_takeover": true
+        }
+      ]
+    }
+  },
+  "pair_specialty_draws_identical": true,
+  "labels_and_RGB_unchanged": true,
+  "student_receives_phase_or_contact": false,
+  "actual_D2_formal_training": false,
+  "new_optimizer_updates": 0,
+  "new_models": 0,
+  "new_physics": 0,
+  "Core_read_CPU_s": 0.832912015,
+  "Core_read_logical_cores": 1,
+  "limitations": [
+    "All three full index traces are planned draws, not actual D2 training visits.",
+    "The extra 6.25 percent stream overlaps other streams; total first16 coverage is measured separately.",
+    "Seven suffixes are seven takeover states, not 112 independent recoveries or new layouts.",
+    "Runtime sampler binding, native ten-update save/restore and formal jobs remain pending F0 review.",
+    "An earlier read failed on a metadata field name before any application write; its full 60 CPU-second upper bound is retained."
+  ],
+  "sampler_files_sha256": {
+    "scripts/pi0294/multitask/book_phase_sampling.py": "83242095f43893e6548f2f8e84ba3a3926eb31cc528eee2344d3f5930b250939",
+    "scripts/pi0294/multitask/book_phase_boundary.py": "9c6a10e18de9b5058d1481a315a9d367757d159fec058f5635b7b465946949e9"
+  },
+  "validation": {
+    "targeted_tests_passed": 8,
+    "CI": "NOT_RUN",
+    "original_phase_draw_regression": {
+      "status": "ALL_131072_ORIGINAL_PHASE_DRAWS_IDENTICAL_TO_PUBLISHED_PREDECESSOR",
+      "count": 131072,
+      "trace_int64_le_sha256": "cca080ca708511d83e9ea172888ba12d35716318e7e51170b3f4c221b44eaed1",
+      "new_models_physics": 0
+    }
+  }
+}
