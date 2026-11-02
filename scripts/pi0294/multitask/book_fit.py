@@ -1,7 +1,8 @@
 """Finite book fitting/learning using the unchanged native loss and Trainer.
 
 The small checkpoint is a parent-dependent training delta, never a standalone
-model. Every frozen tensor belongs to the exact retained full book128 parent.
+model. Frozen tensors belong to the exact retained full book128 parent, or, only for
+the explicit shared run kind, to the original seven-file raw GR00T parent.
 """
 import hashlib
 from functools import partial
@@ -61,6 +62,9 @@ def recovery_plan():
 
 
 def validate_manifest(m,p):
+    from .shared_training import KIND as SHARED_KIND,validate_manifest as validate_shared
+    if m.get('kind')==SHARED_KIND:
+        validate_shared(m,p);return
     from .book_m32_learning import is_plan,KIND
     m32=is_plan(p)
     if (not m32 and p not in(plan(),full_plan(),recovery_plan()))or m['checkpoint_manifest_sha256']!=p['checkpoint_manifest_sha256']:
@@ -85,6 +89,10 @@ def select_rows(rows,fit_recipe=None):
 
 
 def optimization_rows(rows,p):
+    from .shared_training import is_recipe as is_shared
+    if is_shared(p):
+        from .shared_task_sampling import validate_fixed59
+        validate_fixed59(rows);return list(rows)
     if p==plan():return select_rows(rows)
     from .book_bc_dagger import SCHEMA as BC_SCHEMA,is_plan as is_bc_plan
     from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA,is_plan as is_pb_plan
@@ -180,7 +188,8 @@ def measure(root,phase,instance,data,trainer,guard,fit_recipe=None):
     for index,row in enumerate(p.get('diagnostic_windows',p.get('windows',[]))):
         guard();key=row['id']+'-'+str(row['anchor']).zfill(3)
         state,expert,images,text=data.raw(index)
-        seed=int.from_bytes(hashlib.sha256(f"BOOK128_TRAIN16/{row['id']}/{row['anchor']}".encode()).digest()[:8],'big')%(2**63)
+        namespace=p.get('diagnostic_seed_namespace','BOOK128_TRAIN16')
+        seed=int.from_bytes(hashlib.sha256(f"{namespace}/{row['id']}/{row['anchor']}".encode()).digest()[:8],'big')%(2**63)
         batch=ProcessedCollator(data.processor)([data[index]])
         batch={k:{n:v.to('cuda')if torch.is_tensor(v)else v for n,v in values.items()}for k,values in batch.items()}
         put(folder/(key+'.INTENT.json'),dict(window=row,seed=seed,denoise_steps=4))
@@ -219,6 +228,14 @@ def measure(root,phase,instance,data,trainer,guard,fit_recipe=None):
         result.update(prefix8_XYZ_mean_m=float(np.mean([r['errors']['prefix8']['XYZ_euclidean_m']['mean']for r in records])),
             prefix8_SO3_mean_rad=float(np.mean([r['errors']['prefix8']['SO3_rad']['mean']for r in records])),
             prefix8_gripper_MAE=float(np.mean([r['errors']['prefix8']['gripper_MAE']for r in records])))
+    from .shared_training import is_recipe as is_shared
+    if is_shared(p):
+        from .shared_task_sampling import TASKS
+        result['tasks']={task:dict(TRAIN_windows=4,
+            native_loss_mean=float(np.mean([r['native_loss']for r in records if r['window']['task']==task])),
+            H40_XYZ_mean_m=float(np.mean([r['errors']['H40']['XYZ_euclidean_m']['mean']for r in records if r['window']['task']==task])),
+            prefix8_XYZ_mean_m=float(np.mean([r['errors']['prefix8']['XYZ_euclidean_m']['mean']for r in records if r['window']['task']==task])),
+            H40_gripper_MAE=float(np.mean([r['errors']['H40']['gripper_MAE']for r in records if r['window']['task']==task])))for task in TASKS}
     write(folder/'SUMMARY.json',result);return result
 
 
@@ -234,8 +251,12 @@ def run(root,instance,contract,guard):
     from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     root=Path(root);p=read(root/'TRAIN_FIT_PLAN.json');validate_manifest(read(root/'RUN_MANIFEST.json'),p)
     from .book_m32_learning import is_plan,promote_contract
-    m32=is_plan(p)
+    from .shared_training import is_recipe as is_shared,validate_data as validate_shared_data
+    shared=is_shared(p);m32=is_plan(p)or shared
     steps=p['max_steps'];visits=p['TRAIN_visits'];sampler_class=partial(FitSampler,fit_recipe=p)
+    if shared:
+        from .shared_task_sampling import TaskBalancedSampler
+        sampler_class=partial(TaskBalancedSampler,seed=p['seed'],stop=visits)
     from .book_phase_sampling import SCHEMA as PHASE_SCHEMA,load_index
     from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA,validate_population as validate_pb_population
     if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):
@@ -246,15 +267,34 @@ def run(root,instance,contract,guard):
     for name in names:parameters[name].requires_grad_(True)
     contract.validate()
     if m32:
-        contract=promote_contract(contract,p);names=contract.trainable_names
+        if shared:
+            from .book_m32_learning import LimitedContract
+            if len(contract.trainable_names)==14:contract=LimitedContract(contract,2)
+            if len(contract.trainable_names)!=42 or contract.describe()['trainable_numel']!=p['trainable_numel']:
+                raise PermissionError('SHARED_RAW_EXACT_M32_CONTRACT')
+        else:contract=promote_contract(contract,p)
+        names=contract.trainable_names
     frozen=frozen_fingerprint(model)
     before_parameters={n:tensor_identity(parameters[n])for n in names}
+    if shared:
+        zero=read(root/'RAW_ZERO_STEP_PARAMETERS.json')
+        if zero.get('operation')!='COMPARE_FRESH_LOADED_MODEL'or zero.get('trainable_tensors')!=before_parameters:
+            raise PermissionError('SHARED_RAW_FRESH_ZERO_STEP_PARAMETERS_BEFORE_OPTIMIZATION')
+    parent_binding=({'required_raw_parent_files_identity':p['raw_parent_files_identity']}if shared
+                    else{'required_parent_checkpoint_manifest_sha256':p['checkpoint_manifest_sha256']})
+    def restore_base():
+        if shared:
+            from .shared_checkpoint import raw_parameter_identity
+            manifest=read(root/'RUN_MANIFEST.json')
+            raw_parameter_identity(model,contract,manifest['raw_parent'],read(root/'RAW_PARENT_AUDIT.json'),guard=guard,restore=True)
+        else:load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
     binding=instance.bindings
     data=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=True,trace_root=root/'fit_trace')
     probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
-        if m32:
+        if shared:validate_shared_data(ds,p)
+        elif m32:
             if sha(ds.root/'TRAIN_POPULATION.json')!=p['TRAIN_population_sha256']:
                 raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
             from .book_bc_dagger import SCHEMA as BC_SCHEMA,validate_population
@@ -286,7 +326,7 @@ def run(root,instance,contract,guard):
         expected_parameters={n:tensor_identity(parameters[n])for n in names}
         expected_optimizer=tree_identity(trainer.optimizer.state_dict())
         expected_scheduler=trainer.lr_scheduler.state_dict();expected_rng=rng_identity()
-        load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
+        restore_base()
         delta=torch.load(cp/'target_parameters.pt',map_location='cpu',weights_only=True)
         validate_delta(delta,parameters,names,expected_count=len(names))
         with torch.no_grad():
@@ -305,7 +345,7 @@ def run(root,instance,contract,guard):
                 or saved_state.global_step!=step or saved['sampler']!=sampler_class(data,start=cursor).state_dict(cursor)):
             raise ValueError('CURVE_EXACT_FULL_STATE_RESTORE')
         write(root/f'ACTUAL_DELTA_CHECKPOINT_RESTORE_{step}.json',dict(checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
-            required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,
+            **parent_binding,model_reconstruction=True,
             optimizer_state_entries=len(names),optimizer_updates=step,scheduler_restored=True,RNG_restored=True,
             sampler_cursor=cursor,frozen_parent_unchanged=True,standalone_model=False))
         intermediate=measure(root,f'after-{step}',instance,probe,trainer,guard,p)
@@ -353,6 +393,10 @@ def run(root,instance,contract,guard):
             self.train_dataset.processor.save_pretrained(cp/'processor')
             for name in('statistics.json','TRAIN_DEV_SEAL.json'):shutil.copyfile(data.root/name,cp/name)
             if m32:shutil.copyfile(data.root/'TRAIN_POPULATION.json',cp/'TRAIN_POPULATION.json')
+            if shared:
+                from .shared_checkpoint import raw_reference
+                write(cp/'RAW_PARENT_REFERENCE.json',raw_reference())
+                shutil.copyfile(data.root/'TASK_DEV_POPULATION.json',cp/'TASK_DEV_POPULATION.json')
             if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):shutil.copyfile(root/'TRAIN_PHASE_INDEX.json',cp/'TRAIN_PHASE_INDEX.json')
             if activation_storage is not None:
                 shutil.copyfile(root/'M32_MEMORY_EXECUTION.json',cp/'M32_MEMORY_EXECUTION.json')
@@ -363,9 +407,12 @@ def run(root,instance,contract,guard):
             members={str(x.relative_to(cp)):sha(x)for x in sorted(cp.rglob('*'))if x.is_file()}
             required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','statistics.json','TRAIN_DEV_SEAL.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
             if not required<=set(members):raise ValueError('FIT_PARENT_DEPENDENT_FULL_RESUME_MEMBERS')
-            write(cp/'CHECKPOINT_COMPLETE.json',dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'if m32 else 'BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=checkpoint_step,cursor=checkpoint_cursor,
-                full_resume_with_required_parent=True,standalone_model=False,required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],
-                recipe=p,files=members,actual_reload_check='PENDING'))
+            from .shared_checkpoint import SCHEMA as SHARED_CHECKPOINT_SCHEMA,validate_header as validate_shared_header
+            header=dict(schema=SHARED_CHECKPOINT_SCHEMA if shared else 'BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1'if m32 else 'BOOK_TRAIN16_PARENT_BOUND_TARGET_DELTA_V1'if p==plan()else'BOOK_PARENT_BOUND_TARGET_DELTA_V2',global_step=checkpoint_step,cursor=checkpoint_cursor,
+                full_resume_with_required_parent=True,standalone_model=False,**parent_binding,
+                recipe=p,files=members,actual_reload_check='PENDING')
+            if shared:validate_shared_header(header)
+            write(cp/'CHECKPOINT_COMPLETE.json',header)
             if checkpoint_step!=steps:qualify_intermediate(self,cp,checkpoint_step,checkpoint_cursor)
 
     args=TrainingArguments(output_dir=str(root/'training'),max_steps=steps,per_device_train_batch_size=1,
@@ -407,7 +454,7 @@ def run(root,instance,contract,guard):
         if sha(cp/name)!=digest:raise ValueError('FIT_SAVED_MEMBER_CHANGED:'+name)
     expected_optimizer=tree_identity(trainer.optimizer.state_dict());expected_scheduler=trainer.lr_scheduler.state_dict();expected_rng=rng_identity()
     # Reconstruct the actual model from the retained full parent plus the delta.
-    load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
+    restore_base()
     delta=torch.load(cp/'target_parameters.pt',map_location='cpu',weights_only=True);validate_delta(delta,parameters,names,expected_count=len(names)if m32 else 14)
     with torch.no_grad():
         for name in names:parameters[name].copy_(delta[name])
@@ -423,7 +470,7 @@ def run(root,instance,contract,guard):
     restored_sampler=sampler_class(data,start=saved['sampler']['cursor'])
     if trainer.state.global_step!=steps or saved['sampler']!=restored_sampler.state_dict(visits):raise ValueError('FIT_ACTUAL_STEP_AND_SAMPLE_CURSOR_RESTORE')
     write(root/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json',dict(checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
-        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],model_reconstruction=True,optimizer_state_entries=len(names),
+        **parent_binding,model_reconstruction=True,optimizer_state_entries=len(names),
         optimizer_updates=steps,scheduler_restored=True,RNG_restored=True,sampler_cursor=visits,frozen_parent_unchanged=True,
         changed_trainable_parameters=changed,standalone_model=False))
     after=measure(root,'after',instance,probe,trainer,guard,p)
@@ -439,7 +486,7 @@ def run(root,instance,contract,guard):
     for a,b in zip(before['records'],after['records']):
         if a['window']!=b['window']or a['noise']!=b['noise']or a['image_SHA256']!=b['image_SHA256']:raise ValueError('FIT_MATCHED_BEFORE_AFTER_NOISE_INPUTS')
     trainer=None;gc.collect()
-    return dict(status='COMPLETE_TRAIN16_FIT256_DIAGNOSTIC'if p==plan()else'COMPLETE_BOOK5_FINITE_TARGET_LEARNING',optimizer_updates=steps,TRAIN_visits=visits,
+    return dict(status='COMPLETE_SHARED_RAW_FINITE_LEARNING'if shared else'COMPLETE_TRAIN16_FIT256_DIAGNOSTIC'if p==plan()else'COMPLETE_BOOK5_FINITE_TARGET_LEARNING',optimizer_updates=steps,TRAIN_visits=visits,
         checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),checkpoint_requires_retained_full_parent=True,
         generation_queries=p['generation_queries'],native_diagnostic_loss_forwards=p['native_diagnostic_loss_forwards'],physics_integrations=0,DEV_conditions=0,
         before=before,after=after,learned_task_success_not_measured=True)
