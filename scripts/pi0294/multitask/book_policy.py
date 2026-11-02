@@ -297,6 +297,7 @@ def run(root,manifest_sha256):
     # Python ABI. Native CPU import qualification precedes this registered run.
     sys.path.append(str(node_local(m['physics_packages'])))
     import mujoco
+    if is_reset and mujoco.__version__!='3.2.7':raise PermissionError('RESET_QUALIFIED_NATIVE_MUJOCO_VERSION')
     from transformers import AutoModel
     from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     import gr00t.model.gr00t_n1d7.gr00t_n1d7
