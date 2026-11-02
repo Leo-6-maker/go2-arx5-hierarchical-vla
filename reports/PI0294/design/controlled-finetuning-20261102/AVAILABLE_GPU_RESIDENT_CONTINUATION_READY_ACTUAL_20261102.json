@@ -1,0 +1,477 @@
+{
+  "schema": "CORE_AVAILABLE_GPU_RESIDENT_CONTINUATION_ACTUAL_V2",
+  "observed_epoch": 1793622059.6873567,
+  "status": "GPU1_V1_NATIVE10_CLOSED_HEADROOM_FAILED_V2_CPU_PREPARED",
+  "control_queue_status": "READY_FOR_DISCONNECT_ACTUAL_RESIDENT_CONTROL_NOT_GUARANTEED_EXPERIMENT_SUCCESS",
+  "manager": {
+    "id": "core-gpu-flexible-matched-20261102-12",
+    "PID": 3851333,
+    "proc_start": 338922913,
+    "invocation": "f404d344db274d1aa451cf210cdd4ef6",
+    "source": "2269c7001fc481599af9a2acfb0b01ab3ef8bd41",
+    "seal_sha256": "2d6c247a59f38a0a09cc422d912ccab2aa178da9ce39043b28f6812653de4916",
+    "queue_sha256": "4983b8ab3e67057feb43ff37164b57d04d9c50bc5f1ddff9d7ddead8172359da",
+    "armed_epoch": 1793620122.0163784,
+    "current": "D2_SELECT",
+    "status": "WAITING_ACTUAL_RESOURCE",
+    "independent_disconnected_observations": [
+      {
+        "epoch": 1793620300.2090704,
+        "PID": 3851333,
+        "invocation": "f404d344db274d1aa451cf210cdd4ef6",
+        "heartbeat": 1793620286.8184228,
+        "current": "D2_S10_G1",
+        "status": "RUNNING"
+      },
+      {
+        "epoch": 1793620513.009902,
+        "PID": 3851333,
+        "invocation": "f404d344db274d1aa451cf210cdd4ef6",
+        "heartbeat": 1793620496.914666,
+        "current": "D2_S10_G1",
+        "status": "RUNNING"
+      },
+      {
+        "epoch": 1793620723.348344,
+        "PID": 3851333,
+        "invocation": "f404d344db274d1aa451cf210cdd4ef6",
+        "heartbeat": 1793620709.0236208,
+        "current": "D2_SELECT",
+        "status": "WAITING_ACTUAL_RESOURCE"
+      },
+      {
+        "epoch": 1793622059.6873567,
+        "PID": 3851333,
+        "invocation": "f404d344db274d1aa451cf210cdd4ef6",
+        "heartbeat": 1793622049.2887447,
+        "current": "D2_SELECT",
+        "status": "WAITING_ACTUAL_RESOURCE"
+      }
+    ],
+    "no_PC_browser_forwarded_auth_Vanda_runtime_dependency": true,
+    "existing_user_linger": true
+  },
+  "queue": {
+    "order": [
+      "D2_FRESH4096",
+      "PB_CONTROL_FRESH4096",
+      "PB_BOUNDARY_FRESH4096"
+    ],
+    "original_recipe_parent_data_statistics_effective_batch32_loss_schedule_unchanged": true,
+    "qualification_weights_never_resumed": true,
+    "all_project_model_loads_serial": true,
+    "cold_boundary_device_selection": true,
+    "GPU1_preferred_when_available_and_qualified": true,
+    "GPU0_shared_authorized_fallback": true,
+    "one_native10_per_new_arm_device": true,
+    "qualified_GPU0_D2_native10_adopted_not_rerun": true,
+    "GPU1_optional_probe_wait_upper_s": 180,
+    "training_entry_MiB": {
+      "0": 24576,
+      "1": 15360
+    },
+    "minimum_measured_training_headroom_bytes": 2147483648,
+    "minimum_available_host_RAM_bytes": 42949672960,
+    "stable_seconds": 120,
+    "each_native10_wall_upper_s": 1200,
+    "each_formal4096_wall_upper_s": 86400,
+    "hard_stop_epoch": 1793965229.6663134,
+    "old_closed_roles_and_clocks_preserved": true
+  },
+  "closed_GPU0_native10_lossless_qualification": {
+    "manifest_sha256": "2acd1165392101595b970a51cffdb27a7af9f191d3169ad03c413386b083586c",
+    "M32_CAPACITY_RESULT.json": {
+      "qualification_only": true,
+      "actual_optimizer_updates": 10,
+      "saved_and_restored": true,
+      "minimum_observed_free_bytes": 18417254400,
+      "maximum_allocated_bytes": 14350936064,
+      "maximum_reserved_bytes": 14852030464,
+      "capacity_pass": true,
+      "measured_points": 6,
+      "measured_free_is_shared_device_not_exclusive_allocation": true
+    },
+    "RESULT.json": {
+      "status": "COMPLETE_BOOK5_FINITE_TARGET_LEARNING",
+      "error": null,
+      "scientific_kind": "V7_BOOK_M32_FINITE_LEARNING",
+      "model_load_attempts": 1,
+      "generation_attempts": 32,
+      "completed_generations": 32,
+      "optimizer_updates": 10,
+      "TRAIN_visits": 320,
+      "physics_integrations": 0,
+      "DEV_conditions": 0,
+      "CPU_s": 446.463433558,
+      "wall_s": 194.6080528050661,
+      "completed_epoch": 1793619268.7560568
+    },
+    "ACTUAL_ACTIVATION_OFFLOAD.json": {
+      "policy": {
+        "schema": "M32_LOSSLESS_SAVED_ACTIVATION_CPU_V1",
+        "minimum_tensor_bytes": 65536,
+        "parameter_and_buffer_storage_offload": false,
+        "quantization": false,
+        "gradient_checkpointing": false,
+        "same_policy_on_both_devices_and_matched_arms": true
+      },
+      "copied_tensors": 132800,
+      "copied_bytes": 570734919680,
+      "restored_tensors": 132800,
+      "parameter_and_buffer_storages_excluded": 1046
+    },
+    "ACTUAL_DELTA_CHECKPOINT_RESTORE.json": {
+      "checkpoint_manifest_sha256": "b83eba106499362ffa3309895d164e04ddd5ddac5ccbf77d0effc1aef908894c",
+      "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "model_reconstruction": true,
+      "optimizer_state_entries": 42,
+      "optimizer_updates": 10,
+      "scheduler_restored": true,
+      "RNG_restored": true,
+      "sampler_cursor": 320,
+      "frozen_parent_unchanged": true,
+      "standalone_model": false
+    },
+    "control/LEASE.json": {
+      "status": "CLOSED",
+      "run_uuid": "v7-bc299-d2-memory-updates10-gpu0-01",
+      "manifest_sha256": "2acd1165392101595b970a51cffdb27a7af9f191d3169ad03c413386b083586c",
+      "authority": "GOAL_V7",
+      "deadline_epoch": 1793620262.146852,
+      "result_sha256": "7fd7a4680df5c83317a69721fe4cb2c23e3936bab90ee0748caf2d6fc343ed39",
+      "closed_epoch": 1793619274.3665485
+    }
+  },
+  "actual_same_GPU_old_vs_lossless_training_equivalence": {
+    "status": "COMPARED_ACTUAL_NATIVE10_OLD_VS_LOSSLESS_SAME_GPU",
+    "same_recipe_bytes": true,
+    "checkpoint_files": {
+      "target_parameters.pt": {
+        "before": "d968322a807dd119359422df79286285249b47b5f084742b21bd1c4a869ab743",
+        "after": "d968322a807dd119359422df79286285249b47b5f084742b21bd1c4a869ab743",
+        "byte_identical": true,
+        "bytes": 311405509
+      },
+      "optimizer.pt": {
+        "before": "d57a0a7e35d36bd705e78e5758648af73824829b738994e74a4ba212e0b59d95",
+        "after": "d57a0a7e35d36bd705e78e5758648af73824829b738994e74a4ba212e0b59d95",
+        "byte_identical": true,
+        "bytes": 622817483
+      },
+      "scheduler.pt": {
+        "before": "a27c35a49691aaa8ddb634a4d72fee96464928a4817b4d92b7f07cc65d474fd9",
+        "after": "a27c35a49691aaa8ddb634a4d72fee96464928a4817b4d92b7f07cc65d474fd9",
+        "byte_identical": true,
+        "bytes": 1465
+      },
+      "rng_state.pth": {
+        "before": "3ed536f9c5d772595c49976bc30e1c790e6e2d874bfb8dbdc0e8259ef20eee74",
+        "after": "3ed536f9c5d772595c49976bc30e1c790e6e2d874bfb8dbdc0e8259ef20eee74",
+        "byte_identical": true,
+        "bytes": 14645
+      }
+    },
+    "all_four_training_states_byte_identical": true,
+    "ten_loss_lr_cursor_records_exact": true,
+    "CPU_s": 0.702873826,
+    "new_model_loads": 0,
+    "new_optimizer_updates": 0,
+    "new_physics": 0,
+    "epoch": 1793619538.3884144
+  },
+  "current_native_jobs": {
+    "v7-bc299-d2-memory-updates10-gpu1-01": {
+      "unit": {
+        "MainPID": "0",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "[not set]",
+        "InvocationID": ""
+      },
+      "manifest_sha256": "9be29809201ce4fd9514d57a6e704feaa22980c8c7a8627069354d2294208c63",
+      "FIT_PROGRESS.json": {
+        "step": 10,
+        "cursor": 320,
+        "native_loss": 0.18658922612667084,
+        "learning_rate": [
+          7.8125e-06,
+          7.8125e-06
+        ],
+        "epoch": 1793620560.3213387
+      },
+      "M32_CAPACITY_RESULT.json": {
+        "qualification_only": true,
+        "actual_optimizer_updates": 10,
+        "saved_and_restored": true,
+        "minimum_observed_free_bytes": 1431109632,
+        "maximum_allocated_bytes": 14350936064,
+        "maximum_reserved_bytes": 14852030464,
+        "capacity_pass": false,
+        "measured_points": 6,
+        "measured_free_is_shared_device_not_exclusive_allocation": true
+      },
+      "RESULT.json": {
+        "status": "COMPLETE_BOOK5_FINITE_TARGET_LEARNING",
+        "error": null,
+        "scientific_kind": "V7_BOOK_M32_FINITE_LEARNING",
+        "model_load_attempts": 1,
+        "generation_attempts": 32,
+        "completed_generations": 32,
+        "optimizer_updates": 10,
+        "TRAIN_visits": 320,
+        "physics_integrations": 0,
+        "DEV_conditions": 0,
+        "CPU_s": 742.673767855,
+        "wall_s": 324.90801063366234,
+        "completed_epoch": 1793620591.6728776
+      },
+      "ACTUAL_ACTIVATION_OFFLOAD.json": {
+        "policy": {
+          "schema": "M32_LOSSLESS_SAVED_ACTIVATION_CPU_V1",
+          "minimum_tensor_bytes": 65536,
+          "parameter_and_buffer_storage_offload": false,
+          "quantization": false,
+          "gradient_checkpointing": false,
+          "same_policy_on_both_devices_and_matched_arms": true
+        },
+        "copied_tensors": 132800,
+        "copied_bytes": 570734919680,
+        "restored_tensors": 132800,
+        "parameter_and_buffer_storages_excluded": 1046
+      },
+      "ACTUAL_DELTA_CHECKPOINT_RESTORE.json": {
+        "checkpoint_manifest_sha256": "d65746ba7f15881c4c5016748a483eb6fbb11dd0572c6d456f55afb69d56cd48",
+        "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+        "model_reconstruction": true,
+        "optimizer_state_entries": 42,
+        "optimizer_updates": 10,
+        "scheduler_restored": true,
+        "RNG_restored": true,
+        "sampler_cursor": 320,
+        "frozen_parent_unchanged": true,
+        "standalone_model": false
+      },
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "v7-bc299-d2-memory-updates10-gpu1-01",
+        "manifest_sha256": "9be29809201ce4fd9514d57a6e704feaa22980c8c7a8627069354d2294208c63",
+        "authority": "GOAL_V7",
+        "deadline_epoch": 1793621455.8798378,
+        "result_sha256": "555ef3ae3d9a2012cf16b99364b4e4cc7679d65d3ba21792e70fd46e7ae01306",
+        "closed_epoch": 1793620618.2902024
+      },
+      "model_load_intent": true,
+      "model_loaded": true
+    }
+  },
+  "native_CPU_preflight": {
+    "CPU_s": 0.686903673,
+    "checks": {
+      "CONTROL": {
+        "draws": 131072,
+        "full_draw_sha256": "2627b228816863761fd7aea08ed8db9bca7e0d89d28d6b7ecf213939b5ac2c99",
+        "native10_same_first320": true,
+        "resumed_cursor65536": true
+      },
+      "BOUNDARY": {
+        "draws": 131072,
+        "full_draw_sha256": "95ea52b83088a2874020db66e69182e383a86dbc01531f7618dd0beedc61de96",
+        "native10_same_first320": true,
+        "resumed_cursor65536": true
+      }
+    },
+    "actual_worker_native10_entry_MiB": {
+      "D2": 15360,
+      "CONTROL": 15360,
+      "BOUNDARY": 15360
+    },
+    "actual_output_directory_created_and_exercised": true,
+    "original_qualified_native10_full_admission_revalidated": true
+  },
+  "repaired_control_failure": {
+    "previous_manager": "core-gpu-flexible-matched-20261102-11",
+    "reason": "Missing output receipt directory after all native10 updates, full restore, audit and canonical closure; no scientific state lost.",
+    "fix": "Create/test actual output directory and resume at the closed native10 boundary with its existing certificate. Native10 onGPU0 not repeated.",
+    "old_MainPID": 0,
+    "old_state_sha256": "c5ade765298e57788a2246490a5a10daeef05b3364a0d3b9eb30a892852906c8",
+    "old_terminal_sha256": "386da09d771856bc630a279c916bd53bcdf950b339297d25f48af67de84e6f04",
+    "independent_onceIO_receipts_and_qualified_reuse_sha256": "19d16022fad8e160c4c6e1c14077951ae8b52a0f93f45375be8bd46777a42282",
+    "cold_unarmed_runtime_rebind_independently_verified": true,
+    "formal_wall_finite_extended_from12h_to24h_for_measured_host_copy_cost": true
+  },
+  "results_at_snapshot": {
+    "new_closed_4096_endpoints": 0,
+    "new_valid_DEV": 0,
+    "new_task_successes": 0,
+    "old_Phase4096": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6
+    },
+    "old_D0": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    },
+    "old_D1": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    }
+  },
+  "limitations": [
+    "READY means a real server-resident controller with an actual queue and separate-connection heartbeat checks, not that all jobs are complete or guaranteed successful.",
+    "GPU1 formal training requires its own completed native10, full restore, CLOSED lease and original2GiB measured margin. A known capacity failure closes that device branch; qualifiedGPU0 remains the fallback.",
+    "The native byte-equivalence proof is onGPU0 at10updates; it does not prove different physical GPUs or long runs are byte-identical. Hardware identity is recorded per job.",
+    "CPU tensor copies are local host/device traffic, not a new dataset transfer or modified training labels.",
+    "RESET_DEV10 and the shared raw-parent baseline remain outstanding; this resident chain mounts training only.",
+    "All old STOPs, fees, qualified outputs and failed attempts remain. No NFS/SSH/mount/network/system/permission/credential changes, foreign process modification or checkpoint/data deletion.",
+    "V1 GPU1 native10 trained/restored successfully but1.33GiB minimum free did not admit formal training. V2 is an evidenced storage repair with CPU proof only at this snapshot; it must pass a new finite native qualification, without reopening V1 roles."
+  ],
+  "V2_cold_preparation": {
+    "policy_schema": "M32_CPU_FROZEN_CATEGORIES_BOUNDED_ACTIVATIONS_V2",
+    "retained_category_table_bytes": 1303134720,
+    "retained_category_tables": [
+      {
+        "name": "action_head.action_decoder.layer1.frozen_W",
+        "shape": [
+          32,
+          1024,
+          1024
+        ],
+        "dtype": "F32",
+        "bytes": 134217728
+      },
+      {
+        "name": "action_head.action_decoder.layer1.frozen_b",
+        "shape": [
+          32,
+          1024
+        ],
+        "dtype": "F32",
+        "bytes": 131072
+      },
+      {
+        "name": "action_head.action_decoder.layer2.frozen_W",
+        "shape": [
+          32,
+          1024,
+          132
+        ],
+        "dtype": "F32",
+        "bytes": 17301504
+      },
+      {
+        "name": "action_head.action_decoder.layer2.frozen_b",
+        "shape": [
+          32,
+          132
+        ],
+        "dtype": "F32",
+        "bytes": 16896
+      },
+      {
+        "name": "action_head.action_encoder.W1.frozen_W",
+        "shape": [
+          32,
+          132,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 25952256
+      },
+      {
+        "name": "action_head.action_encoder.W1.frozen_b",
+        "shape": [
+          32,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 196608
+      },
+      {
+        "name": "action_head.action_encoder.W2.frozen_W",
+        "shape": [
+          32,
+          3072,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 603979776
+      },
+      {
+        "name": "action_head.action_encoder.W2.frozen_b",
+        "shape": [
+          32,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 196608
+      },
+      {
+        "name": "action_head.action_encoder.W3.frozen_W",
+        "shape": [
+          32,
+          1536,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 301989888
+      },
+      {
+        "name": "action_head.action_encoder.W3.frozen_b",
+        "shape": [
+          32,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 196608
+      },
+      {
+        "name": "action_head.state_encoder.layer1.frozen_W",
+        "shape": [
+          32,
+          132,
+          1024
+        ],
+        "dtype": "F32",
+        "bytes": 17301504
+      },
+      {
+        "name": "action_head.state_encoder.layer1.frozen_b",
+        "shape": [
+          32,
+          1024
+        ],
+        "dtype": "F32",
+        "bytes": 131072
+      },
+      {
+        "name": "action_head.state_encoder.layer2.frozen_W",
+        "shape": [
+          32,
+          1024,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 201326592
+      },
+      {
+        "name": "action_head.state_encoder.layer2.frozen_b",
+        "shape": [
+          32,
+          1536
+        ],
+        "dtype": "F32",
+        "bytes": 196608
+      }
+    ],
+    "Core_neural_CPU_tests_passed": 5,
+    "CUDA_initialized": false,
+    "exact_target_outputs_input_gradients_parameter_gradients_and_AdamW": true,
+    "retained_through_generic_model_placement": true,
+    "activation_copy_maximum_per_microbatch_bytes": 1073741824,
+    "all_original_frozen_values_retained": true,
+    "recipe_and_trainable_parameters_unchanged": true,
+    "native_GPU_qualification": "NOT_RUN_AT_PUBLICATION"
+  }
+}

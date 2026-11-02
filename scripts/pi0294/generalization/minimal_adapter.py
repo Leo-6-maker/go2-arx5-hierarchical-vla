@@ -55,14 +55,39 @@ class TargetCategoryLinear(nn.Module):
         self.target_W = nn.Parameter(w[target].detach().clone())
         self.target_b = nn.Parameter(b[target].detach().clone())
 
+    def retain_frozen_tables_on_cpu(self):
+        """Explicit target-only execution; retain every frozen category value."""
+        self.frozen_W = self.frozen_W.to('cpu')
+        self.frozen_b = self.frozen_b.to('cpu')
+        self._cpu_frozen_table_dispatch = True
+        return sum(x.numel()*x.element_size() for x in (self.frozen_W,self.frozen_b))
+
+    def _apply(self, fn, recurse=True):
+        # Trainer/Accelerate may place an already placed model again. The
+        # explicitly retained tables must stay on CPU through that placement.
+        kept = {}
+        if getattr(self,'_cpu_frozen_table_dispatch',False):
+            kept = {name:self._buffers.pop(name) for name in ('frozen_W','frozen_b')}
+        try:
+            return super()._apply(fn,recurse=recurse)
+        finally:
+            self._buffers.update(kept)
+
     def forward(self, x, cat_ids):
         need(x.ndim == 3 and cat_ids.ndim == 1 and cat_ids.shape[0] == x.shape[0]
              and cat_ids.dtype == torch.int64 and cat_ids.device == x.device
-             and x.device == self.frozen_W.device and x.shape[2] == self.frozen_W.shape[1],
+             and x.device == (self.target_W.device if getattr(self,'_cpu_frozen_table_dispatch',False)
+                              else self.frozen_W.device) and x.shape[2] == self.frozen_W.shape[1],
              'PINNED_CATEGORY_BATCH_SHAPE_AND_DEVICE_REQUIRED')
         need(bool(((cat_ids >= 0) & (cat_ids < self.num_categories)).all()),
              'NO_NEGATIVE_OR_UNKNOWN_CATEGORY')
         selected = cat_ids == self.target
+        if getattr(self,'_cpu_frozen_table_dispatch',False):
+            need(self.frozen_W.device.type=='cpu' and self.frozen_b.device.type=='cpu'
+                 and bool(selected.all()),'CPU_FROZEN_TABLES_REQUIRE_EXACT_TARGET_ONLY_DISPATCH')
+            w = self.target_W[None].expand(x.shape[0],-1,-1)
+            b = self.target_b[None].expand(x.shape[0],-1)
+            return torch.bmm(x,w)+b.unsqueeze(1)
         w = torch.where(selected[:, None, None], self.target_W[None], self.frozen_W[cat_ids])
         b = torch.where(selected[:, None], self.target_b[None], self.frozen_b[cat_ids])
         # No no_grad: a frozen shared DiT must still backpropagate to this input.
