@@ -49,6 +49,11 @@ def preflight(root):
             or lease.get('manifest_sha256') != sha(root/'RUN_MANIFEST.json')
             or time.time() >= lease.get('deadline_epoch', 0)):
         raise PermissionError('ONE_SEALED_NATIVE_ZERO_INTEGRATION_CHECK')
+    for name,pin in m['sealed_inputs'].items():
+        if sha(root/name)!=pin:
+            raise PermissionError('SEALED_QUALIFICATION_INPUT_CHANGED:'+name)
+    if sha(Path(request['dependency_source']).parent/'CAPSULE_SEAL.json')!=request['dependency_seal_sha256']:
+        raise PermissionError('UNCHANGED_LOCAL_DEPENDENCY_CAPSULE')
     source = Path(__file__).resolve().parents[3]
     for name, pin in read(root/'SOURCE_CUSTODY.json')['files'].items():
         if sha(source/name) != pin:
