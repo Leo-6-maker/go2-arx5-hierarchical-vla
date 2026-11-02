@@ -1,0 +1,185 @@
+{
+  "schema": "SOURCE_RESET_SCOPED_WRITER_NATIVE_PASS_V1",
+  "observed_epoch": 1793643010.7294228,
+  "source_commit": "30ccb598896e8ba5a0dc9712fa746b1b03939559",
+  "PR332_main": "380f7ddc9ce40633ea1d099e36e5e775ea932839",
+  "new_cold_attempt": {
+    "result": {
+      "status": "COMPLETE_NATIVE_SOURCE_CAMERA_RESET_QUALIFICATION",
+      "error": null,
+      "children_attempted": 12,
+      "children_completed": 12,
+      "physics_integrations": 0,
+      "RGB_pairs": 8,
+      "RGB_pairs_upper": 8,
+      "neural_models": 0,
+      "optimizer_updates": 0,
+      "valid_DEV_conditions": 0,
+      "CPU_s": 12.773997825999999,
+      "wall_s": 14.69109416892752,
+      "epoch": 1793642655.0346885,
+      "full_task_dynamics_qualified": false
+    },
+    "result_sha256": "50b7c7539d12b2c0e9ff0585d5bdba65cd4ec013398577442e2f97847909f9bf",
+    "shared_qualification_sha256": "847f7f1753cd873072dabbd93001c05e2111901385422e63e3bcbfef7eeb5901",
+    "book_qualification_sha256": "53a31bd2bf6a79661b8cb500dcfa4de8d09cd129960cb96ecc87f649cffc11e4",
+    "lease_sha256": "50f5244ba248bd4d471d102279f9be0179fb24b760feae29b3312a492185eda9",
+    "CLOSED": true,
+    "all_twelve_results_and_sixteen_original_PNG_hashes_readback": true,
+    "tasks": {
+      "T1": {
+        "two_distinct_processes_same_home_and_noise": true,
+        "original_dual_cameras_pass": true,
+        "dirty_rejected": true,
+        "cross_process_PNG_bytes_identical": true
+      },
+      "T2": {
+        "two_distinct_processes_same_home_and_noise": true,
+        "original_dual_cameras_pass": true,
+        "dirty_rejected": true,
+        "cross_process_PNG_bytes_identical": true
+      },
+      "BOOK": {
+        "two_distinct_processes_same_home_and_noise": true,
+        "original_dual_cameras_pass": true,
+        "dirty_rejected": true,
+        "cross_process_PNG_bytes_identical": true
+      },
+      "DOOR": {
+        "two_distinct_processes_same_home_and_noise": true,
+        "original_dual_cameras_pass": true,
+        "dirty_rejected": true,
+        "cross_process_PNG_bytes_identical": false
+      }
+    }
+  },
+  "fault_checks": {
+    "live_predecessor_rejected": {
+      "rejected": true,
+      "error": "PREDECESSOR_PROCESS_STILL_LIVE_OR_UNKNOWN",
+      "next_condition_started": false
+    },
+    "registered_pid_reuse_rejected": {
+      "rejected": true,
+      "error": "REGISTERED_PID_REUSED_OR_AMBIGUOUS",
+      "next_condition_started": false
+    },
+    "unknown_close_rejected": {
+      "rejected": true,
+      "error": "INDEPENDENT_NATIVE_CLOSE_NOT_ESTABLISHED",
+      "next_condition_started": false
+    },
+    "residual_writer_rejected": {
+      "rejected": true,
+      "error": "PREDECESSOR_RESIDUAL_WRITER",
+      "next_condition_started": false
+    }
+  },
+  "actual_M13_fixture_source_sha256": "f5398cfba95f5d4d180dc0b0a71d57ddfa6f09f7a4e6bf45f7412f68b6278692",
+  "M13_failure_fixtures": [
+    {
+      "failed_arm": "D2",
+      "native_effects_closed": true,
+      "calls": [
+        [
+          "D2",
+          10
+        ],
+        [
+          "D2",
+          4096
+        ],
+        [
+          "CONTROL",
+          10
+        ],
+        [
+          "CONTROL",
+          4096
+        ],
+        [
+          "BOUNDARY",
+          10
+        ],
+        [
+          "BOUNDARY",
+          4096
+        ]
+      ],
+      "error": null,
+      "final_state": "COMPLETE",
+      "passed": true
+    },
+    {
+      "failed_arm": "CONTROL",
+      "native_effects_closed": true,
+      "calls": [
+        [
+          "D2",
+          10
+        ],
+        [
+          "D2",
+          4096
+        ],
+        [
+          "CONTROL",
+          10
+        ],
+        [
+          "CONTROL",
+          4096
+        ],
+        [
+          "BOUNDARY",
+          10
+        ],
+        [
+          "BOUNDARY",
+          4096
+        ]
+      ],
+      "error": null,
+      "final_state": "COMPLETE",
+      "passed": true
+    },
+    {
+      "failed_arm": "D2",
+      "native_effects_closed": false,
+      "calls": [
+        [
+          "D2",
+          10
+        ],
+        [
+          "D2",
+          4096
+        ]
+      ],
+      "error": "UNKNOWN_EFFECTS_BLOCK_NEXT_ARM",
+      "final_state": "BLOCKED",
+      "passed": true
+    }
+  ],
+  "latest_D2": {
+    "step": 1215,
+    "TRAIN_visits": 38880,
+    "full4096": false,
+    "checkpoint1024_restored42": true,
+    "healthy_original_identity_unchanged": true
+  },
+  "new_BOOK_RESET_valid_conditions": 0,
+  "new_shared_native_GPU_models": 0,
+  "new_shared8192_checkpoints": 0,
+  "native_adapter": {
+    "implemented": true,
+    "targeted_CPU_checks": 120,
+    "full_Night10_deployed": false
+  },
+  "limitations": [
+    "This certifies camera/independent reset and predecessor faults, not full task dynamics or policy success.",
+    "DOOR renders passed original camera qualification but their independent PNG bytes differ; no cross-process bitwise-render invariant is claimed.",
+    "The old failed qualification, its costs, old DEV panels and STOPs are unchanged.",
+    "Actual new full Night10 residency and shared GPU qualifications remain to be demonstrated."
+  ]
+}
