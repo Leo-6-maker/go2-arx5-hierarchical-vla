@@ -289,7 +289,11 @@ def run(root,manifest_sha256):
     try:
         guard()
         from scripts.pi0294.multitask.book_gpu_capacity import entry_requirement
-        if torch.cuda.device_count()!=1 or torch.cuda.mem_get_info()[0]<entry_requirement(m):raise PermissionError('BOOK_DEV10_EXPLICIT_NATIVE_GPU_CAPACITY_ENTRY')
+        count=torch.cuda.device_count();required=entry_requirement(m)
+        free,total=torch.cuda.mem_get_info()if count==1 else(0,0)
+        put(root/'GPU_ENTRY_OBSERVATION.json',dict(visible=os.environ.get('CUDA_VISIBLE_DEVICES'),
+            device_count=count,free_bytes=free,total_bytes=total,required_free_bytes=required,epoch=time.time()))
+        if count!=1 or free<required:raise PermissionError('BOOK_DEV10_EXPLICIT_NATIVE_GPU_CAPACITY_ENTRY')
         put(root/'MODEL_LOAD_INTENT.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],epoch=time.time()));loads+=1
         model,info=AutoModel.from_pretrained(m['parent_checkpoint'],**loader_kwargs(local_model_name(root,bindings),bindings['cosmos_hub'],COSMOS_REVISION));validate_loading(model,info)
         contract=ParameterContract(model,'E1_ADAPTER_ONLY',10);restore_keys=load_wrapped(model,checkpoint)
