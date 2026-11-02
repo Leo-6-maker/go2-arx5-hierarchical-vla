@@ -122,12 +122,16 @@ def test_actual_writable_descriptor_is_detected_and_readonly_consumer_is_allowed
     root=tmp_path/'raw';root.mkdir();file=root/'records';file.write_text('retained')
     # Use the live process's /proc entries, not a claimed PID or a stale marker.
     proc=tmp_path/'proc';proc.mkdir();(proc/str(os.getpid())).symlink_to(Path('/proc')/str(os.getpid()))
+    scope=dict(schema='REGISTERED_PROJECT_WRITER_SCOPE_V1',root=str(root),unit='raw.service',
+        InvocationID='a'*32,ControlGroup='/user.slice/raw.service',host=os.uname().nodename,
+        uid=os.getuid(),boot_id=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
+        processes=[reset.process_identity(os.getpid())])
     with file.open('rb'):
-        assert reset.live_writers(root,proc=proc)==[]
+        assert reset.live_writers(root,scope=scope,proc=proc)==[]
     with file.open('ab'):
-        rows=reset.live_writers(root,proc=proc)
+        rows=reset.live_writers(root,scope=scope,proc=proc)
         assert len(rows)==1 and rows[0]['PID']==os.getpid() and rows[0]['relative_path']=='records'
-    assert reset.live_writers(root,proc=proc)==[]
+    assert reset.live_writers(root,scope=scope,proc=proc)==[]
 
 
 def fresh():

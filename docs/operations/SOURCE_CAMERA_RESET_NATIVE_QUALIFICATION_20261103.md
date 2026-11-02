@@ -120,3 +120,35 @@ D2 independently reached 1039/4096, and checkpoint 1024 has actual model/42-stat
 AdamW, scheduler, RNG and sampler-cursor32768 restoration evidence. Its formal
 4096 endpoint remains incomplete. The existing training successor queue is
 still running with its original source and identity.
+
+
+## Registered writer custody repair
+
+The original completed attempt remains FAILED/CLOSED. Its twelve native children
+and eight RGB pairs passed; the final same-UID descriptor census encountered an
+unrelated protected systemd user manager. No permission, service or mount change
+is needed or authorized.
+
+New cold qualification versions capture the actual live predecessor unit,
+InvocationID, cgroup, boot ID and PID/start ticks, plus explicitly registered
+external project consumers. The existing sealed RESET_PREDECESSOR input carries
+this scope. Only those identities and their descendants receive descriptor
+inspection. The predecessor cgroup and its child cgroups must independently be
+empty. Missing scopes, reused PIDs, denied relevant FDs, changing process sets or
+changed unit invocations refuse admission. This is not a process-name whitelist
+or a blanket PermissionError waiver. Old producers need independently verified
+launch identities when bound as new evaluation predecessors; no historical launch
+identity is invented.
+
+CPU regression includes live children, writable vs read-only holders, retained
+writers, relevant permission denial, PID reuse, ambiguous scope, process-set
+changes and an unrelated same-UID systemd manager. These checks do not replace
+Core native qualification. The native probe now seals its live identities before
+normal exit and tests PID reuse in addition to the original live/UNKNOWN/writer
+faults. It still performs no physics integration or model load.
+
+The actual sealed M13 `run` control flow was also executed in isolated fixtures,
+with its bytes independently compared to the deployed source. A CLOSED known D2
+failure proceeds to CONTROL and BOUNDARY; a CLOSED known CONTROL failure proceeds
+to BOUNDARY; an unclosed D2 effect stops the chain. No live manager or training
+worker was changed. This verifies control flow, not completion of future jobs.
