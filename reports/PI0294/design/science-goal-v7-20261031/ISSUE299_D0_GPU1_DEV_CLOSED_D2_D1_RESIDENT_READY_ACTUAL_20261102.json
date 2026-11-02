@@ -1,0 +1,276 @@
+{
+  "schema": "ISSUE299_D0_GPU1_DEV_CLOSED_D2_D1_RESIDENT_READY_ACTUAL_V1",
+  "observed_SGT": "2026-11-02T13:28:04.080494+08:00",
+  "evidence_scope": "Actual authenticated Core node readbacks; public sanitized summary, private inputs/raw/model states are retained outside GitHub.",
+  "D0_training": {
+    "optimizer_updates": 4096,
+    "TRAIN_window_visits": 131072,
+    "distinct_TRAIN_windows": 12533,
+    "entries": 21,
+    "full_states_restored": [
+      1024,
+      2048,
+      4096
+    ],
+    "canonical_status": "CLOSED",
+    "checkpoint_manifest_sha256": "a73654690590996eb0db295c132254ae63a7c888a07bb322143c17e1283fd051",
+    "TRAIN16": {
+      "H40_XYZ_mm": [
+        51.97063,
+        7.58112,
+        6.66757,
+        4.19335
+      ],
+      "Prefix8_XYZ_mm": [
+        41.85477,
+        7.59285,
+        6.10334,
+        3.61118
+      ],
+      "Prefix8_grip_MAE": [
+        0.175125,
+        0.058926,
+        0.018633,
+        0.007441
+      ],
+      "endpoints": [
+        0,
+        1024,
+        2048,
+        4096
+      ]
+    },
+    "matched_comparison_caveat": "D0 uses the new common statistics; old Phase4096 used different statistics, so D0-vs-Phase is not a strict sampling-only comparison."
+  },
+  "D0_GPU1_native96": {
+    "run_id": "v7-bc299-d0-train32-gpu1-04",
+    "status": "COMPLETE_AND_CANONICALLY_CLOSED",
+    "TRAIN_windows": 32,
+    "noise_replicates": 3,
+    "actual_generations": 96,
+    "all96_inputs_labels_arrays_metrics_and_gates_recomputed": true,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "formal_DEV_conditions": 0,
+    "minimum_free_bytes": 2716663808,
+    "capacity_pass": true,
+    "training_admitted": false,
+    "result_sha256": "13d4c8d6c43e840489361a34adc7ec37f357c8b4e44589c32c9af30786d1cb26"
+  },
+  "D0_original_DEV10": {
+    "run_id": "v7-bc299-d0-original-dev10-gpu1-03",
+    "canonical_status": "CLOSED",
+    "native_manifest_sha256": "8a1fabe00d48eb2482fcf97bdd5ea15231b0d93fc9ae9e8608eb8c126a34d539",
+    "result_sha256": "aa329b71d72c45173281767545a6be619361bd71f8e8998a5b34e1a0494b20f7",
+    "independent_closed_status": "M32_ORIGINAL_DEV10_CLOSED_FULL_INDEPENDENT_READBACK",
+    "valid_conditions": 1,
+    "successes": 0,
+    "remaining_unrun": 9,
+    "hard_native_safety_conditions": 1,
+    "model_queries": 56,
+    "integrations": 13634,
+    "RGB_pairs": 447,
+    "failed_command_is_not_expert_label": true,
+    "DEV_data_not_admitted_to_TRAIN": true,
+    "actual_usage": {
+      "model_loads": 1,
+      "generation_queries": 56,
+      "valid_DEV_conditions": 1,
+      "DEV_successes": 0,
+      "unrun_DEV_conditions": 9,
+      "hard_native_safety_conditions": 1,
+      "physics_integrations": 13634,
+      "source_episode_starts": 1,
+      "source_constructors": 1,
+      "RGB_pairs": 447,
+      "optimizer_updates": 0,
+      "CPU_s": 96.292167,
+      "GPU_allocated_s_upper": 77,
+      "own_allocated_bytes_before_closing": 142204928,
+      "result_sha256": "aa329b71d72c45173281767545a6be619361bd71f8e8998a5b34e1a0494b20f7",
+      "checkpoint_manifest_sha256": "a73654690590996eb0db295c132254ae63a7c888a07bb322143c17e1283fd051",
+      "independent_audit_sha256": "49033756ce5a4111f8ae12cb569a3d83f3bc34a2ac52135f912ce21ac4dcbbf3",
+      "all_costs_retained": true,
+      "STOP_sha256": "0e13aee465ecc39d4fbcd7dda4e3427cd85fdb26da20661acac34e0dc92bad5d"
+    },
+    "minimum_runtime_free_bytes": 2364932096,
+    "runtime_capacity_pass": true,
+    "first_failure": {
+      "condition": "BOOK_DEV000",
+      "xy_offset_m": [
+        0.006,
+        0.0
+      ],
+      "task_s": 22.268,
+      "native_step": 13634,
+      "reason": "JOINT_LIMIT",
+      "joint_one_based": 4,
+      "actual_rad": -1.6720328401884668,
+      "original_lower_rad": -1.6660000000000001,
+      "penetration_rad": 0.0060328401884667,
+      "completed_action_intervals": 445,
+      "failed_action_intervals": 1
+    },
+    "interpretation": "A valid negative model-behavior result, not a VRAM refusal. Reference gates accepted before the native joint stop. Attribution among reference trajectory, tracking and contact requires synchronized raw analysis; terminal native_grasp=false is not by itself proof of why grasp was lost.",
+    "source_Teacher_training_admitted": false,
+    "preserved_full_episode_audit_flags": [
+      "COMMAND_MUST_PRECEDE_ITS_NATIVE_TICKS_AND_COMPLETION",
+      "FULL_5S_WARMUP_AND_32S_TASK_NOT_COMPLETE",
+      "ONE_ACTUAL_H40_PER_PREFIX8_BOUNDARY"
+    ],
+    "audit_scope": "Original full-episode Teacher validator retains incomplete 32s/640-command/80-plan flags. The separate partial-prefix model-evaluation audit verifies all actual model inputs, predictions, installed/completed commands and native safety score. No stopped DEV suffix is admitted as expert data."
+  },
+  "D0_waiting_queue": {
+    "queue_id": "core-d0-gpu1-eval-queued-20261102-01",
+    "status": "COMPLETE_NATIVE_EFFECTS_CLOSED",
+    "server_launch_SGT": "2026-11-02T13:06:11+08:00",
+    "automatic_DEV_start_SGT": "2026-11-02T13:07:11+08:00",
+    "server_complete_SGT": "2026-11-02T13:08:56+08:00",
+    "required_resource_stability_s": 60,
+    "formal_conditions_retried": 0,
+    "remaining9_not_retried": true,
+    "PC_or_Vanda_dependency": false
+  },
+  "actual_data": {
+    "source07_first_attempts": 18,
+    "new_full_cabinet": 4,
+    "cabinet_full_total": 5,
+    "new_full_BOOK_geometry": 6,
+    "BOOK_pure_full_total": 21,
+    "late_expert_suffixes": 7,
+    "late_NO_EVENT_zero_label": 1,
+    "all_expert_suffixes": 13,
+    "common_population_entries": 59,
+    "common_full_entries": 46,
+    "common_partial_entries": 13,
+    "common_H40_windows": 34563,
+    "common_statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+    "official_codec_all_windows_and_real_dual_RGB": "PASS",
+    "new_collection_this_readback": 0,
+    "frozen_arms": {
+      "D0": {
+        "entries": 21,
+        "windows": 12533,
+        "manifest_sha256": "811574e60127cd481a9553b3d900a8d21ccbc5079b593f3d1bbfa3fef5213066",
+        "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+        "new_qualified_entries": 0
+      },
+      "D1": {
+        "entries": 27,
+        "windows": 16139,
+        "manifest_sha256": "1dcb555894a3400b0ec1a032c60a039e2b40ac38705f339ff2d327b10a1c3c9d",
+        "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+        "new_qualified_entries": 6
+      },
+      "D2": {
+        "entries": 28,
+        "windows": 15932,
+        "manifest_sha256": "f6f375233430c88f6e3909345ba64920a7768c9030306108e070f5e6a1b139f1",
+        "statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+        "new_qualified_entries": 7
+      }
+    }
+  },
+  "successor": {
+    "queue_id": "core-bc-dagger-matched-20261102-05",
+    "status": "READY_FOR_DISCONNECT",
+    "actual_unit_state": "active",
+    "PID": 2971611,
+    "proc_start": "336626760",
+    "InvocationID": "6ed98ef4863248c2a6fe87e0460af5c6",
+    "capsule_seal_sha256": "152e016231eaed4d71f04324ae1b5139f8991410788b4531f46c8a36e571be7d",
+    "queue_sha256": "a211d84585abe82c74a41de622dd8b5f089c7cfb090c772c72cf1633d9dd92ab",
+    "CPU_native_qualification": "PASS_NATIVE_CPU_FROZEN_ADMISSION_AND_SUCCESSOR_ENTRY",
+    "disconnected_control_readbacks": [
+      {
+        "observed_SGT": "2026-11-02T13:26:09.293844+08:00",
+        "heartbeat_epoch": 1793597160.609767,
+        "PID": 2971611,
+        "proc_start": "336626760",
+        "InvocationID": "6ed98ef4863248c2a6fe87e0460af5c6"
+      },
+      {
+        "observed_SGT": "2026-11-02T13:26:46.136405+08:00",
+        "heartbeat_epoch": 1793597205.7837882,
+        "PID": 2971611,
+        "proc_start": "336626760",
+        "InvocationID": "6ed98ef4863248c2a6fe87e0460af5c6"
+      },
+      {
+        "observed_SGT": "2026-11-02T13:28:04.080494+08:00",
+        "heartbeat_epoch": 1793597264.7041657,
+        "PID": 2971611,
+        "proc_start": "336626760",
+        "InvocationID": "6ed98ef4863248c2a6fe87e0460af5c6"
+      }
+    ],
+    "current": "D2_S10",
+    "actual_jobs": {
+      "v7-bc299-d2-updates10-01": {
+        "unit": "MainPID=2973386\nSubState=running\nInvocationID=13e36a9985e441789e1c3ebbae599efd\n",
+        "lease": "ACTIVE",
+        "progress": null,
+        "result_status": null,
+        "model_loaded": true
+      }
+    },
+    "order": [
+      "D2_NATIVE10_FRESH4096_GPU0",
+      "D2_NATIVE96_AND_ORIGINAL_DEV10_GPU1",
+      "D1_NATIVE10_FRESH4096_GPU0",
+      "D1_NATIVE96_AND_ORIGINAL_DEV10_GPU1",
+      "LOCAL_SUMMARY"
+    ],
+    "all_model_loads_serial": true,
+    "training_GPU": 0,
+    "inference_and_physics_GPU": 1,
+    "GPU1_training_admitted": false,
+    "per_endpoint_GPU1_closed_native96_required": true,
+    "original_matched_clock_SGT": "2026-11-05T01:27:09.193958+08:00",
+    "no_PC_Vanda_forwarded_auth_dependency": true,
+    "old_D0_DEV_retries": 0,
+    "maximum_native_training_updates_per_arm": 10,
+    "formal_training_updates_per_arm": 4096,
+    "native10_is_not_formal_warm_start": true,
+    "healthy_jobs_not_modified": true,
+    "failure_isolation": "A terminal failed optimizer may be closed with actual costs and the independent next arm proceeds. Unknown effects or unproven cold/safety/ownership stop the affected continuation. A normal DEV safety stop closes that panel, retains unrun conditions and does not rewrite scores."
+  },
+  "preserved_baseline": {
+    "Phase4096": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6,
+      "hard_safety": 1
+    },
+    "uniform4096": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    },
+    "development_candidate_qualified": false,
+    "shared_four_task_policy_completed": false,
+    "target_WBC_success": false
+  },
+  "scientific_limits": [
+    "The current BOOK DEV panel is a small geometry/initial-state panel; cross-object, background and task generalization is not established.",
+    "New full Teacher episodes and expert recovery suffixes are distinct labels. Neither is student DEV success.",
+    "D1/D2 effects remain unknown until the same matched recipe produces complete endpoints and actual original DEV outcomes.",
+    "E1/E2/D25 and target S1 have no new valid results in this readback. Vanda remains untouched during the maintenance window."
+  ],
+  "engineering_effects": {
+    "failed_old_D0_TRAIN32": "One generation then capacity-request/model-payload variable collision; closed with real costs.",
+    "GPU1_wrong_dataset_preflight": "Loaded model then refused mismatched statistics before generation; closed with real costs.",
+    "GPU1_old_source_unstarted": "Cold-aborted registered unstarted role, no model/physics.",
+    "GPU1_DEV01": "Capacity changed before model load: 0 models/queries/physics/valid, closed.",
+    "GPU1_DEV02": "No registered run or compute. Exact pre-registration capacity refusal, one metadata file; UNKNOWN resolved independently and full control upper retained.",
+    "source_fixes_PRs": [
+      308,
+      309,
+      310
+    ],
+    "local_targeted_pytest": {
+      "passed": 7,
+      "warning": "Existing pytest pythonpath config option warning; no CI run claimed."
+    }
+  }
+}
