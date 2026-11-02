@@ -21,3 +21,13 @@
 该配方不同于4096步book日程，8192中的4096点不是原4096终点的等价比较。旧E1/E2、b248及原DEC1不改。新recipe未接入现役book启动器，不会因数据reader开放自动启动训练。仍待完成Core原raw交付/绑定、零更新模型结果、实际训练器接线、原生前后向/完整状态恢复与设备容量、四任务评价入口。固定模型和条件后再进入实际共享学习与逐任务评价。
 
 [真实source59完整CPU曝光](../../reports/PI0294/design/controlled-finetuning-20261102/SHARED4_SOURCE59_TASK8_CPU_EXPOSURE_ACTUAL_20261102.json)
+
+## Core实际采用与DEV引用修正（22:40 SGT）
+
+原raw七文件已在Core节点本地完成全流校验和独立stat身份复核。新共享59数据reader以原NativeDataset的for_optimization=True实际构造；6377253数值字节逐份SHA一致，统计/RGB原引用保持，原官方资格按相同字节复用，不声称重新运行Processor。Core NumPy1.26.4无Torch/CUDA完成全部采样，与PC序列一致；子进程OS0且回收，零模型/更新/物理。
+
+首次冻结发现原共同DEV文件只有T1/T2各24与DOOR10，BOOK10存在另一份原封存TRAIN_DEV文件。共享模型尚未启动；保留初版、费用和结果，在新独立V2中补齐BOOK原条件/噪声，完整绑定68个既有DEV定义。新数据schema为V2；初版不作为共享模型输入绑定。DEV定义完整不等于各条件原生可执行或模型成功，未合格候选和旧STOP仍保留。
+
+当前D2继续392/4096、12544访问。raw零步模型、训练器/完整checkpoint接线、原生10步和GPU容量、四任务政策评价入口仍待完成；数据采用不会自动启动共享训练。
+
+[Core实际交付、V2采用、修正成本与未完成项](../../reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_RAW_INPUTS_AND_FROZEN59_ACTUAL_20261102.json)
