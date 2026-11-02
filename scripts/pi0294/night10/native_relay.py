@@ -28,6 +28,11 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def snapshot(path):
+    body=Path(path).read_bytes()
+    return json.loads(body),hashlib.sha256(body).hexdigest()
+
+
 def exclusive(path,value):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('xb')as f:f.write(raw(value));f.flush();os.fsync(f.fileno())
@@ -38,10 +43,10 @@ def update(path,value):
     atomic(Path(path),value)
 
 
-def once(path,value,key):
+def once(path,value,key,*,expected_before_sha256):
     from scripts.pi0294.dec1.source_cpu_once_io import commit
     path=Path(path)
-    return commit(path,expected_before_sha256=sha(path),proposed_bytes=raw(value),request_id=key,
+    return commit(path,expected_before_sha256=expected_before_sha256,proposed_bytes=raw(value),request_id=key,
         intent_path=path.with_name(key+'.INTENT.json'),receipt_path=path.with_name(key+'.RECEIPT.json'),
         lock_path=path.with_suffix('.owner.lock'))
 
@@ -119,7 +124,7 @@ def stage(c,name,module,manifest,files):
             if manifest.get('recipe',{}).get('max_steps')!=8192 else time.time()+c['formal_seconds'])
     manifest['sealed_inputs']={n:sha(root/n)for n in files}|{'worker.py':sha(root/'worker.py')}
     exclusive(root/'RUN_MANIFEST.json',manifest)
-    registry=read(c['registry']);account=read(c['LOCAL'])
+    registry,registry_before=snapshot(c['registry']);account,account_before=snapshot(c['LOCAL'])
     if any(account.get(n)!=[]for n in('unknown_effects','pending_updates','pending_queries')):
         raise PermissionError('CANONICAL_UNKNOWN_EFFECTS_BLOCK_ADMISSION')
     if any(e.get('path')==str(root)or e.get('role')==manifest['role']for e in registry['entries']):
@@ -130,7 +135,8 @@ def stage(c,name,module,manifest,files):
     account.setdefault('V7_book_learning_runs',{})[root.name]=dict(status='REGISTERED_NOT_STARTED',
         root=str(root),role=manifest['role'],manifest_sha256=sha(root/'RUN_MANIFEST.json'),
         finite_limits=manifest['limits'],original_campaign_costs_and_protected_forecast_unchanged=True)
-    once(c['registry'],registry,root.name+'-REGISTER');once(c['LOCAL'],account,root.name+'-ADMIT')
+    once(c['registry'],registry,root.name+'-REGISTER',expected_before_sha256=registry_before)
+    once(c['LOCAL'],account,root.name+'-ADMIT',expected_before_sha256=account_before)
     exclusive(root/'control/REGISTERED_PATHS.json',read(c['registry']))
     exclusive(root/'control/LEASE.json',dict(status='ACTIVE',run_uuid=root.name,
         manifest_sha256=sha(root/'RUN_MANIFEST.json'),deadline_epoch=manifest['deadline_epoch']))
@@ -200,7 +206,7 @@ def execute(c,root):
     if group.exists()and any(f.read_text().strip()for f in group.rglob('cgroup.procs')):
         raise PermissionError('UNKNOWN_NATIVE_CHILD_CGROUP')
     if live_writers(root,scope=scope):raise PermissionError('UNKNOWN_NATIVE_RESIDUAL_WRITER')
-    account=read(c['LOCAL']);row=account['V7_book_learning_runs'][root.name]
+    account,account_before=snapshot(c['LOCAL']);row=account['V7_book_learning_runs'][root.name]
     if row['status']!='REGISTERED_NOT_STARTED'or row['manifest_sha256']!=sha(root/'RUN_MANIFEST.json'):
         raise PermissionError('UNKNOWN_CANONICAL_RUN_TRANSITION')
     counts.update(result_sha256=sha(root/'RESULT.json'),CPU_s=int(state['CPUUsageNSec'])/1e9,
@@ -209,9 +215,10 @@ def execute(c,root):
         TRAIN_window_visits=result.get('TRAIN_visits',0),
         all_costs_retained=True,scientific_success_not_inferred_from_exit=True)
     row.update(status='NATIVE_TERMINAL',actual=counts,closed_epoch=time.time(),all_old_campaign_costs_retained=True)
-    once(c['LOCAL'],account,root.name+'-TERMINAL')
-    lease=read(root/'control/LEASE.json');lease.update(status='CLOSED',result_sha256=sha(root/'RESULT.json'),closed_epoch=time.time())
-    once(root/'control/LEASE.json',lease,root.name+'-LEASE-CLOSE')
+    once(c['LOCAL'],account,root.name+'-TERMINAL',expected_before_sha256=account_before)
+    lease,lease_before=snapshot(root/'control/LEASE.json')
+    lease.update(status='CLOSED',result_sha256=sha(root/'RESULT.json'),closed_epoch=time.time())
+    once(root/'control/LEASE.json',lease,root.name+'-LEASE-CLOSE',expected_before_sha256=lease_before)
     exclusive(root/'RELAY_CLOSED.json',dict(lifecycle='TERMINAL',effects_closed=True,actual=counts,
         native_status=result['status'],scientific_success_not_inferred_from_exit=True,process_scope=scope))
     return result

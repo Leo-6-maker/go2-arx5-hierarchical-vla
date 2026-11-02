@@ -11,6 +11,24 @@ def put(path,value):
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value))
 
 
+def test_concurrent_canonical_writer_cannot_be_overwritten_with_a_stale_proposal(tmp_path):
+    ledger=tmp_path/'ledger.json';put(ledger,dict(roles=['existing']))
+    proposal,before=relay.snapshot(ledger);proposal['roles'].append('our-new-role')
+    put(ledger,dict(roles=['existing','concurrent-owner']))
+    with pytest.raises(PermissionError,match='ACTUAL_LEDGER_CHANGED_BEFORE_INTENT'):
+        relay.once(ledger,proposal,'COLD-REGISTER',expected_before_sha256=before)
+    assert relay.read(ledger)['roles']==['existing','concurrent-owner']
+    assert not(ledger.parent/'COLD-REGISTER.INTENT.json').exists()
+
+
+def test_once_metadata_commit_uses_the_exact_read_snapshot_and_retains_other_roles(tmp_path):
+    ledger=tmp_path/'ledger.json';put(ledger,dict(roles=['existing']))
+    proposal,before=relay.snapshot(ledger);proposal['roles'].append('our-new-role')
+    receipt=relay.once(ledger,proposal,'COLD-REGISTER',expected_before_sha256=before)
+    assert receipt['before_sha256']==before and receipt['after_sha256']==relay.sha(ledger)
+    assert relay.read(ledger)['roles']==['existing','our-new-role']
+
+
 def test_unavailable_producer_is_not_replaced_with_a_qualification_or_zero(tmp_path):
     assert relay.checkpoint(tmp_path/'future-model')is None
     root=tmp_path/'model';put(root/'control/LEASE.json',{'status':'ACTIVE'})
