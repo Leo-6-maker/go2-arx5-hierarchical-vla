@@ -201,6 +201,7 @@ def predecessor_faults(root):
     try:
         subprocess.run(['systemd-run','--user','--unit='+previous.name,
             '--property=RemainAfterExit=yes','--property=CPUQuota=25%','--property=MemoryMax=64M',
+            '--working-directory='+str(previous),'/usr/bin/env','-i','PATH=/usr/bin:/bin','LANG=C.UTF-8',
             '/usr/bin/python3','-B','-c',actor,str(previous)], capture_output=True, check=True, timeout=8)
         stop = time.monotonic()+12
         while not(previous/'ACTOR_READY.json').exists():
