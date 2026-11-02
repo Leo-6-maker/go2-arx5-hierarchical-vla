@@ -6,7 +6,7 @@
 
 实际source07共同数据为46条完整专家episode＋13条专家后缀／34563窗。旧共同manifest仍是官方处理合格的候选，`training_admitted=false`。`shared_task_data.freeze`在现有owner/Journal和容量核实后，核对该manifest、原官方全部窗口/真实RGB资格、原TRAIN统计及既有DEV定义摘要，将相同数值字节复制到一个新版本，保留原raw RGB引用。新版本只开放TRAIN reader，不放行模型/GPU；原候选、D0/D1/D2和统计不修改，不重新拟合统计。
 
-新版本提供`TRAIN_POPULATION.json`、`TRAIN_DEV_SEAL.json`和原`TASK_DEV_POPULATION.json`。完整轨迹和专家后缀分别计数，不能当59个独立完整场景。每个新数值文件和统计/DEV副本均核原SHA，全部完成后才发布新manifest；中断残留不被当成有效数据集。
+新版本提供`TRAIN_POPULATION.json`、`TRAIN_DEV_SEAL.json`和完整`TASK_DEV_POPULATION.json`：原T1/T2各24及DOOR10定义与另外封存的BOOK10合并绑定。原文件分别保存在`SOURCE_TASK_DEV_REFERENCE.json`及`BOOK_ORIGINAL_TRAIN_DEV_SEAL.json`，不改条件或噪声。完整轨迹和专家后缀分别计数，不能当59个独立完整场景。每个新数值文件和统计/DEV副本均核原SHA，全部完成后才发布新manifest；中断残留不被当成有效数据集。
 
 ## 实际曝光与恢复
 
