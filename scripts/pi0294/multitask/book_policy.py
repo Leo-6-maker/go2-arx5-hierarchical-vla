@@ -109,7 +109,10 @@ class Student:
         return int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
 
 
-def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8,reset_protocol=None):
+def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8,reset_protocol=None,
+            engine_factory=None,raw_auditor=None,qualification_extra=None,initial_witness=None,warmup_opening=.042/.044):
+    if type(warmup_opening)not in(int,float)or not np.isfinite(warmup_opening)or not 0<=warmup_opening<=1:
+        raise PermissionError('EXACT_FINITE_SOURCE_INITIAL_GRIPPER_OPENING')
     from PIL import Image
     import mujoco
     from scripts.pi0294.multitask.source_engine import make_engine
@@ -158,13 +161,17 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         line=json.dumps(dict(kind=kind,value=row),default=encode,separators=(',',':'),allow_nan=False)+'\n';stream.write(line);written+=len(line.encode())
     started=time.monotonic();CPU=time.process_time()
     try:
-        assets=read(template/'ASSET_BINDINGS.private.json')
-        definitions={n:(template/'inputs'/n/(n+'.xml')).read_bytes()for n in ('black_book','desk_caddy')}
-        engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
-            asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        if engine_factory is None:
+            assets=read(template/'ASSET_BINDINGS.private.json')
+            definitions={n:(template/'inputs'/n/(n+'.xml')).read_bytes()for n in ('black_book','desk_caddy')}
+            engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
+                asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        else:engine=engine_factory(card,template)
         if reset_protocol is not None:
-            from scripts.pi0294.multitask.book_reset import initial_witness
-            write(folder/'RESET_INITIAL.json',initial_witness(engine,student,card))
+            if initial_witness is None:
+                from scripts.pi0294.multitask.book_reset import initial_witness as reset_witness
+            else:reset_witness=initial_witness
+            write(folder/'RESET_INITIAL.json',reset_witness(engine,student,card))
         if hasattr(student,'bind_engine'):student.bind_engine(engine)
         (folder/'NATIVE_SCENE.private.xml').write_text(engine.xml)
         initial=engine.snapshot();images,cal=engine.render(initial)
@@ -180,14 +187,17 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
             write(folder/'RESET_CAMERA.json',dict(original_dual_camera_qualified=True,
                 names=sorted(images),steps=0,simulation_time_s=0.,seed_namespace=student.seed_namespace))
         recorded+=1
-        emit('qualification',dict(actual_state=initial,calibration=cal,camera_pair=True,new_constructor=1,steps=0,
+        qualification=dict(actual_state=initial,calibration=cal,camera_pair=True,new_constructor=1,steps=0,
             simulation_time=engine.data.time,original_arm_bounds=engine.arm_bounds,original_finger_q_indices=engine.finger_q,
             original_finger_v_indices=engine.finger_v,robot_geom_ids=[i for i in range(engine.model.ngeom)if int(engine.model.geom_bodyid[i])in engine.robot_bodies],
             arm_geom_ids=[i for i in range(engine.model.ngeom)if(mujoco.mj_id2name(engine.model,mujoco.mjtObj.mjOBJ_BODY,int(engine.model.geom_bodyid[i]))or'').startswith('x5_')],
-            obstacle_geom_ids=sorted(engine.obstacles),geom_bindings=engine.geoms))
+            obstacle_geom_ids=sorted(engine.obstacles),geom_bindings=engine.geoms)
+        extra={}if qualification_extra is None else qualification_extra(engine,folder,images,cal)
+        if set(extra)&set(qualification):raise PermissionError('TASK_METADATA_CANNOT_OVERRIDE_NATIVE_QUALIFICATION')
+        emit('qualification',dict(qualification,**extra))
         home=engine.pose('tool').copy()
         for _ in range(2500):
-            condition_guard();engine.step(home,.042/.044);s=engine.snapshot();emit('warmup_tick',dict(native_step=engine.steps,actual_state=s))
+            condition_guard();engine.step(home,warmup_opening);s=engine.snapshot();emit('warmup_tick',dict(native_step=engine.steps,actual_state=s))
             if s['safety_valid']is not True:raise PermissionError('ORIGINAL_BOOK_NATIVE_WARMUP_SAFETY')
         emit('warmup_complete',dict(steps=engine.steps,actual_state=engine.snapshot()))
         result=capture(engine,student,instruction=card['instruction'],guard=condition_guard,emit=emit,duration_s=32.,execution_prefix=execution_prefix)
@@ -209,7 +219,9 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         actual_integrations=engine.steps if engine else 0,actual_RGB_pairs=getattr(engine,'render_pairs',0)if engine else 0,
         recorded_RGB_pairs=recorded,events=events,model_queries=student.queries,gate_rejected=gate_rejected,
         CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,training_admitted=False,observed_epoch=time.time())
-    write(folder/'TERMINAL.json',terminal);a=audit(folder,execution_prefix=execution_prefix);write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
+    write(folder/'TERMINAL.json',terminal)
+    a=(audit if raw_auditor is None else raw_auditor)(folder,execution_prefix=execution_prefix)
+    write(folder/'INDEPENDENT_RAW_AUDIT.json',a)
     valid=valid_model_condition(a,student.completed_generations,gate_rejected)
     hard_safety=a.get('original_native_safety_pass')is False
     recovery=student.recovery_status()if hasattr(student,'recovery_status')else None
@@ -221,7 +233,7 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
                 and read(folder/'RESET_CLOSE.json')['engine_close_returned'] is True
                 and read(folder/'RESET_CLOSE.json')['raw_writer_closed'] is True,
             reset_witness_files={n:sha(folder/n)for n in names if(folder/n).is_file()})
-    return dict(id=condition['id'],xy_offset_m=condition['xy_offset_m'],valid_model_condition=valid,
+    return dict(id=condition['id'],**({'xy_offset_m':condition['xy_offset_m']}if'xy_offset_m'in condition else{}),valid_model_condition=valid,
         success=bool(a['task_success']),gate_rejected=gate_rejected,hard_native_safety=hard_safety,error=error,
         model_queries=student.queries,completed_generations=student.completed_generations,integrations=terminal['actual_integrations'],RGB_pairs=terminal['actual_RGB_pairs'],
         raw_sha256=a['raw_sha256'],audit_sha256=sha(folder/'INDEPENDENT_RAW_AUDIT.json'),terminal_sha256=sha(folder/'TERMINAL.json'),
