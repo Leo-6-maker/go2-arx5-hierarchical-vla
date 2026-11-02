@@ -12,12 +12,12 @@ from .object_relations import pose
 
 
 def audit(folder,*,task_kind='BOOK',execution_prefix=8):
-    if task_kind not in('BOOK','ROBOCASA_CABINET'):raise ValueError('EXPLICIT_FIXED_SOURCE_RAW_AUDIT_KIND')
+    if task_kind not in('BOOK','ROBOCASA_CABINET','T1','T2'):raise ValueError('EXPLICIT_FIXED_SOURCE_RAW_AUDIT_KIND')
     if type(execution_prefix)is not int or execution_prefix not in(4,8)or(execution_prefix==4 and task_kind!='BOOK'):
         raise ValueError('EXPLICIT_BOOK_FEEDBACK_DIAGNOSTIC_PREFIX')
     folder=Path(folder);terminal=json.loads((folder/'TERMINAL.json').read_bytes())
     sha=lambda b:hashlib.sha256(b).hexdigest()
-    proof={'schema':'NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1'if task_kind=='BOOK'else'NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1','raw_sha256':sha((folder/'ACTUAL_RECORDS.jsonl').read_bytes()),
+    proof={'schema':'NIGHT_SOURCE_BOOK_INDEPENDENT_RAW_AUDIT_V1'if task_kind=='BOOK'else'SHARED_CUBE_INDEPENDENT_RAW_AUDIT_V1'if task_kind in('T1','T2')else'NIGHT_SOURCE_CABINET_INDEPENDENT_RAW_AUDIT_V1','raw_sha256':sha((folder/'ACTUAL_RECORDS.jsonl').read_bytes()),
         'terminal_sha256':sha((folder/'TERMINAL.json').read_bytes()),'new_simulator_or_model_calls':0,
         'task_success':False,'qualified_source_pilot':False,'training_admitted':False}
     if execution_prefix==4:
@@ -130,7 +130,14 @@ def audit(folder,*,task_kind='BOOK',execution_prefix=8):
             and np.linalg.norm(np.asarray(s['tcp'])[:3,3]-np.asarray(s['object_pose'])[:3,3])>=.08
             and np.linalg.norm(s['object_linear_velocity'])<=.02 and np.linalg.norm(s['object_angular_velocity'])<=.1)
     final_native_goal=None;hold=False
-    if ticks:
+    cube_score=None
+    if task_kind in('T1','T2'):
+        from .cube_raw_score import score
+        card=json.loads((folder/'CARD.json').read_bytes())
+        if card['task']!=task_kind:raise PermissionError('CUBE_SCORER_EXACT_RECORDED_TASK')
+        cube_score=score(rows,card,complete=complete)
+        hold=cube_score['persistent_success']
+    elif ticks:
         s=ticks[-1]['actual_state']
         final_native_goal=(cabinet.native(s)['native_is_open']if cabinet is not None else native_site_contains(site_position=s['native_goal_site_position'],
             site_rotation=s['native_goal_site_rotation'],half_size=s['native_goal_site_half_size'],object_body_origin=s['native_book_body_origin']))
@@ -140,7 +147,7 @@ def audit(folder,*,task_kind='BOOK',execution_prefix=8):
         if not any(cabinet.grasp(r['actual_state'])for r in ticks):problems.append('NO_ACTUAL_ORIGINAL_HANDLE_GRASP')
     success=bool(complete and safe and not problems and hold)
     return dict(proof,status='COMPLETE_SOURCE_PILOT_QUALIFIED'if success else'INDEPENDENT_SOURCE_FAILURE_OR_INCOMPLETE',
-        **{('native_LIBERO_goal_final'if cabinet is None else'native_ROBOCASA_goal_final'):final_native_goal},additional_support_release_withdraw_hold_pass=hold,
+        **({'original_cube_task_score':cube_score}if cube_score is not None else{('native_LIBERO_goal_final'if cabinet is None else'native_ROBOCASA_goal_final'):final_native_goal}),additional_support_release_withdraw_hold_pass=hold,
         complete_episode=complete,original_native_safety_pass=safe,integrity_problems=sorted(set(problems)),
         actual_integrations=terminal['actual_integrations'],recorded_native_ticks=len(all_native),
         recorded_failed_native_ticks=sum(r['kind']=='native_tick_failure'for r in rows),

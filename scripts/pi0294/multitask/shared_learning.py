@@ -25,11 +25,8 @@ def run(root,manifest_sha256):
     from scripts.pi0292.durable import read,write,OwnerLock
     from scripts.pi0294.e1.smoke import node_local,put
     from scripts.pi0294.native_dataset import NativeDataset,sha,official_import
-    from scripts.pi0294.generalization.minimal_model import unchanged_raw_parent,loader_kwargs,validate_loading
-    from scripts.pi0294.generalization.minimal_adapter import ParameterContract,LEAVES
-    from scripts.pi0294.multitask.book_m32_learning import LimitedContract
+    from scripts.pi0294.generalization.minimal_model import unchanged_raw_parent
     from scripts.pi0294.multitask.shared_training import validate_manifest,validate_data,qualified_entry
-    from scripts.pi0294.multitask.shared_checkpoint import raw_parameter_identity
     from scripts.pi0294.numerics import prepare_environment,configure_torch,MODE
     root=node_local(root);m=read(root/'RUN_MANIFEST.json');p=read(root/'TRAIN_FIT_PLAN.json')
     validate_manifest(m,p)
@@ -70,12 +67,8 @@ def run(root,manifest_sha256):
     try:
         guard();prepare_environment(MODE);official_import(bindings['source'])
         import torch
-        from transformers import AutoModel,set_seed
-        import gr00t.model.gr00t_n1d7.gr00t_n1d7
-        from scripts.pi0294.local_backbone import local_model_name
-        from scripts.pi0294.neural import COSMOS_REVISION
-        from scripts.pi0292.train_adapter import build_processor
-        from scripts.pi0294.e1.model import E1ResidentModel
+        from transformers import set_seed
+        from scripts.pi0294.multitask.shared_raw_model import load as load_raw
         from scripts.pi0294.multitask.book_fit import run as run_fit
         configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
         count=torch.cuda.device_count();free,total=torch.cuda.mem_get_info()if count==1 else(0,0)
@@ -85,22 +78,7 @@ def run(root,manifest_sha256):
         if count!=1 or free<required or actual_uuid!=m['GPU_uuid']:
             raise PermissionError('SHARED_ACTUAL_SINGLE_QUALIFIED_DEVICE_AND_CAPACITY')
         put(root/'MODEL_LOAD_INTENT.json',dict(raw_parent_files_identity=p['raw_parent_files_identity'],epoch=time.time()));loads+=1
-        model,info=AutoModel.from_pretrained(raw,**loader_kwargs(local_model_name(root,bindings),bindings['cosmos_hub'],COSMOS_REVISION))
-        validate_loading(model,info)
-        if getattr(model.config,'state_history_length',1)!=1:
-            raise PermissionError('SHARED_ORIGINAL_SINGLE_FRAME_STATE_ENCODING')
-        base=ParameterContract(model,'E1_ADAPTER_ONLY',10);contract=LimitedContract(base,2)
-        write(root/'RAW_ZERO_STEP_PARAMETERS.json',raw_parameter_identity(model,contract,raw,audit,guard=guard))
-        # Preserve every frozen category value on CPU before the first CUDA
-        # placement. The existing V2 fit execution later installs the hooks.
-        for name in LEAVES:model.get_submodule(name).retain_frozen_tables_on_cpu()
-        model.to('cuda').eval();guard()
-        instance=E1ResidentModel.__new__(E1ResidentModel)
-        instance.root,instance.bindings,instance.model=root,bindings,model
-        instance.processor=build_processor(bindings['source'],bindings['cosmos'],read(data.root/'statistics.json'))
-        instance.identity=dict(kind='SHARED4_RAW_PARENT_ZERO_STEP',global_step=0,
-            pretrained_revision=p['pretrained_revision'],raw_parent_files_identity=p['raw_parent_files_identity'],
-            statistics_sha256=p['statistics_sha256'],raw_pretraining_statistics_used=False)
+        instance,contract=load_raw(root,m,bindings,p,guard);model=instance.model
         original_generate=instance.generate
         def timed_generate(request,seed):
             signal.alarm(max(1,min(60,int(m['deadline_epoch']-time.time()))))
