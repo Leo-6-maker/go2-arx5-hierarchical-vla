@@ -60,3 +60,33 @@ formal training. Outer registration/launch and the actual worker use the same
 entry. Tests exercise this actual entry, including a forged formal probe and a
 one-byte-below-margin certificate. An earlier unarmed staged capsule is retained;
 it must not be launched with the old worker's fixed 24 GiB entry on GPU1.
+
+## Measured GPU1 limit and low-residency V2
+
+The real V1 GPU1 native10 completed all updates and full42-state restoration,
+then closed. Its minimum free VRAM was 1,431,109,632 bytes, below the original
+2 GiB floor; formal training was not admitted. The resident retained its
+qualified GPU0 fallback. A separate GPU0 native10 showed the lossless copies
+preserved all four weight/AdamW/scheduler/RNG files byte for byte and all ten
+loss/LR/cursor records, but that does not by itself qualify GPU1.
+
+The retained full parent's safetensors headers identify 1,303,134,720 bytes in
+seven frozen category W/b tables (all32 categories). V2 retains these complete
+tables on CPU; the selected trainable category10 parameters stay on GPU. Its
+target-only bmm dispatch rejects a different category rather than silently
+dropping other weights. All category values remain available for reconstruction,
+and value-based frozen fingerprints/checkpoint restoration remain strict.
+
+Trainer/Accelerate may place a model more than once. The explicit retained-table
+mode preserves those CPU buffers through generic module placement, while the
+default E1/E2 and other existing paths retain their original behavior. CPU tests
+exercise exact output/input-gradient/parameter-gradient/AdamW equality, retained
+buffer values and repeated placement. V2 also bounds saved-activation copies to
+1 GiB per microbatch to reduce the V1 copy cost; this changes storage location,
+not accumulation, effective batch or the native loss.
+
+V2 has a distinct sealed execution identity. Its formal job needs a closed
+same-GPU **V2** native10; a V1 or inference certificate cannot admit it. Both PB
+arms use the same execution policy. CPU proof is not GPU admission: actual
+memory, every update and complete restoration must still be measured before
+formal adoption. Preserve all V1 failures, costs and checkpoints.

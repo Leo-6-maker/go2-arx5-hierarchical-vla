@@ -20,16 +20,17 @@ def qualified_training_entry(manifest):
     """Admit only the explicit memory path and a same-device full native10."""
     import hashlib,json
     from pathlib import Path
-    from .activation_offload import POLICY
+    from .activation_offload import POLICY,LOW_RESIDENCY_POLICY
     from .book_m32_learning import is_plan,KIND
     from .book_bc_dagger import SCHEMA as BC_SCHEMA
     from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA
     raw=lambda v:(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
-    pin=hashlib.sha256(raw(POLICY)).hexdigest()
+    policies={hashlib.sha256(raw(value)).hexdigest():value for value in (POLICY,LOW_RESIDENCY_POLICY)}
+    pin=manifest.get('memory_execution_sha256');policy=policies.get(pin)
     p=manifest.get('recipe',{});limits=manifest.get('limits',{})
     request=manifest.get('GPU_training_qualification');admission=manifest.get('GPU_training_admission')
     if (manifest.get('kind')!=KIND or not is_plan(p) or p.get('schema')not in(BC_SCHEMA,PB_SCHEMA)
-            or manifest.get('memory_execution_sha256')!=pin
+            or policy is None
             or manifest.get('sealed_inputs',{}).get('M32_MEMORY_EXECUTION.json')!=pin
             or manifest.get('training_GPU_entry_MiB')not in(15360,24576)
             or any(manifest.get(k)is not None for k in('GPU_capacity_qualification','GPU_inference_qualification','GPU_inference_admission'))
@@ -70,7 +71,7 @@ def qualified_training_entry(manifest):
             or capacity.get('actual_optimizer_updates')!=10 or capacity.get('saved_and_restored')is not True
             or any(restore.get(k)!=v for k,v in dict(optimizer_updates=10,sampler_cursor=320,model_reconstruction=True,
                 scheduler_restored=True,RNG_restored=True,frozen_parent_unchanged=True).items())
-            or copies.get('policy')!=POLICY or copies.get('copied_tensors',0)<=0 or copies.get('restored_tensors',0)<=0
+            or copies.get('policy')!=policy or copies.get('copied_tensors',0)<=0 or copies.get('restored_tensors',0)<=0
             or lease.get('status')!='CLOSED'or lease.get('manifest_sha256')!=admission['files']['RUN_MANIFEST.json']
             or lease.get('result_sha256')!=admission['files']['RESULT.json']):
         raise PermissionError('COMPLETE_MATCHED_CLOSED_GPU_NATIVE10_AND_TWO_GIB_MARGIN')

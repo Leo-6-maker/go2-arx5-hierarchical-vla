@@ -1,5 +1,11 @@
 # 当前科学状态 · Goal V7 · 2026-11-02
 
+2026-11-02 20:20 SGT Core实测：**两卡接续常驻PID3851333、分离连接心跳前进；GPU1已完成10更新／320访问、42项全状态恢复并CLOSED，但最小显存余量1.33GiB未达原2GiB，正式4096未启动。** 后台保留已合格GPU0回退，当前GPU0约10GiB空闲不足准入。GPU0同配方10步启用无损CPU暂存后，模型／AdamW／scheduler／RNG四文件及10项loss／LR／游标与原资格逐字节一致。已修复资格记录目录遗漏并复用合格结果、未重复GPU0资格；新V2从父模型头部核实完整冻结类别表1,303,134,720字节，保留CPU、目标10参数留GPU，并通过Core五项CPU精确梯度／更新／放置检查；**V2尚未GPU资格或部署**。原DEV／STOP／费用与基础设施保留，RESET和共享raw-parent训练仍待完成。[真实两卡运行、内存失败与V2证据](reports/PI0294/design/controlled-finetuning-20261102/AVAILABLE_GPU_RESIDENT_CONTINUATION_READY_ACTUAL_20261102.json)。
+
+
+
+2026-11-02 19:29 SGT Core实测：**GPU0／GPU1可用卡接续已实际挂载并接管，常驻PID3822579，分离控制连接后多次同PID／InvocationID、心跳前进。** 现队列先D2再固定D2的CONTROL／BOUNDARY；启动前按UUID、实际容量和稳定观测选卡，每个设备先用显式无损CPU中间张量暂存完成native10及全状态恢复／原2GiB余量，合格后fresh4096；有效batch32／父模型／数据／统计／loss／日程不变。当前在等容量稳定，新内存方案GPU原生资格／正式端点／新DEV尚未产生。旧PB边界组10更新／320访问已完成、全恢复并CLOSED（共享GPU0余量15.77GiB）；控制组因实际启动显存变化在模型前失败并CLOSED。前owner在全部原生actor关闭后的冷态边界退出，仅控制交接，不冒充训练完成。原结果／STOP保留；RESET与共享raw-parent训练仍待推进。[真实驻留、两卡选用与范围](reports/PI0294/design/controlled-finetuning-20261102/AVAILABLE_GPU_RESIDENT_CONTINUATION_READY_ACTUAL_20261102.json)。
+
 2026-11-02 19:05 SGT：**只读重建D0/D1全部13634／11673控制tick，在原NumPy1.26.4／MuJoCo3.2.7环境逐值复现全部执行器力（最大误差0），IK计数一致，无新增积分／渲染／神经模型。** 两次joint4停止时重建命令仍合法、余量5.323／4.253毫弧度，实际较命令偏低11.356／10.377毫弧度而越界；这是计算重建，不是原始命令记录，尚不证明Teacher或WBC根因。D2额外native10完成并全状态恢复，但共享GPU0余量仅0.574GiB，资格失败并CLOSED、正式4096未启动。用户允许GPU1并要求未来动态选卡；新冷态选卡与无损CPU暂存代码通过相关检查及Core实际PyTorch CPU精确梯度／AdamW／RNG检查，**GPU1新原生训练资格／自动接续尚未部署**。原DEV/STOP不改。[控制重建、实际容量与部署边界](reports/PI0294/design/controlled-finetuning-20261102/SAVED_CONTROLLER_FORCE_WITNESS_GPU_FLEX_PREPARATION_ACTUAL_20261102.json)。
 
 2026-11-02 18:09 SGT Core实测：**D1完成4096更新／131072访问，1024／2048／4096全状态恢复、独立trace／指标审核和CLOSED完成；GPU1自动完成96诊断后原DEV为0成功／1有效、9未运行，18.346秒joint4=-1.672124rad低于原-1.666rad停止。** TRAIN16 H40位置51.97→3.679mm、Prefix8 41.85→2.990mm，不等于完整行为成功；命令关节解未记录，根因仍待审计。**固定D2的PB两臂已真实挂载：Core常驻PID3718781、分离连接同身份／心跳前进，等待现有D2收尾后各一次native10资格→fresh4096；新物理评价尚未挂载，需独立RESET资格。** 旧D2无计算等待角色已保留原状态并关闭，仅控制生命周期结束，不虚报D2完成；共享owner已实际接管，当前GPU0仅746MiB空闲，正常等待。原Phase1/4、D0 0/1和全部STOP保留，现役配方／外部任务／基础设施未改。[真实端点、负结果、队列READY及边界](reports/PI0294/design/controlled-finetuning-20261102/D1_COMPLETE_NEGATIVE_DEV_PB_SUCCESSOR_READY_ACTUAL_20261102.json)。
