@@ -58,3 +58,10 @@ def stop_idle_manager(identity, verify_frozen, record_intent):
 def inference_choice(gpu0_ready, gpu1_ready):
     """GPU1 accelerates an otherwise ready task; its absence cannot block GPU0."""
     return 1 if gpu1_ready else 0 if gpu0_ready else None
+
+
+def gpu_resource_ready(free_mib, minimum_mib, available_ram_bytes,
+        minimum_ram_bytes, *, other_compute_present, shared_authorized=False):
+    """Explicit sharing permits consumers, never invents free memory or isolation."""
+    return (free_mib >= minimum_mib and available_ram_bytes >= minimum_ram_bytes
+        and (shared_authorized or not other_compute_present))
