@@ -1,0 +1,100 @@
+{
+  "schema": "SOURCE_CAMERA_RESET_FINITE_QUEUE_ACTUAL_V1",
+  "observed_SGT": "2026-11-03T01:19:49+08:00",
+  "status": "READY_FOR_RESOURCE_WAIT_ONLY_NOT_NATIVE_QUALIFICATION",
+  "source_commit": "df69dd81f9dc37bacc1df3946be2871f7645b51b",
+  "existing_entry_and_canonical_registry_adopted": true,
+  "node_local_source_and_runtime_paths_actual": true,
+  "staged_manifest_sha256": "400d901129d6d7432fa7eb422d12e2a53c67168ff019e9fb17e46bf8dd579994",
+  "bound_plan_sha256": "8b2f3f3cb9ddbed08b589d3f7f30dd072ab641f37ef14af1fbde79434ccaf65d",
+  "resident": {
+    "unit": "core-night10-camera-reset-20261103-02.service",
+    "PID": 4174758,
+    "InvocationID": "07e2faa06f144ec9bcb935d3d51fa8a8",
+    "verified_running_after_separate_control_connections": true,
+    "heartbeat_epochs": [
+      1793639830.7738333,
+      1793639860.9751086,
+      1793639981.5890296
+    ],
+    "no_PC_Vanda_or_forwarded_credential_dependency": true,
+    "dispatch_window_hours": 10,
+    "dispatch_deadline_SGT": "2026-11-03T11:17:10.769556+08:00"
+  },
+  "task": {
+    "state": "PENDING",
+    "device": 0,
+    "GPU_shared_authorized": true,
+    "actual_free_MiB": 1668,
+    "min_entry_free_MiB": 2048,
+    "stable_seconds_required": 120,
+    "logical_CPU": 4,
+    "CPU_quota_cores": 1,
+    "minimum_host_available_GiB": 42,
+    "disk_protected_and_margin_GiB": 116,
+    "max_run_seconds": 900,
+    "max_constructors": 12,
+    "max_RGB_pairs": 8,
+    "max_physics_integrations": 0,
+    "max_neural_loads": 0,
+    "max_optimizer_updates": 0,
+    "fresh_witness_and_cameras": [
+      "T1",
+      "T2",
+      "BOOK",
+      "DOOR"
+    ],
+    "actual_qualification_children_started": 0,
+    "camera_or_reset_native_qualification_passed": false
+  },
+  "D2": {
+    "updates": 976,
+    "max_updates": 4096,
+    "TRAIN_visits": 31232,
+    "GPU": 1,
+    "unit_running": true,
+    "lease_ACTIVE": true,
+    "same_manifest_and_process": true
+  },
+  "original_M13_queue_and_source_seal_unchanged": true,
+  "source01": {
+    "state": "CLOSED_UNSTARTED",
+    "models": 0,
+    "RGB_pairs": 0,
+    "physics_integrations": 0,
+    "reason": "Before arming, probe command corrected to explicit node-local cwd and clean environment; source/costs retained"
+  },
+  "validation": {
+    "affected_CPU_tests_passed": 106,
+    "final_source_compile_and_diff_passed": true,
+    "full_CI": "NOT_CLAIMED",
+    "Core_original_entry_preflight_returncode": 0,
+    "independent_staged_source_files_verified": 37
+  },
+  "scientific_results": {
+    "new_shared_training_endpoints": 0,
+    "new_shared_valid_DEV": 0,
+    "new_BOOK_RESET_valid_DEV": 0,
+    "Phase_old_DEV": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6
+    },
+    "D0_old_DEV": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    },
+    "D1_old_DEV": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    }
+  },
+  "remaining": [
+    "Actual source dual-camera and reset fault qualification after capacity",
+    "Own raw-parent GPU native10 training and native16 inference qualification",
+    "Mount new BOOK_RESET_DEV10 and shared formal training/evaluation at cold ownership boundary"
+  ],
+  "safety_scoring_WBC_and_target_quarantine_unchanged": true
+}

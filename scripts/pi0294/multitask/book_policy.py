@@ -109,6 +109,22 @@ class Student:
         return int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
 
 
+def initial_camera_qualification(initial,images,cal):
+    """The original episode camera gate, also usable without stepping physics."""
+    if set(images)!={'body_rgb','wrist_rgb'}or set(cal)!=set(images):
+        raise PermissionError('ORIGINAL_BOOK_NATIVE_DUAL_CAMERA')
+    if initial['safety_valid']is not True or initial['native_grasp']:
+        raise PermissionError('ORIGINAL_BOOK_NATIVE_INITIAL_SAFETY')
+    for name,array in images.items():
+        if array.shape!=(256,256,3)or array.dtype!=np.uint8:
+            raise PermissionError('ORIGINAL_BOOK_NATIVE_DUAL_CAMERA')
+        uv=np.asarray(cal[name]['object_points_uv']);optical=np.asarray(cal[name]['T_world_optical'])
+        depth=(np.asarray(initial['object_points'])-optical[:3,3])@optical[:3,:3]
+        if np.sum(np.all((uv>=0)&(uv<256),axis=1)&(depth[:,2]>0))<4:
+            raise PermissionError('ORIGINAL_BOOK_NATIVE_CAMERA_VIEW')
+    return dict(original_dual_camera_qualified=True,names=sorted(images))
+
+
 def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8,reset_protocol=None,
             engine_factory=None,raw_auditor=None,qualification_extra=None,initial_witness=None,warmup_opening=.042/.044):
     if type(warmup_opening)not in(int,float)or not np.isfinite(warmup_opening)or not 0<=warmup_opening<=1:
@@ -175,13 +191,9 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         if hasattr(student,'bind_engine'):student.bind_engine(engine)
         (folder/'NATIVE_SCENE.private.xml').write_text(engine.xml)
         initial=engine.snapshot();images,cal=engine.render(initial)
-        if initial['safety_valid']is not True or initial['native_grasp']:raise PermissionError('ORIGINAL_BOOK_NATIVE_INITIAL_SAFETY')
+        initial_camera_qualification(initial,images,cal)
         for name,array in images.items():
-            if array.shape!=(256,256,3)or array.dtype!=np.uint8:raise PermissionError('ORIGINAL_BOOK_NATIVE_DUAL_CAMERA')
             Image.fromarray(array).save(folder/('qualification_'+name+'.png'))
-            uv=np.asarray(cal[name]['object_points_uv']);optical=np.asarray(cal[name]['T_world_optical'])
-            depth=(np.asarray(initial['object_points'])-optical[:3,3])@optical[:3,:3]
-            if np.sum(np.all((uv>=0)&(uv<256),axis=1)&(depth[:,2]>0))<4:raise PermissionError('ORIGINAL_BOOK_NATIVE_CAMERA_VIEW')
         if reset_protocol is not None:
             if engine.steps!=0 or engine.data.time!=0:raise PermissionError('RESET_CAMERA_MUST_NOT_ADVANCE_PHYSICS')
             write(folder/'RESET_CAMERA.json',dict(original_dual_camera_qualified=True,
