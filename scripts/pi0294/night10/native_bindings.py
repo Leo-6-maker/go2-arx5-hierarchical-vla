@@ -51,28 +51,29 @@ def staged_all_closed():
    _,r=check_staged(f)
    if int(unit(r)['MainPID'])or read(r/'control/LEASE.json')['status']!='CLOSED':return False
  return True
-def safe_failure_close(folder,arm,steps):
- """Settle a proven terminal failed native job, retaining real costs and STOP."""
- sys.path.insert(0,str(folder));import resident_common as b
- staged=read(folder/(prefix(arm,steps)+'STAGED.private.json'));r=Path(staged['root']);manifest=read(r/'RUN_MANIFEST.json')
- if int(unit(r)['MainPID']):raise PermissionError('FAILED_JOB_STILL_LIVE')
- result=read(r/'RESULT.json')
- if result['status']!='FAILED_BOOK_FINITE_OPTIMIZATION':raise PermissionError('EXACT_FAILED_OPTIMIZATION_SCHEMA')
+def close_known_failure(folder,staged_file,prepared_file,label):
+ """Use original onceIO close/read programs for a proven model-only failure."""
+ import ast,importlib.util
+ from scripts.pi0294.night10.native_outcome import known_failure
+ staged=read(staged_file);r=Path(staged['root']);base=read(prepared_file)
  if read(r/'control/LEASE.json')['status']=='CLOSED':return
  journal=subprocess.run(['journalctl','--user','-u',r.name+'.service','-o','json','--no-pager'],capture_output=True,text=True,check=True,timeout=8)
- rows=list(map(json.loads,journal.stdout.splitlines()));cpu=[int(x['CPU_USAGE_NSEC'])/1e9 for x in rows if'CPU_USAGE_NSEC'in x];begin=[int(x['__REALTIME_TIMESTAMP'])for x in rows if x.get('MESSAGE','').startswith('Started '+r.name+'.service')];end=[int(x['__REALTIME_TIMESTAMP'])for x in rows if'CPU_USAGE_NSEC'in x]
- if len(cpu)!=1 or len(begin)!=1 or len(end)!=1:raise PermissionError('TERMINAL_USAGE_NOT_PROVEN')
- files={n:sha(r/n)for n in('RESULT.json','FIT_PROGRESS.json','STOP.json')if(r/n).exists()};base=read(folder/(prefix(arm,steps)+'PREPARED.private.json'))
- actual=dict(model_loads=result['model_load_attempts'],optimizer_updates=result['optimizer_updates'],TRAIN_window_visits=result['TRAIN_visits'],generation_queries=result['generation_attempts'],completed_generations=result['completed_generations'],physics_integrations=0,formal_DEV_conditions=0,CPU_s=cpu[0],GPU_allocated_s_upper=math.ceil((end[0]-begin[0])/1e6),result_sha256=files['RESULT.json'],error=result['error'],all_costs_retained=True)
- import ast
- tree=ast.parse((folder/'resident_fit_close.py').read_text());code=next(ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and any(isinstance(a,ast.Name)and a.id=='CLOSE'for a in n.targets))
- code=code.replace("json.loads(result)['status']=='COMPLETE_BOOK5_FINITE_TARGET_LEARNING'","json.loads(result)['status']=='FAILED_BOOK_FINITE_OPTIMIZATION'")
- staged.update(LOCAL=base['LOCAL'],registry=base['registry'],LOCAL_before_sha256=sha(base['LOCAL']),actual=actual,files=files)
+ evidence=known_failure(r,staged,main_pid=int(unit(r)['MainPID']),journal=list(map(json.loads,journal.stdout.splitlines())),canonical=read(base['LOCAL']))
+ tree=ast.parse((folder/'resident_fit_close.py').read_text());programs={n.targets[0].id:ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and isinstance(n.targets[0],ast.Name)and n.targets[0].id in('CLOSE','READ')}
+ original="json.loads(result)['status']=='COMPLETE_BOOK5_FINITE_TARGET_LEARNING'"
+ if programs['CLOSE'].count(original)!=1:raise PermissionError('EXISTING_CLOSE_PROGRAM_SEAM_CHANGED')
+ code=programs['CLOSE'].replace(original,"json.loads(result)['status']=="+repr(evidence['result_status']))
+ spec=importlib.util.spec_from_file_location('_native_failure_existing_transport',folder/'resident_common.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
+ staged.update(LOCAL=base['LOCAL'],registry=base['registry'],LOCAL_before_sha256=sha(base['LOCAL']),actual=evidence['actual'],files=evidence['files'])
  lock=(P/'NATIVE_CONTROL.owner.lock').open('a+b');fcntl.flock(lock,fcntl.LOCK_EX)
  try:
-  closed=b.call('NIGHT10_'+arm+'_S'+str(steps)+'_FAILED_CLOSE_ONCE',code,staged,effect='MUTATION',CPU=15,reply=16000)
-  write(P/'receipts'/(arm+'_S'+str(steps)+'_FAILED_CLOSED.json'),closed)
+  closed=b.call('NIGHT10_'+label+'_FAILED_CLOSE_ONCE',code,staged,effect='MUTATION',CPU=15,reply=16000)
+  closed['LOCAL']=base['LOCAL'];independent=b.call('NIGHT10_'+label+'_FAILED_CLOSED_READ',programs['READ'],closed,CPU=8,reply=16000)
+  write(P/'receipts'/(label+'_FAILED_CLOSED.json'),dict(lifecycle='TERMINAL',native_effects_closed=True,scientific_result=evidence['scientific_result'],scientific_success=False,closed=closed,independent=independent))
  finally:lock.close()
+def safe_failure_close(folder,arm,steps):
+ pre=prefix(arm,steps)
+ return close_known_failure(folder,folder/(pre+'STAGED.private.json'),folder/(pre+'PREPARED.private.json'),arm+'_S'+str(steps))
 def fit(arm,steps):
  folder=job(arm,steps);pre=prefix(arm,steps)
  if(folder/(pre+'FINAL_INDEPENDENT.private.json')).exists():
@@ -103,13 +104,18 @@ def evaluation(arm):
   for action,member in zip(actions,('PREPARED','STAGED','INDEPENDENT','STARTED')):
    if not(folder/(pref+member+'.private.json')).exists():control(folder,module,action)
   _,r=check_staged(folder/(pref+'STAGED.private.json'));result=wait(r)
-  if result['status']!='COMPLETE_MATCHED_TRAIN32_PHASE_DIAGNOSTIC':raise RuntimeError('TRAIN32_FAILED_REQUIRES_RECONCILIATION')
+  if result['status']!='COMPLETE_MATCHED_TRAIN32_PHASE_DIAGNOSTIC':
+   close_known_failure(folder,folder/(pref+'STAGED.private.json'),folder/(pref+'PREPARED.private.json'),arm+'_TRAIN32')
+   raise RuntimeError('TRAIN32_KNOWN_FAILURE_CLOSED_NO_SCIENTIFIC_SUCCESS')
   for action,member in [('collect','RAW_INDEPENDENT'),('close','COMPLETED_CLOSED'),('closed_read','FINAL_INDEPENDENT')]:
    if not(folder/(pref+member+'.private.json')).exists():control(folder,module,action)
  pre='BC299_'+arm+'_DEV_'
  for action,member in [('prepare','PREPARED'),('stage','STAGED'),('read','INDEPENDENT'),('start','STARTED')]:
   if not(folder/(pre+member+'.private.json')).exists():control(folder,'resident_dev.py',action,4096)
  _,r=check_staged(folder/(pre+'STAGED.private.json'));result=wait(r)
+ if result.get('error')and result.get('conditions')==[]and result.get('integrations')==0:
+  close_known_failure(folder,folder/(pre+'STAGED.private.json'),folder/(pre+'PREPARED.private.json'),arm+'_DEV_PRE_PHYSICS')
+  raise RuntimeError('DEV_PRE_PHYSICS_FAILURE_CLOSED_NO_VALID_CONDITION')
  if not(folder/(pre+'RAW_HEADER.private.json')).exists():control(folder,'resident_dev_close.py','collect',4096)
  for i in range(len(result['conditions'])):
   if not(folder/(pre+'RAW_CASE'+str(i)+'.private.json')).exists():control(folder,'resident_dev_close.py','case',4096,i)
@@ -130,14 +136,17 @@ def policy():
  card=read(P/'POLICY_REVIEW.json');v=review(card);v['native_effects_closed']=True
  write(P/'receipts/policy_review.json',v);return v
 def gpu1():
+ from scripts.pi0294.night10.native_outcome import diagnostic_outcome
  folder=P/'GPU1'
  if not(folder/'DECISION.json').exists():control(folder,'gpu1_inference.py','prepare')
- if read(folder/'DECISION.json')['status']=='NOT_ADMITTED_ACTUAL_RESOURCE':return dict(status='SKIPPED_ACTUAL_GPU1_RESOURCE',native_effects_closed=True,decision=read(folder/'DECISION.json'))
+ if read(folder/'DECISION.json')['status']=='NOT_ADMITTED_ACTUAL_RESOURCE':return dict(status='SKIPPED_ACTUAL_GPU1_RESOURCE',lifecycle='NOT_STARTED',native_effects_closed=True,scientific_result='RESOURCE_NOT_ADMITTED',scientific_success=False,decision=read(folder/'DECISION.json'))
  for action,member in [('stage','STAGED'),('read','INDEPENDENT'),('start','STARTED')]:
   if not(folder/(member+'.json')).exists():control(folder,'gpu1_inference.py',action)
  _,r=check_staged(folder/'STAGED.json');wait(r)
  if not(folder/'FINAL_INDEPENDENT.json').exists():control(folder,'gpu1_inference.py','finish')
- return dict(status='COMPLETE_GPU1_MODEL_DIAGNOSTIC_CLOSED',native_effects_closed=True,result=read(folder/'FINAL_INDEPENDENT.json'))
+ result=read(r/'RESULT.json');capacity=read(r/'GPU_INFERENCE_CAPACITY.json')if(r/'GPU_INFERENCE_CAPACITY.json').exists()else None
+ outcome=diagnostic_outcome(result,capacity,closed=read(r/'control/LEASE.json')['status']=='CLOSED'and bool((folder/'FINAL_INDEPENDENT.json').exists()))
+ return dict(status='COMPLETE_GPU1_MODEL_DIAGNOSTIC_CLOSED'if outcome['scientific_success']else'FAILED_GPU1_DIAGNOSTIC_CLOSED',**outcome,result=read(folder/'FINAL_INDEPENDENT.json'))
 def preflight():
  if int(unit(M)['MainPID']):raise PermissionError('OLD_MANAGER_STILL_ACTIVE')
  if read(Path(CONFIG['source_manager_root'])/'STATE.json')['status']!='COMPLETE':raise PermissionError('SOURCE_NOT_TERMINAL_COMPLETE')
