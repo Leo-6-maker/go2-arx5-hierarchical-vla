@@ -80,6 +80,11 @@ def test_dev_inference_needs_a_closed_native96_on_the_same_checkpoint_and_gpu(tm
 
     m = manifest()
     assert entry_requirement(m) == 13*GIB
+    from scripts.pi0294.multitask.book_reset import KIND as RESET_KIND,LIMITS as RESET_LIMITS
+    single = dict(m,kind=RESET_KIND,limits=dict(RESET_LIMITS))
+    assert entry_requirement(single) == 13*GIB
+    single['limits']['source_constructors']=2
+    with pytest.raises(PermissionError):entry_requirement(single)
     for key, value in [('GPU_uuid', 'GPU0'), ('delta_checkpoint_manifest_sha256', 'OTHER'),
             ('kind', 'V7_BOOK_M32_FINITE_LEARNING')]:
         bad = deepcopy(m)

@@ -98,9 +98,12 @@ def qualified_dev_entry(manifest, admission):
     expected = {'RUN_MANIFEST.json', 'RESULT.json', 'GPU_INFERENCE_CAPACITY.json', 'control/LEASE.json'}
     limits = dict(model_loads=1, optimizer_updates=0, physics_integrations=185000,
         generation_queries=800, RGB_pairs=6420, source_constructors=10)
+    from .book_reset import KIND as RESET_KIND,LIMITS as RESET_LIMITS
+    if manifest.get('kind') == RESET_KIND:
+        limits = RESET_LIMITS
     if (admission.get('schema') != 'N17_NATIVE96_CERTIFIED_DEV10_INFERENCE_V1'
             or set(admission.get('files', {})) != expected
-            or manifest.get('kind') != 'V7_BOOK_FROZEN_DEV10'
+            or manifest.get('kind') not in ('V7_BOOK_FROZEN_DEV10',RESET_KIND)
             or any(manifest.get('limits', {}).get(k) != v for k, v in limits.items())
             or manifest.get('GPU_capacity_qualification') is not None
             or manifest.get('GPU_inference_qualification') is not None):

@@ -1,0 +1,85 @@
+{
+  "schema": "BOOK_RESET_DEV10_IMPLEMENTATION_PC_STATIC_ACTUAL_V1",
+  "status": "IMPLEMENTED_PC_CHECKED_NOT_CORE_NATIVE_QUALIFIED_OR_DEPLOYED",
+  "protocol": "BOOK_RESET_DEV10_V1",
+  "worker_kind": "V7_BOOK_RESET_DEV10_CONDITION",
+  "reused_original_model_student_capture_engine_raw_scorer": true,
+  "old_panel_behaviour_and_results_unchanged": true,
+  "separate_registered_process_per_condition": true,
+  "no_second_scheduler_or_ledger": true,
+  "actual_live_D2": {
+    "epoch": 1793625572.509604,
+    "manager_PID": 3892803,
+    "worker_PID": 3918079,
+    "GPU": 1,
+    "updates": 95,
+    "TRAIN_visits": 3040,
+    "status": "RUNNING",
+    "current": "D2_S4096_G1",
+    "immutable_source_not_modified": true
+  },
+  "local_tests": {
+    "passed": 66,
+    "command": "python -m pytest -q tests/test_book_reset.py tests/test_book_policy.py tests/test_book_gpu_capacity.py tests/test_book_training_capacity.py tests/test_book_rollout_diagnostic.py tests/test_book_early_recovery.py tests/test_book_late_recovery.py tests/test_book_phase_diagnostic.py",
+    "actual_native_qualification": false
+  },
+  "PC_two_process_native_static": {
+    "MuJoCo_version": "3.2.7",
+    "numpy_version": "1.24.4",
+    "new_independent_SourceEngine_processes": 2,
+    "actual_OS_exit_codes": [
+      0,
+      0
+    ],
+    "both_children_reaped": true,
+    "complete_initial_witness_exact": true,
+    "common_home_controller_finger_IK_student_state_passed": true,
+    "first_generation_seed": 4228446038630098400,
+    "derived_acceleration_cache_matches_independent_MjData": true,
+    "extra_mj_forward_calls_per_witness": 2,
+    "physics_integrations": 0,
+    "render_pairs": 0,
+    "neural_model_loads": 0,
+    "CPU_s": 2.165074088,
+    "full_private_receipt_sha256": "b59413ffc3256d05f8bf47a48115c14ad89012ad44c67b44543eeb3ad2f0e097"
+  },
+  "PC_all_constructor_checks_this_turn": {
+    "constructors": 4,
+    "failed_zero_acceleration_assumption": 1,
+    "passing_initial_witnesses": 3,
+    "failed_assumption_CPU_s": 1.105500622,
+    "single_passing_probe_CPU_s": 1.063626002,
+    "two_process_probe_CPU_s": 2.165074088,
+    "total_CPU_s": 4.3342007119999995,
+    "physics_integrations": 0,
+    "render_pairs": 0,
+    "neural_model_loads": 0,
+    "first_failure_retained_not_hidden": true
+  },
+  "required_Core_native_checks": [
+    "two independent source processes and common-home reconstruction",
+    "unchanged original dual camera qualification at zero integrations",
+    "reject live MainPID or child cgroup, unknown close and residual writable descriptor",
+    "reject dirty initial physics, controller, IK or Student state",
+    "same noise and fixed model-by-original-DEV10 plan",
+    "bind native host/uid/NumPy1.26.4/MuJoCo3.2.7/template/source byte identities"
+  ],
+  "new_Core_reset_qualifications": 0,
+  "new_DEV_conditions": 0,
+  "new_successes": 0,
+  "new_qualified_demonstrations": 0,
+  "future_admission": "EXISTING_OWNER_AT_PROVEN_COLD_BOUNDARY_AFTER_NATIVE_QUALIFICATION",
+  "no_current_training_or_queue_hotpatch": true,
+  "no_NFS_SSH_mount_system_service_credential_changes": true,
+  "existing_queue": [
+    "D2_FRESH4096",
+    "PB_CONTROL_NATIVE10_THEN_FRESH4096",
+    "PB_BOUNDARY_NATIVE10_THEN_FRESH4096"
+  ],
+  "limits_of_claims": [
+    "PC static constructor is not Core native camera/reset qualification",
+    "New source publication is not deployment",
+    "No new task behaviour or generalization result",
+    "No safety, WBC, task predicate or original noise change"
+  ]
+}
