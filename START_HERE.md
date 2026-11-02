@@ -1,5 +1,7 @@
 # 当前入口 · Goal V7 · 2026-11-02
 
+2026-11-02 21:19 SGT：**D2同一GPU1正式进程继续95/4096、3040次TRAIN访问；现役source和队列未改。** 新BOOK_RESET_DEV10_V1独立条件入口已实现：每条件单进程，模型前核真实前驱终态／子cgroup／残余writer与CLOSED原字节，保留原Student、噪声、32秒、安全和评分。PC相关66项检查通过，两个独立原生SourceEngine进程实际重建同一初态并退出、零积分／渲染／神经模型；发现并修正“初始化加速度缓存必须为零”的错误假设，改为独立原生数据两次forward逐值重算、不修改状态。**Core双相机／原生复位故障资格与新DEV尚未完成或挂载，PC检查不自动放行。** [实现、实际PC结果与剩余资格](docs/operations/BOOK_RESET_DEV10_IMPLEMENTATION_20261102.md)。
+
 2026-11-02 20:55 SGT Core实测：**两卡弹性队列已自动在GPU1启动D2正式4096，实际8更新／256次TRAIN访问；模型已加载，原父／D2数据／统计／batch32／日程不变，不继承资格权重。** V2先完成10更新／320访问、32诊断、42项全状态恢复并CLOSED，最低余量2,557,280,256字节（2.38GiB）通过原2GiB门。常驻PID3892803在分离连接同身份持续心跳，从等待容量自动转为正式运行；GPU0外部工作保留。服务器队列为D2→固定D2阶段控制→额外边界，各原生资格后fresh4096、实际容量不足正常排队；不依赖PC或Vanda。D0／D1原DEV均0成功／1有效、9未运行，Phase原1／4、6未运行保留。共同数据46完整专家episode＋13专家后缀／34563窗；**独立RESET新DEV和四任务raw-parent训练尚未部署，当前READY仅覆盖上述训练链，不保证一夜全部完成。** [真实GPU1资格、正式进度与队列范围](reports/PI0294/design/controlled-finetuning-20261102/QUEUED_D2_FORMAL_GPU1_PROGRESS_ACTUAL_20261102.json)。
 
 2026-11-02 20:20 SGT Core实测：**两卡接续常驻PID3851333、分离连接心跳前进；GPU1已完成10更新／320访问、42项全状态恢复并CLOSED，但最小显存余量1.33GiB未达原2GiB，正式4096未启动。** 后台保留已合格GPU0回退，当前GPU0约10GiB空闲不足准入。GPU0同配方10步启用无损CPU暂存后，模型／AdamW／scheduler／RNG四文件及10项loss／LR／游标与原资格逐字节一致。已修复资格记录目录遗漏并复用合格结果、未重复GPU0资格；新V2从父模型头部核实完整冻结类别表1,303,134,720字节，保留CPU、目标10参数留GPU，并通过Core五项CPU精确梯度／更新／放置检查；**V2尚未GPU资格或部署**。原DEV／STOP／费用与基础设施保留，RESET和共享raw-parent训练仍待完成。[真实两卡运行、内存失败与V2证据](reports/PI0294/design/controlled-finetuning-20261102/AVAILABLE_GPU_RESIDENT_CONTINUATION_READY_ACTUAL_20261102.json)。

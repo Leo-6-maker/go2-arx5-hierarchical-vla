@@ -109,7 +109,7 @@ class Student:
         return int.from_bytes(hashlib.sha256(f'{self.seed_namespace}/{self.identifier}/{sequence}'.encode()).digest()[:8],'big')%(2**63)
 
 
-def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8):
+def episode(root,condition,instance,template,guard,*,student_factory=Student,card_factory=dev_card,output_upper_bytes=500*1024**2,execution_prefix=8,reset_protocol=None):
     from PIL import Image
     import mujoco
     from scripts.pi0294.multitask.source_engine import make_engine
@@ -162,6 +162,9 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
         definitions={n:(template/'inputs'/n/(n+'.xml')).read_bytes()for n in ('black_book','desk_caddy')}
         engine=make_engine(card,assets['robot_root'],pinned_libero=dict(definitions=definitions,
             asset_paths={n:assets['files'][n]['path']for n in assets['libero_binary_names']}))
+        if reset_protocol is not None:
+            from scripts.pi0294.multitask.book_reset import initial_witness
+            write(folder/'RESET_INITIAL.json',initial_witness(engine,student,card))
         if hasattr(student,'bind_engine'):student.bind_engine(engine)
         (folder/'NATIVE_SCENE.private.xml').write_text(engine.xml)
         initial=engine.snapshot();images,cal=engine.render(initial)
@@ -172,6 +175,10 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
             uv=np.asarray(cal[name]['object_points_uv']);optical=np.asarray(cal[name]['T_world_optical'])
             depth=(np.asarray(initial['object_points'])-optical[:3,3])@optical[:3,:3]
             if np.sum(np.all((uv>=0)&(uv<256),axis=1)&(depth[:,2]>0))<4:raise PermissionError('ORIGINAL_BOOK_NATIVE_CAMERA_VIEW')
+        if reset_protocol is not None:
+            if engine.steps!=0 or engine.data.time!=0:raise PermissionError('RESET_CAMERA_MUST_NOT_ADVANCE_PHYSICS')
+            write(folder/'RESET_CAMERA.json',dict(original_dual_camera_qualified=True,
+                names=sorted(images),steps=0,simulation_time_s=0.,seed_namespace=student.seed_namespace))
         recorded+=1
         emit('qualification',dict(actual_state=initial,calibration=cal,camera_pair=True,new_constructor=1,steps=0,
             simulation_time=engine.data.time,original_arm_bounds=engine.arm_bounds,original_finger_q_indices=engine.finger_q,
@@ -194,6 +201,10 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
             stream.write(json.dumps(dict(kind='terminal_failure',error=error,actual_step=engine.steps,actual_state=engine.snapshot()),default=encode,allow_nan=False)+'\n')
         if engine is not None:engine.close()
         stream.flush();os.fsync(stream.fileno());stream.close()
+        if reset_protocol is not None:
+            write(folder/'RESET_CLOSE.json',dict(engine_close_returned=engine is not None,
+                raw_writer_closed=stream.closed,condition_process_PID=os.getpid(),
+                process_exit_not_yet_claimed=True,next_worker_must_verify_native_close_and_process_exit=True))
     terminal=dict(status='RAW_SOURCE_COMPLETE_UNAUDITED'if result else'POLICY_DEV_CONDITION_STOPPED',error=error,result=result,
         actual_integrations=engine.steps if engine else 0,actual_RGB_pairs=getattr(engine,'render_pairs',0)if engine else 0,
         recorded_RGB_pairs=recorded,events=events,model_queries=student.queries,gate_rejected=gate_rejected,
@@ -202,10 +213,19 @@ def episode(root,condition,instance,template,guard,*,student_factory=Student,car
     valid=valid_model_condition(a,student.completed_generations,gate_rejected)
     hard_safety=a.get('original_native_safety_pass')is False
     recovery=student.recovery_status()if hasattr(student,'recovery_status')else None
+    reset_fields={}
+    if reset_protocol is not None:
+        names=('RESET_INITIAL.json','RESET_CAMERA.json','RESET_CLOSE.json')
+        reset_fields=dict(reset_protocol=reset_protocol['schema'],
+            reset_close_confirmed=all((folder/n).is_file()for n in names)
+                and read(folder/'RESET_CLOSE.json')['engine_close_returned'] is True
+                and read(folder/'RESET_CLOSE.json')['raw_writer_closed'] is True,
+            reset_witness_files={n:sha(folder/n)for n in names if(folder/n).is_file()})
     return dict(id=condition['id'],xy_offset_m=condition['xy_offset_m'],valid_model_condition=valid,
         success=bool(a['task_success']),gate_rejected=gate_rejected,hard_native_safety=hard_safety,error=error,
         model_queries=student.queries,completed_generations=student.completed_generations,integrations=terminal['actual_integrations'],RGB_pairs=terminal['actual_RGB_pairs'],
         raw_sha256=a['raw_sha256'],audit_sha256=sha(folder/'INDEPENDENT_RAW_AUDIT.json'),terminal_sha256=sha(folder/'TERMINAL.json'),
+        **reset_fields,
         **(dict(late_recovery=recovery,qualified_expert_recovery=bool(a['task_success']and a['original_native_safety_pass']and recovery['takeover_index']is not None))if recovery is not None else{}))
 
 
@@ -231,9 +251,11 @@ def run(root,manifest_sha256):
     is_rollout=m['kind']=='V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC'
     from scripts.pi0294.multitask.book_phase_diagnostic import KIND as PHASE_DIAGNOSTIC_KIND
     is_phase_diagnostic=m['kind']==PHASE_DIAGNOSTIC_KIND
+    from scripts.pi0294.multitask.book_reset import KIND as RESET_KIND
+    is_reset=m['kind']==RESET_KIND
     from scripts.pi0294.multitask.book_grip_decoder import KIND as GRIP_KIND,VERSION as GRIP_VERSION,validate_manifest as validate_grip_manifest
     is_grip_diagnostic=m['kind']==GRIP_KIND
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND,PHASE_DIAGNOSTIC_KIND,LATE_RECOVERY_KIND)
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m['kind']not in('V7_BOOK_FROZEN_DEV10','V7_BOOK_TRAIN16_SAMPLER_DIAGNOSTIC','V7_BOOK_TRAIN16_FIT_DIAGNOSTIC','V7_BOOK5_FINITE_TARGET_LEARNING','V7_BOOK_TRAIN_RECOVERY_DIAGNOSTIC','V7_BOOK_RECOVERY_FINITE_TARGET_LEARNING','V7_BOOK_EARLY_TRAIN_RECOVERY_PANEL','V7_BOOK_M32_FINITE_LEARNING','V7_BOOK_TRAIN_ROLLOUT_DIAGNOSTIC',GRIP_KIND,PHASE_DIAGNOSTIC_KIND,LATE_RECOVERY_KIND,RESET_KIND)
             or m['TRAIN_DEV_seal_sha256']!='3d5c4a9ad1a94b6c68f38644e1b9a6dc67f7735806667851049ac250b9cae1cf'):
         raise PermissionError('SEALED_BOOK_DEV10_MANIFEST_AND_FIXED_POPULATION')
     if is_grip_diagnostic:validate_grip_manifest(m)
@@ -262,6 +284,12 @@ def run(root,manifest_sha256):
     if not any(r.get('path')==str(root)and r.get('role')==m['role']for r in read(root/'control/REGISTERED_PATHS.json')['entries']):raise PermissionError('BOOK_DEV10_ORIGINAL_REGISTRY')
     for n,h in m['sealed_inputs'].items():
         if sha(root/n)!=h:raise PermissionError('BOOK_DEV10_INPUT_CHANGED:'+n)
+    reset_panel=None
+    if is_reset:
+        from scripts.pi0294.multitask.book_reset import validate_manifest as validate_reset_manifest
+        reset_panel=read(root/'BOOK_RESET_DEV10_PLAN.json')
+        validate_reset_manifest(m,reset_panel,read(root/'RESET_NATIVE_QUALIFICATION.json'))
+        if root.name!=m['run_uuid']:raise PermissionError('RESET_DETERMINISTIC_OUTPUT_ROOT')
     for name in ('source','python','cosmos','dataset','cosmos_hub'):node_local(bindings[name])
     prepare_environment(MODE);official_import(bindings['source'])
     import torch
@@ -269,6 +297,7 @@ def run(root,manifest_sha256):
     # Python ABI. Native CPU import qualification precedes this registered run.
     sys.path.append(str(node_local(m['physics_packages'])))
     import mujoco
+    if is_reset and mujoco.__version__!='3.2.7':raise PermissionError('RESET_QUALIFIED_NATIVE_MUJOCO_VERSION')
     from transformers import AutoModel
     from scripts.pi0294.multitask.book_checkpoint import load_wrapped
     import gr00t.model.gr00t_n1d7.gr00t_n1d7
@@ -299,6 +328,12 @@ def run(root,manifest_sha256):
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop);signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
     try:
         guard()
+        if is_reset:
+            from scripts.pi0294.multitask.book_reset import verify_predecessor,digest
+            index=m['reset_condition_index']
+            previous=(m['reset_model'],index-1,digest(reset_panel))if index else None
+            closure=verify_predecessor(read(root/'RESET_PREDECESSOR.json'),current_root=root,expected_previous=previous)
+            write(root/'RESET_PREDECESSOR_VERIFIED.json',closure)
         from scripts.pi0294.multitask.book_gpu_capacity import entry_requirement
         count=torch.cuda.device_count();required=entry_requirement(m)
         free,total=torch.cuda.mem_get_info()if count==1 else(0,0)
@@ -410,6 +445,10 @@ def run(root,manifest_sha256):
         seal=read(root/'TRAIN_DEV_SEAL.json')
         if sha(root/'TRAIN_DEV_SEAL.json')!=m['TRAIN_DEV_seal_sha256']:raise PermissionError('BOOK_DEV10_FIXED_POPULATION')
         conditions=seal['DEV'];episode_options={}
+        if is_reset:
+            if conditions!=reset_panel['conditions']:raise PermissionError('RESET_ORIGINAL_DEV_POPULATION')
+            conditions=[conditions[m['reset_condition_index']]]
+            episode_options=dict(reset_protocol=reset_panel)
         if is_grip_diagnostic:
             episode_options['student_factory']=lambda *args:Student(*args,gripper_decoder=GRIP_VERSION)
         if is_rollout:
@@ -458,7 +497,7 @@ def run(root,manifest_sha256):
                 model_load_attempts=loads,generation_attempts=len(list(root.glob('draw-*.INTENT.json'))),
                 completed_generations=len(list(root.glob('draw-*.RESULT.json'))),native_loss_forward_attempts=len(list(root.glob('*-LOSS.INTENT.json'))),
                 optimizer_updates=0,physics_integrations=0,DEV_conditions=0,CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
-        else:write(root/'RESULT.json',dict(status=('COMPLETE_BINARY_GRIP_DIAGNOSTIC'if len(rows)==10 else'STOPPED_PARTIAL_BINARY_GRIP_DIAGNOSTIC')if is_grip_diagnostic else ('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_LATE_TRAIN_RECOVERY_PANEL'if len(rows)==len(m['recovery_plan']['conditions'])else'STOPPED_PARTIAL_LATE_TRAIN_RECOVERY_PANEL')if is_late_recovery else ('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
+        else:write(root/'RESULT.json',dict(status=('COMPLETE_BOOK_RESET_DEV_CONDITION'if len(rows)==1 and rows[0]['valid_model_condition']and rows[0].get('reset_close_confirmed')else'FAILED_BOOK_RESET_DEV_CONDITION')if is_reset else('COMPLETE_BINARY_GRIP_DIAGNOSTIC'if len(rows)==10 else'STOPPED_PARTIAL_BINARY_GRIP_DIAGNOSTIC')if is_grip_diagnostic else ('COMPLETE_TRAIN_ROLLOUT_DIAGNOSTIC'if len(rows)==3 else'STOPPED_PARTIAL_TRAIN_ROLLOUT_DIAGNOSTIC')if is_rollout else (('COMPLETE_LATE_TRAIN_RECOVERY_PANEL'if len(rows)==len(m['recovery_plan']['conditions'])else'STOPPED_PARTIAL_LATE_TRAIN_RECOVERY_PANEL')if is_late_recovery else ('COMPLETE_EARLY_TRAIN_RECOVERY_PANEL'if len(rows)==10 else'STOPPED_PARTIAL_EARLY_TRAIN_RECOVERY_PANEL')if is_early_recovery else('COMPLETE_TRAIN_RECOVERY_DIAGNOSTIC'if len(rows)==1 else'FAILED_TRAIN_RECOVERY_DIAGNOSTIC'))if is_recovery else('COMPLETE_FROZEN_DEV10'if len(rows)==10 else'STOPPED_PARTIAL_DEV10'),error=failure,
             scientific_kind=m['kind'],formal_DEV_conditions=0 if is_recovery or is_rollout or is_grip_diagnostic else sum(r['valid_model_condition']for r in rows),
             grip_diagnostic_conditions=sum(r['valid_model_condition']for r in rows)if is_grip_diagnostic else 0,
             student_prefix_is_expert=False if is_recovery else None,learned_full_task_success_claim=False if is_recovery else None,
