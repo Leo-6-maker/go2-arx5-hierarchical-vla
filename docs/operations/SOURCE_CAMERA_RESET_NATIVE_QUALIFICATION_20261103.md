@@ -42,7 +42,7 @@ changed. Missing closure remains UNKNOWN, with no automatic replay.
 
 A single finite Night10 task may wait for authorized shared GPU0, using the
 original source entry of 2048 MiB free, a 120-second stability observation,
-one CPU, bounded memory, protected storage plus 30 GiB and a ten-hour dispatch
+one CPU, a 2 GiB cgroup hard limit and 8 GiB available host memory, protected storage plus 30 GiB and a ten-hour dispatch
 window. GPU1's active D2 and its spare memory are not borrowed. Actual rendering
 also checks the selected UUID and at least 1 GiB free. GPU0 sharing permission
 does not guarantee zero bandwidth or throughput interaction.
@@ -80,3 +80,43 @@ updates on GPU1, and the original M13 training source and queue are unchanged.
 See the [actual finite queue receipt](../../reports/PI0294/design/controlled-finetuning-20261102/SOURCE_CAMERA_RESET_QUEUED_ACTUAL_20261103.json).
 This is READY_FOR_RESOURCE_WAIT_ONLY; native camera/reset qualification and
 all subsequent neural training/inference and formal DEV remain unproven.
+
+
+## Resource-only cold correction at 01:31 SGT
+
+Actual GPU0 free memory had risen to 7176 MiB, but the first wait plan still
+required 42 GiB available host memory while 40.10 GiB was available. That was
+an excessive future neural-load reserve for a zero-model task bounded by a
+2 GiB cgroup. Under the existing GPU0 project lock, the owner proved the task
+PENDING with no native intent/output/result, stopped only its idle waiting
+controller, and verified actual MainPID 0 and an empty child cgroup. It then
+started controller03 (PID 4188746) with 8 GiB available-memory admission.
+Worker code/manifest/lease, neural training, all original GPU and safety
+thresholds and scientific limits remain unchanged. This is a controller
+handover before any native attempt, not an experiment retry.
+
+The former plan and both controllers are retained in the existing result
+paths. See the [actual cold correction](../../reports/PI0294/design/controlled-finetuning-20261102/SOURCE_CAMERA_RESET_RESOURCE_CORRECTION_ACTUAL_20261103.json).
+
+
+## Actual automatic execution and retained engineering failure
+
+After capacity admission the server started worker 4190775 automatically. All
+12 children returned PASS: four tasks each had two distinct native processes
+with identical fresh witnesses, all 80 fixed noise keys and identical original
+RGB pairs, plus one dirty-initial-state rejection without repair. Independent
+readback streamed and verified all 16 PNGs. There were zero physics
+integrations, neural models, optimizer updates or valid model conditions.
+
+The predecessor checks then failed on permission to read a same-UID systemd
+user manager descriptor under `/proc`. The manager has a distinct init.scope
+and protected descriptor links. It was not modified or silently skipped. The
+qualification returned an explicit engineering failure and CLOSED lease; the
+finite controller and probe both have actual MainPID 0. No native qualification
+certificate was issued, and no attempt was automatically retried. This
+requires a safe correction to the process-inspection scope before new DEV.
+
+D2 independently reached 1039/4096, and checkpoint 1024 has actual model/42-state
+AdamW, scheduler, RNG and sampler-cursor32768 restoration evidence. Its formal
+4096 endpoint remains incomplete. The existing training successor queue is
+still running with its original source and identity.
