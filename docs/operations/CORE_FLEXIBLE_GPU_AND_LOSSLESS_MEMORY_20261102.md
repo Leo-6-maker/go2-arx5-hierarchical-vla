@@ -48,3 +48,15 @@ after native10 on its selected device. A known closed failure isolates that arm;
 unknown writes/ownership prevent another start. No old failed role is reopened.
 Reset DEV and the shared raw-parent baseline remain separate authorized work;
 this memory/selection change does not claim either is already deployed.
+
+The worker itself calls `book_gpu_capacity.entry_requirement`. Its new explicit
+training branch preserves the default 24 GiB path and the separate inference
+certificates. A sealed lossless native10 request may use the 15 GiB candidate
+entry. A formal4096 request additionally verifies the original native10 result,
+actual capacity, full restore, copies and CLOSED lease on the **same GPU** and
+the exact matched recipe/parent/data/statistics. Below 2 GiB, different devices,
+incomplete restore, changed bytes or an inference-only certificate do not admit
+formal training. Outer registration/launch and the actual worker use the same
+entry. Tests exercise this actual entry, including a forged formal probe and a
+one-byte-below-margin certificate. An earlier unarmed staged capsule is retained;
+it must not be launched with the old worker's fixed 24 GiB entry on GPU1.
