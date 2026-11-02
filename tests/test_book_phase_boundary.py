@@ -85,3 +85,67 @@ def test_sealed_identity_split_and_unique_window_join():
         pb.pools([rows[0],*rows[:-1]],index,**pins)
     with pytest.raises(ValueError):
         pb.sequence(rows,index,boundary=True,seed=1,updates=8192,**pins)
+
+
+def recipes(rows,index,pins,steps=4096):
+    entries=[dict(id=e['id'],windows=e['windows']) for e in index['episodes']]
+    return [pb.plan(variant,pins['dataset_sha256'],pins['statistics_sha256'],
+        pins['population_sha256'],pins['index_sha256'],entries,steps=steps)
+        for variant in ('CONTROL','BOUNDARY')]
+
+
+def test_recipe_pair_freezes_all_science_except_two_sampling_slots():
+    from scripts.pi0294.multitask.book_bc_dagger import plan as data_plan
+    from scripts.pi0294.multitask.book_m32_learning import is_plan
+    rows,index,pins=fixture();control,boundary=recipes(rows,index,pins)
+    assert is_plan(control) and is_plan(boundary)
+    assert {k for k in control if control[k]!=boundary[k]}=={'pb_variant','phase_slots_per_batch'}
+    base=data_plan('D2',pins['dataset_sha256'],pins['statistics_sha256'],pins['population_sha256'],control['TRAIN_entries'])
+    allowed={'schema','sampling','purpose','pb_variant','phase_index_schema',
+             'phase_index_sha256','phase_slots_per_batch','phase_metadata_student_input'}
+    assert all(control[k]==v for k,v in base.items() if k not in allowed)
+    for k,value in [('warmup_updates',200),('learning_rate',3e-5),('loss','CHANGED'),('effective_batch_size',64)]:
+        bad=deepcopy(boundary);bad[k]=value
+        assert not is_plan(bad)
+
+
+def test_actual_fit_sampler_qualification_prefix_resume_and_population():
+    from scripts.pi0294.multitask.book_fit import FitSampler,optimization_rows
+    rows,index,pins=fixture();_,p=recipes(rows,index,pins)
+    _,probe=recipes(rows,index,pins,steps=10)
+    assert optimization_rows(rows,p)==rows
+    sampler=FitSampler(rows,fit_recipe=p,phase_index=index)
+    actual=list(sampler)
+    expected=pb.sequence(rows,index,boundary=True,seed=p['seed'],**pins)
+    np.testing.assert_array_equal([i for _,i in actual],expected)
+    assert list(FitSampler(rows,fit_recipe=probe,phase_index=index))==actual[:320]
+    cursor=65536
+    resumed=FitSampler(rows,start=cursor,stop=cursor+32,fit_recipe=p,phase_index=index)
+    assert list(resumed)==actual[cursor:cursor+32]
+    assert resumed.state_dict(cursor)['pb_variant']=='BOUNDARY'
+    assert resumed.state_dict(cursor)['phase_index_sha256']==pins['index_sha256']
+    assert sampler.index_at(cursor)==expected[cursor]
+    with pytest.raises(PermissionError):
+        FitSampler(rows,fit_recipe=p)
+    with pytest.raises(PermissionError):
+        optimization_rows(rows[:-1],p)
+
+
+def test_checkpoint_requires_exact_index_and_intermediate_restore_name():
+    from scripts.pi0294.multitask.book_checkpoint import validate_delta_header,qualification_file_name
+    rows,index,pins=fixture();p,_=recipes(rows,index,pins)
+    members={name:'a'*64 for name in ('target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth',
+        'trainer_state.json','statistics.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json',
+        'ADAPTER_PARAMETER_CONTRACT.json','TRAIN_DEV_SEAL.json','TRAIN_POPULATION.json')}
+    members['TRAIN_PHASE_INDEX.json']=pins['index_sha256']
+    h=dict(schema='BOOK_M32_PARENT_BOUND_TRAINING_DELTA_V1',recipe=p,global_step=1024,cursor=32768,
+        standalone_model=False,full_resume_with_required_parent=True,
+        required_parent_checkpoint_manifest_sha256=p['checkpoint_manifest_sha256'],files=members)
+    assert validate_delta_header(h,p['checkpoint_manifest_sha256'])==h
+    name='ACTUAL_DELTA_CHECKPOINT_RESTORE_1024.json'
+    assert qualification_file_name(dict(delta_native_qualification_file=name),h)==name
+    with pytest.raises(PermissionError):
+        qualification_file_name({},h)
+    bad=deepcopy(h);bad['files']['TRAIN_PHASE_INDEX.json']='b'*64
+    with pytest.raises(PermissionError):
+        validate_delta_header(bad,p['checkpoint_manifest_sha256'])

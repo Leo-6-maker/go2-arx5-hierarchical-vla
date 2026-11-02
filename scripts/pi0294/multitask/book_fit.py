@@ -87,8 +87,10 @@ def select_rows(rows,fit_recipe=None):
 def optimization_rows(rows,p):
     if p==plan():return select_rows(rows)
     from .book_bc_dagger import SCHEMA as BC_SCHEMA,is_plan as is_bc_plan
-    if p.get('schema')==BC_SCHEMA:
-        if not is_bc_plan(p):raise PermissionError('EXACT_FROZEN_BC_DAGGER_POPULATION')
+    from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA,is_plan as is_pb_plan
+    if p.get('schema') in (BC_SCHEMA,PB_SCHEMA):
+        valid=is_bc_plan(p)if p['schema']==BC_SCHEMA else is_pb_plan(p)
+        if not valid:raise PermissionError('EXACT_FROZEN_BC_DAGGER_POPULATION')
         expected={(r['id'],a)for r in p['TRAIN_entries']for a in range(r['windows'])}
         if (len(rows)!=len(expected)or {(r['id'],a)for r,a in rows}!=expected
                 or any(r['split']!='TRAIN'or r.get('task')!='BOOK'for r,a in rows)):
@@ -127,6 +129,12 @@ class FitSampler(CyclicSampler):
             if phase_index is None:raise PermissionError('PHASE_SAMPLER_REQUIRES_SEALED_TRAIN_INDEX')
             self.phase_sequence=sequence(getattr(dataset,'rows',dataset),phase_index,p)
             self.phase_index_sha256=p['phase_index_sha256']
+        from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA,recipe_sequence
+        self.pb_variant=None
+        if p['schema']==PB_SCHEMA:
+            if phase_index is None:raise PermissionError('PHASE_SAMPLER_REQUIRES_SEALED_TRAIN_INDEX')
+            self.phase_sequence=recipe_sequence(getattr(dataset,'rows',dataset),phase_index,p)
+            self.phase_index_sha256=p['phase_index_sha256'];self.pb_variant=p['pb_variant']
 
     def __iter__(self):
         if self.phase_sequence is None:
@@ -137,6 +145,8 @@ class FitSampler(CyclicSampler):
         value=super().state_dict(consumed)
         if self.phase_sequence is not None:
             value.update(algorithm='DETERMINISTIC_EPISODE_BALANCED_PHASE_STREAMS_V1',phase_index_sha256=self.phase_index_sha256)
+            if self.pb_variant is not None:
+                value.update(algorithm='DETERMINISTIC_EPISODE_BALANCED_PHASE_BOUNDARY_V1',pb_variant=self.pb_variant)
         return value
 
     def index_at(self,cursor):
@@ -227,7 +237,8 @@ def run(root,instance,contract,guard):
     m32=is_plan(p)
     steps=p['max_steps'];visits=p['TRAIN_visits'];sampler_class=partial(FitSampler,fit_recipe=p)
     from .book_phase_sampling import SCHEMA as PHASE_SCHEMA,load_index
-    if p['schema']==PHASE_SCHEMA:
+    from .book_phase_boundary import PLAN_SCHEMA as PB_SCHEMA,validate_population as validate_pb_population
+    if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):
         sampler_class=partial(FitSampler,fit_recipe=p,phase_index=load_index(root,p))
     model=instance.model;parameters=dict(model.named_parameters());names=contract.trainable_names
     for name in names:parameters[name].requires_grad_(True)
@@ -247,6 +258,8 @@ def run(root,instance,contract,guard):
             from .book_bc_dagger import SCHEMA as BC_SCHEMA,validate_population
             if p['schema']==BC_SCHEMA:
                 validate_population(ds.manifest,read(ds.root/'TRAIN_POPULATION.json'),p)
+            elif p['schema']==PB_SCHEMA:
+                validate_pb_population(ds.manifest,read(ds.root/'TRAIN_POPULATION.json'),p)
             elif ds.manifest['schema']!='BOOK_M32_TRAIN15_SIX_EXPERT_SUFFIXES_V1':
                 raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
         ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows,p);ds.initialize()
@@ -336,7 +349,7 @@ def run(root,instance,contract,guard):
             self.train_dataset.processor.save_pretrained(cp/'processor')
             for name in('statistics.json','TRAIN_DEV_SEAL.json'):shutil.copyfile(data.root/name,cp/name)
             if m32:shutil.copyfile(data.root/'TRAIN_POPULATION.json',cp/'TRAIN_POPULATION.json')
-            if p['schema']==PHASE_SCHEMA:shutil.copyfile(root/'TRAIN_PHASE_INDEX.json',cp/'TRAIN_PHASE_INDEX.json')
+            if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):shutil.copyfile(root/'TRAIN_PHASE_INDEX.json',cp/'TRAIN_PHASE_INDEX.json')
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
