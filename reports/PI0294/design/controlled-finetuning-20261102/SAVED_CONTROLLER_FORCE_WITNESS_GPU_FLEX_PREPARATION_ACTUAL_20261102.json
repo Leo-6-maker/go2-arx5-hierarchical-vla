@@ -1,0 +1,238 @@
+{
+  "schema": "SAVED_D0_D1_CONTROLLER_FORCE_WITNESS_AND_FLEXIBLE_GPU_PREPARATION_ACTUAL_V1",
+  "observed_epoch": 1793617635.7823267,
+  "controller_replay": {
+    "D0": {
+      "status": "PASS_SAVED_CONTROLLER_RECONSTRUCTION_WITH_FORCE_AND_CACHE_WITNESS",
+      "source": "d99f717394f74576c619ea44e4ead14c629013cf",
+      "controller_sha256": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+      "config_sha256": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+      "XML_sha256": "55187eb09cf1c1e3852474f2f09bcd2f5cd52fc2c49984ea2f40800ef69167f7",
+      "raw_sha256": "60d6b0ed1d0a83cac91cef36441fbb5a32acdd53703842076e0af4b84a0493d3",
+      "run_id": "v7-bc299-d0-original-dev10-gpu1-03",
+      "condition": "BOOK_DEV000",
+      "ticks": 13634,
+      "submitted_intervals": 446,
+      "force_tolerance": 1e-07,
+      "force_max_abs_error": 0.0,
+      "force_mismatching_ticks": 0,
+      "IK_counter_mismatches": 0,
+      "CPU_s": 3.639932895,
+      "CPU_cores": 1,
+      "minimum_commanded_margin_rad": [
+        1.5839554942829595,
+        1.285074823787237,
+        0.9193915275443079,
+        0.004688619117298787,
+        1.265333338857161,
+        0.0
+      ],
+      "minimum_actual_margin_rad": [
+        1.5817188917101566,
+        1.2883481554669598,
+        0.9287429204152229,
+        -0.006032840188466615,
+        1.2634997860275985,
+        0.0014468627305608273
+      ],
+      "new_mujoco_model_constructors": 1,
+      "new_physics_integrations": 0,
+      "new_GR00T_model_loads": 0,
+      "new_renderings": 0,
+      "command_reconstructed_not_directly_recorded": true,
+      "reconstructed_commands_are_not_training_labels": true,
+      "existing_raw_modified": false,
+      "runtime": {
+        "numpy_version": "1.26.4",
+        "mujoco_version": "3.2.7"
+      },
+      "stop": {
+        "native_step": 13634,
+        "task_seconds": 22.267999999995766,
+        "commanded_arm_targets": [
+          0.23941287074715753,
+          2.3749251762127632,
+          2.3156084724556925,
+          -1.6606765690279985,
+          -0.37735249095146495,
+          -1.3357742578247644
+        ],
+        "IK_solution": [
+          0.23941287074715753,
+          2.3749251762127632,
+          2.3156084724556925,
+          -1.6606765690279985,
+          -0.37735249095146495,
+          -1.3357742578247644
+        ],
+        "actual": [
+          0.2399273543213878,
+          2.3716518445330403,
+          2.3062570795847774,
+          -1.6720328401884668,
+          -0.3810832920815688,
+          -1.3287774045145375
+        ],
+        "actual_velocity": [
+          -0.008592662712318924,
+          0.16213094274428094,
+          0.25754166597171807,
+          -0.017183253393158775,
+          0.03580313429657964,
+          0.0032793411920320984
+        ],
+        "commanded_margin": [
+          2.3284128707471576,
+          1.285074823787237,
+          0.9193915275443079,
+          0.005323430972001608,
+          1.2886475090485352,
+          0.7532257421752355
+        ],
+        "actual_margin": [
+          2.3289273543213875,
+          1.2883481554669598,
+          0.9287429204152229,
+          -0.006032840188466615,
+          1.2849167079184314,
+          0.7602225954854624
+        ]
+      },
+      "joint4_actual_minus_command_rad": -0.011356271160468223
+    },
+    "D1": {
+      "status": "PASS_SAVED_CONTROLLER_RECONSTRUCTION_WITH_FORCE_AND_CACHE_WITNESS",
+      "source": "d99f717394f74576c619ea44e4ead14c629013cf",
+      "controller_sha256": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+      "config_sha256": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+      "XML_sha256": "55187eb09cf1c1e3852474f2f09bcd2f5cd52fc2c49984ea2f40800ef69167f7",
+      "raw_sha256": "b936cdd8cf97278fa6f86b128d52513c4a5598e7241d4ee1482a0142ae46a6a8",
+      "run_id": "v7-bc299-d1-original-dev10-01",
+      "condition": "BOOK_DEV000",
+      "ticks": 11673,
+      "submitted_intervals": 367,
+      "force_tolerance": 1e-07,
+      "force_max_abs_error": 0.0,
+      "force_mismatching_ticks": 0,
+      "IK_counter_mismatches": 0,
+      "CPU_s": 3.153610253,
+      "CPU_cores": 1,
+      "minimum_commanded_margin_rad": [
+        1.6300808607018717,
+        1.2987692817780019,
+        0.9160395944222843,
+        0.004252578037583277,
+        1.297139285816678,
+        0.041389023394071245
+      ],
+      "minimum_actual_margin_rad": [
+        1.6298909409580113,
+        1.3054422227465339,
+        0.9273365745161186,
+        -0.006123996026318634,
+        1.2933302474513648,
+        0.04532100887385493
+      ],
+      "new_mujoco_model_constructors": 1,
+      "new_physics_integrations": 0,
+      "new_GR00T_model_loads": 0,
+      "new_renderings": 0,
+      "command_reconstructed_not_directly_recorded": true,
+      "reconstructed_commands_are_not_training_labels": true,
+      "existing_raw_modified": false,
+      "runtime": {
+        "numpy_version": "1.26.4",
+        "mujoco_version": "3.2.7"
+      },
+      "stop": {
+        "native_step": 11673,
+        "task_seconds": 18.34599999999794,
+        "commanded_arm_targets": [
+          0.2526013646770527,
+          2.3612307182219983,
+          2.318960405577716,
+          -1.6617474219624169,
+          -0.3494381003301719,
+          -1.321541369463307
+        ],
+        "IK_solution": [
+          0.2526013646770527,
+          2.3612307182219983,
+          2.318960405577716,
+          -1.6617474219624169,
+          -0.3494381003301719,
+          -1.321541369463307
+        ],
+        "actual": [
+          0.2504703484740935,
+          2.3545577772534663,
+          2.3076634254838817,
+          -1.6721239960263188,
+          -0.3482324811639291,
+          -1.3154826883115511
+        ],
+        "actual_velocity": [
+          0.016926151496599266,
+          0.21389269905278716,
+          0.332103535651832,
+          -0.09407599239757539,
+          0.0573787712614052,
+          0.01251894382511927
+        ],
+        "commanded_margin": [
+          2.341601364677053,
+          1.2987692817780019,
+          0.9160395944222843,
+          0.004252578037583277,
+          1.3165618996698283,
+          0.767458630536693
+        ],
+        "actual_margin": [
+          2.3394703484740935,
+          1.3054422227465339,
+          0.9273365745161186,
+          -0.006123996026318634,
+          1.3177675188360711,
+          0.7735173116884488
+        ]
+      },
+      "joint4_actual_minus_command_rad": -0.010376574063901911
+    }
+  },
+  "initial_wrong_environment_attempt": {
+    "status": "INCOMPLETE_NOT_CAUSAL_EVIDENCE",
+    "CPU_s": 3.078909751,
+    "force_mismatching_ticks": 995,
+    "maximum_force_error": 0.00148457577,
+    "retained_cost": true,
+    "remedy": "Use original neural Python and NumPy before adding physics packages; original tolerance unchanged."
+  },
+  "inference": "Both stopped conditions had legal commanded joint targets. Residual joint4 margin was smaller than actual-minus-command tracking error; no directly out-of-range commanded IK target was found. This does not establish why the policy chose a near-limit reference or prove a WBC/Teacher/Go2 remedy.",
+  "GPU1_preparation": {
+    "native_neural_CPU_tests": 2,
+    "loss_gradients_AdamW_RNG_exact": true,
+    "CUDA_initialized": false,
+    "torch": "2.9.0+cu128",
+    "local_non_torch_tests_passed": 40,
+    "local_torch_tests_skipped": 2,
+    "new_GPU1_memory_policy_qualification": "NOT_YET_RUN",
+    "future_available_device_selection_implemented": true
+  },
+  "D2_closed_native10_02": {
+    "updates": 10,
+    "TRAIN_visits": 320,
+    "saved_and_restored": true,
+    "capacity_pass": false,
+    "minimum_free_bytes": 616824832,
+    "maximum_allocated_bytes": 15448428032,
+    "maximum_reserved_bytes": 15711862784,
+    "formal4096_started": false
+  },
+  "limitations": [
+    "No new learned task success, valid DEV condition, demonstration, target run or source physics was produced by this CPU analysis.",
+    "Reconstructed commands are computed diagnostics, not directly recorded joint commands or expert labels.",
+    "D0/D1 each stopped in the same first original DEV condition; these truncated panels do not estimate generalization or identify a causal dataset improvement.",
+    "Do not change WBC or safety limits. The GPU1 memory policy needs actual native updates/full reload and original measured margin before formal adoption.",
+    "Reset DEV and shared raw-parent training are not mounted by this code preparation."
+  ]
+}
