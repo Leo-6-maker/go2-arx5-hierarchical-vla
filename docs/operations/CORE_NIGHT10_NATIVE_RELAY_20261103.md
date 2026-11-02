@@ -55,7 +55,7 @@ checkpoints stay on their existing node-local paths. No cleanup, host permission
 service configuration, NFS, SSH, credentials, WBC or target quarantine change is
 part of this binding.
 
-Validation before adoption: 120 targeted CPU checks passed, including actual
+Validation before adoption: 121 targeted CPU checks passed, including actual
 sealed M13 control-flow fixtures (separate proof) and adapter boundary checks for
 missing/full restores, retained active actors, unknown/excess counts, altered
 native records, ambiguous closure and duplicate run identity. These are not native

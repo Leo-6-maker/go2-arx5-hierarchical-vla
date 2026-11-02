@@ -67,20 +67,23 @@ def test_existing_run_identity_never_replayed_or_overwritten(tmp_path):
     assert(root/'sentinel').read_text()=='original'and len(list(root.iterdir()))==1
 
 
-@pytest.mark.parametrize('native_live',[False,True])
-def test_owner_availability_uses_closure_not_scientific_success(tmp_path,monkeypatch,native_live):
+@pytest.mark.parametrize('native_live,new_live',[(False,False),(True,False),(False,True)])
+def test_owner_availability_uses_closure_not_scientific_success(tmp_path,monkeypatch,native_live,new_live):
     root=tmp_path/'new';root.mkdir();(root/'receipts').mkdir()
     previous=tmp_path/'M13';put(previous/'STATE.json',dict(status='BLOCKED',reason='CLOSED_KNOWN_FAILURE'))
     actor=tmp_path/'actor';put(actor/'control/LEASE.json',dict(status='ACTIVE'if native_live else'CLOSED'))
     put(previous/'jobs/D2/ACTUAL_STAGED.private.json',dict(root=str(actor)))
-    account=tmp_path/'LOCAL.json';put(account,dict(unknown_effects=[],pending_updates=[],pending_queries=[]))
+    lost=tmp_path/'lost-new-actor';put(lost/'control/LEASE.json',dict(status='ACTIVE'))
+    account=tmp_path/'LOCAL.json';put(account,dict(unknown_effects=[],pending_updates=[],pending_queries=[],
+        V7_book_learning_runs={'new':dict(role='V7_NATIVE_RELAY__new',root=str(lost))}if new_live else{}))
     clock=[0]
     monkeypatch.setattr(relay.time,'time',lambda:clock[0]);monkeypatch.setattr(relay.time,'sleep',lambda n:clock.__setitem__(0,1000))
-    monkeypatch.setattr(relay,'observe',lambda r:dict(MainPID='8'if native_live else'0'))
+    monkeypatch.setattr(relay,'observe',lambda r:dict(MainPID='8'if native_live or r==lost else'0'))
+    monkeypatch.setattr(relay.subprocess,'check_output',lambda *a,**kw:'0, GPU-fixture, 24000\n')
     monkeypatch.setattr(relay,'checkpoint',lambda p:None)
     config=dict(root=str(root),existing_M13=str(previous),existing_neural_owner_lock=str(tmp_path/'owner.lock'),
         dispatch_deadline_epoch=300,LOCAL=str(account),book_producers={'D2':str(actor)})
     result=relay.monitor(config)
     assert result['effects_closed']
-    assert relay.read(root/'NEURAL_SLOT.json')['available']is(not native_live)
+    assert relay.read(root/'NEURAL_SLOT.json')['available']is(not(native_live or new_live))
     assert relay.read(root/'NIGHT_SUMMARY.json')['current_M13']['status']=='BLOCKED'

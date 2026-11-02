@@ -412,6 +412,12 @@ def monitor(c):
             account=read(c['LOCAL'])
             if any(account.get(k)!=[]for k in('unknown_effects','pending_updates','pending_queries')):
                 slot=False;reason='CANONICAL_UNKNOWN_EFFECT'
+            for row in account.get('V7_book_learning_runs',{}).values():
+                if not row.get('role','').startswith('V7_NATIVE_RELAY__'):continue
+                actor=Path(row['root']);lease=actor/'control/LEASE.json'
+                if (not lease.is_file()or read(lease).get('status')!='CLOSED'
+                        or observe(actor)['MainPID']!='0'):
+                    slot=False;reason='NEW_NATIVE_EFFECT_NOT_CLOSED';break
         except BlockingIOError:pass
         finally:
             if lock:lock.close()
@@ -419,10 +425,15 @@ def monitor(c):
         for name,producer in c['book_producers'].items():
             update(root/('MODEL_'+name+'.json'),dict(available=checkpoint(producer)is not None,producer=producer,epoch=time.time()))
         state=read(m13/'STATE.json');progress=Path(c['book_producers']['D2'])/'FIT_PROGRESS.json'
+        gpu=subprocess.check_output(['nvidia-smi','--query-gpu=index,uuid,memory.free',
+            '--format=csv,noheader,nounits'],text=True,timeout=5)
+        available=int(next(s.split()[1]for s in Path('/proc/meminfo').read_text().splitlines()if s.startswith('MemAvailable:')))*1024
+        fs=os.statvfs(root)
         update(root/'NIGHT_SUMMARY.json',dict(epoch=time.time(),dispatch_deadline_epoch=c['dispatch_deadline_epoch'],
             current_M13=state,current_D2=read(progress)if progress.exists()else None,
             new_tasks=read(root/'queue/STATE.json')if(root/'queue/STATE.json').exists()else None,
             task_receipts={f.name:read(f)for f in(root/'receipts').glob('*.json')},
+            real_resources=dict(GPUs=gpu,available_RAM_bytes=available,free_disk_bytes=fs.f_bavail*fs.f_frsize),
             new_policy_success_not_inferred_from_process_exit=True,monitor_CPU_s=time.process_time()-started))
         time.sleep(15)
     return dict(status='CLOSED_FINITE_READONLY_MONITOR',effects_closed=True,CPU_s=time.process_time()-started)
@@ -463,7 +474,11 @@ def main():
                 PC_or_Vanda_dependency=False))
             result=execute(c,root)
             value=dict(status='CLOSED_FINITE_SHARED8192',native_status=result['status'],
-                optimizer_updates=result['optimizer_updates'],actor_root=str(root))
+                optimizer_updates=result['optimizer_updates'],actor_root=str(root),
+                checkpoint_manifest_sha256=sha(root/'training/checkpoint-8192/CHECKPOINT_COMPLETE.json')
+                    if(root/'training/checkpoint-8192/CHECKPOINT_COMPLETE.json').is_file()else None,
+                restore_sha256=sha(root/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json')
+                    if(root/'ACTUAL_DELTA_CHECKPOINT_RESTORE.json').is_file()else None)
         elif a.action=='shared8192':
             if time.time()>=c['dispatch_deadline_epoch']:raise PermissionError('TEN_HOUR_DISPATCH_WINDOW_CLOSED')
             root=shared(c,8192);lock.close()
@@ -483,11 +498,13 @@ def main():
                         generation_queries=p['generation_queries'],RGB_pairs=0,source_constructors=0))
                 qualified_entry(m)
             else:
-                from scripts.pi0294.multitask.shared_evaluation import INFERENCE_KIND
-                capacity=read(actor/'SHARED_GPU_INFERENCE_CAPACITY.json')
-                if(result['status']!='COMPLETE_SHARED_TRAIN16_INFERENCE_QUALIFICATION'
-                        or not capacity['capacity_pass']or capacity['minimum_free_bytes']<1024**3):
-                    raise ValueError('RAW_NATIVE16_NOT_QUALIFIED')
+                from scripts.pi0294.multitask.shared_evaluation import KIND,LIMITS
+                from scripts.pi0294.multitask.shared_policy import qualified_inference_entry
+                cert=dict(schema='SHARED4_SAME_GPU_NATIVE16_INFERENCE_V1',qualification_root=str(actor),
+                    files={n:sha(actor/n)for n in('RUN_MANIFEST.json','RESULT.json',
+                        'SHARED_GPU_INFERENCE_CAPACITY.json','ACTUAL_SHARED_INFERENCE_RECONSTRUCTION.json','control/LEASE.json')})
+                m=read(actor/'RUN_MANIFEST.json');m.update(kind=KIND,limits=LIMITS,shared_inference_admission=cert)
+                qualified_inference_entry(m)
             value=dict(status='PASS_OWN_RAW_QUALIFICATION',root=str(actor),result_sha256=sha(actor/'RESULT.json'))
     except BaseException as exc:
         failure=type(exc).__name__+': '+str(exc)
