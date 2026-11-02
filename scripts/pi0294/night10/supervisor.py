@@ -140,7 +140,10 @@ def check_plan(plan):
             if t['lane'] == 'gpu_train' and t['gpu'] == 1:
                 if plan.get('gpu1_training_admitted') is not True or not t.get('admission'):
                     raise PermissionError('GPU1_NATIVE_TEN_UPDATE_CAPACITY_NOT_ADMITTED')
-            if t['lane'] == 'physics' and (t['gpu'] != 0 or not t.get('readiness') or not t.get('preflight')):
+            if type(t.get('gpu_stable_seconds',0)) not in (int,float) or not 0<=t.get('gpu_stable_seconds',0)<=300:
+                raise ValueError('FINITE_GPU_STABILITY_OBSERVATION:' + t['id'])
+            if t['lane'] == 'physics' and (not t.get('readiness') or not t.get('preflight')
+                    or (t['gpu']==1 and not t.get('admission'))):
                 raise ValueError('SOURCE_PHYSICS_REQUIRES_ORIGINAL_COLD_GATE_AND_OWNER:' + t['id'])
         elif t.get('gpu') is not None or t.get('gpu_uuid') is not None:
             raise ValueError('CPU_CANNOT_CLAIM_GPU:' + t['id'])
@@ -204,6 +207,7 @@ class Supervisor:
         self.output = Path(output)
         self.gpu_probe, self.now = gpu_probe, time_source
         self.processes = {}
+        self.gpu_stable_since = {}
         if not resume:
             self.output.mkdir(mode=0o700, parents=False, exist_ok=False)
             self.started = self.now()
@@ -269,9 +273,14 @@ class Supervisor:
             try:
                 uuid, free, compute_pids = self.gpu_probe(gpu)
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                self.gpu_stable_since.pop(key,None)
                 return False
             if (uuid != task['gpu_uuid'] or free < task['min_free_mib']
                     or (compute_pids and task.get('allow_shared_gpu') is not True)):
+                self.gpu_stable_since.pop(key,None)
+                return False
+            since=self.gpu_stable_since.setdefault(key,self.now())
+            if self.now()-since<task.get('gpu_stable_seconds',0):
                 return False
         reserved_gib = sum(self.tasks[k]['write_gib'] for k in self.processes)
         disk_gib = shutil.disk_usage(self.output).free / 1024**3
