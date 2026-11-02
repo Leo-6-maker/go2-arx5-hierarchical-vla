@@ -93,6 +93,28 @@ class TestNight10(unittest.TestCase):
         self.assertEqual(runner.states['dagger']['state'], 'SKIPPED')
         self.assertFalse((self.root/'dagger.json').exists())
 
+    def test_gpu1_physics_needs_an_explicit_native_inference_admission(self):
+        t=self.command('physics')
+        t.update(lane='physics',gpu=1,gpu_uuid='GPU-test',min_free_mib=13312,
+            readiness=[dict(path=str(self.root/'cold.json'),equals=dict(status='CLOSED'))],
+            preflight=[sys.executable,'-c','pass'])
+        with self.assertRaises(ValueError):night.check_plan(self.plan([t]))
+        t['admission']=[dict(path=str(self.root/'capacity.json'),equals=dict(capacity_pass=True,completed_generations=96))]
+        night.check_plan(self.plan([t]))
+
+    def test_capacity_waits_for_a_full_stable_interval_after_foreign_work_ends(self):
+        t=self.command('inference')
+        t.update(lane='gpu_inference',gpu=1,gpu_uuid='GPU-test',min_free_mib=13312,
+            gpu_stable_seconds=60,readiness=[dict(path=str(self.root/'cold.json'),equals=dict(status='CLOSED'))])
+        clock=[0.];gpu=[('GPU-test',15000,[])]
+        runner=night.Supervisor(self.plan([t]),self.root/'night',gpu_probe=lambda _:gpu[0],time_source=lambda:clock[0])
+        with mock.patch.object(night.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*1024**3,0,100*1024**3)),mock.patch.object(night,'available_memory_gib',return_value=100):
+            self.assertFalse(runner.capacity('inference'))
+            clock[0]=59.;self.assertFalse(runner.capacity('inference'))
+            gpu[0]=('GPU-test',2000,[123]);self.assertFalse(runner.capacity('inference'))
+            clock[0]=60.;gpu[0]=('GPU-test',15000,[]);self.assertFalse(runner.capacity('inference'))
+            clock[0]=120.;self.assertTrue(runner.capacity('inference'))
+
     def test_unknown_running_effect_is_not_replayed_on_resume(self):
         t = self.command('train')
         p = self.plan([t]);runner = night.Supervisor(p, self.root/'night')
