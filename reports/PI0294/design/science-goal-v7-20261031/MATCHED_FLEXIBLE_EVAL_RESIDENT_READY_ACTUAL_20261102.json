@@ -1,0 +1,185 @@
+{
+  "schema": "MATCHED_FLEXIBLE_EVAL_RESIDENT_READY_ACTUAL_V1",
+  "observed_SGT": "2026-11-02T14:04:13.429640+08:00",
+  "source": "8713c7a183ab0d8c921d6cbd91e5d5d73a33d690",
+  "scientific_source": "d99f717394f74576c619ea44e4ead14c629013cf",
+  "state": "READY_FOR_DISCONNECT_WAITING_HEALTHY_EXISTING_CHAIN",
+  "queue_id": "core-bc-dagger-matched-20261102-07",
+  "capsule_seal_sha256": "cd2a0b974ab628b2127aebe0fcfcec966716401358ee3e3f39cd917a5a10d37c",
+  "PID": 3006920,
+  "proc_start": "336848594",
+  "InvocationID": "2a6b552d59e940648ab5c3597f380caa",
+  "model_jobs_started_by_this_successor": 0,
+  "actual_current": "core-bc-dagger-matched-20261102-05",
+  "original_managers_signalled": 0,
+  "actual_cold_handoff_completed": false,
+  "mutation_custody_claimed": false,
+  "separate_control_connections": [
+    {
+      "observed_SGT": "2026-11-02T14:03:15.096547+08:00",
+      "PID": 3006920,
+      "proc_start": "336848594",
+      "InvocationID": "2a6b552d59e940648ab5c3597f380caa",
+      "heartbeat_epoch": 1793599378.8475735
+    },
+    {
+      "observed_SGT": "2026-11-02T14:04:04.061972+08:00",
+      "PID": 3006920,
+      "proc_start": "336848594",
+      "InvocationID": "2a6b552d59e940648ab5c3597f380caa",
+      "heartbeat_epoch": 1793599438.8867986
+    }
+  ],
+  "D1_healthy": {
+    "run_id": "v7-bc299-d1-updates4096-01",
+    "optimizer_updates": 466,
+    "TRAIN_window_visits": 14912,
+    "model_loaded": true,
+    "original_manager_PID": 2971611,
+    "original_manager_proc_start": "336626760",
+    "worker_unit": "MainPID=2982055\nSubState=running\nInvocationID=c901c0247fdb44459d11eb0319cae7a4\n",
+    "not_hotpatched_restarted_or_preempted": true,
+    "formal_endpoint_complete": false
+  },
+  "D2": {
+    "original_native10_updates": 10,
+    "full_restore": true,
+    "original_native10_status": "CLOSED_CAPACITY_NOT_PASSED",
+    "original_minimum_free_bytes": 1671692288,
+    "unchanged_training_minimum_free_bytes": 2147483648,
+    "formal4096_started": false,
+    "idle_native10_additional_attempts_max": 1,
+    "no_duplicate_if_original_successor_already_attempts_run02": true
+  },
+  "bound_continuation": {
+    "queue": [
+      "WAIT_EXISTING_HEALTHY_D1_FULL_CLOSE",
+      "OPTIONAL_COLD_WAIT_ONLY_HANDOFF",
+      "D1_UNEVALUATED_ENDPOINT_OR_PRESERVE_OLD_VALID_PANEL",
+      "D2_ONE_IDLE_NATIVE10_THEN_FRESH4096_OR_REUSE_COMPLETE_PRODUCER",
+      "GPU1_OPTIONAL_GPU0_READY_DEV_FALLBACK",
+      "SUMMARY"
+    ],
+    "GPU1_is_optional": true,
+    "GPU0_original_DEV_entry_minimum_GiB": 24,
+    "GPU1_inference_entry_minimum_GiB": 13,
+    "GPU1_closed_exact_checkpoint_native96_certificate_required": true,
+    "GPU0_DEV_does_not_depend_on_optional_offline_TRAIN32": true,
+    "all_model_loads_serial": true,
+    "original_condition_order_seed_horizon_prefix_score_safety_preserved": true,
+    "old_valid_panels_not_retried": true,
+    "cold_boundary": "After existing training and every native actor are terminal and CLOSED. Only an exact manager in its resource-wait phase, with no child/helper and all metadata steps complete, may be paused/reverified/retired. A lost boundary resumes it unchanged. No native GPU worker is signalled.",
+    "natural_completion": "If original managers finish naturally, reuse exact complete producers and preserve any existing valid DEV panel; do not duplicate training or repeat a valid condition.",
+    "true_UNKNOWN": "Stop affected continuation. Missing terminal identity, live actor, unclosed effects, incomplete metadata or uncertain controller reset cannot be bypassed.",
+    "original_deadline_SGT": "2026-11-05T01:27:09.193958+08:00",
+    "PC_browser_Vanda_forwarded_credential_dependency": false
+  },
+  "validation": {
+    "native_CPU": {
+      "status": "PASS_NATIVE_CPU_FLEXIBLE_DEV_QUEUE_NO_ACTIVE_MANAGER_SIGNALS",
+      "execution_host": "corelab-4080s",
+      "CPU_s": 0.19304081,
+      "GPU_jobs_started": 0,
+      "physics_integrations": 0,
+      "training_updates": 0,
+      "epoch": 1793599346.4932556,
+      "arms": {
+        "D0": {
+          "entries": 21,
+          "windows": 12533
+        },
+        "D1": {
+          "entries": 27,
+          "windows": 16139
+        },
+        "D2": {
+          "entries": 28,
+          "windows": 15932
+        }
+      }
+    },
+    "native_pidfd_disposable_child_seam": {
+      "status": "PASS_CORE_NATIVE_PIDFD_COLD_HANDOFF_SEAM",
+      "code_sha256": "0bbdb5fe21918d1410b115360c8654a089a987db20660daf651427d39683e0be",
+      "execution_host": "corelab-4080s",
+      "tests": [
+        {
+          "cold_check": false,
+          "terminated": false,
+          "actual_PID": 2998363
+        },
+        {
+          "cold_check": true,
+          "terminated": true,
+          "actual_PID": 2998364
+        }
+      ],
+      "server_managers_signalled": 0,
+      "model_calls": 0,
+      "physics_integrations": 0,
+      "epoch": 1793598837.5303004
+    },
+    "real_closed_outcome_classification": {
+      "status": "PASS_NATIVE_CLOSED_REAL_RESULT_CLASSIFICATION",
+      "rows": [
+        {
+          "run_id": "v7-bc299-d0-train32-01",
+          "result_status": "FAILED_MATCHED_TRAIN32_PHASE_DIAGNOSTIC",
+          "outcome": {
+            "lifecycle": "TERMINAL",
+            "native_effects_closed": true,
+            "scientific_result": "INCOMPLETE_DIAGNOSTIC",
+            "scientific_success": false,
+            "inference_capacity_pass": false,
+            "completed_generations": 1,
+            "training_admitted": false
+          },
+          "result_sha256": "ecec8e3f71fa02bc356ef1746f069a3b759de9f2b75c810294ee0de331364256"
+        },
+        {
+          "run_id": "v7-bc299-d0-train32-gpu1-04",
+          "result_status": "COMPLETE_MATCHED_TRAIN32_PHASE_DIAGNOSTIC",
+          "outcome": {
+            "lifecycle": "TERMINAL",
+            "native_effects_closed": true,
+            "scientific_result": "COMPLETE_NATIVE96",
+            "scientific_success": true,
+            "inference_capacity_pass": true,
+            "completed_generations": 96,
+            "training_admitted": false
+          },
+          "result_sha256": "13d4c8d6c43e840489361a34adc7ec37f357c8b4e44589c32c9af30786d1cb26"
+        },
+        {
+          "run_id": "v7-gpu1-phase-train32-capacity299-01",
+          "result_status": "FAILED_MATCHED_TRAIN32_PHASE_DIAGNOSTIC",
+          "outcome": {
+            "lifecycle": "TERMINAL",
+            "native_effects_closed": true,
+            "scientific_result": "RESOURCE_ENTRY_REFUSAL",
+            "scientific_success": false,
+            "inference_capacity_pass": false,
+            "completed_generations": 0,
+            "training_admitted": false
+          },
+          "result_sha256": "0794d3237bf66696c1882ae90e5bc2681637f1b9d67c08d6f27a230e650e3b49"
+        }
+      ],
+      "new_models_physics": 0,
+      "epoch": 1793599409.699813
+    },
+    "local_tests": {
+      "passed": 33,
+      "existing_pytest_warning": "Unknown config option pythonpath",
+      "CI": "NOT_RUN"
+    },
+    "actual_flexible_resource_function": "PASS: GPU0 chosen after60s when GPU1 unavailable",
+    "actual_prospective_helper_import_and_native_program_compilation": "PASS"
+  },
+  "scientific_findings": "LATE_HELD_TRAIN7_TAKEOVER_COVERAGE_ACTUAL_20261102.json",
+  "future_independent_reset_DEV": "Protocol/prequalification design only; no new evaluation protocol or repeated old conditions executed.",
+  "four_task_pilot": "Data/task-balanced configuration preparation only; no new four-task training branch.",
+  "new_collection_physics_or_RGB": 0,
+  "infrastructure_changes": 0,
+  "deletions": 0
+}
