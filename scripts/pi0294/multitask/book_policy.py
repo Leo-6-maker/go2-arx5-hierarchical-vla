@@ -280,10 +280,21 @@ def run(root,manifest_sha256):
         if sha(checkpoint/n)!=h:raise PermissionError('BOOK_DEV10_CHECKPOINT_CHANGED:'+n)
     lock=OwnerLock(root.parent/'global-native-GPU-locks'/(m['GPU_uuid']+'.lock'))
     model=None;instance=None;rows=[];loads=0;failure=None;probe=None;fit=None;phase_diagnostic=None;started=time.monotonic();CPU=time.process_time()
+    capacity_state=None
+    def check_inference_capacity(force=False):
+        nonlocal capacity_state
+        if capacity_state is None:return
+        now=time.monotonic()
+        if not force and now-capacity_state['last_sample_monotonic']<1:return
+        from scripts.pi0294.multitask.book_gpu_capacity import runtime_inference_capacity
+        capacity_state=runtime_inference_capacity(torch,capacity_state,now)
+        write(root/'GPU_RUNTIME_CAPACITY.json',capacity_state)
+        if not capacity_state['capacity_pass']:raise PermissionError('CERTIFIED_INFERENCE_ONE_GIB_RUNTIME_HEADROOM')
     def guard():
         if time.time()>=m['deadline_epoch']or(root/'STOP.json').exists():raise PermissionError('BOOK_DEV10_FINITE_OWNER_STOP')
         fs=os.statvfs(root)
         if fs.f_bavail*fs.f_frsize<m['protected_remaining_bytes']+m['free_margin_bytes']:raise PermissionError('BOOK_DEV10_PROTECTED_REMAINING_WORK_HEADROOM')
+        check_inference_capacity()
     def stop(sig,frame):raise TimeoutError('BOOK_DEV10_NATIVE_FINITE_END')
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop);signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
     try:
@@ -294,6 +305,10 @@ def run(root,manifest_sha256):
         put(root/'GPU_ENTRY_OBSERVATION.json',dict(visible=os.environ.get('CUDA_VISIBLE_DEVICES'),
             device_count=count,free_bytes=free,total_bytes=total,required_free_bytes=required,epoch=time.time()))
         if count!=1 or free<required:raise PermissionError('BOOK_DEV10_EXPLICIT_NATIVE_GPU_CAPACITY_ENTRY')
+        if m.get('GPU_inference_admission') is not None:
+            node_local(m['GPU_inference_admission']['qualification_root'])
+            capacity_state=dict(last_sample_monotonic=0,measurements=0,minimum_free_bytes=free,capacity_pass=True)
+            torch.cuda.reset_peak_memory_stats();check_inference_capacity(force=True)
         put(root/'MODEL_LOAD_INTENT.json',dict(checkpoint_manifest_sha256=m['checkpoint_manifest_sha256'],epoch=time.time()));loads+=1
         model,info=AutoModel.from_pretrained(m['parent_checkpoint'],**loader_kwargs(local_model_name(root,bindings),bindings['cosmos_hub'],COSMOS_REVISION));validate_loading(model,info)
         contract=ParameterContract(model,'E1_ADAPTER_ONLY',10);restore_keys=load_wrapped(model,checkpoint)
@@ -373,7 +388,8 @@ def run(root,manifest_sha256):
         original_generate=instance.generate
         def timed_generate(request,seed):
             signal.alarm(max(1,min(60,int(m['deadline_epoch']-time.time()))))
-            try:return original_generate(request,seed)
+            try:
+                value=original_generate(request,seed);check_inference_capacity(force=True);return value
             finally:signal.alarm(max(1,int(m['deadline_epoch']-time.time())))
         instance.generate=timed_generate
         write(root/'MODEL_LOADED.json',dict(identity=instance.identity,observed_epoch=time.time(),mujoco_origin=mujoco.__file__))
