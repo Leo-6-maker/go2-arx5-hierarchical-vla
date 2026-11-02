@@ -1,0 +1,241 @@
+{
+  "schema": "CORE_QUEUED_D2_FORMAL_TRAINING_PROGRESS_ACTUAL_V1",
+  "observed_at_SGT": "2026-11-02T20:55:52.746577+08:00",
+  "status": "D2_FORMAL4096_ACTUALLY_RUNNING_ON_GPU1",
+  "resident_queue": {
+    "id": "core-gpu-flexible-matched-20261102-13",
+    "PID": 3892803,
+    "source": "ccfa2f2e87b86886030c6dd282dbfece5dfe4746",
+    "source_merge_PR": 323,
+    "queue_sha256": "4873d9d3afbf768110d7ba064d09b1c7c033cb870fae5b05222033ee77ea7763",
+    "capsule_seal_sha256": "32ce2cd2fc7109d6e56713cb29ce60f4e69cfca618b01b03d3cdb3228dfdc8eb",
+    "READY_FOR_DISCONNECT_scope": "D2_AND_FIXED_D2_PB_TRAINING_QUEUE_ONLY",
+    "server_local_runtime_without_PC_browser_forwarded_auth_or_Vanda": true,
+    "independent_disconnected_observations": [
+      {
+        "epoch": 1793623866.6643348,
+        "PID": 3892803,
+        "heartbeat_epoch": 1793623859.4580145,
+        "status": "WAITING_ACTUAL_RESOURCE",
+        "current": "D2_SELECT"
+      },
+      {
+        "epoch": 1793624152.7465765,
+        "PID": 3892803,
+        "heartbeat_epoch": 1793624129.090718,
+        "status": "RUNNING",
+        "current": "D2_S4096_G1"
+      }
+    ],
+    "order": [
+      "D2_FRESH4096",
+      "PB_CONTROL_NATIVE10_THEN_FRESH4096",
+      "PB_BOUNDARY_NATIVE10_THEN_FRESH4096",
+      "LOCAL_SUMMARY"
+    ],
+    "actual_resource_wait_is_allowed": true,
+    "device_selection": "COLD_BOUNDARY_ONLY_ACTUAL_VRAM_RAM_DISK_AND_SAME_DEVICE_QUALIFICATION",
+    "GPU1_preferred_when_qualified_GPU0_shared_fallback": true,
+    "project_neural_jobs_serial": true,
+    "each_formal_wall_upper_s": 129600,
+    "no_live_context_migration": true
+  },
+  "GPU1_V2_native10": {
+    "run": "v7-bc299-d2-lowres-updates10-gpu1-01",
+    "manifest_sha256": "deda1e3eba4fe66529d33d63def6acab889bc8f3a62bc25b3020e5313fa13cd7",
+    "result_sha256": "c4037ca721284dfec3c7b409a1418997bbd2403f9cc26068a481cd8ebbbe46c6",
+    "checkpoint_manifest_sha256": "0635ceb2d7d7201407499ffad9f21f55aa71d55f922d5ee1fc028390218d1798",
+    "capacity": {
+      "qualification_only": true,
+      "actual_optimizer_updates": 10,
+      "saved_and_restored": true,
+      "minimum_observed_free_bytes": 2557280256,
+      "maximum_allocated_bytes": 13077005824,
+      "maximum_reserved_bytes": 13725859840,
+      "capacity_pass": true,
+      "measured_points": 6,
+      "measured_free_is_shared_device_not_exclusive_allocation": true
+    },
+    "restore": {
+      "checkpoint_manifest_sha256": "0635ceb2d7d7201407499ffad9f21f55aa71d55f922d5ee1fc028390218d1798",
+      "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "model_reconstruction": true,
+      "optimizer_state_entries": 42,
+      "optimizer_updates": 10,
+      "scheduler_restored": true,
+      "RNG_restored": true,
+      "sampler_cursor": 320,
+      "frozen_parent_unchanged": true,
+      "standalone_model": false
+    },
+    "status": "CLOSED",
+    "actual_optimizer_updates": 10,
+    "TRAIN_visits": 320,
+    "generations": 32,
+    "physics_integrations": 0,
+    "DEV_conditions": 0,
+    "canonical_CPU_s": 524.722078,
+    "canonical_GPU_allocated_s_upper": 263,
+    "memory_policy": {
+      "schema": "M32_CPU_FROZEN_CATEGORIES_BOUNDED_ACTIVATIONS_V2",
+      "minimum_tensor_bytes": 65536,
+      "quantization": false,
+      "gradient_checkpointing": false,
+      "same_policy_on_both_devices_and_matched_arms": true,
+      "parameter_storage_offload": false,
+      "buffer_storage_policy": "RETAIN_ALL_FROZEN_CATEGORY_TABLES_ON_CPU",
+      "target_category_dispatch_only": 10,
+      "per_microbatch_activation_offload_bytes": 1073741824
+    },
+    "retained_frozen_category_bytes_on_CPU": 1303134720,
+    "does_not_count_as_formal4096": true
+  },
+  "D2_formal": {
+    "run": "v7-bc299-d2-lowres-updates4096-01",
+    "manifest_sha256": "9061b4051956d7ab3336cb0013d2a15471fabbd72c59a8ba4a663831c558d752",
+    "PID": 3918079,
+    "status": "ACTIVE",
+    "GPU": 1,
+    "step": 8,
+    "TRAIN_visits": 256,
+    "target_updates": 4096,
+    "model_loaded": true,
+    "fresh_original_b248_not_native10_weights": true,
+    "effective_batch": 32,
+    "windows": 15932,
+    "entries": 28,
+    "new_shared_statistics_unchanged": true,
+    "same_declared_M32_parent_data_loss_sampling_schedule": true,
+    "full_endpoint_complete": false,
+    "DEV_conditions": 0
+  },
+  "closed_scientific_results": {
+    "Phase4096": {
+      "updates": 4096,
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6,
+      "original_result_preserved": true
+    },
+    "D0": {
+      "updates": 4096,
+      "TRAIN_visits": 131072,
+      "closed": true,
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9,
+      "first_hard_stop": "JOINT4_LOWER_LIMIT",
+      "task_time_s": 22.268
+    },
+    "D1": {
+      "updates": 4096,
+      "TRAIN_visits": 131072,
+      "restored_checkpoints": [
+        1024,
+        2048,
+        4096
+      ],
+      "closed": true,
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9,
+      "first_hard_stop": "JOINT4_LOWER_LIMIT",
+      "task_time_s": 18.346,
+      "checkpoint_manifest_sha256": "e68210df2da490a328f7868f3a49236bd8ee8e93fdb74d2a85b27437523f6f07",
+      "TRAIN16_H40_XYZ_mm": {
+        "before": 51.9706,
+        "after": 3.6791
+      },
+      "TRAIN16_Prefix8_XYZ_mm": {
+        "before": 41.8548,
+        "after": 2.9899
+      },
+      "TRAIN_fitting_is_not_behavior_success": true
+    },
+    "PB_CONTROL_and_BOUNDARY": {
+      "formal4096_endpoints": 0,
+      "new_DEV_conditions": 0,
+      "fixed_data": "D2",
+      "unique_intervention": "2_OF_32_DRAWS_FROM_UNIFORM_TO_NEW_SUFFIX_FIRST16_BOUNDARY",
+      "total131072_draw_boundary_exposure": {
+        "uniform": 918,
+        "CONTROL": 1055,
+        "BOUNDARY": 9196
+      },
+      "direct_boundary_stream": 8192,
+      "old_qualification_failures_and_costs_retained": true
+    }
+  },
+  "qualified_common_TRAIN": {
+    "entries": 59,
+    "full_expert_episodes": 46,
+    "expert_suffixes": 13,
+    "windows": 34563,
+    "tasks": {
+      "T1": {
+        "full": 10,
+        "suffix": 0,
+        "windows": 6010
+      },
+      "T2": {
+        "full": 10,
+        "suffix": 0,
+        "windows": 6010
+      },
+      "BOOK": {
+        "full": 21,
+        "suffix": 13,
+        "windows": 19538
+      },
+      "DOOR": {
+        "full": 5,
+        "suffix": 0,
+        "windows": 3005
+      }
+    },
+    "not59_independent_full_episodes_or_scenes": true,
+    "this_update_new_collection_attempts": 0
+  },
+  "joint4_readonly_finding": {
+    "D0_ticks": 13634,
+    "D1_ticks": 11673,
+    "original_numeric_environment_max_actuator_force_replay_error": 0.0,
+    "new_physics_integrations": 0,
+    "reconstructed_not_logged_commands": true,
+    "command_lower_limit_margins_mrad": [
+      5.323431,
+      4.252578
+    ],
+    "actual_minus_command_mrad": [
+      -11.356271,
+      -10.376574
+    ],
+    "does_not_identify_unique_Teacher_or_WBC_cause": true
+  },
+  "not_yet_deployed": {
+    "BOOK_RESET_DEV10_V1": "IMPLEMENTATION_AND_NATIVE_RESET_QUALIFICATION_PENDING",
+    "shared_four_task_raw_parent_pilot": "PARENT_LOCAL_BINDING_AND_EXECUTION_EVALUATION_QUALIFICATION_PENDING",
+    "new_target_Go2_ARX5_complex_task_successes": 0,
+    "new_E2_512_endpoint": "NOT_VERIFIED_OR_CLAIMED"
+  },
+  "next_plan": [
+    "LET_D2_FINISH_SAVE_RESTORE_AUDIT_AND_CLOSE",
+    "RUN_QUEUED_FIXED_D2_PB_CONTROL_AND_BOUNDARY_FRESH4096_WHEN_CAPACITY_READY",
+    "CPU_PREPARE_INDEPENDENT_RESET_AND_FIXED_MODEL_BY_DEV10_COMPARISON_THEN_NATIVE_QUALIFY_AT_COLD_BOUNDARY",
+    "CPU_BIND_RAW_PARENT_AND_PREPARE_TASK_BALANCED_SHARED_BASELINE_WITHOUT_WAITING_ALL_BOOK_MECHANISMS"
+  ],
+  "limits_of_claims": [
+    "NO_BROAD_GENERALIZATION_OR_DATASET_CAUSAL_GAIN_ESTABLISHED_FROM_ONE_D0_OR_D1_VALID_CONDITION",
+    "CURRENT_READY_DOES_NOT_INCLUDE_NEW_PHYSICAL_EVALUATION_OR_SHARED_TRAINING",
+    "QUEUE_DEPLOYMENT_IS_NOT_A_GUARANTEE_OF_ALL_TASKS_COMPLETING_OVERNIGHT",
+    "GPU_SELECTION_DOES_NOT_PROVE_ZERO_INTERFERENCE_WITH_FOREIGN_WORK"
+  ],
+  "preserved": [
+    "ALL_ORIGINAL_SCORES_STOP_AND_COSTS",
+    "FROZEN_WBC_AND_ORIGINAL_SAFETY",
+    "TARGET_S1_T2_QUARANTINE",
+    "FOREIGN_GPU_PROCESSES",
+    "NFS_SSH_MOUNTS_SYSTEM_SERVICES_CREDENTIALS",
+    "USER_CHECKPOINT_AND_DATA_CLEANUP_RESPONSIBILITY"
+  ]
+}
