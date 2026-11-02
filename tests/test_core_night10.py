@@ -39,6 +39,16 @@ class TestNight10(unittest.TestCase):
         return dict(schema=night.SCHEMA, duration_s=36000, max_cpu_parallel=2,
                     disk_margin_gib=30, gpu1_training_admitted=False, tasks=tasks)
 
+    def test_cpu_monitor_covers_window_but_preserves_summary_reserve_and_gpu_bound(self):
+        monitor=self.command('monitor');monitor['max_seconds']=35900
+        night.check_plan(self.plan([monitor]))
+        monitor['max_seconds']=35941
+        with self.assertRaisesRegex(ValueError,'FINITE_TASK_RUNTIME'):
+            night.check_plan(self.plan([monitor]))
+        monitor.update(max_seconds=35900,lane='gpu_inference')
+        with self.assertRaisesRegex(ValueError,'FINITE_TASK_RUNTIME'):
+            night.check_plan(self.plan([monitor]))
+
     def test_scientific_failure_does_not_stop_independent_branches_or_soft_after(self):
         failed = self.command('failed', '4')
         independent = self.command('independent')

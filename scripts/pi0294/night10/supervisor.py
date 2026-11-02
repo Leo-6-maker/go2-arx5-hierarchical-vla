@@ -116,7 +116,10 @@ def check_plan(plan):
                 or not Path(t['command'][0]).is_absolute()
                 or not Path(t.get('cwd', '')).is_absolute()):
             raise ValueError('ABSOLUTE_NATIVE_EXECUTABLE_AND_WORKDIR:' + t['id'])
-        if not (10 <= t.get('max_seconds', 0) <= 35000):
+        # A readonly CPU monitor may cover the dispatch window through its
+        # final summary reserve. GPU/native task bounds remain unchanged.
+        maximum_runtime = 35900 if t['lane'] == 'cpu' else 35000
+        if not (10 <= t.get('max_seconds', 0) <= maximum_runtime):
             raise ValueError('FINITE_TASK_RUNTIME:' + t['id'])
         if (not isinstance(t.get('receipt'), dict)
                 or not Path(t['receipt'].get('path', '')).is_absolute()
