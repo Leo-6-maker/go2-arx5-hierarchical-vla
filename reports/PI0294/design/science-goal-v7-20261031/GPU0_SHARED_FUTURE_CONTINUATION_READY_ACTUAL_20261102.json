@@ -1,0 +1,137 @@
+{
+  "schema": "GPU0_SHARED_FUTURE_CONTINUATION_READY_ACTUAL_V1",
+  "observed_SGT": "2026-11-02T15:02:27.886447+08:00",
+  "direct_user_instruction": "GPU0我设置与别的任务共享挂载，两者相互不影响",
+  "D1": {
+    "run_id": "v7-bc299-d1-updates4096-01",
+    "unit": {
+      "MainPID": "2982055",
+      "InvocationID": "c901c0247fdb44459d11eb0319cae7a4"
+    },
+    "progress": {
+      "step": 1420,
+      "cursor": 45440,
+      "native_loss": 0.2130887657403946,
+      "learning_rate": [
+        7.843948625706823e-05,
+        7.843948625706823e-05
+      ],
+      "epoch": 1793602947.484546
+    },
+    "manifest_sha256": "40d67add68f0b38e22103363635c844b0227c70440119216bc2885797303a9c6",
+    "checkpoint1024_restore": {
+      "checkpoint_manifest_sha256": "9e45499b8afe0e113cbe6ef1cb92056858e0aa5e97e6287046339b1bb38335e6",
+      "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+      "model_reconstruction": true,
+      "optimizer_state_entries": 42,
+      "optimizer_updates": 1024,
+      "scheduler_restored": true,
+      "RNG_restored": true,
+      "sampler_cursor": 32768,
+      "frozen_parent_unchanged": true,
+      "standalone_model": false
+    },
+    "checkpoint1024_certificate_sha256": "152b665dcf45ffe4891e1c176a3533b3c85ef6e0b31cb69d1bcfa34325c18143",
+    "training_not_restarted_or_signalled": true,
+    "complete4096_endpoint": false
+  },
+  "queue": {
+    "id": "core-bc-dagger-matched-20261102-08",
+    "status": "READY_FOR_DISCONNECT_WAITING_EXISTING_CHAIN",
+    "PID": 3077247,
+    "proc_start": "337188323",
+    "InvocationID": "aad6fbd2b14b4b03b78772cd49d291af",
+    "seal_sha256": "3dc8999456fdb73e6eb39398aa4d8a8f61cc5793efaf362c165438ef44561965",
+    "GPU0_shared_authorized": true,
+    "other_GPU0_compute_presence_alone_is_not_a_rejection": true,
+    "minimum_actual_entry_free_MiB": 24576,
+    "minimum_host_available_GiB": 36,
+    "training_native_minimum_free_GiB": 2,
+    "GPU1_inference_minimum_GiB": 1,
+    "finite_original_deadline_SGT": "2026-11-05T01:27:09.193958+08:00",
+    "all_project_model_loads_serial": true,
+    "new_model_jobs": 0,
+    "mutation_custody_claimed": false,
+    "current": "core-bc-dagger-matched-20261102-05",
+    "sequence": [
+      "WAIT_EXISTING_HEALTHY_D1_FULL_CLOSE",
+      "OPTIONAL_COLD_WAIT_ONLY_HANDOFF",
+      "D1_UNEVALUATED_ENDPOINT_OR_PRESERVE_OLD_VALID_PANEL",
+      "D2_ONE_IDLE_NATIVE10_THEN_FRESH4096_OR_REUSE_COMPLETE_PRODUCER",
+      "GPU1_OPTIONAL_GPU0_READY_DEV_FALLBACK",
+      "SUMMARY"
+    ],
+    "control_connections": [
+      {
+        "observed_SGT": "2026-11-02T14:59:55.750836+08:00",
+        "PID": 3077247,
+        "proc_start": "337188323",
+        "InvocationID": "aad6fbd2b14b4b03b78772cd49d291af",
+        "heartbeat": 1793602776.1741374
+      },
+      {
+        "observed_SGT": "2026-11-02T15:01:16.018063+08:00",
+        "PID": 3077247,
+        "proc_start": "337188323",
+        "InvocationID": "aad6fbd2b14b4b03b78772cd49d291af",
+        "heartbeat": 1793602856.2344768
+      }
+    ],
+    "no_PC_Vanda_dependency": true
+  },
+  "old_waiter": {
+    "status": "M07_UNSTARTED_WAITER_SUPERSEDED_CLOSED",
+    "independent_proof_sha256": "dcd0252309c0c081a1b07922b0448fe093292532acbc662b43f978628ae3311f",
+    "D1_unchanged_identity": true,
+    "D1_progress": {
+      "step": 1349,
+      "cursor": 43168,
+      "native_loss": 0.025137977674603462,
+      "learning_rate": [
+        8.05606580769941e-05,
+        8.05606580769941e-05
+      ],
+      "epoch": 1793602682.2906752
+    },
+    "old_waiter_jobs": 0,
+    "old_waiter_owner": false,
+    "native_GPU_workers_signalled": 0,
+    "old_waiter_actual_CPU_s": null,
+    "old_waiter_last_observed_CPU_s_lower": 0.551415,
+    "old_waiter_declared_CPU_upper_s_retained": 43200,
+    "exact_final_CPU_not_retained_by_transient_unit": true,
+    "control_CPU_full_upper_retained": 12,
+    "no_replay": true,
+    "observed_epoch": 1793602682.6288052
+  },
+  "validation": {
+    "Core_native_CPU": "PASS_NATIVE_CPU_EXPLICIT_SHARED_GPU0_FUTURE_QUEUE",
+    "actual_future_gpu_ready_function": "PASS_SHARED_GPU0_WITH_OTHER_COMPUTE",
+    "local_tests_passed": 8,
+    "CI": "NOT_RUN"
+  },
+  "control_receipt_limitations": {
+    "idle_manager_final_CPU_not_retained": true,
+    "full_declared_upper_retained_no_refund": true,
+    "retirement_confirmation_failed_only_on_missing_CPU_journal_field": true,
+    "independent_readback_proved_old_unit_terminal_and_no_models_or_owner": true,
+    "exit_command_not_replayed": true,
+    "subsequent_document_script_compile_error_application_mutations": 0,
+    "all_control_unknown_effects_reconciled": true
+  },
+  "preserved": {
+    "D0_original_DEV": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9,
+      "hard_safety": 1
+    },
+    "D2_formal_training_started": false,
+    "D2_single_additional_qualification_only": true,
+    "original_safety_scoring_and_frozen_WBC": true,
+    "foreign_processes_modified": 0,
+    "infrastructure_changes": 0,
+    "deletions": 0
+  },
+  "interpretation": "Explicit sharing is honored by actual capacity admission. A free-memory snapshot is not proof of resource isolation or zero throughput interaction. Current D1 maintains its original identity and advances; the pending chain no longer requires other GPU0 consumers to exit."
+}
