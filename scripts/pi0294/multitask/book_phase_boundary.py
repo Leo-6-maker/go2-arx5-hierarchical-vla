@@ -1,7 +1,7 @@
-"""CPU preparation for PR317's D2-only phase/boundary sampling pair.
+"""PR317's fixed-D2 phase/boundary recipes, using the existing Trainer.
 
-This does not admit a training recipe or launch a model. Phase and contact
-metadata only select TRAIN indices; they never enter observations or labels.
+Recipes do not grant native capacity or launch models. Phase/contact metadata
+only select TRAIN indices; they never enter observations or action labels.
 """
 from collections import defaultdict
 
@@ -9,9 +9,59 @@ from .book_bc_dagger import population_rows
 from .book_phase_sampling import SLOTS, STAGES, digest, stream_sequence
 
 SCHEMA = 'BOOK_D2_PHASE_BOUNDARY_INDEX_V1'
+PLAN_SCHEMA = 'BOOK_D2_PHASE_BOUNDARY4096_V1'
 LATE = 'new_late_takeover_first16'
 CONTROL_SLOTS = (*SLOTS, (LATE, 0))
 BOUNDARY_SLOTS = (('uniform', 14), *SLOTS[1:], (LATE, 2))
+
+
+def plan(variant, dataset_sha256, statistics_sha256, population_sha256,
+         index_sha256, entries, *, steps=4096):
+    import re
+    from .book_bc_dagger import plan as data_plan
+    if variant not in ('CONTROL', 'BOUNDARY'):
+        raise ValueError('TWO_PREDECLARED_PHASE_BOUNDARY_ARMS_ONLY')
+    if type(index_sha256) is not str or not re.fullmatch('[0-9a-f]{64}', index_sha256):
+        raise ValueError('EXACT_SAVED_D2_PHASE_INDEX_PIN')
+    p = data_plan('D2',dataset_sha256,statistics_sha256,population_sha256,entries,steps=steps)
+    if p['TRAIN_episodes']!=28 or p['TRAIN_windows']!=15932:
+        raise ValueError('EXACT_ADMITTED_D2_NOT_D3_UNION')
+    p.update(schema=PLAN_SCHEMA, pb_variant=variant, phase_index_schema=SCHEMA,
+        phase_index_sha256=index_sha256,
+        phase_slots_per_batch=dict(BOUNDARY_SLOTS if variant=='BOUNDARY' else CONTROL_SLOTS),
+        sampling='DETERMINISTIC_EPISODE_BALANCED_PHASE_BOUNDARY_V1',
+        phase_metadata_student_input=False,
+        purpose='Fixed D2 phase control versus two uniform slots transferred to seven takeover first16 windows. Same b248, common statistics, M32, loss, continuous decoder and4096 schedule. Qualification is not a formal model.')
+    return p
+
+
+def is_plan(p):
+    if p.get('schema')!=PLAN_SCHEMA:
+        return False
+    try:
+        return p==plan(p['pb_variant'],p['dataset_manifest_sha256'],p['statistics_sha256'],
+            p['TRAIN_population_sha256'],p['phase_index_sha256'],p['TRAIN_entries'],steps=p['max_steps'])
+    except (KeyError,TypeError,ValueError,PermissionError):
+        return False
+
+
+def validate_population(manifest,population,p):
+    from .book_bc_dagger import plan as data_plan, validate_population as validate_data
+    if not is_plan(p):
+        raise PermissionError('EXACT_FROZEN_PHASE_BOUNDARY_RECIPE')
+    baseline=data_plan('D2',p['dataset_manifest_sha256'],p['statistics_sha256'],
+        p['TRAIN_population_sha256'],p['TRAIN_entries'],steps=p['max_steps'])
+    return validate_data(manifest,population,baseline)
+
+
+def recipe_sequence(rows,index,p):
+    if not is_plan(p):
+        raise PermissionError('EXACT_FROZEN_PHASE_BOUNDARY_RECIPE')
+    # The native10 probe uses the exact first320 draws of the4096 recipe;
+    # it does not invent a shorter cosine or resample a qualification population.
+    return sequence(rows,index,boundary=p['pb_variant']=='BOUNDARY',seed=p['seed'],
+        index_sha256=p['phase_index_sha256'],dataset_sha256=p['dataset_manifest_sha256'],
+        statistics_sha256=p['statistics_sha256'],population_sha256=p['TRAIN_population_sha256'])
 
 
 def pools(rows, index, *, index_sha256, dataset_sha256, statistics_sha256, population_sha256):
