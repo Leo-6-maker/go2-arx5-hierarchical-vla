@@ -1,0 +1,147 @@
+{
+  "schema": "SOURCE_ZERO_MODEL_RESOURCE_GATE_CORRECTION_ACTUAL_V1",
+  "observed_epoch": 1793641249.112388,
+  "status": "ACTUAL_CAMERAS_PASSED_RESET_METADATA_BLOCKED_D2_1024_RESTORED",
+  "source_commit": "df69dd81f9dc37bacc1df3946be2871f7645b51b",
+  "reason": {
+    "actual_GPU0_free_MiB_at_diagnosis": 7176,
+    "actual_host_available_GiB": 40.10297775268555,
+    "previous_host_gate_GiB": 42,
+    "why_excessive": "This task loads no neural model and has a 2GiB cgroup hard limit. A future neural cold-load reserve must not be imposed on this short independent task."
+  },
+  "cold_handover": {
+    "old_controller_PID": 4174758,
+    "old_controller_MainPID_after_stop": 0,
+    "old_cgroup_empty": true,
+    "all_task_outputs_empty": true,
+    "qualification_result_absent": true,
+    "GPU0_project_lock_held_through_check_and_handover": true,
+    "worker_source_and_manifest_unchanged": true,
+    "formal_or_native_attempt_retried": false
+  },
+  "resident": {
+    "unit": "core-night10-camera-reset-20261103-03.service",
+    "PID": 4188746,
+    "InvocationID": "d1aedcf7d6b34e2c86a8e91eed1e1655",
+    "state": {
+      "SOURCE_CAMERA_RESET_NATIVE": "FAILED_KNOWN_ENGINEERING_BLOCK"
+    },
+    "no_PC_Vanda_or_forwarded_credentials": true,
+    "terminal_after_finite_attempt": true
+  },
+  "plan_sha256": "e75ec685b1322a327e29781859bf9a800e73d9f1910133c88022092ae8bb3c3a",
+  "worker_manifest_sha256": "400d901129d6d7432fa7eb422d12e2a53c67168ff019e9fb17e46bf8dd579994",
+  "only_resource_change": {
+    "host_available_GiB": [
+      42,
+      8
+    ]
+  },
+  "unchanged": {
+    "MemoryMax_GiB": 2,
+    "CPU_quota_cores": 1,
+    "GPU0_entry_MiB": 2048,
+    "GPU0_headroom_MiB": 1024,
+    "stability_s": 120,
+    "constructors_max": 12,
+    "RGB_pairs_max": 8,
+    "physics_integrations": 0,
+    "neural_models": 0,
+    "optimizer_updates": 0,
+    "worker_lease_original_deadline_preserved": true,
+    "D2_and_M13_unchanged": true,
+    "safety_scoring_WBC_and_quarantine_unchanged": true
+  },
+  "camera_reset_qualification_still_unproven": true,
+  "shared_endpoints": 0,
+  "shared_valid_DEV": 0,
+  "BOOK_RESET_valid_DEV": 0,
+  "native_attempt": {
+    "result": {
+      "status": "FAILED_NATIVE_SOURCE_CAMERA_RESET_QUALIFICATION",
+      "error": "PermissionError: same-UID systemd user manager /proc/fd/0 access denied",
+      "children_attempted": 12,
+      "children_completed": 12,
+      "physics_integrations": 0,
+      "RGB_pairs": 8,
+      "RGB_pairs_upper": 8,
+      "neural_models": 0,
+      "optimizer_updates": 0,
+      "valid_DEV_conditions": 0,
+      "CPU_s": 12.177773984,
+      "wall_s": 13.751606088131666,
+      "epoch": 1793640813.2806578,
+      "full_task_dynamics_qualified": false
+    },
+    "result_sha256": "679e73a2c0494b4a83d9abe437b4e2bdcad02bb5d09d6ab09e06739dc87a29a8",
+    "task_checks": {
+      "T1": {
+        "distinct_processes": 3,
+        "identical_fresh_initial_witness": true,
+        "original_all80_noise_keys_match": true,
+        "two_original_dual_camera_pairs_verified": true,
+        "dirty_initial_state_rejected_without_repair": true,
+        "engine_close_returned_all3": true
+      },
+      "T2": {
+        "distinct_processes": 3,
+        "identical_fresh_initial_witness": true,
+        "original_all80_noise_keys_match": true,
+        "two_original_dual_camera_pairs_verified": true,
+        "dirty_initial_state_rejected_without_repair": true,
+        "engine_close_returned_all3": true
+      },
+      "BOOK": {
+        "distinct_processes": 3,
+        "identical_fresh_initial_witness": true,
+        "original_all80_noise_keys_match": true,
+        "two_original_dual_camera_pairs_verified": true,
+        "dirty_initial_state_rejected_without_repair": true,
+        "engine_close_returned_all3": true
+      },
+      "DOOR": {
+        "distinct_processes": 3,
+        "identical_fresh_initial_witness": true,
+        "original_all80_noise_keys_match": true,
+        "two_original_dual_camera_pairs_verified": true,
+        "dirty_initial_state_rejected_without_repair": true,
+        "engine_close_returned_all3": true
+      }
+    },
+    "RGB_images_SHA_verified": 16,
+    "lease_CLOSED": true,
+    "controller_MainPID": 0,
+    "probe_MainPID": 0,
+    "qualification_files_exist": {
+      "TASK_NATIVE_QUALIFICATION.json": false,
+      "RESET_NATIVE_QUALIFICATION.json": false
+    },
+    "failure_mechanism": "Readonly fd scan reached the same-UID systemd user manager in init.scope; kernel denied access to its descriptor links. No permission/service changes or opaque-process skip was applied."
+  },
+  "D2": {
+    "updates": 1039,
+    "TRAIN_visits": 33248,
+    "GPU": 1,
+    "same_worker_RUNNING": true,
+    "formal4096_complete": false,
+    "checkpoints": [
+      {
+        "step": 1024,
+        "checkpoint_sha256": "144bfd53f3753fd34afbef1b3c89e202de1c37df5ce3dc830cb9200d02337d52",
+        "actual_restore": {
+          "checkpoint_manifest_sha256": "144bfd53f3753fd34afbef1b3c89e202de1c37df5ce3dc830cb9200d02337d52",
+          "required_parent_checkpoint_manifest_sha256": "9510982676238e4c2337da660ecf35d579c259121983175eb349f64ba0e7ff47",
+          "model_reconstruction": true,
+          "optimizer_state_entries": 42,
+          "optimizer_updates": 1024,
+          "scheduler_restored": true,
+          "RNG_restored": true,
+          "sampler_cursor": 32768,
+          "frozen_parent_unchanged": true,
+          "standalone_model": false
+        }
+      }
+    ]
+  },
+  "all_task_results_or_weights_retried": false
+}
