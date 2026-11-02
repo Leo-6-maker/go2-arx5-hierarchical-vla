@@ -241,6 +241,8 @@ def run(root,instance,contract,guard):
     if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):
         sampler_class=partial(FitSampler,fit_recipe=p,phase_index=load_index(root,p))
     model=instance.model;parameters=dict(model.named_parameters());names=contract.trainable_names
+    from .activation_offload import execution,context as activation_context
+    activation_storage=execution(root,read(root/'RUN_MANIFEST.json'),model)
     for name in names:parameters[name].requires_grad_(True)
     contract.validate()
     if m32:
@@ -335,7 +337,9 @@ def run(root,instance,contract,guard):
             return self.lr_scheduler
 
         def training_step(self,model,inputs,num_items_in_batch=None):
-            guard();contract.validate();return super().training_step(model,inputs,num_items_in_batch)
+            guard();contract.validate()
+            with activation_context(activation_storage):
+                return super().training_step(model,inputs,num_items_in_batch)
 
         def _save_checkpoint(self,model,trial):
             guard()
@@ -350,6 +354,8 @@ def run(root,instance,contract,guard):
             for name in('statistics.json','TRAIN_DEV_SEAL.json'):shutil.copyfile(data.root/name,cp/name)
             if m32:shutil.copyfile(data.root/'TRAIN_POPULATION.json',cp/'TRAIN_POPULATION.json')
             if p['schema']in(PHASE_SCHEMA,PB_SCHEMA):shutil.copyfile(root/'TRAIN_PHASE_INDEX.json',cp/'TRAIN_PHASE_INDEX.json')
+            if activation_storage is not None:
+                shutil.copyfile(root/'M32_MEMORY_EXECUTION.json',cp/'M32_MEMORY_EXECUTION.json')
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
@@ -377,6 +383,8 @@ def run(root,instance,contract,guard):
             torch.cuda.synchronize();t=holder['trainer']
             if state.global_step in(1,2,10,steps)or state.global_step%32==0:
                 record_memory('AFTER_UPDATE_'+str(state.global_step))
+                if activation_storage is not None:
+                    write(root/'ACTUAL_ACTIVATION_OFFLOAD.json',activation_storage.audit())
             if t.consumed!=state.global_step*32:raise ValueError('FIT_ACTUAL_COMMITTED_CURSOR')
             r=dict(step=state.global_step,cursor=t.consumed,native_loss=t.last_native_loss,learning_rate=t.lr_scheduler.get_last_lr(),epoch=time.time())
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as f:f.write(json.dumps(r)+'\n');f.flush()
