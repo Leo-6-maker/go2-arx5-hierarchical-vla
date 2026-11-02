@@ -62,9 +62,16 @@ def sequence(rows,index,recipe):
     then draw a shuffled window cycle within the selected episode. Each stream
     therefore balances eligible episodes before windows, including on resume.
     """
-    groups=pools(rows,index,recipe);seed=recipe['seed'];updates=recipe['max_steps']
+    return stream_sequence(pools(rows,index,recipe), SLOTS, recipe['seed'], recipe['max_steps'])
+
+
+def stream_sequence(groups, slots_per_batch, seed, updates, *, return_streams=False):
+    """Shared deterministic draw engine; no model/noise random state is used."""
+    if sum(count for _,count in slots_per_batch)!=32:
+        raise ValueError('EXACT_EFFECTIVE_BATCH32')
     streams={};slots=[]
-    for stream,(name,count) in enumerate(SLOTS):
+    for stream,(name,count) in enumerate(slots_per_batch):
+        if count==0:continue
         visits=updates*count;group=groups[name];rng=np.random.Generator(np.random.PCG64(seed+1000000*(stream+1)))
         result=[]
         if name=='uniform':
@@ -85,7 +92,7 @@ def sequence(rows,index,recipe):
     for step in range(updates):
         order=np.random.Generator(np.random.PCG64(seed+9000000+step)).permutation(32)
         result[step]=[streams[slots[j][0]][step,slots[j][1]]for j in order]
-    return result.reshape(-1)
+    return (result.reshape(-1), streams) if return_streams else result.reshape(-1)
 
 
 def load_index(root,recipe):
