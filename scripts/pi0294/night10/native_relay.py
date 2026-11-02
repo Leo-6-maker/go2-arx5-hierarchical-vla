@@ -448,11 +448,13 @@ def main():
         if time.time()+c['native_seconds']>=c['dispatch_deadline_epoch']:
             raise PermissionError('FINITE_NEW_DISPATCH_WINDOW_REQUIRED')
         if a.model:
-            from scripts.pi0294.multitask.book_reset import source_files
+            from scripts.pi0294.multitask.book_reset import source_files,verify_predecessor
             qualification=read(c['reset_qualification'])
             if(not qualification['passed']or qualification['source_files']!=source_files()
                     or checkpoint(c['book_producers'][a.model])is None):
                 raise PermissionError('OWN_FULL_MODEL_AND_ACTUAL_RESET_QUALIFICATION_REQUIRED')
+            verify_predecessor(read(c['reset_first_predecessor']),
+                current_root=Path(c['run_parent'])/('relay-cold-preflight-'+a.model))
         print(json.dumps(dict(status='PASS_COLD_RELAY_METADATA_NO_GPU',models=0,physics_integrations=0)))
         return 0
     if not a.receipt:raise ValueError('EXACT_TASK_RECEIPT_PATH_REQUIRED')
