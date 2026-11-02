@@ -73,7 +73,6 @@
       "epoch": 1793640813.2806578,
       "full_task_dynamics_qualified": false
     },
-    "result_sha256": "679e73a2c0494b4a83d9abe437b4e2bdcad02bb5d09d6ab09e06739dc87a29a8",
     "task_checks": {
       "T1": {
         "distinct_processes": 3,
@@ -116,7 +115,9 @@
       "TASK_NATIVE_QUALIFICATION.json": false,
       "RESET_NATIVE_QUALIFICATION.json": false
     },
-    "failure_mechanism": "Readonly fd scan reached the same-UID systemd user manager in init.scope; kernel denied access to its descriptor links. No permission/service changes or opaque-process skip was applied."
+    "failure_mechanism": "Readonly fd scan reached the same-UID systemd user manager in init.scope; kernel denied access to its descriptor links. No permission/service changes or opaque-process skip was applied.",
+    "original_private_result_sha256": "679e73a2c0494b4a83d9abe437b4e2bdcad02bb5d09d6ab09e06739dc87a29a8",
+    "result_is_redacted": true
   },
   "D2": {
     "updates": 1039,
