@@ -1,0 +1,232 @@
+{
+  "schema": "ISSUE299_D1_FORMAL_STARTED_D2_IDLE_QUEUE_READY_ACTUAL_V1",
+  "observed_SGT": "2026-11-02T13:36:09.244763+08:00",
+  "queue_observed_SGT": "2026-11-02T13:36:28.984561+08:00",
+  "prior_D0_closed_result": "ISSUE299_D0_GPU1_DEV_CLOSED_D2_D1_RESIDENT_READY_ACTUAL_20261102.json",
+  "D1": {
+    "native10": {
+      "run_id": "v7-bc299-d1-updates10-01",
+      "status": "CLOSED",
+      "actual_usage": {
+        "model_loads": 1,
+        "optimizer_updates": 10,
+        "TRAIN_window_visits": 320,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "physics_integrations": 0,
+        "source_episode_starts": 0,
+        "new_RGB_pairs": 0,
+        "formal_DEV_conditions": 0,
+        "CPU_s": 181.583413,
+        "GPU_allocated_s_upper": 121,
+        "own_allocated_bytes_before_closing": 968753152,
+        "result_sha256": "39a19f6ad755339f606bd9f4182ec88c9adc5dc9606eb0c179433cf04d04ab20",
+        "fit_sha256": "ed030f3e33e27745ad67fed0bc004cd304d0fdaf4e486771cb4b8ff540a6fcf9",
+        "checkpoint_manifest_sha256": "7db858b27d1a7f97b389528b2b8d8abd781392f964c1de6a4f019e7664477846",
+        "actual_delta_restore_sha256": "d64dc42c1bfe94ebc60b77485ee51c8be6b4bca270b353b62accf6a66cef2106",
+        "independent_audit_sha256": "63e434fdf88d07641641f4fec43e96ae4475c528b0e274051f5c29d65d0c2187",
+        "checkpoint_requires_retained_full_parent": true,
+        "OS_exit_code_not_retained_after_transient_unit_GC": true
+      },
+      "capacity": {
+        "qualification_only": true,
+        "actual_optimizer_updates": 10,
+        "saved_and_restored": true,
+        "minimum_observed_free_bytes": 16932470784,
+        "maximum_allocated_bytes": 15447903744,
+        "maximum_reserved_bytes": 16336814080,
+        "capacity_pass": true,
+        "measured_points": 6,
+        "measured_free_is_shared_device_not_exclusive_allocation": true
+      },
+      "proof_files": {
+        "RUN_MANIFEST.json": "0b0c7552a6995703dfdb5a366eb93f7116a6c57138a4f2b4d30b028444699499",
+        "RESULT.json": "39a19f6ad755339f606bd9f4182ec88c9adc5dc9606eb0c179433cf04d04ab20",
+        "M32_CAPACITY_RESULT.json": "406ae9292e291c9bfb1a3131e31069b9c29983fb84e8ac2795b64b49bdf814de",
+        "ACTUAL_DELTA_CHECKPOINT_RESTORE.json": "d64dc42c1bfe94ebc60b77485ee51c8be6b4bca270b353b62accf6a66cef2106",
+        "control/LEASE.json": "75f654076875dc10370d8d011a4091504deadc275ff00c2b464de5b5c07bc9cf"
+      },
+      "full_model_optimizer_scheduler_RNG_sampler_restored": true
+    },
+    "formal4096": {
+      "run_id": "v7-bc299-d1-updates4096-01",
+      "run_manifest_sha256": "40d67add68f0b38e22103363635c844b0227c70440119216bc2885797303a9c6",
+      "native_unit": "MainPID=2982055\nSubState=running\nInvocationID=c901c0247fdb44459d11eb0319cae7a4\n",
+      "model_loaded": true,
+      "progress": {
+        "step": 6,
+        "cursor": 192,
+        "native_loss": 0.29424574971199036,
+        "learning_rate": [
+          4.6875000000000004e-06,
+          4.6875000000000004e-06
+        ],
+        "epoch": 1793597767.304118
+      },
+      "formal_endpoint_complete": false,
+      "fresh_parent_reset_after_native10": true,
+      "TRAIN_entries": 27,
+      "TRAIN_windows": 16139,
+      "new_full_BOOK_Teacher_entries": 6,
+      "matched_common_statistics": true,
+      "original_scientific_recipe_unchanged": true
+    },
+    "manager": {
+      "queue_id": "core-bc-dagger-matched-20261102-05",
+      "PID": 2971611,
+      "proc_start": 336626760,
+      "native_unit": "MainPID=2971611\nSubState=running\nInvocationID=6ed98ef4863248c2a6fe87e0460af5c6\n",
+      "current": "D1_S4096",
+      "automatic_next": "After full 4096 producer closure, GPU1 exact-checkpoint native96 then original DEV10. Wait for actual GPU1 capacity and original cold/native safety prerequisites."
+    }
+  },
+  "D2": {
+    "native10": {
+      "run_id": "v7-bc299-d2-updates10-01",
+      "status": "CLOSED",
+      "actual_usage": {
+        "model_loads": 1,
+        "optimizer_updates": 10,
+        "TRAIN_window_visits": 320,
+        "generation_queries": 32,
+        "native_diagnostic_loss_forwards": 32,
+        "physics_integrations": 0,
+        "source_episode_starts": 0,
+        "new_RGB_pairs": 0,
+        "formal_DEV_conditions": 0,
+        "CPU_s": 184.090808,
+        "GPU_allocated_s_upper": 128,
+        "own_allocated_bytes_before_closing": 968757248,
+        "result_sha256": "444873e417c978087e5d898b64b70b55638a83108c5782505420ef7dc8cd78db",
+        "fit_sha256": "f725e4c882f6a373cf441796018dcd8245d30a85df0f53af46c820e51abcc346",
+        "checkpoint_manifest_sha256": "499a3d06dae22e1d847cb7e4dcb143dbdcf79e0230d580993e10d52ae9730268",
+        "actual_delta_restore_sha256": "85ef3b6bf0628133ce160399530c5018c5d4fb8f9855a8e82bf703819f7d6a94",
+        "independent_audit_sha256": "ca0f007bea01d8a5afd13dfb919223f9d0ffea92f43629785a40d5d381ac0049",
+        "checkpoint_requires_retained_full_parent": true,
+        "OS_exit_code_not_retained_after_transient_unit_GC": true
+      },
+      "capacity": {
+        "qualification_only": true,
+        "actual_optimizer_updates": 10,
+        "saved_and_restored": true,
+        "minimum_observed_free_bytes": 1671692288,
+        "maximum_allocated_bytes": 15447903744,
+        "maximum_reserved_bytes": 16336814080,
+        "capacity_pass": false,
+        "measured_points": 6,
+        "measured_free_is_shared_device_not_exclusive_allocation": true
+      },
+      "proof_files": {
+        "RUN_MANIFEST.json": "c3d442814ee3a0f6049d5f8f29173f505d989353fe6e59a78d08206cb694252f",
+        "RESULT.json": "444873e417c978087e5d898b64b70b55638a83108c5782505420ef7dc8cd78db",
+        "M32_CAPACITY_RESULT.json": "3103881faa75cb6769358a65fa2972956850d9d7e99ba280851725b9cbe9aec8",
+        "ACTUAL_DELTA_CHECKPOINT_RESTORE.json": "85ef3b6bf0628133ce160399530c5018c5d4fb8f9855a8e82bf703819f7d6a94",
+        "control/LEASE.json": "e5fc00f82e4ef399dcf33d00441cb9f7a539e2abc4f8685647006b3ba6386178"
+      },
+      "full_model_optimizer_scheduler_RNG_sampler_restored": true,
+      "original_training_minimum_free_bytes": 2147483648,
+      "reason_not_formal": "Actual 10 updates and full restore completed; shared-device free dipped to 1.556884765625GiB below the original 2GiB training criterion. No D2 formal4096 or DEV has started. Model memory alone is not total shared-device capacity."
+    },
+    "idle_successor": {
+      "queue_id": "core-bc-dagger-matched-20261102-06",
+      "status": "READY_FOR_DISCONNECT_WAITING_PREDECESSOR_ONLY",
+      "PID": 2981909,
+      "proc_start": "336678312",
+      "InvocationID": "c316690d69564870b014ee728e30bbab",
+      "capsule_seal_sha256": "b20986c3b66f8f3b018f31d51e6da49e67cb3b8b11663e119c5bccb256b3fe01",
+      "native_CPU_qualification": "PASS_NATIVE_CPU_FROZEN_D2_QUEUE_ENTRY_COLD_PREDECESSOR_DEFERRED",
+      "separate_control_connections": [
+        {
+          "observed_SGT": "2026-11-02T13:35:15.814763+08:00",
+          "PID": 2981909,
+          "proc_start": "336678312",
+          "InvocationID": "c316690d69564870b014ee728e30bbab",
+          "heartbeat": 1793597706.0909798
+        },
+        {
+          "observed_SGT": "2026-11-02T13:36:28.984561+08:00",
+          "PID": 2981909,
+          "proc_start": "336678312",
+          "InvocationID": "c316690d69564870b014ee728e30bbab",
+          "heartbeat": 1793597766.126729
+        }
+      ],
+      "actual_waiter_identity": {
+        "PID": 2981909,
+        "proc_start": "336678312",
+        "epoch": 1793597676.0656354,
+        "no_PC_Vanda_forwarded_auth_dependency": true,
+        "mutation_custody_not_yet_claimed": true
+      },
+      "current": "M05_FULL_COMPLETE_AND_CLOSED",
+      "new_jobs_started": 0,
+      "waits_for": "M05 COMPLETE and every exact staged run canonically CLOSED; then acquire the existing single owner lock.",
+      "queue": [
+        "WAIT_M05_COMPLETE_ALL_CLOSED",
+        "WAIT_GPU0_NO_OTHER_COMPUTE_STABLE120",
+        "D2_NATIVE10_REQUALIFICATION_NEW_ID02",
+        "D2_FRESH4096_GPU0",
+        "D2_NATIVE96_AND_ORIGINAL_DEV10_GPU1",
+        "LOCAL_SUMMARY"
+      ],
+      "GPU0_empty_compute_required": true,
+      "stable_seconds_required": 120,
+      "one_additional_native10_run_id": "v7-bc299-d2-updates10-02",
+      "additional_qualification_attempts_max": 1,
+      "old_native10_role_reopened": false,
+      "formal4096_starts_only_if_new_native_capacity_passes": true,
+      "formal4096_remains_fresh_parent_not_native10_continuation": true,
+      "pending_actual_cold_boundary_is_not_claimed_passed": true,
+      "unknown_effects_or_predecessor_BLOCKED_means_stop": true
+    }
+  },
+  "failure_isolation_observed": "D2 closed qualification failure did not stop the independent D1 qualification and real formal training. The active sealed M05 capsule has not been patched, replaced or restarted.",
+  "GPU_assignment": {
+    "GPU0": "Real D1 training now; D2 training waits its declared predecessor and idle qualification.",
+    "GPU1": "Per-checkpoint native96 and original DEV evaluation queued after producer closure; other compute users were present in the latest capacity readback, so no second model is forced onto it.",
+    "all_project_model_loads_serial": true,
+    "original_training_headroom_bytes": 2147483648,
+    "certified_GPU1_inference_headroom_bytes": 1073741824,
+    "GPU1_formal_training_admitted": false,
+    "no_foreign_process_modified": true
+  },
+  "bounds": {
+    "original_matched_deadline_SGT": "2026-11-05T01:27:09.193958+08:00",
+    "original_clock_extended": false,
+    "formal_updates_per_arm": 4096,
+    "per_arm_qualification_updates": 10,
+    "previous_formal_DEV_conditions_retried": 0,
+    "new_physics_this_followup": 0,
+    "PC_or_Vanda_forwarding_dependency": false,
+    "NFS_SSH_mount_network_system_service_changes": 0,
+    "checkpoint_or_data_deletions": 0
+  },
+  "science": {
+    "new_D1_D2_complete_formal_endpoints": 0,
+    "new_D1_D2_valid_DEV": 0,
+    "D0_original_DEV": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9,
+      "hard_safety": 1
+    },
+    "Phase4096_preserved": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6,
+      "hard_safety": 1
+    },
+    "new_full_demonstrations_this_followup": 0,
+    "qualified_development_candidate": false,
+    "generalization": "Not established across assets/backgrounds/tasks. D1 adds full geometry Teacher data; D2 adds expert recovery suffixes. Their matched comparison needs actual completed training and DEV results."
+  },
+  "validation": {
+    "actual_native10_updates_and_full_restore_both_arms": true,
+    "D1_native_capacity_pass": true,
+    "D2_capacity_failure_preserved": true,
+    "D1_fresh_formal_actual_updates": true,
+    "new_waiter_native_CPU_entry_pass": true,
+    "resource_queue_actual_function_regression": "PASS: foreign-compute wait and capacity dip both reset the full 120s stability; no native GPU call in fixture.",
+    "no_new_CI_run": true
+  }
+}
