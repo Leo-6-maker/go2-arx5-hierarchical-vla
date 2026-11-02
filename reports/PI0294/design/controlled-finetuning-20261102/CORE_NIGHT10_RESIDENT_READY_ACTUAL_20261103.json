@@ -1,0 +1,186 @@
+{
+  "schema": "CORE_NIGHT10_NATIVE_RESIDENT_READY_ACTUAL_V1",
+  "observed_at_SGT": "2026-11-03T03:20:53+08:00",
+  "status": "READY_FOR_DISCONNECT_BOUNDED_QUEUED_CONTINUATION_NOT_POLICY_SUCCESS",
+  "run_id": "core-night10-relay-20261103-03",
+  "unit": {
+    "name": "core-night10-relay-20261103-03.service",
+    "PID": 82369,
+    "proc_start": "341604899",
+    "InvocationID": "6eac4f2a01ac4945abd301c735a6ff61",
+    "CPU_cores_max": 2,
+    "AllowedCPUs": "5-6"
+  },
+  "runtime_source_commit": "facd8c17a18857a92e7c118b4d63f7ccca7af67e",
+  "runtime_source_integrated_main": "684309106a6ae2eb11114d2a1d289cfcc2e6ab19",
+  "manifest_sha256": "e71bceba12d63f87f7b139476cd99e88421356f56503a5e3e48fa68e52a09ad4",
+  "bound_plan_sha256": "dfe5153a03da498beede312ab85d31632839519692146fb787ff843d2287f9c5",
+  "bound_config_sha256": "e8b1d6099cafab46352e98f016518d0de46663f4c0fae770e5f701090af29d9a",
+  "source_custody_sha256": "fb60d97b6808a302dce01b11fa25b6cd19f1217945366eeb45059182e8181d9a",
+  "detached_connection_heartbeats": [
+    1793647001.971209,
+    1793647242.026789
+  ],
+  "same_PID_start_and_InvocationID": true,
+  "first_actual_task": "N0_MONITOR_RUNNING",
+  "window": {
+    "original_start_SGT": "2026-11-03T02:51:25+08:00",
+    "actual_current_controller_adoption_SGT": "2026-11-03T03:15:41+08:00",
+    "stop_new_dispatch_SGT": "2026-11-03T12:51:25+08:00",
+    "original_absolute_deadline_preserved": true
+  },
+  "canonical_registration_and_onceIO_readback_verified": true,
+  "actual_node_local_dependencies_verified": true,
+  "no_PC_Vanda_or_forwarded_auth_runtime_dependency": true,
+  "actual_tasks": {
+    "BOOK_D0": "PENDING",
+    "BOOK_D1": "PENDING",
+    "BOOK_D2": "PENDING",
+    "BOOK_PB_BOUNDARY": "PENDING",
+    "BOOK_PB_CONTROL": "PENDING",
+    "BOOK_PHASE": "PENDING",
+    "N0_MONITOR": "RUNNING",
+    "N2_RESET_QUALIFIED": "COMPLETE",
+    "N3_FROZEN_INPUTS": "COMPLETE",
+    "RAW_NATIVE10": "PENDING",
+    "RAW_NATIVE16": "PENDING",
+    "SHARED8192_ADOPT": "PENDING"
+  },
+  "resource_wait": "EXISTING_NEURAL_OWNER_BUSY",
+  "actual_resources": {
+    "GPU_free_MiB": {
+      "0": 979,
+      "1": 1859
+    },
+    "available_RAM_bytes": 42115928064,
+    "free_disk_bytes": 262571839488,
+    "GPU_UUID_mapping_verified_privately": true
+  },
+  "D2": {
+    "step": 1418,
+    "TRAIN_visits": 45376,
+    "GPU": 1,
+    "original_PID": 3918079,
+    "original_InvocationID": "891f843a76214929afb9e052d2b573eb",
+    "same_healthy_run": true,
+    "checkpoint1024_full42_restore": true,
+    "full4096_complete": false
+  },
+  "original_M13": {
+    "PID": 3892803,
+    "queue_unchanged": true,
+    "source_capsule_unchanged": true,
+    "queue": [
+      "D2",
+      "PB_CONTROL",
+      "PB_BOUNDARY"
+    ]
+  },
+  "RESET": {
+    "native_status": "COMPLETE_NATIVE_SOURCE_CAMERA_RESET_QUALIFICATION",
+    "constructors": 12,
+    "RGB_pairs": 8,
+    "physics_integrations": 0,
+    "model_loads": 0,
+    "all_original_camera_and_reset_fault_checks_passed": true,
+    "lease_CLOSED": true,
+    "book_qualification_sha256": "53a31bd2bf6a79661b8cb500dcfa4de8d09cd129960cb96ecc87f649cffc11e4",
+    "DOOR_cross_process_PNG_bitwise_equality": false,
+    "bitwise_equality_not_a_scoring_or_camera_requirement": true
+  },
+  "CPU_audit": {
+    "status": "PASS_CPU_FROZEN_INPUTS_AND_SAMPLING",
+    "audit_sha256": "9b1f3db87c6aed6bcca542db8ae4fc5010dc0faa73fa6d55be8ca062e3aa0f54",
+    "common59": {
+      "full": 46,
+      "suffixes": 13,
+      "windows": 34563,
+      "task_windows": {
+        "T1": 6010,
+        "T2": 6010,
+        "BOOK": 19538,
+        "DOOR": 3005
+      }
+    },
+    "original_DEV_counts": {
+      "T1": 24,
+      "T2": 24,
+      "BOOK": 10,
+      "DOOR": 10
+    },
+    "actual_cpu_seconds": 0.7534509999999999,
+    "reused_exact_trusted_result_with_current_input_and_source_pins": true,
+    "census": {
+      "D2_UNIFORM4096_PLANNED": {
+        "visits": 131072,
+        "unique_windows": 15932,
+        "late_first16_visits": 918,
+        "sequence_sha256": "6e026194fe682f1dc9d242fb4e805e16df2555a680199805e1b17616a88de12a"
+      },
+      "PB_CONTROL4096_PLANNED": {
+        "visits": 131072,
+        "unique_windows": 15932,
+        "late_first16_visits": 1055,
+        "sequence_sha256": "2627b228816863761fd7aea08ed8db9bca7e0d89d28d6b7ecf213939b5ac2c99"
+      },
+      "PB_BOUNDARY4096_PLANNED": {
+        "visits": 131072,
+        "unique_windows": 15932,
+        "late_first16_visits": 9196,
+        "sequence_sha256": "95ea52b83088a2874020db66e69182e383a86dbc01531f7618dd0beedc61de96"
+      }
+    }
+  },
+  "new_scientific_results": {
+    "BOOK_RESET_planned_model_conditions_max": 60,
+    "BOOK_RESET_attempted": 0,
+    "BOOK_RESET_valid": 0,
+    "BOOK_RESET_successes": 0,
+    "BOOK_RESET_success_rate": null,
+    "raw_GPU_native10_pass": false,
+    "raw_GPU_native16_pass": false,
+    "shared8192_started": false,
+    "shared8192_complete": false
+  },
+  "old_policy_results_preserved": {
+    "Phase4096": {
+      "successes": 1,
+      "valid": 4,
+      "unrun": 6
+    },
+    "D0": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    },
+    "D1": {
+      "successes": 0,
+      "valid": 1,
+      "unrun": 9
+    }
+  },
+  "control_repairs": {
+    "snapshot_CAS_race_fixed_and_tested": true,
+    "old_manager01_closed_with_no_GPU_starts": true,
+    "old_manager01_CPU_s": 1.312064,
+    "bootstrap02_failed_before_supervisor_creation": true,
+    "bootstrap02_CPU_s": 0.035078,
+    "bootstrap02_closed": true,
+    "supported_time_source_constructor_tested_on_PC_and_Core_before03": true,
+    "one_pre_auth_SSH_failure_reconciled_by_independent_unchanged_canonical_read": true,
+    "unknown_effects_remaining": false
+  },
+  "summary_members": [
+    "NIGHT_SUMMARY.json",
+    "queue/STATE.json",
+    "queue/SUMMARY.json",
+    "receipts/*.json"
+  ],
+  "private_READY_proof_sha256": "ea0f0c37690b86c67159994eec4d82b79f520658e6d92abd45f957a0cd2f5efd",
+  "limitations": [
+    "READY certifies resident queued continuation, not policy success or that all work will finish in ten hours.",
+    "New GPU tasks obey actual neural-owner/device/RAM/disk gates. Continued ownership can leave them UNRUN at the dispatch deadline.",
+    "A formal8192 accepted in time may finish under its own finite controller after dispatch closes. No new experiment is admitted after that deadline.",
+    "NFS/SSH/mounts/services configuration/permissions/credentials and frozen WBC/target quarantine were not changed; checkpoints were not deleted."
+  ]
+}
