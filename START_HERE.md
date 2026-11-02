@@ -1,6 +1,6 @@
-# 当前入口 · Goal V7 · 2026-11-01
+# 当前入口 · Goal V7 · 2026-11-02
 
-2026-11-02 02:07 SGT Core实测：**18个首次源条件全部完成：新增完整柜门4（累计5）、新几何完整BOOK6（累计21）、晚期恢复7/8合格专家后缀＋1 NO_EVENT零标签。** 官方全H40/双RGB共同数据59条目、34563窗口已资格，D0/D1/D2为21/27/28条目，同一新统计已实际准入。D0原生10更新/320访问与完整恢复通过，GPU0正式4096已至78步/2496访问；无新DEV结果。**Night10已实际挂载并通过分离控制连接同PID/proc_start/Invocation与前进心跳核验，READY_FOR_DISCONNECT覆盖匹配三臂、诊断/独立DEV/开发候选审核；旧D0训练同身份无重启接管。** 10小时窗口12:05:45停止新派发，不保证全部训练完成。GPU1目前被其他用户占用，仅余1125MiB，推理节点等待13GiB入口，正式训练仍不准入。原Phase1/4、6未运行保持；共享四任务raw-parent5000与目标WBC尚未完成。[实际数据、训练与Night10 READY](reports/PI0294/design/science-goal-v7-20261031/ISSUE299_NIGHT10_SOURCE18_DATA59_NATIVE_TRAINING_READY_ACTUAL_20261102.json)。
+2026-11-02 13:28 SGT Core实测：**D0已完成4096更新／131072次TRAIN访问及1024/2048/4096完整恢复；GPU1原DEV10得0成功／1有效、9未运行，22.268秒因第4关节越过原下限停止，独立核验与canonical关闭已完成。** GPU1同端点96次推理资格及运行显存余量通过，不能将低TRAIN误差视为任务成功。此前排队程序已真实自动启动并完成D0评价。**新D2→D1常驻链已挂载、两次分离控制连接同身份心跳通过；D2原生10步已真实加载模型运行，D1排队。** GPU0负责训练，GPU1在每个新端点独立资格后接续诊断/原DEV10，模型加载串行；保留原匹配链11月5日01:27 SGT截止，不重跑旧D0面板。完整柜门/BOOK Teacher累计5/21，13条专家后缀；共同人口59条目／34563窗口。Phase1/4、6未运行保持，尚无合格开发候选、共享四任务或目标WBC成功。[实际训练、负结果及后继READY](reports/PI0294/design/science-goal-v7-20261031/ISSUE299_D0_GPU1_DEV_CLOSED_D2_D1_RESIDENT_READY_ACTUAL_20261102.json)。
 
 2026-11-02 00:26 SGT Core实测：**Phase4096已独立恢复真实1成功/4有效、6未运行；原评分/STOP不改，旧训练、双TRAIN32与DEV均CLOSED。** GPU1真实10更新及42项全状态恢复完成，但最低空闲仅0.57GiB<1GiB，正式训练不准入，采用GPU0串行。新采集/数据阶段常驻manager已通过两次独立连接同身份心跳核验，首个柜门新TRAIN完整安全成功并完成官方导出，累计柜门2；第二个正在运行。**READY仅覆盖采集与数据冻结，完整BC/DAgger训练接续尚未部署，不宣称整条DAG可断线完成。** [实际核对、容量及阶段READY回执](reports/PI0294/design/science-goal-v7-20261031/ISSUE299_PHASE_RECONCILED_GPU1_NATIVE10_SOURCE_DATA_READY_ACTUAL_20261102.json)。
 
