@@ -102,6 +102,9 @@ def diagnose(spec, calib, checkpoint, train_replay, output):
                 dump_private(output/f'state-{index:02d}-{arm}.pkl.gz',dict(macros=history,action=candidate[arm],result=rows[arm]))
         finally:adapter.close()
         actual=[rows[a]['actual_return']for a in ARMS];prediction=[predicted_returns[a]for a in ARMS]
+        feasible_delta=(candidate['gradient']-base)/ACTION_SCALE
+        gradient_dot_delta=float(np.sum(gradient*feasible_delta))
+        directional_fd=(actual[1]-actual[0])/max(details['matched_normalized_norm'],1e-12)
         correlation=float(spearmanr(actual,prediction).statistic)if len(set(actual))>1 and len(set(prediction))>1 else 0.
         shuffled=np.random.default_rng(110302+index).permutation(prediction)
         shuffled_correlation=float(spearmanr(actual,shuffled).statistic)if len(set(actual))>1 and len(set(prediction))>1 else 0.
@@ -109,7 +112,10 @@ def diagnose(spec, calib, checkpoint, train_replay, output):
         row=dict(index=index,scene=card['scene_group'],branch=name,arms=rows,proposal=details,
             rank_correlation=correlation,action_shuffle_rank_correlation=shuffled_correlation,
             top_choice_regret=regret,gradient_improved=actual[1]>actual[0]+1e-9,
-            random_improved=actual[3]>actual[0]+1e-9,gradient_finite_difference_positive=actual[1]>actual[2]+1e-9)
+            random_improved=actual[3]>actual[0]+1e-9,
+            model_gradient_dot_feasible_delta=gradient_dot_delta,native_directional_finite_difference=directional_fd,
+            directional_sign_agreement=bool(gradient_dot_delta>1e-12 and directional_fd>1e-9),
+            positive_vs_negative_return=actual[1]>actual[2]+1e-9)
         write_json(output/f'state-{index:02d}.json',row);results.append(row)
     scenes=[r['scene']for r in results]
     improvement=cluster_interval([r['gradient_improved']for r in results],scenes)
@@ -120,7 +126,9 @@ def diagnose(spec, calib, checkpoint, train_replay, output):
     result=dict(states=64,branches=320,source_sha=spec['source_sha'],checkpoint_sha256=digest(checkpoint),
         gradient_improvement=improvement,random_improvement=random,mean_rank_correlation=float(rank),
         mean_action_shuffle_rank_correlation=float(shuffle),mean_top_choice_regret=float(np.mean([r['top_choice_regret']for r in results])),
-        finite_difference_positive_fraction=float(np.mean([r['gradient_finite_difference_positive']for r in results])),
+        native_directional_fd_sign_agreement_fraction=float(np.mean([r['directional_sign_agreement']for r in results])),
+        positive_vs_negative_return_fraction=float(np.mean([r['positive_vs_negative_return']for r in results])),
+        paired_rank_advantage=cluster_interval([r['rank_correlation']-r['action_shuffle_rank_correlation']for r in results],scenes),
         hard_safety_branches=violations,actor_BPTT_eligible=bool(eligible),
         live_physics_ticks=physics_ticks,shadow_physics_ticks=shadow_ticks,
         CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-began,actor_updates=0,
