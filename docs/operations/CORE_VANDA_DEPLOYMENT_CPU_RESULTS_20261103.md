@@ -88,6 +88,14 @@ safety threshold was changed.
 - [Fixed12 candidate definitions](../../reports/PI0294/design/core-vanda-policy-delivery-20261103/TRAIN_VNEXT_FIXED12_CANDIDATES_20261103.json): four BOOK geometry, four prospective actual TRAIN student contact recoveries, four DOOR geometries. IDs are fixed; rejects are not replaced.
 - [Actual PC static screens](../../reports/PI0294/design/core-vanda-policy-delivery-20261103/TRAIN_VNEXT_STATIC_SCREEN_ACTUAL_20261103.json): BOOK4/4 pass, with hypothetical path minimum joint margins45.6–76.6mrad; DOOR3/4 pass, one rejected for non-pad/handle contact during turning. These sampled paths are not continuous collision certificates, native qualification or demonstrations. The four recovery adapters remain unbound. No candidate has been physically attempted or admitted by the official Processor, and no TRAIN_VNEXT data was appended to shared59/D2/PB.
 
+The eight geometries were also compared to the exact frozen BOOK/DOOR DEV
+population:80 matrix comparisons found no identical geometry at1e-12 absolute
+tolerance. This preserves the split but does not make those nearby scenes an
+independent TEST. Two stale DEV10 explanatory strings in the private DOOR
+static helper's output template were corrected in the public derivative; the
+actual four TRAIN IDs, offsets, paths and outcomes, and original private
+receipt, remain unchanged.
+
 ## Offline target adaptation and capacity
 
 [The actual Go2–ARX5 audit](../../reports/PI0294/design/core-vanda-policy-delivery-20261103/GO2_ARX5_OFFLINE_ADAPTATION_ACTUAL_20261103.json)
