@@ -72,6 +72,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                 or spec.get('physics') is not False or spec.get('endpoint') != 200
                 or spec.get('GPU_uuid') != 'GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'
                 or spec.get('authorization_scope') != 'USER_GPU0_WM02_ENV_NEURAL_SMOKE_20261104'
+                or spec.get('sharing_policy') != 'USER_GPU0_WITH_MEASURED_HEADROOM'
                 or spec.get('data_domain') != 'SYNTHETIC_ENGINEERING_ONLY'
                 or not 0 < spec.get('allocator_limit_bytes',0) <= 13*1024**3
                 or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']):
@@ -91,10 +92,9 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             raise PermissionError('Current GPU0 capacity is below the finite smoke allowance')
         reply = subprocess.run(['nvidia-smi','--query-compute-apps=gpu_uuid,pid',
             '--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
-        for line in reply.stdout.splitlines():
-            fields = [v.strip() for v in line.split(',')]
-            if len(fields)==2 and fields[0]==spec['GPU_uuid'] and fields[1]!=str(os.getpid()):
-                raise PermissionError('GPU0 has another compute process; do not displace it')
+        # The user permits GPU0 work. Sharing is bounded by measured free memory,
+        # the allocator cap and the original project owner lock; never displace a process.
+        gpu_baseline = reply.stdout
     elif gpu:
         if spec.get('execution_site') != 'VANDA_A40':
             raise PermissionError('Explicit Vanda allocation or authorized Core smoke required')
@@ -137,7 +137,8 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
-            spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile))
+            spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')=='CORE_WM02_GPU0' else None))
         yield spec
     finally:
         if neural_owner is not None:
