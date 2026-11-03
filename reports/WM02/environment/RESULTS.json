@@ -1,0 +1,258 @@
+{
+  "schema": "WM02_ENV_FIRST_FIRST_RETURN_V1",
+  "source": {
+    "handoff": "90c0507333d2a9c6b26ee9c22278b050a9249fad",
+    "failed_pre_model_capsule": "45e83fd2d2e65645cc275eeedfd33a0697d378f6",
+    "successful_GPU_smoke": "21f2811f00aedb37b47e7b52d827d4ba1e7cb38e",
+    "offline_target_interfaces": "36f6d287cee0ddb0abfefda1ce2b7de81f9c6491"
+  },
+  "stage_status": {
+    "E0": "ACTUAL_FROZEN_ENVIRONMENT_AND_OWNERS_VERIFIED",
+    "E1": "SYNTHETIC_GPU200_H16_SAVE_RELOAD_COMPLETE",
+    "E2": "OFFLINE_STATE_CONTAINER_AND_SCORER_COMPLETE_NATIVE_BINDING_PENDING",
+    "E3": "WAITING_VALID_NATIVE_ADMISSION",
+    "E4": "NOT_RUN_NO_NATIVE_LEARNING_CYCLE_CLAIM"
+  },
+  "actual_new_native_S_transitions": 0,
+  "actual_new_native_T_transitions": 0,
+  "original_S_diagnostic_872_not_recollected": true,
+  "actual_native_tasks": 0,
+  "actual_GPU_WM_main_optimizer_steps": 200,
+  "actual_GPU_WM_restore_probe_optimizer_steps": 1,
+  "actual_GPU_Actor_optimizer_steps": 1,
+  "actual_GPU_critic_optimizer_steps": 1,
+  "GPU_WM_model_instances": 3,
+  "GPU_Actor_instances": 2,
+  "GPU_critic_instances": 2,
+  "GROOT_or_WBC_models_loaded": 0,
+  "WM02_PBS_submissions": 0,
+  "fixture": {
+    "bytes": 627825,
+    "sequences": 256,
+    "state_shape": [
+      256,
+      17,
+      93
+    ],
+    "synthetic_valid_pairs": 3985,
+    "native_real_pairs": 0,
+    "purpose": "SYNTHETIC_ENGINEERING_FIXTURE_NOT_PHYSICAL_DATA",
+    "split": "TRAIN"
+  },
+  "fixture_data_sha256": "97eede32ab18193db6577f3cca63463297b8613255efe3cfda247c746decfe95",
+  "formal_TRAIN_or_target_replay_created": false,
+  "TEST_read": false,
+  "checkpoint_artifacts": {
+    "actor-critic-1.pt": {
+      "sha256": "2faeadfc5109c0e7e4d5f0cdf15d50bdc45c3d7fbf4020f69d5892d752393b39",
+      "bytes": 5782997
+    },
+    "checkpoint-200.pt": {
+      "sha256": "3e54ed8dabd24ac4003a4c4cdcd601d1728e5850f486f2c56ea93b926a81dd91",
+      "bytes": 229415061
+    },
+    "checkpoint-199.pt": {
+      "sha256": "29ffd6ee72e0221f71f0490127ac39b961695584f06d55a48fe89aae311ae997",
+      "bytes": 229415061
+    }
+  },
+  "validation": {
+    "PC_world_model_cases": 30,
+    "PC_world_model_normal_and_optimized_exit": 0,
+    "isolated_Core_neural_cases": 6,
+    "isolated_Core_neural_normal_and_optimized_exit": 0,
+    "original_scorer_SO3_safety_regression_passed": 70,
+    "whole_repository_CI": "NOT_RUN",
+    "Torch_free_source_neural_tests": "SKIPPED_ONE_MODULE_EXIT0_EXPECTED",
+    "PC_isolated_neural_cases_after_optional_import_guard": 6
+  },
+  "command_exit_codes": {
+    "Core_env_preflight": 0,
+    "initial_env_dependency_probe_without_pip_metadata": 1,
+    "corrected_neural_version_probe": 0,
+    "first_GPU_capsule_import": 1,
+    "first_GPU_capsule_closeout": 0,
+    "successful_GPU_job": 0,
+    "offline_state_and_scorer_checks": 0,
+    "old_queue_control_stop": 0,
+    "old_queue_initial_close_metadata": 1,
+    "old_queue_independent_reconciliation": 0,
+    "final_owner_verify": 0,
+    "old_queue_empty_cgroup_pre_effect_guard": 1,
+    "old_queue_partial_canonical_reconcile": 1,
+    "old_queue_final_intent_readback": 0,
+    "Vanda_live_qstat_empty_JSON_parse_probe": 1,
+    "Vanda_qselect_and_plain_qstat": 0,
+    "close_unstarted_PC_WM01_W2": 0
+  },
+  "engineering_negatives": [
+    {
+      "kind": "SOURCE_CAPSULE_MISSING_TRANSITIVE_PROJECT_CONTRACTS",
+      "models_loaded": 0,
+      "optimizer_updates": 0,
+      "repair": "Complete immutable src package and fresh run identity; first lease independently closed; no hotpatch"
+    },
+    {
+      "kind": "UNSOURCED_NATIVE_LIBRARY_PATH",
+      "repair": "Original bound environment resolved libraries; frozen software not upgraded"
+    },
+    {
+      "kind": "OLD_CONTROL_CLOSE_PARTIAL_METADATA",
+      "repair": "Independent readback proved closed queue+lease; completed native journal CPU accounting without replaying writes"
+    },
+    {
+      "kind": "PYTORCH_TF32_API_DEPRECATION_WARNING",
+      "training_failed": false,
+      "precision": "FP32_ALLOW_TF32_FALSE"
+    }
+  ],
+  "cost": {
+    "successful_neural_main_process_CPU_s": 67.748073228,
+    "successful_neural_smoke_wall_s": 67.31499588489532,
+    "successful_unit_CPU_s": 78.996058,
+    "successful_unit_wall_s": 76.553736,
+    "worker_including_CPU_tests_wall_s": 76.14342297241092,
+    "WM_training_and_endpoint_restore_segment_wall_s": 62.7194571942091,
+    "Actor_H16_update_save_reload_segment_wall_s": 0.7111300588585436,
+    "environment_setup_native_CPU_s": 4.162455,
+    "environment_setup_wall_s": 11.448034943081439,
+    "old_queue_manager_CPU_s": 90.550802,
+    "old_costs_not_counted_as_WM02_training": true,
+    "unmetered": "Preflight, filesystem/software survey, PC tests, SSH/control and publication not fully metered; no complete grand-total cost claimed"
+  },
+  "old_queue_readback": {
+    "Core_old_control_CLOSED": true,
+    "M13_USER_STOPPED": true,
+    "old_BOOK_native96_actors": [
+      {
+        "run": "night10-20261103-06-d2-native96",
+        "lease": "CLOSED",
+        "result_sha256": "0c9e3210bfc9e5d2b6deeb7cc3a8a9a1716c82a396c90e62d4bb10b250e884d1"
+      },
+      {
+        "run": "night10-20261103-06-d0-native96",
+        "lease": "CLOSED",
+        "result_sha256": "3bf1311f0012ee6d323f770438222bc5eec4a89e398a3afbf1d533173cc7dbb6"
+      },
+      {
+        "run": "night10-20261103-06-phase4096-native96",
+        "lease": "CLOSED",
+        "result_sha256": "7f9f18417545b6774a28a2bed71e9a34ee884ce9af2bd32c9b2207ef99a0f97d"
+      },
+      {
+        "run": "night10-20261103-06-d1-native96",
+        "lease": "CLOSED",
+        "result_sha256": "726a26e03cbdd591987e9b8d74a9dc8cabf4a7cc85cf6f6719a9995aaa4f9fe9"
+      }
+    ],
+    "old_PC_WM01_W2": "USER_CLOSED_UNRUN",
+    "old_Vanda_WM01_job": {
+      "id": "1515716",
+      "state": "F",
+      "exit_code": 0,
+      "endpoint": 5000,
+      "lease": "CLOSED",
+      "restarted": false
+    },
+    "other_project_jobs_submitted_after_close_instruction_untouched": 2
+  },
+  "last_readback_SGT": "2026-11-04T04:02:39.570453+08:00",
+  "all_known_old_Core_and_new_WM02_units_terminal": true,
+  "all_known_leases_closed": true,
+  "first_blocker": "TARGET_S1_T2_QUARANTINE_NOT_RELEASED",
+  "additional_target_gaps": [
+    "MPC_solver_and_WBC_history_export_or_verified_prefix_reconstruction",
+    "Native_reference_install_consumption_and_spatial_progress",
+    "Standing_task_native_sensor_and_fullbody_safety_binding",
+    "Real_reward_ordering_and_numeric_TRAIN_replay_binding"
+  ],
+  "next_executable_CPU_check": "PYTHONPATH=src \"$WM02_CPU_PYTHON\" -m unittest discover -s tests/world_model -p test_target_interfaces.py -v",
+  "independent_checkpoint_metadata_audit": {
+    "WM_step": 200,
+    "WM_cursor": 51200,
+    "WM_parameter_dtypes": [
+      "torch.float32"
+    ],
+    "WM_optimizer_state_entries": 30,
+    "WM_optimizer_groups": [
+      {
+        "lr": 0.0002,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 1e-05,
+        "amsgrad": false,
+        "maximize": false,
+        "foreach": null,
+        "capturable": false,
+        "differentiable": false,
+        "fused": null,
+        "decoupled_weight_decay": true
+      }
+    ],
+    "normalizer_fields": [
+      "mean",
+      "std"
+    ],
+    "RNG_fields": [
+      "python",
+      "numpy",
+      "torch",
+      "cuda"
+    ],
+    "CUDA_RNG_saved_devices": 1,
+    "Actor_updates": 1,
+    "critic_updates": 1,
+    "Actor_optimizer_groups": [
+      {
+        "lr": 3e-05,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 0.01,
+        "amsgrad": false,
+        "maximize": false,
+        "foreach": null,
+        "capturable": false,
+        "differentiable": false,
+        "fused": null,
+        "decoupled_weight_decay": true
+      }
+    ],
+    "critic_optimizer_groups": [
+      {
+        "lr": 0.0003,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 0.01,
+        "amsgrad": false,
+        "maximize": false,
+        "foreach": null,
+        "capturable": false,
+        "differentiable": false,
+        "fused": null,
+        "decoupled_weight_decay": true
+      }
+    ],
+    "native_GPU_initialized": false,
+    "model_instances_created": 0,
+    "optimizer_steps": 0
+  },
+  "publication_readback": {
+    "all_known_old_Core_and_new_WM02_units_terminal": true,
+    "all_known_leases_closed": true,
+    "target_permission_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+    "target_quarantine_preserved": true,
+    "GPU0_current_free_MiB": 23740,
+    "GPU1_current_free_MiB": 15899,
+    "GPU0_other_user_work_present": true,
+    "private_readback_sha256": "0aaa37525a1c8aea5899dc3fe839c56ea9704b7067eb0e2897dd83818262be0e"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "WM02_LOCAL_GPU_NEURAL_PROFILE_V1",
+  "source_sha": "21f2811f00aedb37b47e7b52d827d4ba1e7cb38e",
+  "physical_device": "GPU0_NVIDIA_GEFORCE_RTX_4080_SUPER",
+  "NVML_total_MiB": 32760,
+  "CUDA_device_total_bytes": 33794359296,
+  "allocator_limit_bytes": 13958643712,
+  "WM_training_phase": {
+    "peak_allocated_bytes": 527145472,
+    "peak_reserved_bytes": 704643072
+  },
+  "WM_microbatch_profiles": [
+    {
+      "microbatch": 8,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951525628567,
+      "gradient_max_abs_difference_from_micro8": 0.0,
+      "optimizer_updates": 0,
+      "wall_s": 1.6286521800793707,
+      "peak_allocated_bytes": 458706944,
+      "peak_reserved_bytes": 593494016
+    },
+    {
+      "microbatch": 16,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951581507921,
+      "gradient_max_abs_difference_from_micro8": 2.9802322387695312e-08,
+      "optimizer_updates": 0,
+      "wall_s": 0.589635678101331,
+      "peak_allocated_bytes": 535539712,
+      "peak_reserved_bytes": 681574400
+    },
+    {
+      "microbatch": 32,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951525628567,
+      "gradient_max_abs_difference_from_micro8": 3.725290298461914e-08,
+      "optimizer_updates": 0,
+      "wall_s": 0.3028904260136187,
+      "peak_allocated_bytes": 535539712,
+      "peak_reserved_bytes": 700448768
+    }
+  ],
+  "Actor_H16_optimization_phase": {
+    "peak_allocated_bytes": 565406208,
+    "peak_reserved_bytes": 675282944
+  },
+  "Actor_H1_H8_H16_profiles": [
+    {
+      "horizon": 1,
+      "start_batch": 8,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.000517750799190253,
+      "WM_state_action_gradient_norms": [
+        0.01948995515704155
+      ],
+      "wall_s": 0.0621968824416399,
+      "peak_allocated_bytes": 538777088,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 1,
+      "start_batch": 16,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.00037066711229272187,
+      "WM_state_action_gradient_norms": [
+        0.025203213095664978
+      ],
+      "wall_s": 0.024474593345075846,
+      "peak_allocated_bytes": 540011008,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 8,
+      "start_batch": 8,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.012811584398150444,
+      "WM_state_action_gradient_norms": [
+        0.12001469731330872
+      ],
+      "wall_s": 0.0798075133934617,
+      "peak_allocated_bytes": 544286208,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 8,
+      "start_batch": 16,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.008841678500175476,
+      "WM_state_action_gradient_norms": [
+        0.1655457615852356
+      ],
+      "wall_s": 0.08111545303836465,
+      "peak_allocated_bytes": 550884864,
+      "peak_reserved_bytes": 660602880
+    },
+    {
+      "horizon": 16,
+      "start_batch": 8,
+      "actor_decisions": [
+        0,
+        8
+      ],
+      "action_input_gradient_norm": 0.056618230417370796,
+      "WM_state_action_gradient_norms": [
+        0.1967768669128418,
+        0.11734307557344437
+      ],
+      "wall_s": 0.1544182039797306,
+      "peak_allocated_bytes": 550696448,
+      "peak_reserved_bytes": 660602880
+    },
+    {
+      "horizon": 16,
+      "start_batch": 16,
+      "actor_decisions": [
+        0,
+        8
+      ],
+      "action_input_gradient_norm": 0.040972404181957245,
+      "WM_state_action_gradient_norms": [
+        0.2851865887641907,
+        0.18374931812286377
+      ],
+      "wall_s": 0.15606930386275053,
+      "peak_allocated_bytes": 563481600,
+      "peak_reserved_bytes": 673185792
+    }
+  ],
+  "NVML_sample_interval_s": 0.5,
+  "NVML_sample_count": 138,
+  "own_process_sampled_peak_MiB": 1192,
+  "shared_device_sampled_peak_used_MiB": 32085,
+  "shared_device_sampled_min_free_MiB": 145,
+  "other_compute_present_during_run": true,
+  "maximum_other_compute_processes": 9,
+  "NVML_peaks_are_sampled_not_continuous": true,
+  "Torch_peaks_are_per_phase_not_combined_restore_phase": true,
+  "whole_device_peak_is_not_WM_footprint": true,
+  "GPU1_actual_16GB_training_tested": false,
+  "native_simulator_WBC_rendering_memory_tested": false,
+  "physics_parallel_envs_tested_this_round": [],
+  "CPU_affinity": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "effective_sequence_batch": 256,
+  "WM_microbatch": 32,
+  "Actor_effective_start_batch": 64,
+  "Actor_microbatch": 16
+}

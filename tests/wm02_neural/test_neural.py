@@ -7,7 +7,11 @@ from pathlib import Path
 import unittest
 
 import numpy as np
-import torch
+try:
+    import torch
+except ModuleNotFoundError as error:
+    if error.name!='torch':raise
+    raise unittest.SkipTest('Neural tests require the isolated E-G PyTorch environment')
 
 from go2arx5_vla.world_model.neural import (WorldModel,Actor,STATE_DIM,SLICES,
     so3_exp,compile_reference,actor_observation,imagine)

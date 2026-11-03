@@ -1,0 +1,104 @@
+{
+  "status": "SYNTHETIC_ENGINEERING_WM200_COMPLETE",
+  "provenance": {
+    "source_sha": "21f2811f00aedb37b47e7b52d827d4ba1e7cb38e",
+    "data_sha256": "97eede32ab18193db6577f3cca63463297b8613255efe3cfda247c746decfe95",
+    "state_schema": {
+      "version": "WM02_NEURAL_ENGINEERING_STATE_V1",
+      "physical": {
+        "base_position": 3,
+        "base_rotation": 9,
+        "base_velocity": 6,
+        "joint_position": 18,
+        "joint_velocity": 18,
+        "tcp_position": 3,
+        "tcp_rotation": 9,
+        "tool_velocity": 6,
+        "gripper_fraction": 1,
+        "gripper_speed": 1,
+        "object_position": 3,
+        "object_rotation": 9,
+        "object_velocity": 6,
+        "native_progress": 1
+      },
+      "context": [
+        "goal_xyz",
+        "object_size_xyz",
+        "mass_friction_3"
+      ],
+      "events": [
+        "left_contact",
+        "right_contact",
+        "grasp",
+        "support"
+      ],
+      "restore_only_inputs": [],
+      "native_tensor_binding": "NOT_DYNAMICALLY_QUALIFIED"
+    },
+    "domain": "SYNTHETIC_ENGINEERING_ONLY_NO_NATIVE_TRANSITIONS"
+  },
+  "architecture": {
+    "hidden": [
+      2048,
+      2048,
+      2048,
+      2048,
+      2048
+    ],
+    "history_hidden": 256
+  },
+  "parameters": 19113552,
+  "main_optimizer_updates": 200,
+  "restore_diagnostic_optimizer_updates": 1,
+  "actual_WM_optimizer_steps": 201,
+  "effective_sequence_batch": 256,
+  "microbatch": 32,
+  "burn_in_atoms": 8,
+  "free_rollout_atoms": 8,
+  "initial_loss": 0.3518843650817871,
+  "final_loss": 0.04447129741311073,
+  "loss_finite": true,
+  "training_loss_decreased": true,
+  "profiles": [
+    {
+      "microbatch": 8,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951525628567,
+      "gradient_max_abs_difference_from_micro8": 0.0,
+      "optimizer_updates": 0,
+      "wall_s": 1.6286521800793707,
+      "peak_allocated_bytes": 458706944,
+      "peak_reserved_bytes": 593494016
+    },
+    {
+      "microbatch": 16,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951581507921,
+      "gradient_max_abs_difference_from_micro8": 2.9802322387695312e-08,
+      "optimizer_updates": 0,
+      "wall_s": 0.589635678101331,
+      "peak_allocated_bytes": 535539712,
+      "peak_reserved_bytes": 681574400
+    },
+    {
+      "microbatch": 32,
+      "effective_sequence_batch": 256,
+      "loss": 0.3414951525628567,
+      "gradient_max_abs_difference_from_micro8": 3.725290298461914e-08,
+      "optimizer_updates": 0,
+      "wall_s": 0.3028904260136187,
+      "peak_allocated_bytes": 535539712,
+      "peak_reserved_bytes": 700448768
+    }
+  ],
+  "checkpoint_sha256": "3e54ed8dabd24ac4003a4c4cdcd601d1728e5850f486f2c56ea93b926a81dd91",
+  "reload_max_abs_error": 0.0,
+  "continuation_max_abs_error": 0.0,
+  "normalizer_restored": true,
+  "optimizer_restored": true,
+  "RNG_restored": true,
+  "replay_cursor_restored": 51200,
+  "training_wall_s": 62.7194571942091,
+  "peak_allocated_bytes": 527145472,
+  "peak_reserved_bytes": 704643072
+}
