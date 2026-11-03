@@ -127,9 +127,9 @@
   },
   "Vanda": {
     "job_id": "1514400.stdct-mgmt-02",
-    "job_state": "Q",
-    "comment": "Not Running: Insufficient amount of resource: node_pool ",
-    "observed_epoch": 1793700482.6197977,
+    "job_state": "R",
+    "comment": "Job run at Tue Nov 03 at 18:08 on (GN-A40-017[0]:ncpus=36:mem=240gb:ngpus=1)",
+    "observed_epoch": 1793700902.3775268,
     "resources": {
       "mem": "240gb",
       "ncpus": 36,
@@ -141,6 +141,13 @@
       "walltime": "72:00:00"
     },
     "walltime": "72:00:00",
+    "real_allocation_admission_passed": true,
+    "controller_identity": {
+      "PID": 209855,
+      "proc_start": "10629831",
+      "hostname": "GN-A40-017",
+      "epoch": 1793700558.000278
+    },
     "config_sha256": "863049dafe9c756af1d4a88eef0f319e7691e8b2c44e65b646922df8c8f42a36",
     "repair": "Actual entitlement observation before submission intent; unchanged runtime validator accepts actual config and still rejects reversed time. All new caches on project scratch.",
     "project_session_refreshed_normally": true,
@@ -166,8 +173,8 @@
       "sha256": "0a04f2ffb1a4ff6ee99c9b275fbb2387034cfb16acb8900fbb821b16b4f2da9b"
     },
     {
-      "private_receipt": "PAR341_OBSERVE_ACTUAL_1793700482672494594.private.json",
-      "sha256": "5f9011a643c385abee0f7f2db479a838074461bdf909bd6e17e2dade1062d629"
+      "private_receipt": "PAR341_OBSERVE_ACTUAL_1793700902427014177.private.json",
+      "sha256": "4a40c09d7ca9e0d2dcab94040379aad154e2e689d431eea0bea8e60cc16d4be0"
     },
     {
       "private_receipt": "PAR341_CORE_VANDA02_PBS_ACK_ACTUAL.private.json",

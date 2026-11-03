@@ -39,6 +39,12 @@ shared policy or its evaluation has completed.
   site again assigned36CPU/240GB/oneA40 with72h walltime. No replacement
   native qualification or formal update was observed at that time. Core
   acknowledged the successor and cannot launch a duplicate baseline.
+- **At18:15SGT, the same successor was R on GN-A40-017.** The actual controller
+  wrote `ACTUAL_ALLOCATION_STARTED` after passing the unchanged native PBS,
+  entitlement, quota and unique-owner admission. The fixed private input
+  extraction/validation precedes its GPU probe and model workers; neither
+  model loading nor an optimizer update had yet been observed. This confirms
+  the timestamp repair on the real entry, not completion of native10.
 
 Within that finite PBS allocation, the installed order is native10/full42-state
 reload, raw TRAIN16, fresh raw8192 with2048/4096/6144/8192 save/reload, minimal
