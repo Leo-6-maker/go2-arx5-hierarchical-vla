@@ -49,6 +49,39 @@ class TestNight10(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'FINITE_TASK_RUNTIME'):
             night.check_plan(self.plan([monitor]))
 
+    def test_extended_window_requires_exact_user_record_and_keeps_gpu_task_bound(self):
+        monitor=self.command('monitor');monitor['max_seconds']=259100
+        p=self.plan([monitor]);p['duration_s']=259200
+        with self.assertRaisesRegex(PermissionError,'PINNED_USER_EXTENSION'):
+            night.check_plan(p)
+        record=self.root/'extension.json'
+        record.write_text(json.dumps(dict(authority='DIRECT_USER_APPROVED_EXTENSION',duration_s=259200)))
+        p['window_extension']=dict(authority='DIRECT_USER_APPROVED_EXTENSION',
+            record_path=str(record),record_sha256=night.sha256(record))
+        night.check_plan(p)
+        runner=night.Supervisor(p,self.root/'extended',time_source=lambda:1000.)
+        self.assertEqual(runner.deadline,260200.)
+        runner.close()
+        monitor.update(lane='gpu_inference',max_seconds=35001)
+        with self.assertRaisesRegex(ValueError,'FINITE_TASK_RUNTIME'):night.check_plan(p)
+        monitor.update(lane='cpu',max_seconds=259100)
+        record.write_text(json.dumps(dict(authority='DIRECT_USER_APPROVED_EXTENSION',duration_s=36000)))
+        with self.assertRaisesRegex(PermissionError,'PINNED_USER_EXTENSION'):night.check_plan(p)
+
+    def test_extension_does_not_allow_hot_change_of_a_resumed_plan_or_unbounded_time(self):
+        task=self.command('task');original=self.plan([task])
+        runner=night.Supervisor(original,self.root/'original',time_source=lambda:1000.)
+        runner.close()
+        record=self.root/'extension.json'
+        record.write_text(json.dumps(dict(authority='DIRECT_USER_APPROVED_EXTENSION',duration_s=259200)))
+        changed=dict(original,duration_s=259200,window_extension=dict(
+            authority='DIRECT_USER_APPROVED_EXTENSION',record_path=str(record),record_sha256=night.sha256(record)))
+        with self.assertRaisesRegex(PermissionError,'DO_NOT_CHANGE_ACTIVE_OR_RESUMED_PLAN'):
+            night.Supervisor(changed,self.root/'original',resume=True)
+        for invalid in [True,35999,259201,float('inf')]:
+            changed['duration_s']=invalid
+            with self.assertRaisesRegex(ValueError,'FINITE_DISPATCH_WINDOW'):night.check_plan(changed)
+
     def test_scientific_failure_does_not_stop_independent_branches_or_soft_after(self):
         failed = self.command('failed', '4')
         independent = self.command('independent')
