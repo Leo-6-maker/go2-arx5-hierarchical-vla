@@ -2,6 +2,8 @@
 
 2026-11-04，Asia/Singapore。依据原交接 `ddc801f30e288365925c61c37f7ee445ddc29712`，以及正常合并的本地优先补充 `19f686c9c006bffce22d3819b2019e1e45ebbec2`。此表报告实际完成量，不是正式训练准入或目标动态授权。
 
+GPU准备纠正：此前只关闭727048，仍运行的M13随后自动派发boundary1425203。现已停止管理器3892803及boundary、完成原native close；02:57:25 SGT复核三个PID均退出、两worker lease CLOSED、管理器USER_STOPPED、GPU1无计算进程且空闲15899MiB。下表02:45观测保留历史身份。详见 [后续停止纠正](../wm02-20261104-p0-p1/GPU1_FOLLOWON_STOP_20261104.md)。
+
 | 项目 | 本轮实际状态 |
 |---|---|
 | L0 目标身份／权限 | 实际为MuJoCo＋ROS2／OCS2 Go2–ARX5；9个核心、14个初始化成员冻结SHA匹配；原目标lease CLOSED，S1/T2隔离保留。首个阻断为没有当前安全解除／动态准入。完整目标MPC／WBC恢复导出器与站立局部scorer绑定也尚缺。 |
