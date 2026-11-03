@@ -1,41 +1,28 @@
-# GR00T + Go2–ARX5 · Frozen-WBC Adaptation
+# GR00T + Go2–ARX5 · Task-space policy learning
 
-**主问题：预训练GR00T经多少ARX5本体适配，能获得可靠闭环操作，并复用冻结的Go2＋ARX5全身控制器？**
+研究目标：学习真正完成物体操作的任务空间策略，以统一 EEF／夹爪接口连接冻结执行器，并分别验证源域任务能力、视觉语言策略迁移与 Go2＋ARX5 整机效果。
 
-2026-10-28仓库整理后，`main`是源码、当前研究路线与交接的唯一集成入口。合并历史不代表模型达标、服务器已部署或新实验获准。实际运行始终固定完整commit、模型、数据、Processor、统计量和执行权限。
+**下一研究线 WM01：小型结构化世界模型 → 任务策略学习 → 真实源域闭环 → 有条件的视觉／VLA 转移。** 先验证 WM 的决策价值，不预设 JEPA、GR00T 或 WM 一定优于基线。已有 V7 作业按原配置继续；本次整理不启动、停止或改写任何服务器运行。
 
-## 从这里开始
+## 入口
 
-| 需要 | 入口 |
+| 需要 | 唯一入口 |
 |---|---|
-| 开始工作与下一动作 | [START_HERE.md](START_HERE.md) / [AGENTS.md](AGENTS.md) |
-| 最新已核验结果 | [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md) |
-| 最新实验路线与推进关口 | [EXPERIMENT_ROADMAP](docs/EXPERIMENT_ROADMAP.md) |
-| 代码位置与复用边界 | [CODE_MAP](docs/CODE_MAP.md) |
-| 分支、合并与服务器同步 | [REPOSITORY_WORKFLOW](docs/REPOSITORY_WORKFLOW.md) |
-| 科学／维护记录 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) / [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
-| 本次整理及分支退役状态 | [CONSOLIDATION_REPORT](docs/maintenance/2026-10-28/CONSOLIDATION_REPORT.md) |
+| Codex 开始新工作 | [START_HERE](START_HERE.md) 与 [AGENTS](AGENTS.md) |
+| WM01 执行交接 | [WM01_CODEX_EXECUTE](docs/handover/2026-11-03/WM01_CODEX_EXECUTE.md) |
+| 详细科学计划 | [WM01 protocol](docs/protocols/WM01_TASKSPACE_WORLD_MODEL_POLICY_V1.md) |
+| 参数与工作包 | [实验目录](experiments/wm01/README.md) / [plan.json](experiments/wm01/plan.json) |
+| 实际状态，不含计划冒充的结果 | [CURRENT_SCIENCE_STATUS](CURRENT_SCIENCE_STATUS.md) |
+| 代码复用与历史 | [CODE_MAP](docs/CODE_MAP.md) / [实验路线](docs/EXPERIMENT_ROADMAP.md) |
+| 发布与运行边界 | [REPOSITORY_WORKFLOW](docs/REPOSITORY_WORKFLOW.md) |
+| 本次整理范围与验证 | [整理报告](docs/maintenance/2026-11-03/WM01_ORGANIZATION_REPORT.md) |
 
-## 当前路线
+## 不变的执行原则
 
-**收齐C50/D25与GEN1行为结果 → E0预训练诊断、E1/E2匹配最小适配 → 独立布局／任务迁移验证 → 必要时少量Go2＋ARX5目标示范 → 冻结WBC执行域比较。**
+`main` 是集成入口；新工作使用 feature branch / PR，服务器只消费固定 SHA。现役 source capsule、WBC 权重／参数、安全判据、原 DEV 面板与历史负结果不变。源固定底座 ARX5 成功不等于移动 Go2＋ARX5 成功；目标 S1/T2 隔离与真机限制继续有效。
 
-先测量再补数据。E1只更新目标本体编码／解码参数；E2额外更新共享动作策略。两臂从同一原始权重和12条源域示范出发，先各512步。不默认扩采、延长训练或增加柜门／书架任务。
+使用现有 `~/Projects/GR00T-WBC`、profile、唯一执行 owner 与已授权 artifact 路由。Vanda/Core 的运行不互相依赖实时 SSH 或心跳。AMD 是共享存储／登录基础设施，不承接重型实验。4080S、A40、H200 的存在不是空闲显存或站点使用许可；以实际分配为准。
 
-截至整理基线：A4096首面板11/24、B4096为6/24、C50为6/24；D25与GEN1已训练但尚无有效Eval，E0/E1/E2尚无成功的原生模型结果。详见带证据的状态页，未运行不等于成功率0%。
+不删除模型、数据、分支或环境；不新增调度器、预算账本或逐函数审批框架。工程自主修复沿用 [Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)。
 
-## 唯一平台分工
-
-- **Vanda**：合法PBS内微调、有限离线神经诊断和完整状态保存。
-- **CoreLab 4080S**：模型推理、MuJoCo双相机与完整闭环Eval。
-- **AMD／管理端**：CPU、数据准备和有限部署／证据汇总。
-
-运行时两站不互相SSH、不查对方队列、不等待对方心跳。仅通过已授权的HF固定revision交付模型；私有数据、凭据和WBC资产不得因此公开。有限本地执行记录与独立终态结算沿既有机制，不另外建立调度平台。
-
-## 工作区与历史
-
-人类入口仍为 `~/Projects/GR00T-WBC`。复用[统一入口规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)与[WORKSPACE_ENTRY_ENFORCEMENT_V1.md](docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md)；其中旧分支路由由[本次main提升记录](infrastructure/workspace/INTEGRATION_REF_CHANGE_20261028.json)取代，旧运行与固定source不变。
-
-原 `pi0267/executor-decoupled-recovery` 已按已审阅SHA合入main，暂留为旧owner迁移兼容引用，不再是新工作的默认发布分支。不要在运行中的source capsule执行pull、checkout或清理。旧协议、负结果及报告完整保留；原长日志已[按原字节归档](docs/archive/2026-10-28/pre-consolidation/)。
-
-本次未启动训练、物理或远端部署；GitHub合并与源码回读不是CPU全套测试、CI或模型资格PASS。
+旧 README 的过时“D25/E1/E2 先于新技能”路线由 V7 及本次新研究方向替代；[原文完整保留在 Git](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/README.md)。本页是导航与研究方向，不是 WM 已实现、CI 已通过或远端已部署的证据。
