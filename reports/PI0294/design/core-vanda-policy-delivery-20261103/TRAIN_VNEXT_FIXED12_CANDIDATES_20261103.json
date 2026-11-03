@@ -1,0 +1,1714 @@
+{
+  "schema": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+  "candidates": [
+    {
+      "id": "VNEXT_BOOK_MARGIN_TRAIN000",
+      "task": "BOOK",
+      "kind": "JOINT_MARGIN_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_BOOK_MARGIN_TRAIN000",
+        "task": "BOOK",
+        "source_port": "LIBERO_PINNED_BOOK_CADDY_ARX5_SOURCE_PORT_V1",
+        "goal_side": "left",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "original_benchmark_robot_or_seed": false,
+        "port_condition": "ARX5_FIXED_BASE_UPRIGHT_SINGLE_BOOK_TABLE_TO_ORIGINAL_CADDY",
+        "initial_book_native_world": [
+          [
+            0.9998476951563913,
+            0.01745240643728351,
+            0.0,
+            0.35
+          ],
+          [
+            -0.01745240643728351,
+            0.9998476951563913,
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "caddy_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43861
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "initial_tcp": [
+          [
+            0.0,
+            -1.0,
+            0.0,
+            0.36
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.11215
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CADDY_PORT_BASE",
+          "source_xy": [
+            0.35,
+            -0.1
+          ],
+          "goal_xy": [
+            0.50631,
+            0.14551
+          ],
+          "cube_yaw": 0.0
+        },
+        "book": {
+          "book_size_m": [
+            0.02868,
+            0.11038,
+            0.1344
+          ],
+          "object_to_tcp_grasp": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              -0.001786
+            ],
+            [
+              0.3420201433256687,
+              0.0,
+              0.9396926207859084,
+              0.025
+            ],
+            [
+              0.9396926207859084,
+              0.0,
+              -0.3420201433256687,
+              -0.05
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "target_book_world": [
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.5058400000000001
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.13336
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0,
+              0.52012
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "instruction": "Put the black book in the left compartment of the desk caddy.",
+        "independent_demo_conditions": {
+          "native_LIBERO_In": true,
+          "actual_caddy_support": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "linear_speed_max_m_s": 0.02,
+          "angular_speed_max_rad_s": 0.1,
+          "continuous_hold_s": 2.0
+        },
+        "book_route_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+        "book_route": {
+          "approach_m": 0.04,
+          "lift_m": 0.075,
+          "front_cross_book_x_m": 0.464214,
+          "front_wall_max_x_m": 0.43716,
+          "front_wall_top_z_m": 0.51268,
+          "corridor_y_min_m": 0.07432,
+          "corridor_y_max_m": 0.20462,
+          "clearance_m": 0.001,
+          "waypoint_position_m": 0.001,
+          "waypoint_angle_rad": 0.01,
+          "withdraw_tool_m": 0.06,
+          "withdraw_exterior_x_m": 0.1,
+          "lower_speed_m_s": 0.01
+        },
+        "study_split": "TRAIN",
+        "vnext_book_geometry_index": 1,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "initial_world_yaw_delta_deg": -1.0,
+        "initial_translation_world_m": [
+          -0.01,
+          0.0,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_BOOK_MARGIN_TRAIN001",
+      "task": "BOOK",
+      "kind": "JOINT_MARGIN_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_BOOK_MARGIN_TRAIN001",
+        "task": "BOOK",
+        "source_port": "LIBERO_PINNED_BOOK_CADDY_ARX5_SOURCE_PORT_V1",
+        "goal_side": "left",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "original_benchmark_robot_or_seed": false,
+        "port_condition": "ARX5_FIXED_BASE_UPRIGHT_SINGLE_BOOK_TABLE_TO_ORIGINAL_CADDY",
+        "initial_book_native_world": [
+          [
+            0.9998476951563913,
+            0.01745240643728351,
+            0.0,
+            0.33999999999999997
+          ],
+          [
+            -0.01745240643728351,
+            0.9998476951563913,
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "caddy_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43861
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "initial_tcp": [
+          [
+            0.0,
+            -1.0,
+            0.0,
+            0.36
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.11215
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CADDY_PORT_BASE",
+          "source_xy": [
+            0.33999999999999997,
+            -0.1
+          ],
+          "goal_xy": [
+            0.50631,
+            0.14551
+          ],
+          "cube_yaw": 0.0
+        },
+        "book": {
+          "book_size_m": [
+            0.02868,
+            0.11038,
+            0.1344
+          ],
+          "object_to_tcp_grasp": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              -0.001786
+            ],
+            [
+              0.3420201433256687,
+              0.0,
+              0.9396926207859084,
+              0.025
+            ],
+            [
+              0.9396926207859084,
+              0.0,
+              -0.3420201433256687,
+              -0.05
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "target_book_world": [
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.5058400000000001
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.13336
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0,
+              0.52012
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "instruction": "Put the black book in the left compartment of the desk caddy.",
+        "independent_demo_conditions": {
+          "native_LIBERO_In": true,
+          "actual_caddy_support": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "linear_speed_max_m_s": 0.02,
+          "angular_speed_max_rad_s": 0.1,
+          "continuous_hold_s": 2.0
+        },
+        "book_route_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+        "book_route": {
+          "approach_m": 0.04,
+          "lift_m": 0.075,
+          "front_cross_book_x_m": 0.464214,
+          "front_wall_max_x_m": 0.43716,
+          "front_wall_top_z_m": 0.51268,
+          "corridor_y_min_m": 0.07432,
+          "corridor_y_max_m": 0.20462,
+          "clearance_m": 0.001,
+          "waypoint_position_m": 0.001,
+          "waypoint_angle_rad": 0.01,
+          "withdraw_tool_m": 0.06,
+          "withdraw_exterior_x_m": 0.1,
+          "lower_speed_m_s": 0.01
+        },
+        "study_split": "TRAIN",
+        "vnext_book_geometry_index": 2,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "initial_world_yaw_delta_deg": -1.0,
+        "initial_translation_world_m": [
+          -0.02,
+          0.0,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_BOOK_MARGIN_TRAIN002",
+      "task": "BOOK",
+      "kind": "JOINT_MARGIN_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_BOOK_MARGIN_TRAIN002",
+        "task": "BOOK",
+        "source_port": "LIBERO_PINNED_BOOK_CADDY_ARX5_SOURCE_PORT_V1",
+        "goal_side": "left",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "original_benchmark_robot_or_seed": false,
+        "port_condition": "ARX5_FIXED_BASE_UPRIGHT_SINGLE_BOOK_TABLE_TO_ORIGINAL_CADDY",
+        "initial_book_native_world": [
+          [
+            0.9993908270190958,
+            0.03489949670250097,
+            0.0,
+            0.35
+          ],
+          [
+            -0.03489949670250097,
+            0.9993908270190958,
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "caddy_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43861
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "initial_tcp": [
+          [
+            0.0,
+            -1.0,
+            0.0,
+            0.36
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.11215
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CADDY_PORT_BASE",
+          "source_xy": [
+            0.35,
+            -0.1
+          ],
+          "goal_xy": [
+            0.50631,
+            0.14551
+          ],
+          "cube_yaw": 0.0
+        },
+        "book": {
+          "book_size_m": [
+            0.02868,
+            0.11038,
+            0.1344
+          ],
+          "object_to_tcp_grasp": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              -0.001786
+            ],
+            [
+              0.3420201433256687,
+              0.0,
+              0.9396926207859084,
+              0.025
+            ],
+            [
+              0.9396926207859084,
+              0.0,
+              -0.3420201433256687,
+              -0.05
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "target_book_world": [
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.5058400000000001
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.13336
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0,
+              0.52012
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "instruction": "Put the black book in the left compartment of the desk caddy.",
+        "independent_demo_conditions": {
+          "native_LIBERO_In": true,
+          "actual_caddy_support": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "linear_speed_max_m_s": 0.02,
+          "angular_speed_max_rad_s": 0.1,
+          "continuous_hold_s": 2.0
+        },
+        "book_route_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+        "book_route": {
+          "approach_m": 0.04,
+          "lift_m": 0.075,
+          "front_cross_book_x_m": 0.464214,
+          "front_wall_max_x_m": 0.43716,
+          "front_wall_top_z_m": 0.51268,
+          "corridor_y_min_m": 0.07432,
+          "corridor_y_max_m": 0.20462,
+          "clearance_m": 0.001,
+          "waypoint_position_m": 0.001,
+          "waypoint_angle_rad": 0.01,
+          "withdraw_tool_m": 0.06,
+          "withdraw_exterior_x_m": 0.1,
+          "lower_speed_m_s": 0.01
+        },
+        "study_split": "TRAIN",
+        "vnext_book_geometry_index": 3,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "initial_world_yaw_delta_deg": -2.0,
+        "initial_translation_world_m": [
+          -0.01,
+          0.0,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_BOOK_MARGIN_TRAIN003",
+      "task": "BOOK",
+      "kind": "JOINT_MARGIN_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_BOOK_MARGIN_TRAIN003",
+        "task": "BOOK",
+        "source_port": "LIBERO_PINNED_BOOK_CADDY_ARX5_SOURCE_PORT_V1",
+        "goal_side": "left",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "original_benchmark_robot_or_seed": false,
+        "port_condition": "ARX5_FIXED_BASE_UPRIGHT_SINGLE_BOOK_TABLE_TO_ORIGINAL_CADDY",
+        "initial_book_native_world": [
+          [
+            0.9993908270190958,
+            0.03489949670250097,
+            0.0,
+            0.33999999999999997
+          ],
+          [
+            -0.03489949670250097,
+            0.9993908270190958,
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "caddy_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.43861
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "initial_tcp": [
+          [
+            0.0,
+            -1.0,
+            0.0,
+            0.36
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.11215
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CADDY_PORT_BASE",
+          "source_xy": [
+            0.33999999999999997,
+            -0.1
+          ],
+          "goal_xy": [
+            0.50631,
+            0.14551
+          ],
+          "cube_yaw": 0.0
+        },
+        "book": {
+          "book_size_m": [
+            0.02868,
+            0.11038,
+            0.1344
+          ],
+          "object_to_tcp_grasp": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              -0.001786
+            ],
+            [
+              0.3420201433256687,
+              0.0,
+              0.9396926207859084,
+              0.025
+            ],
+            [
+              0.9396926207859084,
+              0.0,
+              -0.3420201433256687,
+              -0.05
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "target_book_world": [
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.5058400000000001
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.13336
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0,
+              0.52012
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "instruction": "Put the black book in the left compartment of the desk caddy.",
+        "independent_demo_conditions": {
+          "native_LIBERO_In": true,
+          "actual_caddy_support": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "linear_speed_max_m_s": 0.02,
+          "angular_speed_max_rad_s": 0.1,
+          "continuous_hold_s": 2.0
+        },
+        "book_route_revision": "LIBERO_ARX5_PORT06_SUPPORTED_IN_PLACE_RELEASE",
+        "book_route": {
+          "approach_m": 0.04,
+          "lift_m": 0.075,
+          "front_cross_book_x_m": 0.464214,
+          "front_wall_max_x_m": 0.43716,
+          "front_wall_top_z_m": 0.51268,
+          "corridor_y_min_m": 0.07432,
+          "corridor_y_max_m": 0.20462,
+          "clearance_m": 0.001,
+          "waypoint_position_m": 0.001,
+          "waypoint_angle_rad": 0.01,
+          "withdraw_tool_m": 0.06,
+          "withdraw_exterior_x_m": 0.1,
+          "lower_speed_m_s": 0.01
+        },
+        "study_split": "TRAIN",
+        "vnext_book_geometry_index": 4,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "initial_world_yaw_delta_deg": -2.0,
+        "initial_translation_world_m": [
+          -0.02,
+          0.0,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_BOOK_CONTACT_TRAIN000",
+      "task": "BOOK",
+      "split": "TRAIN",
+      "TRAIN_parent": "BOOK_SOURCE_SEED001",
+      "event": "GRASP_CONFIRMED",
+      "threshold_m": 0.0,
+      "source_kind": "PROSPECTIVE_ACTUAL_TRAIN_STUDENT_PREFIX",
+      "student_prefix_is_expert": false,
+      "DEV_or_TEST_states": false,
+      "minimum_observed_grasp_seconds": 0.3,
+      "latest_takeover_index": 480,
+      "takeover_only_original_source_Prefix8_boundaries": true,
+      "requires_saved_full_state_and_controller": true,
+      "requires_remaining_route_static_qualification": true,
+      "native_adapter_bound": false,
+      "training_admitted": false,
+      "kind": "CONTACT_EVENT_RECOVERY"
+    },
+    {
+      "id": "VNEXT_BOOK_CONTACT_TRAIN001",
+      "task": "BOOK",
+      "split": "TRAIN",
+      "TRAIN_parent": "BOOK_SOURCE_SEED002",
+      "event": "LIFT_CARRY",
+      "threshold_m": 0.03,
+      "source_kind": "PROSPECTIVE_ACTUAL_TRAIN_STUDENT_PREFIX",
+      "student_prefix_is_expert": false,
+      "DEV_or_TEST_states": false,
+      "minimum_observed_grasp_seconds": 0.3,
+      "latest_takeover_index": 480,
+      "takeover_only_original_source_Prefix8_boundaries": true,
+      "requires_saved_full_state_and_controller": true,
+      "requires_remaining_route_static_qualification": true,
+      "native_adapter_bound": false,
+      "training_admitted": false,
+      "kind": "CONTACT_EVENT_RECOVERY"
+    },
+    {
+      "id": "VNEXT_BOOK_CONTACT_TRAIN002",
+      "task": "BOOK",
+      "split": "TRAIN",
+      "TRAIN_parent": "BOOK_SOURCE_SEED003",
+      "event": "LIFT_CARRY",
+      "threshold_m": 0.05,
+      "source_kind": "PROSPECTIVE_ACTUAL_TRAIN_STUDENT_PREFIX",
+      "student_prefix_is_expert": false,
+      "DEV_or_TEST_states": false,
+      "minimum_observed_grasp_seconds": 0.3,
+      "latest_takeover_index": 480,
+      "takeover_only_original_source_Prefix8_boundaries": true,
+      "requires_saved_full_state_and_controller": true,
+      "requires_remaining_route_static_qualification": true,
+      "native_adapter_bound": false,
+      "training_admitted": false,
+      "kind": "CONTACT_EVENT_RECOVERY"
+    },
+    {
+      "id": "VNEXT_BOOK_CONTACT_TRAIN003",
+      "task": "BOOK",
+      "split": "TRAIN",
+      "TRAIN_parent": "BOOK_SOURCE_SEED004",
+      "event": "NEAR_SUPPORT",
+      "threshold_m": 0.08,
+      "source_kind": "PROSPECTIVE_ACTUAL_TRAIN_STUDENT_PREFIX",
+      "student_prefix_is_expert": false,
+      "DEV_or_TEST_states": false,
+      "minimum_observed_grasp_seconds": 0.3,
+      "latest_takeover_index": 480,
+      "takeover_only_original_source_Prefix8_boundaries": true,
+      "requires_saved_full_state_and_controller": true,
+      "requires_remaining_route_static_qualification": true,
+      "native_adapter_bound": false,
+      "training_admitted": false,
+      "kind": "CONTACT_EVENT_RECOVERY"
+    },
+    {
+      "id": "VNEXT_DOOR_GEOMETRY_TRAIN000",
+      "task": "DOOR",
+      "kind": "INDEPENDENT_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN000",
+        "task": "DOOR",
+        "source_port": "ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "initial_tcp": [
+          [
+            0.0,
+            -0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            0.0,
+            0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CABINET_PORT_BASE",
+          "source_xy": [
+            0.36,
+            -0.1
+          ],
+          "goal_xy": [
+            0.5820000000000001,
+            0.194
+          ],
+          "cube_yaw": 0.0
+        },
+        "cabinet": {
+          "size_m": [
+            0.24,
+            0.22,
+            0.3
+          ],
+          "orientation": "right",
+          "cabinet_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.5820000000000001
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.194
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mechanical_variant": "OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1"
+        },
+        "door": {
+          "initial_angle_rad": 0.0,
+          "target_angle_rad": 1.4915,
+          "angle_limits_rad": [
+            0.0,
+            1.57
+          ],
+          "hinge_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.47200000000000003
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.07550000000000001
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "handle_radius_m": 0.013,
+          "handle_length_m": 0.21699999999999997,
+          "object_to_tcp_grasp": [
+            [
+              0.0008048159934325564,
+              -0.9999854830281223,
+              -0.005327851746279447,
+              0.0005307630193694401
+            ],
+            [
+              0.7040823569633692,
+              -0.0032167562928536657,
+              0.7101110385649975,
+              -0.009052363890440451
+            ],
+            [
+              -0.7101178683036526,
+              -0.004322755136021947,
+              0.7040695469226818,
+              0.005237507732047453
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "instruction": "Open the cabinet door.",
+        "original_benchmark_robot_or_seed": false,
+        "independent_demo_conditions": {
+          "native_all_doors_90_percent": true,
+          "actual_hinge_motion_and_handle_grasp": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "angular_speed_max_rad_s": 0.05,
+          "continuous_hold_s": 2.0
+        },
+        "port_revision": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+        "withdraw_tcp_rotation_world": [
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "hinge_boundary_reference": "NATIVE_SAFE_HINGE_ANCHOR_FUTURE_IN_ORIGINAL_RANGE_V1",
+        "turn_reference_limits": {
+          "max_linear_m_s": 0.03,
+          "max_angular_rad_s": 0.15
+        },
+        "turn_time_profile": "COSINE_FINAL_0_8S_DECELERATION_V1",
+        "study_split": "TRAIN",
+        "vnext_door_geometry_index": 1,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "fixture_translation_world_m": [
+          -0.008,
+          -0.006,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_DOOR_GEOMETRY_TRAIN001",
+      "task": "DOOR",
+      "kind": "INDEPENDENT_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN001",
+        "task": "DOOR",
+        "source_port": "ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "initial_tcp": [
+          [
+            0.0,
+            -0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            0.0,
+            0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CABINET_PORT_BASE",
+          "source_xy": [
+            0.36,
+            -0.1
+          ],
+          "goal_xy": [
+            0.5820000000000001,
+            0.20600000000000002
+          ],
+          "cube_yaw": 0.0
+        },
+        "cabinet": {
+          "size_m": [
+            0.24,
+            0.22,
+            0.3
+          ],
+          "orientation": "right",
+          "cabinet_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.5820000000000001
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.20600000000000002
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mechanical_variant": "OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1"
+        },
+        "door": {
+          "initial_angle_rad": 0.0,
+          "target_angle_rad": 1.4915,
+          "angle_limits_rad": [
+            0.0,
+            1.57
+          ],
+          "hinge_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.47200000000000003
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.08750000000000002
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "handle_radius_m": 0.013,
+          "handle_length_m": 0.21699999999999997,
+          "object_to_tcp_grasp": [
+            [
+              0.0008048159934325564,
+              -0.9999854830281223,
+              -0.005327851746279447,
+              0.0005307630193694401
+            ],
+            [
+              0.7040823569633692,
+              -0.0032167562928536657,
+              0.7101110385649975,
+              -0.009052363890440451
+            ],
+            [
+              -0.7101178683036526,
+              -0.004322755136021947,
+              0.7040695469226818,
+              0.005237507732047453
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "instruction": "Open the cabinet door.",
+        "original_benchmark_robot_or_seed": false,
+        "independent_demo_conditions": {
+          "native_all_doors_90_percent": true,
+          "actual_hinge_motion_and_handle_grasp": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "angular_speed_max_rad_s": 0.05,
+          "continuous_hold_s": 2.0
+        },
+        "port_revision": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+        "withdraw_tcp_rotation_world": [
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "hinge_boundary_reference": "NATIVE_SAFE_HINGE_ANCHOR_FUTURE_IN_ORIGINAL_RANGE_V1",
+        "turn_reference_limits": {
+          "max_linear_m_s": 0.03,
+          "max_angular_rad_s": 0.15
+        },
+        "turn_time_profile": "COSINE_FINAL_0_8S_DECELERATION_V1",
+        "study_split": "TRAIN",
+        "vnext_door_geometry_index": 2,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "fixture_translation_world_m": [
+          -0.008,
+          0.006,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_DOOR_GEOMETRY_TRAIN002",
+      "task": "DOOR",
+      "kind": "INDEPENDENT_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN002",
+        "task": "DOOR",
+        "source_port": "ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "initial_tcp": [
+          [
+            0.0,
+            -0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            0.0,
+            0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CABINET_PORT_BASE",
+          "source_xy": [
+            0.36,
+            -0.1
+          ],
+          "goal_xy": [
+            0.5980000000000001,
+            0.194
+          ],
+          "cube_yaw": 0.0
+        },
+        "cabinet": {
+          "size_m": [
+            0.24,
+            0.22,
+            0.3
+          ],
+          "orientation": "right",
+          "cabinet_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.5980000000000001
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.194
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mechanical_variant": "OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1"
+        },
+        "door": {
+          "initial_angle_rad": 0.0,
+          "target_angle_rad": 1.4915,
+          "angle_limits_rad": [
+            0.0,
+            1.57
+          ],
+          "hinge_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.48800000000000004
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.07550000000000001
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "handle_radius_m": 0.013,
+          "handle_length_m": 0.21699999999999997,
+          "object_to_tcp_grasp": [
+            [
+              0.0008048159934325564,
+              -0.9999854830281223,
+              -0.005327851746279447,
+              0.0005307630193694401
+            ],
+            [
+              0.7040823569633692,
+              -0.0032167562928536657,
+              0.7101110385649975,
+              -0.009052363890440451
+            ],
+            [
+              -0.7101178683036526,
+              -0.004322755136021947,
+              0.7040695469226818,
+              0.005237507732047453
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "instruction": "Open the cabinet door.",
+        "original_benchmark_robot_or_seed": false,
+        "independent_demo_conditions": {
+          "native_all_doors_90_percent": true,
+          "actual_hinge_motion_and_handle_grasp": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "angular_speed_max_rad_s": 0.05,
+          "continuous_hold_s": 2.0
+        },
+        "port_revision": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+        "withdraw_tcp_rotation_world": [
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "hinge_boundary_reference": "NATIVE_SAFE_HINGE_ANCHOR_FUTURE_IN_ORIGINAL_RANGE_V1",
+        "turn_reference_limits": {
+          "max_linear_m_s": 0.03,
+          "max_angular_rad_s": 0.15
+        },
+        "turn_time_profile": "COSINE_FINAL_0_8S_DECELERATION_V1",
+        "study_split": "TRAIN",
+        "vnext_door_geometry_index": 3,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "fixture_translation_world_m": [
+          0.008,
+          -0.006,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    },
+    {
+      "id": "VNEXT_DOOR_GEOMETRY_TRAIN003",
+      "task": "DOOR",
+      "kind": "INDEPENDENT_GEOMETRY",
+      "split": "TRAIN",
+      "card": {
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN003",
+        "task": "DOOR",
+        "source_port": "ROBOCASA_SINGLE_CABINET_ARX5_SOURCE_PORT_V1",
+        "task_duration_s": 32.0,
+        "warmup_s": 5.0,
+        "initial_tcp": [
+          [
+            0.0,
+            -0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            0.0,
+            0.7071067811865476,
+            0.7071067811865476,
+            0.3
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0,
+            0.59
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "source_base_card": {
+          "id": "PINNED_CABINET_PORT_BASE",
+          "source_xy": [
+            0.36,
+            -0.1
+          ],
+          "goal_xy": [
+            0.5980000000000001,
+            0.20600000000000002
+          ],
+          "cube_yaw": 0.0
+        },
+        "cabinet": {
+          "size_m": [
+            0.24,
+            0.22,
+            0.3
+          ],
+          "orientation": "right",
+          "cabinet_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.5980000000000001
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.20600000000000002
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mechanical_variant": "OUTER_PANEL_EDGE_AXIS_EXACT_QUARTER_TURN_V1"
+        },
+        "door": {
+          "initial_angle_rad": 0.0,
+          "target_angle_rad": 1.4915,
+          "angle_limits_rad": [
+            0.0,
+            1.57
+          ],
+          "hinge_world": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.48800000000000004
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.08750000000000002
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.59
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "handle_radius_m": 0.013,
+          "handle_length_m": 0.21699999999999997,
+          "object_to_tcp_grasp": [
+            [
+              0.0008048159934325564,
+              -0.9999854830281223,
+              -0.005327851746279447,
+              0.0005307630193694401
+            ],
+            [
+              0.7040823569633692,
+              -0.0032167562928536657,
+              0.7101110385649975,
+              -0.009052363890440451
+            ],
+            [
+              -0.7101178683036526,
+              -0.004322755136021947,
+              0.7040695469226818,
+              0.005237507732047453
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "approach_direction_object": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "instruction": "Open the cabinet door.",
+        "original_benchmark_robot_or_seed": false,
+        "independent_demo_conditions": {
+          "native_all_doors_90_percent": true,
+          "actual_hinge_motion_and_handle_grasp": true,
+          "gripper_released": true,
+          "no_robot_object_contact": true,
+          "withdrawal_m": 0.08,
+          "angular_speed_max_rad_s": 0.05,
+          "continuous_hold_s": 2.0
+        },
+        "port_revision": "ROBOCASA_ARX5_PORT08_EDGE_HINGE_BRAKED_TURN",
+        "withdraw_tcp_rotation_world": [
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "hinge_boundary_reference": "NATIVE_SAFE_HINGE_ANCHOR_FUTURE_IN_ORIGINAL_RANGE_V1",
+        "turn_reference_limits": {
+          "max_linear_m_s": 0.03,
+          "max_angular_rad_s": 0.15
+        },
+        "turn_time_profile": "COSINE_FINAL_0_8S_DECELERATION_V1",
+        "study_split": "TRAIN",
+        "vnext_door_geometry_index": 4,
+        "source_geometry_set": "TRAIN_VNEXT_FIXED12_MARGIN_CONTACT_GEOMETRY_V1",
+        "fixture_translation_world_m": [
+          0.008,
+          0.006,
+          0.0
+        ],
+        "candidate_static_or_native_qualification": false
+      }
+    }
+  ],
+  "maximum_first_physical_attempts": 12,
+  "maximum_attempts_per_candidate": 1,
+  "replacement_seed_after_rejection": false,
+  "geometry_order": [
+    "maximum_minimum_all_six_joint_margin",
+    "maximum_swept_clearance",
+    "fixed_candidate_id"
+  ],
+  "original_safety_score_controller_unchanged": true,
+  "raw_or_parent_statistics_changed": false,
+  "added_to_shared59_D2_or_PB": false,
+  "student_DEV_is_TRAIN": false,
+  "output_population": "TRAIN_VNEXT",
+  "candidate_is_demonstration": false,
+  "physics_integrations": 0,
+  "GR00T_model_loads": 0,
+  "qualified_demonstrations": 0
+}

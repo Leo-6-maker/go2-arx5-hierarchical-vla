@@ -1,0 +1,179 @@
+{
+  "schema": "CORE_VANDA_UNIQUE_OWNER_HF_CONSUMER_ACTUAL_V1",
+  "runtime_sources": {
+    "Vanda": "2d659c86976d70c580d2307f859661a67886cc48",
+    "Core_consumer": "a27306b4b05725053c990481f0b46b1076f1dc77"
+  },
+  "science_run_id": "shared-raw59-m32-8192-vanda-20261103-01",
+  "dispatch_deadline_epoch": 1793936636.9874046,
+  "Core_shared_raw_producer_nodes_closed": [
+    "RAW_NATIVE10",
+    "RAW_NATIVE16",
+    "SHARED8192_ADOPT"
+  ],
+  "Core_BOOK_tasks_retained": 6,
+  "Core_runtime_healthy_chain_unchanged": true,
+  "D2": {
+    "status": "COMPLETE_BOOK5_FINITE_TARGET_LEARNING",
+    "error": null,
+    "optimizer_updates": 4096,
+    "TRAIN_visits": 131072,
+    "lease_status": "CLOSED",
+    "manager_arm_status": "KNOWN_FAILURE_CLOSED_NO_RETRY",
+    "manager_post_training_failure": "MEASURED_TRAINING_2GIB_MARGIN_NOT_MET",
+    "full_checkpoint_preserved": true,
+    "does_not_imply_local_inference_qualification": true
+  },
+  "PB_CONTROL": {
+    "progress": {
+      "step": 480,
+      "cursor": 15360,
+      "native_loss": 0.01578650437295437,
+      "learning_rate": [
+        9.826375285054957e-05,
+        9.826375285054957e-05
+      ],
+      "epoch": 1793700535.331056
+    },
+    "lease_status": "ACTIVE",
+    "observed_epoch": 1793700544.4299555
+  },
+  "PB_BOUNDARY_started": false,
+  "Core_resident": {
+    "PID": 778467,
+    "proc_start": 346478151,
+    "InvocationID": "1eb4491656bc4d75952f8838c8511c5a",
+    "status": "RESIDENT_WAITING_LEGAL_SHARED_DELIVERY_OR_EXISTING_NEURAL_OWNER",
+    "independent_reconnections": [
+      {
+        "private_receipt": "PAR340_CORE08_OBSERVE_ACTUAL_1793695740965357117.private.json",
+        "sha256": "df0ff6c3ce2ae63beab315b30c19f82f38f40db86449c7f14ff747a55df39bed"
+      },
+      {
+        "private_receipt": "PAR340_CORE08_OBSERVE_ACTUAL_1793696458879237234.private.json",
+        "sha256": "fea6c14c6c2652ea40650acd0935b1d7213fe41bf23a9e77f7186cf7b4ab621c"
+      }
+    ],
+    "latest_heartbeat": {
+      "available": false,
+      "epoch": 1793700536.8911564,
+      "reason": "EXISTING_NEURAL_OWNER_BUSY"
+    },
+    "queued": [
+      "SHARED_HF_DELIVERY",
+      "SHARED_CORE_NATIVE16",
+      "SHARED_DEV68",
+      "BOOK_PHASE",
+      "BOOK_D0",
+      "BOOK_D1",
+      "BOOK_D2",
+      "BOOK_PB_CONTROL",
+      "BOOK_PB_BOUNDARY"
+    ],
+    "serial_neural_models_across_GPU0_GPU1": true,
+    "shared_ready_first_at_clean_boundary": true,
+    "depends_on_PC_or_Vanda_login_heartbeat": false,
+    "output_roles": [
+      "delivered8192",
+      "SHARED_CORE_INFERENCE_ADMISSION.json",
+      "policy8192/DEV68_RESULTS.json",
+      "policy8192/SUMMARY.json",
+      "policy8192/MODEL_CARD.md",
+      "policy8192/FAILURE_ANALYSIS.md"
+    ]
+  },
+  "HF_route": {
+    "repo": "leoyuer/pi0294-private-policy-delivery",
+    "visibility": "private",
+    "Vanda_write_and_Core_fixed_revision_read": "ACTUAL_PASS",
+    "canary_revision": "1f45df39387dbc373e7696dc4889a87c2a8bae1d",
+    "canary_sha256": "a31ccd587e3f397e90fc025df3a8b327ebc4e9b5a8b0386ad113832a21d6ac62",
+    "public_allowed_but_unnecessary": true,
+    "credentials_or_raw_data_uploaded": false,
+    "full_8192_model_delivered": false
+  },
+  "previous_Vanda": {
+    "job_id": "1514182.stdct-mgmt-02",
+    "status": "CLOSED_PREMODEL_TIMESTAMP_ORDER_FAILURE",
+    "Exit_status": 1,
+    "resource_list": {
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+      "walltime": "72:00:00"
+    },
+    "resources_used": {
+      "cpupercent": 0,
+      "cput": "00:00:00",
+      "mem": "36964kb",
+      "ncpus": 36,
+      "ngpus": 0,
+      "vmem": "126276kb",
+      "walltime": "00:00:15"
+    },
+    "native_final_sha256": "d99df916f5a70ff9fba4d883dad19574a6238644f7021534261b7b5ba58d7d50",
+    "failure": "Submission timestamp precedes actual entitlement observation by 5.9604644775390625 microseconds; valid project rejected before models.",
+    "formal_updates": 0,
+    "native_actors": 0,
+    "all_costs_retained": true,
+    "terminal_proof": {
+      "private_receipt": "PAR341_CLOSE_ACTUAL.private.json",
+      "sha256": "b5e830bd7b33ab13807d961cc4845047cc1d05997b1c5b01e7e8e1812c60c5a0"
+    }
+  },
+  "Vanda": {
+    "job_id": "1514400.stdct-mgmt-02",
+    "job_state": "Q",
+    "comment": "Not Running: Insufficient amount of resource: node_pool ",
+    "observed_epoch": 1793700482.6197977,
+    "resources": {
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+      "walltime": "72:00:00"
+    },
+    "walltime": "72:00:00",
+    "config_sha256": "863049dafe9c756af1d4a88eef0f319e7691e8b2c44e65b646922df8c8f42a36",
+    "repair": "Actual entitlement observation before submission intent; unchanged runtime validator accepts actual config and still rejects reversed time. All new caches on project scratch.",
+    "project_session_refreshed_normally": true,
+    "submission_unique": true,
+    "no_qualification_or_formal_updates_observed_at_this_receipt": true,
+    "no_PC_required": true,
+    "queue_does_not_guarantee_success": true
+  },
+  "planned_finite_Vanda_order": [
+    "native10",
+    "42-state reload",
+    "raw TRAIN16",
+    "fresh raw8192 with 2048/4096/6144/8192 save/reload",
+    "minimal inference export",
+    "fixed-revision HF delivery"
+  ],
+  "shared_complete_endpoints": 0,
+  "new_shared_DEV_conditions": 0,
+  "new_VNEXT_demonstrations": 0,
+  "proofs": [
+    {
+      "private_receipt": "PAR341_CORE_CURRENT_QUEUE_AND_TRAIN_1793700543623324490.private.json",
+      "sha256": "0a04f2ffb1a4ff6ee99c9b275fbb2387034cfb16acb8900fbb821b16b4f2da9b"
+    },
+    {
+      "private_receipt": "PAR341_OBSERVE_ACTUAL_1793700482672494594.private.json",
+      "sha256": "5f9011a643c385abee0f7f2db479a838074461bdf909bd6e17e2dade1062d629"
+    },
+    {
+      "private_receipt": "PAR341_CORE_VANDA02_PBS_ACK_ACTUAL.private.json",
+      "sha256": "8f58941d80686ed28003558396541c7ee06e755eba6e37f3a2e8fb8f2b6196e1"
+    }
+  ],
+  "infrastructure_or_safety_changed": false,
+  "checkpoints_deleted": false
+}

@@ -1,0 +1,441 @@
+{
+  "schema": "FROZEN_GO2_ARX5_OFFLINE_BINDING_PUBLIC_DERIVATIVE_V1",
+  "bare_robot": {
+    "schema": "GO2_ARX5_OFFLINE_FRAME_COLLISION_BINDING_V1",
+    "current_MJCF_sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+    "current_URDF_sha256": "b5ff9e54e609f1021d6892fe5cf8ca4a4acafaccaf2f8fd74f7f50cf0b432332",
+    "current_bridge_header_sha256": "5ddf926e4105e973cc1c9e4c68585244f9bdc172bd2a420e14a90331da83d79e",
+    "all_source_bound_robot_asset_members_match": true,
+    "geometry_model_constructors": 1,
+    "explicit_forward_calls": 1,
+    "physics_integrations": 0,
+    "render_calls": 0,
+    "GR00T_models": 0,
+    "WBC_controller_or_leg_policy_loaded": false,
+    "nq": 25,
+    "nv": 24,
+    "nu": 18,
+    "free_root_present": true,
+    "collision_geoms": 28,
+    "leg_collision_geoms": {
+      "FL": 5,
+      "FR": 5,
+      "RL": 5,
+      "RR": 5
+    },
+    "contact_exclusion_pairs": 12,
+    "frame_binding": {
+      "base_to_arm_mount": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.05
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.10000000000000003
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "flange_to_TCP": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.14240000000000003
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.00010569999999998636
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "native_TCP_site": "x5_ee",
+      "URDF_TCP_frame": "gripper_center",
+      "mount_and_TCP_numeric_offsets_match": true,
+      "imu_to_MPC_mount_default": [
+        0.07557,
+        0.0,
+        0.05768
+      ],
+      "trunk_to_IMU_default": [
+        -0.02557,
+        0.0,
+        0.04232
+      ],
+      "MPC_mount_origin_not_trunk_or_IMU": true,
+      "body_camera_URDF_mount": [
+        0.32715,
+        -3e-05,
+        0.04297
+      ],
+      "wrist_support_URDF_mount": [
+        0.045,
+        0.0,
+        0.021
+      ]
+    },
+    "snapshot_contacts": [],
+    "gaps": [
+      "Mounted camera frames do not supply optical extrinsics/intrinsics or synchronized RGB. Active calibration remains unverified.",
+      "The bridge header proves defaults; actual deployed launch overrides and clock residual must still be bound.",
+      "Collision geometry for all four legs is present; excluded pairs and actual site obstacles still require scenario-specific offline checks.",
+      "Native floating-root dynamics, tracking, standing stability and S1/T2 safety are not qualified by mj_forward."
+    ],
+    "V1": {
+      "action": "EEF10",
+      "standing_manipulation": true,
+      "new_free_body_attempts": false
+    },
+    "V2": {
+      "base_interface": "BOUNDED_BASE_SOFT_POSE",
+      "order": [
+        "move",
+        "stabilize",
+        "observe_again",
+        "manipulate"
+      ],
+      "velocity_preference_is_not_native_WBC_command": true,
+      "EEF_world_targets_not_reattached_to_moving_base": true,
+      "mobile_scene_reachability": "PENDING_DECLARED_SCENE_AND_OBSTACLE_BINDING",
+      "operation_reachability": "PENDING_PER_WORKPOSE_FULL_ARM_IK_AND_SWEEP"
+    },
+    "EEF13_training": false,
+    "fixed_base_zero_BASE_labels": false,
+    "safety_or_WBC_changes": false,
+    "CPU_s": 0.734642724,
+    "epoch": 1793698554.3080826
+  },
+  "assembled_target_scene": {
+    "schema": "CLOSED_ASSEMBLED_TARGET_OFFLINE_BINDING_AND_WORKPOSES_V1",
+    "source_model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+    "source_kind": "EXISTING_CLOSED_T1_SNAPSHOT_NOT_A_NEW_TARGET_ATTEMPT",
+    "snapshot_time_s": 0.0,
+    "physics_library": "3.2.7",
+    "numpy_version": "1.24.4",
+    "nq": 34,
+    "nv": 32,
+    "nu": 20,
+    "gripper_joint_ids": [
+      19,
+      20
+    ],
+    "leg_collision_geoms": {
+      "FL": 5,
+      "FR": 5,
+      "RL": 5,
+      "RR": 5
+    },
+    "cameras": [
+      {
+        "name": "body_rgb",
+        "parent_body": "base_link",
+        "mode": 0,
+        "fovy_deg": 75.0,
+        "base_to_optical": [
+          [
+            0.6925318281897141,
+            -0.3325110545086326,
+            0.6401843996644807,
+            0.2500000000000002
+          ],
+          [
+            -0.7213873210309525,
+            -0.3192106123282872,
+            0.6145770236779013,
+            -0.2400000000000002
+          ],
+          [
+            -4.990049093226739e-17,
+            -0.8874350588108175,
+            -0.4609327677584258,
+            0.28000000000000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "flange_to_optical": [
+          [
+            0.6853563215164328,
+            -0.19014800388188124,
+            0.7029441294848423,
+            0.017135234532744112
+          ],
+          [
+            -0.7202209510080048,
+            -0.319572571797739,
+            0.6157557576537201,
+            -0.23969696636344928
+          ],
+          [
+            0.10755693509296348,
+            -0.9282871904611837,
+            -0.35596965845292633,
+            -0.1457496072487433
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "world_fixed": false
+      },
+      {
+        "name": "wrist_rgb",
+        "parent_body": "x5_link6",
+        "mode": 0,
+        "fovy_deg": 75.0,
+        "base_to_optical": [
+          [
+            0.13529762623815134,
+            -0.8960353459448062,
+            0.42286547642470845,
+            0.37585054919186867
+          ],
+          [
+            -0.48124321177593454,
+            -0.43249537841353014,
+            -0.7624648967464163,
+            0.09952642946614422
+          ],
+          [
+            0.8660828617712667,
+            -0.10034144940408007,
+            -0.4897265258055601,
+            0.46344822776103034
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "flange_to_optical": [
+          [
+            7.160791794279676e-17,
+            -0.8688540861438104,
+            0.49506825488129136,
+            0.11240000000000017
+          ],
+          [
+            -0.48120721016036216,
+            -0.4339802379671205,
+            -0.7616434690481405,
+            0.10000000000000017
+          ],
+          [
+            0.8766068793305722,
+            -0.23823041377038492,
+            -0.4180988508296934,
+            0.05500000000000005
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "world_fixed": false
+      }
+    ],
+    "base_to_mount": [
+      [
+        1.0000000000000009,
+        5.921964777451833e-18,
+        4.815726905793967e-19,
+        0.050000000000000044
+      ],
+      [
+        5.921964777451833e-18,
+        1.0000000000000009,
+        -4.949688513749088e-18,
+        -3.469446951953614e-18
+      ],
+      [
+        4.815726905793967e-19,
+        -4.949688513749088e-18,
+        1.0000000000000007,
+        0.10000000000000003
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "flange_to_TCP": [
+      [
+        1.0000000000000016,
+        -3.992303639496242e-18,
+        4.242844259410111e-17,
+        0.14240000000000025
+      ],
+      [
+        -3.992303639496242e-18,
+        1.0000000000000013,
+        1.300645739487659e-18,
+        0.0
+      ],
+      [
+        4.242844259410111e-17,
+        1.300645739487659e-18,
+        1.0000000000000016,
+        0.00010569999999998636
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "snapshot_TCP_max_abs_error": 0.0,
+    "workposes": [
+      {
+        "id": "FORWARD_5CM",
+        "BASE_yaw_frame_translation_m": [
+          0.05,
+          0
+        ],
+        "static_pose_samples": 41,
+        "duration_s": 2.0,
+        "max_base_speed_m_s": 0.046875,
+        "max_base_acceleration_m_s2": 0.07216878364870323,
+        "fixed_world_TCP_IK_reachable": true,
+        "max_IK_position_error_m": 6.055458821505397e-07,
+        "max_IK_angle_error_rad": 7.15042565086602e-09,
+        "minimum_raw_model_arm_margin_rad": 0.7065491575367143,
+        "max_nominal_arm_speed_rad_s": 0.2048527800078359,
+        "sampled_kinematic_collision_clear": true,
+        "first_unexpected_contacts": [],
+        "mobile_collision_path": "SAMPLED_FIXED_POSTURE_ONLY_NOT_A_GAIT_PLAN",
+        "mobile_execution_reachability": "NOT_QUALIFIED_NO_LOCOMOTION_OR_WBC_RUN"
+      },
+      {
+        "id": "BACK_5CM",
+        "BASE_yaw_frame_translation_m": [
+          -0.05,
+          0
+        ],
+        "static_pose_samples": 41,
+        "duration_s": 2.0,
+        "max_base_speed_m_s": 0.046875,
+        "max_base_acceleration_m_s2": 0.07216878364870323,
+        "fixed_world_TCP_IK_reachable": true,
+        "max_IK_position_error_m": 6.050062229782061e-07,
+        "max_IK_angle_error_rad": 4.73400522909281e-09,
+        "minimum_raw_model_arm_margin_rad": 0.8209762805034948,
+        "max_nominal_arm_speed_rad_s": 0.1997966047047317,
+        "sampled_kinematic_collision_clear": true,
+        "first_unexpected_contacts": [],
+        "mobile_collision_path": "SAMPLED_FIXED_POSTURE_ONLY_NOT_A_GAIT_PLAN",
+        "mobile_execution_reachability": "NOT_QUALIFIED_NO_LOCOMOTION_OR_WBC_RUN"
+      },
+      {
+        "id": "LEFT_3CM",
+        "BASE_yaw_frame_translation_m": [
+          0,
+          0.03
+        ],
+        "static_pose_samples": 41,
+        "duration_s": 2.0,
+        "max_base_speed_m_s": 0.028124999999999997,
+        "max_base_acceleration_m_s2": 0.04330127018922193,
+        "fixed_world_TCP_IK_reachable": true,
+        "max_IK_position_error_m": 7.588304563651314e-07,
+        "max_IK_angle_error_rad": 9.64419453354856e-06,
+        "minimum_raw_model_arm_margin_rad": 0.8209762805034948,
+        "max_nominal_arm_speed_rad_s": 0.1570879139145101,
+        "sampled_kinematic_collision_clear": true,
+        "first_unexpected_contacts": [],
+        "mobile_collision_path": "SAMPLED_FIXED_POSTURE_ONLY_NOT_A_GAIT_PLAN",
+        "mobile_execution_reachability": "NOT_QUALIFIED_NO_LOCOMOTION_OR_WBC_RUN"
+      },
+      {
+        "id": "RIGHT_3CM",
+        "BASE_yaw_frame_translation_m": [
+          0,
+          -0.03
+        ],
+        "static_pose_samples": 41,
+        "duration_s": 2.0,
+        "max_base_speed_m_s": 0.028124999999999997,
+        "max_base_acceleration_m_s2": 0.04330127018922193,
+        "fixed_world_TCP_IK_reachable": true,
+        "max_IK_position_error_m": 7.626927391273132e-07,
+        "max_IK_angle_error_rad": 9.623681665774031e-06,
+        "minimum_raw_model_arm_margin_rad": 0.8205434401646525,
+        "max_nominal_arm_speed_rad_s": 0.1571570011162196,
+        "sampled_kinematic_collision_clear": true,
+        "first_unexpected_contacts": [],
+        "mobile_collision_path": "SAMPLED_FIXED_POSTURE_ONLY_NOT_A_GAIT_PLAN",
+        "mobile_execution_reachability": "NOT_QUALIFIED_NO_LOCOMOTION_OR_WBC_RUN"
+      }
+    ],
+    "geometry_model_constructors": 1,
+    "explicit_forward_calls": 165,
+    "IK_internal_forwards_not_counted": true,
+    "physics_integrations": 0,
+    "render_calls": 0,
+    "WBC_calls": 0,
+    "GR00T_models": 0,
+    "source_state_mutated_on_server": false,
+    "EEF10_only": true,
+    "EEF13_training": false,
+    "fixed_base_zero_BASE_labels": false,
+    "free_body_attempt_authorized": false,
+    "S1_T2_quarantine_preserved": true,
+    "CPU_s": 0.284507965,
+    "epoch": 1793698973.6074026
+  },
+  "proofs": [
+    {
+      "private_receipt": "PAR340_GO2_OFFLINE_CURRENT_BINDING_ACTUAL.private.json",
+      "sha256": "ecefebc20bd6cb649a7fa2ead4b221176199e2f81276256103dab5cb46b24125"
+    },
+    {
+      "private_receipt": "PAR340_GO2_ASSEMBLED_OFFLINE_ACTUAL.private.json",
+      "sha256": "63eb57bf48b8b4533d142f5039ef945927fe2f1a1dd743c0f33f2707fde37a8d"
+    }
+  ],
+  "clock_and_active_calibration": "PENDING_ACTUAL_LAUNCH_OVERRIDE_AND_SYNCHRONIZATION_BINDING",
+  "target_dynamic_qualification": false,
+  "free_body_new_attempts": 0,
+  "interpretation": "Four sampled base workposes pass copied-state geometry and fixed-world-TCP arm IK. This does not qualify locomotion, stability or task manipulation. Assembled scene retains the two gripper actuators absent from the bare robot asset."
+}

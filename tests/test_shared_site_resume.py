@@ -92,6 +92,22 @@ def test_waiting_in_pbs_does_not_require_reauthenticating_on_a_compute_node():
     j['Variable_List']['PV1_SUBMISSION_NONCE']='another-job'
     with pytest.raises(PermissionError,match='EXACT_ONCE'):validate_vanda(c,j,**args)
 
+def test_submission_must_follow_actual_entitlement_observation_even_by_microseconds():
+    # Regression for actual job1514182: both permissions and balance were valid,
+    # but two wall-clock reads in reversed assignment order differed by 6us.
+    c=native_context()
+    c.update(authorization_mode='SAME_PBS_ALLOCATION_AFTER_FRESH_SUBMISSION',
+        submission_epoch=1000.1,submission_nonce='one-submission',science_run_id='same-arm')
+    j=dict(job_state='R',Job_Owner='own@site',project='CFP04-CF-007',exec_host='gn-a40-1/0',
+        Resource_List=dict(ngpus=1),Variable_List=dict(
+            PV1_SUBMISSION_NONCE='one-submission',PV1_REQUEST_ID='same-arm'))
+    args=dict(now=1001,uid=7,user='own',hostname='gn-a40-1',job_id='123.server')
+    c['project_receipt']['observed_epoch']=c['submission_epoch']+0.000006
+    with pytest.raises(PermissionError,match='FRESH_PROJECT_ENTITLEMENT'):
+        validate_vanda(c,j,**args)
+    c['project_receipt']['observed_epoch']=c['submission_epoch']-0.000006
+    assert validate_vanda(c,j,**args)==c
+
 def test_same_experiment_complete_state_resumes_exact_sampler_without_a_new_schedule(tmp_path):
     from scripts.pi0294.multitask.book_m32_export import COUNTS
     from scripts.pi0294.multitask.shared_task_sampling import TaskBalancedSampler
