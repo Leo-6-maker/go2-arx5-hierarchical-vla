@@ -25,6 +25,15 @@ def fit(spec, data, output, *, device, endpoint, resume=None):
         raise ValueError('Native W1 endpoint requires one actual GPU at 200 or 5000 updates')
     if spec.get('reward', {}).get('status') != 'VALIDATED_FROZEN':
         raise ValueError('Freeze and validate the real-state reward before optimization')
+    if spec.get('execution_site') == 'CORE_SHARED_GPU1':
+        from go2arx5_vla.world_model.runtime import cuda_uuid
+        if endpoint != 200 or resume is not None:
+            raise ValueError('Shared Core diagnostic is exactly200 updates, not a duplicate formal5000 run')
+        if (torch.cuda.device_count() != 1 or
+                cuda_uuid(torch.cuda.get_device_properties(0).uuid) != spec['GPU_uuid']):
+            raise PermissionError('Actual CUDA device differs from the authorized GPU1')
+        torch.cuda.set_per_process_memory_fraction(
+            spec['sharing']['allocator_limit_bytes']/torch.cuda.get_device_properties(0).total_memory)
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     torch.backends.cuda.matmul.allow_tf32 = False
@@ -121,6 +130,8 @@ def fit(spec, data, output, *, device, endpoint, resume=None):
         actor_updates=0, new_native_physics_ticks=0, checkpoints=snapshots,
         CPU_s=time.process_time()-cpu, GPU_wall_s=time.monotonic()-began,
         peak_allocated_bytes=torch.cuda.max_memory_allocated(), peak_reserved_bytes=torch.cuda.max_memory_reserved(),
+        execution_site=spec.get('execution_site'),
+        diagnostic_only=spec.get('execution_site') == 'CORE_SHARED_GPU1',
         event_calibration='TERMINAL_HEAD_UNCALIBRATED_IF_NO_POSITIVE_NATIVE_TERMINALS')
     write_json(output/'RESULT.json', result)
     return result

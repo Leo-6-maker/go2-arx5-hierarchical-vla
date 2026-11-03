@@ -18,6 +18,23 @@ def cuda_uuid(value):
         raise ValueError('Invalid native CUDA device UUID') from error
 
 
+def validate_core_smoke(spec, observation):
+    """The directly authorized GPU1 sharing is a finite model-only diagnostic."""
+    share = spec.get('sharing', {})
+    if (spec.get('host') != 'corelab-4080s' or spec.get('uid') != 2009
+            or spec.get('profile') != 'core-wm01-shared-smoke'
+            or spec.get('physics') is not False
+            or share.get('direct_user_answer') != '允许GPU1共享'
+            or spec.get('GPU_uuid') != 'GPU-845348f1-1511-dc19-0877-cc97658e3edd'
+            or share.get('endpoint') != 200
+            or share.get('allocator_limit_bytes') != 512*1024**2
+            or observation.get('uuid') != spec['GPU_uuid']
+            or observation.get('name') != 'NVIDIA GeForce RTX 4080 SUPER'
+            or observation.get('total_bytes', 0) < 15*1024**3
+            or observation.get('free_bytes', 0) < 2*1024**3):
+        raise PermissionError('Exact authorized Core GPU1 model-only smoke and live headroom required')
+
+
 @contextmanager
 def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False):
     from scripts.pi0292.durable import OwnerLock
@@ -33,9 +50,22 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
-    if gpu:
+    if gpu and spec.get('execution_site') == 'CORE_SHARED_GPU1':
+        import subprocess
+        from scripts.pi0294.e1.smoke import node_local
+        for name in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
+            node_local(spec[name])
+        response = subprocess.run(['nvidia-smi', '--id='+spec['GPU_uuid'],
+            '--query-gpu=uuid,name,memory.total,memory.free', '--format=csv,noheader,nounits'],
+            capture_output=True, text=True, check=True, timeout=10)
+        fields = [value.strip() for value in response.stdout.strip().split(',')]
+        validate_core_smoke(spec, dict(uuid=fields[0], name=fields[1],
+            total_bytes=int(fields[2])*1024**2, free_bytes=int(fields[3])*1024**2))
+        if os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
+            raise PermissionError('Core smoke must expose only the authorized GPU1 UUID')
+    elif gpu:
         if spec.get('execution_site') != 'VANDA_A40':
-            raise PermissionError('W1 requires the explicitly bound Vanda single-GPU allocation')
+            raise PermissionError('Explicit Vanda allocation or authorized Core smoke required')
         import subprocess
         from scripts.pi0294.multitask.shared_site import validate_vanda, project_quota
         key = os.environ.get('PBS_JOBID')
