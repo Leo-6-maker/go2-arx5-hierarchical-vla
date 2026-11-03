@@ -1,0 +1,139 @@
+{
+  "status": "SYNTHETIC_ENGINEERING_ACTOR_H16_COMPLETE",
+  "objective": "NEGATIVE_SYNTHETIC_OBJECT_GOAL_SQUARED_DISTANCE_MINUS_ACTION_COST_NOT_NATIVE_REWARD",
+  "Actor_updates": 1,
+  "critic_updates": 1,
+  "WM_updates": 0,
+  "WM_parameters_bitwise_unchanged": true,
+  "WM_parameter_gradients_none": true,
+  "Actor_gradient_norm": 0.040987517684698105,
+  "critic_gradient_norm": 1.3631682395935059,
+  "action_input_gradient_norms": [
+    0.010243101045489311,
+    0.011649421183392406,
+    0.010166580090299249,
+    0.009787461254745722
+  ],
+  "WM_state_action_gradient_norms": [
+    [
+      0.2851865887641907,
+      0.18374931812286377
+    ],
+    [
+      0.21766065061092377,
+      0.18511061370372772
+    ],
+    [
+      0.3080088198184967,
+      0.19283898174762726
+    ],
+    [
+      0.30160272121429443,
+      0.1694103479385376
+    ]
+  ],
+  "actor_decisions": [
+    0,
+    8
+  ],
+  "atomic_dt_s": 0.05,
+  "Actor_dt_s": 0.4,
+  "horizon_s": 0.8,
+  "effective_start_batch": 64,
+  "microbatch": 16,
+  "profiles": [
+    {
+      "horizon": 1,
+      "start_batch": 8,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.000517750799190253,
+      "WM_state_action_gradient_norms": [
+        0.01948995515704155
+      ],
+      "wall_s": 0.0621968824416399,
+      "peak_allocated_bytes": 538777088,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 1,
+      "start_batch": 16,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.00037066711229272187,
+      "WM_state_action_gradient_norms": [
+        0.025203213095664978
+      ],
+      "wall_s": 0.024474593345075846,
+      "peak_allocated_bytes": 540011008,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 8,
+      "start_batch": 8,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.012811584398150444,
+      "WM_state_action_gradient_norms": [
+        0.12001469731330872
+      ],
+      "wall_s": 0.0798075133934617,
+      "peak_allocated_bytes": 544286208,
+      "peak_reserved_bytes": 658505728
+    },
+    {
+      "horizon": 8,
+      "start_batch": 16,
+      "actor_decisions": [
+        0
+      ],
+      "action_input_gradient_norm": 0.008841678500175476,
+      "WM_state_action_gradient_norms": [
+        0.1655457615852356
+      ],
+      "wall_s": 0.08111545303836465,
+      "peak_allocated_bytes": 550884864,
+      "peak_reserved_bytes": 660602880
+    },
+    {
+      "horizon": 16,
+      "start_batch": 8,
+      "actor_decisions": [
+        0,
+        8
+      ],
+      "action_input_gradient_norm": 0.056618230417370796,
+      "WM_state_action_gradient_norms": [
+        0.1967768669128418,
+        0.11734307557344437
+      ],
+      "wall_s": 0.1544182039797306,
+      "peak_allocated_bytes": 550696448,
+      "peak_reserved_bytes": 660602880
+    },
+    {
+      "horizon": 16,
+      "start_batch": 16,
+      "actor_decisions": [
+        0,
+        8
+      ],
+      "action_input_gradient_norm": 0.040972404181957245,
+      "WM_state_action_gradient_norms": [
+        0.2851865887641907,
+        0.18374931812286377
+      ],
+      "wall_s": 0.15606930386275053,
+      "peak_allocated_bytes": 563481600,
+      "peak_reserved_bytes": 673185792
+    }
+  ],
+  "checkpoint_sha256": "2faeadfc5109c0e7e4d5f0cdf15d50bdc45c3d7fbf4020f69d5892d752393b39",
+  "restore_max_abs_error": 0.0,
+  "wall_s": 0.7111300588585436,
+  "peak_allocated_bytes": 565406208,
+  "peak_reserved_bytes": 675282944
+}

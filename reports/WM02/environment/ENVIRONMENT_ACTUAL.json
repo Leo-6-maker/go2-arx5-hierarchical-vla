@@ -1,0 +1,306 @@
+{
+  "schema": "WM02_ENVIRONMENT_ACTUAL_V1",
+  "handoff_sha": "90c0507333d2a9c6b26ee9c22278b050a9249fad",
+  "preflight_source_sha": "90c0507333d2a9c6b26ee9c22278b050a9249fad",
+  "model_execution_source_sha": "21f2811f00aedb37b47e7b52d827d4ba1e7cb38e",
+  "offline_interfaces_source_sha": "36f6d287cee0ddb0abfefda1ce2b7de81f9c6491",
+  "last_readback_SGT": "2026-11-04T03:49:03.946328+08:00",
+  "E_S": {
+    "python": "3.10.12",
+    "numpy": "1.24.4",
+    "mujoco": "3.2.7",
+    "torch": null,
+    "new_native_transitions": 0
+  },
+  "E_T": {
+    "environment": {
+      "python": "3.12.3",
+      "ros_distro": null,
+      "ros_cli_on_path": false,
+      "packages": {
+        "torch": null,
+        "numpy": "2.5.4",
+        "mujoco": "3.2.7",
+        "rclpy": null
+      }
+    },
+    "backend": "GO2_ARX5_MUJOCO_OCS2",
+    "OS": "Ubuntu24.04.5",
+    "ROS_distro_bound": "jazzy",
+    "frozen_core": [
+      {
+        "role": "src/ctrl/go2_x5_ocs2/config/task_floating.info",
+        "expected_sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+        "status": "MATCH",
+        "actual_sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+        "bytes": 15495
+      },
+      {
+        "role": "src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf",
+        "expected_sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+        "status": "MATCH",
+        "actual_sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+        "bytes": 12169
+      },
+      {
+        "role": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/go2_x5.xml",
+        "expected_sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+        "status": "MATCH",
+        "actual_sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+        "bytes": 23022
+      },
+      {
+        "role": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/scene.xml",
+        "expected_sha256": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+        "status": "MATCH",
+        "actual_sha256": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+        "bytes": 868
+      },
+      {
+        "role": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/policy.pt",
+        "expected_sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+        "status": "MATCH",
+        "actual_sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+        "bytes": 6085708
+      },
+      {
+        "role": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/config.yaml",
+        "expected_sha256": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+        "status": "MATCH",
+        "actual_sha256": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+        "bytes": 4153
+      },
+      {
+        "role": "build/mujoco/bin/rl_sim_mujoco",
+        "expected_sha256": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+        "status": "MATCH",
+        "actual_sha256": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+        "bytes": 2806920
+      },
+      {
+        "role": "install/lib/go2_x5_ocs2/go2_x5_ocs2_node",
+        "expected_sha256": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+        "status": "MATCH",
+        "actual_sha256": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+        "bytes": 8967544
+      },
+      {
+        "role": "install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node",
+        "expected_sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "status": "MATCH",
+        "actual_sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "bytes": 5498120
+      }
+    ],
+    "initialization": [
+      {
+        "binding_index": 0,
+        "file_name": "native_home.hpp",
+        "expected_sha256": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+        "actual_sha256": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 1,
+        "file_name": "native_startup.hpp",
+        "expected_sha256": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+        "actual_sha256": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 2,
+        "file_name": "audit_home.cpp",
+        "expected_sha256": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+        "actual_sha256": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 3,
+        "file_name": "audit_home",
+        "expected_sha256": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+        "actual_sha256": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 4,
+        "file_name": "rl_sim_mujoco",
+        "expected_sha256": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+        "actual_sha256": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 5,
+        "file_name": "run.py",
+        "expected_sha256": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+        "actual_sha256": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 6,
+        "file_name": "HOME_SHARED_RESET_CPU_AUDIT.json",
+        "expected_sha256": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+        "actual_sha256": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 7,
+        "file_name": "private-scene.mjb",
+        "expected_sha256": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+        "actual_sha256": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 8,
+        "file_name": "COMPILED_MODEL_PARITY.json",
+        "expected_sha256": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+        "actual_sha256": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 9,
+        "file_name": "observer.so",
+        "expected_sha256": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+        "actual_sha256": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 10,
+        "file_name": "observer.cpp",
+        "expected_sha256": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+        "actual_sha256": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 11,
+        "file_name": "run.py",
+        "expected_sha256": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+        "actual_sha256": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 12,
+        "file_name": "run.py",
+        "expected_sha256": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+        "actual_sha256": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      },
+      {
+        "binding_index": 13,
+        "file_name": "sitecustomize.py",
+        "expected_sha256": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+        "actual_sha256": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+        "status": "OFFLINE_MATCH",
+        "matched_by": "FULL_ORIGINAL_PINNED_PATH_NOT_BASENAME"
+      }
+    ],
+    "bound_native_environment_sha256": "ae6f2bc47874d8a39350c3dee80cda26154e5e85ee65a2ae72109679082b6db2",
+    "binary_link_checks": {
+      "build/mujoco/bin/rl_sim_mujoco": {
+        "exit_code": 0,
+        "missing": []
+      },
+      "install/lib/go2_x5_ocs2/go2_x5_ocs2_node": {
+        "exit_code": 0,
+        "missing": []
+      },
+      "install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node": {
+        "exit_code": 0,
+        "missing": []
+      }
+    },
+    "bound_software_imports": {
+      "exit_code": 0,
+      "module_names": [
+        "numpy",
+        "mujoco",
+        "rclpy",
+        "rosidl_runtime_py",
+        "ocs2_msgs",
+        "std_msgs",
+        "nav_msgs",
+        "sensor_msgs"
+      ]
+    },
+    "initial_unbound_shell_missing_libraries": [
+      "libglfw.so.3",
+      "libpinocchio_parsers.so.4.1.0",
+      "libpinocchio_default.so.4.1.0",
+      "libcoal.so.3.0.3"
+    ],
+    "environment_binding_fix": "USED_ORIGINAL_FROZEN_RUNTIME_ENVIRONMENT_NO_INSTALL_OR_REBUILD",
+    "native_executor_constructed": false,
+    "ROS_nodes_started": 0,
+    "physics_integrations": 0,
+    "target_permission": {
+      "status": "CLOSED",
+      "native_safety_quarantine_preserved": true,
+      "lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407"
+    },
+    "target_dynamic_authorized": false,
+    "first_blocker": "TARGET_S1_T2_QUARANTINE_NOT_RELEASED"
+  },
+  "E_G": {
+    "python": "3.12.3",
+    "dependencies": {
+      "packaging": "26.3",
+      "numpy": "1.26.4",
+      "torch": "2.9.0+cu128",
+      "triton": "3.5.0",
+      "nvidia-cufile-cu12": "1.13.1.3",
+      "nvidia-nvjitlink-cu12": "12.8.93",
+      "nvidia-nvtx-cu12": "12.8.90",
+      "nvidia-nvshmem-cu12": "3.3.20",
+      "nvidia-nccl-cu12": "2.27.5",
+      "nvidia-cusparselt-cu12": "0.7.1",
+      "nvidia-cusparse-cu12": "12.5.8.93",
+      "nvidia-cusolver-cu12": "11.7.3.90",
+      "nvidia-cublas-cu12": "12.8.4.1",
+      "nvidia-curand-cu12": "10.3.9.90",
+      "nvidia-cufft-cu12": "11.3.3.83",
+      "nvidia-cudnn-cu12": "9.10.2.21",
+      "nvidia-cuda-cupti-cu12": "12.8.90",
+      "nvidia-cuda-runtime-cu12": "12.8.90",
+      "nvidia-cuda-nvrtc-cu12": "12.8.93",
+      "fsspec": "2025.3.0",
+      "jinja2": "3.1.6",
+      "markupsafe": "3.0.3",
+      "networkx": "3.6.1",
+      "sympy": "1.14.0",
+      "mpmath": "1.3.0",
+      "setuptools": "78.1.0",
+      "typing-extensions": "4.16.0",
+      "filelock": "3.32.3"
+    },
+    "packages_copied": 49,
+    "copy_semantics": "Independent files / filesystem CoW; no hard links and no writes to original source environment",
+    "torch_numpy_imported_from_new_venv": true,
+    "original_environment_modified": false,
+    "environment_setup_wall_s": 11.448034943081439,
+    "environment_setup_native_CPU_s": 4.162455,
+    "driver": "580.173.02",
+    "WM_native_data_domain": "SYNTHETIC_ENGINEERING_ONLY",
+    "GPU_model_and_optimizer_checkpoint_reload": "PASS_MAX_ERROR0",
+    "model_versions_are_not_target_qualification": true
+  },
+  "native_control_restore": "NOT_BOUND_OR_DYNAMICALLY_TESTED",
+  "standing_T1_score": "OFFLINE_DEFINITION_FROZEN_NATIVE_SENSOR_BINDING_PENDING",
+  "private_evidence_SHA256": {
+    "E0_ACTUAL.private.txt": "712c0e8bd390dc941ce41f268670c0fa91eea965bc4883ca671e2ffd4c12974d",
+    "TARGET_BOUND_ENV.private.txt": "27723099394af82128184622cff049d3279b64353dba24ed16b20e521cf2a356",
+    "E0_E1_RECEIPTS.private.json": "48f18ad0c9c700a05baa7ce54f4db8f529ee09dd472d5e7140a72e743dd4f5cb",
+    "FINAL_VERIFY.private.json": "f8a405c33cec915187079eae6292ef64289d14ac9903c738bf8ecb8e7561e058"
+  }
+}

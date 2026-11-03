@@ -1,8 +1,10 @@
 # WM02：直接学习任务空间 Actor
 
-日期：2026-11-04，Asia/Singapore。用户要求基于最近讨论制定详细执行计划并交给 Codex。发布状态：**PLAN_PUBLISHED / RUNTIME_NOT_IMPLEMENTED**，不代表服务器已启动。
+日期：2026-11-04，Asia/Singapore。原计划已发布；本实施分支已有实际入口和执行结果，不表示main或旧capsule已部署。
 
 本后继实施分支的实际回执：**P0目标身份与阻断已核对；P1完成S域薄adapter／原生恢复与4进程吞吐，目标动态仍TARGET_BLOCKED。** 见[第一轮实际回执](reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md)与[真实CLI](experiments/wm02/RUNTIME.md)。原计划发布状态和plan.json作为历史设计保留，不表示main已经部署。
+
+**环境优先后继已实际完成：** Core预检23份冻结文件、独立CUDA环境、WM200主更新＋1恢复探针、Actor/Critic各1次H16更新；仅合成工程烟测。目标原生与真实学习闭环仍未完成。见[最新执行回执](reports/WM02/environment/EXECUTION_REPORT.md)、[控制状态缺口](reports/WM02/environment/TARGET_CONTROL_STATE_MAP.md)及[站立T1评分版本](reports/WM02/environment/TARGET_SCORER_BINDING.md)。
 
 主线：**Go2＋ARX5 原生冻结 WBC 物理交互 → 小型动作条件 WM → 短期想象优化 Actor → 原生完整任务评价 → 双 RGB 视觉学生**。GR00T 是可选对照，不是必经组件；固定底座 ARX5 只是方法诊断域。
 
@@ -15,4 +17,4 @@ WM02 是独立新实验，不需要先合并 PR #342。WM01 在 `de64c252246e474
 
 **第一交付不是训练曲线：是实际后端/WBC身份、动作时间映射、控制状态递推与恢复、目标接触链和真实采样吞吐。** 这些明确后才能解释模型学习结果。普通工程缺陷按 V7 自主修复，不另建调度、审批或预算系统。
 
-本发布只有文档和机器可读设计，没有伪装成可运行程序的训练命令。新的训练/采集入口需 Codex 实现、测试并登记；本次未执行 CPU 测试、CI、GPU、仿真、SSH 或 PBS。
+原设计发布并非执行结果；本分支实现与实际执行量以固定SHA回执为准。正式真实replay／采集／目标闭环入口仍需后续实现与资格验证，不把合成模型当原生能力。

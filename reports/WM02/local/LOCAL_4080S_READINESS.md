@@ -1,28 +1,18 @@
-# WM02 4080S 本地准入：第一轮部分完成
+# WM02本地准入：E0/E1完成，E2离线接口完成，目标动态待准入
 
-2026-11-04，Asia/Singapore。依据原交接 `ddc801f30e288365925c61c37f7ee445ddc29712`，以及正常合并的本地优先补充 `19f686c9c006bffce22d3819b2019e1e45ebbec2`。此表报告实际完成量，不是正式训练准入或目标动态授权。
+2026-11-04，Asia/Singapore。实际交接90c0507333d2a9c6b26ee9c22278b050a9249fad；GPU执行源码21f2811f00aedb37b47e7b52d827d4ba1e7cb38e。完整结果见[环境优先回执](../environment/EXECUTION_REPORT.md)、[矩阵](../environment/ENVIRONMENT_MATRIX.md)和[机器结果](../environment/RESULTS.json)。历史P0/P1源872条记录及其并行成绩保留在[原回执](../wm02-20261104-p0-p1/FINAL_REPORT.md)，本轮未重采。
 
-| 项目 | 本轮实际状态 |
+| 准入项 | 本轮实际结果 |
 |---|---|
-| L0 目标身份／权限 | 实际为MuJoCo＋ROS2／OCS2 Go2–ARX5；9个核心、14个初始化成员冻结SHA匹配；原目标lease CLOSED，S1/T2隔离保留。首个阻断为没有当前安全解除／动态准入。完整目标MPC／WBC恢复导出器与站立局部scorer绑定也尚缺。 |
-| GPU1 准备 | 用户指定727048已通过原STOP＋一次SIGTERM终止，原owner关闭lease；1024／2048完整checkpoint保留。2026-11-04 02:45 SGT再次只读查询：总16376MiB、空闲15899MiB、无GPU1计算进程。共享许可不等于目标动态许可，不等于长期独占reservation。 |
-| L1 CPU合同 | 20项普通和`-O`均exit0；相关原有接缝31通过、5跳过。实际冻结目标parser的41点／11错误包CPU检查通过；未做目标安装ACK或物理。实现字段角色和梯度历史接缝，GRU模型尚未实现。 |
-| L2 源域诊断 | S域固定底座MuJoCo，8条件、16恢复分叉；672条真实50ms转移，完整源控制／积分／RNG／记录恢复最大误差0，硬安全0。释放仅覆盖0.4秒，尚未覆盖完整撤离。不能称目标资格通过。 |
-| L2 源域并行 | 实际spawn 1／4进程，20.7486／47.9711转移每秒，2.312倍；另200条转移。16环境因绑定4 CPU及实际RAM余量不足未启动。不是目标WBC的GPU并行吞吐。 |
-| L2 目标诊断／1、4、16环境 | NOT_RUN：S1/T2隔离未解除，无动态准入；目标恢复实现亦缺。目标转移、接触检查和任务均0。 |
-| L3 5×2048 WM200／5000及重载 | NOT_IMPLEMENTED_NOT_RUN：WM02 fit CLI／模型尚未实现；更新0、模型加载0、checkpoint无。没有把随机输入反传或WM01模型测试计入本轮。 |
-| L4 H1／H8／H16 Actor梯度／冻结 | NOT_IMPLEMENTED_NOT_RUN：仅历史输入梯度接缝检查通过，不是Actor或WM学习。真实反事实需要目标动态及恢复资格。 |
-| L5 收集→拟合→Actor更新→再次采集 | NOT_IMPLEMENTED_NOT_RUN：没有可加载WM02 Actor、没有目标完整episode，不能声明端到端调通。 |
-| A40／H200 PBS | NOT_SUBMITTED。尚不满足本地模型／H16／短回环准入，未提交长训。 |
+| L0／E0身份与依赖 | 原MuJoCo＋ROS2／OCS2，9核心＋14完整路径初始化文件匹配；原环境绑定后三份ELF无缺库，8模块导入通过；没有重装或修改WBC |
+| 旧owner与队列 | 本项目Core旧派发与已知worker关闭、lease CLOSED；本地未启动WM01 W2关闭为UNRUN；Vanda旧W1自行完成5000并关闭，未新投PBS |
+| L1／E2 CPU接口 | 30项合同／预检／容器／评分检查普通和-O通过；typed offline容器不是live exporter；完整目标控制状态恢复尚未绑定 |
+| L2 目标原生8条件／并行 | NOT_RUN：S1/T2隔离没有当前解除／动态准入；目标转移0，不用S域47.97/s作目标WBC吞吐 |
+| L3 WM200／重载 | COMPLETE_SYNTHETIC_ENGINEERING_ONLY：19,113,552参数、200主更新＋1恢复探针，effective sequence batch256；微批8/16/32均实测，normalizer／optimizer／RNG／cursor保存恢复；权重／optimizer最大差0 |
+| L4 H16梯度 | COMPLETE_SYNTHETIC_ENGINEERING_ONLY：Actor／Critic各1次更新，starts64由micro16累积；Actor原子0/8重规划，WM冻结且物理输出对动作梯度非零；不是native CALIB/P3 |
+| L5／E4真实闭环 | NOT_RUN：没有本轮真实采集→正式WM→native奖励Actor→新实际采集。真实TRAIN数值绑定与reward资格仍缺 |
+| 5000正式WM／A40/H200 | NOT_RUN／NOT_SUBMITTED，未把合成烟测升级为正式预训练或百万步队列准入 |
 
-已测源worker／接触／恢复审计CPU合计34.228685秒；父进程、测试、网络和准备成本未完整计时。WM02 GPU模型执行0，GPU模型峰值allocated／reserved／进程峰值均**未测量**。16GB独立WM／小批BPTT可行性仍需实现后实测；不能用空闲显存保证全套模拟器＋WM＋Actor能同时驻留。
+本轮在GPU0完成，NVML报告32760MiB；GPU1是16376MiB。Torch设置13GiB分配上限，训练阶段allocated约503MiB／reserved672MiB，整个进程NVML采样峰值1192MiB。共享负载下全卡采样峰值32085MiB包含他人工作；单独模型低占用不证明原生sim＋WBC＋渲染能与训练同时驻留，也不是GPU1实机验收。[完整显存profile](../environment/LOCAL_GPU_PROFILE.json)保留逐阶段数据与边界。
 
-机器数据、分档吞吐及数据身份见 [LOCAL_4080S_PROFILE.json](LOCAL_4080S_PROFILE.json)。实际命令／退出码、执行源码完整SHA、冻结WBC及数据摘要见 [首轮报告](../wm02-20261104-p0-p1/FINAL_REPORT.md) 和 [results.json](../wm02-20261104-p0-p1/results.json)。完整私有原件与绝对argv留在执行者私有目录，不上传资产、权重、原生状态或SSH路径。
-
-下一条CPU复核命令（独立checkout内，`WM02_CPU_PYTHON`绑定至已核验的隔离解释器；不是新的物理运行或训练）：
-
-```bash
-PYTHONPATH=src "$WM02_CPU_PYTHON" -O -m unittest discover -s tests/world_model -v
-```
-
-后续合法代码工作是实现独立WM200-update／完整重载和H16神经梯度烟测；目标原生诊断仍须有效的原站点安全解除与动态准入，不能用源域或GPU空闲绕过。
+最近已核对的owner/GPU时点在机器结果中；任何下一次GPU启动仍须实时查空闲量及原owner，不承诺长期reservation。目标动态首阻断依旧是独立有效的S1/T2准入；神经模型更新不解除它。

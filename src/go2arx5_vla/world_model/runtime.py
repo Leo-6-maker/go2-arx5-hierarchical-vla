@@ -63,6 +63,38 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             total_bytes=int(fields[2])*1024**2, free_bytes=int(fields[3])*1024**2))
         if os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
             raise PermissionError('Core smoke must expose only the authorized GPU1 UUID')
+    elif gpu and spec.get('execution_site') == 'CORE_WM02_GPU0':
+        import subprocess
+        from scripts.pi0294.e1.smoke import node_local
+        if (spec.get('schema') != 'WM02_LOCAL_NEURAL_SPEC_V1'
+                or spec.get('host') != 'corelab-4080s' or spec.get('uid') != 2009
+                or spec.get('profile') != 'wm02-gpu0-neural-smoke'
+                or spec.get('physics') is not False or spec.get('endpoint') != 200
+                or spec.get('GPU_uuid') != 'GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'
+                or spec.get('authorization_scope') != 'USER_GPU0_WM02_ENV_NEURAL_SMOKE_20261104'
+                or spec.get('sharing_policy') != 'USER_GPU0_WITH_MEASURED_HEADROOM'
+                or spec.get('data_domain') != 'SYNTHETIC_ENGINEERING_ONLY'
+                or not 0 < spec.get('allocator_limit_bytes',0) <= 13*1024**3
+                or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']):
+            raise PermissionError('Explicit bounded WM02 GPU0 neural-only identity required')
+        for name in ('source_root','registered_root','python','data','cache','logs','tmp'):
+            node_local(spec[name])
+        if not spec.get('old_owner_leases'):
+            raise PermissionError('Old automatic dispatch custody must be independently closed')
+        for path in spec['old_owner_leases']:
+            if json.loads(Path(path).read_text()).get('status') != 'CLOSED':
+                raise PermissionError('An old dispatch or worker lease is still live')
+        reply = subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],
+            '--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],
+            capture_output=True,text=True,check=True,timeout=10)
+        uuid,free = [v.strip() for v in reply.stdout.strip().split(',')]
+        if uuid != spec['GPU_uuid'] or int(free)*1024**2 < spec['allocator_limit_bytes']+1024**3:
+            raise PermissionError('Current GPU0 capacity is below the finite smoke allowance')
+        reply = subprocess.run(['nvidia-smi','--query-compute-apps=gpu_uuid,pid',
+            '--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
+        # The user permits GPU0 work. Sharing is bounded by measured free memory,
+        # the allocator cap and the original project owner lock; never displace a process.
+        gpu_baseline = reply.stdout
     elif gpu:
         if spec.get('execution_site') != 'VANDA_A40':
             raise PermissionError('Explicit Vanda allocation or authorized Core smoke required')
@@ -98,11 +130,17 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     if not cpus or not cpus <= os.sched_getaffinity(0):
         raise PermissionError('Actual CPU affinity not available')
     lock = OwnerLock(root/'OWNER.lock')
+    neural_owner = None
     try:
+        if gpu and spec.get('execution_site') == 'CORE_WM02_GPU0':
+            neural_owner = OwnerLock(spec['neural_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
-            spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile))
+            spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')=='CORE_WM02_GPU0' else None))
         yield spec
     finally:
+        if neural_owner is not None:
+            neural_owner.close()
         lock.close()

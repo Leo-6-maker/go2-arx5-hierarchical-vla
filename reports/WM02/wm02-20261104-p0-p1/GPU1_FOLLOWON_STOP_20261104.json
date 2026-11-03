@@ -1,0 +1,122 @@
+{
+  "schema": "WM02_GPU1_PB_FOLLOWON_USER_STOP_V1",
+  "reason": "Original PB control PID stopped, but active M13 manager subsequently dispatched boundary successor; stop successor and manager under user instruction",
+  "observed_at_SGT": "2026-11-04T02:57:25.540987+08:00",
+  "original_worker_PID": 727048,
+  "successor_worker_PID": 1425203,
+  "successor_proc_start": "350076447",
+  "manager_PID": 3892803,
+  "manager_proc_start": "339165562",
+  "all_PIDs_gone": true,
+  "units": {
+    "core-gpu-flexible-matched-20261102-13": {
+      "Restart": "no",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "SubState": "dead"
+    },
+    "v7-book-pb317-boundary-lowres-updates4096-01": {
+      "Restart": "no",
+      "MainPID": "0",
+      "ExecMainStatus": "1",
+      "SubState": "failed"
+    },
+    "v7-book-pb317-control-lowres-updates4096-01": {
+      "Restart": "no",
+      "MainPID": "0",
+      "ExecMainStatus": "1",
+      "SubState": "failed"
+    }
+  },
+  "leases": {
+    "v7-book-pb317-boundary-lowres-updates4096-01": "CLOSED",
+    "v7-book-pb317-control-lowres-updates4096-01": "CLOSED"
+  },
+  "manager_state": "USER_STOPPED",
+  "manager_summary_state": "USER_STOPPED",
+  "original_manager_has_STOP_guard": false,
+  "SIGTERM_count_total": 2,
+  "SIGKILL_count": 0,
+  "checkpoint_or_source_deleted": false,
+  "active_source_or_WBC_modified": false,
+  "GPU1": {
+    "total_MiB": 16376,
+    "free_MiB": 15899,
+    "utilization_percent": 0,
+    "compute_processes": 0,
+    "indefinite_reservation_claimed": false
+  },
+  "seconds_since_manager_stop": 167.06091785430908,
+  "seconds_since_boundary_stop": 141.31816053390503,
+  "original_manager_empty_GPU_stability_s": 120,
+  "classification": "USER_CANCELLED_PARTIAL_NOT_NEW_ALGORITHM_FAILURE",
+  "native_worker_original_result": {
+    "status": "FAILED_BOOK_FINITE_OPTIMIZATION",
+    "error": "TimeoutError: BOOK_DEV10_NATIVE_FINITE_END",
+    "scientific_kind": "V7_BOOK_M32_FINITE_LEARNING",
+    "model_load_attempts": 1,
+    "generation_attempts": 16,
+    "completed_generations": 16,
+    "optimizer_updates": 23,
+    "TRAIN_visits": 736,
+    "physics_integrations": 0,
+    "DEV_conditions": 0,
+    "CPU_s": 989.02762095,
+    "wall_s": 438.29813860403374,
+    "completed_epoch": 1793732104.3084195
+  },
+  "native_canonical_usage": {
+    "model_loads": 1,
+    "optimizer_updates": 23,
+    "TRAIN_window_visits": 736,
+    "generation_queries": 16,
+    "completed_generations": 16,
+    "physics_integrations": 0,
+    "formal_DEV_conditions": 0,
+    "source_episode_starts": 0,
+    "new_RGB_pairs": 0,
+    "result_sha256": "9ad0e4e97b8aa1d1cdffa3b66e1bf8544cd44503d3aebd71fe44d3f726c55c3b",
+    "error": "TimeoutError: BOOK_DEV10_NATIVE_FINITE_END",
+    "all_costs_retained": true,
+    "scientific_success": false,
+    "CPU_s": 996.46647,
+    "GPU_allocated_s_upper": 449
+  },
+  "cost_note": "Canonical service CPU includes startup/overhead; worker CPU is a subset, not additive. Retain costs under PB, not WM02.",
+  "boundary_source_sha": "ccfa2f2e87b86886030c6dd282dbfece5dfe4746",
+  "boundary_manifest_sha256": "d0b30eafd593db973c8a8441bd18d5f0b28e9897c11294ca48cc70bef6463363",
+  "boundary_model_initial_delta_manifest_sha256": "b248513ae76f0bb1ec29978a7c7242eabb5155063d8e732f61e182035a676b8c",
+  "boundary_dataset_manifest_sha256": "f6f375233430c88f6e3909345ba64920a7768c9030306108e070f5e6a1b139f1",
+  "boundary_statistics_sha256": "187d870e469b38722733ab0f8ac42056c7a13cb38a1349cbc4c73eb7e2eacf39",
+  "boundary_complete_checkpoint_manifests": {},
+  "old_control_complete_checkpoint_manifests": {
+    "checkpoint-2048": "173cd3a4d23c6ddbed6beddf4612cb6ce5adc51f615becd5808690cb58db4b38",
+    "checkpoint-1024": "b4772897675cd2c62e330695150c20d0b5407d663d702b1a2d2b914719041a50"
+  },
+  "operation_helpers_SHA256": {
+    "stop_pb_manager_once.py": "95418f51979d68b9312d8294cd2b57792d6a3a50d69976a903397cfd35fe1111",
+    "stop_pb_boundary_once.py": "681152b2d2d2d059626effb0247517f3015d8429d93a8cc76c480f5ae0f6bfd2",
+    "close_pb_boundary_original.py": "168440b6a7e426c88247483d2dc6867d9156ad813eaf9cdbb859d7b66f0122a0",
+    "finalize_pb_manager_user_stop.py": "4ff6ccac9efabc58cd8091e7ea58726156972da0dd31fe6b5665a87432f36d83",
+    "verify_pb_chain_terminal.py": "000626d70a43d524523b3f668f30191ef7f242e4197aa1f1d54532eb683584c0"
+  },
+  "actual_command_exit_codes": {
+    "stop_pb_manager_once.py": 0,
+    "stop_pb_boundary_once.py": 0,
+    "close_pb_boundary_original.py": 0,
+    "finalize_pb_manager_user_stop.py": 0,
+    "verify_pb_chain_terminal.py": 0
+  },
+  "private_terminal_proof_SHA256": "154d80ad2d5bf2121f6f3d90c83ccefde8c0784839d6caa96c2cf3687adc16b1",
+  "native_closeout_SHA256": "2fa522008669ab35d3e5e94cbc691ba1037e519019a7dc07ae481bb3c810f288",
+  "new_WM02_transitions_this_stop_followup": 0,
+  "new_WM02_model_updates_this_stop_followup": 0,
+  "new_WM02_tasks_this_stop_followup": 0,
+  "new_WM02_PBS_this_stop_followup": 0,
+  "target_dynamic_permission_changed": false,
+  "next_executable_readonly_command": "python3 \"$WM01_PRIVATE/core_control.py\" \"$WM02_PRIVATE/verify_pb_chain_terminal.py\" 40",
+  "SIGTERM_count_by_PID": {
+    "3892803": 1,
+    "1425203": 1
+  }
+}
