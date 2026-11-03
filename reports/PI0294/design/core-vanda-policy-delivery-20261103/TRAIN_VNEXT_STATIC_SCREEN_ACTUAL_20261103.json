@@ -1,0 +1,423 @@
+{
+  "schema": "FIXED12_PC_STATIC_SCREEN_NOT_NATIVE_QUALIFICATION_V1",
+  "BOOK": {
+    "results": [
+      {
+        "minimum_all_joint_margin_rad": 0.0595335181738994,
+        "minimum_joint_margin_rad": [
+          1.6370998976785465,
+          1.4613942839657983,
+          1.0750113641443355,
+          0.14430023049403862,
+          1.316934150966333,
+          0.0595335181738994
+        ],
+        "geometry_index": 1,
+        "id": "VNEXT_BOOK_MARGIN_TRAIN000",
+        "card_sha256": "2a433a1b41d3d6982fad1ac12446f9b94a424ccdc8d1718cbf4875f48a694d0a",
+        "static_hypothesis_pass": true,
+        "reference_knots": 414,
+        "native_sampled_forward_states": 10350,
+        "maximum_nominal_joint_speed_rad_s": 0.5041678168598196,
+        "path_duration_with_verify_and_hold_s": 22.599999999999998,
+        "first_failures": [],
+        "first_unexpected_contacts": [],
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.045575306152924266,
+        "minimum_joint_margin_rad": [
+          1.623666653843315,
+          1.461394286231656,
+          1.0750113686121985,
+          0.1495193045709926,
+          1.3169341538686972,
+          0.045575306152924266
+        ],
+        "geometry_index": 2,
+        "id": "VNEXT_BOOK_MARGIN_TRAIN001",
+        "card_sha256": "d1fef788469ab1c8a060777dbc49172aaead9a0670f733ff316a459ce8aa8adb",
+        "static_hypothesis_pass": true,
+        "reference_knots": 417,
+        "native_sampled_forward_states": 10425,
+        "maximum_nominal_joint_speed_rad_s": 0.5088232192878372,
+        "path_duration_with_verify_and_hold_s": 22.75,
+        "first_failures": [],
+        "first_unexpected_contacts": [],
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.07659849103228433,
+        "minimum_joint_margin_rad": [
+          1.6360456097334373,
+          1.4613942844061611,
+          1.0750113650126,
+          0.15063053688077055,
+          1.316935070346028,
+          0.07659849103228433
+        ],
+        "geometry_index": 3,
+        "id": "VNEXT_BOOK_MARGIN_TRAIN002",
+        "card_sha256": "79d2b167582d4ce789fa63b3ccd01041edf547b35d8131656782f9709a44ca07",
+        "static_hypothesis_pass": true,
+        "reference_knots": 414,
+        "native_sampled_forward_states": 10350,
+        "maximum_nominal_joint_speed_rad_s": 0.5050817298284205,
+        "path_duration_with_verify_and_hold_s": 22.599999999999998,
+        "first_failures": [],
+        "first_unexpected_contacts": [],
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.06255651130239492,
+        "minimum_joint_margin_rad": [
+          1.6225535427792392,
+          1.461394286650687,
+          1.075011369438525,
+          0.1556173652116153,
+          1.316935617174236,
+          0.06255651130239492
+        ],
+        "geometry_index": 4,
+        "id": "VNEXT_BOOK_MARGIN_TRAIN003",
+        "card_sha256": "2e5cd071b92e3d6ff2ca9fac23b2ce2236c4667fffb250e87b4acfd19ae0b6c9",
+        "static_hypothesis_pass": true,
+        "reference_knots": 417,
+        "native_sampled_forward_states": 10425,
+        "maximum_nominal_joint_speed_rad_s": 0.5096715961957621,
+        "path_duration_with_verify_and_hold_s": 22.75,
+        "first_failures": [],
+        "first_unexpected_contacts": [],
+        "actual_episode_run": false
+      }
+    ],
+    "original_XML_sha256": "215cac87de4508ef384c41c65cee6f72ef4a316ef21c40c57b1d636bafe950a7",
+    "assets_verified": 29,
+    "native_model_constructors": 1,
+    "explicit_forward_calls": 41551,
+    "IK_internal_forwards_not_measured": true,
+    "IK_calls": 1662,
+    "physics_integrations": 0,
+    "model_queries": 0,
+    "RGB_pairs": 0,
+    "new_qualified_demonstrations": 0,
+    "CPU_s": 5.533371491,
+    "observed_epoch": 1793698477.95805,
+    "limitations": [
+      "Hypothetical rigid grasp with historical held finger widths; no dynamic stability or tracking claim.",
+      "Book initial pose retains historical settling correction; a fresh native5s warmup and cameras must still qualify each actual candidate.",
+      "Finite25-point joint/quaternion interpolation is a sampled geometry screen, not a continuous collision certificate."
+    ]
+  },
+  "DOOR": {
+    "schema": "CUSTOM_CABINET_VNEXT4_TRAIN_PC_STATIC_NOT_NATIVE_ADMISSION_V1",
+    "original_native_XML_sha256": "6c575e543020121c47d263c305966e6894c86ab2b6a4a819dfcd16f922b57bde",
+    "local_asset_members_verified": 27,
+    "matching_Core_and_PC_MuJoCo": "3.2.7",
+    "saved_actual_FK_states_reproduced": 641,
+    "max_saved_TCP_matrix_abs_error": 0.0,
+    "max_saved_handle_matrix_abs_error": 0.0,
+    "results": [
+      {
+        "minimum_all_joint_margin_rad": 0.13546876601559155,
+        "minimum_joint_margin_rad": [
+          1.649194458917413,
+          1.0189615284527007,
+          0.4368519734161064,
+          0.34763234288661704,
+          0.8848794271157779,
+          0.13546876601559155
+        ],
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN000",
+        "prospective_TRAIN_index": 0,
+        "fixture_translation_world_m": [
+          -0.008,
+          -0.006,
+          0.0
+        ],
+        "static_hypothesis_pass": true,
+        "reference_knots": 477,
+        "native_sampled_forward_states": 11901,
+        "max_IK_position_error_m": 7.416488019813923e-07,
+        "max_IK_rotation_error_rad": 9.482713100498908e-06,
+        "max_reference_joint_speed_rad_s": 0.45209719028250106,
+        "unexpected_native_contact_samples": 0,
+        "expected_pad_handle_max_penetration_m": 0.002057936925739523,
+        "native_original_penetration_or_joint_stop": false,
+        "first_failures": [],
+        "geometric_reference_duration_s": 23.55,
+        "with_minimum_verify_and_hold_s": 25.95,
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.20936718671511656,
+        "minimum_joint_margin_rad": [
+          1.7096549864433277,
+          1.0319649116151164,
+          0.44255301524206075,
+          0.34763234288661704,
+          0.884869714885714,
+          0.20936718671511656
+        ],
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN001",
+        "prospective_TRAIN_index": 1,
+        "fixture_translation_world_m": [
+          -0.008,
+          0.006,
+          0.0
+        ],
+        "static_hypothesis_pass": true,
+        "reference_knots": 477,
+        "native_sampled_forward_states": 11901,
+        "max_IK_position_error_m": 4.4005654551728143e-07,
+        "max_IK_rotation_error_rad": 5.646144164752742e-06,
+        "max_reference_joint_speed_rad_s": 0.4483209617366102,
+        "unexpected_native_contact_samples": 0,
+        "expected_pad_handle_max_penetration_m": 0.0020576594868540136,
+        "native_original_penetration_or_joint_stop": false,
+        "first_failures": [],
+        "geometric_reference_duration_s": 23.55,
+        "with_minimum_verify_and_hold_s": 25.95,
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.16855891586908034,
+        "minimum_joint_margin_rad": [
+          1.6834230854124077,
+          1.1064160636141602,
+          0.4779750370681143,
+          0.34763234288661704,
+          0.8848696912235392,
+          0.16855891586908034
+        ],
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN002",
+        "prospective_TRAIN_index": 2,
+        "fixture_translation_world_m": [
+          0.008,
+          -0.006,
+          0.0
+        ],
+        "static_hypothesis_pass": false,
+        "reference_knots": 477,
+        "native_sampled_forward_states": 11901,
+        "max_IK_position_error_m": 7.65520783377369e-07,
+        "max_IK_rotation_error_rad": 9.151205758656606e-06,
+        "max_reference_joint_speed_rad_s": 0.42794605385207074,
+        "unexpected_native_contact_samples": 3459,
+        "expected_pad_handle_max_penetration_m": 0.0020579378165532978,
+        "native_original_penetration_or_joint_stop": true,
+        "first_failures": [
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 2.5211418045921474e-05
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 6.287579963751072e-05
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00010046903145693271
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00013820590707357182
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00017579526442601935
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00021353780448118932
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00025120442353677064
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.0002887881000936416
+          },
+          {
+            "stage": "turn",
+            "index": 219,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00032653900057453677
+          },
+          {
+            "stage": "turn",
+            "index": 220,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00035851330823169773
+          },
+          {
+            "stage": "turn",
+            "index": 220,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00039057364519122506
+          },
+          {
+            "stage": "turn",
+            "index": 220,
+            "reason": "NATIVE_FORWARD_UNEXPECTED_CONTACT",
+            "geom_names": [
+              null,
+              "rc_handle"
+            ],
+            "depth_m": 0.00042272581609571064
+          }
+        ],
+        "geometric_reference_duration_s": 23.55,
+        "with_minimum_verify_and_hold_s": 25.95,
+        "actual_episode_run": false
+      },
+      {
+        "minimum_all_joint_margin_rad": 0.2385537270455933,
+        "minimum_joint_margin_rad": [
+          1.7400961935978807,
+          1.1181200132169884,
+          0.48399051711851293,
+          0.34763234288661704,
+          0.8848709635782293,
+          0.2385537270455933
+        ],
+        "id": "VNEXT_DOOR_GEOMETRY_TRAIN003",
+        "prospective_TRAIN_index": 3,
+        "fixture_translation_world_m": [
+          0.008,
+          0.006,
+          0.0
+        ],
+        "static_hypothesis_pass": true,
+        "reference_knots": 477,
+        "native_sampled_forward_states": 11901,
+        "max_IK_position_error_m": 8.21759867949833e-07,
+        "max_IK_rotation_error_rad": 9.779204210217398e-06,
+        "max_reference_joint_speed_rad_s": 0.4249258185519089,
+        "unexpected_native_contact_samples": 0,
+        "expected_pad_handle_max_penetration_m": 0.0020579138090124505,
+        "native_original_penetration_or_joint_stop": false,
+        "first_failures": [],
+        "geometric_reference_duration_s": 23.55,
+        "with_minimum_verify_and_hold_s": 25.95,
+        "actual_episode_run": false
+      }
+    ],
+    "native_model_constructors": 1,
+    "explicit_saved_state_and_contact_forward_calls": 48249,
+    "IK_internal_forward_calls_in_explicit_counter": false,
+    "total_native_forward_calls": "NOT_MEASURED",
+    "native_IK_calls": 1908,
+    "physics_integrations": 0,
+    "model_queries": 0,
+    "RGB_pairs": 0,
+    "new_qualified_demonstrations": 0,
+    "CPU_s": 5.155430817,
+    "qualification": false,
+    "source_only_not_target_WBC": true,
+    "current_Core_training_modified": false,
+    "limitations": [
+      "Nominal feedback stages use hypothetical successful grasp and the one historical held finger width; actual grasp and timing remain unmeasured.",
+      "Finite500Hz joint interpolation is a sampled contact screen, not a continuous collision certificate or native dynamic qualification.",
+      "Only the four fixed prospective TRAIN fixture XY positions differ; asset, orientation, safety, controller and scoring are unchanged. No model behavior, task rollout or TEST result was used.",
+      "Native TRAIN-card binding, full dynamic qualification and dual cameras remain pending; this static screen does not admit data or authorize a retry."
+    ],
+    "observed_epoch": 1793698195.0193927,
+    "private_template_label_correction": "Private static helper retained two stale ten-DEV-card explanatory strings. Actual four TRAIN IDs, offsets, sampled paths and outcomes are unchanged; the original private receipt is retained."
+  },
+  "proofs": [
+    {
+      "private_receipt": "BOOK_VNEXT4_PC_STATIC_20261103_R2/READBACK.private.json",
+      "sha256": "5b133b957167a819045e8127c26bad29866a736f219a85ba69158ac4272dc77b"
+    },
+    {
+      "private_receipt": "DOOR_VNEXT4_PC_STATIC_20261103/READBACK.private.json",
+      "sha256": "58e8de4ca2367feec0680fc43866189c0200387838e2c3d8453c53ffff337d19"
+    }
+  ],
+  "geometric_candidates": 8,
+  "static_pass": 7,
+  "static_reject": 1,
+  "contact_recovery_candidates_pending_native_adapter": 4,
+  "DEV_disjointness": {
+    "schema": "VNEXT_GEOMETRY_EXACT_DEV_DISJOINTNESS_CPU_V1",
+    "DEV_population_sha256": "ac16e9db37a6ca8ee4da3422425bf5d6adf0835297250627c27b959ac456df87",
+    "frozen_original_DEV_manifest_sha256": "ac16e9db37a6ca8ee4da3422425bf5d6adf0835297250627c27b959ac456df87",
+    "geometry_candidates": 8,
+    "comparisons": 80,
+    "matrix_atol": 1e-12,
+    "rtol": 0,
+    "exact_geometry_overlaps": [],
+    "DEV_used_for_training": false,
+    "no_independent_TEST_claim": true,
+    "epoch": 1793701143.3240929
+  },
+  "no_seed_replacement": true,
+  "native_qualification": false,
+  "physical_attempts": 0,
+  "new_qualified_demonstrations": 0,
+  "collection_deployed": false,
+  "TRAIN_VNEXT_official_Processor_admitted": false,
+  "baseline59_D2_PB_unchanged": true
+}

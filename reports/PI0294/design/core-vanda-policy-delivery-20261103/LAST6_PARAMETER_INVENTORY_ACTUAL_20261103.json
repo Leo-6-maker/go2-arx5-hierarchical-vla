@@ -1,0 +1,1407 @@
+{
+  "schema": "RAW_LAST6_HEADER_INVENTORY_ONLY_V2",
+  "rows": [
+    {
+      "name": "action_head.action_decoder.layer1.W",
+      "raw_shape": [
+        32,
+        1024,
+        1024
+      ],
+      "selected_shape": [
+        1024,
+        1024
+      ],
+      "numel": 1048576,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_decoder.layer1.b",
+      "raw_shape": [
+        32,
+        1024
+      ],
+      "selected_shape": [
+        1024
+      ],
+      "numel": 1024,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_decoder.layer2.W",
+      "raw_shape": [
+        32,
+        1024,
+        132
+      ],
+      "selected_shape": [
+        1024,
+        132
+      ],
+      "numel": 135168,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_decoder.layer2.b",
+      "raw_shape": [
+        32,
+        132
+      ],
+      "selected_shape": [
+        132
+      ],
+      "numel": 132,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W1.W",
+      "raw_shape": [
+        32,
+        132,
+        1536
+      ],
+      "selected_shape": [
+        132,
+        1536
+      ],
+      "numel": 202752,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W1.b",
+      "raw_shape": [
+        32,
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W2.W",
+      "raw_shape": [
+        32,
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W2.b",
+      "raw_shape": [
+        32,
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W3.W",
+      "raw_shape": [
+        32,
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.action_encoder.W3.b",
+      "raw_shape": [
+        32,
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.26.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 26
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.27.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 27
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.28.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 28
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.29.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 29
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        2048
+      ],
+      "selected_shape": [
+        1536,
+        2048
+      ],
+      "numel": 3145728,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.30.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 30
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_k.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_k.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_out.0.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_out.0.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_q.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_q.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_v.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.attn1.to_v.weight",
+      "raw_shape": [
+        1536,
+        1536
+      ],
+      "selected_shape": [
+        1536,
+        1536
+      ],
+      "numel": 2359296,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.ff.net.0.proj.bias",
+      "raw_shape": [
+        6144
+      ],
+      "selected_shape": [
+        6144
+      ],
+      "numel": 6144,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.ff.net.0.proj.weight",
+      "raw_shape": [
+        6144,
+        1536
+      ],
+      "selected_shape": [
+        6144,
+        1536
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.ff.net.2.bias",
+      "raw_shape": [
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.ff.net.2.weight",
+      "raw_shape": [
+        1536,
+        6144
+      ],
+      "selected_shape": [
+        1536,
+        6144
+      ],
+      "numel": 9437184,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.norm1.linear.bias",
+      "raw_shape": [
+        3072
+      ],
+      "selected_shape": [
+        3072
+      ],
+      "numel": 3072,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.model.transformer_blocks.31.norm1.linear.weight",
+      "raw_shape": [
+        3072,
+        1536
+      ],
+      "selected_shape": [
+        3072,
+        1536
+      ],
+      "numel": 4718592,
+      "raw_dtype": "BF16",
+      "category": null,
+      "block": 31
+    },
+    {
+      "name": "action_head.state_encoder.layer1.W",
+      "raw_shape": [
+        32,
+        132,
+        1024
+      ],
+      "selected_shape": [
+        132,
+        1024
+      ],
+      "numel": 135168,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.state_encoder.layer1.b",
+      "raw_shape": [
+        32,
+        1024
+      ],
+      "selected_shape": [
+        1024
+      ],
+      "numel": 1024,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.state_encoder.layer2.W",
+      "raw_shape": [
+        32,
+        1024,
+        1536
+      ],
+      "selected_shape": [
+        1024,
+        1536
+      ],
+      "numel": 1572864,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    },
+    {
+      "name": "action_head.state_encoder.layer2.b",
+      "raw_shape": [
+        32,
+        1536
+      ],
+      "selected_shape": [
+        1536
+      ],
+      "numel": 1536,
+      "raw_dtype": "BF16",
+      "category": 10,
+      "block": null
+    }
+  ],
+  "numel": 213181572,
+  "target_numel": 10180740,
+  "trainable_tensor_count": 98,
+  "native_capacity_qualification": false,
+  "new_training_started": false,
+  "models_loaded": 0,
+  "FP32_parameter_gradient_two_moment_lower_bound_bytes": 3410905152,
+  "optimizer_temporaries_and_activations_excluded": true,
+  "supersedes_incomplete_target_leaf_spelling_inventory": true,
+  "epoch": 1793688493.162817,
+  "proof": {
+    "private_receipt": "PAR338_LAST6_HEADER_INVENTORY_V2.private.json",
+    "sha256": "41d9bed1b7711c297185f9963e5ca09002bb1c86625b7663b9773b830f48c1cc"
+  },
+  "M32_baseline_numel": 77847684,
+  "capacity_GPU_qualification_deferred_until_baseline_and_task_evaluation": true
+}
