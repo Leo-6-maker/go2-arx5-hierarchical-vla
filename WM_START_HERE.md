@@ -2,6 +2,8 @@
 
 日期：2026-11-04，Asia/Singapore。用户要求基于最近讨论制定详细执行计划并交给 Codex。发布状态：**PLAN_PUBLISHED / RUNTIME_NOT_IMPLEMENTED**，不代表服务器已启动。
 
+本后继实施分支的实际回执：**P0目标身份与阻断已核对；P1完成S域薄adapter／原生恢复与4进程吞吐，目标动态仍TARGET_BLOCKED。** 见[第一轮实际回执](reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md)与[真实CLI](experiments/wm02/RUNTIME.md)。原计划发布状态和plan.json作为历史设计保留，不表示main已经部署。
+
 主线：**Go2＋ARX5 原生冻结 WBC 物理交互 → 小型动作条件 WM → 短期想象优化 Actor → 原生完整任务评价 → 双 RGB 视觉学生**。GR00T 是可选对照，不是必经组件；固定底座 ARX5 只是方法诊断域。
 
 1. 阅读根 `AGENTS.md`，再读 [Codex 交接](docs/handover/2026-11-04/WM02_CODEX_EXECUTE.md)。

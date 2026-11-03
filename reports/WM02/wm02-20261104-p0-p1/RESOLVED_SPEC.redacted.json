@@ -1,0 +1,219 @@
+{
+  "schema": "WM02_RESOLVED_SPEC_V1",
+  "handoff_sha": "ddc801f30e288365925c61c37f7ee445ddc29712",
+  "target_status": "TARGET_BLOCKED",
+  "target_blockers": [
+    "TARGET_S1_T2_QUARANTINE_NOT_RELEASED",
+    "NO_CURRENT_TARGET_DYNAMIC_ADMISSION",
+    "MPC_WBC_CONTROL_STATE_RESTORE_UNAVAILABLE"
+  ],
+  "target_dynamic_authorized": false,
+  "target": {
+    "backend": "GO2_ARX5_MUJOCO_OCS2",
+    "entry": "scripts.pi0294.task_native_worker.run",
+    "last_execution_source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+    "native_git_commit": "UNAVAILABLE_ARCHIVE_NOT_GIT_CHECKOUT",
+    "frozen_members": [
+      {
+        "role": "src/ctrl/go2_x5_ocs2/config/task_floating.info",
+        "expected": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+        "actual": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+        "bytes": 15495,
+        "match": true
+      },
+      {
+        "role": "src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf",
+        "expected": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+        "actual": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+        "bytes": 12169,
+        "match": true
+      },
+      {
+        "role": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/go2_x5.xml",
+        "expected": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+        "actual": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+        "bytes": 23022,
+        "match": true
+      },
+      {
+        "role": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/scene.xml",
+        "expected": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+        "actual": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+        "bytes": 868,
+        "match": true
+      },
+      {
+        "role": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/policy.pt",
+        "expected": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+        "actual": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+        "bytes": 6085708,
+        "match": true
+      },
+      {
+        "role": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/config.yaml",
+        "expected": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+        "actual": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+        "bytes": 4153,
+        "match": true
+      },
+      {
+        "role": "build/mujoco/bin/rl_sim_mujoco",
+        "expected": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+        "actual": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+        "bytes": 2806920,
+        "match": true
+      },
+      {
+        "role": "install/lib/go2_x5_ocs2/go2_x5_ocs2_node",
+        "expected": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+        "actual": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+        "bytes": 8967544,
+        "match": true
+      },
+      {
+        "role": "install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node",
+        "expected": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "actual": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "bytes": 5498120,
+        "match": true
+      }
+    ],
+    "initialization_members": [
+      {
+        "name": "native_home.hpp",
+        "expected": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+        "actual": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+        "bytes": 1391,
+        "match": true
+      },
+      {
+        "name": "native_startup.hpp",
+        "expected": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+        "actual": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+        "bytes": 2257,
+        "match": true
+      },
+      {
+        "name": "audit_home.cpp",
+        "expected": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+        "actual": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+        "bytes": 3943,
+        "match": true
+      },
+      {
+        "name": "audit_home",
+        "expected": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+        "actual": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+        "bytes": 33024,
+        "match": true
+      },
+      {
+        "name": "rl_sim_mujoco",
+        "expected": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+        "actual": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+        "bytes": 2816416,
+        "match": true
+      },
+      {
+        "name": "run.py",
+        "expected": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+        "actual": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+        "bytes": 13568,
+        "match": true
+      },
+      {
+        "name": "HOME_SHARED_RESET_CPU_AUDIT.json",
+        "expected": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+        "actual": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+        "bytes": 4287,
+        "match": true
+      },
+      {
+        "name": "private-scene.mjb",
+        "expected": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+        "actual": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+        "bytes": 74461448,
+        "match": true
+      },
+      {
+        "name": "COMPILED_MODEL_PARITY.json",
+        "expected": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+        "actual": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+        "bytes": 189,
+        "match": true
+      },
+      {
+        "name": "observer.so",
+        "expected": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+        "actual": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+        "bytes": 31808,
+        "match": true
+      },
+      {
+        "name": "observer.cpp",
+        "expected": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+        "actual": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+        "bytes": 6957,
+        "match": true
+      },
+      {
+        "name": "run.py",
+        "expected": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+        "actual": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+        "bytes": 14012,
+        "match": true
+      },
+      {
+        "name": "run.py",
+        "expected": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+        "actual": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+        "bytes": 16370,
+        "match": true
+      },
+      {
+        "name": "sitecustomize.py",
+        "expected": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+        "actual": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+        "bytes": 3419,
+        "match": true
+      }
+    ],
+    "physics_dt_s": 0.002,
+    "atomic_dt_s": 0.05,
+    "actor_dt_s": 0.4,
+    "leg_policy": "N1_s29_175632/policy.pt",
+    "wbc_config": "task_floating.info",
+    "permission": {
+      "status": "CLOSED",
+      "native_safety_quarantine_preserved": true,
+      "lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+      "closeout_sha256": "d849ea6100ef1d02d5e97b464bb8b7f50b0107d8056c351f46cff09a6abf971e"
+    },
+    "gripper": {
+      "version": "FULLBODY_TASK_OVERLAY_V2_WORKING_STROKE",
+      "units": "q/.044 mechanical fraction",
+      "working_range": [
+        0.045454545454545456,
+        0.9545454545454547
+      ],
+      "endpoints": "reject without clip or implicit rescale"
+    },
+    "full_control_restore_available": false,
+    "missing_restore_fields": [
+      "MPC_solver_policy_state",
+      "WBC_controller_history",
+      "ROS_reference_receiver_state"
+    ],
+    "scorer": {
+      "candidate": "scripts.pi0294.task_fullbody_audit.run -> go2arx5_vla.target_sim.scorer.score_episode",
+      "candidate_source_sha256": "4447f2620af4a8c243aae39c9383fb4334d1d2bcae74a1a637e915bcdac58b6c",
+      "actual_WM02_standing_task_binding": "UNQUALIFIED",
+      "extra_original_BASE_translation_predicate_requires_explicit_review": true
+    },
+    "parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90"
+  },
+  "source_domain": "S_FIXED_BASE_DIAGNOSTIC_NOT_TARGET_EVIDENCE",
+  "source_asset_members_verified": 27,
+  "model_updates": 0,
+  "actor_updates": 0
+}
