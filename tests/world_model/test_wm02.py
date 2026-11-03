@@ -73,6 +73,13 @@ class WM02Contracts(unittest.TestCase):
         recorder.reject(episode_id='e',reason='S1',state={},action=[])
         self.assertEqual(len(recorder.rows),0);self.assertFalse(recorder.events[0]['executed_expert_label'])
 
+    def test_partial_terminal_retains_physics_but_not_full_target(self):
+        row=self.row();row.update(t1=.02,physics_ticks=10,terminal=True,valid_state_target=False)
+        row['state_after']['time_s']=.02;row['reference_consumed']=row['reference_consumed'][:10]
+        validate_record(row,native_dt=.002)
+        row['valid_state_target']=True
+        with self.assertRaises(ValueError):validate_record(row,native_dt=.002)
+
     def test_terminal_reset_and_parent_split_boundaries(self):
         row=self.row();row['terminal']=True;r=TransitionRecorder(native_dt=.002);r.append(row)
         second=self.row();second.update(t0=.05,t1=.1);second['state_before']['time_s']=.05;second['state_after']['time_s']=.1

@@ -15,6 +15,8 @@ def validate_record(row, *, native_dt):
         or(dt<.05-1e-8 and not(row['terminal']or row['truncated']))):
         raise ValueError('Actual positive physical interval required; rejection is not a transition')
     if row['split']not in('TRAIN','CALIB','DEV','TEST'):raise ValueError('Unknown parent split')
+    if dt<.05-1e-8 and row['valid_state_target']:
+        raise ValueError('Partial interval cannot claim a complete50ms regression target')
     if row['state_after'].get('reset')or row['state_before'].get('reset'):
         raise ValueError('Auto-reset observation is not the terminal successor')
     if abs(row['state_before']['time_s']-row['t0'])>1e-8 or abs(row['state_after']['time_s']-row['t1'])>1e-8:

@@ -13,8 +13,11 @@ class SourceAdapter(NativeAdapter):
 
     def advance_recorded(self,plan,index,*,run_id,actor_version,restore_ref):
         row=self.advance_atom(plan,index,raw=plan['action_raw'][index])
+        import numpy as np
+        valid = row['physics_ticks']==25 and all(np.isfinite(row['state_after'][key]).all()
+            for key in ('qpos','qvel','tcp','object_pose'))
         row.update(run_id=run_id,actor_version=actor_version,reference_compiled=plan['rows10'],
-            control_restore_ref=restore_ref,valid_state_target=True,
+            control_restore_ref=restore_ref,valid_state_target=bool(valid),
             reward_train=None,native_success_certificate=False,domain=self.domain,
             installed_H40=plan['rows10'],native_progress=dict(point=index,forecast_index=self.forecast_index),
             preview_condition_only=True)
