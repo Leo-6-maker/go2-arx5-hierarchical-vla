@@ -6,6 +6,18 @@ from pathlib import Path
 import time
 
 
+def cuda_uuid(value):
+    """PyTorch returns a bare UUID; NVML/nvidia-smi require the GPU prefix."""
+    from uuid import UUID
+    value = str(value)
+    if value.startswith('GPU-'):
+        value = value[4:]
+    try:
+        return 'GPU-'+str(UUID(value))
+    except (ValueError, AttributeError) as error:
+        raise ValueError('Invalid native CUDA device UUID') from error
+
+
 @contextmanager
 def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False):
     from scripts.pi0292.durable import OwnerLock
