@@ -1,6 +1,6 @@
 # WM01 实际阶段回执
 
-2026-11-04T00:21:39.158312+08:00，Asia/Singapore。W0 已完成实际源域采集和恢复验证。W1 首次 GPU 作业因设备 UUID 格式在模型构造前失败，已独立闭合；修复后唯一后继 `1515716.stdct-mgmt-02` 正在等待实际 A40 容量。W2 尚未运行，需要真实 5000-update checkpoint。本文不把排队、程序实现或测试通过当作模型训练结果。
+2026-11-04 01:10，Asia/Singapore。W0 已完成。用户明确允许 GPU1 共享后，独立 Corelab 4080S 已完成200更新smoke及真实checkpoint恢复，峰值PyTorch分配135.76MiB。固定5000端点尚未确认完成，W2尚未运行。Vanda最后成功核验01:00:59仍Q，后续SSH查询超时，不能将旧排队快照当作当前状态。
 
 ## 身份与隔离
 
@@ -13,6 +13,7 @@
 | 修复 GPU UUID 的后继 W1 | `1a7462086451af1c9416b63c504759ad2a92c13a` |
 | 预备 W2 方向导数／分叉实现 | `bb4b53d8f55fe0c65f0b70193894789f931d02cd` |
 | 离线留出误差／事件分析 | `84e6867fd7f1943aab6db72225b302cdbe6f68bc` |
+| 实际 Core GPU1 共享smoke | `9018017d62753530c380fd81dc704413dd9ca8c3` |
 
 独立 Git checkout／私有 source capsule、run ID、数据、配置和输出；原工作目录及其未提交内容未被切换、reset 或修改。Core 的 PB_CONTROL/M13 和 consumer08 保留。接管探针曾见 PB_CONTROL1504/4096；这是该次真实探针，不是此刻状态。旧 Vanda1514400 独立核为F/exit1，日志缺 native10 RESULT；没有重投该旧任务。
 
@@ -58,7 +59,7 @@ Canary 另有6400个真实恢复分叉积分，已经包括在其额外恢复成
 
 Reward V1 在真实TRAIN状态上失败：未释放势值0.5646858，高于完成释放0.5606848。优化前固定V2：对应势值0.3764572／0.7408916；原S1真实影子碰撞回报−0.9789224。解析／中心差分方向导数1.3894772／1.3894721。FP32差分舍入曾产生约0.00192误差，保留失败后用FP64数值检查，不改变生产FP32计算。随后按原限速补了独立有界的抓握负例：0.4秒打开后仍抓持（目标slew尚未越过实际手指位置，保留结果）；1.2秒打开后真实抓持由true变false、物体高度0.52304→0.45989m，回报−0.19047，零硬安全违规。两次包含取得原TRAIN状态的完整重放，分别额外2200＋2200、2600＋2600主／影子积分，CPU3.117／3.469秒；不加入初始64或训练replay，不证明恢复能力或终止头已校准。
 
-## W1：程序已实现，实际训练待后继分配
+## W1：Core GPU1 smoke已完成，固定5000尚未完成
 
 110维 privileged state、56维 task-space action；3×512残差SiLU ensemble，成员各675451参数，总2026353。使用合法SO(3)更新、几何loss、4步自回归损失、TRAIN归一化、独立bootstrap及优化器/RNG/replay恢复。CPU合成合同检查已验证非零动作梯度、WM参数冻结、无未来teacher forcing和恢复后的下一次更新逐值一致。
 
@@ -66,7 +67,7 @@ Reward V1 在真实TRAIN状态上失败：未释放势值0.5646858，高于完�
 
 留出评价已实现持恒／固定动作打乱基线，H1/H4逐字段物理误差与component MAE、各Teacher阶段和接触分层、事件Brier／可靠性箱、ensemble成员两两分歧。CALIB只有成功轨迹，缺失败／恢复分层的真实样本；对应零分母明确输出，不能宣称终止头已校准。分析不更新归一化或模型。
 
-W1 完整模型、参数更新、峰值显存和原生 W2 成绩目前均不可声称完成。W3 actor 更新0。
+Core共享smoke的真实模型与更新如下；固定5000模型和原生W2结果仍未交付。W3 actor更新0。
 
 ## 真实命令、检查和下一动作
 
@@ -78,7 +79,7 @@ python -m scripts.wm01.collect --spec "$WM01_NATIVE/RESOLVED_SPEC.json" --run-id
 python -m scripts.wm01.collect --spec "$WM01_CALIB/RESOLVED_SPEC.json" --run-id calib16-01 --profile local-PC-native --output "$WM01_CALIB/calib16-01" --attempts 16 --split CALIB
 ```
 
-实际检查：20项新合同/模型/诊断/UUID/留出评价用例，全部普通和-O均通过。70项原trajectory/SO3/scorer接缝通过，原17项计划检查通过。不是全仓库CI、GPU smoke或模型决策资格。
+实际检查：21项新合同/模型/诊断/UUID/共享入口/留出评价用例，全部普通和-O均通过。70项原trajectory/SO3/scorer接缝通过，原17项计划检查通过。不是全仓库CI、GPU smoke或模型决策资格。
 
 下一条可直接执行的只读命令：
 
@@ -88,10 +89,34 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=yes vanda-simon /opt/pbs/bin/qstat
 
 实际5000端点经固定revision下载／SHA核验后，才执行预登记的64状态×5臂、每臂最多4macro的原生诊断。进入actor BPTT仍需改善比例≥60%、优于等范数随机、排序优于action-shuffle且零硬安全违规；不够就交付负结果。
 
-## 当前容量阻碍与已启动的有限接续
+## 00:21容量快照与已启动的有限接续（历史观察）
 
 最新实际观察 2026-11-04T00:21:39.158312+08:00：PBS `Q`，`Insufficient amount of resource: node_pool`，未给启动估计。有效站点项目与配额已核验；这次等待是容量问题。尚无实际 WM 模型、更新或W2结果，不能报告H1/H2通过或失败。
 
 执行者已启动一次有限接续，读取同一1515716的真实结果；只在实际5000更新后，经私有HF固定revision与逐文件SHA核验，才调用已封存W2 source。接续不提交、取消或重投作业，任何实际失败保留后退出。PC原生接续截止 2026-11-04T05:22:07.131372+08:00，届时缺输入则W2记未运行；PBS自身另受1小时分配walltime约束。
 
 W2固定人口：16场景×4状态；初态48有接触／16无接触，对齐、确认抓持、运输、释放各16。没有恢复阶段；全部320分叉与拒绝都保留分母。已备好冻结5000模型的CALIB全1232窗口误差分析与W2接触／阶段分层，但尚未执行。原活动capsule没有热修改。
+
+## 01:10更新：Core共享GPU1实测，16GB容量足够当前WM
+
+用户直接回答“允许GPU1共享”。新独立source/role/run/output仅执行模型smoke，无原生仿真、无跨站实时依赖。原PB owner及GPU锁保留，运行前后进程均存活；GPU0外部工作未触碰。使用现有Journal/onceIO和独立owner锁，没有改活动source，也没有复制HF或SSH凭据。
+
+实际训练源 `9018017d62753530c380fd81dc704413dd9ca8c3`，Python3.12.3、Torch2.9.0+cu128、CUDA12.8。原同一FP32配方：3成员、共2026353参数、effective batch256、K4自回归。200次ensemble更新（600成员optimizer steps），另2次恢复检查更新（6成员steps）后恢复原200端点。真实下一次更新的参数最大差0、bootstrap样本索引相同。
+
+- PyTorch峰值allocated **142350848bytes（135.76MiB）**；reserved **146800640bytes（140MiB）**。
+- PyTorch allocator上限512MiB；此上限不包含CUDA context。进程结束前NVML测得**494MiB**，这是该时点读数，不是总显存峰值。
+- 实际CPU29.252855秒、训练墙钟29.463394秒、整个worker31.366444秒。
+- GPU1初始free2439MiB；smoke完成、进程退出后回到2439MiB。16GB总容量无需缩小当前batch或ensemble；本次只验证该WM配方。
+- 新原生转移、任务、physics ticks、actor更新均0；使用既有TRAIN4317macro/4125四步窗口/11仅终止事件。
+
+模型200端点：SHA256 `2c8da0afe073f22283624e144fb2c63869675418d07e6225d0eb529db0d2768d`，24374743bytes，已按SHA读回私有PC存储。没有发布smoke权重到Git或HF，也没有把200端点用于要求5000的W2。
+
+保留的工程负结果：Core无HF token，直接读取私有repo返回401，GPU尚未启动；已有固定revision数值视图经缓存信任与SHA核验、沿既有认证项目SSH传入，不传原生资产或凭据。Vanda独立新读回请求超时，没有为这一步建立新的跨站运行依赖。实际fit有一次kernel-cache目录缺失警告，缓存被禁用，训练和恢复完成；未为该警告重跑有效smoke。终止头／CALIB决策价值仍未验证。
+
+Core实际调用（全路径argv与Journal在私有命令记录）：
+
+```bash
+python -m scripts.wm01.fit --spec "$WM01_CORE/RESOLVED_SPEC.json" --data "$WM01_CORE/data/TRAIN_REPLAY_V1.npz" --run-id smoke-200 --output "$WM01_CORE/smoke-200" --profile core-wm01-shared-smoke --endpoint 200
+```
+
+机器回执：[CORE_GPU1_SMOKE.json](CORE_GPU1_SMOKE.json)。正式A40作业仍是独立1515716；没有取消、重投或用Core额外启动第二个5000端点。后续要切换正式站点须先独立处理该现有作业身份，不能在当前状态未知时双跑或热修改。

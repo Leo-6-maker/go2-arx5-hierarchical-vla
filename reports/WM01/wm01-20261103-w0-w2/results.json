@@ -52,7 +52,8 @@
     "CALIB_and_W1": "953801963b926dad23d1c8d11a1574c46235a383",
     "W2": "bb4b53d8f55fe0c65f0b70193894789f931d02cd",
     "W1_after_UUID_repair": "1a7462086451af1c9416b63c504759ad2a92c13a",
-    "held_out_analysis": "84e6867fd7f1943aab6db72225b302cdbe6f68bc"
+    "held_out_analysis": "84e6867fd7f1943aab6db72225b302cdbe6f68bc",
+    "Core_GPU1_smoke": "9018017d62753530c380fd81dc704413dd9ca8c3"
   },
   "initial_failed_canary": {
     "attempts": 1,
@@ -67,19 +68,20 @@
     "completed_release": 0.5606848001480103,
     "unreleased_goal": 0.5646857619285583
   },
-  "current_WM_updates": 0,
+  "current_WM_updates": 200,
   "current_actor_updates": 0,
   "W1": {
-    "status": "QUEUED_ACTUAL_CAPACITY_BLOCK",
+    "status": "CORE_SMOKE200_COMPLETE_FORMAL5000_UNCONFIRMED",
     "job_id": "1515716.stdct-mgmt-02",
     "reason": "Not Running: Insufficient amount of resource: node_pool ",
     "finite_updates": 5000,
     "walltime_s": 3600,
     "source_sha": "1a7462086451af1c9416b63c504759ad2a92c13a",
-    "last_observed": "2026-11-04T00:21:39.158312+08:00",
-    "job_state": "Q",
+    "last_observed": "2026-11-04T01:00:59.231782+08:00",
+    "job_state": "Q_AT_LAST_SUCCESSFUL_OBSERVATION",
     "actual_ensemble_updates": 0,
-    "actual_model_artifact": null
+    "actual_model_artifact": null,
+    "current_remote_state": "UNKNOWN_AFTER_READ_ONLY_SSH_TIMEOUTS"
   },
   "W2": {
     "status": "NOT_RUN_REQUIRES_W1_5000",
@@ -185,7 +187,7 @@
     "source_sha": "bb4b53d8f55fe0c65f0b70193894789f931d02cd"
   },
   "validation": {
-    "new_tests": 20,
+    "new_tests": 21,
     "ordinary": "PASS",
     "python_optimized": "PASS",
     "existing_seam_tests": 70,
@@ -212,5 +214,63 @@
     "complete_macro_transitions": 4317,
     "four_macro_windows": 4125,
     "event_only_rejections": 11
-  }
+  },
+  "Core_GPU1_smoke": {
+    "schema": "WM01_CORE_GPU1_SHARED_SMOKE_V1",
+    "source_sha": "9018017d62753530c380fd81dc704413dd9ca8c3",
+    "scope": "200_UPDATE_ENGINEERING_SMOKE_ONLY_NOT_FORMAL5000_OR_NATIVE_POLICY",
+    "device": "NVIDIA GeForce RTX 4080 SUPER",
+    "device_total_MiB": 16376,
+    "direct_user_authorization": "允许GPU1共享",
+    "parameters": 2026353,
+    "effective_batch": 256,
+    "autoregressive_horizon": 4,
+    "updates": 200,
+    "member_optimizer_steps": 600,
+    "extra_restore_diagnostic_ensemble_updates": 2,
+    "extra_restore_member_steps": 6,
+    "next_update_restore_max_abs_error": 0.0,
+    "sample_indices_equal": true,
+    "peak_allocated_bytes": 142350848,
+    "peak_reserved_bytes": 146800640,
+    "allocator_limit_bytes": 536870912,
+    "NVML_end_process_MiB": 494,
+    "NVML_end_is_not_peak_measurement": true,
+    "CPU_s": 29.252855188,
+    "GPU_wall_s": 29.463394122198224,
+    "process_wall_s": 31.36644427618012,
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "cuda": "12.8",
+    "data": {
+      "repository": "leoyuer/pi0294-private-policy-delivery",
+      "revision": "6ba73c0fcb957632bea7727780af35ddcdcbb51c",
+      "path": "WM01/20261103/native-train64-v1/TRAIN_REPLAY_V1.npz",
+      "sha256": "1423ba5a6afd7a9e2c5fd05e9574162ce705ce8ce1032e2742c92b8ba60e73b2",
+      "macros": 4317,
+      "windows": 4125,
+      "event_only_rejections": 11
+    },
+    "model": {
+      "checkpoint_updates": 200,
+      "checkpoint_sha256": "2c8da0afe073f22283624e144fb2c63869675418d07e6225d0eb529db0d2768d",
+      "bytes": 24374743,
+      "fixed_sha_readback_verified": true,
+      "private_storage": true,
+      "HF_model_revision": null
+    },
+    "new_native_transitions": 0,
+    "native_task_episodes": 0,
+    "new_physics_ticks": 0,
+    "actor_updates": 0,
+    "TEST_read": false,
+    "PB_process_alive_before_and_after": true,
+    "PB_lock_unchanged": true,
+    "negative_results": [
+      "Core has no HF token; direct fixed-revision read returned401, no GPU started. Reused previously verified immutable numeric view through authenticated project SSH; no credentials copied.",
+      "One kernel-cache warning: cache directory missing; kernel caching disabled. Successful fit/restore preserved, no rerun. This does not qualify CALIB decision value or terminal calibration."
+    ]
+  },
+  "confirmed_extra_diagnostic_ensemble_updates": 2,
+  "all_site_total_updates_currently_known": false
 }

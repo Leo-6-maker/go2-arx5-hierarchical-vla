@@ -72,3 +72,5 @@ W3/W4 policy training and final TEST evaluation are subsequent work, conditional
 on the real W2 result. Their CLIs are not supplied as empty implementations.
 This state experiment does not qualify a visual policy, Go2 WBC transfer,
 Core GPU inference, or a real robot.
+
+Core GPU1 sharing was directly authorized on2026-11-04. The `core-wm01-shared-smoke` profile admits exactly200 model updates and two restore-check updates, exposes only the pinned GPU1, requires2GiB live headroom, and caps the Torch allocator at512MiB. CUDA context is additional. This engineering profile does not duplicate the queued formal5000 endpoint; actual measured memory/cost/model identity are in the report.
