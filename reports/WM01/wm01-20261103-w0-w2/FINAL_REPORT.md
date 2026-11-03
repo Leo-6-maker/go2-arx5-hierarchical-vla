@@ -1,6 +1,6 @@
 # WM01 实际阶段回执
 
-2026-11-03，Asia/Singapore。W0 已完成实际源域采集和恢复验证。W1 首次 GPU 作业因设备 UUID 格式在模型构造前失败，已独立闭合；修复后唯一后继 `1515716.stdct-mgmt-02` 正在等待实际 A40 容量。W2 尚未运行，需要真实 5000-update checkpoint。本文不把排队、程序实现或测试通过当作模型训练结果。
+2026-11-04T00:21:39.158312+08:00，Asia/Singapore。W0 已完成实际源域采集和恢复验证。W1 首次 GPU 作业因设备 UUID 格式在模型构造前失败，已独立闭合；修复后唯一后继 `1515716.stdct-mgmt-02` 正在等待实际 A40 容量。W2 尚未运行，需要真实 5000-update checkpoint。本文不把排队、程序实现或测试通过当作模型训练结果。
 
 ## 身份与隔离
 
@@ -12,6 +12,7 @@
 | CALIB16、reward V2、首 GPU 入口 | `953801963b926dad23d1c8d11a1574c46235a383` |
 | 修复 GPU UUID 的后继 W1 | `1a7462086451af1c9416b63c504759ad2a92c13a` |
 | 预备 W2 方向导数／分叉实现 | `bb4b53d8f55fe0c65f0b70193894789f931d02cd` |
+| 离线留出误差／事件分析 | `84e6867fd7f1943aab6db72225b302cdbe6f68bc` |
 
 独立 Git checkout／私有 source capsule、run ID、数据、配置和输出；原工作目录及其未提交内容未被切换、reset 或修改。Core 的 PB_CONTROL/M13 和 consumer08 保留。接管探针曾见 PB_CONTROL1504/4096；这是该次真实探针，不是此刻状态。旧 Vanda1514400 独立核为F/exit1，日志缺 native10 RESULT；没有重投该旧任务。
 
@@ -63,6 +64,8 @@ Reward V1 在真实TRAIN状态上失败：未释放势值0.5646858，高于完�
 
 首作业1515661：PBS F/exit1，分配33秒、实际cput1秒、36CPU/240GB/1A40；WM模型构造0、更新0。实际Torch UUID缺`GPU-`前缀，NVML查询失败。旧身份CLOSED、结果和费用保留。修复后用同一科学配方／同一数据只提交一次1515716：200-update smoke后完整恢复到5000，额外4次ensemble恢复验证更新另计；walltime1小时。排队不计作已分配GPU或训练。
 
+留出评价已实现持恒／固定动作打乱基线，H1/H4逐字段物理误差与component MAE、各Teacher阶段和接触分层、事件Brier／可靠性箱、ensemble成员两两分歧。CALIB只有成功轨迹，缺失败／恢复分层的真实样本；对应零分母明确输出，不能宣称终止头已校准。分析不更新归一化或模型。
+
 W1 完整模型、参数更新、峰值显存和原生 W2 成绩目前均不可声称完成。W3 actor 更新0。
 
 ## 真实命令、检查和下一动作
@@ -75,12 +78,20 @@ python -m scripts.wm01.collect --spec "$WM01_NATIVE/RESOLVED_SPEC.json" --run-id
 python -m scripts.wm01.collect --spec "$WM01_CALIB/RESOLVED_SPEC.json" --run-id calib16-01 --profile local-PC-native --output "$WM01_CALIB/calib16-01" --attempts 16 --split CALIB
 ```
 
-实际检查：18项新合同/模型/诊断/UUID用例，其中新UUID接缝普通／-O各通过；其余16项普通和-O均通过。70项原trajectory/SO3/scorer接缝通过，原17项计划检查通过。不是全仓库CI、GPU smoke或模型决策资格。
+实际检查：20项新合同/模型/诊断/UUID/留出评价用例，全部普通和-O均通过。70项原trajectory/SO3/scorer接缝通过，原17项计划检查通过。不是全仓库CI、GPU smoke或模型决策资格。
 
 下一条可直接执行的只读命令：
 
 ```bash
-/opt/pbs/bin/qstat -fx 1515716.stdct-mgmt-02
+ssh -o BatchMode=yes -o StrictHostKeyChecking=yes vanda-simon /opt/pbs/bin/qstat -fx 1515716.stdct-mgmt-02
 ```
 
 实际5000端点经固定revision下载／SHA核验后，才执行预登记的64状态×5臂、每臂最多4macro的原生诊断。进入actor BPTT仍需改善比例≥60%、优于等范数随机、排序优于action-shuffle且零硬安全违规；不够就交付负结果。
+
+## 当前容量阻碍与已启动的有限接续
+
+最新实际观察 2026-11-04T00:21:39.158312+08:00：PBS `Q`，`Insufficient amount of resource: node_pool`，未给启动估计。有效站点项目与配额已核验；这次等待是容量问题。尚无实际 WM 模型、更新或W2结果，不能报告H1/H2通过或失败。
+
+执行者已启动一次有限接续，读取同一1515716的真实结果；只在实际5000更新后，经私有HF固定revision与逐文件SHA核验，才调用已封存W2 source。接续不提交、取消或重投作业，任何实际失败保留后退出。PC原生接续截止 2026-11-04T05:22:07.131372+08:00，届时缺输入则W2记未运行；PBS自身另受1小时分配walltime约束。
+
+W2固定人口：16场景×4状态；初态48有接触／16无接触，对齐、确认抓持、运输、释放各16。没有恢复阶段；全部320分叉与拒绝都保留分母。已备好冻结5000模型的CALIB全1232窗口误差分析与W2接触／阶段分层，但尚未执行。原活动capsule没有热修改。
