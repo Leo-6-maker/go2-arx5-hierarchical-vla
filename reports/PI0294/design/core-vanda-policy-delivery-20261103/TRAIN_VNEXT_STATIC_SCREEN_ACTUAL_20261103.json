@@ -380,10 +380,11 @@
     "limitations": [
       "Nominal feedback stages use hypothetical successful grasp and the one historical held finger width; actual grasp and timing remain unmeasured.",
       "Finite500Hz joint interpolation is a sampled contact screen, not a continuous collision certificate or native dynamic qualification.",
-      "Only fixture XY position differs; asset, orientation, safety, controller and scoring unchanged. These ten prospective DEV cards were fixed before this static check. No model behavior, task rollout or final TEST was used.",
-      "Runtime DEV-card binding, original native dynamic and camera qualification are still pending; no new policy or Teacher rollout is authorized by this static screen."
+      "Only the four fixed prospective TRAIN fixture XY positions differ; asset, orientation, safety, controller and scoring are unchanged. No model behavior, task rollout or TEST result was used.",
+      "Native TRAIN-card binding, full dynamic qualification and dual cameras remain pending; this static screen does not admit data or authorize a retry."
     ],
-    "observed_epoch": 1793698195.0193927
+    "observed_epoch": 1793698195.0193927,
+    "private_template_label_correction": "Private static helper retained two stale ten-DEV-card explanatory strings. Actual four TRAIN IDs, offsets, sampled paths and outcomes are unchanged; the original private receipt is retained."
   },
   "proofs": [
     {
@@ -399,6 +400,19 @@
   "static_pass": 7,
   "static_reject": 1,
   "contact_recovery_candidates_pending_native_adapter": 4,
+  "DEV_disjointness": {
+    "schema": "VNEXT_GEOMETRY_EXACT_DEV_DISJOINTNESS_CPU_V1",
+    "DEV_population_sha256": "ac16e9db37a6ca8ee4da3422425bf5d6adf0835297250627c27b959ac456df87",
+    "frozen_original_DEV_manifest_sha256": "ac16e9db37a6ca8ee4da3422425bf5d6adf0835297250627c27b959ac456df87",
+    "geometry_candidates": 8,
+    "comparisons": 80,
+    "matrix_atol": 1e-12,
+    "rtol": 0,
+    "exact_geometry_overlaps": [],
+    "DEV_used_for_training": false,
+    "no_independent_TEST_claim": true,
+    "epoch": 1793701143.3240929
+  },
   "no_seed_replacement": true,
   "native_qualification": false,
   "physical_attempts": 0,
