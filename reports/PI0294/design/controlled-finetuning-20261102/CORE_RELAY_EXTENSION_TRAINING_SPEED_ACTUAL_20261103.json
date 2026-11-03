@@ -1,0 +1,136 @@
+{
+  "schema": "CORE_USER_EXTENDED_RELAY_AND_TRAINING_SPEED_ACTUAL_V1",
+  "observed_at_SGT": "2026-11-03T11:45:04.810854+08:00",
+  "extension": {
+    "status": "READY_FOR_DISCONNECT_USER_EXTENDED_72H_PENDING_NATIVE_QUEUE",
+    "run_id": "core-night10-relay-20261103-05",
+    "PID": 461507,
+    "proc_start": "344654408",
+    "InvocationID": "5e0e674ad3c44c41954c530fc001c126",
+    "start_SGT": "2026-11-03T11:43:56.987405+08:00",
+    "stop_new_dispatch_SGT": "2026-11-06T11:43:56.987405+08:00",
+    "duration_s": 259200,
+    "runtime_source": "6119b59221e7b21813f1de13eea9625e1404e10b",
+    "integrated_main": "f486e7d8bab70155612665c0d3941e0cdcd40609",
+    "plan_sha256": "191b63b288d84de95f0572af156797507cabe629a593c1adeb1cbfb6fda8dfa8",
+    "config_sha256": "a4ad82b812de64a75d2fef99f83d6701aaf5f8de8dcf5ca3e7ecd8401c5e9035",
+    "detached_heartbeats": [
+      1793677437.0524678,
+      1793677497.0645618
+    ],
+    "READY_private_sha256": "53b0abfb4c7162dc6140019176c3276e963345ede09e06212c36e1edd50b0f11",
+    "pending_GPU_tasks": 9,
+    "new_valid_conditions": 0,
+    "new_shared_endpoints": 0,
+    "old_M13_and_D2_unchanged": true,
+    "cold_control_history": [
+      {
+        "run": "core-night10-relay-20261103-03",
+        "reason": "USER_APPROVED_EXTENSION",
+        "CPU_s": 50.005451
+      },
+      {
+        "run": "core-night10-relay-20261103-04",
+        "reason": "STALE_MONITOR_ROOT_BINDING",
+        "CPU_s": null,
+        "CPU_s_upper": 323.74686765670776,
+        "metadata_only": true,
+        "models": 0,
+        "physics": 0,
+        "closed": true
+      }
+    ],
+    "binding_repair": "Private encoded configuration contained predecessor root. Cold-closed CPU-only successor04; successor05 asserts actual root/source/entry and task configuration before adoption. Prior CLOSED leases, worker results and costs retained.",
+    "qualification_and_data_audit": "Trusted unchanged scientific inputs/audit reused; native constructor and new capsule root bindings actually verified. This is not a fresh full data audit or GPU qualification."
+  },
+  "D2": {
+    "step": 3266,
+    "target": 4096,
+    "TRAIN_visits": 104512,
+    "checkpoints_restored": [
+      1024,
+      2048
+    ],
+    "full4096_complete": false
+  },
+  "speed": {
+    "last256_updates": {
+      "D0": {
+        "trace_rows": 4096,
+        "last256_mean_seconds": 5.005927763879299,
+        "last256_median_seconds": 5.01651656627655,
+        "last256_p90_seconds": 5.103411436080933,
+        "device": "GPU0_32GiB",
+        "activation_CPU_offload": false
+      },
+      "D1": {
+        "trace_rows": 4096,
+        "last256_mean_seconds": 3.628142992965877,
+        "last256_median_seconds": 3.6747260093688965,
+        "last256_p90_seconds": 3.7027392387390137,
+        "device": "GPU0_32GiB",
+        "activation_CPU_offload": false
+      },
+      "D2": {
+        "trace_rows": 3250,
+        "last256_mean_seconds": 16.333190794102848,
+        "last256_median_seconds": 16.385547399520874,
+        "last256_p90_seconds": 16.50434684753418,
+        "device": "GPU1_16GiB",
+        "activation_CPU_offload": true
+      }
+    },
+    "comparison_caveat": "Different data arms and device/memory execution paths; historical durations are not a controlled acceleration factor.",
+    "microbatch": 1,
+    "gradient_accumulation_steps": 32,
+    "effective_batch": 32,
+    "offload_audit_step": 3200,
+    "CPU_copy_bytes": 109950546739200,
+    "estimated_GiB_copied_out_per_update": 31.999820709228516,
+    "copied_and_restored_tensor_counts_equal": true,
+    "synchronous_copy_source": "scripts/pi0294/multitask/activation_offload.py pack/unpack",
+    "actual_GPU1_link": "PCIe Gen4 x4; reported maximum x16",
+    "actual_GPU0_link": "PCIe Gen4 x16",
+    "sampled_GPU1_transfer_MBps": [
+      5237,
+      5074,
+      5091,
+      5182,
+      5912
+    ],
+    "sampled_GPU_utilization_percent": [
+      76,
+      81,
+      90,
+      90
+    ],
+    "CPU_cores_used_over_sample": 2.3484391356723275,
+    "CPU_quota_cores": 4,
+    "CPU_throttled_usec_delta": 0,
+    "major_faults_delta": 0,
+    "physical_read_bytes_delta": 0,
+    "inference": "Synchronous large activation round trips over the observed x4 link are a major plausible performance bottleneck. No instrumented per-operator attribution or promised speedup.",
+    "checkpoint_extra_delay_seconds": [
+      29.767,
+      22.84
+    ],
+    "NFS_disconnect_not_observed": true,
+    "acceleration_implemented": false
+  },
+  "next_performance_work": [
+    "Qualify lower/no CPU activation offload on available32GiB GPU with the same data/recipe before future deployment.",
+    "Measure selective or pinned asynchronous offload against exact loss/gradient/update and full checkpoint restore, with finite native steps.",
+    "Only then consider larger microbatch with matched effective batch32 and separately verified RNG/input semantics."
+  ],
+  "invariants": {
+    "current_D2_not_restarted": true,
+    "current_sampler_unchanged": true,
+    "physical_safety_WBC_and_scores_unchanged": true,
+    "infrastructure_unchanged": true
+  },
+  "proof_sha256": {
+    "timing": "8028c177dc3ae18392ff3e32fe017238e2f6bd7d5888353fd4428516b3349c87",
+    "sample": "5774f582fd94d6141942e49446e2a9729ba31a4712397cb1b76075b62be64652",
+    "ready": "53b0abfb4c7162dc6140019176c3276e963345ede09e06212c36e1edd50b0f11"
+  }
+}
