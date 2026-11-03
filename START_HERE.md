@@ -1,6 +1,6 @@
 # 当前入口 · V7 现役运行 + WM01 新研究线
 
-更新时间：2026-11-03（Asia/Singapore）。本次读取基线：`0a27753bbda8ed75ab6b74aeb64755e0427362c7`。**仓库发布不等于远端运行。**
+更新时间：2026-11-04（Asia/Singapore）。交接读取基线：`0a27753bbda8ed75ab6b74aeb64755e0427362c7`。**仓库发布不等于远端运行。**
 
 ## 新交接：WM01
 
@@ -8,7 +8,7 @@
 
 1. 先读根 [AGENTS](AGENTS.md)；其 V7 工程自主修复、源域优先、冻结 WBC 与站点安全继续有效。
 2. 读 [WM01 Codex 执行交接](docs/handover/2026-11-03/WM01_CODEX_EXECUTE.md)。按其中的依赖顺序实现和验证，不把本文当作已有训练程序。
-3. 数值实验以 [WM01 protocol](docs/protocols/WM01_TASKSPACE_WORLD_MODEL_POLICY_V1.md) 与 [plan.json](experiments/wm01/plan.json) 为设计输入。现阶段 `runtime_status=NOT_IMPLEMENTED`，首个交付是可恢复的原生状态—命令转移和一个实际 WM smoke，不是新的大规模 VLA 微调。
+3. 数值实验以 [WM01 protocol](docs/protocols/WM01_TASKSPACE_WORLD_MODEL_POLICY_V1.md) 与 [plan.json](experiments/wm01/plan.json) 为设计输入。`plan.json`保留交接时的`NOT_IMPLEMENTED`历史状态。本后继分支已实现薄采集／训练／诊断入口，W0完成、Core GPU1共享200更新及checkpoint恢复通过；固定5000端点和W2尚未交付。实际身份、命令、成本与负结果见[阶段回执](reports/WM01/wm01-20261103-w0-w2/FINAL_REPORT.md)，已实现入口见[RUNTIME](experiments/wm01/RUNTIME.md)。PR342与后继PR343均未合并，不能把此分支的实现当作main部署。
 4. 当前真实结果见 [状态页](CURRENT_SCIENCE_STATUS.md)。接管前只刷新相关 Issue #11/#47 及本地 owner/job 状态，不重读全部历史。
 
 ## 现役工作，不被新计划抢停
