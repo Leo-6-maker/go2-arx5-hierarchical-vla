@@ -42,7 +42,10 @@
     "actor_parameter_dim": 56,
     "translation_norm_limit_m": 0.01,
     "rotation_norm_limit_rad": 0.05,
-    "gripper_range": [0.0, 1.0],
+    "gripper_range": [
+      0,
+      1
+    ],
     "gripper_semantics": "BIND_NATIVE_CALIBRATION",
     "action_time_map": "REQUIRED_NATIVE_BINDING_NO_ASSUMED_FIRST_SAMPLE",
     "suffix": "HOLD_LAST_COMMANDED_POSE",
@@ -64,7 +67,12 @@
     "wm_history_hidden_dim": 256,
     "wm_history_burn_in_atomic_steps": 8,
     "future_true_controller_state_allowed": false,
-    "field_roles": ["PREDICT", "ANALYTIC_UPDATE", "CONTEXT", "RESTORE_ONLY"],
+    "field_roles": [
+      "PREDICT",
+      "ANALYTIC_UPDATE",
+      "CONTEXT",
+      "RESTORE_ONLY"
+    ],
     "native_restore": "FULL_SIM_WBC_REFERENCE_HISTORY_RNG_MONITOR_STATE"
   },
   "qualification": {
@@ -75,7 +83,11 @@
       "grasp_and_small_lift": 2,
       "supported_release_and_retreat": 2
     },
-    "profile_parallel_envs": [1, 4, 16],
+    "profile_parallel_envs": [
+      1,
+      4,
+      16
+    ],
     "optional_profile_max_envs": 64,
     "hard_safety_violation_allowance": 0,
     "full_teacher_task_success_is_mandatory": false,
@@ -90,20 +102,39 @@
     "normalization_and_replay_split": "TRAIN_ONLY",
     "allow_calib_in_actor_imagination": false,
     "allow_dev_or_test_in_any_training": false,
-    "protected_historical_data": ["shared59", "DEV68", "E1_E2_FIXED_COMPARISON"]
+    "protected_historical_data": [
+      "shared59",
+      "DEV68",
+      "E1_E2_FIXED_COMPARISON"
+    ]
   },
   "reset_bank": {
     "train_parent_layouts": 64,
-    "categories": ["R0_HOME", "R1_OPEN_PREGRASP", "R2_PHYSICAL_HELD_LIFT", "R3_PHYSICAL_HELD_NEAR_GOAL"],
+    "categories": [
+      "R0_HOME",
+      "R1_OPEN_PREGRASP",
+      "R2_PHYSICAL_HELD_LIFT",
+      "R3_PHYSICAL_HELD_NEAR_GOAL"
+    ],
     "candidates_per_category": 64,
     "total_candidates": 256,
     "max_construction_attempts_per_candidate": 2,
-    "native_hold_s": 1.0,
-    "serialized_restore_hold_s": 1.0,
+    "native_hold_s": 1,
+    "serialized_restore_hold_s": 1,
     "requires_physical_grasp_provenance": true,
     "training_reset_mixture": {
-      "before_half_formal_progress": [0.25, 0.25, 0.25, 0.25],
-      "after_half_formal_progress": [0.5, 0.16666666666666666, 0.16666666666666666, 0.16666666666666666]
+      "before_half_formal_progress": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "after_half_formal_progress": [
+        0.5,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666
+      ]
     },
     "primary_eval_reset": "R0_HOME"
   },
@@ -123,7 +154,13 @@
   },
   "world_model": {
     "members": 1,
-    "hidden": [2048, 2048, 2048, 2048, 2048],
+    "hidden": [
+      2048,
+      2048,
+      2048,
+      2048,
+      2048
+    ],
     "activation": "silu",
     "layer_norm": true,
     "outputs": "RESOLVED_CONTINUOUS_DELTA_SO3_PROGRESS_EVENT_HEADS",
@@ -131,7 +168,7 @@
     "optimizer": "AdamW",
     "lr": 0.0002,
     "weight_decay": 0.00001,
-    "gradient_clip": 1.0,
+    "gradient_clip": 1,
     "effective_sequence_batch": 256,
     "burn_in_atomic_steps": 8,
     "free_rollout_atomic_steps": 8,
@@ -146,14 +183,26 @@
   "reward": {
     "same_function_for_real_and_imagined_states": true,
     "native_scorer_unchanged": true,
-    "success_onset_weight": 10.0,
-    "potential_weights": [1.0, 2.0, 2.0, 4.0, 2.0],
-    "potential_terms": ["approach", "stable_grasp", "lift", "object_goal_progress", "supported_release"],
+    "success_onset_weight": 10,
+    "potential_weights": [
+      1,
+      2,
+      2,
+      4,
+      2
+    ],
+    "potential_terms": [
+      "approach",
+      "stable_grasp",
+      "lift",
+      "object_goal_progress",
+      "supported_release"
+    ],
     "distance_kernel_scale_m": 0.1,
     "lift_scale_m": 0.05,
     "action_cost_weight": 0.01,
     "action_change_cost_weight": 0.02,
-    "unsafe_onset_penalty": 5.0,
+    "unsafe_onset_penalty": 5,
     "native_geometry_and_gripper_thresholds": "BIND_TASK_CARD_BEFORE_LEARNING",
     "imagination_only_extra_shaping": false,
     "surrogate_is_native_success_certificate": false
@@ -161,7 +210,13 @@
   "diagnostics": {
     "split": "CALIB",
     "states": 64,
-    "arms": ["unchanged", "gradient", "negative_gradient", "random_matched_norm", "action_blind"],
+    "arms": [
+      "unchanged",
+      "gradient",
+      "negative_gradient",
+      "random_matched_norm",
+      "action_blind"
+    ],
     "max_atomic_steps_per_branch": 16,
     "max_branches": 320,
     "max_atomic_transitions_excluding_restore": 5120,
@@ -171,16 +226,36 @@
     "hard_safety_violation_allowance": 0
   },
   "learning": {
-    "arms": ["ppo", "wm_actor"],
-    "seeds": [20261104, 20261105, 20261106],
-    "actor_hidden": [256, 256, 256],
-    "critic_hidden": [256, 256, 256],
+    "arms": [
+      "ppo",
+      "wm_actor"
+    ],
+    "seeds": [
+      20261104,
+      20261105,
+      20261106
+    ],
+    "actor_hidden": [
+      256,
+      256,
+      256
+    ],
+    "critic_hidden": [
+      256,
+      256,
+      256
+    ],
     "real_atomic_transitions_per_cycle": 2048,
     "pilot_new_real_atomic_transitions_per_arm_seed": 100000,
     "formal_new_real_atomic_transitions_per_arm_seed": 1000000,
     "pilot_is_part_of_formal_continuation": true,
     "formal_total_new_real_atomic_transitions": 6000000,
-    "checkpoints_atomic_transitions": [100000, 250000, 500000, 1000000],
+    "checkpoints_atomic_transitions": [
+      100000,
+      250000,
+      500000,
+      1000000
+    ],
     "wm_updates_per_cycle": 50,
     "actor_imagination_updates_per_cycle": 4,
     "imagination_start_batch": 64,
@@ -233,7 +308,10 @@
     "conditional_on_state_policy_validity": true,
     "groot_required": false,
     "first_encoder_candidate": "DINOv2_ViT_S_14_PIN_REVISION_AT_IMPLEMENTATION",
-    "views": ["body", "wrist"],
+    "views": [
+      "body",
+      "wrist"
+    ],
     "history_decisions": 4,
     "student_object_ground_truth_input": false,
     "teacher_attempts": 200,
@@ -256,17 +334,119 @@
     "batch_transfer": "AUTHORIZED_FIXED_REVISION_ARTIFACTS",
     "amd_heavy_compute": false,
     "new_services_or_system_changes": false,
-    "cli_status": "ALL_WM02_RUNTIME_CLIS_NOT_IMPLEMENTED"
+    "cli_status": "ALL_WM02_RUNTIME_CLIS_NOT_IMPLEMENTED",
+    "local_first": {
+      "requested_by_user": true,
+      "policy": "RTX_4080_SUPER_16GB_LOCAL_BRINGUP_BEFORE_A40_H200_PBS_QUEUE",
+      "device": "RTX_4080_SUPER_16GB",
+      "addendum": "docs/handover/2026-11-04/WM02_4080S_LOCAL_FIRST.md",
+      "steps": [
+        "L0_READONLY_TARGET_BACKEND_WBC_LICENSE_AND_GPU",
+        "L1_CPU_ACTION_FRAME_TIME_FULL_RESTORE_TESTS",
+        "L2_NATIVE_SINGLE_ENV_AND_1_4_16_THROUGHPUT_IF_ALLOWED",
+        "L3_STANDALONE_WM200_AND_RECOVERABLE_5000_IF_FIT",
+        "L4_ACTOR_BPTT_GRADIENT_H16_SMALL_BATCH_AND_TRAIN_COUNTERFACTUAL",
+        "L5_LOCAL_REAL_COLLECT_WM_FIT_ACTOR_UPDATE_REAL_COLLECT_ONCE"
+      ],
+      "model_microbatch_candidates": [
+        8,
+        16,
+        32
+      ],
+      "model_effective_sequence_batch_unchanged": 256,
+      "actor_imagination_start_batch_candidates": [
+        8,
+        16
+      ],
+      "intended_formal_imagination_start_batch_unchanged": 64,
+      "native_env_count_profiles": [
+        1,
+        4,
+        16
+      ],
+      "gpu_memory_headroom_guideline_gb": 3,
+      "profile_metrics": [
+        "gpu_allocated_peak",
+        "gpu_reserved_peak",
+        "gpu_device_used_peak",
+        "CPU_RSS_peak",
+        "atomic_transitions_per_second",
+        "physics_steps_per_second",
+        "native_restore_replay",
+        "contact_safety",
+        "checkpoint_reload",
+        "actor_wm_gradient"
+      ],
+      "serial_collect_and_fit_if_concurrent_oom": true,
+      "before_PBS": [
+        "NATIVE_LICENSE_AND_BACKEND_RESOLVED_OR_EXPLICIT_TARGET_BLOCKER",
+        "ACTUAL_RESTORE_AND_ACTION_TIME_CONTRACT",
+        "WM_200_UPDATE_SAVE_RELOAD_ACTUAL",
+        "ACTOR_H16_BPTT_GRADIENT_PASS",
+        "AT_LEAST_ONE_LOCAL_COLLECT_FIT_UPDATE_COLLECT_IF_NATIVE_LEGAL",
+        "LOCAL_4080S_PROFILE_WITH_REAL_PEAK_AND_THROUGHPUT"
+      ],
+      "submit_formal_remote_training_before_local_ready": false,
+      "local_results_claimed_by_document": 0
+    }
   },
   "stages": [
-    {"id": "P0", "depends_on": [], "deliverable": "resolved_runtime_and_permission_spec"},
-    {"id": "P1", "depends_on": ["P0"], "deliverable": "native_adapter_restore_contact_and_throughput"},
-    {"id": "P2", "depends_on": ["P1"], "deliverable": "initial_replay_and_reloadable_world_model"},
-    {"id": "P3", "depends_on": ["P2"], "deliverable": "native_counterfactual_gradient_evidence"},
-    {"id": "P4", "depends_on": ["P3"], "deliverable": "paired_ppo_and_wm_actor_fixed_endpoints"},
-    {"id": "P5", "depends_on": ["P4"], "deliverable": "native_task_results_and_total_costs"},
-    {"id": "P6", "depends_on": ["P5"], "deliverable": "visual_student_and_observation_gap", "conditional_execution": true},
-    {"id": "P7", "depends_on": ["P5"], "deliverable": "separate_multitask_mobile_transfer_protocol", "automatic_execution": false}
+    {
+      "id": "P0",
+      "depends_on": [],
+      "deliverable": "resolved_runtime_and_permission_spec"
+    },
+    {
+      "id": "P1",
+      "depends_on": [
+        "P0"
+      ],
+      "deliverable": "native_adapter_restore_contact_and_throughput"
+    },
+    {
+      "id": "P2",
+      "depends_on": [
+        "P1"
+      ],
+      "deliverable": "initial_replay_and_reloadable_world_model"
+    },
+    {
+      "id": "P3",
+      "depends_on": [
+        "P2"
+      ],
+      "deliverable": "native_counterfactual_gradient_evidence"
+    },
+    {
+      "id": "P4",
+      "depends_on": [
+        "P3"
+      ],
+      "deliverable": "paired_ppo_and_wm_actor_fixed_endpoints"
+    },
+    {
+      "id": "P5",
+      "depends_on": [
+        "P4"
+      ],
+      "deliverable": "native_task_results_and_total_costs"
+    },
+    {
+      "id": "P6",
+      "depends_on": [
+        "P5"
+      ],
+      "deliverable": "visual_student_and_observation_gap",
+      "conditional_execution": true
+    },
+    {
+      "id": "P7",
+      "depends_on": [
+        "P5"
+      ],
+      "deliverable": "separate_multitask_mobile_transfer_protocol",
+      "automatic_execution": false
+    }
   ],
   "publication_validation": {
     "manual_design_review": "COMPLETED",

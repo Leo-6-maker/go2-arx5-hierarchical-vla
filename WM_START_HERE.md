@@ -9,6 +9,7 @@
 1. 阅读根 `AGENTS.md`，再读 [Codex 交接](docs/handover/2026-11-04/WM02_CODEX_EXECUTE.md)。
 2. 研究定义见 [WM02 协议](docs/protocols/WM02_GO2_ARX5_WORLD_MODEL_ACTOR_V1.md)；数字与工作包见 [plan.json](experiments/wm02/plan.json)。
 3. 复用范围、来源和未解决接口见 [实现映射](docs/protocols/WM02_UPSTREAM_ADAPTER_MAP_V1.md)。
+4. **最新本地资源顺序**：先按 [RTX 4080S 16GB本地优先交接](docs/handover/2026-11-04/WM02_4080S_LOCAL_FIRST.md) 完成原生后端核验、动作/状态/接触、WM及Actor短循环；具备真实测得的profile、可恢复checkpoint与目标合法资格后，才提交A40/H200 PBS。不要在本地调通前提前排正式百万步作业。
 
 WM02 是独立新实验，不需要先合并 PR #342。WM01 在 `de64c252246e4746315f2a324535b5d48912783c` 保留，不改其结果或参数。WM02 对新的 WM 研究优先级取代“必须回到 GR00T”和“默认 PPO＋WM 混合主线”；不修改已封存 V7 运行、旧比较、WBC、安全、目标 S1/T2 隔离或站点权限。目标动态工作须绑定当前有效准入，不能把本计划当解除隔离的证据。
 
