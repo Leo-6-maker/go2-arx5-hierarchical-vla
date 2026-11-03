@@ -2,6 +2,8 @@
 
 2026-11-04，Asia/Singapore。**P0 已得到实际目标身份与明确阻断；P1 已实现合同／薄adapter并完成 S 域原生检查，目标 P1 尚未完成。** 用户随后明确允许停止 GPU1 的727048；该进程已按原停止流程退出并独立核实 CLOSED。没有提交 WM02 长训练。
 
+后续纠正：原M13管理器未在第一次停止中一并终止，随后自动派发boundary1425203。现已停止管理器及后续worker，原流程关闭两个worker lease；02:57:25 SGT再次核实GPU1空闲15899MiB、无计算进程。原control检查点不变，boundary停在23更新且无新完整checkpoint；详见 [后续停止纠正](GPU1_FOLLOWON_STOP_20261104.md)。下文02:45显存数据仍保留为历史时点观测，不能当作没有后续派发的证据。
+
 ## 代码与隔离
 
 交接 `ddc801f30e288365925c61c37f7ee445ddc29712`／PR344仍未合并。本轮从该SHA建立独立checkout和分支 `research/wm02-p0-p1-native-20261104`，没有假定main包含计划，没有切换活动source。
