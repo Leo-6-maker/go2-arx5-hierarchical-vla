@@ -1,0 +1,53 @@
+{
+  "original_attempts": 73,
+  "original_T1_attempts": 25,
+  "original_T2_attempts": 48,
+  "physics_ticks": 1168000,
+  "CPU_s": 31676.287685111005,
+  "missing": [
+    "mjSTATE_INTEGRATION",
+    "arm_targets_each_interval",
+    "IK cache and ik_data",
+    "RNG",
+    "controller/monitor history"
+  ],
+  "reusable_complete_WM_transitions": 0,
+  "old_records_not_added_to_replay": true,
+  "private_inputs_sha256": "75d3a51bc188a5dc32fb9500b2e09e359da5928613b68cfe0fd41a69a17dfd06",
+  "new_split_counts": {
+    "TRAIN": 64,
+    "CALIB": 16,
+    "DEV": 20,
+    "TEST": 50
+  },
+  "exact_duplicates": 0,
+  "near_duplicates": 15,
+  "old_73_episodes_not_WM_transitions": true,
+  "TRAIN_REPLAY": {
+    "schema": "WM01_TRAIN_REPLAY_V1",
+    "sha256": "1423ba5a6afd7a9e2c5fd05e9574162ce705ce8ce1032e2742c92b8ba60e73b2",
+    "bytes": 2843340,
+    "source_sha": "f208a11c6c20603d3e9f9a5ca67b2fac3313f20f",
+    "original_manifest_sha256": "d80698f67db7365e61f223944afc2bcb37e6c9ced30debb7a7d011d3c4c4c347",
+    "episodes": 64,
+    "atoms": 34536,
+    "macros": 4317,
+    "windows": 4125,
+    "event_only_rejections": 11,
+    "CPU_s": 11.514412593
+  },
+  "HF": {
+    "repo": "leoyuer/pi0294-private-policy-delivery",
+    "visibility": "private",
+    "revision": "6ba73c0fcb957632bea7727780af35ddcdcbb51c",
+    "prefix": "WM01/20261103/native-train64-v1",
+    "data_sha256": "1423ba5a6afd7a9e2c5fd05e9574162ce705ce8ce1032e2742c92b8ba60e73b2",
+    "bytes": 2843340
+  },
+  "normalizer_split": "TRAIN",
+  "CALIB_states": 64,
+  "CALIB_scene_clusters": 16,
+  "TEST_native_episodes": 0,
+  "exact_geom_duplicates": 0,
+  "near_duplicate_pairs": 15
+}

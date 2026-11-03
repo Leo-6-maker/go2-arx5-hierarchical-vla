@@ -1,0 +1,114 @@
+{
+  "schema": "WM01_RESOLVED_SPEC_V1",
+  "experiment_id": "WM01",
+  "handoff_sha": "de64c252246e4746315f2a324535b5d48912783c",
+  "source_sha": "bb4b53d8f55fe0c65f0b70193894789f931d02cd",
+  "bindings": {
+    "engine": "scripts.pi0294.scene.make_engine",
+    "driver": "scripts.pi0291_arx5_data.engine.Engine.step",
+    "teacher": "scripts.pi0294.teacher.make_teacher(T1)->scripts.pi0291_arx5_data.teacher.Teacher",
+    "score": "scripts.pi0294.score.score(T1)->go2arx5_vla.target_sim.scorer.score_episode",
+    "safety": "scripts.pi0292.eval_contract.gate_action + scripts.pi0294.s1_preflight.predict/bind_install"
+  },
+  "interface": {
+    "frame": "PI0291_MUJOCO_WORLD",
+    "tcp": "ARX5_NATIVE_SITE_x5_ee",
+    "orientation": "row-rot6d",
+    "first_point": "t+0; point i consumed on [t+i*.05,t+(i+1)*.05)",
+    "physics_dt_s": 0.002,
+    "reference_dt_s": 0.05,
+    "execute_prefix": 8,
+    "horizon": 40,
+    "goal_square_half_size_m": 0.07,
+    "success": "complete32s; sustained grasp/lift>=.3s; carry>=.1m; all41 samples t28..30 satisfy original predicate"
+  },
+  "state_units": {
+    "qpos": "6rad+2m+freejoint position m/quaternion",
+    "qvel": "rad/s,m/s",
+    "tcp": "world SE3:m,rotation",
+    "velocities": "world m/s,rad/s",
+    "gripper": "fraction 0..1",
+    "arm_targets": "rad",
+    "finger_targets": "m",
+    "contact_force": "N",
+    "time": "s"
+  },
+  "source_files": {
+    "src/go2arx5_vla/world_model/features.py": "42e00c1192669d57a7c0d007c913fc8d37392254a7ab2e7e824136461dbbf71e",
+    "src/go2arx5_vla/world_model/contracts.py": "8e1f02a767fcf9a0c2c484ded9a2841092ccfe06a6570c388b346febde1bd3a7",
+    "src/go2arx5_vla/world_model/replay.py": "ed4556df28ba7857a91ff4e208c9a6deed265c8dc851272181cf4392d9b032c3",
+    "src/go2arx5_vla/world_model/__init__.py": "042a9389a839d580853f333291fb31f18b067f882214b4dbf7de40e4952ae2b7",
+    "src/go2arx5_vla/world_model/checkpoint.py": "f3202a882655d6f14bdf7962d7ebbaebcf253fa194311ece09cc6302bf53507e",
+    "src/go2arx5_vla/world_model/diagnostics.py": "88bbe8add3c47a397fd4c4503650af1d6b455d701af167f78bcbb298fba7265d",
+    "src/go2arx5_vla/world_model/native.py": "2f90a858e305ae2d483d38ccc2f4444bd6988ade57b404cd1fd34954c9c8e979",
+    "src/go2arx5_vla/world_model/reward.py": "e7d78c1a2463aa1e56820c72008bf2b33fd0d1b609bbbd833ba4c0ab9dcfc2e7",
+    "src/go2arx5_vla/world_model/evaluation.py": "1ce2a000dc83876ef0a53e82e5a6034137e39e848d941aebf1644d618187c6b4",
+    "src/go2arx5_vla/world_model/population.py": "de9b499e1e04aece6b826d425deec57c19d8b4d0d34db26cf7ac30caff50b0fe",
+    "src/go2arx5_vla/world_model/storage.py": "d16899f6c33a797a957640593578a0f3c84d738c8e5422b07541b678c66c42a6",
+    "src/go2arx5_vla/world_model/model.py": "cac5cb6aa3cfe0e02d7f5680427726a4012b186ce7980685125ad8816a697071",
+    "src/go2arx5_vla/world_model/runtime.py": "a63d592baf242923b31fe0dc53ecf8b41ba1824919c864d4ed6e1814081abc24",
+    "scripts/wm01/collect.py": "e622e88d6e70f794fec21cb4afa19787493c79c5563f3fc6533824e76c977177",
+    "scripts/wm01/__init__.py": "a4ca811046ae78c338503846fe0149d057e6a190aafee4225e6ead88ff23c225",
+    "scripts/wm01/diagnose.py": "8d0b9eb1152bf988035b9d456dcde9a1c2072288f1c33644c0fbe4156014dc62",
+    "scripts/wm01/fit.py": "4156cfc84ef538a186dc0a467151ccdd1b0cb2cdf281c727fe1ee603548c2d60",
+    "scripts/pi0291_arx5_data/engine.py": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+    "scripts/pi0291_arx5_data/teacher.py": "7b1a8b64a2b01573394323a945ecdd9d05821fc3ae83a1ad257adc44874fb234",
+    "scripts/pi0291_arx5_data/config.py": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+    "scripts/pi0291_arx5_data/scene.py": "86d15d28cf294c1289b941f792c9c949180e1914142f1bb3794549717db6fb49",
+    "scripts/pi0294/scene.py": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+    "scripts/pi0294/teacher.py": "994b741654075f9835b5d9bd4f8db70b7476664343b3c204594330dff41711e7",
+    "scripts/pi0294/score.py": "143dab0826a7490331a0740bc9e9f322f2aebe5d8a810960bec21ba169e1c956",
+    "scripts/pi0294/s1_preflight.py": "9ada71cf25a4347d6cd12232e42d32c7901e552ee839de091b0cc725d69205ec",
+    "scripts/pi0294/episode.py": "e299e84d72697143758f31c427be02bdadf5572c8a670e47a43aa144dbd30262",
+    "scripts/pi0292/eval_contract.py": "8d18bef9216672d3b7d9d8f4d90a7592c524ea257947187c4f2b8c97dd2a6075",
+    "src/go2arx5_vla/target_sim/scorer.py": "8da98606b9301c789ec1619d15ddae50702f94205e7d78025dd2d4a47fa32720",
+    "src/go2arx5_vla/task_data/codec.py": "9326ecb262479dc56f13dd0d0afe960ca489f4f84a1389ed5dddb5e37cb7c0f8",
+    "src/go2arx5_vla/safety/trajectory_gate.py": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4"
+  },
+  "diagnostic_macro_indices": [
+    2,
+    6,
+    14,
+    24
+  ],
+  "execution_profile": "LOCAL_PC_NATIVE_CPU_MUJOCO_3_2_7",
+  "asset_identity": {
+    "files": 27,
+    "manifest_sha256": "e6bceaf56679544cc4fda69116e51bc98fddce83e9e0d1bc76985c168167ce6f",
+    "byte_parity_with_Core": true
+  },
+  "privileged_state_dimension": 110,
+  "full_native_restore_integration_dimension": 234,
+  "ensemble": {
+    "members": 3,
+    "member_parameters": 675451,
+    "total_parameters": 2026353
+  },
+  "reward": {
+    "version": "WM01_T1_POTENTIAL_V2",
+    "recipe": {
+      "version": "WM01_T1_POTENTIAL_V2",
+      "gamma": 0.99,
+      "reach_weight": 0.1,
+      "grasp_lift_weight": 0.1,
+      "carry_weight": 0.2,
+      "released_goal_weight": 0.8,
+      "reach_scale_m": 0.05,
+      "carry_scale_m": 0.08,
+      "goal_scale_m": 0.04,
+      "height_scale_m": 0.01,
+      "speed_scale_m_s": 0.02,
+      "clearance_m": 0.08,
+      "action_cost": 0.01,
+      "failure_penalty": 1.0
+    },
+    "validation": {
+      "status": "VALIDATED_FROZEN",
+      "completed_release_potential": 0.7408915758132935,
+      "unreleased_goal_potential": 0.376457154750824,
+      "collision_reward": -0.9789224086158965,
+      "collision_scope": "ORIGINAL_S1_NATIVE_SHADOW_ONLY",
+      "unintentional_grasp_loss": "NOT_OBSERVED; no recovery qualification"
+    }
+  }
+}

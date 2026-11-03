@@ -1,0 +1,121 @@
+{
+  "canary": {
+    "attempts": 4,
+    "native32s": 4,
+    "successes": 4,
+    "S1_rejected": 0,
+    "live_ticks": 64000,
+    "restore_live_ticks": 6400,
+    "shadow_ticks": 70400,
+    "atoms": 2560,
+    "complete_macros": 320,
+    "CPU_s": 78.994418571,
+    "wall_s": 79.14643740798056,
+    "maximum_live_shadow_difference": 0.0,
+    "hard_safety_violations": 0
+  },
+  "TRAIN": {
+    "attempts": 64,
+    "native32s": 53,
+    "successes": 53,
+    "S1_rejected": 11,
+    "live_ticks": 863400,
+    "restore_live_ticks": 0,
+    "shadow_ticks": 865163,
+    "atoms": 34536,
+    "complete_macros": 4317,
+    "CPU_s": 1033.7678535149998,
+    "wall_s": 1034.4631457330106,
+    "maximum_live_shadow_difference": 0.0,
+    "hard_safety_violations": 0
+  },
+  "CALIB": {
+    "attempts": 16,
+    "native32s": 16,
+    "successes": 16,
+    "S1_rejected": 0,
+    "live_ticks": 256000,
+    "restore_live_ticks": 0,
+    "shadow_ticks": 256000,
+    "atoms": 10240,
+    "complete_macros": 1280,
+    "CPU_s": 309.98650500700006,
+    "wall_s": 310.54930597898783,
+    "maximum_live_shadow_difference": 0.0,
+    "hard_safety_violations": 0
+  },
+  "schema": "WM01_W0_STAGE_RESULT_V1",
+  "source_shas": {
+    "handoff": "de64c252246e4746315f2a324535b5d48912783c",
+    "initial_failed": "6e9c0d9758e248e59398edee76f359d4b5f1dd4d",
+    "qualified_native": "f208a11c6c20603d3e9f9a5ca67b2fac3313f20f",
+    "CALIB_and_W1": "953801963b926dad23d1c8d11a1574c46235a383",
+    "W2": "bb4b53d8f55fe0c65f0b70193894789f931d02cd"
+  },
+  "initial_failed_canary": {
+    "attempts": 1,
+    "live_ticks": 1119,
+    "restore_live_ticks": 400,
+    "shadow_ticks": 1600,
+    "max_shadow_error": 3.9436915955093355e-09,
+    "CPU_s": 2.539988414,
+    "repair": "Remove extra mj_forward/snapshot calls; original S1 tolerance remains1e-10"
+  },
+  "reward_V1_negative": {
+    "completed_release": 0.5606848001480103,
+    "unreleased_goal": 0.5646857619285583
+  },
+  "current_WM_updates": 0,
+  "current_actor_updates": 0,
+  "W1": {
+    "status": "SUBMITTED_AFTER_CLOSED_UUID_FAILURE",
+    "job_id": "1515716.stdct-mgmt-02",
+    "reason": "Insufficient node_pool",
+    "finite_updates": 5000,
+    "walltime_s": 3600,
+    "source_sha": "1a7462086451af1c9416b63c504759ad2a92c13a"
+  },
+  "W2": {
+    "status": "NOT_RUN_REQUIRES_W1_5000",
+    "predeclared_states": 64,
+    "predeclared_branches": 320,
+    "maximum_macro_steps": 4,
+    "macro_indices": [
+      2,
+      6,
+      14,
+      24
+    ],
+    "continuation": "zero task-frame increments anchored to actual TCP; hold last gripper"
+  },
+  "TEST_read": false,
+  "restore_vs_uninterrupted_original": {
+    "states": 16,
+    "branches": 32,
+    "live_ticks": 6400,
+    "shadow_ticks": 6400,
+    "max_abs_error": 0.0,
+    "contacts_exact": true,
+    "CPU_s": 12.610914696
+  },
+  "W1_first_attempt": {
+    "job_id": "1515661.stdct-mgmt-02",
+    "status": "CLOSED_PREMODEL_DEVICE_UUID_FORMAT_FAILURE",
+    "optimizer_updates": 0,
+    "models_constructed": 0,
+    "actor_updates": 0,
+    "native_physics_ticks": 0,
+    "resources_used": {
+      "cpupercent": 12,
+      "cput": "00:00:01",
+      "mem": "297832kb",
+      "ncpus": 36,
+      "ngpus": 0,
+      "vmem": "9051980kb",
+      "walltime": "00:00:33"
+    },
+    "failure_sha256": "3bb333abc2b293f88f2fd42f3d0ee6c85bd20139e329909503cb940388ebc4e6",
+    "scheduler_terminal": "F",
+    "Exit_status": 1
+  }
+}
