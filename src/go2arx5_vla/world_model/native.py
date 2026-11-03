@@ -37,16 +37,22 @@ class NativeAdapter:
         self.segment_id = 0
         self.model_sha256 = hashlib.sha256(self.engine.xml.encode()).hexdigest()
         self.state_spec = mujoco.mjtState.mjSTATE_INTEGRATION
+        self._cached_state = None
+        self._snapshot_step = None
         self.forecast = None
         self.forecast_index = 0
         self.shadow_ticks = 0
         self.max_shadow_error = 0.
         self.teacher.observe(self.snapshot())
 
-    def snapshot(self):
+    def snapshot(self, *, force=False):
         from scripts.pi0294.episode import _robot_contact
+        if not force and self._snapshot_step == self.engine.steps:
+            return deepcopy(self._cached_state)
         state = self.engine.snapshot()
         state['robot_object_contact'] = _robot_contact(self.engine, state)
+        self._cached_state = deepcopy(state)
+        self._snapshot_step = self.engine.steps
         return deepcopy(state)
 
     def _get_data(self, data):
@@ -75,7 +81,8 @@ class NativeAdapter:
             teacher=vars(self.teacher), rng=self.rng.bit_generator.state,
             numpy_rng=np.random.get_state(), python_rng=random.getstate(),
             history=self.history, last_command=self.last_command,
-            forecast=self.forecast, forecast_index=self.forecast_index))
+            forecast=self.forecast, forecast_index=self.forecast_index,
+            cached_state=self._cached_state, snapshot_step=self._snapshot_step))
 
     def restore(self, saved):
         if (saved.get('schema') != 'WM01_NATIVE_RESTORE_V1' or saved['model_sha256'] != self.model_sha256
@@ -96,6 +103,8 @@ class NativeAdapter:
         self.segment_id = saved['segment_id']
         self.forecast = deepcopy(saved['forecast'])
         self.forecast_index = saved['forecast_index']
+        self._cached_state = deepcopy(saved['cached_state'])
+        self._snapshot_step = saved['snapshot_step']
 
     def preflight(self, plan, guard):
         """Reuse the existing S1 copied-state rejection without changing actions."""
@@ -113,7 +122,8 @@ class NativeAdapter:
         return result
 
     def teacher_plan(self):
-        state = self.snapshot()
+        state = self.snapshot(force=True)
+        self.teacher.observe(state)
         plan = self.teacher.plan(state)
         from ..task_data.codec import pose10
         plan['rows10'] = np.stack([pose10(p, g) for p, g in zip(plan['poses'], plan['opening'])])
@@ -135,7 +145,13 @@ class NativeAdapter:
             raise ValueError('Only the executed prefix8 can become supervision')
         if self.forecast is None or self.forecast_index != point*25:
             raise PermissionError('Original S1 must admit each exact prefix before execution')
-        before = self.snapshot()
+        before = self.snapshot(force=point > 0)
+        if point > 0:
+            self.teacher.observe(before)
+        if self.history:
+            # Original score samples are boundary snapshots, taken after the
+            # high-rate record_tick and before this next interval.
+            self.history[-1] = deepcopy(before)
         installed = pose10(plan['poses'][point], plan['opening'][point])
         if not np.array_equal(installed, plan['rows10'][point]):
             raise ValueError('Reference matrix and EEF10 disagree')
@@ -155,7 +171,7 @@ class NativeAdapter:
                 consumed.append(dict(time_s=t0, eef10=installed.copy()))
                 # Match the original high-rate record_tick observation, then
                 # compare the live controller/integration state to original S1.
-                self.snapshot()
+                self.snapshot(force=True)
                 from scripts.pi0294.s1_preflight import observed_state
                 expected = self.forecast[self.forecast_index]
                 difference = float(np.max(np.abs(observed_state(self.engine)-expected)))
@@ -184,12 +200,13 @@ class NativeAdapter:
             analysis_teacher_stage=self.teacher.stage)
         validate_atom(row)
         self.history.append(after)
-        self.teacher.observe(after)
         return row
 
     def score(self, initial):
         from scripts.pi0294.score import score
         from ..target_sim.scorer import BOOL_FIELDS
+        if self.history:
+            self.history[-1] = self.snapshot(force=True)
         states = [initial]+self.history
         data = {key: np.asarray([s[key] for s in states], dtype=bool) for key in BOOL_FIELDS}
         data.update(time_s=np.asarray([s['time_s'] for s in states]),
