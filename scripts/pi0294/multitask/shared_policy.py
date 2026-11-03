@@ -12,6 +12,9 @@ if __name__=='__main__':
     entry=parser.parse_args();body=(Path(entry.root)/'RUN_MANIFEST.json').read_bytes()
     if hashlib.sha256(body).hexdigest()!=entry.manifest_sha256:raise PermissionError('SHARED_POLICY_ENTRY_MANIFEST')
     dependency=json.loads(body)['dependency_code'];sys.path[:0]=[dependency,dependency+'/src']
+    # The owner executes a sealed worker.py copy. Resolve package imports from
+    # that same pinned source rather than relying on the launch directory.
+    __package__='scripts.pi0294.multitask'
 
 
 def qualified_inference_entry(m):
@@ -72,6 +75,16 @@ def candidate_custody(root,m):
         if m['evaluation_checkpoint_manifest_sha256']!=PARENT_ID or m.get('delta_checkpoint')is not None:
             raise PermissionError('ORIGINAL_RAW_ZERO_STEP_WITHOUT_ADAPTED_DELTA')
         return None
+    delivery=m.get('inference_delivery')
+    if delivery is not None:
+        from .shared_delivery import validate
+        cp=node_local(m['delta_checkpoint'])
+        package=validate(cp,manifest_sha256=delivery['manifest_sha256'],
+            checkpoint_manifest_sha256=m['evaluation_checkpoint_manifest_sha256'])
+        if (package['science_run_id']!=delivery['science_run_id']
+                or read(cp/'CHECKPOINT_COMPLETE.json')['recipe']!=m['initialization_recipe']):
+            raise PermissionError('EXACT_DELIVERED_SHARED8192_SCIENTIFIC_PRODUCER')
+        return cp
     producer=node_local(m['delta_producer']['root'])
     verify_predecessor(m['delta_producer'],current_root=root)
     result=read(producer/'RESULT.json')
@@ -102,23 +115,27 @@ def candidate(root,m,model,contract,guard,checkpoint):
             kind='SHARED4_RAW_PARENT_ZERO_STEP',global_step=0,
             full_raw_loading_and_42_parameter_comparison=True,frozen_parent_unchanged=True)
     value=load_delta(model,contract,checkpoint,manifest_sha256=m['evaluation_checkpoint_manifest_sha256'],
-        raw_parent=m['raw_parent'],audit=read(root/'RAW_PARENT_AUDIT.json'),guard=guard)
+        raw_parent=m['raw_parent'],audit=read(root/'RAW_PARENT_AUDIT.json'),guard=guard,
+        inference_package_sha256=m.get('inference_delivery',{}).get('manifest_sha256'))
     return dict(value,evaluation_checkpoint_manifest_sha256=m['evaluation_checkpoint_manifest_sha256'],raw_zero_step=False,
         kind='SHARED4_RAW_PARENT_BOUND_DELTA',global_step=read(checkpoint/'CHECKPOINT_COMPLETE.json')['global_step'])
 
 
 def run(root,manifest_sha256):
     from scripts.pi0292.durable import read,write,OwnerLock
-    from scripts.pi0294.e1.smoke import node_local,put
+    from scripts.pi0294.e1.smoke import put
+    from .shared_site import site_paths
     from scripts.pi0294.native_dataset import NativeDataset,ProcessedCollator,sha,official_import
     from scripts.pi0294.numerics import prepare_environment,configure_torch,MODE
     from .shared_evaluation import KIND,INFERENCE_KIND,validate_manifest,run_condition
     from .shared_training import validate_data
     from .shared_raw_model import load as load_raw
-    root=node_local(root);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m.get('owner_uid')!=os.getuid()
-            or os.uname().nodename!='corelab-4080s'):
+    root=Path(root).resolve(strict=True);m=read(root/'RUN_MANIFEST.json');bindings=read(root/'NEURAL_BINDINGS.private.json')
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m.get('owner_uid')!=os.getuid()):
         raise PermissionError('SHARED_EVAL_REGISTERED_NATIVE_OWNER')
+    if m.get('execution_site')=='VANDA_A40' and (m.get('kind')!=INFERENCE_KIND or m.get('raw_zero_step')is not True):
+        raise PermissionError('VANDA_RAW_INFERENCE_QUALIFICATION_ONLY_NO_PHYSICS')
+    node_local=site_paths(root,m,bindings);node_local(root)
     lease=read(root/'control/LEASE.json')
     if lease.get('status')!='ACTIVE'or lease.get('manifest_sha256')!=manifest_sha256:
         raise PermissionError('SHARED_EVAL_ACTIVE_NATIVE_LEASE')
@@ -132,7 +149,8 @@ def run(root,manifest_sha256):
         if m['sealed_inputs'].get(name)!=sha(root/name):raise PermissionError('SHARED_EXACT_SEALED_RAW_AUDIT_AND_BINDINGS')
     node_local(m['raw_parent']);p=m['initialization_recipe'];required=qualified_inference_entry(m)
     checkpoint=candidate_custody(root,m)
-    data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True);validate_data(data,p)
+    data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True,
+        raw_bindings=bindings.get('raw_bindings'));validate_data(data,p)
     is_qualification=m['kind']==INFERENCE_KIND;condition=None
     if not is_qualification:
         condition=validate_manifest(m,read(root/'SHARED_DEV_PLAN.json'),read(root/'TASK_DEV_POPULATION.json'),read(root/'TASK_NATIVE_QUALIFICATION.json'))
@@ -171,6 +189,8 @@ def run(root,manifest_sha256):
             if mujoco.__version__!='3.2.7':raise PermissionError('SHARED_QUALIFIED_MUJOCO_VERSION')
         count=torch.cuda.device_count();free,total=torch.cuda.mem_get_info()if count==1 else(0,0)
         uuid=str(torch.cuda.get_device_properties(0).uuid)if count==1 else None
+        if m.get('execution_site')=='VANDA_A40' and (count!=1 or torch.cuda.get_device_name(0)!='NVIDIA A40'):
+            raise PermissionError('SHARED_OWN_NATIVE_A40_INFERENCE_DEVICE')
         put(root/'GPU_ENTRY_OBSERVATION.json',dict(device_count=count,actual_GPU_uuid=uuid,free_bytes=free,total_bytes=total,required_free_bytes=required))
         if count!=1 or free<required or uuid!=m['GPU_uuid']:raise PermissionError('SHARED_ACTUAL_SAME_DEVICE_INFERENCE_CAPACITY')
         put(root/'MODEL_LOAD_INTENT.json',dict(raw_parent_files_identity=m['raw_parent_files_identity'],epoch=time.time()));loads+=1
@@ -189,7 +209,8 @@ def run(root,manifest_sha256):
             from transformers import TrainingArguments
             from scripts.pi0294.native_train import make_trainer_class
             from .book_fit import select_rows,measure
-            probe=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=False)
+            probe=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=False,
+                raw_bindings=bindings.get('raw_bindings'))
             probe.rows=select_rows(probe.rows,p);probe.initialize();data.initialize()
             args=TrainingArguments(output_dir=str(root/'no_training'),max_steps=1,per_device_train_batch_size=1,
                 gradient_accumulation_steps=32,bf16=True,remove_unused_columns=False,eval_strategy='no',

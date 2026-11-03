@@ -62,11 +62,12 @@ def validate_data(data,p):
 
 def qualified_entry(m):
     """A book-only certificate never authorizes this distinct raw model."""
-    from .activation_offload import LOW_RESIDENCY_POLICY
+    from .activation_offload import LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY
     p=m.get('recipe',{});validate_manifest(m,p)
     raw=lambda x:(json.dumps(x,indent=2,allow_nan=False)+'\n').encode()
-    memory_sha=hashlib.sha256(raw(LOW_RESIDENCY_POLICY)).hexdigest()
-    if (m.get('memory_execution_sha256')!=memory_sha
+    policies={hashlib.sha256(raw(v)).hexdigest():v for v in (LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY)}
+    memory_sha=m.get('memory_execution_sha256');policy=policies.get(memory_sha)
+    if (policy is None
             or m.get('sealed_inputs',{}).get('M32_MEMORY_EXECUTION.json')!=memory_sha
             or m.get('training_GPU_entry_MiB')not in(15360,24576)):
         raise PermissionError('RAW_SHARED_EXPLICIT_V2_MEMORY_AND_MEASURED_DEVICE_ENTRY')
@@ -96,7 +97,11 @@ def qualified_entry(m):
     expected=recipe(p['dataset_manifest_sha256'],p['statistics_sha256'],p['TRAIN_population_sha256'],
                     p['task_DEV_population_sha256'],steps=10)
     zero=values['RAW_ZERO_STEP_PARAMETERS.json'];copies=values['ACTUAL_ACTIVATION_OFFLOAD.json']
+    resident=policy==RESIDENT_ACTIVATION_POLICY
+    copies_valid=(copies.get('copied_tensors')==copies.get('restored_tensors')==copies.get('copied_bytes')==0
+                  if resident else copies.get('copied_tensors',0)>0 and copies.get('restored_tensors',0)>0)
     if (q.get('recipe')!=expected or q.get('GPU_uuid')!=m.get('GPU_uuid')
+            or q.get('memory_execution_sha256')!=memory_sha
             or result.get('status')!='COMPLETE_SHARED_RAW_FINITE_LEARNING'or result.get('error')is not None
             or any(result.get(k)!=v for k,v in dict(model_load_attempts=1,optimizer_updates=10,TRAIN_visits=320,
                 generation_attempts=32,completed_generations=32,physics_integrations=0,DEV_conditions=0).items())
@@ -107,8 +112,7 @@ def qualified_entry(m):
                 optimizer_state_entries=42,scheduler_restored=True,RNG_restored=True,sampler_cursor=320,frozen_parent_unchanged=True).items())
             or zero.get('operation')!='COMPARE_FRESH_LOADED_MODEL'or zero.get('raw_parent_files_identity')!=PARENT_ID
             or zero.get('trainable_tensor_count')!=42 or zero.get('trainable_numel')!=77847684
-            or copies.get('policy')!=LOW_RESIDENCY_POLICY or copies.get('copied_tensors',0)<=0
-            or copies.get('restored_tensors',0)<=0 or lease.get('status')!='CLOSED'
+            or copies.get('policy')!=policy or not copies_valid or lease.get('status')!='CLOSED'
             or lease.get('manifest_sha256')!=admission['files']['RUN_MANIFEST.json']
             or lease.get('result_sha256')!=admission['files']['RESULT.json']):
         raise PermissionError('RAW_SHARED_NATIVE10_FULL_RESTORE_REAL_GENERATIONS_AND_TWO_GIB_MARGIN')

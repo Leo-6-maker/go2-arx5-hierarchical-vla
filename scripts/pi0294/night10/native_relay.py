@@ -67,10 +67,14 @@ def owner(c):
 
 
 def admission(c):
+    shared_consumer=(c.get('explicit_shared_delivery_consumer')is True
+        and c.get('GPU_index')in(0,1)
+        and c.get('GPU_uuid')==c.get('GPU'+str(c.get('GPU_index'))+'_uuid')
+        and bool(c.get('shared_science_run_id')))
     if (os.uname().nodename!='corelab-4080s' or os.getuid()!=2009
             or c.get('schema')!='CORE_NATIVE_RELAY_BINDING_V1'
             or c.get('candidate_order')!=['Phase4096','D0','D1','D2','PB_CONTROL','PB_BOUNDARY']
-            or c.get('GPU_index')!=0 or c.get('GPU_uuid')!=c.get('GPU0_uuid')
+            or not shared_consumer and (c.get('GPU_index')!=0 or c.get('GPU_uuid')!=c.get('GPU0_uuid'))
             or not Path(c['root']).resolve().is_relative_to(Path(c['source']).resolve().parent.parent)):
         raise PermissionError('EXACT_EXISTING_CORE_OWNER_AND_FROZEN_RELAY')
     for name,pin in c['input_pins'].items():
@@ -103,6 +107,10 @@ def checkpoint(producer):
 
 
 def stage(c,name,module,manifest,files):
+    vanda=c.get('execution_site')=='VANDA_A40'
+    if vanda and (os.getuid()!=22182 or not os.environ.get('PBS_JOBID')
+            or c['site_context']['job_id']!=os.environ['PBS_JOBID']):
+        raise PermissionError('EXACT_VANDA_ALLOCATION_BEFORE_NATIVE_STAGE')
     root=Path(c['run_parent'])/name
     if root.exists()or root.is_symlink():raise PermissionError('NATIVE_IDENTITY_EXISTS_NO_REPLAY')
     c.setdefault('_actors',[]).append(str(root))
@@ -114,23 +122,31 @@ def stage(c,name,module,manifest,files):
     files['NEURAL_BINDINGS.private.json']=bindings
     source=Path(c['source']);worker=(source/module).read_bytes()
     for n,value in files.items():exclusive(root/n,value)
-    for n in('enter.sh','doctor.py','ENVIRONMENTS.json'):
-        (root/'entry/infrastructure'/n).write_bytes((Path(c['entry'])/n).read_bytes())
+    if vanda:
+        exclusive(root/'SITE_CONTEXT.json',dict(c['site_context'],run_uuid=root.name,source_commit=c['source_commit']))
+        files['SITE_CONTEXT.json']=read(root/'SITE_CONTEXT.json')
+    else:
+        for n in('enter.sh','doctor.py','ENVIRONMENTS.json'):
+            (root/'entry/infrastructure'/n).write_bytes((Path(c['entry'])/n).read_bytes())
     (root/'worker.py').write_bytes(worker)
-    manifest.update(run_uuid=root.name,owner_uid=2009,role='V7_NATIVE_RELAY__'+root.name,
+    manifest.update(run_uuid=root.name,owner_uid=os.getuid()if vanda else 2009,role='V7_NATIVE_RELAY__'+root.name,
         code_source_sha=c['source_commit'],dependency_code=c['source'],GPU_uuid=c['GPU_uuid'],
         protected_remaining_bytes=c['protected_remaining_bytes'],free_margin_bytes=30*1024**3,
         deadline_epoch=min(c['dispatch_deadline_epoch'],time.time()+c['native_seconds'])
             if manifest.get('recipe',{}).get('max_steps')!=8192 else time.time()+c['formal_seconds'])
+    if vanda:
+        manifest['execution_site']='VANDA_A40'
+        manifest['science_run_id']=c['science_run_id']
+        manifest['deadline_epoch']=min(manifest['deadline_epoch'],c['site_context']['allocation_deadline_epoch'])
     manifest['sealed_inputs']={n:sha(root/n)for n in files}|{'worker.py':sha(root/'worker.py')}
     exclusive(root/'RUN_MANIFEST.json',manifest)
     registry,registry_before=snapshot(c['registry']);account,account_before=snapshot(c['LOCAL'])
-    if any(account.get(n)!=[]for n in('unknown_effects','pending_updates','pending_queries')):
+    if any(account.get(n,[])!=[]for n in('unknown_effects','pending_updates','pending_queries')):
         raise PermissionError('CANONICAL_UNKNOWN_EFFECTS_BLOCK_ADMISSION')
     if any(e.get('path')==str(root)or e.get('role')==manifest['role']for e in registry['entries']):
         raise PermissionError('DUPLICATE_CANONICAL_RUN_IDENTITY')
     registry['entries'].append(dict(role=manifest['role'],path=str(root),run_uuid=root.name,
-        executor_node='corelab-4080s',owner='EXISTING_LOCAL_PC',scope=manifest['kind'],
+        executor_node=os.uname().nodename if vanda else 'corelab-4080s',owner='EXISTING_LOCAL_PC',scope=manifest['kind'],
         source_sha=c['source_commit'],local_lease=str(root/'control/LEASE.json')))
     account.setdefault('V7_book_learning_runs',{})[root.name]=dict(status='REGISTERED_NOT_STARTED',
         root=str(root),role=manifest['role'],manifest_sha256=sha(root/'RUN_MANIFEST.json'),
@@ -233,14 +249,15 @@ def predecessor(root):
 
 def shared(c,steps):
     from scripts.pi0294.multitask.shared_training import recipe,KIND,qualified_entry
-    from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY
+    from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY
     from scripts.pi0294.multitask.book_gpu_capacity import TRAINING_REQUEST
     p=recipe(**c['shared_recipe_pins'],steps=steps)
+    policy=RESIDENT_ACTIVATION_POLICY if c.get('execution_site')=='VANDA_A40'else LOW_RESIDENCY_POLICY
     files={'TRAIN_FIT_PLAN.json':p,'RAW_PARENT_AUDIT.json':read(c['raw_audit']),
         'NEURAL_BINDINGS.private.json':dict(c['neural_bindings'],dataset=c['shared_data']),
-        'M32_MEMORY_EXECUTION.json':LOW_RESIDENCY_POLICY}
+        'M32_MEMORY_EXECUTION.json':policy}
     m=dict(kind=KIND,recipe=p,raw_parent_files_identity=p['raw_parent_files_identity'],raw_parent=c['raw_parent'],
-        memory_execution_sha256=hashlib.sha256(raw(LOW_RESIDENCY_POLICY)).hexdigest(),training_GPU_entry_MiB=24576,
+        memory_execution_sha256=hashlib.sha256(raw(policy)).hexdigest(),training_GPU_entry_MiB=24576,
         GPU_training_qualification=TRAINING_REQUEST if steps==10 else None,
         GPU_training_admission=None if steps==10 else shared_training_certificate(c),
         limits=dict(model_loads=1,optimizer_updates=steps,physics_integrations=0,
@@ -269,6 +286,95 @@ def shared_inference(c):
             initialization_recipe=p,limits=INFERENCE_LIMITS),
         {'RAW_PARENT_AUDIT.json':read(c['raw_audit']),
          'NEURAL_BINDINGS.private.json':dict(c['neural_bindings'],dataset=c['shared_data'])})
+
+
+def shared_candidate(c):
+    from scripts.pi0294.multitask import shared_evaluation as ev,book_reset as reset
+    from scripts.pi0294.multitask.shared_delivery import validate
+    from scripts.pi0294.multitask.shared_policy import qualified_inference_entry
+    from scripts.pi0294.multitask.shared_evaluation import INFERENCE_KIND,INFERENCE_LIMITS
+    package=Path(c['shared_delivery_root']);delivery=read(package/'DELIVERY_COMPLETE.json')
+    value=validate(package,manifest_sha256=delivery['manifest_sha256'],
+        checkpoint_manifest_sha256=delivery['checkpoint_manifest_sha256'])
+    if value['science_run_id']!=c['shared_science_run_id']:
+        raise PermissionError('PREBOUND_UNIQUE_SHARED_SCIENTIFIC_PRODUCER')
+    recipe=read(package/'CHECKPOINT_COMPLETE.json')['recipe']
+    population=read(Path(c['shared_data'])/'TASK_DEV_POPULATION.json')
+    panel=ev.plan(population,population_sha256=recipe['task_DEV_population_sha256'],
+        checkpoint_manifest_sha256=delivery['checkpoint_manifest_sha256'])
+    base=dict(raw_parent=c['raw_parent'],raw_zero_step=False,initialization_recipe=recipe,
+        raw_parent_files_identity=recipe['raw_parent_files_identity'],delta_checkpoint=str(package),
+        evaluation_checkpoint_manifest_sha256=delivery['checkpoint_manifest_sha256'],
+        inference_delivery=dict(manifest_sha256=delivery['manifest_sha256'],science_run_id=value['science_run_id']))
+    common={'RAW_PARENT_AUDIT.json':read(c['raw_audit']),
+        'NEURAL_BINDINGS.private.json':dict(c['neural_bindings'],dataset=c['shared_data'])}
+    return base,panel,common
+
+
+def shared_qualification(c):
+    from scripts.pi0294.multitask.shared_evaluation import INFERENCE_KIND,INFERENCE_LIMITS,KIND,LIMITS
+    from scripts.pi0294.multitask.shared_policy import qualified_inference_entry
+    base,panel,common=shared_candidate(c)
+    actor=stage(c,'shared8192-'+c['binding_id']+'-core-native16',
+        'scripts/pi0294/multitask/shared_policy.py',dict(base,kind=INFERENCE_KIND,limits=INFERENCE_LIMITS),common)
+    execute(c,actor)
+    cert=dict(schema='SHARED4_SAME_GPU_NATIVE16_INFERENCE_V1',qualification_root=str(actor),
+        files={n:sha(actor/n)for n in('RUN_MANIFEST.json','RESULT.json','SHARED_GPU_INFERENCE_CAPACITY.json',
+            'ACTUAL_SHARED_INFERENCE_RECONSTRUCTION.json','control/LEASE.json')})
+    qualified_inference_entry(dict(base,kind=KIND,limits=LIMITS,GPU_uuid=c['GPU_uuid'],shared_inference_admission=cert))
+    exclusive(Path(c['root'])/'SHARED_CORE_INFERENCE_ADMISSION.json',dict(cert,
+        checkpoint_manifest_sha256=base['evaluation_checkpoint_manifest_sha256'],
+        GPU_uuid=c['GPU_uuid'],capacity_pass=True,completed_generations=16))
+    return dict(status='PASS_SHARED8192_CORE_NATIVE16',effects_closed=True,checkpoint_manifest_sha256=base['evaluation_checkpoint_manifest_sha256'])
+
+
+def shared_dev(c):
+    """The exact delivered policy's own Core native16 precedes DEV68 once."""
+    from scripts.pi0294.multitask import shared_evaluation as ev,book_reset as reset
+    from scripts.pi0294.multitask.shared_policy import qualified_inference_entry
+    base,panel,common=shared_candidate(c)
+    cert=read(Path(c['root'])/'SHARED_CORE_INFERENCE_ADMISSION.json')
+    qualified_inference_entry(dict(base,kind=ev.KIND,limits=ev.LIMITS,GPU_uuid=c['GPU_uuid'],shared_inference_admission=cert))
+    previous=read(c['reset_first_predecessor']);rows=[];failure=None
+    try:
+        for index,condition in enumerate(panel['conditions']):
+            if time.time()+c['native_seconds']>c['dispatch_deadline_epoch']:break
+            name=ev.condition_run_name(panel,index)
+            reset.verify_predecessor(previous,current_root=Path(c['run_parent'])/name)
+            files={'RAW_PARENT_AUDIT.json':read(c['raw_audit']),
+                'NEURAL_BINDINGS.private.json':dict(c['neural_bindings'],dataset=c['shared_data']),
+                'SHARED_DEV_PLAN.json':panel,'TASK_DEV_POPULATION.json':population,
+                'TASK_NATIVE_QUALIFICATION.json':read(c['shared_reset_qualification']),
+                'RESET_PREDECESSOR.json':previous}
+            actor=stage(c,name,'scripts/pi0294/multitask/shared_policy.py',dict(base,kind=ev.KIND,
+                condition_index=index,limits=ev.LIMITS,shared_inference_admission=cert,
+                task_templates=c['shared_task_templates'],physics_packages=c['book_base_manifest']['physics_packages']),files)
+            pending=dict(task=condition['task'],id=condition['id'],valid_model_condition=False,
+                success=False,hard_native_safety=None,engineering_outcome='UNKNOWN_NATIVE_EFFECT',
+                native_root=str(actor))
+            rows.append(pending)
+            result=execute(c,actor)
+            if result.get('conditions'):rows[-1:]=result['conditions']
+            else:pending.update(engineering_outcome='CLOSED_ENGINEERING_FAILURE',error=result.get('error'))
+            if result['status']!='COMPLETE_SHARED_DEV_CONDITION':
+                failure=dict(condition=index,native_status=result['status'],error=result.get('error'));break
+            previous=predecessor(actor)
+    finally:
+        by_id={(r['task'],r['id']):r for r in rows}
+        all_rows=[dict({'task':r['task'],'id':r['id'],'checkpoint_manifest_sha256':panel['checkpoint_manifest_sha256']},
+            **({'attempted':True,**by_id[(r['task'],r['id'])]}if(r['task'],r['id'])in by_id else
+               {'attempted':False,'valid_model_condition':False,'success':False,'unrun':True}))for r in panel['conditions']]
+        out=Path(c['root'])/'policy8192';out.mkdir(exist_ok=False)
+        exclusive(out/'DEV68_RESULTS.json',all_rows)
+        exclusive(out/'POLICY_MANIFEST.json',dict(delivery,recipe=recipe,formal_behavioral_endpoint=8192,
+            intermediate_behavioral_panels=0,full_training_archive_retained_at_producer=True))
+        summary=ev.summarize(panel,rows)
+        exclusive(out/'SUMMARY.json',dict(summary,first_engineering_failure=failure))
+        (out/'MODEL_CARD.md').write_text('Shared four-task M32, raw parent plus exact 8192 delta.\n\n'
+            'Evaluation is exposed DEV68, not independent TEST. See SUMMARY.json for coverage and outcomes.\n')
+        (out/'FAILURE_ANALYSIS.md').write_text('Each attempted condition retains its original process records and STOP.\n\n'
+            'See DEV68_RESULTS.json for first failure, safety, contact and object outcome fields. Unrun rows are explicit.\n')
+    return dict(status='CLOSED_SHARED8192_DEV68',**summary,conditions=all_rows)
 
 
 def book(c,model):
@@ -447,7 +553,7 @@ def monitor(c):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('action',choices=('preflight','audit','monitor','shared10','shared16','shared8192','watch','book'))
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=('preflight','audit','monitor','shared10','shared16','shared8192','shared-delivery','shared-qual','shared-dev','watch','book'))
     parser.add_argument('--config',required=True);parser.add_argument('--model');parser.add_argument('--receipt')
     parser.add_argument('--actor-root')
     a=parser.parse_args();c=read(a.config);c['_config_sha256']=sha(a.config);admission(c)
@@ -465,8 +571,11 @@ def main():
         print(json.dumps(dict(status='PASS_COLD_RELAY_METADATA_NO_GPU',models=0,physics_integrations=0)))
         return 0
     if not a.receipt:raise ValueError('EXACT_TASK_RECEIPT_PATH_REQUIRED')
-    if a.action in('audit','monitor'):
-        value=audit_inputs(c)if a.action=='audit'else monitor(c)
+    if a.action in('audit','monitor','shared-delivery'):
+        if a.action=='shared-delivery':
+            from scripts.pi0294.multitask.shared_delivery import receive_hf
+            value=receive_hf(c)
+        else:value=audit_inputs(c)if a.action=='audit'else monitor(c)
         exclusive(a.receipt,dict(value,epoch=time.time()));return 0
     lock=owner(c);failure=None;value=None
     update(Path(c['root'])/'NEURAL_SLOT.json',dict(available=False,epoch=time.time(),owner_PID=os.getpid()))
@@ -493,6 +602,8 @@ def main():
             root=shared(c,8192);lock.close()
             value=start_formal_watch(c,a.config,root)
         elif a.action=='book':value=book(c,a.model)
+        elif a.action=='shared-qual':value=shared_qualification(c)
+        elif a.action=='shared-dev':value=shared_dev(c)
         else:
             actor=shared(c,10)if a.action=='shared10'else shared_inference(c)
             result=execute(c,actor)

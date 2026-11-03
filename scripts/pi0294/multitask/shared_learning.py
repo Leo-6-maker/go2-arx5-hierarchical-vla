@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import resource
 import sys
 import time
 
@@ -23,15 +24,15 @@ if __name__=='__main__':
 
 def run(root,manifest_sha256):
     from scripts.pi0292.durable import read,write,OwnerLock
-    from scripts.pi0294.e1.smoke import node_local,put
+    from scripts.pi0294.e1.smoke import put
+    from scripts.pi0294.multitask.shared_site import site_paths
     from scripts.pi0294.native_dataset import NativeDataset,sha,official_import
     from scripts.pi0294.generalization.minimal_model import unchanged_raw_parent
     from scripts.pi0294.multitask.shared_training import validate_manifest,validate_data,qualified_entry
     from scripts.pi0294.numerics import prepare_environment,configure_torch,MODE
-    root=node_local(root);m=read(root/'RUN_MANIFEST.json');p=read(root/'TRAIN_FIT_PLAN.json')
+    root=Path(root).resolve(strict=True);m=read(root/'RUN_MANIFEST.json');p=read(root/'TRAIN_FIT_PLAN.json')
     validate_manifest(m,p)
-    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m.get('owner_uid')!=os.getuid()
-            or os.uname().nodename!='corelab-4080s'):
+    if (sha(root/'RUN_MANIFEST.json')!=manifest_sha256 or m.get('owner_uid')!=os.getuid()):
         raise PermissionError('SHARED_EXISTING_NATIVE_OWNER_AND_SEALED_MANIFEST')
     lease=read(root/'control/LEASE.json')
     if lease.get('status')!='ACTIVE'or lease.get('manifest_sha256')!=manifest_sha256:
@@ -44,12 +45,15 @@ def run(root,manifest_sha256):
         if not path.resolve().is_relative_to(root.resolve())or sha(path)!=pin:
             raise PermissionError('SHARED_SEALED_INPUT_CHANGED:'+name)
     bindings=read(root/'NEURAL_BINDINGS.private.json')
+    node_local=site_paths(root,m,bindings)
+    node_local(root)
     for name in ('source','python','cosmos','dataset','cosmos_hub'):node_local(bindings[name])
     raw=node_local(m['raw_parent']);audit=read(root/'RAW_PARENT_AUDIT.json')
     unchanged_raw_parent(raw,audit)
     if m.get('sealed_inputs',{}).get('RAW_PARENT_AUDIT.json')!=sha(root/'RAW_PARENT_AUDIT.json'):
         raise PermissionError('SHARED_TRANSFER_AUDIT_IS_SEALED')
-    data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True)
+    data=NativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],for_optimization=True,
+        raw_bindings=bindings.get('raw_bindings'))
     validate_data(data,p)
     if m.get('GPU_training_admission')is not None:node_local(m['GPU_training_admission']['qualification_root'])
     required=qualified_entry(m)
@@ -73,6 +77,8 @@ def run(root,manifest_sha256):
         configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
         count=torch.cuda.device_count();free,total=torch.cuda.mem_get_info()if count==1 else(0,0)
         actual_uuid=str(torch.cuda.get_device_properties(0).uuid)if count==1 else None
+        if m.get('execution_site')=='VANDA_A40' and (count!=1 or torch.cuda.get_device_name(0)!='NVIDIA A40'):
+            raise PermissionError('SHARED_OWN_NATIVE_A40_ALLOCATION_DEVICE_REQUIRED')
         put(root/'GPU_ENTRY_OBSERVATION.json',dict(device_count=count,free_bytes=free,total_bytes=total,
             required_free_bytes=required,actual_GPU_uuid=actual_uuid,epoch=time.time()))
         if count!=1 or free<required or actual_uuid!=m['GPU_uuid']:
@@ -97,7 +103,10 @@ def run(root,manifest_sha256):
             error=failure,scientific_kind=m['kind'],model_load_attempts=loads,
             generation_attempts=len(list(root.glob('*/*.INTENT.json'))),completed_generations=len(list(root.glob('*/*.RESULT.json'))),
             optimizer_updates=progress['step'],TRAIN_visits=progress['cursor'],physics_integrations=0,DEV_conditions=0,
-            CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,completed_epoch=time.time()))
+            CPU_s=time.process_time()-CPU,wall_s=time.monotonic()-started,
+            worker_peak_RSS_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+            completed_children_max_RSS_bytes=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss*1024,
+            RSS_is_not_sum_of_concurrent_processes=True,completed_epoch=time.time()))
         data=model=instance=contract=None;gc.collect();lock.close()
 
 

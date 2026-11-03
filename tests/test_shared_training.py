@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 from scripts.pi0294.multitask import shared_training as shared,shared_checkpoint as checkpoint
-from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY
+from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY
 from scripts.pi0294.multitask.book_gpu_capacity import TRAINING_REQUEST
 from scripts.pi0294.multitask.book_fit import validate_manifest,select_rows
 
@@ -49,8 +49,11 @@ def test_old_book_warmstart_or_changed_recipe_does_not_enter_existing_fit_loop(c
     with pytest.raises(PermissionError):validate_manifest(m,p)
 
 
-def test_same_device_raw_native10_is_distinct_from_book_capacity(tmp_path):
-    q=manifest();assert shared.qualified_entry(q)==15*1024**3
+@pytest.mark.parametrize('memory_policy',[LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY])
+def test_same_device_raw_native10_is_distinct_from_book_capacity(tmp_path,memory_policy):
+    q=manifest();q['memory_execution_sha256']=sha(memory_policy)
+    q['sealed_inputs']['M32_MEMORY_EXECUTION.json']=sha(memory_policy)
+    assert shared.qualified_entry(q)==15*1024**3
     values={'RUN_MANIFEST.json':q,'RESULT.json':dict(status='COMPLETE_SHARED_RAW_FINITE_LEARNING',error=None,
         model_load_attempts=1,optimizer_updates=10,TRAIN_visits=320,generation_attempts=32,completed_generations=32,
         physics_integrations=0,DEV_conditions=0),
@@ -59,15 +62,24 @@ def test_same_device_raw_native10_is_distinct_from_book_capacity(tmp_path):
         'ACTUAL_DELTA_CHECKPOINT_RESTORE.json':dict(required_raw_parent_files_identity=checkpoint.PARENT_ID,
             model_reconstruction=True,optimizer_updates=10,optimizer_state_entries=42,scheduler_restored=True,
             RNG_restored=True,sampler_cursor=320,frozen_parent_unchanged=True),
-        'ACTUAL_ACTIVATION_OFFLOAD.json':dict(policy=LOW_RESIDENCY_POLICY,copied_tensors=1,restored_tensors=1),
+        'ACTUAL_ACTIVATION_OFFLOAD.json':dict(policy=memory_policy,
+            copied_tensors=0 if memory_policy==RESIDENT_ACTIVATION_POLICY else 1,
+            restored_tensors=0 if memory_policy==RESIDENT_ACTIVATION_POLICY else 1,
+            copied_bytes=0 if memory_policy==RESIDENT_ACTIVATION_POLICY else 4096),
         'RAW_ZERO_STEP_PARAMETERS.json':dict(operation='COMPARE_FRESH_LOADED_MODEL',
             raw_parent_files_identity=checkpoint.PARENT_ID,trainable_tensor_count=42,trainable_numel=77847684)}
     values['control/LEASE.json']=dict(status='CLOSED',manifest_sha256=sha(q),result_sha256=sha(values['RESULT.json']))
     for name,value in values.items():
         f=tmp_path/name;f.parent.mkdir(exist_ok=True);f.write_bytes(raw(value))
-    m=manifest(8192);m['GPU_training_admission']=dict(schema='SHARED4_RAW_SAME_GPU_NATIVE10_TRAINING_V1',
+    m=manifest(8192);m['memory_execution_sha256']=sha(memory_policy)
+    m['sealed_inputs']['M32_MEMORY_EXECUTION.json']=sha(memory_policy)
+    m['GPU_training_admission']=dict(schema='SHARED4_RAW_SAME_GPU_NATIVE10_TRAINING_V1',
         qualification_root=str(tmp_path),files={n:sha(v)for n,v in values.items()})
     assert shared.qualified_entry(m)==15*1024**3
+    other=RESIDENT_ACTIVATION_POLICY if memory_policy==LOW_RESIDENCY_POLICY else LOW_RESIDENCY_POLICY
+    bad=deepcopy(m);bad['memory_execution_sha256']=sha(other)
+    bad['sealed_inputs']['M32_MEMORY_EXECUTION.json']=sha(other)
+    with pytest.raises(PermissionError):shared.qualified_entry(bad)
     for field,value in [('GPU_uuid','OTHER_GPU'),('memory_execution_sha256','wrong'),
                         ('checkpoint_manifest_sha256','BOOK128'),('GPU_inference_admission',{})]:
         bad=deepcopy(m);bad[field]=value
@@ -77,6 +89,7 @@ def test_same_device_raw_native10_is_distinct_from_book_capacity(tmp_path):
         ('RESULT.json','status','COMPLETE_BOOK5_FINITE_TARGET_LEARNING'),
         ('M32_CAPACITY_RESULT.json','minimum_observed_free_bytes',2*1024**3-1),
         ('ACTUAL_DELTA_CHECKPOINT_RESTORE.json','optimizer_state_entries',14),
+        ('ACTUAL_ACTIVATION_OFFLOAD.json','copied_tensors',1 if memory_policy==RESIDENT_ACTIVATION_POLICY else 0),
         ('RAW_ZERO_STEP_PARAMETERS.json','operation','RESTORE_RAW_TRAINABLES')]:
         bad=deepcopy(m);v=deepcopy(values[name]);v[field]=value;(tmp_path/name).write_bytes(raw(v))
         bad['GPU_training_admission']['files'][name]=sha(v)
@@ -101,6 +114,14 @@ def test_raw_checkpoint_header_requires_all_data_and_full_state():
     for name in members:
         bad=deepcopy(v);del bad['files'][name]
         with pytest.raises(PermissionError):checkpoint.validate_header(bad)
+
+def test_resident_memory_mode_needs_its_own_qualification_not_the_old_cpu_certificate(tmp_path):
+    from scripts.pi0294.multitask.activation_offload import RESIDENT_ACTIVATION_POLICY
+    q=manifest();q['memory_execution_sha256']=sha(RESIDENT_ACTIVATION_POLICY)
+    q['sealed_inputs']['M32_MEMORY_EXECUTION.json']=q['memory_execution_sha256']
+    assert shared.qualified_entry(q)==15*1024**3
+    q['memory_execution_sha256']='0'*64
+    with pytest.raises(PermissionError):shared.qualified_entry(q)
 
 
 def test_raw_mapping_keeps_tensor_orientation_and_selects_original_category10():
