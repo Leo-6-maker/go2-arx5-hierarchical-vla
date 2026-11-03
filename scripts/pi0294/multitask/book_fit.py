@@ -289,8 +289,10 @@ def run(root,instance,contract,guard):
             raw_parameter_identity(model,contract,manifest['raw_parent'],read(root/'RAW_PARENT_AUDIT.json'),guard=guard,restore=True)
         else:load_wrapped(model,Path(read(root/'RUN_MANIFEST.json')['checkpoint']))
     binding=instance.bindings
-    data=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=True,trace_root=root/'fit_trace')
-    probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False)
+    data=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=True,
+        raw_bindings=binding.get('raw_bindings'),trace_root=root/'fit_trace')
+    probe=NativeDataset(binding['dataset'],binding['source'],binding['cosmos'],for_optimization=False,
+        raw_bindings=binding.get('raw_bindings'))
     for ds in(data,probe):
         if ds.manifest_sha!=p['dataset_manifest_sha256']or ds.statistics_sha!=p['statistics_sha256']:raise PermissionError('FIT_ORIGINAL_ADMITTED_TRAIN_DATA_AND_STATS')
         if shared:validate_shared_data(ds,p)
@@ -305,6 +307,8 @@ def run(root,instance,contract,guard):
             elif ds.manifest['schema']!='BOOK_M32_TRAIN15_SIX_EXPERT_SUFFIXES_V1':
                 raise PermissionError('M32_OFFICIALLY_ADMITTED_POPULATION')
         ds.rows=optimization_rows(ds.rows,p)if ds is data else select_rows(ds.rows,p);ds.initialize()
+    from .shared_resume import prepare as prepare_resume
+    resume=prepare_resume(root,read(root/'RUN_MANIFEST.json'),p,data)if shared else None
     if instance.identity['statistics_sha256']!=data.statistics_sha:raise PermissionError('FIT_GENERATION_AND_TRAINING_SAME_STATISTICS')
     data.make_sampler=sampler_class;set_seed(p['seed'])
     memory=[]
@@ -358,8 +362,46 @@ def run(root,instance,contract,guard):
         record_memory('AFTER_INTERMEDIATE_FULL_RESTORE_AND_DIAGNOSTICS_'+str(step))
 
     class FitTrainer(make_trainer_class()):
+        def train(self,resume_from_checkpoint=None,**kwargs):
+            if resume is not None:
+                from gr00t.experiment.trainer import Gr00tTrainer
+                if str(resume_from_checkpoint)!=resume['path']:
+                    raise PermissionError('SHARED_EXACT_VALIDATED_RESUME_PATH')
+                return Gr00tTrainer.train(self,resume_from_checkpoint=resume_from_checkpoint,**kwargs)
+            return super().train(resume_from_checkpoint=resume_from_checkpoint,**kwargs)
+
+        def _load_from_checkpoint(self,resume_from_checkpoint,model=None):
+            if resume is None:return super()._load_from_checkpoint(resume_from_checkpoint,model=model)
+            from .shared_checkpoint import load_delta
+            manifest=read(root/'RUN_MANIFEST.json')
+            proof=load_delta(self.model,contract,resume_from_checkpoint,manifest_sha256=resume['manifest_sha256'],
+                raw_parent=manifest['raw_parent'],audit=read(root/'RAW_PARENT_AUDIT.json'),guard=guard)
+            write(root/'RESUME_MODEL_RECONSTRUCTED.json',proof)
+
+        def _load_optimizer_and_scheduler(self,checkpoint):
+            result=super()._load_optimizer_and_scheduler(checkpoint)
+            if resume is not None:
+                state=self.optimizer.state_dict()
+                if len(state['state'])!=42 or any(int(v['step'])!=resume['step']for v in state['state'].values()):
+                    raise PermissionError('SHARED_ACTUAL_RESUME_ADAMW_STEP_AND_ENTRIES')
+                saved=torch.load(Path(checkpoint)/'scheduler.pt',map_location='cpu',weights_only=False)
+                if self.lr_scheduler.state_dict()!=saved:raise PermissionError('SHARED_ACTUAL_RESUME_SCHEDULER')
+                write(root/'RESUME_OPTIMIZER_SCHEDULER_RESTORED.json',dict(step=resume['step'],optimizer_state_entries=42,
+                    scheduler_restored=True,science_run_id=resume['science_run_id']))
+            return result
+
+        def _load_rng_state(self,checkpoint):
+            result=super()._load_rng_state(checkpoint)
+            if resume is not None and Path(checkpoint).resolve()==Path(resume['path']):
+                from .shared_resume import rng_identity_from_saved
+                saved=torch.load(Path(checkpoint)/'rng_state.pth',map_location='cpu',weights_only=False)
+                if rng_identity()!=rng_identity_from_saved(saved):raise PermissionError('SHARED_ACTUAL_RESUME_RNG')
+                write(root/'RESUME_RNG_RESTORED.json',dict(step=resume['step'],RNG_restored=True,
+                    next_cursor=resume['cursor']))
+            return result
+
         def get_train_dataloader(self):
-            self.start_cursor=self.consumed=self.state.global_step*32
+            self.start_cursor=self.consumed=resume['cursor']if resume else self.state.global_step*32
             self.sampler=sampler_class(self.train_dataset,start=self.consumed)
             return MeasuredLoader(torch.utils.data.DataLoader(self.train_dataset,batch_size=1,sampler=self.sampler,
                 collate_fn=self.data_collator,num_workers=0,pin_memory=True,drop_last=True,
@@ -403,7 +445,11 @@ def run(root,instance,contract,guard):
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
             write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(recipe=p,sampler=self.sampler.state_dict(self.consumed),
-                worker_trace=check_trace(data.trace_root,data,0,checkpoint_cursor),dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
+                worker_trace=check_trace(data.trace_root,data,self.start_cursor,checkpoint_cursor),
+                total_committed_trace_count=checkpoint_cursor,
+                prior_committed_trace=(dict(checkpoint_manifest_sha256=resume['manifest_sha256'],cursor=resume['cursor'],
+                    saved_sampler=resume['saved_sampler'])if resume else None),
+                dataset_manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha))
             members={str(x.relative_to(cp)):sha(x)for x in sorted(cp.rglob('*'))if x.is_file()}
             required={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','statistics.json','TRAIN_DEV_SEAL.json','SAMPLER_STATE.json','FROZEN_PARENT_TENSORS.json','ADAPTER_PARAMETER_CONTRACT.json'}
             if not required<=set(members):raise ValueError('FIT_PARENT_DEPENDENT_FULL_RESUME_MEMBERS')
@@ -444,7 +490,7 @@ def run(root,instance,contract,guard):
     before=measure(root,'before',instance,probe,trainer,guard,p)
     # A probe uses fork_rng and deterministic preprocessing, but the training
     # seed is reset explicitly; no diagnostic random draw enters optimization.
-    set_seed(p['seed']);trainer.train()
+    set_seed(p['seed']);trainer.train(resume_from_checkpoint=resume['path']if resume else None)
     if trainer.state.global_step!=steps or trainer.consumed!=visits or frozen_fingerprint(model)!=frozen:raise ValueError('FIT_DECLARED_FROZEN_ENDPOINT')
     after_parameters={n:tensor_identity(parameters[n])for n in names}
     changed=[n for n in names if before_parameters[n]!=after_parameters[n]]

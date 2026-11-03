@@ -15,6 +15,9 @@ LOW_RESIDENCY_POLICY = {k:v for k,v in POLICY.items() if k!='parameter_and_buffe
 LOW_RESIDENCY_POLICY.update(schema='M32_CPU_FROZEN_CATEGORIES_BOUNDED_ACTIVATIONS_V2',
     parameter_storage_offload=False,buffer_storage_policy='RETAIN_ALL_FROZEN_CATEGORY_TABLES_ON_CPU',
     target_category_dispatch_only=10,per_microbatch_activation_offload_bytes=1024**3)
+RESIDENT_ACTIVATION_POLICY = dict(LOW_RESIDENCY_POLICY,
+    schema='M32_CPU_FROZEN_CATEGORIES_GPU_ACTIVATIONS_V1',
+    activation_storage='CUDA_RESIDENT',per_microbatch_activation_offload_bytes=0)
 
 
 class SavedActivationOffload:
@@ -56,6 +59,8 @@ class SavedActivationOffload:
 
     def context(self):
         self.microbatch_bytes = 0
+        if self.policy.get('activation_storage')=='CUDA_RESIDENT':
+            return nullcontext()
         return self.torch.autograd.graph.saved_tensors_hooks(self.pack, self.unpack)
 
     def audit(self):
@@ -76,10 +81,10 @@ def execution(root, manifest, model):
             raise PermissionError('UNSEALED_MEMORY_EXECUTION')
         return None
     policy=read(path)
-    if sha(path) != pin or manifest['sealed_inputs'].get(path.name) != pin or policy not in (POLICY,LOW_RESIDENCY_POLICY):
+    if sha(path) != pin or manifest['sealed_inputs'].get(path.name) != pin or policy not in (POLICY,LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY):
         raise PermissionError('EXACT_SEALED_LOSSLESS_MEMORY_POLICY')
     retained=0
-    if policy==LOW_RESIDENCY_POLICY:
+    if policy in (LOW_RESIDENCY_POLICY,RESIDENT_ACTIVATION_POLICY):
         from scripts.pi0294.generalization.minimal_adapter import LEAVES,TargetCategoryLinear
         leaves=[model.get_submodule(name) for name in LEAVES]
         if any(not isinstance(m,TargetCategoryLinear) or m.target!=10 for m in leaves):

@@ -98,7 +98,7 @@ def validate_header(value):
     return value
 
 
-def load_delta(model,contract,checkpoint,*,manifest_sha256,raw_parent,audit,guard):
+def load_delta(model,contract,checkpoint,*,manifest_sha256,raw_parent,audit,guard,inference_package_sha256=None):
     """Reconstruct a saved inference candidate after strict raw model loading.
 
     Producer CLOSED/full-state qualification and device inference admission
@@ -116,12 +116,17 @@ def load_delta(model,contract,checkpoint,*,manifest_sha256,raw_parent,audit,guar
     complete=validate_header(json.loads(body))
     if complete['recipe']['capacity_qualification_only']:
         raise PermissionError('RAW_NATIVE10_IS_NOT_A_POLICY_CANDIDATE')
-    for name,pin in complete['files'].items():
+    members=complete['files']
+    if inference_package_sha256 is not None:
+        from .shared_delivery import validate,ARCHIVE_ONLY
+        validate(root,manifest_sha256=inference_package_sha256,checkpoint_manifest_sha256=manifest_sha256)
+        members={n:p for n,p in members.items()if n not in ARCHIVE_ONLY}
+    for name,pin in members.items():
         guard();path=root/name
         if (path.is_symlink()or not path.resolve().is_relative_to(root.resolve())
                 or sha(path)!=pin):
             raise PermissionError('RAW_SHARED_SAVED_MEMBER_CHANGED:'+name)
-    if json.loads((root/'RAW_PARENT_REFERENCE.json').read_bytes())!=raw_reference():
+    if json.loads((root/'RAW_PARENT_REFERENCE.json').read_bytes())!=json.loads(json.dumps(raw_reference())):
         raise PermissionError('RAW_SHARED_EXACT_ORIGINAL_PARENT_REFERENCE')
     if len(contract.trainable_names)==14:contract=LimitedContract(contract,2)
     raw_parameter_identity(model,contract,raw_parent,audit,guard=guard)
