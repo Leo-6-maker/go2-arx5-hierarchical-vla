@@ -15,7 +15,7 @@
 
 仅复用已有source contract/native/storage/runtime/population seam，逐文件SHA见 [REUSED_SOURCE_ADAPTER.json](../../../experiments/wm02/REUSED_SOURCE_ADAPTER.json)。未继承WM01的模型、训练器、数据量或测试PASS作为WM02成绩。未复制第三方算法、OSC或私有WBC实现，未升级活动软件。
 
-新增的实际入口为 `scripts.wm02.resolve`、`scripts.wm02.qualify`、`scripts.wm02.profile_source`。模型fit／Actor／reset-bank／distill仍未实现；没有提供空训练CLI。`plan.json`继续保留交接时设计快照，当前实现见 [RUNTIME.md](../../../experiments/wm02/RUNTIME.md)。
+新增的实际入口为 `scripts.wm02.resolve`、`scripts.wm02.qualify`、`scripts.wm02.profile_source`。模型fit／Actor／reset-bank／distill仍未实现；没有提供空训练CLI。发布前读到PR344并发增加的本地优先补充及配置，正常合并至 `19f686c9c006bffce22d3819b2019e1e45ebbec2`，未改写原始执行SHA；它只改变资源顺序，不改变科学合同。当前实现见 [RUNTIME.md](../../../experiments/wm02/RUNTIME.md)，本地准入的已做／未做项目见 [LOCAL_4080S_READINESS.md](../local/LOCAL_4080S_READINESS.md)。
 
 ## P0：实际后端、冻结身份与第一阻断
 
@@ -83,7 +83,7 @@ S域记录保留raw、完整H40条件、installed、逐2ms consumed、achieved�
 
 独立读回：PID不存在、MainPID0、ExecMainStatus1、原RESULT写出`FAILED_BOOK_FINITE_OPTIMIZATION / TimeoutError`、lease由原owner关闭。外部原因明确为**用户主动停止的partial**，不是新的算法失败。实际停在2154更新／68928 TRAIN访问；最近完整checkpoint2048，之后106更新未形成完整checkpoint，不能称可恢复2154。1024／2048完成manifest SHA未变。原CPU86783.725865秒／墙钟38344.889151秒保留，不计作WM02成本。
 
-GPU1独立读回free15899MiB；没有claim已取得长期GPU reservation，没有为未准入目标启动训练。GPU0他人工作、consumer08、WBC和其他活动capsule未改。详见 [PB_USER_STOP.json](PB_USER_STOP.json)。
+GPU1独立读回free15899MiB；2026-11-04 02:45 SGT再次只读核验仍为15899/16376MiB、无GPU1计算进程，PID不存在、lease CLOSED、checkpoint摘要未变。没有claim已取得长期GPU reservation，没有为未准入目标启动训练。GPU0他人工作、consumer08、WBC和其他活动capsule未改。详见 [PB_USER_STOP.json](PB_USER_STOP.json)。WM02模型的GPU峰值仍未测量，不能把空闲显存或WM01模型结果当成WM02在16GB的验收。
 
 ## 实际命令、退出码与未完成项
 
@@ -104,10 +104,10 @@ python -m scripts.wm02.profile_source --spec "$WM02_PARALLEL/EXECUTION_SPEC.json
 
 保留的工程负结果：首次复用测试缺population模块（已按固定SHA补齐依赖）；Core没有rg（改用仅绑定源码树内查找）；首次P0的scorer字符串指向不存在模块，已改为候选审计函数并明确UNQUALIFIED。末次修正仅强化partial区间mask，CPU复测通过；没有热改已完成native capsule，也不将先前native结果改写为该新SHA执行。
 
-下一条已经实现、无仿真副作用的可执行命令：
+下一条已经实现、无仿真副作用的复核命令（独立checkout内，`WM02_CPU_PYTHON`绑定至已核验的隔离解释器；完整绝对argv保留在私有命令表）：
 
 ```bash
-PYTHONPATH=src python -m scripts.wm02.qualify --help
+PYTHONPATH=src "$WM02_CPU_PYTHON" -O -m unittest discover -s tests/world_model -v
 ```
 
 继续目标P1之前，准确缺口是当前S1/T2独立安全解除／合法动态窗口，以及完整控制状态导出或经验证的相同前缀重建；GPU1空闲不能替代它们。P1奖励五类排序、目标接触／吞吐、P2数据／模型和P3以后均未完成，不能启动长训补盖这些缺口。

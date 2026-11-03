@@ -1,6 +1,6 @@
 # WM02 implemented P0/P1 commands
 
-The pinned handoff is `ddc801f30e288365925c61c37f7ee445ddc29712` (unmerged PR344). Its plan.json remains the immutable design snapshot. Actual implementation and effects are in [the first return](../../reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md).
+The pinned handoff is `ddc801f30e288365925c61c37f7ee445ddc29712` (unmerged PR344). The concurrent local-first resource addendum through `19f686c9c006bffce22d3819b2019e1e45ebbec2` was read and merged normally before publication; it updates execution order without changing the original scientific design or the already-pinned execution sources. Actual implementation and effects are in [the first return](../../reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md), with [partial local readiness](../../reports/WM02/local/LOCAL_4080S_READINESS.md).
 
 Implemented, import/help without simulator/model/network effects:
 
