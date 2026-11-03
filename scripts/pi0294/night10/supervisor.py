@@ -76,8 +76,20 @@ def verify_file(rule):
 def check_plan(plan):
     if '__BIND__' in json.dumps(plan):
         raise ValueError('TEMPLATE_NOT_A_NATIVE_EXECUTION_PLAN_BIND_REAL_CORE_COMMANDS')
-    if plan.get('schema') != SCHEMA or plan.get('duration_s') != 36000:
-        raise ValueError('EXACT_FINITE_TEN_HOUR_SCIENTIFIC_WINDOW')
+    duration = plan.get('duration_s')
+    if (plan.get('schema') != SCHEMA or type(duration) is not int
+            or not 36000 <= duration <= 259200):
+        raise ValueError('FINITE_DISPATCH_WINDOW_TEN_TO_SEVENTY_TWO_HOURS')
+    if duration != 36000:
+        extension = plan.get('window_extension', {})
+        if (extension.get('authority') != 'DIRECT_USER_APPROVED_EXTENSION'
+                or not Path(extension.get('record_path', '')).is_absolute()
+                or not re.fullmatch(r'[0-9a-f]{64}', extension.get('record_sha256', ''))
+                or not verify_file(dict(path=extension['record_path'],
+                    sha256=extension['record_sha256'],
+                    equals=dict(authority='DIRECT_USER_APPROVED_EXTENSION',
+                                duration_s=duration)))):
+            raise PermissionError('PINNED_USER_EXTENSION_RECORD_REQUIRED')
     if not (1 <= plan.get('max_cpu_parallel', 0) <= 8):
         raise ValueError('BOUNDED_CPU_PARALLELISM_1_TO_8')
     if not (30 <= plan.get('disk_margin_gib', 0) <= 1024):
@@ -118,7 +130,7 @@ def check_plan(plan):
             raise ValueError('ABSOLUTE_NATIVE_EXECUTABLE_AND_WORKDIR:' + t['id'])
         # A readonly CPU monitor may cover the dispatch window through its
         # final summary reserve. GPU/native task bounds remain unchanged.
-        maximum_runtime = 35900 if t['lane'] == 'cpu' else 35000
+        maximum_runtime = duration - 100 if t['lane'] == 'cpu' else 35000
         if not (10 <= t.get('max_seconds', 0) <= maximum_runtime):
             raise ValueError('FINITE_TASK_RUNTIME:' + t['id'])
         if (not isinstance(t.get('receipt'), dict)
@@ -424,8 +436,9 @@ class Supervisor:
             if self.now() >= self.deadline:
                 for key in self.tasks:
                     if self.states[key]['state'] == 'PENDING':
-                        self.change(key, 'UNRUN', reason='TEN_HOUR_WINDOW_ENDED')
-            # New work is always stopped at the ten-hour boundary. Children
+                        self.change(key, 'UNRUN', reason='TEN_HOUR_WINDOW_ENDED'
+                            if self.plan['duration_s'] == 36000 else 'AUTHORIZED_DISPATCH_WINDOW_ENDED')
+            # New work is always stopped at the declared boundary. Children
             # already launched may use their predeclared finite runtime/drain.
             while self.processes:
                 if self.poll() == 'UNKNOWN':
