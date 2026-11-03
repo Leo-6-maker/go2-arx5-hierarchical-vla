@@ -158,6 +158,18 @@ class TestNight10(unittest.TestCase):
             clock[0]=60.;gpu[0]=('GPU-test',15000,[]);self.assertFalse(runner.capacity('inference'))
             clock[0]=120.;self.assertTrue(runner.capacity('inference'))
 
+    def test_opt_in_shared_neural_owner_serializes_both_gpus(self):
+        a=self.command('gpu0');b=self.command('gpu1')
+        for t,i in ((a,0),(b,1)):
+            t.update(lane='gpu_inference',gpu=i,gpu_uuid='GPU-'+str(i),min_free_mib=13312,
+                readiness=[dict(path=str(self.root/'cold.json'),equals=dict(status='CLOSED'))])
+        plan=self.plan([a,b]);plan['serialize_neural_tasks']=True
+        runner=night.Supervisor(plan,self.root/'night',gpu_probe=lambda i:('GPU-'+str(i),20000,[]))
+        runner.processes['gpu0']=object()
+        with mock.patch.object(night.shutil,'disk_usage',return_value=shutil._ntuple_diskusage(100*1024**3,0,100*1024**3)),mock.patch.object(night,'available_memory_gib',return_value=100):
+            self.assertFalse(runner.capacity('gpu1'))
+            runner.processes.clear();self.assertTrue(runner.capacity('gpu1'))
+
     def test_unknown_running_effect_is_not_replayed_on_resume(self):
         t = self.command('train')
         p = self.plan([t]);runner = night.Supervisor(p, self.root/'night')

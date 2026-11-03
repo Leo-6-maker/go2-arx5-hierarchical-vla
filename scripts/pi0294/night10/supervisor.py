@@ -281,6 +281,9 @@ class Supervisor:
             return False
         gpu = task.get('gpu')
         if gpu is not None:
+            if self.plan.get('serialize_neural_tasks')is True and any(
+                    self.tasks[k].get('gpu')is not None for k in self.processes):
+                return False
             if any(self.tasks[k].get('gpu') == gpu for k in self.processes):
                 return False
             if task['lane'] == 'physics' and any(self.tasks[k]['lane'] == 'physics' for k in self.processes):
