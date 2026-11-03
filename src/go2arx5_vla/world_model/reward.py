@@ -5,8 +5,8 @@ Units/weights are frozen before optimization; this never supplies task PASS.
 import torch
 from .features import SLICES
 
-RECIPE = dict(version='WM01_T1_POTENTIAL_V1', gamma=.99, reach_weight=.15,
-    grasp_lift_weight=.15, carry_weight=.30, released_goal_weight=.60,
+RECIPE = dict(version='WM01_T1_POTENTIAL_V2', gamma=.99, reach_weight=.10,
+    grasp_lift_weight=.10, carry_weight=.20, released_goal_weight=.80,
     reach_scale_m=.05, carry_scale_m=.08, goal_scale_m=.04,
     height_scale_m=.01, speed_scale_m_s=.02, clearance_m=.08,
     action_cost=.01, failure_penalty=1.)
@@ -21,10 +21,10 @@ def potential(state, goal, events):
     opening = state[..., SLICES['finger_q_m']].mean(-1)/.044
     grasp = events[..., 2]
     lift = torch.sigmoid((obj[..., 2]-.48)/.01)
-    reach = .15*torch.exp(-distance/.05)
-    grasp_lift = .15*grasp*lift
-    carry = .30*grasp*lift*torch.exp(-goal_distance/.08)
-    released_goal = (.60*torch.exp(-goal_distance/.04)*torch.exp(-torch.abs(obj[..., 2]-.46)/.01)
+    reach = .10*torch.exp(-distance/.05)
+    grasp_lift = .10*grasp*lift
+    carry = .20*grasp*lift*torch.exp(-goal_distance/.08)
+    released_goal = (.80*torch.exp(-goal_distance/.04)*torch.exp(-torch.abs(obj[..., 2]-.46)/.01)
         *torch.exp(-velocity/.02)*(1-grasp)*torch.sigmoid((opening-.7)/.05)
         *torch.sigmoid((distance-.08)/.01))
     return reach+grasp_lift+carry+released_goal
