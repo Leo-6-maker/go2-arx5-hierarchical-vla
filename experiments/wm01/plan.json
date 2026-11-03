@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "experiment_id": "WM01",
+  "status": "READY_FOR_CODEX_IMPLEMENTATION",
+  "runtime_status": "NOT_IMPLEMENTED",
+  "date": "2026-11-03",
+  "timezone": "Asia/Singapore",
+  "baseline_commit": "0a27753bbda8ed75ab6b74aeb64755e0427362c7",
+  "protocol": "docs/protocols/WM01_TASKSPACE_WORLD_MODEL_POLICY_V1.md",
+  "handover": "docs/handover/2026-11-03/WM01_CODEX_EXECUTE.md",
+  "scope": {
+    "primary_task": "SOURCE_T1_PICK_PLACE",
+    "source_executor": "FIXED_BASE_ARX5_NATIVE",
+    "target_wbc_frozen": true,
+    "target_dynamic_execution": false,
+    "real_robot_execution": false,
+    "touch_existing_runs": false,
+    "new_scheduler": false,
+    "data_deletion": false
+  },
+  "interface": {
+    "physical_action_dim": 10,
+    "trajectory_horizon": 40,
+    "execute_prefix": 8,
+    "reference_dt_s": 0.05,
+    "macro_dt_s": 0.4,
+    "actor_parameter_dim": 56,
+    "translation_norm_per_step_m": 0.01,
+    "rotation_norm_per_step_rad": 0.05,
+    "gripper_range": [
+      0.0,
+      1.0
+    ],
+    "future_suffix_is_executed_label": false,
+    "anchor_time_convention": "BIND_EXISTING_NATIVE_CONTRACT"
+  },
+  "data": {
+    "initial_train_attempts": 64,
+    "teacher_attempts": 32,
+    "perturbed_attempts": 32,
+    "train_layouts": 64,
+    "calib_layouts": 16,
+    "dev_layouts": 20,
+    "test_layouts": 50,
+    "episode_s": 32,
+    "split_unit": "scene_and_parent_episode",
+    "normalization_split": "TRAIN",
+    "failures_retained": true
+  },
+  "model": {
+    "members": 3,
+    "hidden_layers": 3,
+    "hidden_width": 512,
+    "activation": "silu",
+    "precision": "float32",
+    "lr": 0.0003,
+    "weight_decay": 1e-05,
+    "gradient_clip": 1.0,
+    "effective_batch": 256,
+    "smoke_updates": 200,
+    "initial_updates": 5000,
+    "multistep_horizon": 4,
+    "state_loss_weight": 1.0,
+    "rollout_loss_weight": 1.0,
+    "event_loss_weight": 0.1
+  },
+  "policy": {
+    "arms": [
+      "ppo",
+      "ppo_wm"
+    ],
+    "seeds": [
+      1103,
+      1104,
+      1105
+    ],
+    "hidden_layers": 3,
+    "hidden_width": 256,
+    "bc_updates": 2000,
+    "shared_initialization": true,
+    "pilot_real_macro_steps": 5000,
+    "final_real_macro_steps": 20000,
+    "checkpoints": [
+      1000,
+      5000,
+      10000,
+      20000
+    ],
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "lr": 0.0003,
+    "clip_ratio": 0.2,
+    "epochs": 4,
+    "rollout_batch": 256,
+    "minibatch": 64,
+    "entropy_weight": 0.001,
+    "gradient_clip": 0.5,
+    "final_checkpoint_selection": "FIXED_FINAL_ENDPOINT"
+  },
+  "imagination": {
+    "horizon_macro_steps": 4,
+    "start_batch": 64,
+    "actor_lr": 3e-05,
+    "real_macro_steps_per_cycle": 256,
+    "wm_updates_per_cycle": 100,
+    "actor_updates_per_cycle": 4,
+    "ensemble_return_std_penalty": 0.5,
+    "freeze_wm_parameters": true,
+    "retain_action_gradients": true,
+    "starts_from": "REAL_TRAIN_REPLAY",
+    "critic_targets": "REAL_TD_GAE"
+  },
+  "diagnostics": {
+    "split": "CALIB",
+    "states": 64,
+    "arms": [
+      "unchanged",
+      "gradient",
+      "negative_gradient",
+      "random_matched_norm",
+      "action_blind"
+    ],
+    "max_macro_steps_per_branch": 4,
+    "min_gradient_improvement_fraction": 0.6,
+    "must_beat_random": true,
+    "safety_violations_allowed": 0
+  },
+  "evaluation": {
+    "final_test_episodes": 300,
+    "native_score_unchanged": true,
+    "historical_dev68_unchanged": true,
+    "success_gain_target_percentage_points": 10,
+    "sample_efficiency_ratio_target": 0.7,
+    "dev_success_target": 0.8,
+    "confidence_interval": 0.95,
+    "bootstrap_unit": "scene_and_training_seed",
+    "include_model_training_and_initial_data_cost": true
+  },
+  "required_bindings_before_compute": [
+    "engine_callable_sha",
+    "native_task_card_and_score_sha",
+    "asset_identity",
+    "state_field_units",
+    "complete_native_restore",
+    "reward_definition_and_tests",
+    "data_split_manifest",
+    "actual_host_profile_and_owner",
+    "resolved_source_sha"
+  ],
+  "stages": [
+    {
+      "id": "W0",
+      "depends_on": [],
+      "deliverable": "native_adapter_and_transition_contract"
+    },
+    {
+      "id": "W1",
+      "depends_on": [
+        "W0"
+      ],
+      "deliverable": "single_gpu_wm_and_baselines"
+    },
+    {
+      "id": "W2",
+      "depends_on": [
+        "W1"
+      ],
+      "deliverable": "native_counterfactual_and_gradient_report"
+    },
+    {
+      "id": "W3",
+      "depends_on": [
+        "W2"
+      ],
+      "deliverable": "paired_ppo_and_ppo_wm"
+    },
+    {
+      "id": "W4",
+      "depends_on": [
+        "W3"
+      ],
+      "deliverable": "fixed_endpoint_native_test_and_costs"
+    },
+    {
+      "id": "W5",
+      "depends_on": [
+        "W4"
+      ],
+      "deliverable": "separate_visual_transfer_design",
+      "automatic_execution": false
+    }
+  ],
+  "actual_results_this_publication": {
+    "wm_updates": 0,
+    "actor_updates": 0,
+    "native_physics_steps": 0,
+    "remote_jobs_started": 0
+  }
+}

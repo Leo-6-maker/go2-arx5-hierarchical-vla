@@ -1,88 +1,24 @@
-# 当前入口 · Goal V7 · 2026-11-03
+# 当前入口 · V7 现役运行 + WM01 新研究线
 
-2026-11-03 18:09 SGT 两站实测：**D2已完成4096步／131072访问，全态与恢复证据保留并CLOSED；管理器随后因训练显存余量门未通过关闭该臂，不抹去端点。PB_CONTROL同原M13／GPU1已自动到480/4096，PB_BOUNDARY未启动。** Core共享生产三节点已移交Vanda；consumer08实际常驻PID778467，两次独立连接心跳前进，HF私有中转双端读写已通过，具体8192当地资格→原DEV68与六BOOK队列已绑定。Vanda首作业1514182因入口时间记录倒置约6微秒、模型前失败并核实关闭；修正后唯一后继1514400在18:15实测已R／GN-A40-017，真实allocation准入通过、固定输入解包中，尚未观察模型／更新，**新共享更新／端点／DEV仍0**。21Teacher最窄是joint6的4.80mrad，与D0/D1 joint4失败分开解释；VNEXT几何7静态通过／1拒绝、4恢复适配待完成，零新示范。Go2全身／相机与四工作位仅离线检查，隔离和WBC不变。[实际部署、失败修复、CPU科学结果和剩余工作](docs/operations/CORE_VANDA_DEPLOYMENT_CPU_RESULTS_20261103.md)。
+更新时间：2026-11-03（Asia/Singapore）。本次读取基线：`0a27753bbda8ed75ab6b74aeb64755e0427362c7`。**仓库发布不等于远端运行。**
 
-2026-11-03 11:45 SGT Core实测：**按用户新许可，新增接续已冷态换为72小时常驻，PID461507；两次分离连接同身份、心跳前进，11月6日11:43 SGT停止新派发。D2原GPU1/进程继续3266/4096、104512访问，1024/2048全恢复；PB原链不变。** 新BOOK/共享仍等待现有owner与容量，新有效条件/共享端点0。实际最后256更新均时：D0/D1在32GiB卡5.01/3.63秒，D2在16GiB卡16.33秒；当前batch32由32微批次累积、每更新约32GiB激活搬出CPU并搬回，GPU1实测PCIe4×4、传输约5–6GB/s，采样无CPU限流或新增物理读等待。历史数据臂不同，不能声称纯硬件加速倍数；尚未部署加速版。首次延长控制04有旧monitor目录绑定，零模型/物理、已关闭，05核实实际根目录后验收；D2/M13及基础设施未改。[实际延长、性能证据和局限](reports/PI0294/design/controlled-finetuning-20261102/CORE_RELAY_EXTENSION_TRAINING_SPEED_ACTUAL_20261103.json)。
+## 新交接：WM01
 
-2026-11-03 03:20 SGT Core实测：**新Night10接续已实际驻留，PID82369；两次独立控制连接核同PID／start／InvocationID，心跳前进，N0观察运行，原生RESET与共同数据审计门通过。D2同原GPU1／进程继续1418/4096、45376访问，1024全42项恢复已保留，PB原队列未改。** 六模型新BOOK_RESET_DEV10（最多60条件）、raw native10／native16及条件shared8192均已绑定入队，当前明确等待原神经owner与GPU0实际容量；**新有效条件／共享端点仍0，不保证十小时全部完成。** 并发核账的原始SHA绑定已修复；旧控制01冷态关闭、02启动参数失败已CLOSED，03通过真实构造与断线存活验收，保留原02:51开始、12:51停止新派发的绝对时钟，不热改M13／D2。此前相机资格12构造／8RGB／零积分通过；旧结果／STOP／费用保留，未改NFS／SSH或删除checkpoint。[实际READY、当前队列及边界](reports/PI0294/design/controlled-finetuning-20261102/CORE_NIGHT10_RESIDENT_READY_ACTUAL_20261103.json)。
+用户要求整理代码库，并将小型 WM 辅助任务策略学习的详细计划交给 Codex 执行。
 
-2026-11-03 01:37 SGT Core实测：**D2同GPU1继续1039/4096、33248访问；1024中间检查点已写出，42项AdamW／scheduler／RNG／cursor32768真实恢复记录已独立读回，正式4096仍未完成。** 相机／reset后台资格已自动真实运行：12子进程全PASS，四任务各两次相机重建及各一次污染拒绝；16张原PNG全流SHA／同任务两次初态、噪声及图像一致，零积分／GR00T／优化器。随后原前驱fd扫描被同UID systemd用户管理进程的/proc权限拒绝，资格任务工程失败并CLOSED，管理器／探针MainPID0；**完整reset未通过，无资格文件、新DEV或共享端点，不自动重试。** 已证实原42GiB主存门槛过度，在零原生启动边界仅改为8GiB（任务硬限2GiB），原source／manifest／时钟和GPU／安全门保留；D2／M13原自动训练链继续，不受资格失败阻断。 [原生相机、权限阻断、冷态容量修正及D2检查点](reports/PI0294/design/controlled-finetuning-20261102/SOURCE_CAMERA_RESET_RESOURCE_CORRECTION_ACTUAL_20261103.json)。
+1. 先读根 [AGENTS](AGENTS.md)；其 V7 工程自主修复、源域优先、冻结 WBC 与站点安全继续有效。
+2. 读 [WM01 Codex 执行交接](docs/handover/2026-11-03/WM01_CODEX_EXECUTE.md)。按其中的依赖顺序实现和验证，不把本文当作已有训练程序。
+3. 数值实验以 [WM01 protocol](docs/protocols/WM01_TASKSPACE_WORLD_MODEL_POLICY_V1.md) 与 [plan.json](experiments/wm01/plan.json) 为设计输入。现阶段 `runtime_status=NOT_IMPLEMENTED`，首个交付是可恢复的原生状态—命令转移和一个实际 WM smoke，不是新的大规模 VLA 微调。
+4. 当前真实结果见 [状态页](CURRENT_SCIENCE_STATUS.md)。接管前只刷新相关 Issue #11/#47 及本地 owner/job 状态，不重读全部历史。
 
-2026-11-02 23:35 SGT Core实测：**共享raw-parent训练入口与独立delta恢复消费已实现，复用原NativeDataset／官方loss／Trainer，不继承book128或b248。** 隔离CPU接缝在Core PyTorch2.9.0／NumPy1.26.4实际读34563窗、核四任务各4诊断窗；42项原始BF16张量与PC逐值身份一致，FP32参数容器的改动拒绝／恢复及320前缀／cursor131072通过，子进程OS0／2.996 CPU秒、未初始化CUDA或构建GR00T模型。66项定向CPU检查通过。**D2同身份继续594/4096、19008访问，自动PB队列原字节不变；raw模型GPU native10、完整任务评价和共享正式8192仍未挂载，新共享端点／DEV为0。** [实际Core验证与剩余准入](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_RAW_TRAINER_CORE_CPU_ACTUAL_20261102.json)。
+## 现役工作，不被新计划抢停
 
-2026-11-02 22:40 SGT Core实测：**原raw GR00T七文件已完成节点本地交付／全流SHA及独立身份核验（6,914,922,850字节），未加载模型。** 共同59条目新V2训练reader已实际冻结：46完整专家＋13专家后缀／34563窗，数值6377253字节逐份SHA一致、原统计和RGB引用不变。发现首次DEV引用缺少另存的BOOK定义后，在无共享模型消费者的冷态新建V2，完整保留T1/T2各24、BOOK10、DOOR10；初版及费用保留。Core NumPy1.26.4无Torch/CUDA的262144次采样与PC一致，每批四任务各8、全部窗口覆盖和320前缀／恢复通过。**D2同身份继续392/4096、12544访问，自动PB队列未改；共享raw模型零步／训练器／GPU原生全态资格／四任务评价与Core RESET仍待完成，新共享端点/DEV为0。** [实际输入、V2冻结、修正与边界](reports/PI0294/design/controlled-finetuning-20261102/SHARED4_CORE_RAW_INPUTS_AND_FROZEN59_ACTUAL_20261102.json)。
+最后核对的 11月3日18:09–18:17 SGT 回执：D2 完成4096更新但后续显存余量分类失败；PB_CONTROL 到480/4096；Vanda 共享 M32 后继1514400在实际分配后核验输入，尚未报告模型更新。以上是当时快照，不是此刻服务器探针。[完整实际报告](docs/operations/CORE_VANDA_DEPLOYMENT_CPU_RESULTS_20261103.md)。
 
-2026-11-02 21:19 SGT：**D2同一GPU1正式进程继续95/4096、3040次TRAIN访问；现役source和队列未改。** 新BOOK_RESET_DEV10_V1独立条件入口已实现：每条件单进程，模型前核真实前驱终态／子cgroup／残余writer与CLOSED原字节，保留原Student、噪声、32秒、安全和评分。PC相关66项检查通过，两个独立原生SourceEngine进程实际重建同一初态并退出、零积分／渲染／神经模型；发现并修正“初始化加速度缓存必须为零”的错误假设，改为独立原生数据两次forward逐值重算、不修改状态。**Core双相机／原生复位故障资格与新DEV尚未完成或挂载，PC检查不自动放行。** [实现、实际PC结果与剩余资格](docs/operations/BOOK_RESET_DEV10_IMPLEMENTATION_20261102.md)。
+新 WM 采用独立实验 ID／数据／配置／输出；不改 M13、PB、shared59、8192、DEV68 或任何活动 source。现役资源被占用时，先做 WM 的无副作用代码与离线数据审计，在干净边界安排新作业。
 
-2026-11-02 20:55 SGT Core实测：**两卡弹性队列已自动在GPU1启动D2正式4096，实际8更新／256次TRAIN访问；模型已加载，原父／D2数据／统计／batch32／日程不变，不继承资格权重。** V2先完成10更新／320访问、32诊断、42项全状态恢复并CLOSED，最低余量2,557,280,256字节（2.38GiB）通过原2GiB门。常驻PID3892803在分离连接同身份持续心跳，从等待容量自动转为正式运行；GPU0外部工作保留。服务器队列为D2→固定D2阶段控制→额外边界，各原生资格后fresh4096、实际容量不足正常排队；不依赖PC或Vanda。D0／D1原DEV均0成功／1有效、9未运行，Phase原1／4、6未运行保留。共同数据46完整专家episode＋13专家后缀／34563窗；**独立RESET新DEV和四任务raw-parent训练尚未部署，当前READY仅覆盖上述训练链，不保证一夜全部完成。** [真实GPU1资格、正式进度与队列范围](reports/PI0294/design/controlled-finetuning-20261102/QUEUED_D2_FORMAL_GPU1_PROGRESS_ACTUAL_20261102.json)。
+## 只保留短导航
 
-2026-11-02 20:20 SGT Core实测：**两卡接续常驻PID3851333、分离连接心跳前进；GPU1已完成10更新／320访问、42项全状态恢复并CLOSED，但最小显存余量1.33GiB未达原2GiB，正式4096未启动。** 后台保留已合格GPU0回退，当前GPU0约10GiB空闲不足准入。GPU0同配方10步启用无损CPU暂存后，模型／AdamW／scheduler／RNG四文件及10项loss／LR／游标与原资格逐字节一致。已修复资格记录目录遗漏并复用合格结果、未重复GPU0资格；新V2从父模型头部核实完整冻结类别表1,303,134,720字节，保留CPU、目标10参数留GPU，并通过Core五项CPU精确梯度／更新／放置检查；**V2尚未GPU资格或部署**。原DEV／STOP／费用与基础设施保留，RESET和共享raw-parent训练仍待完成。[真实两卡运行、内存失败与V2证据](reports/PI0294/design/controlled-finetuning-20261102/AVAILABLE_GPU_RESIDENT_CONTINUATION_READY_ACTUAL_20261102.json)。
+代码：[CODE_MAP](docs/CODE_MAP.md)；路线：[EXPERIMENT_ROADMAP](docs/EXPERIMENT_ROADMAP.md)；分支：[REPOSITORY_WORKFLOW](docs/REPOSITORY_WORKFLOW.md)。
 
-
-
-2026-11-02 19:29 SGT Core实测：**GPU0／GPU1可用卡接续已实际挂载并接管，常驻PID3822579，分离控制连接后多次同PID／InvocationID、心跳前进。** 现队列先D2再固定D2的CONTROL／BOUNDARY；启动前按UUID、实际容量和稳定观测选卡，每个设备先用显式无损CPU中间张量暂存完成native10及全状态恢复／原2GiB余量，合格后fresh4096；有效batch32／父模型／数据／统计／loss／日程不变。当前在等容量稳定，新内存方案GPU原生资格／正式端点／新DEV尚未产生。旧PB边界组10更新／320访问已完成、全恢复并CLOSED（共享GPU0余量15.77GiB）；控制组因实际启动显存变化在模型前失败并CLOSED。前owner在全部原生actor关闭后的冷态边界退出，仅控制交接，不冒充训练完成。原结果／STOP保留；RESET与共享raw-parent训练仍待推进。[真实驻留、两卡选用与范围](reports/PI0294/design/controlled-finetuning-20261102/AVAILABLE_GPU_RESIDENT_CONTINUATION_READY_ACTUAL_20261102.json)。
-
-2026-11-02 19:05 SGT：**只读重建D0/D1全部13634／11673控制tick，在原NumPy1.26.4／MuJoCo3.2.7环境逐值复现全部执行器力（最大误差0），IK计数一致，无新增积分／渲染／神经模型。** 两次joint4停止时重建命令仍合法、余量5.323／4.253毫弧度，实际较命令偏低11.356／10.377毫弧度而越界；这是计算重建，不是原始命令记录，尚不证明Teacher或WBC根因。D2额外native10完成并全状态恢复，但共享GPU0余量仅0.574GiB，资格失败并CLOSED、正式4096未启动。用户允许GPU1并要求未来动态选卡；新冷态选卡与无损CPU暂存代码通过相关检查及Core实际PyTorch CPU精确梯度／AdamW／RNG检查，**GPU1新原生训练资格／自动接续尚未部署**。原DEV/STOP不改。[控制重建、实际容量与部署边界](reports/PI0294/design/controlled-finetuning-20261102/SAVED_CONTROLLER_FORCE_WITNESS_GPU_FLEX_PREPARATION_ACTUAL_20261102.json)。
-
-2026-11-02 18:09 SGT Core实测：**D1完成4096更新／131072访问，1024／2048／4096全状态恢复、独立trace／指标审核和CLOSED完成；GPU1自动完成96诊断后原DEV为0成功／1有效、9未运行，18.346秒joint4=-1.672124rad低于原-1.666rad停止。** TRAIN16 H40位置51.97→3.679mm、Prefix8 41.85→2.990mm，不等于完整行为成功；命令关节解未记录，根因仍待审计。**固定D2的PB两臂已真实挂载：Core常驻PID3718781、分离连接同身份／心跳前进，等待现有D2收尾后各一次native10资格→fresh4096；新物理评价尚未挂载，需独立RESET资格。** 旧D2无计算等待角色已保留原状态并关闭，仅控制生命周期结束，不虚报D2完成；共享owner已实际接管，当前GPU0仅746MiB空闲，正常等待。原Phase1/4、D0 0/1和全部STOP保留，现役配方／外部任务／基础设施未改。[真实端点、负结果、队列READY及边界](reports/PI0294/design/controlled-finetuning-20261102/D1_COMPLETE_NEGATIVE_DEV_PB_SUCCESSOR_READY_ACTUAL_20261102.json)。
-
-2026-11-02 17:25 SGT Core实测：**D1同身份继续3716/4096、118912次TRAIN访问；1024／2048检查点均有42项全状态恢复。共享GPU0后继同PID3077247／InvocationID保持心跳，仍等待健康生产者，不依赖PC或Vanda。** 已实测D1与外部GPU0消费者并存并继续前进；不声称已证明吞吐隔离。原D1评价→D2有限资格／匹配4096及原评价已经在服务器队列；PR317新增RESET／PB／四任务训练尚未挂载。CPU核实D2原15932窗，并对uniform／阶段控制／额外边界各枚举131072次访问：首16接管窗曝光918／1055／9196次，专项直接配额8192不能当总曝光；三组均覆盖所有原窗口，未新增数据／模型／物理。新采样尚未绑定Trainer或通过原生训练资格；现役配方不变。[运行与挂载范围](reports/PI0294/design/controlled-finetuning-20261102/EXECUTION_ADOPTION_ACTUAL_20261102.json)；[实际CPU索引与计划曝光](reports/PI0294/design/controlled-finetuning-20261102/D2_PHASE_BOUNDARY_EXPOSURE_CPU_ACTUAL_20261102.json)。
-
-2026-11-02 15:02 SGT Core实测：**D1同一身份继续到1420/4096更新、45440次TRAIN访问；1024检查点及42项AdamW／scheduler／RNG／cursor32768完整恢复证书已独立读回。** 用户明确设置GPU0共享，已移除后继“必须无其他GPU0计算进程”的额外条件，保留实际24GiB入口、36GiB可用主存和原训练2GiB余量。**共享后继已实际常驻并通过两次分离连接同身份前进心跳；仅替换了无计算、未持有mutation owner的旧等待程序，训练／GPU worker均未重启或收到信号。** 当前仍等待健康D1完整关闭，再自动完成未运行评价和D2有限资格／匹配4096及评价；GPU1可选，GPU0回退不依赖可选离线指标，已有有效面板不重跑。旧等待进程最终CPU统计未保留，保留上界并独立核清，不虚报实测费用；控制效果均已核清。D0原DEV0成功／1有效、9未运行与Phase1/4保留，D2尚无正式4096／有效DEV。共享许可不等于已证明零带宽／吞吐影响，当前训练持续前进。[实际共享队列READY](reports/PI0294/design/science-goal-v7-20261031/GPU0_SHARED_FUTURE_CONTINUATION_READY_ACTUAL_20261102.json)；[原负结果／数据与接管点分析](reports/PI0294/design/science-goal-v7-20261031/MATCHED_FLEXIBLE_EVAL_RESIDENT_READY_ACTUAL_20261102.json)。
-
-2026-11-02 00:26 SGT Core实测：**Phase4096已独立恢复真实1成功/4有效、6未运行；原评分/STOP不改，旧训练、双TRAIN32与DEV均CLOSED。** GPU1真实10更新及42项全状态恢复完成，但最低空闲仅0.57GiB<1GiB，正式训练不准入，采用GPU0串行。新采集/数据阶段常驻manager已通过两次独立连接同身份心跳核验，首个柜门新TRAIN完整安全成功并完成官方导出，累计柜门2；第二个正在运行。**READY仅覆盖采集与数据冻结，完整BC/DAgger训练接续尚未部署，不宣称整条DAG可断线完成。** [实际核对、容量及阶段READY回执](reports/PI0294/design/science-goal-v7-20261031/ISSUE299_PHASE_RECONCILED_GPU1_NATIVE10_SOURCE_DATA_READY_ACTUAL_20261102.json)。
-
-2026-11-01 17:37 SGT实际挂载：**Core源采集后继READY_FOR_DISCONNECT通过，PID1969815在分离控制连接后保持同一身份、独立心跳前进；当前仅等待整条旧训练—双TRAIN32—原DEV关闭。** 原正式训练同一身份1551/4096、49632次TRAIN访问，1024已保存/恢复，采样不改。后继顺序为柜门1→条件通过再3、持夹恢复2→通过再6、新几何放书2→通过再4，最后原生数据导出/联合统计与既有Rerun配置；不自动新训练。CPU原生绑定资格通过，采集注册/新物理/新示范仍0。旧资格失败与费用保留；完整历史账户接续须冷态实际通过，READY不保证未来作业全部成功。[实际常驻接续、资格与边界](reports/PI0294/design/science-goal-v7-20261031/CORE_AFTER_PHASE_SOURCE_COLLECTION_NATIVE_CPU_READY_ACTUAL_20261101.json)。
-
-2026-11-01 17:14 SGT实测：**phase1024已保存并原生恢复42项AdamW/model/scheduler/RNG/cursor32768；同一正式训练已至1281/4096、40992次TRAIN访问。** 同输入/噪声TRAIN16与uniform1024比较，H40位置9.026→8.507mm、Prefix8夹爪MAE0.04533→0.03296；Prefix8位置均误几乎不变，home与部分搬运窗口反而变差，不能称完整任务改善。4096仍为主DEV端点，不改现役采样。**新采集接续仍未通过原生资格、未ARM**：已确认旧源账户约342MB；PC相同历史验证峰值RSS由约5.38降到2.09GiB，冷态CPU反而增加，修复未部署。无新增采集注册/物理/合格示范；全部资格失败效果已独立核清。原服务器训练—双诊断—DEV链继续有效。[1024实际对照与采集接续阻断](reports/PI0294/design/science-goal-v7-20261031/PHASE1024_MATCHED_TRAIN_AND_SOURCE_LINEAGE_COLD_BLOCKER_ACTUAL_20261101.json)。
-
-2026-11-01后继采集CPU实测：**phase4096同一正式训练已至980/4096、31360次TRAIN访问，当前训练—双TRAIN32—原DEV10接续不变。** 新增真实持夹事件接管/仅专家后缀导出、6张独立yaw±3°或抓点±2mm TRAIN卡及既有冷态采集顺序已实现；6/6新书名义整段静态路径通过，3类保存TRAIN持夹状态初始化和MuJoCo完整状态非修改捕获通过，尚无新增动态资格/示范。柜门原4张TRAIN卡保持；10张候选DEV静态8过2失败，归因为大开角把手—底座相交，保留候选失败，不能冒充模型泛化成绩。**新Teacher后继尚未挂载**，原服务器链已挂载；现役数据/统计/模型/队列不改。[后继准备、静态结果与部署边界](reports/PI0294/design/science-goal-v7-20261031/NEXT_SOURCE_COLLECTION_HELD_RECOVERY_GEOMETRY_CPU_ACTUAL_20261101.json)。
-
-2026-11-01阶段采样实测：**BOOK_PHASE4096_V1已在Core真实启动，最近53/4096更新、1696次TRAIN访问；服务器接续READY_FOR_DISCONNECT通过，同一manager在分离控制连接后存活并自主心跳。** 原生10更新资格完成并恢复42项AdamW/model/scheduler/RNG/cursor后CLOSED；正式模型重新从原b248初始化，数据12533窗与book统计不变，连续夹爪不变。训练完整关闭后自动串行uniform4096与phase4096的固定TRAIN32×3噪声诊断，再仅新4096原DEV10；安全STOP保留未运行，不重跑旧面板。另核对现有T1/T2各16条成功导出，PC选各10条形成42条目/25154窗的新共享候选；新统计未用于现役训练，柜门仍只有1条真实成功、4张新增TRAIN卡未执行。新增正式完整端点/有效DEV/自主成功仍0/0/0。[实际启动、断线生存与数据复用](reports/PI0294/design/science-goal-v7-20261031/BOOK_PHASE4096_NATIVE_STARTED_RESIDENT_READY_AND_REUSE42_ACTUAL_20261101.json)。
-
-2026-11-01后继实测：**1024二值夹爪独立诊断0/1成功、9未运行，12.892秒link6接触书架停止；258条已提交命令全为OPEN，未建立双侧抓持，不能把二值化当成已修复。** 保存握持状态的匹配反事实仍精确支持“卸载导致失抓”，但不代表从home到释放的完整任务已解决。柜门已有示范完成官方Processor601窗口资格；共同TRAIN统计候选通过四任务24条目/14336窗口原生编解码及12样例联合批次，无CUDA/模型/优化。候选不替换原书本统计，也未准入共享训练或独立DEV。下一训练干预选择阶段分层采样，尚未实现/启动；不同时加分类头、不加长book-only链。当前相关GPU运行均已CLOSED。[解码负结果与共同处理链实际资格](reports/PI0294/design/core32-maintenance-20261031/BINARY_GRIP_AND_COMMON_FOUR_TASK_CODEC_ACTUAL_20261101.json)。
-
-2026-11-01实际接续：**2048原DEV为0/1成功、9未运行（11.794秒非法接触停止）；4096为0/1、9未运行（2.968秒手指速度停止），两者均已审核CLOSED。** 独立1024夹爪反事实精确复现原前缀与短窗、全状态恢复重复结果逐值一致；保持原EEF，只换专家闭合目标，两条0.4秒窗口均200/200步双侧接触，末端物体相对漂移从53.67/276.08mm降到0.193/0.091mm。不是完整任务成功或合格示范。二值解码诊断代码通过受影响检查，原生结果尚未取得；不新增长训练。所有失败诊断费用保留。[原评价与匹配干预实际结果](reports/PI0294/design/core32-maintenance-20261031/UNIFORM_CURVE_REMAINING_AND_MATCHED_GRIP_COUNTERFACTUAL_20261101.json)。
-
-2026-11-01保存记录归因：**1024两项均出现新规划块夹爪目标超过实际握持开度，接触力减弱，随后持续失去双侧接触**（6.106/7.736秒）；前项书架接触6.494秒在失抓之后，后项无先行书架接触、8.074秒落地安全停止。20秒2.445m/s拒绝位于未执行H40尾部零基索引36→37，Prefix8内部最大0.110m/s，不能称实际执行超速。两DEV仅同场景±6mm位置偏移，距最近TRAIN2mm，属于几何插值；跨资产/背景/任务泛化及共享DiT遗忘尚未测量。4096拟合改善不等于其行为已验证。[500Hz失抓机理与泛化边界](reports/PI0294/design/core32-maintenance-20261031/CURVE1024_FAILURE_MECHANISM_AND_GENERALIZATION_20261101.json)。
-
-2026-11-01晨间服务器实测：**uniform4096已完成4096更新/131072次TRAIN访问，完整模型父链/42项AdamW/scheduler/RNG/cursor与全部trace审核通过，02:04 SGT已CLOSED。自动接续实际运行了1024原DEV10的两个条件，0/2成功、8未运行；第一个20秒时参考速度2.445>2m/s被拒，第二个8.074秒书本掉落并与地面穿透7.003mm触发原生安全。02:07队列SAFE_STOP，2048/4096各10条件暂停，事件训练跳过；当前没有继续运行该夜间GPU链。** 固定TRAIN16 H40位置均误16.37→9.03→5.53→4.26mm，尚不能据此宣称4096闭环成功。关闭后只读标签重名的问题已定位，本晨补核验CLOSED通过、未重跑条件；后继标签修复仅验证未部署。源合格书15/自定义柜门1/恢复6，自主完整成功仍0。[实际完成、评价负结果及安全停止](reports/PI0294/design/core32-maintenance-20261031/UNIFORM4096_COMPLETE_CURVE1024_SAFE_STOP_ACTUAL_20261101.json)。
-
-2026-11-01 01:36 SGT实测：**Core服务器端接续已挂载，READY_FOR_DISCONNECT通过**；既有用户级常驻unit `core-unattended-curve-20261101-01.service`在控制连接退出后仍以同一进程身份存活且自主更新状态，运行不依赖PC、Vanda或转发认证。原uniform4096未改，最近实际3764步/120448次TRAIN访问；完整终态/全状态与trace审计/CLOSED后按1024→2048→4096串行原DEV10。事件采样尚未实现资格，本队列明确跳过；原生安全停止后关闭本面板并暂停后续物理，不自动解除STOP。当前新增评价/自主成功仍0，尚未发生训练后GPU接续。摘要和全记录驻Core本地，GitHub在现有发布通道恢复时核账同步。[实际部署与断线生存回执](reports/PI0294/design/core32-maintenance-20261031/CORE_UNATTENDED_CURVE_ACTUAL_READY_20261101.json)。
-
-2026-10-31T23:11:49+08:00实测：同一4096训练已继续到2055步/65760次TRAIN访问；2048完整状态保存及42项AdamW、scheduler/RNG/cursor65536原生恢复证书已独立读回，生产者仍活动。固定TRAIN16 H40位置均误16.37→9.03→5.53mm，初始Prefix8 8.50→9.58→2.99mm；初始首夹爪误差降为0，闭爪锚点48的Prefix8夹爪MAE 0.0966→0.2655→0.0112。初始Prefix8旋转误差仍非单调，闭环成绩未取得。继续原均匀4096；完整终态/审计/CLOSED后依次评价1024/2048/4096。无新增物理尝试，纯书15/柜门1/恢复6，自主完整成功仍0。 [实际2048学习曲线](reports/PI0294/design/core32-maintenance-20261031/M32_ACTUAL2048_RESTORED_MATCHED_TRAIN_LEARNING_CURVE_20261031.json)。
-
-**用户最新要求：减少防御性编程，以推进科学主线为目标，工程问题允许自主修复。** 当前执行计划是[Goal V7](docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)，[六项任务卡](reports/PI0294/design/science-goal-v7-20261031/TASKS.json)与[AGENTS](AGENTS.md)同步生效；发布不等于远端已执行。
-
-## 现在做什么
-
-| 工作线 | 下一项真实结果 | 不等待什么 |
-|---|---|---|
-| Core模型闭环 | 已有E1等端点真实加载/生成，首个有效条件，再原面板 | 不等E2训练、不强制D25先完成 |
-| Vanda E2对照 | 核清同一队列作业和已退出owner，恢复管理，完成原512 | 不等Core或新技能Teacher |
-| 源ARX5任务数据 | 修复放书参考碰撞、诊断柜门失抓，取得各首条完整示范 | 不等E1/E2比较或目标S1成功 |
-| 新技能/共享策略 | 合格种子后实际训练、固定DEV闭环，再共享四任务 | 不等凑满300条才开始验证学习 |
-
-Codex可自主处理应用级路径、超时、类型、入口、队列管理、恢复与源域Teacher几何问题。先做受影响检查，再做最小原生验证，不为普通修复反复请求GO。旧源域失败STOP保留；有证据的新仿真开发版本可接续，不得仅改名盲跑。目标S1/T2安全隔离、冻结WBC、真实权限/配额、未知写入不得重放仍然有效。清理由用户负责。
-
-项目内部预算总额和旧计划窗口不是新科研的人工审批门；真实GPU/内存/磁盘容量仍需核实。旧作业不热改、不重开、不回写历史费用/期限。V7允许简化未来运行的重复校验与跨站记账依赖，但这仍需运行代码实际实现，不是已完成修改。
-
-## 最新实际与历史基线
-
-2026-10-31 01:53 SGT实际：原E2作业1508345已由新的单一管理角色接管；包装/owner两进程按PID＋proc_start核验存活，原作业新Q态心跳已写出并独立读回。没有qsub、没有改原训练脚本/请求/时钟；尚无训练更新和512端点。首次管理接管因试图超过继承CPU硬限制在入口前退出，后继保留站点硬限制后接管成功，旧失败/关闭记录保留。[实际接管证据](reports/PI0294/design/science-goal-v7-20261031/E2_EXISTING_JOB_MANAGEMENT_REATTACHED_ACTUAL_20261031.json)。E1已真实加载/生成1次并被原动作门拒绝，正式有效条件0；合格新示范0。
-
-2026-10-31 01:42 SGT实际：E1@512已在Core GPU0真实加载并完成1次自由生成（40×10）。原动作门拒绝：最大线速度4.8249m/s、角速度15.7340rad/s、平移路径5.4238m；命令安装/物理为0。工作器27.56CPU/35.47墙钟秒，自然OS0、MainPID0且own lease CLOSED，结果/数组/关闭intent和receipt均独立读回。这是保存观测的推理冒烟，正式有效条件仍0；E2新512端点/合格新示范仍0/0。[实际模型结果](reports/PI0294/design/science-goal-v7-20261031/E1_FIRST_REAL_FREE_GENERATION_ACTUAL_20261031.json)。
-
-2026-10-31 01:21–01:35 SGT独立核验：E1原完整绑定/onceIO在隔离副本用36.7CPU/39.7墙钟秒，超旧30/35限制，正式账本未改；E2原1508345仍Q、原owner已退出；19条放书名义路径均未完成整段静态检查，没有新物理。新端点/有效模型条件/合格示范仍0/0/0。[实际证据](reports/PI0294/design/parallel-science-20261022/INDEPENDENT_E1_BIND_E2_LIFECYCLE_BOOK_CONSTRAINT_ACTUAL_20261031.json)。V7后继将先用同一E1加载器与Processor做一次独立生成冒烟，不冒充正式评价；源技能不等待完整E1/E2面板。
-
-2026-10-31 00:55 SGT：E1共享启动失败已双账结算、三许可关闭，模型/查询/有效评价均0。Vanda完整绑定校验约26.8墙钟秒，接近旧35秒调用上限；不是SSH255根因已证实。E2作业1508345仍Q，管理owner已OS152退出，不能称健康训练链。新技能源域累计6尝试、22046积分、488对RGB、合格示范0；柜门旧分支8.82°后失抓，放书参考自身顶书。新完整端点/有效模型条件/合格示范仍0/0/0。
-
-完整原件见[科学状态](CURRENT_SCIENCE_STATUS.md)、[E1实结](reports/PI0294/design/parallel-science-20261022/E1_SHARED03_DUAL_SETTLED_THREE_CLOSED_AND_BIND_VALIDATION_TIMING_ACTUAL_20261031.json)、[柜门终态](reports/PI0294/design/parallel-science-20261022/ROBOCASA_PORT05_REPEATED_GRASP_FAILURE_CLOSED_STOP_AND_PARALLEL_STATE_ACTUAL_20261030.json)、[放书诊断](reports/PI0294/design/parallel-science-20261022/BOOK_SAVED_PALM_INTRUSION_AND_FIXED512_EVALUATION_ENTRY_ACTUAL_20261030.json)。
-
-## 接手方式
-
-先读本页、V7与当前相关回执；需要实现位置时查[CODE_MAP](docs/CODE_MAP.md)。保持`main`唯一集成入口和`~/Projects/GR00T-WBC`工作区，遵循[仓库工作流](docs/REPOSITORY_WORKFLOW.md)。刷新Issue #11科学结果与#47运行状态，只对当前必要事实查询，不把读完全部历史变成启动条件。
-
-Core单一物理owner，Vanda独立训练；管理端必要授权在计算启动前完成，避免计算进程等待跨站bind。NFS/SSH/挂载/服务/凭据由管理员处理。下一份汇报突出实际更新、有效任务条件、完整示范和失败机制，不以PR/CPU检查数量代替科研产出。
-
-旧[V6](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[TD10](docs/protocols/TEN_DAY_CLOSED_LOOP_POLICY_PLAN_V1_20261029.md)及[本页更新前快照](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/fad5d0296084a656fb970b02b025c7b13af849af/START_HERE.md)仍保留；其未来调度/普通修复逐项GO规则与V7冲突时以V7为准，原实验身份/数据/评分/历史结果不变。
+原长入口不丢失：[完整前版本](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/START_HERE.md)。原长状态：[完整前版本](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/CURRENT_SCIENCE_STATUS.md)。历史协议／报告路径均未移动，未来详细回执写入 `reports/`，本页只更新摘要与链接。
