@@ -117,5 +117,54 @@
     "failure_sha256": "3bb333abc2b293f88f2fd42f3d0ee6c85bd20139e329909503cb940388ebc4e6",
     "scheduler_terminal": "F",
     "Exit_status": 1
+  },
+  "restore_with_Torch_native_environment": {
+    "states": 1,
+    "branches": 2,
+    "live_ticks": 400,
+    "shadow_ticks": 400,
+    "max_abs_error": 0.0,
+    "contacts_exact": true,
+    "CPU_s": 2.473799272
+  },
+  "macro_continuity_audit": {
+    "split": "TRAIN",
+    "complete_four_macro_windows": 4125,
+    "maximum_boundary_mismatch": {
+      "qacc_warmstart": 5.4734125557094095e-15
+    },
+    "all_other_110_state_fields_exact": true,
+    "physical_state_tolerance": 1e-10,
+    "TEST_read": false
+  },
+  "bounded_gripper_validation_0_4s": {
+    "scope": "ONE_BOUNDED_TRAIN_GRASP_NEGATIVE_REWARD_FIXTURE_NOT_INITIAL64_OR_W2",
+    "before_grasp": true,
+    "after_grasp": true,
+    "before_object_height_m": 0.5230397691544063,
+    "after_object_height_m": 0.5222025055271741,
+    "reward": -0.0037054987624287605,
+    "hard_safety": [],
+    "live_ticks": 2200,
+    "shadow_ticks": 2200,
+    "CPU_s": 3.1170369879999997,
+    "added_to_replay": false,
+    "WM_updates": 0,
+    "source_sha": "bb4b53d8f55fe0c65f0b70193894789f931d02cd"
+  },
+  "bounded_grasp_loss_validation_1_2s": {
+    "scope": "ONE_BOUNDED_1_2S_GRASP_NEGATIVE_V2_AFTER_EVIDENCED_FINGER_TARGET_SLEW_NOT_INITIAL64_OR_W2",
+    "before_grasp": true,
+    "after_grasp": false,
+    "before_object_height_m": 0.5230397691544063,
+    "after_object_height_m": 0.4598932039759794,
+    "reward": -0.190471892736468,
+    "hard_safety": [],
+    "live_ticks": 2600,
+    "shadow_ticks": 2600,
+    "CPU_s": 3.469235461,
+    "added_to_replay": false,
+    "WM_updates": 0,
+    "source_sha": "bb4b53d8f55fe0c65f0b70193894789f931d02cd"
   }
 }
