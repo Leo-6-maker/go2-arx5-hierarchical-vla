@@ -47,6 +47,19 @@ class WM02Contracts(unittest.TestCase):
         state={k:0 for k in ACTOR_FIELDS};state.update(teacher_phase='carry',joint_position=[1],wbc_hidden=[2],reset_category='R3',native_success=True)
         self.assertEqual(set(actor_projection(state)),set(ACTOR_FIELDS))
 
+    def test_target_gripper_keeps_original_working_stroke_without_clipping(self):
+        raw=np.zeros((8,7));raw[:,6]=0
+        with self.assertRaises(ValueError):compile_reference(raw,np.eye(4),0,backend=TARGET,frame='world',tcp='x5_ee')
+        raw[:,6]=1
+        with self.assertRaises(ValueError):compile_reference(raw,np.eye(4),0,backend=TARGET,frame='world',tcp='x5_ee')
+
+    def test_complete_restore_audit_detects_hidden_controller_difference(self):
+        from go2arx5_vla.world_model.restore_audit import compare
+        state=dict(qpos=np.zeros(3),controller=dict(target=np.ones(2)),rng=dict(counter=3))
+        self.assertTrue(compare(state,copy.deepcopy(state))['passed'])
+        other=copy.deepcopy(state);other['controller']['target'][0]+=.001
+        self.assertFalse(compare(state,other)['passed'])
+
     def row(self):
         return dict(run_id='r',episode_id='e',parent_id='p',scene_id='s',split='TRAIN',executor_id='S',actor_version='v',
             t0=0.,t1=.05,physics_ticks=25,action_raw=np.zeros(7),reference_compiled=np.zeros((40,10)),
@@ -77,7 +90,7 @@ class WM02Contracts(unittest.TestCase):
         self.assertFalse(result['target_dynamic_authorized']);self.assertIn('TARGET_S1_T2_QUARANTINE_NOT_RELEASED',result['target_blockers'])
 
     def test_cli_help_does_not_import_physics_models_or_network(self):
-        for module in('resolve','qualify'):
+        for module in('resolve','qualify','profile_source'):
             code="import runpy,sys;sys.argv=['cli','--help'];\ntry:runpy.run_module('scripts.wm02."+module+"',run_name='__main__')\nexcept SystemExit as e:\n if e.code:raise\nfor forbidden in ('torch','mujoco','isaacgym','rclpy','huggingface_hub'):\n if forbidden in sys.modules:raise RuntimeError(forbidden)"
             p=subprocess.run([sys.executable,'-c',code],capture_output=True,text=True)
             self.assertEqual(p.returncode,0,p.stderr)
