@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import os
 import random
 import time
 from pathlib import Path
@@ -224,6 +225,9 @@ def run_smoke(folder,spec,micro=32):
     for step in range(1,201):
         value,norm=update(model,opt,data,(step-1)*256,micro)
         trace.append(dict(update=step,loss=value,gradient_norm=norm,cursor=step*256))
+        torch.cuda.synchronize()
+        with (folder/'WM_OPTIMIZER_STEPS.jsonl').open('a') as stream:
+            stream.write(json.dumps(trace[-1],allow_nan=False)+'\n');stream.flush();os.fsync(stream.fileno())
         if step==199:checkpoint(folder/'checkpoint-199.pt',model,opt,199,199*256,provenance,config)
         if step%10==0:put(folder/'PROGRESS.json',dict(updates=step,cursor=step*256,loss=value,elapsed_s=time.monotonic()-train_started))
     peak=memory(device);checkpoint(folder/'checkpoint-200.pt',model,opt,200,51200,provenance,config)
