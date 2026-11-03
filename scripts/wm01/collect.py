@@ -42,7 +42,7 @@ def collect_episode(spec, card, folder, *, perturb=False, restore_check=False, s
                 # A rejected command is retained separately, never executed expert data.
                 dump_private(folder/f'rejected-{macro_index:03d}.pkl.gz', dict(plan=plan, state=adapter.capture(), gate=gate))
                 break
-            if save_branches and macro_index in (0, 16, 32, 48):
+            if save_branches and macro_index in spec.get('diagnostic_macro_indices', (2, 6, 14, 24)):
                 name = f'branch-{macro_index:03d}.pkl.gz'
                 dump_private(folder/name, dict(restore=adapter.capture(), plan=plan))
                 branch_files.append(name)
