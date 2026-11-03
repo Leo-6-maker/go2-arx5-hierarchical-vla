@@ -1,0 +1,223 @@
+{
+  "schema": "CORE_VANDA_POLICY_DELIVERY_CAMPAIGN_V1",
+  "status": "REVIEWED_HANDOFF_NOT_RUNTIME_PLAN_NOT_REMOTE_DEPLOYMENT",
+  "date_SGT": "2026-11-03",
+  "repository_review_base": "75e47deb01e32eb49df12c83de1e0ec55c0e8388",
+  "protocol": "docs/operations/CORE_VANDA_POLICY_DELIVERY_CAMPAIGN_20261103.md",
+  "uses_existing_supervisor_registry_journal_onceIO": true,
+  "new_scheduler": false,
+  "directly_accepted_by_Night10": false,
+  "remote_work_executed_by_this_publication": false,
+  "dispatch": {
+    "stop_new_dispatch_SGT": "2026-11-06T11:43:56.987405+08:00",
+    "deadline_source": "reports/PI0294/design/controlled-finetuning-20261102/CORE_RELAY_EXTENSION_TRAINING_SPEED_ACTUAL_20261103.json",
+    "extend_or_reset_clock": false,
+    "already_started_jobs": "FINISH_UNDER_OWN_BOUNDED_NATIVE_CONTRACT",
+    "queued_jobs_obey_original_actual_start_deadline": true,
+    "all_tasks_completed_in_window_promised": false
+  },
+  "evidence": {
+    "repository_observed_at_SGT": "2026-11-03T11:45:04.810854+08:00",
+    "repository_D2_updates": 3266,
+    "repository_D2_complete4096": false,
+    "repository_reset_native_qualified": true,
+    "repository_shared_GPU_updates": 0,
+    "user_reported_not_independently_read_back_in_this_review": {
+      "Vanda_new_PBS_submitted": false,
+      "shared_owner_transferred": false,
+      "BOOK_complete_episode_audit_count": 21,
+      "one_successful_teacher_min_actual_joint_margin_mrad_approx": 4.80,
+      "interface_plus_last6_DiT_numel_approx": 213000000,
+      "future_TRAIN_candidates": {"BOOK_geometry": 4, "BOOK_contact_recovery": 4, "DOOR_geometry": 4}
+    }
+  },
+  "shared_baseline": {
+    "model_count": 1,
+    "preferred_training_site": "VANDA",
+    "initialization": "RELOAD_PINNED_RAW_PRETRAINED_VALUES_NOT_RANDOM_BACKBONE_NOT_QUALIFICATION_WEIGHTS",
+    "full_expert_episodes": 46,
+    "expert_suffixes": 13,
+    "entries": 59,
+    "windows": 34563,
+    "task_entry_counts": {"T1": 10, "T2": 10, "BOOK": 34, "DOOR": 5},
+    "task_window_counts": {"T1": 6010, "T2": 6010, "BOOK": 19538, "DOOR": 3005},
+    "trainable_numel": 77847684,
+    "trainable_tensors": 42,
+    "target_category": 10,
+    "DiT_indices": [30, 31],
+    "state_history_length": 1,
+    "H40": 40,
+    "execution_prefix": 8,
+    "denoise_steps": 4,
+    "continuous_gripper": true,
+    "loss": "UNCHANGED_OFFICIAL_MASKED_FLOW_MATCHING",
+    "microbatch": 1,
+    "gradient_accumulation": 32,
+    "effective_batch": 32,
+    "task_slots_per_batch": {"T1": 8, "T2": 8, "BOOK": 8, "DOOR": 8},
+    "total_updates": 8192,
+    "total_visits": 262144,
+    "visits_per_task": 65536,
+    "warmup_updates": 256,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.00001,
+    "optimizer": "FRESH_ADAMW",
+    "scheduler_horizon": 8192,
+    "checkpoints": [2048, 4096, 6144, 8192],
+    "primary_behavior_endpoint": 8192,
+    "default_intermediate_full_DEV68_panels": 0,
+    "default_final_DEV68_panels": 1,
+    "default_DEV_counts": {"T1": 24, "T2": 24, "BOOK": 10, "DOOR": 10},
+    "memory_execution": {
+      "candidate": "VANDA_EXPLICIT_NO_ACTIVATION_CPU_OFFLOAD",
+      "already_supported_by_current_Core_qualified_entry": false,
+      "requires_new_explicit_profile_and_same_allocation_native_qualification": true,
+      "change_dtype_batch_loss_or_parameter_scope_implicitly": false,
+      "same_GPU_native10_restore_and_existing_shared_inference_before_formal": true,
+      "Core_trained_checkpoint_inference_qualification_required": true
+    },
+    "allow_TRAIN_VNEXT": false,
+    "allow_DEV_or_TEST_in_training_or_statistics": false
+  },
+  "ownership": {
+    "Core_M13_and_active_BOOK_jobs_unchanged": true,
+    "Core_shared_nodes_to_cold_close_before_Vanda_qualification": ["RAW_NATIVE10", "RAW_NATIVE16", "SHARED8192_ADOPT"],
+    "closure_required": "PROVEN_UNSTARTED_NO_UNKNOWN_NO_ACTIVE_WRITER_THEN_CLOSED_UNSTARTED_TRANSFERRED_TO_VANDA",
+    "new_Vanda_registration_after_Core_transfer_receipt": true,
+    "duplicate_same_shared_arm_across_sites": false,
+    "fallback_requires_prior_Vanda_effect_reconciliation": true,
+    "legacy_E2_job_to_reconcile": "1508345.stdct-mgmt-02",
+    "legacy_E2_success_required_for_shared_baseline": false,
+    "cross_site_live_heartbeat_runtime_dependency": false,
+    "Core_global_physics_owners_max": 1
+  },
+  "tasks": [
+    {
+      "id": "W00", "title": "Adopt exact current state", "site": "CPU_CONTROL", "status": "READ_ONLY_ADOPTION_REQUIRED", "needs": [],
+      "action": "Read current Core actors, pending shared nodes, exact legacy E2 PBS state, immutable inputs and relevant new user-reported evidence. Do not replay old work.",
+      "acceptance": "Fresh native state and source-bound evidence index; exact unknowns retained"
+    },
+    {
+      "id": "W10", "title": "Prepare Vanda fixed inputs and memory profile", "site": "VANDA_CPU", "status": "USER_REPORTED_PREPARING", "needs": ["W00"],
+      "action": "Verify raw7, actual RGB and numerical TRAIN59, stats, DEV68 and sampler. Reuse existing Trainer and add an explicit no-activation-offload native profile rather than bypassing LOW_RESIDENCY_POLICY.",
+      "acceptance": "Verified immutable inputs and affected CPU checks; no model qualification claimed"
+    },
+    {
+      "id": "W11", "title": "Transfer unique shared producer", "site": "EXISTING_OWNERS", "status": "NOT_EXECUTED_BY_THIS_PUBLICATION", "needs": ["W10"],
+      "action": "Prove Core three shared nodes unstarted and reconcile side effects; cold-close only these pending producers through original snapshot-bound onceIO, retain BOOK tasks and deadline, register one Vanda successor.",
+      "acceptance": "Core transfer receipt and one Vanda run identity, or explicit blocked owner state"
+    },
+    {
+      "id": "W12", "title": "Same-allocation native qualification", "site": "VANDA_GPU", "status": "PLANNED", "needs": ["W11"],
+      "action": "Use a legal allocation for raw native10, 42-state restoration and the existing shared inference qualification; record VRAM/RAM/throughput/walltime and model identity.",
+      "acceptance": "Actual native PASS and full restore, not qualification weights reused as formal",
+      "failure_domain": "SHARED_TRAINING_ONLY"
+    },
+    {
+      "id": "W13", "title": "Fresh shared M32 8192", "site": "VANDA_GPU", "status": "PLANNED", "needs": ["W12"],
+      "action": "Reload raw pretrained weights and fresh optimizer/RNG. Run exact task-balanced8192 with four complete checkpoints; respect actual allocation and dispatch limits.",
+      "acceptance": "Actual8192 complete state and CLOSED producer; intermediate or failed endpoints labelled separately",
+      "max_formal_models": 1,
+      "failure_domain": "THIS_SHARED_PRODUCER"
+    },
+    {
+      "id": "W14", "title": "Deliver reconstructable policy to Core", "site": "AUTHORIZED_ARTIFACT_ROUTE", "status": "PLANNED", "needs": ["W13"],
+      "action": "Transfer only missing required inference assets with pinned parent/delta/Processor/statistics/decoder and checksums. Retain full optimizer archive on authorized durable Vanda storage.",
+      "acceptance": "Core independently reconstructs exact8192 policy; no arbitrary latest checkpoint"
+    },
+    {
+      "id": "W15", "title": "Local qualification and fixed shared DEV68", "site": "CORE_GPU_PHYSICS", "status": "PLANNED", "needs": ["W14"],
+      "action": "Obtain exact trained-checkpoint local inference capacity and original source qualification, then run fixed68 first attempts with independent closed reset, one physics owner and unchanged safety/scoring.",
+      "acceptance": "68-row outcome table including failures, unavailable and unrun; per-task success/valid/coverage and first failure; zero success still published",
+      "valid_condition_retries": 0,
+      "max_model_conditions": 68,
+      "failure_domain": "AFFECTED_EPISODE_OR_PHYSICS_RESOURCE"
+    },
+    {
+      "id": "W20", "title": "Preserve current BOOK producers", "site": "CORE_M13", "status": "ADOPT_EXISTING_DO_NOT_RESTART", "needs": [],
+      "action": "Retain existing D2 then PB_CONTROL and PB_BOUNDARY native qualifications, fresh formal4096 runs and complete closure under existing queue.",
+      "acceptance": "Native endpoint or accurately closed failure for each existing arm",
+      "depends_on_shared_policy_success": false
+    },
+    {
+      "id": "W21", "title": "Matched BOOK RESET evaluation", "site": "CORE_GPU_PHYSICS", "status": "ADOPT_EXISTING_PENDING_BINDINGS", "needs": [],
+      "runtime_prerequisites": ["SPECIFIC_COMPLETE_CLOSED_MODEL", "SPECIFIC_LOCAL_INFERENCE_QUALIFICATION", "RESET_NATIVE_QUALIFICATION", "PHYSICS_RESOURCE_SLOT"],
+      "action": "Keep predeclared Phase,D0,D1,D2,PB_CONTROL,PB_BOUNDARY model set and original DEV10. Evaluate each ready model exactly once under new protocol; failed/unavailable producer only blocks its own panel.",
+      "acceptance": "Matched stage/safety/full-success results; old panels and STOPs unchanged",
+      "max_model_conditions": 60,
+      "all_producers_success_required": false
+    },
+    {
+      "id": "W30", "title": "Close Teacher margin and grip audit", "site": "CPU_LOW_PRIORITY", "status": "USER_REPORTED_AUDIT_COMPLETE_BIND_SOURCE", "needs": ["W00"],
+      "action": "Bind the 21-episode audit and approximately4.80mrad record to original episode/tick; distinguish commanded and actual joints, EEF and contact/support phases. Use D0/D1 DEV only for diagnosis, not TRAIN relabeling.",
+      "acceptance": "Source-linked phase margin and grasp/release report without automatic sample deletion"
+    },
+    {
+      "id": "W31", "title": "Freeze and screen twelve new TRAIN candidates", "site": "CPU_LOW_PRIORITY", "status": "PLANNED", "needs": ["W30"],
+      "action": "Fix4 BOOK geometry,4 BOOK contact-recovery and4 DOOR geometry candidates with IDs/seeds, legal TRAIN provenance and full-path IK/collision/margin witnesses. Separate real student states from synthetic perturbations.",
+      "acceptance": "Twelve-row static qualification/rejection table; no replacement seeds",
+      "candidate_count": 12
+    },
+    {
+      "id": "W32", "title": "First-attempt qualified source collection", "site": "CORE_SOURCE_PHYSICS", "status": "PLANNED", "needs": ["W31"],
+      "runtime_prerequisites": ["SPECIFIC_STATIC_PASS", "SOURCE_RUNTIME_SAFETY_AND_CAMERA", "ONE_PHYSICS_OWNER", "ACTUAL_RESOURCE_SLOT"],
+      "action": "At most one initial physical attempt per statically admitted candidate. Record real observations and executed expert commands; keep every failure and do not insert data into existing training.",
+      "acceptance": "Actual attempt table, qualified full episodes and suffixes separately",
+      "physical_attempts_max": 12,
+      "same_condition_success_chasing": false
+    },
+    {
+      "id": "W33", "title": "Freeze independent TRAIN_VNEXT", "site": "CPU_LOW_PRIORITY", "status": "PLANNED", "needs": [],
+      "after_terminal": ["W32"],
+      "action": "Publish qualified complete episodes, eligible expert suffixes and failure bank separately; zero qualified data is explicit. Preserve current59 statistics and all source/DEV/TEST boundaries.",
+      "acceptance": "Independent data card, manifest and actual support gaps; no baseline contamination"
+    },
+    {
+      "id": "W40", "title": "Offline Go2 EEF10 and base interface review", "site": "CPU_OFFLINE", "status": "PLANNED", "needs": ["W00"],
+      "action": "Check world/base/mount/flange/TCP, camera extrinsics, rotation conventions, clocks and complete quadruped collisions. Prepare standing EEF10 and move-stabilize-manipulate static paths only.",
+      "acceptance": "Offline interface bundle with feasible/rejected/unknown paths, no dynamic target claim",
+      "new_target_physics_attempts": 0,
+      "target_quarantine_released": false,
+      "EEF13_training": false
+    },
+    {
+      "id": "W50", "title": "Last-six-layer census only", "site": "CPU_OFFLINE", "status": "USER_REPORTED_APPROXIMATE_COUNT_REQUIRES_SOURCE_BINDING", "needs": ["W00"],
+      "action": "Record exact tensor names and numel for interface plus last6 DiT; preserve user approximate213M description until native header audit is attached. GPU qualification requires a later decision after shared endpoint and task evaluation.",
+      "acceptance": "Precise scope and memory estimate with assumptions",
+      "new_optimizer_updates": 0
+    },
+    {
+      "id": "W90", "title": "Publish scientific deliverables and blockers", "site": "CPU_CONTROL", "status": "AVAILABLE_THROUGHOUT", "needs": [],
+      "action": "Summarize actual endpoints, per-task valid/success/unrun, owner status, source-data attempts, first failure and next hypothesis using existing local receipts and Issues11/47/299. Final summary does not wait for all tasks to succeed.",
+      "acceptance": "Policy manifest/model card, DEV tables, failure analysis and exact pending list; no process-exit success inference"
+    }
+  ],
+  "failure_isolation": {
+    "CLOSED_SCIENCE_FAILURE": "RETAIN_NEGATIVE_CONTINUE_INDEPENDENT_BRANCHES_RESET_BEFORE_NEXT_PHYSICS",
+    "CLOSED_KNOWN_ENGINEERING_FAILURE": "PRESERVE_EFFECTS_REPAIR_CHANGED_SEAM_NEW_COLD_VERSION_NO_BLIND_RETRY",
+    "CAPACITY_WAIT": "FINITE_PENDING_NOT_MODEL_FAILURE_OTHER_ELIGIBLE_WORK_CONTINUES",
+    "UNKNOWN_EFFECT_OR_ACTIVE_WRITER": "BLOCK_AFFECTED_MUTATION_DOMAIN_RECONCILE_BEFORE_REPLAY",
+    "CHECKPOINT_UNAVAILABLE": "BLOCK_ONLY_ITS_EVALUATION_NOT_OTHER_PRODUCERS",
+    "CROSS_SITE_DELIVERY_FAILURE": "PRESERVE_TRAINING_ENDPOINT_CORE_WAITS_FOR_EXACT_PACKAGE",
+    "DEADLINE": "NO_NEW_DISPATCH_EXACT_UNRUN_LIST_EXISTING_BOUNDED_JOBS_KEEP_OWN_CONTRACT"
+  },
+  "future_conditional_research_not_automatic": {
+    "expanded_scope_native10_requires": ["SHARED_M32_MAIN_ENDPOINT", "PER_TASK_EVALUATION", "NEW_EXPLICIT_SCOPE_DECISION"],
+    "history_grip_loss_and_capacity_simultaneous": false,
+    "target_dynamic_transfer_requires_separate_safety_scope": true,
+    "new_WBC_tuning": false,
+    "source_success_implies_target_success": false
+  },
+  "invariants": {
+    "no_hotpatch_or_active_job_preemption": true,
+    "no_new_data_in_active_or_first_shared_training": true,
+    "no_privileged_student_inputs": true,
+    "expert_labels_are_actual_committed_commands": true,
+    "no_achieved_future_state_or_unexecuted_H40_relabel": true,
+    "no_safety_scoring_WBC_changes": true,
+    "no_system_NFS_SSH_credential_or_foreign_process_changes": true,
+    "no_user_data_or_checkpoint_deletion": true,
+    "no_unapproved_raw_data_or_vendor_asset_publication": true,
+    "no_auto_policy_success_or_server_deployment_claim": true
+  }
+}
