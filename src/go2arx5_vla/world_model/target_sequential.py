@@ -275,6 +275,7 @@ class TargetSequentialAdapter:
     def capture_loaded_identity(self):
         """Read actual mappings at a native pause, including regenerated DSOs."""
         from .storage import digest,write_json
+        from .target_reference import relevant_loaded_path
         value={}
         for name,p in self.processes:
             pid=owned_simulator_pid(p.pid,self.spec['native_binary'])if name=='sim'else p.pid
@@ -283,8 +284,7 @@ class TargetSequentialAdapter:
                 fields=line.split(None,5)
                 if len(fields)==6 and fields[5].startswith('/'):
                     path=fields[5]
-                    if '(deleted)'in path:raise RuntimeError('LOADED_ARTIFACT_DELETED_IDENTITY_UNKNOWN')
-                    if any(x in path for x in('/ocs2-','/candidate-','/clock-v1/','/install/','libmujoco')):paths.add(path)
+                    if relevant_loaded_path(path):paths.add(path)
             exe=os.readlink(root/'exe');value[name]=dict(pid=pid,executable=exe,executable_sha256=digest(exe),loaded_files_sha256={path:digest(path)for path in sorted(paths)})
         write_json(self.output/'LOADED_EXECUTOR.private.json',value)
         return value

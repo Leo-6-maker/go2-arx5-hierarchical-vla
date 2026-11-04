@@ -61,6 +61,15 @@ def measured_base_hold(document, pose):
     return result
 
 
+def relevant_loaded_path(path):
+    # Graphics/DDS shared-memory files commonly appear as '/dev/zero
+    # (deleted)'. They are not executable/codegen identity artifacts.
+    relevant=any(x in path for x in('/ocs2-','/candidate-','/clock-v1/','/install/','libmujoco'))
+    if relevant and '(deleted)'in path:
+        raise RuntimeError('LOADED_EXECUTOR_ARTIFACT_DELETED:'+path)
+    return relevant
+
+
 def dynamic_limit(phase, previous):
     """Versioned finite diagnostic, never accept arbitrary metadata limits."""
     table = {

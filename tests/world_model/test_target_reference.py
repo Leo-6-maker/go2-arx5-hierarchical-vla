@@ -2,7 +2,7 @@ import unittest
 from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity,installed_target_identities
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 from scripts.pi0294.native_receiver import reference_expired
-from go2arx5_vla.world_model.target_reference import measured_base_hold
+from go2arx5_vla.world_model.target_reference import measured_base_hold,relevant_loaded_path
 
 
 class TargetReferenceContract(unittest.TestCase):
@@ -59,6 +59,11 @@ class TargetReferenceContract(unittest.TestCase):
         self.assertEqual(result['base']['waypoints'][-1]['position'],base[:3])
         self.assertEqual(result['base']['waypoints'][-1]['time'],2.)
         with self.assertRaises(ValueError):measured_base_hold(doc,[0.]*7)
+    def test_deleted_shared_memory_is_not_a_deleted_executor(self):
+        self.assertFalse(relevant_loaded_path('/dev/zero (deleted)'))
+        self.assertFalse(relevant_loaded_path('/dev/shm/fastdds_fixture (deleted)'))
+        self.assertTrue(relevant_loaded_path('/run/cache/ocs2-controller/dynamics/lib.so'))
+        with self.assertRaises(RuntimeError):relevant_loaded_path('/run/cache/ocs2-controller/lib.so (deleted)')
 
 
 if __name__=='__main__':unittest.main()
