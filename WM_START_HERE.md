@@ -2,7 +2,7 @@
 
 日期：2026-11-04，Asia/Singapore。原计划已发布；本实施分支已有实际入口和执行结果，不表示main或旧capsule已部署。
 
-**最新动作响应／初始化候选已执行：** 当前40布局FIT定位到参考→TCP效应压平；固定200的M1/M2比较完成400主更新＋2恢复探针，另保留失败20更新。M2在诊断DEV的H8预测物体朝向效应约8.09mm，实际约7.94mm；尚未优于规则，时间响应不完整。目标R1＋停止锁存＋有界记录器已实际编译并核验两条加载链，但缺少init-only范围，原生初始化仍未验收、目标积分0。见[本轮真实命令、身份、成本与限制](reports/WM02/response-init-candidate/EXECUTION_REPORT.md)。
+**最新动作响应／初始化候选已执行：** 当前40布局FIT定位到参考→TCP效应压平；固定200的M1/M2比较完成400主更新＋2恢复探针，另保留失败20更新。M2在诊断DEV的H8预测物体朝向效应约8.09mm，实际约7.95mm；尚未优于规则，时间响应不完整。目标R1＋停止锁存＋有界记录器已实际编译并核验两条加载链，但缺少init-only范围，原生初始化仍未验收、目标积分0。见[本轮真实命令、身份、成本与限制](reports/WM02/response-init-candidate/EXECUTION_REPORT.md)。
 
 本后继实施分支的实际回执：**P0目标身份与阻断已核对；P1完成S域薄adapter／原生恢复与4进程吞吐，目标动态仍TARGET_BLOCKED。** 见[第一轮实际回执](reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md)与[真实CLI](experiments/wm02/RUNTIME.md)。原计划发布状态和plan.json作为历史设计保留，不表示main已经部署。
 
