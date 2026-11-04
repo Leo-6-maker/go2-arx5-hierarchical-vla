@@ -135,7 +135,11 @@ class TargetSequentialAdapter:
             self.launch([s[key],*params,'-p','libFolder:='+str(cache)],name,env)
         if self.reference_phase():
             import sys
-            self.launch([sys.executable,'-B','-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',dict(env,PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name))
+            # Frozen native_environment may name an older capsule. Load the
+            # receiver and lifecycle helper from this verified source seal.
+            receiver=Path(s['source_root'])/'scripts/pi0294/native_receiver.py'
+            planner_env=dict(env,PYTHONPATH=s['source_root']+':'+s['source_root']+'/src:'+env.get('PYTHONPATH',''),PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name)
+            self.launch([sys.executable,'-B',str(receiver),'--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',planner_env)
         # OCS2 construction/codegen sets start_time_=now(). Starting physics
         # before it completes gives that process a nonzero clock origin and
         # permanently stale reference times at the next exact native pause.

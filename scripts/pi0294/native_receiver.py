@@ -118,12 +118,8 @@ def main():
     EETrajectoryManager.on_trajectory_json=accept
     EETrajectoryManager.on_observation=observation
     EETrajectoryManager._send=send
-    rclpy.init();node=EETrajectoryManager()
-    try:rclpy.spin(node)
-    except KeyboardInterrupt:pass
-    finally:
-        node.destroy_node()
-        if rclpy.ok():rclpy.shutdown()
+    from scripts.wm02.receiver_lifecycle import run
+    run(rclpy,EETrajectoryManager)
 
 
 if __name__=='__main__':main()
