@@ -202,6 +202,7 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_state import ActualState
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0294.base_intent import eef_document
+        from scripts.pi0294.task_clock import actual_source_age
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0292.durable import write
         if self.spec['phase']!='g2-reference-qualification':raise PermissionError('EXACT_REFERENCE_TRANSACTION_SCOPE_REQUIRED')
@@ -214,7 +215,7 @@ class TargetSequentialAdapter:
         # any WBC math. Original quota binding explicitly allows +3 init ticks.
         self.advance_to(2503);packet=self.observe();step=packet['step'];t=packet['time_s']
         def ready():
-            return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation')))
+            return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation')))
         if not self.spin(20,ready):
             self.save_feedback_diagnostic('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
             raise RuntimeError('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
