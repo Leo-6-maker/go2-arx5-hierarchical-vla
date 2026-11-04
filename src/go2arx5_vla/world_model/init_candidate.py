@@ -113,8 +113,11 @@ def build(spec,output):
     for label in('task_actuation','task_actuation_r1'):
         paths=[output/(label+'.so'),output/'observer.so',trace];env=dict(build_env,LD_PRELOAD=':'.join(map(str,paths)),WM02_INIT_TRACE=str(output/(label+'-doctor.trace')))
         q=execute([str(output/'loader_doctor')],label+'_load_order',env=env);actual=dict(line.split('=',1)for line in q.stdout.splitlines())
-        if Path(actual['WM02OuterNext']).resolve()!=paths[1].resolve()or Path(actual['WM02ObserverNext']).resolve()!=dep.resolve():raise RuntimeError('Actual dlsym step chain differs')
-        chains[label]=[dict(path=str(p),sha256=digest(p))for p in paths]+[dict(path=str(dep),sha256=digest(dep))]
+        loaded=Path(actual['WM02ObserverNext']).resolve()
+        if Path(actual['WM02OuterNext']).resolve()!=paths[1].resolve()or loaded.parent!=dep.resolve().parent or digest(loaded)!=digest(dep):raise RuntimeError('Actual dlsym step chain or frozen MuJoCo bytes differ')
+        # Existing -lmujoco resolves its SONAME .so.3.2.7. The unversioned
+        # .so here is a separate identical file, so path equality was invalid.
+        chains[label]=dict(preload=[dict(path=str(p),sha256=digest(p))for p in paths],outer_next=actual['WM02OuterNext'],observer_next=dict(path=str(loaded),sha256=digest(loaded)),linked_MuJoCo_pin=dict(path=str(dep),sha256=digest(dep)))
     (output/'pause_harness.cpp').write_text(HARNESS);execute(['g++','-std=c++17','-pthread',str(output/'pause_harness.cpp'),'-o',str(output/'pause_harness')],'pause_harness_compile');execute([str(output/'pause_harness')],'pause_harness')
     if digest(lease)!=lease_before:raise RuntimeError('Historical target lease changed')
     result=dict(status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',source_sha=spec['source_sha'],

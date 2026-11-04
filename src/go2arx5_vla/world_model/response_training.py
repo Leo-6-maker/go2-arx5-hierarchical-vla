@@ -43,14 +43,14 @@ def update(model,opt,train,keys,cursor,paired):
     return dict(base_loss=base_total,effect_loss=effect_total,pairs_used=pairs_used,gradient_norm=float(norm))
 
 
-def evaluate(models,data,meta,output):
+def evaluate(models,data,meta,output,forecast_fn=forecast):
     results={};grasp=EVENTS['native_grasp'];output=Path(output)
     for name,model in models.items():
         records=[];contrasts=[];pin=parameter_hash(model)
         with torch.no_grad():
             for part in('FIT','DIAGNOSTIC_DEV'):
                 for scene,ids,b,names in groups(data,meta,part):
-                    pred,event,hidden=forecast(model,b)
+                    pred,event,hidden=forecast_fn(model,b)
                     if not torch.equal(hidden,hidden[:1].expand_as(hidden)):raise ValueError('Matched hidden differs')
                     np.savez_compressed(output/f'{name}-{part}-{scene:02d}.npz',state=pred.cpu().numpy(),events=event.cpu().numpy(),physical_raw=meta['physical_raw'][ids])
                     contrasts.extend([dict(partition=part,**r)for r in contrast_table(pred,b,names,scene)])

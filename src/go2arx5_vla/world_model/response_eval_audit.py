@@ -12,11 +12,16 @@ from .neural_training import parameter_hash
 from .replay import SCHEMA,SLICES
 from .storage import digest,write_json
 
+def canonical_forecast(model,b):
+    """Identical batch1 arithmetic for every candidate, independent of grouping."""
+    values=[forecast(model,select(b,slice(i,i+1)))for i in range(len(b['state']))]
+    return tuple(torch.cat([v[k]for v in values],0)for k in range(3))
+
 def run(spec,output):
     start=time.monotonic();cpu=time.process_time();torch.set_num_threads(len(spec['cpus']));output=Path(output)
     if digest(spec['replay'])!=spec['replay_sha256']:raise ValueError('Replay identity differs')
     data,meta=read(spec['replay'],'cpu');keep=meta['partition']!='ONCE_HOLDOUT';data=select(data,torch.tensor(np.flatnonzero(keep)));meta={k:v[keep]for k,v in meta.items()}
-    result={}
+    result={};all_models={};predict=canonical_forecast if spec.get('canonical_batch1')else forecast
     for name,binding in spec['models'].items():
         if digest(binding['path'])!=binding['sha256']:raise ValueError('Checkpoint differs')
         if name=='M0':model=frozen_model(binding)
@@ -29,7 +34,7 @@ def run(spec,output):
         with torch.no_grad():
             for part in('FIT','DIAGNOSTIC_DEV'):
                 for scene,ids,b,names in groups(data,meta,part):
-                    p,e,_=forecast(model,b);singles=[forecast(model,select(b,slice(i,i+1)))for i in range(5)];p1=torch.cat([v[0]for v in singles]);e1=torch.cat([v[1]for v in singles]);order=torch.tensor([4,2,0,3,1]);pp,ep,_=forecast(model,select(b,order));pp=pp[torch.argsort(order)];ep=ep[torch.argsort(order)]
+                    p,e,_=predict(model,b);singles=[predict(model,select(b,slice(i,i+1)))for i in range(5)];p1=torch.cat([v[0]for v in singles]);e1=torch.cat([v[1]for v in singles]);order=torch.tensor([4,2,0,3,1]);pp,ep,_=predict(model,select(b,order));pp=pp[torch.argsort(order)];ep=ep[torch.argsort(order)]
                     raw=meta['physical_raw'][ids]
                     if raw.dtype!=np.float64:raise ValueError('Original float64 physical command identity required')
                     checks=[]
@@ -42,6 +47,12 @@ def run(spec,output):
                     rows.append(dict(partition=part,scene=scene,state_max_abs=max(float((p1-p).abs().max()),float((pp-p).abs().max())),checks=checks))
         if parameter_hash(model)!=pin:raise RuntimeError('Audit changed model')
         result[name]=dict(checkpoint_sha256=binding['sha256'],rows=rows,all_choices_same=all(c['same_command']for r in rows for c in r['checks']),max_state_abs=max(r['state_max_abs']for r in rows),max_score_abs=max(c['score_max_abs']for r in rows for c in r['checks']))
-        del model
-    value=dict(source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],named_events=EVENTS,support_prediction_head=False,models=result,no_holdout_evaluation=True,WM_updates=0,Actor_updates=0,physics=0,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
+        if spec.get('canonical_batch1'):all_models[name]=model
+        else:del model
+    evaluation=None
+    if spec.get('canonical_batch1'):
+        from .response_training import evaluate
+        out=output/'CANONICAL_RESCORE';out.mkdir();evaluation=evaluate(all_models,data,meta,out,forecast_fn=canonical_forecast)
+        write_json(out/'EVALUATION.json',evaluation)
+    value=dict(source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],named_events=EVENTS,support_prediction_head=False,models=result,canonical_batch1=bool(spec.get('canonical_batch1')),evaluation=evaluation,no_holdout_evaluation=True,WM_updates=0,Actor_updates=0,physics=0,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(output/'RESULT.json',value);return value
