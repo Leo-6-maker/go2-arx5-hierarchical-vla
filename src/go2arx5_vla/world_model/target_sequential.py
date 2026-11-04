@@ -36,7 +36,7 @@ class TargetSequentialAdapter:
     def __init__(self,spec,output):
         self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None;self.ros_evidence=[];self.trace_sealed=False
     def reference_phase(self):
-        return self.spec['phase'].startswith('g2-')
+        return self.spec['phase'].startswith(('g2-','collect-target-'))
     def dynamic_phase(self):
         return self.reference_phase()and self.spec['phase']!='g2-reference-qualification'
     def guard(self):
@@ -217,7 +217,7 @@ class TargetSequentialAdapter:
         if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1;self.reference_history=[]
-        if self.spec['phase'].startswith('g2-standing-'):
+        if self.spec['phase'].startswith(('g2-standing-','collect-target-')):
             from go2_x5_planning.ee_trajectory import Pose
             self.base_pose_hold=Pose.from_base_state(self.latest['observation'].state.value[:6]).as_state()
         self.capture_loaded_identity()
@@ -298,6 +298,8 @@ class TargetSequentialAdapter:
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
+        if self.spec['phase'].startswith('collect-target-'):
+            index=int(self.spec['phase'][-2:]);offset={3:(0,.001),4:(0,-.001),5:(1,.001),6:(1,-.001)}.get(index)
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current():

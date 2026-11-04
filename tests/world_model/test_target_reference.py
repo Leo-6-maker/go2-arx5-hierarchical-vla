@@ -35,6 +35,10 @@ class TargetReferenceContract(unittest.TestCase):
         for change in (dict(status='FAIL'),dict(shutdown_clean=False),dict(owned_process_exits=[]),dict(owned_process_exits=[dict(exit_code=139)])):
             with self.assertRaises(PermissionError):dynamic_limit('g2-hold-short',dict(good,**change))
         with self.assertRaises(PermissionError):dynamic_limit('anything',good)
+        parent=dict(good,phase='g2-standing-eef-y-v2')
+        self.assertEqual(dynamic_limit('collect-target-a-01',parent),3103)
+        with self.assertRaises(PermissionError):dynamic_limit('collect-target-a-02',parent)
+        with self.assertRaises(PermissionError):dynamic_limit('collect-target-a-09',parent)
     def test_only_exact_target_content_matches(self):
         a=trajectory_identity([5.004,5.054],[[1.,2.],[3.,4.]],[[0.],[0.]])
         self.assertEqual(a,trajectory_identity([5.004,5.054],[[1.,2.],[3.,4.]],[[0.],[0.]]))

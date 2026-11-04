@@ -15,7 +15,7 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous):
-    if phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2'):
+    if phase.startswith('collect-target-')or phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2'):
         from .target_reference import dynamic_limit
         return dynamic_limit(phase,previous)
     if phase=='g2-reference-qualification':
@@ -53,7 +53,7 @@ def admitted_target(spec_path,run_id,output):
     if type(spec['candidate_index'])is not int or not 1<=spec['candidate_index']<=6:raise PermissionError('AUTO1_FINITE_CANDIDATE_COUNT_REQUIRED')
     limit=phase_limit(spec['phase'],previous)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
-    if spec['phase'].startswith('g2-standing-'):
+    if spec['phase'].startswith(('g2-standing-','collect-target-')):
         repair=Path(spec['repair_stop_result']);negative=json.loads(repair.read_text())
         if (spec.get('reference_binding_version')!='MEASURED_EEF_AND_BASE_POSE_HOLD_V2'
                 or digest(repair)!=spec['repair_stop_result_sha256']
@@ -63,6 +63,11 @@ def admitted_target(spec_path,run_id,output):
                 or negative.get('actual_target_integrations')!=2853
                 or negative.get('physics_stops')!=[dict(kind='stop',reason='ILLEGAL_CONTACT',steps=2853)]
                 or not negative.get('shutdown_clean')):raise PermissionError('EVIDENCED_STANDING_REFERENCE_REPAIR_REQUIRED')
+    if spec['phase'].startswith('collect-target-b-'):
+        result=Path(spec['initial_WM_result']);trained=json.loads(result.read_text())
+        if (digest(result)!=spec['initial_WM_result_sha256']or trained.get('status')!='TARGET_WM_ENGINEERING_ENTRY_PASSED'
+                or trained.get('main_updates')!=200 or trained.get('continuation_probe_updates')!=1
+                or digest(spec['initial_WM_checkpoint'])!=trained.get('checkpoint_sha256')):raise PermissionError('REAL_TARGET_WM200_AND_RESTORE_REQUIRED_BEFORE_BATCH_B')
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
     for path,pin in spec['frozen_files'].items():
         if digest(path)!=pin:raise PermissionError('FROZEN_TARGET_INPUT_CHANGED:'+path)
