@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous):
+    if phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y'):
+        from .target_reference import dynamic_limit
+        return dynamic_limit(phase,previous)
     if phase=='g2-reference-qualification':
         if(previous is None or previous.get('phase')!='hold-5s-2'or previous.get('status')!='NATIVE_STAGE_PASSED'or not previous.get('shutdown_clean')or any(p['exit_code']!=0 for p in previous.get('owned_process_exits',[]))):raise PermissionError('COMPLETE_G1_REQUIRED_BEFORE_REFERENCE_QUALIFICATION')
         return 2503

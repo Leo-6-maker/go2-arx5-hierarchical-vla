@@ -11,7 +11,8 @@ def run(spec,output):
     try:
         adapter.start()
         if not spec.get('standby_shutdown_diagnostic',False):
-            if spec['phase']=='g2-reference-qualification':adapter.advance_to(2500)
+            if adapter.dynamic_phase():adapter.dynamic_diagnostic();reached=True
+            elif spec['phase']=='g2-reference-qualification':adapter.advance_to(2500)
             else:adapter.step_to(spec['max_ticks']);reached=True
         if spec.get('reference_readiness_probe',False):adapter.inspect_reference_readiness()
         elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference();adapter.seal_trace(spec['max_ticks']);reached=True
@@ -25,7 +26,7 @@ def run(spec,output):
     stops=[r for r in physics if r['kind']=='stop'];samples=[r for r in physics if r['kind']=='sample']
     warnings=sum(bool(r.get('positive_bound')or any(r.get('native_warnings',[])))for r in samples)
     shutdown_clean=bool(adapter.exit_records)and all(p['exit_code']==0 for p in adapter.exit_records)
-    reference_ok=spec['phase']!='g2-reference-qualification'or adapter.reference_qualification is not None
+    reference_ok=not spec['phase'].startswith('g2-')or adapter.reference_qualification is not None
     passed=reached and not failure and not stops and not warnings and len(rows)==spec['max_ticks']and audit is not None and audit['status']=='RECORDED_TRACE_CHECKS_PASS'and shutdown_clean and reference_ok
     result=dict(schema='WM02_AUTO1_NATIVE_STAGE_V1',status='NATIVE_STAGE_PASSED'if passed else'NATIVE_STAGE_FAILED_PRESERVED',campaign_uuid=Path(spec['campaign_root']).name,candidate_index=spec['candidate_index'],phase=spec['phase'],source_sha=spec['source_sha'],candidate_source_sha=spec['candidate_source_sha'],native_binary_sha256=digest(spec['native_binary']),observer_sha256=digest(spec['observer_library']),scene_sha256=digest(spec['model_path']),actual_target_integrations=len(rows),complete_atomic_transitions=len(rows)//25,partial_native_ticks=len(rows)%25,reached_exact_pause=reached,physics_stops=stops,original_joint_or_warning_samples=warnings,trace_audit=audit,trace_audit_error=audit_error,failure=failure,owned_process_exits=adapter.exit_records,reference_qualification=adapter.reference_qualification,shutdown_clean=shutdown_clean,operator_shutdown='SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE'if reached else'ERROR_CLOSEOUT',safety_STOP_qualification='NOT_TESTED'if not stops else'RECORDED_SEPARATELY',WM_updates=0,Actor_updates=0,full_tasks=0,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(output/'RESULT.json',result);print(json.dumps({k:result[k]for k in('status','phase','source_sha','actual_target_integrations','complete_atomic_transitions','failure','wall_s')}));return 0 if passed else 1

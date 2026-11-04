@@ -1,0 +1,26 @@
+{
+  "schema": "WM02_AUTO1_DYNAMIC_G2_V1",
+  "review_baseline": "08e0fd0ab64c42623842ccf3b1f87ff29ee9f538",
+  "candidate": 5,
+  "native_build_source": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+  "relative_collection_start_tick": 2503,
+  "atom_ticks": 25,
+  "native_dt_s": 0.002,
+  "source_relative_ttl_s": 0.4,
+  "dynamic_replan_cadence_s": 0.35,
+  "cadence_note": "Separately versioned seven-atom dynamic replan; does not claim the old 400ms decision cadence is unchanged",
+  "phases": [
+    {"id":"g2-hold-short","max_tick":2528,"task_atoms":1},
+    {"id":"g2-hold-renew","max_tick":2903,"task_atoms":16},
+    {"id":"g2-eef-x","max_tick":2703,"task_atoms":8,"eef_delta_world_m":[0.001,0,0]},
+    {"id":"g2-eef-y","max_tick":2703,"task_atoms":8,"eef_delta_world_m":[0,0.001,0]}
+  ],
+  "contact_conditions": "NOT_IMPLEMENTED_PENDING_FREE_SPACE_AND_TARGET_GRIPPER_QUALIFICATION",
+  "reference_evidence": ["proposed","accepted","installed","exact solver cost target","actual controller output","achieved"],
+  "selected_controller_policy_id": "NOT_EXPORTED; selection association DERIVED, never upgrade to direct confirmation",
+  "BASE_labels": "ABSENT",
+  "trace_seal": "FINAL_NATIVE_PAUSE_ONLY",
+  "observer_safety_stop": "NOT_TESTED_UNLESS_ACTUALLY_OBSERVED_NO_DELIBERATE_LIMIT_VIOLATION",
+  "WM_updates": 0,
+  "Actor_updates": 0
+}

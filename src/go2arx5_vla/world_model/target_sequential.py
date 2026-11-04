@@ -34,7 +34,11 @@ def owned_simulator_pid(wrapper_pid,binary):
 
 class TargetSequentialAdapter:
     def __init__(self,spec,output):
-        self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None
+        self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None;self.ros_evidence=[];self.trace_sealed=False
+    def reference_phase(self):
+        return self.spec['phase'].startswith('g2-')
+    def dynamic_phase(self):
+        return self.reference_phase()and self.spec['phase']!='g2-reference-qualification'
     def guard(self):
         if time.monotonic()-self.started>=self.spec['wall_limit_s']or time.time()>=self.spec['deadline_epoch']or any((p/'STOP.json').exists()for p in(self.output,Path(self.spec['registered_root']),Path(self.spec['campaign_root']))):raise TimeoutError('AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
     def control(self):
@@ -71,21 +75,35 @@ class TargetSequentialAdapter:
         from sensor_msgs.msg import JointState
         from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
         self.rclpy=rclpy;self.String=String;rclpy.init();self.node=rclpy.create_node('wm02_auto1_'+self.spec['phase'].replace('-','_'))
-        def record(key,msg):self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
+        def record(key,msg):
+            self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
+            if self.dynamic_phase()and key in('policy','arm_request','arm_target','base_command','mode','observation'):
+                from rosidl_runtime_py.convert import message_to_ordereddict
+                row=dict(topic_key=key,received_monotonic_s=time.monotonic(),message=message_to_ordereddict(msg))
+                self.ros_evidence.append(row)
+                with(self.output/'ROS_CONSUMPTION.private.jsonl').open('a')as f:f.write(json.dumps(row,allow_nan=False)+'\n')
         self.subs=[self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos_profile_sensor_data)for key,topic,cls in(('odom','/go2_x5/slam/odom_mocap',Odometry),('arm','/go2_x5/arm/state',JointState))]
-        if self.spec['phase']=='g2-reference-qualification':
+        if self.reference_phase():
             from ocs2_msgs.msg import MpcObservation
             for key,topic,cls,qos in(('ee','/go2_x5/ee/state',MpcObservation,10),('observation','/mobile_manipulator_mpc_observation',MpcObservation,10),('mode','/go2_x5/arm/mode/state',String,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))):
                 self.subs.append(self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos))
             self.refs=self.node.create_publisher(String,'/go2_x5/ee/trajectory_json',10)
+            if self.dynamic_phase():
+                from ocs2_msgs.msg import MpcFlattenedController
+                from trajectory_msgs.msg import JointTrajectory
+                from std_msgs.msg import Float32MultiArray
+                for key,topic,cls in(('policy','/mobile_manipulator_mpc_policy',MpcFlattenedController),('arm_request','/go2_x5/arm/command/request',JointTrajectory),('arm_target','/go2_x5/arm/command/target',JointTrajectory),('base_command','/go2_x5/base/command',Float32MultiArray)):
+                    self.subs.append(self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),10))
         self.keys=self.node.create_publisher(String,'/go2_x5/fsm/key',10);self.modes=self.node.create_publisher(String,'/go2_x5/arm/mode/request',10)
         self.spin(.3)
         if any(name!=self.node.get_name()for name in self.node.get_node_names()):raise RuntimeError('ISOLATED_ROS_DOMAIN_ALREADY_OCCUPIED')
         s=self.spec;out=self.output
         for name in('tmp','ros-logs','cache'):(out/name).mkdir()
-        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(2500 if s['phase']=='g2-reference-qualification'else s['max_ticks'])+'\n')
+        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(2500 if self.reference_phase()else s['max_ticks'])+'\n')
         warmup=min(5,(s['max_ticks']+499)//500)
-        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'0'))+'\n')
+        # Existing C++ admits task allocation buckets; the exact bound below
+        # still restricts this diagnostic to its declared few task ticks.
+        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'32'if self.dynamic_phase()else'0'))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
@@ -97,7 +115,7 @@ class TargetSequentialAdapter:
         for name,key in(('solver','solver_binary'),('controller','controller_binary')):
             cache=out/'cache'/('ocs2-'+name);shutil.copytree(s['codegen_lib'],cache)
             self.launch([s[key],*params,'-p','libFolder:='+str(cache)],name,env)
-        if s['phase']=='g2-reference-qualification':
+        if self.reference_phase():
             import sys
             self.launch([sys.executable,'-B','-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',dict(env,PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name))
         if not self.spin(30,lambda:self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
@@ -115,8 +133,13 @@ class TargetSequentialAdapter:
         self.advance_to(ticks);self.seal_trace(ticks)
         return self.observe()
     def advance_to(self,ticks):
+        if self.trace_sealed:raise PermissionError('TRACE_ALREADY_SEALED_NO_FURTHER_INTEGRATION')
         allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
+        if self.dynamic_phase():allowed={2500,2503,*range(2528,self.spec['max_ticks']+1,25)}
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
+        if self.dynamic_phase()and ticks>2503:
+            from .target_reference import require_live_window
+            packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
         p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
         self.publish(self.keys,'ENTER')
         def paused():
@@ -135,6 +158,7 @@ class TargetSequentialAdapter:
             try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
         if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
+        self.trace_sealed=True
     def qualify_reference(self):
         """Original install/cancel/HOLD transaction at the native paused boundary.
 
@@ -184,6 +208,97 @@ class TargetSequentialAdapter:
         self.reference_qualification=dict(status='ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED',native_step=step,source_mpc_s=source,installed_wire_sha256=ref,extra_integrations=0,task_reference_consumption='NOT_TESTED_NO_TASK_TICKS',events=len(events()))
         write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
         return self.reference_qualification
+    def reference_events(self):
+        path=self.output/'planner.jsonl'
+        return [json.loads(l)for l in path.read_text().splitlines()if l.strip()]if path.exists()else[]
+    def prepare_dynamic(self):
+        if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
+        self.advance_to(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
+        if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
+        self.advance_to(2503)
+        self.wait_source();self.reference_sequence=-1
+    def wait_source(self):
+        t=self.observe()['time_s']
+        if not self.spin(10,lambda:all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation'))):
+            self.save_feedback_diagnostic('ACTUAL_DYNAMIC_SOURCE_NOT_READY');raise RuntimeError('ACTUAL_DYNAMIC_SOURCE_NOT_READY')
+        if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_WBC_MODE_LOST')
+    def measured_task_state(self):
+        import mujoco
+        from .native_replay import forbid_integration
+        from scripts.pi0294.task_state import ActualState
+        if not hasattr(self,'actual_state'):self.actual_state=ActualState(mujoco.MjModel.from_binary_path(self.spec['model_path']))
+        with forbid_integration(mujoco):return self.actual_state.update(self.observe())
+    def install_reference(self,action):
+        import hashlib
+        from .target_reference import deadline
+        from scripts.pi0294.base_intent import eef_document
+        from scripts.pi0294.task_state import write_gripper
+        from scripts.pi0294.task_gripper_contract import require_working_target
+        self.wait_source();packet=self.observe();source=float(self.latest['ee'].time)
+        require_working_target(action[:,9]);self.reference_sequence+=1
+        doc=eef_document(action);doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
+        wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
+        intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist())
+        self.command_event(intent)
+        write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]));self.publish(self.refs,wire)
+        def installed():
+            rows=self.reference_events()
+            if any(r['kind']=='reject'and r.get('wire_sha256')==ref for r in rows):raise RuntimeError('ORIGINAL_REFERENCE_RECEIVER_REJECTED')
+            return all(any(r['kind']==k and r.get('ref_id')==ref for r in rows)for k in('accept','installed'))
+        if not self.spin(5,installed):raise RuntimeError('ORIGINAL_DYNAMIC_INSTALL_ACK_MISSING')
+        rows=[r for r in self.reference_events()if r.get('ref_id')==ref];self.active_reference=dict(intent,receiver_events=rows)
+        for kind in('accept','installed'):self.command_event(dict(phase='accepted'if kind=='accept'else'installed',wire_sha256=ref,evidence=[r for r in rows if r['kind']==kind]))
+        return self.active_reference
+    def command_event(self,value):
+        with(self.output/'COMMANDS.private.jsonl').open('a')as f:f.write(json.dumps(value,allow_nan=False)+'\n')
+    def cancel_reference(self):
+        before=self.counts.get('mode',0);self.reference_sequence+=1
+        source=float(self.latest['ee'].time);doc=dict(_pi0294=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='cancel'))
+        self.publish(self.refs,json.dumps(doc,separators=(',',':')))
+        if not self.spin(5,lambda:any(r['kind']=='lifecycle'and r.get('reason')=='CANCEL'for r in self.reference_events())and self.counts.get('mode',0)>before and self.latest['mode'].data=='HOLD'):raise RuntimeError('DYNAMIC_CANCEL_FRESH_HOLD_ACK_MISSING')
+        return dict(kind='operator_cancel',native_step=self.observe()['step'],mode='HOLD',physics_stop='NOT_IMPLIED_BY_MODE_ACK')
+    def dynamic_diagnostic(self):
+        import numpy as np
+        from .target_reference import trajectory_identity,require_live_window
+        from go2arx5_vla.task_data.codec import pose10
+        from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
+        from scripts.pi0292.durable import write
+        self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
+        offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001)}.get(self.spec['phase'])
+        if offset:goal[offset[0],3]+=offset[1]
+        # Original EEF compiler limits still apply. No BASE command labels.
+        def action_at_current():
+            current=self.measured_task_state()['tcp'];poses=[]
+            for k in range(40):
+                p=goal.copy();p[:3,3]=current[:3,3]+min((k+1)/8,1)*(goal[:3,3]-current[:3,3]);poses.append(pose10(p,float(teacher_physical_fraction(1.))))
+            return np.stack(poses)
+        windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
+        while self.observe()['step']<self.spec['max_ticks']:
+            before=self.observe();step=before['step']
+            # V1 dynamic cadence: seven complete relative atoms (350ms),
+            # preserving the original source-relative .4s receiver TTL.
+            if step-installed_step>=175:self.install_reference(action_at_current());installed_step=step
+            clock=require_live_window(self.active_reference['source_mpc_s'],before['time_s'],25)
+            event_start=len(self.ros_evidence);after=self.advance_to(step+25);self.spin(.15)
+            if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_MODE_REFERENCE_MISMATCH')
+            if any(r.get('reason')=='PREFIX_TTL_EXPIRED'for r in self.reference_events()):raise RuntimeError('UNEXPECTED_REFERENCE_EXPIRY')
+            installed=[r for r in self.active_reference['receiver_events']if r['kind']=='installed'][-1]
+            identity=trajectory_identity(installed['times'],installed['poses'],installed['inputs'])
+            matched=[];arm=[]
+            for row in self.ros_evidence[event_start:]:
+                msg=row['message']
+                if row['topic_key']=='policy':
+                    target=msg['plan_target_trajectories'];key=trajectory_identity(target['time_trajectory'],[s['value']for s in target['state_trajectory']],[s['value']for s in target['input_trajectory']])
+                    if key==identity:matched.append(dict(received_monotonic_s=row['received_monotonic_s'],policy_init_time=msg['init_observation']['time'],trajectory_sha256=key,policy_start=msg['time_trajectory'][0],policy_end=msg['time_trajectory'][-1]))
+                if row['topic_key']=='arm_request':arm.append(row)
+            result=dict(native_start_step=step,native_end_step=after['step'],actual_ticks=after['step']-step,clock=clock,reference_sha256=self.active_reference['wire_sha256'],target_trajectory_sha256=identity,solver_policies_with_exact_installed_target=matched,arm_request_count=len(arm),controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',mode=self.latest['mode'].data,actual_end_sim_s=after['time_s'])
+            windows.append(result);self.command_event(dict(phase='controller-consumed'if matched else'consumption_unconfirmed',evidence_level='SOLVER_TARGET_CONFIRMED_CONTROLLER_SELECTION_DERIVED'if matched else'UNCONFIRMED',**result));self.command_event(dict(phase='achieved',native_step=after['step'],sim_time_s=after['time_s'],tcp=self.measured_task_state()['tcp'].tolist()))
+        cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
+        confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
+        value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_labels='ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
+        write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value
+        if confirmed!=len(windows):raise RuntimeError('SOLVER_TARGET_CONSUMPTION_NOT_CONFIRMED_FOR_EVERY_ATOM')
+        return value
     def save_feedback_diagnostic(self,reason):
         from rosidl_runtime_py.convert import message_to_ordereddict
         from scripts.pi0292.durable import write
