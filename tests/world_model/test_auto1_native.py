@@ -32,6 +32,7 @@ class Auto1Native(unittest.TestCase):
     def test_phases_never_skip_failed_or_missing_native_stage(self):
         self.assertEqual(phase_limit('cold-1',None),50)
         self.assertEqual(phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED')),50)
+        with self.assertRaises(PermissionError):phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED',owned_process_exits=[dict(exit_code=139)]))
         for previous in(None,dict(phase='cold-1',status='FAIL'),dict(phase='cold-2',status='NATIVE_STAGE_PASSED')):
             with self.assertRaises(PermissionError):phase_limit('hold-2s-2',previous)
         with self.assertRaises(PermissionError):phase_limit('unknown',None)

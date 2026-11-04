@@ -7,7 +7,10 @@ def native_display_command(spec,output,environment):
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
     env=dict(environment)
     for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
-    argv=[spec['xvfb_run'],'-a','/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
+    prefix=[spec['xvfb_run'],'-a']
+    if spec.get('diagnostic_debugger'):
+        prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
+    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
 def owned_simulator_pid(wrapper_pid,binary):

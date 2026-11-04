@@ -18,7 +18,7 @@ def phase_limit(phase,previous):
     names=[n for n,_ in PHASES]
     if phase not in names:raise PermissionError('UNKNOWN_AUTO1_NATIVE_PHASE')
     index=names.index(phase)
-    if index and(previous is None or previous.get('phase')!=names[index-1]or previous.get('status')!='NATIVE_STAGE_PASSED'):raise PermissionError('PREVIOUS_NATIVE_STAGE_NOT_PASSED')
+    if index and(previous is None or previous.get('phase')!=names[index-1]or previous.get('status')!='NATIVE_STAGE_PASSED'or any(p.get('exit_code')!=0 for p in previous.get('owned_process_exits',[]))):raise PermissionError('PREVIOUS_NATIVE_STAGE_NOT_PASSED')
     return PHASES[index][1]
 
 def validate_scope(spec,lease,registry,*,host,uid,now):
