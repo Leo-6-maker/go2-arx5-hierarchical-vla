@@ -1,0 +1,242 @@
+{
+  "current_status": "TARGET_BLOCKED_NO_NEW_PHYSICS",
+  "original_run": "20261029T155500Z-standing-task-path-s1",
+  "original_source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+  "original_owner": "EXISTING_LOCAL_PC",
+  "lease_status": "CLOSED",
+  "lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "original_approval_sha256": "ef274cd6812dba773d25b8e9027ae16832830eaf6f50c6a24d7c6aac9cc718be",
+  "old_window_end_SGT": "2026-10-30T19:31:39.836045+08:00",
+  "old_starts_consumed": 5,
+  "quarantine_preserved": true,
+  "evidence_records": [
+    {
+      "relative": "control/S1_RECOVERY01_CLOSEOUT/INDEPENDENT_SAVED_AUDIT.private.json",
+      "sha256": "c62991723e7c58559ddd9078099ba7b83a72c9ecb5699fa1347a2166e82f7ae4"
+    },
+    {
+      "relative": "control/S1_RECOVERY01_CLOSEOUT/TERMINAL_AUDIT.private.json",
+      "sha256": "56df8580e69fd59d73413dca97112698f2e02a96d5ab0032cc7c4f1a2ef41df6"
+    },
+    {
+      "relative": "native-s1/NATIVE_SAFETY_FAIL.json",
+      "sha256": "fbba0d32df41f98f28f3711e81b3bb8330a3ab0ef390b1ec64631a322656fa78"
+    }
+  ],
+  "original_failures": {
+    "S1_RECOVERY01_T1": {
+      "native_error": "ValueError: ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+      "actual_task_integrations": 200,
+      "positive_joint_violation_count": 3,
+      "joint_violation_first": [
+        {
+          "step": 38,
+          "joint": "task_right_slide",
+          "q": 0.044045425623794994,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 4.542562379499654e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 39,
+          "joint": "task_right_slide",
+          "q": 0.04405872861927704,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 5.872861927704032e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 40,
+          "joint": "task_right_slide",
+          "q": 0.04402234701069377,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 2.2347010693771208e-05,
+          "kind": "SLIDE"
+        }
+      ],
+      "joint_violation_last": [
+        {
+          "step": 38,
+          "joint": "task_right_slide",
+          "q": 0.044045425623794994,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 4.542562379499654e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 39,
+          "joint": "task_right_slide",
+          "q": 0.04405872861927704,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 5.872861927704032e-05,
+          "kind": "SLIDE"
+        },
+        {
+          "step": 40,
+          "joint": "task_right_slide",
+          "q": 0.04402234701069377,
+          "lower": 0.0,
+          "upper": 0.044,
+          "violation": 2.2347010693771208e-05,
+          "kind": "SLIDE"
+        }
+      ],
+      "native_stops": [],
+      "second_join_original_decode_linear_m_s": 0.05613270780036617,
+      "second_join_original_decode_angular_rad_s": 6.848300381984782,
+      "second_join_row_decode_angular_rad_s": 0.2281065205059964,
+      "row_decode_cartesian_gate_pass": true,
+      "selected_MPC_consumption": "UNKNOWN",
+      "full_task_score": null
+    },
+    "S1_RECOVERY01_T2": {
+      "native_error": "RuntimeError: OWNED_NATIVE_PROCESS_EXIT",
+      "actual_task_integrations": 0,
+      "positive_joint_violation_count": 7,
+      "joint_violation_first": [
+        {
+          "step": 24,
+          "joint": "FL_calf_joint",
+          "q": -2.74605664112103,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.023356641121029753,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "FL_calf_joint",
+          "q": -2.815583351253874,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09288335125387404,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "RR_calf_joint",
+          "q": -2.763674692666714,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.04097469266671405,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "FL_calf_joint",
+          "q": -2.8698555954250122,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1471555954250121,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "RR_calf_joint",
+          "q": -2.8190919848290044,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09639198482900424,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "FL_calf_joint",
+          "q": -2.911340813017177,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.18864081301717706,
+          "kind": "HINGE"
+        }
+      ],
+      "joint_violation_last": [
+        {
+          "step": 25,
+          "joint": "FL_calf_joint",
+          "q": -2.815583351253874,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09288335125387404,
+          "kind": "HINGE"
+        },
+        {
+          "step": 25,
+          "joint": "RR_calf_joint",
+          "q": -2.763674692666714,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.04097469266671405,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "FL_calf_joint",
+          "q": -2.8698555954250122,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1471555954250121,
+          "kind": "HINGE"
+        },
+        {
+          "step": 26,
+          "joint": "RR_calf_joint",
+          "q": -2.8190919848290044,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.09639198482900424,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "FL_calf_joint",
+          "q": -2.911340813017177,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.18864081301717706,
+          "kind": "HINGE"
+        },
+        {
+          "step": 27,
+          "joint": "RR_calf_joint",
+          "q": -2.8616139457691454,
+          "lower": -2.7227,
+          "upper": -0.83776,
+          "violation": 0.1389139457691453,
+          "kind": "HINGE"
+        }
+      ],
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 24
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 25
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 26
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 27
+        }
+      ],
+      "selected_MPC_consumption": "UNKNOWN",
+      "full_task_score": null
+    }
+  },
+  "new_window_confirmation": "Direct human new bounded scope, adopted by EXISTING_LOCAL_PC using existing native owner/profile/registry/lease and actual ACK/stop/safety admission. CLOSED old scope cannot reopen.",
+  "no_root_cause_overclaim": "T2 leg-startup instability root cause NOT_ESTABLISHED. A row-rotation decode repair does not explain or fix leg initialization.",
+  "new_target_transitions": 0
+}

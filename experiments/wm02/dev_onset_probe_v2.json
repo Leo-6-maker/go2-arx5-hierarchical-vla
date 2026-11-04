@@ -1,0 +1,22 @@
+{
+  "version": "WM02_S_DEV_ONSET_PROBE_V2",
+  "purpose": "Native qualification of a corrected pre-close contact anchor; no refitting or heldout reselection",
+  "parents": [16, 17, 18, 19],
+  "partition": "DIAGNOSTIC_DEV",
+  "restore_time_s": 1.6,
+  "restore_source": "Original V1 prefix-04 complete snapshot, history and submitted Teacher commands; SHA-bound private manifest",
+  "candidates": ["hold", "nominal", "left", "right", "grip_timing"],
+  "history_atoms": 8,
+  "candidate_atoms": 16,
+  "atomic_dt_s": 0.05,
+  "second_block": "Identical V1 rule: measured TCP reanchor, zero increments, hold first-block final gripper",
+  "repeat_and_tail_controls_per_parent": 2,
+  "maximum_new_main_transitions": 320,
+  "maximum_new_control_transitions": 128,
+  "construction_prefix_new_transitions": 0,
+  "safety": "Unchanged original gate, S1 shadow, native controller and thresholds",
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_physics": false,
+  "preserve_V1_models_data_and_once_holdout": true
+}

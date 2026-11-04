@@ -70,12 +70,15 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                 or spec.get('host')!='corelab-4080s'or spec.get('uid')!=2009
                 or profile!='wm02-gpu1-real-s'or spec.get('physics')is not False
                 or spec.get('GPU_uuid')!='GPU-845348f1-1511-dc19-0877-cc97658e3edd'
-                or spec.get('authorization_scope')!='USER_WM02_GPU1_REAL_S_MODEL_ONLY_20261104'
-                or spec.get('data_domain')!='REAL_S_NATIVE_DIAGNOSTIC_REPLAY'
+                or (spec.get('authorization_scope'),spec.get('data_domain'))not in (
+                    ('USER_WM02_GPU1_REAL_S_MODEL_ONLY_20261104','REAL_S_NATIVE_DIAGNOSTIC_REPLAY'),
+                    ('USER_WM02_CONTACT_IDENTIFICATION_MODEL_ONLY_20261104','WM02_S_CONTACT_PAIRED_REPLAY_V1'))
                 or not 2<=spec.get('endpoint',0)<=200
                 or not 0<spec.get('allocator_limit_bytes',0)<=4*1024**3
                 or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']):
             raise PermissionError('Exact finite real S model-only GPU1 identity required')
+        if spec.get('data_domain')=='WM02_S_CONTACT_PAIRED_REPLAY_V1'and spec.get('arms')!=['action_conditioned','no_future_action']:
+            raise PermissionError('Exact matched two-arm finite contact diagnostic required')
         for name in ('source_root','registered_root','python','data','cache','logs','tmp','replay','eval_replay'):
             node_local(spec[name])
         reply=subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],
