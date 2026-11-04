@@ -1,0 +1,108 @@
+{
+  "runs": [
+    {
+      "run": "wm02-response-gpu0-20261104-01",
+      "source_sha": "efeed6247d13df0b920b1214fe7e7d53a7734a37",
+      "spec_sha256": "88b22bbd6315c4a137fbef155eba15009d42e307ddb3ed41195eb33f5c04effe",
+      "exit_code": 1,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 15.840318,
+      "wall_s": 12.64157
+    },
+    {
+      "run": "wm02-response-gpu0-20261104-02",
+      "source_sha": "486a237b23e8b97c157b152cd50d44fe9036e3b5",
+      "spec_sha256": "aada73b7cfe597436966472f3e1a2c0c66fec5848193b403a3a893cf60f096d0",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 143.687015,
+      "wall_s": 126.106091
+    },
+    {
+      "run": "wm02-init-candidate-build-20261104-01",
+      "source_sha": "55dfd41dc19f417f4957075abaf8045c76d3d7f8",
+      "spec_sha256": "01fa155d380463aa6a103e42e5eb8ee87c2f881126fa1b3e7c268fd04b8a1174",
+      "exit_code": 1,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 25.293988,
+      "wall_s": 27.796131
+    },
+    {
+      "run": "wm02-init-candidate-build-20261104-02",
+      "source_sha": "a0d9b960084178bd2ce7845faf07b412d2c23757",
+      "spec_sha256": "fb7e3fc62bb0223045b162b6aa8d3380b051eeced0c552f03303bf8c9a4e603e",
+      "exit_code": 1,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 26.219776,
+      "wall_s": 26.377967
+    },
+    {
+      "run": "wm02-init-candidate-build-20261104-03",
+      "source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+      "spec_sha256": "efcd1c91ea56e1505cea80c385464aaa5ede45d95e2b506a0971d5083ca83450",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 26.702362,
+      "wall_s": 26.899961
+    },
+    {
+      "run": "wm02-response-eval-audit-20261104-01",
+      "source_sha": "44007235f77d3c9e18d0d51e8a01e2ab6e5fa33c",
+      "spec_sha256": "6fcd1487ce82ca5bcb79318263e564dc5474551a547123389bbaa70bc6a5179e",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 77.039358,
+      "wall_s": 20.676558
+    },
+    {
+      "run": "wm02-response-eval-audit-20261104-02",
+      "source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+      "spec_sha256": "57125b44af90ace759c7de7edf288d7b9a74c4badb9e7cf73f05d9548508c645",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "CPU_s": 171.16962,
+      "wall_s": 44.496433
+    }
+  ],
+  "PC_diagnostic": {
+    "run": "wm02-response-fit-20261104-01",
+    "source_sha": "9215b93fec1eb6e04a714a40a53d57acc03e98c1",
+    "exit_code": 0,
+    "lease": "CLOSED",
+    "CPU_s": 84.89504009299999,
+    "wall_s": 21.907570096984273
+  },
+  "retained_failures": {
+    "gpu01": "20 main updates, saved step1 checkpoint; progress-file error",
+    "build01": "Compiled/linked successfully, ldd check missing original per-process ROS loader path",
+    "build02": "Compiled/linked and outer->observer correct; comparison rejected versioned SONAME path despite identical MuJoCo bytes"
+  },
+  "failed_Journal": "Original INTENT retained, independently resolved by FAILED.json, exact update log, unit terminal/MainPID0 and CLOSED lease; never replayed",
+  "old_known_PID_present": {
+    "727048": false,
+    "3892803": false,
+    "1425203": false
+  },
+  "no_current_user_GPU_processes": true,
+  "gpu_total_MiB": {
+    "GPU0": 32760,
+    "GPU1": 16376
+  },
+  "unit_CPU_s_total": 485.95243700000003,
+  "PC_plus_unit_CPU_s_total": 570.8474770930001,
+  "cost_limits": "CPU process/unit times measured; test/staging/SSH overhead excluded. No metered currency charge available. GPU memory is own-process measurement, not total device usage."
+}

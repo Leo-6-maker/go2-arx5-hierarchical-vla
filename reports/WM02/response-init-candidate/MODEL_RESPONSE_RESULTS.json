@@ -1,0 +1,565 @@
+{
+  "status": "FIXED200_RESPONSE_M1_M2_COMPLETE",
+  "source_sha": "486a237b23e8b97c157b152cd50d44fe9036e3b5",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "arms": {
+    "M1": {
+      "main_updates": 200,
+      "continuation_probe_updates": 1,
+      "base_sequence_exposures": 51200,
+      "effect_pairs": 0,
+      "first_reload_error": 0.0,
+      "endpoint_reload_error": 0.0,
+      "continuation_error": 0.0,
+      "checkpoint_sha256": "404905951041604070b128c3a99d39f56eaefc54cf77c7523883d352820ba3e9",
+      "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+      "parameters": 18905387,
+      "peak_allocated_bytes": 660690432,
+      "peak_reserved_bytes": 729808896
+    },
+    "M2": {
+      "main_updates": 200,
+      "continuation_probe_updates": 1,
+      "base_sequence_exposures": 51200,
+      "effect_pairs": 48074,
+      "first_reload_error": 0.0,
+      "endpoint_reload_error": 0.0,
+      "continuation_error": 0.0,
+      "checkpoint_sha256": "1536f410178ce6e07bf0fa940e706e65c484a8acef5808c68f1313e21fedaa3f",
+      "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+      "parameters": 18905387,
+      "peak_allocated_bytes": 737198080,
+      "peak_reserved_bytes": 918552576
+    }
+  },
+  "frozen_M0_parent_checkpoint": "530a6e5b395e7eca76f12efcc6179b6af745b063faff4f6c0bdbc23b18b21f6f",
+  "same_initial_parameters": true,
+  "base_FIT_windows": 720,
+  "normalizer_unique_states": 5736,
+  "main_WM_updates": 400,
+  "continuation_probe_updates": 2,
+  "Actor_updates": 0,
+  "Critic_updates": 0,
+  "new_physics": 0,
+  "target_integrations": 0,
+  "CPU_s": 133.420530205,
+  "wall_s": 121.77664602827281,
+  "total_actual_main_updates_including_retained_failure": 420,
+  "total_actual_optimizer_updates_including_probes": 422,
+  "failed_attempt": {
+    "run": "wm02-response-gpu0-20261104-01",
+    "source_sha": "efeed6247d13df0b920b1214fe7e7d53a7734a37",
+    "main_updates": 20,
+    "Actor_updates": 0,
+    "reason": "Exclusive-create progress JSON failed at second write after step20; immutable per-endpoint progress fixed; old partial preserved, new identity fresh matched run",
+    "checkpoint_endpoint_saved": 1,
+    "exit_code": 1
+  },
+  "own_sampled_peak_GPU_MiB": 1298,
+  "comparison": [
+    {
+      "model": "M0",
+      "partition": "FIT",
+      "horizon": 1,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.00029408393311314285,
+        "predicted_toward_component_m": -8.323599424523802e-08,
+        "contrast_error_m": 0.00032590427872492,
+        "gain": -0.00028295940039955027,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.0002101642124519761,
+        "predicted_toward_component_m": -2.6264658418521475e-07,
+        "contrast_error_m": 0.0002545422491190645,
+        "gain": -0.0012498938328257823,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.0018610407908757527,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0019704751369620985,
+      "tcp_RMSE_m": 0.0012415791328142707
+    },
+    {
+      "model": "M0",
+      "partition": "FIT",
+      "horizon": 8,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007936171760472158,
+        "predicted_toward_component_m": -2.740871480000351e-06,
+        "contrast_error_m": 0.007939683855511248,
+        "gain": -0.00034539028843697824,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007942255431165298,
+        "predicted_toward_component_m": -1.5124170242112693e-06,
+        "contrast_error_m": 0.007944623784472546,
+        "gain": -0.00019046693578285735,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.050348296761512756,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.004007799337462832,
+      "tcp_RMSE_m": 0.0038166083686519414
+    },
+    {
+      "model": "M0",
+      "partition": "FIT",
+      "horizon": 16,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007899076483833293,
+        "predicted_toward_component_m": -3.3837951510425532e-06,
+        "contrast_error_m": 0.007903370657004416,
+        "gain": -0.00042837467089711323,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905817124992609,
+        "predicted_toward_component_m": -3.050570891597696e-06,
+        "contrast_error_m": 0.007909872064677378,
+        "gain": -0.00038586582103864315,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.07905020316441853,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.005208103801123798,
+      "tcp_RMSE_m": 0.004601706168614328
+    },
+    {
+      "model": "M0",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 1,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.0002914986944233533,
+        "predicted_toward_component_m": -7.890278386213367e-08,
+        "contrast_error_m": 0.000324249362165574,
+        "gain": -0.00027071720909576486,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.00019993879141111393,
+        "predicted_toward_component_m": -2.545230906036977e-07,
+        "contrast_error_m": 0.0002447230108373333,
+        "gain": -0.0012752968708313508,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.00164070725440979,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0019764554454013705,
+      "tcp_RMSE_m": 0.0012588734971359372
+    },
+    {
+      "model": "M0",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 8,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007944710901938379,
+        "predicted_toward_component_m": -2.6500050580580137e-06,
+        "contrast_error_m": 0.007948124432004988,
+        "gain": -0.00033357898934708414,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007952278014272451,
+        "predicted_toward_component_m": -1.3039415875937266e-06,
+        "contrast_error_m": 0.007954434142448008,
+        "gain": -0.0001640109242560265,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.04071249067783356,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.003996348415967077,
+      "tcp_RMSE_m": 0.0038147321611177176,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 8,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    },
+    {
+      "model": "M0",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 16,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007900684140622616,
+        "predicted_toward_component_m": -3.361131547308105e-06,
+        "contrast_error_m": 0.007904968340881169,
+        "gain": -0.00042542473128385344,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905551348812878,
+        "predicted_toward_component_m": -3.0381823421521403e-06,
+        "contrast_error_m": 0.00790961435995996,
+        "gain": -0.0003843162338656467,
+        "positive_direction_parents": 0
+      },
+      "pure_WM_mean_Q_regret": 0.07904717326164246,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.005171242111828178,
+      "tcp_RMSE_m": 0.004576891951728612,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 8,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    },
+    {
+      "model": "M1",
+      "partition": "FIT",
+      "horizon": 1,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.00029408393311314285,
+        "predicted_toward_component_m": -0.0008135445483882601,
+        "contrast_error_m": 0.001602949855926757,
+        "gain": -2.768282396302341,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.0002101642124519761,
+        "predicted_toward_component_m": 0.0018270302777333807,
+        "contrast_error_m": 0.001650137928663753,
+        "gain": 8.701509140115258,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0011673396511469036,
+      "tcp_RMSE_m": 0.0032200460555031896
+    },
+    {
+      "model": "M1",
+      "partition": "FIT",
+      "horizon": 8,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007936171760472158,
+        "predicted_toward_component_m": 0.0004175760368525516,
+        "contrast_error_m": 0.007594042050186545,
+        "gain": 0.05262827150073581,
+        "positive_direction_parents": 24
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007942255431165298,
+        "predicted_toward_component_m": 0.0034043193930604807,
+        "contrast_error_m": 0.004582512464063863,
+        "gain": 0.4286351644535973,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0018454265227774158,
+      "tcp_RMSE_m": 0.004071826018237819
+    },
+    {
+      "model": "M1",
+      "partition": "FIT",
+      "horizon": 16,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007899076483833293,
+        "predicted_toward_component_m": 0.00020253334544880394,
+        "contrast_error_m": 0.0077795826364308596,
+        "gain": 0.025642739859519186,
+        "positive_direction_parents": 24
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905817124992609,
+        "predicted_toward_component_m": 0.0031385353941004723,
+        "contrast_error_m": 0.004779645726860811,
+        "gain": 0.3969914606727957,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0019491595303406939,
+      "tcp_RMSE_m": 0.006113421715175112
+    },
+    {
+      "model": "M1",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 1,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.0002914986944233533,
+        "predicted_toward_component_m": -0.0008348515548277646,
+        "contrast_error_m": 0.0015963259211275727,
+        "gain": -2.8659053759285693,
+        "positive_direction_parents": 0
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.00019993879141111393,
+        "predicted_toward_component_m": 0.0018067267519654706,
+        "contrast_error_m": 0.0016222148697124794,
+        "gain": 9.04418778462394,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.001151399250375107,
+      "tcp_RMSE_m": 0.0031878720328677446
+    },
+    {
+      "model": "M1",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 8,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007944710901938379,
+        "predicted_toward_component_m": 0.00035079247027169913,
+        "contrast_error_m": 0.007676064618863165,
+        "gain": 0.04416310648893504,
+        "positive_direction_parents": 8
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007952278014272451,
+        "predicted_toward_component_m": 0.0033778079668991268,
+        "contrast_error_m": 0.004630884213838726,
+        "gain": 0.424763312215333,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.001846978600951843,
+      "tcp_RMSE_m": 0.00415282160975039,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 8,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    },
+    {
+      "model": "M1",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 16,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007900684140622616,
+        "predicted_toward_component_m": 0.00017135622874775436,
+        "contrast_error_m": 0.00782260374398902,
+        "gain": 0.02168968096950564,
+        "positive_direction_parents": 8
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905551348812878,
+        "predicted_toward_component_m": 0.0030926893814466894,
+        "contrast_error_m": 0.004829784680623561,
+        "gain": 0.3912063456430017,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.001957967135240324,
+      "tcp_RMSE_m": 0.006264491239562631,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 8,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    },
+    {
+      "model": "M2",
+      "partition": "FIT",
+      "horizon": 1,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.00029408393311314285,
+        "predicted_toward_component_m": 0.001988792272944314,
+        "contrast_error_m": 0.0017747711584282417,
+        "gain": 6.766524262362968,
+        "positive_direction_parents": 24
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.0002101642124519761,
+        "predicted_toward_component_m": 0.00360381425707601,
+        "contrast_error_m": 0.0034969256763967374,
+        "gain": 17.169158422200894,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0028902098808127144,
+      "tcp_RMSE_m": 0.005343895075687517
+    },
+    {
+      "model": "M2",
+      "partition": "FIT",
+      "horizon": 8,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007936171760472158,
+        "predicted_toward_component_m": 0.008086211746558547,
+        "contrast_error_m": 0.00017802451475290582,
+        "gain": 1.0189104630576884,
+        "positive_direction_parents": 24
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007942255431165298,
+        "predicted_toward_component_m": 0.0081059302125747,
+        "contrast_error_m": 0.0002936508778172235,
+        "gain": 1.0206083724197468,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0009306177938318191,
+      "tcp_RMSE_m": 0.007050176151096821
+    },
+    {
+      "model": "M2",
+      "partition": "FIT",
+      "horizon": 16,
+      "parents": 24,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007899076483833293,
+        "predicted_toward_component_m": 0.008336751023307443,
+        "contrast_error_m": 0.0004447440381530517,
+        "gain": 1.0554082248508247,
+        "positive_direction_parents": 24
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905817124992609,
+        "predicted_toward_component_m": 0.0065190896663504345,
+        "contrast_error_m": 0.0014126447107022007,
+        "gain": 0.8245931522863552,
+        "positive_direction_parents": 24
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.002473300041553254,
+      "tcp_RMSE_m": 0.011247084514858821
+    },
+    {
+      "model": "M2",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 1,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.0002914986944233533,
+        "predicted_toward_component_m": 0.0019908985996153206,
+        "contrast_error_m": 0.001733610944938846,
+        "gain": 6.834256626533086,
+        "positive_direction_parents": 8
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.00019993879141111393,
+        "predicted_toward_component_m": 0.0036151739477645606,
+        "contrast_error_m": 0.0034765953314490616,
+        "gain": 18.103439317339046,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0029174535302445292,
+      "tcp_RMSE_m": 0.0053686913452111185
+    },
+    {
+      "model": "M2",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 8,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007944710901938379,
+        "predicted_toward_component_m": 0.008104548556730151,
+        "contrast_error_m": 0.00017745045806805138,
+        "gain": 1.020120469153429,
+        "positive_direction_parents": 8
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007952278014272451,
+        "predicted_toward_component_m": 0.00808983645401895,
+        "contrast_error_m": 0.0002759047292784089,
+        "gain": 1.017301778629374,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.0009522230175207369,
+      "tcp_RMSE_m": 0.006978373508900404,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 0,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    },
+    {
+      "model": "M2",
+      "partition": "DIAGNOSTIC_DEV",
+      "horizon": 16,
+      "parents": 8,
+      "tcp_position": {
+        "actual_toward_component_m": 0.007900684140622616,
+        "predicted_toward_component_m": 0.00835075054783374,
+        "contrast_error_m": 0.00046003738316358067,
+        "gain": 1.0569648602102344,
+        "positive_direction_parents": 8
+      },
+      "object_position": {
+        "actual_toward_component_m": 0.007905551348812878,
+        "predicted_toward_component_m": 0.006504786608275026,
+        "contrast_error_m": 0.001424640737241134,
+        "gain": 0.8228125391958894,
+        "positive_direction_parents": 8
+      },
+      "pure_WM_mean_Q_regret": 0.0,
+      "rule_mean_Q_regret": 0.0,
+      "object_RMSE_m": 0.002533714927267283,
+      "tcp_RMSE_m": 0.011136795743368566,
+      "hybrid": {
+        "mean_Q_regret": 0.0,
+        "fallback_parents": 0,
+        "parents": 8,
+        "calibration": "Other7 DEV parent pair-Q errors q90; diagnostic crossfit, not a fresh test"
+      }
+    }
+  ],
+  "evaluation_identity": "Canonical CPU batch1, separately rescored frozen endpoints; original GPU scores retained",
+  "new_source_transitions": 0,
+  "new_target_transitions": 0,
+  "complete_tasks": 0,
+  "no_holdout_evaluation": true,
+  "scientific_claim": "M2 restores transport action effect at H8 on current FIT/diagnostic DEV; no improvement over rule, temporal calibration incomplete",
+  "training_curves": {
+    "M1": {
+      "updates": 200,
+      "first10": {
+        "base_loss": 0.4872601509094238,
+        "effect_loss": 0.0,
+        "gradient_norm": 37.835403537750246
+      },
+      "last10": {
+        "base_loss": 0.027211464708670974,
+        "effect_loss": 0.0,
+        "gradient_norm": 2.379114496707916
+      },
+      "effect_pairs": 0
+    },
+    "M2": {
+      "updates": 200,
+      "first10": {
+        "base_loss": 0.4693905392661691,
+        "effect_loss": 0.0711674741236493,
+        "gradient_norm": 39.6555401802063
+      },
+      "last10": {
+        "base_loss": 0.028407608589623122,
+        "effect_loss": 0.0010661975175025873,
+        "gradient_norm": 2.5339269042015076
+      },
+      "effect_pairs": 48074
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version":"WM02_CURRENT_ACTION_RESPONSE_V1",
+  "baseline_sha":"ed2755a10f4cb4de445ffadd872317ee27baab4f",
+  "data_sha256":"c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "frozen_model_checkpoint_sha256":"530a6e5b395e7eca76f12efcc6179b6af745b063faff4f6c0bdbc23b18b21f6f",
+  "diagnostic":{"FIT_parents":[0,23],"transport_candidates":5,"horizons":[1,8,16],"finite_difference_m_per_atom":[0.00001,0.0001,0.0005],"gradient_check_precision":"FP64 exact promotion of frozen FP32 values","minimum_fit_parents":[0,1,2,3],"minimum_fit":"OLS command delta to actual TCP/object delta; one solve; no WM optimizer"},
+  "evaluation_frozen_before_new_model_comparison":{"events":"Named SCHEMA events; illegal_contact never support","identity":"Original float64 physical command bytes","ties":"1e-6 score tolerance and original command hash","invariance":"Candidate permutation and batch-size semantic checks","release":"Conditional non-grasp score only; actual native support required","new_blind_holdout":false},
+  "models":{"M0":"Current fixed200 checkpoint, zero new updates","M1":"Only reference input representation: relative current TCP pose, translation/.01 and grip delta/(.04/.044), unchanged external V2 physical contract","M2":"M1 plus same-start paired TCP/object H8 difference loss, physical scale.004m, weight1.0"},
+  "training":{"endpoint":200,"seed":20261104,"effective_batch":256,"microbatch":32,"same_FIT_base_exposure":true,"M2_pair_exposure":"Pairs within exactly sampled first-block microbatch, same scene/anchor/history; no second-block mismatched-start pairs","no_default_extension":true},
+  "fallback":{"calibration":"Leave-one-parent-out DEV action-difference error quantile.9","report":["pure_WM","rule","hybrid","fallback_fraction"],"claim":"Diagnostic crossfit, no new test or Actor benefit claim"},
+  "target":{"candidate_only":true,"R1_sync":true,"stop_latch":true,"both_outer_wrappers":true,"bounded_trace":true,"native_dynamic_permission":"NOT_GRANTED","target_integrations":0},
+  "new_physics":0,"Actor_updates":0
+}

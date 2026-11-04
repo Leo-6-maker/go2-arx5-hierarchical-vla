@@ -1,0 +1,262 @@
+{
+  "status": "FROZEN_FIT_LOSS_GRADIENT_DIAGNOSTIC",
+  "source_sha": "9215b93fec1eb6e04a714a40a53d57acc03e98c1",
+  "replay_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "models": {
+    "action_conditioned": {
+      "checkpoint_sha256": "4fdb580f9f85b2dbdcd6796ede621f6f11c76fca03ec42f1d867d4338692b69c",
+      "parameters_unchanged": true,
+      "stages": {
+        "preclose": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.03985294500986735,
+            0.0031889235581426573,
+            2.6914974963195467e-05
+          ],
+          "grasp_positive_atoms": 224,
+          "valid_atoms": 1920,
+          "establishments": 76,
+          "releases": 0,
+          "gradient_probe_indices": [
+            271,
+            226,
+            105,
+            526
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.031043358147144318,
+              "gradient_L2": 3.4547626972198486,
+              "population_weighted_gradient_L2": 1.1515875657399495
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0017242032336071134,
+              "gradient_L2": 0.2892802357673645,
+              "population_weighted_gradient_L2": 0.09642674525578816
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 3.000795913976617e-05,
+              "gradient_L2": 0.0008352799341082573,
+              "population_weighted_gradient_L2": 0.0002784266447027524
+            },
+            "summed_gradient_L2": 3.5576043128967285,
+            "event_continuous_cosine": 0.31856435537338257
+          }
+        },
+        "supported_release": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.02549910737822453,
+            0.005519128323066979,
+            1.585411555424798e-05
+          ],
+          "grasp_positive_atoms": 1344,
+          "valid_atoms": 1920,
+          "establishments": 0,
+          "releases": 96,
+          "gradient_probe_indices": [
+            251,
+            479,
+            644,
+            597
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.032084930688142776,
+              "gradient_L2": 2.2448153495788574,
+              "population_weighted_gradient_L2": 0.7482717831929524
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.01119234785437584,
+              "gradient_L2": 0.8438839912414551,
+              "population_weighted_gradient_L2": 0.2812946637471517
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 1.736283411446493e-05,
+              "gradient_L2": 0.0006950849201530218,
+              "population_weighted_gradient_L2": 0.00023169497338434059
+            },
+            "summed_gradient_L2": 2.405562162399292,
+            "event_continuous_cosine": 0.009512401185929775
+          }
+        },
+        "transport": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.029726414134105046,
+            0.00030456070865814887,
+            1.542401805636473e-05
+          ],
+          "grasp_positive_atoms": 1920,
+          "valid_atoms": 1920,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            83,
+            279,
+            590,
+            667
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.029457615688443184,
+              "gradient_L2": 3.5830447673797607,
+              "population_weighted_gradient_L2": 1.1943482557932534
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.00028252432821318507,
+              "gradient_L2": 0.012729426845908165,
+              "population_weighted_gradient_L2": 0.004243142281969388
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 1.5453993910341524e-05,
+              "gradient_L2": 0.00032426108373329043,
+              "population_weighted_gradient_L2": 0.00010808702791109681
+            },
+            "summed_gradient_L2": 3.583609104156494,
+            "event_continuous_cosine": 0.043120719492435455
+          }
+        }
+      }
+    },
+    "no_future_action": {
+      "checkpoint_sha256": "96eab01bc85745c4fd1342f9603758f2248550bfcf33f4c45761ed1d775b3557",
+      "parameters_unchanged": true,
+      "stages": {
+        "preclose": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.049559218188126884,
+            0.005888962318810324,
+            3.746916857683876e-05
+          ],
+          "grasp_positive_atoms": 224,
+          "valid_atoms": 1920,
+          "establishments": 76,
+          "releases": 0,
+          "gradient_probe_indices": [
+            271,
+            226,
+            105,
+            526
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.04530567303299904,
+              "gradient_L2": 7.8019256591796875,
+              "population_weighted_gradient_L2": 2.600641886393229
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.002688698936253786,
+              "gradient_L2": 0.7719486951828003,
+              "population_weighted_gradient_L2": 0.2573162317276001
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 4.406124571687542e-05,
+              "gradient_L2": 0.0018723530229181051,
+              "population_weighted_gradient_L2": 0.000624117674306035
+            },
+            "summed_gradient_L2": 8.51270866394043,
+            "event_continuous_cosine": 0.9149874448776245
+          }
+        },
+        "supported_release": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.019989545503631235,
+            0.0069650796571901685,
+            2.2959635073978765e-05
+          ],
+          "grasp_positive_atoms": 1344,
+          "valid_atoms": 1920,
+          "establishments": 0,
+          "releases": 96,
+          "gradient_probe_indices": [
+            251,
+            479,
+            644,
+            597
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.02446119859814644,
+              "gradient_L2": 1.6844840049743652,
+              "population_weighted_gradient_L2": 0.5614946683247883
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.00866272859275341,
+              "gradient_L2": 0.3502281606197357,
+              "population_weighted_gradient_L2": 0.11674272020657857
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 2.377033160883002e-05,
+              "gradient_L2": 0.000570570700801909,
+              "population_weighted_gradient_L2": 0.0001901902336006363
+            },
+            "summed_gradient_L2": 1.7401628494262695,
+            "event_continuous_cosine": 0.058416400104761124
+          }
+        },
+        "transport": {
+          "population_windows": 240,
+          "population_weight": 0.3333333333333333,
+          "exact_population_mean_components": [
+            0.027486405428498985,
+            0.0003099928027950227,
+            1.8489013018552215e-05
+          ],
+          "grasp_positive_atoms": 1920,
+          "valid_atoms": 1920,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            83,
+            279,
+            590,
+            667
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.02760975807905197,
+              "gradient_L2": 2.5818357467651367,
+              "population_weighted_gradient_L2": 0.8606119155883789
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0003027258499059826,
+              "gradient_L2": 0.018703904002904892,
+              "population_weighted_gradient_L2": 0.006234634667634964
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 1.8426777387503535e-05,
+              "gradient_L2": 0.0005792341544292867,
+              "population_weighted_gradient_L2": 0.0001930780514764289
+            },
+            "summed_gradient_L2": 2.5841145515441895,
+            "event_continuous_cosine": 0.12497284263372421
+          }
+        }
+      }
+    }
+  },
+  "fit_windows": 720,
+  "data_scope": "Current V5 FIT720 windows; named3 phases, current fixed200 checkpoints",
+  "gradient_limit": "Norm contributions are not additive or an exact full-FIT gradient; no causal claim that reweighting alone fixes prediction",
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "CUDA_initialized": false,
+  "CPU_s": 41.813754565,
+  "wall_s": 10.855569924024167
+}
