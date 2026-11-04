@@ -11,6 +11,19 @@ def reference_expired(deadline, observation_time):
     return deadline is not None and observation_time is not None and observation_time>=deadline-1e-10
 
 
+def measured_observation(self,msg,original,accept,expiry):
+    original(self,msg)
+    if self._r4_pending is not None:
+        pending=self._r4_pending
+        source=json.loads(pending.data)['_pi0294']['source_mpc_s']
+        if float(msg.time)>=source:
+            self._r4_pending=None;accept(self,pending)
+    # A sim-clock timer may run before the final observation callback, then
+    # never run again while physics is paused. Apply the same TTL predicate
+    # after consuming that real observation, without advancing the clock.
+    expiry(self)
+
+
 def bind_packet(document, *, episode, sequence, now, trajectory_type, ee, base):
     meta=document['_pi0294']
     source=meta['source_mpc_s'];ttl=meta['ttl_s'];seq=meta['sequence']
@@ -84,12 +97,7 @@ def main():
         self.publish_trajectory()
 
     def observation(self,msg):
-        original_observation(self,msg)
-        if self._r4_pending is not None:
-            pending=self._r4_pending
-            source=json.loads(pending.data)['_pi0294']['source_mpc_s']
-            if float(msg.time)>=source:
-                self._r4_pending=None;accept(self,pending)
+        measured_observation(self,msg,original_observation,accept,expiry)
 
     def send(self,msg):
         original_send(self,msg)
