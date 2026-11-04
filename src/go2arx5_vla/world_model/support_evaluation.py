@@ -50,7 +50,7 @@ def evaluate(spec,output):
         ids=np.flatnonzero(meta['partition']==part);folder=output/part;folder.mkdir()
         result[part]=score(models,select(data,torch.tensor(ids)),{k:v[ids]for k,v in meta.items()},folder)
     if pins!=[parameter_hash(m)for m in models]:raise RuntimeError('Scoring changed frozen models')
-    result=dict(status='V2_NATIVE_SUPPORT_RESCORE_FIXED200_MODELS',source_sha=spec['source_sha'],original_data_sha256=spec['replay_sha256'],support_data_sha256=spec['support_replay_sha256'],
-        evaluation=result,preserves='V1 release score used illegal_contact as support and is INVALID. V2 reuses exact saved models/data and native contacts, no retraining or selection; original once-heldout is now corrected-rescore data, not a new blind test.',
+    result=dict(status='V3_NATIVE_SUPPORT_AND_PHYSICAL_ACTION_IDENTITY_RESCORE',source_sha=spec['source_sha'],original_data_sha256=spec['replay_sha256'],support_data_sha256=spec['support_replay_sha256'],
+        evaluation=result,preserves='V1 release used illegal_contact as support and is INVALID. V2 tied float32 neural raw bytes, inconsistent with float64 native commands. V3 preserves both and uses native support plus original physical action bytes. No retraining or selection; the original holdout is corrected-rescore data, not a new blind test.',
         WM_updates=0,Actor_updates=0,new_physics=0,parameters_unchanged=True,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(output/'RESULT.json',result);return result

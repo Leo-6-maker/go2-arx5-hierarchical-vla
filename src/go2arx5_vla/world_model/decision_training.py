@@ -47,6 +47,8 @@ def read(path,device,*,purpose='WM02_DECISION_PAIRED_REPLAY_V5'):
         if str(f['purpose'])!=purpose or json.loads(str(f['schema_json']))!=json.loads(json.dumps(SCHEMA)):
             raise ValueError('Explicit V5 real source numeric schema required')
         meta={k:f[k].copy()for k in ('scene','anchor','candidate','partition')}
+        # Physical command identity stays outside the float32 neural inputs.
+        meta['physical_raw']=f['raw'].copy()
         for p,ids in (('FIT',range(24)),('DIAGNOSTIC_DEV',range(24,32)),('ONCE_HOLDOUT',range(32,40))):
             if set(meta['scene'][meta['partition']==p])!=set(ids):raise ValueError('All intended whole parents must have real observations')
         data={k:torch.tensor(f[k],device=device,dtype=torch.float32)for k in ('state','reference','events','valid','done','timeout','clock','context','raw','initial_event')}
@@ -78,7 +80,7 @@ def evaluate(models,b,meta,folder):
         for i in sorted(set(meta['scene'])):
             for kind in KINDS:
                 ids=np.flatnonzero((meta['scene']==i)&(meta['anchor']==kind));ix=torch.tensor(ids,device=pred.device)
-                initial=b['state'][ix[0],8];raw=b['raw'][ix].cpu().numpy()
+                initial=b['state'][ix[0],8];raw=meta['physical_raw'][ids]
                 # Same-observation universal rule, no Teacher/event/stage input.
                 obj=initial[SLICES['object_position']].cpu().numpy();tcp=initial[SLICES['tcp_position']].cpu().numpy();context=b['context'][ix[0]].cpu().numpy()
                 if float(initial[SLICES['gripper_fraction']][0])>.8:rule=rule_scores(initial.cpu().numpy(),raw)
