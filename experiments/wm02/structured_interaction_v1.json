@@ -1,0 +1,67 @@
+{
+  "schema": "WM02_AUTONOMOUS_M4_B_V1",
+  "charter_sha": "a5619af01a8e508f170ecaec4aa994936098a985",
+  "baseline_SHA": "76bb8115c3b588b70fd55bdde13f10926c60bce7",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "hypothesis": "M4-A resolves absolute TCP/common bias and DEV event gates, but free object head drifts during transport; reinterpret object deltas as slip residuals around predicted-TCP SE3 carry only under a causal geometric attachment gate. Opening and uncertain modes retain independent object dynamics.",
+  "B0_evidence": {
+    "M4_A_source_sha": "72e5c4c5d014fdf162e909f0ae6f2cc0dd28a3cc",
+    "evaluation_source_sha": "e04702f4afdbdbf0077d7feeefe4a618220cb511",
+    "M4_A_checkpoint_sha256": "61a020c2b70ddf9286f1d65715cc9d07c29ccb40ea6a3c7c1371de484110fc5c",
+    "M4_A_transport_DEV_H16_free_object_RMSE_m": 0.0023685364867560565,
+    "M4_A_transport_DEV_H16_predicted_TCP_rigid_object_RMSE_m": 0.0004792244581039995,
+    "M4_A_transport_DEV_H16_predicted_TCP_rigid_pair_max_error_m": 0.0001545501872897148,
+    "M4_A_development_gate": "FAIL: H8/H16 pair and H16 absolute object; no extension"
+  },
+  "candidate": "M4_B",
+  "from_scratch": true,
+  "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+  "architecture": "Same18905387 parameters; conditional_rigid_residual_v1, no extra trainable state/inputs/Teacher phase",
+  "endpoint": 200,
+  "strict_probe_updates": 1,
+  "seed": 20261104,
+  "effective_batch": 256,
+  "microbatch": 32,
+  "base_exposures": 51200,
+  "base_loss": "Unchanged old8-step normalized continuous+.1 events+.1 terminal",
+  "extra_objective": "Unchanged M4-A: mean at H1/H4/H8/H16 of absolute TCP+object position squared/sigma_k^2 + .1 full50D normalized state MSE + event BCE with logits, equal horizon weights. No pair loss.",
+  "sigma_m": [
+    0.0005,
+    0.0010779050035574036,
+    0.002158724942759613,
+    0.0021645734863116133
+  ],
+  "extra_position_coefficient": 1.0,
+  "extra_full_state_coefficient": 0.1,
+  "extra_event_coefficient": 1.0,
+  "extra_exposure": "All sampled first-block trajectories, same720 base training windows; explicit sequence count logged, cooccurring pairs recorded but not used in loss",
+  "causal_second_block": "ZeroEEF hold at model-predicted H8 TCP; never actual future reference",
+  "changed_factor": "Conditional object-pose interaction structure only vs M4-A; same fresh initialization/parameters/data/loss/exposure/optimizer and event heads.",
+  "gates": {
+    "per_parent_action_difference_tolerance_m": {
+      "H1": 0.0005,
+      "H8": 0.001,
+      "H16": 0.0015
+    },
+    "require_positive_direction": true,
+    "H1_absolute_object_RMSE_m_no_worse_than_M1": 0.001151,
+    "H16_absolute_object_RMSE_m_no_worse_than_M1": 0.001958,
+    "preclose_H16_grasp_Brier_no_worse_than_M1": 0.0734,
+    "supported_release_H16_grasp_Brier_no_worse_than_M1": 0.0548,
+    "report_absolute_TCP_and_object_to_TCP": true,
+    "canonical_singleton_permutation_invariance": true,
+    "independent_new_blind_test_not_reuse_original_holdout": true
+  },
+  "extensions": "None unless later predeclared charter gate; no automatic extension or DEV retuning",
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "interaction": {
+    "gate": "current gripper_fraction in [.2,.6] AND actually consumed proposed H40 point gripper<=.2 AND current object-TCP norm<=.5*observed cube edge. No native current/future event or Teacher label inputs. S-only geometry hypothesis, not safety detector.",
+    "FIT_anchor_evidence": "FIT current held fractions .43261..43269, open .99982..99994, held center offset norm <.005m; gate frozen before training; not DEV tuned",
+    "attached_position": "new TCP + (R_tcp_new R_tcp_old^T)(old object-old TCP) + original independent object position delta interpreted as slip",
+    "attached_rotation": "(R_tcp_new R_tcp_old^T) R_object_independent",
+    "other_fields": "Identical old heads; event/terminal/velocities not analytically overwritten",
+    "uncertain_or_opening": "Exact original independent learned object pose",
+    "residual_scale": "Unchanged .01 position, .05 rotation; no gain tuning"
+  }
+}

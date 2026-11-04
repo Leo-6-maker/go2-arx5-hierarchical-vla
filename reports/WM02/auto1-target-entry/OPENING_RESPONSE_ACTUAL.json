@@ -1,0 +1,203 @@
+{
+  "schema": "WM02_SAVED_STATIONARY_OPENING_RESPONSE_ACTUAL_V1",
+  "source_sha": "c8a85bbba2d0aff114c181490e7deb4df989b4f1",
+  "scope": "Post-hoc already-opened release diagnostic; no blind test, deployed method, new score or control improvement claim",
+  "model_sha256": "3719639c4153f2a01885223d2e1fca05f3a59851e46b2353bbc5264fe7348a9b",
+  "model": {
+    "schema": "WM02_STATIONARY_OPENING_SCALAR_V1",
+    "source_sha": "c8a85bbba2d0aff114c181490e7deb4df989b4f1",
+    "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+    "FIT_parents": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "lag_fraction": 0.004911770981569752,
+    "parameter_count": 1,
+    "FIT_examples": 120,
+    "FIT_moving_horizons": 480,
+    "limitations": "Stationary opening floor only; requires known-reset causal command prefix; no closing/contact generalization or M4 integration"
+  },
+  "input_data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "stream_manifest_sha256": "d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01",
+  "FIT_parents": 24,
+  "FIT_candidates": 120,
+  "eval_parents": 8,
+  "eval_candidates": 40,
+  "opening_metrics": {
+    "H1": {
+      "frozen_M4B_RMSE_fraction": 0.004206887469394541,
+      "response_RMSE_fraction": 0.0005479829018372758
+    },
+    "H8": {
+      "frozen_M4B_RMSE_fraction": 0.047931271046404836,
+      "response_RMSE_fraction": 0.0056777533487645995
+    },
+    "H16": {
+      "frozen_M4B_RMSE_fraction": 0.06947137164407964,
+      "response_RMSE_fraction": 0.00038019868199406213
+    }
+  },
+  "positive_regret_parents": {
+    "frozen_M4B": 3,
+    "opening_response_with_same_frozen_grasp": 0
+  },
+  "effect_diagnostics": [
+    {
+      "scene": 40,
+      "old_effect": -0.00013238191604614258,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045324661075314965
+    },
+    {
+      "scene": 41,
+      "old_effect": -0.0005950331687927246,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045322514884233445
+    },
+    {
+      "scene": 42,
+      "old_effect": 0.0006178021430969238,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045343966728047636
+    },
+    {
+      "scene": 43,
+      "old_effect": -0.0007605552673339844,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.04532289720907834
+    },
+    {
+      "scene": 44,
+      "old_effect": -0.0002905130386352539,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045324519359348
+    },
+    {
+      "scene": 45,
+      "old_effect": -0.0002194046974182129,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.04532216651284915
+    },
+    {
+      "scene": 46,
+      "old_effect": -0.0006083250045776367,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045322339141961376
+    },
+    {
+      "scene": 47,
+      "old_effect": 0.0003870725631713867,
+      "response_effect": 0.04545454545454497,
+      "actual_effect": 0.045343547945736695
+    }
+  ],
+  "scenes": [
+    {
+      "scene": 40,
+      "old_selected": "release",
+      "response_selected": "release",
+      "old_regret_Q": 0.0,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 41,
+      "old_selected": "delay2",
+      "response_selected": "release",
+      "old_regret_Q": 0.045322514884233445,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 42,
+      "old_selected": "release",
+      "response_selected": "release",
+      "old_regret_Q": 0.0,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 43,
+      "old_selected": "delay2",
+      "response_selected": "release",
+      "old_regret_Q": 0.04532289720907834,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 44,
+      "old_selected": "release",
+      "response_selected": "release",
+      "old_regret_Q": 0.0,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 45,
+      "old_selected": "release",
+      "response_selected": "release",
+      "old_regret_Q": 0.0,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 46,
+      "old_selected": "delay2",
+      "response_selected": "release",
+      "old_regret_Q": 0.045322339141961376,
+      "response_regret_Q": 0.0
+    },
+    {
+      "scene": 47,
+      "old_selected": "release",
+      "response_selected": "release",
+      "old_regret_Q": 0.0,
+      "response_regret_Q": 0.0
+    }
+  ],
+  "scalar_reload_max_abs": 0.0,
+  "new_physics": 0,
+  "new_neural_inference": 0,
+  "new_WM_optimizer_updates": 0,
+  "new_Actor_updates": 0,
+  "closed_form_fits": 1,
+  "CPU_s": 5.850345561,
+  "wall_s": 5.929130497999722,
+  "private_input_manifest_sha256": "7279cb55618bc643708abf527affb719325f1548ab20e0f3777206c0b609c07c",
+  "causal_initial_gap_check": {
+    "schema": "WM02_CAUSAL_OPENING_ANCHOR_AUDIT_V1",
+    "prospective_candidates": 40,
+    "max_abs_initial_gap_difference_from_predecision_executed_prefix": 0.0,
+    "model_sha256": "3719639c4153f2a01885223d2e1fca05f3a59851e46b2353bbc5264fe7348a9b",
+    "new_physics": 0,
+    "new_fits": 0,
+    "new_optimizer_updates": 0,
+    "CPU_s": 0.750589358
+  },
+  "tests": {
+    "source_sha": "c8a85bbba2d0aff114c181490e7deb4df989b4f1",
+    "world_normal": 76,
+    "world_optimized": 76,
+    "skipped": 0,
+    "normal_log_sha256": "4a8ce1c67adde4c3ca2add2d3bd281c8b92adac03b3b4e7c04226cdfae703d16",
+    "optimized_log_sha256": "933459dd3eada44b3cbbbc0a2d03f74e6da2d9b2793f8f6764bbde28ddb43203",
+    "original_receiver_base_gripper_tests_normal": 6,
+    "original_receiver_base_gripper_tests_optimized": 6
+  }
+}

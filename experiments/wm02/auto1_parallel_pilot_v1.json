@@ -1,0 +1,17 @@
+{
+  "schema": "WM02_AUTO1_FINITE_PARALLEL_PILOT_V1",
+  "authority": ["GPU0、1允许并行部署任务", "显存充足，可以多并行环境加速"],
+  "target_instances": 2,
+  "physical_owners": 1,
+  "owner_model": "INHERITED_CANONICAL_CAMPAIGN_AND_PHYSICAL_LOCKS",
+  "ROS_domains": [220, 221],
+  "CPU_sets": [[0, 1, 2, 3], [4, 5, 6, 7]],
+  "GPU_for_native_integration": false,
+  "qualification": ["two concurrent 50-tick cold starts", "two concurrent 2528-tick measured-base holds with reference consumption"],
+  "collection_pilot": {"attempts": 2, "task_seconds_each": 1.2, "atoms_each": 24, "EEF_offset_x_m": [0.001, -0.001], "same_parent": true, "split": "TRAIN", "used_for_existing_WM_training": false},
+  "native_dt_s": 0.002,
+  "original_safety_unchanged": true,
+  "contact_qualification": "NOT_QUALIFIED",
+  "persistent_queue": false,
+  "automatic_model_updates": 0
+}

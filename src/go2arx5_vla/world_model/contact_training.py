@@ -66,9 +66,9 @@ def pose(state):
     return torch.cat((top,state.new_tensor([0,0,0,1]).expand(len(state),1,4)),1)
 
 
-def predict(model,history,current,history_ref,context,history_clock,first_clock,raw,*,blind=False,tail=False):
+def predict(model,history,current,history_ref,context,history_clock,first_clock,raw,*,blind=False,tail=False,return_terminal=False,return_logits=False):
     """No future state/event/control-history argument exists. Second block uses predictions."""
-    hidden=model.burn(history,history_ref,context,history_clock);initial_hidden=hidden.clone();state=current;pred=[];events=[]
+    hidden=model.burn(history,history_ref,context,history_clock);initial_hidden=hidden.clone();state=current;pred=[];events=[];terminals=[];event_logits=[];terminal_logits=[]
     for i in range(16):
         if i%8==0:
             action=raw if i==0 else torch.cat((torch.zeros_like(raw[...,:6]),raw[:,-1:,6:7].expand(-1,8,-1)),-1)
@@ -78,7 +78,12 @@ def predict(model,history,current,history_ref,context,history_clock,first_clock,
         clock=torch.stack((first_clock[:,0]+i*.05/32,state.new_full((len(state),),(i%8)*.05)),-1)
         state,e,d,hidden=model.step(state,torch.zeros_like(reference)if blind else reference,context,clock,hidden)
         pred.append(state);events.append(e.sigmoid())
-    return torch.stack(pred,1),torch.stack(events,1),initial_hidden
+        if return_terminal:terminals.append(d.sigmoid())
+        if return_logits:event_logits.append(e);terminal_logits.append(d)
+    result=(torch.stack(pred,1),torch.stack(events,1),initial_hidden)
+    if return_terminal:result=(*result,torch.stack(terminals,1))
+    if return_logits:result=(*result,dict(event=torch.stack(event_logits,1),terminal=torch.stack(terminal_logits,1)))
+    return result
 
 
 def cv_prediction(current):

@@ -24,20 +24,21 @@ def cards():
     return result
 
 
-def construct(job):
+def construct(job,*,kinds=KINDS,max_macros=50):
+    if not kinds or not set(kinds)<=set(KINDS)or not 1<=max_macros<=50:raise ValueError('Finite original construction subset required')
     spec=job['spec'];card=job['card'];folder=Path(job['out']);folder.mkdir();prefix=[];found={};adapter=None
     start=time.monotonic();cpu=time.process_time();failure=None;guard=local_guard(spec);live=0
     os.sched_setaffinity(0,{job['cpu']});write_json(folder/'CARD.json',card)
     try:
         adapter=SourceAdapter(card,spec['asset_root'],executor_id=spec['executor_id'],seed=card['seed'])
         context=np.array([*card['goal_xy'],.46,.44,.04])
-        for macro in range(50):
+        for macro in range(max_macros):
             guard();plan=adapter.teacher_plan();state=adapter.snapshot(force=True)
             if len(prefix)>=8:
-                for kind in KINDS:
+                for kind in kinds:
                     if kind not in found and physical_anchor(kind,adapter,state,context):
                         path=folder/(kind+'-restore.pkl.gz');adapter.save_complete(path);found[kind]=str(path)
-            if len(found)==3:break
+            if len(found)==len(kinds):break
             plan['action_raw'],ok=command_labels(plan['poses'][:8],plan['opening'][:8],state['tcp'])
             if not ok:raise ValueError('Original Teacher construction primitive exceeded')
             ref=adapter.save_complete(folder/f'prefix-{macro:02d}-restore.pkl.gz')

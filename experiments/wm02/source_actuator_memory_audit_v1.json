@@ -1,0 +1,18 @@
+{
+  "schema": "WM02_SOURCE_ACTUATOR_MEMORY_AUDIT_V1",
+  "charter_sha": "a5619af01a8e508f170ecaec4aa994936098a985",
+  "scope": "Post-hoc cause diagnosis after parent41 saved controller trace inspection; not blind validation or a model/physical experiment.",
+  "hypotheses": [
+    "Actual accepted gripper commands and the unchanged limiter reconstruct saved finger_targets from known reset without future hidden-state inputs.",
+    "A commands-only observer initialized with unknown reset state retains a nonzero target interval after8 atoms; actual measured opening cannot simply replace the internal target.",
+    "Existing physical H40 gripper values and consumed-row clocks match FIT/DEV numeric replay; no unit/row-offset repair should be made without a mismatch."
+  ],
+  "inputs": {
+    "numeric_replay_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+    "prospective_stream_manifest_sha256": "d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01",
+    "parents": [40,41,42,43,44,45,46,47]
+  },
+  "limits": {"max_CPU_threads": 1,"max_wall_s": 60,"new_plant_steps": 0,"new_inference": 0,"new_optimizer_updates": 0},
+  "frozen": "No source/target physics/controller/threshold/command changes. Analytic observer never writes to native execution. No Actor input changes.",
+  "qualification": "Controller-reference identity only. Contact dynamics, actual finger motion and WM inference remain separate. Unknown command-only interval does not establish that full observed state/history is non-observable."
+}

@@ -1,0 +1,1242 @@
+{
+  "schema": "WM02_AUTO1_G1_ACTUAL_V1",
+  "actual_run_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+  "authority_commit": "930bb2ef0ff178771e48fb5f03ea3e37fa717582",
+  "campaign_uuid": "wm02-auto1-20261104-01",
+  "registration": {
+    "schema": "WM02_AUTO1_RESOLVED_V1",
+    "user_authorized": true,
+    "registration": "REGISTERED",
+    "native_qualification": "NOT_RUN",
+    "owner": "EXISTING_LOCAL_PC",
+    "profile": "4080-simulation",
+    "source_sha": "3e434605201c8d9e47c274fe1a9e04b0650fcce6",
+    "authority_commit": "930bb2ef0ff178771e48fb5f03ea3e37fa717582",
+    "run_uuid": "wm02-auto1-20261104-01",
+    "activated_epoch": 1793793261.7397933,
+    "deadline_epoch": 1794052461.7397933,
+    "registry_sha256": "8541316aa58248921fede51760bf9557a580915aa567988d58bd9daa204dd612",
+    "historical_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+    "target_integrations": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "registry_before_sha256": "b6ceac6828101fa0ce9b363a97b0ccac046ed247fd13a275aedee9e9b626c805",
+    "metadata_transport_native_dispatch_admitted": false,
+    "note": "Existing onceIO describes metadata transport, not cross-site admission. Runtime independently checks the directly authorized AUTO1 scope, actual owner/profile/registry/lease and physical lock. Old S1 lease is never reopened."
+  },
+  "G1_status": "SIX_COLD_HOLD_STAGES_AND_PAUSED_OPERATOR_CLOSEOUT_PASSED",
+  "safety_STOP_actual": "NOT_TRIGGERED_NOT_TESTED",
+  "safety_branch_fixture": "Original delayed-handler C ABI fixture passes: fake kernel1 integration, journal1, stop_step1 for each existing outer; not target-native safety STOP qualification",
+  "target_action_reference_qualification": "G2_NOT_YET_RUN",
+  "target_WM_entry": "NOT_ESTABLISHED",
+  "controller_mode": "HOLD_ARM_WITH_ACTIVE_FROZEN_LEG_POLICY; MPC/WBC constructed, no task reference installed",
+  "phases": {
+    "cold-1": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "cold-1",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 50,
+        "complete_atomic_transitions": 2,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 330,
+          "writer": {
+            "events": 330,
+            "written": 330,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 5,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "98fcd6fa5c37c7c384e52c8fb5d10201d5fd2dd97fed0cd22898047939366c6c"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "7da06cfb4fdcc5dad552c320620c38fe5f5d4df592041ece0589b00972454504",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "615c8a4202cf745554587fb6ea4bbda9013d3e8156fefbb818ab7f47d0dcb4a5"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "d079682fbd63526f581d28eb9b8793cee63a5b909600f16ad0045d8b4d053c3d",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 50,
+          "PD_callbacks_recorded": 46,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "d25a3c32501e0cb713378f18ff8094b8e2e553ec80dd0af88e04cee35b4fc7fb",
+            "init.trace.snapshots": "6d8a1bb281c1aca9796051646645d820dde51145cda7e7e5becadbab7fb4028b",
+            "init.trace.summary": "26445bddad4ef4424708c4afbcbba84c8540282d5a9e9da13c3d69144145de8a"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 0.377651913,
+        "wall_s": 2.505629516672343,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.004917141558534196,
+        0.0008490327268996532,
+        0.03930066978354463
+      ],
+      "base_z_min_max_m": [
+        0.300660090218563,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 5,
+      "max_inference_ms": 19.236562,
+      "inferences_with_recorded_PD_overlap": 2,
+      "max_running_PD_wall_gap_ms": 6.678515,
+      "files_sha256": {
+        "control.jsonl": "b29bb57dc0de62ee233b811698e03e10438b14d3538579da7b7753fab8d8893a",
+        "trace_seal_request": "a709c887e6c44ed3671ca5356f7e10c9a309b811fcdac5bc550ef4334c676298",
+        "state.bin.journal": "734c9c911cca0a40b84399a284c64ff83f9989963666ddbe7c7ec3d95977695c",
+        "initialization.jsonl": "02671726390cf7b00e59940df258b570939955a648d76a76d38b17b73f33d5aa",
+        "init.trace": "d25a3c32501e0cb713378f18ff8094b8e2e553ec80dd0af88e04cee35b4fc7fb",
+        "sim.log": "204ca655d939869c7c42b36398c49e08543571d46ed98a9da42f55a47631044f",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "a41445c0142ebff192985bbebbd47a7e29a2147c27f0a2c2a1334e804a9ae48f",
+        "pause_ack.json": "929876033220753a06f7d0195b63dd8f0275ade8495e8e3ec2223ac8a3db855e",
+        "RESULT.json": "97f3cc2db04329bcb3eeec2ef0470970ad75ba2df898abdca128c922217ace08",
+        "PROCESS_COMMANDS.private.json": "c51fcbd62c43dd3f303201aea28506e49a73c1ffb0c16fd723db9914cae5a371",
+        "init.trace.summary": "26445bddad4ef4424708c4afbcbba84c8540282d5a9e9da13c3d69144145de8a",
+        "step_quota": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+        "controller.log": "ab7cb449cd69f85ec5d13461b4f3af473fef96678a586f1806c234fdb33da248",
+        "solver.log": "5ecc430e59edeb720f8fbfd6006bfa6c4e029ad61ab38abd2a9062c78d4acc8e",
+        "quota.binding": "ca56471150c3f9567df781f328824f6a7721eefa48ff38c637726f3b2e0be1f4",
+        "BEFORE_FIRST_INTEGRATION.json": "e7a46876ea21ffb6974b1d78a1e9cba4ca524a44562becc146a4c90ed5844c5b",
+        "STARTED.json": "373ceb51bb35199be40c0b925a61c7eff5415d5db9fe07300638fafadde3bebb",
+        "state.bin": "789a5e907566e2afcc1b170de35eeaba34ada98a3eae75beec45df98e01d7053",
+        "init.trace.snapshots": "6d8a1bb281c1aca9796051646645d820dde51145cda7e7e5becadbab7fb4028b"
+      },
+      "worker_lease_status": "CLOSED"
+    },
+    "cold-2": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "cold-2",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 50,
+        "complete_atomic_transitions": 2,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 330,
+          "writer": {
+            "events": 330,
+            "written": 330,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 5,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "98fcd6fa5c37c7c384e52c8fb5d10201d5fd2dd97fed0cd22898047939366c6c"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "7da06cfb4fdcc5dad552c320620c38fe5f5d4df592041ece0589b00972454504",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "a0d30e64c44dd0ed5ca80a2e7b30abfbeec8711ef3a1ac3d6427d6c17641bc26"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "cf9dad22ad4750747c770d4a4ce9282d1de8d6d2142362dcebefd4d67ce892c6",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 50,
+          "PD_callbacks_recorded": 46,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "2296a82dab1cb59004d98917970e02fbf9ec5b416db483d7bb24382e72058037",
+            "init.trace.snapshots": "ed721efdc0a8afe506267e7f3276d41c815bf858517d4eb03d64dee026a07b52",
+            "init.trace.summary": "26445bddad4ef4424708c4afbcbba84c8540282d5a9e9da13c3d69144145de8a"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 0.374311413,
+        "wall_s": 2.3635286651551723,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.005239615033468757,
+        0.0009570336968416715,
+        0.040662679965906556
+      ],
+      "base_z_min_max_m": [
+        0.29929808003620106,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 5,
+      "max_inference_ms": 18.744718,
+      "inferences_with_recorded_PD_overlap": 2,
+      "max_running_PD_wall_gap_ms": 6.134761,
+      "files_sha256": {
+        "control.jsonl": "e38ef5cbc8f452545af0135edee9cb5a87db6b1af3481e94cbddaa554efd0b9c",
+        "trace_seal_request": "a709c887e6c44ed3671ca5356f7e10c9a309b811fcdac5bc550ef4334c676298",
+        "state.bin.journal": "a3ecc2ca6dcca7287f486c5d896982b0f86e5282233b07971e618f0b9a22c8b5",
+        "initialization.jsonl": "86d0be89e613723156559aa4ccd500f42952198f904e8ae0896c47d69b2c83c3",
+        "init.trace": "2296a82dab1cb59004d98917970e02fbf9ec5b416db483d7bb24382e72058037",
+        "sim.log": "4ad602f67bf33218f5166a793ab9d47f263440ff966f248d45903d15404c86bc",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "f62bddfc91e9c3ed5a1ae0fe11858a801951e0f48cab65bcd7e48bbf5f52fdad",
+        "pause_ack.json": "929876033220753a06f7d0195b63dd8f0275ade8495e8e3ec2223ac8a3db855e",
+        "RESULT.json": "1ac6f91a0d2506bca7766dfa614025593c5970149fc9db223a0b9d380f9edb4f",
+        "PROCESS_COMMANDS.private.json": "c50e5a9ca06c5b9fdefb0a46601e397870f046e4929f2c76aa73fa4d176de610",
+        "init.trace.summary": "26445bddad4ef4424708c4afbcbba84c8540282d5a9e9da13c3d69144145de8a",
+        "step_quota": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
+        "controller.log": "9658f6855b60893d680910134db4b10d329aae8d6a056db7372bc1682e887a0a",
+        "solver.log": "f2bc4e15722ace8ec94c170250969edee83ea2b7ca733a17c3af1edefc9b7d96",
+        "quota.binding": "12c7e81d7da8d5f1ab25a8569124ddee044c2b919add3d45fc3b9f37b4e8bea2",
+        "BEFORE_FIRST_INTEGRATION.json": "7ba72cec1b9ced8bcf69ed6057ccad56049f0dee7db8c9c2d0e91725e31ab249",
+        "STARTED.json": "fe5b6a22aeafdda670097fa91c9fe23b39a34eb52f2eb6fb4eb2d6f4054877a8",
+        "state.bin": "b558540d9cb648df480cc6f89187d22c4bb078713567fdb66a1e03b0f487a141",
+        "init.trace.snapshots": "ed721efdc0a8afe506267e7f3276d41c815bf858517d4eb03d64dee026a07b52"
+      },
+      "worker_lease_status": "CLOSED"
+    },
+    "hold-2s-1": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "hold-2s-1",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 1000,
+        "complete_atomic_transitions": 40,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 5702,
+          "writer": {
+            "events": 5702,
+            "written": 5702,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 93,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "004431d880bdca4be33815bc7c92e0e75128cea17fd25d3904a3d90911f471d2"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "edda342d0358b61aeddec0ca7bcb37193dc1227d6640beb723eb47a80a6c22b1",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "62a98d6b30fea062943debda70ffbe5a7e09e1f4a472b29b0c220ae1a935b76c"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "1105440acac2bb3940ffaf62c2ba9e78938e22028b3130661ede138630a4de3b",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 1000,
+          "PD_callbacks_recorded": 716,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "4cfef0205b1a8822abe07cadc64cb9bdf63174c17231cbf6b379891b31f5ad47",
+            "init.trace.snapshots": "e697b938e513cc52763b177e867267450316ea72492bec3c205d25975ee3e3a6",
+            "init.trace.summary": "016c40686a9c7029dd4c569315168485a58b41006780d6cd3d7cc2cb8ff0deff"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 0.872661468,
+        "wall_s": 6.500221060123295,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.04105450255503643,
+        0.006709895423840638,
+        0.05588657866754676
+      ],
+      "base_z_min_max_m": [
+        0.28407418133456086,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 93,
+      "max_inference_ms": 28.221128,
+      "inferences_with_recorded_PD_overlap": 5,
+      "max_running_PD_wall_gap_ms": 18.820046,
+      "files_sha256": {
+        "control.jsonl": "ab13568abc9944ff87d69dad26707b314e6b3c79c8b6d9e2ec4fb065cdfac435",
+        "trace_seal_request": "308b7471415557d7ae03e30b13f2410efa35902930a4ea16c90335565ca8290b",
+        "state.bin.journal": "122188a1664e4ceb626df2d1f9300a3a11cdcd93295987903d38a4f67b163541",
+        "initialization.jsonl": "4aa4803600efed3f90088060851ffd0be049a10c74e667c105167224fad70cc8",
+        "init.trace": "4cfef0205b1a8822abe07cadc64cb9bdf63174c17231cbf6b379891b31f5ad47",
+        "sim.log": "c8937bfc5de46b01748e0ea7b5dccaa11d1ae20f062120dd7df49952a812123b",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "02ef6db44bfe4aaf1949eb408ab3194a8529202cc485939d3e46facf261b27d0",
+        "pause_ack.json": "00adb738abb06c339585f82cff97eb90c2ac961338f0636a8c579c3ad7f986ae",
+        "RESULT.json": "2c4c2f7627d26d8b99f94a6baa37a2b935c0560c4bd1391f8c3d0d02c0101a43",
+        "PROCESS_COMMANDS.private.json": "5f52bc095edc511fb093a0f871b90b36d95c8fbc766e02e3abe2822d3636e283",
+        "init.trace.summary": "016c40686a9c7029dd4c569315168485a58b41006780d6cd3d7cc2cb8ff0deff",
+        "step_quota": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+        "controller.log": "2d1412406e7c4bf4f9858de1c810ee810caec96b36d7e127f5b1d639e3b64450",
+        "solver.log": "7747943ff558c6d0d9feea71e8216141de2b7152921fa4d82cd64d147280b05f",
+        "quota.binding": "ddfacee0f10b6e4771af584727dab76a031e9e28a9288b14a19ea8383c45d6f6",
+        "BEFORE_FIRST_INTEGRATION.json": "dfa54aa9642ebdeef778e3fa1b95c1f2515d959148490b195496a766c8390c70",
+        "STARTED.json": "41b4d9a899afbdbd91a57586d6f1975ac66f44f47965f50861ebd383eac51aa6",
+        "state.bin": "3fcb6301d1d9df78c980996ac15dacd70bff105bc77307261031a5bd9da028ae",
+        "init.trace.snapshots": "e697b938e513cc52763b177e867267450316ea72492bec3c205d25975ee3e3a6"
+      },
+      "worker_lease_status": "CLOSED"
+    },
+    "hold-2s-2": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "hold-2s-2",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 1000,
+        "complete_atomic_transitions": 40,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 5732,
+          "writer": {
+            "events": 5732,
+            "written": 5732,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 94,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "2450625f26069faac5419c9201d51cb673d5be755e7221564fc949f2171e8336"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "4fef44c4f5973da6321bfe770c9883a4a1693c0f74208a9ed2709194e738301c",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "8a9f4eb2578d460d091bda5be9848d5b96778a737c14e9e1d3efd950191bd422"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "d8db5bb3538985c5ba401b6e89f7b5720a837178611d5e8edc875b6a5d56a3d4",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 1000,
+          "PD_callbacks_recorded": 721,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "6aa02dcd717043075f84386465b28c76e865de87abd850d036c9b62e3de7a18b",
+            "init.trace.snapshots": "d8f8f778e714550649cbcaa6fd2e302d20e263d8256522d2cbb7e4c803eff337",
+            "init.trace.summary": "b0dd5653df00119c9dd3f9a5a457e2bc1494f53b3cf9935ac042c57546cb5136"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 0.892158083,
+        "wall_s": 6.556301089003682,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.03524389288396618,
+        0.0048730915703627435,
+        0.056182993056904884
+      ],
+      "base_z_min_max_m": [
+        0.28377776694520274,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 94,
+      "max_inference_ms": 23.877655,
+      "inferences_with_recorded_PD_overlap": 6,
+      "max_running_PD_wall_gap_ms": 16.779478,
+      "files_sha256": {
+        "control.jsonl": "94b0de20d64c164cbab07c9028f41ce92465538447952c6bfa1e49fc2b621acd",
+        "trace_seal_request": "308b7471415557d7ae03e30b13f2410efa35902930a4ea16c90335565ca8290b",
+        "state.bin.journal": "540d14e65a1c5adb7887373359293008edbb582ee4b79e8089883efb15f9308a",
+        "initialization.jsonl": "5afde80dd998437f05dcd2bccfe8546496c9fc81fbfd516840ed05b5a89fc7ed",
+        "init.trace": "6aa02dcd717043075f84386465b28c76e865de87abd850d036c9b62e3de7a18b",
+        "sim.log": "250f98bd0c003892b55b9a30594fbfc15f5f45b1eeb41713882490e587b1fac8",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "8df5ddcce9e530ffba68187ea5a91a4cd531527aed8d0ecd47cd68a039f4e89e",
+        "pause_ack.json": "b5c9dcc003ac4978ef563b1f6bbcfd0b2bb34987ce1b8212162a1b1dd2f54cf9",
+        "RESULT.json": "9b9d218cf4b2788db29bc06c673bfec500a40a7a8d06e6833023f0d2ce130f19",
+        "PROCESS_COMMANDS.private.json": "745241de496580389866682a0180c1200589ebfb58cfc83a88df3bd47095b41d",
+        "init.trace.summary": "b0dd5653df00119c9dd3f9a5a457e2bc1494f53b3cf9935ac042c57546cb5136",
+        "step_quota": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+        "controller.log": "5141a3b95c34da277737074bfde63e4eb6b4c349bee88eaaa1faa11927509379",
+        "solver.log": "72a1adf8e69af267102be6cc2a7803edb238e19354360e139408883f8f5b8558",
+        "quota.binding": "c1e8c5c59fbdb8f10a744e48798aa99b12a20b13627e19b82f11cd174c468c91",
+        "BEFORE_FIRST_INTEGRATION.json": "9fc13297273ff078af72d559b4cbf9d482b0d132c3164f925b70675853f53789",
+        "STARTED.json": "f3cee37d3ff3dc61e0c2745ca60fa5850660d465a229af6bc034b56413737f2c",
+        "state.bin": "a3ac3bd99271276cc8762dfdf7fed1909a2f99990e8cbaa66200d0ed546adb64",
+        "init.trace.snapshots": "d8f8f778e714550649cbcaa6fd2e302d20e263d8256522d2cbb7e4c803eff337"
+      },
+      "worker_lease_status": "CLOSED"
+    },
+    "hold-5s-1": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "hold-5s-1",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 2500,
+        "complete_atomic_transitions": 100,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 11961,
+          "writer": {
+            "events": 11961,
+            "written": 11961,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 236,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "62da2480db248467dd639590bdf225a237f2485762760f70754cd8af6cf87da3"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "61c69230e6f6ebb7b71793495834b3347a02dcb3b9c05e067d73af1c14d2b70a",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "e8b92ab9558f3edde1115573b90a10e9164ba8c21929c2e83715bab0b009f052"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "419b24d712e17a8a0ff5be9f9ffae3cb68b85f5c645356e1cbdcb366bfba106e",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 2500,
+          "PD_callbacks_recorded": 1209,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "b77687659b8f10c01c4e90aa5050a28dad6b394c3f60991e99cb020e7aad28af",
+            "init.trace.snapshots": "b973ad87789a463f575f3fd84f60a993c2292aedabdd7c020a1f47e388d37755",
+            "init.trace.summary": "2953638683b5e4972043fc075eb8205a57d762e5d43966a3ee5d8b783199f91d"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 1.412575425,
+        "wall_s": 9.660369326826185,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.042469591818083366,
+        0.006343985730064414,
+        0.054102693339414365
+      ],
+      "base_z_min_max_m": [
+        0.28585806666269326,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 236,
+      "max_inference_ms": 19.331981,
+      "inferences_with_recorded_PD_overlap": 11,
+      "max_running_PD_wall_gap_ms": 18.211716,
+      "files_sha256": {
+        "control.jsonl": "a1ab93ff34dfa214f3530254776b28b823d89c6334dc4b32a8a19f0f4ec38a0d",
+        "trace_seal_request": "7be3fa0e3bc4c2b3dc146cb2bd920f675dd0b37c4b85eb2fd208ddad8fb51560",
+        "state.bin.journal": "6abfb032a81e8fb82a4546270c62de7716e9403f7b39a2075d18fabd63f0309a",
+        "initialization.jsonl": "9bcc3983b1518b2dfc8c1ffbd8644b84b60f73e854a047600c90bb4dd5ea2d40",
+        "init.trace": "b77687659b8f10c01c4e90aa5050a28dad6b394c3f60991e99cb020e7aad28af",
+        "sim.log": "9a3adb8c11da7afc6be4c7c35cf9518ddaa63fc269421a40053f90004f02bb8a",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "9e380f5184da7275cad5157219433c47559e6fa3c1860e5a35f02bc6ab969771",
+        "pause_ack.json": "3d2e40b314835f5cb9348e932c383a7e5d77b2b171519fb675a44a4dce5f8c95",
+        "RESULT.json": "9b9a7068e7790dd18d53c4b00b23e0a7e8a09d99bd5be133f53bb9b5c108e739",
+        "PROCESS_COMMANDS.private.json": "370613c7b1d96fb974b530bbfc8742cc103f20941f02b234339baf1151484db1",
+        "init.trace.summary": "2953638683b5e4972043fc075eb8205a57d762e5d43966a3ee5d8b783199f91d",
+        "step_quota": "f739882f40e2be8022d26517e0b963ab2351687845ebe1cf320efd0d0d3e388a",
+        "controller.log": "fce6eecd038612afd730b47bbb022f1f78e4bfe3f68ca228e3e675f8d1592ff1",
+        "solver.log": "85ec3af8b12cb192df66f606c2c81ea4f2c346fff4b0b3b27e32b7c770455346",
+        "quota.binding": "7252f6554e9c75699c23324f59bf27388a94ed2d6b2b9b3495e51124a0b5053f",
+        "BEFORE_FIRST_INTEGRATION.json": "bb4b99cf16d4d50f5547dcff052e41af3b452a6bd33bafad373392751eb54d7e",
+        "STARTED.json": "e618c04f8047cabcb8e6edc2240bcdc82907c5645c65771b0ac1c48bd7eae40c",
+        "state.bin": "e91397145ec74ee48b440c1434a2dc8db61b9cd645ac15fd40b7445a212daec0",
+        "init.trace.snapshots": "b973ad87789a463f575f3fd84f60a993c2292aedabdd7c020a1f47e388d37755"
+      },
+      "worker_lease_status": "CLOSED"
+    },
+    "hold-5s-2": {
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "hold-5s-2",
+        "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 2500,
+        "complete_atomic_transitions": 100,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 10665,
+          "writer": {
+            "events": 10665,
+            "written": 10665,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 239,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "62da2480db248467dd639590bdf225a237f2485762760f70754cd8af6cf87da3"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "61c69230e6f6ebb7b71793495834b3347a02dcb3b9c05e067d73af1c14d2b70a",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "45a89dc44a0f54cfa0a8cdbca4685b860e885ef124ea450a4d1b3ae276a2854c"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "ca6f5552466c564da04b90af554e1380079d25d5f0b88793c1f83ee1809c26b7",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 2500,
+          "PD_callbacks_recorded": 878,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "0fa8369dd74120ec04a4c9e957ad03eed03ee78300bcb5ea45729dc191cf73b2",
+            "init.trace.snapshots": "10368fbbcf049c5efb5ae4afec8ea1a32cfa61f189a41c3a13f5beca57f9d3a1",
+            "init.trace.summary": "525567cdce35ec93e0a3451829a67d4a7d1e28a90f29271b80184d8871bdc5fc"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 1.250425648,
+        "wall_s": 7.45999317523092,
+        "operator_pause_then_shutdown_extra_integrations": 0
+      },
+      "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+      "library_pins": {
+        "native_binary": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "outer_library": "246f0ab1a46956621eee6ac79b9b824b248d1dcd06dc07d8c026f72e002e3ae0",
+        "observer_library": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea",
+        "model_path": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+      },
+      "base_xyz_span_m": [
+        0.040206284961176925,
+        0.005454688982436359,
+        0.05634516160956471
+      ],
+      "base_z_min_max_m": [
+        0.2836155983925429,
+        0.3399607600021076
+      ],
+      "all12_leg_channels_actuated": true,
+      "policy_inferences": 239,
+      "max_inference_ms": 19.705159,
+      "inferences_with_recorded_PD_overlap": 17,
+      "max_running_PD_wall_gap_ms": 12.96961,
+      "files_sha256": {
+        "control.jsonl": "11d85111d3c00e9cef1c2922d714676b4da0b106fda81de0a1561aebb40373a7",
+        "trace_seal_request": "7be3fa0e3bc4c2b3dc146cb2bd920f675dd0b37c4b85eb2fd208ddad8fb51560",
+        "state.bin.journal": "09180d0a0af24ac146a56dcbfbbfb0b01647c84bcd3d14fcd76d237546b0fd43",
+        "initialization.jsonl": "0ce63b1b6a36348eac2223d1c73624007c99ee2d76b9fc83b6ad237eac0adc1a",
+        "init.trace": "0fa8369dd74120ec04a4c9e957ad03eed03ee78300bcb5ea45729dc191cf73b2",
+        "sim.log": "d2da852bf5dc8397f3ffd7fa21768c7772b5f463b47c7e40a7c2b968a90645d5",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "eeadadd2cd64cc91a635901c7610c965db16b427b1ea7edadb6bbaa881ca9eea",
+        "pause_ack.json": "46ee7635aa8909592ec970f0e8c764e4f49fd3472f16919fbde1c9c3ebbb220d",
+        "RESULT.json": "cba6c3a73ac82c27978f9293d36c04ad683d102505163a2bed41ae3b476dc68a",
+        "PROCESS_COMMANDS.private.json": "b6582c5744a64d30a8e18017117d4d4d95b12776667545dd4e7332b9baf5c4a0",
+        "init.trace.summary": "525567cdce35ec93e0a3451829a67d4a7d1e28a90f29271b80184d8871bdc5fc",
+        "step_quota": "f739882f40e2be8022d26517e0b963ab2351687845ebe1cf320efd0d0d3e388a",
+        "controller.log": "6501cf79d74c747b9ec2d4bd4eb8a9ad9d28dd1923937dc2bec2e0c8a516a8ba",
+        "solver.log": "4a0a73b65b54a761cf326fd5a649a76cb48f5db7ca219f59b9a0ec1bc3f57ad4",
+        "quota.binding": "97c1d96ab9e322dc0bec6ea17e7837ee99aae289cbd1e1fbb68cbfa801d5a955",
+        "BEFORE_FIRST_INTEGRATION.json": "2a28a78b9dbe80ef8d2ca3b1e96e1267c922ad90a0570e489ae4f2d3ee64a13e",
+        "STARTED.json": "ac38d99d17ee30f43c2fbe0b80792bd51a50acbf44d82c5cbe57f2af6c100bce",
+        "state.bin": "9a220373b4cc71f73160d38961280aae3ce7f2dd7a098d6f77ee962bd66d8514",
+        "init.trace.snapshots": "10368fbbcf049c5efb5ae4afec8ea1a32cfa61f189a41c3a13f5beca57f9d3a1"
+      },
+      "worker_lease_status": "CLOSED"
+    }
+  },
+  "negative_attempts": [
+    {
+      "attempt": "AUTO1_C01_COLD1",
+      "source_sha": "8d68d6fbb8d443ec1cd655dae12d579a57b9e57a",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Parent ROS loader path missing",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "5a80a7e3583bb021daeabd268cb536593d8519ebe92b097ccef3f00b137e59f9"
+    },
+    {
+      "attempt": "AUTO1_C01_ENV02",
+      "source_sha": "a4733db224291ab7a3706226a59b32de0eca502e",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Private xvfb executable path missing",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "58e556c16e762f2c61648ecaa96277dfb391d49708d83f75500791ddaed5893c"
+    },
+    {
+      "attempt": "AUTO1_C01_ENV03",
+      "source_sha": "c7b416289489283d7f44a31ea6de01b99fd7d7e7",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Preload reached display helpers; trace O_EXCL collision before native main. Canonical derived-cache isolation omission also preserved.",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "ada098f29578d2a958a356883cef288008eedd2281f7bcea57d1891b9d30f05b"
+    },
+    {
+      "attempt": "AUTO1_C01_ENV04",
+      "source_sha": "487d3ee849f9cc6756082ee17cb70b773f9659ce",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 50,
+      "reason": "Exact50-tick pause but writer final summary missing on abnormal shutdown",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "74880eb72067c1b47970d82e0f05894f37cc56dff7ab8dc645860449f0cebd96"
+    },
+    {
+      "attempt": "AUTO1_C02_COLD1",
+      "source_sha": "b99947d21a5fa64c3b1ae5f515d595709c0f9b18",
+      "worker_exit_code": 0,
+      "actual_target_integrations": 50,
+      "reason": "Trace complete; group shutdown kills display. Original PASS omitted process exits; effective status is failure.",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_PASSED",
+      "private_receipt_sha256": "3927bc1eaf6ddb149f852ecba9bdd0bb11e7230e45cedaf1061507456177560d"
+    },
+    {
+      "attempt": "AUTO1_C02_COLD2",
+      "source_sha": "5b89df8e64f545ec116e1cae34eede0fd061b4ea",
+      "worker_exit_code": 0,
+      "actual_target_integrations": 50,
+      "reason": "Native exit139. Original PASS omitted process exits; phase gate now rejects it.",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_PASSED",
+      "private_receipt_sha256": "e84b97a6bc1d610f5eb4c41f029c58d46d10b5c11ea29952276882a008cd6ac2"
+    },
+    {
+      "attempt": "AUTO1_C02_SHUTDOWN_DIAG01",
+      "source_sha": "787c1f280de101f0c22a9110b57507adae3f6f3a",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Zero-tick gdb: SIGSEGV in GetState/RobotControl after physics-thread exit",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "39b1b10f55f5df2459a53d2512c7634bd9d3c79205c19cab1c27d26fdc6737f1"
+    },
+    {
+      "attempt": "AUTO1_C03_BUILD01",
+      "source_sha": "01e41e8599f9edd2af51cc7e811720a1140b0a28",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Worker used OwnerLock as unsupported context manager; no compiler/native/physics start",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": null,
+      "private_receipt_sha256": "54b77cb99b616e7d3131a52843f76d4910582b0455fa1e155c65ed1ac4f659e1"
+    },
+    {
+      "attempt": "AUTO1_C03_COLD1",
+      "source_sha": "01e41e8599f9edd2af51cc7e811720a1140b0a28",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 50,
+      "reason": "Reader lifetime fixed; ROS teardown still exits139",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "45f2e2ad91e93600bfb4b9b0385e4e3a32d5525b1669a8320608434833433bf0"
+    },
+    {
+      "attempt": "AUTO1_C03_SHUTDOWN_DIAG01",
+      "source_sha": "01e41e8599f9edd2af51cc7e811720a1140b0a28",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Debugger creates different child process group; failed lookup causes display shutdown. Confounded diagnostic retained.",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "9bfc5b0a5a60a6dea524b00bbdde8cd33afcc4a1703782278ff0bf89bceca8e0"
+    },
+    {
+      "attempt": "AUTO1_C03_SHUTDOWN_DIAG02",
+      "source_sha": "b24bb2fc643886f038d57d5c00c1af9856dd8110",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 0,
+      "reason": "Corrected zero-tick debugger: FastDDS DataReaderHistory SIGSEGV. Debugger exit0 is not inferior PASS.",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "8e28f1dab1404b34e663ad9ab8a4b1e40a669f498b0ccce989bdd279829a247e"
+    },
+    {
+      "attempt": "AUTO1_C04_COLD1",
+      "source_sha": "2fff57c2da53651f44c80cfbb330851e42555003",
+      "worker_exit_code": 1,
+      "actual_target_integrations": 50,
+      "reason": "Four loops end and RL_Sim destructor reaches end; ROS publisher/participant teardown still exits139",
+      "effective_status": "FAILED_OR_DIAGNOSTIC_ONLY_PRESERVED",
+      "original_reported_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "private_receipt_sha256": "0cdab6b669b17ffefce29318042d3a4cc525421d2067b9c23334969a07fe0dda"
+    }
+  ],
+  "counts": {
+    "G1_candidate5_integrations": 7100,
+    "G1_candidate5_complete_50ms_intervals": 284,
+    "earlier_failed_native_integrations": 250,
+    "all_new_target_integrations": 7350,
+    "all_new_complete_50ms_intervals": 294,
+    "admitted_target_WM_training_transitions": 0,
+    "new_S_transitions": 0,
+    "new_WM_main_updates": 0,
+    "new_WM_probe_updates": 0,
+    "new_Actor_updates": 0,
+    "new_complete_tasks": 0
+  },
+  "old_closed_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "owned_live_candidate_pids_at_export": 0,
+  "scope_lease_status_at_export": "ACTIVE",
+  "scope_is_live_daemon": false
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "WM02_AUTO1_G2_IMPORT_V1",
+  "source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+  "initial_attempt_exit_code": 1,
+  "initial_failure": "ModuleNotFoundError: go2_x5_planning",
+  "repair": "Bind existing src/planning/go2_x5_planning and immutable source/native/ROS paths per process; no install/system change",
+  "corrected_exit_code": 0,
+  "corrected_result": {
+    "status": "REFERENCE_IMPORT_OK_NO_NODES_OR_PHYSICS",
+    "trajectory_module": "go2_x5_planning.ee_trajectory",
+    "receiver_module": "go2_x5_planning.ee_trajectory_node",
+    "MpcObservation_fields": {
+      "time": "double",
+      "state": "ocs2_msgs/MpcState",
+      "input": "ocs2_msgs/MpcInput",
+      "mode": "int8"
+    }
+  },
+  "frozen_planner_module_sha256": {
+    "setup.py": "44a104f6ff943fbb72326e1de22164c54e8b95554842fa61d25e8c4d824e89c0",
+    "test/test_ee_trajectory.py": "5ceab519cb2206ba787ddc52d5d98cd78a070ac262ac384948d5ef1b257d0ce1",
+    "launch/ee_reference.launch.py": "3d8e83f7d8d7693fe4c84fd60771885a22798b9f9e9da912bd2819aacab375f2",
+    "go2_x5_planning/convert_go2_x5_trajectory.py": "6659342c70cbe99a5cfa4bf2ac4775a7e1b0a467caf648ec91c3e3bf9efd2ec3",
+    "go2_x5_planning/trajectory_library.py": "b35959b0ec454f74cc0999da872acb59996cef34e479081bc14d70b373bb9bf6",
+    "go2_x5_planning/trajectory_node.py": "e421ee810975d84d1e4a4832ec461521a3afd732f1c5246dd4dc32e953b7059b",
+    "go2_x5_planning/ee_trajectory.py": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "go2_x5_planning/trajectory_gui.py": "dbd959d2e5ce4e5dd1be7888324aaaca7b8826c5f58f98b099903b41dcc639fb",
+    "go2_x5_planning/reference_manager.py": "6bb6d1b0d752f3ece24ad6fb4cb291e414640a721937e63e87dda7712750f412",
+    "go2_x5_planning/ee_trajectory_node.py": "29a905d66a221c0efa504f0b6ccaef94ebe6290a9fbbb5b767667beb0f5199e5",
+    "go2_x5_planning/ee_path_viz_node.py": "24417334d2a15ce94fb3e89c032337e88c43916183a688d8af1b8c00ab50a7a7",
+    "go2_x5_planning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "new_physics": 0,
+  "ROS_nodes_constructed": 0,
+  "reference_or_control_consumption_qualification": "NOT_ESTABLISHED"
+}

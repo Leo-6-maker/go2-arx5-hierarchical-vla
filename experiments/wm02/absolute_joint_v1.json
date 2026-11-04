@@ -1,0 +1,59 @@
+{
+  "schema": "WM02_AUTONOMOUS_M4_A_V1",
+  "charter_sha": "a5619af01a8e508f170ecaec4aa994936098a985",
+  "baseline_SHA": "76bb8115c3b588b70fd55bdde13f10926c60bce7",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "hypothesis": "M3 difference-only extra loss leaves common position bias unconstrained and no H16 event labels in extra free rollout; absolute grounding plus same-horizon event labels reduces both. This is one replacement extra-objective mechanism, not separate component causal ablations.",
+  "B0_evidence": {
+    "source_sha": "983804b99c4e458134e4ce963a7a8476faa359c2",
+    "M3_preclose_effect_absolute_gradient_cosine": -0.363875,
+    "M3_preclose_effect_event16_gradient_cosine": -0.072687,
+    "M3_release_absolute_gradient_L2": 155.6089,
+    "M3_release_base_event8_gradient_L2": 0.015286,
+    "current_event_FIT_unique_features": 72,
+    "current_event_exact_feature_conflicts": 0,
+    "current_grasp_DEV_Brier": 1.55547e-10
+  },
+  "candidate": "M4_A",
+  "from_scratch": true,
+  "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+  "architecture": "Same18905387 parameter relative_tcp_v1 M1/M3 network; no new input/contact label/Teacher phase",
+  "endpoint": 200,
+  "strict_probe_updates": 1,
+  "seed": 20261104,
+  "effective_batch": 256,
+  "microbatch": 32,
+  "base_exposures": 51200,
+  "base_loss": "Unchanged old8-step normalized continuous+.1 events+.1 terminal",
+  "extra_objective": "Replace M3 pair effect term by mean at H1/H4/H8/H16 of absolute TCP+object position squared/sigma_k^2 + .1 full50D normalized state MSE + event BCE with logits, equal horizon weights. No pair loss.",
+  "sigma_m": [
+    0.0005,
+    0.0010779050035574036,
+    0.002158724942759613,
+    0.0021645734863116133
+  ],
+  "extra_position_coefficient": 1.0,
+  "extra_full_state_coefficient": 0.1,
+  "extra_event_coefficient": 1.0,
+  "extra_exposure": "All sampled first-block trajectories, same720 base training windows; explicit sequence count logged, cooccurring pairs recorded but not used in loss",
+  "causal_second_block": "ZeroEEF hold at model-predicted H8 TCP; never actual future reference",
+  "changed_factor": "Extra objective family only; data/normalizer/seed/init/architecture/base exposure/optimizer/endpoints unchanged",
+  "gates": {
+    "per_parent_action_difference_tolerance_m": {
+      "H1": 0.0005,
+      "H8": 0.001,
+      "H16": 0.0015
+    },
+    "require_positive_direction": true,
+    "H1_absolute_object_RMSE_m_no_worse_than_M1": 0.001151,
+    "H16_absolute_object_RMSE_m_no_worse_than_M1": 0.001958,
+    "preclose_H16_grasp_Brier_no_worse_than_M1": 0.0734,
+    "supported_release_H16_grasp_Brier_no_worse_than_M1": 0.0548,
+    "report_absolute_TCP_and_object_to_TCP": true,
+    "canonical_singleton_permutation_invariance": true,
+    "independent_new_blind_test_not_reuse_original_holdout": true
+  },
+  "extensions": "None unless later predeclared charter gate; no automatic extension or DEV retuning",
+  "Actor_updates": 0,
+  "new_physics": 0
+}

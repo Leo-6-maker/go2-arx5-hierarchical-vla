@@ -1,0 +1,23 @@
+{
+  "schema":"WM02_AUTO1_TARGET_PIPELINE_V1",
+  "native_candidate":5,
+  "reference_binding":"MEASURED_EEF_AND_BASE_POSE_HOLD_V2",
+  "task_seconds_per_attempt":1.2,
+  "native_task_ticks":600,
+  "atomic_transitions_per_complete_attempt":24,
+  "batch_A_attempts":8,
+  "batch_A_complete_transition_upper_bound":192,
+  "batch_B_attempts":4,
+  "batch_B_complete_transition_upper_bound":96,
+  "batch_A_offsets_world_m":[[0,0,0],[0,0,0],[0.001,0,0],[-0.001,0,0],[0,0.001,0],[0,-0.001,0],[0,0,0],[0,0,0]],
+  "batch_B_offsets_world_m":[[0,0,0],[0,0,0],[0.001,0,0],[-0.001,0,0]],
+  "parent":"SAME_ORIGINAL_TASK_SCENE_RESET; stochastic runtime variation is not an independent scene parent",
+  "split":"ALL_TRAIN_ENGINEERING_ONLY_NO_HELD_OUT_GENERALIZATION",
+  "first_model_updates":200,
+  "first_restore_probe_updates":1,
+  "second_model_updates":100,
+  "second_restore_probe_updates":1,
+  "Actor_updates":0,
+  "qualification":"FREE_SPACE_ONLY_AFTER_ACTUAL_G2_EEF_X_Y_PASS; CONTACT_NOT_QUALIFIED",
+  "stop":"Any original safety failure stops this run and successor admission; retain every attempt"
+}

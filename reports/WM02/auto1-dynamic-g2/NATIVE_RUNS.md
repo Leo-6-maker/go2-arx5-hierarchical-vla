@@ -1,0 +1,36 @@
+| Run | Ticks | Status | Source SHA |
+|---|---:|---|---|
+| collect-target-a-01 | 3103 | NATIVE_STAGE_PASSED | `e93ddbbd667652121a801f4230b97f800f03c7c7` |
+| collect-target-a-02 | 3103 | NATIVE_STAGE_PASSED | `e93ddbbd667652121a801f4230b97f800f03c7c7` |
+| collect-target-a-03 | 3103 | NATIVE_STAGE_PASSED | `16124cddf67dd0bb779711b66d92b21d2fad2d36` |
+| collect-target-a-04 | 3103 | NATIVE_STAGE_PASSED | `16124cddf67dd0bb779711b66d92b21d2fad2d36` |
+| collect-target-a-05 | 3103 | NATIVE_STAGE_PASSED | `49777cc1f24c044b5db87fd6885673ce265d9ff1` |
+| collect-target-a-06 | 3103 | NATIVE_STAGE_PASSED | `49777cc1f24c044b5db87fd6885673ce265d9ff1` |
+| collect-target-a-07 | 3103 | NATIVE_STAGE_PASSED | `49777cc1f24c044b5db87fd6885673ce265d9ff1` |
+| collect-target-a-08 | 3103 | NATIVE_STAGE_PASSED | `49777cc1f24c044b5db87fd6885673ce265d9ff1` |
+| collect-target-b-01 | 3103 | NATIVE_STAGE_PASSED | `a852e37c998ac511b55f76cb963617856b4c4944` |
+| collect-target-b-02 | 3103 | NATIVE_STAGE_PASSED | `a852e37c998ac511b55f76cb963617856b4c4944` |
+| collect-target-b-03 | 3103 | NATIVE_STAGE_PASSED | `e494a1bcc8532205998eec45fb2ba4c58c5a84c1` |
+| collect-target-b-04 | 3103 | NATIVE_STAGE_PASSED | `c034892ff2da4437b40939485c62396eba4a863f` |
+| g2-c05-hold-renew-01 | 2678 | NATIVE_STAGE_FAILED_PRESERVED | `67c3ae501af841b21993f65ad84d504c00b82d5d` |
+| g2-c05-hold-renew-02 | 2853 | NATIVE_STAGE_FAILED_PRESERVED | `37185b7b1ddfb3e44ad9e55ba2b2a39f06ea2318` |
+| g2-c05-hold-short-01 | 2528 | NATIVE_STAGE_PASSED | `dbd18b9fe766581b39851a870ad5073b8360d8dc` |
+| g2-c05-standing-eef-x-v2-01 | 2678 | NATIVE_STAGE_FAILED_PRESERVED | `a7775b20fcda40dd5d5ab02baa33db34f4b8db8a` |
+| g2-c05-standing-eef-x-v2-02 | 2703 | NATIVE_STAGE_PASSED | `08990616493b6567cfbb366b40ddc06728a0996e` |
+| g2-c05-standing-eef-y-v2-01 | 2703 | NATIVE_STAGE_PASSED | `08990616493b6567cfbb366b40ddc06728a0996e` |
+| g2-c05-standing-renew-v2-01 | 2903 | NATIVE_STAGE_PASSED | `3633fa82e80722f1dd26b6af343dfd037fad92dd` |
+| g2-c05-standing-short-v2-01 | 2503 | NATIVE_STAGE_FAILED_PRESERVED | `203eecc8b7adead66b759e18f1607d6c9a04a710` |
+| g2-c05-standing-short-v2-02 | 2528 | NATIVE_STAGE_FAILED_PRESERVED | `7b6135a89e827b6b49ed4fd27077527ffa570c0e` |
+| g2-c05-standing-short-v2-03 | 2528 | NATIVE_STAGE_PASSED | `3633fa82e80722f1dd26b6af343dfd037fad92dd` |
+| g2-c05-standing-ttl-v2-01 | 0 | PermissionError | `c034892ff2da4437b40939485c62396eba4a863f` |
+| g2-c05-standing-ttl-v2-02 | 2700 | NATIVE_STAGE_FAILED_PRESERVED | `05ec449b55054172f3b7e880dd0ec97b3a25df76` |
+| g2-c05-standing-ttl-v2-03 | 2706 | NATIVE_STAGE_PASSED | `8b0f7feb63874f8adaac4a857cc07b933e84a8c9` |
+| parallel-cold-01 | 0 | TypeError | `556bd3e4e9dced81e524e9d22d9c4fad9ba7cb54` |
+| parallel-cold-02 | 0 | FileExistsError | `13efb5fc060f75203944716b01228f877e9ebcc9` |
+| parallel-cold-02-slot-0 | 50 | NATIVE_STAGE_PASSED | `13efb5fc060f75203944716b01228f877e9ebcc9` |
+| parallel-cold-02-slot-1 | 50 | NATIVE_STAGE_PASSED | `13efb5fc060f75203944716b01228f877e9ebcc9` |
+| parallel-collect-01-slot-0 | 3103 | NATIVE_STAGE_PASSED | `0199ea2a5afbf88f2d6d8e5daa064bda8731ec60` |
+| parallel-collect-01-slot-1 | 3103 | NATIVE_STAGE_PASSED | `0199ea2a5afbf88f2d6d8e5daa064bda8731ec60` |
+| parallel-hold-01-slot-0 | 2528 | NATIVE_STAGE_PASSED | `fa2e89d9f962620c31bc41dec23cf0fa31f49944` |
+| parallel-hold-01-slot-1 | 2528 | NATIVE_STAGE_PASSED | `fa2e89d9f962620c31bc41dec23cf0fa31f49944` |
+| target-wm-second-01 | 0 | subprocess.CalledProcessError | `c034892ff2da4437b40939485c62396eba4a863f` |

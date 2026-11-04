@@ -50,7 +50,18 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
-    if gpu and spec.get('execution_site') == 'CORE_SHARED_GPU1':
+    if gpu and spec.get('execution_site')=='CORE_AUTO1_TARGET_NEURAL':
+        import subprocess
+        from .target_neural import validate_campaign,validate_device
+        from scripts.pi0294.e1.smoke import node_local
+        validate_campaign(spec)
+        for key in('source_root','registered_root','python','data','cache','logs','tmp','replay'):node_local(spec[key])
+        reply=subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],'--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
+        uuid,free=[v.strip()for v in reply.stdout.strip().split(',')]
+        validate_device(spec,dict(uuid=uuid,free_bytes=int(free)*1024**2))
+        if os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']:raise PermissionError('TARGET_SINGLE_EXPLICIT_GPU_REQUIRED')
+        gpu_baseline=reply.stdout
+    elif gpu and spec.get('execution_site') == 'CORE_SHARED_GPU1':
         import subprocess
         from scripts.pi0294.e1.smoke import node_local
         for name in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
@@ -71,7 +82,9 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         expected_profile='wm02-gpu0-real-s'if gpu0 else'wm02-gpu1-real-s'
         response=spec.get('authorization_scope')=='USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104'
         temporal=spec.get('authorization_scope')=='USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104'
-        if gpu0 and(spec.get('data_domain')!='WM02_DECISION_PAIRED_REPLAY_V5'or spec.get('authorization_scope')not in('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104')):
+        autonomous=spec.get('authorization_scope')=='USER_WM02_AUTONOMOUS_MECHANISM_MODEL_ONLY_20261104'
+        if autonomous and(not gpu0 or spec.get('mechanism_candidate')not in('M4_A','M4_B','M4_C')or spec.get('endpoint')!=200):raise PermissionError('Finite delegated GPU0 fixed200 mechanism candidate required')
+        if gpu0 and(spec.get('data_domain')!='WM02_DECISION_PAIRED_REPLAY_V5'or spec.get('authorization_scope')not in('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104','USER_WM02_AUTONOMOUS_MECHANISM_MODEL_ONLY_20261104')):
             raise PermissionError('New separately authorized GPU0 V5 model-only identity required')
         if (spec.get('schema')!='WM02_REAL_S_NEURAL_SPEC_V1'
                 or spec.get('host')!='corelab-4080s'or spec.get('uid')!=2009
@@ -82,12 +95,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                     ('USER_WM02_CONTACT_IDENTIFICATION_MODEL_ONLY_20261104','WM02_S_CONTACT_PAIRED_REPLAY_V1'),
                     ('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'),
                     ('USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'),
-                    ('USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'))
+                    ('USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'),
+                    ('USER_WM02_AUTONOMOUS_MECHANISM_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'))
                 or not 2<=spec.get('endpoint',0)<=200
                 or not 0<spec.get('allocator_limit_bytes',0)<=4*1024**3
                 or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']):
             raise PermissionError('Exact finite real S model-only GPU1 identity required')
-        expected_arms=['M3']if temporal else['M1','M2']if response else['action_conditioned','no_future_action']
+        expected_arms=[spec['mechanism_candidate']]if autonomous else['M3']if temporal else['M1','M2']if response else['action_conditioned','no_future_action']
         if spec.get('data_domain')in('WM02_S_CONTACT_PAIRED_REPLAY_V1','WM02_DECISION_PAIRED_REPLAY_V5')and spec.get('arms')!=expected_arms:
             raise PermissionError('Exact matched two-arm finite contact diagnostic required')
         for name in ('source_root','registered_root','python','data','cache','logs','tmp','replay','eval_replay'):
@@ -168,13 +182,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     lock = OwnerLock(root/'OWNER.lock')
     neural_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL') else None))
         yield spec
     finally:
         if neural_owner is not None:

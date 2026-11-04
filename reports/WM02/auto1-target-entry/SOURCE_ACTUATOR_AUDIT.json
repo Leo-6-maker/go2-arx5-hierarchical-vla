@@ -1,0 +1,33 @@
+{
+  "schema": "WM02_SOURCE_ACTUATOR_MEMORY_AUDIT_V1",
+  "scope": "POSTHOC already-opened DEV command-history audit; reconstructs only internal references, not physical finger/contact motion. Unknown-reset interval uses commands only, so it does not prove full state/history non-observability.",
+  "original_collection_source_sha": "e48c674e7bbc07e46a106880f122163df27c4426",
+  "controller_source_sha256": {
+    "scripts/pi0291_arx5_data/engine.py": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+    "scripts/pi0291_arx5_data/config.py": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c"
+  },
+  "replay_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "stream_manifest_sha256": "d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01",
+  "numeric_action_clock": {
+    "FIT_DEV_windows": 480,
+    "old_holdout_windows_scored": 0,
+    "H40_gripper_max_abs": 0.0,
+    "absolute_clock_max_abs": 7.827072323607354e-15,
+    "consumed_row_clock_max_abs_s": 0.0
+  },
+  "parents": 8,
+  "branch_candidates": 40,
+  "existing_prefix_rows": 1472,
+  "existing_branch_rows": 640,
+  "controller_target_max_abs_error_m": 0.0,
+  "new_physics": 0,
+  "new_inference": 0,
+  "new_optimizer_updates": 0,
+  "closed_form_fits": 0,
+  "CPU_s": 1.662671699,
+  "wall_s": 1.6629193729895633,
+  "actual_run_source_sha": "aa2a03fe1b632fc0803a65523811cc2e1d155f22",
+  "consumed_saved_stream_files": 50,
+  "private_full_audit_sha256": "7787f2606cbb994107709fef4adfd95ccf41c48b6141a958c6f3282617b52dbf",
+  "physical_opening_model_fit": "NOT_YET_RUN; observer reconstructs internal reference only"
+}

@@ -1,0 +1,4764 @@
+{
+  "studies": [
+    {
+      "status": "PROSPECTIVE_B2_TERMINAL",
+      "source_sha": "e48c674e7bbc07e46a106880f122163df27c4426",
+      "preregistration_sha256": "0ca4c000aef66df8ba9cf43609f82d64f409c7e91e477fddbd83dbbcfd65fc31",
+      "FIT_data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+      "intended_parents": 8,
+      "intended_anchors": 24,
+      "intended_method_episodes": 96,
+      "intended_candidate_branches": 120,
+      "actual_transitions": 5696,
+      "live_physics_ticks": 142400,
+      "shadow_ticks": 142400,
+      "CPU_s": 428.400953691,
+      "wall_s": 111.16462532797595,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "target_integrations": 0,
+      "full_tasks": 0,
+      "formal_reward": false,
+      "old_holdout_reused": false,
+      "run_id": "wm02-prospective-b2-new8-20261104-01",
+      "run_exit_code": 0,
+      "lease_final": "CLOSED",
+      "model": {
+        "sha256": "cba5a6b162c9e162614855dfe9983dbaad10a2f630f5e3c4be6eb07e14a5d674",
+        "parent_checkpoint_sha256": "9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b"
+      },
+      "scenes": [
+        {
+          "scene": 40,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "525288dcf4c4c85561f42fd20e052d739b734f64b4c0a3631efd306f11d320f2",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "525288dcf4c4c85561f42fd20e052d739b734f64b4c0a3631efd306f11d320f2",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "525288dcf4c4c85561f42fd20e052d739b734f64b4c0a3631efd306f11d320f2",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "525288dcf4c4c85561f42fd20e052d739b734f64b4c0a3631efd306f11d320f2",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "525288dcf4c4c85561f42fd20e052d739b734f64b4c0a3631efd306f11d320f2",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003562383187573227,
+                  "object_position_RMSE_m": 0.00013888015413224817,
+                  "grasp_Brier": 7.679152622586116e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004277387183111184,
+                  "object_position_RMSE_m": 0.0008980378235216278,
+                  "grasp_Brier": 0.3131066858768463
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005270447498449988,
+                  "object_position_RMSE_m": 0.0010988042512508113,
+                  "grasp_Brier": 0.1781603991985321
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "edfff76042853bef2e9bf6e736a0589328750d5b70904a765557170bf06f4e14",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6394122277148295,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "edfff76042853bef2e9bf6e736a0589328750d5b70904a765557170bf06f4e14",
+                  "fallback": false,
+                  "oracle_Q": -0.6394122277148295,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6394122277148295,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "edfff76042853bef2e9bf6e736a0589328750d5b70904a765557170bf06f4e14",
+                  "fallback": false,
+                  "oracle_Q": -0.6394122277148295,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6394122277148295,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "edfff76042853bef2e9bf6e736a0589328750d5b70904a765557170bf06f4e14",
+                  "fallback": false,
+                  "oracle_Q": -0.6394122277148295,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6394122277148295,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "edfff76042853bef2e9bf6e736a0589328750d5b70904a765557170bf06f4e14",
+                  "fallback": true,
+                  "oracle_Q": -0.6394122277148295,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6790986204744671,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6798313446629436,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6394122277148295,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6790033765711743,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.7185591026267883,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.6394122277148295,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00020420221755963362,
+                  "object_position_RMSE_m": 0.0001354912961698128,
+                  "grasp_Brier": 0.00018742163956630975
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.000398539421774758,
+                  "object_position_RMSE_m": 0.0007526907054080945,
+                  "grasp_Brier": 0.0003963227500207722
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006451078933192258,
+                  "object_position_RMSE_m": 0.000999578620789507,
+                  "grasp_Brier": 0.0003454724501352757
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+                  "fallback": false,
+                  "oracle_Q": 0.7222314705824504,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+                  "fallback": false,
+                  "oracle_Q": 0.7222314705824504,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+                  "fallback": true,
+                  "oracle_Q": 0.7222314705824504,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+                  "fallback": true,
+                  "oracle_Q": 0.7222314705824504,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222314705824504,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769068095071354,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5863151624871124,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222314705824504,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00021093473057152702,
+                  "object_position_RMSE_m": 0.00010419569748505295,
+                  "grasp_Brier": 0.0008040572283789515
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004908511629474013,
+                  "object_position_RMSE_m": 0.0005347649626528881,
+                  "grasp_Brier": 0.0005570040666498244
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.000691252664141196,
+                  "object_position_RMSE_m": 0.0010137403533089613,
+                  "grasp_Brier": 0.00016685461741872132
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 41,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "a717bb0e23c3631548c7fbf0af602be7b57c2ede3de27f610172978640cf6c37",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "a717bb0e23c3631548c7fbf0af602be7b57c2ede3de27f610172978640cf6c37",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "a717bb0e23c3631548c7fbf0af602be7b57c2ede3de27f610172978640cf6c37",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "a717bb0e23c3631548c7fbf0af602be7b57c2ede3de27f610172978640cf6c37",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "a717bb0e23c3631548c7fbf0af602be7b57c2ede3de27f610172978640cf6c37",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00036567794641018564,
+                  "object_position_RMSE_m": 0.00013666821988259436,
+                  "grasp_Brier": 7.222668500617146e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003937203271244345,
+                  "object_position_RMSE_m": 0.000890130887375686,
+                  "grasp_Brier": 0.3022388815879822
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006230269079010218,
+                  "object_position_RMSE_m": 0.001203849016203453,
+                  "grasp_Brier": 0.0022649471648037434
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "4192b69451fe7c53f5f2e04bfe8843d680167af7437266b91c1bb5a149b4e708",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.60573897113397,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "4192b69451fe7c53f5f2e04bfe8843d680167af7437266b91c1bb5a149b4e708",
+                  "fallback": false,
+                  "oracle_Q": -0.60573897113397,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.60573897113397,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "4192b69451fe7c53f5f2e04bfe8843d680167af7437266b91c1bb5a149b4e708",
+                  "fallback": false,
+                  "oracle_Q": -0.60573897113397,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.60573897113397,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "4192b69451fe7c53f5f2e04bfe8843d680167af7437266b91c1bb5a149b4e708",
+                  "fallback": false,
+                  "oracle_Q": -0.60573897113397,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.60573897113397,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "4192b69451fe7c53f5f2e04bfe8843d680167af7437266b91c1bb5a149b4e708",
+                  "fallback": true,
+                  "oracle_Q": -0.60573897113397,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6451958339816515,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.645546775065255,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.60573897113397,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6458840411548072,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6846403793514741,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.60573897113397,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00016813515165469754,
+                  "object_position_RMSE_m": 9.905304485899591e-05,
+                  "grasp_Brier": 0.0001752213283907622
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004045781916936477,
+                  "object_position_RMSE_m": 0.000880990446188745,
+                  "grasp_Brier": 0.0003247376880608499
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005606991268126491,
+                  "object_position_RMSE_m": 0.0013361551948076617,
+                  "grasp_Brier": 0.00029563275165855885
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769082905275979,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "delay2",
+                  "selection_sha256": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+                  "fallback": false,
+                  "oracle_Q": 0.7222308054118314,
+                  "regret_Q": 0.045322514884233445,
+                  "improvement_vs_rule_Q": -0.045322514884233445
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222308054118314,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+                  "fallback": false,
+                  "oracle_Q": 0.7222308054118314,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222308054118314,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+                  "fallback": true,
+                  "oracle_Q": 0.7222308054118314,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222308054118314,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+                  "fallback": true,
+                  "oracle_Q": 0.7222308054118314,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222308054118314,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222308054118314,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5863200978207403,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769082905275979,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222308054118314,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00016690455425273713,
+                  "object_position_RMSE_m": 0.0001277097629778111,
+                  "grasp_Brier": 0.0007690779748372734
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004749993650299575,
+                  "object_position_RMSE_m": 0.0005897619199476411,
+                  "grasp_Brier": 0.0004964134423062205
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006578869197401099,
+                  "object_position_RMSE_m": 0.0011174548347052768,
+                  "grasp_Brier": 0.00012414585216902196
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 42,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "ffb00931f659f7384627be9b025d4ed87f86708198501113b630e577fe5acead",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "ffb00931f659f7384627be9b025d4ed87f86708198501113b630e577fe5acead",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "ffb00931f659f7384627be9b025d4ed87f86708198501113b630e577fe5acead",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "ffb00931f659f7384627be9b025d4ed87f86708198501113b630e577fe5acead",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "ffb00931f659f7384627be9b025d4ed87f86708198501113b630e577fe5acead",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003759252114735823,
+                  "object_position_RMSE_m": 0.00013805871250946417,
+                  "grasp_Brier": 6.759379903087392e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00039516910549483955,
+                  "object_position_RMSE_m": 0.0008863341595003625,
+                  "grasp_Brier": 0.2836979031562805
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005803102730688446,
+                  "object_position_RMSE_m": 0.0011387593262429027,
+                  "grasp_Brier": 0.0027458518743515015
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "2062d5f66ae9506850cb3ebb1449bbb384b5ce8edb3d6268925dc483a707f1da",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5897807939086972,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "2062d5f66ae9506850cb3ebb1449bbb384b5ce8edb3d6268925dc483a707f1da",
+                  "fallback": false,
+                  "oracle_Q": -0.5897807939086972,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5897807939086972,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "2062d5f66ae9506850cb3ebb1449bbb384b5ce8edb3d6268925dc483a707f1da",
+                  "fallback": false,
+                  "oracle_Q": -0.5897807939086972,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5897807939086972,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "2062d5f66ae9506850cb3ebb1449bbb384b5ce8edb3d6268925dc483a707f1da",
+                  "fallback": false,
+                  "oracle_Q": -0.5897807939086972,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5897807939086972,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "2062d5f66ae9506850cb3ebb1449bbb384b5ce8edb3d6268925dc483a707f1da",
+                  "fallback": true,
+                  "oracle_Q": -0.5897807939086972,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6689821966962315,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6294703748429595,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6302717345111191,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6293971064385806,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5897807939086972,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.5897807939086972,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0001846379767189204,
+                  "object_position_RMSE_m": 0.00011616960851100097,
+                  "grasp_Brier": 0.00018133701814804226
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003936763134226093,
+                  "object_position_RMSE_m": 0.0008314865099520559,
+                  "grasp_Brier": 0.00036978747812099755
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005994843766195147,
+                  "object_position_RMSE_m": 0.0012344530675096567,
+                  "grasp_Brier": 0.000325191009324044
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+                  "fallback": false,
+                  "oracle_Q": 0.7222373361797437,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+                  "fallback": false,
+                  "oracle_Q": 0.7222373361797437,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+                  "fallback": true,
+                  "oracle_Q": 0.7222373361797437,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+                  "fallback": true,
+                  "oracle_Q": 0.7222373361797437,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5862520133166877,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6768933694516961,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222373361797437,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222373361797437,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0001499787540123718,
+                  "object_position_RMSE_m": 0.0001373783037025602,
+                  "grasp_Brier": 0.0007627396262250841
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005045505437373087,
+                  "object_position_RMSE_m": 0.0006438765589379119,
+                  "grasp_Brier": 0.0005380515940487385
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006975663578554996,
+                  "object_position_RMSE_m": 0.001160239324431104,
+                  "grasp_Brier": 0.00015460319991689175
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 43,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "a3722d64feed227df618fa80136edcd280c257c6132882f8f6b08fabc33f3e85",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "a3722d64feed227df618fa80136edcd280c257c6132882f8f6b08fabc33f3e85",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "a3722d64feed227df618fa80136edcd280c257c6132882f8f6b08fabc33f3e85",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "a3722d64feed227df618fa80136edcd280c257c6132882f8f6b08fabc33f3e85",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "a3722d64feed227df618fa80136edcd280c257c6132882f8f6b08fabc33f3e85",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00036580250823446697,
+                  "object_position_RMSE_m": 0.00013771014982820592,
+                  "grasp_Brier": 6.627595575992018e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004097894769894951,
+                  "object_position_RMSE_m": 0.0008782989263908667,
+                  "grasp_Brier": 0.27570098638534546
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005798184784699718,
+                  "object_position_RMSE_m": 0.0011175527509583005,
+                  "grasp_Brier": 0.17769509553909302
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "e44fdf56e1a213a1b1a308a0d2336e948e383a963473f027a88e904b3bf4aa36",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.639629476841119,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "e44fdf56e1a213a1b1a308a0d2336e948e383a963473f027a88e904b3bf4aa36",
+                  "fallback": false,
+                  "oracle_Q": -0.639629476841119,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.639629476841119,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "e44fdf56e1a213a1b1a308a0d2336e948e383a963473f027a88e904b3bf4aa36",
+                  "fallback": false,
+                  "oracle_Q": -0.639629476841119,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.639629476841119,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "e44fdf56e1a213a1b1a308a0d2336e948e383a963473f027a88e904b3bf4aa36",
+                  "fallback": false,
+                  "oracle_Q": -0.639629476841119,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.639629476841119,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "e44fdf56e1a213a1b1a308a0d2336e948e383a963473f027a88e904b3bf4aa36",
+                  "fallback": true,
+                  "oracle_Q": -0.639629476841119,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6799728693527947,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.7186794056955264,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.639629476841119,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6791454296202013,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6793663692698424,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.639629476841119,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00016833775154347994,
+                  "object_position_RMSE_m": 0.00010557031532125989,
+                  "grasp_Brier": 0.00019215259817428887
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00040072076882447075,
+                  "object_position_RMSE_m": 0.0007961301549601833,
+                  "grasp_Brier": 0.0004035402089357376
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006308866902606519,
+                  "object_position_RMSE_m": 0.0011358035593361266,
+                  "grasp_Brier": 0.00034846964990720153
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769080316260847,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "delay2",
+                  "selection_sha256": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+                  "fallback": false,
+                  "oracle_Q": 0.722230928835163,
+                  "regret_Q": 0.04532289720907834,
+                  "improvement_vs_rule_Q": -0.04532289720907834
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722230928835163,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+                  "fallback": false,
+                  "oracle_Q": 0.722230928835163,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722230928835163,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+                  "fallback": true,
+                  "oracle_Q": 0.722230928835163,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722230928835163,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+                  "fallback": true,
+                  "oracle_Q": 0.722230928835163,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769080316260847,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722230928835163,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5863207102178725,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722230928835163,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.722230928835163,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00017867499555817404,
+                  "object_position_RMSE_m": 0.00012146498000139888,
+                  "grasp_Brier": 0.000846521754283458
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004743530961429476,
+                  "object_position_RMSE_m": 0.000582189274187151,
+                  "grasp_Brier": 0.0005443248664960265
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006518749355808444,
+                  "object_position_RMSE_m": 0.001094799303637037,
+                  "grasp_Brier": 0.00013971141015645117
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 44,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "8f2436bf796f038a4ed2d79143054649d63150acf1d8da577c63b8e7e80cf00a",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "8f2436bf796f038a4ed2d79143054649d63150acf1d8da577c63b8e7e80cf00a",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "8f2436bf796f038a4ed2d79143054649d63150acf1d8da577c63b8e7e80cf00a",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "8f2436bf796f038a4ed2d79143054649d63150acf1d8da577c63b8e7e80cf00a",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "8f2436bf796f038a4ed2d79143054649d63150acf1d8da577c63b8e7e80cf00a",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.000359410943072134,
+                  "object_position_RMSE_m": 0.00013826630375533212,
+                  "grasp_Brier": 7.809932867530733e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004010618419989362,
+                  "object_position_RMSE_m": 0.0009040671703298021,
+                  "grasp_Brier": 0.3162022829055786
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005325867287856002,
+                  "object_position_RMSE_m": 0.0011043168222687639,
+                  "grasp_Brier": 0.17883899807929993
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "b58a26d55c92462c824eb9bbd68fb78c21b9098d593bf8c12d6ce382ffc85b65",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6242754043315719,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "b58a26d55c92462c824eb9bbd68fb78c21b9098d593bf8c12d6ce382ffc85b65",
+                  "fallback": false,
+                  "oracle_Q": -0.6242754043315719,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6242754043315719,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "b58a26d55c92462c824eb9bbd68fb78c21b9098d593bf8c12d6ce382ffc85b65",
+                  "fallback": false,
+                  "oracle_Q": -0.6242754043315719,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6242754043315719,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "b58a26d55c92462c824eb9bbd68fb78c21b9098d593bf8c12d6ce382ffc85b65",
+                  "fallback": false,
+                  "oracle_Q": -0.6242754043315719,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6242754043315719,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "b58a26d55c92462c824eb9bbd68fb78c21b9098d593bf8c12d6ce382ffc85b65",
+                  "fallback": true,
+                  "oracle_Q": -0.6242754043315719,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.7033767999875931,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6640334779015566,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6242754043315719,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6638430045935704,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6646362482684625,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.6242754043315719,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00020564054246651733,
+                  "object_position_RMSE_m": 0.00013514809539679916,
+                  "grasp_Brier": 0.00017986490274779499
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003955178697543765,
+                  "object_position_RMSE_m": 0.0007877298266075551,
+                  "grasp_Brier": 0.0003717513754963875
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006246995231997415,
+                  "object_position_RMSE_m": 0.0010955560934286267,
+                  "grasp_Brier": 0.000330406881403178
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+                  "fallback": false,
+                  "oracle_Q": 0.7222313812685973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+                  "fallback": false,
+                  "oracle_Q": 0.7222313812685973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+                  "fallback": true,
+                  "oracle_Q": 0.7222313812685973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+                  "fallback": true,
+                  "oracle_Q": 0.7222313812685973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.586315473461011,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769068619092493,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222313812685973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222313812685973,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00020595590017331405,
+                  "object_position_RMSE_m": 0.00011081529230001922,
+                  "grasp_Brier": 0.0007461265195161104
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005220551115612876,
+                  "object_position_RMSE_m": 0.0005552468733314862,
+                  "grasp_Brier": 0.0004990544402971864
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0007300022430194834,
+                  "object_position_RMSE_m": 0.0010314191598147064,
+                  "grasp_Brier": 0.00017094747454393655
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 45,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "4bf3568875212f70ffe63b9128e01d11e4a04aa523edd3af4b36841a6bb93297",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "4bf3568875212f70ffe63b9128e01d11e4a04aa523edd3af4b36841a6bb93297",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "4bf3568875212f70ffe63b9128e01d11e4a04aa523edd3af4b36841a6bb93297",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "4bf3568875212f70ffe63b9128e01d11e4a04aa523edd3af4b36841a6bb93297",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "4bf3568875212f70ffe63b9128e01d11e4a04aa523edd3af4b36841a6bb93297",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00035136987942679433,
+                  "object_position_RMSE_m": 0.00013691330485657212,
+                  "grasp_Brier": 5.9770438383566216e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00040396860626344943,
+                  "object_position_RMSE_m": 0.0009006944708388967,
+                  "grasp_Brier": 0.2664477229118347
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005725697197932458,
+                  "object_position_RMSE_m": 0.001219825969772989,
+                  "grasp_Brier": 0.0025487616658210754
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "ea186c9351e1bc80419d46a9a4cbcc0a9bad500a742230b1718de4496f2801e2",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6481265382426007,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ea186c9351e1bc80419d46a9a4cbcc0a9bad500a742230b1718de4496f2801e2",
+                  "fallback": false,
+                  "oracle_Q": -0.6481265382426007,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6481265382426007,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ea186c9351e1bc80419d46a9a4cbcc0a9bad500a742230b1718de4496f2801e2",
+                  "fallback": false,
+                  "oracle_Q": -0.6481265382426007,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6481265382426007,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ea186c9351e1bc80419d46a9a4cbcc0a9bad500a742230b1718de4496f2801e2",
+                  "fallback": false,
+                  "oracle_Q": -0.6481265382426007,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6481265382426007,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ea186c9351e1bc80419d46a9a4cbcc0a9bad500a742230b1718de4496f2801e2",
+                  "fallback": true,
+                  "oracle_Q": -0.6481265382426007,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.7271967839183282,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6884794430103298,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6481265382426007,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6876428448135037,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6878528198938634,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.6481265382426007,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0001357231864691551,
+                  "object_position_RMSE_m": 9.933278501952469e-05,
+                  "grasp_Brier": 0.00019286216411273926
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00041785493876819496,
+                  "object_position_RMSE_m": 0.000874114011656201,
+                  "grasp_Brier": 0.000363632949301973
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005487497059114449,
+                  "object_position_RMSE_m": 0.001337352805633159,
+                  "grasp_Brier": 0.00031088883406482637
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+                  "fallback": false,
+                  "oracle_Q": 0.7222307271610973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+                  "fallback": false,
+                  "oracle_Q": 0.7222307271610973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+                  "fallback": true,
+                  "oracle_Q": 0.7222307271610973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+                  "fallback": true,
+                  "oracle_Q": 0.7222307271610973,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769085606482481,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5863233176190193,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222307271610973,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222307271610973,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0001619472183793154,
+                  "object_position_RMSE_m": 0.00013041734528367407,
+                  "grasp_Brier": 0.0008051946642808616
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0004370743766382285,
+                  "object_position_RMSE_m": 0.0006106080791002631,
+                  "grasp_Brier": 0.0005243827472440898
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005745703319626185,
+                  "object_position_RMSE_m": 0.0011625922526953447,
+                  "grasp_Brier": 0.00012455586693249643
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 46,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "30f650790211d0e53afcfd195ab4cf3f825a16b8f3e0f35b7390f2d1a7d96aed",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "30f650790211d0e53afcfd195ab4cf3f825a16b8f3e0f35b7390f2d1a7d96aed",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "30f650790211d0e53afcfd195ab4cf3f825a16b8f3e0f35b7390f2d1a7d96aed",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "30f650790211d0e53afcfd195ab4cf3f825a16b8f3e0f35b7390f2d1a7d96aed",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "30f650790211d0e53afcfd195ab4cf3f825a16b8f3e0f35b7390f2d1a7d96aed",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003471324905025176,
+                  "object_position_RMSE_m": 0.0001357104789401594,
+                  "grasp_Brier": 6.650564318988472e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00040332919955758466,
+                  "object_position_RMSE_m": 0.0008932051660104321,
+                  "grasp_Brier": 0.28711220622062683
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006816374552036661,
+                  "object_position_RMSE_m": 0.0012317702444393699,
+                  "grasp_Brier": 0.18075670301914215
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "bd43e3fa62a2a18a504a91069f46225db8910406582102a8ccd6613a3a8bfeeb",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5909671941910173,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "bd43e3fa62a2a18a504a91069f46225db8910406582102a8ccd6613a3a8bfeeb",
+                  "fallback": false,
+                  "oracle_Q": -0.5909671941910173,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5909671941910173,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "bd43e3fa62a2a18a504a91069f46225db8910406582102a8ccd6613a3a8bfeeb",
+                  "fallback": false,
+                  "oracle_Q": -0.5909671941910173,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5909671941910173,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "bd43e3fa62a2a18a504a91069f46225db8910406582102a8ccd6613a3a8bfeeb",
+                  "fallback": false,
+                  "oracle_Q": -0.5909671941910173,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5909671941910173,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "bd43e3fa62a2a18a504a91069f46225db8910406582102a8ccd6613a3a8bfeeb",
+                  "fallback": true,
+                  "oracle_Q": -0.5909671941910173,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6311595880388217,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5909671941910173,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6304636942261241,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6307836858528231,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6699380234138486,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.5909671941910173,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00012149072263180067,
+                  "object_position_RMSE_m": 6.592533321212337e-05,
+                  "grasp_Brier": 0.00018630328122526407
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00042325652460496017,
+                  "object_position_RMSE_m": 0.0008812934550595993,
+                  "grasp_Brier": 0.00033722672378644347
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0005557528716663368,
+                  "object_position_RMSE_m": 0.00135175174363842,
+                  "grasp_Brier": 0.00030337783391587436
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769082609606901,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "delay2",
+                  "selection_sha256": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+                  "fallback": false,
+                  "oracle_Q": 0.7222306001026515,
+                  "regret_Q": 0.045322339141961376,
+                  "improvement_vs_rule_Q": -0.045322339141961376
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222306001026515,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+                  "fallback": false,
+                  "oracle_Q": 0.7222306001026515,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222306001026515,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+                  "fallback": true,
+                  "oracle_Q": 0.7222306001026515,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222306001026515,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+                  "fallback": true,
+                  "oracle_Q": 0.7222306001026515,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6769082609606901,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5863247169082313,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222306001026515,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.7222306001026515,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.7222306001026515,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00015356710531701101,
+                  "object_position_RMSE_m": 0.00012846745917551258,
+                  "grasp_Brier": 0.0008070446783676744
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00045825129021082175,
+                  "object_position_RMSE_m": 0.0005907365908675328,
+                  "grasp_Brier": 0.0005051721236668527
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006399554383637042,
+                  "object_position_RMSE_m": 0.0011277758872917409,
+                  "grasp_Brier": 0.000132085828226991
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        },
+        {
+          "scene": 47,
+          "partition": "PROSPECTIVE_B2_NEVER_FIT",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "4c15c4a292a996ceae0b5f3b108f7d23a8d05cca6c08bb19b0233cc663fb3f28",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "4c15c4a292a996ceae0b5f3b108f7d23a8d05cca6c08bb19b0233cc663fb3f28",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "4c15c4a292a996ceae0b5f3b108f7d23a8d05cca6c08bb19b0233cc663fb3f28",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "nominal",
+                  "selection_sha256": "4c15c4a292a996ceae0b5f3b108f7d23a8d05cca6c08bb19b0233cc663fb3f28",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "right",
+                  "selection_sha256": "4c15c4a292a996ceae0b5f3b108f7d23a8d05cca6c08bb19b0233cc663fb3f28",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "grip_timing": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "nominal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00037128592130888043,
+                  "object_position_RMSE_m": 0.00013681943030654684,
+                  "grasp_Brier": 6.679836224066094e-05
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0003963749400245873,
+                  "object_position_RMSE_m": 0.0008897783134047609,
+                  "grasp_Brier": 0.2801204323768616
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.000602190872650703,
+                  "object_position_RMSE_m": 0.001188874964075481,
+                  "grasp_Brier": 0.0024988825898617506
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "transport": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "ac0110f6d618db918397135aaab8203199ce102f4356dd85be9a5abc2073c47c",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5563284204409955,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ac0110f6d618db918397135aaab8203199ce102f4356dd85be9a5abc2073c47c",
+                  "fallback": false,
+                  "oracle_Q": -0.5563284204409955,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5563284204409955,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ac0110f6d618db918397135aaab8203199ce102f4356dd85be9a5abc2073c47c",
+                  "fallback": false,
+                  "oracle_Q": -0.5563284204409955,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5563284204409955,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ac0110f6d618db918397135aaab8203199ce102f4356dd85be9a5abc2073c47c",
+                  "fallback": false,
+                  "oracle_Q": -0.5563284204409955,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5563284204409955,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "toward_goal",
+                  "selection_sha256": "ac0110f6d618db918397135aaab8203199ce102f4356dd85be9a5abc2073c47c",
+                  "fallback": true,
+                  "oracle_Q": -0.5563284204409955,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "left": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5960610918037201,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "toward_goal": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5563284204409955,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "away": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.6354114206116033,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5958509591309005,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "right": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": -0.5967311751583342,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": -0.5563284204409955,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00015382707380833733,
+                  "object_position_RMSE_m": 9.241397813511175e-05,
+                  "grasp_Brier": 0.00018319736409466714
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00040339143891584997,
+                  "object_position_RMSE_m": 0.0008628221950348686,
+                  "grasp_Brier": 0.0003508513909764588
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.000565080694950268,
+                  "object_position_RMSE_m": 0.0013089992367082545,
+                  "grasp_Brier": 0.0003116244333796203
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            },
+            "supported_release": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+                  "fallback": false,
+                  "oracle_Q": 0.722237232824135,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+                  "fallback": false,
+                  "oracle_Q": 0.722237232824135,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+                  "fallback": true,
+                  "oracle_Q": 0.722237232824135,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "release",
+                  "selection_sha256": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+                  "fallback": true,
+                  "oracle_Q": 0.722237232824135,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                }
+              },
+              "candidates": {
+                "hold": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "slow_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "release": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.722237232824135,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.6768936848783983,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.5862531452586975,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 0.722237232824135,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00013671181468657113,
+                  "object_position_RMSE_m": 0.00013852166595099943,
+                  "grasp_Brier": 0.0007838958990760148
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.00046568608163583734,
+                  "object_position_RMSE_m": 0.0006400742091769165,
+                  "grasp_Brier": 0.0005430897581391037
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0006391769846347047,
+                  "object_position_RMSE_m": 0.0011709859404514004,
+                  "grasp_Brier": 0.00012919011351186782
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 712,
+          "prefix_transitions": 184,
+          "coast_transitions": 0,
+          "live_physics_ticks": 17800,
+          "shadow_ticks": 17800,
+          "failure": null
+        }
+      ],
+      "audit": {
+        "status": "SAVED_S_STREAM_AUDIT_COMPLETE",
+        "audit_source_sha": "e1ad0c1717b85e25ddcb043f7c4a031352da4594",
+        "audit_code_sha256": "6c1bf200bd093096eccd5b20fb1ceb5b58a6e147d7df4d422e40aab9af999fe4",
+        "source_run_sha": "e48c674e7bbc07e46a106880f122163df27c4426",
+        "original_RESULT_sha256": "2a3e13b04d41b17c6e2903eda1fddf3d8164dda278f1685919c26259b90051f9",
+        "stream_manifest_sha256": "d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01",
+        "stream_manifest_files": 604,
+        "actual_transition_records": 5696,
+        "actual_live_ticks": 142400,
+        "reported_shadow_ticks": 142400,
+        "parents": 8,
+        "scene_model_sha256": {
+          "WM02/PROSPECTIVE-B2/40": "1b4ca67b12feb9fae329e1aca167793bdef36b35db1229769de1108120a2a6d6",
+          "WM02/PROSPECTIVE-B2/41": "517a10441a58a0a72bed53d0d35866745127b0dfd540e1b8baede5568f2db007",
+          "WM02/PROSPECTIVE-B2/42": "10966c24868551e7f7477949cf81b36b0c7d60c82da9a2ab69ae83d18a08b698",
+          "WM02/PROSPECTIVE-B2/43": "9fd3fe3133ee05ee10da31a139f72a03a7bced5e74e0464d4516a4ab33532bf7",
+          "WM02/PROSPECTIVE-B2/44": "9410645de1d986e425b7567861c3e526f15b4f620cc7c93cf3adfb97e144307b",
+          "WM02/PROSPECTIVE-B2/45": "0090be2fd946f051a068c149cec236d59afe8f29e19757d004b1fcff627bd9c7",
+          "WM02/PROSPECTIVE-B2/46": "bbf05b2f3b0067937d248f1f34f4eb2372931675381ee4e47d40d48da54a1bd0",
+          "WM02/PROSPECTIVE-B2/47": "44c5622b7a0a5f4d85a73c3c8413eca251171431b8969846a42293fc650744e8"
+        },
+        "verified_before_effect_method_streams": 96,
+        "complete_restore_refs_checked": 208,
+        "unsafe_live_rows": 0,
+        "terminal_live_rows": 0,
+        "domain": "S_FIXED_BASE_ONLY",
+        "split": "DEV_NEVER_FIT",
+        "new_physics": 0,
+        "model_updates": 0,
+        "CPU_s": 3.6470787199999997,
+        "wall_s": 3.151769460993819
+      }
+    },
+    {
+      "status": "PROSPECTIVE_B2_TERMINAL",
+      "study": "COAST_CLOSE_CHALLENGE_V1",
+      "source_sha": "8c28eea015e626bfe5fb137a02efe4cd03da4a11",
+      "preregistration_sha256": "889ab113036a06de88c7f0034303b2a1e3f00042d803511406786d893b6241cd",
+      "FIT_data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+      "intended_parents": 8,
+      "intended_anchors": 8,
+      "intended_method_episodes": 40,
+      "intended_candidate_branches": 40,
+      "actual_transitions": 1056,
+      "live_physics_ticks": 26400,
+      "shadow_ticks": 26815,
+      "CPU_s": 51.930918698,
+      "wall_s": 23.046830545994453,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "target_integrations": 0,
+      "full_tasks": 0,
+      "formal_reward": false,
+      "old_holdout_reused": false,
+      "run_id": "wm02-prospective-b2-coast-20261104-01",
+      "run_exit_code": 1,
+      "lease_final": "CLOSED",
+      "model": {
+        "sha256": "cba5a6b162c9e162614855dfe9983dbaad10a2f630f5e3c4be6eb07e14a5d674",
+        "parent_checkpoint_sha256": "9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b"
+      },
+      "scenes": [
+        {
+          "scene": 48,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {},
+          "actual_transitions": 32,
+          "prefix_transitions": 32,
+          "coast_transitions": 0,
+          "live_physics_ticks": 800,
+          "shadow_ticks": 904,
+          "failure": "ORIGINAL_SOURCE_S1_COAST_REJECT_REASON_NOT_SAVED"
+        },
+        {
+          "scene": 49,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false,
+                  "selected": "close_delay4",
+                  "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                },
+                "timing_rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "27083a8772d0de7fdd9f04e791aecdfbda4590905c871178d1dfe8944aeb508f",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                }
+              },
+              "candidates": {
+                "stay_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay6": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "close_delay0": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.002127020892665617,
+                  "object_position_RMSE_m": 0.00018219636153439902,
+                  "grasp_Brier": 0.48298317193984985
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0158369664626473,
+                  "object_position_RMSE_m": 0.0013103386026221838,
+                  "grasp_Brier": 0.7440928220748901
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0157680617566766,
+                  "object_position_RMSE_m": 0.001659179036891505,
+                  "grasp_Brier": 0.3097074627876282
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 232,
+          "prefix_transitions": 32,
+          "coast_transitions": 8,
+          "live_physics_ticks": 5800,
+          "shadow_ticks": 5800,
+          "failure": null
+        },
+        {
+          "scene": 50,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {},
+          "actual_transitions": 32,
+          "prefix_transitions": 32,
+          "coast_transitions": 0,
+          "live_physics_ticks": 800,
+          "shadow_ticks": 904,
+          "failure": "ORIGINAL_SOURCE_S1_COAST_REJECT_REASON_NOT_SAVED"
+        },
+        {
+          "scene": 51,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay4",
+                  "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                },
+                "timing_rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "a92e9c7f0b1ac9e907cad8c156442033d3abd855c0c21913a7bd0b09977289b4",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                }
+              },
+              "candidates": {
+                "close_delay6": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "stay_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay0": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0021515157674918705,
+                  "object_position_RMSE_m": 0.0001825639393403991,
+                  "grasp_Brier": 0.49231892824172974
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.015810621013807733,
+                  "object_position_RMSE_m": 0.0013120662123011489,
+                  "grasp_Brier": 0.7485597729682922
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.01571354596132365,
+                  "object_position_RMSE_m": 0.0016599904788163462,
+                  "grasp_Brier": 0.3138749897480011
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 232,
+          "prefix_transitions": 32,
+          "coast_transitions": 8,
+          "live_physics_ticks": 5800,
+          "shadow_ticks": 5800,
+          "failure": null
+        },
+        {
+          "scene": 52,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {},
+          "actual_transitions": 32,
+          "prefix_transitions": 32,
+          "coast_transitions": 0,
+          "live_physics_ticks": 800,
+          "shadow_ticks": 905,
+          "failure": "ORIGINAL_SOURCE_S1_COAST_REJECT_REASON_NOT_SAVED"
+        },
+        {
+          "scene": 53,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay2",
+                  "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                },
+                "timing_rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "44aa998b7b40db228dd6de0ecdbaec3d6affea20a5ca8e750e4bf314412c1fc6",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                }
+              },
+              "candidates": {
+                "close_delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "close_delay0": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "stay_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay6": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0021073934443291854,
+                  "object_position_RMSE_m": 0.00017252377078711244,
+                  "grasp_Brier": 0.4634705185890198
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.01579652566072704,
+                  "object_position_RMSE_m": 0.0012626533038565986,
+                  "grasp_Brier": 0.7597643136978149
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.015952026144813298,
+                  "object_position_RMSE_m": 0.0015631346316236153,
+                  "grasp_Brier": 0.4577559530735016
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 232,
+          "prefix_transitions": 32,
+          "coast_transitions": 8,
+          "live_physics_ticks": 5800,
+          "shadow_ticks": 5800,
+          "failure": null
+        },
+        {
+          "scene": 54,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {},
+          "actual_transitions": 32,
+          "prefix_transitions": 32,
+          "coast_transitions": 0,
+          "live_physics_ticks": 800,
+          "shadow_ticks": 902,
+          "failure": "ORIGINAL_SOURCE_S1_COAST_REJECT_REASON_NOT_SAVED"
+        },
+        {
+          "scene": 55,
+          "partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+          "phases": {
+            "preclose": {
+              "status": "ACTUAL_FINITE_S_EXECUTED",
+              "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+              "online": {
+                "pure_WM": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay2",
+                  "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "OLS_transport_rule_contact": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay0",
+                  "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 0.0,
+                  "improvement_vs_rule_Q": 0.0
+                },
+                "hybrid": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+                  "fallback": true,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                },
+                "timing_rule": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false,
+                  "selected": "close_delay6",
+                  "selection_sha256": "85ca516cd6ce74e355a87dd25dd4cc373205d6843dd74b42d73d34c3e990ddb9",
+                  "fallback": false,
+                  "oracle_Q": 1.0,
+                  "regret_Q": 1.0,
+                  "improvement_vs_rule_Q": -1.0
+                }
+              },
+              "candidates": {
+                "close_delay4": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": false,
+                  "terminal": false
+                },
+                "close_delay0": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay2": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 1.0,
+                  "native_grasp": true,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "close_delay6": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                },
+                "stay_open": {
+                  "complete": true,
+                  "transitions": 16,
+                  "rejected_blocks": 0,
+                  "Q": 0.0,
+                  "native_grasp": false,
+                  "native_support": true,
+                  "terminal": false
+                }
+              },
+              "oracle_Q": 1.0,
+              "oracle_improvement_over_rule_Q": 0.0,
+              "forecast_errors": [
+                {
+                  "horizon": 1,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.0021165884387587494,
+                  "object_position_RMSE_m": 0.00017770026348370256,
+                  "grasp_Brier": 0.4685590863227844
+                },
+                {
+                  "horizon": 8,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.015801892778311878,
+                  "object_position_RMSE_m": 0.0012868990449584506,
+                  "grasp_Brier": 0.7546811699867249
+                },
+                {
+                  "horizon": 16,
+                  "observed_candidates": 5,
+                  "tcp_position_RMSE_m": 0.01584912160417926,
+                  "object_position_RMSE_m": 0.00161602189651444,
+                  "grasp_Brier": 0.30738168954849243
+                }
+              ],
+              "scope": "Partial0.8s source diagnostic Q, not formal task reward/success",
+              "no_support_prediction_head": true,
+              "controls": {
+                "repeat": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                },
+                "tail-only": {
+                  "qualified": true,
+                  "max_integration_error": 0.0,
+                  "contacts_equal": true,
+                  "terminal_equal": true,
+                  "transitions_per_execution": 16
+                }
+              }
+            }
+          },
+          "actual_transitions": 232,
+          "prefix_transitions": 32,
+          "coast_transitions": 8,
+          "live_physics_ticks": 5800,
+          "shadow_ticks": 5800,
+          "failure": null
+        }
+      ],
+      "audit": {
+        "status": "SAVED_S_STREAM_AUDIT_COMPLETE",
+        "audit_source_sha": "e1ad0c1717b85e25ddcb043f7c4a031352da4594",
+        "audit_code_sha256": "6c1bf200bd093096eccd5b20fb1ceb5b58a6e147d7df4d422e40aab9af999fe4",
+        "source_run_sha": "8c28eea015e626bfe5fb137a02efe4cd03da4a11",
+        "original_RESULT_sha256": "444558d79d49a493e886f5e1cf42263bc9b19b2ea3718d7ca5d2d76371862122",
+        "stream_manifest_sha256": "9e120995ad1c199dcb284c881ef40b308b3bd4d1b9953622fba7462306f603fe",
+        "stream_manifest_files": 152,
+        "actual_transition_records": 1056,
+        "actual_live_ticks": 26400,
+        "reported_shadow_ticks": 26815,
+        "parents": 8,
+        "scene_model_sha256": {
+          "WM02/COAST-CLOSE/48": "3c1f30fd8ebc08a365c14506298a9f664d2837de6ea38dd0e354bf82d2759b70",
+          "WM02/COAST-CLOSE/49": "0d89130ba6694606822915a97c7472c713ed7958f207800f132a9faae10a7875",
+          "WM02/COAST-CLOSE/50": "e041dd6ce843042fdf0d5e0a7b2fdd5ca107f872ea049247f031662182dbfb5f",
+          "WM02/COAST-CLOSE/51": "797881d2aee6ccd282c57cf8a8aa3ad046e01ac3d580f69a92ef1f85e4a1b907",
+          "WM02/COAST-CLOSE/52": "254b84880da9d65ebe15cf5a7f49a8b363831ba527331fb7c76ad4436510e013",
+          "WM02/COAST-CLOSE/53": "991bf819c5f0a185c4112159ded2c3800ad7332ef645d2ce553be60c132a5f25",
+          "WM02/COAST-CLOSE/54": "373789eb669cc1e5b7b9b6d3b794a67beb1231042f416ebd16e9203bf32ea18d",
+          "WM02/COAST-CLOSE/55": "0d786e3d8ff8fe5b3715c400b145858bd2cb3fe571bea55425b933b7a610d4df"
+        },
+        "verified_before_effect_method_streams": 20,
+        "complete_restore_refs_checked": 40,
+        "unsafe_live_rows": 0,
+        "terminal_live_rows": 0,
+        "domain": "S_FIXED_BASE_ONLY",
+        "split": "DEV_NEVER_FIT",
+        "new_physics": 0,
+        "model_updates": 0,
+        "CPU_s": 1.0972292110000001,
+        "wall_s": 0.4874490209913347
+      }
+    }
+  ],
+  "new_parents_attempted": 16,
+  "complete_method_episodes": 116,
+  "intended_method_episodes": 136,
+  "actual_S_transitions": 6752,
+  "live_S_ticks": 168800,
+  "shadow_S_ticks": 169215,
+  "conservative_all_S_50ms_equivalents": 13520.6,
+  "passed_source_restore_tail_controls": 56,
+  "intended_source_restore_tail_controls": 64,
+  "actual_T_integrations": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "full_tasks": 0,
+  "incremental_decision_gate": "NOT_ESTABLISHED",
+  "current_scope": "Frozen F0 S-only eight-parent validation and disjoint eight-parent OOD contact diagnostic; not target transfer",
+  "no_old_holdout_reused": true,
+  "wrapper_failure": "Coast wrapper exited1 only after RESULT.json was durably written; numpy.bool_ final stdout serialization. Fixed in e1ad0c1717b85e25ddcb043f7c4a031352da4594, no physics retry."
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "WM02_SOURCE_STATIONARY_OPENING_RESPONSE_V1",
+  "scope": "POSTHOC already-opened supported-release diagnostic, not blind validation or new policy execution",
+  "native_data_source_sha": "7e41cd69c3c215e91cb2f85688e5426d4a7f4d2c",
+  "numeric_replay_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "FIT_parents": [0,23],
+  "evaluation_parents": [40,47],
+  "model": "g_h=clip(max(observed_anchor_gap, causal_reference_target_h - fitted_lag),0,1)",
+  "parameter_count": 1,
+  "fit": "Median(target_reference - measured_gap) at FIT horizons where target_reference > observed_anchor_gap + .05; no DEV selection",
+  "causal_inputs": ["Complete executed command prefix from known reset", "Observed anchor gap", "Saved planned8x7 candidate plus known second-block last-command hold"],
+  "forbidden_inputs": ["Future achieved gap", "Future actual controller memory", "Future contact labels", "Teacher phase as a student feature"],
+  "evaluation": ["H1/H8/H16 opening RMSE", "Immediate-minus-delay2 effect error", "Original proxy with frozen saved M4-B grasp probabilities", "Original measured Q regret"],
+  "limitations": "Stationary opening floor assumes this probe's blocked initial gap; not a closing or general contact dynamics model. No M4-B integration, new score or Actor.",
+  "new_physics": 0,
+  "GPU_workers": 0,
+  "closed_form_fits_max": 1,
+  "max_CPU_threads": 1,
+  "max_wall_s": 60
+}

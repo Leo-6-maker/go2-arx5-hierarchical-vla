@@ -1,0 +1,1345 @@
+{
+  "status": "SAVED_COAST_STATIC_GATE_AND_CONTACT_READONLY",
+  "source_sha": "e1ad0c1717b85e25ddcb043f7c4a031352da4594",
+  "rows": [
+    {
+      "scene": 48,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 0,
+      "coast_shadow_ticks": 104
+    },
+    {
+      "scene": 49,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 8,
+      "coast_shadow_ticks": 200,
+      "actual_contact_curves": {
+        "close_delay0": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.030323602946576045,
+            "gripper_fraction": 0.9161946870496431
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.024831806227153974,
+            "gripper_fraction": 0.8676589283216559
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.019812474596193782,
+            "gripper_fraction": 0.8235644260991063
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015892354475328326,
+            "gripper_fraction": 0.7775645868531742
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011850594805511708,
+            "gripper_fraction": 0.7323586780670939
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0076526566001052804,
+            "gripper_fraction": 0.6867940296792517
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.003667965544645175,
+            "gripper_fraction": 0.6413698984475386
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0001195194227743535,
+            "gripper_fraction": 0.5958875112434487
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0016151696344166148,
+            "gripper_fraction": 0.5504727712057329
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00047717525479101043,
+            "gripper_fraction": 0.5050143476507851
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.00010096713520700054,
+            "TCP_object_XY_gap_m": 0.00014596053699042496,
+            "gripper_fraction": 0.47035692823447234
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0004927526612951455,
+            "TCP_object_XY_gap_m": 0.0012754661600930626,
+            "gripper_fraction": 0.44025464618027904
+          },
+          {
+            "atom": 13,
+            "grasp": true,
+            "object_XY_displacement_m": 0.000626814274274141,
+            "TCP_object_XY_gap_m": 0.0017938441953282403,
+            "gripper_fraction": 0.4409530819787754
+          },
+          {
+            "atom": 14,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0006243754628201276,
+            "TCP_object_XY_gap_m": 0.0015864534225252423,
+            "gripper_fraction": 0.4398078661003114
+          },
+          {
+            "atom": 15,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0006444990437486274,
+            "TCP_object_XY_gap_m": 0.0013830052670930398,
+            "gripper_fraction": 0.43858372333004814
+          },
+          {
+            "atom": 16,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0006577547103630662,
+            "TCP_object_XY_gap_m": 0.0013705850950700706,
+            "gripper_fraction": 0.4373765898125203
+          }
+        ],
+        "close_delay6": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.03032436273185266,
+            "gripper_fraction": 0.9545023937696439
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.024832907202593856,
+            "gripper_fraction": 0.9544868524108493
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.019813046505486653,
+            "gripper_fraction": 0.9545359518880349
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015892353238909744,
+            "gripper_fraction": 0.9545497095673464
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011850286094703195,
+            "gripper_fraction": 0.9545609407538904
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007652329287565494,
+            "gripper_fraction": 0.9545512581892022
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.003667178246513949,
+            "gripper_fraction": 0.9162317033032272
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011486984966809259,
+            "gripper_fraction": 0.8677011431005145
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.001615681181550792,
+            "gripper_fraction": 0.8235895616090068
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004791376949579875,
+            "gripper_fraction": 0.7775758534299997
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00013957651313693543,
+            "gripper_fraction": 0.7323482906266343
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0001111281863007436,
+            "gripper_fraction": 0.6867843321057786
+          },
+          {
+            "atom": 13,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002526035291434402,
+            "gripper_fraction": 0.6413686265513693
+          },
+          {
+            "atom": 14,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002699581834399651,
+            "gripper_fraction": 0.5958973718744709
+          },
+          {
+            "atom": 15,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00020806540743456445,
+            "gripper_fraction": 0.5504546666019816
+          },
+          {
+            "atom": 16,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011831490422703496,
+            "gripper_fraction": 0.5050007186077375
+          }
+        ]
+      }
+    },
+    {
+      "scene": 50,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 0,
+      "coast_shadow_ticks": 104
+    },
+    {
+      "scene": 51,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 8,
+      "coast_shadow_ticks": 200,
+      "actual_contact_curves": {
+        "close_delay0": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.03032614549527954,
+            "gripper_fraction": 0.9161931559180911
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.02488084540645362,
+            "gripper_fraction": 0.8676610003022487
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01982924089886711,
+            "gripper_fraction": 0.8235659034585081
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01586510234395741,
+            "gripper_fraction": 0.7775664653533831
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011804866238554373,
+            "gripper_fraction": 0.732358265304759
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007613170288771962,
+            "gripper_fraction": 0.6867926082248214
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0036588315975851693,
+            "gripper_fraction": 0.6413683007157619
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0001340915648332391,
+            "gripper_fraction": 0.5958868898503445
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0015961369501284084,
+            "gripper_fraction": 0.5504740852672565
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00045742993639324086,
+            "gripper_fraction": 0.5050146143568407
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0001023478648890841,
+            "TCP_object_XY_gap_m": 0.00014999746393466897,
+            "gripper_fraction": 0.47011343304944836
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0004459140900601203,
+            "TCP_object_XY_gap_m": 0.0012458610881641663,
+            "gripper_fraction": 0.44042562295036997
+          },
+          {
+            "atom": 13,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0004987006828407614,
+            "TCP_object_XY_gap_m": 0.0017250335794820393,
+            "gripper_fraction": 0.4409646250660049
+          },
+          {
+            "atom": 14,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0004967819174484861,
+            "TCP_object_XY_gap_m": 0.001553141768109365,
+            "gripper_fraction": 0.43980828775579794
+          },
+          {
+            "atom": 15,
+            "grasp": true,
+            "object_XY_displacement_m": 0.000517670278779872,
+            "TCP_object_XY_gap_m": 0.0013528006830288522,
+            "gripper_fraction": 0.43858512938959565
+          },
+          {
+            "atom": 16,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0005335739497143823,
+            "TCP_object_XY_gap_m": 0.0013312099349600845,
+            "gripper_fraction": 0.4373781651311578
+          }
+        ],
+        "close_delay6": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.030326880946608962,
+            "gripper_fraction": 0.9545008728539526
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.02488187903707177,
+            "gripper_fraction": 0.9544888899466375
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.019829746024799286,
+            "gripper_fraction": 0.9545374515481977
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015865067625013086,
+            "gripper_fraction": 0.9545515841955564
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011804562902341425,
+            "gripper_fraction": 0.954560533129618
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007612863859875255,
+            "gripper_fraction": 0.9545498303240729
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0036580524425672617,
+            "gripper_fraction": 0.916230082272195
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00012931706831901708,
+            "gripper_fraction": 0.8677005384866808
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.001596566965104283,
+            "gripper_fraction": 0.8235908639173194
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004591395719492041,
+            "gripper_fraction": 0.7775761173862423
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011192930116742904,
+            "gripper_fraction": 0.7323477685577102
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00012789795539848163,
+            "gripper_fraction": 0.6867836702475654
+          },
+          {
+            "atom": 13,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00026858515023503915,
+            "gripper_fraction": 0.6413682908950654
+          },
+          {
+            "atom": 14,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002812575834611083,
+            "gripper_fraction": 0.5958976652145839
+          },
+          {
+            "atom": 15,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002174079694489505,
+            "gripper_fraction": 0.5504551929482249
+          },
+          {
+            "atom": 16,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00012940763472937415,
+            "gripper_fraction": 0.5050011593739762
+          }
+        ]
+      }
+    },
+    {
+      "scene": 52,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 0,
+      "coast_shadow_ticks": 105
+    },
+    {
+      "scene": 53,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 8,
+      "coast_shadow_ticks": 200,
+      "actual_contact_curves": {
+        "close_delay0": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.030317909899655583,
+            "gripper_fraction": 0.9161882090546214
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.02488210320648161,
+            "gripper_fraction": 0.8676562699752366
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.019826919103743974,
+            "gripper_fraction": 0.8235687221649162
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015861793804003956,
+            "gripper_fraction": 0.7775656552468382
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011801815756107972,
+            "gripper_fraction": 0.7323605769395821
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007611086612891037,
+            "gripper_fraction": 0.6867940114110256
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0036547444817455993,
+            "gripper_fraction": 0.6413692766568123
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00014230208104310917,
+            "gripper_fraction": 0.5958867278418862
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0016013017931743563,
+            "gripper_fraction": 0.5504782836364729
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004752581530156089,
+            "gripper_fraction": 0.5050131941746431
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.00011074843562661241,
+            "TCP_object_XY_gap_m": 0.0001818416216091021,
+            "gripper_fraction": 0.470135569133318
+          },
+          {
+            "atom": 12,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0007901854152403412,
+            "TCP_object_XY_gap_m": 0.0015455098799160274,
+            "gripper_fraction": 0.4405947161945921
+          },
+          {
+            "atom": 13,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0008047846301157496,
+            "TCP_object_XY_gap_m": 0.0018026433886750848,
+            "gripper_fraction": 0.44104452729893145
+          },
+          {
+            "atom": 14,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0008029968565158466,
+            "TCP_object_XY_gap_m": 0.0015916311425028119,
+            "gripper_fraction": 0.43986688821534453
+          },
+          {
+            "atom": 15,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0008150695023388992,
+            "TCP_object_XY_gap_m": 0.0014475396433906544,
+            "gripper_fraction": 0.4386369162824141
+          },
+          {
+            "atom": 16,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0008198173164061864,
+            "TCP_object_XY_gap_m": 0.0014620181592569126,
+            "gripper_fraction": 0.43743393868805597
+          }
+        ],
+        "close_delay6": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.03031872565135026,
+            "gripper_fraction": 0.9544959394395474
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.024883286514508718,
+            "gripper_fraction": 0.9544841610587629
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01982747849771957,
+            "gripper_fraction": 0.9545402913693752
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015861770097355097,
+            "gripper_fraction": 0.9545507801727535
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.011801470421508004,
+            "gripper_fraction": 0.9545628637394253
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007610739837259135,
+            "gripper_fraction": 0.954551247273739
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.003653865635773993,
+            "gripper_fraction": 0.916231079769657
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00013752042775733433,
+            "gripper_fraction": 0.8677003956326728
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0016017826532333643,
+            "gripper_fraction": 0.8235950358333274
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004770819822422412,
+            "gripper_fraction": 0.7775747503146896
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00012137427515578831,
+            "gripper_fraction": 0.7323488536208358
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00013388767561471783,
+            "gripper_fraction": 0.6867831786188933
+          },
+          {
+            "atom": 13,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002852875405673952,
+            "gripper_fraction": 0.6413682763260421
+          },
+          {
+            "atom": 14,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00030105144062904073,
+            "gripper_fraction": 0.5958969430806764
+          },
+          {
+            "atom": 15,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00023246644588948025,
+            "gripper_fraction": 0.5504550811324281
+          },
+          {
+            "atom": 16,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00013791386652034629,
+            "gripper_fraction": 0.5050011727758176
+          }
+        ]
+      }
+    },
+    {
+      "scene": 54,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 0,
+      "coast_shadow_ticks": 102
+    },
+    {
+      "scene": 55,
+      "original_gate_recomputed_from_saved_input": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "OFFLINE_SAVED_GATE_ONLY",
+          "linear_speed_mps": {
+            "mean": 0.012564102564102581,
+            "median": 0.0,
+            "p95": 0.07000000000000003,
+            "max": 0.07000000000000031
+          },
+          "angular_speed_radps": {
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0
+          },
+          "translation_path_length_m": 0.024500000000000022,
+          "se3_arc_length_m": 0.024500000000000022,
+          "initial_position_discontinuity_m": 0.003500000000000003,
+          "initial_rotation_discontinuity_rad": 0.0,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "actual_coast_atoms": 8,
+      "coast_shadow_ticks": 200,
+      "actual_contact_curves": {
+        "close_delay0": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.030321869657598522,
+            "gripper_fraction": 0.9161932427731241
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.02484613940110716,
+            "gripper_fraction": 0.8676614227653344
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01981301432523235,
+            "gripper_fraction": 0.8235668945365068
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015882726123881637,
+            "gripper_fraction": 0.7775648689902098
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01183662798589419,
+            "gripper_fraction": 0.7323586773219248
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007640258497947891,
+            "gripper_fraction": 0.6867936663463009
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0036655025156763286,
+            "gripper_fraction": 0.6413699130266697
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.000122202632431159,
+            "gripper_fraction": 0.5958880379794725
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0016078985355888484,
+            "gripper_fraction": 0.5504750342123734
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004648979059824197,
+            "gripper_fraction": 0.5050125721921265
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.00010492811343489458,
+            "TCP_object_XY_gap_m": 0.0001598598285594417,
+            "gripper_fraction": 0.4702155660875283
+          },
+          {
+            "atom": 12,
+            "grasp": true,
+            "object_XY_displacement_m": 0.000565094471637718,
+            "TCP_object_XY_gap_m": 0.0013388553273168747,
+            "gripper_fraction": 0.44083862472176777
+          },
+          {
+            "atom": 13,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0006014322445339806,
+            "TCP_object_XY_gap_m": 0.001750439183205832,
+            "gripper_fraction": 0.4410307961149611
+          },
+          {
+            "atom": 14,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0005992166650645035,
+            "TCP_object_XY_gap_m": 0.001567392289123707,
+            "gripper_fraction": 0.43985025489860485
+          },
+          {
+            "atom": 15,
+            "grasp": true,
+            "object_XY_displacement_m": 0.000616525324387831,
+            "TCP_object_XY_gap_m": 0.0013834707662314905,
+            "gripper_fraction": 0.43862247076238925
+          },
+          {
+            "atom": 16,
+            "grasp": true,
+            "object_XY_displacement_m": 0.0006273547071890267,
+            "TCP_object_XY_gap_m": 0.0013716378004317302,
+            "gripper_fraction": 0.43741623540800195
+          }
+        ],
+        "close_delay6": [
+          {
+            "atom": 1,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.030322611419482077,
+            "gripper_fraction": 0.9545009575606167
+          },
+          {
+            "atom": 2,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.02484720983614059,
+            "gripper_fraction": 0.954489329553059
+          },
+          {
+            "atom": 3,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.019813540591668077,
+            "gripper_fraction": 0.9545384352083109
+          },
+          {
+            "atom": 4,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.015882711996776877,
+            "gripper_fraction": 0.9545499872178022
+          },
+          {
+            "atom": 5,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.01183631957833546,
+            "gripper_fraction": 0.9545609469863806
+          },
+          {
+            "atom": 6,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.007639942965510747,
+            "gripper_fraction": 0.9545508934995314
+          },
+          {
+            "atom": 7,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0036647247390120276,
+            "gripper_fraction": 0.9162317101089505
+          },
+          {
+            "atom": 8,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011746858224790554,
+            "gripper_fraction": 0.8677016804855986
+          },
+          {
+            "atom": 9,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.001608368669576859,
+            "gripper_fraction": 0.8235918207923878
+          },
+          {
+            "atom": 10,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0004667168671069355,
+            "gripper_fraction": 0.777574092696696
+          },
+          {
+            "atom": 11,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00012517865417016765,
+            "gripper_fraction": 0.732348427640926
+          },
+          {
+            "atom": 12,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011414561986282837,
+            "gripper_fraction": 0.6867839518839297
+          },
+          {
+            "atom": 13,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00025315117422297715,
+            "gripper_fraction": 0.6413689278008813
+          },
+          {
+            "atom": 14,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00026798482417354975,
+            "gripper_fraction": 0.5958975250795044
+          },
+          {
+            "atom": 15,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.0002067441243423751,
+            "gripper_fraction": 0.5504549872128329
+          },
+          {
+            "atom": 16,
+            "grasp": false,
+            "object_XY_displacement_m": 0.0,
+            "TCP_object_XY_gap_m": 0.00011961386125239161,
+            "gripper_fraction": 0.5050008357122004
+          }
+        ]
+      }
+    }
+  ],
+  "new_physics": 0,
+  "interpretation": "All eight recomputed original static gates are ACCEPT. For four coast0 cases, source short-circuit therefore identifies original S1 copied-state rejection. Historical specific reason is UNKNOWN_NOT_SAVED; no repeated physics to obtain it.",
+  "CPU_s": 0.7344115900000001
+}

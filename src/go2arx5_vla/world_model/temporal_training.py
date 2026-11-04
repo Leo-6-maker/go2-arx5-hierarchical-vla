@@ -54,7 +54,7 @@ def update(model,opt,train,fit,keys,cursor,config):
     return dict(base_loss=base_total,effect_loss=effect_total,effect_terms=term_total,pairs_used=pair_count,gradient_norm=float(norm))
 
 
-def run(spec,output):
+def run(spec,output,*,update_fn=update):
     start=time.monotonic();cpu=time.process_time();output=Path(output);device=torch.device('cuda:0')
     from .runtime import cuda_uuid
     props=torch.cuda.get_device_properties(0)
@@ -66,13 +66,16 @@ def run(spec,output):
     if config_loss!=spec['temporal_loss']:raise ValueError('Predeclared FIT-only effect scales differ')
     keys=np.array([(int(s),str(a),0)for s,a in zip(meta['scene'][ids],meta['anchor'][ids])],dtype=object)
     states=fit['state'];valid=torch.cat((torch.ones_like(fit['valid'][:,:1]),fit['valid']),1).bool();normalizer=torch.unique(states[valid],dim=0)
-    torch.manual_seed(20261104);np.random.seed(20261104);random.seed(20261104);config=dict(hidden=[2048]*5,history_hidden=256,groups=GROUPS,context_dim=5,reference_encoding='relative_tcp_v1');m=WorldModel(**config).to(device);m.normalizer.fit(normalizer);initial=parameter_hash(m)
+    torch.manual_seed(20261104);np.random.seed(20261104);random.seed(20261104);config=dict(hidden=[2048]*5,history_hidden=256,groups=GROUPS,context_dim=5,reference_encoding='relative_tcp_v1')
+    if spec.get('mechanism_candidate')=='M4_B':config['interaction_encoding']='conditional_rigid_residual_v1'
+    m=WorldModel(**config).to(device);m.normalizer.fit(normalizer);initial=parameter_hash(m)
     if initial!=spec['expected_initial_parameter_sha256']:raise ValueError('Matched M1/M2 initialization differs')
-    opt=torch.optim.AdamW(m.parameters(),lr=2e-4,weight_decay=1e-5);provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],protocol='WM02_TEMPORAL_M3_V1',arm='M3',state_schema=SCHEMA,temporal_loss=config_loss)
+    candidate=spec.get('mechanism_candidate','M3');protocol=spec.get('training_protocol','WM02_TEMPORAL_M3_V1')
+    opt=torch.optim.AdamW(m.parameters(),lr=2e-4,weight_decay=1e-5);provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],protocol=protocol,arm=candidate,state_schema=SCHEMA,temporal_loss=config_loss)
     torch.cuda.reset_peak_memory_stats();pairs=0;first_reload=None
     for step in range(1,201):
         if time.time()>spec['deadline_epoch']or(Path(spec['registered_root'])/'STOP.json').exists():raise TimeoutError('Finite M3 endpoint')
-        row=update(m,opt,train,fit,keys,(step-1)*256,config_loss);pairs+=row['pairs_used'];row.update(update=step,cursor=step*256)
+        row=update_fn(m,opt,train,fit,keys,(step-1)*256,config_loss);pairs+=row['pairs_used'];row.update(update=step,cursor=step*256)
         with(output/'OPTIMIZER_STEPS.jsonl').open('a')as f:f.write(json.dumps(row)+'\n');f.flush();os.fsync(f.fileno())
         if step in(1,199,200):
             checkpoint(output/f'checkpoint-{step}.pt',m,opt,step,step*256,provenance,config)
@@ -80,8 +83,8 @@ def run(spec,output):
                 clone,co,_=load_checkpoint(output/'checkpoint-1.pt',device,provenance);first_reload=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
                 if first_reload:raise RuntimeError('First reload differs')
         if step%10==0:write_json(output/f'PROGRESS-{step:04d}.json',row)
-    main_peak=memory(device);clone,co,c=load_checkpoint(output/'checkpoint-199.pt',device,provenance);update(clone,co,train,fit,keys,c['replay_cursor'],config_loss);continuation=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
+    main_peak=memory(device);clone,co,c=load_checkpoint(output/'checkpoint-199.pt',device,provenance);update_fn(clone,co,train,fit,keys,c['replay_cursor'],config_loss);continuation=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
     clone,co,_=load_checkpoint(output/'checkpoint-200.pt',device,provenance);endpoint=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
     if max(continuation,endpoint)>1e-6:raise RuntimeError('M3 continuation differs')
-    result=dict(status='M3_FIXED200_COMPLETE',source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(output/'checkpoint-200.pt'),main_updates=200,continuation_probe_updates=1,base_sequence_exposures=51200,FIT_windows=len(train['state']),temporal_loss=config_loss,effect_pairs=pairs,first_reload_error=first_reload,endpoint_reload_error=endpoint,continuation_error=continuation,initial_parameter_sha256=initial,parameters=sum(p.numel()for p in m.parameters()),normalizer_unique_states=len(normalizer),new_physics=0,Actor_updates=0,Critic_updates=0,target_integrations=0,main_update_peak=main_peak,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
+    result=dict(status=candidate+'_FIXED200_COMPLETE',candidate=candidate,source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(output/'checkpoint-200.pt'),main_updates=200,continuation_probe_updates=1,base_sequence_exposures=51200,FIT_windows=len(train['state']),temporal_loss=config_loss,effect_pairs=pairs,first_reload_error=first_reload,endpoint_reload_error=endpoint,continuation_error=continuation,initial_parameter_sha256=initial,parameters=sum(p.numel()for p in m.parameters()),normalizer_unique_states=len(normalizer),new_physics=0,Actor_updates=0,Critic_updates=0,target_integrations=0,main_update_peak=main_peak,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(output/'RESULT.json',result);return result

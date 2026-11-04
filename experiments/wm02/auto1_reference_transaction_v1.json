@@ -1,0 +1,30 @@
+{
+  "schema": "WM02_AUTO1_REFERENCE_TRANSACTION_V2",
+  "authority_commit": "930bb2ef0ff178771e48fb5f03ea3e37fa717582",
+  "prerequisite": "Candidate5 six native G1 stages passed with clean closeout",
+  "native_build_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+  "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+  "phase": "g2-reference-qualification",
+  "native_ticks_max": 2503,
+  "warmup_sim_s": 5,
+  "reference_transactions_extra_ticks": 0,
+  "target_instances": 1,
+  "wall_limit_s": 180,
+  "steps": [
+    "Original frozen startup and exact native pause",
+    "Actual WBC mode and measured EE/MPC clock",
+    "After fresh WBC mode ACK, exactly3 bounded initialization ticks; retain3-tick partial, never relabel as50ms transition",
+    "Original EEF10 compiler, constant measured world TCP, H40 plus closed endpoint",
+    "Original receiver accepted and installed ACK",
+    "Original cancel transaction and fresh native HOLD ACK",
+    "Verify zero additional native integrations",
+    "Clean closeout of only owned processes"
+  ],
+  "reference_scope": "Preparation for G2; no task command consumption or eight-condition suite PASS implied",
+  "BASE_labels": "ABSENT; EEF-only wire, no stationary zero supervision",
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "safety_STOP_actual": "Do not trigger a physical limit to test STOP",
+  "bounded_mode_entry_init_ticks": 3,
+  "new_evidence": "Original executed controller885042aee96eec2761e5cc9c1598194c94181bebe0de0548eb48b1110ddaa186 has pi0294_last_tick duplicate-clock guard; paused WBC ACK alone cannot trigger its next tick. G2ref01 ended safely after2500 ticks, mode ACK observed in zero-integration readiness inspection."
+}

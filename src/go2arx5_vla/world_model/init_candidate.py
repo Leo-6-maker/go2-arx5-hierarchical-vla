@@ -65,6 +65,8 @@ def build(spec,output):
     lease=Path(spec['target_lease']);lease_before=digest(lease)
     if lease_before!=spec['target_lease_sha256']or json.loads(lease.read_text())['status']!='CLOSED':raise PermissionError('Historical target lease must stay CLOSED')
     code=Path(spec['source_root']);names=('rl_sim_mujoco.cpp','rl_sim_mujoco.hpp','mujoco_utils.hpp');before=[(clock/n).read_text()for n in names];patched=r1_patch(*before)
+    from .native_lifetime import patch_shutdown
+    patched=patch_shutdown(*patched)
     sdk=Path(spec['sdk_source']).read_text();cpp,sdk_after=instrument(patched[0],sdk)
     for n,s in zip(names,(cpp,patched[1],patched[2])):(output/n).write_text(s)
     (output/'rl_sdk.cpp').write_text(sdk_after)
@@ -103,6 +105,8 @@ def build(spec,output):
         function='WM02ObserverNext'if label=='observer'else'WM02OuterNext'
         src+='\nextern "C" const char* '+function+'(){Dl_info i{};return dladdr(dlsym(RTLD_NEXT,"mj_step"),&i)?i.dli_fname:nullptr;}\n'
         if label=='observer':
+            from .auto1_native import task_observer_source
+            src=task_observer_source(src)
             src=src.replace('  real(m,d);','  wm02_init::numbers(wm02_init::STEP_BEFORE,d->time,count+1,{{d->qpos,m->nq},{d->qvel,m->nv},{d->ctrl,m->nu}});\n  real(m,d);\n  wm02_init::numbers(wm02_init::STEP_AFTER,d->time,count+1,{{d->qpos,m->nq},{d->qvel,m->nv},{d->ctrl,m->nu}});')
             src=src.replace('if(safety_stopped) {raise(SIGINT);return;}','if(safety_stopped) {wm02_init::emit(wm02_init::REFUSED,d->time,count);raise(SIGINT);return;}')
             src=src.replace('safety_stopped=true;','safety_stopped=true;wm02_init::emit(wm02_init::STOP,d->time,count);')
