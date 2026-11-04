@@ -61,10 +61,12 @@ def frozen_model(binding, device='cpu'):
     if digest(binding['path'])!=binding['sha256']:raise ValueError('Frozen checkpoint hash differs')
     c=torch.load(binding['path'],map_location='cpu',weights_only=True)
     # Registry/spec JSON carries sequences as lists; original checkpoint schema uses tuples.
-    if (c['schema']!='WM02_ENGINEERING_CHECKPOINT_V1'
+    if (c['schema']not in ('WM02_ENGINEERING_CHECKPOINT_V1','WM02_FROZEN_INFERENCE_V1')
             or json.dumps(c['provenance'],sort_keys=True)!=json.dumps(binding['provenance'],sort_keys=True)
             or c['step']!=200):
         raise ValueError('Frozen endpoint/provenance differs')
+    if c['schema']=='WM02_FROZEN_INFERENCE_V1'and c.get('parent_checkpoint_sha256')!=binding.get('parent_checkpoint_sha256'):
+        raise ValueError('Inference derivative parent differs')
     model=WorldModel(**c['model_config']);model.load_state_dict(c['model']);model.to(device).eval()
     for p in model.parameters():p.requires_grad_(False)
     return model
