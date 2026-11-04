@@ -7,6 +7,10 @@ from pathlib import Path
 import time
 
 
+def reference_expired(deadline, observation_time):
+    return deadline is not None and observation_time is not None and observation_time>=deadline-1e-10
+
+
 def bind_packet(document, *, episode, sequence, now, trajectory_type, ee, base):
     meta=document['_pi0294']
     source=meta['source_mpc_s'];ttl=meta['ttl_s'];seq=meta['sequence']
@@ -46,9 +50,10 @@ def main():
         with trace.open('a') as f:f.write(json.dumps(dict(kind=kind,monotonic_s=time.monotonic(),**kw),allow_nan=False)+'\n')
 
     def hold(self,reason):
+        expiry_source=dict(deadline_s=self._r4_deadline,observation_time_s=None if self.observation is None else float(self.observation.time))
         self.trajectory_started=False;self.bound_start=None;self._r4_deadline=None;self._r4_pending=None
         msg=String();msg.data='HOLD';self._r4_mode.publish(msg)
-        record('lifecycle',reason=reason,action='ORIGINAL_NATIVE_HOLD')
+        record('lifecycle',reason=reason,action='ORIGINAL_NATIVE_HOLD',**expiry_source)
 
     def accept(self,msg):
         try:
@@ -94,8 +99,7 @@ def main():
             inputs=[list(s.value) for s in msg.input_trajectory])
 
     def expiry(self):
-        if (self._r4_deadline is not None and self.observation is not None
-                and float(self.observation.time)>=self._r4_deadline-1e-10):hold(self,'PREFIX_TTL_EXPIRED')
+        if reference_expired(self._r4_deadline,None if self.observation is None else float(self.observation.time)):hold(self,'PREFIX_TTL_EXPIRED')
 
     def init(self):
         original_init(self);self._r4_sequence=-1;self._r4_deadline=None;self._r4_pending=None

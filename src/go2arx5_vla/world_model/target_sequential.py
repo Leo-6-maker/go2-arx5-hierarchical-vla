@@ -230,11 +230,11 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
-        from .target_reference import deadline
+        from .target_reference import deadline,require_install_clock
         from scripts.pi0294.base_intent import eef_document
         from scripts.pi0294.task_state import write_gripper
         from scripts.pi0294.task_gripper_contract import require_working_target
-        self.wait_source();packet=self.observe();source=float(self.latest['ee'].time)
+        self.wait_source();packet=self.observe();source=float(self.latest['ee'].time);require_install_clock(source,packet['time_s'])
         require_working_target(action[:,9]);self.reference_sequence+=1
         doc=eef_document(action);doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
@@ -257,6 +257,22 @@ class TargetSequentialAdapter:
         self.publish(self.refs,json.dumps(doc,separators=(',',':')))
         if not self.spin(5,lambda:any(r['kind']=='lifecycle'and r.get('reason')=='CANCEL'for r in self.reference_events())and self.counts.get('mode',0)>before and self.latest['mode'].data=='HOLD'):raise RuntimeError('DYNAMIC_CANCEL_FRESH_HOLD_ACK_MISSING')
         return dict(kind='operator_cancel',native_step=self.observe()['step'],mode='HOLD',physics_stop='NOT_IMPLIED_BY_MODE_ACK')
+    def capture_loaded_identity(self):
+        """Read actual mappings at a native pause, including regenerated DSOs."""
+        from .storage import digest,write_json
+        value={}
+        for name,p in self.processes:
+            pid=owned_simulator_pid(p.pid,self.spec['native_binary'])if name=='sim'else p.pid
+            root=Path('/proc')/str(pid);paths=set()
+            for line in(root/'maps').read_text().splitlines():
+                fields=line.split(None,5)
+                if len(fields)==6 and fields[5].startswith('/'):
+                    path=fields[5]
+                    if '(deleted)'in path:raise RuntimeError('LOADED_ARTIFACT_DELETED_IDENTITY_UNKNOWN')
+                    if any(x in path for x in('/ocs2-','/candidate-','/clock-v1/','/install/','libmujoco')):paths.add(path)
+            exe=os.readlink(root/'exe');value[name]=dict(pid=pid,executable=exe,executable_sha256=digest(exe),loaded_files_sha256={path:digest(path)for path in sorted(paths)})
+        write_json(self.output/'LOADED_EXECUTOR.private.json',value)
+        return value
     def dynamic_diagnostic(self):
         import numpy as np
         from .target_reference import trajectory_identity,require_live_window
@@ -293,7 +309,7 @@ class TargetSequentialAdapter:
                 if row['topic_key']=='arm_request':arm.append(row)
             result=dict(native_start_step=step,native_end_step=after['step'],actual_ticks=after['step']-step,clock=clock,reference_sha256=self.active_reference['wire_sha256'],target_trajectory_sha256=identity,solver_policies_with_exact_installed_target=matched,arm_request_count=len(arm),controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',mode=self.latest['mode'].data,actual_end_sim_s=after['time_s'])
             windows.append(result);self.command_event(dict(phase='controller-consumed'if matched else'consumption_unconfirmed',evidence_level='SOLVER_TARGET_CONFIRMED_CONTROLLER_SELECTION_DERIVED'if matched else'UNCONFIRMED',**result));self.command_event(dict(phase='achieved',native_step=after['step'],sim_time_s=after['time_s'],tcp=self.measured_task_state()['tcp'].tolist()))
-        cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
+        self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_labels='ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
         write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value

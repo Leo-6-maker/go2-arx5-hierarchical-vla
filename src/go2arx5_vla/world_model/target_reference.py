@@ -17,7 +17,7 @@ def deadline(source):
 
 def require_live_window(source, native_time, ticks):
     if (type(ticks) is not int or ticks <= 0 or ticks % ATOM_TICKS
-            or not 0 <= native_time-source <= .025):
+            or not math.isfinite(native_time) or native_time < source):
         raise ValueError('ACTUAL_SOURCE_AND_COMPLETE_RELATIVE_ATOMS_REQUIRED')
     end = native_time + ticks*DT
     # The receiver expires at >=deadline-1e-10, not 400ms after install.
@@ -27,6 +27,12 @@ def require_live_window(source, native_time, ticks):
                 native_end_s=end, deadline_s=deadline(source),
                 remaining_at_install_s=deadline(source)-native_time,
                 expiry_margin_s=deadline(source)-end)
+
+
+def require_install_clock(source, native_time):
+    deadline(source)
+    if not math.isfinite(native_time) or not 0 <= native_time-source <= .025:
+        raise ValueError('INSTALL_REQUIRES_FRESH_MEASURED_SOURCE')
 
 
 def trajectory_identity(times, states, inputs):

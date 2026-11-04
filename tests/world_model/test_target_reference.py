@@ -1,6 +1,7 @@
 import unittest
-from go2arx5_vla.world_model.target_reference import deadline,require_live_window,dynamic_limit,trajectory_identity
+from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
+from scripts.pi0294.native_receiver import reference_expired
 
 
 class TargetReferenceContract(unittest.TestCase):
@@ -16,8 +17,16 @@ class TargetReferenceContract(unittest.TestCase):
             with self.assertRaises(ValueError):require_live_window(5.004,native,25)
         # Renew from a fresh *measured* source; old source cannot be retimed.
         require_live_window(5.354,5.356,25)
+        # An installed prefix ages normally; 25ms is an *install* gate.
+        require_live_window(5.004,5.306,25)
+        with self.assertRaises(ValueError):require_install_clock(5.004,5.306)
+        require_install_clock(5.004,5.006)
+        self.assertFalse(reference_expired(5.404,5.402))
+        self.assertTrue(reference_expired(5.404,5.404))
+        self.assertTrue(reference_expired(5.404,5.406))
+        self.assertFalse(reference_expired(None,5.406))
     def test_invalid_source_tick_count_or_partial_rejected(self):
-        for args in ((5.007,5.006,25),(4.9,5.006,25),(5.004,5.006,24),(5.004,5.006,True)):
+        for args in ((5.007,5.006,25),(4.0,5.006,25),(5.004,5.006,24),(5.004,5.006,True)):
             with self.assertRaises(ValueError):require_live_window(*args)
     def test_stage_guards_no_arbitrary_limit(self):
         good=dict(phase='g2-reference-qualification',status='NATIVE_STAGE_PASSED',shutdown_clean=True,owned_process_exits=[dict(exit_code=0)])
