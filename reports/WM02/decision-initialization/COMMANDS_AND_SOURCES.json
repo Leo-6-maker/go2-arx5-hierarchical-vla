@@ -1,0 +1,85 @@
+{
+  "path_bindings": "Paths are normalized for publication. Exact private argv are preserved in EXECUTED_COMMANDS.private.json; entry functions are actually called inside original Journal worker, not claimed shell launches.",
+  "runs": [
+    {
+      "run": "wm02-contact-source-anchors-20261104-01",
+      "source_sha": "47ca4fbc2a0e6293ae24f1f7d1b63f4c4b8aeaf2",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.qualify_decision_anchors",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-online-20261104-01",
+      "source_sha": "8e23bf9a7ea414ede9ee90b4dc0f42fcf37954d9",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.run_frozen_selector",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-online-v4-r2-20261104-01",
+      "source_sha": "c3550fd80a31a921641dbf6e21dc80a9d4b21b5c",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.run_frozen_selector",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-data-v5-20261104-01",
+      "source_sha": "7e41cd69c3c215e91cb2f85688e5426d4a7f4d2c",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.collect_decision_data",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-online-v5-r2-20261104-01",
+      "source_sha": "d2b1dc065573dd3b4418267c0842d1c17715a357",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.run_frozen_selector",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-loss-v1-20261104-01",
+      "source_sha": "7a1b677dfe5e493c4362d69efad0fdf98e4fd786",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.diagnose_contact_loss",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-support-v2-r2-20261104-01",
+      "source_sha": "d2b1dc065573dd3b4418267c0842d1c17715a357",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.evaluate_supported_decisions",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    },
+    {
+      "run": "wm02-contact-source-support-v3-20261104-01",
+      "source_sha": "4881ecebb025b6fb8572a6779e62e81d4e82e441",
+      "actual_invocation": "\"$WM02_CPU_PYTHON\" \"$RUN/worker.py\"",
+      "entry": "scripts.wm02.evaluate_supported_decisions",
+      "entry_args": "--spec \"$RUN/EXECUTION_SPEC.json\" --output \"$RUN/collected-01\" --run-id collected-01",
+      "exit_code": 0,
+      "journal": "COMPLETE",
+      "lease": "CLOSED"
+    }
+  ]
+}

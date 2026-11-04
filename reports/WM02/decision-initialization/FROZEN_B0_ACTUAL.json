@@ -1,0 +1,1244 @@
+{
+  "status": "FROZEN_DEV_ONSET_EVALUATED",
+  "execution_source_sha": "d39e75e0c9dc7bb437df0d0efb8eb0dd027fa0a0",
+  "data_sha256": "ff78d375f97b46bd852d928b7371e9754fc9b2ccd830d73bb97a9b39180a4da4",
+  "models": {
+    "action_conditioned": {
+      "checkpoint_sha256": "de5e4afb19bf74c297954d474c2993cb408ee8f2cc28b051bfadb1cbfb2c9ede",
+      "parameters_unchanged": true,
+      "horizons": {
+        "8": {
+          "tcp_position": {
+            "window_RMSE_m": 0.0028395215049386024,
+            "endpoint_RMSE_m": 0.003874115413054824
+          },
+          "object_position": {
+            "window_RMSE_m": 0.002158205956220627,
+            "endpoint_RMSE_m": 0.0033237754832953215
+          },
+          "tcp_rotation": {
+            "window_RMSE_rad": 0.00759432278573513,
+            "endpoint_RMSE_rad": 0.006562999449670315
+          },
+          "object_rotation": {
+            "window_RMSE_rad": 0.0020140677224844694,
+            "endpoint_RMSE_rad": 0.0032267170026898384
+          },
+          "event_Brier": {
+            "left_object_contact": 0.3433377146720886,
+            "right_object_contact": 0.33450549840927124,
+            "native_grasp": 0.33503061532974243,
+            "illegal_contact": 3.7297243125067325e-06
+          },
+          "trajectories": 20,
+          "teacher_forced_grasp_Brier": 0.631548285484314
+        },
+        "16": {
+          "tcp_position": {
+            "window_RMSE_m": 0.004399136174470186,
+            "endpoint_RMSE_m": 0.006627967115491629
+          },
+          "object_position": {
+            "window_RMSE_m": 0.0036530508659780025,
+            "endpoint_RMSE_m": 0.005487089976668358
+          },
+          "tcp_rotation": {
+            "window_RMSE_rad": 0.006776595953851938,
+            "endpoint_RMSE_rad": 0.005268051754683256
+          },
+          "object_rotation": {
+            "window_RMSE_rad": 0.004022322129458189,
+            "endpoint_RMSE_rad": 0.0067348177544772625
+          },
+          "event_Brier": {
+            "left_object_contact": 0.39004653692245483,
+            "right_object_contact": 0.33672937750816345,
+            "native_grasp": 0.42023229598999023,
+            "illegal_contact": 4.9164059419126716e-06
+          },
+          "trajectories": 20,
+          "teacher_forced_grasp_Brier": 0.584447979927063
+        }
+      },
+      "candidates": [
+        {
+          "scene": 16,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9437705278396606,
+          "teacher_forced_grasp_probability": 0.9873036742210388,
+          "object_endpoint_error_m": 0.0035963510163128376,
+          "tcp_endpoint_error_m": 0.003953863400965929
+        },
+        {
+          "scene": 16,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9440109729766846,
+          "teacher_forced_grasp_probability": 0.9891231656074524,
+          "object_endpoint_error_m": 0.003597208298742771,
+          "tcp_endpoint_error_m": 0.0026057313662022352
+        },
+        {
+          "scene": 16,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.009163654409348965,
+          "teacher_forced_grasp_probability": 0.008842305280268192,
+          "object_endpoint_error_m": 0.0019236248917877674,
+          "tcp_endpoint_error_m": 0.0033564488403499126
+        },
+        {
+          "scene": 16,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9442487955093384,
+          "teacher_forced_grasp_probability": 0.9903680086135864,
+          "object_endpoint_error_m": 0.003598042530938983,
+          "tcp_endpoint_error_m": 0.005743431858718395
+        },
+        {
+          "scene": 16,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.5441468358039856,
+          "teacher_forced_grasp_probability": 0.9863207936286926,
+          "object_endpoint_error_m": 0.0036693529691547155,
+          "tcp_endpoint_error_m": 0.002819349756464362
+        },
+        {
+          "scene": 17,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.907588005065918,
+          "teacher_forced_grasp_probability": 0.9888133406639099,
+          "object_endpoint_error_m": 0.0037945399526506662,
+          "tcp_endpoint_error_m": 0.002787034958600998
+        },
+        {
+          "scene": 17,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9070956110954285,
+          "teacher_forced_grasp_probability": 0.9868751764297485,
+          "object_endpoint_error_m": 0.0037927923258394003,
+          "tcp_endpoint_error_m": 0.003998272120952606
+        },
+        {
+          "scene": 17,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9080750942230225,
+          "teacher_forced_grasp_probability": 0.9900817275047302,
+          "object_endpoint_error_m": 0.003796291071921587,
+          "tcp_endpoint_error_m": 0.005877293646335602
+        },
+        {
+          "scene": 17,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.008424007333815098,
+          "teacher_forced_grasp_probability": 0.007272985763847828,
+          "object_endpoint_error_m": 0.001925865188241005,
+          "tcp_endpoint_error_m": 0.0033660961780697107
+        },
+        {
+          "scene": 17,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.31927332282066345,
+          "teacher_forced_grasp_probability": 0.9854077696800232,
+          "object_endpoint_error_m": 0.0036883261054754257,
+          "tcp_endpoint_error_m": 0.00300203706137836
+        },
+        {
+          "scene": 18,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.008573885075747967,
+          "teacher_forced_grasp_probability": 0.008489469066262245,
+          "object_endpoint_error_m": 0.0018649343401193619,
+          "tcp_endpoint_error_m": 0.003229069523513317
+        },
+        {
+          "scene": 18,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9461957216262817,
+          "teacher_forced_grasp_probability": 0.9890030026435852,
+          "object_endpoint_error_m": 0.003156326012685895,
+          "tcp_endpoint_error_m": 0.0023660368751734495
+        },
+        {
+          "scene": 18,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9459891319274902,
+          "teacher_forced_grasp_probability": 0.987060546875,
+          "object_endpoint_error_m": 0.003155078273266554,
+          "tcp_endpoint_error_m": 0.0037870509549975395
+        },
+        {
+          "scene": 18,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.5645127892494202,
+          "teacher_forced_grasp_probability": 0.9860538840293884,
+          "object_endpoint_error_m": 0.003224107902497053,
+          "tcp_endpoint_error_m": 0.0025907810777425766
+        },
+        {
+          "scene": 18,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9463998079299927,
+          "teacher_forced_grasp_probability": 0.9903433322906494,
+          "object_endpoint_error_m": 0.0031576964538544416,
+          "tcp_endpoint_error_m": 0.005666048731654882
+        },
+        {
+          "scene": 19,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9292234182357788,
+          "teacher_forced_grasp_probability": 0.9889994263648987,
+          "object_endpoint_error_m": 0.0037784206215292215,
+          "tcp_endpoint_error_m": 0.00274642207659781
+        },
+        {
+          "scene": 19,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9288780093193054,
+          "teacher_forced_grasp_probability": 0.9871523976325989,
+          "object_endpoint_error_m": 0.0037772231735289097,
+          "tcp_endpoint_error_m": 0.004023984540253878
+        },
+        {
+          "scene": 19,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9295650720596313,
+          "teacher_forced_grasp_probability": 0.9902359843254089,
+          "object_endpoint_error_m": 0.0037795996759086847,
+          "tcp_endpoint_error_m": 0.005820431746542454
+        },
+        {
+          "scene": 19,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.42723944783210754,
+          "teacher_forced_grasp_probability": 0.9859641790390015,
+          "object_endpoint_error_m": 0.003757618134841323,
+          "tcp_endpoint_error_m": 0.0029524853453040123
+        },
+        {
+          "scene": 19,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.008928713388741016,
+          "teacher_forced_grasp_probability": 0.00810045562684536,
+          "object_endpoint_error_m": 0.001935852924361825,
+          "tcp_endpoint_error_m": 0.0033762382809072733
+        },
+        {
+          "scene": 16,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9814016222953796,
+          "teacher_forced_grasp_probability": 0.9880895018577576,
+          "object_endpoint_error_m": 0.0058887009508907795,
+          "tcp_endpoint_error_m": 0.006804545409977436
+        },
+        {
+          "scene": 16,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9814066886901855,
+          "teacher_forced_grasp_probability": 0.9883114695549011,
+          "object_endpoint_error_m": 0.005710708908736706,
+          "tcp_endpoint_error_m": 0.005537881050258875
+        },
+        {
+          "scene": 16,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.007497941609472036,
+          "teacher_forced_grasp_probability": 0.00869276374578476,
+          "object_endpoint_error_m": 0.0037441560998559,
+          "tcp_endpoint_error_m": 0.0071055288426578045
+        },
+        {
+          "scene": 16,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9814119935035706,
+          "teacher_forced_grasp_probability": 0.9882907867431641,
+          "object_endpoint_error_m": 0.0056604137644171715,
+          "tcp_endpoint_error_m": 0.007264176849275827
+        },
+        {
+          "scene": 16,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9783193469047546,
+          "teacher_forced_grasp_probability": 0.9857897162437439,
+          "object_endpoint_error_m": 0.006197953596711159,
+          "tcp_endpoint_error_m": 0.006203738506883383
+        },
+        {
+          "scene": 17,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.978559136390686,
+          "teacher_forced_grasp_probability": 0.9879981279373169,
+          "object_endpoint_error_m": 0.006055554375052452,
+          "tcp_endpoint_error_m": 0.005980506539344788
+        },
+        {
+          "scene": 17,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.97855144739151,
+          "teacher_forced_grasp_probability": 0.9881671071052551,
+          "object_endpoint_error_m": 0.00606205640360713,
+          "tcp_endpoint_error_m": 0.006902911700308323
+        },
+        {
+          "scene": 17,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9785667657852173,
+          "teacher_forced_grasp_probability": 0.9879631996154785,
+          "object_endpoint_error_m": 0.006058298517018557,
+          "tcp_endpoint_error_m": 0.007684653624892235
+        },
+        {
+          "scene": 17,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.007339785806834698,
+          "teacher_forced_grasp_probability": 0.007231616880744696,
+          "object_endpoint_error_m": 0.0037388508208096027,
+          "tcp_endpoint_error_m": 0.007122701499611139
+        },
+        {
+          "scene": 17,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9734281897544861,
+          "teacher_forced_grasp_probability": 0.9849633574485779,
+          "object_endpoint_error_m": 0.00651924591511488,
+          "tcp_endpoint_error_m": 0.006795881781727076
+        },
+        {
+          "scene": 18,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.007260326761752367,
+          "teacher_forced_grasp_probability": 0.008442453108727932,
+          "object_endpoint_error_m": 0.003671328304335475,
+          "tcp_endpoint_error_m": 0.00679249782115221
+        },
+        {
+          "scene": 18,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9813452363014221,
+          "teacher_forced_grasp_probability": 0.9882875084877014,
+          "object_endpoint_error_m": 0.005005723796784878,
+          "tcp_endpoint_error_m": 0.004945195745676756
+        },
+        {
+          "scene": 18,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9813404679298401,
+          "teacher_forced_grasp_probability": 0.9879799485206604,
+          "object_endpoint_error_m": 0.0051429616287350655,
+          "tcp_endpoint_error_m": 0.006221539340913296
+        },
+        {
+          "scene": 18,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9781588315963745,
+          "teacher_forced_grasp_probability": 0.985532820224762,
+          "object_endpoint_error_m": 0.005457283463329077,
+          "tcp_endpoint_error_m": 0.005570134148001671
+        },
+        {
+          "scene": 18,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9813501834869385,
+          "teacher_forced_grasp_probability": 0.9883345365524292,
+          "object_endpoint_error_m": 0.004969534929841757,
+          "tcp_endpoint_error_m": 0.006881458219140768
+        },
+        {
+          "scene": 19,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.980243444442749,
+          "teacher_forced_grasp_probability": 0.9881759881973267,
+          "object_endpoint_error_m": 0.006014393642544746,
+          "tcp_endpoint_error_m": 0.005871721543371677
+        },
+        {
+          "scene": 19,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9802371859550476,
+          "teacher_forced_grasp_probability": 0.9882798194885254,
+          "object_endpoint_error_m": 0.006052343174815178,
+          "tcp_endpoint_error_m": 0.0068714432418346405
+        },
+        {
+          "scene": 19,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.9802496433258057,
+          "teacher_forced_grasp_probability": 0.988271176815033,
+          "object_endpoint_error_m": 0.005959094502031803,
+          "tcp_endpoint_error_m": 0.007502756547182798
+        },
+        {
+          "scene": 19,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.9763798117637634,
+          "teacher_forced_grasp_probability": 0.9854878783226013,
+          "object_endpoint_error_m": 0.006475730799138546,
+          "tcp_endpoint_error_m": 0.006602555979043245
+        },
+        {
+          "scene": 19,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.007464782800525427,
+          "teacher_forced_grasp_probability": 0.008001461625099182,
+          "object_endpoint_error_m": 0.003753107041120529,
+          "tcp_endpoint_error_m": 0.007158073130995035
+        }
+      ],
+      "choices": {
+        "16/H8": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "17/H8": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "18/H8": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "19/H8": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "left",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "16/H16": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 1.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "17/H16": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "18/H16": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "19/H16": {
+          "WM": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "left",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        }
+      }
+    },
+    "no_future_action": {
+      "checkpoint_sha256": "120ffee5d279f2fbb1f8985909dc66a9e950523b329a1bc73110db3270df8e05",
+      "parameters_unchanged": true,
+      "horizons": {
+        "8": {
+          "tcp_position": {
+            "window_RMSE_m": 0.003717611776664853,
+            "endpoint_RMSE_m": 0.005145785864442587
+          },
+          "object_position": {
+            "window_RMSE_m": 0.0012402671854943037,
+            "endpoint_RMSE_m": 0.00218210625462234
+          },
+          "tcp_rotation": {
+            "window_RMSE_rad": 0.007912778295576572,
+            "endpoint_RMSE_rad": 0.009693427011370659
+          },
+          "object_rotation": {
+            "window_RMSE_rad": 0.003941326402127743,
+            "endpoint_RMSE_rad": 0.006401819176971912
+          },
+          "event_Brier": {
+            "left_object_contact": 4.1346243961015716e-05,
+            "right_object_contact": 3.657423076219857e-05,
+            "native_grasp": 4.002581044915132e-05,
+            "illegal_contact": 2.3866305127739906e-06
+          },
+          "trajectories": 20,
+          "teacher_forced_grasp_Brier": 0.2762465476989746
+        },
+        "16": {
+          "tcp_position": {
+            "window_RMSE_m": 0.005709534045308828,
+            "endpoint_RMSE_m": 0.008562212809920311
+          },
+          "object_position": {
+            "window_RMSE_m": 0.0027413966599851847,
+            "endpoint_RMSE_m": 0.004660008475184441
+          },
+          "tcp_rotation": {
+            "window_RMSE_rad": 0.010869353078305721,
+            "endpoint_RMSE_rad": 0.016125263646245003
+          },
+          "object_rotation": {
+            "window_RMSE_rad": 0.0077153961174190044,
+            "endpoint_RMSE_rad": 0.012915532104671001
+          },
+          "event_Brier": {
+            "left_object_contact": 0.1615140438079834,
+            "right_object_contact": 0.21127000451087952,
+            "native_grasp": 0.12424454838037491,
+            "illegal_contact": 2.139507387255435e-06
+          },
+          "trajectories": 20,
+          "teacher_forced_grasp_Brier": 0.4096372127532959
+        }
+      },
+      "candidates": [
+        {
+          "scene": 16,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0024812002666294575,
+          "teacher_forced_grasp_probability": 0.9903782606124878,
+          "object_endpoint_error_m": 0.00219694129191339,
+          "tcp_endpoint_error_m": 0.005133146420121193
+        },
+        {
+          "scene": 16,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0024812002666294575,
+          "teacher_forced_grasp_probability": 0.9931871891021729,
+          "object_endpoint_error_m": 0.00219694129191339,
+          "tcp_endpoint_error_m": 0.004764390643686056
+        },
+        {
+          "scene": 16,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0024812002666294575,
+          "teacher_forced_grasp_probability": 0.005096347536891699,
+          "object_endpoint_error_m": 0.00219694129191339,
+          "tcp_endpoint_error_m": 0.0027047356124967337
+        },
+        {
+          "scene": 16,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0024812002666294575,
+          "teacher_forced_grasp_probability": 0.9925619959831238,
+          "object_endpoint_error_m": 0.00219694129191339,
+          "tcp_endpoint_error_m": 0.007367087993770838
+        },
+        {
+          "scene": 16,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0024812002666294575,
+          "teacher_forced_grasp_probability": 0.9765996336936951,
+          "object_endpoint_error_m": 0.00219694129191339,
+          "tcp_endpoint_error_m": 0.004764365032315254
+        },
+        {
+          "scene": 17,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002694347407668829,
+          "teacher_forced_grasp_probability": 0.992734432220459,
+          "object_endpoint_error_m": 0.0021547165233641863,
+          "tcp_endpoint_error_m": 0.004713302943855524
+        },
+        {
+          "scene": 17,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002694347407668829,
+          "teacher_forced_grasp_probability": 0.9899752736091614,
+          "object_endpoint_error_m": 0.0021547165233641863,
+          "tcp_endpoint_error_m": 0.00513127027079463
+        },
+        {
+          "scene": 17,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002694347407668829,
+          "teacher_forced_grasp_probability": 0.9919795989990234,
+          "object_endpoint_error_m": 0.0021547165233641863,
+          "tcp_endpoint_error_m": 0.007299198769032955
+        },
+        {
+          "scene": 17,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002694347407668829,
+          "teacher_forced_grasp_probability": 0.005383686628192663,
+          "object_endpoint_error_m": 0.0021547165233641863,
+          "tcp_endpoint_error_m": 0.0026797065511345863
+        },
+        {
+          "scene": 17,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002694347407668829,
+          "teacher_forced_grasp_probability": 0.9754235148429871,
+          "object_endpoint_error_m": 0.0021547165233641863,
+          "tcp_endpoint_error_m": 0.00471326382830739
+        },
+        {
+          "scene": 18,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0022340393625199795,
+          "teacher_forced_grasp_probability": 0.00470691779628396,
+          "object_endpoint_error_m": 0.0022120375651866198,
+          "tcp_endpoint_error_m": 0.002638139994814992
+        },
+        {
+          "scene": 18,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0022340393625199795,
+          "teacher_forced_grasp_probability": 0.9929785132408142,
+          "object_endpoint_error_m": 0.0022120375651866198,
+          "tcp_endpoint_error_m": 0.004787429701536894
+        },
+        {
+          "scene": 18,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0022340393625199795,
+          "teacher_forced_grasp_probability": 0.9896803498268127,
+          "object_endpoint_error_m": 0.0022120375651866198,
+          "tcp_endpoint_error_m": 0.00512528233230114
+        },
+        {
+          "scene": 18,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0022340393625199795,
+          "teacher_forced_grasp_probability": 0.9734675288200378,
+          "object_endpoint_error_m": 0.0022120375651866198,
+          "tcp_endpoint_error_m": 0.004787404090166092
+        },
+        {
+          "scene": 18,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0022340393625199795,
+          "teacher_forced_grasp_probability": 0.9922369122505188,
+          "object_endpoint_error_m": 0.0022120375651866198,
+          "tcp_endpoint_error_m": 0.007415865547955036
+        },
+        {
+          "scene": 19,
+          "candidate": "nominal",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0026367376558482647,
+          "teacher_forced_grasp_probability": 0.9930343627929688,
+          "object_endpoint_error_m": 0.002164229052141309,
+          "tcp_endpoint_error_m": 0.004706484731286764
+        },
+        {
+          "scene": 19,
+          "candidate": "left",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0026367376558482647,
+          "teacher_forced_grasp_probability": 0.9903374910354614,
+          "object_endpoint_error_m": 0.002164229052141309,
+          "tcp_endpoint_error_m": 0.005105293355882168
+        },
+        {
+          "scene": 19,
+          "candidate": "right",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0026367376558482647,
+          "teacher_forced_grasp_probability": 0.9923599362373352,
+          "object_endpoint_error_m": 0.002164229052141309,
+          "tcp_endpoint_error_m": 0.007308040279895067
+        },
+        {
+          "scene": 19,
+          "candidate": "grip_timing",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0026367364916950464,
+          "teacher_forced_grasp_probability": 0.9765823483467102,
+          "object_endpoint_error_m": 0.002164229052141309,
+          "tcp_endpoint_error_m": 0.004706447944045067
+        },
+        {
+          "scene": 19,
+          "candidate": "hold",
+          "horizon": 8,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0026367364916950464,
+          "teacher_forced_grasp_probability": 0.005343965720385313,
+          "object_endpoint_error_m": 0.002164229052141309,
+          "tcp_endpoint_error_m": 0.002681516343727708
+        },
+        {
+          "scene": 16,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003088851924985647,
+          "teacher_forced_grasp_probability": 0.9942232966423035,
+          "object_endpoint_error_m": 0.004715563263744116,
+          "tcp_endpoint_error_m": 0.00869670882821083
+        },
+        {
+          "scene": 16,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003088851924985647,
+          "teacher_forced_grasp_probability": 0.9819391369819641,
+          "object_endpoint_error_m": 0.004632956814020872,
+          "tcp_endpoint_error_m": 0.008529972285032272
+        },
+        {
+          "scene": 16,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.003088851924985647,
+          "teacher_forced_grasp_probability": 0.004804125055670738,
+          "object_endpoint_error_m": 0.004817381501197815,
+          "tcp_endpoint_error_m": 0.006510160397738218
+        },
+        {
+          "scene": 16,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003088851924985647,
+          "teacher_forced_grasp_probability": 0.9712854623794556,
+          "object_endpoint_error_m": 0.004611872136592865,
+          "tcp_endpoint_error_m": 0.010326284915208817
+        },
+        {
+          "scene": 16,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003088851924985647,
+          "teacher_forced_grasp_probability": 0.9961502552032471,
+          "object_endpoint_error_m": 0.004844841081649065,
+          "tcp_endpoint_error_m": 0.00869540125131607
+        },
+        {
+          "scene": 17,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.0033063264563679695,
+          "teacher_forced_grasp_probability": 0.9761659502983093,
+          "object_endpoint_error_m": 0.004422153811901808,
+          "tcp_endpoint_error_m": 0.00827773381024599
+        },
+        {
+          "scene": 17,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.0033063264563679695,
+          "teacher_forced_grasp_probability": 0.9777548909187317,
+          "object_endpoint_error_m": 0.004427560605108738,
+          "tcp_endpoint_error_m": 0.008411694318056107
+        },
+        {
+          "scene": 17,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.0033063264563679695,
+          "teacher_forced_grasp_probability": 0.9712206125259399,
+          "object_endpoint_error_m": 0.004427856765687466,
+          "tcp_endpoint_error_m": 0.010082708671689034
+        },
+        {
+          "scene": 17,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0033063264563679695,
+          "teacher_forced_grasp_probability": 0.0051187071949243546,
+          "object_endpoint_error_m": 0.004726625047624111,
+          "tcp_endpoint_error_m": 0.006275654304772615
+        },
+        {
+          "scene": 17,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.0033063264563679695,
+          "teacher_forced_grasp_probability": 0.9957953691482544,
+          "object_endpoint_error_m": 0.004726639483124018,
+          "tcp_endpoint_error_m": 0.00848513375967741
+        },
+        {
+          "scene": 18,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002898067468777299,
+          "teacher_forced_grasp_probability": 0.004563221242278814,
+          "object_endpoint_error_m": 0.004774863366037607,
+          "tcp_endpoint_error_m": 0.006587349809706211
+        },
+        {
+          "scene": 18,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.002898067468777299,
+          "teacher_forced_grasp_probability": 0.9785102605819702,
+          "object_endpoint_error_m": 0.004694703966379166,
+          "tcp_endpoint_error_m": 0.008660407736897469
+        },
+        {
+          "scene": 18,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.002898067468777299,
+          "teacher_forced_grasp_probability": 0.9925628304481506,
+          "object_endpoint_error_m": 0.004699820652604103,
+          "tcp_endpoint_error_m": 0.008814790286123753
+        },
+        {
+          "scene": 18,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.002898067468777299,
+          "teacher_forced_grasp_probability": 0.9960960745811462,
+          "object_endpoint_error_m": 0.00483333133161068,
+          "tcp_endpoint_error_m": 0.008856450207531452
+        },
+        {
+          "scene": 18,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.002898067468777299,
+          "teacher_forced_grasp_probability": 0.9719512462615967,
+          "object_endpoint_error_m": 0.0046956539154052734,
+          "tcp_endpoint_error_m": 0.010434776544570923
+        },
+        {
+          "scene": 19,
+          "candidate": "nominal",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003233429742977023,
+          "teacher_forced_grasp_probability": 0.9809773564338684,
+          "object_endpoint_error_m": 0.004518143832683563,
+          "tcp_endpoint_error_m": 0.008352714590728283
+        },
+        {
+          "scene": 19,
+          "candidate": "left",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003233429742977023,
+          "teacher_forced_grasp_probability": 0.9865591526031494,
+          "object_endpoint_error_m": 0.004538314882665873,
+          "tcp_endpoint_error_m": 0.008474171161651611
+        },
+        {
+          "scene": 19,
+          "candidate": "right",
+          "horizon": 16,
+          "actual_grasp": true,
+          "predicted_grasp_probability": 0.003233429742977023,
+          "teacher_forced_grasp_probability": 0.9607187509536743,
+          "object_endpoint_error_m": 0.004497555550187826,
+          "tcp_endpoint_error_m": 0.010140398517251015
+        },
+        {
+          "scene": 19,
+          "candidate": "grip_timing",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.003233429742977023,
+          "teacher_forced_grasp_probability": 0.9960212111473083,
+          "object_endpoint_error_m": 0.0047815595753490925,
+          "tcp_endpoint_error_m": 0.008526846766471863
+        },
+        {
+          "scene": 19,
+          "candidate": "hold",
+          "horizon": 16,
+          "actual_grasp": false,
+          "predicted_grasp_probability": 0.003233429742977023,
+          "teacher_forced_grasp_probability": 0.005035534966737032,
+          "object_endpoint_error_m": 0.004772585351020098,
+          "tcp_endpoint_error_m": 0.0063530136831104755
+        }
+      ],
+      "choices": {
+        "16/H8": {
+          "WM": {
+            "candidate": "left",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "17/H8": {
+          "WM": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "18/H8": {
+          "WM": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "19/H8": {
+          "WM": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "left",
+            "actual_Q": 0.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 0.0,
+          "nominal_Q": 0.0
+        },
+        "16/H16": {
+          "WM": {
+            "candidate": "left",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 1.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "17/H16": {
+          "WM": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "18/H16": {
+          "WM": {
+            "candidate": "hold",
+            "actual_Q": 0.0,
+            "regret": 1.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "right",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        },
+        "19/H16": {
+          "WM": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "same_observation_rule": {
+            "candidate": "nominal",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "fixed_random": {
+            "candidate": "left",
+            "actual_Q": 1.0,
+            "regret": 0.0
+          },
+          "oracle_Q": 1.0,
+          "nominal_Q": 1.0
+        }
+      }
+    }
+  },
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "CUDA_initialized": false,
+  "CPU_s": 2.2241151610000003,
+  "wall_s": 1.0589708387851715,
+  "formal_reward": false,
+  "DEV_not_blind": true,
+  "teacher_forcing": "Privileged actual current state/history diagnostic, not deployed multi-step forecast"
+}
