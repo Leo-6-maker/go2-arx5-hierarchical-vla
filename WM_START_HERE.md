@@ -2,6 +2,8 @@
 
 日期：2026-11-04，Asia/Singapore。原计划已发布；本实施分支已有实际入口和执行结果，不表示main或旧capsule已部署。
 
+**最新长程委托已实际推进：** PC完整mesh录播与只读文件桥完成；A0冻结23/20输入及加载链复核、step4因果时间线和有限owner申请已交付。M4-A/M4-B共400主更新＋2恢复探针，M4-B通过联合DEV门；随后新16父布局尝试产生6,752真实S转移，原规则仍达采样oracle，纯WM无增益、延迟规则／混合回退保留负结果。Actor0、目标积分0，原生冷启动/5s站立仍OWNER_BLOCKED。见[真实命令、全部SHA、故障与成本](reports/WM02/autonomous-recovery/EXECUTION_REPORT.md)及[只读PC回放](reports/WM02/autonomous-recovery/PC_VIEWER_README.md)。
+
 **最新时间响应消融已执行：** M3同V5 FIT固定200主更新＋1恢复探针完成，H1/H8/H16动作差门槛DEV8逐父均通过；H1绝对物体RMSE1.947mm差于M1的1.151mm，且H16建立/释放事件明显退化，整体FAIL。零新采样、Actor0；新留出NOT_RUN。现有目标候选字节未变，缺有效init-only范围，两冷启动及2/5秒保持NOT_RUN。见[逐步诊断、OLS/刚性基线、SHA与成本](reports/WM02/temporal-response/EXECUTION_REPORT.md)。
 
 **最新动作响应／初始化候选已执行：** 当前40布局FIT定位到参考→TCP效应压平；固定200的M1/M2比较完成400主更新＋2恢复探针，另保留失败20更新。M2在诊断DEV的H8预测物体朝向效应约8.09mm，实际约7.95mm；尚未优于规则，时间响应不完整。目标R1＋停止锁存＋有界记录器已实际编译并核验两条加载链，但缺少init-only范围，原生初始化仍未验收、目标积分0。见[本轮真实命令、身份、成本与限制](reports/WM02/response-init-candidate/EXECUTION_REPORT.md)。
