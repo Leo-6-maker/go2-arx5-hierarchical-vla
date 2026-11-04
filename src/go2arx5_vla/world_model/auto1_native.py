@@ -104,6 +104,11 @@ def standing_repair_ancestor(spec):
         if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('COLD_HISTORY_BUILD_PROOF_CHANGED')
     receipt=json.loads(Path(spec['cold_history_build_receipt']).read_text());build=json.loads(Path(spec['cold_history_build_spec']).read_text())
     pair=build.get('command_pair_coherence')
+    clock=build.get('physical_callback_clock')
+    if clock is not None:
+        header=Path(spec['cold_history_build_receipt']).parent/'control_clock.hpp'
+        if(clock!='FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1'or receipt.get('physical_callback_clock')!=clock
+                or not header.is_file()or digest(header)!=receipt.get('control_clock_header_sha256')):raise PermissionError('EXACT_PHYSICAL_CALLBACK_CLOCK_SUCCESSOR_PROOF_REQUIRED')
     if pair is not None:
         header=Path(spec['cold_history_build_receipt']).parent/'command_pair.hpp'
         if(pair!='SHORT_PAIR_PUBLICATION_PD_TRYLOCK_V1'or receipt.get('command_pair_coherence')!=pair
