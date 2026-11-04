@@ -76,6 +76,11 @@ def admitted_target(spec_path,run_id,output):
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('CPU_TARGET_COMMISSIONING_ONLY')
     validate_parent_loader(spec['native_environment']['LD_LIBRARY_PATH'],os.environ.get('LD_LIBRARY_PATH'))
     if str(Path(spec['xvfb_run']))not in spec['frozen_files']or not os.access(spec['xvfb_run'],os.X_OK):raise PermissionError('BOUND_EXISTING_XVFB_ENTRY_REQUIRED')
+    if spec.get('parallel_batch_spec'):
+        from .target_parallel import inherited_batch_owner
+        with inherited_batch_owner(spec_path,spec):
+            with admitted_run(spec_path,run_id,'wm02-auto1-target',output,physics=True):yield spec
+        return
     campaign_lock=OwnerLock(campaign/'OWNER.lock')
     try:
         native_lock=OwnerLock(spec['physical_owner_lock'])
