@@ -17,12 +17,17 @@ def validate_layout(batch, children):
                 or child['source_sha']!=batch['source_sha']
                 or child['ROS_DOMAIN_ID']not in (220,221)
                 or not set(child['cpus'])or cpus.intersection(child['cpus'])
-                or child['phase']not in ('cold-1','g2-standing-hold-short-v2')
-                or child['max_ticks']not in (50,2528)
+                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02')
+                or child['max_ticks']not in (50,2528,3103)
                 or digest(slot['spec'])!=slot['spec_sha256']):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
+    if any(c['phase'].startswith('collect-target-')for c in children):
+        if [c['phase']for c in children]!=['collect-target-parallel-01','collect-target-parallel-02']:raise PermissionError('EXACT_FINITE_PARALLEL_COLLECTION_PAIR_REQUIRED')
+        proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
+        if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
+                or len(value['children'])!=2 or not all(c['ticks']==2528 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):raise PermissionError('ACTUAL_CONCURRENT_HOLD_QUALIFICATION_REQUIRED')
 
 
 def process_start(pid):

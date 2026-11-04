@@ -107,6 +107,8 @@ def dynamic_limit(phase, previous):
         for index in range(1,count+1):
             name=f'collect-target-{batch}-{index:02d}'
             table[name]=(first if index==1 else f'collect-target-{batch}-{index-1:02d}',TASK_START+600)
+    for index in(1,2):
+        table[f'collect-target-parallel-{index:02d}']=('g2-standing-eef-y-v2',TASK_START+600)
     if phase not in table:
         raise PermissionError('UNKNOWN_FINITE_DYNAMIC_PHASE')
     parent, limit = table[phase]

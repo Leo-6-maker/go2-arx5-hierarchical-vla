@@ -302,6 +302,7 @@ class TargetSequentialAdapter:
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if self.spec['phase'].startswith('collect-target-'):
             index=int(self.spec['phase'][-2:]);offset={3:(0,.001),4:(0,-.001),5:(1,.001),6:(1,-.001)}.get(index)
+            if self.spec['phase'].startswith('collect-target-parallel-'):offset=(0,.001 if index==1 else-.001)
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current():
