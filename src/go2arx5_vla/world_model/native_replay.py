@@ -77,7 +77,7 @@ def render_check(config,output,frames=120):
     write_json(output/'RESULT.json',result);return result
 
 
-def passive(config,output,max_wall=60,rate=1.):
+def passive(config,output,max_wall=60,rate=1.,*,transport_self_check=False,replay_feed=None):
     """MuJoCo native orbit/zoom + small Tk transport. No new 3D engine."""
     import tkinter as tk
     from tkinter import ttk
@@ -90,6 +90,12 @@ def passive(config,output,max_wall=60,rate=1.):
     def toggle():state['pause']=not state['pause']
     ttk.Button(controls,text='Pause / Play',command=toggle).pack(side='left');speed_var=tk.StringVar(value=str(rate));ttk.Combobox(controls,textvariable=speed_var,values=['0.05','0.1','0.25','0.5','1.0','2.0'],width=6,state='readonly').pack(side='left');tk.Label(controls,text='Arrow keys: ±one saved packet; mouse: orbit / zoom. End of recording holds.').pack(side='left')
     ui.protocol('WM_DELETE_WINDOW',lambda:state.update(closed=True))
+    control_checks=[]
+    if transport_self_check and replay_feed is None:
+        ui.after(300,lambda:(toggle(),control_checks.append('pause')))
+        ui.after(600,lambda:(seek(times[len(times)//2]),control_checks.append('seek_saved_packet')))
+        ui.after(900,lambda:(speed_var.set('0.1'),toggle(),control_checks.append('rate_change_and_resume')))
+    feed_sequence=0;feed_updates=0;stale_frames=0;feed_last=time.monotonic();feed_row=rows[0]
     def key(k):
         if k==32:toggle()
         elif k in(262,263):
@@ -104,8 +110,15 @@ def passive(config,output,max_wall=60,rate=1.):
             if state['seek']is not None:position=max(times[0],min(times[-1],state.pop('seek')));state['seek']=None;seeks+=1
             elif not state['pause']:position=min(times[-1],position+elapsed*speed)
             i=max(0,bisect.bisect_right(times,position)-1);row=rows[i]
+            if replay_feed is not None:
+                from .replay_feed import read_snapshot
+                incoming=read_snapshot(replay_feed,config,feed_sequence)
+                if incoming is not None:feed_row=incoming;feed_sequence=incoming['sequence'];feed_updates+=1;feed_last=now
+                row=feed_row;position=row['time_s'];stale_frames+=int(now-feed_last>1.)
             with handle.lock():
                 handle.perturb.active=0;apply_frame(mujoco,m,d,row)
-            handle.sync();displayed+=1;slider.set(position);label.set(f"{config['label']} | original packets {len(rows)} | saved step {row['step']} | physics t={row['time_s']:.3f}s | no interpolation / no mj_step");ui.update();samples.append(now);time.sleep(max(0,1/30-(time.monotonic()-now)))
+            handle.sync();displayed+=1;slider.set(position);label.set(f"{config['label']} | original packets {len(rows)} | saved step {row['step']} | physics t={row['time_s']:.3f}s | no interpolation / no mj_step");
+            if replay_feed is not None:label.set(label.get()+(' | STALE: holding last recorded packet'if now-feed_last>1. else' | PRIVATE REPLAY FILE FEED, NOT LIVE TARGET'))
+            ui.update();samples.append(now);time.sleep(max(0,1/30-(time.monotonic()-now)))
         if calls:raise RuntimeError('Integration attempted')
-    ui.destroy();result=dict(status='ACTUAL_PASSIVE_VIEWER_FINITE_EXIT',source_sha=config['source_sha'],scene_sha256=config['scene']['sha256'],journal_sha256=config['journal']['sha256'],episode_id=config['episode_id'],label=config['label'],display_frames=displayed,seek_events=seeks,gui_wall_s=time.monotonic()-start,display_mean_FPS=(len(samples)-1)/(samples[-1]-samples[0])if len(samples)>1 else 0,rate=rate,integration_calls=0,new_native_T_integrations=0,actual_forward_calls=displayed+1,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start);write_json(output/'RESULT.json',result);return result
+    ui.destroy();result=dict(status='ACTUAL_PASSIVE_VIEWER_FINITE_EXIT',source_sha=config['source_sha'],scene_sha256=config['scene']['sha256'],journal_sha256=config['journal']['sha256'],episode_id=config['episode_id'],label=config['label'],display_frames=displayed,seek_events=seeks,gui_wall_s=time.monotonic()-start,display_mean_FPS=(len(samples)-1)/(samples[-1]-samples[0])if len(samples)>1 else 0,rate=rate,transport_control_checks=control_checks,replay_feed_updates=feed_updates,replay_feed_last_sequence=feed_sequence,stale_display_frames=stale_frames,integration_calls=0,new_native_T_integrations=0,actual_forward_calls=displayed+1,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start);write_json(output/'RESULT.json',result);return result
