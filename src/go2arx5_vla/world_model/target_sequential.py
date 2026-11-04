@@ -300,7 +300,10 @@ class TargetSequentialAdapter:
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
-        if self.spec['phase'].startswith('collect-target-'):
+        if self.spec['phase']=='collect-target-night1':
+            from .target_manifest import episode_config
+            episode=episode_config(self.spec);goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
+        elif self.spec['phase'].startswith('collect-target-'):
             index=int(self.spec['phase'][-2:]);offset={3:(0,.001),4:(0,-.001),5:(1,.001),6:(1,-.001)}.get(index)
             if self.spec['phase'].startswith('collect-target-parallel-'):offset=(0,.001 if index==1 else-.001)
         if offset:goal[offset[0],3]+=offset[1]

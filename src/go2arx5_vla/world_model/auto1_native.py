@@ -14,7 +14,10 @@ def validate_parent_loader(expected,actual):
     # Setting it later only for native children cannot repair the parent.
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
-def phase_limit(phase,previous):
+def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-night1':
+        from .target_manifest import episode_limit
+        return episode_limit(spec,previous)
     if phase.startswith('collect-target-')or phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2','g2-standing-ttl-v2'):
         from .target_reference import dynamic_limit
         return dynamic_limit(phase,previous)
@@ -51,7 +54,7 @@ def admitted_target(spec_path,run_id,output):
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
                 or previous.get('native_binary_sha256')!=digest(spec['native_binary'])or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
     if type(spec['candidate_index'])is not int or not 1<=spec['candidate_index']<=6:raise PermissionError('AUTO1_FINITE_CANDIDATE_COUNT_REQUIRED')
-    limit=phase_limit(spec['phase'],previous)
+    limit=phase_limit(spec['phase'],previous,spec)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
     if spec['phase'].startswith(('g2-standing-','collect-target-')):
         repair=Path(spec['repair_stop_result']);negative=json.loads(repair.read_text())
@@ -69,6 +72,9 @@ def admitted_target(spec_path,run_id,output):
                 or trained.get('main_updates')!=200 or trained.get('continuation_probe_updates')!=1
                 or digest(spec['initial_WM_checkpoint'])!=trained.get('checkpoint_sha256')):raise PermissionError('REAL_TARGET_WM200_AND_RESTORE_REQUIRED_BEFORE_BATCH_B')
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
+    if spec['phase']=='collect-target-night1':
+        from .target_manifest import validate_night1
+        validate_night1(spec,json.loads(Path(spec['registry']).read_text()))
     for path,pin in spec['frozen_files'].items():
         if digest(path)!=pin:raise PermissionError('FROZEN_TARGET_INPUT_CHANGED:'+path)
     old=Path(spec['historical_target_lease'])

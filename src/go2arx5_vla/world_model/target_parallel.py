@@ -17,13 +17,23 @@ def validate_layout(batch, children):
                 or child['source_sha']!=batch['source_sha']
                 or child['ROS_DOMAIN_ID']not in (220,221)
                 or not set(child['cpus'])or cpus.intersection(child['cpus'])
-                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02')
-                or child['max_ticks']not in (50,2528,3103)
+                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1')
+                or child['max_ticks']not in (50,2528,3103,3703,4903,6503)
                 or digest(slot['spec'])!=slot['spec_sha256']):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
-    if any(c['phase'].startswith('collect-target-')for c in children):
+    night1=all(c['phase']=='collect-target-night1'for c in children)
+    if any(c['phase']=='collect-target-night1'for c in children)and not night1:raise PermissionError('NO_MIXED_NIGHT1_LEGACY_BATCH')
+    if night1:
+        from .target_manifest import episode_config
+        episodes=[episode_config(c)for c in children]
+        if len({e['task_atoms']for e in episodes})!=1:raise PermissionError('EXACT_FINITE_SAME_LENGTH_BATCH_REQUIRED')
+        if any(e['purpose']=='PRODUCTION'for e in episodes):
+            proof=Path(batch['duration_qualification']);value=json.loads(proof.read_text())
+            if (digest(proof)!=batch['duration_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
+                    or len(value['children'])!=2 or not all(c['ticks']==2503+25*episodes[0]['task_atoms']and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):raise PermissionError('ACTUAL_CONCURRENT_DURATION_QUALIFICATION_REQUIRED')
+    if any(c['phase'].startswith('collect-target-')for c in children)and not night1:
         if [c['phase']for c in children]!=['collect-target-parallel-01','collect-target-parallel-02']:raise PermissionError('EXACT_FINITE_PARALLEL_COLLECTION_PAIR_REQUIRED')
         proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
         if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'

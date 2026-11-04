@@ -4,6 +4,9 @@ def main(argv=None):
     from pathlib import Path
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--manifest',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args(argv)
-    from go2arx5_vla.world_model.target_replay import build
+    if json.loads(a.manifest.read_text()).get('schema')=='WM02_NIGHT1_TARGET_REPLAY_MANIFEST_V2':
+        from go2arx5_vla.world_model.target_replay_v2 import build
+    else:
+        from go2arx5_vla.world_model.target_replay import build
     print(json.dumps(build(a.manifest,a.output)));return 0
 if __name__=='__main__':raise SystemExit(main())
