@@ -217,9 +217,13 @@ def run(folder,spec):
         error=max(tree_error(model.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()))
         if error>1e-6:raise RuntimeError('Paired WM complete continuation differs')
         del clone,co
-        final=float(supervised_loss(model,select(train,slice(0,32)),blind).detach());del opt
+        final=float(supervised_loss(model,select(train,slice(0,32)),blind).detach())
+        reloaded,reloaded_opt,c=load_checkpoint(out/'checkpoint-200.pt',device,provenance)
+        endpoint_error=max(tree_error(model.state_dict(),reloaded.state_dict()),tree_error(opt.state_dict(),reloaded_opt.state_dict()))
+        if endpoint_error>1e-6 or c['replay_cursor']!=51200:raise RuntimeError('Paired endpoint200 full reload differs')
+        del model,opt,reloaded_opt;model=reloaded
         models.append(model);arms[name]=dict(main_updates=200,restore_probe_updates=1,continuation_error=error,initial_FIT32_loss=initial,final_FIT32_loss=final,
-            checkpoint_sha256=sha(out/'checkpoint-200.pt'),parameters=sum(p.numel()for p in model.parameters()),**peak)
+            endpoint_reload_error=endpoint_error,checkpoint_sha256=sha(out/'checkpoint-200.pt'),parameters=sum(p.numel()for p in model.parameters()),**peak)
         put(out/'RESULT.json',arms[name])
     # Both fixed arms are complete before once-heldout predictions are generated.
     hold=(meta['partition']=='ONCE_HOLDOUT')&(data['valid'][:,8:].sum(-1).cpu().numpy()==16)
