@@ -5,6 +5,14 @@ from scripts.pi0294.task_contacts import allowed
 from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter,native_startup_readiness
 
 class Auto1Native(unittest.TestCase):
+    def test_live_receiver_reader_waits_for_complete_record_and_rejects_committed_corruption(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp);a=TargetSequentialAdapter({},p);f=p/'planner.jsonl';f.write_bytes(b'{"kind":"accept"}\n{"kind":"installed","large":[')
+            self.assertEqual(a.reference_events(),[dict(kind='accept')])
+            with f.open('ab')as h:h.write(b'1,2]}\n')
+            self.assertEqual(a.reference_events()[-1],dict(kind='installed',large=[1,2]))
+            with f.open('ab')as h:h.write(b'{invalid}\n')
+            with self.assertRaises(json.JSONDecodeError):a.reference_events()
     def test_native_feedback_does_not_substitute_for_completed_controller_construction(self):
         with tempfile.TemporaryDirectory()as tmp:
             p=Path(tmp);(p/'controller.log').write_text('go2_x5_ocs2 ready; waiting for odometry\n');(p/'solver.log').write_text('MPC node is ready.\n')

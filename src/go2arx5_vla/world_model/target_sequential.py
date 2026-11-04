@@ -227,9 +227,7 @@ class TargetSequentialAdapter:
         source=float(self.latest['ee'].time);document=eef_document(action);document['_pi0294']=dict(episode=self.output.name,sequence=0,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(document,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         write(self.output/'REFERENCE_PROPOSED.json',dict(wire=wire,wire_sha256=ref,action_EEF10=action.tolist(),source_mpc_s=source,native_step=step))
-        def events():
-            p=self.output/'planner.jsonl'
-            return[json.loads(l)for l in p.read_text().splitlines()if l.strip()]if p.exists()else[]
+        events=self.reference_events
         self.publish(self.refs,wire)
         def installed():
             rows=events()
@@ -245,7 +243,13 @@ class TargetSequentialAdapter:
         return self.reference_qualification
     def reference_events(self):
         path=self.output/'planner.jsonl'
-        return [json.loads(l)for l in path.read_text().splitlines()if l.strip()]if path.exists()else[]
+        if not path.exists():return[]
+        raw=path.read_bytes()
+        # The receiver appends large records. A concurrent read may end inside
+        # one write; consume only newline-committed records, retaining strict
+        # parsing for any malformed complete record.
+        if raw and not raw.endswith(b'\n'):raw=raw[:raw.rfind(b'\n')+1]
+        return[json.loads(line)for line in raw.splitlines()if line.strip()]
     def prepare_dynamic(self):
         if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
         self.advance_initialization(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
