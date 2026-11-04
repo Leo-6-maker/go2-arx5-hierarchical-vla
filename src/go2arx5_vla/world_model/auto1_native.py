@@ -20,7 +20,7 @@ def phase_limit(phase,previous,spec=None):
         return episode_limit(spec,previous)
     if phase.startswith('collect-target-')or phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2','g2-standing-ttl-v2'):
         from .target_reference import dynamic_limit
-        return dynamic_limit(phase,previous)
+        return dynamic_limit(phase,previous,spec)
     if phase=='g2-reference-qualification':
         if(previous is None or previous.get('phase')!='hold-5s-2'or previous.get('status')!='NATIVE_STAGE_PASSED'or not previous.get('shutdown_clean')or any(p['exit_code']!=0 for p in previous.get('owned_process_exits',[]))):raise PermissionError('COMPLETE_G1_REQUIRED_BEFORE_REFERENCE_QUALIFICATION')
         return 2503
@@ -53,7 +53,7 @@ def admitted_target(spec_path,run_id,output):
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
                 or previous.get('native_binary_sha256')!=digest(spec['native_binary'])or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
-    if type(spec['candidate_index'])is not int or not 1<=spec['candidate_index']<=6:raise PermissionError('AUTO1_FINITE_CANDIDATE_COUNT_REQUIRED')
+    if type(spec['candidate_index'])is not int or spec['candidate_index']<1 or(not spec.get('night1_binding')and spec['candidate_index']>6):raise PermissionError('ACTUAL_CANDIDATE_IDENTITY_REQUIRED')
     limit=phase_limit(spec['phase'],previous,spec)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
     if spec['phase'].startswith(('g2-standing-','collect-target-')):
@@ -61,7 +61,7 @@ def admitted_target(spec_path,run_id,output):
         if (spec.get('reference_binding_version')!='MEASURED_EEF_AND_BASE_POSE_HOLD_V2'
                 or digest(repair)!=spec['repair_stop_result_sha256']
                 or negative.get('campaign_uuid')!=campaign.name
-                or negative.get('native_binary_sha256')!=digest(spec['native_binary'])
+                or negative.get('native_binary_sha256')!=standing_repair_ancestor(spec)
                 or negative.get('phase')!='g2-hold-renew'
                 or negative.get('actual_target_integrations')!=2853
                 or negative.get('physics_stops')!=[dict(kind='stop',reason='ILLEGAL_CONTACT',steps=2853)]
@@ -72,7 +72,7 @@ def admitted_target(spec_path,run_id,output):
                 or trained.get('main_updates')!=200 or trained.get('continuation_probe_updates')!=1
                 or digest(spec['initial_WM_checkpoint'])!=trained.get('checkpoint_sha256')):raise PermissionError('REAL_TARGET_WM200_AND_RESTORE_REQUIRED_BEFORE_BATCH_B')
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
-    if spec['phase']=='collect-target-night1':
+    if spec.get('night1_binding'):
         from .target_manifest import validate_night1
         validate_night1(spec,json.loads(Path(spec['registry']).read_text()))
     for path,pin in spec['frozen_files'].items():
@@ -94,6 +94,24 @@ def admitted_target(spec_path,run_id,output):
             with admitted_run(spec_path,run_id,'wm02-auto1-target',output,physics=True):yield spec
         finally:native_lock.close()
     finally:campaign_lock.close()
+
+def standing_repair_ancestor(spec):
+    """Bind the preserved reference failure to a verified cold-history-only successor."""
+    from .storage import digest
+    actual=digest(spec['native_binary'])
+    if not spec.get('cold_history_build_receipt'):return actual
+    for key in('cold_history_build_receipt','cold_history_build_spec'):
+        if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('COLD_HISTORY_BUILD_PROOF_CHANGED')
+    receipt=json.loads(Path(spec['cold_history_build_receipt']).read_text());build=json.loads(Path(spec['cold_history_build_spec']).read_text())
+    if (receipt.get('status')!='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+            or receipt.get('binary_sha256')!=actual
+            or receipt.get('cold_history_init')!='ORIGINAL_BUFFER_RESET_FIRST_REAL_OBSERVATION_V1'
+            or receipt.get('ongoing_control_math_unchanged')is not True
+            or receipt.get('original_R1_math_assertions_pass')is not True
+            or receipt.get('source_sha')!=build.get('source_sha')
+            or receipt.get('original_SDK_sha256')!=build.get('frozen_files',{}).get(build.get('sdk_source'))
+            or not build.get('ancestor_binary_sha256')):raise PermissionError('EXACT_COLD_HISTORY_SUCCESSOR_PROOF_REQUIRED')
+    return build['ancestor_binary_sha256']
 
 def task_observer_source(text):
     """Restore the exact pre-existing task pair rule omitted by the generic build."""
