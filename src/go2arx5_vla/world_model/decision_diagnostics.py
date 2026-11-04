@@ -73,10 +73,22 @@ def frozen_model(binding, device='cpu'):
 
 
 def rule_scores(state,raw):
-    """Deployable pre-close rule: close while retaining measured object/TCP alignment."""
+    """V4 causal rule: prefer prompt closure, retaining measured TCP/object alignment.
+
+    Mean commanded opening distinguishes immediate from delayed closure even when
+    their final openings agree. This definition is frozen before the V4 run.
+    """
     target_xy=state[SLICES['tcp_position']][:2]+raw[:,:,:2].sum(1)
     object_xy=state[SLICES['object_position']][:2]
-    return -raw[:,-1,6]-10*np.linalg.norm(target_xy-object_xy,axis=-1)
+    return -raw[:,:,6].mean(1)-10*np.linalg.norm(target_xy-object_xy,axis=-1)
+
+
+def stable_choice(scores, raw, tolerance=1e-6):
+    """Order-invariant numeric ties use only hashes of the proposed raw commands."""
+    scores=np.asarray(scores,dtype=np.float64);raw=np.asarray(raw,dtype='<f8')
+    if scores.shape!=(len(raw),)or not np.isfinite(scores).all():raise ValueError('Finite candidate scores required')
+    ids=np.flatnonzero(scores>=scores.max()-tolerance)
+    return int(min(ids,key=lambda i:hashlib.sha256(raw[i].tobytes()).digest()))
 
 
 def choices(predicted, truth, names, rule, scene):

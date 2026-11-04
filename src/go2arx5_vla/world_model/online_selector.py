@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib,json,os,time,traceback
 import numpy as np
 from .decision_native import bank,proposals,local_guard
-from .decision_diagnostics import frozen_model,rule_scores
+from .decision_diagnostics import frozen_model,rule_scores,stable_choice
 from .native_adapter import SourceAdapter
 from .action_compiler import compile_reference,SOURCE
 from .contracts import FRAME,TCP
@@ -15,14 +15,17 @@ from .contact_identification import compare_repeats
 def choose(model,history,current,context,raw,blind):
     import torch
     from .contact_training import predict
-    n=len(raw)
+    # A blind model has identical inputs for every proposal. Evaluate that input
+    # once: batched matrix rounding must never become a surrogate action signal.
+    n=1 if blind else len(raw)
     def repeat(x):return torch.tensor(x,dtype=torch.float32)[None].expand(n,*np.shape(x))
     with torch.no_grad():
         _,event,_=predict(model,repeat(np.stack([tensor_state(r['state_before'])for r in history])),
             repeat(tensor_state(current)),repeat(np.stack([r['reference_compiled']for r in history])),repeat(context),
             repeat(np.array([[r['t0']/32,r['native_progress']['point']*.05]for r in history])),
-            repeat(np.array([current['time_s']/32,0.])),torch.tensor(raw,dtype=torch.float32),blind=blind)
-    return event[:,-1,2].numpy()
+            repeat(np.array([current['time_s']/32,0.])),torch.tensor(raw[:n],dtype=torch.float32),blind=blind)
+    scores=event[:,-1,2].numpy()
+    return np.repeat(scores,len(raw))if blind else scores
 
 
 def rollout(adapter,anchor,models,spec,folder,policy,scene):
@@ -30,14 +33,16 @@ def rollout(adapter,anchor,models,spec,folder,policy,scene):
     ref=adapter.save_complete(folder/'initial-restore.pkl.gz')
     for decision in range(2):
         guard();state=adapter.snapshot(force=True);names,raw=proposals('preclose',tensor_state(state),anchor['context'],float(adapter.last_command[-1]),scene,decision)
-        if policy in models:scores=choose(models[policy],history[-8:],state,anchor['context'],raw,policy=='no_future_action');index=int(np.argmax(scores))
-        elif policy=='same_observation_rule':scores=rule_scores(tensor_state(state),raw);index=int(np.argmax(scores))
+        if policy in models:scores=choose(models[policy],history[-8:],state,anchor['context'],raw,policy=='no_future_action');index=stable_choice(scores,raw)
+        elif policy=='same_observation_rule':scores=rule_scores(tensor_state(state),raw);index=stable_choice(scores,raw)
         elif policy=='fixed_random':
             index=int.from_bytes(hashlib.sha256(f'WM02_ONLINE_RANDOM_V3/{scene}/{decision}'.encode()).digest()[:4],'big')%len(names);scores=None
         else:raise ValueError('Unknown fixed selector')
         selection=dict(scene=scene,policy=policy,decision=decision,time_s=state['time_s'],candidates=names,
             scores=scores.tolist()if scores is not None else None,selected=names[index],action_raw=raw[index].tolist(),
-            original_history_atoms=8,uses_future_truth=False,Teacher_phase_input=False)
+            original_history_atoms=8,uses_future_truth=False,Teacher_phase_input=False,
+            selector_version='V4',score_tie_tolerance=1e-6,tie_break='SHA256 of raw float64 LE bytes',
+            blind_single_prediction_broadcast=policy=='no_future_action')
         # Exclusive/fsynced file exists BEFORE native gate, shadow forecast, or live step.
         path=folder/f'decision-{decision:02d}-BEFORE_EFFECT.json';write_json(path,selection)
         selection_pin=hashlib.sha256(path.read_bytes()).hexdigest()
@@ -48,7 +53,7 @@ def rollout(adapter,anchor,models,spec,folder,policy,scene):
             selections.append(dict(decision=decision,selected=names[index],selection_sha256=selection_pin,status='REJECTED_ZERO_PHYSICS'));break
         block=[]
         for k in range(8):
-            row=adapter.advance_recorded(plan,k,run_id=folder.parent.name,actor_version='FROZEN_WM_SELECTOR_V3',restore_ref=ref)
+            row=adapter.advance_recorded(plan,k,run_id=folder.parent.name,actor_version='FROZEN_WM_SELECTOR_V4',restore_ref=ref)
             block.append(row);live+=row['physics_ticks']
             if row['terminal']or row['truncated']:break
         dump_private(folder/f'decision-{decision:02d}-ACTUAL.pkl.gz',dict(rows=block,selection_sha256=selection_pin))

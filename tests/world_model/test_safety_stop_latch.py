@@ -51,15 +51,18 @@ def exercise(folder,observer,actuation):
     mujoco.mj_saveModel(model,str(folder/'fixture.mjb'),None)
     for name,text in [('observer',observer),('actuation',actuation),('fake',FAKE),('driver',DRIVER)]:
         p=folder/(name+'.cpp');p.write_text(text)
-        args=[compiler,'-std=c++17','-O1','-I'+include,str(p)]
+        args=[compiler,'-std=c++17','-O1','-I'+include,'-I'+str(ROOT/'scripts/pi0294'),str(p)]
         if name!='driver':args+=['-shared','-fPIC','-ldl','-o',str(folder/(name+'.so'))]
         else:args+=[str(library),'-ldl','-Wl,-rpath,'+str(dep),'-o',str(folder/'driver')]
         subprocess.run(args,check=True,capture_output=True,text=True)
     (folder/'quota').write_text('10\n')
+    (folder/'binding').write_text('GRTQUOTA2\nfixture\nfixture-card\nfixture-owner\n10\n1\n0\n')
     env=dict(os.environ,LD_PRELOAD=':'.join(str(folder/(n+'.so'))for n in ('actuation','observer','fake')),
         PI0288_PHYSICS_TRACE=str(folder/'trace.jsonl'),PI0288_PHYSICS_CAP='10',
         GR00T_TASK_GRIPPER_COMMAND=str(folder/'absent-command'),GR00T_TASK_STATE=str(folder/'state.bin'),
-        GR00T_TASK_STEP_QUOTA=str(folder/'quota'),FAKE_CALLS=str(folder/'fake-calls'))
+        GR00T_TASK_STEP_QUOTA=str(folder/'quota'),FAKE_CALLS=str(folder/'fake-calls'),
+        GR00T_TASK_QUOTA_BINDING=str(folder/'binding'),GR00T_TASK_RUN_UUID='fixture',
+        GR00T_TASK_CARD_SHA256='fixture-card',GR00T_TASK_RESERVATION_ID='fixture-owner')
     q=subprocess.run([str(folder/'driver'),str(folder/'fixture.mjb')],env=env,capture_output=True,text=True,timeout=20)
     if q.returncode:raise RuntimeError('C ABI fixture failed exit '+str(q.returncode)+': '+q.stderr)
     return dict(fake_calls=len((folder/'fake-calls').read_text().splitlines()),
