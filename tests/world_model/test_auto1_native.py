@@ -2,8 +2,14 @@ import unittest,tempfile,subprocess,shutil,itertools,sys,json
 from pathlib import Path
 from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source,validate_parent_loader
 from scripts.pi0294.task_contacts import allowed
+from go2arx5_vla.world_model.target_sequential import native_display_command
 
 class Auto1Native(unittest.TestCase):
+    def test_preload_reaches_only_simulator_not_display_shell_and_helpers(self):
+        s=dict(xvfb_run='/private/xvfb-run',outer_library='/outer',observer_library='/observer',trace_library='/trace',native_binary='/sim')
+        argv,env=native_display_command(s,'/run',dict(LD_PRELOAD='bad',WM02_INIT_TRACE='bad',OTHER='kept'))
+        self.assertNotIn('LD_PRELOAD',env);self.assertNotIn('WM02_INIT_TRACE',env);self.assertEqual(env['OTHER'],'kept')
+        self.assertEqual(argv,['/private/xvfb-run','-a','/usr/bin/env','LD_PRELOAD=/outer:/observer:/trace','WM02_INIT_TRACE=/run/init.trace','/sim','go2_x5','scene'])
     def test_ROS_parent_loader_must_be_bound_at_exec_not_only_for_future_children(self):
         validate_parent_loader('/existing/ros:/existing/native','/existing/ros:/existing/native')
         for value in(None,'','/other'):

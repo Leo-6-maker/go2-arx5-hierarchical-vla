@@ -2,6 +2,13 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 
+def native_display_command(spec,output,environment):
+    # Do not inject constructor-bearing native libraries into xvfb-run's shell,
+    # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
+    env=dict(environment);env.pop('LD_PRELOAD',None);env.pop('WM02_INIT_TRACE',None)
+    argv=[spec['xvfb_run'],'-a','/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),spec['native_binary'],'go2_x5','scene']
+    return argv,env
+
 class TargetSequentialAdapter:
     def __init__(self,spec,output):
         self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.started=time.monotonic();self.commands=[];self.exit_records=[]
@@ -33,6 +40,8 @@ class TargetSequentialAdapter:
     def start(self):
         # Caller has already checked scope, hashes and physical owner lock.
         os.environ.update(ROS_DOMAIN_ID=str(self.spec['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
+        import resource
+        resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         import rclpy
         from std_msgs.msg import String
         from nav_msgs.msg import Odometry
@@ -51,9 +60,14 @@ class TargetSequentialAdapter:
         (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'0'))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
-        self.launch([s['xvfb_run'],'-a',s['native_binary'],'go2_x5','scene'],'sim',sim)
-        native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf'),'-p','libFolder:='+s['codegen_lib']]
-        self.launch([s['solver_binary'],*params],'solver',env);self.launch([s['controller_binary'],*params],'controller',env)
+        command,display_env=native_display_command(s,out,sim);self.launch(command,'sim',display_env)
+        native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
+        # OCS2 can regenerate cache libraries while constructing its interface.
+        # Preserve canonical caches; each owned process gets its private copy.
+        import shutil
+        for name,key in(('solver','solver_binary'),('controller','controller_binary')):
+            cache=out/'cache'/('ocs2-'+name);shutil.copytree(s['codegen_lib'],cache)
+            self.launch([s[key],*params,'-p','libFolder:='+str(cache)],name,env)
         if not self.spin(30,lambda:self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
