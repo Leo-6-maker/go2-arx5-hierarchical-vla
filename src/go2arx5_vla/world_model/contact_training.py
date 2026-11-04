@@ -183,7 +183,7 @@ def evaluate(models,b,meta,folder):
         Actor_updates=0,formal_reward='NOT_QUALIFIED',native_task_success_claim=False)
 
 
-def run(folder,spec):
+def run(folder,spec,*,reader=read,evaluator=evaluate,protocol='WM02_S_CONTACT_IDENTIFICATION_V1',evaluate_dev=False):
     folder=Path(folder);start=time.monotonic();cpu=time.process_time();device=torch.device('cuda:0')
     from .runtime import cuda_uuid
     props=torch.cuda.get_device_properties(0)
@@ -191,14 +191,14 @@ def run(folder,spec):
     torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/props.total_memory);torch.set_num_threads(len(spec['cpus']))
     torch.use_deterministic_algorithms(True);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     if sha(spec['replay'])!=spec['replay_sha256']:raise ValueError('Frozen paired replay differs')
-    data,meta=read(spec['replay'],device);fit=torch.as_tensor(meta['partition']=='FIT',device=device);train=training_view(select(data,fit))
+    data,meta=reader(spec['replay'],device);fit=torch.as_tensor(meta['partition']=='FIT',device=device);train=training_view(select(data,fit))
     normstates=data['state'][fit];valid=torch.cat((torch.ones_like(data['valid'][fit,:1]),data['valid'][fit]),1).bool();normstates=torch.unique(normstates[valid],dim=0)
     config=dict(hidden=[2048]*5,history_hidden=256,groups=GROUPS,context_dim=5);models=[];arms={}
     for blind in (False,True):
         name='no_future_action'if blind else'action_conditioned';out=folder/name;out.mkdir()
         torch.manual_seed(20261104);np.random.seed(20261104);random.seed(20261104)
         model=WorldModel(**config).to(device);model.normalizer.fit(normstates);opt=torch.optim.AdamW(model.parameters(),lr=2e-4,weight_decay=1e-5)
-        provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],protocol='WM02_S_CONTACT_IDENTIFICATION_V1',arm=name,state_schema=SCHEMA)
+        provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],protocol=protocol,arm=name,state_schema=SCHEMA)
         initial=float(supervised_loss(model,select(train,slice(0,32)),blind).detach());torch.cuda.reset_peak_memory_stats()
         for step in range(1,201):
             if time.time()>spec['deadline_epoch']or(Path(spec['registered_root'])/'STOP.json').exists():raise TimeoutError('Finite paired WM endpoint')
@@ -225,10 +225,15 @@ def run(folder,spec):
         models.append(model);arms[name]=dict(main_updates=200,restore_probe_updates=1,continuation_error=error,initial_FIT32_loss=initial,final_FIT32_loss=final,
             endpoint_reload_error=endpoint_error,checkpoint_sha256=sha(out/'checkpoint-200.pt'),parameters=sum(p.numel()for p in model.parameters()),**peak)
         put(out/'RESULT.json',arms[name])
-    # Both fixed arms are complete before once-heldout predictions are generated.
+    # Both fixed arms are complete before DEV/once-heldout predictions. No
+    # endpoint is selected on these labels; the optional V5 DEV is unresampled.
+    if evaluate_dev:
+        dev=(meta['partition']=='DIAGNOSTIC_DEV')&(data['valid'][:,8:].sum(-1).cpu().numpy()==16)
+        dev_folder=folder/'DEV';dev_folder.mkdir()
+        put(folder/'DEV_EVALUATION.json',evaluator(models,select(data,torch.as_tensor(dev,device=device)),{k:v[dev]for k,v in meta.items()},dev_folder))
     hold=(meta['partition']=='ONCE_HOLDOUT')&(data['valid'][:,8:].sum(-1).cpu().numpy()==16)
     b=select(data,torch.as_tensor(hold,device=device));m={k:v[hold]for k,v in meta.items()}
-    evaluated=evaluate(models,b,m,folder);put(folder/'EVALUATION.json',evaluated)
+    evaluated=evaluator(models,b,m,folder);put(folder/'EVALUATION.json',evaluated)
     result=dict(status='PAIRED_CONTACT_WM_DIAGNOSTIC_COMPLETE',source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],arms=arms,
         total_main_updates=400,total_restore_probe_updates=2,Actor_updates=0,critic_updates=0,target_transitions=0,
         evaluation=evaluated,fit_training_windows=len(train['state']),normalizer_unique_FIT_states=len(normstates),

@@ -1,0 +1,117 @@
+{
+  "status": "SAVED_INITIALIZATION_CAUSALITY_AUDIT",
+  "first_difference": {
+    "qpos": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 0.006366766430740078
+    },
+    "qvel": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 3.183383215370024
+    },
+    "ctrl": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 23.706784247761636
+    }
+  },
+  "new_target_integrations": 0,
+  "leg_policy_forwards": 0,
+  "WM_updates": 0,
+  "CPU_s": 0.099173661,
+  "wall_s": 0.10136174503713846,
+  "inference_limit": "Sparse command traces do not record every policy observation/history or inference completion. Timing association alone is not unique controller root-cause proof.",
+  "audit_source_sha": "584b8cc7887aee577bc6caf1abbfa4297f2d1db9",
+  "episodes": {
+    "S1_RECOVERY01_T1": {
+      "packets": 2700,
+      "evidence_sha256": {
+        "state.bin.journal": "3f0065eec1e499f5eb5998b965efee9a8d67ba7ed9445bec3fa8a4bd69ce77fa",
+        "control.jsonl": "32e0063a5f97d6babf9ca2aa9a1096796a66d9f0c61ba41bb79abef0b2c4e4db",
+        "physics.jsonl": "b5b4c3853fde13c06b00d98cb047d06121cf767a2f9bb463ac912efe7be9bfbd",
+        "initialization.jsonl": "2c9a8e3ae38c4b1bf82ea1ee6aeba44ef0143a66314b59c480205cb409fc8992",
+        "BEFORE_FIRST_INTEGRATION.json": "034535e0304d72bee40b548face0029c90316a5c83a646850a034e824457f28e"
+      },
+      "initial_control_calls": 435,
+      "initial_fsm": "RLFSMStateRLLocomotion",
+      "first_safety_stop_step": null,
+      "packets_after_first_safety_stop": 0,
+      "gripper_initial_target_m": [
+        0.041999999999999996,
+        0.041999999999999996
+      ],
+      "first100_gripper_PD_reconstruction_max_error": 0.0,
+      "initial_leg_gains_all_zero": true,
+      "initial_leg_targets_all_zero": true,
+      "first_nonzero_leg_actuation": {
+        "step": 10,
+        "time_s": 0.020000000000000004,
+        "max_abs_torque": 23.211729526406966
+      },
+      "first27_torque_segments": [
+        {
+          "first_step": 1,
+          "last_step": 9,
+          "ticks": 9,
+          "max_abs": 0.0
+        },
+        {
+          "first_step": 10,
+          "last_step": 27,
+          "ticks": 18,
+          "max_abs": 23.211729526406966
+        }
+      ],
+      "first100_gripper_violations": 3
+    },
+    "S1_RECOVERY01_T2": {
+      "packets": 27,
+      "evidence_sha256": {
+        "state.bin.journal": "5f7eb9b7ffd010d8832413699bfb4aba07a42cad17c294cc89d76c2d3bd97e9c",
+        "control.jsonl": "9752694316d49a7b75d5d607422794a8c15ea7f9ba9cc8c15ea93e6609acd47a",
+        "physics.jsonl": "8c851570d3452176f25f324200594652bbb254dfc0fbf3a07fb64873b428f59c",
+        "initialization.jsonl": "85c269749d90a52a7cce0fd302250d526d6a48a7033bb55cd3bf13e691fc9bb6",
+        "BEFORE_FIRST_INTEGRATION.json": "77a0a1661d77dce2365bc08b1ceec7311b4e007cad9f57669a60ac8f699fa014"
+      },
+      "initial_control_calls": 15,
+      "initial_fsm": "RLFSMStateRLLocomotion",
+      "first_safety_stop_step": 24,
+      "packets_after_first_safety_stop": 3,
+      "gripper_initial_target_m": [
+        0.041999999999999996,
+        0.041999999999999996
+      ],
+      "first100_gripper_PD_reconstruction_max_error": 0.0,
+      "initial_leg_gains_all_zero": true,
+      "initial_leg_targets_all_zero": true,
+      "first_nonzero_leg_actuation": {
+        "step": 4,
+        "time_s": 0.008,
+        "max_abs_torque": 23.706784247761636
+      },
+      "first27_torque_segments": [
+        {
+          "first_step": 1,
+          "last_step": 3,
+          "ticks": 3,
+          "max_abs": 0.0
+        },
+        {
+          "first_step": 4,
+          "last_step": 23,
+          "ticks": 20,
+          "max_abs": 23.706784247761636
+        },
+        {
+          "first_step": 24,
+          "last_step": 27,
+          "ticks": 4,
+          "max_abs": 61.98343004434702
+        }
+      ],
+      "first100_gripper_violations": 0
+    }
+  }
+}

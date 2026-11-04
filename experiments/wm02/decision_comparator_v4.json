@@ -1,0 +1,57 @@
+{
+  "version": "WM02_DECISION_COMPARATOR_CORRECTION_V4",
+  "baseline_sha": "e3dc384738127d8d24b4ceadf6aeb6debf0cb4fb",
+  "B0": {
+    "models": "Both original SHA-pinned200 checkpoints, no weight/RNG/optimizer restoration for inference",
+    "data": "Original four DEV pre-close probe20 branches; fixed hashed candidate order",
+    "horizons": [
+      8,
+      16
+    ],
+    "comparators": [
+      "same-observation closure/alignment rule",
+      "fixed hash random"
+    ],
+    "metric": "Native grasp regret and per-candidate probabilities; window/endpoint TCP and object errors; teacher-forced event diagnostic",
+    "WM_updates": 0,
+    "new_physics": 0,
+    "rerun": false
+  },
+  "B1": {
+    "scope": "Four diagnostic DEV parents; observed physical preclose, held transport and supported-release predicates, no Teacher stage or fixed-time anchor",
+    "candidates_per_anchor": 5,
+    "atomic_dt_s": 0.05,
+    "decision_atoms": 8,
+    "branch_atoms": 16,
+    "second_block": "Measured TCP reanchor, zero increments, hold first-block final grip; prediction uses predicted TCP",
+    "qualification": "Event contrast / object-effect greater than repeat noise, retain flat/rejected/UNRUN denominators; repeat and tail controls",
+    "bulk_collection": "Only after scientific anchor qualification and a separately frozen new whole-parent partition"
+  },
+  "online_selector": {
+    "scope": "Finite source-only DEV mechanism check; proposals and model selection durable before native gate/preflight/integration",
+    "decision": "Reobserve and replan every400ms, no future truths or Teacher phase in scoring",
+    "comparators": [
+      "frozen same-observation rule",
+      "fixed random"
+    ],
+    "max_decisions_per_episode": 2,
+    "formal_task_success": false,
+    "rule": "Mean commanded first-block opening plus10 times current TCP/object endpoint XY distance; no future labels",
+    "tie": "Within1e-6 of best, smallest SHA256 of raw float64LE action bytes, independent of name/order",
+    "blind": "One prediction on identical observed input, broadcast over candidates; no batched rounding action signal",
+    "fixed_random": "Original V3 hash unchanged for matched comparison"
+  },
+  "A0": {
+    "scope": "Saved target binaries, high-rate states/control and exact frozen source only; zero target integration",
+    "questions": [
+      "First command/state divergence, initialization/history/mode readiness",
+      "Gripper initial target/control and stop timing",
+      "Row6d compiler/receiver/gate convention"
+    ],
+    "WBC_policy_gains_solver_limits": "FROZEN"
+  },
+  "A1_A3": "Requires separately valid native dynamic scope through original owner; no target launch authorized by this plan",
+  "Actor_updates": 0,
+  "no_default_5000_step_extension": true,
+  "preserves": "All V3 actual results, including flawed rule and floating tie, remain separate negative evidence"
+}

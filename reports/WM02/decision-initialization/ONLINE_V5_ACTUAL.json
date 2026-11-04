@@ -1,0 +1,1166 @@
+{
+  "status": "FINITE_FROZEN_SOURCE_SELECTOR_EXECUTED",
+  "source_sha": "d2b1dc065573dd3b4418267c0842d1c17715a357",
+  "models": {
+    "action_conditioned": {
+      "sha256": "4fdb580f9f85b2dbdcd6796ede621f6f11c76fca03ec42f1d867d4338692b69c",
+      "parent_checkpoint_sha256": "530a6e5b395e7eca76f12efcc6179b6af745b063faff4f6c0bdbc23b18b21f6f"
+    },
+    "no_future_action": {
+      "sha256": "96eab01bc85745c4fd1342f9603758f2248550bfcf33f4c45761ed1d775b3557",
+      "parent_checkpoint_sha256": "0e60f92f5c133382f9e3244dcfa578094619ff4f43b1c8dc8f562f2e7b0dee0d"
+    }
+  },
+  "scenes": [
+    {
+      "scene": 24,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "06a6788b600bf30958ee495bb79ca91586a9435fd8653abaa7daa49f19429b74",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "c96d225f901c82b5e0b7a6aaeac273284769a63ab4702f35da239355c7e7580f",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "6c36d67523cd7537665bee18b9a222fe7c35b0a92fa2542a0cbe5cdd42285213",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "7d5e972ac377bfe7896b4cea2f89c2ee988b1733613f4a14f6c9d387191916a5",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "b4aea3208a0e9a6d29dc5a80c880e8c11a7c0c0becc62935f22bf0bee94cc141",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "f33dfe3929c8f5f388bad110e23f4f2f3f615ba653f237d4f6e44a73129090a4",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "dc62ee9ad0986d6b7d2c9bc414fef068b25897751320a285e32d34a8f2f47ef8",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "45bce7de1ba8317d2604bb33bc3d5d95b6672e5b3ce3aa7fe1e09104cd692c0f",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.939663874,
+      "wall_s": 9.243989191978471
+    },
+    {
+      "scene": 25,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "de72b58226050045d794d0dc0f7f0af382e41ba4c62d25699b1408a52881a637",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "fc181da0b5be05b6828277a7bf5d537bd27a5877fe81c4c1bb3500be2e5cec3b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "9e5a1ad928bd1d43e2e0363d67ef9ab07b7bd86ea6314bab6cdc67d1c83b1720",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "1d00d361bece76093fbbcef99e52fdc9136154cd69a1c2946436f5d77c6dcffa",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "86545f00578997f2e04105b3134d10fa7075654407cd29daef2c72861888c63b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "hold",
+              "selection_sha256": "22f3f0ea36e3c9fdfe9a85eca8f4a4c25b1be13131d965115b7ff6354f1a2f17",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "4b05a4b4599be8a6d629aa78a229233ffbff0e5715088847d5bae5ddab8b6cfc",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "b9eda8038e0a8eab0c8750b6520aa2055af97d60382c7772906ce62265a1471b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.945065483,
+      "wall_s": 9.241085632995237
+    },
+    {
+      "scene": 26,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "ce4ab0023e923c2a3279fb8063b2af27de222757d140efeae02fdeb02827be06",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "df45dc65b5310d662a31cf901eae6ad2c95039ee088ff16ce222bc598730a5a2",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "9646eac567eed8eaf0dd4bf0cbf8e681f8c63ca863fcd0f5a9ab6bc528934244",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "bb058849bb409132721f36f63622dbd8c75ae00764a7afabc5634c773930e8b2",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "84b1923a74cb9a98d06e8098162593fd8b4539d487f61f4c299e3a3bcc952aec",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "acec6c8037398bdbb00dbfa507d2fe1147f4947e42527e7ffe016b4d95cade13",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "b5ff755d18c530d102d37dc66457e99ebcda1f31c706d77d38801b1a27eeb0a7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "7140ff7701552364fc3cf5d28b9491175904f49a870bb56e47686fe9685cb315",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.669211099,
+      "wall_s": 8.714803907991154
+    },
+    {
+      "scene": 27,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "e9c0503cf569f955d29b2737a578853cd795ea2ff35e27379c04e04eefdd8cf1",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "138287eb1a68d6135ed41b58f6472a0910075d09141a614cb96d04d635cbec7c",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "ca9aa29846379ec0376f11fcc889985c3bafd7cea4e59021b03717af9b1eed39",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "1332536a1490ee905e710aa17c0ce4a9f33e4ccacce1e1fc37e06d02fbdad793",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "2f54fdf6565d2c775a7501e3f2d2239a01b695bc1e98dda83e5c0e64e9c7cc1c",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "4f82b05bd336d34fc3fc6921b784236808ea8c848147588135ecf645e1d4d888",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "60115b8241e502160fe468a47d1d82e02aa62b55948e38fc1eeb0e2179fd2096",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "5ff0daba6ad1fb0ea70f8b28e0cea8efd99b79dffbae3a42f204175d0980db6f",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.688093964,
+      "wall_s": 8.725888465996832
+    },
+    {
+      "scene": 28,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "54f6fd83d16103192ca80e86229222574ace68496b56a8b5fa97633d199cb781",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "2b409563ee968a44ef5f04b01cd68ab01770dc57149685b12852416da28c2432",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "71cc72d78ee627655fc711635c76b5b99247fd2ce87093ccea783a042b00ca66",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "a790e3ba1ce6bdf10407aa64fa7aaf44ad9e02c277808484432433808d9bbd2f",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "0cddd4d5163091090b4a3cd30f037a154b5afc2e2b4f40387b4ed9d0bf972123",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "3f9ffddb1480b5ab5e1999e51cd90c5df8dab5d89cd9c261da0ddc8e567a06c7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "452b94de7f2d9ee81499ec1b727b6e6fafed357e8683fa5b952543355db02542",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "fac7e426cb97e4709f6331fcbeb99b312568276da8eb6c9a5da340631ee0d6cc",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 7.456553754,
+      "wall_s": 7.757176782994065
+    },
+    {
+      "scene": 29,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "5a9571512a93d7d6e49be4fe3ce94d2f0bc959a8b197a1118b0e2634c7d73dda",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "9812c640406c71d25c18c5cd3b99f553a69f302c4fd53f5aeaa520e809bcf182",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "7c318197527ca1e044daa529cc6f6be8b94e5c302613e8f10291dc5acf6d8318",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "9882aff34544c17ab89ba1d50f5c9375e736a1b06378fabde86e4f830af2c4d4",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "89381ef5f14fe1ab32697a40989b9b00a459ff5c13bd00ed60d6093adcae9f03",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "hold",
+              "selection_sha256": "80d36b73c66d7d26dd1dcc6454be960be1f972609d7fa54cfaa080e4fc24bf4e",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "ccdedca79cb63941b2c270ff111ced672b8fe879767b32f6a736ba75bc5a8c18",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "0fee03124b2983872392010d8128835410f0e094ab6208fe7a127a02f48e89e1",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 7.455577732,
+      "wall_s": 7.7463265099795535
+    },
+    {
+      "scene": 30,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "4beb1b542d80315e1e2048be1960a6d6f4f938ec786298544691a6bfec131002",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "ef3c022c786cedf63a352a545dda2b014b85e04e5a6623b275a6bed1bc299f35",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "1638d3f047d52b47cc10b106b6070b17e49aa6135b23628370a4dc61e2c66e13",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "ef5b1ad47e000b312caf05d1237c163b7145a863c2bb6f2e9f8f76b02a376096",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "a77f639250472cafa1c461d4b86cfca89a9e2dcb508e43b629447895c1965dc7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "4e5cf0daf361c9537b7b7e5e3fac98ecbfd998e79fab4cf50a506d8e482526d7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "088f13f3077d86d6747fb1fef3262c207707646473a513c57eef21fb62bffc65",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "eccca989429f1e3073c362a71ac7fe3880e2eb8572e5e9ba4dd79e11a3fc5444",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 7.367680173000002,
+      "wall_s": 7.405513350997353
+    },
+    {
+      "scene": 31,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "8be66d0deb3f74e9e2a81976ef395795f3140cfeaf95c22bca3adc8d169943f6",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "494c6f1868ac2c077bee8a802afc5bb445670297805a48d4dfa668bc163afa2c",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "f9432717a73a3cc4457ed5033471defd2758b40f56471a899f55a3ef32e801c7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "b507ed33f2f68a8d028f9eb0c8d2c1c62b50467e1e7880717a885aaebe4d46a6",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "9ae185a420d09bbcd7d125cdfcf3bbd9ded353e4595b610f3cf54bf6031bbdf1",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "fa239f96504e4f6fec3612fbd59aefeeda14861f3302a9ee5442391bc47515b3",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "e581324b92eb8268219f9e8fe71f677d404b5d386a2cd3c677571d56e94744ef",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "6b3f9bea5c5b197d7d33e6903cce18f2ed421c17044cf4f0e624f93a0dc69f11",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 7.359750531000001,
+      "wall_s": 7.385086265014252
+    }
+  ],
+  "declared_policy_episodes": 32,
+  "declared_main_decisions": 64,
+  "repeat_episodes": 8,
+  "actual_transitions": 640,
+  "live_physics_ticks": 16000,
+  "shadow_ticks": 16000,
+  "CPU_s": 64.88159661,
+  "wall_s": 19.54349583599833,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_integrations": 0,
+  "complete_tasks": 0,
+  "formal_reward": false,
+  "DEV_only": true
+}

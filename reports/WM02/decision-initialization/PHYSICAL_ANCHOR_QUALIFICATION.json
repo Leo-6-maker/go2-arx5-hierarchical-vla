@@ -1,0 +1,1131 @@
+{
+  "protocol": "WM02_OBSERVED_ANCHOR_QUALIFICATION_V3",
+  "source_sha": "47ca4fbc2a0e6293ae24f1f7d1b63f4c4b8aeaf2",
+  "scenes": [
+    {
+      "scene": 16,
+      "anchors": {
+        "preclose": {
+          "status": "QUALIFIED",
+          "time_s": 1.6000000000000012,
+          "candidates": {
+            "grip_timing": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "nominal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.0012663868700782599,
+          "real_contact_contrast": true,
+          "qualified": true
+        },
+        "transport": {
+          "status": "QUALIFIED",
+          "time_s": 3.599999999999825,
+          "candidates": {
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "toward_goal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "away": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00831701023168948,
+          "real_contact_contrast": false,
+          "qualified": true
+        },
+        "supported_release": {
+          "status": "QUALIFIED",
+          "time_s": 9.199999999999742,
+          "candidates": {
+            "release": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay2": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "slow_open": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay4": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00011695959791074353,
+          "real_contact_contrast": true,
+          "qualified": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 8400,
+      "shadow_ticks": 8400,
+      "actual_transitions": 336,
+      "CPU_s": 21.379891771,
+      "wall_s": 21.487094873009482
+    },
+    {
+      "scene": 17,
+      "anchors": {
+        "preclose": {
+          "status": "QUALIFIED",
+          "time_s": 1.6000000000000012,
+          "candidates": {
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "grip_timing": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "nominal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.001306757395820635,
+          "real_contact_contrast": true,
+          "qualified": true
+        },
+        "transport": {
+          "status": "QUALIFIED",
+          "time_s": 3.599999999999825,
+          "candidates": {
+            "toward_goal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "away": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.008310153241752827,
+          "real_contact_contrast": false,
+          "qualified": true
+        },
+        "supported_release": {
+          "status": "QUALIFIED",
+          "time_s": 9.199999999999742,
+          "candidates": {
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "release": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay4": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "slow_open": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay2": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00012643958641417297,
+          "real_contact_contrast": true,
+          "qualified": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 8400,
+      "shadow_ticks": 8400,
+      "actual_transitions": 336,
+      "CPU_s": 21.299589017,
+      "wall_s": 21.430582023982424
+    },
+    {
+      "scene": 18,
+      "anchors": {
+        "preclose": {
+          "status": "QUALIFIED",
+          "time_s": 1.6000000000000012,
+          "candidates": {
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "grip_timing": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "nominal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.0012603322694964446,
+          "real_contact_contrast": true,
+          "qualified": true
+        },
+        "transport": {
+          "status": "QUALIFIED",
+          "time_s": 3.599999999999825,
+          "candidates": {
+            "away": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "toward_goal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.008343229413700177,
+          "real_contact_contrast": false,
+          "qualified": true
+        },
+        "supported_release": {
+          "status": "QUALIFIED",
+          "time_s": 9.199999999999742,
+          "candidates": {
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "slow_open": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay4": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "release": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay2": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00010642784603693723,
+          "real_contact_contrast": true,
+          "qualified": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 8400,
+      "shadow_ticks": 8400,
+      "actual_transitions": 336,
+      "CPU_s": 21.528619098,
+      "wall_s": 21.5982389980054
+    },
+    {
+      "scene": 19,
+      "anchors": {
+        "preclose": {
+          "status": "QUALIFIED",
+          "time_s": 1.6000000000000012,
+          "candidates": {
+            "grip_timing": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "nominal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 1
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.001302387605970697,
+          "real_contact_contrast": true,
+          "qualified": true
+        },
+        "transport": {
+          "status": "QUALIFIED",
+          "time_s": 3.599999999999825,
+          "candidates": {
+            "toward_goal": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "right": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "away": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            },
+            "left": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": false,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00830678387797699,
+          "real_contact_contrast": false,
+          "qualified": true
+        },
+        "supported_release": {
+          "status": "QUALIFIED",
+          "time_s": 9.199999999999742,
+          "candidates": {
+            "delay2": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "delay4": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "release": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "slow_open": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": false,
+              "support": true,
+              "grasp_establishments": 0
+            },
+            "hold": {
+              "transitions": 16,
+              "rejections": 0,
+              "terminal": false,
+              "grasp": true,
+              "support": true,
+              "grasp_establishments": 0
+            }
+          },
+          "controls": {
+            "repeat": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            },
+            "tail-only": {
+              "qualified": true,
+              "max_integration_error": 0.0,
+              "contacts_equal": true,
+              "terminal_equal": true,
+              "transitions_per_execution": 16,
+              "controller_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              },
+              "complete_snapshot_comparison": {
+                "max_abs_error": 0.0,
+                "mismatches": [],
+                "tolerance": 1e-10,
+                "passed": true
+              }
+            }
+          },
+          "object_pair_spread_m": 0.00012502319372443324,
+          "real_contact_contrast": true,
+          "qualified": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 8400,
+      "shadow_ticks": 8400,
+      "actual_transitions": 336,
+      "CPU_s": 21.508338943,
+      "wall_s": 21.583537787024397
+    }
+  ],
+  "declared_parents": 4,
+  "declared_anchors": 12,
+  "declared_main_branches": 60,
+  "all_scientific_anchors_qualified": true,
+  "actual_transitions": 1344,
+  "live_physics_ticks": 33600,
+  "shadow_ticks": 33600,
+  "CPU_s": 85.716438829,
+  "wall_s": 21.8308699799818,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_integrations": 0,
+  "new_independent_parents": 0
+}

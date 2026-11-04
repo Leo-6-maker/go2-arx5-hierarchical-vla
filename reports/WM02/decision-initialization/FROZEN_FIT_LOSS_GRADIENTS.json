@@ -1,0 +1,340 @@
+{
+  "status": "FROZEN_FIT_LOSS_GRADIENT_DIAGNOSTIC",
+  "source_sha": "7a1b677dfe5e493c4362d69efad0fdf98e4fd786",
+  "replay_sha256": "24bddf61a4db8ddd0f9605eef1b8a1b906f285b437454503dc88e999e78b7862",
+  "models": {
+    "action_conditioned": {
+      "checkpoint_sha256": "f4675b3b2e16f0e1ec1308a79d6e7764393c539ef2813819165d67e62372b145",
+      "parameters_unchanged": true,
+      "stages": {
+        "grasp_onset": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.016307963244616985,
+            0.0009878076147288085,
+            3.066293938900344e-05
+          ],
+          "grasp_positive_atoms": 1280,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            628,
+            126,
+            448,
+            106
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.009221968241035938,
+              "gradient_L2": 2.4116921424865723,
+              "population_weighted_gradient_L2": 0.6029230356216431
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0009298038785345852,
+              "gradient_L2": 0.023138761520385742,
+              "population_weighted_gradient_L2": 0.0057846903800964355
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 3.139972977805883e-05,
+              "gradient_L2": 0.0005652797990478575,
+              "population_weighted_gradient_L2": 0.00014131994976196438
+            },
+            "summed_gradient_L2": 2.411808967590332,
+            "event_continuous_cosine": 0.001918327296152711
+          }
+        },
+        "precontact": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.10361675377935171,
+            0.001227186038158834,
+            6.902139612066093e-05
+          ],
+          "grasp_positive_atoms": 0,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            463,
+            62,
+            362,
+            581
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.05198708549141884,
+              "gradient_L2": 4.905472755432129,
+              "population_weighted_gradient_L2": 1.2263681888580322
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0010856663575395942,
+              "gradient_L2": 0.0516359843313694,
+              "population_weighted_gradient_L2": 0.01290899608284235
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 5.258470628177747e-05,
+              "gradient_L2": 0.0011944195721298456,
+              "population_weighted_gradient_L2": 0.0002986048930324614
+            },
+            "summed_gradient_L2": 4.915740013122559,
+            "event_continuous_cosine": 0.19343645870685577
+          }
+        },
+        "stable_grasp": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.08249179162085056,
+            0.00047094390611164273,
+            2.8461553847591857e-05
+          ],
+          "grasp_positive_atoms": 1280,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            451,
+            552,
+            11,
+            534
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.05869852378964424,
+              "gradient_L2": 7.0068135261535645,
+              "population_weighted_gradient_L2": 1.7517033815383911
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0004667079192586243,
+              "gradient_L2": 0.018323250114917755,
+              "population_weighted_gradient_L2": 0.004580812528729439
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 2.7154384952154942e-05,
+              "gradient_L2": 0.0005937492824159563,
+              "population_weighted_gradient_L2": 0.00014843732060398906
+            },
+            "summed_gradient_L2": 7.010948657989502,
+            "event_continuous_cosine": 0.23222026228904724
+          }
+        },
+        "supported_release": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.11199066694825888,
+            0.008217468304792419,
+            3.4734420478343966e-05
+          ],
+          "grasp_positive_atoms": 880,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 64,
+          "gradient_probe_indices": [
+            479,
+            497,
+            597,
+            259
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.288587749004364,
+              "gradient_L2": 5.0948309898376465,
+              "population_weighted_gradient_L2": 1.2737077474594116
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.017501922324299812,
+              "gradient_L2": 0.5008891224861145,
+              "population_weighted_gradient_L2": 0.12522228062152863
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 3.778338577831164e-05,
+              "gradient_L2": 0.0011665716301649809,
+              "population_weighted_gradient_L2": 0.0002916429075412452
+            },
+            "summed_gradient_L2": 4.921078205108643,
+            "event_continuous_cosine": -0.3909231424331665
+          }
+        }
+      }
+    },
+    "no_future_action": {
+      "checkpoint_sha256": "5d328d16e89559be4076729829ae68834816d239ba4b5935f5cbf9cd46b531e2",
+      "parameters_unchanged": true,
+      "stages": {
+        "grasp_onset": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.011081101559102535,
+            0.00024681001814315097,
+            1.8961876594403294e-05
+          ],
+          "grasp_positive_atoms": 1280,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            628,
+            126,
+            448,
+            106
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.004589424002915621,
+              "gradient_L2": 2.407315254211426,
+              "population_weighted_gradient_L2": 0.6018288135528564
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.00025547397672198713,
+              "gradient_L2": 0.01593008264899254,
+              "population_weighted_gradient_L2": 0.003982520662248135
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 1.996159517148044e-05,
+              "gradient_L2": 0.0007844303036108613,
+              "population_weighted_gradient_L2": 0.00019610757590271533
+            },
+            "summed_gradient_L2": 2.4056236743927,
+            "event_continuous_cosine": -0.11387353390455246
+          }
+        },
+        "precontact": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.08254926446825266,
+            0.0007096759916748851,
+            2.713907597353682e-05
+          ],
+          "grasp_positive_atoms": 0,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            463,
+            62,
+            362,
+            581
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.04260295629501343,
+              "gradient_L2": 4.0982489585876465,
+              "population_weighted_gradient_L2": 1.0245622396469116
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0005943421274423599,
+              "gradient_L2": 0.045121170580387115,
+              "population_weighted_gradient_L2": 0.011280292645096779
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 2.4139881134033203e-05,
+              "gradient_L2": 0.0013499542837962508,
+              "population_weighted_gradient_L2": 0.0003374885709490627
+            },
+            "summed_gradient_L2": 4.091612339019775,
+            "event_continuous_cosine": -0.14584851264953613
+          }
+        },
+        "stable_grasp": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.07461138516664505,
+            0.0002031223033554852,
+            1.3276562367536825e-05
+          ],
+          "grasp_positive_atoms": 1280,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 0,
+          "gradient_probe_indices": [
+            451,
+            552,
+            11,
+            534
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.020140495151281357,
+              "gradient_L2": 3.449944019317627,
+              "population_weighted_gradient_L2": 0.8624860048294067
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.00021808230667375028,
+              "gradient_L2": 0.01469456683844328,
+              "population_weighted_gradient_L2": 0.00367364170961082
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 1.278221589018358e-05,
+              "gradient_L2": 0.000539892353117466,
+              "population_weighted_gradient_L2": 0.0001349730882793665
+            },
+            "summed_gradient_L2": 3.457557201385498,
+            "event_continuous_cosine": 0.5198374390602112
+          }
+        },
+        "supported_release": {
+          "population_windows": 160,
+          "population_weight": 0.25,
+          "exact_population_mean_components": [
+            0.05995291694998741,
+            0.001522860545082949,
+            3.3358894688717557e-05
+          ],
+          "grasp_positive_atoms": 880,
+          "valid_atoms": 1280,
+          "establishments": 0,
+          "releases": 64,
+          "gradient_probe_indices": [
+            479,
+            497,
+            597,
+            259
+          ],
+          "gradient_probe_windows": 4,
+          "gradient_probe": {
+            "continuous": {
+              "mean_loss": 0.16964536905288696,
+              "gradient_L2": 16.16716766357422,
+              "population_weighted_gradient_L2": 4.041791915893555
+            },
+            "weighted_event_BCE": {
+              "mean_loss": 0.0033952086232602596,
+              "gradient_L2": 2.0936567783355713,
+              "population_weighted_gradient_L2": 0.5234141945838928
+            },
+            "weighted_terminal_BCE": {
+              "mean_loss": 5.055368092143908e-05,
+              "gradient_L2": 0.005604759324342012,
+              "population_weighted_gradient_L2": 0.001401189831085503
+            },
+            "summed_gradient_L2": 18.13686180114746,
+            "event_continuous_cosine": 0.9359514117240906
+          }
+        }
+      }
+    }
+  },
+  "fit_windows": 640,
+  "data_scope": "Original FIT only; no DEV/holdout gradients; all FIT windows for mean loss,4 deterministic windows per stage for gradient probe",
+  "gradient_limit": "Norm contributions are not additive or an exact full-FIT gradient; no causal claim that reweighting alone fixes prediction",
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "CUDA_initialized": false,
+  "CPU_s": 42.722652839,
+  "wall_s": 21.910449492977932
+}

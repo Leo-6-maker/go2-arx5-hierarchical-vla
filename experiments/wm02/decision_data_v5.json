@@ -1,0 +1,19 @@
+{
+  "version": "WM02_NEW_DECISION_DATA_V5",
+  "B1_required": "SHA-pinned actual12/12 physical-anchor qualification",
+  "physical_parents":40,
+  "layout_seed_indices":[110420,110459],
+  "partition_by_whole_parent":{"FIT":[0,23],"DIAGNOSTIC_DEV":[24,31],"ONCE_HOLDOUT":[32,39]},
+  "workspace":"Original F0 qualified source range; same object/friction/controller; new physical positions/yaw, no broad generalization claim",
+  "anchors":"First qualifying observed physical preclose, transport, supported_release; original V3 predicates, never fixed time or Teacher stage",
+  "actions":"Original five V3 candidates per anchor with hashed order; actual400ms followed by reanchored hold400ms",
+  "main_transition_limit":9600,
+  "control_transition_limit":3840,
+  "prefix_transition_limit":16000,
+  "parallel_engines":4,
+  "prefix_rejection_early_end_UNRUN":"Retain intended denominators; no success resampling",
+  "holdout":"Collect and seal; no model/endpoint selection or evaluation in this run",
+  "WM_updates":0,
+  "Actor_updates":0,
+  "target_integrations":0
+}

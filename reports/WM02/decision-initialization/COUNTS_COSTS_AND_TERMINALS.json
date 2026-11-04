@@ -1,0 +1,79 @@
+{
+  "source_runs": {
+    "wm02-contact-source-anchors-20261104-01": {
+      "source_sha": "47ca4fbc2a0e6293ae24f1f7d1b63f4c4b8aeaf2",
+      "exit_code": 0,
+      "transitions": 1344,
+      "live_ticks": 33600,
+      "shadow_ticks": 33600,
+      "CPU_s": 85.716438829,
+      "wall_s": 21.8308699799818,
+      "lease": "CLOSED"
+    },
+    "wm02-contact-source-online-20261104-01": {
+      "source_sha": "8e23bf9a7ea414ede9ee90b4dc0f42fcf37954d9",
+      "exit_code": 0,
+      "transitions": 320,
+      "live_ticks": 8000,
+      "shadow_ticks": 8000,
+      "CPU_s": 36.165416648999994,
+      "wall_s": 12.16661813200335,
+      "lease": "CLOSED"
+    },
+    "wm02-contact-source-online-v4-r2-20261104-01": {
+      "source_sha": "c3550fd80a31a921641dbf6e21dc80a9d4b21b5c",
+      "exit_code": 0,
+      "transitions": 320,
+      "live_ticks": 8000,
+      "shadow_ticks": 8000,
+      "CPU_s": 35.844705872999995,
+      "wall_s": 12.019122609985061,
+      "lease": "CLOSED"
+    },
+    "wm02-contact-source-data-v5-20261104-01": {
+      "source_sha": "7e41cd69c3c215e91cb2f85688e5426d4a7f4d2c",
+      "exit_code": 0,
+      "transitions": 20800,
+      "live_ticks": 520000,
+      "shadow_ticks": 520000,
+      "CPU_s": 1431.7830673510002,
+      "wall_s": 363.99191781299305,
+      "lease": "CLOSED"
+    },
+    "wm02-contact-source-online-v5-r2-20261104-01": {
+      "source_sha": "d2b1dc065573dd3b4418267c0842d1c17715a357",
+      "exit_code": 0,
+      "transitions": 640,
+      "live_ticks": 16000,
+      "shadow_ticks": 16000,
+      "CPU_s": 64.88159661,
+      "wall_s": 19.54349583599833,
+      "lease": "CLOSED"
+    }
+  },
+  "new_data_qualification": {
+    "anchors": 120,
+    "repeats": 120,
+    "tails": 120
+  },
+  "GPU0": {
+    "source_sha": "c7dd382654eb0e0caa4573dff0299ac4070b3e9e",
+    "unit_exit_code": 0,
+    "MainPID": 0,
+    "restarts": 0,
+    "CPU_s": 130.301021,
+    "wall_s": 115.822861,
+    "program_CPU_s": 120.608504242,
+    "program_wall_s": 111.48929735599086,
+    "sampled_own_peak_MiB": 1512
+  },
+  "GPU1_preallocation_refusal": {
+    "source_sha": "70965d3c8710225045ec6da74ad0784e17207bb5",
+    "exit_code": 1,
+    "CPU_s": 3.06577,
+    "wall_s": 3.283956,
+    "WM_updates": 0,
+    "reason": "Measured headroom below4GiB+1GiB allowance at actual admission; lease CLOSED, no restart"
+  },
+  "exclusions": "Transport, registration, read-only SSH audits, staging, some compilation and publication not completely metered; unit-test optimizer/fixture activity not scientific WM/Actor updates"
+}

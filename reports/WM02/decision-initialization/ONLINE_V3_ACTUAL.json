@@ -1,0 +1,599 @@
+{
+  "status": "FINITE_FROZEN_SOURCE_SELECTOR_EXECUTED",
+  "source_sha": "8e23bf9a7ea414ede9ee90b4dc0f42fcf37954d9",
+  "models": {
+    "action_conditioned": {
+      "sha256": "f4675b3b2e16f0e1ec1308a79d6e7764393c539ef2813819165d67e62372b145",
+      "parent_checkpoint_sha256": "de5e4afb19bf74c297954d474c2993cb408ee8f2cc28b051bfadb1cbfb2c9ede"
+    },
+    "no_future_action": {
+      "sha256": "5d328d16e89559be4076729829ae68834816d239ba4b5935f5cbf9cd46b531e2",
+      "parent_checkpoint_sha256": "120ffee5d279f2fbb1f8985909dc66a9e950523b329a1bc73110db3270df8e05"
+    }
+  },
+  "scenes": [
+    {
+      "scene": 16,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "9cc295993e7aa3975d9289c4e16b02fd21e23c40be56cbbca728ef833ea5b2af",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "ee584121f51bda12f30f3c7f6662b13976d0af99523be31f4f8f915d1d259eeb",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "2965de951f8ebe1fd96f512ae896e377e8241a1321dd2d3906109ec22ad8983a",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "61f863bb1a8b5382e95bb51e2283cc1e950bb74d19e119490560b1ac8d412137",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "7177f2eee0823c78e5fcd1bf26ce192d4de6223c1572f44a100c93e15fdce08d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "6f3be008c2400fb8b7c036874fc856e0bf7dd4402166506e95e8089ae86ecd53",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "c187bfb9532a2854399ee09ab87175d34b2240a8b0c2bdcbc5583e2a70908706",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "545ae644c59dea8eab3383775d9b0166c83ef7567b80c9e344958d910b67e3d0",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 9.074389969999999,
+      "wall_s": 9.120213794987649
+    },
+    {
+      "scene": 17,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "3dc439a763a06c3c3a67d44cddd62e2f405050330f6fae1b868fa781500d5b8d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "143511658e096757d4fb4005cff847234408a8ee56c4ab6cd4f637f84ce9e186",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "c8a03728f421107837393f4179c8d774af336f390a21f0da62d21aa4b8a3dce6",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "f48f4825761bfd34a45d2e539d6d1615065a1b09a7a455cf7cd6ced3cc0134c5",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "a771ba492fa749b036043debe27f671c7976dc2863de2b8beff34061176e0cef",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "hold",
+              "selection_sha256": "3cca719db72c0aac943395147e6ed6fb6b609b2c334cec0dde0829cb754b4838",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "b906dd8d77ebf9eabeaa529919b39340125de324a646a59461d4af419e35bb33",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "a4666c6e87ac9e7540cf6510ee3fe474a8e7aa799b08251cccf6b9137a4b6c84",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 9.098078194,
+      "wall_s": 9.145042361982632
+    },
+    {
+      "scene": 18,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "5e1fdb015eca33cdd4df84b1282db72a11551741af3f2c314bbb89a7b207cba5",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "54a80fa0c1bc63cbba4c13ce4eae5e408a7ff904546771a2e542868f58d2b09d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "left",
+              "selection_sha256": "13dc8280426ed96ff016fb615a16a88d2dc6509f4858b9f867b293921f34cfbe",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "6b084153e36ba277dce0df7a7d8d03c28d1a1347790914bb52e9f790e01ca756",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "a444dc9843aac1a3f9a7afdcc1d4705f7d11a37cb01bc4c5d7c1ebad623566a4",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "311d821a9ff566b853f7d12966e224f602861ba93de1d17ed4af1a4e645ad044",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "6408749719564812b98b248d5fecb96047e35753d4d00e5fdc139ebc09ff196d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "4710949e9947945d08cdc8726f1a8b39e4d84f5ff0d44312700120a878674e38",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 9.01774161,
+      "wall_s": 9.097155508992728
+    },
+    {
+      "scene": 19,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "67a334abbc2058227812e49aa0de3fb7726f4b63f1d7fcb6a696a3bc40157a27",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "901df4ab6c14b1450ae5d41adf3fb47722f497c1f4ed2f73419aaa8201a8745c",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "fdb4cd34bd24e3269afc188de76398de772a1c88ed9cd4b4033cde12bd05379b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "c67d5b00f52dda9ad8b5bdab17e49c6bcc62dab448b4f5bdf4de66edb178ab7d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "d6990fcad40f2b12d9947994db0bbc18c550364d7e14c35c0fd1c99fa0071428",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "7dd3d51b25a9d39f573e4f31934e53bd5d29acbcdef2862f2f70e257e68c2589",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "a2573f6e670b9972c0361c0aed5a67df2cd39cdb0f777fe76f719de2611ce637",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "11cbe3851f072f5e2b04c9f2cc32b91abf0cad87b02f6d05d4ee1a85122e4aa6",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.975206875000001,
+      "wall_s": 9.090179120015819
+    }
+  ],
+  "declared_policy_episodes": 16,
+  "declared_main_decisions": 32,
+  "repeat_episodes": 4,
+  "actual_transitions": 320,
+  "live_physics_ticks": 8000,
+  "shadow_ticks": 8000,
+  "CPU_s": 36.165416648999994,
+  "wall_s": 12.16661813200335,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_integrations": 0,
+  "complete_tasks": 0,
+  "formal_reward": false,
+  "DEV_only": true,
+  "scientific_limitation": "V3 rule endpoint tie and blind batch rounding invalidate incremental-value comparison; original result retained"
+}

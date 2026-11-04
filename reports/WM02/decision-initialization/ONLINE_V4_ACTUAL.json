@@ -1,0 +1,599 @@
+{
+  "status": "FINITE_FROZEN_SOURCE_SELECTOR_EXECUTED",
+  "source_sha": "c3550fd80a31a921641dbf6e21dc80a9d4b21b5c",
+  "models": {
+    "action_conditioned": {
+      "sha256": "f4675b3b2e16f0e1ec1308a79d6e7764393c539ef2813819165d67e62372b145",
+      "parent_checkpoint_sha256": "de5e4afb19bf74c297954d474c2993cb408ee8f2cc28b051bfadb1cbfb2c9ede"
+    },
+    "no_future_action": {
+      "sha256": "5d328d16e89559be4076729829ae68834816d239ba4b5935f5cbf9cd46b531e2",
+      "parent_checkpoint_sha256": "120ffee5d279f2fbb1f8985909dc66a9e950523b329a1bc73110db3270df8e05"
+    }
+  },
+  "scenes": [
+    {
+      "scene": 16,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "aca441254806eee67290425967b8db09cdebd7f5760101b36eb2ee306271ed8c",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "c2a1b31cc665417c96e5c45c9fd35035d259f20265a080e7e5ead962a0b91f83",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "2d07ead4e4c2e1e42b7d8537cfbdff842c4aa2d31ab62c9fedfaef8fd7894200",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "6c4867244f887d398aaeeab46b03236bb263b893368eaaf0dbd1fa6cf5f3d647",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "861cf142ecd433164b6e24c2777bfe1a53a8540fd75f1c5686c8f0fd11ee50bc",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "c062ee91664c70048893b9ae51a3f22170cfdaaf354d5e35e80331a627721e82",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "grip_timing",
+              "selection_sha256": "3985defdc8cd7e9861b791cae8b87fdc4801ad95765c463789e43b759805cf21",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "29ea47a136f3e08a1eb9994473ed5dc810f7a0e156a2d7c343b5d18918b1f76d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.965895655,
+      "wall_s": 9.025955955003155
+    },
+    {
+      "scene": 17,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "5bcf72c7ef2752eb0ea936dfff32775ab3d6239e21951747272cae8d488dac76",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "db19d668ded224b0f5dd3aa2101626e6117b95c1c0f554458ed1fddd6a231c6b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "4ac84e469ad4646905b076d58f18ea137cb3b5d8a5c3ef3d5d14d8833611adf7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "cd15d95e9a3c7a5959e6d11f8d95928c842d75008541e1ed72b3cba2e73be6b7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "7b8361bca740422f8ce966d31a688bc910157ee2cdf3a7926358577d29306c6e",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "hold",
+              "selection_sha256": "ebbe7304aace045ae0f1b039d82a957e098508fafeb587dfe46328a5aabf11f7",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "067201d212b2bbe35e725acb6faffc32ee09e02196d74149c9a6add5da85ba59",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "left",
+              "selection_sha256": "7348796d025bd8aa4d5a057936cbb2eac7bf3967c269381283ba48f69a1f01a3",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.986230349,
+      "wall_s": 9.02707466200809
+    },
+    {
+      "scene": 18,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "5ac5a0226e49b4ca53df7adb65ad262541336842e875a9e06c3b777c95afcaf9",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "d5d2ebf10972227efea98707fded398976dd7d4c350fc47294148510a4cc7c5d",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "fbbfa7e14995ba088f34d97ea1aec069c228617f7764334665be0fc83b22dd66",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "92f3b696737c08074dbf9aea78b8475e1111c66f4d44d4454c2f9be3261054c5",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "8ab54a68de477e03438ec2887d512cdacc258a2ea3249c0c0748cb77f72daf45",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "grip_timing",
+              "selection_sha256": "9546ab83c6b877e16d62e41947e531e51c04d484c39f992437ffcb57b2b10896",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "9cbad00d8f88b1b68a1a14dafacf51fd9525e8560a0963bf537616c1121ab839",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "4118be9dadcfc8eeca5120406401bd9393af17947b6032e22cc515cb452ed87a",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.953426118,
+      "wall_s": 9.072401647019433
+    },
+    {
+      "scene": 19,
+      "policies": {
+        "action_conditioned": {
+          "policy": "action_conditioned",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "a32f7600b9a6ebca248de3047272ffd2df059285a99b41247ade20dd23998716",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "aad4b374ff31475f40cc243f10239bb15b8988fc520fe783373f5a0102a84e0b",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "no_future_action": {
+          "policy": "no_future_action",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "right",
+              "selection_sha256": "88cb3d0a47d322d57f42a4d15338067773ce69e88f94c21bc8bc9da23b442d99",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "right",
+              "selection_sha256": "7ecf37040fe371fbdc215cd7cbf918f7604939f03adb504baeb1184c6bc4769f",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "same_observation_rule": {
+          "policy": "same_observation_rule",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "nominal",
+              "selection_sha256": "7a1182f22142e916c9293ad37cdbc935dafd4357700ee94a24653cacb0c57a3e",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "2515bf46313ce7a27fa9bd0af993a4db5e7674330f09f7cb542897b52eef7030",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": true
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": true,
+          "terminal": false,
+          "full_task_success": false
+        },
+        "fixed_random": {
+          "policy": "fixed_random",
+          "decisions": [
+            {
+              "decision": 0,
+              "selected": "hold",
+              "selection_sha256": "b4edc14956623186fd3c6ca4564ff2a95a8fa24b2aaff381854c13c9da34c187",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.0000000000000013,
+              "observed_grasp": false
+            },
+            {
+              "decision": 1,
+              "selected": "nominal",
+              "selection_sha256": "3085ab1938633b14675d26e9e2627a969d80a4e6d1b06d2cf85cfd0d7904e188",
+              "status": "EXECUTED",
+              "actual_atoms": 8,
+              "observed_time_s": 2.3999999999999573,
+              "observed_grasp": false
+            }
+          ],
+          "actual_transitions": 16,
+          "live_physics_ticks": 400,
+          "endpoint_grasp": false,
+          "terminal": false,
+          "full_task_success": false
+        }
+      },
+      "conditioned_repeat": {
+        "qualified": true,
+        "max_integration_error": 0.0,
+        "contacts_equal": true,
+        "terminal_equal": true,
+        "transitions_per_execution": 16,
+        "controller_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "complete_snapshot_comparison": {
+          "max_abs_error": 0.0,
+          "mismatches": [],
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failure": null,
+      "live_physics_ticks": 2000,
+      "shadow_ticks": 2000,
+      "actual_transitions": 80,
+      "CPU_s": 8.939153751,
+      "wall_s": 9.053824725997401
+    }
+  ],
+  "declared_policy_episodes": 16,
+  "declared_main_decisions": 32,
+  "repeat_episodes": 4,
+  "actual_transitions": 320,
+  "live_physics_ticks": 8000,
+  "shadow_ticks": 8000,
+  "CPU_s": 35.844705872999995,
+  "wall_s": 12.019122609985061,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_integrations": 0,
+  "complete_tasks": 0,
+  "formal_reward": false,
+  "DEV_only": true,
+  "scientific_limitation": "Corrected controls. Four reused DEV parents; no model advantage over rule or blind established"
+}

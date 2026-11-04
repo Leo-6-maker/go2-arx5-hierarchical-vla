@@ -156,7 +156,9 @@ def repair_legacy_metadata(source,destination,expected_sha256,expected_provenanc
     if sha(source)!=expected_sha256:raise ValueError('Original checkpoint SHA differs before metadata repair')
     # V1 saved np.str_ group names. Keep weights_only=True and allow just the
     # three numeric/string constructors needed for those known metadata values.
-    with torch.serialization.safe_globals([np.core.multiarray.scalar,np.dtype,np.dtypes.StrDType]):
+    # NumPy1.24 predates np.dtypes; the exact Unicode dtype class is the same
+    # narrow string constructor on either supported NumPy release family.
+    with torch.serialization.safe_globals([np.core.multiarray.scalar,np.dtype,type(np.dtype('U'))]):
         original=torch.load(source,map_location='cpu',weights_only=True)
     count=0
     def clean(x):

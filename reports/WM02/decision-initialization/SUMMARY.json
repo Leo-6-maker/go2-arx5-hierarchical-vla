@@ -1,0 +1,66 @@
+{
+  "status": "FINITE_ROUND_COMPLETE_WITH_NEGATIVE_DECISION_RESULT_AND_TARGET_BLOCK",
+  "baseline_sha": "e3dc384738127d8d24b4ceadf6aeb6debf0cb4fb",
+  "implementation_sha": "354691ecf36eca6ea3fb3c021dbf02459b70c701",
+  "source_transitions": 23424,
+  "source_live_ticks": 585600,
+  "source_shadow_ticks": 585600,
+  "main_branch_and_policy_transitions": 11584,
+  "repeat_and_tail_transitions": 4480,
+  "prefix_transitions": 7360,
+  "new_physical_parents": 40,
+  "reused_DEV_parents": 4,
+  "new_data_main_transitions": 9600,
+  "new_data_control_transitions": 3840,
+  "new_data_fit_DEV_holdout_parents": [
+    24,
+    8,
+    8
+  ],
+  "new_data_qualified_anchors": 120,
+  "WM_main_updates": 400,
+  "WM_continuation_probe_updates": 2,
+  "Actor_updates": 0,
+  "Critic_updates": 0,
+  "target_transitions": 0,
+  "complete_tasks": 0,
+  "new_model_online_grasp": {
+    "action_conditioned": 8,
+    "no_future_action": 8,
+    "same_observation_rule": 8,
+    "fixed_random": 5,
+    "parents": 8,
+    "atoms_per_episode": 16,
+    "formal_task_success": false
+  },
+  "corrected_holdout_H16_object_RMSE_mm": {
+    "action_conditioned": 5.106954835355282,
+    "no_future_action": 2.746899612247944
+  },
+  "corrected_holdout_H16_grasp_Brier": {
+    "action_conditioned": 0.11597457528114319,
+    "no_future_action": 0.13058093190193176
+  },
+  "scientific_result": "No incremental value over same-observation rule established. Conditioned transport chooses away8/8 DEV and8/8 corrected holdout; real7.90mm action-effect contrast shrinks to reversed3micrometre prediction.",
+  "first_target_blocker": "Original S1/T2 quarantine CLOSED, same leaseSHA; no separately valid init-only dynamic scope",
+  "target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "old_queues": "Known727048/3892803/1425203 andM13/book owner search absent; no restart",
+  "neural_device": {
+    "index": 0,
+    "reported_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "reported_total_bytes": 33794359296,
+    "allocator_cap_bytes": 4294967296,
+    "sampled_own_peak_MiB": 1512,
+    "torch_peak_reserved_bytes": 1021313024
+  },
+  "model_data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "models": {
+    "action_conditioned": "530a6e5b395e7eca76f12efcc6179b6af745b063faff4f6c0bdbc23b18b21f6f",
+    "no_future_action": "0e60f92f5c133382f9e3244dcfa578094619ff4f43b1c8dc8f562f2e7b0dee0d"
+  },
+  "model_source_sha": "c7dd382654eb0e0caa4573dff0299ac4070b3e9e",
+  "all_runtime_roots_terminal": true,
+  "whole_repository_CI": "NOT_RUN",
+  "money_cost": "Not metered; no monetary estimate",
+  "next_command": "python scripts/wm02/review_decision_round.py --report-dir reports/WM02/decision-initialization"
+}
