@@ -1,9 +1,13 @@
 import unittest,tempfile,subprocess,shutil,itertools,sys,json
 from pathlib import Path
-from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source
+from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source,validate_parent_loader
 from scripts.pi0294.task_contacts import allowed
 
 class Auto1Native(unittest.TestCase):
+    def test_ROS_parent_loader_must_be_bound_at_exec_not_only_for_future_children(self):
+        validate_parent_loader('/existing/ros:/existing/native','/existing/ros:/existing/native')
+        for value in(None,'','/other'):
+            with self.assertRaises(PermissionError):validate_parent_loader('/existing/ros:/existing/native',value)
     def test_import_and_help_do_not_construct_or_import_native_models(self):
         code="import sys;from scripts.wm02.commission_target import main;from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter;assert not {'rclpy','mujoco','torch'}&sys.modules.keys()"
         subprocess.run([sys.executable,'-c',code],check=True)

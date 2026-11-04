@@ -9,6 +9,11 @@ from contextlib import contextmanager
 
 PHASES=(('cold-1',50),('cold-2',50),('hold-2s-1',1000),('hold-2s-2',1000),('hold-5s-1',2500),('hold-5s-2',2500))
 
+def validate_parent_loader(expected,actual):
+    # glibc's loader reads LD_LIBRARY_PATH at exec, before importing rclpy.
+    # Setting it later only for native children cannot repair the parent.
+    if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
+
 def phase_limit(phase,previous):
     names=[n for n,_ in PHASES]
     if phase not in names:raise PermissionError('UNKNOWN_AUTO1_NATIVE_PHASE')
@@ -47,6 +52,7 @@ def admitted_target(spec_path,run_id,output):
     old=Path(spec['historical_target_lease'])
     if digest(old)!=spec['historical_target_lease_sha256']or json.loads(old.read_text())['status']!='CLOSED':raise PermissionError('HISTORICAL_LEASE_CHANGED')
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('CPU_TARGET_COMMISSIONING_ONLY')
+    validate_parent_loader(spec['native_environment']['LD_LIBRARY_PATH'],os.environ.get('LD_LIBRARY_PATH'))
     campaign_lock=OwnerLock(campaign/'OWNER.lock')
     try:
         native_lock=OwnerLock(spec['physical_owner_lock'])
