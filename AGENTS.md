@@ -1,5 +1,13 @@
 # GR00T + WBC agent entry · Goal V7
 
+## WM02 AUTO1 scoped supplement · 2026-11-04
+
+The current user explicitly requests more Codex autonomy to run the WBC-to-WM pipeline. For this work, read `docs/handover/2026-11-04/WM02_AUTO1_CODEX_EXECUTE.md`, `docs/protocols/WM02_AUTO1_WBC_TO_WM_V1.md` and `experiments/wm02/autonomous_wbc_to_wm_v1.json` first. This is a scoped supplement, not an executed qualification.
+
+The new request authorizes project-owned **simulation-only** target initialization/hold commissioning, evidence-driven runtime integration repair, graded EEF/contact checks, sequential target data collection and finite WM training/reload. Register a fresh `WM02_AUTO1_SIM_ONLY` scope through the existing actual owner/registry/lease; no per-small-fix or per-stage GO is needed. Within this new scope only, this supersedes older blanket future-target prohibitions and stale exact-200/model-only plan limits. Old S1/T2 failed binaries, STOP history and CLOSED leases are retained, not reopened; every new candidate still must pass the original native safety checks. User authorization, site registration and measured qualification are three separate states. Do not fabricate external privileges or turn a permission boolean into native PASS.
+
+Keep WBC/leg-policy weights, gains, costs, solver, physics dt and safety thresholds frozen. No real hardware, active locomotion, formal Actor training, infrastructure changes, other-user process changes or automatic main merge. If a true external owner/admin permission is missing, report the concrete rejection; do not merely repeat that the user has not supplied an init-only request. Implement the currently absent target runtime entry instead of re-running the hardcoded `qualify --domain T` exit78. Source M3 quality, perfect midpoint restore and full-task success are not prerequisites for target sequential collection or the WM training entry. Existing V7 rules below remain in force elsewhere. No process is started by this file.
+
 ## Current user mandate
 
 Read `START_HERE.md`, `docs/protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md`, current relevant receipts in `CURRENT_SCIENCE_STATUS.md`, and the specific scientific protocol. V7 implements the user's request to reduce defensive programming, autonomously repair engineering defects, and prioritize the scientific pipeline. The user handles cleanup; project-internal budget ceilings are not new-run approval gates. Read only relevant Issue #11/#47 updates, not the whole history on every action.
