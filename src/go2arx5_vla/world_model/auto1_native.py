@@ -96,13 +96,18 @@ def admitted_target(spec_path,run_id,output):
     finally:campaign_lock.close()
 
 def standing_repair_ancestor(spec):
-    """Bind the preserved reference failure to a verified cold-history-only successor."""
+    """Bind the preserved reference failure to a math-preserving runtime successor."""
     from .storage import digest
     actual=digest(spec['native_binary'])
     if not spec.get('cold_history_build_receipt'):return actual
     for key in('cold_history_build_receipt','cold_history_build_spec'):
         if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('COLD_HISTORY_BUILD_PROOF_CHANGED')
     receipt=json.loads(Path(spec['cold_history_build_receipt']).read_text());build=json.loads(Path(spec['cold_history_build_spec']).read_text())
+    pair=build.get('command_pair_coherence')
+    if pair is not None:
+        header=Path(spec['cold_history_build_receipt']).parent/'command_pair.hpp'
+        if(pair!='SHORT_PAIR_PUBLICATION_PD_TRYLOCK_V1'or receipt.get('command_pair_coherence')!=pair
+                or not header.is_file()or digest(header)!=receipt.get('command_pair_header_sha256')):raise PermissionError('EXACT_COMMAND_PAIR_SUCCESSOR_PROOF_REQUIRED')
     if (receipt.get('status')!='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
             or receipt.get('binary_sha256')!=actual
             or receipt.get('cold_history_init')!='ORIGINAL_BUFFER_RESET_FIRST_REAL_OBSERVATION_V1'
