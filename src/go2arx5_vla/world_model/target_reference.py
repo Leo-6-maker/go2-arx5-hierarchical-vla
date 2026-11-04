@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+from scripts.pi0294.task_clock import actual_source_age
 
 SCHEMA = 'WM02_TARGET_REFERENCE_CONSUMPTION_V1'
 TASK_START = 2503
@@ -17,7 +18,7 @@ def deadline(source):
 
 def require_live_window(source, native_time, ticks):
     if (type(ticks) is not int or ticks <= 0 or ticks % ATOM_TICKS
-            or not math.isfinite(native_time) or native_time < source):
+            or not math.isfinite(native_time) or actual_source_age(native_time,source)<0):
         raise ValueError('ACTUAL_SOURCE_AND_COMPLETE_RELATIVE_ATOMS_REQUIRED')
     end = native_time + ticks*DT
     # The receiver expires at >=deadline-1e-10, not 400ms after install.
@@ -31,7 +32,7 @@ def require_live_window(source, native_time, ticks):
 
 def require_install_clock(source, native_time):
     deadline(source)
-    if not math.isfinite(native_time) or not 0 <= native_time-source <= .025:
+    if not math.isfinite(native_time) or not 0 <= actual_source_age(native_time,source) <= .025:
         raise ValueError('INSTALL_REQUIRES_FRESH_MEASURED_SOURCE')
 
 
@@ -40,6 +41,13 @@ def trajectory_identity(times, states, inputs):
                inputs=[list(x) for x in inputs])
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'),
                                      allow_nan=False).encode()).hexdigest()
+
+
+def installed_target_identities(events, ref):
+    # Original receiver republishes its rolling trajectory under the same
+    # accepted reference. Match real sent content, never just the first grid.
+    return {trajectory_identity(e['times'],e['poses'],e['inputs']):e
+            for e in events if e.get('kind')=='installed'and e.get('ref_id')==ref}
 
 
 def dynamic_limit(phase, previous):

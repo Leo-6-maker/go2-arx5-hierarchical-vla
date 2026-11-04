@@ -17,7 +17,15 @@ def run(spec,output):
         if spec.get('reference_readiness_probe',False):adapter.inspect_reference_readiness()
         elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference();adapter.seal_trace(spec['max_ticks']);reached=True
     except BaseException:failure=traceback.format_exc()
-    finally:adapter.close()
+    finally:
+        if adapter.dynamic_phase()and adapter.node is not None:
+            try:
+                adapter.capture_loaded_identity()
+                if not adapter.trace_sealed:adapter.seal_trace(adapter.observe()['step'])
+            except BaseException:
+                from go2arx5_vla.world_model.storage import write_json
+                write_json(Path(output)/'FINAL_EVIDENCE_CAPTURE_ERROR.json',dict(error=traceback.format_exc()))
+        adapter.close()
     output=Path(output);trace=output/'init.trace';audit=None;audit_error=None
     try:audit=audit_trace(trace,max_native_ticks=spec['max_ticks'])if trace.exists()else None
     except BaseException:audit_error=traceback.format_exc()

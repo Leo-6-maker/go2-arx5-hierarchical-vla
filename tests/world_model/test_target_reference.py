@@ -1,5 +1,5 @@
 import unittest
-from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity
+from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity,installed_target_identities
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 from scripts.pi0294.native_receiver import reference_expired
 
@@ -41,6 +41,16 @@ class TargetReferenceContract(unittest.TestCase):
     def test_trace_cannot_resume_after_seal(self):
         adapter=TargetSequentialAdapter(dict(phase='g2-hold-short',max_ticks=2528),'.');adapter.trace_sealed=True
         with self.assertRaisesRegex(PermissionError,'SEALED'):adapter.advance_to(2528)
+    def test_real_native_accumulation_and_integer_ROS_clock_same_tick(self):
+        native=5.3559999999996375;source=5.356
+        require_install_clock(source,native);require_live_window(source,native,25)
+        with self.assertRaises(ValueError):require_install_clock(source+.001,native)
+    def test_original_receiver_rolling_republication_retains_reference_identity(self):
+        events=[dict(kind='installed',ref_id='a',times=[t,t+.05],poses=[[1.],[2.]],inputs=[[0.],[0.]],monotonic_s=t)for t in (5.004,5.104)]
+        events.append(dict(events[-1],ref_id='b',times=[7.,7.05]))
+        matched=installed_target_identities(events,'a')
+        self.assertEqual(len(matched),2)
+        self.assertIn(trajectory_identity([5.104,5.154],[[1.],[2.]],[[0.],[0.]]),matched)
 
 
 if __name__=='__main__':unittest.main()

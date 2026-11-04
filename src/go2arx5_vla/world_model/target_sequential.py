@@ -218,8 +218,9 @@ class TargetSequentialAdapter:
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1
     def wait_source(self):
+        from scripts.pi0294.task_clock import actual_source_age
         t=self.observe()['time_s']
-        if not self.spin(10,lambda:all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation'))):
+        if not self.spin(10,lambda:all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation'))):
             self.save_feedback_diagnostic('ACTUAL_DYNAMIC_SOURCE_NOT_READY');raise RuntimeError('ACTUAL_DYNAMIC_SOURCE_NOT_READY')
         if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_WBC_MODE_LOST')
     def measured_task_state(self):
@@ -275,7 +276,7 @@ class TargetSequentialAdapter:
         return value
     def dynamic_diagnostic(self):
         import numpy as np
-        from .target_reference import trajectory_identity,require_live_window
+        from .target_reference import trajectory_identity,require_live_window,installed_target_identities
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
@@ -300,12 +301,13 @@ class TargetSequentialAdapter:
             if any(r.get('reason')=='PREFIX_TTL_EXPIRED'for r in self.reference_events()):raise RuntimeError('UNEXPECTED_REFERENCE_EXPIRY')
             installed=[r for r in self.active_reference['receiver_events']if r['kind']=='installed'][-1]
             identity=trajectory_identity(installed['times'],installed['poses'],installed['inputs'])
+            sent=installed_target_identities(self.reference_events(),self.active_reference['wire_sha256'])
             matched=[];arm=[]
             for row in self.ros_evidence[event_start:]:
                 msg=row['message']
                 if row['topic_key']=='policy':
                     target=msg['plan_target_trajectories'];key=trajectory_identity(target['time_trajectory'],[s['value']for s in target['state_trajectory']],[s['value']for s in target['input_trajectory']])
-                    if key==identity:matched.append(dict(received_monotonic_s=row['received_monotonic_s'],policy_init_time=msg['init_observation']['time'],trajectory_sha256=key,policy_start=msg['time_trajectory'][0],policy_end=msg['time_trajectory'][-1]))
+                    if key in sent and sent[key]['monotonic_s']<=row['received_monotonic_s']:matched.append(dict(received_monotonic_s=row['received_monotonic_s'],policy_init_time=msg['init_observation']['time'],trajectory_sha256=key,receiver_send_monotonic_s=sent[key]['monotonic_s'],policy_start=msg['time_trajectory'][0],policy_end=msg['time_trajectory'][-1]))
                 if row['topic_key']=='arm_request':arm.append(row)
             result=dict(native_start_step=step,native_end_step=after['step'],actual_ticks=after['step']-step,clock=clock,reference_sha256=self.active_reference['wire_sha256'],target_trajectory_sha256=identity,solver_policies_with_exact_installed_target=matched,arm_request_count=len(arm),controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',mode=self.latest['mode'].data,actual_end_sim_s=after['time_s'])
             windows.append(result);self.command_event(dict(phase='controller-consumed'if matched else'consumption_unconfirmed',evidence_level='SOLVER_TARGET_CONFIRMED_CONTROLLER_SELECTION_DERIVED'if matched else'UNCONFIRMED',**result));self.command_event(dict(phase='achieved',native_step=after['step'],sim_time_s=after['time_s'],tcp=self.measured_task_state()['tcp'].tolist()))
