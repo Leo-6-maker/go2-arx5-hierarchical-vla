@@ -292,7 +292,7 @@ class TargetSequentialAdapter:
         return value
     def dynamic_diagnostic(self):
         import numpy as np
-        from .target_reference import trajectory_identity,require_live_window,installed_target_identities
+        from .target_reference import trajectory_identity,require_live_window,installed_target_identities,fixed_goal_poses
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
@@ -301,12 +301,8 @@ class TargetSequentialAdapter:
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current():
-            current=self.measured_task_state()['tcp'];poses=[]
-            for k in range(40):
-                p=goal.copy()
-                if offset:p[:3,3]=current[:3,3]+min((k+1)/8,1)*(goal[:3,3]-current[:3,3])
-                poses.append(pose10(p,float(teacher_physical_fraction(1.))))
-            return np.stack(poses)
+            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference'))
+            return np.stack([pose10(p,float(teacher_physical_fraction(1.)))for p in poses])
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
             before=self.observe();step=before['step']

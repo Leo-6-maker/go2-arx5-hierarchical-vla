@@ -2,7 +2,7 @@ import unittest
 from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity,installed_target_identities
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 from scripts.pi0294.native_receiver import reference_expired
-from go2arx5_vla.world_model.target_reference import measured_base_hold,relevant_loaded_path
+from go2arx5_vla.world_model.target_reference import measured_base_hold,relevant_loaded_path,fixed_goal_poses
 
 
 class TargetReferenceContract(unittest.TestCase):
@@ -74,6 +74,14 @@ class TargetReferenceContract(unittest.TestCase):
                 adapter.capture_loaded_identity();adapter.capture_loaded_identity()
                 self.assertEqual(len(list(Path(tmp).glob('LOADED_EXECUTOR_*.private.json'))),2)
             finally:process.terminate();process.wait()
+    def test_renewed_micro_move_preserves_preplanned_suffix_without_actual_reanchor(self):
+        import numpy as np
+        start=np.eye(4);goal=start.copy();goal[0,3]=.001
+        first=fixed_goal_poses(start,goal,renewed=False)
+        renewal=fixed_goal_poses(start,goal,renewed=True)
+        np.testing.assert_array_equal(first[7:],renewal[:33])
+        joined=np.concatenate((first[5:7],renewal))
+        self.assertLessEqual(np.linalg.norm(np.diff(joined[:,:3,3],axis=0),axis=1).max()/.05,.06)
 
 
 if __name__=='__main__':unittest.main()

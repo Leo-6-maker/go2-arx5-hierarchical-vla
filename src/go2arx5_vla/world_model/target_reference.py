@@ -70,6 +70,19 @@ def relevant_loaded_path(path):
     return relevant
 
 
+def fixed_goal_poses(initial, goal, *, renewed):
+    """Predetermined 1mm ramp then hold; renew the planned suffix, no reanchor."""
+    import numpy as np
+    initial=np.asarray(initial,dtype=float);goal=np.asarray(goal,dtype=float)
+    if initial.shape!=(4,4)or goal.shape!=(4,4)or not np.isfinite([initial,goal]).all():
+        raise ValueError('FINITE_ACTUAL_START_AND_PREDECLARED_GOAL_REQUIRED')
+    result=np.repeat(goal[None],40,axis=0)
+    if not renewed:
+        weight=np.minimum((np.arange(40)+1)/8,1.)[:,None]
+        result[:,:3,3]=initial[:3,3]+weight*(goal[:3,3]-initial[:3,3])
+    return result
+
+
 def dynamic_limit(phase, previous):
     """Versioned finite diagnostic, never accept arbitrary metadata limits."""
     table = {
