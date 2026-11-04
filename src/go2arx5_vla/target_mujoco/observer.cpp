@@ -36,6 +36,7 @@ long count=0;
 long cap=0;
 double next_sample=0;
 bool initialized=false;
+bool safety_stopped=false;
 const mjModel* observed_model=nullptr;
 void initialize(const mjModel* m) {
   const char* path=std::getenv("PI0288_PHYSICS_TRACE");
@@ -72,6 +73,9 @@ extern "C" void mj_step(const mjModel* m, mjData* d) {
   using Step=void(*)(const mjModel*,mjData*);
   static auto real=reinterpret_cast<Step>(dlsym(RTLD_NEXT,"mj_step"));
   if(!real)std::abort();
+  // SIGINT is an asynchronous exit request. Never integrate another tick while
+  // the original GUI/process owner is still unwinding after a safety failure.
+  if(safety_stopped) {raise(SIGINT);return;}
   if(!initialized)initialize(m);
   if(trace.is_open() && count>=cap) {
     trace<<"{\"kind\":\"stop\",\"reason\":\"PHYSICS_RESERVATION_CAP\",\"steps\":"<<count<<"}\n";trace.flush();raise(SIGINT);return;
@@ -126,5 +130,5 @@ extern "C" void mj_step(const mjModel* m, mjData* d) {
     trace<<"]}\n";trace.flush();
     if(d->time+1e-12>=next_sample)next_sample=d->time+.005;
   }
-  if(stop || contact_stop) {trace<<"{\"kind\":\"stop\",\"reason\":\""<<(stop?"REGISTERED_JOINT_SAFETY":"ILLEGAL_CONTACT")<<"\",\"steps\":"<<count<<"}\n";trace.flush();raise(SIGINT);}
+  if(stop || contact_stop) {safety_stopped=true;trace<<"{\"kind\":\"stop\",\"reason\":\""<<(stop?"REGISTERED_JOINT_SAFETY":"ILLEGAL_CONTACT")<<"\",\"steps\":"<<count<<"}\n";trace.flush();raise(SIGINT);}
 }

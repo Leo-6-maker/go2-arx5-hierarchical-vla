@@ -94,7 +94,11 @@ extern "C" void mj_step(const mjModel* m,mjData* d) {
   target[i]+=std::clamp(requested-target[i],-.04*m->opt.timestep,.04*m->opt.timestep);
   d->ctrl[actuator[i]]=std::clamp(400*(target[i]-q)-3*dq,-8.,8.);
  }
- double before=d->time;real(m,d);if(d->time>before)++steps;record(m,d);
+ double before=d->time;real(m,d);
+ // A latched inner safety observer can reject the call without advancing time.
+ // Do not append a duplicate packet or pretend that a new transition occurred.
+ if(d->time<=before)return;
+ ++steps;record(m,d);
  if(steps==limit) {
   using Pause=void(*)(uint64_t);
   static auto pause=reinterpret_cast<Pause>(dlsym(RTLD_DEFAULT,"GR00TTaskPause"));
