@@ -25,10 +25,11 @@ def compile_physical(raw,anchor,time_s,*,target=False):
     """World translation / left-multiplied rotation, row rot6d, absolute timestamps."""
     if raw.shape[-2:]!=(8,7)or anchor.shape[-2:]!=(4,4):raise ValueError('Physical 8x7 and TCP 4x4 required')
     lo,hi=(.002/.044,.042/.044)if target else(0.,1.)
+    checked=raw.to(torch.float64) # Match the native double-precision reject decision.
     if (not torch.isfinite(raw).all()or not torch.isfinite(anchor).all()
-            or (raw[...,:3].norm(dim=-1)>.01+1e-12).any()
-            or (raw[...,3:6].norm(dim=-1)>.05+1e-12).any()
-            or (raw[...,6]<lo).any()or(raw[...,6]>hi).any()):
+            or (checked[...,:3].norm(dim=-1)>.01+1e-12).any()
+            or (checked[...,3:6].norm(dim=-1)>.05+1e-12).any()
+            or (checked[...,6]<lo).any()or(checked[...,6]>hi).any()):
         raise ValueError('Physical primitive outside native bounds; no clipping')
     r=anchor[...,:3,:3];eye=torch.eye(3,dtype=anchor.dtype,device=anchor.device)
     if (not torch.allclose(r.transpose(-1,-2)@r,eye.expand_as(r),atol=1e-7,rtol=0)

@@ -77,6 +77,8 @@ class RealInterfaces(unittest.TestCase):
             physical=actor_primitives(torch.full((1,8,7),value,dtype=torch.float32),target=True)
             native=compile_reference(physical.numpy()[0],np.eye(4),12.,backend=TARGET,frame='world',tcp='x5_ee')
             self.assertEqual(native['rows10'].shape,(40,10))
+        rounded=raw.float();rounded[...,6]=torch.nextafter(torch.tensor(.042/.044),torch.tensor(float('inf')))
+        with self.assertRaises(ValueError):compile_physical(rounded,anchor.float(),2.,target=True)
     def test_replay_deduplicates_aliases_and_holds_out_whole_physical_scene(self):
         a=fixture_rows('a');alias=copy.deepcopy(a)
         for r in alias:r.update(episode_id='renamed',parent_id='renamed',scene_id='renamed')
