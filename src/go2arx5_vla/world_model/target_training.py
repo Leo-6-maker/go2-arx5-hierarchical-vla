@@ -124,7 +124,8 @@ def run(spec,output):
         m.load_state_dict(old['model']);opt.load_state_dict(old['optimizer']);restore_rng(old['rng']);cursor=old['replay_cursor']
     if spec.get('baseline_fit_replay'):
         import subprocess
-        q=subprocess.run([spec['python'],'-B','-m','scripts.wm02.fit_target_baselines','--replay',spec['baseline_fit_replay'],'--eval-replay',spec['baseline_evaluation_replay'],'--output',str(out/'reference-residual-baseline')],cwd=spec['source_root'],capture_output=True,text=True,timeout=30)
+        child_env=dict(os.environ,PYTHONPATH=str(Path(spec['source_root'])/'src')+os.pathsep+spec['source_root'])
+        q=subprocess.run([spec['python'],'-B','-m','scripts.wm02.fit_target_baselines','--replay',spec['baseline_fit_replay'],'--eval-replay',spec['baseline_evaluation_replay'],'--output',str(out/'reference-residual-baseline')],cwd=spec['source_root'],env=child_env,capture_output=True,text=True,timeout=30)
         write_json(out/'BASELINE_COMMAND.json',dict(exit_code=q.returncode,stdout=q.stdout,stderr=q.stderr));q.check_returncode()
     steps=spec['endpoint'];initial_eval=evaluate(m,train,meta);write_json(out/'BEFORE_UPDATE.json',initial_eval)
     new_ids=np.array([i for i,e in enumerate(meta['episodes'])if e['episode'].startswith('collect-target-b-')],dtype=int)
