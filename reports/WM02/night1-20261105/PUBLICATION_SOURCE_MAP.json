@@ -1,7 +1,7 @@
 {
   "schema": "WM02_EXACT_SOURCE_PUBLICATION_MAP_V1",
   "base_sha": "6e99a72e56eaa1066e567fb66f95ad7121695742",
-  "purpose": "Exact run-source commit recovery. API snapshots retain identical Git trees; their commit metadata differs. No refs/checkout/runtime are changed by recovery.",
+  "purpose": "Exact run-source commit recovery; identical Git trees and metadata-preserved commit objects, no ref/checkout/runtime changes.",
   "snapshots": [
     {
       "actual_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
@@ -164,6 +164,18 @@
       "tree_sha": "03684d48238948f247409abc98623db6afe25cad",
       "original_commit_object": "tree 03684d48238948f247409abc98623db6afe25cad\nparent d52c4e435bff6ab26868eae9bbce2e6133b1126f\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793820917 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793820917 +0800\n\nfix(wm02): stop pinned reference receiver before ROS context teardown\n",
       "published_snapshot_sha": "07f490c0fc42a4fd073793222392e8d698de8f9e"
+    },
+    {
+      "actual_source_sha": "fe8af9d8d76e28a6b832c82730bf9c83446127f3",
+      "tree_sha": "c7732d5583e599041d5cdcc826a518c7f9e14304",
+      "original_commit_object": "tree c7732d5583e599041d5cdcc826a518c7f9e14304\nparent 90486476eb726f74a191478fad8e8dc7baa4907d\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821104 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821104 +0800\n\nreport(wm02): deliver NIGHT1 target data, limited held-out gain and retained runtime failures\n",
+      "published_snapshot_sha": "5bf73d4f036a847e7626a23c09f89ce732d4a2b1"
+    },
+    {
+      "actual_source_sha": "47c7278dec17161eb4c111a4aa64ed3fc1f66e50",
+      "tree_sha": "15174c4d19d64c35b436ecbdb249ad3e0bdea1e4",
+      "original_commit_object": "tree 15174c4d19d64c35b436ecbdb249ad3e0bdea1e4\nparent fe8af9d8d76e28a6b832c82730bf9c83446127f3\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821358 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821358 +0800\n\nexperiment(wm02): preregister RootSafe pre-response action test and causal scaled ARX baseline\n",
+      "published_snapshot_sha": "5fd2d89693dcecffe12062575b0717423d66e7e1"
     }
   ]
 }
