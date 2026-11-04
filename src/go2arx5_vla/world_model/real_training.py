@@ -18,7 +18,7 @@ def read_numeric(path,device):
         if not fit.any()or not hold.any()or set(groups[fit])&set(groups[hold])or set(ids[fit].flat)&set(ids[hold].flat):raise ValueError('Independent physical-scene holdout required')
         data={k:torch.as_tensor(f[k],device=device,dtype=torch.float32)for k in ('state','reference','context','events','done','timeout','clock','valid')}
         if data['state'].shape[-1]!=STATE_DIM or data['reference'].shape[-2:]!=(40,10):raise ValueError('Actual S state / H40 binding differs')
-        return data,fit,hold,dict(fit_groups=sorted(set(groups[fit])),holdout_groups=sorted(set(groups[hold])),manifest_sha256=str(f['manifest_sha256']))
+        return data,fit,hold,dict(fit_groups=sorted({str(g)for g in groups[fit]}),holdout_groups=sorted({str(g)for g in groups[hold]}),manifest_sha256=str(f['manifest_sha256']))
 
 
 def subset(data,index):return{k:v[index]for k,v in data.items()}
@@ -114,7 +114,12 @@ def run(folder,spec):
         value,norm=update(model,opt,train,(step-1)*256)
         row=dict(update=step,loss=value,gradient_norm=norm,cursor=step*256);trace.append(row)
         with (folder/'WM_OPTIMIZER_STEPS.jsonl').open('a')as stream:stream.write(json.dumps(row)+'\n');stream.flush();os.fsync(stream.fileno())
-        if step in (1,endpoint-1):checkpoint(folder/f'checkpoint-{step}.pt',model,opt,step,step*256,provenance,config)
+        if step in (1,endpoint-1):
+            checkpoint(folder/f'checkpoint-{step}.pt',model,opt,step,step*256,provenance,config)
+            if step==1:
+                first,first_opt,first_c=load_checkpoint(folder/'checkpoint-1.pt',device,provenance)
+                if max(tree_error(model.state_dict(),first.state_dict()),tree_error(opt.state_dict(),first_opt.state_dict()))!=0:raise RuntimeError('First-update reload differs')
+                del first,first_opt
         if step%10==0:put(folder/'PROGRESS.json',row)
     peak=memory(device);checkpoint(folder/f'checkpoint-{endpoint}.pt',model,opt,endpoint,endpoint*256,provenance,config)
     final=float(loss(model,subset(train,slice(0,32))).detach());reload_errors=[]
@@ -143,4 +148,81 @@ def run(folder,spec):
         reward_validation='NOT_COMPLETE_NO_FORMAL_ACTOR_TRAINING',native_transitions_collected=0,target_transitions=0,
         actual_GPU_uuid=spec['GPU_uuid'],CUDA_total_bytes=props.total_memory,
         torch=str(torch.__version__),CUDA_build=str(torch.version.cuda),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,**peak)
+    put(folder/'RESULT.json',result);return result
+
+
+def repair_legacy_metadata(source,destination,expected_sha256,expected_provenance):
+    """Known project checkpoint only: allow numeric NumPy string metadata, never arbitrary pickle."""
+    if sha(source)!=expected_sha256:raise ValueError('Original checkpoint SHA differs before metadata repair')
+    # V1 saved np.str_ group names. Keep weights_only=True and allow just the
+    # three numeric/string constructors needed for those known metadata values.
+    with torch.serialization.safe_globals([np.core.multiarray.scalar,np.dtype,np.dtypes.StrDType]):
+        original=torch.load(source,map_location='cpu',weights_only=True)
+    count=0
+    def clean(x):
+        nonlocal count
+        if isinstance(x,np.generic):count+=1;return x.item()
+        if isinstance(x,dict):return{k:clean(v)for k,v in x.items()}
+        if isinstance(x,list):return[clean(v)for v in x]
+        if isinstance(x,tuple):return tuple(clean(v)for v in x)
+        return x
+    fixed=clean(original)
+    if fixed['provenance']!=expected_provenance:raise ValueError('Repair must retain original source/replay identity')
+    if tree_error(original['model'],fixed['model'])or tree_error(original['optimizer'],fixed['optimizer']):raise RuntimeError('Metadata repair changed scientific tensors')
+    with Path(destination).open('xb')as stream:torch.save(fixed,stream)
+    check=torch.load(destination,map_location='cpu',weights_only=True)
+    if tree_error(fixed['model'],check['model'])or tree_error(fixed['optimizer'],check['optimizer']):raise RuntimeError('Repaired checkpoint reload differs')
+    return dict(original_sha256=expected_sha256,derived_sha256=sha(destination),numpy_metadata_scalars_normalized=count,
+        model_and_optimizer_tensor_max_error=0.,strict_weights_only_reload=True,original_retained=True)
+
+
+def finish_existing(folder,spec):
+    """Finish the existing 200 endpoint after metadata repair; never repeat its main updates."""
+    folder=Path(folder);start=time.monotonic();cpu=time.process_time();device=torch.device('cuda:0')
+    from .runtime import cuda_uuid
+    props=torch.cuda.get_device_properties(0)
+    if torch.cuda.device_count()!=1 or cuda_uuid(props.uuid)!=spec['GPU_uuid']:raise PermissionError('Bound GPU1 UUID differs')
+    torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/props.total_memory)
+    torch.set_num_threads(len(spec['cpus']));torch.use_deterministic_algorithms(True);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
+    for key in ('replay','eval_replay'):
+        if sha(spec[key])!=spec[key+'_sha256']:raise ValueError('Replay differs from original diagnostic')
+    data,fit,hold,identity=read_numeric(spec['replay'],device);long,_,longhold,longidentity=read_numeric(spec['eval_replay'],device)
+    if identity!=longidentity:raise ValueError('Long evaluation physical groups differ')
+    train=subset(data,torch.as_tensor(fit,device=device));dev=subset(data,torch.as_tensor(hold,device=device));dev16=subset(long,torch.as_tensor(longhold,device=device))
+    expected=dict(source_sha=spec['original_training_source_sha'],data_sha256=spec['replay_sha256'],eval_data_sha256=spec['eval_replay_sha256'],state_schema=SCHEMA,**identity)
+    repairs={}
+    for step in (1,199,200):
+        original=spec['original_checkpoints'][str(step)]
+        repairs[str(step)]=repair_legacy_metadata(original['path'],folder/f'checkpoint-{step}.pt',original['sha256'],expected)
+    put(folder/'METADATA_REPAIR.json',repairs)
+    old_trace=Path(spec['original_optimizer_trace'])
+    if sha(old_trace)!=spec['original_optimizer_trace_sha256']:raise ValueError('Original durable trace differs')
+    trace=[json.loads(l)for l in old_trace.read_text().splitlines()]
+    if [r['update']for r in trace]!=list(range(1,201)):raise ValueError('Original 200 endpoint was not complete')
+    model,opt,c=load_checkpoint(folder/'checkpoint-200.pt',device,expected)
+    one,oneopt,first=load_checkpoint(folder/'checkpoint-1.pt',device,expected)
+    if first['step']!=1 or first['replay_cursor']!=256:raise ValueError('First checkpoint endpoint differs')
+    del one,oneopt
+    clone,cloneopt,previous=load_checkpoint(folder/'checkpoint-199.pt',device,expected)
+    torch.cuda.reset_peak_memory_stats();update(clone,cloneopt,train,previous['replay_cursor'])
+    continuation=max(tree_error(model.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),cloneopt.state_dict()))
+    if continuation>1e-6:raise RuntimeError('Restored 199 to 200 continuation differs')
+    put(folder/'RESTORE_PROBE.json',dict(optimizer_updates=1,continuation_max_error=continuation))
+    del clone,cloneopt
+    # No subsequent main or Actor/critic update. All endpoints remain fixed.
+    evaluation={}
+    for horizon,b in ((1,dev),(8,dev),(16,dev16)):
+        evaluation[str(horizon)]={name:metrics(model,b,horizon,shuffle=name=='action_trace_shift',persistence=name=='state_persistence')for name in ('WM','action_trace_shift','state_persistence')}
+    result=dict(status='REAL_S_WM200_METADATA_REPAIRED_RELOAD_EVALUATION_COMPLETE',provenance=expected,evaluation_source_sha=spec['source_sha'],
+        parameters=sum(p.numel()for p in model.parameters()),architecture=c['model_config'],
+        fit_windows=len(train['state']),holdout_windows=len(dev['state']),holdout_H16_windows=len(dev16['state']),
+        main_optimizer_updates_in_original_run=200,main_optimizer_updates_in_this_run=0,restore_probe_optimizer_updates=1,Actor_updates=0,critic_updates=0,
+        original_first_batch_preupdate_loss=trace[0]['loss'],original_200th_batch_preupdate_loss=trace[-1]['loss'],final_FIT32_loss=float(loss(model,subset(train,slice(0,32))).detach()),
+        initial_same_FIT32_loss='NOT_DURABLY_RECORDED_BEFORE_ORIGINAL_METADATA_FAILURE',normalizer_only_original_FIT=True,
+        checkpoint_reload_max_error=0.,continuation_max_error=continuation,metadata_repairs=repairs,checkpoint_sha256=sha(folder/'checkpoint-200.pt'),evaluation=evaluation,
+        evaluation_scope='One held-out original TRAIN physical scene; overlapping windows, not independent episodes or formal DEV',
+        action_ablation='One-window circular reference-trace shift within heldout scene including burn-in; not admissible physical counterfactual',
+        reward_validation='NOT_COMPLETE_NO_FORMAL_ACTOR_TRAINING',native_transitions_collected=0,target_transitions=0,
+        actual_GPU_uuid=spec['GPU_uuid'],CUDA_total_bytes=props.total_memory,torch=str(torch.__version__),CUDA_build=str(torch.version.cuda),
+        CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,**memory(device))
     put(folder/'RESULT.json',result);return result

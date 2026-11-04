@@ -13,7 +13,7 @@ from go2arx5_vla.world_model.neural_contract import compile_physical,actor_primi
 from go2arx5_vla.world_model.action_compiler import compile_reference,SOURCE,TARGET
 from go2arx5_vla.world_model.contracts import FRAME,TCP
 from go2arx5_vla.world_model.neural import WorldModel
-from go2arx5_vla.world_model.real_training import loss,read_numeric,rollout
+from go2arx5_vla.world_model.real_training import loss,read_numeric,rollout,repair_legacy_metadata
 from go2arx5_vla.world_model.neural_training import checkpoint,load_checkpoint,tree_error
 
 
@@ -92,15 +92,28 @@ class RealInterfaces(unittest.TestCase):
         rows[7]['terminal']=False;rows[8]['state_before']['qpos'][0]+=.1;self.assertFalse(replay.continuous(rows[7],rows[8]))
     def test_source_checkpoint_and_no_post_terminal_or_future_state_leak(self):
         p=self.manifest([fixture_rows('a'),fixture_rows('b')]);replay.build(p,self.root/'built')
-        data,fit,hold,_=read_numeric(self.root/'built/REPLAY.npz',torch.device('cpu'))
+        data,fit,hold,identity=read_numeric(self.root/'built/REPLAY.npz',torch.device('cpu'))
+        self.assertTrue(all(type(x)is str for x in identity['fit_groups']+identity['holdout_groups']))
         b={k:v[:2].clone()for k,v in data.items()};model=WorldModel(hidden=(32,32),history_hidden=16,groups=replay.GROUPS,context_dim=5)
         model.normalizer.fit(data['state'][torch.as_tensor(fit)])
         opt=torch.optim.AdamW(model.parameters(),lr=2e-4,weight_decay=1e-5);loss(model,b).backward();opt.step()
-        cfg=dict(hidden=[32,32],history_hidden=16,groups=replay.GROUPS,context_dim=5);checkpoint(self.root/'cp.pt',model,opt,1,256,{'domain':'S_UNIT'},cfg)
-        clone,co,c=load_checkpoint(self.root/'cp.pt','cpu',{'domain':'S_UNIT'});self.assertEqual(tree_error(model.state_dict(),clone.state_dict()),0)
+        cfg=dict(hidden=[32,32],history_hidden=16,groups=replay.GROUPS,context_dim=5);checkpoint(self.root/'cp.pt',model,opt,1,256,identity,cfg)
+        clone,co,c=load_checkpoint(self.root/'cp.pt','cpu',identity);self.assertEqual(tree_error(model.state_dict(),clone.state_dict()),0)
         b['done'][:,10]=1;b['valid'][:,11:]=0;other={k:v.clone()for k,v in b.items()};other['state'][:,12:]+=100
         self.assertEqual(float(loss(model,b).detach()),float(loss(model,other).detach()))
         other={k:v.clone()for k,v in b.items()};other['state'][:,9:]+=100
         x=rollout(model,b,8)[0];y=rollout(model,other,8)[0];self.assertTrue(torch.equal(x,y))
+
+    def test_known_numpy_string_metadata_repair_keeps_strict_loader_and_tensors(self):
+        model=WorldModel(hidden=(16,),history_hidden=8,groups=replay.GROUPS,context_dim=5)
+        opt=torch.optim.AdamW(model.parameters());cfg=dict(hidden=[16],history_hidden=8,groups=replay.GROUPS,context_dim=5)
+        identity={'fit_groups':[np.str_('original-scene')]};expected={'fit_groups':['original-scene']}
+        checkpoint(self.root/'legacy.pt',model,opt,1,256,identity,cfg)
+        with self.assertRaises(Exception):torch.load(self.root/'legacy.pt',weights_only=True)
+        proof=repair_legacy_metadata(self.root/'legacy.pt',self.root/'fixed.pt',digest(self.root/'legacy.pt'),expected)
+        self.assertEqual(proof['numpy_metadata_scalars_normalized'],1)
+        restored,ro,c=load_checkpoint(self.root/'fixed.pt','cpu',expected)
+        self.assertEqual(tree_error(model.state_dict(),restored.state_dict()),0)
+        self.assertTrue((self.root/'legacy.pt').exists())
 
 if __name__=='__main__':unittest.main()

@@ -7,8 +7,8 @@ def main(argv=None):
     a=p.parse_args(argv)
     from go2arx5_vla.world_model.runtime import admitted_run
     with admitted_run(a.spec,a.run_id,'wm02-gpu1-real-s',a.output,gpu=True)as spec:
-        from go2arx5_vla.world_model.real_training import run
-        print(json.dumps(run(a.output,spec)))
+        from go2arx5_vla.world_model.real_training import run,finish_existing
+        print(json.dumps((finish_existing if spec.get('finish_existing')else run)(a.output,spec)))
     return 0
 
 if __name__=='__main__':raise SystemExit(main())
