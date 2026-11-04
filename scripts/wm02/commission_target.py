@@ -13,7 +13,7 @@ def run(spec,output):
         if not spec.get('standby_shutdown_diagnostic',False):
             if spec['phase']=='g2-standing-ttl-v2':adapter.ttl_diagnostic();reached=True
             elif adapter.dynamic_phase():adapter.dynamic_diagnostic();reached=True
-            elif spec['phase']=='g2-reference-qualification':adapter.advance_to(2500)
+            elif spec['phase']=='g2-reference-qualification':adapter.advance_initialization(2500)
             else:adapter.step_to(spec['max_ticks']);reached=True
         if spec.get('reference_readiness_probe',False):adapter.inspect_reference_readiness()
         elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference();adapter.seal_trace(spec['max_ticks']);reached=True

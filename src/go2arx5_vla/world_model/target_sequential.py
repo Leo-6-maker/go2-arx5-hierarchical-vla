@@ -152,12 +152,22 @@ class TargetSequentialAdapter:
         return read_state(self.output/'state.bin')
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
-        self.advance_to(ticks);self.seal_trace(ticks)
+        self.advance_initialization(ticks);self.seal_trace(ticks)
+        return self.observe()
+    def advance_initialization(self,ticks):
+        if self.spec.get('startup_pause_stride_ticks')is None:return self.advance_to(ticks)
+        if self.spec['startup_pause_stride_ticks']!=25 or not 0<ticks<=2500 or ticks%25:raise PermissionError('EXACT_FINITE_INITIALIZATION_CLOCK_WINDOWS_REQUIRED')
+        # Use the same original quota/pause/ENTER seam as task atoms. No state
+        # reset, synthetic transition, altered gain, dt or safety threshold.
+        for target in range(25,ticks+1,25):
+            state=self.advance_to(target)
+            with(self.output/'INITIALIZATION_CLOCK_WINDOWS.jsonl').open('a')as f:f.write(json.dumps(dict(end_step=state['step'],sim_time_s=state['time_s'],actual_ticks=25,wall_monotonic_s=time.monotonic()))+'\n')
         return self.observe()
     def advance_to(self,ticks):
         if self.trace_sealed:raise PermissionError('TRACE_ALREADY_SEALED_NO_FURTHER_INTEGRATION')
         allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
         if self.dynamic_phase():allowed={2500,2503,*range(2528,self.spec['max_ticks']+1,25)}
+        if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         ttl=self.spec['phase']=='g2-standing-ttl-v2'
         if ttl:allowed={2500,2503,*getattr(self,'ttl_boundaries',[])}
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
@@ -237,7 +247,7 @@ class TargetSequentialAdapter:
         return [json.loads(l)for l in path.read_text().splitlines()if l.strip()]if path.exists()else[]
     def prepare_dynamic(self):
         if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
-        self.advance_to(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
+        self.advance_initialization(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
         if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1;self.reference_history=[]
