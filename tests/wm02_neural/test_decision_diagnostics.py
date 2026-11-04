@@ -25,11 +25,13 @@ class DecisionDiagnostics(unittest.TestCase):
     def test_frozen_loader_verifies_hash_and_provenance_without_optimizer_or_cuda(self):
         with tempfile.TemporaryDirectory()as d:
             p=Path(d)/'model.pt';model=WorldModel(hidden=(16,),history_hidden=8,groups=GROUPS,context_dim=5)
-            torch.save(dict(schema='WM02_ENGINEERING_CHECKPOINT_V1',provenance={'unit':'not native'},step=200,
+            torch.save(dict(schema='WM02_ENGINEERING_CHECKPOINT_V1',provenance={'unit':('not native',)},step=200,
                 model_config=dict(hidden=[16],history_hidden=8,groups=GROUPS,context_dim=5),model=model.state_dict()),p)
-            binding=dict(path=str(p),sha256=digest(p),provenance={'unit':'not native'});loaded=frozen_model(binding)
+            binding=dict(path=str(p),sha256=digest(p),provenance={'unit':['not native']});loaded=frozen_model(binding)
             self.assertTrue(all(not p.requires_grad for p in loaded.parameters()))
             self.assertTrue(all(torch.equal(x,y)for x,y in zip(model.state_dict().values(),loaded.state_dict().values())))
+            binding['provenance']['unit']=['wrong source']
+            with self.assertRaises(ValueError):frozen_model(binding)
             binding['sha256']='0'*64
             with self.assertRaises(ValueError):frozen_model(binding)
 

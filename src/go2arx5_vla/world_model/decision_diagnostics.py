@@ -60,7 +60,10 @@ def frozen_model(binding, device='cpu'):
     from .neural import WorldModel
     if digest(binding['path'])!=binding['sha256']:raise ValueError('Frozen checkpoint hash differs')
     c=torch.load(binding['path'],map_location='cpu',weights_only=True)
-    if c['schema']!='WM02_ENGINEERING_CHECKPOINT_V1'or c['provenance']!=binding['provenance']or c['step']!=200:
+    # Registry/spec JSON carries sequences as lists; original checkpoint schema uses tuples.
+    if (c['schema']!='WM02_ENGINEERING_CHECKPOINT_V1'
+            or json.dumps(c['provenance'],sort_keys=True)!=json.dumps(binding['provenance'],sort_keys=True)
+            or c['step']!=200):
         raise ValueError('Frozen endpoint/provenance differs')
     model=WorldModel(**c['model_config']);model.load_state_dict(c['model']);model.to(device).eval()
     for p in model.parameters():p.requires_grad_(False)
