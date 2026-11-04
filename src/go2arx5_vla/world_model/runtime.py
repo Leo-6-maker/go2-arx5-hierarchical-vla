@@ -63,6 +63,28 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             total_bytes=int(fields[2])*1024**2, free_bytes=int(fields[3])*1024**2))
         if os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
             raise PermissionError('Core smoke must expose only the authorized GPU1 UUID')
+    elif gpu and spec.get('execution_site') == 'CORE_WM02_GPU1_REAL_S':
+        import subprocess
+        from scripts.pi0294.e1.smoke import node_local
+        if (spec.get('schema')!='WM02_REAL_S_NEURAL_SPEC_V1'
+                or spec.get('host')!='corelab-4080s'or spec.get('uid')!=2009
+                or profile!='wm02-gpu1-real-s'or spec.get('physics')is not False
+                or spec.get('GPU_uuid')!='GPU-845348f1-1511-dc19-0877-cc97658e3edd'
+                or spec.get('authorization_scope')!='USER_WM02_GPU1_REAL_S_MODEL_ONLY_20261104'
+                or spec.get('data_domain')!='REAL_S_NATIVE_DIAGNOSTIC_REPLAY'
+                or not 2<=spec.get('endpoint',0)<=200
+                or not 0<spec.get('allocator_limit_bytes',0)<=4*1024**3
+                or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']):
+            raise PermissionError('Exact finite real S model-only GPU1 identity required')
+        for name in ('source_root','registered_root','python','data','cache','logs','tmp','replay','eval_replay'):
+            node_local(spec[name])
+        reply=subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],
+            '--query-gpu=uuid,memory.total,memory.free','--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
+        uuid,total,free=[x.strip()for x in reply.stdout.strip().split(',')]
+        if (uuid!=spec['GPU_uuid']or int(total)*1024**2<15*1024**3
+                or int(free)*1024**2<spec['allocator_limit_bytes']+1024**3):
+            raise PermissionError('Actual GPU1 capacity below finite diagnostic allowance')
+        gpu_baseline=reply.stdout
     elif gpu and spec.get('execution_site') == 'CORE_WM02_GPU0':
         import subprocess
         from scripts.pi0294.e1.smoke import node_local
@@ -132,13 +154,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     lock = OwnerLock(root/'OWNER.lock')
     neural_owner = None
     try:
-        if gpu and spec.get('execution_site') == 'CORE_WM02_GPU0':
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')=='CORE_WM02_GPU0' else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S') else None))
         yield spec
     finally:
         if neural_owner is not None:
