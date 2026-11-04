@@ -1,0 +1,307 @@
+{
+  "schema": "WM02_INIT_TRACE_EVIDENCE_V2_ACTUAL",
+  "status": "RECORDING_DEFECTS_REPAIRED_BUILD_ONLY_NOT_NATIVE_QUALIFIED",
+  "source_sha": "82439355dd5edabba9dc8999a577f435f4a877a4",
+  "preregistration_source_sha": "af16c5da667b0f61f4e9d76efe1b9ef61bdac83d",
+  "preregistration_file": "experiments/wm02/init_trace_evidence_v2.json",
+  "preregistration_sha256": "7bc2ad5502034632d87c23394d6f5146ed3b26cc7461f06734e54dbbd692a890",
+  "preserved_previous_candidate_source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+  "preserved_previous_binary_sha256": "7828f9f29e174ac7bf9e82edd897de577a2d365ab22e6dec438f0565b09ff488",
+  "candidate": {
+    "binary_sha256": "5e2c7d290f6323eb1322757a217fd08755b9c50058a7fd2ee01fcdf53c2c5cf7",
+    "candidate_sources": {
+      "rl_sim_mujoco.cpp": "fa3ce64facb0c2094cc464ecdfc83e4d39fdea555c534b94ca36d3ba50188fb7",
+      "rl_sim_mujoco.hpp": "06cf01b0ae34c3b406a02b772fc5f80945b9f4c6dfd2bcd7e720250f1422e1be",
+      "mujoco_utils.hpp": "7d16639421e692778c0f5f20abb7de4464c783508758d46aa555214da56bd8e3",
+      "rl_sdk.cpp": "278b881706e10c8a39353b977d67df4ff1cd340c4370cbd0bcc21fcb2ce4725e",
+      "init_trace.hpp": "1fc4d65d163031a898b4fffa5db76f0a43c1a896b422ae393901f98c54159ee3",
+      "init_trace.cpp": "063d04ec049c94a6ed29f22f7a6758f08ccd7a817a365a203c165f91c44cde5b"
+    },
+    "original_SDK_sha256": "f0109bd5a812fdac3b3b7befa180c6cfac8370cfab93afeb5b83dec576c190e0",
+    "controller_nontrace_text_identical": true,
+    "original_R1_math_assertions_pass": true,
+    "native_dynamics_permission": "NOT_GRANTED",
+    "target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+    "target_lease_status": "CLOSED"
+  },
+  "actual_preload_chains": {
+    "task_actuation": [
+      {
+        "logical_file": "task_actuation.so",
+        "sha256": "a095b0356654cff4ae4d06d1cf23df9beeb664120cbad167ea12e2bbb5e585dd"
+      },
+      {
+        "logical_file": "observer.so",
+        "sha256": "55a5ea33811df22cccc5165a093b337943639647070fa5e30431a948f96c18ad"
+      },
+      {
+        "logical_file": "libwm02_init_trace.so",
+        "sha256": "99874dda096f3c458dea7654797d8d99a619d0e9be1f267c511c5789fab41372"
+      },
+      {
+        "logical_file": "frozen libmujoco.so.3.2.7",
+        "sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+      }
+    ],
+    "task_actuation_r1": [
+      {
+        "logical_file": "task_actuation_r1.so",
+        "sha256": "ce28213b5419cb0d34761cdafb8393f062b779b4c2251eead31c5a64c92d669f"
+      },
+      {
+        "logical_file": "observer.so",
+        "sha256": "55a5ea33811df22cccc5165a093b337943639647070fa5e30431a948f96c18ad"
+      },
+      {
+        "logical_file": "libwm02_init_trace.so",
+        "sha256": "99874dda096f3c458dea7654797d8d99a619d0e9be1f267c511c5789fab41372"
+      },
+      {
+        "logical_file": "frozen libmujoco.so.3.2.7",
+        "sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+      }
+    ]
+  },
+  "build": {
+    "exit_code": 0,
+    "commands": [
+      {
+        "label": "trace_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "main_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "sdk_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "sdk_archive",
+        "exit_code": 0
+      },
+      {
+        "label": "native_link",
+        "exit_code": 0
+      },
+      {
+        "label": "native_ldd",
+        "exit_code": 0
+      },
+      {
+        "label": "task_actuation_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "task_actuation_r1_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "observer_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "loader_doctor_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "task_actuation_load_order",
+        "exit_code": 0
+      },
+      {
+        "label": "task_actuation_r1_load_order",
+        "exit_code": 0
+      },
+      {
+        "label": "pause_harness_compile",
+        "exit_code": 0
+      },
+      {
+        "label": "pause_harness",
+        "exit_code": 0
+      }
+    ],
+    "actual_full_argv_private_file": "TRACE_V2_COMMANDS.private.json",
+    "actual_full_argv_private_file_sha256": "04cc581dd03802e44cd77d1b78e80b07103717f01c8718db9be5b6c3f223b56e",
+    "lease": "CLOSED",
+    "MainPID": 0,
+    "restarts": 0,
+    "CPU_limit": 4,
+    "RAM_limit_bytes": 8589934592,
+    "wall_limit_s": 1200,
+    "GPU_visible": false
+  },
+  "loader_audits": {
+    "task_actuation": {
+      "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+      "status": "INSUFFICIENT_RECORDED_EVIDENCE",
+      "errors": [],
+      "missing": [
+        "FEWER_THAN_TWO_COMPLETED_POLICY_VERSIONS",
+        "NO_NATIVE_STEP_RECORDS",
+        "NO_PD_CALLBACK_RECORDS"
+      ],
+      "records": 0,
+      "writer": {
+        "events": 0,
+        "written": 0,
+        "dropped": 0,
+        "stop_latched": false
+      },
+      "full_payload_records": 0,
+      "full_payloads_not_retained": 0,
+      "first_two_policy_evidence": [],
+      "legacy_publish_channels_unknown": 0,
+      "applied_mixed_versions": 0,
+      "unmatched_apply_versions": 0,
+      "native_step_records": 0,
+      "PD_callbacks_recorded": 0,
+      "integrations_after_first_STOP": null,
+      "STOP_observed": false,
+      "STOP_check": "NOT_TESTED",
+      "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+      "input_files_sha256": {
+        "task_actuation-doctor.trace": "66cb7288ccf1f1d3c1e8c4da86b4eb0fc164ebd79ea16512a1bf744f50394434",
+        "task_actuation-doctor.trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "task_actuation-doctor.trace.summary": "6ce0b7829cb99ad28c39289a24897331ab7a83cdbfab275f37c899c7bbd0a85f"
+      },
+      "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+      "new_effects_of_audit": {
+        "target_integrations": 0,
+        "policy_queries": 0
+      }
+    },
+    "task_actuation_r1": {
+      "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+      "status": "INSUFFICIENT_RECORDED_EVIDENCE",
+      "errors": [],
+      "missing": [
+        "FEWER_THAN_TWO_COMPLETED_POLICY_VERSIONS",
+        "NO_NATIVE_STEP_RECORDS",
+        "NO_PD_CALLBACK_RECORDS"
+      ],
+      "records": 0,
+      "writer": {
+        "events": 0,
+        "written": 0,
+        "dropped": 0,
+        "stop_latched": false
+      },
+      "full_payload_records": 0,
+      "full_payloads_not_retained": 0,
+      "first_two_policy_evidence": [],
+      "legacy_publish_channels_unknown": 0,
+      "applied_mixed_versions": 0,
+      "unmatched_apply_versions": 0,
+      "native_step_records": 0,
+      "PD_callbacks_recorded": 0,
+      "integrations_after_first_STOP": null,
+      "STOP_observed": false,
+      "STOP_check": "NOT_TESTED",
+      "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+      "input_files_sha256": {
+        "task_actuation_r1-doctor.trace": "66cb7288ccf1f1d3c1e8c4da86b4eb0fc164ebd79ea16512a1bf744f50394434",
+        "task_actuation_r1-doctor.trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "task_actuation_r1-doctor.trace.summary": "6ce0b7829cb99ad28c39289a24897331ab7a83cdbfab275f37c899c7bbd0a85f"
+      },
+      "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+      "new_effects_of_audit": {
+        "target_integrations": 0,
+        "policy_queries": 0
+      }
+    }
+  },
+  "shutdown_reproduction": {
+    "fixture": "DETERMINISTIC_SYNTHETIC_CPP_LOGGER_NOT_NATIVE_PHYSICS",
+    "unchanged_harness_sha256": "66a3fdc1a2a9e169722d8305732cf39fe66a73d2b7448b86af71ccfc84b7bd2d",
+    "before": {
+      "source_sha": "af16c5da667b0f61f4e9d76efe1b9ef61bdac83d",
+      "source_cpp_sha256": "5e4eaf61b270f029152ddb66caae85ed39efeeec95ad866517adb393957c3672",
+      "recorded_rows": 1,
+      "summary": {
+        "events": 2,
+        "dropped": 0,
+        "stop_latched": false
+      }
+    },
+    "after": {
+      "source_sha": "82439355dd5edabba9dc8999a577f435f4a877a4",
+      "source_cpp_sha256": "063d04ec049c94a6ed29f22f7a6758f08ccd7a817a365a203c165f91c44cde5b",
+      "recorded_rows": 2,
+      "summary": {
+        "events": 2,
+        "written": 2,
+        "dropped": 0,
+        "stop_latched": false
+      }
+    },
+    "before_trace_input_sha256": {
+      "trace": "e50e05d678731883c83067d545b5a65b656f864eafed99f5f6ed0cdb31206874",
+      "trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "trace.summary": "3a9dc3e6ed3545195184e2b725ef10c3bb3d82cadd8c7758513046088eae5069"
+    },
+    "after_trace_input_sha256": {
+      "trace": "76294db91fe5d5adff743a9b3b188959fc63661adf4800985ebe0de68355f761",
+      "trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "trace.summary": "df1a6a7130d87fff37fe8a438cb792ea59fb3469eac320041e3bd0099c5f50e4"
+    },
+    "before_audit_status": "RECORDED_TRACE_CHECKS_FAIL",
+    "before_audit_errors": [
+      "WRITER_EVENT_COUNT_DIFFERS"
+    ],
+    "after_audit_status": "INSUFFICIENT_RECORDED_EVIDENCE",
+    "after_audit_missing": [
+      "FEWER_THAN_TWO_COMPLETED_POLICY_VERSIONS",
+      "NO_NATIVE_STEP_RECORDS"
+    ],
+    "native_safety_qualification": "NOT_ESTABLISHED"
+  },
+  "tests": {
+    "targeted": 8,
+    "world_model_normal": 56,
+    "world_model_optimized": 56,
+    "exit_codes": {
+      "targeted": 0,
+      "world_model_normal": 0,
+      "world_model_optimized": 0
+    },
+    "preserved_initial_failure": "55-test normal suite reported1 StopIteration because APPLY tail event was lost. This led to deterministic2-enqueued/1-written reproduction, not a retry-only PASS.",
+    "log_files_sha256": {
+      "TRACE_V2_WORLD_NORMAL.private.log": "0f9f425d60472a6b105ddfa58e7c7638a40560743b0f85760047d2ae0c5f1eb9",
+      "TRACE_V2_TARGETED02.private.log": "ebfc87277298245d70a8930029bb685fe8f6deee4eafe5f2e37181007ffa0f02",
+      "TRACE_V2_WORLD_NORMAL02.private.log": "1c6bd7f943fc099dd781d801e95b8ce14f5c875164978efa4465ecbf0a3fc7c2",
+      "TRACE_V2_WORLD_OPT02.private.log": "365593b6d00bde69860dd67906f9451d54e47cbb84991c34f20ed97c07a300f0"
+    },
+    "normal_wall_s": 4.282,
+    "optimized_wall_s": 4.15
+  },
+  "new_effects": {
+    "S_transitions": 0,
+    "target_integrations": 0,
+    "leg_policy_queries": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "full_tasks": 0
+  },
+  "cumulative_current_charter_effects": {
+    "S_transitions": 6752,
+    "WM_main_updates": 400,
+    "WM_continuation_probe_updates": 2,
+    "target_integrations": 0,
+    "Actor_updates": 0,
+    "full_tasks": 0
+  },
+  "cost": {
+    "additional_GPU_worker_s": 0,
+    "build_cgroup_CPU_s": 26.963767,
+    "corrected_standalone_reproducer_children_CPU_s": 0.495887,
+    "additional_measured_CPU_s": 27.459654,
+    "build_unit_wall_s": 28.73704,
+    "build_memory_peak_bytes": 2164297728,
+    "Core_capsule_apparent_bytes": 35142370,
+    "PC_explicit_new_artifact_apparent_bytes": 9703072,
+    "measurement_limits": "Initial failed reproducer, unit tests, read-only transport, Git/OS caches and publication overhead are not individually CPU-metered. Counts above are measured subtotals, not whole-turn utilization. Storage snapshot excludes later report/publication bytes and transport-side transient copies."
+  },
+  "next_phase": "A1_OWNER_BLOCKED; no inference/physics/Actor or blind retraining. Read-only report/trace audits are implemented. A new independently owner-bound dynamic window is still required."
+}
