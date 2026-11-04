@@ -50,7 +50,18 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
-    if gpu and spec.get('execution_site') == 'CORE_SHARED_GPU1':
+    if gpu and spec.get('execution_site')=='CORE_AUTO1_TARGET_NEURAL':
+        import subprocess
+        from .target_neural import validate_campaign,validate_device
+        from scripts.pi0294.e1.smoke import node_local
+        validate_campaign(spec)
+        for key in('source_root','registered_root','python','data','cache','logs','tmp','replay'):node_local(spec[key])
+        reply=subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],'--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
+        uuid,free=[v.strip()for v in reply.stdout.strip().split(',')]
+        validate_device(spec,dict(uuid=uuid,free_bytes=int(free)*1024**2))
+        if os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']:raise PermissionError('TARGET_SINGLE_EXPLICIT_GPU_REQUIRED')
+        gpu_baseline=reply.stdout
+    elif gpu and spec.get('execution_site') == 'CORE_SHARED_GPU1':
         import subprocess
         from scripts.pi0294.e1.smoke import node_local
         for name in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
@@ -171,13 +182,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     lock = OwnerLock(root/'OWNER.lock')
     neural_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL') else None))
         yield spec
     finally:
         if neural_owner is not None:
