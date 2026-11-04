@@ -14,7 +14,9 @@ def packets(path):
             if len(size)!=4:raise ValueError('Truncated journal length')
             n,=struct.unpack('<I',size)
             if not 40<=n<=2*1024**2:raise ValueError('Invalid packet length')
-            row=parse_state(f.read(n))
+            blob=f.read(n)
+            if len(blob)!=n:raise ValueError('Truncated saved state packet')
+            row=parse_state(blob)
             if out and(row['step']<=out[-1]['step']or row['time_s']<=out[-1]['time_s']):raise ValueError('Nonmonotone native packet')
             if abs(row['time_s']-row['step']*.002)>1e-8:raise ValueError('Original 2ms clock differs')
             for c in row['contacts']:
