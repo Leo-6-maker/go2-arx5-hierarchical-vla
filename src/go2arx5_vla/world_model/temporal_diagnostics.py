@@ -4,7 +4,7 @@ import itertools,time,json,hashlib
 import numpy as np
 import torch
 from .decision_training import read
-from .decision_diagnostics import frozen_model,stable_choice
+from .decision_diagnostics import frozen_model,stable_choice,rule_scores
 from .contact_training import select,cv_prediction,pose
 from .response_eval_audit import canonical_forecast
 from .neural_contract import compile_physical
@@ -120,7 +120,9 @@ def run(spec,output):
                     elif anchor=='transport':
                         q=event[:,k,2]-10*(pred[:,k,SLICES['object_position']][:,:2]-b['context'][:,:2]).norm(dim=-1);real=b['events'][:,8+k,2]-10*(truth[:,k,SLICES['object_position']][:,:2]-b['context'][:,:2]).norm(dim=-1)
                     else:continue # No support head/labels in original V5 numeric replay.
-                    j=stable_choice(q.numpy(),raw);decisions.append(dict(partition=part,scene=scene,anchor=anchor,horizon=k+1,selected=names[j],regret_Q=float(real.max()-real[j]),physical_command_sha256=hashlib.sha256(np.asarray(raw[j],dtype='<f8').tobytes()).hexdigest()))
+                    if anchor=='preclose':rule=rule_scores(b['state'][0,8].numpy(),raw)
+                    else:rule=-np.linalg.norm(b['state'][:,8,SLICES['object_position']][:,:2].numpy()+raw[:,:,:2].sum(1)-b['context'][:,:2].numpy(),axis=1)
+                    j=stable_choice(q.numpy(),raw);ru=stable_choice(rule,raw);decisions.append(dict(partition=part,scene=scene,anchor=anchor,horizon=k+1,selected=names[j],regret_Q=float(real.max()-real[j]),rule_selected=names[ru],rule_regret_Q=float(real.max()-real[ru]),physical_command_sha256=hashlib.sha256(np.asarray(raw[j],dtype='<f8').tobytes()).hexdigest()))
                 if anchor=='transport':
                     order=torch.tensor([4,2,0,3,1]);pp,ee,_=canonical_forecast(model,select(b,order));err=max(float((pp[torch.argsort(order)]-pred).abs().max()),float((ee[torch.argsort(order)]-event).abs().max()))
                     invariants.append(dict(model=name,partition=part,scene=scene,canonical_candidate_permutation_max_abs=err))
