@@ -1,0 +1,92 @@
+{
+  "run": "wm02-contact-gpu1-20261104-01",
+  "source_sha": "84204cf8d23e151cd1af7da7cea7f2521f662f0f",
+  "data_sha256": "24bddf61a4db8ddd0f9605eef1b8a1b906f285b437454503dc88e999e78b7862",
+  "GPU_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+  "CUDA_total_bytes": 16709255168,
+  "NVML_total_MiB": 16376,
+  "allocator_limit_bytes": 4294967296,
+  "cpus": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "unit": {
+    "Restart": "no",
+    "MainPID": "0",
+    "NRestarts": "0",
+    "ExecMainStartTimestampMonotonic": "3531023174193",
+    "ExecMainExitTimestampMonotonic": "3531131571015",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "2594738176",
+    "CPUUsageNSec": "113457058000",
+    "SubState": "exited"
+  },
+  "unit_CPU_s": 113.457058,
+  "unit_wall_s": 108.396822,
+  "wall_bound_GPU_hours": 0.030110228333333332,
+  "GPU_sample_count": 190,
+  "nominal_sample_interval_s": 0.5,
+  "own_NVML_peak_MiB": 1278,
+  "device_used_peak_MiB": 1321,
+  "device_free_min_MiB": 14615,
+  "current_GPU1_free_MiB": 15899,
+  "observation_SGT": "2026-11-04T11:17:41.063479+08:00",
+  "GPU0_has_compute_processes": true,
+  "GPU0_process_ownership": "OTHER_UNIX_ACCOUNT_VERIFIED_NOT_TOUCHED",
+  "lease_status": "CLOSED",
+  "lease_sha256": "089a41a1f63f2e8768da9d0d8ada5c33d53fbb5296436e3031ae2356ac9c9cae",
+  "spec_sha256": "9c430b26704b2b515492aac7b8daa9feaa03ce33bf2320a9a8a48bda7d9cb55b",
+  "source_capsule_archive_sha256": "7f98c8dd8160b7216bbdb72d26ea825ef2b2a95c14cb612d286c76b15563622b",
+  "checkpoint_files": {
+    "action_conditioned/checkpoint-1.pt": {
+      "sha256": "2723d0f43c14a73ef6e2d0eea0aa65b0b5389e986f6ad437c2b39b9d5fd1b668",
+      "bytes": 226916881
+    },
+    "action_conditioned/checkpoint-199.pt": {
+      "sha256": "beb83ed9471f634dc9c560d968f9af322c8b6672c2a8487a86fe56717dfd1524",
+      "bytes": 226917141
+    },
+    "action_conditioned/checkpoint-200.pt": {
+      "sha256": "de5e4afb19bf74c297954d474c2993cb408ee8f2cc28b051bfadb1cbfb2c9ede",
+      "bytes": 226917141
+    },
+    "no_future_action/checkpoint-1.pt": {
+      "sha256": "e4ca3166fa7d0936c4cbef86c13438c4546c98b50e74a177e0c3e6f288794549",
+      "bytes": 226916881
+    },
+    "no_future_action/checkpoint-199.pt": {
+      "sha256": "e471e68ef0b47f8ebd0fdf1c95df65035ddf422d272929b571a0aa361e96329c",
+      "bytes": 226917141
+    },
+    "no_future_action/checkpoint-200.pt": {
+      "sha256": "120ffee5d279f2fbb1f8985909dc66a9e950523b329a1bc73110db3270df8e05",
+      "bytes": 226917141
+    }
+  },
+  "holdout_predictions_sha256": "61dfb62af6c99f81044ed30a0d367285c8ce3bd12b669ac4991efae08c8c8166",
+  "tests": {
+    "CPU_normal.json": {
+      "exit_code": 0,
+      "stderr": "test_cv_uses_actual_linear_and_angular_velocity_in_world_units (test_contact_learning.ContactLearning.test_cv_uses_actual_linear_and_angular_velocity_in_world_units) ... ok\ntest_future_interventions_keep_history_and_blind_prediction_identical (test_contact_learning.ContactLearning.test_future_interventions_keep_history_and_blind_prediction_identical) ... ok\ntest_two_causal_training_blocks_and_terminated_targets_masked (test_contact_learning.ContactLearning.test_two_causal_training_blocks_and_terminated_targets_masked) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.093s\n\nOK\n"
+    },
+    "CPU_optimized.json": {
+      "exit_code": 0,
+      "stderr": "test_cv_uses_actual_linear_and_angular_velocity_in_world_units (test_contact_learning.ContactLearning.test_cv_uses_actual_linear_and_angular_velocity_in_world_units) ... ok\ntest_future_interventions_keep_history_and_blind_prediction_identical (test_contact_learning.ContactLearning.test_future_interventions_keep_history_and_blind_prediction_identical) ... ok\ntest_two_causal_training_blocks_and_terminated_targets_masked (test_contact_learning.ContactLearning.test_two_causal_training_blocks_and_terminated_targets_masked) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.093s\n\nOK\n"
+    }
+  },
+  "environment": {
+    "Python": "3.12.3",
+    "Torch": "2.9.0+cu128",
+    "CUDA": "12.8",
+    "NumPy": "1.26.4"
+  },
+  "simultaneous_native_sim_WBC_render_training": "NOT_RUN",
+  "monetary_cost": "NOT_METERED",
+  "other_costs": "Transport/staging/PC tests/publication not fully metered; reported unit measurements are not all-session total",
+  "old_queue_pids_absent": true,
+  "final_worker_readback": "MainPID=0\nNRestarts=0\nExecMainStatus=0\nSubState=exited\n",
+  "final_observation_SGT": "2026-11-04T11:38:34.528174+08:00",
+  "original_target_control_lease_sha256_unchanged": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407"
+}
