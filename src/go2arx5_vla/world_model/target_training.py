@@ -112,7 +112,9 @@ def run(spec,output):
     train=tensors(data,ids,device);provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=SCHEMA,metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),scope='AUTO1_TARGET_FREE_SPACE_MODEL_ONLY',previous_checkpoint_sha256=spec.get('resume_sha256'))
     write_json(out/'FIRST_BATCH_AUDIT.json',dict(state_shape=list(train['state'].shape),state_dtype=str(train['state'].dtype),goal_shape=list(train['goal'].shape),source_age_shape=list(train['source_age'].shape),state_dimension=meta['state_dimension'],finite=bool(torch.isfinite(train['state']).all()),TRAIN_episodes=len(ids),DEV_episodes=sum(e['split']=='DEV'for e in meta['episodes']),software=dict(torch=str(torch.__version__),CUDA=torch.version.cuda,numpy=np.__version__),device_name=props.name,model_scene_sha256=meta['model_sha256'],controller_state='HISTORY_WITH_EXPLICIT_MISSING_STATE_NOT_COMPLETE_MARKOV'))
     random.seed(20261104);np.random.seed(20261104);torch.manual_seed(20261104)
-    m=TargetWM(meta).to(device);m.fit_normalizer(train['state']);opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);cursor=0
+    m=TargetWM(meta).to(device)
+    if not spec.get('resume'):m.fit_normalizer(train['state'])
+    opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);cursor=0
     if spec.get('resume'):
         if digest(spec['resume'])!=spec['resume_sha256']:raise ValueError('FROZEN_FIRST_TARGET_CHECKPOINT_CHANGED')
         old=torch.load(spec['resume'],map_location='cpu',weights_only=True)
@@ -120,6 +122,10 @@ def run(spec,output):
         # normalizer stay fixed. Full optimizer/RNG/cursor are carried forward.
         if old['metadata']['state_fields']!=meta['state_fields']or old['metadata']['model_sha256']!=meta['model_sha256']:raise ValueError('INCOMPATIBLE_TARGET_EXECUTOR_LAYOUT')
         m.load_state_dict(old['model']);opt.load_state_dict(old['optimizer']);restore_rng(old['rng']);cursor=old['replay_cursor']
+    if spec.get('baseline_fit_replay'):
+        import subprocess
+        q=subprocess.run([spec['python'],'-B','-m','scripts.wm02.fit_target_baselines','--replay',spec['baseline_fit_replay'],'--eval-replay',spec['baseline_evaluation_replay'],'--output',str(out/'reference-residual-baseline')],cwd=spec['source_root'],capture_output=True,text=True,timeout=30)
+        write_json(out/'BASELINE_COMMAND.json',dict(exit_code=q.returncode,stdout=q.stdout,stderr=q.stderr));q.check_returncode()
     steps=spec['endpoint'];initial_eval=evaluate(m,train,meta);write_json(out/'BEFORE_UPDATE.json',initial_eval)
     new_ids=np.array([i for i,e in enumerate(meta['episodes'])if e['episode'].startswith('collect-target-b-')],dtype=int)
     if spec.get('resume'):
@@ -136,8 +142,15 @@ def run(spec,output):
                 clone,co,c=restore(out/'checkpoint-1.pt',device,provenance);first_reload=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
     event1.record();torch.cuda.synchronize();main_memory=memory(device)
     # One genuine independent optimizer call, from (endpoint-1) to endpoint.
-    clone,co,c=restore(out/f'checkpoint-{steps-1}.pt',device,provenance);update(clone,co,train,c['replay_cursor']);continuation=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
-    clone,co,c=restore(out/f'checkpoint-{steps}.pt',device,provenance);endpoint_error=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
+    expected_rng=rng_state()
+    clone,co,c=restore(out/f'checkpoint-{steps-1}.pt',device,provenance)
+    if c['step']!=steps-1 or c['replay_cursor']!=cursor-8:raise ValueError('TARGET_REPLAY_CURSOR_DIFFERS_BEFORE_PROBE')
+    probe=update(clone,co,train,c['replay_cursor']);continuation=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()),tree_error(expected_rng,rng_state()))
+    if probe['cursor']!=cursor:raise ValueError('TARGET_REPLAY_CURSOR_DIFFERS_AFTER_PROBE')
+    del clone,co
+    clone,co,c=restore(out/f'checkpoint-{steps}.pt',device,provenance)
+    if c['step']!=steps or c['replay_cursor']!=cursor:raise ValueError('TARGET_ENDPOINT_CURSOR_DIFFERS')
+    endpoint_error=max(tree_error(m.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()),tree_error(expected_rng,rng_state()));del clone,co
     if max(first_reload,continuation,endpoint_error)!=0:raise RuntimeError('TARGET_STRICT_RESTORE_DIFFERS')
     after=evaluate(m,train,meta);write_json(out/'AFTER_UPDATE.json',after)
     result=dict(status='TARGET_WM_ENGINEERING_ENTRY_PASSED',source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(out/f'checkpoint-{steps}.pt'),main_updates=steps,continuation_probe_updates=1,Actor_updates=0,physics_integrations=0,episodes=len(ids),task_atoms=len(ids)*24,parameters=sum(p.numel()for p in m.parameters()),state_dimension=meta['state_dimension'],first_reload_error=first_reload,endpoint_reload_error=endpoint_error,continuation_error=continuation,normalizer='TRAIN_ONLY_FIXED_ON_FIRST_BATCH',held_out_parent_generalization=meta['held_out_parent_generalization'],event_heads='NOT_TRAINED',GPU_uuid=spec['GPU_uuid'],main_cuda_elapsed_ms=event0.elapsed_time(event1),main_update_peak=main_memory,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,contact_qualification='NOT_QUALIFIED',predictive_value='REPORT_METRICS_NOT_ESTABLISHED_BY_ENTRY_PASS')

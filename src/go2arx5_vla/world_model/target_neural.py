@@ -32,3 +32,5 @@ def validate_campaign(spec):
             or digest(spec['replay'])!=build.get('replay_sha256')):raise PermissionError('REAL_NATIVE_REPLAY_BUILD_IDENTITY_REQUIRED')
     if (spec['endpoint']==200 and(build['episodes']!=8 or spec.get('resume'))
             or spec['endpoint']==100 and(build['episodes']!=12 or not spec.get('resume')or digest(spec['resume'])!=spec.get('resume_sha256'))):raise PermissionError('EXACT_FIRST8_OR_SECOND4_TARGET_PIPELINE_REQUIRED')
+    for key in('baseline_fit_replay','baseline_evaluation_replay'):
+        if spec.get(key)and digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('FROZEN_BASELINE_REPLAY_CHANGED')
