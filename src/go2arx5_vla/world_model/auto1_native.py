@@ -53,6 +53,7 @@ def admitted_target(spec_path,run_id,output):
     if digest(old)!=spec['historical_target_lease_sha256']or json.loads(old.read_text())['status']!='CLOSED':raise PermissionError('HISTORICAL_LEASE_CHANGED')
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('CPU_TARGET_COMMISSIONING_ONLY')
     validate_parent_loader(spec['native_environment']['LD_LIBRARY_PATH'],os.environ.get('LD_LIBRARY_PATH'))
+    if str(Path(spec['xvfb_run']))not in spec['frozen_files']or not os.access(spec['xvfb_run'],os.X_OK):raise PermissionError('BOUND_EXISTING_XVFB_ENTRY_REQUIRED')
     campaign_lock=OwnerLock(campaign/'OWNER.lock')
     try:
         native_lock=OwnerLock(spec['physical_owner_lock'])
