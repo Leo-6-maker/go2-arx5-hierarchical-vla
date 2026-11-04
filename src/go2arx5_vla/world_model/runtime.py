@@ -63,13 +63,18 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             total_bytes=int(fields[2])*1024**2, free_bytes=int(fields[3])*1024**2))
         if os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
             raise PermissionError('Core smoke must expose only the authorized GPU1 UUID')
-    elif gpu and spec.get('execution_site') == 'CORE_WM02_GPU1_REAL_S':
+    elif gpu and spec.get('execution_site')in('CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S'):
         import subprocess
         from scripts.pi0294.e1.smoke import node_local
+        gpu0=spec['execution_site']=='CORE_WM02_GPU0_REAL_S'
+        expected_uuid='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'if gpu0 else'GPU-845348f1-1511-dc19-0877-cc97658e3edd'
+        expected_profile='wm02-gpu0-real-s'if gpu0 else'wm02-gpu1-real-s'
+        if gpu0 and(spec.get('data_domain')!='WM02_DECISION_PAIRED_REPLAY_V5'or spec.get('authorization_scope')!='USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104'):
+            raise PermissionError('New separately authorized GPU0 V5 model-only identity required')
         if (spec.get('schema')!='WM02_REAL_S_NEURAL_SPEC_V1'
                 or spec.get('host')!='corelab-4080s'or spec.get('uid')!=2009
-                or profile!='wm02-gpu1-real-s'or spec.get('physics')is not False
-                or spec.get('GPU_uuid')!='GPU-845348f1-1511-dc19-0877-cc97658e3edd'
+                or profile!=expected_profile or spec.get('physics')is not False
+                or spec.get('GPU_uuid')!=expected_uuid
                 or (spec.get('authorization_scope'),spec.get('data_domain'))not in (
                     ('USER_WM02_GPU1_REAL_S_MODEL_ONLY_20261104','REAL_S_NATIVE_DIAGNOSTIC_REPLAY'),
                     ('USER_WM02_CONTACT_IDENTIFICATION_MODEL_ONLY_20261104','WM02_S_CONTACT_PAIRED_REPLAY_V1'),
@@ -158,13 +163,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     lock = OwnerLock(root/'OWNER.lock')
     neural_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S') else None))
         yield spec
     finally:
         if neural_owner is not None:

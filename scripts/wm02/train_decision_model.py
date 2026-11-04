@@ -6,7 +6,9 @@ def main(argv=None):
     for n in ('spec','output'):p.add_argument('--'+n,type=Path,required=True)
     p.add_argument('--run-id',required=True);a=p.parse_args(argv)
     from go2arx5_vla.world_model.runtime import admitted_run
-    with admitted_run(a.spec,a.run_id,'wm02-gpu1-real-s',a.output,gpu=True)as spec:
+    profile=json.loads(a.spec.read_text())['profile']
+    if profile not in('wm02-gpu1-real-s','wm02-gpu0-real-s'):raise PermissionError('Explicit authorized model-only GPU identity required')
+    with admitted_run(a.spec,a.run_id,profile,a.output,gpu=True)as spec:
         if spec['data_domain']!='WM02_DECISION_PAIRED_REPLAY_V5':raise PermissionError('Separate V5 data identity required')
         from go2arx5_vla.world_model.contact_training import run
         from go2arx5_vla.world_model.decision_training import read,evaluate
