@@ -7,11 +7,13 @@ def main(argv=None):
     p.add_argument('--run-id',required=True);a=p.parse_args(argv)
     from go2arx5_vla.world_model.runtime import admitted_run
     from go2arx5_vla.world_model.storage import digest,write_json
-    from go2arx5_vla.world_model.native_controller_lifetime import patch
+    from go2arx5_vla.world_model.native_controller_lifetime import patch,unpatch
     with admitted_run(a.spec,a.run_id,'core-wm02-init-build',a.output)as s:
         if s.get('physics')is not False or s.get('domain')!='TARGET_INIT_BUILD_ONLY_V1':raise PermissionError('BUILD_ONLY_IDENTITY_REQUIRED')
         for k in('controller_source','controller_binary','controller_flags','controller_link_receipt'):
             if digest(s[k])!=s[k+'_sha256']:raise ValueError('FROZEN_CONTROLLER_BUILD_INPUT_CHANGED:'+k)
+        for path,pin in s['frozen_files'].items():
+            if digest(path)!=pin:raise ValueError('FROZEN_NATIVE_BUILD_INPUT_CHANGED:'+path)
         start=time.monotonic();out=a.output;before=Path(s['controller_source']).read_text();after=patch(before);cpp=out/'go2_x5_ocs2_node.cpp';cpp.write_text(after);flags={}
         for line in Path(s['controller_flags']).read_text().splitlines():
             if ' = 'in line:
@@ -24,6 +26,6 @@ def main(argv=None):
             q=subprocess.run(cmd,cwd=s['controller_build_directory'],capture_output=True,text=True,timeout=180);commands.append(dict(stage=name,argv=cmd,exit_code=q.returncode));(out/(name+'.log')).write_text(q.stdout+q.stderr);write_json(out/(name+'_COMMAND.private.json'),commands[-1]);q.check_returncode()
             if name=='loader'and'not found'in q.stdout:raise RuntimeError('CONTROLLER_LOADER_UNRESOLVED')
         write_json(out/'BUILD_COMMANDS.private.json',commands)
-        result=dict(status='CONTROLLER_LIFETIME_COMPILED_NOT_NATIVE_QUALIFIED',source_sha=s['source_sha'],ancestor_binary_sha256=s['controller_binary_sha256'],binary_sha256=digest(binary),original_source_sha256=digest(s['controller_source']),patched_source_sha256=digest(cpp),controller_class_and_math_byte_identical=after.replace(__import__('go2arx5_vla.world_model.native_controller_lifetime',fromlist=['NEW']).NEW,__import__('go2arx5_vla.world_model.native_controller_lifetime',fromlist=['OLD']).OLD)==before,change='ORDERED_MRT_JOIN_BEFORE_ROS_CONTEXT_SHUTDOWN',physics_integrations=0,WM_updates=0,Actor_updates=0,wall_s=time.monotonic()-start)
+        result=dict(status='CONTROLLER_LIFETIME_COMPILED_NOT_NATIVE_QUALIFIED',source_sha=s['source_sha'],ancestor_binary_sha256=s['controller_binary_sha256'],binary_sha256=digest(binary),original_source_sha256=digest(s['controller_source']),patched_source_sha256=digest(cpp),controller_class_and_math_byte_identical=False,control_equations_text_identical=unpatch(after)==before,lifecycle_only_change=True,change='EXPLICIT_JOIN_AND_RELEASE_MRT_SHARED_NODE_BEFORE_ROS_SHUTDOWN',physics_integrations=0,WM_updates=0,Actor_updates=0,wall_s=time.monotonic()-start)
         write_json(out/'RESULT.json',result);print(json.dumps(result));return 0
 if __name__=='__main__':raise SystemExit(main())
