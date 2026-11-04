@@ -1,0 +1,507 @@
+{
+  "schema": "WM02_AUTO1_G2_REFERENCE_ACTUAL_V1",
+  "successful_source_sha": "7939f7caf6a443a65faa21b60e0b7eef5d51c0cb",
+  "native_build_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+  "actual_controller_sha256": "885042aee96eec2761e5cc9c1598194c94181bebe0de0548eb48b1110ddaa186",
+  "actual_solver_sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+  "controller_clock_source_sha256": "dc7e38d52459cdbb35ca7ec1df225d71e96639f59d84fa4041c3d6be3c5b02f4",
+  "unchanged_original_guard": "source_tick=now().nanoseconds(); if source_tick==pi0294_last_tick_ return;",
+  "cause": "Paused mode ACK does not advance the frozen controller simulation tick; no new MPC-mode observation is produced. Preserve original guard and advance exactly3 bounded initialization ticks before waiting for readiness.",
+  "successful_mode_entry_init_ticks": 3,
+  "transaction_extra_integrations": 0,
+  "actual_source_mpc_s": 5.004,
+  "actual_native_time_s": 5.006,
+  "installed_wire_sha256": "43a9006861b03263dc8eaa1de817861899a864833e95bac3f123b0ea00e397e4",
+  "attempts": [
+    {
+      "identity": "g2-c05-reference-01",
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_FAILED_PRESERVED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "g2-reference-qualification",
+        "source_sha": "f7ddfdfee730d6e50b3fab95bf0cec3562b3cd53",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 2500,
+        "complete_atomic_transitions": 100,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 10432,
+          "writer": {
+            "events": 10432,
+            "written": 10432,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 234,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "fcdf6bc052969eaba2ffbf118c9eef6f1521f686d1299b9e06960607ec70663e"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "239b5e3b1634228cf7afb8916ccb3efb9e50984ccb5850c11dd9802433b15a6b",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "e89d203db96f403dddb0088f4cfdde1cb341e104e42f849a057ecdcc91083f67"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "b6ec2698899f4ef99a11404935706c80271de085575849609790c03d52315c49",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 2500,
+          "PD_callbacks_recorded": 831,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "ed9d6db8b6980566554cddf4c08d8e5d7286330e140215eca677ac92e29a494c",
+            "init.trace.snapshots": "ae13c3ca4015e1fcba0274df185f30fa7eda2822047c1d9c652880d40b718780",
+            "init.trace.summary": "b4076bdaca1f439b5b89f192bed17f79dd23ce25b9d219bbd81dff8d2c231378"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": "RuntimeError: NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE",
+        "owned_process_exits": [
+          {
+            "name": "planner",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "reference_qualification": null,
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 4.382296848,
+        "wall_s": 27.862521646078676
+      },
+      "worker_exit_code": 1,
+      "worker_MainPID": 0,
+      "worker_lease_status": "CLOSED",
+      "worker_CPU_s": 52.255508,
+      "worker_wall_s": 28.34612,
+      "files_sha256": {
+        "control.jsonl": "33157911994455268b7e3456b8215d8ac4274d882a931b3a054ef0bdb51e7961",
+        "trace_seal_request": "7be3fa0e3bc4c2b3dc146cb2bd920f675dd0b37c4b85eb2fd208ddad8fb51560",
+        "state.bin.journal": "aba5de4d926ddc273c7636b478c81cb7f6b74bf8edae017e8a32c2546b45cf69",
+        "initialization.jsonl": "c5300719a032c6fec2c2528c336d98496a7a5da96e1e8305a14152d656a1e64a",
+        "init.trace": "ed9d6db8b6980566554cddf4c08d8e5d7286330e140215eca677ac92e29a494c",
+        "sim.log": "c52268f528ebe26d76def794d1b5913fa6c3fd9ea2d2af1ef4d6e9764a0deecf",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "21557d621c70b084b7ec09ee426d3ab99f40bf1d5b8c4342d423e2769fc6b341",
+        "planner.log": "d7cbe38f03b8b6b1d691368ebb37f32129eba63612e9dc29233560dd34b124dc",
+        "pause_ack.json": "823a4f4fb680636d378a5bdeb552a021ceaac701e25b5dcaaac46182350d51c8",
+        "RESULT.json": "a8e7ff28af9989fd318bfc62bb07d39ff12fef025b7e1abc372977634ebd5cea",
+        "PROCESS_COMMANDS.private.json": "19e7dcd88ffbb4714cda63ce575fab9322ac43877ebe1db1f538f3aec8ebfc8c",
+        "init.trace.summary": "b4076bdaca1f439b5b89f192bed17f79dd23ce25b9d219bbd81dff8d2c231378",
+        "step_quota": "f739882f40e2be8022d26517e0b963ab2351687845ebe1cf320efd0d0d3e388a",
+        "controller.log": "1781e753f9d0126c6a43df1a8326cf07c57cd93aebdbec66a7d5bb954596fd42",
+        "solver.log": "16d893e135b489d3559398dd1f18c0c7ecdc673760f86588355f42476cb1e52d",
+        "quota.binding": "0f2ad2f928aa727b3e71cdf40556d705dcfb011b04550d4931eb12eb420a0a0f",
+        "BEFORE_FIRST_INTEGRATION.json": "a9b66ec406ae9544786a65bd7756f3c4e50ca60f5d82216a6105c10c66fa3ceb",
+        "planner.jsonl": "bcb19a1573301f0de71138e6e56d5abd62796437e24cb2ac0ba3943a3a7f7b33",
+        "STARTED.json": "d954e1a0d08d61b7bba91d1942ab28e725e134fd4798b8e1d11531c4917507cc",
+        "state.bin": "1849df1858c2ef74f78e76db85c52917dc0654305caf335d693488baccfb6081",
+        "init.trace.snapshots": "ae13c3ca4015e1fcba0274df185f30fa7eda2822047c1d9c652880d40b718780"
+      }
+    },
+    {
+      "identity": "g2-c05-ready-probe-01",
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_FAILED_PRESERVED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "g2-reference-qualification",
+        "source_sha": "ddcf459d95925b1d6df9921481b4383466aa58b2",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 0,
+        "complete_atomic_transitions": 0,
+        "partial_native_ticks": 0,
+        "reached_exact_pause": false,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "INSUFFICIENT_RECORDED_EVIDENCE",
+          "errors": [],
+          "missing": [
+            "FEWER_THAN_TWO_COMPLETED_POLICY_VERSIONS",
+            "NO_NATIVE_STEP_RECORDS"
+          ],
+          "records": 2460,
+          "writer": {
+            "events": 2460,
+            "written": 2460,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": false
+          },
+          "full_payload_records": 0,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 0,
+          "PD_callbacks_recorded": 615,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "b7c1c3a2410e342034aeda33a9007ea5c9e2c61104138d4700d80d5eec2a8aef",
+            "init.trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "init.trace.summary": "c217d901f4178cc734923ec03c036e2dd820fbad3a4bf222c4a6307a14081766"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "planner",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "reference_qualification": null,
+        "shutdown_clean": true,
+        "operator_shutdown": "ERROR_CLOSEOUT",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 0.8834530359999999,
+        "wall_s": 5.530212211422622
+      },
+      "worker_exit_code": 1,
+      "worker_MainPID": 0,
+      "worker_lease_status": "CLOSED",
+      "worker_CPU_s": 9.254022,
+      "worker_wall_s": 5.988603,
+      "files_sha256": {
+        "control.jsonl": "dcf59960a2b81d22a4dab40ec3d56ee19baa5f057ac8ed29ad0e3e8f08f58ba9",
+        "REFERENCE_FEEDBACK_DIAGNOSTIC.private.json": "794cf4f860adfdb9efe6f3b708898744747dda4dac34a8e3629d0bac29a659bc",
+        "initialization.jsonl": "2c217205df7ed638a365ca178b5417907de3633ed7f58db4220c80c69edd36f1",
+        "init.trace": "b7c1c3a2410e342034aeda33a9007ea5c9e2c61104138d4700d80d5eec2a8aef",
+        "sim.log": "a6b4e7502e7d38021330dd4277864c1ccfa3c8b2491e67464c966922a8206322",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "planner.log": "5868b91c88affc3667cccf7aa8336bc6535627e5b4d0105824553b15788c1ccc",
+        "RESULT.json": "e9b833735cc665ca5462452c49606e28d2caf683894438d6e3f3947f63f265a9",
+        "PROCESS_COMMANDS.private.json": "ee04cd8f1c1b602d3a0f3aba9c84871173e4322f2f55f5981f797d190cfbac87",
+        "init.trace.summary": "c217d901f4178cc734923ec03c036e2dd820fbad3a4bf222c4a6307a14081766",
+        "step_quota": "f739882f40e2be8022d26517e0b963ab2351687845ebe1cf320efd0d0d3e388a",
+        "controller.log": "a4c0292a92babd72ff0d385def28b39a33514483fb6199a2b3a9fde8153940e2",
+        "solver.log": "305b92ef850f4efd7bc34704e923190f7d1176fcb964e3f891aa17cfe7385d87",
+        "quota.binding": "c05a9c42c2a25f62f05e04821f6a9ef7ad9b390aee61f8a3d7b40dab8287196e",
+        "BEFORE_FIRST_INTEGRATION.json": "4e09afb7d7feecd739667a3fde6f7ac0b451a837456f1e6d2b94e165e99f4e52",
+        "STARTED.json": "68ffa5832e074f5da4e8b25f1736a0d0841d81af0dfe439e5bfccab6d4364bd7",
+        "init.trace.snapshots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "identity": "g2-c05-reference-02",
+      "result": {
+        "schema": "WM02_AUTO1_NATIVE_STAGE_V1",
+        "status": "NATIVE_STAGE_PASSED",
+        "campaign_uuid": "wm02-auto1-20261104-01",
+        "candidate_index": 5,
+        "phase": "g2-reference-qualification",
+        "source_sha": "7939f7caf6a443a65faa21b60e0b7eef5d51c0cb",
+        "candidate_source_sha": "959337e68034fdb29f5cfa0819249cbd574e1e97",
+        "native_binary_sha256": "e9aab70b6c1d2af76c6e178fed1fd8e86299dffb9624d15a85e58ba4d3f426ff",
+        "observer_sha256": "b0fd41b68702cfa889c28daa9be101ecc903200324255389572d377a062cf6b6",
+        "scene_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "actual_target_integrations": 2503,
+        "complete_atomic_transitions": 100,
+        "partial_native_ticks": 3,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "trace_audit": {
+          "schema": "WM02_INIT_TRACE_EVIDENCE_AUDIT_V1",
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "errors": [],
+          "missing": [],
+          "records": 11998,
+          "writer": {
+            "events": 11998,
+            "written": 11998,
+            "dropped": 0,
+            "stop_latched": false,
+            "sealed_at_explicit_pause": true
+          },
+          "full_payload_records": 237,
+          "full_payloads_not_retained": 0,
+          "first_two_policy_evidence": [
+            {
+              "policy": 1,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "004431d880bdca4be33815bc7c92e0e75128cea17fd25d3904a3d90911f471d2"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "edda342d0358b61aeddec0ca7bcb37193dc1227d6640beb723eb47a80a6c22b1",
+                  "encoding": "f32"
+                }
+              ]
+            },
+            {
+              "policy": 2,
+              "output_count": 12,
+              "input": [
+                {
+                  "status": "INLINE_COMPLETE",
+                  "count": 88,
+                  "encoding": "f32 promoted to raw f64",
+                  "sha256": "1ff1affa7c54f86ca75b82e63396b41d26c7082e60c466feeb227410b08d053d"
+                }
+              ],
+              "history": [
+                {
+                  "status": "SNAPSHOT_COMPLETE",
+                  "count": 2640,
+                  "original_count": 2640,
+                  "sha256": "3e1b14bf288046b9c6087ffb9bf478b2ae329405549f3b9d94b9808dd2ebe65f",
+                  "encoding": "f32"
+                }
+              ]
+            }
+          ],
+          "legacy_publish_channels_unknown": 0,
+          "applied_mixed_versions": 0,
+          "unmatched_apply_versions": 0,
+          "native_step_records": 2503,
+          "PD_callbacks_recorded": 1204,
+          "integrations_after_first_STOP": null,
+          "STOP_observed": false,
+          "STOP_check": "NOT_TESTED",
+          "source_clock_note": "PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.",
+          "input_files_sha256": {
+            "init.trace": "40e896be856371e82be15f2f93658bd7f889c3076bdb7c4b58e16a4f4fac5812",
+            "init.trace.snapshots": "cdc8c9652b27d4f0413a0395ec35d4613f14e4e991abce06ba9845a8f1817706",
+            "init.trace.summary": "f68e4e85213f25d82cff71ea9a66235447296880206975ca3d72a972c9fc4097"
+          },
+          "target_qualification": "NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required",
+          "new_effects_of_audit": {
+            "target_integrations": 0,
+            "policy_queries": 0
+          }
+        },
+        "trace_audit_error": null,
+        "failure": null,
+        "owned_process_exits": [
+          {
+            "name": "planner",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "controller",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "solver",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          },
+          {
+            "name": "sim",
+            "exit_code": 0,
+            "signals": [
+              "SIGINT"
+            ]
+          }
+        ],
+        "reference_qualification": {
+          "status": "ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED",
+          "native_step": 2503,
+          "source_mpc_s": 5.004,
+          "installed_wire_sha256": "43a9006861b03263dc8eaa1de817861899a864833e95bac3f123b0ea00e397e4",
+          "extra_integrations": 0,
+          "task_reference_consumption": "NOT_TESTED_NO_TASK_TICKS",
+          "events": 53
+        },
+        "shutdown_clean": true,
+        "operator_shutdown": "SIGNAL_ONLY_OWNED_PROCESSES_AFTER_NATIVE_PAUSE",
+        "safety_STOP_qualification": "NOT_TESTED",
+        "WM_updates": 0,
+        "Actor_updates": 0,
+        "full_tasks": 0,
+        "CPU_s": 1.8027781960000002,
+        "wall_s": 10.250678393058479
+      },
+      "worker_exit_code": 0,
+      "worker_MainPID": 0,
+      "worker_lease_status": "CLOSED",
+      "worker_CPU_s": 18.528187,
+      "worker_wall_s": 10.730232,
+      "files_sha256": {
+        "control.jsonl": "c51ec2d93f9fea4fcaeefbf7f2fabe3d3b220643b609eec65d0eb23f5daf9944",
+        "trace_seal_request": "883132ef11b2478ec3a483cfedc8e1902fe3f19eaf1262a49d776af2302edb6e",
+        "state.bin.journal": "8f88d418bdb23bceaa9d99a53cbf1d31bb2adaa34739974de2ebb58ffc9a7a8f",
+        "initialization.jsonl": "8f4a6e855426b0c59542cdb8544521f68dc8adfb515629cc8fd25689d7bea8dc",
+        "REFERENCE_PROPOSED.json": "6879f1bfcafe1e32c6387ab8c1713a8968ab33ce0e516509714d8a9b981dce95",
+        "init.trace": "40e896be856371e82be15f2f93658bd7f889c3076bdb7c4b58e16a4f4fac5812",
+        "sim.log": "b46550bc2d6f9d585e4cccffd4988ed48f95899fddea5b5939ecb3a5e0967239",
+        "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "physics.jsonl": "1770b2eda9e346e4a2739b2cb45bddb68266b3f924e0dd287fc0b9ebf622668e",
+        "planner.log": "d163989888231541c31d7615e18d1471de044f271e0407fb171c71b11d5d576c",
+        "pause_ack.json": "d09a6e45c1609e5988da314e5c1289a6176ad523ac0d73b29b00ec41431af043",
+        "RESULT.json": "d3d48f64736d5ef19118ea00c7782aa17b7057a4f51808106fec330955f6cb85",
+        "PROCESS_COMMANDS.private.json": "8c73c71168460e074e9204db2fc62659a93d8ef0b314d52ad2b8ec37dbcad28d",
+        "REFERENCE_QUALIFICATION.json": "7584b72f90c290bcac56319b85cae56d3c7be53151e73f167cf18a5c843235cb",
+        "init.trace.summary": "f68e4e85213f25d82cff71ea9a66235447296880206975ca3d72a972c9fc4097",
+        "step_quota": "b75150e960183e5652518e93167771041ff6ea7424d67d9699dc676cbd060224",
+        "controller.log": "295cf5b94c535b8a8404c3b38b10ca5cb678583cb762adfba4640d70d5890d97",
+        "solver.log": "98fca8b7e79b8e65159a45ebeaca428390302de88891240383dad94d793fcf8b",
+        "quota.binding": "9e9a9422226e515b539866075595429f88fb0385cd8f2b2d8f4f48eed8e4d8e0",
+        "BEFORE_FIRST_INTEGRATION.json": "42ebf7facb7dc95d9edb67478dc1ebfeb11fc07ab79e40fa2c597fb92c593e0b",
+        "planner.jsonl": "12b8aae3833785e04311804ea2ad64324be64068aa7d9c3d34522ff50a5e78ce",
+        "STARTED.json": "4ab6b10ac1a04ed583136297a06374906d763926911155039bb9f1e67806f88e",
+        "state.bin": "b1b8265ced90dc80ef185c79bbe538edabab37ffdcbc7528ee606a984cd21d87",
+        "init.trace.snapshots": "cdc8c9652b27d4f0413a0395ec35d4613f14e4e991abce06ba9845a8f1817706"
+      }
+    }
+  ],
+  "additional_integrations": 5003,
+  "all_new_target_integrations": 12353,
+  "all_new_complete_50ms_intervals": 494,
+  "all_new_partial_native_ticks": 3,
+  "actual_task_reference_consumption": "NOT_TESTED_NO_TASK_TICKS_AFTER_INSTALL",
+  "G2_eight_conditions": "NOT_RUN",
+  "target_WM_learning_rows": 0,
+  "WM_optimizer_updates": 0,
+  "Actor_updates": 0,
+  "new_full_tasks": 0,
+  "additional_Core_CPU_s": 80.037717,
+  "additional_worker_wall_s": 45.064955,
+  "Core_campaign_bytes_at_final_export": 1339434449,
+  "campaign_status": "ACTIVE",
+  "campaign_is_live_daemon": false
+}

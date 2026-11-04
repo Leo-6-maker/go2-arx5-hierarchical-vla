@@ -1,5 +1,7 @@
 # WM02 AUTO1：实际登记与完整本体初始化验收
 
+**最新续轮：** 原WBC参考install/cancel/HOLD入口已通过，FIT单参数夹爪响应模型在已打开的8父释放诊断上将正regret由3/8降至0/8；累计目标12353tick，真实任务动作消费及目标WM仍未完成。见[续轮源码、命令、完整SHA和限制](G2_AND_OPENING_REPORT.md)。
+
 2026-11-04，Asia/Singapore。接续未合并PR #355，统一采用PR #354固定提交 `930bb2ef0ff178771e48fb5f03ea3e37fa717582` 的AUTO1范围。main、旧capsule、旧S1/T2失败记录及CLOSED lease均未切换或重开。
 
 **本轮G0实际登记成功；新候选完成全部六层冷启动／保持，并正常关闭。G2参考消费、目标WM和Actor仍未完成。** 这次新增7350个真实目标tick，其中成功候选7100、旧失败尝试250。对应284个合格初始化50ms区间和10个失败尝试区间；它们尚未作为有动作消费证明的目标WM训练样本。
@@ -40,7 +42,7 @@
 
 源码 **`aa2a03fe1b632fc0803a65523811cc2e1d155f22`** 的只读审计exit0；原数据SHA256 **`c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808`**，prospective stream manifest **`d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01`**。480个既有FIT/DEV窗口的H40开度映射误差0、消费行时钟误差0；未评分旧留出。用已执行命令从已知reset重建1472个前缀区间及640个已存分叉区间，内部finger target最大误差0。
 
-这排除了这些记录的简单单位／消费行偏移；实际手指位置不能替代slew limiter内部目标。burn8且reset未知时保留区间，不用未来隐状态缩窄；这也不证明完整观测历史不可辨识。新增observer只重建参考记忆，**实际开度响应的小模型拟合及新决策验证尚未运行**，不宣称修好了M4-B的物理预测。详见[独立审计](SOURCE_ACTUATOR_AUDIT.json)。M4-B保持冻结，原checkpoint **`9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b`**；本轮无神经推理或模型更新。
+这排除了这些记录的简单单位／消费行偏移；实际手指位置不能替代slew limiter内部目标。burn8且reset未知时保留区间，不用未来隐状态缩窄；这也不证明完整观测历史不可辨识。新增observer只重建参考记忆，**G1导出时小模型拟合尚未运行；随后已完成FIT单参数诊断，尚无新在线决策验证，见续篇**，不宣称修好了M4-B的物理预测。详见[独立审计](SOURCE_ACTUATOR_AUDIT.json)。M4-B保持冻结，原checkpoint **`9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b`**；M4-B本轮未重新推理或更新；原腿策略实际前向仍在trace中记录。
 
 G2首次import exit1：缺少 `go2_x5_planning` 的进程路径。已定位原目标 `src/planning/go2_x5_planning`，绑定其12个原Python模块的SHA后，原TaskTrajectory、EETrajectoryManager、MpcObservation及receiver导入exit0；没有安装包、创建ROS节点或积分。**实际proposed→accepted→installed→consumed→achieved仍待实现及原生检查**，导入不算消费通过。下一工程工作是扩展现有薄adapter及顺序记录，再执行8项G2；目标Replay和WM入口不等待源域胜过规则、完整任务成功或任意中途恢复。
 

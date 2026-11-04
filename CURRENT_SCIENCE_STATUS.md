@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-04 WM02 AUTO1续轮：**原WBC参考install/cancel/HOLD入口实际通过，保留3tick初始化partial，累计目标12353tick。** FIT24上1参数夹爪响应模型将已打开DEV8释放开度H16 RMSE .06947→.000380、原评分正regret3/8→0/8；不代表新的在线策略收益。目标任务动作消费、八项诊断、目标WM/Actor仍未完成。见[完整SHA、命令、退出码及成本](reports/WM02/auto1-target-entry/G2_AND_OPENING_REPORT.md)。
+
 2026-11-04 WM02 AUTO1最新实测：**新scope已登记；独立候选六层冷启动/2s/5s保持通过，7100tick，三个子进程正常退出；含旧失败共7350新目标tick。** arm HOLD及冻结腿策略活动；G2参考消费、目标WM与Actor尚未完成。夹爪命令记忆只读重建误差0，未完成物理响应小模型。见[实际SHA、失败、命令与成本](reports/WM02/auto1-target-entry/EXECUTION_REPORT.md)。
 
 2026-11-04 WM02长程委托：**M4-B联合DEV通过，后续6,752条真实S转移尚未证明优于原规则；Actor/目标积分均0。** 完整PC只读mesh回放可用，目标初始化仍缺新owner准入，旧隔离/lease不改。见[完整执行、负结果及下一步](reports/WM02/autonomous-recovery/EXECUTION_REPORT.md)。
