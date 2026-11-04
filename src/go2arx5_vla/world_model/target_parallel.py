@@ -72,7 +72,7 @@ def inherited_batch_owner(spec_path,spec):
 def run_batch(spec_path,output,run_id):
     from .auto1_native import validate_scope
     from .runtime import admitted_run
-    from scripts.pi0292.durable import OwnerLock
+    from scripts.pi0292.durable import OwnerLock,write
     spec=json.loads(Path(spec_path).read_text());campaign=Path(spec['campaign_root'])
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
     children=[json.loads(Path(s['spec']).read_text())for s in spec['slots']];validate_layout(spec,children)
@@ -93,19 +93,19 @@ def run_batch(spec_path,output,run_id):
                     while any(p.poll()is None for _,p in jobs):
                         if time.time()>=spec['deadline_epoch']or(campaign/'STOP.json').exists()or(Path(spec['registered_root'])/'STOP.json').exists():
                             for child,p in jobs:
-                                if p.poll()is None:write_json(Path(child['registered_root'])/'STOP.json',dict(reason='BATCH_FINITE_STOP'))
+                                if p.poll()is None:write(Path(child['registered_root'])/'STOP.json',dict(reason='BATCH_FINITE_STOP'))
                         time.sleep(.05)
                     rows=[]
                     for child,p in jobs:
                         result=Path(child['registered_root'])/'native-01/RESULT.json';value=json.loads(result.read_text())if result.exists()else{}
-                        lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write_json(lease_path,lease)
+                        lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write(lease_path,lease)
                         rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus']))
                     result=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'if all(r['exit_code']==0 and r['status']=='NATIVE_STAGE_PASSED'and r['shutdown_clean']for r in rows)else'TWO_ENVIRONMENT_NATIVE_PILOT_FAILED_PRESERVED',children=rows,wall_s=time.monotonic()-start,physical_owners=1,WM_updates=0,Actor_updates=0,learning_atoms=0)
                     write_json(Path(output)/'RESULT.json',result);return result
                 finally:
                     for child,p in jobs:
                         if p.poll()is None:
-                            write_json(Path(child['registered_root'])/'STOP.json',dict(reason='BATCH_EXCEPTION_CLOSEOUT'))
+                            write(Path(child['registered_root'])/'STOP.json',dict(reason='BATCH_EXCEPTION_CLOSEOUT'))
                             try:p.wait(timeout=45)
                             except subprocess.TimeoutExpired:p.terminate();p.wait(timeout=30)
                     for h in handles:h.close()
@@ -114,6 +114,6 @@ def run_batch(spec_path,output,run_id):
                         if owned is None or owned.poll()is not None:
                             path=Path(child['lease']);lease=json.loads(path.read_text())
                             if lease['status']=='ACTIVE':
-                                lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=None if owned is None else owned.returncode,started=owned is not None);write_json(path,lease)
+                                lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=None if owned is None else owned.returncode,started=owned is not None);write(path,lease)
             finally:physical_owner.close()
         finally:campaign_owner.close()
