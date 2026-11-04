@@ -101,6 +101,9 @@ def build(manifest_path,output,*,prediction_atoms=8):
     for e in entries:
         if e['path']in loaded:raise ValueError('Duplicate manifest file')
         rows,events=load_rows(e);loaded[e['path']]=rows;rejections+=len(events)
+        for a,b in zip(rows,rows[1:]):
+            if a['episode_id']==b['episode_id']and a['run_id']==b['run_id']and(a['terminal']or a['truncated']):
+                raise ValueError('Original stream contains a successor after terminal/timeout without a new episode')
     all_rows=[r for rows in loaded.values()for r in rows]
     if len(all_rows)!=manifest['expected_raw_transitions']:raise ValueError('Raw transition denominator differs')
     valid={id(r):aligned(r)for r in all_rows}

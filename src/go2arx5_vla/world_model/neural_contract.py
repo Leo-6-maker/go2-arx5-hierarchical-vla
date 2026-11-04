@@ -25,6 +25,11 @@ def compile_physical(raw,anchor,time_s,*,target=False):
             or (raw[...,3:6].norm(dim=-1)>.05+1e-12).any()
             or (raw[...,6]<lo).any()or(raw[...,6]>hi).any()):
         raise ValueError('Physical primitive outside native bounds; no clipping')
+    r=anchor[...,:3,:3];eye=torch.eye(3,dtype=anchor.dtype,device=anchor.device)
+    if (not torch.allclose(r.transpose(-1,-2)@r,eye.expand_as(r),atol=1e-7,rtol=0)
+            or not torch.allclose(torch.linalg.det(r),torch.ones_like(torch.linalg.det(r)),atol=1e-7,rtol=0)
+            or not torch.allclose(anchor[...,3,:],anchor.new_tensor([0,0,0,1]).expand_as(anchor[...,3,:]),atol=1e-12,rtol=0)):
+        raise ValueError('Actual SE3 anchor required; no frame repair')
     pos=anchor[...,:3,3];rot=anchor[...,:3,:3];points=[]
     for i in range(8):
         pos=pos+raw[...,i,:3];rot=so3_exp(raw[...,i,3:6])@rot

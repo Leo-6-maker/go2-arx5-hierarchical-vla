@@ -71,6 +71,8 @@ class RealInterfaces(unittest.TestCase):
         with self.assertRaises(ValueError):compile_physical(bad,anchor,2.,target=True)
         for v in (.002/.044,.042/.044):
             edge=raw.clone();edge[...,6]=v;compile_physical(edge,anchor,2.,target=True)
+        bad_anchor=anchor.clone();bad_anchor[:,0,0]=2
+        with self.assertRaises(ValueError):compile_physical(raw,bad_anchor,2.,target=True)
     def test_replay_deduplicates_aliases_and_holds_out_whole_physical_scene(self):
         a=fixture_rows('a');alias=copy.deepcopy(a)
         for r in alias:r.update(episode_id='renamed',parent_id='renamed',scene_id='renamed')
@@ -89,6 +91,7 @@ class RealInterfaces(unittest.TestCase):
             else:row['state_after']['reset']=True
             with self.assertRaises(ValueError):replay.aligned(row)
         rows[7]['terminal']=True;self.assertFalse(replay.continuous(rows[7],rows[8]))
+        with self.assertRaises(ValueError):replay.build(self.manifest([rows]),self.root/'postterminal')
         rows[7]['terminal']=False;rows[8]['state_before']['qpos'][0]+=.1;self.assertFalse(replay.continuous(rows[7],rows[8]))
     def test_source_checkpoint_and_no_post_terminal_or_future_state_leak(self):
         p=self.manifest([fixture_rows('a'),fixture_rows('b')]);replay.build(p,self.root/'built')
