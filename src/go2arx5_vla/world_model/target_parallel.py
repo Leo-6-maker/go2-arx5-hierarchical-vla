@@ -96,16 +96,18 @@ def run_batch(spec_path,output,run_id):
                         h=(Path(output)/(Path(child['registered_root']).name+'.log')).open('x');handles.append(h)
                         jobs.append((child,subprocess.Popen(argv,cwd=child['source_root'],env=env,stdout=h,stderr=subprocess.STDOUT,pass_fds=fds)))
                     while any(p.poll()is None for _,p in jobs):
-                        if time.time()>=spec['deadline_epoch']or(campaign/'STOP.json').exists()or(Path(spec['registered_root'])/'STOP.json').exists():
+                        failed_child=any(p.poll()not in(None,0)for _,p in jobs)
+                        if failed_child or time.time()>=spec['deadline_epoch']or(campaign/'STOP.json').exists()or(Path(spec['registered_root'])/'STOP.json').exists():
                             for child,p in jobs:
-                                if p.poll()is None:write(Path(child['registered_root'])/'STOP.json',dict(reason='BATCH_FINITE_STOP'))
+                                if p.poll()is None:write(Path(child['registered_root'])/'STOP.json',dict(reason='PEER_FAILED'if failed_child else'BATCH_FINITE_STOP'))
                         time.sleep(.05)
                     rows=[]
                     for child,p in jobs:
                         result=Path(child['registered_root'])/'native-01/RESULT.json';value=json.loads(result.read_text())if result.exists()else{}
                         lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write(lease_path,lease)
-                        rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus']))
-                    result=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'if all(r['exit_code']==0 and r['status']=='NATIVE_STAGE_PASSED'and r['shutdown_clean']for r in rows)else'TWO_ENVIRONMENT_NATIVE_PILOT_FAILED_PRESERVED',children=rows,wall_s=time.monotonic()-start,physical_owners=1,WM_updates=0,Actor_updates=0,learning_atoms=0)
+                        diag=Path(child['registered_root'])/'native-01/DYNAMIC_DIAGNOSTIC.json';atoms=json.loads(diag.read_text())['complete_task_atoms']if diag.exists()else 0
+                        rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus'],task_atoms=atoms,collection=child['phase'].startswith('collect-target-')))
+                    result=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'if all(r['exit_code']==0 and r['status']=='NATIVE_STAGE_PASSED'and r['shutdown_clean']for r in rows)else'TWO_ENVIRONMENT_NATIVE_PILOT_FAILED_PRESERVED',children=rows,wall_s=time.monotonic()-start,physical_owners=1,WM_updates=0,Actor_updates=0,learning_atoms=sum(r['task_atoms']for r in rows if r['collection']and r['status']=='NATIVE_STAGE_PASSED'))
                     write_json(Path(output)/'RESULT.json',result);return result
                 finally:
                     for child,p in jobs:
