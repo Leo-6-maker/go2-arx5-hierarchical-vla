@@ -110,6 +110,7 @@ def run(spec,output):
     data,meta=load(spec['replay']);ids=np.array([i for i,e in enumerate(meta['episodes'])if e['split']=='TRAIN'])
     if not len(ids):raise ValueError('REAL_TRAIN_EPISODES_REQUIRED')
     train=tensors(data,ids,device);provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=SCHEMA,metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),scope='AUTO1_TARGET_FREE_SPACE_MODEL_ONLY',previous_checkpoint_sha256=spec.get('resume_sha256'))
+    write_json(out/'FIRST_BATCH_AUDIT.json',dict(state_shape=list(train['state'].shape),state_dtype=str(train['state'].dtype),goal_shape=list(train['goal'].shape),source_age_shape=list(train['source_age'].shape),state_dimension=meta['state_dimension'],finite=bool(torch.isfinite(train['state']).all()),TRAIN_episodes=len(ids),DEV_episodes=sum(e['split']=='DEV'for e in meta['episodes']),software=dict(torch=str(torch.__version__),CUDA=torch.version.cuda,numpy=np.__version__),device_name=props.name,model_scene_sha256=meta['model_sha256'],controller_state='HISTORY_WITH_EXPLICIT_MISSING_STATE_NOT_COMPLETE_MARKOV'))
     random.seed(20261104);np.random.seed(20261104);torch.manual_seed(20261104)
     m=TargetWM(meta).to(device);m.fit_normalizer(train['state']);opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);cursor=0
     if spec.get('resume'):
