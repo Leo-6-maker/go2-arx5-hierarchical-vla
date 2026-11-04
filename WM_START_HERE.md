@@ -1,30 +1,13 @@
-# WM02：直接学习任务空间 Actor
+# WM02 当前唯一执行入口：AUTO1
 
-日期：2026-11-04，Asia/Singapore。原计划已发布；本实施分支已有实际入口和执行结果，不表示main或旧capsule已部署。
+2026-11-04，Asia/Singapore。继续未合并PR #355的实际代码与证据，接入PR #354固定提交 `930bb2ef0ff178771e48fb5f03ea3e37fa717582` 的AUTO1委托。不假设main已合并，不为#353/#354启动两套owner，不切换现役源码。
 
-**最新长程委托已实际推进：** PC完整mesh录播与只读文件桥完成；A0冻结23/20输入及加载链复核、step4因果时间线和有限owner申请已交付。M4-A/M4-B共400主更新＋2恢复探针，M4-B通过联合DEV门；随后新16父布局尝试产生6,752真实S转移，原规则仍达采样oracle，纯WM无增益、延迟规则／混合回退保留负结果。Actor0、目标积分0，原生冷启动/5s站立仍OWNER_BLOCKED。见[真实命令、全部SHA、故障与成本](reports/WM02/autonomous-recovery/EXECUTION_REPORT.md)及[只读PC回放](reports/WM02/autonomous-recovery/PC_VIEWER_README.md)。
+1. 先读根[AGENTS.md](AGENTS.md)的AUTO1补充、[执行交接](docs/handover/2026-11-04/WM02_AUTO1_CODEX_EXECUTE.md)、[G0–G6协议](docs/protocols/WM02_AUTO1_WBC_TO_WM_V1.md)及[唯一campaign配置](experiments/wm02/autonomous_wbc_to_wm_v1.json)。
+2. 当前新项目仿真范围为USER_AUTHORIZED；须通过原EXISTING_LOCAL_PC/profile/registry/Journal/lease实际登记WM02_AUTO1_SIM_ONLY。现场登记及原生资格分开报告，旧CLOSED lease不表示缺少用户GO，新文档不表示已运行。
+3. 最高优先：G0实际登记与受控目标入口，随后G1两次0.1s→两次2s→两次5s，按实际scope逐级通过。使用最新trace候选：构建源码 `82439355dd5edabba9dc8999a577f435f4a877a4`，二进制SHA256 `5e2c7d290f6323eb1322757a217fd08755b9c50058a7fd2ee01fcdf53c2c5cf7`。同一物理owner、单实例、原安全；首个异常留证后有依据修复，不盲重跑。
+4. 目标保持与消费合格后推进顺序采集→真实目标Replay→200次WM主更新及恢复→第二批4次采集、评价与100次后继更新。不等待S模型胜过规则、任意中途restore或完整任务成功；接触、预测与控制价值分别验收。
+5. 并行源域仅针对已定位的夹爪动作/时间响应做最小修复；冻结M4-B，不扩泛化M5/布局/GPU来替代目标主线。正式Actor、主动行走、实机、控制数学与安全阈值修改不在AUTO1范围内。
 
-**最新时间响应消融已执行：** M3同V5 FIT固定200主更新＋1恢复探针完成，H1/H8/H16动作差门槛DEV8逐父均通过；H1绝对物体RMSE1.947mm差于M1的1.151mm，且H16建立/释放事件明显退化，整体FAIL。零新采样、Actor0；新留出NOT_RUN。现有目标候选字节未变，缺有效init-only范围，两冷启动及2/5秒保持NOT_RUN。见[逐步诊断、OLS/刚性基线、SHA与成本](reports/WM02/temporal-response/EXECUTION_REPORT.md)。
+#353已完成工作与负结果保留在[执行报告](reports/WM02/autonomous-recovery/EXECUTION_REPORT.md)：完整PC mesh录播、M4-A/B共400主更新+2恢复探针、6752条S转移；M4-B联合DEV门通过，尚无动作选择增益，目标新候选无动态通过证据。[释放排序事后诊断](reports/WM02/autonomous-recovery/POSTHOC_RELEASE_RANK_REPORT.md)不是部署验证。旧初始化、STOP、隔离和数据/模型原件均保留。
 
-**最新动作响应／初始化候选已执行：** 当前40布局FIT定位到参考→TCP效应压平；固定200的M1/M2比较完成400主更新＋2恢复探针，另保留失败20更新。M2在诊断DEV的H8预测物体朝向效应约8.09mm，实际约7.95mm；尚未优于规则，时间响应不完整。目标R1＋停止锁存＋有界记录器已实际编译并核验两条加载链，但缺少init-only范围，原生初始化仍未验收、目标积分0。见[本轮真实命令、身份、成本与限制](reports/WM02/response-init-candidate/EXECUTION_REPORT.md)。
-
-本后继实施分支的实际回执：**P0目标身份与阻断已核对；P1完成S域薄adapter／原生恢复与4进程吞吐，目标动态仍TARGET_BLOCKED。** 见[第一轮实际回执](reports/WM02/wm02-20261104-p0-p1/FINAL_REPORT.md)与[真实CLI](experiments/wm02/RUNTIME.md)。原计划发布状态和plan.json作为历史设计保留，不表示main已经部署。
-
-**环境优先后继已实际完成：** Core预检23份冻结文件、独立CUDA环境、WM200主更新＋1恢复探针、Actor/Critic各1次H16更新；仅合成工程烟测。目标原生与真实学习闭环仍未完成。见[最新执行回执](reports/WM02/environment/EXECUTION_REPORT.md)、[控制状态缺口](reports/WM02/environment/TARGET_CONTROL_STATE_MAP.md)及[站立T1评分版本](reports/WM02/environment/TARGET_SCORER_BINDING.md)。
-
-**真实S域后继：** 原872条→496个不同观测对／2物理组，真实Replay已实现；GPU1 WM主200＋恢复探针1完成。位置略优于持恒，但动作消融近似打平、姿态／抓持更差，结论INCONCLUSIVE；Actor0、目标动态0。见[真实数据执行与负结果](reports/WM02/real-replay/EXECUTION_REPORT.md)。
-
-**最新配对动作辨识已执行：** 新24布局／96锚点／480分叉、主7,680条真实转移；匹配动作与无未来动作WM各200＋恢复探针1，同80轨迹评价。H16物体末端5.908／6.897mm、动作进展排序51/59对，但释放和可改善任务条件不足，Actor0。另在四DEV的1.6s完整状态完成新448条原生接触探针，名义闭爪4/4抓持、延迟闭爪1/4；未用于训练。本轮总新增S转移15,616，目标0，全部lease CLOSED。见[执行、完整SHA、成本与限制](reports/WM02/contact-identification/EXECUTION_REPORT.md)及[目标原始失败证据／新窗口路径](reports/WM02/contact-identification/TARGET_ISOLATION_EVIDENCE.json)。
-
-主线：**Go2＋ARX5 原生冻结 WBC 物理交互 → 小型动作条件 WM → 短期想象优化 Actor → 原生完整任务评价 → 双 RGB 视觉学生**。GR00T 是可选对照，不是必经组件；固定底座 ARX5 只是方法诊断域。
-
-1. 阅读根 `AGENTS.md`，再读 [Codex 交接](docs/handover/2026-11-04/WM02_CODEX_EXECUTE.md)。
-2. 研究定义见 [WM02 协议](docs/protocols/WM02_GO2_ARX5_WORLD_MODEL_ACTOR_V1.md)；数字与工作包见 [plan.json](experiments/wm02/plan.json)。
-3. 复用范围、来源和未解决接口见 [实现映射](docs/protocols/WM02_UPSTREAM_ADAPTER_MAP_V1.md)。
-4. **最新本地资源顺序**：先按 [RTX 4080S 16GB本地优先交接](docs/handover/2026-11-04/WM02_4080S_LOCAL_FIRST.md) 完成原生后端核验、动作/状态/接触、WM及Actor短循环；具备真实测得的profile、可恢复checkpoint与目标合法资格后，才提交A40/H200 PBS。不要在本地调通前提前排正式百万步作业。
-
-WM02 是独立新实验，不需要先合并 PR #342。WM01 在 `de64c252246e4746315f2a324535b5d48912783c` 保留，不改其结果或参数。WM02 对新的 WM 研究优先级取代“必须回到 GR00T”和“默认 PPO＋WM 混合主线”；不修改已封存 V7 运行、旧比较、WBC、安全、目标 S1/T2 隔离或站点权限。目标动态工作须绑定当前有效准入，不能把本计划当解除隔离的证据。
-
-**第一交付不是训练曲线：是实际后端/WBC身份、动作时间映射、控制状态递推与恢复、目标接触链和真实采样吞吐。** 这些明确后才能解释模型学习结果。普通工程缺陷按 V7 自主修复，不另建调度、审批或预算系统。
-
-原设计发布并非执行结果；本分支实现与实际执行量以固定SHA回执为准。真实S replay、配对采集与有限模型训练已有实际入口；正式任务reward／Actor在线建议兑现及目标闭环仍待实现与资格验证。
+AUTO1在合法冷边界接续#353已结束的有限worker，不热改旧scope、不重开旧lease、不另建平台。拟实现CLI先编码和测试；历史qualify --domain T固定exit78不是commissioning入口。现场注册、实际命令和G0–G6状态以新执行回执为准。
