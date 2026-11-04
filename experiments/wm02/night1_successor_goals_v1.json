@@ -1,0 +1,291 @@
+{
+  "schema": "WM02_NIGHT1_SUCCESSOR_GOALS_V1",
+  "publication_status": "PLAN_ONLY_NOT_EXECUTED",
+  "date": "2026-11-05",
+  "timezone": "Asia/Singapore",
+  "mount": {
+    "pull_request": 356,
+    "parent_plan_sha": "6e99a72e56eaa1066e567fb66f95ad7121695742",
+    "runtime_baseline_sha": "35c7954cad86e952cce8b4b8e0234c17b7e31ed5",
+    "entry": "WM02_NIGHT1_START.md",
+    "protocol": "docs/handover/2026-11-05/WM02_NIGHT1_SUCCESSOR_GOALS_V1.md",
+    "parent_plan": "experiments/wm02/night1_collect_first_v1.json",
+    "activate_at": "SEALED_BATCH_COLD_BOUNDARY_AFTER_PRIMARY_GOAL_OR_EVIDENCED_PARTIAL",
+    "reuse_existing_owner": true,
+    "hot_update_active_capsule": false,
+    "new_scheduler_or_daemon": false,
+    "writes_live_Codex_goal_configuration": false
+  },
+  "handoff_gate": {
+    "nonzero_new_target_data_and_sealed_replay_required": true,
+    "primary_minimum_episodes": 16,
+    "primary_minimum_atoms": 384,
+    "below_primary_minimum": "CONTINUE_PRIMARY_IF_FEASIBLE_OTHERWISE_EXPLICIT_PARTIAL",
+    "global_safety_or_permission_block": "READ_ONLY_DIAGNOSIS_AND_HANDOFF_ONLY",
+    "old_data_count_as_new": false
+  },
+  "execution_window": {
+    "inherit_original_activation": true,
+    "max_hours_from_original_activation": 8,
+    "absolute_latest_stop": "2026-11-05T09:00:00+08:00",
+    "effective_deadline": "MIN(original_NIGHT1_activation_plus_8h, absolute_latest_stop, current_scope_deadline)",
+    "reserve_closeout_minutes": 20,
+    "reset_timer_on_relay_start": false,
+    "automatic_lease_extension": false,
+    "after_deadline": "PENDING_NEXT_WINDOW_NO_NEW_WORKERS"
+  },
+  "shared_limits": {
+    "applies_to": "NIGHT1_PRIMARY_AND_RELAY_COMBINED",
+    "target_attempts_max_including_failures": 96,
+    "native_ticks_max_including_warmup": 650000,
+    "new_valid_atoms_max": 10240,
+    "task_seconds_per_attempt_max": 8,
+    "native_slots_max": 2,
+    "new_contact_slots": 1,
+    "private_storage_guideline_GiB": 20,
+    "native_worker_wall_s_max": 600,
+    "neural_worker_wall_s_max": 2400,
+    "neural_workers_concurrent_max": 1,
+    "torch_allocator_bytes_max": 4294967296,
+    "stricter_site_limits_take_precedence": true,
+    "max_same_symptom_attempts_without_new_evidence": 2
+  },
+  "additional_model_work": {
+    "new_fresh_worker_registration_required": true,
+    "hot_modify_existing_limits": false,
+    "maximum_relay_recipes": 2,
+    "main_updates_per_recipe": 200,
+    "restore_probes_per_recipe": 1,
+    "additional_main_updates_max": 400,
+    "additional_probe_updates_max": 2,
+    "parent_main_updates_max": 300,
+    "parent_probe_updates_max": 2,
+    "combined_main_updates_max": 700,
+    "combined_probe_updates_max": 4,
+    "combined_optimizer_calls_max_including_failed_calls": 704,
+    "GPU_unavailable": "DO_LEGAL_CPU_ANALYSIS_OR_SAMPLING_KEEP_TRAINING_PENDING"
+  },
+  "invariants": {
+    "frozen_WBC_leg_policy_gains_costs_solver_dt_safety": true,
+    "native_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "ticks_per_atom": 25,
+    "BASE_reference_binding": "MEASURED_EEF_AND_BASE_POSE_HOLD_V2",
+    "renewal_s": 0.35,
+    "TTL_s": 0.4,
+    "TTL_origin": "actual_source_MPC_time",
+    "independent_parent_split_before_sampling": true,
+    "fit_normalizer_and_baselines": "TRAIN_ONLY",
+    "source_state_or_gripper_parameters_as_target_truth": false,
+    "future_actual_state_or_reference_as_prediction_input": false,
+    "formal_Actor_PPO_GR00T_updates": 0,
+    "active_locomotion": false,
+    "real_hardware": false,
+    "four_environment_native_runs": false,
+    "MuJoCo_Warp_migration": false,
+    "other_user_process_or_system_changes": false,
+    "auto_merge_main": false
+  },
+  "dispatch": {
+    "mode": "EXISTING_CODEX_EXECUTOR_READY_GOAL_SELECTION_NOT_A_SERVICE",
+    "default_order": [
+      "R0",
+      "G1",
+      "G2",
+      "G3",
+      "G4",
+      "G5",
+      "G6",
+      "G7",
+      "G8",
+      "FINAL"
+    ],
+    "deduplicate_completed_work_by_identity": true,
+    "do_not_stop_after_first_PR_or_200_updates": true,
+    "branch_blocks_do_not_block_unrelated_qualified_work": true,
+    "physics_safety_failure": "STOP_BATCH_AND_PEERS_PRESERVE_FIRST_EVIDENCE_NO_BLIND_RETRY",
+    "no_ready_goal": "READ_ONLY_CLOSEOUT_OR_PENDING_NO_BUSY_WAIT",
+    "state_index": "REUSE_EXISTING_CAMPAIGN_STATE_INDEX_AND_JOURNAL"
+  },
+  "goals": [
+    {
+      "id": "R0",
+      "depends_on": [],
+      "name": "Primary-goal reconciliation and cold-boundary relay",
+      "new_physics": false,
+      "output": "Pinned current code, sealed primary outputs, actual remaining resources and qualification map"
+    },
+    {
+      "id": "G1",
+      "depends_on": [
+        "R0"
+      ],
+      "name": "Data integrity and dynamics coverage",
+      "new_physics": false,
+      "output": "Per-parent/episode command, timing, contact, partial and continuous-window coverage; invalid derivatives quarantined"
+    },
+    {
+      "id": "G2",
+      "depends_on": [
+        "G1"
+      ],
+      "name": "Supported contact and target gripper response",
+      "new_physics": true,
+      "native_slots_max": 1,
+      "conditions_max": 4,
+      "attempts_per_condition_max": 2,
+      "attempts_max": 8,
+      "reuse_completed_primary_N4": true,
+      "failure_policy": "BLOCK_ONLY_DEPENDENT_CONTACT_WORK",
+      "output": "Stage-specific native qualification and contact/gripper causal records"
+    },
+    {
+      "id": "G3",
+      "depends_on": [
+        "G1"
+      ],
+      "name": "Second wave of independent parents",
+      "new_physics": true,
+      "native_slots_max": 2,
+      "additional_parents_max": 8,
+      "additional_TRAIN_parents_max": 6,
+      "additional_DEV_parents_max": 2,
+      "episodes_per_parent_max": 4,
+      "attempts_max": 32,
+      "atoms_max_at_8s": 5120,
+      "desired_parent_total_including_primary": 16,
+      "desired_TRAIN_total": 12,
+      "desired_DEV_total": 4,
+      "if_primary_already_completed_panel": "REUSE_NOT_RECOLLECT",
+      "output": "Preregistered new-parent replay and pre-update predictions"
+    },
+    {
+      "id": "G4",
+      "depends_on": [
+        "G1"
+      ],
+      "requires": [
+        "VALID_REAL_TRAIN_WINDOWS",
+        "INDEPENDENT_PARENT_DEV_FOR_GENERALIZATION_CLAIM",
+        "NEW_LEGAL_NEURAL_WORKER_SCOPE"
+      ],
+      "name": "Two controlled target-WM recipes",
+      "new_physics": false,
+      "recipes_max": 2,
+      "updates_each": 200,
+      "probe_each": 1,
+      "change_one_mechanism_only": true,
+      "output": "Checkpoints, strict restore and per-parent physical/event errors with strong baselines"
+    },
+    {
+      "id": "G5",
+      "depends_on": [
+        "G4"
+      ],
+      "requires": [
+        "PRESPECIFIED_MODEL_DECISION_GATE",
+        "QUALIFIED_NATIVE_ACTION_AND_EVENT_ENVELOPE",
+        "REMAINING_SHARED_ATTEMPT_BUDGET"
+      ],
+      "name": "Prospective WM choice versus unchanged rule",
+      "new_physics": true,
+      "new_unseen_parents_max": 8,
+      "methods": [
+        "FROZEN_WM_SELECTOR",
+        "FROZEN_STRONG_RULE"
+      ],
+      "attempts_max": 16,
+      "predictions_saved_before_execution": true,
+      "no_exact_restore_no_counterfactual_claim": true,
+      "no_complete_candidate_outcomes_no_oracle_regret": true,
+      "Actor_updates": 0,
+      "output": "Actual online choices, realized outcomes and all refusals; no forced superiority claim"
+    },
+    {
+      "id": "G6",
+      "depends_on": [
+        "R0"
+      ],
+      "requires": [
+        "PRIMARY_SCIENCE_NOT_DELAYED",
+        "STABLE_REGISTERED_1_AND_2_SLOT_CONFIGS",
+        "REMAINING_SHARED_ATTEMPT_BUDGET"
+      ],
+      "name": "Matched one-versus-two environment benchmark",
+      "new_physics": true,
+      "optional": true,
+      "specifications": 4,
+      "concurrency_configs": [
+        1,
+        2
+      ],
+      "blocks": 2,
+      "attempts_max": 16,
+      "output": "Equal-work throughput plus all-active timing, quality and cost; no four-slot launch"
+    },
+    {
+      "id": "G7",
+      "depends_on": [
+        "R0"
+      ],
+      "name": "Native 3D replay demonstration and reproducibility",
+      "new_physics": false,
+      "clips_max": 3,
+      "replay_only": true,
+      "mj_step_allowed": false,
+      "public_private_asset_upload": false,
+      "output": "Private real-state videos, hashes and verified PC replay commands; no fabricated success"
+    },
+    {
+      "id": "G8",
+      "depends_on": [
+        "G1"
+      ],
+      "name": "Policy-readiness review and next-goal specification",
+      "new_physics": false,
+      "reward_case_types": [
+        "SUCCESS",
+        "EMPTY_APPROACH",
+        "EARLY_RELEASE",
+        "HOLD_WITHOUT_RELEASE",
+        "RECORDED_SAFETY_FAILURE"
+      ],
+      "missing_cases": "NOT_OBSERVED_DO_NOT_INDUCE_UNSAFE_EVENTS",
+      "Actor_updates": 0,
+      "output": "Task/reward/action/observation/gradient readiness table and gated future Actor experiment, not launch authority"
+    },
+    {
+      "id": "FINAL",
+      "depends_on": [
+        "R0"
+      ],
+      "always_attempt_closeout": true,
+      "new_physics": false,
+      "output": "Per-goal actual status, source/data/model SHA, cost, terminated workers and next implemented command"
+    }
+  ],
+  "statuses": [
+    "PENDING",
+    "READY",
+    "RUNNING",
+    "DONE",
+    "PARTIAL",
+    "BLOCKED_DEPENDENCY",
+    "BLOCKED_RESOURCE",
+    "BLOCKED_SAFETY",
+    "FAILED_PRESERVED"
+  ],
+  "qualification_not_claimed": [
+    "CONTACT_COMPLETION",
+    "INDEPENDENT_PARENT_GENERALIZATION",
+    "USEFUL_MODEL_BASED_CONTROL",
+    "FORMAL_ACTOR_POLICY"
+  ],
+  "actual_new_effects_of_publication": {
+    "physics_ticks": 0,
+    "transitions": 0,
+    "model_updates": 0,
+    "workers_started": 0,
+    "live_goal_session_updated": false
+  }
+}
