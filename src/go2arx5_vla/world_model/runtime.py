@@ -70,7 +70,8 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         expected_uuid='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'if gpu0 else'GPU-845348f1-1511-dc19-0877-cc97658e3edd'
         expected_profile='wm02-gpu0-real-s'if gpu0 else'wm02-gpu1-real-s'
         response=spec.get('authorization_scope')=='USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104'
-        if gpu0 and(spec.get('data_domain')!='WM02_DECISION_PAIRED_REPLAY_V5'or spec.get('authorization_scope')not in('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104')):
+        temporal=spec.get('authorization_scope')=='USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104'
+        if gpu0 and(spec.get('data_domain')!='WM02_DECISION_PAIRED_REPLAY_V5'or spec.get('authorization_scope')not in('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104')):
             raise PermissionError('New separately authorized GPU0 V5 model-only identity required')
         if (spec.get('schema')!='WM02_REAL_S_NEURAL_SPEC_V1'
                 or spec.get('host')!='corelab-4080s'or spec.get('uid')!=2009
@@ -80,12 +81,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                     ('USER_WM02_GPU1_REAL_S_MODEL_ONLY_20261104','REAL_S_NATIVE_DIAGNOSTIC_REPLAY'),
                     ('USER_WM02_CONTACT_IDENTIFICATION_MODEL_ONLY_20261104','WM02_S_CONTACT_PAIRED_REPLAY_V1'),
                     ('USER_WM02_NEW_DECISION_DATA_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'),
-                    ('USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'))
+                    ('USER_WM02_RESPONSE_M1_M2_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'),
+                    ('USER_WM02_TEMPORAL_M3_MODEL_ONLY_20261104','WM02_DECISION_PAIRED_REPLAY_V5'))
                 or not 2<=spec.get('endpoint',0)<=200
                 or not 0<spec.get('allocator_limit_bytes',0)<=4*1024**3
                 or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']):
             raise PermissionError('Exact finite real S model-only GPU1 identity required')
-        expected_arms=['M1','M2']if response else['action_conditioned','no_future_action']
+        expected_arms=['M3']if temporal else['M1','M2']if response else['action_conditioned','no_future_action']
         if spec.get('data_domain')in('WM02_S_CONTACT_PAIRED_REPLAY_V1','WM02_DECISION_PAIRED_REPLAY_V5')and spec.get('arms')!=expected_arms:
             raise PermissionError('Exact matched two-arm finite contact diagnostic required')
         for name in ('source_root','registered_root','python','data','cache','logs','tmp','replay','eval_replay'):

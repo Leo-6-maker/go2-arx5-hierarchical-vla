@@ -1,0 +1,74 @@
+{
+  "baseline_source_sha": "b81cbee0cbaeeccda1e3278c972e5b1193a16cfe",
+  "candidate_build_source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+  "binary_sha256": "7828f9f29e174ac7bf9e82edd897de577a2d365ab22e6dec438f0565b09ff488",
+  "selected_outer": "task_actuation_r1.so",
+  "selected_chain": [
+    "task_actuation_r1.so",
+    "observer.so",
+    "libmujoco.so.3.2.7"
+  ],
+  "preload_components": [
+    {
+      "file": "task_actuation_r1.so",
+      "sha256": "da2b628eee16156a28f592ca7232fffa4af3c2f738dd140099d76233bdcadccf"
+    },
+    {
+      "file": "observer.so",
+      "sha256": "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a"
+    },
+    {
+      "file": "libwm02_init_trace.so",
+      "sha256": "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+    }
+  ],
+  "MuJoCo_sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+  "SDK_source_sha256": "278b881706e10c8a39353b977d67df4ff1cd340c4370cbd0bcc21fcb2ce4725e",
+  "target_lease_status": "CLOSED",
+  "target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "frozen_files_checked": 20,
+  "frozen_files_unchanged": true,
+  "candidate_sources_unchanged": true,
+  "preload_bytes_unchanged": true,
+  "loaded_MuJoCo_unchanged": true,
+  "target_dynamic_scope": "NOT_PRESENT_IN_BOUND_CANDIDATE_OR_ORIGINAL_LEASE",
+  "cold_starts": "NOT_RUN",
+  "hold_2s": "NOT_RUN",
+  "hold_5s": "NOT_RUN",
+  "EEF_or_gripper": "NOT_RUN",
+  "actual_integrations": 0,
+  "real_policy_queries": 0,
+  "real_PD_timing": "NOT_RUN",
+  "real_STOP_observation": "NOT_RUN",
+  "real_integrations_after_STOP": null,
+  "first_blocker": "No valid separately owner-bound finite init-only dynamic scope; S1/T2 remains isolated",
+  "trace_schema": {
+    "magic": "WM02IT01",
+    "record_bytes": 840,
+    "capacity_records": 65536,
+    "snapshot_slots": 32,
+    "first_snapshot_slots": 4,
+    "recent_snapshot_slots": 28,
+    "snapshot_max_floats": 16384,
+    "background_writer_ms": 10,
+    "fields": [
+      "observation sequence and monotonic/sim time",
+      "inference begin/input/history/end",
+      "policy publish version",
+      "position/velocity consumed versions",
+      "PD target q/dq/kp/kd/tau",
+      "actual q/qdot/ctrl",
+      "mode/pause flags",
+      "integration before/after",
+      "STOP and refused further call"
+    ]
+  },
+  "existing_loader_only_trace": {
+    "events": 0,
+    "dropped": 0,
+    "stop_latched": false
+  },
+  "dropped_during_native_dynamics": "NOT_MEASURED",
+  "interpretation": "Loader0 events/dropped0 is not a native trace throughput or STOP check; no rebuild, permission edit, old lease reopen, or target launch in this round",
+  "candidate_binary_unchanged": true
+}

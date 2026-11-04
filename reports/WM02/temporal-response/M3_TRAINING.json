@@ -1,0 +1,93 @@
+{
+  "status": "M3_FIXED200_COMPLETE",
+  "source_sha": "ddfc708195837967b50672e24149337467b49216",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "checkpoint_sha256": "7c1705fbd24fa0d7fa89391c0b5ca7a9146ddc2c76ead58ab979fd08e0d01092",
+  "main_updates": 200,
+  "continuation_probe_updates": 1,
+  "base_sequence_exposures": 51200,
+  "FIT_windows": 720,
+  "temporal_loss": {
+    "horizons": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "sigma_m": [
+      0.0005,
+      0.0010779050035574036,
+      0.002158724942759613,
+      0.0021645734863116133
+    ],
+    "lambda_effect": 1.0,
+    "sigma_floor_m": 0.0005,
+    "definition": "FIT-only RMS over all same-start candidate pairs and six TCP/object position coordinates at each horizon; floor0.5mm; equal horizon weights sum1",
+    "FIT_pairs": 720
+  },
+  "effect_pairs": 48074,
+  "first_reload_error": 0.0,
+  "endpoint_reload_error": 0.0,
+  "continuation_error": 0.0,
+  "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+  "parameters": 18905387,
+  "normalizer_unique_states": 5736,
+  "new_physics": 0,
+  "Actor_updates": 0,
+  "Critic_updates": 0,
+  "target_integrations": 0,
+  "main_update_peak": {
+    "peak_allocated_bytes": 665750528,
+    "peak_reserved_bytes": 811597824
+  },
+  "entire_run_peak": {
+    "peak_allocated_bytes": 967661056,
+    "peak_reserved_bytes": 989855744
+  },
+  "CPU_s": 130.3915423,
+  "wall_s": 125.07586323982105,
+  "optimizer_curve_summary": {
+    "first10": {
+      "base_loss": 0.45191023387014867,
+      "effect_loss": 0.19451698465272785,
+      "gradient_norm": 46.61292915344238
+    },
+    "last10": {
+      "base_loss": 0.03243349448312074,
+      "effect_loss": 0.0028924590966198593,
+      "gradient_norm": 2.8778639316558836
+    },
+    "effect_terms_first10": [
+      0.06918818587437273,
+      0.19653253117576241,
+      0.21391297006048263,
+      0.2984342615120113
+    ],
+    "effect_terms_last10": [
+      0.0008111748218652792,
+      0.0027873319748323412,
+      0.002685301408928353,
+      0.005286028189584613
+    ],
+    "main_updates": 200,
+    "pairs": 48074
+  },
+  "own_sampled_NVML_peak_MiB": 1300,
+  "NVML_samples": 229,
+  "first_attempt": {
+    "source_sha": "050b131c55acefdfcd5be22e5645fd80b0098d18",
+    "status": "ENTRY_REFUSED_LIVE_GPU_CAPACITY",
+    "main_updates": 0,
+    "probe_updates": 0,
+    "model_allocations": 0,
+    "exit_code": 1,
+    "terminal": true
+  },
+  "train_identity": "Original M1/M2 retained; one fresh matched M3 fixed200, no extension or extra trial after DEV"
+}

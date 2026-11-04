@@ -1,0 +1,98 @@
+{
+  "runs": [
+    {
+      "run": "wm02-temporal-diagnostic-20261104-01",
+      "source_sha": "0bb8855cd9b00dada7d63a8b6a6c4037460bd321",
+      "spec_sha256": "4da5614a8b7d1323fa29828c2b95d61b5e3fec27cb3d2f9bb70467ee89faf9c0",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "Journal": {
+        "TEMPORAL-DIAG-01.json": "COMPLETE"
+      },
+      "CPU_s": 245.258548,
+      "wall_s": 65.93622
+    },
+    {
+      "run": "wm02-temporal-gpu0-20261104-01",
+      "source_sha": "050b131c55acefdfcd5be22e5645fd80b0098d18",
+      "spec_sha256": "9fa4f6a2b89d7feafc0504c972b3c510360e90f6cffd62a3769adf712e0e49c6",
+      "exit_code": 1,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "Journal": {
+        "M3-WM200-01.json": "INTENT"
+      },
+      "CPU_s": 3.048991,
+      "wall_s": 3.245492
+    },
+    {
+      "run": "wm02-temporal-gpu0-20261104-02",
+      "source_sha": "ddfc708195837967b50672e24149337467b49216",
+      "spec_sha256": "b42707784c43898682fd366cb67cb7389ef2d0228b357af4d57cda7d3121ace2",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "Journal": {
+        "M3-WM200-01.json": "COMPLETE"
+      },
+      "CPU_s": 141.148751,
+      "wall_s": 129.571336
+    },
+    {
+      "run": "wm02-temporal-evaluation-20261104-01",
+      "source_sha": "595a2a2bb8b8a311d28b86139502cd4750a4308b",
+      "spec_sha256": "9912c681c406aa7b0ab544fc8020dfcffd83e10e6c84a0c48f922741bc3ab90a",
+      "exit_code": 0,
+      "MainPID": 0,
+      "NRestarts": 0,
+      "lease": "CLOSED",
+      "Journal": {
+        "TEMPORAL-EVAL-01.json": "COMPLETE"
+      },
+      "CPU_s": 276.28811,
+      "wall_s": 77.032444
+    }
+  ],
+  "unit_CPU_s_total": 665.7444,
+  "new_source_transitions": 0,
+  "new_target_transitions": 0,
+  "WM_main_updates": 200,
+  "WM_continuation_probe_updates": 1,
+  "actual_optimizer_updates": 201,
+  "Actor_updates": 0,
+  "Critic_updates": 0,
+  "complete_tasks": 0,
+  "old_known_PID_present": {
+    "727048": false,
+    "3892803": false,
+    "1425203": false
+  },
+  "residual_own_GPU_processes": 0,
+  "device_capacity_MiB": {
+    "GPU0": 32760,
+    "GPU1": 16376
+  },
+  "new_sampling": "NOT_RUN_DEVELOPMENT_GATE_FAILED",
+  "cost_limits": "Measured unit CPU/wall include direct children; no staging/test/transfer or monetary charge claim",
+  "B0_process": {
+    "source_sha": "0bb8855cd9b00dada7d63a8b6a6c4037460bd321",
+    "CPU_s": 243.45998987800002,
+    "wall_s": 64.05175358289853
+  },
+  "B4_process": {
+    "source_sha": "595a2a2bb8b8a311d28b86139502cd4750a4308b",
+    "CPU_s": 274.251518695,
+    "wall_s": 74.90439248690382
+  },
+  "saved_array_decomposition": {
+    "CPU_s": 0.120665984,
+    "wall_s": 0.13231761427596211,
+    "WM_updates": 0,
+    "new_physics": 0
+  },
+  "CPU_s_including_saved_array_decomposition": 665.865065984
+}
