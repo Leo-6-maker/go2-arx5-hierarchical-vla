@@ -1,0 +1,9 @@
+{
+  "schema": "WM02_NIGHT1_RENDER_POOL_DIAGNOSTIC_V1",
+  "hypothesis": "Oversubscribed software-render threads interfere with asynchronous native physics/PD/policy timing during cold initialization; reduce render pool only, measure actual native effects.",
+  "change": {"LP_NUM_THREADS": "1", "MESA_GLTHREAD": "false", "native_signal_trace": false},
+  "unchanged": ["WBC and leg-policy weights", "controller gains and solver", "native dt and periodic control settings", "joint/contact/gripper safety thresholds"],
+  "qualification": "New run identities, cold/hold/reference and collection-length stages; preserve every failed attempt; no inference from component tests alone.",
+  "signal_diagnostic_note": "ptrace changes scheduling substantially and is excluded from production qualification and training.",
+  "publication_effects": {"physics_integrations": 0, "model_updates": 0}
+}
