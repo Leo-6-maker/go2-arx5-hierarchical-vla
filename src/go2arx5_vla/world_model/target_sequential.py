@@ -136,8 +136,10 @@ class TargetSequentialAdapter:
         if self.trace_sealed:raise PermissionError('TRACE_ALREADY_SEALED_NO_FURTHER_INTEGRATION')
         allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
         if self.dynamic_phase():allowed={2500,2503,*range(2528,self.spec['max_ticks']+1,25)}
+        ttl=self.spec['phase']=='g2-standing-ttl-v2'
+        if ttl:allowed={2500,2503,*getattr(self,'ttl_boundaries',[])}
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
-        if self.dynamic_phase()and ticks>2503:
+        if self.dynamic_phase()and ticks>2503 and not ttl:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
         p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
@@ -336,6 +338,28 @@ class TargetSequentialAdapter:
         write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value
         if confirmed!=len(windows):raise RuntimeError('SOLVER_TARGET_CONSUMPTION_NOT_CONFIRMED_FOR_EVERY_ATOM')
         return value
+    def ttl_diagnostic(self):
+        import numpy as np
+        from .target_reference import ttl_pause_points
+        from go2arx5_vla.task_data.codec import pose10
+        from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
+        from scripts.pi0292.durable import write
+        if self.spec['phase']!='g2-standing-ttl-v2':raise PermissionError('EXACT_BOUNDED_TTL_DIAGNOSTIC_REQUIRED')
+        self.prepare_dynamic();state=self.measured_task_state()
+        self.install_reference(np.stack([pose10(state['tcp'],float(teacher_physical_fraction(1.)))]*40))
+        self.ttl_boundaries=ttl_pause_points(self.active_reference['source_mpc_s']);samples=[]
+        def expired():return any(r['kind']=='lifecycle'and r.get('reason')=='PREFIX_TTL_EXPIRED'for r in self.reference_events())
+        for label,step in zip(('before','at','after','final'),self.ttl_boundaries):
+            if label in('after','final')and(self.latest['mode'].data!='HOLD'or not expired()):raise RuntimeError('NO_POST_DEADLINE_TICKS_WITHOUT_FRESH_EXPIRY_HOLD_ACK')
+            self.advance_to(step)
+            if label=='at':self.spin(2,lambda:expired()and self.latest['mode'].data=='HOLD')
+            else:self.spin(.1)
+            row=dict(label=label,step=self.observe()['step'],sim_time_s=self.observe()['time_s'],source_mpc_s=self.active_reference['source_mpc_s'],deadline_s=self.active_reference['deadline_s'],last_observation_s=float(self.latest['observation'].time),mode=self.latest['mode'].data,expiry_recorded=expired())
+            samples.append(row);write(self.output/f'TTL_{label.upper()}.json',row)
+            if label=='before'and(expired()or row['mode']!='WBC'):raise RuntimeError('REFERENCE_EXPIRED_BEFORE_DEADLINE')
+            if label=='at'and(not expired()or row['mode']!='HOLD'):raise RuntimeError('TTL_EXPIRY_NOT_OBSERVED_AT_EXACT_DEADLINE')
+        self.seal_trace(self.spec['max_ticks']);value=dict(schema='WM02_NATIVE_TTL_DIAGNOSTIC_V1',samples=samples,learning_atoms=0,reason='Mode transition at source TTL is a diagnostic, not constant-reference supervision',HOLD_stops_physics=False,observer_safety_STOP='NOT_TRIGGERED_INTENTIONALLY')
+        write(self.output/'TTL_DIAGNOSTIC.json',value);self.reference_qualification=value;return value
     def save_feedback_diagnostic(self,reason):
         from rosidl_runtime_py.convert import message_to_ordereddict
         from scripts.pi0292.durable import write

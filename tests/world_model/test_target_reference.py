@@ -3,10 +3,13 @@ from go2arx5_vla.world_model.target_reference import deadline,require_live_windo
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 from scripts.pi0294.native_receiver import reference_expired
 from go2arx5_vla.world_model.target_reference import measured_base_hold,relevant_loaded_path,fixed_goal_poses
+from go2arx5_vla.world_model.target_reference import ttl_pause_points
 
 
 class TargetReferenceContract(unittest.TestCase):
     def test_actual_phase_and_source_relative_expiry(self):
+        self.assertEqual(ttl_pause_points(5.004),[2701,2702,2703,2706])
+        with self.assertRaises(ValueError):ttl_pause_points(6.)
         self.assertAlmostEqual(deadline(5.004),5.404)
         row=require_live_window(5.004,5.006,25)
         self.assertAlmostEqual(row['native_end_s'],5.056)

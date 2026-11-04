@@ -83,6 +83,13 @@ def fixed_goal_poses(initial, goal, *, renewed):
     return result
 
 
+def ttl_pause_points(source):
+    at=round(deadline(source)/DT)
+    if abs(at*DT-deadline(source))>1e-8 or not TASK_START<at-1<at+1<=2706:
+        raise ValueError('ACTUAL_TTL_BOUNDARIES_OUTSIDE_FINITE_DIAGNOSTIC')
+    return [at-1,at,at+1,2706]
+
+
 def dynamic_limit(phase, previous):
     """Versioned finite diagnostic, never accept arbitrary metadata limits."""
     table = {
@@ -94,6 +101,7 @@ def dynamic_limit(phase, previous):
         'g2-standing-hold-renew-v2': ('g2-standing-hold-short-v2', TASK_START+400),
         'g2-standing-eef-x-v2': ('g2-standing-hold-renew-v2', TASK_START+200),
         'g2-standing-eef-y-v2': ('g2-standing-eef-x-v2', TASK_START+200),
+        'g2-standing-ttl-v2': ('g2-standing-eef-y-v2',2706),
     }
     for batch,count,first in(('a',8,'g2-standing-eef-y-v2'),('b',4,'collect-target-a-08')):
         for index in range(1,count+1):

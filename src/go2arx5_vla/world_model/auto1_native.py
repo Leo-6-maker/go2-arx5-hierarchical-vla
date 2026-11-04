@@ -15,7 +15,7 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous):
-    if phase.startswith('collect-target-')or phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2'):
+    if phase.startswith('collect-target-')or phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2','g2-standing-ttl-v2'):
         from .target_reference import dynamic_limit
         return dynamic_limit(phase,previous)
     if phase=='g2-reference-qualification':
