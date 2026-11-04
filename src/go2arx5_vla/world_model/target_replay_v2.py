@@ -56,8 +56,13 @@ def build(path,output):
     allow_path=Path(manifest['scene_allowlist']);assets=json.loads(allow_path.read_text())
     if digest(allow_path)!=manifest['scene_allowlist_sha256']:raise ValueError('SCENE_ALLOWLIST_CHANGED')
     scenes={s['model_sha256']:s for s in assets['scenes']};raw={k:[]for k in('state','source_age','native_step','sim_time','contact_time','wall_monotonic','tcp','object','events')};identities=[];goals=[];models={};state_start=0;atom_start=0;fields=None;joints=None
+    executor=None
     for entry in entries:
         root=Path(entry['run']);run=root/'native-01';spec=json.loads((root/'EXECUTION_SPEC.json').read_text());result=json.loads((run/'RESULT.json').read_text());diag=json.loads((run/'DYNAMIC_DIAGNOSTIC.json').read_text());n=entry['task_atoms'];asset=digest(spec['model_path'])
+        current_executor={key:digest(spec[key])for key in('native_binary','outer_library','observer_library','trace_library')}
+        if current_executor['native_binary']!=result['native_binary_sha256']or current_executor['observer_library']!=result['observer_sha256']:raise ValueError('ACTUAL_EXECUTOR_RESULT_IDENTITY_CHANGED')
+        if executor is not None and current_executor!=executor:raise ValueError('DIFFERENT_NATIVE_EXECUTORS_REQUIRE_SEPARATE_REPLAYS')
+        executor=current_executor
         if (result['status']!='NATIVE_STAGE_PASSED'or not result['shutdown_clean']or result['physics_stops']or result['original_joint_or_warning_samples']
                 or n not in(24,48,96,160)or diag['task_native_ticks']!=25*n or diag['partial_task_ticks']!=0
                 or any(p['exit_code']!=0 for p in result['owned_process_exits'])or asset not in scenes):raise ValueError('WHOLE_QUALIFIED_EPISODE_REQUIRED_FAILED_PREFIX_EXCLUDED')
@@ -93,6 +98,7 @@ def build(path,output):
         fields=current_fields
         joints=[dict(name=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_JOINT,i),type=int(model.jnt_type[i]),qpos_address=int(model.jnt_qposadr[i]),qvel_address=int(model.jnt_dofadr[i]))for i in range(model.njnt)]
     meta=dict(schema=SCHEMA,state_fields=[dict(name=k,size=n)for k,n in fields],state_dimension=sum(n for _,n in fields),original_model_sha256=assets['original_model_sha256'],robot_fingerprint=assets['robot_fingerprint'],scene_assets_sha256=sorted(models),joints=joints,actuator_gear=model.actuator_gear.tolist(),actuator_gain=model.actuator_gainprm.tolist(),episodes=identities,task_atoms=atom_start,windows=sum(e['window_count']for e in identities),history_burn_atoms=8,predict_atoms=16,action='PREDECLARED_RAMP8_FIXED_WORLD_GOAL_EEF10_BASE_POSE7_V1',window_clock='ACTUAL_EPISODE_RELATIVE_WINDOW_START_S',renewal_atoms=7,source_age_future='CURRENT_PREFIX_ONLY_THEN_MISSING_NO_FUTURE_ACTUAL',controller_hidden_state_exported=False,controller_selected_policy_id='DERIVED_NOT_DIRECT_EXPORT',contact_collection='NOT_QUALIFIED',events=['left_contact','right_contact','grasp','robot_object_contact','opposing','gripper_valid','safety_valid'],held_out_parent_generalization=any(e['split']=='DEV'for e in identities),overlapping_windows_independent=False)
+    meta['executor_sha256']=executor
     arrays={'flat_'+k:np.asarray(a)for k,a in raw.items()};arrays['episode_goal']=np.asarray(goals);arrays['window_index']=window_indices([e['task_atoms']for e in identities]);arrays['metadata_utf8']=np.frombuffer(json.dumps(meta,sort_keys=True,allow_nan=False).encode(),dtype=np.uint8)
     if not all(np.isfinite(a).all()for a in arrays.values()):raise ValueError('NONFINITE_ACTUAL_REPLAY')
     materialize({k:a for k,a in arrays.items()if k!='metadata_utf8'},meta)

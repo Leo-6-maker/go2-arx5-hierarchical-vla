@@ -15,6 +15,7 @@ def compatible(old,new,*,migration=None):
         if old[k]!=new[k]:raise ValueError('TARGET_STATE_ACTUATOR_LAYOUT_CHANGED:'+k)
     if old.get('schema')==SCHEMA and new.get('schema')==SCHEMA:
         if old['robot_fingerprint']!=new['robot_fingerprint']:raise ValueError('FROZEN_ROBOT_STRUCTURE_CHANGED')
+        if old.get('executor_sha256')!=new.get('executor_sha256'):raise ValueError('NATIVE_EXECUTOR_CHANGED_REQUIRES_EXPLICIT_SEPARATE_MODEL')
     elif new.get('schema')==SCHEMA:
         if migration!=MIGRATION or old['model_sha256']!=new['original_model_sha256']:raise ValueError('EXPLICIT_FROZEN_V1_TO_V2_CLOCK_EVALUATION_MIGRATION_REQUIRED')
     elif old['model_sha256']!=new['model_sha256']:raise ValueError('LEGACY_MODEL_ASSET_CHANGED')
