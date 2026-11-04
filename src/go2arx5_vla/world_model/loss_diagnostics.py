@@ -38,10 +38,10 @@ def attribution(model,b,blind,weight):
     return out
 
 
-def run(spec,output):
+def run(spec,output,*,reader=read,data_scope='Original FIT only; no DEV/holdout gradients; all FIT windows for mean loss,4 deterministic windows per stage for gradient probe'):
     start=time.monotonic();cpu=time.process_time();torch.set_num_threads(len(spec['cpus']))
     if digest(spec['replay'])!=spec['replay_sha256']:raise ValueError('Original paired replay hash differs')
-    data,meta=read(spec['replay'],'cpu');ids=np.flatnonzero(meta['partition']=='FIT');fit=select(data,torch.tensor(ids));train=training_view(fit)
+    data,meta=reader(spec['replay'],'cpu');ids=np.flatnonzero(meta['partition']=='FIT');fit=select(data,torch.tensor(ids));train=training_view(fit)
     stages=[]
     for offset in (0,8):
         valid=fit['valid'][:,offset+8:offset+16].sum(-1).numpy()>0;stages.extend(meta['anchor'][ids][valid])
@@ -68,7 +68,7 @@ def run(spec,output):
         result[arm]=dict(checkpoint_sha256=binding['sha256'],parameters_unchanged=True,stages=arm_result)
         del model
     result=dict(status='FROZEN_FIT_LOSS_GRADIENT_DIAGNOSTIC',source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],models=result,
-        fit_windows=len(train['state']),data_scope='Original FIT only; no DEV/holdout gradients; all FIT windows for mean loss,4 deterministic windows per stage for gradient probe',
+        fit_windows=len(train['state']),data_scope=data_scope,
         gradient_limit='Norm contributions are not additive or an exact full-FIT gradient; no causal claim that reweighting alone fixes prediction',
         WM_updates=0,Actor_updates=0,new_physics=0,CUDA_initialized=torch.cuda.is_initialized(),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(Path(output)/'RESULT.json',result);return result
