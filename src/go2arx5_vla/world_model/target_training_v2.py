@@ -28,7 +28,12 @@ def partition_metrics(model,data,meta,device,*,batch=None):
     for split in('TRAIN','DEV'):
         ids=select_samples(data,meta,split,batch=batch)
         if not len(ids):continue
-        result[split]=dict(windows=len(ids),parents=len({meta['episodes'][int(data['episode_index'][i])]['parent']for i in ids}),**evaluate(model,tensors(data,ids,device),meta))
+        parents=sorted({meta['episodes'][int(data['episode_index'][i])]['parent']for i in ids})
+        by_parent={}
+        for parent in parents:
+            selected=np.asarray([i for i in ids if meta['episodes'][int(data['episode_index'][i])]['parent']==parent])
+            by_parent[parent]=dict(windows=len(selected),**evaluate(model,tensors(data,selected,device),meta))
+        result[split]=dict(windows=len(ids),parents=len(parents),by_parent=by_parent,**evaluate(model,tensors(data,ids,device),meta))
     return result
 
 
