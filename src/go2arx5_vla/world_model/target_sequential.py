@@ -23,7 +23,10 @@ def owned_simulator_pid(wrapper_pid,binary):
         if len(seen)>32:raise RuntimeError('UNEXPECTED_OWNED_DISPLAY_PROCESS_TREE')
         try:
             root=Path('/proc')/str(pid);args=(root/'cmdline').read_bytes().split(b'\0')
-            if args and args[0].decode()==str(binary)and os.getpgid(pid)==wrapper_pid:found.append(pid)
+            # gdb may put its inferior in a distinct process group. The
+            # verified parent tree and UID, rather than a global PID scan,
+            # establish ownership in either case.
+            if args and args[0].decode()==str(binary)and root.stat().st_uid==os.getuid():found.append(pid)
             pending.extend(int(n)for n in(root/'task'/str(pid)/'children').read_text().split())
         except(ProcessLookupError,FileNotFoundError):continue
     if len(found)!=1:raise RuntimeError('EXACT_OWNED_SIMULATOR_PID_REQUIRED')

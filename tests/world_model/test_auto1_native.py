@@ -8,7 +8,7 @@ class Auto1Native(unittest.TestCase):
     def test_shutdown_keeps_display_alive_until_our_simulator_child_exits(self):
         with tempfile.TemporaryDirectory()as tmp:
             root=Path(tmp);flag=root/'display-survived'
-            code="import subprocess,sys;from pathlib import Path;display=subprocess.Popen(['/usr/bin/tail','-f','/dev/null']);sim=subprocess.Popen(['/usr/bin/sleep','100']);print('READY',flush=True);sim.wait();Path(sys.argv[1]).write_text(str(display.poll()is None));display.terminate();display.wait()"
+            code="import subprocess,sys;from pathlib import Path;display=subprocess.Popen(['/usr/bin/tail','-f','/dev/null']);sim=subprocess.Popen(['/usr/bin/sleep','100'],start_new_session=True);print('READY',flush=True);sim.wait();Path(sys.argv[1]).write_text(str(display.poll()is None));display.terminate();display.wait()"
             p=subprocess.Popen([sys.executable,'-c',code,str(flag)],stdout=subprocess.PIPE,text=True,start_new_session=True)
             try:
                 self.assertEqual(p.stdout.readline().strip(),'READY');adapter=TargetSequentialAdapter(dict(native_binary='/usr/bin/sleep'),root);adapter.processes=[('sim',p)];adapter.close()
