@@ -11,7 +11,8 @@ def run(spec,output):
     try:
         adapter.start()
         if not spec.get('standby_shutdown_diagnostic',False):adapter.step_to(spec['max_ticks']);reached=True
-        if spec['phase']=='g2-reference-qualification':adapter.qualify_reference()
+        if spec.get('reference_readiness_probe',False):adapter.inspect_reference_readiness()
+        elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference()
     except BaseException:failure=traceback.format_exc()
     finally:adapter.close()
     output=Path(output);trace=output/'init.trace';audit=None;audit_error=None

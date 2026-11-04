@@ -144,7 +144,9 @@ class TargetSequentialAdapter:
         self.publish(self.modes,'WBC')
         def ready():
             return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation')))
-        if not self.spin(20,ready):raise RuntimeError('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
+        if not self.spin(20,ready):
+            self.save_feedback_diagnostic('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
+            raise RuntimeError('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
         import mujoco
         from .native_replay import forbid_integration
         model=mujoco.MjModel.from_binary_path(self.spec['model_path']);actual=ActualState(model)
@@ -169,6 +171,16 @@ class TargetSequentialAdapter:
         self.reference_qualification=dict(status='ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED',native_step=step,source_mpc_s=source,installed_wire_sha256=ref,extra_integrations=0,task_reference_consumption='NOT_TESTED_NO_TASK_TICKS',events=len(events()))
         write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
         return self.reference_qualification
+    def save_feedback_diagnostic(self,reason):
+        from rosidl_runtime_py.convert import message_to_ordereddict
+        from scripts.pi0292.durable import write
+        value=dict(reason=reason,counts=self.counts,latest={k:message_to_ordereddict(v)for k,v in self.latest.items()},topics=self.node.get_topic_names_and_types(),nodes=self.node.get_node_names(),control=self.control())
+        write(self.output/'REFERENCE_FEEDBACK_DIAGNOSTIC.private.json',value)
+        return value
+    def inspect_reference_readiness(self):
+        # No ENTER, no state reconstruction, no install and no new physics.
+        self.publish(self.modes,'WBC');self.spin(3)
+        return self.save_feedback_diagnostic('ZERO_INTEGRATION_REFERENCE_READINESS_INSPECTION')
     def close(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):
