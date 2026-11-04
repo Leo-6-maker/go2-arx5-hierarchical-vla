@@ -161,13 +161,16 @@ def collect(spec,output):
     import multiprocessing
     output=Path(output);began=time.monotonic();jobs=[]
     definitions=cards();write_json(output/'CARDS.json',definitions)
+    indices=spec.get('scene_indices',list(range(24)))
+    if not indices or len(set(indices))!=len(indices)or any(type(i)is not int or i not in range(24)for i in indices):raise ValueError('Exact predeclared scene indices required')
+    definitions=[definitions[i]for i in indices]
     for i,card in enumerate(definitions):jobs.append(dict(spec=spec,card=card,cpu=spec['cpus'][i%len(spec['cpus'])],folder=str(output/f'scene-{i:02d}'),run_id=output.name))
     # Each batch has four independently owned engines; there is one registered parent owner.
-    with ProcessPoolExecutor(max_workers=4,mp_context=multiprocessing.get_context('spawn'))as pool:
+    with ProcessPoolExecutor(max_workers=min(4,len(jobs)),mp_context=multiprocessing.get_context('spawn'))as pool:
         reports=[]
         for report in pool.map(sample_scene,jobs):
             reports.append(report);print(json.dumps(report),flush=True)
-    report=dict(version='WM02_S_CONTACT_IDENTIFICATION_V1',source_sha=spec['source_sha'],scenes=reports,scene_attempts=24,
+    report=dict(version='WM02_S_CONTACT_IDENTIFICATION_V1',source_sha=spec['source_sha'],scenes=reports,scene_attempts=len(indices),scene_indices=indices,
         source_native_transitions=sum(r['prefix_transitions']+r['main_transitions']+r['repeat_transitions']+r['tail_transitions']for r in reports),
         main_branch_transitions=sum(r['main_transitions']for r in reports),prefix_transitions=sum(r['prefix_transitions']for r in reports),
         repeat_transitions=sum(r['repeat_transitions']for r in reports),tail_transitions=sum(r['tail_transitions']for r in reports),
