@@ -1,0 +1,84 @@
+{
+  "version": "WM02_TEMPORAL_M3_V1",
+  "baseline_sha": "b81cbee0cbaeeccda1e3278c972e5b1193a16cfe",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "diagnostic": "Current frozen M0/M1/M2, all FIT24 and DEV8 x3 phases x5 actions; H1..16, teacher-forced separately privileged; zero new physics",
+  "B0_mechanism": "M2 H1 bias already in first step; H16 free error exceeds teacher-forced one-step; predicted-TCP rigid baseline does not fix absolute TCP drift. Single H8 pair endpoint may allow early response, motivating one multitime ablation, not a unique causal proof.",
+  "training": {
+    "arm": "M3",
+    "endpoint": 200,
+    "architecture": "Same 18905387 parameters; relative_tcp_v1",
+    "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+    "seed": 20261104,
+    "effective_batch": 256,
+    "microbatch": 32,
+    "AdamW_lr": 0.0002,
+    "AdamW_weight_decay": 1e-05,
+    "gradient_clip": 1,
+    "base_loss": "Unchanged original eight-step supervised loss and720 training windows,51200 base exposures",
+    "effect": "Replace M2 endpoint pair loss by multitime loss on same sampled first-block pairs; no extra pairs, H16 free causal hold reanchors at predicted H8 TCP. Equal horizon weights; FIT-only scales fixed before M3.",
+    "temporal_loss": {
+      "horizons": [
+        1,
+        4,
+        8,
+        16
+      ],
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "sigma_m": [
+        0.0005,
+        0.0010779050035574036,
+        0.002158724942759613,
+        0.0021645734863116133
+      ],
+      "lambda_effect": 1.0,
+      "sigma_floor_m": 0.0005,
+      "definition": "FIT-only RMS over all same-start candidate pairs and six TCP/object position coordinates at each horizon; floor0.5mm; equal horizon weights sum1",
+      "FIT_pairs": 720
+    },
+    "full_checkpoint": [
+      1,
+      199,
+      200
+    ],
+    "continuation_probe": "Reload199 then exactly same update200; compare complete model/optimizer",
+    "extensions": false
+  },
+  "gates": {
+    "scope": "Existing diagnostic DEV8 only, no test/generalization claim",
+    "transport_object_pair_max_abs_error_m": {
+      "H1": 0.0005,
+      "H8": 0.001,
+      "H16": 0.0015
+    },
+    "require_each_DEV_parent_pass": true,
+    "require_positive_direction": true,
+    "H1_H16_object_RMSE": "Partition mean parent-RMSE no worse than frozen M1; also publish per-parent",
+    "invariance": "Canonical CPU singleton, original float64 commands, fixed named events and1e-6 hash ties",
+    "other_phases": "Publish preclose and supported_release error/event Brier before any later sampling; no support head or formal release-Q claim"
+  },
+  "baselines": [
+    "CV all phases",
+    "OLS FIT0..3 proposed xyz to all16 TCP/object deltas, transport only",
+    "Predicted TCP rigid object, transport only",
+    "Oracle future TCP rigid diagnostic labelled privileged, never WM input",
+    "Original rule action choices, separately reported"
+  ],
+  "future_blind_test": {
+    "status": "NOT_RUN; only after development gates and separate preregistration",
+    "parents_at_least": 8,
+    "old_holdout_reuse": false
+  },
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "target": {
+    "selected_existing_chain": "task_actuation_r1 -> observer -> frozen MuJoCo",
+    "cold_starts": "NOT_RUN without independent current owner init-only scope",
+    "no_rebuild_for_its_own_sake": true
+  }
+}
