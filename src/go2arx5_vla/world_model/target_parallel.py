@@ -40,6 +40,18 @@ def child_environment(child,fds):
     return env
 
 
+def wait_children(spec,jobs):
+    """Finite native batch supervision; a failed peer closes this batch."""
+    from scripts.pi0292.durable import write
+    campaign=Path(spec['campaign_root'])
+    while any(p.poll()is None for _,p in jobs):
+        failed_child=any(p.poll()not in(None,0)for _,p in jobs)
+        if failed_child or time.time()>=spec['deadline_epoch']or(campaign/'STOP.json').exists()or(Path(spec['registered_root'])/'STOP.json').exists():
+            for child,p in jobs:
+                if p.poll()is None:write(Path(child['registered_root'])/'STOP.json',dict(reason='PEER_FAILED'if failed_child else'BATCH_FINITE_STOP'))
+        time.sleep(.05)
+
+
 def verify_inherited_owner(fd,path):
     """An inherited locked open-file description, not a permission boolean."""
     expected=os.stat(path);actual=os.fstat(fd)
@@ -95,12 +107,7 @@ def run_batch(spec_path,output,run_id):
                         argv=[child['python'],'-B','-m','scripts.wm02.commission_target','--spec',slot['spec'],'--output',str(Path(child['registered_root'])/'native-01'),'--run-id','native-01']
                         h=(Path(output)/(Path(child['registered_root']).name+'.log')).open('x');handles.append(h)
                         jobs.append((child,subprocess.Popen(argv,cwd=child['source_root'],env=env,stdout=h,stderr=subprocess.STDOUT,pass_fds=fds)))
-                    while any(p.poll()is None for _,p in jobs):
-                        failed_child=any(p.poll()not in(None,0)for _,p in jobs)
-                        if failed_child or time.time()>=spec['deadline_epoch']or(campaign/'STOP.json').exists()or(Path(spec['registered_root'])/'STOP.json').exists():
-                            for child,p in jobs:
-                                if p.poll()is None:write(Path(child['registered_root'])/'STOP.json',dict(reason='PEER_FAILED'if failed_child else'BATCH_FINITE_STOP'))
-                        time.sleep(.05)
+                    wait_children(spec,jobs)
                     rows=[]
                     for child,p in jobs:
                         result=Path(child['registered_root'])/'native-01/RESULT.json';value=json.loads(result.read_text())if result.exists()else{}

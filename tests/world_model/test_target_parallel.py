@@ -1,10 +1,21 @@
 import json,os,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from scripts.pi0292.durable import OwnerLock
-from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment
+from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_peer_failure_stops_only_the_live_owned_slot(self):
+        import time
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);live=root/'live';dead=root/'dead';live.mkdir();dead.mkdir()
+            a=subprocess.Popen([sys.executable,'-c','raise SystemExit(1)']);a.wait()
+            b=subprocess.Popen([sys.executable,'-c',"from pathlib import Path;import sys,time;p=Path(sys.argv[1]);end=time.monotonic()+5\nwhile not p.exists()and time.monotonic()<end:time.sleep(.01)\nraise SystemExit(0 if p.exists()else 2)",str(live/'STOP.json')])
+            try:
+                wait_children(dict(campaign_root=str(root),registered_root=str(root),deadline_epoch=time.time()+3),[(dict(registered_root=str(dead)),a),(dict(registered_root=str(live)),b)])
+                self.assertEqual(b.wait(timeout=2),0);self.assertEqual(json.loads((live/'STOP.json').read_text())['reason'],'PEER_FAILED');self.assertFalse((dead/'STOP.json').exists())
+            finally:
+                if b.poll()is None:b.kill();b.wait()
     def test_child_environment_keeps_native_ros_paths_after_current_capsule(self):
         env=child_environment(dict(source_root='/fixture/current',native_environment=dict(PYTHONPATH='/fixture/ros',CUDA_VISIBLE_DEVICES='old')), [8,9])
         self.assertEqual(env['PYTHONPATH'],'/fixture/current/src:/fixture/current:/fixture/ros');self.assertEqual(env['CUDA_VISIBLE_DEVICES'],'')
