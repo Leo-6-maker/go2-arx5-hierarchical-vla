@@ -66,7 +66,9 @@ def run(spec,output,*,update_fn=update):
     if config_loss!=spec['temporal_loss']:raise ValueError('Predeclared FIT-only effect scales differ')
     keys=np.array([(int(s),str(a),0)for s,a in zip(meta['scene'][ids],meta['anchor'][ids])],dtype=object)
     states=fit['state'];valid=torch.cat((torch.ones_like(fit['valid'][:,:1]),fit['valid']),1).bool();normalizer=torch.unique(states[valid],dim=0)
-    torch.manual_seed(20261104);np.random.seed(20261104);random.seed(20261104);config=dict(hidden=[2048]*5,history_hidden=256,groups=GROUPS,context_dim=5,reference_encoding='relative_tcp_v1');m=WorldModel(**config).to(device);m.normalizer.fit(normalizer);initial=parameter_hash(m)
+    torch.manual_seed(20261104);np.random.seed(20261104);random.seed(20261104);config=dict(hidden=[2048]*5,history_hidden=256,groups=GROUPS,context_dim=5,reference_encoding='relative_tcp_v1')
+    if spec.get('mechanism_candidate')=='M4_B':config['interaction_encoding']='conditional_rigid_residual_v1'
+    m=WorldModel(**config).to(device);m.normalizer.fit(normalizer);initial=parameter_hash(m)
     if initial!=spec['expected_initial_parameter_sha256']:raise ValueError('Matched M1/M2 initialization differs')
     candidate=spec.get('mechanism_candidate','M3');protocol=spec.get('training_protocol','WM02_TEMPORAL_M3_V1')
     opt=torch.optim.AdamW(m.parameters(),lr=2e-4,weight_decay=1e-5);provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],protocol=protocol,arm=candidate,state_schema=SCHEMA,temporal_loss=config_loss)

@@ -73,10 +73,13 @@ def relative_reference(state,reference,slices):
 
 
 class WorldModel(nn.Module):
-    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN,groups=GROUPS,context_dim=CONTEXT_DIM,reference_encoding='absolute'):
+    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN,groups=GROUPS,context_dim=CONTEXT_DIM,reference_encoding='absolute',interaction_encoding='independent_v1'):
         super().__init__();self.groups=tuple((name,int(n))for name,n in groups)
         if reference_encoding not in('absolute','relative_tcp_v1'):raise ValueError('Versioned internal reference encoding required')
         self.reference_encoding=reference_encoding
+        if interaction_encoding not in ('independent_v1','conditional_rigid_residual_v1'):
+            raise ValueError('Versioned interaction structure required')
+        self.interaction_encoding=interaction_encoding
         self.slices={};offset=0
         for name,n in self.groups:self.slices[name]=slice(offset,offset+n);offset+=n
         self.normalizer=Normalizer(offset);self.history_hidden=history_hidden
@@ -114,7 +117,11 @@ class WorldModel(nn.Module):
                 new=old+scale*v
                 if name in ("gripper_fraction","native_progress"):new=new.clamp(0,1)
             parts.append(new)
-        return torch.cat(parts,-1),self.events(z),self.done(z).squeeze(-1),hidden
+        new=torch.cat(parts,-1)
+        if self.interaction_encoding=='conditional_rigid_residual_v1':
+            from .structured_interaction import conditional_rigid_residual
+            new=conditional_rigid_residual(state,new,reference,clock,context,self.slices)
+        return new,self.events(z),self.done(z).squeeze(-1),hidden
 
 
 def actor_observation(state,context,last_action,time_s):
