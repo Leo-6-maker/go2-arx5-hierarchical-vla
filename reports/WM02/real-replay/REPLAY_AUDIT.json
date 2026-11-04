@@ -1,0 +1,264 @@
+{
+  "schema": "WM02_REAL_REPLAY_AUDIT_V1",
+  "raw_record_count": 872,
+  "valid_full_50ms_records": 872,
+  "unique_observed_state_command_time_pairs": 496,
+  "duplicate_observed_pairs": 376,
+  "original_episode_ids": 13,
+  "original_parent_ids": 6,
+  "independent_physical_scene_groups": 2,
+  "groups": [
+    "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470",
+    "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+  ],
+  "holdout_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6",
+  "split_policy": "Original TRAIN preserved; diagnostic holdout by connected physical scene/parent/model, not formal DEV/TEST",
+  "burn_in_atoms": 8,
+  "prediction_atoms": 8,
+  "window_transitions": 16,
+  "continuous_windows": 420,
+  "fit_windows": 210,
+  "holdout_windows": 210,
+  "discontinuities_not_joined": 0,
+  "restore_branch_files": 16,
+  "rejection_events": 0,
+  "raw_events": {
+    "contact_onset": 4,
+    "grasp_onset": 4,
+    "grasp_sustained_transitions": 396,
+    "release_onset": 4,
+    "terminal_failure": 0,
+    "timeout": 0,
+    "gripper_opening_increase": 125
+  },
+  "unique_pair_events": {
+    "contact_onset": 2,
+    "grasp_onset": 2,
+    "grasp_sustained_transitions": 294,
+    "release_onset": 2,
+    "terminal_failure": 0,
+    "timeout": 0,
+    "gripper_opening_increase": 75
+  },
+  "reward_train_missing_records": 872,
+  "full_H40_nonholding_tail_records": 360,
+  "compiled_installed_consumed_raw_alignment": "PASS_ALL_RECORDS",
+  "state_schema": {
+    "version": "WM02_S_NATIVE_STATE_V1",
+    "groups": [
+      [
+        "joint_position",
+        6
+      ],
+      [
+        "joint_velocity",
+        6
+      ],
+      [
+        "tcp_position",
+        3
+      ],
+      [
+        "tcp_rotation",
+        9
+      ],
+      [
+        "tool_velocity",
+        6
+      ],
+      [
+        "gripper_fraction",
+        1
+      ],
+      [
+        "gripper_speed",
+        1
+      ],
+      [
+        "object_position",
+        3
+      ],
+      [
+        "object_rotation",
+        9
+      ],
+      [
+        "object_velocity",
+        6
+      ]
+    ],
+    "state_dim": 50,
+    "domain": "S_FIXED_BASE_ARX5_NO_BASE_OR_LEG_PADDING",
+    "context": [
+      "goal_xyz",
+      "table_top_m",
+      "cube_edge_m"
+    ],
+    "events": [
+      "left_object_contact",
+      "right_object_contact",
+      "native_grasp",
+      "illegal_contact"
+    ],
+    "clock": [
+      "absolute_time_s_div32",
+      "installed_reference_elapsed_s"
+    ],
+    "reference": "actual installed H40 world row-rot6d mechanical gripper fraction",
+    "future_controller_inputs": [],
+    "Teacher_phase_input": false
+  },
+  "all_original_files_unchanged": true,
+  "manifest_sha256": "3bdb3967bae1d269b78cb8f52c3ff66721b950064157bac215ff6405edd49d91",
+  "numeric_replay_sha256": "2e41ac69be155c69377516fba7427e392eede60dc03e26d0f9b644640dc40714",
+  "actual_new_native_transitions": 0,
+  "formal_complete_task_successes": 0,
+  "TEST_read": false,
+  "streams": [
+    {
+      "kind": "teacher_prefix",
+      "rows": 80,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 88,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 88,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 80,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 88,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 88,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 0,
+      "physical_group": null
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 0,
+      "physical_group": null
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 0,
+      "physical_group": null
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 0,
+      "physical_group": null
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 8,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 192,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 200,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 200,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "teacher_prefix",
+      "rows": 192,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 200,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "restore_branch",
+      "rows": 200,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "throughput_hold",
+      "rows": 40,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "throughput_hold",
+      "rows": 40,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "throughput_hold",
+      "rows": 40,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    },
+    {
+      "kind": "throughput_hold",
+      "rows": 40,
+      "physical_group": "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    },
+    {
+      "kind": "throughput_hold",
+      "rows": 40,
+      "physical_group": "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    }
+  ]
+}

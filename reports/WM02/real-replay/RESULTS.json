@@ -1,0 +1,105 @@
+{
+  "schema": "WM02_REAL_S_FIRST_RETURN_V1",
+  "baseline_source_sha": "30b2db0be65dd481ea5988b743a465c52f71c0c2",
+  "actual_main_training_source_sha": "67721ff0bda5dee189bf4a73b6f8d43a454bd787",
+  "actual_recovery_evaluation_source_sha": "d5a87ae6eb7eb9fa48c0265944355357aeebfe1e",
+  "scientific_verdict": "INCONCLUSIVE_ACTION_CONDITION_VALUE_NOT_ESTABLISHED",
+  "main_WM_optimizer_updates": 200,
+  "restore_probe_optimizer_updates": 1,
+  "main_updates_repeated_after_error": 0,
+  "Actor_updates": 0,
+  "critic_updates": 0,
+  "new_native_S_transitions": 0,
+  "new_native_T_transitions": 0,
+  "native_full_task_successes": 0,
+  "PBS_submissions": 0,
+  "TEST_read": false,
+  "raw_original_transitions": 872,
+  "unique_observed_state_command_time_pairs": 496,
+  "physical_scene_groups": 2,
+  "FIT_windows_burn8_predict8": 210,
+  "heldout_windows_burn8_predict8": 210,
+  "heldout_windows_burn8_predict16": 194,
+  "unique_FIT_normalizer_states": 240,
+  "unique_FIT_record_ids_in_windows": 240,
+  "unique_heldout_record_ids_in_windows": 240,
+  "holdout": "one original TRAIN scene held out by connected physical scene/parent/model, not formal DEV",
+  "data_sha256": "2e41ac69be155c69377516fba7427e392eede60dc03e26d0f9b644640dc40714",
+  "long_evaluation_data_sha256": "48dba6cb0c2be055f82a4e082bae2a6ca1f2221f00430e92045aa3ad1eaaec17",
+  "main_original_checkpoint200": {
+    "sha256": "64ac994d166244bf5f7b5dcfd8eba73b56dc7e4cae4f15648f3b6da3e2b5513f",
+    "bytes": 226918165
+  },
+  "derived_metadata_repaired_checkpoint200": {
+    "sha256": "38ecc892222c90513b3f91daa4c0ec0afd24a583af62ffd3a2a1216241d5ee89",
+    "bytes": 226914055
+  },
+  "data_originals_unchanged": true,
+  "original_checkpoints_retained": true,
+  "weights_only_loader_retained": true,
+  "failure": "Original worker exit1 after main update200: NumPy string provenance blocked strict weights_only reload; no restart of main training",
+  "engineering_repairs": [
+    "Physical-unit V2 compiler; separate explicit latent transform and target gripper working stroke",
+    "Reject non-SE3 anchor and same-episode successors after terminal",
+    "Group names normalized to builtin str; known SHA-pinned old metadata repaired with narrowly scoped numeric/string allowlist and weights_only=True",
+    "FP32 saturated latent values independently reproduced native norm/stroke rejection; explicit 8-epsilon interior construction and native-double validation, no raw label clipping"
+  ],
+  "validation": {
+    "PC_neural_cases": 12,
+    "PC_neural_normal_exit": 0,
+    "PC_neural_optimized_exit": 0,
+    "PC_world_model_cases": 30,
+    "PC_world_model_exit": 0,
+    "Core_existing_neural_regression_cases_per_mode": 6,
+    "Core_normal_and_optimized_exit": 0,
+    "actual_frozen_parser_samples": 41,
+    "full_repository_CI": "NOT_RUN"
+  },
+  "target_quarantine_preserved": true,
+  "target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "target_first_blocker": "TARGET_S1_T2_QUARANTINE_NOT_RELEASED",
+  "target_restore": "Selected frozen app APIs do not expose a qualified whole-state restore; use only future admitted sequential collection, or qualify full initialization+prefix reconstruction independently",
+  "cost": {
+    "runs": {
+      "wm02-gpu1-real-s-20261104-01": {
+        "source_sha": "67721ff0bda5dee189bf4a73b6f8d43a454bd787",
+        "exit_code": 1,
+        "MainPID": 0,
+        "lease": "CLOSED",
+        "CPU_s": 56.31402,
+        "unit_wall_s": 56.679412,
+        "sample_count": 87,
+        "nominal_interval_s": 0.5,
+        "own_NVML_peak_MiB": 916,
+        "device_used_peak_MiB": 959,
+        "device_free_min_MiB": 14977
+      },
+      "wm02-gpu1-real-s-20261104-02": {
+        "source_sha": "d5a87ae6eb7eb9fa48c0265944355357aeebfe1e",
+        "exit_code": 0,
+        "MainPID": 0,
+        "lease": "CLOSED",
+        "CPU_s": 17.787469,
+        "unit_wall_s": 12.362262,
+        "sample_count": 10,
+        "nominal_interval_s": 0.5,
+        "own_NVML_peak_MiB": 1132,
+        "device_used_peak_MiB": 1175,
+        "device_free_min_MiB": 14761
+      }
+    },
+    "sum_native_unit_CPU_s": 74.101489,
+    "sum_unit_wall_s": 69.041674,
+    "preflight_audit_staging_PC_tests_publication": "Not fully metered; no grand-total cost claimed"
+  },
+  "negative_results": [
+    "Only two physical scenes and two distinct contact/grasp/release onsets; no failures or timeouts",
+    "All872 reward_train values are None; five-class native reward validation missing",
+    "WM position slightly beats persistence, orientations and grasp calibration are worse; correct vs shifted action trace nearly tied",
+    "Teacher future issued H40 is exogenous recorded action conditioning, not an online Actor rollout or qualified causal counterfactual"
+  ],
+  "no_scale_to_5000": true,
+  "no_formal_Actor_update": true,
+  "GPU_WM_model_instances": 4,
+  "GROOT_WBC_models_loaded": 0
+}

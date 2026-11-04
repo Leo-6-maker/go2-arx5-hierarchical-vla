@@ -1,0 +1,63 @@
+{
+  "NVML_mapping": "0, GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad, 00000000:02:00.0, 0x270210DE, NVIDIA GeForce RTX 4080 SUPER, 32760 MiB, 25412 MiB, 580.173.02\n1, GPU-845348f1-1511-dc19-0877-cc97658e3edd, 00000000:83:00.0, 0x270210DE, NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 15899 MiB, 580.173.02\n",
+  "identity": [
+    {
+      "uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "product_name": "NVIDIA GeForce RTX 4080 SUPER",
+      "product_brand": "GeForce",
+      "product_architecture": "Ada Lovelace",
+      "vbios_version": "95.03.44.40.74",
+      "virtualization_mode": null,
+      "fb_memory_usage/total": "32760 MiB",
+      "pci/pci_bus_id": "00000000:02:00.0"
+    },
+    {
+      "uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+      "product_name": "NVIDIA GeForce RTX 4080 SUPER",
+      "product_brand": "GeForce",
+      "product_architecture": "Ada Lovelace",
+      "vbios_version": "95.03.44.40.47",
+      "virtualization_mode": null,
+      "fb_memory_usage/total": "16376 MiB",
+      "pci/pci_bus_id": "00000000:83:00.0"
+    }
+  ],
+  "CUDA_model_device_total_bytes": 16709255168,
+  "allocator_limit_bytes": 4294967296,
+  "profiles": {
+    "wm02-gpu1-real-s-20261104-01": {
+      "source_sha": "67721ff0bda5dee189bf4a73b6f8d43a454bd787",
+      "exit_code": 1,
+      "MainPID": 0,
+      "lease": "CLOSED",
+      "CPU_s": 56.31402,
+      "unit_wall_s": 56.679412,
+      "sample_count": 87,
+      "nominal_interval_s": 0.5,
+      "own_NVML_peak_MiB": 916,
+      "device_used_peak_MiB": 959,
+      "device_free_min_MiB": 14977
+    },
+    "wm02-gpu1-real-s-20261104-02": {
+      "source_sha": "d5a87ae6eb7eb9fa48c0265944355357aeebfe1e",
+      "exit_code": 0,
+      "MainPID": 0,
+      "lease": "CLOSED",
+      "CPU_s": 17.787469,
+      "unit_wall_s": 12.362262,
+      "sample_count": 10,
+      "nominal_interval_s": 0.5,
+      "own_NVML_peak_MiB": 1132,
+      "device_used_peak_MiB": 1175,
+      "device_free_min_MiB": 14761
+    }
+  },
+  "current_mapping": "0, GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad, 00000000:02:00.0, 32760 MiB, 1448 MiB\n1, GPU-845348f1-1511-dc19-0877-cc97658e3edd, 00000000:83:00.0, 16376 MiB, 15899 MiB\n",
+  "observation_SGT": "2026-11-04T09:44:45.028763+08:00",
+  "GPU0_32GiB_name_capacity_mismatch": "NVML/UUID/PCI/VBIOS records retained; reason and physical board configuration NOT_VERIFIED; no host or firmware changes",
+  "GPU1_model_only_real_training_and_reload": "ACTUAL_PASS",
+  "native_sim_WBC_render_co_residency": "NOT_RUN",
+  "Torch_peak_scope": "Recovery/continuation/evaluation run only; original training Torch peak was not durable before metadata error",
+  "recovery_Torch_peak_allocated_bytes": 794644992,
+  "recovery_Torch_peak_reserved_bytes": 815792128
+}

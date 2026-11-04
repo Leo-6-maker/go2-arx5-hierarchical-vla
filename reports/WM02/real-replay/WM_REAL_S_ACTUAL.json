@@ -1,0 +1,603 @@
+{
+  "status": "REAL_S_WM200_METADATA_REPAIRED_RELOAD_EVALUATION_COMPLETE",
+  "provenance": {
+    "source_sha": "67721ff0bda5dee189bf4a73b6f8d43a454bd787",
+    "data_sha256": "2e41ac69be155c69377516fba7427e392eede60dc03e26d0f9b644640dc40714",
+    "eval_data_sha256": "48dba6cb0c2be055f82a4e082bae2a6ca1f2221f00430e92045aa3ad1eaaec17",
+    "state_schema": {
+      "version": "WM02_S_NATIVE_STATE_V1",
+      "groups": [
+        [
+          "joint_position",
+          6
+        ],
+        [
+          "joint_velocity",
+          6
+        ],
+        [
+          "tcp_position",
+          3
+        ],
+        [
+          "tcp_rotation",
+          9
+        ],
+        [
+          "tool_velocity",
+          6
+        ],
+        [
+          "gripper_fraction",
+          1
+        ],
+        [
+          "gripper_speed",
+          1
+        ],
+        [
+          "object_position",
+          3
+        ],
+        [
+          "object_rotation",
+          9
+        ],
+        [
+          "object_velocity",
+          6
+        ]
+      ],
+      "state_dim": 50,
+      "domain": "S_FIXED_BASE_ARX5_NO_BASE_OR_LEG_PADDING",
+      "context": [
+        "goal_xyz",
+        "table_top_m",
+        "cube_edge_m"
+      ],
+      "events": [
+        "left_object_contact",
+        "right_object_contact",
+        "native_grasp",
+        "illegal_contact"
+      ],
+      "clock": [
+        "absolute_time_s_div32",
+        "installed_reference_elapsed_s"
+      ],
+      "reference": "actual installed H40 world row-rot6d mechanical gripper fraction",
+      "future_controller_inputs": [],
+      "Teacher_phase_input": false
+    },
+    "fit_groups": [
+      "model:9969334b16046f00df755295e473284eee783356ceca00a5ef41e493455a5470"
+    ],
+    "holdout_groups": [
+      "model:e424f4e3384ffe57f6920512c6254c7fa19e32089b4c1469b4cb8adb7b8da2a6"
+    ],
+    "manifest_sha256": "3bdb3967bae1d269b78cb8f52c3ff66721b950064157bac215ff6405edd49d91"
+  },
+  "evaluation_source_sha": "d5a87ae6eb7eb9fa48c0265944355357aeebfe1e",
+  "parameters": 18905387,
+  "architecture": {
+    "hidden": [
+      2048,
+      2048,
+      2048,
+      2048,
+      2048
+    ],
+    "history_hidden": 256,
+    "groups": [
+      [
+        "joint_position",
+        6
+      ],
+      [
+        "joint_velocity",
+        6
+      ],
+      [
+        "tcp_position",
+        3
+      ],
+      [
+        "tcp_rotation",
+        9
+      ],
+      [
+        "tool_velocity",
+        6
+      ],
+      [
+        "gripper_fraction",
+        1
+      ],
+      [
+        "gripper_speed",
+        1
+      ],
+      [
+        "object_position",
+        3
+      ],
+      [
+        "object_rotation",
+        9
+      ],
+      [
+        "object_velocity",
+        6
+      ]
+    ],
+    "context_dim": 5
+  },
+  "fit_windows": 210,
+  "holdout_windows": 210,
+  "holdout_H16_windows": 194,
+  "main_optimizer_updates_in_original_run": 200,
+  "main_optimizer_updates_in_this_run": 0,
+  "restore_probe_optimizer_updates": 1,
+  "Actor_updates": 0,
+  "critic_updates": 0,
+  "original_first_batch_preupdate_loss": 0.44269467890262604,
+  "original_200th_batch_preupdate_loss": 0.011436552449595183,
+  "final_FIT32_loss": 0.00533813564106822,
+  "initial_same_FIT32_loss": "NOT_DURABLY_RECORDED_BEFORE_ORIGINAL_METADATA_FAILURE",
+  "normalizer_only_original_FIT": true,
+  "checkpoint_reload_max_error": 0.0,
+  "continuation_max_error": 0.0,
+  "metadata_repairs": {
+    "1": {
+      "original_sha256": "c32804d3428d9bfe9edaac64a73ca161db23eb3a7d8eedfdf76675dac1c7fcce",
+      "derived_sha256": "fb13ad39cc4ed4b4ec9f5fcb5d2767a7d1f95da17642ff6e3ee59eb907df3087",
+      "numpy_metadata_scalars_normalized": 2,
+      "model_and_optimizer_tensor_max_error": 0.0,
+      "strict_weights_only_reload": true,
+      "original_retained": true
+    },
+    "199": {
+      "original_sha256": "6cac1a6014c8cf28ffd84fce0965703ad587c797989038d6e759118bf99e765b",
+      "derived_sha256": "53bdf0efd317765d0879eaed2d4d3e61072bbbc2add5c2834335a7bead67a63d",
+      "numpy_metadata_scalars_normalized": 2,
+      "model_and_optimizer_tensor_max_error": 0.0,
+      "strict_weights_only_reload": true,
+      "original_retained": true
+    },
+    "200": {
+      "original_sha256": "64ac994d166244bf5f7b5dcfd8eba73b56dc7e4cae4f15648f3b6da3e2b5513f",
+      "derived_sha256": "38ecc892222c90513b3f91daa4c0ec0afd24a583af62ffd3a2a1216241d5ee89",
+      "numpy_metadata_scalars_normalized": 2,
+      "model_and_optimizer_tensor_max_error": 0.0,
+      "strict_weights_only_reload": true,
+      "original_retained": true
+    }
+  },
+  "checkpoint_sha256": "38ecc892222c90513b3f91daa4c0ec0afd24a583af62ffd3a2a1216241d5ee89",
+  "evaluation": {
+    "1": {
+      "WM": {
+        "tcp_position_RMSE_m": 0.0021747704595327377,
+        "tcp_position_endpoint_RMSE_m": 0.0021747704595327377,
+        "object_position_RMSE_m": 0.0021292646415531635,
+        "object_position_endpoint_RMSE_m": 0.0021292646415531635,
+        "tcp_rotation_RMSE_rad": 0.003848339430987835,
+        "object_rotation_RMSE_rad": 0.0038917751517146826,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 149,
+            "negative_targets": 61,
+            "brier": 0.15776391327381134,
+            "true_positive": 87,
+            "false_positive": 0,
+            "false_negative": 62
+          },
+          "right_object_contact": {
+            "positive_targets": 150,
+            "negative_targets": 60,
+            "brier": 0.1018984392285347,
+            "true_positive": 119,
+            "false_positive": 0,
+            "false_negative": 31
+          },
+          "native_grasp": {
+            "positive_targets": 148,
+            "negative_targets": 62,
+            "brier": 0.16958139836788177,
+            "true_positive": 81,
+            "false_positive": 0,
+            "false_negative": 67
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 210,
+            "brier": 4.439647511844669e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 7.044137273481965e-09,
+        "scored_transition_visits": 210
+      },
+      "action_trace_shift": {
+        "tcp_position_RMSE_m": 0.0021643941290676594,
+        "tcp_position_endpoint_RMSE_m": 0.0021643941290676594,
+        "object_position_RMSE_m": 0.0021254513412714005,
+        "object_position_endpoint_RMSE_m": 0.0021254513412714005,
+        "tcp_rotation_RMSE_rad": 0.0038608370814472437,
+        "object_rotation_RMSE_rad": 0.0038760099560022354,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 149,
+            "negative_targets": 61,
+            "brier": 0.2256636917591095,
+            "true_positive": 74,
+            "false_positive": 0,
+            "false_negative": 75
+          },
+          "right_object_contact": {
+            "positive_targets": 150,
+            "negative_targets": 60,
+            "brier": 0.16056379675865173,
+            "true_positive": 96,
+            "false_positive": 0,
+            "false_negative": 54
+          },
+          "native_grasp": {
+            "positive_targets": 148,
+            "negative_targets": 62,
+            "brier": 0.23493695259094238,
+            "true_positive": 62,
+            "false_positive": 0,
+            "false_negative": 86
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 210,
+            "brier": 4.1679967921481875e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 6.811950559182378e-09,
+        "scored_transition_visits": 210
+      },
+      "state_persistence": {
+        "tcp_position_RMSE_m": 0.002503735478967428,
+        "tcp_position_endpoint_RMSE_m": 0.002503735478967428,
+        "object_position_RMSE_m": 0.0023167303297668695,
+        "object_position_endpoint_RMSE_m": 0.0023167303297668695,
+        "tcp_rotation_RMSE_rad": 0.002693183720111847,
+        "object_rotation_RMSE_rad": 0.0024647326208651066,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 149,
+            "negative_targets": 61,
+            "brier": 0.004761895164847374,
+            "true_positive": 148,
+            "false_positive": 0,
+            "false_negative": 1
+          },
+          "right_object_contact": {
+            "positive_targets": 150,
+            "negative_targets": 60,
+            "brier": 0.004761895164847374,
+            "true_positive": 149,
+            "false_positive": 0,
+            "false_negative": 1
+          },
+          "native_grasp": {
+            "positive_targets": 148,
+            "negative_targets": 62,
+            "brier": 0.004761895164847374,
+            "true_positive": 147,
+            "false_positive": 0,
+            "false_negative": 1
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 210,
+            "brier": 9.999995623233282e-13,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 9.999995623233282e-13,
+        "scored_transition_visits": 210
+      }
+    },
+    "8": {
+      "WM": {
+        "tcp_position_RMSE_m": 0.01009961124509573,
+        "tcp_position_endpoint_RMSE_m": 0.015734048560261726,
+        "object_position_RMSE_m": 0.009708937257528305,
+        "object_position_endpoint_RMSE_m": 0.01508792582899332,
+        "tcp_rotation_RMSE_rad": 0.014802541583776474,
+        "object_rotation_RMSE_rad": 0.015246088616549969,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 1192,
+            "negative_targets": 488,
+            "brier": 0.18562957644462585,
+            "true_positive": 642,
+            "false_positive": 0,
+            "false_negative": 550
+          },
+          "right_object_contact": {
+            "positive_targets": 1200,
+            "negative_targets": 480,
+            "brier": 0.11776486039161682,
+            "true_positive": 916,
+            "false_positive": 0,
+            "false_negative": 284
+          },
+          "native_grasp": {
+            "positive_targets": 1184,
+            "negative_targets": 496,
+            "brier": 0.20359082520008087,
+            "true_positive": 530,
+            "false_positive": 0,
+            "false_negative": 654
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 1680,
+            "brier": 5.146072794559586e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 9.718394977653588e-09,
+        "scored_transition_visits": 1680
+      },
+      "action_trace_shift": {
+        "tcp_position_RMSE_m": 0.010236162692308426,
+        "tcp_position_endpoint_RMSE_m": 0.016007130965590477,
+        "object_position_RMSE_m": 0.009837142191827297,
+        "object_position_endpoint_RMSE_m": 0.015320218168199062,
+        "tcp_rotation_RMSE_rad": 0.014765559695661068,
+        "object_rotation_RMSE_rad": 0.015200729481875896,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 1192,
+            "negative_targets": 488,
+            "brier": 0.2743268311023712,
+            "true_positive": 466,
+            "false_positive": 21,
+            "false_negative": 726
+          },
+          "right_object_contact": {
+            "positive_targets": 1200,
+            "negative_targets": 480,
+            "brier": 0.20148131251335144,
+            "true_positive": 668,
+            "false_positive": 24,
+            "false_negative": 532
+          },
+          "native_grasp": {
+            "positive_targets": 1184,
+            "negative_targets": 496,
+            "brier": 0.2891409397125244,
+            "true_positive": 367,
+            "false_positive": 0,
+            "false_negative": 817
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 1680,
+            "brier": 4.992373874301848e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 9.662286970524292e-09,
+        "scored_transition_visits": 1680
+      },
+      "state_persistence": {
+        "tcp_position_RMSE_m": 0.011104991659522057,
+        "tcp_position_endpoint_RMSE_m": 0.017067348584532738,
+        "object_position_RMSE_m": 0.010336711071431637,
+        "object_position_endpoint_RMSE_m": 0.0159340500831604,
+        "tcp_rotation_RMSE_rad": 0.005855502560734749,
+        "object_rotation_RMSE_rad": 0.005555047187954187,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 1192,
+            "negative_targets": 488,
+            "brier": 0.03809516131877899,
+            "true_positive": 1156,
+            "false_positive": 28,
+            "false_negative": 36
+          },
+          "right_object_contact": {
+            "positive_targets": 1200,
+            "negative_targets": 480,
+            "brier": 0.03809516131877899,
+            "true_positive": 1164,
+            "false_positive": 28,
+            "false_negative": 36
+          },
+          "native_grasp": {
+            "positive_targets": 1184,
+            "negative_targets": 496,
+            "brier": 0.03809516131877899,
+            "true_positive": 1148,
+            "false_positive": 28,
+            "false_negative": 36
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 1680,
+            "brier": 9.999995623233282e-13,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 9.999995623233282e-13,
+        "scored_transition_visits": 1680
+      }
+    },
+    "16": {
+      "WM": {
+        "tcp_position_RMSE_m": 0.019411109387874603,
+        "tcp_position_endpoint_RMSE_m": 0.03152412548661232,
+        "object_position_RMSE_m": 0.01861363835632801,
+        "object_position_endpoint_RMSE_m": 0.030265189707279205,
+        "tcp_rotation_RMSE_rad": 0.024333856999874115,
+        "object_rotation_RMSE_rad": 0.025392448529601097,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 2348,
+            "negative_targets": 756,
+            "brier": 0.2535644471645355,
+            "true_positive": 795,
+            "false_positive": 0,
+            "false_negative": 1553
+          },
+          "right_object_contact": {
+            "positive_targets": 2364,
+            "negative_targets": 740,
+            "brier": 0.17450930178165436,
+            "true_positive": 1395,
+            "false_positive": 0,
+            "false_negative": 969
+          },
+          "native_grasp": {
+            "positive_targets": 2332,
+            "negative_targets": 772,
+            "brier": 0.26786285638809204,
+            "true_positive": 616,
+            "false_positive": 0,
+            "false_negative": 1716
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 3104,
+            "brier": 5.844794372933393e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 1.131976556933978e-08,
+        "scored_transition_visits": 3104
+      },
+      "action_trace_shift": {
+        "tcp_position_RMSE_m": 0.019793439656496048,
+        "tcp_position_endpoint_RMSE_m": 0.032237790524959564,
+        "object_position_RMSE_m": 0.018935291096568108,
+        "object_position_endpoint_RMSE_m": 0.030859941616654396,
+        "tcp_rotation_RMSE_rad": 0.024070799350738525,
+        "object_rotation_RMSE_rad": 0.02519082836806774,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 2348,
+            "negative_targets": 756,
+            "brier": 0.3324916362762451,
+            "true_positive": 583,
+            "false_positive": 0,
+            "false_negative": 1765
+          },
+          "right_object_contact": {
+            "positive_targets": 2364,
+            "negative_targets": 740,
+            "brier": 0.2555712163448334,
+            "true_positive": 1063,
+            "false_positive": 19,
+            "false_negative": 1301
+          },
+          "native_grasp": {
+            "positive_targets": 2332,
+            "negative_targets": 772,
+            "brier": 0.34482648968696594,
+            "true_positive": 455,
+            "false_positive": 0,
+            "false_negative": 1877
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 3104,
+            "brier": 5.834234571011621e-07,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 1.1510803865633079e-08,
+        "scored_transition_visits": 3104
+      },
+      "state_persistence": {
+        "tcp_position_RMSE_m": 0.02085472084581852,
+        "tcp_position_endpoint_RMSE_m": 0.033394645899534225,
+        "object_position_RMSE_m": 0.019651368260383606,
+        "object_position_endpoint_RMSE_m": 0.03174168989062309,
+        "tcp_rotation_RMSE_rad": 0.007432883605360985,
+        "object_rotation_RMSE_rad": 0.006879813503473997,
+        "events": {
+          "left_object_contact": {
+            "positive_targets": 2348,
+            "negative_targets": 756,
+            "brier": 0.05283494293689728,
+            "true_positive": 2212,
+            "false_positive": 28,
+            "false_negative": 136
+          },
+          "right_object_contact": {
+            "positive_targets": 2364,
+            "negative_targets": 740,
+            "brier": 0.05283494293689728,
+            "true_positive": 2228,
+            "false_positive": 28,
+            "false_negative": 136
+          },
+          "native_grasp": {
+            "positive_targets": 2332,
+            "negative_targets": 772,
+            "brier": 0.05283494293689728,
+            "true_positive": 2196,
+            "false_positive": 28,
+            "false_negative": 136
+          },
+          "illegal_contact": {
+            "positive_targets": 0,
+            "negative_targets": 3104,
+            "brier": 9.999995623233282e-13,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0
+          }
+        },
+        "terminal_positive_targets": 0,
+        "terminal_brier": 9.999995623233282e-13,
+        "scored_transition_visits": 3104
+      }
+    }
+  },
+  "evaluation_scope": "One held-out original TRAIN physical scene; overlapping windows, not independent episodes or formal DEV",
+  "action_ablation": "One-window circular reference-trace shift within heldout scene including burn-in; not admissible physical counterfactual",
+  "reward_validation": "NOT_COMPLETE_NO_FORMAL_ACTOR_TRAINING",
+  "native_transitions_collected": 0,
+  "target_transitions": 0,
+  "actual_GPU_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+  "CUDA_total_bytes": 16709255168,
+  "torch": "2.9.0+cu128",
+  "CUDA_build": "12.8",
+  "CPU_s": 10.641697321,
+  "wall_s": 5.3729592631570995,
+  "peak_allocated_bytes": 794644992,
+  "peak_reserved_bytes": 815792128
+}

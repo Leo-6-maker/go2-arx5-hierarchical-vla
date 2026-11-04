@@ -6,6 +6,8 @@
 
 **环境优先后继已实际完成：** Core预检23份冻结文件、独立CUDA环境、WM200主更新＋1恢复探针、Actor/Critic各1次H16更新；仅合成工程烟测。目标原生与真实学习闭环仍未完成。见[最新执行回执](reports/WM02/environment/EXECUTION_REPORT.md)、[控制状态缺口](reports/WM02/environment/TARGET_CONTROL_STATE_MAP.md)及[站立T1评分版本](reports/WM02/environment/TARGET_SCORER_BINDING.md)。
 
+**真实S域后继：** 原872条→496个不同观测对／2物理组，真实Replay已实现；GPU1 WM主200＋恢复探针1完成。位置略优于持恒，但动作消融近似打平、姿态／抓持更差，结论INCONCLUSIVE；Actor0、目标动态0。见[真实数据执行与负结果](reports/WM02/real-replay/EXECUTION_REPORT.md)。
+
 主线：**Go2＋ARX5 原生冻结 WBC 物理交互 → 小型动作条件 WM → 短期想象优化 Actor → 原生完整任务评价 → 双 RGB 视觉学生**。GR00T 是可选对照，不是必经组件；固定底座 ARX5 只是方法诊断域。
 
 1. 阅读根 `AGENTS.md`，再读 [Codex 交接](docs/handover/2026-11-04/WM02_CODEX_EXECUTE.md)。

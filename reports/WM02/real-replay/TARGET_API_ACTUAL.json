@@ -1,0 +1,447 @@
+{
+  "selected_sources": [
+    {
+      "path": "src/ctrl/go2_x5_ocs2/src/go2_x5_ocs2_node.cpp",
+      "sha256": "1caf2f24fc18a6210d0ff7c81c46e10e9bf53623248e56d8e0a9ee4a50aa5e68",
+      "identity": "MATCH",
+      "selected_interface_lines": [
+        {
+          "line": 66,
+          "text": "declare_parameter<double>(\"baseYawAccelerationLimit\", defaults.base_yaw_acceleration_limit);"
+        },
+        {
+          "line": 72,
+          "text": "throw std::runtime_error(\"go2_x5_ocs2 requires taskFile and urdfFile\");"
+        },
+        {
+          "line": 112,
+          "text": "start_time_ = now();"
+        },
+        {
+          "line": 145,
+          "text": "c.base_yaw_acceleration_limit = get_parameter(\"baseYawAccelerationLimit\").as_double();"
+        },
+        {
+          "line": 151,
+          "text": "c.response_model = interface_->getPolicyResponseModel();"
+        },
+        {
+          "line": 164,
+          "text": "last_gait_phase_time_ = now();"
+        },
+        {
+          "line": 173,
+          "text": "const double age = (now() - last_gait_phase_time_).seconds();"
+        },
+        {
+          "line": 209,
+          "text": "last_slam_time_ = now();"
+        },
+        {
+          "line": 220,
+          "text": "const bool slam_fresh = slam_ready_ && (now() - last_slam_time_).seconds() <= slam_timeout;"
+        },
+        {
+          "line": 258,
+          "text": "const double t = (now() - start_time_).seconds();"
+        },
+        {
+          "line": 269,
+          "text": "mrt_->resetMpcNode(TargetTrajectories({observation.time}, {target}, {vector_t::Zero(12)}));"
+        },
+        {
+          "line": 275,
+          "text": "if (visualizer_) visualizer_->update(observation, mrt_->getPolicy(), mrt_->getCommand());"
+        },
+        {
+          "line": 283,
+          "text": "point.time_from_start = rclcpp::Duration::from_seconds(0.02);"
+        },
+        {
+          "line": 301,
+          "text": "rclcpp::Time last_gait_phase_time_;"
+        },
+        {
+          "line": 302,
+          "text": "rclcpp::Time last_slam_time_;"
+        },
+        {
+          "line": 303,
+          "text": "rclcpp::Time start_time_;"
+        }
+      ],
+      "full_live_snapshot_restore_API_qualified": false
+    },
+    {
+      "path": "src/ctrl/go2_x5_ocs2/src/WbcBridgeCore.cpp",
+      "sha256": "bc21fd6d32754d3713479205a035e5377e5557c061d009770a28c7b5cf2b1f0e",
+      "identity": "MATCH",
+      "selected_interface_lines": [
+        {
+          "line": 42,
+          "text": "throw std::runtime_error(\"wbc_bridge: unsupported model or inconsistent model dimensions\");"
+        },
+        {
+          "line": 45,
+          "text": "previous_input_ = vector_t::Zero(kInputDim);"
+        },
+        {
+          "line": 52,
+          "text": "yaw_offset_ = 0.0;"
+        },
+        {
+          "line": 53,
+          "text": "prev_raw_yaw_ = 0.0;"
+        },
+        {
+          "line": 54,
+          "text": "has_prev_yaw_ = false;"
+        },
+        {
+          "line": 62,
+          "text": "previous_response_output_.setZero();"
+        },
+        {
+          "line": 63,
+          "text": "has_previous_response_output_ = false;"
+        },
+        {
+          "line": 64,
+          "text": "previous_input_.setZero();"
+        },
+        {
+          "line": 65,
+          "text": "previous_time_ = -1.0;"
+        },
+        {
+          "line": 66,
+          "text": "previous_native_base_velocity_command_.setZero();"
+        },
+        {
+          "line": 67,
+          "text": "previous_native_command_time_ = -1.0;"
+        },
+        {
+          "line": 68,
+          "text": "has_previous_native_base_velocity_command_ = false;"
+        },
+        {
+          "line": 73,
+          "text": "if (!has_prev_yaw_)"
+        },
+        {
+          "line": 77,
+          "text": "prev_raw_yaw_ = yaw;"
+        },
+        {
+          "line": 78,
+          "text": "yaw_offset_ = yaw;"
+        },
+        {
+          "line": 79,
+          "text": "has_prev_yaw_ = true;"
+        },
+        {
+          "line": 82,
+          "text": "double delta = yaw - prev_raw_yaw_;"
+        },
+        {
+          "line": 85,
+          "text": "prev_raw_yaw_ = yaw;"
+        },
+        {
+          "line": 86,
+          "text": "yaw_offset_ += delta;"
+        },
+        {
+          "line": 87,
+          "text": "return yaw_offset_;"
+        },
+        {
+          "line": 121,
+          "text": "throw std::runtime_error(\"wbc_bridge: gait residual requires a finite measured policy phase\");"
+        },
+        {
+          "line": 131,
+          "text": "const double dt = previous_time_ < 0. ? 0. : std::max(0., mpc_time-previous_time_);"
+        },
+        {
+          "line": 135,
+          "text": "const double u=previous_input_(c);"
+        },
+        {
+          "line": 152,
+          "text": "if (!has_previous_response_output_ || previous_time_ < 0. || mpc_time <= previous_time_) {"
+        },
+        {
+          "line": 155,
+          "text": "const double dt = mpc_time-previous_time_;"
+        },
+        {
+          "line": 163,
+          "text": "const double inferred = output(c)+(output(c)-previous_response_output_(c))/(dt*omega[c]);"
+        },
+        {
+          "line": 167,
+          "text": "previous_response_output_ = output;"
+        },
+        {
+          "line": 168,
+          "text": "has_previous_response_output_ = true;"
+        },
+        {
+          "line": 171,
+          "text": "previous_time_ = mpc_time;"
+        },
+        {
+          "line": 187,
+          "text": "observation.input = previous_input_;"
+        },
+        {
+          "line": 212,
+          "text": "// No new policy this tick; the previous one is still valid, so keep"
+        },
+        {
+          "line": 222,
+          "text": "const auto& policy = mrt_.getPolicy();"
+        },
+        {
+          "line": 243,
+          "text": "const auto &policy = mrt_.getPolicy();"
+        },
+        {
+          "line": 261,
+          "text": "const auto &policy = mrt_.getPolicy();"
+        },
+        {
+          "line": 286,
+          "text": "//   w_z^body = yaw_rate * cos(pitch) * cos(roll) - pitch_rate * sin(roll)"
+        },
+        {
+          "line": 287,
+          "text": "const double yaw_rate = opt_input(3);"
+        },
+        {
+          "line": 289,
+          "text": "const double wz_body = yaw_rate * std::cos(pitch) * std::cos(roll) - pitch_rate * std::sin(roll);"
+        },
+        {
+          "line": 300,
+          "text": "if (has_previous_native_base_velocity_command_ &&"
+        },
+        {
+          "line": 301,
+          "text": "observation.time > previous_native_command_time_)"
+        },
+        {
+          "line": 303,
+          "text": "const double dt = observation.time - previous_native_command_time_;"
+        },
+        {
+          "line": 305,
+          "text": "const double yaw_step = std::max(0.0, config_.base_yaw_acceleration_limit) * dt;"
+        },
+        {
+          "line": 309,
+          "text": "command(axis), previous_native_base_velocity_command_(axis) - linear_step,"
+        },
+        {
+          "line": 310,
+          "text": "previous_native_base_velocity_command_(axis) + linear_step);"
+        },
+        {
+          "line": 313,
+          "text": "command(2), previous_native_base_velocity_command_(2) - yaw_step,"
+        },
+        {
+          "line": 314,
+          "text": "previous_native_base_velocity_command_(2) + yaw_step);"
+        },
+        {
+          "line": 319,
+          "text": "previous_native_base_velocity_command_ << out.base_lin_vel_body_xy[0],"
+        },
+        {
+          "line": 321,
+          "text": "previous_native_command_time_ = observation.time;"
+        },
+        {
+          "line": 322,
+          "text": "has_previous_native_base_velocity_command_ = true;"
+        },
+        {
+          "line": 347,
+          "text": "previous_input_.head<6>() << out.base_lin_vel_body_xy[0], out.base_lin_vel_body_xy[1],"
+        }
+      ],
+      "full_live_snapshot_restore_API_qualified": false
+    },
+    {
+      "path": "src/ctrl/go2_x5_ocs2/include/wbc_bridge/wbc_bridge_core.hpp",
+      "sha256": "5ddf926e4105e973cc1c9e4c68585244f9bdc172bd2a420e14a90331da83d79e",
+      "identity": "MATCH",
+      "selected_interface_lines": [
+        {
+          "line": 33,
+          "text": "*   input (12) = [vx, vy, vz, yaw_rate, pitch_rate, roll_rate, dq1..dq6]"
+        },
+        {
+          "line": 123,
+          "text": "double base_yaw_acceleration_limit = 4.0;"
+        },
+        {
+          "line": 200,
+          "text": "Eigen::Matrix<double, 6, 1> previous_response_output_ = Eigen::Matrix<double, 6, 1>::Zero();"
+        },
+        {
+          "line": 201,
+          "text": "bool has_previous_response_output_ = false;"
+        },
+        {
+          "line": 202,
+          "text": "ocs2::vector_t previous_input_;"
+        },
+        {
+          "line": 203,
+          "text": "double previous_time_ = -1.0;"
+        },
+        {
+          "line": 205,
+          "text": "Eigen::Vector3d previous_native_base_velocity_command_ = Eigen::Vector3d::Zero();"
+        },
+        {
+          "line": 206,
+          "text": "double previous_native_command_time_ = -1.0;"
+        },
+        {
+          "line": 207,
+          "text": "bool has_previous_native_base_velocity_command_ = false;"
+        },
+        {
+          "line": 209,
+          "text": "double yaw_offset_ = 0.0;  // accumulated 2*pi turns"
+        },
+        {
+          "line": 210,
+          "text": "double prev_raw_yaw_ = 0.0;"
+        },
+        {
+          "line": 211,
+          "text": "bool has_prev_yaw_ = false;"
+        }
+      ],
+      "full_live_snapshot_restore_API_qualified": false
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar/src/rl_sim_mujoco.cpp",
+      "sha256": "e05de9ee87d3030871743445a50b2e69e4565e3a786429b8566f24b012263d29",
+      "identity": "MATCH",
+      "selected_interface_lines": [
+        {
+          "line": 20,
+          "text": "throw std::runtime_error(\"Invalid arguments\");"
+        },
+        {
+          "line": 390,
+          "text": "ros_arm_target_time_ = std::chrono::steady_clock::now();"
+        },
+        {
+          "line": 409,
+          "text": "ros_arm_target_time_ = std::chrono::steady_clock::now();"
+        },
+        {
+          "line": 443,
+          "text": "std::chrono::steady_clock::time_point received;"
+        },
+        {
+          "line": 448,
+          "text": "received = ros_arm_target_time_;"
+        },
+        {
+          "line": 473,
+          "text": "ros_base_command_time_ = std::chrono::steady_clock::now();"
+        },
+        {
+          "line": 491,
+          "text": "std::chrono::steady_clock::now() - ros_base_command_time_ < std::chrono::milliseconds(200);"
+        },
+        {
+          "line": 521,
+          "text": "point.time_from_start = rclcpp::Duration::from_seconds(std::max(0.01, static_cast<double>(this->params.Get<float>(\"dt\"))));"
+        },
+        {
+          "line": 731,
+          "text": "// only loaded once RLFSMStateRLLocomotion::Enter() has run; snapshot the"
+        },
+        {
+          "line": 854,
+          "text": "// Keep the state snapshot, response update and inference coherent for the"
+        },
+        {
+          "line": 878,
+          "text": "// observation snapshot."
+        },
+        {
+          "line": 951,
+          "text": "// If model is being reinitialized, return previous actions to avoid blocking"
+        },
+        {
+          "line": 954,
+          "text": "std::cout << LOGGER::WARNING << \"Model is being reinitialized, using previous actions\" << std::endl;"
+        },
+        {
+          "line": 963,
+          "text": "this->history_obs_buf.insert(clamped_obs);"
+        },
+        {
+          "line": 964,
+          "text": "this->history_obs = this->history_obs_buf.get_obs_vec(this->params.Get<std::vector<int>>(\"observations_history\"));"
+        },
+        {
+          "line": 965,
+          "text": "actions = this->model->forward({this->history_obs});"
+        }
+      ],
+      "full_live_snapshot_restore_API_qualified": false
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar/library/core/observation_buffer/observation_buffer.hpp",
+      "sha256": "c0a4e1ee8f39b90ac7878f23dcdd6d2eae450a9fee9352661b3d8fa5cbe51466",
+      "identity": "MATCH",
+      "selected_interface_lines": [
+        {
+          "line": 13,
+          "text": "* @brief Observation buffer for storing historical observations"
+        },
+        {
+          "line": 15,
+          "text": "* Manages a circular buffer of observations with configurable history length"
+        },
+        {
+          "line": 38,
+          "text": "* @param new_obs New observation data to fill the buffer"
+        },
+        {
+          "line": 43,
+          "text": "* @brief Insert new observation into buffer"
+        },
+        {
+          "line": 53,
+          "text": "std::vector<float> get_obs_vec(std::vector<int> obs_ids);"
+        },
+        {
+          "line": 60,
+          "text": "int history_length = 0;                                 ///< History buffer length"
+        },
+        {
+          "line": 62,
+          "text": "std::vector<std::vector<std::vector<float>>> obs_buf;   ///< Observation buffer [env][time][obs]"
+        }
+      ],
+      "full_live_snapshot_restore_API_qualified": false
+    }
+  ],
+  "native_controller_changes": 0,
+  "physics_integrations": 0,
+  "claim_scope": "Selected frozen app sources only, not proof of absence in every linked OCS2 library"
+}
