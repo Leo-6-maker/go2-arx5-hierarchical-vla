@@ -86,7 +86,10 @@ def qualify_scene(job):
     os.sched_setaffinity(0,{job['cpu']});spec=job['spec'];entry=job['entry'];out=Path(job['out']);out.mkdir()
     card=json.loads(Path(entry['card']).read_text());start=time.monotonic();cpu=time.process_time();adapter=None;results={};live=0;failure=None
     try:
-        if card['ident_index']!=entry['scene']or card['ident_partition']!='DIAGNOSTIC_DEV':raise ValueError('Exact original DEV parent required')
+        if spec.get('domain')=='S_NEW_DECISION_DATA_V5':
+            from .decision_collection import cards
+            if card!=cards()[entry['scene']]:raise ValueError('New whole-parent partition/card differs')
+        elif card['ident_index']!=entry['scene']or card['ident_partition']!='DIAGNOSTIC_DEV':raise ValueError('Exact original DEV parent required')
         adapter=SourceAdapter(card,spec['asset_root'],executor_id=spec['executor_id'],seed=card['seed']);anchors=bank(adapter,entry)
         guard=local_guard(spec)
         for kind in KINDS:
