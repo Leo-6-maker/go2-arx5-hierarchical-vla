@@ -1,0 +1,969 @@
+{
+  "schema": "WM02_POSTHOC_RELEASE_RANK_V1",
+  "purpose": "Already-opened prospective DEV8 mechanism audit; truth-substitution columns are PRIVILEGED explanations, never deployable new methods or blind validation.",
+  "original_collection_source_sha": "e48c674e7bbc07e46a106880f122163df27c4426",
+  "original_model": {
+    "sha256": "cba5a6b162c9e162614855dfe9983dbaad10a2f630f5e3c4be6eb07e14a5d674",
+    "parent_checkpoint_sha256": "9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b"
+  },
+  "stream_manifest_sha256": "d6593c1b37432164ca38fd88da1c60036b20b2b7126b7e9f767acce856c38c01",
+  "consumed_files_sha256": {
+    "RESULT.json": "2a3e13b04d41b17c6e2903eda1fddf3d8164dda278f1685919c26259b90051f9",
+    "CARDS.json": "8540f8b88301b66ee85f9559a43c13c3098eab375130d628b9dd210ee2093aaa",
+    "scene-40/supported_release/BEFORE_ANY_BRANCH.json": "5c620a2af61a42df651b07d52597d0564ef27e2e0490f242f67677eb02a2ca4a",
+    "scene-40/supported_release/RESULT.json": "9c5a97077dc34a426e93b9dfcbc91f4cd6b0838257b89f08f1445c9c9b68d84b",
+    "scene-40/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "942ab21273ffd0c99714aacfb5fd0abd6dd0e49fe8277c3f31c1366c494564d7",
+    "scene-40/supported_release/candidate-hold.pkl.gz": "c7dee5fd957ca3ff338ba450cbf9fad651503059193013bbe0f3f0a9c9ecca29",
+    "scene-40/supported_release/candidate-release.pkl.gz": "b3211fffd2ab8e964c955de9c8157c799397be9f1d9f77e6e6f9f6a85ae23908",
+    "scene-40/supported_release/candidate-slow_open.pkl.gz": "ec3085a95b891bbf1bc5265a7631c6d0807d423b1dce16037a83404abc05578a",
+    "scene-40/supported_release/candidate-delay2.pkl.gz": "00e670d7dd80c99915587f0f657dfc0bc6f4865855a8c2e7dc554d5111397504",
+    "scene-40/supported_release/candidate-delay4.pkl.gz": "c0fefc57aedb33893bc78eb6fdfea31f9e91d7787ab79574b965d7393e517e0f",
+    "scene-41/supported_release/BEFORE_ANY_BRANCH.json": "04c2cf89b6cc392beb963daf2bdf8ee3b7fbd71ddc50e9f318d8c6e117f17cc5",
+    "scene-41/supported_release/RESULT.json": "6be17ecaa6b8cd4b779bc735e4b11d8ab8649975dc438efa85608a11005a6b7f",
+    "scene-41/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "43eca57a7da8ffd4318bf7b21d5b0a88617b34dc35777bb9d1406a83e2b64220",
+    "scene-41/supported_release/candidate-slow_open.pkl.gz": "10276d8fc57eda8e5d5b29a29bac31869680ad47c71c9ded5d4b354b4d28d668",
+    "scene-41/supported_release/candidate-release.pkl.gz": "b4fe7f4c501b6f2411f484c95f51f660eab39b0fafac8ccb60e0bcf3c1033911",
+    "scene-41/supported_release/candidate-delay4.pkl.gz": "93dbcab6cf28bfffdb7b7ae1e7368e0f71c88ef6031fceab2702de68c40b06f8",
+    "scene-41/supported_release/candidate-delay2.pkl.gz": "12d24a9c726ac27cbf453fe72e9fd5ff44f734e72cfb61d1420b3d89d49af494",
+    "scene-41/supported_release/candidate-hold.pkl.gz": "7b08b63d88183fb2a1f93d248b920f1f4e8e02c4a729dbbfeb7e35db72514507",
+    "scene-42/supported_release/BEFORE_ANY_BRANCH.json": "7adabe06d865e5f67a3c50b0cc0d8439ea166c6997b695788bfe7d148c12a4f0",
+    "scene-42/supported_release/RESULT.json": "c3f19a2d4068ee9a09ab1acafeccb5dcc9fd99cfb4d1933656aa313d907afbf7",
+    "scene-42/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "1ef3c20879ecc7b145767c3cdd7426474dc121061dca9c42d8a64be9bf496a18",
+    "scene-42/supported_release/candidate-hold.pkl.gz": "4b6498d555a1634ef8cf06a214be5805bdf60e965c6c02faa40b1a5a97a045b0",
+    "scene-42/supported_release/candidate-delay4.pkl.gz": "7945506d23abf2d5450cbac6e76e72788ace338b2c87b8d915e68ce3c57ef7a6",
+    "scene-42/supported_release/candidate-delay2.pkl.gz": "975b85185eed422c72f2c23cc41b8f48359012674bb5875deddfe7923a5c98ad",
+    "scene-42/supported_release/candidate-release.pkl.gz": "e2ae18c02b424b5b9ca0225852922c69324010b2c863db946f8fe4fa16d0989a",
+    "scene-42/supported_release/candidate-slow_open.pkl.gz": "267cbe757b01d5b60b10db083075c6a97f8100eb840ed1e24c1507fb4df1b81f",
+    "scene-43/supported_release/BEFORE_ANY_BRANCH.json": "70bae307dcd7a8e0dca769d6a7f9d694dadd472a3483d0d7cf1cb1163b01be4d",
+    "scene-43/supported_release/RESULT.json": "7188e60abdc08f8d4f35f5a2760da8335c47e422712c51cf6ce05bc8114ff5c5",
+    "scene-43/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "b7d3e92669e459d66377f7067c04d0aad6718079d482e4467bcc91a030db85de",
+    "scene-43/supported_release/candidate-delay2.pkl.gz": "dd2b492f62dcd406288cc48d39ad7e0fa00830f874db2c20483117ed3f9ac3d0",
+    "scene-43/supported_release/candidate-release.pkl.gz": "dbd594f4d8fadb50aedc1edc40a8b957db21fccd32c98aac52567fd694cfb0ac",
+    "scene-43/supported_release/candidate-delay4.pkl.gz": "4edcc7e53a9cca7d20ec47349666128e9ed606422570849105ece2a7865beee1",
+    "scene-43/supported_release/candidate-hold.pkl.gz": "c53537c0d9fd62be48035535f6c29cd38c49dc0b667b52ba4a030bf0776952db",
+    "scene-43/supported_release/candidate-slow_open.pkl.gz": "4da20e75e37991a6dbb9130683db98ef8d84d2cf19d23b7e1b0d53ac303a6675",
+    "scene-44/supported_release/BEFORE_ANY_BRANCH.json": "81e716ae66fcbb1dcdb46828ee5f131bcade63c477f38d2ff2d9313a805112cc",
+    "scene-44/supported_release/RESULT.json": "a2797509158659ee3695ccf0068a76ef107b830a05012ae6ab5fb2ee0755db61",
+    "scene-44/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "a9daf124490c8ede629e0580d255ff0b2a6dff05a4efdad2249ca365133b5855",
+    "scene-44/supported_release/candidate-slow_open.pkl.gz": "4d6d2b8f81582a59e8080206a169f9c01e2f18e50debae503817b327241a3512",
+    "scene-44/supported_release/candidate-hold.pkl.gz": "26e2aacef469286d6aeb84791973b8c562012849961c50542531f2a0d5c1173c",
+    "scene-44/supported_release/candidate-delay4.pkl.gz": "aabe74509ac2b69140e9781836f64f529cdc3aad5a43544d2b9e9cef6c5be4d5",
+    "scene-44/supported_release/candidate-delay2.pkl.gz": "ca8b4296bef30762cc92ce952dab1496ada38d5d397509b456de074ec03fd038",
+    "scene-44/supported_release/candidate-release.pkl.gz": "5494097f139b548fc64ef1120dfeb249f3efc6da4ea42a2831aeff249cd10253",
+    "scene-45/supported_release/BEFORE_ANY_BRANCH.json": "c383262b51e7fb3b1e44792e063b2fe47c285bb149b382ca14d51cf3e40677e2",
+    "scene-45/supported_release/RESULT.json": "22465d520835ad5d31524e246d4d3b8930b950fe5b903765c15f0bea48fd3cb7",
+    "scene-45/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "9c4482baf460a2a47048527038ae8d8afa078ded0a1f1304edacb2fb4fe9edc8",
+    "scene-45/supported_release/candidate-delay2.pkl.gz": "f75e1c2820de4e3b432dec751b45bf5f1830a02230144ad86c4f849a5a5fc671",
+    "scene-45/supported_release/candidate-slow_open.pkl.gz": "77bd05bd51332792f0107a235954f2522e46a7dfa24973d7eb82e4717c879306",
+    "scene-45/supported_release/candidate-delay4.pkl.gz": "6d0bde291a527582193e8fa5478d2aefce36f5b0ab6eb731fd2464f232713e10",
+    "scene-45/supported_release/candidate-hold.pkl.gz": "47b68a287fb0f0aaf477398d4b01c28deea4e312e0448dad72b098cef30dc133",
+    "scene-45/supported_release/candidate-release.pkl.gz": "15b8e508451e28b7b210b315f46105deca75b2937d9c6c6c58c106df98dc9333",
+    "scene-46/supported_release/BEFORE_ANY_BRANCH.json": "b2ad0acd4e4961447b42dda8dd0473ed44699501350f53a3febab05c9a3d1bbc",
+    "scene-46/supported_release/RESULT.json": "39ecdc718ae5c5d47bdadcb9e46a9d0ffc58142c44101311871b8bd8e24902db",
+    "scene-46/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "249446a7c8944c80b5d7f5c34d7a527d771f219c19cae97f782ab1699dc08d71",
+    "scene-46/supported_release/candidate-hold.pkl.gz": "742a3102e8183475042c5f1c69defa6c5f13ca3f4b41ef1bcaeaaa8ecd64be17",
+    "scene-46/supported_release/candidate-delay2.pkl.gz": "ed716397f28dcde20a2ee93c5a70cd762a883c2db1145cf8421d150bd143223d",
+    "scene-46/supported_release/candidate-delay4.pkl.gz": "ec7f33cd0704db61ae8a84c072bf490417653aa18a1f427f66007e3307a01e20",
+    "scene-46/supported_release/candidate-release.pkl.gz": "8807baa7555ede858e789ee100d5acebda88a809c633a474e5c8baa0f39e5474",
+    "scene-46/supported_release/candidate-slow_open.pkl.gz": "ab751eec4892a1105fae5b6a148f4e2ee42143201b192119d7fffb9fd31ebd59",
+    "scene-47/supported_release/BEFORE_ANY_BRANCH.json": "08ef16607dd9f58b2fdc13f90c792acdafe097eabfbfe6ecd5b40f56fc68054f",
+    "scene-47/supported_release/RESULT.json": "a527fdfc3e6cc43856b4251cd9394e97f729920fc1338a4dcf5a2b5e7083490f",
+    "scene-47/supported_release/PREDICTIONS_BEFORE_EFFECT.npz": "66f8c61621f0e6f2348d79982c9f39a1f04829f77305b461cd9dd780b8bf2e71",
+    "scene-47/supported_release/candidate-hold.pkl.gz": "f7f6824e579b490475f051c5b00b916b3e57e04a605569ac083bae05bd56f081",
+    "scene-47/supported_release/candidate-slow_open.pkl.gz": "206cd338a8f88579894647d73cef41ca539e3463fa215747f0f57392cda22d53",
+    "scene-47/supported_release/candidate-release.pkl.gz": "7ac1cc2afe494b1e0197610cdd3d4a7b1a19b1ffb8138f1d4c5955e4647dc772",
+    "scene-47/supported_release/candidate-delay2.pkl.gz": "718cebbc933ef46850c206c4a0a05abeef34d482dcb944e87d88679abbde9817",
+    "scene-47/supported_release/candidate-delay4.pkl.gz": "9b4544b9a63f9d387197fcfcb6a93711152aede94809b67c6cc31dfb0b7bbc8a"
+  },
+  "parents": 8,
+  "candidates": 40,
+  "positive_regret_parent_counts": {
+    "saved_WM_proxy": 3,
+    "PRIVILEGED_true_opening": 0,
+    "PRIVILEGED_true_grasp": 6,
+    "PRIVILEGED_true_both": 0
+  },
+  "scenes": [
+    {
+      "scene": 40,
+      "candidate_names": [
+        "hold",
+        "release",
+        "slow_open",
+        "delay2",
+        "delay4"
+      ],
+      "predicted_gripper_fraction": [
+        0.44182103872299194,
+        0.6225639581680298,
+        0.6218337416648865,
+        0.6226963400840759,
+        0.6215421557426453
+      ],
+      "actual_gripper_fraction": [
+        0.4333945153620622,
+        0.7222314705824504,
+        0.7222314705824504,
+        0.6769068095071354,
+        0.5863151624871124
+      ],
+      "predicted_grasp": [
+        0.9807733297348022,
+        0.009334731847047806,
+        0.011031207628548145,
+        0.010442331433296204,
+        0.012113679200410843
+      ],
+      "actual_grasp": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.0,
+        0.7222314705824504,
+        0.7222314705824504,
+        0.6769068095071354,
+        0.5863151624871124
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.008494747802615166,
+          0.6167525053024292,
+          0.6149741411209106,
+          0.616193950176239,
+          0.6140130162239075
+        ],
+        "PRIVILEGED_true_opening": [
+          0.008332733441611553,
+          0.7154896254014985,
+          0.7142643832566923,
+          0.6698383343395043,
+          0.5792127221458242
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.0,
+          0.6225639581680298,
+          0.6218337416648865,
+          0.6226963400840759,
+          0.6215421557426453
+        ],
+        "PRIVILEGED_true_both": [
+          0.0,
+          0.7222314705824504,
+          0.7222314705824504,
+          0.6769068095071354,
+          0.5863151624871124
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "release",
+          "actual_Q": 0.7222314705824504,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222314705824504,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769068095071354,
+          "regret_Q": 0.045324661075314965
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222314705824504,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0,
+      "actual_immediate_minus_selected_Q": 0.0
+    },
+    {
+      "scene": 41,
+      "candidate_names": [
+        "slow_open",
+        "release",
+        "delay4",
+        "delay2",
+        "hold"
+      ],
+      "predicted_gripper_fraction": [
+        0.6195870637893677,
+        0.6197620630264282,
+        0.6193927526473999,
+        0.620357096195221,
+        0.4418310523033142
+      ],
+      "actual_gripper_fraction": [
+        0.7222308054118314,
+        0.7222308054118314,
+        0.5863200978207403,
+        0.6769082905275979,
+        0.4333873261714572
+      ],
+      "predicted_grasp": [
+        0.008739661425352097,
+        0.007976195774972439,
+        0.009090705774724483,
+        0.008505160920321941,
+        0.9819514751434326
+      ],
+      "actual_grasp": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.7222308054118314,
+        0.7222308054118314,
+        0.5863200978207403,
+        0.6769082905275979,
+        0.0
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.614172101020813,
+          0.6148187518119812,
+          0.6137620210647583,
+          0.6150808334350586,
+          0.007974398322403431
+        ],
+        "PRIVILEGED_true_opening": [
+          0.7159187607731309,
+          0.7164701665836372,
+          0.5809900250387409,
+          0.6711510734362608,
+          0.007822001928926821
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.6195870637893677,
+          0.6197620630264282,
+          0.6193927526473999,
+          0.620357096195221,
+          0.0
+        ],
+        "PRIVILEGED_true_both": [
+          0.7222308054118314,
+          0.7222308054118314,
+          0.5863200978207403,
+          0.6769082905275979,
+          0.0
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "delay2",
+          "actual_Q": 0.6769082905275979,
+          "regret_Q": 0.045322514884233445
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222308054118314,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769082905275979,
+          "regret_Q": 0.045322514884233445
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222308054118314,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0002620816230773926,
+      "actual_immediate_minus_selected_Q": 0.045322514884233445
+    },
+    {
+      "scene": 42,
+      "candidate_names": [
+        "hold",
+        "delay4",
+        "delay2",
+        "release",
+        "slow_open"
+      ],
+      "predicted_gripper_fraction": [
+        0.4477643370628357,
+        0.6298641562461853,
+        0.6312780380249023,
+        0.6318958401679993,
+        0.6303934454917908
+      ],
+      "actual_gripper_fraction": [
+        0.4333879965172705,
+        0.5862520133166877,
+        0.6768933694516961,
+        0.7222373361797437,
+        0.7222373361797437
+      ],
+      "predicted_grasp": [
+        0.9813056588172913,
+        0.011548342183232307,
+        0.010024472139775753,
+        0.008749047294259071,
+        0.010636611841619015
+      ],
+      "actual_grasp": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.0,
+        0.5862520133166877,
+        0.6768933694516961,
+        0.7222373361797437,
+        0.7222373361797437
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.008370659314095974,
+          0.6225902438163757,
+          0.6249498128890991,
+          0.6263673305511475,
+          0.6236881613731384
+        ],
+        "PRIVILEGED_true_opening": [
+          0.008101903071384442,
+          0.5794817755532773,
+          0.6701078600111253,
+          0.7159184327698369,
+          0.714555166542464
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.0,
+          0.6298641562461853,
+          0.6312780380249023,
+          0.6318958401679993,
+          0.6303934454917908
+        ],
+        "PRIVILEGED_true_both": [
+          0.0,
+          0.5862520133166877,
+          0.6768933694516961,
+          0.7222373361797437,
+          0.7222373361797437
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "release",
+          "actual_Q": 0.7222373361797437,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222373361797437,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "release",
+          "actual_Q": 0.7222373361797437,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222373361797437,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0,
+      "actual_immediate_minus_selected_Q": 0.0
+    },
+    {
+      "scene": 43,
+      "candidate_names": [
+        "delay2",
+        "release",
+        "delay4",
+        "hold",
+        "slow_open"
+      ],
+      "predicted_gripper_fraction": [
+        0.6177372932434082,
+        0.6169767379760742,
+        0.6166473031044006,
+        0.4341689646244049,
+        0.6168729662895203
+      ],
+      "actual_gripper_fraction": [
+        0.6769080316260847,
+        0.722230928835163,
+        0.5863207102178725,
+        0.43339462789362415,
+        0.722230928835163
+      ],
+      "predicted_grasp": [
+        0.008716454729437828,
+        0.008080411702394485,
+        0.009568433277308941,
+        0.9804028272628784,
+        0.009037883020937443
+      ],
+      "actual_grasp": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.6769080316260847,
+        0.722230928835163,
+        0.5863207102178725,
+        0.0,
+        0.722230928835163
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.6123527884483337,
+          0.611991286277771,
+          0.6107469201087952,
+          0.00850848387926817,
+          0.6112977266311646
+        ],
+        "PRIVILEGED_true_opening": [
+          0.6710077871082257,
+          0.7163949975144125,
+          0.5807105281559204,
+          0.008493309386171884,
+          0.7157034693347188
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.6177372932434082,
+          0.6169767379760742,
+          0.6166473031044006,
+          0.0,
+          0.6168729662895203
+        ],
+        "PRIVILEGED_true_both": [
+          0.6769080316260847,
+          0.722230928835163,
+          0.5863207102178725,
+          0.0,
+          0.722230928835163
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "delay2",
+          "actual_Q": 0.6769080316260847,
+          "regret_Q": 0.04532289720907834
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.722230928835163,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769080316260847,
+          "regret_Q": 0.04532289720907834
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.722230928835163,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.00036150217056274414,
+      "actual_immediate_minus_selected_Q": 0.04532289720907834
+    },
+    {
+      "scene": 44,
+      "candidate_names": [
+        "slow_open",
+        "hold",
+        "delay4",
+        "delay2",
+        "release"
+      ],
+      "predicted_gripper_fraction": [
+        0.6180093288421631,
+        0.44388696551322937,
+        0.6176763772964478,
+        0.6188694834709167,
+        0.6185789704322815
+      ],
+      "actual_gripper_fraction": [
+        0.7222313812685973,
+        0.4333917287727419,
+        0.586315473461011,
+        0.6769068619092493,
+        0.7222313812685973
+      ],
+      "predicted_grasp": [
+        0.01156921312212944,
+        0.981380045413971,
+        0.01300901174545288,
+        0.01079513318836689,
+        0.009403124451637268
+      ],
+      "actual_grasp": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.7222313812685973,
+        0.0,
+        0.586315473461011,
+        0.6769068619092493,
+        0.7222313812685973
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.6108594536781311,
+          0.008265155367553234,
+          0.6096410155296326,
+          0.6121886968612671,
+          0.6127623915672302
+        ],
+        "PRIVILEGED_true_opening": [
+          0.7138757405667757,
+          0.008069734307709076,
+          0.5786880885802159,
+          0.669599573526355,
+          0.715440160469737
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.6180093288421631,
+          0.0,
+          0.6176763772964478,
+          0.6188694834709167,
+          0.6185789704322815
+        ],
+        "PRIVILEGED_true_both": [
+          0.7222313812685973,
+          0.0,
+          0.586315473461011,
+          0.6769068619092493,
+          0.7222313812685973
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "release",
+          "actual_Q": 0.7222313812685973,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222313812685973,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769068619092493,
+          "regret_Q": 0.045324519359348
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222313812685973,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0,
+      "actual_immediate_minus_selected_Q": 0.0
+    },
+    {
+      "scene": 45,
+      "candidate_names": [
+        "delay2",
+        "slow_open",
+        "delay4",
+        "hold",
+        "release"
+      ],
+      "predicted_gripper_fraction": [
+        0.6258153319358826,
+        0.6249699592590332,
+        0.6247037649154663,
+        0.43785083293914795,
+        0.6255959272384644
+      ],
+      "actual_gripper_fraction": [
+        0.6769085606482481,
+        0.7222307271610973,
+        0.5863233176190193,
+        0.43338938180905684,
+        0.7222307271610973
+      ],
+      "predicted_grasp": [
+        0.008334667421877384,
+        0.008537789806723595,
+        0.00880960188806057,
+        0.981508195400238,
+        0.00780146662145853
+      ],
+      "actual_grasp": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.6769085606482481,
+        0.7222307271610973,
+        0.5863233176190193,
+        0.0,
+        0.7222307271610973
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.6205993294715881,
+          0.6196340918540955,
+          0.6192003488540649,
+          0.00809665210545063,
+          0.6207153797149658
+        ],
+        "PRIVILEGED_true_opening": [
+          0.6712667333771963,
+          0.7160644878184939,
+          0.5811580284156492,
+          0.00801415176402471,
+          0.7165962635417498
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.6258153319358826,
+          0.6249699592590332,
+          0.6247037649154663,
+          0.0,
+          0.6255959272384644
+        ],
+        "PRIVILEGED_true_both": [
+          0.6769085606482481,
+          0.7222307271610973,
+          0.5863233176190193,
+          0.0,
+          0.7222307271610973
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "release",
+          "actual_Q": 0.7222307271610973,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222307271610973,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769085606482481,
+          "regret_Q": 0.04532216651284915
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222307271610973,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0,
+      "actual_immediate_minus_selected_Q": 0.0
+    },
+    {
+      "scene": 46,
+      "candidate_names": [
+        "hold",
+        "delay2",
+        "delay4",
+        "release",
+        "slow_open"
+      ],
+      "predicted_gripper_fraction": [
+        0.43419942259788513,
+        0.6179035305976868,
+        0.6169017553329468,
+        0.6172952055931091,
+        0.6171029210090637
+      ],
+      "actual_gripper_fraction": [
+        0.4333980548567839,
+        0.6769082609606901,
+        0.5863247169082313,
+        0.7222306001026515,
+        0.7222306001026515
+      ],
+      "predicted_grasp": [
+        0.9815836548805237,
+        0.008886894211173058,
+        0.009501321241259575,
+        0.00827605091035366,
+        0.00913905631750822
+      ],
+      "actual_grasp": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.0,
+        0.6769082609606901,
+        0.5863247169082313,
+        0.7222306001026515,
+        0.7222306001026515
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.00799636635929346,
+          0.6124122738838196,
+          0.6110403537750244,
+          0.6121864318847656,
+          0.611463189125061
+        ],
+        "PRIVILEGED_true_opening": [
+          0.007981608152352262,
+          0.6708926627241021,
+          0.5807538475921616,
+          0.7162533869229647,
+          0.7156300906109373
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.0,
+          0.6179035305976868,
+          0.6169017553329468,
+          0.6172952055931091,
+          0.6171029210090637
+        ],
+        "PRIVILEGED_true_both": [
+          0.0,
+          0.6769082609606901,
+          0.5863247169082313,
+          0.7222306001026515,
+          0.7222306001026515
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "delay2",
+          "actual_Q": 0.6769082609606901,
+          "regret_Q": 0.045322339141961376
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.7222306001026515,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "delay2",
+          "actual_Q": 0.6769082609606901,
+          "regret_Q": 0.045322339141961376
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.7222306001026515,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.00022584199905395508,
+      "actual_immediate_minus_selected_Q": 0.045322339141961376
+    },
+    {
+      "scene": 47,
+      "candidate_names": [
+        "hold",
+        "slow_open",
+        "release",
+        "delay2",
+        "delay4"
+      ],
+      "predicted_gripper_fraction": [
+        0.44884219765663147,
+        0.6312984228134155,
+        0.6325213313102722,
+        0.6321342587471008,
+        0.6308696269989014
+      ],
+      "actual_gripper_fraction": [
+        0.4333892002504019,
+        0.722237232824135,
+        0.722237232824135,
+        0.6768936848783983,
+        0.5862531452586975
+      ],
+      "predicted_grasp": [
+        0.9817985892295837,
+        0.009075898677110672,
+        0.008069396950304508,
+        0.008755294606089592,
+        0.00951403845101595
+      ],
+      "actual_grasp": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_support": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "actual_Q": [
+        0.0,
+        0.722237232824135,
+        0.722237232824135,
+        0.6768936848783983,
+        0.5862531452586975
+      ],
+      "scores": {
+        "saved_WM_proxy": [
+          0.008169561624526978,
+          0.6255688071250916,
+          0.627417266368866,
+          0.6265997290611267,
+          0.6248674988746643
+        ],
+        "PRIVILEGED_true_opening": [
+          0.007888294857219754,
+          0.7156822943309031,
+          0.7164092145728234,
+          0.6709673001624774,
+          0.5806755130226312
+        ],
+        "PRIVILEGED_true_grasp": [
+          0.0,
+          0.6312984228134155,
+          0.6325213313102722,
+          0.6321342587471008,
+          0.6308696269989014
+        ],
+        "PRIVILEGED_true_both": [
+          0.0,
+          0.722237232824135,
+          0.722237232824135,
+          0.6768936848783983,
+          0.5862531452586975
+        ]
+      },
+      "choices": {
+        "saved_WM_proxy": {
+          "selected": "release",
+          "actual_Q": 0.722237232824135,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_opening": {
+          "selected": "release",
+          "actual_Q": 0.722237232824135,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_grasp": {
+          "selected": "release",
+          "actual_Q": 0.722237232824135,
+          "regret_Q": 0.0
+        },
+        "PRIVILEGED_true_both": {
+          "selected": "slow_open",
+          "actual_Q": 0.722237232824135,
+          "regret_Q": 0.0
+        }
+      },
+      "WM_margin_over_immediate_release": 0.0,
+      "actual_immediate_minus_selected_Q": 0.0
+    }
+  ],
+  "new_physics": 0,
+  "new_inference": 0,
+  "new_optimizer_updates": 0,
+  "CPU_s": 0.32616436400000004,
+  "wall_s": 0.3261810909898486,
+  "actual_run_source_sha": "af71b25beb00954d0200cde0f166d7e2d07c18a2",
+  "actual_command_exit_code": 0,
+  "original_first_audit_failure": {
+    "source_sha": "20df8f43b1615e17cef24b73e469831612160545",
+    "exit_code": 1,
+    "reason": "KeyError: 'study'; original new8 metadata predates optional study field. Fixed by checking exact original SHA-pinned DEV8 cards and intended24 anchors, no data editing or physics retry."
+  },
+  "tests": {
+    "focused_normal": 3,
+    "focused_optimized": 3,
+    "full_world_model_normal": 59,
+    "full_world_model_optimized": 59,
+    "full_world_model_skipped": 0,
+    "environment": "Previously isolated PC Python3.10 MuJoCo3.2.7 native/model environment",
+    "exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "initial_system_python_check": "59 collected/58 passed/1 module skipped in both modes: MuJoCo headers/library unavailable. Preserved; not counted as59 passing. Native environment subsequently ran all59, no skip.",
+    "logs_sha256": {
+      "RELEASE_WORLD_NORMAL.private.log": "64336c095094e1f611cd239857ae86b956122a40dd2ad4d0416e34fdce6be358",
+      "RELEASE_WORLD_OPT.private.log": "6b9b8ec57df8f6a62602c1107fb4b057a88171af5540b7bc55808a375549e7d3",
+      "RELEASE_WORLD_NATIVE_NORMAL.private.log": "41e99fb7d665de36c9bf453451b09b47efebd844f72a61b2b2514213bab27d35",
+      "RELEASE_WORLD_NATIVE_OPT.private.log": "f4b73b6e989aae3862e5d0746c0878014302ec4a927ff841d1a4df9e01b2b6d1"
+    }
+  }
+}

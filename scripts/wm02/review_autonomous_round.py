@@ -20,5 +20,9 @@ def main(argv=None):
         if request['status']!='REQUEST_ONLY_NOT_GRANTED'or request['candidate_source_sha']!=trace['source_sha']or request['candidate_binary_sha256']!=trace['candidate']['binary_sha256']:raise ValueError('Trace candidate/request identity differs')
         result['trace_evidence_v2']=dict(source_sha=trace['source_sha'],binary_sha256=trace['candidate']['binary_sha256'],build_exit_code=trace['build']['exit_code'],loader_audit_status=trace['loader_audits']['task_actuation_r1']['status'],scope_status=request['status'],target_qualification='NOT_ESTABLISHED')
         result['measured_CPU_core_hours']+=trace['cost']['additional_measured_CPU_s']/3600
+    if 'POSTHOC_RELEASE_RANK.json'in manifest['files']:
+        release=json.loads((root/'POSTHOC_RELEASE_RANK.json').read_text())
+        result['posthoc_release_ranking']=dict(source_sha=release['actual_run_source_sha'],positive_regret_parent_counts=release['positive_regret_parent_counts'],qualification='PRIVILEGED_EXPLANATION_ONLY_NO_NEW_METHOD_VALIDATION')
+        result['measured_CPU_core_hours']+=release['CPU_s']/3600
     print(json.dumps(result,indent=2));return 0
 if __name__=='__main__':raise SystemExit(main())

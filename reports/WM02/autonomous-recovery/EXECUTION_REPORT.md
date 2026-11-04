@@ -72,6 +72,8 @@ The PC online inference environment is Python3.10.12/Torch2.14.1+cpu/NumPy1.24.4
 
 **Decision:** prediction engineering improved; the present S exam still does not establish useful incremental action selection. Retain the original rule/OLS as strong comparators, keep negative hybrid evidence, stop blind retraining. Actor/PPO0, no target-WM training. A new mechanism hypothesis or target-owner scope is needed for a substantive next dynamic phase.
 
+[Post-hoc release ranking decomposition](POSTHOC_RELEASE_RANK_REPORT.md), run source `af71b25beb00954d0200cde0f166d7e2d07c18a2`, now localizes the3 worse release choices to compressed/reversed predicted gripper opening response. All40 saved endpoints have native support. Replacing predicted opening with future truth removes all3 errors; replacing only grasp with truth worsens them to6/8. This is a privileged explanation on already-opened DEV, not a new deployable method or blind PASS.66 input files verified, exit0, no model inference/physics/update. Original optional-metadata read failure exit1 is preserved.
+
 ## 5. Real commands, validation and cost
 
 Private variables below are the operator's resolved original paths. The actual registered systemd workers used `Restart=no`, fixed4 CPUs, finite2400s deadlines, GPU allocator4GiB or PC RAM5GiB, original Journal/owner locks and fresh immutable capsules. These rows describe **completed effects, not commands to rerun CLOSED identities**:

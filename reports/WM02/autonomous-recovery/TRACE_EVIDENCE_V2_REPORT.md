@@ -47,8 +47,8 @@ g++ -std=c++17 -O2 -pthread -rdynamic \
 WM02_INIT_TRACE="$REPRO/trace" "$REPRO/harness"
 
 # Actual normal/-O world-model regression commands;56 tests each, exit0.
-PYTHONPATH=src:. python3 -m unittest discover -s tests/world_model -v
-PYTHONPATH=src:. python3 -O -m unittest discover -s tests/world_model -v
+PYTHONPATH=src:. "$PC_MODEL_PYTHON" -m unittest discover -s tests/world_model -v
+PYTHONPATH=src:. "$PC_MODEL_PYTHON" -O -m unittest discover -s tests/world_model -v
 
 # Actual PC audit of copied Core loader bytes, exit0; status INSUFFICIENT.
 PYTHONPATH=src:. python3 -m scripts.wm02.inspect_init_trace \
