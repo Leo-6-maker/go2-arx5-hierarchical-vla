@@ -1,0 +1,75 @@
+{
+  "status": "INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED",
+  "source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+  "binary_sha256": "7828f9f29e174ac7bf9e82edd897de577a2d365ab22e6dec438f0565b09ff488",
+  "candidate_sources": {
+    "rl_sim_mujoco.cpp": "fa3ce64facb0c2094cc464ecdfc83e4d39fdea555c534b94ca36d3ba50188fb7",
+    "rl_sim_mujoco.hpp": "06cf01b0ae34c3b406a02b772fc5f80945b9f4c6dfd2bcd7e720250f1422e1be",
+    "mujoco_utils.hpp": "7d16639421e692778c0f5f20abb7de4464c783508758d46aa555214da56bd8e3",
+    "rl_sdk.cpp": "278b881706e10c8a39353b977d67df4ff1cd340c4370cbd0bcc21fcb2ce4725e",
+    "init_trace.hpp": "1fc4d65d163031a898b4fffa5db76f0a43c1a896b422ae393901f98c54159ee3",
+    "init_trace.cpp": "b04ab1f7610a9e85ce488b55dbfbbf136c7891e48f8fbc99acb9ef1e9b39cecd"
+  },
+  "original_SDK_sha256": "f0109bd5a812fdac3b3b7befa180c6cfac8370cfab93afeb5b83dec576c190e0",
+  "controller_nontrace_text_identical": true,
+  "SDK_archive_member_names": [
+    "rl_sdk.cpp.o"
+  ],
+  "preserved_SDK_members": {},
+  "original_R1_math_assertions_pass": true,
+  "target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "target_lease_status": "CLOSED",
+  "native_dynamics_permission": "NOT_GRANTED",
+  "actual_target_integrations": 0,
+  "leg_policy_queries": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "loader_only_checks": 2,
+  "trace_contract": "65536 bounded records; async writer10ms; first inputs plus recent28 payload slots; exact pos/vel consumed versions; no emit-path IO/wait or command math change",
+  "CPU_s": 0.044890283,
+  "wall_s": 26.738370422273874,
+  "actual_preload_chains": {
+    "task_actuation": {
+      "order": [
+        "task_actuation.so",
+        "observer.so",
+        "libwm02_init_trace.so"
+      ],
+      "preload_sha256": [
+        "5a80def13d15064f25046f4488cdf7d3eda49d053df70b55831b24a0695864d4",
+        "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a",
+        "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+      ],
+      "outer_next": "observer.so",
+      "observer_next": "libmujoco.so.3.2.7",
+      "MuJoCo_sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+      "unversioned_link_pin_matches_loaded_SONAME_bytes": true
+    },
+    "task_actuation_r1": {
+      "order": [
+        "task_actuation_r1.so",
+        "observer.so",
+        "libwm02_init_trace.so"
+      ],
+      "preload_sha256": [
+        "da2b628eee16156a28f592ca7232fffa4af3c2f738dd140099d76233bdcadccf",
+        "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a",
+        "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+      ],
+      "outer_next": "observer.so",
+      "observer_next": "libmujoco.so.3.2.7",
+      "MuJoCo_sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+      "unversioned_link_pin_matches_loaded_SONAME_bytes": true
+    }
+  },
+  "frozen_files_rechecked_after_build": 20,
+  "frozen_files_unchanged": true,
+  "actual_native_holds": 0,
+  "actual_target_STOP_observed": false,
+  "actual_target_integrations_after_STOP": null,
+  "first_blocker": "No independently valid owner init-only dynamic scope; original S1/T2 isolation remains",
+  "queue_causality": "Independent pos/vel queue pop short circuit is an instrumented risk; not proven first leg-failure cause",
+  "full_state_restore": "Arbitrary-midpoint MPC/WBC/receiver restore is still not qualified",
+  "legacy_logging": "New trace uses async writes; existing native control/observer journaling is unchanged",
+  "runtime_loader_roots": "Existing ROS2 Jazzy and frozen user-space dependency tree, per-process only; no installation or host changes"
+}

@@ -1,0 +1,92 @@
+{
+  "original_batch_audit": {
+    "source_sha": "44007235f77d3c9e18d0d51e8a01e2ab6e5fa33c",
+    "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+    "named_events": {
+      "left_object_contact": 0,
+      "right_object_contact": 1,
+      "native_grasp": 2,
+      "illegal_contact": 3
+    },
+    "support_prediction_head": false,
+    "no_holdout_evaluation": true,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "physics": 0,
+    "CPU_s": 76.052709327,
+    "wall_s": 19.619490663986653,
+    "models": {
+      "M0": {
+        "checkpoint_sha256": "4fdb580f9f85b2dbdcd6796ede621f6f11c76fca03ec42f1d867d4338692b69c",
+        "all_choices_same": false,
+        "max_state_abs": 2.384185791015625e-07,
+        "max_score_abs": 3.5762786865234375e-07
+      },
+      "M1": {
+        "checkpoint_sha256": "404905951041604070b128c3a99d39f56eaefc54cf77c7523883d352820ba3e9",
+        "all_choices_same": true,
+        "max_state_abs": 1.1026859283447266e-06,
+        "max_score_abs": 2.384185791015625e-07
+      },
+      "M2": {
+        "checkpoint_sha256": "1536f410178ce6e07bf0fa940e706e65c484a8acef5808c68f1313e21fedaa3f",
+        "all_choices_same": true,
+        "max_state_abs": 1.0896474123001099e-06,
+        "max_score_abs": 2.384185791015625e-07
+      }
+    }
+  },
+  "original_mismatches": [
+    [
+      "M0",
+      "FIT",
+      5,
+      8,
+      [
+        "right",
+        "away",
+        "right"
+      ]
+    ]
+  ],
+  "canonical_rescore_audit": {
+    "source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+    "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+    "named_events": {
+      "left_object_contact": 0,
+      "right_object_contact": 1,
+      "native_grasp": 2,
+      "illegal_contact": 3
+    },
+    "support_prediction_head": false,
+    "canonical_batch1": true,
+    "no_holdout_evaluation": true,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "physics": 0,
+    "CPU_s": 170.217639052,
+    "wall_s": 43.49316428788006,
+    "models": {
+      "M0": {
+        "checkpoint_sha256": "4fdb580f9f85b2dbdcd6796ede621f6f11c76fca03ec42f1d867d4338692b69c",
+        "all_choices_same": true,
+        "max_state_abs": 0.0,
+        "max_score_abs": 0.0
+      },
+      "M1": {
+        "checkpoint_sha256": "404905951041604070b128c3a99d39f56eaefc54cf77c7523883d352820ba3e9",
+        "all_choices_same": true,
+        "max_state_abs": 0.0,
+        "max_score_abs": 0.0
+      },
+      "M2": {
+        "checkpoint_sha256": "1536f410178ce6e07bf0fa940e706e65c484a8acef5808c68f1313e21fedaa3f",
+        "all_choices_same": true,
+        "max_state_abs": 0.0,
+        "max_score_abs": 0.0
+      }
+    }
+  },
+  "retained_original_scores": true,
+  "formal_comparison_or_blind_test": false
+}
