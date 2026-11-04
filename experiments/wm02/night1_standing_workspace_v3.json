@@ -1,0 +1,14 @@
+{
+  "schema": "WM02_NIGHT1_STANDING_WORKSPACE_V3",
+  "trigger": "Original P07_HOME_V2 qualification stopped at native step2711: unnamed base_link collision geom12 contacted task_table, normal force130.26593597478785N. Original attempt remains FAILED_PRESERVED; no production or DEV score was obtained.",
+  "new_condition": "Translate the robot's initial standing root 0.10m backward in the unchanged world; keep original root height/orientation, all joints, robot/table/cube geometry, friction, dynamics, gains and safety. This is a different preregistered initial workspace, not a PASS for the failed condition.",
+  "initial_root_offset_xy_m": [-0.10, 0.0],
+  "layout_fingerprint": "HOME_ROOT_OBJECT_XY_V3",
+  "mutable_reset_cells": "Only home keyframe root XY and task_cube XY; qpos0, root Z/quaternion, joint poses, all other model fields/options remain hashed",
+  "objects": "Unchanged supported cube, 16 original preregistered small XY offsets, first8 split6TRAIN/2DEV; new physical parent names ROOTSAFE_V3",
+  "preconditions": ["Original native reset helper, mj_forward only; verify actual root/cube positions and contacts", "Single original-layout workspace qualification", "New workspace two-slot qualification", "Every new parent single qualification before production"],
+  "robot_safety": "Same native joint/contact/gripper checks. base_link/table remains forbidden; no collision-pair or threshold change.",
+  "movement": "Reset at initial time only; no active locomotion command, mid-episode teleport or grasped-object reset",
+  "qualified_contact_manipulation": false,
+  "effects_of_registration": {"physics_integrations": 0, "model_updates": 0}
+}

@@ -38,13 +38,14 @@ class TargetWM(nn.Module):
             action[:,:3]/=.01;action[:,10:13]/=.01
         elif self.action_encoding=='NO_ACTION_V2':action.zero_()
         return torch.cat((action,elapsed[:,None]/1.2,age[:,None],known[:,None]),-1)
-    def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None):
+    def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None,history_goal=None,future_prefix_remaining=None):
         batch=len(state);h=state.new_zeros(batch,self.hidden)
         origin=state.new_zeros(batch)if window_start_s is None else window_start_s
         remaining=state.new_full((batch,),6.)if window_start_atom is None else 7-torch.remainder(window_start_atom+8,7)
+        if future_prefix_remaining is not None:remaining=future_prefix_remaining
         for i in range(8):
             elapsed=origin+i*.05
-            a=self.encode(state[:,i],goal,elapsed,source_age[:,i],state.new_ones(batch))
+            a=self.encode(state[:,i],goal if history_goal is None else history_goal[:,i],elapsed,source_age[:,i],state.new_ones(batch))
             h=self.history(torch.cat(((state[:,i]-self.mean)/self.std,a),-1),h)
         current=state[:,8];pred=[]
         for i in range(8,24):
@@ -60,7 +61,7 @@ class TargetWM(nn.Module):
 
 
 def tensors(data,ids,device):
-    return {k:torch.as_tensor(data[k][ids],device=device,dtype=torch.float32)for k in('state','goal','source_age','window_start_s','window_start_atom')if k in data}
+    return {k:torch.as_tensor(data[k][ids],device=device,dtype=torch.float32)for k in('state','goal','source_age','window_start_s','window_start_atom','history_goal','future_prefix_remaining')if k in data}
 
 
 def update(model,opt,data,cursor,batch=8):
@@ -73,14 +74,17 @@ def update(model,opt,data,cursor,batch=8):
     return dict(loss=float(loss.detach()),gradient_norm=float(norm),cursor=cursor+batch)
 
 
+def checkpoint_schema(meta):
+    return{'WM02_TARGET_NATIVE_REPLAY_V2':'WM02_TARGET_WM_CHECKPOINT_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3':'WM02_TARGET_WM_CHECKPOINT_V3'}.get(meta.get('schema'),'WM02_TARGET_WM_CHECKPOINT_V1')
+
 def save(path,model,opt,step,cursor,provenance):
-    schema='WM02_TARGET_WM_CHECKPOINT_V2'if model.meta.get('schema')=='WM02_TARGET_NATIVE_REPLAY_V2'else'WM02_TARGET_WM_CHECKPOINT_V1'
+    schema=checkpoint_schema(model.meta)
     torch.save(dict(schema=schema,model=model.state_dict(),optimizer=opt.state_dict(),normalizer=dict(mean=model.mean,std=model.std),rng=rng_state(),step=step,replay_cursor=cursor,provenance=provenance,metadata=model.meta,hidden=model.hidden),path)
 
 
 def restore(path,device,expected):
     value=torch.load(path,map_location='cpu',weights_only=True)
-    schema='WM02_TARGET_WM_CHECKPOINT_V2'if value['metadata'].get('schema')=='WM02_TARGET_NATIVE_REPLAY_V2'else'WM02_TARGET_WM_CHECKPOINT_V1'
+    schema=checkpoint_schema(value['metadata'])
     if value['schema']!=schema or value['provenance']!=expected:raise ValueError('TARGET_CHECKPOINT_IDENTITY_DIFFERS')
     m=TargetWM(value['metadata'],value['hidden']).to(device);m.load_state_dict(value['model'])
     opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);opt.load_state_dict(value['optimizer'])

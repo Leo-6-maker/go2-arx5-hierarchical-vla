@@ -9,7 +9,7 @@ def validate_device(spec,actual):
     endpoint_ok=(type(spec.get('endpoint'))is int and spec['endpoint']>=2)if night1 else spec.get('endpoint')in(200,100)
     if (spec.get('GPU_uuid')not in allowed or actual['uuid']!=spec['GPU_uuid']
             or spec.get('profile')!='wm02-auto1-target-neural' or spec.get('physics')is not False
-            or spec.get('data_domain')!=('WM02_TARGET_NATIVE_REPLAY_V2'if night1 else'WM02_TARGET_NATIVE_STATE_V1')
+            or spec.get('data_domain')not in(('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3')if night1 else('WM02_TARGET_NATIVE_STATE_V1',))
             or not endpoint_ok or spec.get('Actor_updates')!=0
             or not 0<spec.get('allocator_limit_bytes',0)<=13*1024**3
             or actual['free_bytes']<spec['allocator_limit_bytes']+1024**3):
@@ -30,7 +30,7 @@ def validate_campaign(spec):
     # Match the replay to its actual checked numerical build, before torch.
     build=json.loads(Path(spec['replay_result']).read_text())
     night1=bool(spec.get('night1_binding'))
-    if (digest(spec['replay_result'])!=spec['replay_result_sha256']or build.get('schema')!=('WM02_TARGET_NATIVE_REPLAY_V2'if night1 else'WM02_TARGET_NATIVE_STATE_V1')
+    if (digest(spec['replay_result'])!=spec['replay_result_sha256']or build.get('schema')!=spec['data_domain']
             or build.get('status')!='ACTUAL_TARGET_SEQUENTIAL_REPLAY_BUILT'
             or digest(spec['replay'])!=build.get('replay_sha256')):raise PermissionError('REAL_NATIVE_REPLAY_BUILD_IDENTITY_REQUIRED')
     if night1:

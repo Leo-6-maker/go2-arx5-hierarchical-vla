@@ -14,7 +14,7 @@ def main(argv=None):
     c=torch.load(spec['checkpoint'],map_location='cpu',weights_only=True);m,opt,c=restore(spec['checkpoint'],'cpu',c['provenance']);data,meta=load(spec['replay'])
     from go2arx5_vla.world_model.target_training_v2 import compatible,partition_metrics
     compatible(c['metadata'],meta,migration=spec.get('schema_migration'))
-    if meta['schema']=='WM02_TARGET_NATIVE_REPLAY_V2':
+    if meta['schema']in('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3'):
         metrics=dict(partitions=partition_metrics(m,data,meta,'cpu'),windows=len(data['state']),schema_migration=spec.get('schema_migration'),overlapping_windows_independent=False)
     else:metrics=evaluate(m,tensors(data,np.arange(len(data['state'])),'cpu'),meta)
     result=dict(status='ACTUAL_TARGET_FROZEN_WM_EVALUATED',checkpoint_sha256=spec['checkpoint_sha256'],replay_sha256=spec['replay_sha256'],episodes=len(meta['episodes']),physics_integrations=0,WM_updates=0,Actor_updates=0,device='CPU',**metrics)

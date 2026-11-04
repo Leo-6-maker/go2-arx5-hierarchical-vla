@@ -4,7 +4,7 @@ def main(argv=None):
     from pathlib import Path
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--manifest',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args(argv)
-    if json.loads(a.manifest.read_text()).get('schema')=='WM02_NIGHT1_TARGET_REPLAY_MANIFEST_V2':
+    if json.loads(a.manifest.read_text()).get('schema')in('WM02_NIGHT1_TARGET_REPLAY_MANIFEST_V2','WM02_NIGHT1_LATE_DECISION_MANIFEST_V3'):
         from go2arx5_vla.world_model.target_replay_v2 import build
     else:
         from go2arx5_vla.world_model.target_replay import build

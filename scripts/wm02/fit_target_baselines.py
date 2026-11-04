@@ -15,7 +15,7 @@ def main(argv=None):
     # Fit only the same post-burn phase used for neural prediction labels.
     x=feature(state[:,8:24].reshape(-1,state.shape[-1]),np.repeat(goal,16,axis=0));y=((state[:,9:25]-state[:,8:24])/scale).reshape(-1,state.shape[-1]);weight=np.linalg.solve(x.T@x+np.eye(x.shape[-1]),x.T@y)
     observed,eval_meta=load(a.eval_replay or a.replay)
-    if meta['state_fields']!=eval_meta['state_fields']or(meta.get('robot_fingerprint')!=eval_meta.get('robot_fingerprint')if meta.get('schema')=='WM02_TARGET_NATIVE_REPLAY_V2'else meta['model_sha256']!=eval_meta['model_sha256']):raise ValueError('BASELINE_TARGET_LAYOUT_CHANGED')
+    if meta['state_fields']!=eval_meta['state_fields']or(meta.get('robot_fingerprint')!=eval_meta.get('robot_fingerprint')if meta.get('schema')in('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3')else meta['model_sha256']!=eval_meta['model_sha256']):raise ValueError('BASELINE_TARGET_LAYOUT_CHANGED')
     pred=[];cur=observed['state'][:,8].copy()
     for i in range(16):cur=cur+feature(cur,observed['goal'])@weight*scale;pred.append(cur.copy())
     pred=np.stack(pred,1);metrics={};offset=0

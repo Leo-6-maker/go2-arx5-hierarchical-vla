@@ -1,0 +1,21 @@
+{
+  "schema": "WM02_NIGHT1_LATE_DECISION_PREDICTION_V3",
+  "scientific_question": "Can a history-conditioned learned plant predict a newly installed small action better than no-action and numeric baselines, before observing that action's response?",
+  "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+  "task_atoms": 24,
+  "history_atoms": 8,
+  "prediction_atoms": 16,
+  "first_installation_of_decision_action_atom": 8,
+  "prefix_reference": "Measured initial TCP hold only; no decision goal in controller preview before atom8",
+  "decision_goal": "Initial hold world pose plus preregistered qualified local offset; never future achieved-state relabeling",
+  "offset_magnitude_m_max": 0.001,
+  "history_goal_inputs": "Actual installed past reference goals, atoms0..7",
+  "future_input": "Chosen predeclared goal installed at atom8, current source age and 7-atom installed-prefix validity; future renewal ages missing",
+  "first_panel": {"parents": "Existing independently assigned P01..P08_HOME_V2", "TRAIN_parents": 6, "DEV_parents": 2, "episodes_per_parent": 4, "purpose": "ACTION_CONDITION_PANEL; does not add physical-parent count twice"},
+  "prospective_panel": {"parents": "P09..P16_HOME_V2, disjoint from first panel", "TRAIN_parents": 6, "DEV_parents": 2, "episodes_per_parent": 4},
+  "models": {"arms": ["RAW_WORLD_RELATIVE_V1", "SCALED_WORLD_RELATIVE_1CM_V2", "NO_ACTION_V2"], "fresh": true, "seed": 20261105, "main_updates_each": 2000, "restore_probe_each": 1, "same_normalizer_fit_and_replay": true},
+  "controls": ["persistence", "local_numeric_velocity", "TRAIN_only_ridge_reference_residual"],
+  "claims": "Prospective predictive action information only. No exact counterfactual restore, oracle regret, formal Actor or manipulation-success claim.",
+  "native_admission": "Original safety/owner, single qualified new reference pattern first; no active capsule edits or enlarged displacement envelope.",
+  "effects_of_registration": {"physics_integrations": 0, "optimizer_updates": 0}
+}

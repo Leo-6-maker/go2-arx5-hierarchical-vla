@@ -31,4 +31,10 @@ class ManifestContract(unittest.TestCase):
         with tempfile.TemporaryDirectory()as tmp:
             p=Path(tmp)/'scene.mjb';mujoco.mj_saveModel(m,str(p),None);m=mujoco.MjModel.from_binary_path(str(p));d=mujoco.MjData(m);mujoco.mj_resetDataKeyframe(m,d,0);mujoco.mj_forward(m,d);np.testing.assert_allclose(d.xpos[1],[.008,-.012,.5]);self.assertIsInstance(m._address,int);self.assertIsInstance(d._address,int)
         m.qpos0[0]+=.001;self.assertNotEqual(model_fingerprint(m,'HOME_KEYFRAME_XY_V2')[0],new)
+    def test_root_scene_version_masks_only_declared_home_xy_not_robot_or_height(self):
+        import mujoco
+        m=mujoco.MjModel.from_xml_string('<mujoco><worldbody><body name="base_link" pos="0 0 .34"><freejoint/><geom type="sphere" size=".02"/></body><body name="task_cube" pos=".45 -.08 .46"><freejoint/><geom type="box" size=".02 .02 .02"/></body></worldbody><keyframe><key name="home" qpos="0 0 .34 1 0 0 0 .45 -.08 .46 1 0 0 0"/></keyframe></mujoco>')
+        first,_=model_fingerprint(m,'HOME_ROOT_OBJECT_XY_V3');old,_=model_fingerprint(m,'HOME_KEYFRAME_XY_V2');m.key_qpos[0,0]=-.1;m.key_qpos[0,7]+=.008
+        self.assertEqual(model_fingerprint(m,'HOME_ROOT_OBJECT_XY_V3')[0],first);self.assertNotEqual(model_fingerprint(m,'HOME_KEYFRAME_XY_V2')[0],old)
+        m.key_qpos[0,2]+=.001;self.assertNotEqual(model_fingerprint(m,'HOME_ROOT_OBJECT_XY_V3')[0],first)
 if __name__=='__main__':unittest.main()

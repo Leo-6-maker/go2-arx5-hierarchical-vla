@@ -29,7 +29,7 @@ def validate_layout(batch, children):
         from .target_manifest import episode_config
         episodes=[episode_config(c)for c in children]
         if len({e['task_atoms']for e in episodes})!=1:raise PermissionError('EXACT_FINITE_SAME_LENGTH_BATCH_REQUIRED')
-        if any(e['purpose']=='PRODUCTION'for e in episodes):
+        if any(e['purpose']in('PRODUCTION','DECISION_PRODUCTION')for e in episodes):
             proof=Path(batch['duration_qualification']);value=json.loads(proof.read_text())
             if (digest(proof)!=batch['duration_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
                     or len(value['children'])!=2 or not all(c['ticks']==2503+25*episodes[0]['task_atoms']and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):raise PermissionError('ACTUAL_CONCURRENT_DURATION_QUALIFICATION_REQUIRED')

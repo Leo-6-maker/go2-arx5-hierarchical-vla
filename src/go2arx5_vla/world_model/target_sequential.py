@@ -335,22 +335,32 @@ class TargetSequentialAdapter:
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
-        self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
+        self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if self.spec['phase']=='collect-target-night1':
             from .target_manifest import episode_config
-            episode=episode_config(self.spec);goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
+            episode=episode_config(self.spec)
+            from .target_manifest import DECISION_RULE
+            late_decision=episode['reference_rule']==DECISION_RULE
+            decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
+            if not late_decision:goal=decision_goal
         elif self.spec['phase'].startswith('collect-target-'):
             index=int(self.spec['phase'][-2:]);offset={3:(0,.001),4:(0,-.001),5:(1,.001),6:(1,-.001)}.get(index)
             if self.spec['phase'].startswith('collect-target-parallel-'):offset=(0,.001 if index==1 else-.001)
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
-        def action_at_current():
-            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference'))
+        def action_at_current(first_decision=False):
+            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
             return np.stack([pose10(p,float(teacher_physical_fraction(1.)))for p in poses])
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
             before=self.observe();step=before['step']
+            if late_decision and step==start+8*25 and not decision_applied:
+                # The burn prefix receives a hold-only H40. Reveal/install the
+                # chosen small goal at this actual pause, before its response.
+                goal=decision_goal;decision_applied=True
+                self.command_event(dict(phase='decision-boundary',native_step=step,sim_time_s=before['time_s'],reference_rule=episode['reference_rule'],offset_xyz_m=episode['offset_xyz_m'],goal_pose=goal.tolist(),future_response_observed=False))
+                self.install_reference(action_at_current(first_decision=True));installed_step=step
             # V1 dynamic cadence: seven complete relative atoms (350ms),
             # preserving the original source-relative .4s receiver TTL.
             if step-installed_step>=175:self.install_reference(action_at_current());installed_step=step
@@ -376,6 +386,7 @@ class TargetSequentialAdapter:
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_velocity_labels='ABSENT',BASE_pose_reference='MEASURED_INITIAL_MPC_POSE_HOLD'if hasattr(self,'base_pose_hold')else'ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
+        if episode:value.update(reference_rule=episode['reference_rule'],late_decision_applied=decision_applied,decision_atom=8 if late_decision else None)
         write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value
         if confirmed!=len(windows):raise RuntimeError('SOLVER_TARGET_CONSUMPTION_NOT_CONFIRMED_FOR_EVERY_ATOM')
         return value

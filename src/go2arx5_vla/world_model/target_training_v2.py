@@ -3,9 +3,10 @@ from pathlib import Path
 import json,time,random,hashlib,os
 import numpy as np
 import torch
-from .target_training import TargetWM,tensors,update,save,restore,evaluate,tree_error,rng_state,restore_rng,memory
+from .target_training import TargetWM,tensors,update,save,restore,evaluate,tree_error,rng_state,restore_rng,memory,checkpoint_schema
 from .target_replay import load
 from .target_replay_v2 import SCHEMA,select_samples
+from .target_late_decision import SCHEMA as DECISION
 from .storage import digest,write_json
 MIGRATION='V1_FIXED_GOAL_TO_V2_ACTUAL_WINDOW_CLOCK_NO_WEIGHT_CHANGE'
 
@@ -13,7 +14,8 @@ MIGRATION='V1_FIXED_GOAL_TO_V2_ACTUAL_WINDOW_CLOCK_NO_WEIGHT_CHANGE'
 def compatible(old,new,*,migration=None):
     for k in('state_fields','joints','actuator_gear','actuator_gain'):
         if old[k]!=new[k]:raise ValueError('TARGET_STATE_ACTUATOR_LAYOUT_CHANGED:'+k)
-    if old.get('schema')==SCHEMA and new.get('schema')==SCHEMA:
+    if old.get('schema')in(SCHEMA,DECISION)and new.get('schema')in(SCHEMA,DECISION):
+        if old['schema']!=new['schema']or old.get('action')!=new.get('action'):raise ValueError('ACTION_SEMANTICS_CHANGED_REQUIRE_FRESH_MODEL')
         if old['robot_fingerprint']!=new['robot_fingerprint']:raise ValueError('FROZEN_ROBOT_STRUCTURE_CHANGED')
         if old.get('executor_sha256')!=new.get('executor_sha256'):raise ValueError('NATIVE_EXECUTOR_CHANGED_REQUIRES_EXPLICIT_SEPARATE_MODEL')
     elif new.get('schema')==SCHEMA:
@@ -37,7 +39,7 @@ def run(spec,output):
     torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/props.total_memory);torch.set_num_threads(len(spec['cpus']));torch.use_deterministic_algorithms(True);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     if digest(spec['replay'])!=spec['replay_sha256']:raise ValueError('SEALED_NIGHT1_REPLAY_CHANGED')
     data,meta=load(spec['replay'])
-    if meta['schema']!=SCHEMA:raise ValueError('VERSIONED_WINDOW_DATA_REQUIRED')
+    if meta['schema']not in(SCHEMA,DECISION):raise ValueError('VERSIONED_WINDOW_DATA_REQUIRED')
     ids=select_samples(data,meta,'TRAIN')
     if not len(ids):raise ValueError('REAL_TRAIN_WINDOWS_REQUIRED')
     train=tensors(data,ids,device);random.seed(20261105);np.random.seed(20261105);torch.manual_seed(20261105)
@@ -53,10 +55,10 @@ def run(spec,output):
     if spec.get('resume'):
         if digest(spec['resume'])!=spec['resume_sha256']:raise ValueError('FROZEN_REFRESH_CHECKPOINT_CHANGED')
         c=prior
-        if c['schema']!='WM02_TARGET_WM_CHECKPOINT_V2':raise ValueError('NO_SILENT_V1_TRAINING_MIGRATION')
+        if c['schema']!=checkpoint_schema(meta):raise ValueError('NO_SILENT_TRAINING_SCHEMA_MIGRATION')
         compatible(c['metadata'],meta);m.load_state_dict(c['model'],strict=True);opt.load_state_dict(c['optimizer']);restore_rng(c['rng']);cursor=c['replay_cursor'];prior_steps=c['provenance'].get('prior_main_updates',0)+c['step'];recipe='STRICT_V2_CONTINUATION_FIXED_FIRST_NORMALIZER'
     else:m.fit_normalizer(train['state'])
-    provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=SCHEMA,metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),model_metadata_sha256=hashlib.sha256(json.dumps(model_meta,sort_keys=True).encode()).hexdigest(),action_encoding=encoding,robot_fingerprint=meta['robot_fingerprint'],recipe=recipe,previous_checkpoint_sha256=spec.get('resume_sha256'),prior_main_updates=prior_steps,elapsed_feature_scale_s=1.2)
+    provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=meta['schema'],metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),model_metadata_sha256=hashlib.sha256(json.dumps(model_meta,sort_keys=True).encode()).hexdigest(),action_encoding=encoding,robot_fingerprint=meta['robot_fingerprint'],recipe=recipe,previous_checkpoint_sha256=spec.get('resume_sha256'),prior_main_updates=prior_steps,elapsed_feature_scale_s=1.2)
     write_json(out/'FIRST_BATCH_AUDIT.json',dict(state_shape=list(train['state'].shape),TRAIN_windows=len(ids),DEV_windows=len(select_samples(data,meta,'DEV')),state_dimension=meta['state_dimension'],TRAIN_parents=len({e['parent']for e in meta['episodes']if e['split']=='TRAIN'}),DEV_parents=len({e['parent']for e in meta['episodes']if e['split']=='DEV'}),dtype=str(train['state'].dtype),finite=bool(torch.isfinite(train['state']).all()),normalizer=recipe,software=dict(torch=str(torch.__version__),CUDA=torch.version.cuda,numpy=np.__version__),GPU_name=props.name,robot_fingerprint=meta['robot_fingerprint'],overlapping_windows_independent=False))
     write_json(out/'BEFORE_UPDATE.json',partition_metrics(m,data,meta,device))
     if spec.get('new_batch_tag'):
@@ -83,6 +85,6 @@ def run(spec,output):
     if max(reload_first,continuation,endpoint_error)!=0:raise RuntimeError('STRICT_NIGHT1_RESTORE_DIFFERS')
     write_json(out/'AFTER_UPDATE.json',partition_metrics(m,data,meta,device))
     if spec.get('new_batch_tag'):write_json(out/'NEW_BATCH_AFTER_UPDATE.json',partition_metrics(m,data,meta,device,batch=spec['new_batch_tag']))
-    result=dict(status='TARGET_WM_ENGINEERING_ENTRY_PASSED',schema=SCHEMA,source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(out/f'checkpoint-{steps}.pt'),main_updates=steps,prior_main_updates=prior_steps,continuation_probe_updates=1,optimizer_calls=steps+1,Actor_updates=0,physics_integrations=0,replay_cursor=cursor,episodes=len(meta['episodes']),task_atoms=meta['task_atoms'],TRAIN_windows=len(ids),DEV_windows=len(select_samples(data,meta,'DEV')),parameters=sum(p.numel()for p in m.parameters()),state_dimension=meta['state_dimension'],first_reload_error=reload_first,endpoint_reload_error=endpoint_error,continuation_error=continuation,recipe=recipe,held_out_parent_generalization=meta['held_out_parent_generalization'],contact_qualification=meta['contact_collection'],GPU_uuid=spec['GPU_uuid'],main_cuda_elapsed_ms=event0.elapsed_time(event1),main_update_peak=peak,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,predictive_value='REQUIRES_RECORDED_DEV_BASELINE_COMPARISON',control_value='NOT_TESTED')
+    result=dict(status='TARGET_WM_ENGINEERING_ENTRY_PASSED',schema=meta['schema'],source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(out/f'checkpoint-{steps}.pt'),main_updates=steps,prior_main_updates=prior_steps,continuation_probe_updates=1,optimizer_calls=steps+1,Actor_updates=0,physics_integrations=0,replay_cursor=cursor,episodes=len(meta['episodes']),task_atoms=meta['task_atoms'],TRAIN_windows=len(ids),DEV_windows=len(select_samples(data,meta,'DEV')),parameters=sum(p.numel()for p in m.parameters()),state_dimension=meta['state_dimension'],first_reload_error=reload_first,endpoint_reload_error=endpoint_error,continuation_error=continuation,recipe=recipe,held_out_parent_generalization=meta['held_out_parent_generalization'],contact_qualification=meta['contact_collection'],GPU_uuid=spec['GPU_uuid'],main_cuda_elapsed_ms=event0.elapsed_time(event1),main_update_peak=peak,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,predictive_value='REQUIRES_RECORDED_DEV_BASELINE_COMPARISON',control_value='NOT_TESTED')
     result['action_encoding']=encoding
     write_json(out/'RESULT.json',result);return result

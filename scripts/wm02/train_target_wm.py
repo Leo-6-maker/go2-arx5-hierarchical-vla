@@ -7,7 +7,7 @@ def main(argv=None):
     p.add_argument('--run-id',required=True);a=p.parse_args(argv)
     from go2arx5_vla.world_model.runtime import admitted_run
     with admitted_run(a.spec,a.run_id,'wm02-auto1-target-neural',a.output,gpu=True)as spec:
-        if spec.get('data_domain')=='WM02_TARGET_NATIVE_REPLAY_V2':
+        if spec.get('data_domain')in('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3'):
             from go2arx5_vla.world_model.target_training_v2 import run
         else:
             from go2arx5_vla.world_model.target_training import run
