@@ -5,6 +5,7 @@ from go2arx5_vla.world_model.native_lifetime import patch_shutdown
 class NativeLifetime(unittest.TestCase):
     def test_patch_moves_cleanup_after_all_readers_and_keeps_control_body(self):
         cpp='''void control(){ ORIGINAL_CONTROLLER(); }
+if (!rclcpp::ok()) rclcpp::init(argc, argv);
     std::thread physicsthreadhandle(&PhysicsThread, sim.get(), filename.c_str());
     physicsthreadhandle.detach();
 RL_Sim::~RL_Sim()
@@ -17,7 +18,7 @@ RL_Sim::~RL_Sim()
 '''
         hpp='    std::thread ros_thread_;';utils='void PhysicsThread(){ PhysicsLoop(*sim);\n  // delete everything we allocated\n  mj_deleteData(d);\n  mj_deleteModel(m);\n}'
         c,h,u=patch_shutdown(cpp,hpp,utils)
-        self.assertIn(cpp.splitlines()[0],c);self.assertNotIn('detach()',c);self.assertIn('std::thread physics_thread_;',h)
+        self.assertIn(cpp.splitlines()[0],c);self.assertNotIn('detach()',c);self.assertIn('std::thread physics_thread_;',h);self.assertIn('rclcpp::SignalHandlerOptions::None',c)
         self.assertLess(c.index('ros_thread_.join()'),c.index('physics_thread_.join()'));self.assertLess(c.index('physics_thread_.join()'),c.index('mj_deleteData(d)'));self.assertNotIn('mj_deleteData',u);self.assertIn('PhysicsLoop(*sim)',u)
         with self.assertRaises(ValueError):patch_shutdown(c,h,u)
 

@@ -18,6 +18,12 @@ def patch_shutdown(cpp,hpp,utils):
     anchor='RL_Sim::~RL_Sim()\n{'
     if cpp.count(anchor)!=1:raise ValueError('Exact native destructor required')
     cpp=cpp.replace(anchor,anchor+'\n    sim->exitrequest.store(1);')
+    init='if (!rclcpp::ok()) rclcpp::init(argc, argv);'
+    if cpp.count(init)!=1:raise ValueError('Exact native ROS initialization required')
+    # Keep the existing native SIGINT exitrequest handler. The default ROS
+    # handler otherwise shuts its context down concurrently with live PD
+    # publishers, before this object's ordered reader shutdown can run.
+    cpp=cpp.replace(init,'if (!rclcpp::ok()) rclcpp::init(argc, argv, rclcpp::InitOptions(), rclcpp::SignalHandlerOptions::None);')
     cpp=cpp.replace(destroy,'''    if (physics_thread_.joinable()) physics_thread_.join();
     mj_deleteData(d); d = nullptr;
     mj_deleteModel(m); m = nullptr;

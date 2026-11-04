@@ -24,6 +24,7 @@ def phase_limit(phase,previous):
 def validate_scope(spec,lease,registry,*,host,uid,now):
     root=Path(spec['campaign_root']);binding=Path(spec['campaign_binding'])
     from .storage import digest
+    if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
