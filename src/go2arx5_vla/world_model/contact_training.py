@@ -34,9 +34,9 @@ def training_view(b):
     return{k:torch.cat([b[k]for b in batches],0)for k in b}
 
 
-def supervised_loss(model,b,blind):
+def supervised_loss(model,b,blind,*,return_prediction=False):
     h=model.burn(b['state'][:,:8],b['reference'][:,:8],b['context'],b['clock'][:,:8])
-    state=b['state'][:,8];total=state.new_zeros(len(state));den=state.new_zeros(len(state));alive=torch.ones(len(state),dtype=torch.bool,device=state.device)
+    state=b['state'][:,8];total=state.new_zeros(len(state));den=state.new_zeros(len(state));alive=torch.ones(len(state),dtype=torch.bool,device=state.device);predictions=[]
     for i in range(8,16):
         reference=torch.zeros_like(b['reference'][:,i])if blind else b['reference'][:,i]
         new,event,done,hidden=model.step(state,reference,b['context'],b['clock'][:,i],h)
@@ -46,7 +46,9 @@ def supervised_loss(model,b,blind):
         mask=b['valid'][:,i];total+=mask*(continuous+.1*(eventloss+terminal));den+=mask
         state=torch.where(alive[:,None],new,state);h=torch.where(alive[:,None],hidden,h)
         alive=alive&~((b['done'][:,i]>.5)|(b['timeout'][:,i]>.5))
-    return(total/den.clamp_min(1)).mean()
+        if return_prediction:predictions.append(state)
+    value=(total/den.clamp_min(1)).mean()
+    return(value,torch.stack(predictions,1))if return_prediction else value
 
 
 def update(model,opt,data,cursor,blind):

@@ -61,9 +61,22 @@ class Normalizer(nn.Module):
     def forward(self,state):return (state-self.mean)/self.std
 
 
+def relative_reference(state,reference,slices):
+    """Internal features only; external physical H40 reference stays untouched."""
+    tcp=state[...,slices['tcp_position']];rotation=state[...,slices['tcp_rotation']].reshape(-1,3,3)
+    xyz=(rotation.transpose(-1,-2)[:,None]@(reference[...,:3]-tcp[:,None])[...,None]).squeeze(-1)/.01
+    rows=reference[...,3:9].reshape(-1,40,2,3)
+    world=torch.cat((rows,torch.linalg.cross(rows[...,0,:],rows[...,1,:],dim=-1)[...,None,:]),-2)
+    local=rotation.transpose(-1,-2)[:,None]@world
+    grip=(reference[...,9:10]-state[...,slices['gripper_fraction']][:,None])/(.04/.044)
+    return torch.cat((xyz,local[...,:2,:].flatten(-2),grip),-1)
+
+
 class WorldModel(nn.Module):
-    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN,groups=GROUPS,context_dim=CONTEXT_DIM):
+    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN,groups=GROUPS,context_dim=CONTEXT_DIM,reference_encoding='absolute'):
         super().__init__();self.groups=tuple((name,int(n))for name,n in groups)
+        if reference_encoding not in('absolute','relative_tcp_v1'):raise ValueError('Versioned internal reference encoding required')
+        self.reference_encoding=reference_encoding
         self.slices={};offset=0
         for name,n in self.groups:self.slices[name]=slice(offset,offset+n);offset+=n
         self.normalizer=Normalizer(offset);self.history_hidden=history_hidden
@@ -77,6 +90,8 @@ class WorldModel(nn.Module):
         nn.init.normal_(self.delta.weight,std=1e-4);nn.init.zeros_(self.delta.bias);nn.init.constant_(self.done.bias,-3)
     def initial_hidden(self,state):return state.new_zeros((len(state),self.history_hidden))
     def inputs(self,state,reference,context,clock):
+        if self.reference_encoding=='relative_tcp_v1':
+            reference=relative_reference(state,reference,self.slices)
         return torch.cat((self.normalizer(state),reference.flatten(-2),context,clock),-1)
     def burn(self,states,references,context,clocks=None):
         if states.shape[1]!=8:raise ValueError("Exactly eight causal burn-in atoms")
