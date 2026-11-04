@@ -13,6 +13,15 @@ def components(predicted_opening,predicted_grasp,actual_opening,actual_grasp):
     if any(np.any((a<0)|(a>1))for a in(pp,gt,pt)):raise ValueError('Probability/measured fraction outside physical range')
     return dict(saved_WM_proxy=(1-pp)*np.clip(gp,0,1),PRIVILEGED_true_opening=(1-pp)*gt,PRIVILEGED_true_grasp=(1-pt)*np.clip(gp,0,1),PRIVILEGED_true_both=(1-pt)*gt)
 
+def validate_population(original,cards):
+    # The first frozen new8 result predates the optional study field. Bind its
+    # actual hashed population rather than inventing/requiring later metadata.
+    if (original.get('study','NEW8_F0_VALIDATION_V1')!='NEW8_F0_VALIDATION_V1'
+            or original['intended_parents']!=8 or original['intended_anchors']!=24
+            or len(cards)!=8 or [c['ident_index']for c in cards]!=list(range(40,48))
+            or any(c['split']!='DEV'or c['ident_partition']!='PROSPECTIVE_B2_NEVER_FIT'for c in cards)):
+        raise ValueError('Only original already-opened prospective DEV8 permitted')
+
 def run(root,manifest,pin):
     start=time.monotonic();cpu=time.process_time();root=Path(root);manifest=Path(manifest)
     if digest(manifest)!=pin:raise ValueError('Original audited stream manifest differs')
@@ -22,7 +31,7 @@ def run(root,manifest,pin):
         if relative not in pins or digest(p)!=pins[relative]:raise ValueError('Unmanifested/changed original evidence:'+relative)
         used[relative]=pins[relative];return p
     original=json.loads(checked('RESULT.json').read_text())
-    if original['study']!='NEW8_F0_VALIDATION_V1'or original['intended_parents']!=8:raise ValueError('Only original already-opened prospective DEV8 permitted')
+    validate_population(original,json.loads(checked('CARDS.json').read_text()))
     scenes=[];counts={k:0 for k in('saved_WM_proxy','PRIVILEGED_true_opening','PRIVILEGED_true_grasp','PRIVILEGED_true_both')}
     for i in range(40,48):
         prefix=f'scene-{i:02d}/supported_release/';selection=json.loads(checked(prefix+'BEFORE_ANY_BRANCH.json').read_text());truth=json.loads(checked(prefix+'RESULT.json').read_text());names=selection['names']
