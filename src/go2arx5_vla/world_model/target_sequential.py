@@ -286,7 +286,9 @@ class TargetSequentialAdapter:
                     path=fields[5]
                     if relevant_loaded_path(path):paths.add(path)
             exe=os.readlink(root/'exe');value[name]=dict(pid=pid,executable=exe,executable_sha256=digest(exe),loaded_files_sha256={path:digest(path)for path in sorted(paths)})
-        write_json(self.output/'LOADED_EXECUTOR.private.json',value)
+        index=getattr(self,'loaded_identity_snapshots',0)
+        write_json(self.output/f'LOADED_EXECUTOR_{index:02d}.private.json',value)
+        self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
         import numpy as np

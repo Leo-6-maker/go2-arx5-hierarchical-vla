@@ -64,6 +64,16 @@ class TargetReferenceContract(unittest.TestCase):
         self.assertFalse(relevant_loaded_path('/dev/shm/fastdds_fixture (deleted)'))
         self.assertTrue(relevant_loaded_path('/run/cache/ocs2-controller/dynamics/lib.so'))
         with self.assertRaises(RuntimeError):relevant_loaded_path('/run/cache/ocs2-controller/lib.so (deleted)')
+    def test_initial_final_identity_snapshots_never_overwrite_or_abort_closeout(self):
+        import subprocess,tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory()as tmp:
+            process=subprocess.Popen(['/usr/bin/sleep','10'])
+            try:
+                adapter=TargetSequentialAdapter({},tmp);adapter.processes=[('controller',process)]
+                adapter.capture_loaded_identity();adapter.capture_loaded_identity()
+                self.assertEqual(len(list(Path(tmp).glob('LOADED_EXECUTOR_*.private.json'))),2)
+            finally:process.terminate();process.wait()
 
 
 if __name__=='__main__':unittest.main()
