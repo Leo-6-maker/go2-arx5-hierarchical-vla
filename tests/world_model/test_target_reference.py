@@ -2,6 +2,7 @@ import unittest
 from go2arx5_vla.world_model.target_reference import deadline,require_live_window,require_install_clock,dynamic_limit,trajectory_identity,installed_target_identities
 from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 from scripts.pi0294.native_receiver import reference_expired
+from go2arx5_vla.world_model.target_reference import measured_base_hold
 
 
 class TargetReferenceContract(unittest.TestCase):
@@ -51,6 +52,13 @@ class TargetReferenceContract(unittest.TestCase):
         matched=installed_target_identities(events,'a')
         self.assertEqual(len(matched),2)
         self.assertIn(trajectory_identity([5.104,5.154],[[1.],[2.]],[[0.],[0.]]),matched)
+    def test_measured_base_pose_hold_uses_existing_world_grid_and_preserves_input(self):
+        doc=dict(ee=dict(frame='world'));base=[.04,-.02,.37,0,0,0,1]
+        result=measured_base_hold(doc,base)
+        self.assertNotIn('base',doc);self.assertEqual(len(result['base']['waypoints']),41)
+        self.assertEqual(result['base']['waypoints'][-1]['position'],base[:3])
+        self.assertEqual(result['base']['waypoints'][-1]['time'],2.)
+        with self.assertRaises(ValueError):measured_base_hold(doc,[0.]*7)
 
 
 if __name__=='__main__':unittest.main()

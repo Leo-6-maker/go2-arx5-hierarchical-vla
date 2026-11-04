@@ -50,6 +50,17 @@ def installed_target_identities(events, ref):
             for e in events if e.get('kind')=='installed'and e.get('ref_id')==ref}
 
 
+def measured_base_hold(document, pose):
+    """Existing native 14D pose reference, never fabricated BASE velocities."""
+    import copy
+    pose=list(pose)
+    if len(pose)!=7 or not all(math.isfinite(x)for x in pose)or abs(sum(x*x for x in pose[3:])-1)>1e-5:
+        raise ValueError('MEASURED_NATIVE_BASE_POSE7_REQUIRED')
+    result=copy.deepcopy(document)
+    result['base']=dict(frame='world',start_delay=0.,lead_in=0.,waypoints=[dict(time=k*.05,position=pose[:3],quaternion_xyzw=pose[3:])for k in range(41)])
+    return result
+
+
 def dynamic_limit(phase, previous):
     """Versioned finite diagnostic, never accept arbitrary metadata limits."""
     table = {
@@ -57,6 +68,10 @@ def dynamic_limit(phase, previous):
         'g2-hold-renew': ('g2-hold-short', TASK_START+400),
         'g2-eef-x': ('g2-hold-renew', TASK_START+200),
         'g2-eef-y': ('g2-eef-x', TASK_START+200),
+        'g2-standing-hold-short-v2': ('g2-hold-short', TASK_START+25),
+        'g2-standing-hold-renew-v2': ('g2-standing-hold-short-v2', TASK_START+400),
+        'g2-standing-eef-x-v2': ('g2-standing-hold-renew-v2', TASK_START+200),
+        'g2-standing-eef-y-v2': ('g2-standing-eef-x-v2', TASK_START+200),
     }
     if phase not in table:
         raise PermissionError('UNKNOWN_FINITE_DYNAMIC_PHASE')

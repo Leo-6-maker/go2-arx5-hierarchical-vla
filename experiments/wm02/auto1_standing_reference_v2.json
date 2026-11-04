@@ -1,0 +1,19 @@
+{
+  "schema": "WM02_AUTO1_STANDING_REFERENCE_REPAIR_V2",
+  "negative_condition": "g2-hold-renew run02: native ILLEGAL_CONTACT at2853, base_link unnamed geom12 against table geom1; retained without retry-selection",
+  "evidence": "Existing task_floating.info baseTracking comment and EETrajectoryManager contract:7D EE-only target disables existing baseTracking cost;14D measured EE+base pose enables that already-configured cost",
+  "hypothesis": "EE-only hold did not express standing base hold; adding the actual initial MPC base pose may reduce the observed base advance. Not established as the sole cause or a successful repair",
+  "binding": "MEASURED_EEF_AND_BASE_POSE_HOLD_V2",
+  "base_reference": "Actual MPC measured floating-base mounting pose at entry, kept constant across reference renewals; no fabricated BASE velocities or stationary labels",
+  "native_reference_checks": "Reuse original certify_chunk IK, joints, rates and full contacts in cloned data; no physical integration during certificate",
+  "frozen": ["NATIVE_BINARY","SCENE","LEG_POLICY","CONTROLLER","SOLVER","COST_WEIGHTS","GAINS","DT","SAFETY_RULES"],
+  "G1_reuse": "Exact same native executor and loader; finite new reference short probe before longer dynamic check",
+  "phases": [
+    {"id":"g2-standing-hold-short-v2","max_tick":2528},
+    {"id":"g2-standing-hold-renew-v2","max_tick":2903},
+    {"id":"g2-standing-eef-x-v2","max_tick":2703},
+    {"id":"g2-standing-eef-y-v2","max_tick":2703}
+  ],
+  "deployment_status": "NOT_EXECUTED_BY_CONFIG_FILE",
+  "stop": "Any original native STOP ends current run; no further phase without evidenced repair"
+}

@@ -77,7 +77,7 @@ class TargetSequentialAdapter:
         self.rclpy=rclpy;self.String=String;rclpy.init();self.node=rclpy.create_node('wm02_auto1_'+self.spec['phase'].replace('-','_'))
         def record(key,msg):
             self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
-            if self.dynamic_phase()and key in('policy','arm_request','arm_target','base_command','mode','observation'):
+            if self.dynamic_phase()and key in('policy','arm_request','arm_target','base_command','mode','observation','ee'):
                 from rosidl_runtime_py.convert import message_to_ordereddict
                 row=dict(topic_key=key,received_monotonic_s=time.monotonic(),message=message_to_ordereddict(msg))
                 self.ros_evidence.append(row)
@@ -216,7 +216,11 @@ class TargetSequentialAdapter:
         self.advance_to(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
         if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
-        self.wait_source();self.reference_sequence=-1
+        self.wait_source();self.reference_sequence=-1;self.reference_history=[]
+        if self.spec['phase'].startswith('g2-standing-'):
+            from go2_x5_planning.ee_trajectory import Pose
+            self.base_pose_hold=Pose.from_base_state(self.latest['observation'].state.value[:6]).as_state()
+        self.capture_loaded_identity()
     def wait_source(self):
         from scripts.pi0294.task_clock import actual_source_age
         t=self.observe()['time_s']
@@ -237,9 +241,19 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_gripper_contract import require_working_target
         self.wait_source();packet=self.observe();source=float(self.latest['ee'].time);require_install_clock(source,packet['time_s'])
         require_working_target(action[:,9]);self.reference_sequence+=1
-        doc=eef_document(action);doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
+        doc=eef_document(action)
+        certificate=None
+        if hasattr(self,'base_pose_hold'):
+            from .target_reference import measured_base_hold
+            from scripts.pi0294.task_path_model import certify_chunk
+            from scripts.pi0292.eval_contract import matrix10
+            from .native_replay import forbid_integration
+            import mujoco
+            with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage='approach',history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+            doc=measured_base_hold(doc,self.base_pose_hold)
+        doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
-        intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist())
+        intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
         write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]));self.publish(self.refs,wire)
         def installed():
@@ -281,13 +295,15 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
-        offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001)}.get(self.spec['phase'])
+        offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current():
             current=self.measured_task_state()['tcp'];poses=[]
             for k in range(40):
-                p=goal.copy();p[:3,3]=current[:3,3]+min((k+1)/8,1)*(goal[:3,3]-current[:3,3]);poses.append(pose10(p,float(teacher_physical_fraction(1.))))
+                p=goal.copy()
+                if offset:p[:3,3]=current[:3,3]+min((k+1)/8,1)*(goal[:3,3]-current[:3,3])
+                poses.append(pose10(p,float(teacher_physical_fraction(1.))))
             return np.stack(poses)
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
@@ -311,6 +327,9 @@ class TargetSequentialAdapter:
                 if row['topic_key']=='arm_request':arm.append(row)
             result=dict(native_start_step=step,native_end_step=after['step'],actual_ticks=after['step']-step,clock=clock,reference_sha256=self.active_reference['wire_sha256'],target_trajectory_sha256=identity,solver_policies_with_exact_installed_target=matched,arm_request_count=len(arm),controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',mode=self.latest['mode'].data,actual_end_sim_s=after['time_s'])
             windows.append(result);self.command_event(dict(phase='controller-consumed'if matched else'consumption_unconfirmed',evidence_level='SOLVER_TARGET_CONFIRMED_CONTROLLER_SELECTION_DERIVED'if matched else'UNCONFIRMED',**result));self.command_event(dict(phase='achieved',native_step=after['step'],sim_time_s=after['time_s'],tcp=self.measured_task_state()['tcp'].tolist()))
+            from scripts.pi0292.eval_contract import matrix10
+            index=(step-installed_step)//25
+            self.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(self.active_reference['action_EEF10'])[index]))
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_labels='ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)

@@ -15,7 +15,7 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous):
-    if phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y'):
+    if phase in ('g2-hold-short','g2-hold-renew','g2-eef-x','g2-eef-y','g2-standing-hold-short-v2','g2-standing-hold-renew-v2','g2-standing-eef-x-v2','g2-standing-eef-y-v2'):
         from .target_reference import dynamic_limit
         return dynamic_limit(phase,previous)
     if phase=='g2-reference-qualification':
@@ -53,6 +53,16 @@ def admitted_target(spec_path,run_id,output):
     if type(spec['candidate_index'])is not int or not 1<=spec['candidate_index']<=6:raise PermissionError('AUTO1_FINITE_CANDIDATE_COUNT_REQUIRED')
     limit=phase_limit(spec['phase'],previous)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
+    if spec['phase'].startswith('g2-standing-'):
+        repair=Path(spec['repair_stop_result']);negative=json.loads(repair.read_text())
+        if (spec.get('reference_binding_version')!='MEASURED_EEF_AND_BASE_POSE_HOLD_V2'
+                or digest(repair)!=spec['repair_stop_result_sha256']
+                or negative.get('campaign_uuid')!=campaign.name
+                or negative.get('native_binary_sha256')!=digest(spec['native_binary'])
+                or negative.get('phase')!='g2-hold-renew'
+                or negative.get('actual_target_integrations')!=2853
+                or negative.get('physics_stops')!=[dict(kind='stop',reason='ILLEGAL_CONTACT',steps=2853)]
+                or not negative.get('shutdown_clean')):raise PermissionError('EVIDENCED_STANDING_REFERENCE_REPAIR_REQUIRED')
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
     for path,pin in spec['frozen_files'].items():
         if digest(path)!=pin:raise PermissionError('FROZEN_TARGET_INPUT_CHANGED:'+path)
