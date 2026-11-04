@@ -22,6 +22,7 @@ def read_trace(path):
             row=dict(zip(('ticket','monotonic_ns','sim_time_s','kind','n','observation_version','latest_started_policy','applied_position_version','applied_velocity_version','token'),a[:10]),values=list(a[10:10+a[4]]))
             # Oversized INPUT/HISTORY records have n=0; their first3 raw doubles
             # are a reference, not an empty observation. Keep the original ABI.
+            if a[3]in(3,4)and a[4]==0 and not all(math.isfinite(v)for v in a[10:13]):raise ValueError('Nonfinite full payload descriptor')
             if a[3]in(3,4)and a[4]==0 and a[12]>96:
                 slot,generation,count=a[10:13]
                 if any(not math.isfinite(v)or int(v)!=v for v in(slot,generation,count)):raise ValueError('Invalid full payload reference')
@@ -76,6 +77,7 @@ def audit_trace(path,*,max_native_ticks=None):
         if any(type(writer.get(k))is not int or writer[k]<0 for k in('events','dropped'))or type(writer.get('stop_latched'))is not bool:raise ValueError('Invalid writer summary')
         if writer['dropped']:errors.append('WRITER_REPORTED_DROPPED_EVENTS')
         if writer['events']!=len(rows):errors.append('WRITER_EVENT_COUNT_DIFFERS')
+        if 'written'in writer and(type(writer['written'])is not int or writer['written']!=len(rows)):errors.append('WRITER_WRITTEN_COUNT_DIFFERS')
     payloads={r['ticket']:payload_metadata(r,snapshots)for r in rows if r['kind']in(3,4)}
     unretained=sum(v['status']=='NOT_RETAINED_OR_NOT_WRITTEN'for v in payloads.values())
     truncated=sum(v['status']=='TRUNCATED'for v in payloads.values())

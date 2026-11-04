@@ -21,7 +21,37 @@ int main(){
  WM02InitNumeric(wm02_init::STEP_AFTER,.004,1,x,3);wm02_init::emit(wm02_init::STOP,.004,1);wm02_init::emit(wm02_init::REFUSED,.004,1);return 0;
 }
 '''
+SHUTDOWN=r'''
+#include "init_trace.hpp"
+#include <atomic>
+#include <thread>
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <pthread.h>
+#include <dlfcn.h>
+std::atomic<bool> entered{false},released{false};
+extern "C" ssize_t write(int fd,const void*p,size_t n){
+ if(n==840&&!entered.exchange(true))while(!released.load())std::this_thread::yield();
+ return syscall(SYS_write,fd,p,n);
+}
+extern "C" int pthread_join(pthread_t thread,void**value){
+ released.store(true);using F=int(*)(pthread_t,void**);static auto real=(F)dlsym(RTLD_NEXT,"pthread_join");return real(thread,value);
+}
+int main(){
+ double x[86]{};WM02InitNumeric(wm02_init::PD_STATE_CTRL,0,0,x,86);
+ while(!entered.load())std::this_thread::yield();
+ WM02InitNumeric(wm02_init::PD_STATE_CTRL,.002,0,x,86);return 0;
+}
+'''
 class InitTrace(unittest.TestCase):
+    def test_orderly_shutdown_drains_events_enqueued_after_writer_limit_snapshot(self):
+        # Executable symbol interposition holds first disk write until join,
+        # forcing finish=true with a newer queued head. No production test hook.
+        with tempfile.TemporaryDirectory()as tmp:
+            d=Path(tmp);h=d/'h.cpp';h.write_text(SHUTDOWN);binary=d/'h';trace=d/'trace'
+            subprocess.run(['g++','-std=c++17','-O2','-pthread','-rdynamic','-I'+str(ROOT/'src/go2arx5_vla/target_mujoco'),str(h),str(ROOT/'src/go2arx5_vla/target_mujoco/init_trace.cpp'),'-ldl','-o',str(binary)],check=True,capture_output=True)
+            subprocess.run([str(binary)],env=dict(os.environ,WM02_INIT_TRACE=str(trace)),check=True,timeout=10)
+            summary=json.loads(Path(str(trace)+'.summary').read_text());self.assertEqual(summary['events'],2);self.assertEqual(summary['written'],2);self.assertEqual(len(read_trace(trace)),2);self.assertEqual(summary['dropped'],0)
     def test_bounded_trace_keeps_PD_during_inference_and_actual_queue_versions(self):
         with tempfile.TemporaryDirectory()as tmp:
             d=Path(tmp);h=d/'harness.cpp';h.write_text(HARNESS);binary=d/'harness';trace=d/'trace'

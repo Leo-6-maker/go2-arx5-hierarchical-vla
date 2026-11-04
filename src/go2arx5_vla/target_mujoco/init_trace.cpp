@@ -24,7 +24,7 @@ thread_local uint64_t inference=0;
 struct Recorder {
  std::unique_ptr<Cell[]> cells;std::unique_ptr<Snapshot[]> snapshots;Queue queues[2];
  std::atomic<uint64_t> head{0},dropped{0},obs{0},policy{0},consumed[2]{},applied[2]{},snapshot_head{0};
- std::atomic<bool> finish{false},stopped{false};int fd=-1,sfd=-1;std::thread writer;
+ std::atomic<bool> finish{false},stopped{false};uint64_t written=0;int fd=-1,sfd=-1;std::thread writer;
  Recorder(){
   const char*p=std::getenv("WM02_INIT_TRACE");if(!p)return;
   cells.reset(new Cell[CAP]);snapshots.reset(new Snapshot[SLOTS]);
@@ -57,11 +57,14 @@ struct Recorder {
     float payload[FLOATS];auto token=s.token.load();auto kind=s.kind.load(),n=s.n.load();for(uint32_t j=0;j<n;++j)payload[j]=s.data[j].load(std::memory_order_relaxed);if(s.ready.load(std::memory_order_acquire)!=g)continue;
     uint64_t h[5]={g,i,token,kind,n};write_all(sfd,h,sizeof(h));write_all(sfd,payload,n*sizeof(float));seen[i]=g;
    }
-   if(finish.load()&&tail>=limit)break;std::this_thread::sleep_for(std::chrono::milliseconds(10));
+   // Producers may append after this iteration's limit snapshot. After finish,
+   // compare with the final head, not that stale snapshot, before exiting.
+   if(finish.load()&&tail>=std::min<uint64_t>(head.load(),CAP))break;std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }while(true);
+  written=tail; // Read only after writer.join() in the destructor.
  }
  ~Recorder(){if(fd<0)return;finish.store(true);writer.join();fsync(fd);fsync(sfd);close(fd);close(sfd);
-  if(const char*p=std::getenv("WM02_INIT_TRACE")){std::string path=std::string(p)+".summary";FILE*f=fopen(path.c_str(),"wx");if(f){fprintf(f,"{\"events\":%llu,\"dropped\":%llu,\"stop_latched\":%s}\n",(unsigned long long)head.load(),(unsigned long long)dropped.load(),stopped.load()?"true":"false");fclose(f);}}
+  if(const char*p=std::getenv("WM02_INIT_TRACE")){std::string path=std::string(p)+".summary";FILE*f=fopen(path.c_str(),"wx");if(f){fprintf(f,"{\"events\":%llu,\"written\":%llu,\"dropped\":%llu,\"stop_latched\":%s}\n",(unsigned long long)head.load(),(unsigned long long)written,(unsigned long long)dropped.load(),stopped.load()?"true":"false");fclose(f);}}
  }
 };
 Recorder& recorder(){static Recorder r;return r;}
