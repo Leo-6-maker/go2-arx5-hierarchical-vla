@@ -29,6 +29,8 @@ class InitTrace(unittest.TestCase):
             subprocess.run([str(binary)],env=dict(os.environ,WM02_INIT_TRACE=str(trace)),check=True,timeout=10)
             rows=read_trace(trace);kinds=[r['kind']for r in rows];self.assertLess(kinds.index(2),kinds.index(10));self.assertLess(kinds.index(10),kinds.index(5))
             applied=next(r for r in rows if r['kind']==8);self.assertEqual((applied['applied_position_version'],applied['applied_velocity_version']),(2,1))
+            self.assertEqual([r['values']for r in rows if r['kind']==6],[[0.],[0.],[1.]])
+            history=next(r for r in rows if r['kind']==4);self.assertEqual(history['payload_reference'],dict(slot=0,generation=1,original_count=1024))
             s=summarize(trace);self.assertEqual(s['integrations_after_first_STOP'],0);self.assertEqual(s['writer']['dropped'],0)
             snapshot=Path(str(trace)+'.snapshots').read_bytes();g,slot,token,kind,n=struct.unpack('<5Q',snapshot[:40]);self.assertEqual((kind,n),(4,1024));self.assertEqual(struct.unpack('<1024f',snapshot[40:]),(3.25,)*1024)
     def test_patch_stripping_preserves_controller_text_and_reader_rejects_truncation(self):

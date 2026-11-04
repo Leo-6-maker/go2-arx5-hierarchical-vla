@@ -1,0 +1,34 @@
+{
+  "schema": "WM02_INIT_TRACE_EVIDENCE_V2",
+  "charter_sha": "a5619af01a8e508f170ecaec4aa994936098a985",
+  "previous_publication_sha": "5cb00eccda68753b2e242ed65f0c0bf4b83c9b45",
+  "hypotheses": [
+    "The legacy Python reader discards slot/generation/count for full INPUT/HISTORY vectors when raw n=0; preserving and resolving references recovers complete bounded inputs.",
+    "Legacy PUBLISH records omit channel although CONSUME records distinguish channels; adding one scalar channel allows an independent publication/consumption audit without controller command/math changes.",
+    "Writer dropped=0 does not prove all oversized vectors survived the finite first4/recent28 retention ring; explicit retained/missing/truncated evidence is necessary.",
+    "Orderly recorder shutdown can compare drained tail with a stale head snapshot, losing later enqueued events while reporting dropped=0. Drain must inspect the final producer head after finish."
+  ],
+  "changed_factor": "Trace evidence completeness only. Existing record ABI/header and all controller/math/gains/solver/safety/physics unchanged; no native run.",
+  "expected": [
+    "Compiled harness preserves full1024f history and distinct publication channels0/1.",
+    "Synthetic matching trace passes only recorded-data checks; target qualification stays NOT_ESTABLISHED.",
+    "Empty actual loader trace remains INSUFFICIENT; noSTOP is NOT_TESTED; mixed versions/extraSTOP steps/truncation/missing payload are detected.",
+    "Fresh native candidate compile/link, original R1 arithmetic harness, both actual dlsym chains pass; target constructors/policy forwards/integrations remain0.",
+    "A deterministic interposed-write/join C++ fixture records all queued events on orderly shutdown; summary.events equals decoded records."
+  ],
+  "execution": {
+    "site": "Existing Core build-only user profile",
+    "new_run_required": true,
+    "max_CPUs": 4,
+    "max_RAM_bytes": 8589934592,
+    "max_wall_s": 1200,
+    "GPU_visible": false,
+    "native_dynamics": false,
+    "model_constructions": false
+  },
+  "preserve": "Old7ae candidate and old owner request stay immutable; a separate new request may be prepared only after actual new binary/loader identities exist.",
+  "new_WM_updates": 0,
+  "new_S_transitions": 0,
+  "new_T_integrations": 0,
+  "formal_Actor_updates": 0
+}
