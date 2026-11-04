@@ -31,6 +31,9 @@ class Auto1Native(unittest.TestCase):
         subprocess.run([sys.executable,'-m','scripts.wm02.commission_target','--help'],check=True,capture_output=True)
     def test_phases_never_skip_failed_or_missing_native_stage(self):
         self.assertEqual(phase_limit('cold-1',None),50)
+        with self.assertRaises(PermissionError):phase_limit('g2-reference-qualification',None)
+        self.assertEqual(phase_limit('g2-reference-qualification',dict(phase='hold-5s-2',status='NATIVE_STAGE_PASSED',shutdown_clean=True,owned_process_exits=[dict(exit_code=0)])),2500)
+        with self.assertRaises(PermissionError):phase_limit('g2-reference-qualification',dict(phase='hold-5s-2',status='NATIVE_STAGE_PASSED',shutdown_clean=False))
         self.assertEqual(phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED')),50)
         with self.assertRaises(PermissionError):phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED',owned_process_exits=[dict(exit_code=139)]))
         for previous in(None,dict(phase='cold-1',status='FAIL'),dict(phase='cold-2',status='NATIVE_STAGE_PASSED')):

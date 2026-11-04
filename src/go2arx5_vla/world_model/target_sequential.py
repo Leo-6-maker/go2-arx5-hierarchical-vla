@@ -34,7 +34,7 @@ def owned_simulator_pid(wrapper_pid,binary):
 
 class TargetSequentialAdapter:
     def __init__(self,spec,output):
-        self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.started=time.monotonic();self.commands=[];self.exit_records=[]
+        self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None
     def guard(self):
         if time.monotonic()-self.started>=self.spec['wall_limit_s']or time.time()>=self.spec['deadline_epoch']or any((p/'STOP.json').exists()for p in(self.output,Path(self.spec['registered_root']),Path(self.spec['campaign_root']))):raise TimeoutError('AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
     def control(self):
@@ -69,10 +69,15 @@ class TargetSequentialAdapter:
         from std_msgs.msg import String
         from nav_msgs.msg import Odometry
         from sensor_msgs.msg import JointState
-        from rclpy.qos import qos_profile_sensor_data
+        from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
         self.rclpy=rclpy;self.String=String;rclpy.init();self.node=rclpy.create_node('wm02_auto1_'+self.spec['phase'].replace('-','_'))
-        def record(key,msg):self.counts[key]=self.counts.get(key,0)+1
+        def record(key,msg):self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
         self.subs=[self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos_profile_sensor_data)for key,topic,cls in(('odom','/go2_x5/slam/odom_mocap',Odometry),('arm','/go2_x5/arm/state',JointState))]
+        if self.spec['phase']=='g2-reference-qualification':
+            from ocs2_msgs.msg import MpcObservation
+            for key,topic,cls,qos in(('ee','/go2_x5/ee/state',MpcObservation,10),('observation','/mobile_manipulator_mpc_observation',MpcObservation,10),('mode','/go2_x5/arm/mode/state',String,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))):
+                self.subs.append(self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos))
+            self.refs=self.node.create_publisher(String,'/go2_x5/ee/trajectory_json',10)
         self.keys=self.node.create_publisher(String,'/go2_x5/fsm/key',10);self.modes=self.node.create_publisher(String,'/go2_x5/arm/mode/request',10)
         self.spin(.3)
         if any(name!=self.node.get_name()for name in self.node.get_node_names()):raise RuntimeError('ISOLATED_ROS_DOMAIN_ALREADY_OCCUPIED')
@@ -82,6 +87,7 @@ class TargetSequentialAdapter:
         warmup=(s['max_ticks']+499)//500
         (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'0'))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
+        self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
         command,display_env=native_display_command(s,out,sim);self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
@@ -91,6 +97,9 @@ class TargetSequentialAdapter:
         for name,key in(('solver','solver_binary'),('controller','controller_binary')):
             cache=out/'cache'/('ocs2-'+name);shutil.copytree(s['codegen_lib'],cache)
             self.launch([s[key],*params,'-p','libFolder:='+str(cache)],name,env)
+        if s['phase']=='g2-reference-qualification':
+            import sys
+            self.launch([sys.executable,'-B','-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',dict(env,PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name))
         if not self.spin(30,lambda:self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
@@ -119,6 +128,47 @@ class TargetSequentialAdapter:
             except(FileNotFoundError,ValueError):return False
         if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
         return self.observe()
+    def qualify_reference(self):
+        """Original install/cancel/HOLD transaction at the native paused boundary.
+
+        No extra physics and no claim of MPC policy consumption or task data.
+        """
+        import hashlib,numpy as np
+        from scripts.pi0294.task_state import ActualState
+        from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
+        from scripts.pi0294.base_intent import eef_document
+        from go2arx5_vla.task_data.codec import pose10
+        from scripts.pi0292.durable import write
+        if self.spec['phase']!='g2-reference-qualification':raise PermissionError('EXACT_REFERENCE_TRANSACTION_SCOPE_REQUIRED')
+        packet=self.observe();step=packet['step'];t=packet['time_s'];before=self.counts.get('mode',0)
+        self.publish(self.modes,'WBC')
+        def ready():
+            return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation')))
+        if not self.spin(20,ready):raise RuntimeError('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
+        import mujoco
+        from .native_replay import forbid_integration
+        model=mujoco.MjModel.from_binary_path(self.spec['model_path']);actual=ActualState(model)
+        with forbid_integration(mujoco):state=actual.update(packet)
+        action=np.stack([pose10(state['tcp'],teacher_physical_fraction(1.))]*40)
+        source=float(self.latest['ee'].time);document=eef_document(action);document['_pi0294']=dict(episode=self.output.name,sequence=0,source_mpc_s=source,ttl_s=.4,operation='install')
+        wire=json.dumps(document,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
+        write(self.output/'REFERENCE_PROPOSED.json',dict(wire=wire,wire_sha256=ref,action_EEF10=action.tolist(),source_mpc_s=source,native_step=step))
+        def events():
+            p=self.output/'planner.jsonl'
+            return[json.loads(l)for l in p.read_text().splitlines()if l.strip()]if p.exists()else[]
+        self.publish(self.refs,wire)
+        def installed():
+            rows=events()
+            if any(r['kind']=='reject'and r.get('wire_sha256')==ref for r in rows):raise RuntimeError('ORIGINAL_REFERENCE_RECEIVER_REJECTED')
+            return all(any(r['kind']==kind and r.get('ref_id')==ref for r in rows)for kind in('accept','installed'))
+        if not self.spin(5,installed):raise RuntimeError('ORIGINAL_REFERENCE_INSTALL_ACK_MISSING')
+        before=self.counts.get('mode',0);cancel=dict(_pi0294=dict(episode=self.output.name,sequence=1,source_mpc_s=source,ttl_s=.4,operation='cancel'));self.publish(self.refs,json.dumps(cancel,separators=(',',':')))
+        if not self.spin(5,lambda:any(r['kind']=='lifecycle'and r.get('reason')=='CANCEL'for r in events())and self.counts.get('mode',0)>before and self.latest['mode'].data=='HOLD'):raise RuntimeError('ORIGINAL_CANCEL_AND_HOLD_ACK_MISSING')
+        after=self.observe();ack=json.loads((self.output/'pause_ack.json').read_text())
+        if after['step']!=step or after['time_s']!=t or ack['running']or not ack['clock_paused']:raise RuntimeError('PHYSICS_ADVANCED_DURING_PAUSED_REFERENCE_TRANSACTION')
+        self.reference_qualification=dict(status='ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED',native_step=step,source_mpc_s=source,installed_wire_sha256=ref,extra_integrations=0,task_reference_consumption='NOT_TESTED_NO_TASK_TICKS',events=len(events()))
+        write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
+        return self.reference_qualification
     def close(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):
