@@ -2,10 +2,16 @@ import unittest,struct,tempfile
 from pathlib import Path
 from types import SimpleNamespace
 import numpy as np
-from go2arx5_vla.world_model.native_replay import packets,forbid_integration,apply_frame
+from go2arx5_vla.world_model.native_replay import packets,forbid_integration,apply_frame,validate_qualified_recording
 
 def raw(step=1):return struct.pack('<8sQdIII',b'GRTSTATE',step,step*.002,34,32,20)+np.zeros(86,dtype='<f8').tobytes()+struct.pack('<I',0)
 class NativeReplay(unittest.TestCase):
+    def test_qualified_replay_label_rejects_failed_or_other_scene(self):
+        config=dict(scene=dict(sha256='scene'),original_native_source_sha='source');rows=[dict(step=1)]
+        r=dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,physics_stops=[],original_joint_or_warning_samples=0,owned_process_exits=[dict(exit_code=0)],trace_audit=dict(status='RECORDED_TRACE_CHECKS_PASS'),scene_sha256='scene',source_sha='source',actual_target_integrations=1)
+        validate_qualified_recording(config,r,rows)
+        for changed in [dict(status='NATIVE_STAGE_FAILED_PRESERVED'),dict(scene_sha256='other'),dict(physics_stops=[dict(reason='STOP')]),dict(owned_process_exits=[dict(exit_code=1)])]:
+            with self.assertRaises(ValueError):validate_qualified_recording(config,dict(r,**changed),rows)
     def test_full_packet_identity_clock_truncation_and_gap_are_explicit(self):
         with tempfile.TemporaryDirectory()as tmp:
             p=Path(tmp)/'state';a=raw();b=raw(3);p.write_bytes(struct.pack('<I',len(a))+a+struct.pack('<I',len(b))+b);rows=packets(p);self.assertEqual([r['step']for r in rows],[1,3]);p.write_bytes(p.read_bytes()[:-1])
