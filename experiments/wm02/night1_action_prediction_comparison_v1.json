@@ -1,0 +1,14 @@
+{
+  "schema": "WM02_NIGHT1_ACTION_PREDICTION_COMPARISON_V1",
+  "registered_before_first_new_parent_DEV_generation": true,
+  "question": "Does action conditioning improve native free-space state prediction on independently assigned object layouts?",
+  "arms": ["RAW_WORLD_RELATIVE_V1", "SCALED_WORLD_RELATIVE_1CM_V2", "NO_ACTION_V2"],
+  "same": {"seed": 20261105, "parameters": 74986, "hidden": 64, "optimizer": "AdamW lr1e-3 weight_decay1e-5", "main_updates_per_arm": 2000, "restore_probe_updates_per_arm": 1, "TRAIN_only_normalizer": true, "replay": "SAME_SEALED_FIRST_NEW_PARENT_PANEL"},
+  "primary_fields": ["tcp_position_m", "tcp_SO3_rad", "base_position_m", "finger_position_m"],
+  "horizons_atoms": [1, 8, 16],
+  "baselines": ["persistence", "local_numeric_velocity", "TRAIN_only_ridge_reference_residual"],
+  "inference": "Report all arms, all fields and parents. Overlapping windows are not independent; prospective new parent results remain separate. Input sensitivity or predictive gain does not establish causal control or action-selection benefit.",
+  "static_object": "Persistence may be exact; retain zero-error baseline and every neural regression.",
+  "formal_Actor": false,
+  "actual_effects_of_this_registration": {"physics_integrations": 0, "optimizer_updates": 0}
+}

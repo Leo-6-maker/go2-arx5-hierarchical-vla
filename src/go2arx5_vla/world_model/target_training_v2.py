@@ -41,15 +41,22 @@ def run(spec,output):
     ids=select_samples(data,meta,'TRAIN')
     if not len(ids):raise ValueError('REAL_TRAIN_WINDOWS_REQUIRED')
     train=tensors(data,ids,device);random.seed(20261105);np.random.seed(20261105);torch.manual_seed(20261105)
-    m=TargetWM(meta).to(device);opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);cursor=0;prior_steps=0
+    prior=None;model_meta=dict(meta)
+    if spec.get('resume'):
+        if digest(spec['resume'])!=spec['resume_sha256']:raise ValueError('FROZEN_REFRESH_CHECKPOINT_CHANGED')
+        prior=torch.load(spec['resume'],map_location='cpu',weights_only=True)
+    encoding=spec.get('action_encoding',(prior['metadata'].get('action_encoding','RAW_WORLD_RELATIVE_V1')if prior else'RAW_WORLD_RELATIVE_V1'))
+    if prior and encoding!=prior['metadata'].get('action_encoding','RAW_WORLD_RELATIVE_V1'):raise ValueError('STRICT_RESUME_CANNOT_CHANGE_ACTION_FEATURES')
+    if encoding!='RAW_WORLD_RELATIVE_V1':model_meta['action_encoding']=encoding
+    m=TargetWM(model_meta).to(device);opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);cursor=0;prior_steps=0
     recipe='FRESH_V2_MODEL_TRAIN_ONLY_NORMALIZER'
     if spec.get('resume'):
         if digest(spec['resume'])!=spec['resume_sha256']:raise ValueError('FROZEN_REFRESH_CHECKPOINT_CHANGED')
-        c=torch.load(spec['resume'],map_location='cpu',weights_only=True)
+        c=prior
         if c['schema']!='WM02_TARGET_WM_CHECKPOINT_V2':raise ValueError('NO_SILENT_V1_TRAINING_MIGRATION')
         compatible(c['metadata'],meta);m.load_state_dict(c['model'],strict=True);opt.load_state_dict(c['optimizer']);restore_rng(c['rng']);cursor=c['replay_cursor'];prior_steps=c['provenance'].get('prior_main_updates',0)+c['step'];recipe='STRICT_V2_CONTINUATION_FIXED_FIRST_NORMALIZER'
     else:m.fit_normalizer(train['state'])
-    provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=SCHEMA,metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),robot_fingerprint=meta['robot_fingerprint'],recipe=recipe,previous_checkpoint_sha256=spec.get('resume_sha256'),prior_main_updates=prior_steps,elapsed_feature_scale_s=1.2)
+    provenance=dict(source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],schema=SCHEMA,metadata_sha256=hashlib.sha256(json.dumps(meta,sort_keys=True).encode()).hexdigest(),model_metadata_sha256=hashlib.sha256(json.dumps(model_meta,sort_keys=True).encode()).hexdigest(),action_encoding=encoding,robot_fingerprint=meta['robot_fingerprint'],recipe=recipe,previous_checkpoint_sha256=spec.get('resume_sha256'),prior_main_updates=prior_steps,elapsed_feature_scale_s=1.2)
     write_json(out/'FIRST_BATCH_AUDIT.json',dict(state_shape=list(train['state'].shape),TRAIN_windows=len(ids),DEV_windows=len(select_samples(data,meta,'DEV')),state_dimension=meta['state_dimension'],TRAIN_parents=len({e['parent']for e in meta['episodes']if e['split']=='TRAIN'}),DEV_parents=len({e['parent']for e in meta['episodes']if e['split']=='DEV'}),dtype=str(train['state'].dtype),finite=bool(torch.isfinite(train['state']).all()),normalizer=recipe,software=dict(torch=str(torch.__version__),CUDA=torch.version.cuda,numpy=np.__version__),GPU_name=props.name,robot_fingerprint=meta['robot_fingerprint'],overlapping_windows_independent=False))
     write_json(out/'BEFORE_UPDATE.json',partition_metrics(m,data,meta,device))
     if spec.get('new_batch_tag'):
@@ -77,4 +84,5 @@ def run(spec,output):
     write_json(out/'AFTER_UPDATE.json',partition_metrics(m,data,meta,device))
     if spec.get('new_batch_tag'):write_json(out/'NEW_BATCH_AFTER_UPDATE.json',partition_metrics(m,data,meta,device,batch=spec['new_batch_tag']))
     result=dict(status='TARGET_WM_ENGINEERING_ENTRY_PASSED',schema=SCHEMA,source_sha=spec['source_sha'],data_sha256=spec['replay_sha256'],checkpoint_sha256=digest(out/f'checkpoint-{steps}.pt'),main_updates=steps,prior_main_updates=prior_steps,continuation_probe_updates=1,optimizer_calls=steps+1,Actor_updates=0,physics_integrations=0,replay_cursor=cursor,episodes=len(meta['episodes']),task_atoms=meta['task_atoms'],TRAIN_windows=len(ids),DEV_windows=len(select_samples(data,meta,'DEV')),parameters=sum(p.numel()for p in m.parameters()),state_dimension=meta['state_dimension'],first_reload_error=reload_first,endpoint_reload_error=endpoint_error,continuation_error=continuation,recipe=recipe,held_out_parent_generalization=meta['held_out_parent_generalization'],contact_qualification=meta['contact_collection'],GPU_uuid=spec['GPU_uuid'],main_cuda_elapsed_ms=event0.elapsed_time(event1),main_update_peak=peak,entire_run_peak=memory(device),CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start,predictive_value='REQUIRES_RECORDED_DEV_BASELINE_COMPARISON',control_value='NOT_TESTED')
+    result['action_encoding']=encoding
     write_json(out/'RESULT.json',result);return result

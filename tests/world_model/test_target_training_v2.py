@@ -18,6 +18,16 @@ class WindowTraining(unittest.TestCase):
         self.data=dict(state=torch.randn(2,25,self.meta['state_dimension'])*.01,goal=torch.randn(2,17)*.01,source_age=torch.zeros(2,24),window_start_s=torch.tensor([.3,2.1]),window_start_atom=torch.tensor([6.,42.]));self.m=TargetWM(self.meta,8);self.m.fit_normalizer(self.data['state']);self.opt=torch.optim.AdamW(self.m.parameters(),lr=1e-3,weight_decay=1e-5)
     def test_window_elapsed_and_future_source_mask_are_causal(self):
         self.m.eval();a=self.m.predict(**self.data);other={k:v.clone()for k,v in self.data.items()};other['state'][:,9:]+=20.;other['source_age'][:,9:]+=20.;b=self.m.predict(**other);self.assertEqual(tree_error(a,b),0.)
+    def test_versioned_action_units_ablation_and_checkpoint_recovery(self):
+        state=self.data['state'][:,0];goal=self.data['goal'].clone();clock=torch.zeros(2);known=torch.ones(2)
+        raw=self.m.encode(state,goal,clock,clock,known)
+        scaled=TargetWM(dict(self.meta,action_encoding='SCALED_WORLD_RELATIVE_1CM_V2'),8);scaled.fit_normalizer(self.data['state']);features=scaled.encode(state,goal,clock,clock,known)
+        torch.testing.assert_close(features[:,:3],raw[:,:3]/.01);torch.testing.assert_close(features[:,10:13],raw[:,10:13]/.01);torch.testing.assert_close(goal,self.data['goal'])
+        none=TargetWM(dict(self.meta,action_encoding='NO_ACTION_V2'),8).encode(state,goal,clock,clock,known);self.assertEqual(float(none[:,:17].abs().max()),0.);torch.testing.assert_close(none[:,17:],raw[:,17:])
+        opt=torch.optim.AdamW(scaled.parameters(),lr=1e-3,weight_decay=1e-5)
+        with tempfile.TemporaryDirectory()as tmp:
+            update(scaled,opt,self.data,0);p=Path(tmp)/'model.pt';save(p,scaled,opt,1,8,dict(recipe='scaled'))
+            update(scaled,opt,self.data,8);clone,co,c=restore(p,'cpu',dict(recipe='scaled'));self.assertEqual(clone.action_encoding,'SCALED_WORLD_RELATIVE_1CM_V2');update(clone,co,self.data,c['replay_cursor']);self.assertEqual(tree_error(scaled.state_dict(),clone.state_dict()),0.)
     def test_v2_optimizer_RNG_cursor_and_schema_roundtrip(self):
         with tempfile.TemporaryDirectory()as tmp:
             update(self.m,self.opt,self.data,0);p=Path(tmp)/'model.pt';save(p,self.m,self.opt,1,8,dict(recipe='V2_component'))

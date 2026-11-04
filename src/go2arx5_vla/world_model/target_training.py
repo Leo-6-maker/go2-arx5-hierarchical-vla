@@ -20,6 +20,8 @@ def slices(meta):
 class TargetWM(nn.Module):
     def __init__(self,meta,hidden=64):
         super().__init__();self.meta=meta;self.layout=slices(meta);n=meta['state_dimension'];self.hidden=hidden
+        self.action_encoding=meta.get('action_encoding','RAW_WORLD_RELATIVE_V1')
+        if self.action_encoding not in('RAW_WORLD_RELATIVE_V1','SCALED_WORLD_RELATIVE_1CM_V2','NO_ACTION_V2'):raise ValueError('UNKNOWN_TARGET_ACTION_ENCODING')
         self.register_buffer('mean',torch.zeros(n));self.register_buffer('std',torch.ones(n))
         self.history=nn.GRUCell(n+20,hidden)
         self.delta=nn.Sequential(nn.Linear(n+hidden+20,128),nn.SiLU(),nn.Dropout(.05),nn.Linear(128,n))
@@ -32,6 +34,9 @@ class TargetWM(nn.Module):
         action=goal.clone();action[:,:3]-=state[:,self.layout['tcp_position_m']]
         # Existing native ABI's root free position; other state fields remain raw.
         action[:,10:13]-=state[:,:3]
+        if self.action_encoding=='SCALED_WORLD_RELATIVE_1CM_V2':
+            action[:,:3]/=.01;action[:,10:13]/=.01
+        elif self.action_encoding=='NO_ACTION_V2':action.zero_()
         return torch.cat((action,elapsed[:,None]/1.2,age[:,None],known[:,None]),-1)
     def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None):
         batch=len(state);h=state.new_zeros(batch,self.hidden)
