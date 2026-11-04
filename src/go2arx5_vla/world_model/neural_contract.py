@@ -9,9 +9,14 @@ def actor_primitives(logits,*,target):
     """Single explicit latent-to-physical transform; native compiler never rescales."""
     x=logits.reshape(-1,8,7)
     p=x[...,:3].tanh();r=x[...,3:6].tanh()
-    p=.01*p/p.norm(dim=-1,keepdim=True).clamp_min(1)
-    r=.05*r/r.norm(dim=-1,keepdim=True).clamp_min(1)
+    # Construct inside the physical set: saturated FP32 components can otherwise
+    # round above the double-precision native norm/stroke bounds. This guard is
+    # part of the latent transform, never correction of an issued/raw label.
+    guard=8*torch.finfo(x.dtype).eps
+    p=(.01*(1-guard))*p/p.norm(dim=-1,keepdim=True).clamp_min(1)
+    r=(.05*(1-guard))*r/r.norm(dim=-1,keepdim=True).clamp_min(1)
     lo,hi=(.002/.044,.042/.044)if target else(0.,1.)
+    if target:lo,hi=lo+(hi-lo)*guard,hi-(hi-lo)*guard
     g=lo+(hi-lo)*x[...,6:7].sigmoid()
     return torch.cat((p,r,g),-1)
 
