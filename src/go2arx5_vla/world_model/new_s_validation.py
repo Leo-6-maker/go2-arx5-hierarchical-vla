@@ -50,7 +50,7 @@ def selectors(kind,current,context,raw,pred,event,ols,*,challenge=False):
     if challenge:
         closing=raw[:,:,6]<.2;timing=np.where(closing[:,-1],np.argmax(closing,axis=1),-1e6).astype(float)
         outside=(np.linalg.norm(s[SLICES['object_position']][:2]-s[SLICES['tcp_position']][:2])>.5*context[4]or np.linalg.norm(current['tool_linear_velocity'])>.04)
-        fallback=outside or fallback
+        fallback=bool(outside or fallback)
     hybrid=(timing if challenge else score_ols)if fallback else wm
     scores=dict(zip(METHODS,(wm,rule,score_ols,hybrid)))
     if challenge:scores['timing_rule']=timing
@@ -77,7 +77,9 @@ def coast(adapter,anchor,spec,folder,scene):
     from .contact_identification import HI
     adapter.restore(anchor['saved']);state=adapter.snapshot(force=True);raw=np.zeros((8,7));raw[:,0]=.0035*(1 if scene%2==0 else-1);raw[:,6]=HI
     plan=compile_reference(raw,state['tcp'],state['time_s'],backend=SOURCE,frame=FRAME,tcp=TCP);guard=local_guard(spec);ref=adapter.save_complete(folder/'coast-start-restore.pkl.gz')
-    if adapter.gate(plan)['decision']=='REJECT'or adapter.preflight(plan,guard)['decision']!='PASS':raise RuntimeError('Coast prefix original gate/S1 rejection; no replacement')
+    gate=adapter.gate(plan);preflight=adapter.preflight(plan,guard)if gate['decision']!='REJECT'else None
+    write_json(folder/'COAST_ADMISSION.json',dict(gate=gate,preflight=preflight,actual_coast_ticks=0))
+    if gate['decision']=='REJECT'or preflight['decision']!='PASS':raise RuntimeError('Coast prefix original gate/S1 rejection; no replacement')
     rows=[]
     for i in range(8):
         r=adapter.advance_recorded(plan,i,run_id=folder.name,actor_version='B2_COAST_CLOSE_ACTUAL_PREFIX_NOT_EXPERT',restore_ref=ref);rows.append(r)

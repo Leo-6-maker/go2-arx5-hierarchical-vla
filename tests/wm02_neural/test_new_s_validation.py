@@ -28,5 +28,17 @@ class NewValidation(unittest.TestCase):
         pred=np.zeros((5,16,50));events=np.zeros((5,16,4));events[names.index('close_delay0'),:,2]=1.
         choice=selectors('preclose',s,np.array([.1,0,.46,.44,.04]),raw,pred,events,np.zeros((4,96)),challenge=True)
         self.assertEqual(names[choice['pure_WM']['index']],'close_delay0');self.assertEqual(names[choice['rule']['index']],'close_delay0');self.assertEqual(names[choice['timing_rule']['index']],'close_delay6');self.assertEqual(names[choice['hybrid']['index']],'close_delay6');self.assertTrue(choice['hybrid']['fallback'])
+        import json
+        json.dumps(choice) # A completed native run must not fail at final numpy.bool output.
+    def test_completed_run_cli_receipt_ignores_numpy_nested_evidence(self):
+        import io,json
+        from contextlib import contextmanager,redirect_stdout
+        from unittest.mock import patch
+        from scripts.wm02.validate_new_s_parents import main
+        @contextmanager
+        def admitted(*args,**kwargs):yield dict(domain='S_PROSPECTIVE_B2_COAST_CLOSE_V1',target_physics=False)
+        result=dict(status='TEST_ONLY',source_sha='test',actual_transitions=1,live_physics_ticks=25,shadow_ticks=25,WM_updates=0,Actor_updates=0,target_integrations=0,scenes=[dict(fallback=np.bool_(True))]);out=io.StringIO()
+        with patch('go2arx5_vla.world_model.runtime.admitted_run',admitted),patch('go2arx5_vla.world_model.new_s_validation.run',return_value=result),redirect_stdout(out):code=main(['--spec','unused','--output','unused','--run-id','test'])
+        self.assertEqual(code,0);self.assertEqual(json.loads(out.getvalue())['actual_transitions'],1)
 
 if __name__=='__main__':unittest.main()
