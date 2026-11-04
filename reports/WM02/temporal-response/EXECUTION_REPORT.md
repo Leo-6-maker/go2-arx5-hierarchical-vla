@@ -128,7 +128,7 @@ M3与M1/M2初始参数SHA相同：`1f933cf8f0349eb198a9ed313adb462c7b0727c159025
 
 M3 preclose平均预测抓持概率.0186、实际.725；release平均预测.9898、实际.200。H16 FREE事件预测在新损失下显著退化，即使前8步基本监督仍在。不能把transport的低Brier推广到事件切换，更不能把没有support头的模型当作支撑预测器。
 
-原规则与纯WM选择分开记录。M3在DEV搬运H1/H8/H16的纯WM与规则平均Q regret均0；现有DEV搬运上规则仍强，不以打平称增量价值；其他阶段的回归同样保留。[候选选择、原float64动作SHA、事件映射与参考检查](EVALUATION_IDENTITY.json) 三模型canonical singleton、FIT/DEV每父置换输出最大差0，后续选择按原物理命令哈希与1e−6 tie规则。没有为了成绩更改事件、动作身份或评价定义。
+原规则与纯WM选择分开记录。M3在DEV搬运H1的纯WM平均Q regret为.001208、规则为0；H8/H16两者均0。现有DEV搬运上规则仍强，不以打平称增量价值；其他阶段的回归同样保留。[候选选择、原float64动作SHA、事件映射与参考检查](EVALUATION_IDENTITY.json) 三模型canonical singleton、FIT/DEV每父置换输出最大差0，后续选择按原物理命令哈希与1e−6 tie规则。没有为了成绩更改事件、动作身份或评价定义。
 
 因此B5新独立场景采集 **NOT_RUN_DEVELOPMENT_GATE_FAILED**；旧holdout也不重评。Actor/Critic仍0。本轮不把200延到800/5000，不再针对DEV调整λ/σ/权重。后续应将狭窄稳定抓持中的执行响应、绝对共同偏差和物体耦合分开验证，并把接触切换/释放的可靠性作为独立问题；不能强迫Actor依赖这版WM。
 
