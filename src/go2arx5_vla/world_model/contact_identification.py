@@ -164,7 +164,7 @@ def collect(spec,output):
     indices=spec.get('scene_indices',list(range(24)))
     if not indices or len(set(indices))!=len(indices)or any(type(i)is not int or i not in range(24)for i in indices):raise ValueError('Exact predeclared scene indices required')
     definitions=[definitions[i]for i in indices]
-    for i,card in enumerate(definitions):jobs.append(dict(spec=spec,card=card,cpu=spec['cpus'][i%len(spec['cpus'])],folder=str(output/f'scene-{i:02d}'),run_id=output.name))
+    for i,card in enumerate(definitions):jobs.append(dict(spec=spec,card=card,cpu=spec['cpus'][i%len(spec['cpus'])],folder=str(output/f"scene-{card['ident_index']:02d}"),run_id=output.name))
     # Each batch has four independently owned engines; there is one registered parent owner.
     with ProcessPoolExecutor(max_workers=min(4,len(jobs)),mp_context=multiprocessing.get_context('spawn'))as pool:
         reports=[]
