@@ -29,6 +29,12 @@ def process_start(pid):
     return Path(f'/proc/{pid}/stat').read_text().rsplit(')',1)[1].split()[19]
 
 
+def child_environment(child,fds):
+    env=dict(os.environ,**child['native_environment'])
+    env.update(CUDA_VISIBLE_DEVICES='',PYTHONPATH=child['source_root']+'/src:'+child['source_root']+':'+env.get('PYTHONPATH',''),WM02_AUTO1_OWNER_FDS=json.dumps(fds),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+    return env
+
+
 def verify_inherited_owner(fd,path):
     """An inherited locked open-file description, not a permission boolean."""
     expected=os.stat(path);actual=os.fstat(fd)
@@ -80,7 +86,7 @@ def run_batch(spec_path,output,run_id):
                 jobs=[];handles=[];start=time.monotonic()
                 try:
                     for slot,child in zip(spec['slots'],children):
-                        env=dict(os.environ,**child['native_environment'],CUDA_VISIBLE_DEVICES='',PYTHONPATH=child['source_root']+'/src:'+child['source_root'],WM02_AUTO1_OWNER_FDS=json.dumps(fds),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+                        env=child_environment(child,fds)
                         argv=[child['python'],'-B','-m','scripts.wm02.commission_target','--spec',slot['spec'],'--output',str(Path(child['registered_root'])/'native-01'),'--run-id','native-01']
                         h=(Path(output)/(Path(child['registered_root']).name+'.log')).open('x');handles.append(h)
                         jobs.append((child,subprocess.Popen(argv,cwd=child['source_root'],env=env,stdout=h,stderr=subprocess.STDOUT,pass_fds=fds)))
@@ -103,5 +109,11 @@ def run_batch(spec_path,output,run_id):
                             try:p.wait(timeout=45)
                             except subprocess.TimeoutExpired:p.terminate();p.wait(timeout=30)
                     for h in handles:h.close()
+                    for child in children:
+                        owned=next((p for c,p in jobs if c is child),None)
+                        if owned is None or owned.poll()is not None:
+                            path=Path(child['lease']);lease=json.loads(path.read_text())
+                            if lease['status']=='ACTIVE':
+                                lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=None if owned is None else owned.returncode,started=owned is not None);write_json(path,lease)
             finally:physical_owner.close()
         finally:campaign_owner.close()

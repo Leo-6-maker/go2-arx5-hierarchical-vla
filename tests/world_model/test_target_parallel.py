@@ -1,10 +1,13 @@
 import json,os,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from scripts.pi0292.durable import OwnerLock
-from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner
+from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_child_environment_keeps_native_ros_paths_after_current_capsule(self):
+        env=child_environment(dict(source_root='/fixture/current',native_environment=dict(PYTHONPATH='/fixture/ros',CUDA_VISIBLE_DEVICES='old')), [8,9])
+        self.assertEqual(env['PYTHONPATH'],'/fixture/current/src:/fixture/current:/fixture/ros');self.assertEqual(env['CUDA_VISIBLE_DEVICES'],'')
     def test_inherited_lock_remains_exclusive_until_last_child_closes(self):
         with tempfile.TemporaryDirectory()as tmp:
             path=Path(tmp)/'owner';lock=OwnerLock(path);fd=lock.handle.fileno()
