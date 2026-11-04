@@ -19,7 +19,9 @@ class DecisionTraining(unittest.TestCase):
 
     def test_release_requires_support_and_transport_prefers_goal_not_height(self):
         state=torch.zeros(2,50);events=torch.zeros(2,4);context=torch.zeros(2,5)
-        events[:,3]=torch.tensor([0.,1.]);self.assertEqual(quality(state,events,context,'supported_release').tolist(),[0.,1.])
+        events[:,3]=torch.tensor([1.,0.]) # Illegal contact must never stand for support.
+        with self.assertRaises(ValueError):quality(state,events,context,'supported_release')
+        self.assertEqual(quality(state,events,context,'supported_release',support=torch.tensor([0.,1.])).tolist(),[0.,1.])
         events[:,2]=1;state[:,SLICES['object_position']]=torch.tensor([[.1,0,1.],[.01,0,.5]])
         self.assertGreater(float(quality(state,events,context,'transport')[1]),float(quality(state,events,context,'transport')[0]))
 

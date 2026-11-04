@@ -41,22 +41,25 @@ def build(root,output):
     write_json(output/'AUDIT.json',result);return result
 
 
-def read(path,device):
+def read(path,device,*,purpose='WM02_DECISION_PAIRED_REPLAY_V5'):
     import torch
     with np.load(path,allow_pickle=False)as f:
-        if str(f['purpose'])!='WM02_DECISION_PAIRED_REPLAY_V5'or json.loads(str(f['schema_json']))!=json.loads(json.dumps(SCHEMA)):
+        if str(f['purpose'])!=purpose or json.loads(str(f['schema_json']))!=json.loads(json.dumps(SCHEMA)):
             raise ValueError('Explicit V5 real source numeric schema required')
         meta={k:f[k].copy()for k in ('scene','anchor','candidate','partition')}
         for p,ids in (('FIT',range(24)),('DIAGNOSTIC_DEV',range(24,32)),('ONCE_HOLDOUT',range(32,40))):
             if set(meta['scene'][meta['partition']==p])!=set(ids):raise ValueError('All intended whole parents must have real observations')
         data={k:torch.tensor(f[k],device=device,dtype=torch.float32)for k in ('state','reference','events','valid','done','timeout','clock','context','raw','initial_event')}
+        if 'support'in f:data['support']=torch.tensor(f['support'],device=device,dtype=torch.float32)
     return data,meta
 
 
-def quality(state,events,context,kind):
+def quality(state,events,context,kind,*,support=None):
     if kind=='preclose':return events[...,2]
     if kind=='transport':return events[...,2]-10*(state[...,SLICES['object_position']][...,:2]-context[...,:2]).norm(dim=-1)
-    if kind=='supported_release':return(1-events[...,2])*events[...,3]
+    if kind=='supported_release':
+        if support is None:raise ValueError('Explicit native support label or declared conditional-score prior required; event3 is illegal_contact')
+        return(1-events[...,2])*support
     raise ValueError('Declared mechanism only')
 
 
@@ -82,8 +85,11 @@ def evaluate(models,b,meta,folder):
                 elif np.linalg.norm(obj[:2]-context[:2])>.02:rule=-np.linalg.norm(obj[:2]+raw[:,:,:2].sum(1)-context[:2],axis=1)
                 else:rule=raw[:,:,6].mean(1)
                 for h in (8,16):
-                    real=quality(b['state'][ix,8+h],b['events'][ix,8+h-1],b['context'][ix],kind).cpu().numpy()
-                    scores=quality(pred[ix,h-1],event[ix,h-1],b['context'][ix],kind).cpu().numpy()
+                    real=quality(b['state'][ix,8+h],b['events'][ix,8+h-1],b['context'][ix],kind,support=b['support'][ix,8+h-1]if kind=='supported_release'else None).cpu().numpy()
+                    # No support head exists. Predicted release is a conditional
+                    # non-grasp score at already supported, zero-EEF candidates;
+                    # actual quality still requires recorded native support.
+                    scores=quality(pred[ix,h-1],event[ix,h-1],b['context'][ix],kind,support=event.new_ones(len(ix))if kind=='supported_release'else None).cpu().numpy()
                     if arm=='no_future_action':scores=np.repeat(scores[0],len(scores))
                     chosen=stable_choice(scores,raw);ru=stable_choice(rule,raw)
                     import hashlib
@@ -97,5 +103,5 @@ def evaluate(models,b,meta,folder):
     out['baselines']={str(h):{name:errors(p,None,b,h)for name,p in (('constant_velocity',cv_prediction(b['state'][:,8])),('state_persistence',b['state'][:,8:9].expand(-1,16,-1)))}for h in(1,8,16)}
     scope='DIAGNOSTIC_DEV8'if min(meta['scene'])<32 else'ONCE_HOLDOUT8'
     return dict(scope=scope+' new parents; no tuning or endpoint selection; correlated five candidates per anchor',models=out,
-        mechanism_quality='Preclose grasp; transport grasp minus10*goalXYdistance; release nongrasp*supported. Diagnostic only, no formal reward.',
+        mechanism_quality='Preclose grasp; transport grasp minus10*goalXYdistance; actual release nongrasp*native support. Release model score is conditional nongrasp, NOT a predicted native-support probability. Diagnostic only, no formal reward.',
         probability_distribution='Unresampled uniform generated-candidate protocol distribution; not calibrated deployment probability',formal_task_success=False,Actor_updates=0)
