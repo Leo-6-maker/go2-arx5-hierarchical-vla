@@ -14,7 +14,7 @@ def episode_config(spec):
             or value['run']!=spec['registered_root']or value['phase']!='collect-target-night1'
             or value['split']not in('TRAIN','DEV')or type(value['task_atoms'])is not int
             or value['task_atoms']not in DURATIONS
-            or value['purpose']not in('DURATION_SINGLE','DURATION_DUAL','SCENE_SINGLE','PRODUCTION')
+            or value['purpose']not in('INITIAL_SINGLE','DURATION_SINGLE','DURATION_DUAL','SCENE_SINGLE','PRODUCTION')
             or value['reference_rule']!='PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1'
             or len(value['offset_xyz_m'])!=3
             or not all(math.isfinite(x)for x in value['offset_xyz_m'])
@@ -39,7 +39,9 @@ def episode_limit(spec,previous):
     if (not previous or previous['status']!='NATIVE_STAGE_PASSED'or not previous['shutdown_clean']
             or not previous.get('owned_process_exits')or any(p['exit_code']!=0 for p in previous['owned_process_exits'])):raise PermissionError('ACTUAL_NATIVE_PREDECESSOR_PASS_REQUIRED')
     prior_atoms=(previous['actual_target_integrations']-2503)//25
-    if e['purpose']=='DURATION_SINGLE':
+    if e['purpose']=='INITIAL_SINGLE':
+        if atoms!=24 or previous.get('phase')!='g2-standing-eef-y-v2'or previous['actual_target_integrations']!=2703:raise PermissionError('NEW_CANDIDATE_NATIVE_G2_REQUIRED')
+    elif e['purpose']=='DURATION_SINGLE':
         expected={48:24,96:48,160:96}.get(atoms)
         if expected is None or previous['actual_target_integrations']!=2503+expected*25:raise PermissionError('SINGLE_VARIABLE_DURATION_LADDER_REQUIRED')
     elif prior_atoms!=atoms:raise PermissionError('ACTUAL_SAME_LENGTH_QUALIFICATION_REQUIRED')
