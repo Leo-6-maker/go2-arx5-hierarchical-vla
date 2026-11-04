@@ -21,8 +21,9 @@ def main(argv=None):
         if link.count(old_obj)!=1 or link[link.index('-o')+1]!=s['controller_binary']:raise ValueError('EXACT_EXISTING_CONTROLLER_LINK_REQUIRED')
         link[link.index(old_obj)]=str(obj);binary=out/'go2_x5_ocs2_node';link[link.index('-o')+1]=str(binary);commands=[]
         for name,cmd in(('compile',compile_cmd),('link',link),('loader',['ldd',str(binary)])):
-            q=subprocess.run(cmd,cwd=s['controller_build_directory'],capture_output=True,text=True,timeout=180);commands.append(dict(stage=name,argv=cmd,exit_code=q.returncode));(out/(name+'.log')).write_text(q.stdout+q.stderr);write_json(out/'BUILD_COMMANDS.private.json',commands);q.check_returncode()
+            q=subprocess.run(cmd,cwd=s['controller_build_directory'],capture_output=True,text=True,timeout=180);commands.append(dict(stage=name,argv=cmd,exit_code=q.returncode));(out/(name+'.log')).write_text(q.stdout+q.stderr);write_json(out/(name+'_COMMAND.private.json'),commands[-1]);q.check_returncode()
             if name=='loader'and'not found'in q.stdout:raise RuntimeError('CONTROLLER_LOADER_UNRESOLVED')
+        write_json(out/'BUILD_COMMANDS.private.json',commands)
         result=dict(status='CONTROLLER_LIFETIME_COMPILED_NOT_NATIVE_QUALIFIED',source_sha=s['source_sha'],ancestor_binary_sha256=s['controller_binary_sha256'],binary_sha256=digest(binary),original_source_sha256=digest(s['controller_source']),patched_source_sha256=digest(cpp),controller_class_and_math_byte_identical=after.replace(__import__('go2arx5_vla.world_model.native_controller_lifetime',fromlist=['NEW']).NEW,__import__('go2arx5_vla.world_model.native_controller_lifetime',fromlist=['OLD']).OLD)==before,change='ORDERED_MRT_JOIN_BEFORE_ROS_CONTEXT_SHUTDOWN',physics_integrations=0,WM_updates=0,Actor_updates=0,wall_s=time.monotonic()-start)
         write_json(out/'RESULT.json',result);print(json.dumps(result));return 0
 if __name__=='__main__':raise SystemExit(main())

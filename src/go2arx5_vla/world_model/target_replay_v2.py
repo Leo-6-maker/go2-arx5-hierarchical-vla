@@ -59,7 +59,7 @@ def build(path,output):
     executor=None
     for entry in entries:
         root=Path(entry['run']);run=root/'native-01';spec=json.loads((root/'EXECUTION_SPEC.json').read_text());result=json.loads((run/'RESULT.json').read_text());diag=json.loads((run/'DYNAMIC_DIAGNOSTIC.json').read_text());n=entry['task_atoms'];asset=digest(spec['model_path'])
-        current_executor={key:digest(spec[key])for key in('native_binary','outer_library','observer_library','trace_library')}
+        current_executor={key:digest(spec[key])for key in('native_binary','outer_library','observer_library','trace_library','controller_binary','solver_binary')}
         if current_executor['native_binary']!=result['native_binary_sha256']or current_executor['observer_library']!=result['observer_sha256']:raise ValueError('ACTUAL_EXECUTOR_RESULT_IDENTITY_CHANGED')
         if executor is not None and current_executor!=executor:raise ValueError('DIFFERENT_NATIVE_EXECUTORS_REQUIRE_SEPARATE_REPLAYS')
         executor=current_executor
