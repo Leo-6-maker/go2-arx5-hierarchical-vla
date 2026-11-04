@@ -2,6 +2,10 @@
 
 从 PR #352 固定 `76bb8115c3b588b70fd55bdde13f10926c60bce7` 的后继分支接管；不要假设main已合并。先读根AGENTS的AUTO1补充，再读 `docs/protocols/WM02_AUTO1_WBC_TO_WM_V1.md` 和 `experiments/wm02/autonomous_wbc_to_wm_v1.json`。
 
+## 并发计划协同：只启动一个campaign
+
+本交接编写期间出现同基线的草稿 PR #353（`a5619af01a8e508f170ecaec4aa994936098a985`），其内容保持不变，未由本轮关闭或覆盖。**不要为#353和AUTO1分别启动两个派发owner或重复任务。** 按本交接执行的新campaign使用AUTO1；若其他计划已经实际注册/启动，先尊重其现役scope和终态核清，不热改、更不抢锁，只能在合法冷边界登记后继。现有真正的外部站点/owner权限要求仍优先。本文件提供项目委托与分级范围，不冒充现场注册或资格。
+
 ## 最新直接用户要求
 
 “给codex更多授权，制定一个长程自主推进计划，跑通WBC采集到WM的训练入口”。
