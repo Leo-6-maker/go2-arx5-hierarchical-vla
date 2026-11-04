@@ -2,9 +2,16 @@ import unittest,tempfile,subprocess,shutil,itertools,sys,json
 from pathlib import Path
 from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source,validate_parent_loader
 from scripts.pi0294.task_contacts import allowed
-from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter
+from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter,native_startup_readiness
 
 class Auto1Native(unittest.TestCase):
+    def test_native_feedback_does_not_substitute_for_completed_controller_construction(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp);(p/'controller.log').write_text('go2_x5_ocs2 ready; waiting for odometry\n');(p/'solver.log').write_text('MPC node is ready.\n')
+            self.assertIsNone(native_startup_readiness(p,False))
+            with(p/'controller.log').open('a')as f:f.write('MRT node is ready.\n')
+            self.assertIsNotNone(native_startup_readiness(p,False));self.assertIsNone(native_startup_readiness(p,True))
+            (p/'planner.log').write_text('Trajectory JSON input: /owned/reference\n');self.assertIsNotNone(native_startup_readiness(p,True))
     @unittest.skipUnless(shutil.which('g++'),'C++ compiler required')
     def test_original_quota_validator_allows_three_init_ticks_but_never_four(self):
         import os

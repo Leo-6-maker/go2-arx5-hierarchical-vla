@@ -2,6 +2,19 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 
+def native_startup_readiness(output,reference):
+    """Actual owned startup logs, after controller's simulation-time origin is set."""
+    required={'controller':('go2_x5_ocs2 ready; waiting for','MRT node is ready.'),'solver':('MPC node is ready.',)}
+    if reference:required['planner']=('Trajectory JSON input:',)
+    evidence={}
+    for name,markers in required.items():
+        path=Path(output)/(name+'.log')
+        if not path.exists():return None
+        with path.open('rb')as f:f.seek(max(0,path.stat().st_size-16384));text=f.read().decode(errors='replace')
+        if not all(marker in text for marker in markers):return None
+        evidence[name]=list(markers)
+    return evidence
+
 def native_display_command(spec,output,environment):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
@@ -123,12 +136,16 @@ class TargetSequentialAdapter:
         if self.reference_phase():
             import sys
             self.launch([sys.executable,'-B','-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',dict(env,PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name))
-        if not self.spin(30,lambda:self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
+        # OCS2 construction/codegen sets start_time_=now(). Starting physics
+        # before it completes gives that process a nonzero clock origin and
+        # permanently stale reference times at the next exact native pause.
+        if not self.spin(30,lambda:native_startup_readiness(out,self.reference_phase())and self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
         c=self.control()
         if c.get('running')or c.get('sim_time_s')!=0 or(out/'physics.jsonl').exists():raise RuntimeError('UNEXPECTED_PHYSICS_BEFORE_STANDBY')
         from scripts.pi0292.durable import write
+        write(out/'PAUSED_EXECUTOR_READINESS.json',dict(status='OWNED_EXECUTORS_CONSTRUCTED_BEFORE_FIRST_INTEGRATION',markers=native_startup_readiness(out,self.reference_phase()),native_control_time_s=c['sim_time_s'],physics_journal_exists=(out/'physics.jsonl').exists(),clock_origin_contract='CONTROLLER_CONSTRUCTOR_START_TIME_AT_NATIVE_ZERO'))
         write(out/'BEFORE_FIRST_INTEGRATION.json',c)
     def observe(self):
         from scripts.pi0294.task_state import read_state
