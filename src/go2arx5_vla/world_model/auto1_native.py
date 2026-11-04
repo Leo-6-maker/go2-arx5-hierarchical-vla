@@ -109,7 +109,7 @@ def standing_repair_ancestor(spec):
             or receipt.get('ongoing_control_math_unchanged')is not True
             or receipt.get('original_R1_math_assertions_pass')is not True
             or receipt.get('source_sha')!=build.get('source_sha')
-            or receipt.get('original_SDK_sha256')!=build.get('frozen_files',{}).get(build.get('sdk_source'))
+            or receipt.get('original_SDK_sha256')!=digest(build['sdk_source'])
             or not build.get('ancestor_binary_sha256')):raise PermissionError('EXACT_COLD_HISTORY_SUCCESSOR_PROOF_REQUIRED')
     return build['ancestor_binary_sha256']
 
