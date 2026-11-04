@@ -21,6 +21,17 @@ def select_samples(data,meta,split,*,batch=None):
 
 
 def materialize(raw,meta):
+    states=0;atoms=0
+    for e in meta['episodes']:
+        n=e['task_atoms']
+        if e['state_start']!=states or e['atom_start']!=atoms:raise ValueError('EXACT_NONOVERLAPPING_EPISODE_STORAGE_REQUIRED')
+        sl=slice(states,states+n+1);steps=raw['flat_native_step'][sl];times=raw['flat_sim_time'][sl]
+        if (len(steps)!=n+1 or not np.all(np.diff(steps)==25)
+                or not np.allclose(times,steps*.002,atol=1e-8,rtol=0)
+                or not np.allclose(raw['flat_contact_time'][sl],times-.002,atol=1e-8,rtol=0)):
+            raise ValueError('NO_RESET_PARTIAL_OR_NATIVE_CLOCK_GAP_IN_EPISODE')
+        states+=n+1;atoms+=n
+    if len(raw['flat_state'])!=states or len(raw['flat_source_age'])!=atoms or not all(np.isfinite(a).all()for a in raw.values()):raise ValueError('COMPLETE_FINITE_EPISODE_STORAGE_REQUIRED')
     index=raw['window_index'];expected=window_indices([e['task_atoms']for e in meta['episodes']])
     if not np.array_equal(index,expected):raise ValueError('EXACT_EPISODE_CONTAINED_WINDOW_INDEX_REQUIRED')
     keys=('state','native_step','sim_time','contact_time','wall_monotonic','tcp','object','events')
@@ -81,7 +92,7 @@ def build(path,output):
         if fields is not None and fields!=current_fields:raise ValueError('STATE_LAYOUT_CHANGED')
         fields=current_fields
         joints=[dict(name=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_JOINT,i),type=int(model.jnt_type[i]),qpos_address=int(model.jnt_qposadr[i]),qvel_address=int(model.jnt_dofadr[i]))for i in range(model.njnt)]
-    meta=dict(schema=SCHEMA,state_fields=[dict(name=k,size=n)for k,n in fields],state_dimension=sum(n for _,n in fields),robot_fingerprint=assets['robot_fingerprint'],scene_assets_sha256=sorted(models),joints=joints,actuator_gear=model.actuator_gear.tolist(),actuator_gain=model.actuator_gainprm.tolist(),episodes=identities,task_atoms=atom_start,windows=sum(e['window_count']for e in identities),history_burn_atoms=8,predict_atoms=16,action='PREDECLARED_RAMP8_FIXED_WORLD_GOAL_EEF10_BASE_POSE7_V1',window_clock='ACTUAL_EPISODE_RELATIVE_WINDOW_START_S',renewal_atoms=7,source_age_future='CURRENT_PREFIX_ONLY_THEN_MISSING_NO_FUTURE_ACTUAL',controller_hidden_state_exported=False,controller_selected_policy_id='DERIVED_NOT_DIRECT_EXPORT',contact_collection='NOT_QUALIFIED',events=['left_contact','right_contact','grasp','robot_object_contact','opposing','gripper_valid','safety_valid'],held_out_parent_generalization=any(e['split']=='DEV'for e in identities),overlapping_windows_independent=False)
+    meta=dict(schema=SCHEMA,state_fields=[dict(name=k,size=n)for k,n in fields],state_dimension=sum(n for _,n in fields),original_model_sha256=assets['original_model_sha256'],robot_fingerprint=assets['robot_fingerprint'],scene_assets_sha256=sorted(models),joints=joints,actuator_gear=model.actuator_gear.tolist(),actuator_gain=model.actuator_gainprm.tolist(),episodes=identities,task_atoms=atom_start,windows=sum(e['window_count']for e in identities),history_burn_atoms=8,predict_atoms=16,action='PREDECLARED_RAMP8_FIXED_WORLD_GOAL_EEF10_BASE_POSE7_V1',window_clock='ACTUAL_EPISODE_RELATIVE_WINDOW_START_S',renewal_atoms=7,source_age_future='CURRENT_PREFIX_ONLY_THEN_MISSING_NO_FUTURE_ACTUAL',controller_hidden_state_exported=False,controller_selected_policy_id='DERIVED_NOT_DIRECT_EXPORT',contact_collection='NOT_QUALIFIED',events=['left_contact','right_contact','grasp','robot_object_contact','opposing','gripper_valid','safety_valid'],held_out_parent_generalization=any(e['split']=='DEV'for e in identities),overlapping_windows_independent=False)
     arrays={'flat_'+k:np.asarray(a)for k,a in raw.items()};arrays['episode_goal']=np.asarray(goals);arrays['window_index']=window_indices([e['task_atoms']for e in identities]);arrays['metadata_utf8']=np.frombuffer(json.dumps(meta,sort_keys=True,allow_nan=False).encode(),dtype=np.uint8)
     if not all(np.isfinite(a).all()for a in arrays.values()):raise ValueError('NONFINITE_ACTUAL_REPLAY')
     materialize({k:a for k,a in arrays.items()if k!='metadata_utf8'},meta)

@@ -12,7 +12,11 @@ def main(argv=None):
     from go2arx5_vla.world_model.target_training import restore,evaluate,tensors
     from go2arx5_vla.world_model.target_replay import load
     c=torch.load(spec['checkpoint'],map_location='cpu',weights_only=True);m,opt,c=restore(spec['checkpoint'],'cpu',c['provenance']);data,meta=load(spec['replay'])
-    if c['metadata']['state_fields']!=meta['state_fields']or c['metadata']['model_sha256']!=meta['model_sha256']:raise ValueError('TARGET_MODEL_DATA_LAYOUT_DIFFERS')
-    result=dict(status='ACTUAL_TARGET_FROZEN_WM_EVALUATED',checkpoint_sha256=spec['checkpoint_sha256'],replay_sha256=spec['replay_sha256'],episodes=len(data['state']),physics_integrations=0,WM_updates=0,Actor_updates=0,device='CPU',**evaluate(m,tensors(data,np.arange(len(data['state'])),'cpu'),meta))
+    from go2arx5_vla.world_model.target_training_v2 import compatible,partition_metrics
+    compatible(c['metadata'],meta,migration=spec.get('schema_migration'))
+    if meta['schema']=='WM02_TARGET_NATIVE_REPLAY_V2':
+        metrics=dict(partitions=partition_metrics(m,data,meta,'cpu'),windows=len(data['state']),schema_migration=spec.get('schema_migration'),overlapping_windows_independent=False)
+    else:metrics=evaluate(m,tensors(data,np.arange(len(data['state'])),'cpu'),meta)
+    result=dict(status='ACTUAL_TARGET_FROZEN_WM_EVALUATED',checkpoint_sha256=spec['checkpoint_sha256'],replay_sha256=spec['replay_sha256'],episodes=len(meta['episodes']),physics_integrations=0,WM_updates=0,Actor_updates=0,device='CPU',**metrics)
     write_json(a.output,result);print(json.dumps({k:result[k]for k in('status','episodes','WM_updates','Actor_updates')}));return 0
 if __name__=='__main__':raise SystemExit(main())

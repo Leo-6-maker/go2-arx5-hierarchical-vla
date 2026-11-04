@@ -181,9 +181,14 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Actual CPU affinity not available')
     lock = OwnerLock(root/'OWNER.lock')
     neural_owner = None
+    night_campaign_owner = None
+    night_physical_owner = None
     try:
         if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
+        if gpu and spec.get('night1_binding'):
+            night_campaign_owner=OwnerLock(Path(spec['campaign_root'])/'OWNER.lock')
+            night_physical_owner=OwnerLock(spec['physical_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
@@ -191,6 +196,10 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL') else None))
         yield spec
     finally:
+        if night_physical_owner is not None:
+            night_physical_owner.close()
+        if night_campaign_owner is not None:
+            night_campaign_owner.close()
         if neural_owner is not None:
             neural_owner.close()
         lock.close()
