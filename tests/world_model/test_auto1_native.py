@@ -36,6 +36,14 @@ class Auto1Native(unittest.TestCase):
         validate_parent_loader('/existing/ros:/existing/native','/existing/ros:/existing/native')
         for value in(None,'','/other'):
             with self.assertRaises(PermissionError):validate_parent_loader('/existing/ros:/existing/native',value)
+    def test_signal_diagnostic_traces_only_owned_exec_with_pinned_tool(self):
+        from go2arx5_vla.world_model.storage import digest
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp)/'strace';p.write_bytes(b'fixture tool');s=dict(xvfb_run='/xvfb',native_signal_trace=str(p),frozen_files={str(p):digest(p)},outer_library='/outer',observer_library='/observer',trace_library='/trace',native_binary='/sim')
+            argv,env=native_display_command(s,tmp,{})
+            self.assertEqual(argv[:4],['/xvfb','-a',str(p),'-f']);self.assertIn('trace=none',argv);self.assertIn('signal=SIGINT,SIGTERM',argv)
+            p.write_bytes(b'changed')
+            with self.assertRaises(PermissionError):native_display_command(s,tmp,{})
     def test_import_and_help_do_not_construct_or_import_native_models(self):
         code="import sys;from scripts.wm02.commission_target import main;from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter;assert not {'rclpy','mujoco','torch'}&sys.modules.keys()"
         subprocess.run([sys.executable,'-c',code],check=True)

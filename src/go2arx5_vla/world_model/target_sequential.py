@@ -8,6 +8,11 @@ def native_display_command(spec,output,environment):
     env=dict(environment)
     for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
     prefix=[spec['xvfb_run'],'-a']
+    if spec.get('native_signal_trace'):
+        from .storage import digest
+        path=spec['native_signal_trace']
+        if digest(path)!=spec['frozen_files'].get(path):raise PermissionError('PINNED_OWNED_SIGNAL_DIAGNOSTIC_REQUIRED')
+        prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
