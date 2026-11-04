@@ -1,0 +1,32 @@
+{
+  "schema": "WM02_NIGHT1_COHERENT_COMMAND_DECISION_PREREGISTRATION_V5",
+  "registered_before_first_C07_task_episode": true,
+  "scientific_parent_protocol": "night1_late_decision_rootsafe_v4.json",
+  "reason_for_new_executor_condition": "C06 late-decision panel A stopped at r1 pair3: 17 APPLY records had different actual position/velocity command versions; the failed pair is excluded and preserved",
+  "preserved_C06_panel": {"eligible_complete_episodes": 4, "eligible_atoms": 96, "matched_WM_updates": 0, "mixed_into_C07_dataset": false},
+  "candidate": {
+    "build_source_sha": "37a67745c2798bc14f5d998db70f381c19043dd3",
+    "native_binary_sha256": "125e4283476626114627d591c793410901af8bbb6059e24114c602fc0b574395",
+    "command_pair_header_sha256": "7ebda5d67c1de79b4163b2a963856d7d52077f18b08b92a8a4e625312e61246b",
+    "repair": "SHORT_PAIR_PUBLICATION_PD_TRYLOCK_V1",
+    "control_math_and_frozen_policy_gains_solver_dt_safety": "Unchanged; synchronize only the two output queue publications and their nonblocking consumption",
+    "native_qualification": "Fresh G1 cold/2s/5s twice, G2 measured14D reference checks, original1.2s single/dual, and each late-decision scene before production"
+  },
+  "first_panel": {
+    "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A",
+    "physical_parents": "Same P01..P08_ROOTSAFE_V3 as V4; not eight additional physical parents",
+    "TRAIN": ["P01", "P02", "P03", "P04", "P05", "P06"],
+    "DEV": ["P07", "P08"],
+    "episodes_per_parent": 4,
+    "atoms_each": 24,
+    "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+    "actions_and_slot_assignment": "Exactly V4's four balanced1mm hold/+X/-X/+Y actions and alternating slot order"
+  },
+  "model_and_controls": "Exactly V4's fresh RAW/scaled/NO_ACTION2000+1 matched recipes, same seed/exposure, TRAIN-only normalizer and both frozen TRAIN-only ridge/causalARX controls",
+  "strict_identity": "New C07 executor hashes, fresh replay and fresh model only. No C06 checkpoint continuation, no cross-executor silent migration",
+  "prospective_panel": "V4's P09..P16_ROOTSAFE_V3 and balanced actions, only after all models and baselines freeze; zero-update DEV evaluation",
+  "qualification_failure": "Stop actual batch, preserve first native evidence and cost; no blind retries or weakened audit",
+  "owner_slots_and_time": "Original AUTO1 owner, at most2 qualified native slots and1 learner, original NIGHT1 dispatch cutoff/deadline; no cumulative engineering budget caps",
+  "claims": "Scientific prediction and action information only until a subsequent prospective selector actually executes; no formal Actor, complete hidden-state fork or manipulation-success claim",
+  "effects_of_registration": {"native_ticks": 0, "optimizer_updates": 0}
+}
