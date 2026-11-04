@@ -108,7 +108,7 @@ def run(spec,output):
                 if step==1:
                     clone,co,c=load_checkpoint(out/'checkpoint-1.pt',device,provenance);first_reload=max(tree_error(model.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
                     if first_reload:raise RuntimeError('First update reload differs')
-            if step%10==0:write_json(output/'PROGRESS.json',dict(arm=name,**row))
+            if step%10==0:write_json(output/f'PROGRESS-{name}-{step:04d}.json',dict(arm=name,**row))
         peak=memory(device);clone,co,c=load_checkpoint(out/'checkpoint-199.pt',device,provenance);update(clone,co,train,keys,c['replay_cursor'],paired)
         continuation=max(tree_error(model.state_dict(),clone.state_dict()),tree_error(opt.state_dict(),co.state_dict()));del clone,co
         reload,ro,c=load_checkpoint(out/'checkpoint-200.pt',device,provenance);endpoint=max(tree_error(model.state_dict(),reload.state_dict()),tree_error(opt.state_dict(),ro.state_dict()))
