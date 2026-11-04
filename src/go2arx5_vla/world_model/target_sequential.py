@@ -83,8 +83,8 @@ class TargetSequentialAdapter:
         if any(name!=self.node.get_name()for name in self.node.get_node_names()):raise RuntimeError('ISOLATED_ROS_DOMAIN_ALREADY_OCCUPIED')
         s=self.spec;out=self.output
         for name in('tmp','ros-logs','cache'):(out/name).mkdir()
-        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(s['max_ticks'])+'\n')
-        warmup=(s['max_ticks']+499)//500
+        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(2500 if s['phase']=='g2-reference-qualification'else s['max_ticks'])+'\n')
+        warmup=min(5,(s['max_ticks']+499)//500)
         (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'0'))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
@@ -112,11 +112,19 @@ class TargetSequentialAdapter:
         return read_state(self.output/'state.bin')
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
+        self.advance_to(ticks);self.seal_trace(ticks)
+        return self.observe()
+    def advance_to(self,ticks):
+        allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
+        if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
+        p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
         self.publish(self.keys,'ENTER')
         def paused():
             try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
         if not self.spin(35,paused):raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
+        return self.observe()
+    def seal_trace(self,ticks):
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
         # safety. The native quota remains responsible for the actual pause.
@@ -127,7 +135,6 @@ class TargetSequentialAdapter:
             try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
         if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
-        return self.observe()
     def qualify_reference(self):
         """Original install/cancel/HOLD transaction at the native paused boundary.
 
@@ -140,8 +147,14 @@ class TargetSequentialAdapter:
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0292.durable import write
         if self.spec['phase']!='g2-reference-qualification':raise PermissionError('EXACT_REFERENCE_TRANSACTION_SCOPE_REQUIRED')
-        packet=self.observe();step=packet['step'];t=packet['time_s'];before=self.counts.get('mode',0)
+        packet=self.observe();before=self.counts.get('mode',0)
+        if packet['step']!=2500:raise RuntimeError('EXACT_G2_WARMUP_REQUIRED')
         self.publish(self.modes,'WBC')
+        if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
+        # The frozen original controller rejects duplicate simulation ticks.
+        # Process the mode entry on new ticks, without changing that guard or
+        # any WBC math. Original quota binding explicitly allows +3 init ticks.
+        self.advance_to(2503);packet=self.observe();step=packet['step'];t=packet['time_s']
         def ready():
             return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation')))
         if not self.spin(20,ready):

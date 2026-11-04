@@ -17,7 +17,7 @@ def validate_parent_loader(expected,actual):
 def phase_limit(phase,previous):
     if phase=='g2-reference-qualification':
         if(previous is None or previous.get('phase')!='hold-5s-2'or previous.get('status')!='NATIVE_STAGE_PASSED'or not previous.get('shutdown_clean')or any(p['exit_code']!=0 for p in previous.get('owned_process_exits',[]))):raise PermissionError('COMPLETE_G1_REQUIRED_BEFORE_REFERENCE_QUALIFICATION')
-        return 2500
+        return 2503
     names=[n for n,_ in PHASES]
     if phase not in names:raise PermissionError('UNKNOWN_AUTO1_NATIVE_PHASE')
     index=names.index(phase)

@@ -5,6 +5,17 @@ from scripts.pi0294.task_contacts import allowed
 from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter
 
 class Auto1Native(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('g++'),'C++ compiler required')
+    def test_original_quota_validator_allows_three_init_ticks_but_never_four(self):
+        import os
+        root=Path(__file__).resolve().parents[2]
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp);(p/'q.cpp').write_text('#include "task_quota_r1.hpp"\nint main(){uint64_t bound=0;return gr00t_quota_r1::read_bound(bound)?0:1;}\n')
+            subprocess.run(['g++','-std=c++17','-I'+str(root/'scripts/pi0294'),str(p/'q.cpp'),'-o',str(p/'q')],check=True,capture_output=True)
+            env=dict(os.environ,GR00T_TASK_QUOTA_BINDING=str(p/'binding'),GR00T_TASK_RUN_UUID='fixture',GR00T_TASK_CARD_SHA256='card',GR00T_TASK_RESERVATION_ID='owner')
+            for bound,warmup,expected in((2503,5,0),(2504,5,1),(2503,6,1)):
+                (p/'binding').write_text(f'GRTQUOTA2\nfixture\ncard\nowner\n{bound}\n{warmup}\n0\n')
+                self.assertEqual(subprocess.run([str(p/'q')],env=env).returncode,expected)
     def test_shutdown_keeps_display_alive_until_our_simulator_child_exits(self):
         with tempfile.TemporaryDirectory()as tmp:
             root=Path(tmp);flag=root/'display-survived'
@@ -32,7 +43,7 @@ class Auto1Native(unittest.TestCase):
     def test_phases_never_skip_failed_or_missing_native_stage(self):
         self.assertEqual(phase_limit('cold-1',None),50)
         with self.assertRaises(PermissionError):phase_limit('g2-reference-qualification',None)
-        self.assertEqual(phase_limit('g2-reference-qualification',dict(phase='hold-5s-2',status='NATIVE_STAGE_PASSED',shutdown_clean=True,owned_process_exits=[dict(exit_code=0)])),2500)
+        self.assertEqual(phase_limit('g2-reference-qualification',dict(phase='hold-5s-2',status='NATIVE_STAGE_PASSED',shutdown_clean=True,owned_process_exits=[dict(exit_code=0)])),2503)
         with self.assertRaises(PermissionError):phase_limit('g2-reference-qualification',dict(phase='hold-5s-2',status='NATIVE_STAGE_PASSED',shutdown_clean=False))
         self.assertEqual(phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED')),50)
         with self.assertRaises(PermissionError):phase_limit('cold-2',dict(phase='cold-1',status='NATIVE_STAGE_PASSED',owned_process_exits=[dict(exit_code=139)]))

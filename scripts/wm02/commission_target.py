@@ -10,9 +10,11 @@ def run(spec,output):
     start=time.monotonic();cpu=time.process_time();adapter=TargetSequentialAdapter(spec,output);failure=None;reached=False
     try:
         adapter.start()
-        if not spec.get('standby_shutdown_diagnostic',False):adapter.step_to(spec['max_ticks']);reached=True
+        if not spec.get('standby_shutdown_diagnostic',False):
+            if spec['phase']=='g2-reference-qualification':adapter.advance_to(2500)
+            else:adapter.step_to(spec['max_ticks']);reached=True
         if spec.get('reference_readiness_probe',False):adapter.inspect_reference_readiness()
-        elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference()
+        elif spec['phase']=='g2-reference-qualification':adapter.qualify_reference();adapter.seal_trace(spec['max_ticks']);reached=True
     except BaseException:failure=traceback.format_exc()
     finally:adapter.close()
     output=Path(output);trace=output/'init.trace';audit=None;audit_error=None
