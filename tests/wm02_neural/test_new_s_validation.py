@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from go2arx5_vla.world_model.new_s_validation import actual_quality,selectors,forecast_inputs
+from go2arx5_vla.world_model.new_s_validation import actual_quality,selectors,forecast_inputs,challenge_proposals
 from go2arx5_vla.world_model.replay import SLICES
 
 def state():
@@ -21,5 +21,12 @@ class NewValidation(unittest.TestCase):
         coef=np.zeros((4,96));a=selectors('transport',s,context,raw,pred,events,coef);order=np.array([4,2,0,3,1]);b=selectors('transport',s,context,raw[order],pred[order],events[order],coef)
         for method in a:self.assertTrue(np.array_equal(raw[a[method]['index']],raw[order[b[method]['index']]]))
         self.assertTrue(a['hybrid']['fallback']);self.assertFalse(a['OLS_transport_rule_contact']['fallback']);self.assertTrue(np.array_equal(original,raw))
+    def test_coast_challenge_compares_same_recenter_path_with_strong_delayed_rule(self):
+        s=state();s['tcp'][0,3]=.028;s['gripper_fraction']=1.;s['tool_linear_velocity'][0]=.07
+        names,raw=challenge_proposals(s,48);self.assertTrue(np.array_equal(raw[:,:,:6],np.tile(raw[:1,:,:6],(5,1,1))))
+        self.assertTrue(np.allclose(raw[:,:,:2].sum(1),[[-.028,0]]*5));self.assertLess(np.linalg.norm(raw[0,0,:3]),.01)
+        pred=np.zeros((5,16,50));events=np.zeros((5,16,4));events[names.index('close_delay0'),:,2]=1.
+        choice=selectors('preclose',s,np.array([.1,0,.46,.44,.04]),raw,pred,events,np.zeros((4,96)),challenge=True)
+        self.assertEqual(names[choice['pure_WM']['index']],'close_delay0');self.assertEqual(names[choice['rule']['index']],'close_delay0');self.assertEqual(names[choice['timing_rule']['index']],'close_delay6');self.assertEqual(names[choice['hybrid']['index']],'close_delay6');self.assertTrue(choice['hybrid']['fallback'])
 
 if __name__=='__main__':unittest.main()

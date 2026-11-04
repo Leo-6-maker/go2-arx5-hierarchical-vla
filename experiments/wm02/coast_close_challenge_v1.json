@@ -1,0 +1,576 @@
+{
+  "schema": "WM02_PROSPECTIVE_B2_COAST_CLOSE_V1",
+  "study": "COAST_CLOSE_CHALLENGE_V1",
+  "charter_sha": "a5619af01a8e508f170ecaec4aa994936098a985",
+  "model_checkpoint_sha256": "9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b",
+  "model_inference_sha256": "cba5a6b162c9e162614855dfe9983dbaad10a2f630f5e3c4be6eb07e14a5d674",
+  "reason": "First prospective8 x3 phases have zero oracle-minus-rule headroom; pure WM release decisions can be worse. Construct a causal timing distinction instead of more200-step retraining.",
+  "hypothesis": "Closing while still laterally off-center can miss/push the object; equal recenter trajectories with delayed closure can have different physical contact outcomes. Confidence in a narrow-FIT event head does not establish OOD timing reliability.",
+  "cards": [
+    {
+      "group_id": "WM02/COAST-CLOSE/48",
+      "scene_group": "WM02/COAST-CLOSE/48",
+      "seed": 15688308720549946085,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.44958344867987116,
+        -0.07937810153492918
+      ],
+      "goal_xy": [
+        0.4548766330868901,
+        0.08078538062966949
+      ],
+      "cube_yaw": 0.002661592026038745,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-48-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "e2044a40deb7551a78356246a5656982423e13096d7b0d0c6383f85acd24d9ba",
+      "parent_id": "WM02/COAST-CLOSE/48",
+      "ident_index": 48,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/49",
+      "scene_group": "WM02/COAST-CLOSE/49",
+      "seed": 12692163211123357765,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.45004026516124024,
+        -0.08218399422743995
+      ],
+      "goal_xy": [
+        0.44839163517780223,
+        0.07605062531579944
+      ],
+      "cube_yaw": -0.059745227519270014,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-49-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "24f2ce59e6f817abe70a4bba49dcded9bc07dcd1fbddd450839c2c875f344519",
+      "parent_id": "WM02/COAST-CLOSE/49",
+      "ident_index": 49,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/50",
+      "scene_group": "WM02/COAST-CLOSE/50",
+      "seed": 15055956976730797547,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.4465472169916911,
+        -0.09264707589192595
+      ],
+      "goal_xy": [
+        0.4446869827292999,
+        0.06905041842278895
+      ],
+      "cube_yaw": 0.031025811855391244,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-50-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "83a306500368c6078a0aca4bc50a8878897b3cdba6e1a355a186cc61ecbd4dbb",
+      "parent_id": "WM02/COAST-CLOSE/50",
+      "ident_index": 50,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/51",
+      "scene_group": "WM02/COAST-CLOSE/51",
+      "seed": 1867498757466750361,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.4429841605683795,
+        -0.07756982829364012
+      ],
+      "goal_xy": [
+        0.4485927504775711,
+        0.0875594571111464
+      ],
+      "cube_yaw": -0.07421497443287994,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-51-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "97aa2f86b8f47abaecd035d979564cf131348882a9649343e77780abaf8d33a3",
+      "parent_id": "WM02/COAST-CLOSE/51",
+      "ident_index": 51,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/52",
+      "scene_group": "WM02/COAST-CLOSE/52",
+      "seed": 10210911512800338608,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.444803183368259,
+        -0.08552156994200456
+      ],
+      "goal_xy": [
+        0.4426989282406017,
+        0.07292991103593217
+      ],
+      "cube_yaw": 0.020494134932290853,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-52-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "ce8f07d2e2f19f842e47649bb19bf9e0d63120571ee6b4bf9c33dfa3738051eb",
+      "parent_id": "WM02/COAST-CLOSE/52",
+      "ident_index": 52,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/53",
+      "scene_group": "WM02/COAST-CLOSE/53",
+      "seed": 12143138905503009605,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.4435126333577634,
+        -0.08417811658724858
+      ],
+      "goal_xy": [
+        0.445839222073189,
+        0.07618179482981449
+      ],
+      "cube_yaw": 0.07442971832462546,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-53-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "b8f8ef5109da797015a79971c5540f8822855a625ea5e7eccf4f5deab372896f",
+      "parent_id": "WM02/COAST-CLOSE/53",
+      "ident_index": 53,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/54",
+      "scene_group": "WM02/COAST-CLOSE/54",
+      "seed": 12485965923420529047,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.453433193186915,
+        -0.08699707865516693
+      ],
+      "goal_xy": [
+        0.45409026108714823,
+        0.07678603984721186
+      ],
+      "cube_yaw": -0.0014189232712243927,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-54-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "56bbcaa4e3811569247139054d723d417f250de482c901b93c3867dda08e3d07",
+      "parent_id": "WM02/COAST-CLOSE/54",
+      "ident_index": 54,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    },
+    {
+      "group_id": "WM02/COAST-CLOSE/55",
+      "scene_group": "WM02/COAST-CLOSE/55",
+      "seed": 5086869397478099755,
+      "split": "DEV",
+      "family": "F0",
+      "source_xy": [
+        0.44767344266977616,
+        -0.07830008207467941
+      ],
+      "goal_xy": [
+        0.4444072906162455,
+        0.0887831021365064
+      ],
+      "cube_yaw": 0.007653451243927925,
+      "table_top_m": 0.44,
+      "visual": {
+        "table_rgba": [
+          0.69,
+          0.7,
+          0.66,
+          1.0
+        ],
+        "floor_rgba": [
+          0.72,
+          0.74,
+          0.76,
+          1.0
+        ],
+        "light_scale": 1.0,
+        "body_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wrist_camera_rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+      "id": "WM02-COAST-CLOSE-55-T1",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "mode": "normal",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "initial_state_sha256": "2e48db5aab0cb3307c4e956a16fc3bf8d2510cc066cc5e9021a651c616002bf0",
+      "parent_id": "WM02/COAST-CLOSE/55",
+      "ident_index": 55,
+      "ident_partition": "PROSPECTIVE_B2_CONTACT_CHALLENGE",
+      "layout_candidate_index": 0
+    }
+  ],
+  "static_exclusions": {
+    "prior_layouts": 268,
+    "new_parent_range": [
+      48,
+      55
+    ],
+    "position_tolerance_m": 0.002,
+    "yaw_tolerance_rad": 0.03490658503988659,
+    "pre_freeze_geometry_rejected": [],
+    "physical_outcomes_used": 0,
+    "TEST_read": false
+  },
+  "construction": "Original observed preclose only; at most24 original Teacher macros192atoms; no Teacher phase input in selectors",
+  "coast": "One400ms actual open-gripper prefix, world X \u00b13.5mm per50ms atom, sign positive even parent/negative odd. Preserve original driver/safety/S1. Require observed open>=.85, not grasping, XY object-TCP gap>half observed cube edge. If not established mark missing; no replacement/retry.",
+  "proposals": "Five identical observed-object recenter XY trajectories (8 equal increments, fixed z/rotation), opening stays open OR first closes at0/2/4/6 atoms; thereafter400ms zeroEEF hold at actual/predicted H8 TCP respectively. No action clipping.",
+  "methods": {
+    "pure_WM": "Frozen M4-B, maximum H16 grasp probability, canonical batch1 and raw64 hash tie",
+    "rule": "Unchanged immediate-close/alignment rule; this is the original comparator",
+    "OLS_transport_rule_contact": "OLS has no contact head; explicit original-rule fallback, not a learned contact OLS claim",
+    "timing_rule": "Stronger transparent comparator: latest declared closing onset with final command closed (delay6). Uses no future state or event.",
+    "hybrid": "Use timing_rule when current XY gap>half cube edge OR tool linear speed>.04m/s OR predicted grasp range<.1; otherwise pureWM. Explicit fallback counts; not pureWM benefit."
+  },
+  "scope": "OOD contact mechanism diagnostic, not interpolation/generalization certification or formal task reward; source fixed base, no target/WBC",
+  "ordering": "Save and fsync all four recommendations and original raw hashes BEFORE any online or oracle branch effects. Execute all four selected actions separately first; then all five oracle candidates; then repeat/tail controls. No retrospective substitution.",
+  "actual_Q": {
+    "complete": "actual native_grasp at16 atoms",
+    "incomplete_or_rejected": -1000000.0,
+    "native_terminal": "stop same parent immediately; preserve partial and count all effects"
+  },
+  "denominators": {
+    "parents": 8,
+    "anchors": 8,
+    "methods": 5,
+    "method_episodes": 40,
+    "candidate_branches": 40,
+    "control_branches": 16
+  },
+  "limits": {
+    "max_prefix_atoms_per_parent": 192,
+    "coast_atoms_per_parent": 8,
+    "max_live_atoms": 3136,
+    "max_shadow_atoms": 3136,
+    "max_combined_native_50ms_equivalents": 6272,
+    "previous_actual_live_plus_shadow_equivalents": 11392,
+    "program_combined_max_after_this": 17664,
+    "max_parallel_workers": 4,
+    "max_RAM_bytes": 5368709120,
+    "max_wall_s": 2400
+  },
+  "decision": "Evaluate headroom and compare pureWM against BOTH original and timing rules with intended8 parents; report missing/reject/negative outcomes and n8 limitation. No further blind retraining or outcome-based resampling. No Actor updates regardless result.",
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "target_integrations": 0
+}

@@ -31,7 +31,7 @@ def forecast_inputs(history,current,context,raw):
     return dict(state=repeat(states),reference=repeat(np.stack([r['reference_compiled']for r in history])),context=repeat(context),clock=repeat(np.array([[r['t0']/32,r['native_progress']['point']*.05]for r in history]+[[current['time_s']/32,0.]])),raw=torch.as_tensor(raw,dtype=torch.float32))
 
 
-def selectors(kind,current,context,raw,pred,event,ols):
+def selectors(kind,current,context,raw,pred,event,ols,*,challenge=False):
     s=tensor_state(current);p=pred[:,-1];grasp=event[:,-1,2]
     if kind=='preclose':wm=grasp;rule=rule_scores(s,raw)
     elif kind=='transport':
@@ -46,9 +46,45 @@ def selectors(kind,current,context,raw,pred,event,ols):
         score_ols=-np.linalg.norm(s[SLICES['object_position']][:2]+delta[:,-1,3:5]-context[:2],axis=1)
     else:score_ols=rule
     fallback=kind!='preclose'or float(np.ptp(grasp))<.1
-    hybrid=score_ols if fallback else wm
+    timing=None
+    if challenge:
+        closing=raw[:,:,6]<.2;timing=np.where(closing[:,-1],np.argmax(closing,axis=1),-1e6).astype(float)
+        outside=(np.linalg.norm(s[SLICES['object_position']][:2]-s[SLICES['tcp_position']][:2])>.5*context[4]or np.linalg.norm(current['tool_linear_velocity'])>.04)
+        fallback=outside or fallback
+    hybrid=(timing if challenge else score_ols)if fallback else wm
     scores=dict(zip(METHODS,(wm,rule,score_ols,hybrid)))
+    if challenge:scores['timing_rule']=timing
     return {k:dict(scores=v.tolist(),index=stable_choice(v,raw),fallback=(kind!='transport'if k=='OLS_transport_rule_contact'else fallback if k=='hybrid'else False))for k,v in scores.items()}
+
+
+def challenge_proposals(state,scene):
+    """Same causal recenter path, independent first-close timing; physical raw units."""
+    from .contact_identification import LO,HI
+    raw=np.zeros((8,7));raw[:,:2]=(state['object_pose'][:2,3]-state['tcp'][:2,3])/8
+    if np.linalg.norm(raw[0,:3])>.01:raise ValueError('Recenter exceeds original atom; no clipping')
+    actions={}
+    for delay in(0,2,4,6):
+        a=raw.copy();a[:,6]=LO;a[:delay,6]=HI;actions[f'close_delay{delay}']=a
+    a=raw.copy();a[:,6]=HI;actions['stay_open']=a
+    names=sorted(actions,key=lambda n:hashlib.sha256(f'WM02_COAST_CLOSE_V1/{scene}/{n}'.encode()).digest())
+    return names,np.stack([actions[n]for n in names])
+
+
+def coast(adapter,anchor,spec,folder,scene):
+    """One actual open-gripper lateral block; append only executed causal history."""
+    from .action_compiler import compile_reference,SOURCE
+    from .contracts import FRAME,TCP
+    from .contact_identification import HI
+    adapter.restore(anchor['saved']);state=adapter.snapshot(force=True);raw=np.zeros((8,7));raw[:,0]=.0035*(1 if scene%2==0 else-1);raw[:,6]=HI
+    plan=compile_reference(raw,state['tcp'],state['time_s'],backend=SOURCE,frame=FRAME,tcp=TCP);guard=local_guard(spec);ref=adapter.save_complete(folder/'coast-start-restore.pkl.gz')
+    if adapter.gate(plan)['decision']=='REJECT'or adapter.preflight(plan,guard)['decision']!='PASS':raise RuntimeError('Coast prefix original gate/S1 rejection; no replacement')
+    rows=[]
+    for i in range(8):
+        r=adapter.advance_recorded(plan,i,run_id=folder.name,actor_version='B2_COAST_CLOSE_ACTUAL_PREFIX_NOT_EXPERT',restore_ref=ref);rows.append(r)
+        if r['terminal']or r['truncated']:break
+    dump_private(folder/'COAST_ACTUAL.pkl.gz',dict(rows=rows,action_raw=raw));now=adapter.snapshot(force=True)
+    if len(rows)!=8 or rows[-1]['terminal']or now['gripper_fraction']<.85 or now['native_grasp']or np.linalg.norm(now['object_pose'][:2,3]-now['tcp'][:2,3])<=.5*anchor['context'][4]:raise RuntimeError('Preregistered open off-center state not established; no resampling')
+    return dict(saved=adapter.capture(),history=(anchor['history']+rows)[-8:],context=anchor['context'],time_s=now['time_s'])
 
 
 def actual_quality(kind,state,context,complete):
@@ -64,19 +100,26 @@ def scene(job):
     from .temporal_diagnostics import load_model
     from .response_eval_audit import canonical_forecast
     torch.set_num_threads(1);torch.use_deterministic_algorithms(True);os.sched_setaffinity(0,{job['cpu']})
-    spec=job['spec'];folder=Path(job['out']);folder.mkdir();start=time.monotonic();cpu=time.process_time();adapter=None;failure=None;phases={};live=shadow=0;prefix=None
+    spec=job['spec'];challenge=spec.get('study')=='COAST_CLOSE_CHALLENGE_V1';folder=Path(job['out']);folder.mkdir();start=time.monotonic();cpu=time.process_time();adapter=None;failure=None;phases={};live=shadow=0;prefix=None;coast_atoms=0
     try:
-        prefix=construct(dict(job,out=str(folder/'construction')))
+        subset=dict(kinds=('preclose',),max_macros=24)if challenge else{}
+        prefix=construct(dict(job,out=str(folder/'construction')),**subset)
         live+=prefix['live_physics_ticks'];shadow+=prefix['shadow_ticks']
         if prefix['failure']:raise RuntimeError('Original construction failed: '+prefix['failure'])
         model=load_model(spec['model']);adapter=SourceAdapter(job['card'],spec['asset_root'],executor_id=spec['executor_id'],seed=job['card']['seed']);anchors=bank(adapter,prefix['entry']);guard=local_guard(spec)
-        for kind in KINDS:
+        if challenge:
+            adapter.restore(anchors['preclose']['saved']);before=adapter.engine.steps
+            try:anchors['preclose']=coast(adapter,anchors['preclose'],spec,folder,job['card']['ident_index'])
+            finally:
+                count=max(0,adapter.engine.steps-before);live+=count;coast_atoms=count//25
+        for kind in(('preclose',)if challenge else KINDS):
             if kind not in anchors:phases[kind]=dict(status='ANCHOR_NOT_FOUND',intended_candidates=5,intended_methods=4);continue
-            anchor=anchors[kind];adapter.restore(anchor['saved']);state=adapter.snapshot(force=True);names,raw=proposals(kind,tensor_state(state),anchor['context'],float(adapter.last_command[-1]),job['card']['ident_index'])
+            anchor=anchors[kind];adapter.restore(anchor['saved']);state=adapter.snapshot(force=True)
+            names,raw=challenge_proposals(state,job['card']['ident_index'])if challenge else proposals(kind,tensor_state(state),anchor['context'],float(adapter.last_command[-1]),job['card']['ident_index'])
             part=folder/kind;part.mkdir();ref=adapter.save_complete(part/'common-restore.pkl.gz')
             b=forecast_inputs(anchor['history'],state,anchor['context'],raw);infer=time.process_time()
             with torch.no_grad():pred,event,_=canonical_forecast(model,b)
-            pred=pred.numpy();event=event.numpy();choices=selectors(kind,state,anchor['context'],raw,pred,event,np.asarray(spec['OLS_coefficients']))
+            pred=pred.numpy();event=event.numpy();choices=selectors(kind,state,anchor['context'],raw,pred,event,np.asarray(spec['OLS_coefficients']),challenge=challenge)
             # Native/reference physics and future outcomes have not run yet.
             selection=dict(kind=kind,scene=job['card']['ident_index'],names=names,physical_raw=raw,raw_sha256=[hashlib.sha256(np.asarray(a,dtype='<f8').tobytes()).hexdigest()for a in raw],methods=choices,model_sha256=spec['model']['sha256'],parent_checkpoint_sha256=spec['model']['parent_checkpoint_sha256'],model_inference_CPU_s=time.process_time()-infer,uses_future_truth=False,prospective_validation=True)
             write_json(part/'BEFORE_ANY_BRANCH.json',selection);pin=digest(part/'BEFORE_ANY_BRANCH.json');np.savez_compressed(part/'PREDICTIONS_BEFORE_EFFECT.npz',state=pred,event=event,raw=raw)
@@ -92,11 +135,11 @@ def scene(job):
                 return r,dict(complete=complete,transitions=len(r['rows']),rejected_blocks=len(r['events']),Q=actual_quality(kind,observed,anchor['context'],complete),native_grasp=bool(observed['native_grasp']),native_support=bool(observed['supported']),terminal=any(x['terminal']for x in r['rows']))
             # Actually execute every selected action, even ties; do not alias outcomes.
             online={}
-            for method in METHODS:
+            for method in choices:
                 r,z=effect('online-'+method,raw[choices[method]['index']]);z.update(selected=names[choices[method]['index']],selection_sha256=pin,fallback=choices[method]['fallback']);online[method]=z
             for name,action in zip(names,raw):
                 r,z=effect('candidate-'+name,action);truth[name]=z;runs[name]=r
-            control='nominal'if kind=='preclose'else'hold'if kind=='transport'else'release';checks={}
+            control='close_delay6'if challenge else'nominal'if kind=='preclose'else'hold'if kind=='transport'else'release';checks={}
             for label,tail in(('repeat',False),('tail-only',True)):
                 r,z=effect(label,raw[names.index(control)],tail=tail);checks[label]=compare_repeats(runs[control]['rows'],r['rows'],runs[control]['final_restore'],r['final_restore'])
             oracle=max(z['Q']for z in truth.values());rule=online['rule']['Q']
@@ -117,7 +160,7 @@ def scene(job):
     except BaseException:failure=traceback.format_exc()
     finally:
         if adapter:shadow+=adapter.shadow_ticks;adapter.close()
-    result=dict(scene=job['card']['ident_index'],partition='PROSPECTIVE_B2_NEVER_FIT',phases=phases,failure=failure,construction=prefix,prefix_transitions=prefix['prefix_transitions']if prefix else 0,live_physics_ticks=live,shadow_ticks=shadow,actual_transitions=live//25,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
+    result=dict(scene=job['card']['ident_index'],partition=job['card']['ident_partition'],phases=phases,failure=failure,construction=prefix,coast_transitions=coast_atoms,prefix_transitions=prefix['prefix_transitions']if prefix else 0,live_physics_ticks=live,shadow_ticks=shadow,actual_transitions=live//25,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     write_json(folder/'RESULT.json',result);return result
 
 
@@ -126,8 +169,8 @@ def run(spec,output):
     import multiprocessing
     output=Path(output);start=time.monotonic();p=Path(spec['preregistration'])
     if digest(p)!=spec['preregistration_sha256']:raise ValueError('Frozen B2 preregistration differs')
-    plan=json.loads(p.read_text());cards=plan['cards']
-    if len(cards)!=8 or [c['ident_index']for c in cards]!=list(range(40,48))or any(c['split']!='DEV'or c['ident_partition']!='PROSPECTIVE_B2_NEVER_FIT'for c in cards):raise ValueError('Independent frozen8 parents required')
+    plan=json.loads(p.read_text());cards=plan['cards'];challenge=spec.get('study')=='COAST_CLOSE_CHALLENGE_V1';first=48 if challenge else 40;partition='PROSPECTIVE_B2_CONTACT_CHALLENGE'if challenge else'PROSPECTIVE_B2_NEVER_FIT'
+    if len(cards)!=8 or [c['ident_index']for c in cards]!=list(range(first,first+8))or any(c['split']!='DEV'or c['ident_partition']!=partition for c in cards):raise ValueError('Independent frozen8 parents required')
     if digest(spec['B1_gate'])!=spec['B1_gate_sha256']or json.loads(Path(spec['B1_gate']).read_text())['all_development_gates_pass']is not True:raise ValueError('Actual prespecified M4-B joint gate required')
     for name,pin in spec['asset_files'].items():
         if digest(Path(spec['asset_root'])/name)!=pin:raise ValueError('Frozen S asset differs:'+name)
@@ -136,5 +179,5 @@ def run(spec,output):
     with ProcessPoolExecutor(max_workers=4,mp_context=multiprocessing.get_context('spawn'))as pool:
         scenes=[]
         for x in pool.map(scene,jobs):scenes.append(x);print(json.dumps({k:x[k]for k in('scene','actual_transitions','failure')}),flush=True)
-    result=dict(status='PROSPECTIVE_B2_TERMINAL',source_sha=spec['source_sha'],model=spec['model'],preregistration_sha256=spec['preregistration_sha256'],FIT_data_sha256=spec['replay_sha256'],intended_parents=8,intended_anchors=24,intended_method_episodes=96,intended_candidate_branches=120,scenes=scenes,actual_transitions=sum(x['actual_transitions']for x in scenes),live_physics_ticks=sum(x['live_physics_ticks']for x in scenes),shadow_ticks=sum(x['shadow_ticks']for x in scenes),CPU_s=sum(x['CPU_s']for x in scenes),wall_s=time.monotonic()-start,WM_updates=0,Actor_updates=0,target_integrations=0,full_tasks=0,formal_reward=False,old_holdout_reused=False)
+    result=dict(status='PROSPECTIVE_B2_TERMINAL',study=spec.get('study','NEW8_F0_VALIDATION_V1'),source_sha=spec['source_sha'],model=spec['model'],preregistration_sha256=spec['preregistration_sha256'],FIT_data_sha256=spec['replay_sha256'],intended_parents=8,intended_anchors=8 if challenge else 24,intended_method_episodes=40 if challenge else 96,intended_candidate_branches=40 if challenge else 120,scenes=scenes,actual_transitions=sum(x['actual_transitions']for x in scenes),live_physics_ticks=sum(x['live_physics_ticks']for x in scenes),shadow_ticks=sum(x['shadow_ticks']for x in scenes),CPU_s=sum(x['CPU_s']for x in scenes),wall_s=time.monotonic()-start,WM_updates=0,Actor_updates=0,target_integrations=0,full_tasks=0,formal_reward=False,old_holdout_reused=False)
     write_json(output/'RESULT.json',result);return result
