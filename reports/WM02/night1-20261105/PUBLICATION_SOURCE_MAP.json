@@ -1,0 +1,169 @@
+{
+  "schema": "WM02_EXACT_SOURCE_PUBLICATION_MAP_V1",
+  "base_sha": "6e99a72e56eaa1066e567fb66f95ad7121695742",
+  "purpose": "Exact run-source commit recovery. API snapshots retain identical Git trees; their commit metadata differs. No refs/checkout/runtime are changed by recovery.",
+  "snapshots": [
+    {
+      "actual_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
+      "tree_sha": "dc254449eedc49b5d226ee819dcb3e540a171abe",
+      "original_commit_object": "tree dc254449eedc49b5d226ee819dcb3e540a171abe\nparent 6e99a72e56eaa1066e567fb66f95ad7121695742\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793811328 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793811328 +0800\n\ntest(wm02): verify NIGHT1 finite peer failure stop before fresh paired collection\n",
+      "published_snapshot_sha": "bfe99fd07fa2a197fb66c1386049f4cc575b2a5e"
+    },
+    {
+      "actual_source_sha": "189555edf58ca23f68d0152f35322bfc77539f9c",
+      "tree_sha": "a09bf1e9107ccf099c199606182598d34b404f3d",
+      "original_commit_object": "tree a09bf1e9107ccf099c199606182598d34b404f3d\nparent d8a7604f84d7a1e506afd478452d2e0efc60aeda\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793812116 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793812116 +0800\n\nfeat(wm02): bind finite NIGHT1 manifests, qualified durations and scene-safe explicit replay windows\n",
+      "published_snapshot_sha": "26df1f4c4cb3a670bdcd74590ab51fa5bbe9e95e"
+    },
+    {
+      "actual_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "tree_sha": "d46db1c81a32f1fc6b5f58f41d3199e89fe8f98c",
+      "original_commit_object": "tree d46db1c81a32f1fc6b5f58f41d3199e89fe8f98c\nparent 189555edf58ca23f68d0152f35322bfc77539f9c\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793813096 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793813096 +0800\n\nfeat(wm02): train causal variable windows with parent splits and strict V2 recovery under uncapped scientific iteration\n",
+      "published_snapshot_sha": "7853dcf0e57a6d4c0a28ae4537457724b397f07b"
+    },
+    {
+      "actual_source_sha": "731db9713c218420f0e1f6d9bc1cd378d7cb97c7",
+      "tree_sha": "8ccc03f235d2a132eb8fda11523a10c9c1a9894a",
+      "original_commit_object": "tree 8ccc03f235d2a132eb8fda11523a10c9c1a9894a\nparent 5c4112bf022bae222cd73b19d1ee1e8171e79f90\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793813899 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793813899 +0800\n\nfix(wm02): initialize cold policy history through original real-observation reset API\n",
+      "published_snapshot_sha": "7e328fa50a7195171495703c02d4e525e8478417"
+    },
+    {
+      "actual_source_sha": "8546c2874aca3ee4b7e0570d51b9a923bf6cf7fa",
+      "tree_sha": "c1a421352b8e31fc66735af8c6b2f1340428b5bc",
+      "original_commit_object": "tree c1a421352b8e31fc66735af8c6b2f1340428b5bc\nparent 731db9713c218420f0e1f6d9bc1cd378d7cb97c7\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814586 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814586 +0800\n\nfix(wm02): bind scene layouts to actual native home reset\n",
+      "published_snapshot_sha": "ab6b6a802cc27b12f88a971e1ce86548d50f85d1"
+    },
+    {
+      "actual_source_sha": "03f36a3143ddf6c7ff337d28ebc00fac0b8b9b99",
+      "tree_sha": "c91ba238559514f4b893074153a924505d8b7e62",
+      "original_commit_object": "tree c91ba238559514f4b893074153a924505d8b7e62\nparent 8546c2874aca3ee4b7e0570d51b9a923bf6cf7fa\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814670 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814670 +0800\n\nfix(wm02): qualify cold-only successor against preserved reference evidence\n",
+      "published_snapshot_sha": "6d090ad88f031bb607409cea147eeff9dc9a1d1a"
+    },
+    {
+      "actual_source_sha": "d8f504bb554bf94f6c786986c5c12d2d306ca1f6",
+      "tree_sha": "aefee2a2b621b11b7328553dc0874f632c51a358",
+      "original_commit_object": "tree aefee2a2b621b11b7328553dc0874f632c51a358\nparent 03f36a3143ddf6c7ff337d28ebc00fac0b8b9b99\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814706 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814706 +0800\n\nfeat(wm02): qualify first finite collection for a repaired executor\n",
+      "published_snapshot_sha": "af538e1ed7df0ffc687022803d2f32a4d12eca40"
+    },
+    {
+      "actual_source_sha": "0afb5de610ce3d069bce620cb569cc5d0d2b3805",
+      "tree_sha": "a09118bb218ac27ee0da54ea08bea628f3fe3a21",
+      "original_commit_object": "tree a09118bb218ac27ee0da54ea08bea628f3fe3a21\nparent d8f504bb554bf94f6c786986c5c12d2d306ca1f6\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814766 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814766 +0800\n\nfix(wm02): verify original SDK bytes recorded by native build\n",
+      "published_snapshot_sha": "b45772cd156b5178de2f55f1c46dfe9e77933379"
+    },
+    {
+      "actual_source_sha": "ac795827d0563b35f4a866aa1b0b1027b1a7bf33",
+      "tree_sha": "5cc306d2ca9fa7a6199e60cadc3180406f22c4ce",
+      "original_commit_object": "tree 5cc306d2ca9fa7a6199e60cadc3180406f22c4ce\nparent 0afb5de610ce3d069bce620cb569cc5d0d2b3805\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814844 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793814844 +0800\n\nfix(wm02): retain executor identities and separate changed native dynamics\n",
+      "published_snapshot_sha": "6f4678f548206360161960043ff43cdf23a42876"
+    },
+    {
+      "actual_source_sha": "5102806a55074f38a993ece83ab15e1593aee5a8",
+      "tree_sha": "39ea6f4237a67a8d671e81f70652d33b1950f1a3",
+      "original_commit_object": "tree 39ea6f4237a67a8d671e81f70652d33b1950f1a3\nparent ac795827d0563b35f4a866aa1b0b1027b1a7bf33\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815127 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815127 +0800\n\nfeat(wm02): record owned native signal sender during finite diagnosis\n",
+      "published_snapshot_sha": "dc1c61ac282eeafdd517d137c462891e55dde030"
+    },
+    {
+      "actual_source_sha": "b50ebef937a2cd72ff8b4441958204f896de88dd",
+      "tree_sha": "f1ead1651a434e6274357dd2189bc6c4ecb3fcc8",
+      "original_commit_object": "tree f1ead1651a434e6274357dd2189bc6c4ecb3fcc8\nparent 5102806a55074f38a993ece83ab15e1593aee5a8\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815314 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815314 +0800\n\nfix(wm02): retain original outer guard rejection reasons in native result\n",
+      "published_snapshot_sha": "5aa92f86abca6f6a69666f510c978d7490bbbb99"
+    },
+    {
+      "actual_source_sha": "43019d51b6288d82e566a8645e347748162dd747",
+      "tree_sha": "792de05cc1f80279d3d5a2fb3551b9e0457b125d",
+      "original_commit_object": "tree 792de05cc1f80279d3d5a2fb3551b9e0457b125d\nparent b50ebef937a2cd72ff8b4441958204f896de88dd\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815439 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815439 +0800\n\nexperiment(wm02): isolate software-render pool timing diagnostic\n",
+      "published_snapshot_sha": "067e6954c2bed36db952fa43a2463a2df5cac00b"
+    },
+    {
+      "actual_source_sha": "adce143ca0356dfde3493670bf7124a1f4775fe2",
+      "tree_sha": "b056c0783c83ff26f80fe46ed5444f11ad135f0c",
+      "original_commit_object": "tree b056c0783c83ff26f80fe46ed5444f11ad135f0c\nparent 43019d51b6288d82e566a8645e347748162dd747\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815622 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815622 +0800\n\nfeat(wm02): inspect actual native contact entry without physical integration\n",
+      "published_snapshot_sha": "f95be15c98fe96c55e59fab0c90ecb2839ac2999"
+    },
+    {
+      "actual_source_sha": "e51c333c3d7cea214753227142afd7bda794c6e8",
+      "tree_sha": "80f28e9144ab90028f9ff86790fa4f85b5d84453",
+      "original_commit_object": "tree 80f28e9144ab90028f9ff86790fa4f85b5d84453\nparent adce143ca0356dfde3493670bf7124a1f4775fe2\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815806 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815806 +0800\n\nfix(wm02): finish owned OCS2 construction at native zero before integration\n",
+      "published_snapshot_sha": "00883841b8a4839c5a2ce9a0dc746f15a1990f6b"
+    },
+    {
+      "actual_source_sha": "6a95bffbc8c1b8a130724fbb4c2499e6446bfb85",
+      "tree_sha": "417a46f400f74a0a176db5c0b15c31973b8a2808",
+      "original_commit_object": "tree 417a46f400f74a0a176db5c0b15c31973b8a2808\nparent e51c333c3d7cea214753227142afd7bda794c6e8\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815989 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793815989 +0800\n\nexperiment(wm02): predeclare matched action-scale and no-action predictive controls\n",
+      "published_snapshot_sha": "2a627437ad4908609953ac87f16a742497b3bb34"
+    },
+    {
+      "actual_source_sha": "3fb2d93dbaddc2fc84356820be81d2f8b77179df",
+      "tree_sha": "19ac8c6e273491b6b737bf043d74217cad57c3da",
+      "original_commit_object": "tree 19ac8c6e273491b6b737bf043d74217cad57c3da\nparent 6a95bffbc8c1b8a130724fbb4c2499e6446bfb85\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816144 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816144 +0800\n\nfix(wm02): join MRT workers before shutting down ROS controller context\n",
+      "published_snapshot_sha": "f6632b321742b79d32813552693348603a2b9334"
+    },
+    {
+      "actual_source_sha": "45780a428bb2fbdaac2a331817de7579bb626667",
+      "tree_sha": "39aeecf20562e3a9a892c1e3dc53c94440aef0b7",
+      "original_commit_object": "tree 39aeecf20562e3a9a892c1e3dc53c94440aef0b7\nparent 3fb2d93dbaddc2fc84356820be81d2f8b77179df\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816236 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816236 +0800\n\nfix(wm02): seal each native build command once and pin controller identities\n",
+      "published_snapshot_sha": "c788dcac465127c689c13f103cfd9c85bfe9db85"
+    },
+    {
+      "actual_source_sha": "da2d9b72495fd602ebcb68f846f1c761e2c92319",
+      "tree_sha": "d0636625acf3573e7f51e825485f7e9b70483c78",
+      "original_commit_object": "tree d0636625acf3573e7f51e825485f7e9b70483c78\nparent 45780a428bb2fbdaac2a331817de7579bb626667\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816552 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816552 +0800\n\nexperiment(wm02): qualify native initialization through existing atomic pause windows\n",
+      "published_snapshot_sha": "0fc72aa3f10e3c4993627d5bf1f6bacaee68f4fe"
+    },
+    {
+      "actual_source_sha": "2700cc3abeeaefd87bd1a2d3bbed8f600ec515a6",
+      "tree_sha": "a673b5a9fc8a109f2f0a650766294d023d28bfa1",
+      "original_commit_object": "tree a673b5a9fc8a109f2f0a650766294d023d28bfa1\nparent da2d9b72495fd602ebcb68f846f1c761e2c92319\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816778 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816778 +0800\n\nfix(wm02): compare paused reference freshness in actual native nanoseconds\n",
+      "published_snapshot_sha": "2c140b7399299de3f300f9d24c8ad0d4fccedbbc"
+    },
+    {
+      "actual_source_sha": "de9653cf98bd224eced5a5a279da23257ee2dd70",
+      "tree_sha": "33cfd73710ee12527d9387328e474f39f9fb0786",
+      "original_commit_object": "tree 33cfd73710ee12527d9387328e474f39f9fb0786\nparent 2700cc3abeeaefd87bd1a2d3bbed8f600ec515a6\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816909 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793816909 +0800\n\nfix(wm02): read only committed receiver log records during install polling\n",
+      "published_snapshot_sha": "a3b5e07e7b78955e9651c3852db6090b8db2990a"
+    },
+    {
+      "actual_source_sha": "18dc312b584675465fca53f28ec323e7809bd345",
+      "tree_sha": "77928816e28c10ee7517b3372a75edcc1720ea97",
+      "original_commit_object": "tree 77928816e28c10ee7517b3372a75edcc1720ea97\nparent 6e99a72e56eaa1066e567fb66f95ad7121695742\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813449 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813449 +0800\n\ndocs(wm02): append eight evidence-gated successor goals to NIGHT1",
+      "published_snapshot_sha": "18dc312b584675465fca53f28ec323e7809bd345"
+    },
+    {
+      "actual_source_sha": "bea65e275079906e07ac7ca149660162ae5f694b",
+      "tree_sha": "009a056b3413403be75404e36724a0b757f5932f",
+      "original_commit_object": "tree 009a056b3413403be75404e36724a0b757f5932f\nparent 18dc312b584675465fca53f28ec323e7809bd345\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813566 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813566 +0800\n\nexperiments(wm02): add finite successor DAG and bounded follow-on model comparisons",
+      "published_snapshot_sha": "bea65e275079906e07ac7ca149660162ae5f694b"
+    },
+    {
+      "actual_source_sha": "59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb",
+      "tree_sha": "f2c9d24eb9b4ab60a8385e76e3a3a36c97f2f950",
+      "original_commit_object": "tree f2c9d24eb9b4ab60a8385e76e3a3a36c97f2f950\nparent bea65e275079906e07ac7ca149660162ae5f694b\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813599 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813599 +0800\n\ndocs(wm02): mount successor goals after current NIGHT1 goal without hot updates",
+      "published_snapshot_sha": "59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb"
+    },
+    {
+      "actual_source_sha": "7a37e694764229baf30ddf3b2377159f9aadba29",
+      "tree_sha": "916e7d1cbefbe5c66cf155f32082c41e9969becc",
+      "original_commit_object": "tree 916e7d1cbefbe5c66cf155f32082c41e9969becc\nparent de9653cf98bd224eced5a5a279da23257ee2dd70\nparent 59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793817223 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793817223 +0800\n\nmerge: preserve concurrent NIGHT1 successor handoff before new cold-boundary work\n",
+      "published_snapshot_sha": "79d7d69a5690a1c2486261da4db0f1b3995bddd6"
+    },
+    {
+      "actual_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "tree_sha": "c3e4d68dd690668430c8a6f6cdf88377098cff56",
+      "original_commit_object": "tree c3e4d68dd690668430c8a6f6cdf88377098cff56\nparent 7a37e694764229baf30ddf3b2377159f9aadba29\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793818175 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793818175 +0800\n\nfeat(wm02): version pre-response decision replay and isolated standing-workspace conditions\n",
+      "published_snapshot_sha": "641e17ea13180482b4b3b734593468aa5c48aa57"
+    },
+    {
+      "actual_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "tree_sha": "8c5ba652a61d2363aac12148d64824efdfe76458",
+      "original_commit_object": "tree 8c5ba652a61d2363aac12148d64824efdfe76458\nparent d40c9df7dc31d09cc4fa11c07ab589400b50e9f9\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793819719 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793819719 +0800\n\nfix(wm02): break MRT shared Node ownership before final ROS shutdown\n",
+      "published_snapshot_sha": "2c46a458095b6b786d655e85ed4b2172ca2d2134"
+    },
+    {
+      "actual_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "tree_sha": "03684d48238948f247409abc98623db6afe25cad",
+      "original_commit_object": "tree 03684d48238948f247409abc98623db6afe25cad\nparent d52c4e435bff6ab26868eae9bbce2e6133b1126f\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793820917 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793820917 +0800\n\nfix(wm02): stop pinned reference receiver before ROS context teardown\n",
+      "published_snapshot_sha": "07f490c0fc42a4fd073793222392e8d698de8f9e"
+    }
+  ]
+}
