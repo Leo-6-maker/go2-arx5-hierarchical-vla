@@ -67,7 +67,7 @@ def build(path,output):
         scene=scenes[asset]
         if scene['parent']!=entry['parent']or scene['split']!=entry['split']:raise ValueError('PREDECLARED_SCENE_PARENT_SPLIT_REQUIRED')
         if asset not in models:
-            model=mujoco.MjModel.from_binary_path(spec['model_path']);fp,_=model_fingerprint(model)
+            model=mujoco.MjModel.from_binary_path(spec['model_path']);fp,_=model_fingerprint(model,assets.get('fingerprint_version','QPOS0_XY_V1'))
             if fp!=assets['robot_fingerprint']:raise ValueError('ROBOT_OR_FROZEN_MODEL_STRUCTURE_CHANGED')
             models[asset]=(model,ActualState(model))
         model,actual=models[asset];start=diag['actual_collection_start_step'];validate_windows(diag['windows'],start,n)

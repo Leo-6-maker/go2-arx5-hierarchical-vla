@@ -58,20 +58,23 @@ def validate_night1(spec,registry,now=None):
         raise PermissionError('EXISTING_REGISTRY_NIGHT1_RUN_IDENTITY_REQUIRED')
 
 
-def model_fingerprint(model):
-    """All model arrays/options stay fixed except task_cube initial x/y qpos."""
+def model_fingerprint(model,version='QPOS0_XY_V1'):
+    """Keep the robot/model fixed; mask only the declared object reset cells."""
     import numpy as np,mujoco
     body=mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_BODY,'task_cube')
     if body<0:raise ValueError('ORIGINAL_TASK_CUBE_REQUIRED')
     joint=int(model.body_jntadr[body]);address=int(model.jnt_qposadr[joint])
     if model.jnt_type[joint]!=mujoco.mjtJoint.mjJNT_FREE:raise ValueError('ORIGINAL_FREE_OBJECT_REQUIRED')
+    home=mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_KEY,'home')
+    if version not in('QPOS0_XY_V1','HOME_KEYFRAME_XY_V2')or(version=='HOME_KEYFRAME_XY_V2'and home<0):raise ValueError('EXACT_ORIGINAL_HOME_LAYOUT_VERSION_REQUIRED')
     h=hashlib.sha256();fields={}
     for name in sorted(dir(model)):
         if name.startswith('_'):continue
         value=getattr(model,name)
         if isinstance(value,np.ndarray):
             a=value.copy()
-            if name=='qpos0':a[address:address+2]=0.
+            if name=='qpos0'and version=='QPOS0_XY_V1':a[address:address+2]=0.
+            if name=='key_qpos'and version=='HOME_KEYFRAME_XY_V2':a[home,address:address+2]=0.
             identity=hashlib.sha256(a.tobytes()).hexdigest();fields[name]=dict(dtype=str(a.dtype),shape=list(a.shape),sha256=identity)
         elif isinstance(value,(str,bytes,int,float)):
             fields[name]=value.decode(errors='strict')if isinstance(value,bytes)else value
@@ -82,4 +85,5 @@ def model_fingerprint(model):
         if isinstance(value,np.ndarray):options[name]=value.tolist()
         elif isinstance(value,(int,float)):options[name]=value
     document=dict(model_fields=fields,options=options,mutable_initial_qpos_indices=[address,address+1],version=mujoco.__version__)
+    if version!='QPOS0_XY_V1':document.update(layout_fingerprint_version=version,mutable_home_keyframe_index=home)
     h.update(json.dumps(document,sort_keys=True,allow_nan=False).encode());return h.hexdigest(),document

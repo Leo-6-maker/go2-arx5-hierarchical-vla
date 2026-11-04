@@ -23,4 +23,12 @@ class ManifestContract(unittest.TestCase):
     def test_only_initial_cube_xy_can_change_in_model_fingerprint(self):
         import mujoco
         m=mujoco.MjModel.from_xml_string('<mujoco><worldbody><body name="task_cube" pos="0 0 .5"><freejoint/><geom type="box" size=".02 .02 .02"/></body></worldbody></mujoco>');first,_=model_fingerprint(m);m.qpos0[0]+=.01;m.qpos0[1]-=.01;self.assertEqual(model_fingerprint(m)[0],first);m.geom_friction[0,0]+=.01;self.assertNotEqual(model_fingerprint(m)[0],first)
+    def test_home_layout_survives_binary_save_and_native_keyframe_reset(self):
+        import mujoco,numpy as np
+        m=mujoco.MjModel.from_xml_string('<mujoco><worldbody><body name="task_cube" pos="0 0 .5"><freejoint/><geom type="box" size=".02 .02 .02"/></body></worldbody><keyframe><key name="home" qpos="0 0 .5 1 0 0 0"/></keyframe></mujoco>')
+        old,_=model_fingerprint(m);new,_=model_fingerprint(m,'HOME_KEYFRAME_XY_V2');m.key_qpos[0,:2]=[.008,-.012]
+        self.assertNotEqual(model_fingerprint(m)[0],old);self.assertEqual(model_fingerprint(m,'HOME_KEYFRAME_XY_V2')[0],new)
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp)/'scene.mjb';mujoco.mj_saveModel(m,str(p),None);m=mujoco.MjModel.from_binary_path(str(p));d=mujoco.MjData(m);mujoco.mj_resetDataKeyframe(m,d,0);mujoco.mj_forward(m,d);np.testing.assert_allclose(d.xpos[1],[.008,-.012,.5]);self.assertIsInstance(m._address,int);self.assertIsInstance(d._address,int)
+        m.qpos0[0]+=.001;self.assertNotEqual(model_fingerprint(m,'HOME_KEYFRAME_XY_V2')[0],new)
 if __name__=='__main__':unittest.main()
