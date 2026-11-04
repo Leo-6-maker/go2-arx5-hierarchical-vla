@@ -1,0 +1,360 @@
+{
+  "status": "AUTONOMOUS_B0_MECHANISM_DIAG_COMPLETE",
+  "source_sha": "983804b99c4e458134e4ce963a7a8476faa359c2",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "current_event_observability": {
+    "method": "One FIT-only closed-form linear probability fit, clip0..1; unique current measured feature rows; zero neural optimizer",
+    "features": "Current local object-minus-TCP xyz/.01, relative linear velocity/.1, measured gripper fraction/speed, intercept; no future/Teacher phase/contact label input",
+    "FIT_unique_features": 72,
+    "FIT_exact_feature_conflicting_labels": 0,
+    "results": {
+      "FIT": {
+        "left_object_contact": {
+          "Brier": 1.785128850295692e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 240,
+          "examples": 360
+        },
+        "right_object_contact": {
+          "Brier": 1.785128850295692e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 240,
+          "examples": 360
+        },
+        "native_grasp": {
+          "Brier": 1.785128850295692e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 240,
+          "examples": 360
+        },
+        "illegal_contact": {
+          "Brier": 0.0,
+          "classification_accuracy": 1.0,
+          "positive_targets": 0,
+          "examples": 360
+        }
+      },
+      "DIAGNOSTIC_DEV": {
+        "left_object_contact": {
+          "Brier": 1.5554739440926113e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 80,
+          "examples": 120
+        },
+        "right_object_contact": {
+          "Brier": 1.5554739440926113e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 80,
+          "examples": 120
+        },
+        "native_grasp": {
+          "Brier": 1.5554739440926113e-10,
+          "classification_accuracy": 1.0,
+          "positive_targets": 80,
+          "examples": 120
+        },
+        "illegal_contact": {
+          "Brier": 0.0,
+          "classification_accuracy": 1.0,
+          "positive_targets": 0,
+          "examples": 120
+        }
+      }
+    },
+    "interpretation": "Predictability on these generated current anchors, not proof that future contacts or all physical contact forces are observable from50D state"
+  },
+  "terminal_qualification": "All these local nonterminal branches have no positive terminal targets; cannot establish safety/abort detection",
+  "no_holdout_evaluation": true,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_physics": 0,
+  "CUDA_initialized": false,
+  "CPU_s": 222.63061104800002,
+  "wall_s": 65.46837524604052,
+  "models": {
+    "M1": {
+      "checkpoint_sha256": "404905951041604070b128c3a99d39f56eaefc54cf77c7523883d352820ba3e9",
+      "gradients": {
+        "preclose": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.02633630856871605,
+              "gradient_L2": 3.817901372909546
+            },
+            "base_weighted_event8": {
+              "loss": 0.0007087967824190855,
+              "gradient_L2": 0.04358194023370743
+            },
+            "base_weighted_terminal8": {
+              "loss": 3.7963094655424356e-05,
+              "gradient_L2": 0.0010948176495730877
+            },
+            "M3_multitime_effect": {
+              "loss": 0.7377185225486755,
+              "gradient_L2": 90.112548828125
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.2823641896247864,
+              "gradient_L2": 81.10689544677734
+            },
+            "weighted_event16": {
+              "loss": 0.0049957046285271645,
+              "gradient_L2": 0.4806680977344513
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": 0.3493421673774719,
+            "M3_multitime_effect__base_weighted_event8": 0.07213549315929413,
+            "M3_multitime_effect__absolute_TCP_object_multitime": 0.07558957487344742,
+            "M3_multitime_effect__weighted_event16": -0.004211117513477802,
+            "absolute_TCP_object_multitime__weighted_event16": -0.2761183977127075
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        },
+        "transport": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.016322335228323936,
+              "gradient_L2": 5.454232215881348
+            },
+            "base_weighted_event8": {
+              "loss": 0.00039839124656282365,
+              "gradient_L2": 0.01787743717432022
+            },
+            "base_weighted_terminal8": {
+              "loss": 2.5253593776142225e-05,
+              "gradient_L2": 0.0006998429889790714
+            },
+            "M3_multitime_effect": {
+              "loss": 1.3200790882110596,
+              "gradient_L2": 97.86139678955078
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.2612331211566925,
+              "gradient_L2": 81.43688201904297
+            },
+            "weighted_event16": {
+              "loss": 0.00046664263936690986,
+              "gradient_L2": 0.02125333435833454
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": -0.032087329775094986,
+            "M3_multitime_effect__base_weighted_event8": 0.023080727085471153,
+            "M3_multitime_effect__absolute_TCP_object_multitime": 0.02531454525887966,
+            "M3_multitime_effect__weighted_event16": 0.005666652228683233,
+            "absolute_TCP_object_multitime__weighted_event16": 0.632164716720581
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        },
+        "supported_release": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.0051377941854298115,
+              "gradient_L2": 2.744229555130005
+            },
+            "base_weighted_event8": {
+              "loss": 0.00046464786282740533,
+              "gradient_L2": 0.013827669434249401
+            },
+            "base_weighted_terminal8": {
+              "loss": 1.5059709767228924e-05,
+              "gradient_L2": 0.00034055576543323696
+            },
+            "M3_multitime_effect": {
+              "loss": 0.06081436201930046,
+              "gradient_L2": 15.268415451049805
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.11555375903844833,
+              "gradient_L2": 75.55513000488281
+            },
+            "weighted_event16": {
+              "loss": 0.007179570384323597,
+              "gradient_L2": 12.02442455291748
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": 0.28851261734962463,
+            "M3_multitime_effect__base_weighted_event8": -0.06479474902153015,
+            "M3_multitime_effect__absolute_TCP_object_multitime": -0.30240902304649353,
+            "M3_multitime_effect__weighted_event16": -0.41571587324142456,
+            "absolute_TCP_object_multitime__weighted_event16": -0.10441485047340393
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        }
+      },
+      "parameters_unchanged": true
+    },
+    "M2": {
+      "checkpoint_sha256": "1536f410178ce6e07bf0fa940e706e65c484a8acef5808c68f1313e21fedaa3f",
+      "gradients": {},
+      "parameters_unchanged": true
+    },
+    "M3": {
+      "checkpoint_sha256": "7c1705fbd24fa0d7fa89391c0b5ca7a9146ddc2c76ead58ab979fd08e0d01092",
+      "gradients": {
+        "preclose": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.04181896522641182,
+              "gradient_L2": 4.203200817108154
+            },
+            "base_weighted_event8": {
+              "loss": 0.0004027180257253349,
+              "gradient_L2": 0.015850795432925224
+            },
+            "base_weighted_terminal8": {
+              "loss": 2.406299245194532e-05,
+              "gradient_L2": 0.0005278105963952839
+            },
+            "M3_multitime_effect": {
+              "loss": 0.005756123922765255,
+              "gradient_L2": 2.1664443016052246
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.9170652627944946,
+              "gradient_L2": 182.37249755859375
+            },
+            "weighted_event16": {
+              "loss": 0.03187483176589012,
+              "gradient_L2": 14.043067932128906
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": 0.23307235538959503,
+            "M3_multitime_effect__base_weighted_event8": 0.3109593391418457,
+            "M3_multitime_effect__absolute_TCP_object_multitime": -0.36387521028518677,
+            "M3_multitime_effect__weighted_event16": -0.0726873129606247,
+            "absolute_TCP_object_multitime__weighted_event16": -0.2976093888282776
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        },
+        "transport": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.01325941365212202,
+              "gradient_L2": 3.4283783435821533
+            },
+            "base_weighted_event8": {
+              "loss": 0.0003060063754674047,
+              "gradient_L2": 0.011553348042070866
+            },
+            "base_weighted_terminal8": {
+              "loss": 1.4948845091566909e-05,
+              "gradient_L2": 0.0004042543878313154
+            },
+            "M3_multitime_effect": {
+              "loss": 0.00808902271091938,
+              "gradient_L2": 4.11278772354126
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.8915914297103882,
+              "gradient_L2": 106.93168640136719
+            },
+            "weighted_event16": {
+              "loss": 0.000341843900969252,
+              "gradient_L2": 0.01330501213669777
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": -0.23609967529773712,
+            "M3_multitime_effect__base_weighted_event8": -0.03288399800658226,
+            "M3_multitime_effect__absolute_TCP_object_multitime": -0.12963564693927765,
+            "M3_multitime_effect__weighted_event16": 0.02798171155154705,
+            "absolute_TCP_object_multitime__weighted_event16": -0.13443170487880707
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        },
+        "supported_release": {
+          "FIT_parents": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "windows": 20,
+          "candidate_pairs": 40,
+          "loss_gradient": {
+            "base_continuous": {
+              "loss": 0.009103648364543915,
+              "gradient_L2": 3.455294132232666
+            },
+            "base_weighted_event8": {
+              "loss": 0.00037501665065065026,
+              "gradient_L2": 0.015285625122487545
+            },
+            "base_weighted_terminal8": {
+              "loss": 1.775085911503993e-05,
+              "gradient_L2": 0.0003583707439247519
+            },
+            "M3_multitime_effect": {
+              "loss": 0.0004601964319590479,
+              "gradient_L2": 0.17368370294570923
+            },
+            "absolute_TCP_object_multitime": {
+              "loss": 0.742112398147583,
+              "gradient_L2": 155.60887145996094
+            },
+            "weighted_event16": {
+              "loss": 0.07628923654556274,
+              "gradient_L2": 4.7612152099609375
+            }
+          },
+          "gradient_cosine": {
+            "base_continuous__base_weighted_event8": -0.15732769668102264,
+            "M3_multitime_effect__base_weighted_event8": 0.16243325173854828,
+            "M3_multitime_effect__absolute_TCP_object_multitime": -0.16998493671417236,
+            "M3_multitime_effect__weighted_event16": -0.07663100957870483,
+            "absolute_TCP_object_multitime__weighted_event16": 0.27260011434555054
+          },
+          "scope": "Matched twenty first-block FIT windows in one stage; exact local gradients, not full-FIT causal attribution or optimizer update"
+        }
+      },
+      "parameters_unchanged": true
+    }
+  },
+  "row_population": "FIT24+DEV8 x 3 phases x16 horizons, gripper/contact/terminal in private diagnostic result; no once-holdout evaluation",
+  "gradient_population": "Matched first4 FIT parents x5 candidates per phase; local probe, not full-FIT exact gradient",
+  "parameter_updates": 0
+}

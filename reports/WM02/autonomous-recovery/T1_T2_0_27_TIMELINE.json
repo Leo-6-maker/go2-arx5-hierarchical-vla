@@ -1,0 +1,1682 @@
+{
+  "source_sha": "c5a3a67fa3a5b5cfafe93c341b16f0081c0661c6",
+  "status": "SAVED_FIRST27_TIMELINE_COMPLETE_WITH_UNKNOWNS",
+  "first_causal_divergence": {
+    "qpos": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 0.006366766430740078
+    },
+    "qvel": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 3.183383215370024
+    },
+    "ctrl": {
+      "step": 4,
+      "time_s": 0.008,
+      "max_abs": 23.706784247761636
+    }
+  },
+  "unique_leg_root_cause": "NOT_ESTABLISHED",
+  "new_native_integrations": 0,
+  "policy_queries": 0,
+  "CPU_s": 0.215859304,
+  "wall_s": 0.21591238499968313,
+  "episodes": {
+    "S1_RECOVERY01_T1": {
+      "input_sha256": {
+        "state.bin.journal": "3f0065eec1e499f5eb5998b965efee9a8d67ba7ed9445bec3fa8a4bd69ce77fa",
+        "initialization.jsonl": "2c9a8e3ae38c4b1bf82ea1ee6aeba44ef0143a66314b59c480205cb409fc8992",
+        "BEFORE_FIRST_INTEGRATION.json": "034535e0304d72bee40b548face0029c90316a5c83a646850a034e824457f28e",
+        "control.jsonl": "32e0063a5f97d6babf9ca2aa9a1096796a66d9f0c61ba41bb79abef0b2c4e4db",
+        "physics.jsonl": "b5b4c3853fde13c06b00d98cb047d06121cf767a2f9bb463ac912efe7be9bfbd",
+        "task-scene.private.xml": "6e28ebd136d0f4be1403e1120029fe59b3a2af48c82944d469eecd50e2800a0e"
+      },
+      "first_nonzero_leg_ctrl_step": 10,
+      "first_STOP_step": null,
+      "original_packets": 2700,
+      "extra_integrations_after_first_STOP": null,
+      "initial_control_calls": 435,
+      "conditional_fixed_first_command_zero_leg_target_velocity_PD": [
+        {
+          "step": 10,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 6.589750967123109e-11,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 11,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 3.3301322668253484,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 12,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 6.825908618208192,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 13,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 10.478083730435689,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 14,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 14.27747377363582,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 15,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 18.21500996605713,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 16,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 22.28180205670886,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 17,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 26.46921481558457,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 18,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 30.768959923131355,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 19,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 35.1732055807998,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 20,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 39.674707028646225,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 21,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 44.2314028635149,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 22,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 48.87853407003033,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 23,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 53.6183164725837,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 24,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 58.44117786834278,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 25,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 63.3458311557866,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 26,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 68.36632569342936,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 27,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 73.46555660894505,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        }
+      ],
+      "conditional_limit": "Uses actual XML actuator/sensor order, first command and preceding generalized states under fixed-command hypothesis; exact native sensor cache timing and later commands/callback counts are unrecorded; cannot prove unique mutex/queue cause",
+      "timeline": [
+        {
+          "step": 0,
+          "physics_t_s": 0.0,
+          "leg_ctrl_changed_from_previous": true,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 89
+        },
+        {
+          "step": 1,
+          "physics_t_s": 0.002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 2,
+          "physics_t_s": 0.004,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 3,
+          "physics_t_s": 0.006,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 4,
+          "physics_t_s": 0.008,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 5,
+          "physics_t_s": 0.01,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 6,
+          "physics_t_s": 0.012,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 7,
+          "physics_t_s": 0.014,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 8,
+          "physics_t_s": 0.016,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 440,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 9,
+          "physics_t_s": 0.018000000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 1
+        },
+        {
+          "step": 10,
+          "physics_t_s": 0.020000000000000004,
+          "leg_ctrl_changed_from_previous": true,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 11,
+          "physics_t_s": 0.022000000000000006,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 12,
+          "physics_t_s": 0.024000000000000007,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 13,
+          "physics_t_s": 0.02600000000000001,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 14,
+          "physics_t_s": 0.02800000000000001,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 15,
+          "physics_t_s": 0.030000000000000013,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 16,
+          "physics_t_s": 0.032000000000000015,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 17,
+          "physics_t_s": 0.034000000000000016,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 18,
+          "physics_t_s": 0.03600000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 19,
+          "physics_t_s": 0.03800000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 20,
+          "physics_t_s": 0.04000000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 21,
+          "physics_t_s": 0.04200000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 22,
+          "physics_t_s": 0.044000000000000025,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 23,
+          "physics_t_s": 0.04600000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 24,
+          "physics_t_s": 0.04800000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 25,
+          "physics_t_s": 0.05000000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 26,
+          "physics_t_s": 0.05200000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 27,
+          "physics_t_s": 0.054000000000000034,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.018000000000000002,
+          "last_recorded_control_calls": 445,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        }
+      ]
+    },
+    "S1_RECOVERY01_T2": {
+      "input_sha256": {
+        "state.bin.journal": "5f7eb9b7ffd010d8832413699bfb4aba07a42cad17c294cc89d76c2d3bd97e9c",
+        "initialization.jsonl": "85c269749d90a52a7cce0fd302250d526d6a48a7033bb55cd3bf13e691fc9bb6",
+        "BEFORE_FIRST_INTEGRATION.json": "77a0a1661d77dce2365bc08b1ceec7311b4e007cad9f57669a60ac8f699fa014",
+        "control.jsonl": "9752694316d49a7b75d5d607422794a8c15ea7f9ba9cc8c15ea93e6609acd47a",
+        "physics.jsonl": "8c851570d3452176f25f324200594652bbb254dfc0fbf3a07fb64873b428f59c",
+        "task-scene.private.xml": "6e28ebd136d0f4be1403e1120029fe59b3a2af48c82944d469eecd50e2800a0e"
+      },
+      "first_nonzero_leg_ctrl_step": 4,
+      "first_STOP_step": 24,
+      "original_packets": 27,
+      "extra_integrations_after_first_STOP": 3,
+      "initial_control_calls": 15,
+      "conditional_fixed_first_command_zero_leg_target_velocity_PD": [
+        {
+          "step": 4,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 1.0201741673654396e-09,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 5,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 3.4062200403866534,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 6,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 6.981728786775623,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 7,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 10.716917682393,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 8,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 14.602243690868415,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 9,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 18.62828653371239,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 10,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 22.7858168323741,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 11,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 27.065878466964065,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 12,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 31.459887719996566,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 13,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 35.95975173636073,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 14,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 40.55800985781533,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 15,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 45.24800374004347,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 16,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 50.02408580902293,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 17,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 54.85780371137163,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 18,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 59.775893421202795,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 19,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 64.7774667600419,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 20,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 69.86385858286361,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 21,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 75.03920325056772,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 22,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 80.3109497064493,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 23,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 85.69021429210865,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        },
+        {
+          "step": 24,
+          "conditional_fixed_command_PD_leg_max_abs_difference": 5.516702747234547,
+          "actuator_sensor_joint_order": [
+            "FR_hip_joint",
+            "FR_thigh_joint",
+            "FR_calf_joint",
+            "FL_hip_joint",
+            "FL_thigh_joint",
+            "FL_calf_joint",
+            "RR_hip_joint",
+            "RR_thigh_joint",
+            "RR_calf_joint",
+            "RL_hip_joint",
+            "RL_thigh_joint",
+            "RL_calf_joint"
+          ]
+        }
+      ],
+      "conditional_limit": "Uses actual XML actuator/sensor order, first command and preceding generalized states under fixed-command hypothesis; exact native sensor cache timing and later commands/callback counts are unrecorded; cannot prove unique mutex/queue cause",
+      "timeline": [
+        {
+          "step": 0,
+          "physics_t_s": 0.0,
+          "leg_ctrl_changed_from_previous": true,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 22,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 6
+        },
+        {
+          "step": 1,
+          "physics_t_s": 0.002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 22,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 2,
+          "physics_t_s": 0.004,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0,
+          "last_recorded_control_calls": 22,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 3,
+          "physics_t_s": 0.006,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 1
+        },
+        {
+          "step": 4,
+          "physics_t_s": 0.008,
+          "leg_ctrl_changed_from_previous": true,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 5,
+          "physics_t_s": 0.01,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 6,
+          "physics_t_s": 0.012,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 7,
+          "physics_t_s": 0.014,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 8,
+          "physics_t_s": 0.016,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 9,
+          "physics_t_s": 0.018000000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 10,
+          "physics_t_s": 0.020000000000000004,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 11,
+          "physics_t_s": 0.022000000000000006,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 12,
+          "physics_t_s": 0.024000000000000007,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 13,
+          "physics_t_s": 0.02600000000000001,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 14,
+          "physics_t_s": 0.02800000000000001,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 15,
+          "physics_t_s": 0.030000000000000013,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 16,
+          "physics_t_s": 0.032000000000000015,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 17,
+          "physics_t_s": 0.034000000000000016,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 18,
+          "physics_t_s": 0.03600000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 19,
+          "physics_t_s": 0.03800000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 20,
+          "physics_t_s": 0.04000000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 21,
+          "physics_t_s": 0.04200000000000002,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 22,
+          "physics_t_s": 0.044000000000000025,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 23,
+          "physics_t_s": 0.04600000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [],
+          "saved_STOP": [],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 24,
+          "physics_t_s": 0.04800000000000003,
+          "leg_ctrl_changed_from_previous": true,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [
+            {
+              "joint": "FL_calf_joint",
+              "penetration": 0.023356641121029753,
+              "unit": "rad",
+              "q": -2.74605664112103
+            }
+          ],
+          "saved_STOP": [
+            {
+              "kind": "stop",
+              "reason": "REGISTERED_JOINT_SAFETY",
+              "steps": 24
+            }
+          ],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 25,
+          "physics_t_s": 0.05000000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [
+            {
+              "joint": "FL_calf_joint",
+              "penetration": 0.09288335125387404,
+              "unit": "rad",
+              "q": -2.815583351253874
+            },
+            {
+              "joint": "RR_calf_joint",
+              "penetration": 0.04097469266671405,
+              "unit": "rad",
+              "q": -2.763674692666714
+            }
+          ],
+          "saved_STOP": [
+            {
+              "kind": "stop",
+              "reason": "REGISTERED_JOINT_SAFETY",
+              "steps": 25
+            }
+          ],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 26,
+          "physics_t_s": 0.05200000000000003,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [
+            {
+              "joint": "FL_calf_joint",
+              "penetration": 0.1471555954250121,
+              "unit": "rad",
+              "q": -2.8698555954250122
+            },
+            {
+              "joint": "RR_calf_joint",
+              "penetration": 0.09639198482900424,
+              "unit": "rad",
+              "q": -2.8190919848290044
+            }
+          ],
+          "saved_STOP": [
+            {
+              "kind": "stop",
+              "reason": "REGISTERED_JOINT_SAFETY",
+              "steps": 26
+            }
+          ],
+          "saved_PD_rows_at_this_time_count": 0
+        },
+        {
+          "step": 27,
+          "physics_t_s": 0.054000000000000034,
+          "leg_ctrl_changed_from_previous": false,
+          "last_recorded_PD_time_s": 0.006,
+          "last_recorded_control_calls": 25,
+          "actual_PD_calls_at_this_tick": "UNKNOWN_SPARSE_CONTROL_TRACE",
+          "policy_inference_begin": "UNKNOWN_NOT_RECORDED",
+          "policy_observation_history": "UNKNOWN_NOT_RECORDED",
+          "policy_end_or_output_version": "UNKNOWN_NOT_RECORDED",
+          "position_velocity_consumed_versions": "UNKNOWN_NOT_RECORDED",
+          "positive_joint_penetrations": [
+            {
+              "joint": "FL_calf_joint",
+              "penetration": 0.18864081301717706,
+              "unit": "rad",
+              "q": -2.911340813017177
+            },
+            {
+              "joint": "RR_calf_joint",
+              "penetration": 0.1389139457691453,
+              "unit": "rad",
+              "q": -2.8616139457691454
+            }
+          ],
+          "saved_STOP": [
+            {
+              "kind": "stop",
+              "reason": "REGISTERED_JOINT_SAFETY",
+              "steps": 27
+            }
+          ],
+          "saved_PD_rows_at_this_time_count": 0
+        }
+      ]
+    }
+  },
+  "privacy": "Numeric timing/violation summary only; exact poses, torques and original raw logs retained privately",
+  "invalid_first_projection": "startup-causality-01 preserved privately but excluded: used model body order in place of XML sensor/actuator order; corrected immutable run02 is authoritative"
+}

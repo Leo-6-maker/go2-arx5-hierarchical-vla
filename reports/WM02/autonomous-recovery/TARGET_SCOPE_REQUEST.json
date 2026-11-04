@@ -1,0 +1,89 @@
+{
+  "schema": "WM02_TARGET_INIT_ONLY_REQUEST_V1",
+  "status": "REQUEST_ONLY_NOT_GRANTED",
+  "issuer_required": "EXISTING_LOCAL_PC via existing original site profile/registry/lease",
+  "profile": "4080-simulation",
+  "expected_host_role": "ORIGINAL_CORE_TARGET_HOST",
+  "candidate_source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+  "candidate_binary_sha256": "7828f9f29e174ac7bf9e82edd897de577a2d365ab22e6dec438f0565b09ff488",
+  "selected_preload_chain": [
+    {
+      "logical_file": "task_actuation_r1.so",
+      "sha256": "da2b628eee16156a28f592ca7232fffa4af3c2f738dd140099d76233bdcadccf"
+    },
+    {
+      "logical_file": "observer.so",
+      "sha256": "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a"
+    },
+    {
+      "logical_file": "libwm02_init_trace.so",
+      "sha256": "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+    },
+    {
+      "logical_file": "frozen libmujoco.so.3.2.7",
+      "sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+    }
+  ],
+  "frozen23_matrix": "ENV_NATIVE_MATRIX.json",
+  "old_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "old_lease_must_remain": "CLOSED",
+  "quarantine": "S1/T2 unchanged; owner must explicitly admit this NEW narrowly bounded init-only run without reopening old scope",
+  "stages": [
+    {
+      "id": "cold-1",
+      "max_ticks": 50,
+      "gate": "owner valid; all original safety active"
+    },
+    {
+      "id": "cold-2",
+      "max_ticks": 50,
+      "gate": "cold-1 passed with complete zero-drop trace"
+    },
+    {
+      "id": "hold-2s",
+      "max_ticks": 1000,
+      "gate": "both cold starts passed"
+    },
+    {
+      "id": "hold-5s",
+      "max_ticks": 2500,
+      "gate": "hold-2s passed"
+    }
+  ],
+  "max_total_ticks": 3600,
+  "dt_s": 0.002,
+  "environments": 1,
+  "cpus_max": 4,
+  "RAM_bytes_max": 8589934592,
+  "wall_seconds_max": 600,
+  "actor_starts": 0,
+  "GR00T_starts": 0,
+  "EEF_active_commands": 0,
+  "base_active_commands": 0,
+  "gripper_actions": 0,
+  "grasp_actions": 0,
+  "required_telemetry": [
+    "Policy input/history versions + begin/end + publication monotonic time",
+    "independent position and velocity consumed versions",
+    "each PD call targets/current q/qd + ctrl generation",
+    "physics step entry/exit/time",
+    "first limit/STOP; actual subsequent integrations",
+    "finite ring dropped count and writer overhead"
+  ],
+  "STOP": "First original safety violation: stop immediately, preserve trace, no automatic retry; STOP not triggered => NOT_TESTED, never PASS",
+  "rollback": "Stop only new owner-bound processes, close only own new lease, retain candidate/trace/errors; do not deploy or edit frozen original controller or safety",
+  "risks": [
+    "Previously T2 joint-limit violation at24 and three later integrations",
+    "Candidate concurrency/trace behavior not native-qualified",
+    "Preload symbol order must stay bound",
+    "Sparse old logs do not identify unique root cause"
+  ],
+  "requires_owner_to_bind": [
+    "new run UUID, source/binary/preload hashes and original entry",
+    "finite owner-signed scope and existing registry/lease",
+    "actual node-local paths and actual resource headroom",
+    "original safety observer and independent controlled shutdown"
+  ],
+  "runnable_target_command": "NOT_YET_BOUND: no valid dynamic admission or newly sealed target executor; do not invent a launch CLI",
+  "actual_target_integrations": 0
+}

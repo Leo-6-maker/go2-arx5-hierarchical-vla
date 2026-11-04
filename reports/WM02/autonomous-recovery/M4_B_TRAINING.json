@@ -1,0 +1,56 @@
+{
+  "status": "M4_B_FIXED200_COMPLETE",
+  "candidate": "M4_B",
+  "source_sha": "2666b32a8a8221f40f364c9fa408b76d76f617aa",
+  "data_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+  "checkpoint_sha256": "9676312c5b810a757c465174ddc4302fc67b1f6896f8ba66dbed5242dee77f7b",
+  "main_updates": 200,
+  "continuation_probe_updates": 1,
+  "base_sequence_exposures": 51200,
+  "FIT_windows": 720,
+  "temporal_loss": {
+    "horizons": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "sigma_m": [
+      0.0005,
+      0.0010779050035574036,
+      0.002158724942759613,
+      0.0021645734863116133
+    ],
+    "lambda_effect": 1.0,
+    "sigma_floor_m": 0.0005,
+    "definition": "FIT-only RMS over all same-start candidate pairs and six TCP/object position coordinates at each horizon; floor0.5mm; equal horizon weights sum1",
+    "FIT_pairs": 720
+  },
+  "effect_pairs": 0,
+  "first_reload_error": 0.0,
+  "endpoint_reload_error": 0.0,
+  "continuation_error": 0.0,
+  "initial_parameter_sha256": "1f933cf8f0349eb198a9ed313adb462c7b0727c159025f65e2ac7bad8305be78",
+  "parameters": 18905387,
+  "normalizer_unique_states": 5736,
+  "new_physics": 0,
+  "Actor_updates": 0,
+  "Critic_updates": 0,
+  "target_integrations": 0,
+  "main_update_peak": {
+    "peak_allocated_bytes": 665750528,
+    "peak_reserved_bytes": 815792128
+  },
+  "entire_run_peak": {
+    "peak_allocated_bytes": 968457728,
+    "peak_reserved_bytes": 991952896
+  },
+  "CPU_s": 157.300635368,
+  "wall_s": 150.95451211789623
+}

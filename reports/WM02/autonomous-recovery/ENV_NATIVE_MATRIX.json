@@ -1,0 +1,406 @@
+{
+  "status": "READONLY_DEPENDENCIES_AND_BINDINGS_VERIFIED_NOT_DYNAMIC_QUALIFICATION",
+  "baseline_native_source_sha": "ee4f86d5fc9fd8a54008329394a0e0f1738526c6",
+  "candidate_source_sha": "7ae02fd40bff0ca6e52255e4a23736f340f07bc5",
+  "candidate_binary_sha256": "7828f9f29e174ac7bf9e82edd897de577a2d365ab22e6dec438f0565b09ff488",
+  "candidate_source_files": {
+    "rl_sim_mujoco.cpp": "fa3ce64facb0c2094cc464ecdfc83e4d39fdea555c534b94ca36d3ba50188fb7",
+    "rl_sim_mujoco.hpp": "06cf01b0ae34c3b406a02b772fc5f80945b9f4c6dfd2bcd7e720250f1422e1be",
+    "mujoco_utils.hpp": "7d16639421e692778c0f5f20abb7de4464c783508758d46aa555214da56bd8e3",
+    "rl_sdk.cpp": "278b881706e10c8a39353b977d67df4ff1cd340c4370cbd0bcc21fcb2ce4725e",
+    "init_trace.hpp": "1fc4d65d163031a898b4fffa5db76f0a43c1a896b422ae393901f98c54159ee3",
+    "init_trace.cpp": "b04ab1f7610a9e85ce488b55dbfbbf136c7891e48f8fbc99acb9ef1e9b39cecd"
+  },
+  "frozen23": [
+    {
+      "role": "core9",
+      "logical_file": "task_floating.info",
+      "expected": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "actual": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "bytes": 15495,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "arx5_ac1_floating.urdf",
+      "expected": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+      "actual": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+      "bytes": 12169,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "go2_x5.xml",
+      "expected": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+      "actual": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+      "bytes": 23022,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "scene.xml",
+      "expected": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+      "actual": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+      "bytes": 868,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "policy.pt",
+      "expected": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+      "actual": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+      "bytes": 6085708,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "config.yaml",
+      "expected": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+      "actual": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+      "bytes": 4153,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "rl_sim_mujoco",
+      "expected": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+      "actual": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+      "bytes": 2806920,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "go2_x5_ocs2_node",
+      "expected": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+      "actual": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+      "bytes": 8967544,
+      "match": true
+    },
+    {
+      "role": "core9",
+      "logical_file": "mobile_manipulator_mpc_node",
+      "expected": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "actual": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "bytes": 5498120,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "native_home.hpp",
+      "expected": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+      "actual": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+      "bytes": 1391,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "native_startup.hpp",
+      "expected": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+      "actual": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+      "bytes": 2257,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "audit_home.cpp",
+      "expected": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+      "actual": "b43f8600fd604cddf7800b2c68acf58d0338e747aaee8eb25d6e0cd5f0411a84",
+      "bytes": 3943,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "audit_home",
+      "expected": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+      "actual": "5a1b8599600657ca19ae89749e9fb27ca2db8c2198d5e4f374cb4aee2a5a592a",
+      "bytes": 33024,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "rl_sim_mujoco",
+      "expected": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+      "actual": "ef68498f14a18849448ae19ba982ef412045e647aaf452b04fdf301e1e9a2550",
+      "bytes": 2816416,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "run.py",
+      "expected": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+      "actual": "f614c799926f949cf8a5ebfed814c852ffc5fe8c605571f14d09ffa5b274d377",
+      "bytes": 13568,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "HOME_SHARED_RESET_CPU_AUDIT.json",
+      "expected": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+      "actual": "f6433bd9529a0272c1c744e3d6298ddfad4a0ed3a3a6f0c04c80a9e86cdfa4a5",
+      "bytes": 4287,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "private-scene.mjb",
+      "expected": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+      "actual": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+      "bytes": 74461448,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "COMPILED_MODEL_PARITY.json",
+      "expected": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+      "actual": "207ab75c4887988e04dd720e961a0ef90aedcf731232e30d4751ba17e02dc1e3",
+      "bytes": 189,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "observer.so",
+      "expected": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+      "actual": "92b065cb42be458595325dda96829559b8fef77a7302cf43a6a2d9894f7126eb",
+      "bytes": 31808,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "observer.cpp",
+      "expected": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+      "actual": "f4937ff6832bcb6ca06224900eccea9036664926a43b80861481b410efb99b92",
+      "bytes": 6957,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "run.py",
+      "expected": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+      "actual": "f4d7ca707e28d9dc8173feee84ce23bae14e696e0ed8f9e7ada6efdfc87e8960",
+      "bytes": 14012,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "run.py",
+      "expected": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+      "actual": "79142f49866d99d72037b58c1d9f52e8ed5acd178f34a4fe69e698961a2f0c15",
+      "bytes": 16370,
+      "match": true
+    },
+    {
+      "role": "initialization14",
+      "logical_file": "sitecustomize.py",
+      "expected": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+      "actual": "919712100da92c9211602aeb9d33d96d81078bf88c9432637721d0ce55fe14da",
+      "bytes": 3419,
+      "match": true
+    }
+  ],
+  "frozen_candidate20": [
+    {
+      "logical_file": "task_floating.info",
+      "expected": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "actual": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "match": true
+    },
+    {
+      "logical_file": "arx5_ac1_floating.urdf",
+      "expected": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+      "actual": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+      "match": true
+    },
+    {
+      "logical_file": "go2_x5.xml",
+      "expected": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+      "actual": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501",
+      "match": true
+    },
+    {
+      "logical_file": "scene.xml",
+      "expected": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+      "actual": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1",
+      "match": true
+    },
+    {
+      "logical_file": "policy.pt",
+      "expected": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+      "actual": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+      "match": true
+    },
+    {
+      "logical_file": "config.yaml",
+      "expected": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+      "actual": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+      "match": true
+    },
+    {
+      "logical_file": "rl_sim_mujoco",
+      "expected": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+      "actual": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21",
+      "match": true
+    },
+    {
+      "logical_file": "go2_x5_ocs2_node",
+      "expected": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+      "actual": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f",
+      "match": true
+    },
+    {
+      "logical_file": "mobile_manipulator_mpc_node",
+      "expected": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "actual": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "match": true
+    },
+    {
+      "logical_file": "rl_sim_mujoco.cpp",
+      "expected": "211750eed952f48820c08214e356f3f77a0690a833c5a24d909be587a7ed4cc7",
+      "actual": "211750eed952f48820c08214e356f3f77a0690a833c5a24d909be587a7ed4cc7",
+      "match": true
+    },
+    {
+      "logical_file": "rl_sim_mujoco.hpp",
+      "expected": "5face1ce53592ff3af608238594d4ff1e6ccad813e7fb968bd69eacbe8eb9c23",
+      "actual": "5face1ce53592ff3af608238594d4ff1e6ccad813e7fb968bd69eacbe8eb9c23",
+      "match": true
+    },
+    {
+      "logical_file": "mujoco_utils.hpp",
+      "expected": "b5c936b98c0e8f13b9bac09c3d2d6fda2731a2682a92cf689f8483209e73f1c3",
+      "actual": "b5c936b98c0e8f13b9bac09c3d2d6fda2731a2682a92cf689f8483209e73f1c3",
+      "match": true
+    },
+    {
+      "logical_file": "native_home.hpp",
+      "expected": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+      "actual": "455e999ea8cab21e53ca1cc62364dad77820adb9b66e4f25d905e9fc0c4aa775",
+      "match": true
+    },
+    {
+      "logical_file": "native_startup.hpp",
+      "expected": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+      "actual": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+      "match": true
+    },
+    {
+      "logical_file": "simulate.cc.o",
+      "expected": "18f181c2aebe0310ee8a6ecf7e667aa78cc35daef77eead6578f1bd50aa1b81d",
+      "actual": "18f181c2aebe0310ee8a6ecf7e667aa78cc35daef77eead6578f1bd50aa1b81d",
+      "match": true
+    },
+    {
+      "logical_file": "librl_sdk.a",
+      "expected": "2aaeaed7353ec4f32161ab700ca8e27694ca1192ba90fb5714f161e9e4adc1a5",
+      "actual": "2aaeaed7353ec4f32161ab700ca8e27694ca1192ba90fb5714f161e9e4adc1a5",
+      "match": true
+    },
+    {
+      "logical_file": "flags.make",
+      "expected": "67c4b6e16dbe16407e780bdc6b214ab008dded4177d7e2f7aa7176e8b53d2637",
+      "actual": "67c4b6e16dbe16407e780bdc6b214ab008dded4177d7e2f7aa7176e8b53d2637",
+      "match": true
+    },
+    {
+      "logical_file": "flags.make",
+      "expected": "2e74321e723fc81ee58016c805046538030b8ae4ac7186dbd09f4bfc4624d602",
+      "actual": "2e74321e723fc81ee58016c805046538030b8ae4ac7186dbd09f4bfc4624d602",
+      "match": true
+    },
+    {
+      "logical_file": "link.txt",
+      "expected": "9eeafd644d0eb58e23d2296eeddd0e7b4a36caba9f86b49dd3e4a2aeac8007dd",
+      "actual": "9eeafd644d0eb58e23d2296eeddd0e7b4a36caba9f86b49dd3e4a2aeac8007dd",
+      "match": true
+    },
+    {
+      "logical_file": "libmujoco.so",
+      "expected": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+      "actual": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+      "match": true
+    }
+  ],
+  "current_native_python": {
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "numpy": "2.5.4",
+    "mujoco": "3.2.7"
+  },
+  "ROS2_distribution": "jazzy",
+  "ROS2_package_xml_exists": {
+    "rclcpp": true,
+    "rclpy": true,
+    "rosgraph_msgs": true
+  },
+  "candidate_ldd_missing_libraries": false,
+  "selected_preload": "task_actuation_r1",
+  "preload_chains": {
+    "task_actuation": [
+      {
+        "logical_file": "task_actuation.so",
+        "sha256": "5a80def13d15064f25046f4488cdf7d3eda49d053df70b55831b24a0695864d4"
+      },
+      {
+        "logical_file": "observer.so",
+        "sha256": "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a"
+      },
+      {
+        "logical_file": "libwm02_init_trace.so",
+        "sha256": "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+      },
+      {
+        "logical_file": "frozen libmujoco.so.3.2.7",
+        "sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+      }
+    ],
+    "task_actuation_r1": [
+      {
+        "logical_file": "task_actuation_r1.so",
+        "sha256": "da2b628eee16156a28f592ca7232fffa4af3c2f738dd140099d76233bdcadccf"
+      },
+      {
+        "logical_file": "observer.so",
+        "sha256": "14c8a43230ce77bf20b2ed6d743b8060e8bf8713176f736d9db322fb6b78478a"
+      },
+      {
+        "logical_file": "libwm02_init_trace.so",
+        "sha256": "e2a354a9a352629ad38105d95bea587469c091ee2cce58b217a75f838b7234d9"
+      },
+      {
+        "logical_file": "frozen libmujoco.so.3.2.7",
+        "sha256": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+      }
+    ]
+  },
+  "actual_loader_exit_codes": {
+    "task_actuation": 0,
+    "task_actuation_r1": 0
+  },
+  "actual_loader_chain": "outer -> observer -> frozen libmujoco.so.3.2.7",
+  "OCS2_execution": "NOT_RUN_NO_TARGET_SCOPE",
+  "Core_neural_environment": {
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "numpy": "1.26.4",
+    "CUDA": "12.8"
+  },
+  "PC_viewer_environment": {
+    "python": "3.10.12",
+    "mujoco": "3.2.7",
+    "numpy": "1.26.4",
+    "pillow": "11.0.0"
+  },
+  "ABI": {
+    "nq": 34,
+    "nv": 32,
+    "nu": 20,
+    "source": "original packet metadata and exact same-episode MJB loaded only on PC replay; no Core target constructor"
+  },
+  "old_target_lease_sha256": "db2c30f675acb9e8dc280e3fc69d277e1bf91db10cfc2476881eeac2895be407",
+  "old_target_lease_status": "CLOSED",
+  "new_target_scope": "NOT_FOUND",
+  "target_status": "OWNER_BLOCKED",
+  "new_target_model_constructions": 0,
+  "new_target_controller_starts": 0,
+  "new_target_integrations": 0,
+  "loader_CPU_s": 0.06643543,
+  "loader_wall_s": 0.14685779018327594
+}

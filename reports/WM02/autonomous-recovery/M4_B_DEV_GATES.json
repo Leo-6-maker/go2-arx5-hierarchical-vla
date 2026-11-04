@@ -1,0 +1,330 @@
+{
+  "schema": "WM02_TEMPORAL_DEV_GATE_V1",
+  "candidate": "M4_B",
+  "scope": "Existing DEV8 development evidence only; no independent test or Actor permission",
+  "checks": [
+    {
+      "gate": "object_action_difference",
+      "horizon": 1,
+      "tolerance_m": 0.0005,
+      "parents": [
+        {
+          "scene": 24,
+          "true_m": 0.0001906766410684213,
+          "predicted_m": 0.00023145911109168082,
+          "abs_error_m": 4.078247002325952e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 25,
+          "true_m": 0.00019272600184194744,
+          "predicted_m": 0.0002185019984608516,
+          "abs_error_m": 2.5775996618904173e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 26,
+          "true_m": 0.00019539707864169031,
+          "predicted_m": 0.00023205920297186822,
+          "abs_error_m": 3.66621243301779e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 27,
+          "true_m": 0.0001971189194591716,
+          "predicted_m": 0.00022262312995735556,
+          "abs_error_m": 2.5504210498183966e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 28,
+          "true_m": 0.00020435765327420086,
+          "predicted_m": 0.0002246555086458102,
+          "abs_error_m": 2.029785537160933e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 29,
+          "true_m": 0.00021127994114067405,
+          "predicted_m": 0.00023512585903517902,
+          "abs_error_m": 2.3845917894504964e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 30,
+          "true_m": 0.00020300627511460334,
+          "predicted_m": 0.00023618795967195183,
+          "abs_error_m": 3.318168455734849e-05,
+          "direction_positive": true
+        },
+        {
+          "scene": 31,
+          "true_m": 0.0002049478207482025,
+          "predicted_m": 0.0002257215091958642,
+          "abs_error_m": 2.0773688447661698e-05,
+          "direction_positive": true
+        }
+      ],
+      "pass_all": true
+    },
+    {
+      "gate": "object_action_difference",
+      "horizon": 8,
+      "tolerance_m": 0.001,
+      "parents": [
+        {
+          "scene": 24,
+          "true_m": 0.007958815433084965,
+          "predicted_m": 0.007245815359055996,
+          "abs_error_m": 0.0007130000740289688,
+          "direction_positive": true
+        },
+        {
+          "scene": 25,
+          "true_m": 0.007955946959555149,
+          "predicted_m": 0.007195597514510155,
+          "abs_error_m": 0.0007603494450449944,
+          "direction_positive": true
+        },
+        {
+          "scene": 26,
+          "true_m": 0.007957978174090385,
+          "predicted_m": 0.00724787125363946,
+          "abs_error_m": 0.0007101069204509258,
+          "direction_positive": true
+        },
+        {
+          "scene": 27,
+          "true_m": 0.007980098016560078,
+          "predicted_m": 0.007177863270044327,
+          "abs_error_m": 0.0008022347465157509,
+          "direction_positive": true
+        },
+        {
+          "scene": 28,
+          "true_m": 0.007947365753352642,
+          "predicted_m": 0.007213088683784008,
+          "abs_error_m": 0.000734277069568634,
+          "direction_positive": true
+        },
+        {
+          "scene": 29,
+          "true_m": 0.007948189042508602,
+          "predicted_m": 0.0072219897992908955,
+          "abs_error_m": 0.0007261992432177067,
+          "direction_positive": true
+        },
+        {
+          "scene": 30,
+          "true_m": 0.007927277125418186,
+          "predicted_m": 0.0072714295238256454,
+          "abs_error_m": 0.0006558476015925407,
+          "direction_positive": true
+        },
+        {
+          "scene": 31,
+          "true_m": 0.007942553609609604,
+          "predicted_m": 0.0071981134824454784,
+          "abs_error_m": 0.0007444401271641254,
+          "direction_positive": true
+        }
+      ],
+      "pass_all": true
+    },
+    {
+      "gate": "object_action_difference",
+      "horizon": 16,
+      "tolerance_m": 0.0015,
+      "parents": [
+        {
+          "scene": 24,
+          "true_m": 0.007905119098722935,
+          "predicted_m": 0.007219919469207525,
+          "abs_error_m": 0.0006851996295154095,
+          "direction_positive": true
+        },
+        {
+          "scene": 25,
+          "true_m": 0.007905512116849422,
+          "predicted_m": 0.007182056084275246,
+          "abs_error_m": 0.0007234560325741768,
+          "direction_positive": true
+        },
+        {
+          "scene": 26,
+          "true_m": 0.007910426706075668,
+          "predicted_m": 0.007226967718452215,
+          "abs_error_m": 0.0006834589876234531,
+          "direction_positive": true
+        },
+        {
+          "scene": 27,
+          "true_m": 0.007914559915661812,
+          "predicted_m": 0.0071492549031972885,
+          "abs_error_m": 0.0007653050124645233,
+          "direction_positive": true
+        },
+        {
+          "scene": 28,
+          "true_m": 0.00790452305227518,
+          "predicted_m": 0.007186837960034609,
+          "abs_error_m": 0.000717685092240572,
+          "direction_positive": true
+        },
+        {
+          "scene": 29,
+          "true_m": 0.00790866557508707,
+          "predicted_m": 0.007185568101704121,
+          "abs_error_m": 0.0007230974733829498,
+          "direction_positive": true
+        },
+        {
+          "scene": 30,
+          "true_m": 0.007899504154920578,
+          "predicted_m": 0.0072527434676885605,
+          "abs_error_m": 0.0006467606872320175,
+          "direction_positive": true
+        },
+        {
+          "scene": 31,
+          "true_m": 0.007896100170910358,
+          "predicted_m": 0.007163061760365963,
+          "abs_error_m": 0.0007330384105443954,
+          "direction_positive": true
+        }
+      ],
+      "pass_all": true
+    },
+    {
+      "gate": "mean_parent_absolute_object_RMSE_no_worse_M1",
+      "horizon": 1,
+      "candidate": "M4_B",
+      "candidate_RMSE_m": 9.411171868123347e-05,
+      "M3_RMSE_m": null,
+      "M1_RMSE_m": 0.0011513992794789374,
+      "declared_limit_m": 0.001151,
+      "pass_all": true,
+      "parents": [
+        {
+          "scene": 24,
+          "candidate_RMSE_m": 7.101873052306473e-05,
+          "M1_RMSE_m": 0.001166555448435247
+        },
+        {
+          "scene": 25,
+          "candidate_RMSE_m": 8.661899482831359e-05,
+          "M1_RMSE_m": 0.0011483398266136646
+        },
+        {
+          "scene": 26,
+          "candidate_RMSE_m": 9.548194066155702e-05,
+          "M1_RMSE_m": 0.0011264955392107368
+        },
+        {
+          "scene": 27,
+          "candidate_RMSE_m": 8.939718100009486e-05,
+          "M1_RMSE_m": 0.0011336931493133307
+        },
+        {
+          "scene": 28,
+          "candidate_RMSE_m": 8.769027044763789e-05,
+          "M1_RMSE_m": 0.0011570120695978403
+        },
+        {
+          "scene": 29,
+          "candidate_RMSE_m": 0.00011372484004823491,
+          "M1_RMSE_m": 0.0011773186270147562
+        },
+        {
+          "scene": 30,
+          "candidate_RMSE_m": 0.00011630704102572054,
+          "M1_RMSE_m": 0.0011322108330205083
+        },
+        {
+          "scene": 31,
+          "candidate_RMSE_m": 9.265475091524422e-05,
+          "M1_RMSE_m": 0.0011695687426254153
+        }
+      ]
+    },
+    {
+      "gate": "mean_parent_absolute_object_RMSE_no_worse_M1",
+      "horizon": 16,
+      "candidate": "M4_B",
+      "candidate_RMSE_m": 0.0012525294732768089,
+      "M3_RMSE_m": null,
+      "M1_RMSE_m": 0.001957967149792239,
+      "declared_limit_m": 0.001958,
+      "pass_all": true,
+      "parents": [
+        {
+          "scene": 24,
+          "candidate_RMSE_m": 0.0013448962708935142,
+          "M1_RMSE_m": 0.001979695400223136
+        },
+        {
+          "scene": 25,
+          "candidate_RMSE_m": 0.0012994136195629835,
+          "M1_RMSE_m": 0.001980661181733012
+        },
+        {
+          "scene": 26,
+          "candidate_RMSE_m": 0.0013023846549913287,
+          "M1_RMSE_m": 0.0019717980176210403
+        },
+        {
+          "scene": 27,
+          "candidate_RMSE_m": 0.0013197532389312983,
+          "M1_RMSE_m": 0.0019320122664794326
+        },
+        {
+          "scene": 28,
+          "candidate_RMSE_m": 0.0011920776451006532,
+          "M1_RMSE_m": 0.001933552441187203
+        },
+        {
+          "scene": 29,
+          "candidate_RMSE_m": 0.0010704814922064543,
+          "M1_RMSE_m": 0.0019677444361150265
+        },
+        {
+          "scene": 30,
+          "candidate_RMSE_m": 0.0013656626688316464,
+          "M1_RMSE_m": 0.0019865562207996845
+        },
+        {
+          "scene": 31,
+          "candidate_RMSE_m": 0.0011255661956965923,
+          "M1_RMSE_m": 0.0019117172341793776
+        }
+      ]
+    },
+    {
+      "gate": "H16_grasp_Brier_no_worse_M1",
+      "anchor": "preclose",
+      "candidate": "M4_B",
+      "Brier": 0.06846798662445508,
+      "declared_limit": 0.0734,
+      "pass_all": true
+    },
+    {
+      "gate": "H16_grasp_Brier_no_worse_M1",
+      "anchor": "supported_release",
+      "candidate": "M4_B",
+      "Brier": 0.00013683720317203552,
+      "declared_limit": 0.0548,
+      "pass_all": true
+    },
+    {
+      "gate": "canonical_permutation_invariance",
+      "checked_parents": 32,
+      "max_abs": 0.0,
+      "pass_all": true
+    }
+  ],
+  "all_development_gates_pass": true,
+  "new_holdout_sampling": "NOT_RUN_PENDING_SEPARATE_PREREGISTRATION",
+  "Actor_updates": 0,
+  "target_integrations": 0,
+  "interpretation": "Passing these local numeric gates alone would not establish contact/safety reliability, online decision benefit or target-domain validity"
+}
