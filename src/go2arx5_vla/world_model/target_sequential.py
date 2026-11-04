@@ -10,6 +10,22 @@ def native_display_command(spec,output,environment):
     argv=[spec['xvfb_run'],'-a','/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
+def owned_simulator_pid(wrapper_pid,binary):
+    """Find only the exec under our display wrapper, never search other owners."""
+    pending=[wrapper_pid];seen=set();found=[]
+    while pending:
+        pid=pending.pop()
+        if pid in seen:continue
+        seen.add(pid)
+        if len(seen)>32:raise RuntimeError('UNEXPECTED_OWNED_DISPLAY_PROCESS_TREE')
+        try:
+            root=Path('/proc')/str(pid);args=(root/'cmdline').read_bytes().split(b'\0')
+            if args and args[0].decode()==str(binary)and os.getpgid(pid)==wrapper_pid:found.append(pid)
+            pending.extend(int(n)for n in(root/'task'/str(pid)/'children').read_text().split())
+        except(ProcessLookupError,FileNotFoundError):continue
+    if len(found)!=1:raise RuntimeError('EXACT_OWNED_SIMULATOR_PID_REQUIRED')
+    return found[0]
+
 class TargetSequentialAdapter:
     def __init__(self,spec,output):
         self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.started=time.monotonic();self.commands=[];self.exit_records=[]
@@ -100,12 +116,30 @@ class TargetSequentialAdapter:
     def close(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):
-            escalation=[]
+            escalation=[];lookup_error=None
             if p.poll()is None:
+                # xvfb-run owns the display and its cleanup. Signalling that
+                # whole group first kills Xvfb under the still-running GUI.
+                # Stop the exact owned simulator child; keep its display alive
+                # until the wrapper reaps it and performs normal cleanup.
+                child=None
+                if name=='sim':
+                    try:child=owned_simulator_pid(p.pid,self.spec['native_binary'])
+                    except RuntimeError as exc:lookup_error=str(exc)
                 for sig,wait in((signal.SIGINT,5),(signal.SIGTERM,5),(signal.SIGKILL,2)):
-                    try:os.killpg(p.pid,sig);escalation.append(sig.name);p.wait(timeout=wait);break
+                    try:
+                        if child is not None:
+                            try:current=owned_simulator_pid(p.pid,self.spec['native_binary'])
+                            except RuntimeError:
+                                # The child may have exited while its wrapper
+                                # is still removing the display resources.
+                                p.wait(timeout=wait);break
+                            if current!=child:raise RuntimeError('OWNED_SIMULATOR_IDENTITY_CHANGED')
+                            os.kill(child,sig)
+                        else:os.killpg(p.pid,sig)
+                        escalation.append(sig.name);p.wait(timeout=wait);break
                     except ProcessLookupError:break
                     except subprocess.TimeoutExpired:continue
-            self.exit_records.append(dict(name=name,pid=p.pid,exit_code=p.poll(),signals=escalation))
+            self.exit_records.append(dict(name=name,pid=p.pid,exit_code=p.poll(),signals=escalation,display_child_lookup_error=lookup_error))
         for h in self.handles:h.close()
         if self.node is not None:self.node.destroy_node();self.rclpy.shutdown()

@@ -2,9 +2,20 @@ import unittest,tempfile,subprocess,shutil,itertools,sys,json
 from pathlib import Path
 from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source,validate_parent_loader
 from scripts.pi0294.task_contacts import allowed
-from go2arx5_vla.world_model.target_sequential import native_display_command
+from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter
 
 class Auto1Native(unittest.TestCase):
+    def test_shutdown_keeps_display_alive_until_our_simulator_child_exits(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);flag=root/'display-survived'
+            code="import subprocess,sys;from pathlib import Path;display=subprocess.Popen(['/usr/bin/tail','-f','/dev/null']);sim=subprocess.Popen(['/usr/bin/sleep','100']);print('READY',flush=True);sim.wait();Path(sys.argv[1]).write_text(str(display.poll()is None));display.terminate();display.wait()"
+            p=subprocess.Popen([sys.executable,'-c',code,str(flag)],stdout=subprocess.PIPE,text=True,start_new_session=True)
+            try:
+                self.assertEqual(p.stdout.readline().strip(),'READY');adapter=TargetSequentialAdapter(dict(native_binary='/usr/bin/sleep'),root);adapter.processes=[('sim',p)];adapter.close()
+                self.assertEqual(flag.read_text(),'True');self.assertEqual(p.returncode,0);self.assertEqual(adapter.exit_records[0]['signals'],['SIGINT']);self.assertIsNone(adapter.exit_records[0]['display_child_lookup_error'])
+            finally:
+                if p.poll()is None:p.kill();p.wait()
+                p.stdout.close()
     def test_preload_reaches_only_simulator_not_display_shell_and_helpers(self):
         s=dict(xvfb_run='/private/xvfb-run',outer_library='/outer',observer_library='/observer',trace_library='/trace',native_binary='/sim')
         argv,env=native_display_command(s,'/run',dict(LD_PRELOAD='bad',WM02_INIT_TRACE='bad',OTHER='kept'))
