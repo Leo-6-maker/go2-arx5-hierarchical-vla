@@ -28,6 +28,13 @@ def rigid_object(current,pred):
     local=(r0.transpose(-1,-2)@(current[:,SLICES['object_position']]-current[:,SLICES['tcp_position']])[...,None]).squeeze(-1)
     return pred[...,SLICES['tcp_position']]+(r@local[:,None,:,None]).squeeze(-1)
 
+def rigid_state(current,pred):
+    out=pred.clone();out[...,SLICES['object_position']]=rigid_object(current,pred)
+    tcp0=current[:,SLICES['tcp_rotation']].reshape(-1,3,3);obj0=current[:,SLICES['object_rotation']].reshape(-1,3,3)
+    r=pred[...,SLICES['tcp_rotation']].reshape(len(current),16,3,3)
+    out[...,SLICES['object_rotation']]=(r@(tcp0.transpose(-1,-2)@obj0)[:,None]).flatten(-2)
+    return out
+
 
 def ols_curves(data,meta):
     ids=np.flatnonzero(meta['anchor']=='transport');train=ids[(meta['partition'][ids]=='FIT')&(meta['scene'][ids]<4)]
@@ -63,6 +70,11 @@ def temporal_metrics(pred,event,truth,b,names,*,part,scene,anchor,mode):
             row[n]=v
         actual_rel=truth[:,k,SLICES['object_position']]-truth[:,k,SLICES['tcp_position']];pred_rel=pred[:,k,SLICES['object_position']]-pred[:,k,SLICES['tcp_position']]
         row['relative_object_TCP_error_RMSE_m']=float((pred_rel-actual_rel).square().sum(-1).mean().sqrt())
+        def relative(s):return s[:,SLICES['tcp_rotation']].reshape(-1,3,3).transpose(-1,-2)@s[:,SLICES['object_rotation']].reshape(-1,3,3)
+        r=relative(pred[:,k]).transpose(-1,-2)@relative(truth[:,k]);cos=(r.diagonal(dim1=-2,dim2=-1).sum(-1)-1)/2
+        sin=torch.stack((r[:,2,1]-r[:,1,2],r[:,0,2]-r[:,2,0],r[:,1,0]-r[:,0,1]),-1).norm(dim=-1)/2
+        row['relative_object_TCP_rotation_RMSE_rad']=float(torch.atan2(sin,cos).square().mean().sqrt())
+        row['mean_predicted_world_object_minus_TCP_m']=pred_rel.mean(0).tolist();row['mean_actual_world_object_minus_TCP_m']=actual_rel.mean(0).tolist()
         if event is not None:
             row['events']={name:dict(predicted_probability=event[:,k,j].tolist(),actual=b['events'][:,8+k,j].tolist(),Brier=float((event[:,k,j]-b['events'][:,8+k,j]).square().mean()))for j,name in enumerate(SCHEMA['events'])}
         rows.append(row)
@@ -80,7 +92,7 @@ def run(spec,output):
             p=truth.clone();p[...,SLICES['tcp_position']]=b['state'][:,8,None,SLICES['tcp_position']]+torch.as_tensor(ols[ids,:,:3],dtype=p.dtype);p[...,SLICES['object_position']]=b['state'][:,8,None,SLICES['object_position']]+torch.as_tensor(ols[ids,:,3:],dtype=p.dtype)
             baseline.extend(temporal_metrics(p,None,truth,b,names,part=part,scene=scene,anchor=anchor,mode='OLS_FIT4'))
             # Future true TCP only in this labelled oracle diagnostic, never in WM.
-            p=truth.clone();p[...,SLICES['object_position']]=rigid_object(b['state'][:,8],truth)
+            p=rigid_state(b['state'][:,8],truth)
             baseline.extend(temporal_metrics(p,None,truth,b,names,part=part,scene=scene,anchor=anchor,mode='ORACLE_TCP_RIGID_DIAGNOSTIC'))
     for name,binding in spec['models'].items():
         model=load_model(binding);rows=[];reference_checks=[];decisions=[]
@@ -94,7 +106,7 @@ def run(spec,output):
                 teacher=torch.stack(teacher,1);te=torch.stack(te,1)
                 for p,e,mode in[(pred,event,'FREE_CAUSAL'),(teacher,te,'TEACHER_FORCED_PRIVILEGED')]:rows.extend(temporal_metrics(p,e,truth,b,names,part=part,scene=scene,anchor=anchor,mode=mode))
                 if anchor=='transport':
-                    rigid=pred.clone();rigid[...,SLICES['object_position']]=rigid_object(b['state'][:,8],pred)
+                    rigid=rigid_state(b['state'][:,8],pred)
                     rows.extend(temporal_metrics(rigid,None,truth,b,names,part=part,scene=scene,anchor=anchor,mode='PREDICTED_TCP_RIGID_CONDITIONAL'))
                 # Stored future reference is only compared, never given to FREE.
                 first,_=compile_physical(b['raw'],pose(b['state'][:,8]),b['clock'][:,8,0]*32)
