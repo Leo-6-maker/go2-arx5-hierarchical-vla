@@ -44,6 +44,32 @@ int main(){
 }
 '''
 class InitTrace(unittest.TestCase):
+    def test_explicit_paused_seal_survives_termination_without_destructor(self):
+        source=r'''#include "init_trace.hpp"
+#include <thread>
+#include <cstdio>
+#include <unistd.h>
+#include <cstdlib>
+#include <string>
+int main(){
+ std::thread workers[4];for(auto&t:workers)t=std::thread([]{double x=1;for(int i=0;i<300;++i)WM02InitNumeric(wm02_init::PD_STATE_CTRL,0,0,&x,1);});
+ for(auto&t:workers)t.join();puts("READY");fflush(stdout);
+ std::string summary=std::string(getenv("WM02_INIT_TRACE"))+".summary";
+ while(access(summary.c_str(),F_OK)!=0)usleep(1000);
+ double x=2;for(int i=0;i<300;++i)WM02InitNumeric(wm02_init::PD_STATE_CTRL,0,0,&x,1);
+ puts("SEALED");fflush(stdout);while(true)usleep(1000);
+}'''
+        with tempfile.TemporaryDirectory()as tmp:
+            d=Path(tmp);h=d/'h.cpp';h.write_text(source);binary=d/'h';trace=d/'trace';seal=d/'seal'
+            subprocess.run(['g++','-std=c++17','-O2','-pthread','-I'+str(ROOT/'src/go2arx5_vla/target_mujoco'),str(h),str(ROOT/'src/go2arx5_vla/target_mujoco/init_trace.cpp'),'-o',str(binary)],check=True,capture_output=True)
+            p=subprocess.Popen([str(binary)],env=dict(os.environ,WM02_INIT_TRACE=str(trace),WM02_INIT_SEAL_REQUEST=str(seal)),stdout=subprocess.PIPE,text=True)
+            try:
+                self.assertEqual(p.stdout.readline().strip(),'READY');seal.touch();self.assertEqual(p.stdout.readline().strip(),'SEALED')
+                p.terminate();self.assertEqual(p.wait(timeout=3),-15)
+            finally:
+                if p.poll()is None:p.kill();p.wait()
+                p.stdout.close()
+            summary=json.loads(Path(str(trace)+'.summary').read_text());self.assertTrue(summary['sealed_at_explicit_pause']);self.assertEqual(summary['events'],1200);self.assertEqual(summary['written'],1200);self.assertEqual(summary['dropped'],0);self.assertEqual(len(read_trace(trace)),1200)
     def test_orderly_shutdown_drains_events_enqueued_after_writer_limit_snapshot(self):
         # Executable symbol interposition holds first disk write until join,
         # forcing finish=true with a newer queued head. No production test hook.

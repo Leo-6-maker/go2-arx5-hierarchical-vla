@@ -5,8 +5,9 @@ import json,os,signal,subprocess,time
 def native_display_command(spec,output,environment):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
-    env=dict(environment);env.pop('LD_PRELOAD',None);env.pop('WM02_INIT_TRACE',None)
-    argv=[spec['xvfb_run'],'-a','/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),spec['native_binary'],'go2_x5','scene']
+    env=dict(environment)
+    for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
+    argv=[spec['xvfb_run'],'-a','/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
 class TargetSequentialAdapter:
@@ -85,6 +86,16 @@ class TargetSequentialAdapter:
             try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
         if not self.spin(35,paused):raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
+        # Preserve exact evidence even when the native GUI shutdown blocks on
+        # an input thread. This only closes trace admission, never physics or
+        # safety. The native quota remains responsible for the actual pause.
+        ack=json.loads((self.output/'pause_ack.json').read_text())
+        if ack.get('running')is not False or ack.get('clock_paused')is not True:raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
+        (self.output/'trace_seal_request').write_text(json.dumps(dict(step=ticks,sim_time_s=self.observe()['time_s'])))
+        def sealed():
+            try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
+            except(FileNotFoundError,ValueError):return False
+        if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
         return self.observe()
     def close(self):
         # Signal only the Popen-owned process groups; retain all actual exits.

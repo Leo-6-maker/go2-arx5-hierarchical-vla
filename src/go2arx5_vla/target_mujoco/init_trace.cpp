@@ -24,17 +24,24 @@ thread_local uint64_t inference=0;
 struct Recorder {
  std::unique_ptr<Cell[]> cells;std::unique_ptr<Snapshot[]> snapshots;Queue queues[2];
  std::atomic<uint64_t> head{0},dropped{0},obs{0},policy{0},consumed[2]{},applied[2]{},snapshot_head{0};
- std::atomic<bool> finish{false},stopped{false};uint64_t written=0;int fd=-1,sfd=-1;std::thread writer;
+ std::atomic<bool> finish{false},stopped{false},accepting{true};std::atomic<uint64_t> active{0};uint64_t written=0;int fd=-1,sfd=-1;std::thread writer;
+ std::string path,seal_request;bool sealed_at_pause=false;
  Recorder(){
   const char*p=std::getenv("WM02_INIT_TRACE");if(!p)return;
   cells.reset(new Cell[CAP]);snapshots.reset(new Snapshot[SLOTS]);
-  fd=open(p,O_WRONLY|O_CREAT|O_EXCL,0600);std::string path=std::string(p)+".snapshots";sfd=open(path.c_str(),O_WRONLY|O_CREAT|O_EXCL,0600);
+  path=p;if(const char*s=std::getenv("WM02_INIT_SEAL_REQUEST"))seal_request=s;
+  fd=open(p,O_WRONLY|O_CREAT|O_EXCL,0600);std::string snapshots_path=path+".snapshots";sfd=open(snapshots_path.c_str(),O_WRONLY|O_CREAT|O_EXCL,0600);
   if(fd<0||sfd<0)std::abort();const char magic[8]={'W','M','0','2','I','T','0','1'};write_all(fd,magic,8);uint32_t sizes[2]={sizeof(Raw),CAP};write_all(fd,sizes,8);
   writer=std::thread([this]{drain();});
  }
  static void write_all(int f,const void*p,size_t n){auto b=static_cast<const char*>(p);while(n){auto k=write(f,b,n);if(k<=0)std::abort();b+=k;n-=k;}}
  void emit(uint32_t kind,double t,uint64_t token,const float*values,uint32_t n,const double*numbers=nullptr){
-  if(fd<0)return;if(kind==wm02_init::STOP)stopped.store(true);
+  if(fd<0)return;
+  // A paused owner may seal evidence before a native UI thread can join.
+  // Callbacks never wait: the writer closes admission and drains in-flight
+  // producers; later emissions cannot alter the sealed trace or summary.
+  active.fetch_add(1);struct Leave{std::atomic<uint64_t>&n;~Leave(){n.fetch_sub(1);}} leave{active};
+  if(!accepting.load())return;if(kind==wm02_init::STOP)stopped.store(true);
   uint64_t ticket=head.fetch_add(1);if(ticket>=CAP){dropped.fetch_add(1);return;}
   auto &c=cells[ticket];auto&r=c.row;r.ticket=ticket;r.ns=ns();r.sim=t;r.kind=kind;r.n=std::min(n,96u);r.obs=obs.load();
   r.policy=policy.load();r.pos=applied[0].load();r.vel=applied[1].load();r.token=token;
@@ -49,6 +56,7 @@ struct Recorder {
   c.ready.store(ticket+1,std::memory_order_release);
  }
  void drain(){uint64_t tail=0,seen[SLOTS]{};do{
+   if(!seal_request.empty()&&access(seal_request.c_str(),F_OK)==0){sealed_at_pause=true;accepting.store(false);finish.store(true);}
    auto limit=std::min<uint64_t>(head.load(),CAP);
    while(tail<limit&&cells[tail].ready.load(std::memory_order_acquire)==tail+1){write_all(fd,&cells[tail].row,sizeof(Raw));++tail;}
    for(uint64_t i=0;i<SLOTS;++i){auto&s=snapshots[i];uint64_t g=s.ready.load(std::memory_order_acquire);if(!g||g==seen[i])continue;
@@ -59,13 +67,12 @@ struct Recorder {
    }
    // Producers may append after this iteration's limit snapshot. After finish,
    // compare with the final head, not that stale snapshot, before exiting.
-   if(finish.load()&&tail>=std::min<uint64_t>(head.load(),CAP))break;std::this_thread::sleep_for(std::chrono::milliseconds(10));
+   if(finish.load()&&active.load()==0&&tail>=std::min<uint64_t>(head.load(),CAP))break;std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }while(true);
-  written=tail; // Read only after writer.join() in the destructor.
+  written=tail;fsync(fd);fsync(sfd);
+  std::string summary=path+".summary";FILE*f=fopen(summary.c_str(),"wx");if(f){fprintf(f,"{\"events\":%llu,\"written\":%llu,\"dropped\":%llu,\"stop_latched\":%s,\"sealed_at_explicit_pause\":%s}\n",(unsigned long long)head.load(),(unsigned long long)written,(unsigned long long)dropped.load(),stopped.load()?"true":"false",sealed_at_pause?"true":"false");fflush(f);fsync(fileno(f));fclose(f);}
  }
- ~Recorder(){if(fd<0)return;finish.store(true);writer.join();fsync(fd);fsync(sfd);close(fd);close(sfd);
-  if(const char*p=std::getenv("WM02_INIT_TRACE")){std::string path=std::string(p)+".summary";FILE*f=fopen(path.c_str(),"wx");if(f){fprintf(f,"{\"events\":%llu,\"written\":%llu,\"dropped\":%llu,\"stop_latched\":%s}\n",(unsigned long long)head.load(),(unsigned long long)written,(unsigned long long)dropped.load(),stopped.load()?"true":"false");fclose(f);}}
- }
+ ~Recorder(){if(fd<0)return;accepting.store(false);finish.store(true);writer.join();close(fd);close(sfd);}
 };
 Recorder& recorder(){static Recorder r;return r;}
 // Allocate and open trace files before native main/physics/control starts.
