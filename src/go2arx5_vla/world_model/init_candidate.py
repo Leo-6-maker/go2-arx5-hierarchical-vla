@@ -71,8 +71,13 @@ def build(spec,output):
     for name in('native_home.hpp','native_startup.hpp'):shutil.copyfile(clock/name,output/name)
     for name in('init_trace.hpp','init_trace.cpp'):shutil.copyfile(code/'src/go2arx5_vla/target_mujoco'/name,output/name)
     commands=[]
+    # Match the existing user-space ROS/native dependency roots. This is a
+    # per-process loader environment, with no host installation or path changes.
+    library_roots=[Path('/opt/ros/jazzy/lib'),native.parent/'dependency-root/usr/lib/x86_64-linux-gnu']
+    if not all(p.is_dir()for p in library_roots):raise FileNotFoundError('Original native library roots unavailable')
+    build_env=dict(os.environ,LD_LIBRARY_PATH=':'.join(map(str,library_roots))+(':'+os.environ['LD_LIBRARY_PATH']if os.environ.get('LD_LIBRARY_PATH')else''))
     def execute(argv,label,cwd=None,env=None):
-        q=subprocess.run(argv,cwd=cwd,env=env,capture_output=True,text=True,timeout=600)
+        q=subprocess.run(argv,cwd=cwd,env=build_env if env is None else env,capture_output=True,text=True,timeout=600)
         (output/(label+'.log')).write_text(q.stdout+q.stderr);commands.append(dict(label=label,argv=[str(v)for v in argv],exit_code=q.returncode));replace_json(output/'COMMANDS.private.json',commands);q.check_returncode();return q
     trace=output/'libwm02_init_trace.so';execute(['g++','-std=c++17','-O2','-shared','-fPIC','-pthread',str(output/'init_trace.cpp'),'-o',str(trace)],'trace_compile')
     for key,source in [('main',output/'rl_sim_mujoco.cpp'),('sdk',output/'rl_sdk.cpp')]:
@@ -106,7 +111,7 @@ def build(spec,output):
     execute(['g++','-std=c++17','-include','initializer_list',str(doctor),'-ldl','-o',str(output/'loader_doctor')],'loader_doctor_compile')
     chains={}
     for label in('task_actuation','task_actuation_r1'):
-        paths=[output/(label+'.so'),output/'observer.so',trace];env=dict(os.environ,LD_PRELOAD=':'.join(map(str,paths)),WM02_INIT_TRACE=str(output/(label+'-doctor.trace')))
+        paths=[output/(label+'.so'),output/'observer.so',trace];env=dict(build_env,LD_PRELOAD=':'.join(map(str,paths)),WM02_INIT_TRACE=str(output/(label+'-doctor.trace')))
         q=execute([str(output/'loader_doctor')],label+'_load_order',env=env);actual=dict(line.split('=',1)for line in q.stdout.splitlines())
         if Path(actual['WM02OuterNext']).resolve()!=paths[1].resolve()or Path(actual['WM02ObserverNext']).resolve()!=dep.resolve():raise RuntimeError('Actual dlsym step chain differs')
         chains[label]=[dict(path=str(p),sha256=digest(p))for p in paths]+[dict(path=str(dep),sha256=digest(dep))]
@@ -115,7 +120,7 @@ def build(spec,output):
     result=dict(status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',source_sha=spec['source_sha'],
         binary_sha256=digest(output/'rl_sim_mujoco'),candidate_sources={n:digest(output/n)for n in(*names,'rl_sdk.cpp','init_trace.hpp','init_trace.cpp')},
         original_SDK_sha256=digest(spec['sdk_source']),controller_nontrace_text_identical=True,SDK_archive_member_names=original_members,preserved_SDK_members=preserved_members,original_R1_math_assertions_pass=True,
-        actual_preload_chains=chains,target_lease_sha256=lease_before,target_lease_status='CLOSED',native_dynamics_permission='NOT_GRANTED',
+        actual_preload_chains=chains,runtime_environment={'LD_LIBRARY_PATH':build_env['LD_LIBRARY_PATH']},target_lease_sha256=lease_before,target_lease_status='CLOSED',native_dynamics_permission='NOT_GRANTED',
         actual_target_integrations=0,leg_policy_queries=0,WM_updates=0,Actor_updates=0,loader_only_checks=2,
         trace_contract='65536 bounded records; async writer10ms; first inputs plus recent28 payload slots; exact pos/vel consumed versions; no emit-path IO/wait or command math change',
         CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
