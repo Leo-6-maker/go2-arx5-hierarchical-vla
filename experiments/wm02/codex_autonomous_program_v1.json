@@ -1,0 +1,248 @@
+{
+  "schema": "WM02_CODEX_AUTONOMOUS_PROGRAM_V1",
+  "date": "2026-11-04",
+  "timezone": "Asia/Singapore",
+  "baseline": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "parent_pr": 352,
+    "parent_head": "76bb8115c3b588b70fd55bdde13f10926c60bce7",
+    "handover": "docs/handover/2026-11-04/WM02_CODEX_AUTONOMOUS_RECOVERY_CHARTER_V1.md",
+    "stacked_prs_not_merged": true
+  },
+  "mandate": {
+    "goal": "Investigate WBC/PD startup root cause, complete safe read-only PC simulator viewer and target initialization environment, identify actionable S-domain WM model failure, carry forward successive bounded phases without requiring chat approval for routine steps",
+    "user_level_authorization_only": true,
+    "authority_to_issue_site_lease": false,
+    "authority_to_override_S1_T2_quarantine": false,
+    "authority_to_modify_frozen_WBC": false,
+    "may_create_isolated_code_candidate": true,
+    "may_run_cpu_readonly_analysis": true,
+    "may_run_owner_permitted_bounded_S_physics": true,
+    "may_run_owner_permitted_bounded_GPU": true,
+    "may_create_draft_PRs": true,
+    "may_run_native_target_without_new_owner_scope": false
+  },
+  "site_status": {
+    "target_backend": "GO2_ARX5_MUJOCO_OCS2",
+    "dt_native_s": 0.002,
+    "dt_atomic_s": 0.05,
+    "actor_decision_atoms": 8,
+    "full_reference_points": 40,
+    "source_and_target_separate": true,
+    "valid_new_owner_init_only_scope": "NOT_FOUND_AS_OF_PR352",
+    "target_dynamic_qualified": false,
+    "original_target_lease": "CLOSED",
+    "first_blocker": "NEW_OWNER_BOUND_INIT_ONLY_SCOPE_REQUIRED"
+  },
+  "budget": {
+    "scope": "Across newly authorized user-owned research work, subordinate to stricter site-owner limits",
+    "gpu_device_seconds_total_max": 28800,
+    "CPU_process_seconds_total_max": 288000,
+    "private_new_storage_bytes_total_max": 64424509440,
+    "new_S_native_50ms_transitions_max": 20000,
+    "gpu_worker": {
+      "max_cpus": 4,
+      "max_ram_bytes": 10737418240,
+      "torch_allocator_limit_bytes": 4294967296,
+      "max_wall_seconds": 2400,
+      "restart": "NO",
+      "device_uuid_required": true,
+      "owner_lock_required": true,
+      "live_headroom_required": true
+    },
+    "research": {
+      "maximum_new_200_update_mechanism_candidates": 3,
+      "max_probe_updates_per_candidate": 1,
+      "maximum_800_update_extension_candidates_after_development_gate": 1,
+      "formal_5000_update_runs": 0,
+      "formal_Actor_or_PPO_runs": 0
+    },
+    "native_init_only_if_owner_approved": {
+      "max_cold_starts": 2,
+      "max_ticks_per_cold_start": 50,
+      "hold_2s_ticks": 1000,
+      "hold_5s_ticks": 2500,
+      "max_total_physics_ticks": 3600,
+      "max_nonadvancing_replay_attempts": 0
+    }
+  },
+  "known_science": {
+    "M3_checkpoint_sha256": "7c1705fbd24fa0d7fa89391c0b5ca7a9146ddc2c76ead58ab979fd08e0d01092",
+    "replay_sha256": "c12293bc877758254a14d19ec112f147fe19c93ffacf4c8399ae8ebfcb42c808",
+    "M3_development_gate": "FAIL",
+    "M3_H1_common_mode_error_MSE_fraction": 0.999844,
+    "M3_DEV_H1_object_RMSE_mm": 1.947,
+    "M1_DEV_H1_object_RMSE_mm": 1.151,
+    "M3_DEV_H16_object_RMSE_mm": 1.641,
+    "M1_DEV_H16_object_RMSE_mm": 1.958,
+    "M3_DEV_H16_TCP_RMSE_mm": 13.676,
+    "M3_DEV_H16_preclose_grasp_Brier": 0.6921,
+    "M1_DEV_H16_preclose_grasp_Brier": 0.0734,
+    "M3_DEV_H16_release_grasp_Brier": 0.7816,
+    "M1_DEV_H16_release_grasp_Brier": 0.0548,
+    "M3_action_difference_gates": "PASS_8_OF_8_DEV_PARENTS_H1_H8_H16",
+    "OLS_FIT4_H8_object_pooled_RMSE_m": 0.00005431,
+    "current_target_native_integrations": 0
+  },
+  "tracks": [
+    {
+      "id": "A0",
+      "name": "Native environment and saved startup causality",
+      "permission": "USER_READONLY_AND_ISOLATED_BUILDS",
+      "depends_on": [],
+      "done_when": [
+        "Frozen target assets and selected preload chain SHA verified",
+        "T1/T2 first divergent tick and candidate explanations with evidence classified",
+        "Ready-to-submit owner-scoped request for 2x0.1s and 2/5s holds produced"
+      ],
+      "on_fail": "FAIL_ACTIONABLE_AND_OFFLINE_DIAG"
+    },
+    {
+      "id": "A1",
+      "name": "Gated native init-only dynamic check",
+      "permission": "VALID_NEW_SITE_OWNER_SCOPE_REQUIRED",
+      "depends_on": [
+        "A0"
+      ],
+      "done_when": [
+        "Two separately audited cold starts at <=50 ticks each",
+        "If cold starts pass, 2s/5s safe standing within same approved scope",
+        "Actual Policy/PD/pos-vel/STOP tracing; safety zero and reported trace dropped count"
+      ],
+      "on_fail": "STOP_NATIVE_IMMEDIATELY_SAVE_EARLIEST_FAILURE"
+    },
+    {
+      "id": "A2",
+      "name": "Gated bounded EEF contact and real target replay",
+      "permission": "SEPARATE_NEW_SITE_OWNER_SCOPE_REQUIRED",
+      "depends_on": [
+        "A1"
+      ],
+      "done_when": [
+        "Native reference ACK and physical consumption verified",
+        "Full body joint/contact safety telemetry bound",
+        "First legally collected target sequential transition batch with scene/parent split"
+      ],
+      "on_fail": "STOP_NATIVE_KEEP_EXISTING_SCOPE"
+    },
+    {
+      "id": "B0",
+      "name": "S-domain mechanisms zero-new-sampling",
+      "permission": "USER_READONLY",
+      "depends_on": [],
+      "done_when": [
+        "Common vs candidate-specific error and FREE vs privileged one-step separated",
+        "H1-H16 TCP, object, contact, gripper and timestamp mechanism results",
+        "OLS, CV, rigid transport baselines and original source command invariance",
+        "Falsifiable hypotheses for M4"
+      ],
+      "on_fail": "RECORD_UNRESOLVED_CAUSES"
+    },
+    {
+      "id": "B1",
+      "name": "One-variable mechanism model ablations",
+      "permission": "OWNER_PERMITTED_BOUNDED_GPU",
+      "depends_on": [
+        "B0"
+      ],
+      "done_when": [
+        "At most 3 fixed200 FIT-only variants and all strict checkpoint reloads",
+        "Prespecified combined absolute/action/time/event DEV gates",
+        "Compare against strong structural and OLS baselines"
+      ],
+      "on_fail": "STOP_BLIND_RETRAINING_OR_CHOOSE_SIMPLE_MODEL"
+    },
+    {
+      "id": "B2",
+      "name": "Independent new S validation and online choice",
+      "permission": "OWNER_PERMITTED_BOUNDED_S_PHYSICS",
+      "depends_on": [
+        "B1"
+      ],
+      "done_when": [
+        "Freeze >=8 truly new source parent layouts before sampling",
+        "Declare oracle headroom and actual physical choice before executing",
+        "Pure WM/rule/OLS/hybrid and fallback cost evaluated separately"
+      ],
+      "on_fail": "NO_ACTOR"
+    },
+    {
+      "id": "C0",
+      "name": "Read-only PC full-robot 3D replay",
+      "permission": "USER_READONLY",
+      "depends_on": [],
+      "done_when": [
+        "Use exact same-episode native scene MJB and GRTSTATE nq34/nv32/nu20",
+        "MuJoCo passive viewer uses mj_forward only, never mj_step",
+        "Save runnable private local command and measured playback/frames; no fabricated successful motion"
+      ],
+      "on_fail": "ASSET_OR_GUI_BLOCKED_WITH_EXACT_MISSING_RESOURCE"
+    },
+    {
+      "id": "C1",
+      "name": "Read-only live viewer bridge",
+      "permission": "USER_OFFLINE_BUILD_ONLY_UNTIL_TARGET_ADMITTED",
+      "depends_on": [
+        "C0"
+      ],
+      "done_when": [
+        "Private file or localhost subscriber never publishes control",
+        "Real-time data source gated on valid owner-run target process",
+        "No change in physical/control rate; safe no-data behavior"
+      ],
+      "on_fail": "REPLAY_ONLY"
+    }
+  ],
+  "promotion": {
+    "native_failure_blocks_native_only": true,
+    "development_gate": {
+      "per_parent_action_difference_tolerance_m": {
+        "H1": 0.0005,
+        "H8": 0.001,
+        "H16": 0.0015
+      },
+      "require_positive_direction": true,
+      "H1_absolute_object_RMSE_m_no_worse_than_M1": 0.001151,
+      "H16_absolute_object_RMSE_m_no_worse_than_M1": 0.001958,
+      "preclose_H16_grasp_Brier_no_worse_than_M1": 0.0734,
+      "supported_release_H16_grasp_Brier_no_worse_than_M1": 0.0548,
+      "report_absolute_TCP_and_object_to_TCP": true,
+      "canonical_singleton_permutation_invariance": true,
+      "independent_new_blind_test_not_reuse_original_holdout": true
+    },
+    "actor_training": "FORBIDDEN_UNTIL_SEPARATE_GATE_AND_SITE_AUTHORIZATION"
+  },
+  "provenance": {
+    "record_actual_effects": [
+      "source_sha",
+      "binary_sha256",
+      "input_sha256",
+      "checkpoint_sha256",
+      "actual_main_updates",
+      "actual_probe_updates",
+      "actual_S_transitions",
+      "actual_T_integrations",
+      "run_exit_code",
+      "lease_final",
+      "owner_scope_identity",
+      "GPU_seconds",
+      "CPU_process_seconds",
+      "private_bytes_added",
+      "negative_results"
+    ],
+    "assert_no_unsupported_claims": true,
+    "save_PRIVATE_artifacts_outside_git": true,
+    "never_delete_originals": true
+  },
+  "stop_conditions": [
+    "INVALID_NATIVE_OWNER_SCOPE",
+    "S1_T2_QUARANTINE_NOT_RELEASED_FOR_REQUESTED_ACTION",
+    "NATIVE_JOINT_LIMIT_OR_UNSAFE_CONTACT",
+    "STOP_AFTER_NONZERO_EXTRA_REAL_INTEGRATIONS",
+    "FROZEN_HASH_MISMATCH",
+    "LEAKED_TEST_OR_PRIVILEGED_FUTURE_INPUT",
+    "UNOWNED_RESOURCE_BUSY",
+    "BUDGET_EXHAUSTED",
+    "PENDING_EXTERNAL_WBC_OR_SAFETY_CHANGE"
+  ]
+}
