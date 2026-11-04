@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-04 WM02 AUTO1最新实测：**新scope已登记；独立候选六层冷启动/2s/5s保持通过，7100tick，三个子进程正常退出；含旧失败共7350新目标tick。** arm HOLD及冻结腿策略活动；G2参考消费、目标WM与Actor尚未完成。夹爪命令记忆只读重建误差0，未完成物理响应小模型。见[实际SHA、失败、命令与成本](reports/WM02/auto1-target-entry/EXECUTION_REPORT.md)。
+
 2026-11-04 WM02长程委托：**M4-B联合DEV通过，后续6,752条真实S转移尚未证明优于原规则；Actor/目标积分均0。** 完整PC只读mesh回放可用，目标初始化仍缺新owner准入，旧隔离/lease不改。见[完整执行、负结果及下一步](reports/WM02/autonomous-recovery/EXECUTION_REPORT.md)。
 
 2026-11-03 18:09 SGT 两站实测：**D2已完成4096步／131072访问，全态与恢复证据保留并CLOSED；管理器随后因训练显存余量门未通过关闭该臂，不抹去端点。PB_CONTROL同原M13／GPU1已自动到480/4096，PB_BOUNDARY未启动。** Core共享生产三节点已移交Vanda；consumer08实际常驻PID778467，两次独立连接心跳前进，HF私有中转双端读写已通过，具体8192当地资格→原DEV68与六BOOK队列已绑定。Vanda首作业1514182因入口时间记录倒置约6微秒、模型前失败并核实关闭；修正后唯一后继1514400在18:15实测已R／GN-A40-017，真实allocation准入通过、固定输入解包中，尚未观察模型／更新，**新共享更新／端点／DEV仍0**。21Teacher最窄是joint6的4.80mrad，与D0/D1 joint4失败分开解释；VNEXT几何7静态通过／1拒绝、4恢复适配待完成，零新示范。Go2全身／相机与四工作位仅离线检查，隔离和WBC不变。[实际部署、失败修复、CPU科学结果和剩余工作](docs/operations/CORE_VANDA_DEPLOYMENT_CPU_RESULTS_20261103.md)。
