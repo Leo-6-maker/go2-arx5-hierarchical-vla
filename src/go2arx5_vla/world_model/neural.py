@@ -53,8 +53,8 @@ def compile_reference(state, raw):
 
 
 class Normalizer(nn.Module):
-    def __init__(self):
-        super().__init__(); self.register_buffer("mean",torch.zeros(STATE_DIM));self.register_buffer("std",torch.ones(STATE_DIM))
+    def __init__(self,dim=STATE_DIM):
+        super().__init__(); self.register_buffer("mean",torch.zeros(dim));self.register_buffer("std",torch.ones(dim))
     def fit(self,train):
         axes=tuple(range(train.ndim-1))
         self.mean.copy_(train.mean(axes));self.std.copy_(train.std(axes).clamp_min(.02))
@@ -62,32 +62,36 @@ class Normalizer(nn.Module):
 
 
 class WorldModel(nn.Module):
-    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN):
-        super().__init__();self.normalizer=Normalizer();self.history_hidden=history_hidden
-        inputs=STATE_DIM+REFERENCE_DIM+CONTEXT_DIM+2
+    def __init__(self,hidden=(2048,)*5,history_hidden=HISTORY_HIDDEN,groups=GROUPS,context_dim=CONTEXT_DIM):
+        super().__init__();self.groups=tuple((name,int(n))for name,n in groups)
+        self.slices={};offset=0
+        for name,n in self.groups:self.slices[name]=slice(offset,offset+n);offset+=n
+        self.normalizer=Normalizer(offset);self.history_hidden=history_hidden
+        inputs=offset+REFERENCE_DIM+context_dim+2
         self.history=nn.GRUCell(inputs,history_hidden)
         layers=[];width=inputs+history_hidden
         for out in hidden:layers.extend((nn.Linear(width,out),nn.LayerNorm(out),nn.SiLU()));width=out
         self.trunk=nn.Sequential(*layers)
-        delta=sum(3 if name.endswith("rotation")else n for name,n in GROUPS)
+        delta=sum(3 if name.endswith("rotation")else n for name,n in self.groups)
         self.delta=nn.Linear(width,delta);self.events=nn.Linear(width,EVENT_DIM);self.done=nn.Linear(width,1)
         nn.init.normal_(self.delta.weight,std=1e-4);nn.init.zeros_(self.delta.bias);nn.init.constant_(self.done.bias,-3)
     def initial_hidden(self,state):return state.new_zeros((len(state),self.history_hidden))
     def inputs(self,state,reference,context,clock):
         return torch.cat((self.normalizer(state),reference.flatten(-2),context,clock),-1)
-    def burn(self,states,references,context):
+    def burn(self,states,references,context,clocks=None):
         if states.shape[1]!=8:raise ValueError("Exactly eight causal burn-in atoms")
         h=self.initial_hidden(states[:,0])
         for i in range(8):
-            clock=states.new_tensor([i*.05/32,(i%8)*.05]).expand(len(states),2)
+            clock=(states.new_tensor([i*.05/32,(i%8)*.05]).expand(len(states),2)
+                   if clocks is None else clocks[:,i])
             h=self.history(self.inputs(states[:,i],references[:,i],context,clock),h)
         return h
     def step(self,state,reference,context,clock,hidden):
         x=self.inputs(state,reference,context,clock);hidden=self.history(x,hidden)
         z=self.trunk(torch.cat((x,hidden),-1));d=self.delta(z);parts=[];offset=0
-        for name,n in GROUPS:
+        for name,n in self.groups:
             amount=3 if name.endswith("rotation")else n;v=d[:,offset:offset+amount];offset+=amount
-            old=part(state,name)
+            old=state[...,self.slices[name]]
             if name.endswith("rotation"):
                 new=(so3_exp(.05*v)@old.reshape(-1,3,3)).flatten(-2)
             else:
