@@ -93,11 +93,12 @@ def scene(job):
 def run(spec,output):
     from concurrent.futures import ProcessPoolExecutor
     import multiprocessing
-    if sorted(x['scene']for x in spec['prefix_inputs'])!=list(range(16,20)):raise ValueError('Exact four DEV parents required')
+    expected=list(range(24,32))if spec.get('domain')=='S_FROZEN_ONLINE_SELECTOR_V5'else list(range(16,20))
+    if sorted(x['scene']for x in spec['prefix_inputs'])!=expected:raise ValueError('Exact declared DEV parents required')
     start=time.monotonic();jobs=[dict(spec=spec,entry=e,cpu=spec['cpus'][i%len(spec['cpus'])],out=str(Path(output)/f"scene-{e['scene']:02d}"))for i,e in enumerate(spec['prefix_inputs'])]
     with ProcessPoolExecutor(max_workers=4,mp_context=multiprocessing.get_context('spawn'))as pool:scenes=list(pool.map(scene,jobs))
     result=dict(status='FINITE_FROZEN_SOURCE_SELECTOR_EXECUTED',source_sha=spec['source_sha'],models={k:dict(sha256=v['sha256'],parent_checkpoint_sha256=v['parent_checkpoint_sha256'])for k,v in spec['models'].items()},
-        scenes=scenes,declared_policy_episodes=16,declared_main_decisions=32,repeat_episodes=4,
+        scenes=scenes,declared_policy_episodes=4*len(expected),declared_main_decisions=8*len(expected),repeat_episodes=len(expected),
         actual_transitions=sum(x['actual_transitions']for x in scenes),live_physics_ticks=sum(x['live_physics_ticks']for x in scenes),
         shadow_ticks=sum(x['shadow_ticks']for x in scenes),CPU_s=sum(x['CPU_s']for x in scenes),wall_s=time.monotonic()-start,
         WM_updates=0,Actor_updates=0,target_integrations=0,complete_tasks=0,formal_reward=False,DEV_only=True)
