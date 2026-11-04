@@ -1,7 +1,7 @@
 {
   "schema": "WM02_EXACT_SOURCE_PUBLICATION_MAP_V1",
   "base_sha": "6e99a72e56eaa1066e567fb66f95ad7121695742",
-  "purpose": "Exact run-source commit recovery; identical Git trees and metadata-preserved commit objects, no ref/checkout/runtime changes.",
+  "purpose": "Exact run-source commit recovery; no refs/checkout/runtime changes. C08 is source-tested, no remote native receipt.",
   "snapshots": [
     {
       "actual_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
@@ -176,6 +176,48 @@
       "tree_sha": "15174c4d19d64c35b436ecbdb249ad3e0bdea1e4",
       "original_commit_object": "tree 15174c4d19d64c35b436ecbdb249ad3e0bdea1e4\nparent fe8af9d8d76e28a6b832c82730bf9c83446127f3\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821358 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821358 +0800\n\nexperiment(wm02): preregister RootSafe pre-response action test and causal scaled ARX baseline\n",
       "published_snapshot_sha": "5fd2d89693dcecffe12062575b0717423d66e7e1"
+    },
+    {
+      "actual_source_sha": "ddabffd78e26052eaa235d02ac40e3cb92ab326f",
+      "tree_sha": "3fc106ed8d6463772de73108ff586deabde1f826",
+      "original_commit_object": "tree 3fc106ed8d6463772de73108ff586deabde1f826\nparent 47c7278dec17161eb4c111a4aa64ed3fc1f66e50\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821914 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793821914 +0800\n\nreport(wm02): verify production DEV gain after strict 200+100 continuation\n",
+      "published_snapshot_sha": "e2989277ec461f92468e4ac5cad3a2fd5c1dc686"
+    },
+    {
+      "actual_source_sha": "37a67745c2798bc14f5d998db70f381c19043dd3",
+      "tree_sha": "bf7546e2845bbadd7d8f5a90de82e9d363735778",
+      "original_commit_object": "tree bf7546e2845bbadd7d8f5a90de82e9d363735778\nparent ddabffd78e26052eaa235d02ac40e3cb92ab326f\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822322 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822322 +0800\n\nfix(wm02): hand off position and velocity as one short nonblocking PD command pair\n",
+      "published_snapshot_sha": "e636ba07ecc694722ca3b980741d451793ccb26d"
+    },
+    {
+      "actual_source_sha": "0eb21d5602af05d4ed6ef64716373336afca67c6",
+      "tree_sha": "a92f37fc95addb042c398b8615d9cd69d95d68d9",
+      "original_commit_object": "tree a92f37fc95addb042c398b8615d9cd69d95d68d9\nparent 37a67745c2798bc14f5d998db70f381c19043dd3\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822507 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822507 +0800\n\nexperiment(wm02): preregister fresh C07 decision panel after measured queue-coherence failure\n",
+      "published_snapshot_sha": "96e4fbccdac552f6f0785e8c33bab6ae7b9a782b"
+    },
+    {
+      "actual_source_sha": "bcc23aa0818e27446d23dd8a2efd266d0849a273",
+      "tree_sha": "c7facc9a724049d224198b01b9f75d63699ddfd0",
+      "original_commit_object": "tree c7facc9a724049d224198b01b9f75d63699ddfd0\nparent 0eb21d5602af05d4ed6ef64716373336afca67c6\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822905 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793822905 +0800\n\nfeat(wm02): export private native-mesh video from sealed target recordings without integration\n",
+      "published_snapshot_sha": "5774183721d1bb3c527da28420fe6c3b2c8708d6"
+    },
+    {
+      "actual_source_sha": "93362d53497fa1aaee58ff03e091153e6c893a6c",
+      "tree_sha": "9d049396e7c3a11d9a765f518abcfc60d375c653",
+      "original_commit_object": "tree 9d049396e7c3a11d9a765f518abcfc60d375c653\nparent bcc23aa0818e27446d23dd8a2efd266d0849a273\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793823811 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793823811 +0800\n\nfix(wm02): bind frozen PD and policy periods to actual native physical clock\n",
+      "published_snapshot_sha": "be9057b6d0a0f52307274bb2cb282a863edfb1af"
+    },
+    {
+      "actual_source_sha": "c10244eddde56a539f3434a099d5c2f1af26c81d",
+      "tree_sha": "c27e707f86c1c339c3bd69786044d410bf7ad7fe",
+      "original_commit_object": "tree c27e707f86c1c339c3bd69786044d410bf7ad7fe\nparent 93362d53497fa1aaee58ff03e091153e6c893a6c\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793824204 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793824204 +0800\n\nfeat(wm02): audit native recording coverage with explicit failed-prefix exclusion\n",
+      "published_snapshot_sha": "f8ed3cecf8bc87dd515fbec451016fb210a0b2ac"
+    },
+    {
+      "actual_source_sha": "dca47188f269ef9dc9ff3a3a58076c94ceb9011d",
+      "tree_sha": "fe9f470787c1826f49eafb22158157c6856436cb",
+      "original_commit_object": "tree fe9f470787c1826f49eafb22158157c6856436cb\nparent c10244eddde56a539f3434a099d5c2f1af26c81d\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793824430 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793824430 +0800\n\nreport(wm02): deliver physical-clock diagnosis, two native 3D videos and policy readiness blockers\n",
+      "published_snapshot_sha": "12fdc96c4dfb61147238bb20f0bfe31cc4dfc0bb"
     }
   ]
 }
