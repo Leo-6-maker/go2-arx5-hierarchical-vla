@@ -1,6 +1,7 @@
 """Saved first27 target ticks: exact observations plus explicitly unknown causal events."""
 from pathlib import Path
 import json,time
+import xml.etree.ElementTree as ET
 import numpy as np
 from .native_replay import packets
 from .storage import digest,write_json
@@ -27,15 +28,17 @@ def run(manifest,output):
         # a reconstruction of unrecorded actual target versions or PD callbacks.
         firstpd=next((x for x in pd if x['sim_time_s']>0 and any(x['kp'][:12])),None);conditional=[]
         if firstpd:
-            jointmap=manifest['joint_mapping'];joints=[j for j in model['joints']if j['type']==3][:18]
+            jointmap=manifest['joint_mapping'];xml=ET.fromstring((folder/'task-scene.private.xml').read_text());actuators=xml.findall('./actuator/*')[:18];sensor_joints=[e.get('joint')for e in xml.findall('./sensor/jointpos')[:18]];hardware=[e.get('joint')for e in actuators]
+            if hardware!=sensor_joints:raise ValueError('Actual actuator/sensor order differs')
+            byname={j['name']:j for j in model['joints']};joints=[byname[n]for n in hardware]
             for i,row in enumerate(rows[:27]):
                 pre=rows[i-1]if i else dict(qpos=np.array(initial['qpos']),qvel=np.array(initial['qvel']))
                 if row['time_s']<=firstpd['sim_time_s']or row['step']>(firststop or 27):continue
                 native=np.zeros(18)
                 for k in range(18):
                     hw=jointmap[k];j=joints[hw];native[hw]=firstpd['tau'][k]+firstpd['kp'][k]*(firstpd['q_target'][k]-pre['qpos'][j['qposadr']])-firstpd['kd'][k]*pre['qvel'][j['dofadr']]
-                conditional.append(dict(step=row['step'],conditional_fixed_command_PD_leg_max_abs_difference=float(np.max(abs(native[:12]-row['ctrl'][:12])))))
-        out[episode]=dict(input_sha256=pins,timeline=timeline,first_nonzero_leg_ctrl_step=first['step']if first else None,first_STOP_step=firststop,original_packets=len(rows),extra_integrations_after_first_STOP=max(0,rows[-1]['step']-firststop)if firststop is not None else None,initial_control_calls=before['control_calls'],conditional_fixed_first_command_zero_leg_target_velocity_PD=conditional,conditional_limit='Uses recorded first command and preceding generalized states under fixed-command hypothesis, not actual later commands/sensors/callback count; cannot prove unique mutex/queue cause')
+                conditional.append(dict(step=row['step'],conditional_fixed_command_PD_leg_max_abs_difference=float(np.max(abs(native[:12]-row['ctrl'][:12]))),actuator_sensor_joint_order=hardware[:12]))
+        out[episode]=dict(input_sha256=pins,timeline=timeline,first_nonzero_leg_ctrl_step=first['step']if first else None,first_STOP_step=firststop,original_packets=len(rows),extra_integrations_after_first_STOP=max(0,rows[-1]['step']-firststop)if firststop is not None else None,initial_control_calls=before['control_calls'],conditional_fixed_first_command_zero_leg_target_velocity_PD=conditional,conditional_limit='Uses actual XML actuator/sensor order, first command and preceding generalized states under fixed-command hypothesis; exact native sensor cache timing and later commands/callback counts are unrecorded; cannot prove unique mutex/queue cause')
         allrows[episode]=rows
     a,b=[allrows[n]for n in('S1_RECOVERY01_T1','S1_RECOVERY01_T2')];diff={}
     for key in('qpos','qvel','ctrl'):
