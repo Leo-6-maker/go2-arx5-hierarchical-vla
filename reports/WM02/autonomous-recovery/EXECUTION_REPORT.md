@@ -107,3 +107,16 @@ python3 -m scripts.wm02.review_autonomous_round --report-dir reports/WM02/autono
 ```
 
 For geometry review use the private finite playback command in `PC_VIEWER_README.md`. For A1 submit/review `TARGET_SCOPE_REQUEST.json` through the existing original owner/profile; actual admission must bind a new run before any cold start. No repeated exit78, new scheduler or fabricated authorization is used.
+
+## Publication identity
+
+Git SSH fetch/push did not provide a usable authenticated publication route (authentication/server errors; no successful Git push). The connected GitHub API published13 successive snapshots instead. **Each complete Git tree SHA exactly matches the corresponding original run/development commit tree**, including intermediate fixes and negative evidence. API-created author/time metadata produces different public commit SHAs; they are not substituted into the recorded experimental provenance.
+
+`PUBLICATION_SOURCE_MAP.json` binds every original source SHA to its exact tree, public snapshot SHA and original raw commit object. It includes source `72e5…`, `2666…`, `e48c…`, `8c28…` and `e1ad…`, preserving the original experiment identities. After cloning/fetching the complete published snapshot history, the optional helper can recreate those immutable original commit objects locally, without checking out or updating a branch:
+
+```bash
+python3 scripts/wm02/restore_source_commit_objects.py --repo . \
+  --manifest reports/WM02/autonomous-recovery/PUBLICATION_SOURCE_MAP.json --write
+```
+
+All13 original object hashes and tree availability were actually verified locally; no model/physics rerun or runtime source rewrite accompanied publication. The original local commit chain and source-only Git bundle remain preserved privately. The final publication commit contains this mapping and does not purport to be a new model run.
