@@ -1,0 +1,305 @@
+{
+  "schema": "WM02_NEXT1_ACTION_PANEL_PREREGISTRATION_V1",
+  "plan_sha": "a673d4b0d361c6fea9fcd5d5b9cbd28f58461b4f",
+  "collection_source_sha": "980d5f3c8a9ae02701ecc64aae9d91e9be1c5ada",
+  "protocol": "FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1",
+  "seed": 20261105,
+  "TRAIN_parents": [
+    "P01",
+    "P02",
+    "P03",
+    "P04"
+  ],
+  "DEV_parents": [
+    "P07",
+    "P08"
+  ],
+  "pilot_attempts": 20,
+  "pilot_trial_order": [
+    {
+      "parent": "P03",
+      "action": 0,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 1,
+      "slot": 0
+    },
+    {
+      "parent": "P02",
+      "action": 1,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 1,
+      "slot": 1
+    },
+    {
+      "parent": "P03",
+      "action": 0,
+      "repeat": true,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 2,
+      "slot": 0
+    },
+    {
+      "parent": "P03",
+      "action": 3,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.001,
+        0.0
+      ],
+      "pair": 2,
+      "slot": 1
+    },
+    {
+      "parent": "P02",
+      "action": 0,
+      "repeat": true,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 3,
+      "slot": 0
+    },
+    {
+      "parent": "P01",
+      "action": 3,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.001,
+        0.0
+      ],
+      "pair": 3,
+      "slot": 1
+    },
+    {
+      "parent": "P01",
+      "action": 2,
+      "repeat": false,
+      "offset_xyz_m": [
+        -0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 4,
+      "slot": 0
+    },
+    {
+      "parent": "P03",
+      "action": 2,
+      "repeat": false,
+      "offset_xyz_m": [
+        -0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 4,
+      "slot": 1
+    },
+    {
+      "parent": "P03",
+      "action": 1,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 5,
+      "slot": 0
+    },
+    {
+      "parent": "P01",
+      "action": 0,
+      "repeat": true,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 5,
+      "slot": 1
+    },
+    {
+      "parent": "P04",
+      "action": 2,
+      "repeat": false,
+      "offset_xyz_m": [
+        -0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 6,
+      "slot": 0
+    },
+    {
+      "parent": "P04",
+      "action": 0,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 6,
+      "slot": 1
+    },
+    {
+      "parent": "P01",
+      "action": 0,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 7,
+      "slot": 0
+    },
+    {
+      "parent": "P02",
+      "action": 2,
+      "repeat": false,
+      "offset_xyz_m": [
+        -0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 7,
+      "slot": 1
+    },
+    {
+      "parent": "P04",
+      "action": 1,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 8,
+      "slot": 0
+    },
+    {
+      "parent": "P01",
+      "action": 1,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.001,
+        0.0,
+        0.0
+      ],
+      "pair": 8,
+      "slot": 1
+    },
+    {
+      "parent": "P02",
+      "action": 0,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 9,
+      "slot": 0
+    },
+    {
+      "parent": "P04",
+      "action": 3,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.001,
+        0.0
+      ],
+      "pair": 9,
+      "slot": 1
+    },
+    {
+      "parent": "P02",
+      "action": 3,
+      "repeat": false,
+      "offset_xyz_m": [
+        0.0,
+        0.001,
+        0.0
+      ],
+      "pair": 10,
+      "slot": 0
+    },
+    {
+      "parent": "P04",
+      "action": 0,
+      "repeat": true,
+      "offset_xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pair": 10,
+      "slot": 1
+    }
+  ],
+  "screen": {
+    "window_s": 0.4,
+    "relative_TCP_diameter_m": 0.002,
+    "max_relative_TCP_speed_m_s": 0.025
+  },
+  "action_first_installed_global_atom": 48,
+  "sampled_history_global_start_atom": 40,
+  "history_atoms": 8,
+  "predict_atoms": 16,
+  "HOLD_repeats_per_TRAIN_parent": 2,
+  "independent_restore_claim": false,
+  "bootstrap_resampling_unit": "physical_parent",
+  "HOLD_noise_estimator": "Sample standard deviation (ddof1) of the two preregistered HOLD responses per parent, horizon and axis; report both samples, no zero-noise imputation",
+  "noise_floor_m": 1e-06,
+  "diagnostic_gate": {
+    "horizons": [
+      8,
+      16
+    ],
+    "minimum_parents_all_three_direction_signs_correct": 3,
+    "parents": 4,
+    "minimum_parent_median_effect_to_HOLD_std": 3.0,
+    "primary": "TCP-in-BASE increment rotated to decision world axes",
+    "world_TCP_and_BASE_effects_also_reported": true,
+    "interpretation": "Relative actuator-response identifiability only if this narrow gate passes; no absolute world-state or control-value claim"
+  },
+  "model_recipes": {
+    "arms": [
+      "RAW_WORLD_RELATIVE_V1",
+      "SCALED_WORLD_RELATIVE_1CM_V2",
+      "NO_ACTION_V2"
+    ],
+    "fresh_main_updates_each": 200,
+    "restore_probes_each": 1,
+    "seed": 20261105,
+    "TRAIN_only_normalizer": true,
+    "same_data_initialization_exposure": true,
+    "no_C06_warm_start": true,
+    "no_auto2000_extension": true
+  },
+  "gate_failure": "Analyze execution response; do not start M0/V0 or formal Actor",
+  "effects_of_this_file": {
+    "new_integrations": 0,
+    "new_updates": 0
+  }
+}

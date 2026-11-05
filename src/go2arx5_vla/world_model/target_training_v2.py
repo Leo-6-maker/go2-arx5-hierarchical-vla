@@ -15,6 +15,7 @@ def compatible(old,new,*,migration=None):
     for k in('state_fields','joints','actuator_gear','actuator_gain'):
         if old[k]!=new[k]:raise ValueError('TARGET_STATE_ACTUATOR_LAYOUT_CHANGED:'+k)
     if old.get('schema')in(SCHEMA,DECISION)and new.get('schema')in(SCHEMA,DECISION):
+        if old.get('collection_protocol')!=new.get('collection_protocol'):raise ValueError('COLLECTION_PREFIX_PROTOCOL_CHANGED_REQUIRE_FRESH_MODEL')
         if old['schema']!=new['schema']or old.get('action')!=new.get('action'):raise ValueError('ACTION_SEMANTICS_CHANGED_REQUIRE_FRESH_MODEL')
         if old['robot_fingerprint']!=new['robot_fingerprint']:raise ValueError('FROZEN_ROBOT_STRUCTURE_CHANGED')
         if old.get('executor_sha256')!=new.get('executor_sha256'):raise ValueError('NATIVE_EXECUTOR_CHANGED_REQUIRES_EXPLICIT_SEPARATE_MODEL')

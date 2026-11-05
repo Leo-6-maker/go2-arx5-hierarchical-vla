@@ -340,8 +340,15 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
+        next1=self.spec['phase']=='collect-target-next1';decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
-        if self.spec['phase']=='collect-target-night1':
+        if next1:
+            from .next1_episode import episode_config,assess
+            episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
+            if contact:self.contact_geometry_samples=[]
+            late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
+            decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
+        elif self.spec['phase']=='collect-target-night1':
             from .target_manifest import episode_config
             episode=episode_config(self.spec)
             from .target_manifest import DECISION_RULE
@@ -354,14 +361,32 @@ class TargetSequentialAdapter:
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current(first_decision=False):
-            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
+            if contact and decision_applied:
+                from .next1_contact import chunk
+                poses=chunk(self.contact_path,(self.observe()['step']-2503)//25-decision_atom)
+            else:poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
             return np.stack([pose10(p,float(teacher_physical_fraction(1.)))for p in poses])
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
             before=self.observe();step=before['step']
-            if late_decision and step==start+8*25 and not decision_applied:
+            if next1 and step==start+episode['prehold_atoms']*25:
+                # Refresh the same fixed goal at the sampled-history boundary.
+                # This is an installed renewal, never an achieved-state reanchor.
+                self.install_reference(action_at_current());installed_step=step
+            if next1 and step==start+episode['screen_atom']*25:
+                value=assess(self,episode)
+                if late_decision and not value['qualified']:raise RuntimeError('UNSTABLE_DECISION_PREFIX_ACTION_NOT_INSTALLED')
+            if late_decision and step==start+decision_atom*25 and not decision_applied:
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
+                if contact:
+                    from .next1_contact import planned_path
+                    if episode['contact_grade']=='DESCEND_20_OPEN':
+                        from scripts.pi0294.persistent_teacher import geometry
+                        state=self.measured_task_state()
+                        if not geometry(self.actual_state,state,'T1')['precontact_geometry_ready']:raise RuntimeError('CURRENT_ACTUAL_PRECONTACT_GEOMETRY_REQUIRED_NO_RESET_SUBSTITUTION')
+                    self.contact_path=planned_path(initial['tcp'],self.measured_task_state()['object_pose'],episode['contact_grade'])
+                    write(self.output/'CONTACT_PLANNED_REFERENCE.private.json',dict(grade=episode['contact_grade'],path=self.contact_path.tolist(),planned_reference_only=True,achieved_state_reanchor=False))
                 goal=decision_goal;decision_applied=True
                 self.command_event(dict(phase='decision-boundary',native_step=step,sim_time_s=before['time_s'],reference_rule=episode['reference_rule'],offset_xyz_m=episode['offset_xyz_m'],goal_pose=goal.tolist(),future_response_observed=False))
                 self.install_reference(action_at_current(first_decision=True));installed_step=step
@@ -370,6 +395,10 @@ class TargetSequentialAdapter:
             if step-installed_step>=175:self.install_reference(action_at_current());installed_step=step
             clock=require_live_window(self.active_reference['source_mpc_s'],before['time_s'],25)
             event_start=len(self.ros_evidence);after=self.advance_to(step+25);self.spin(.15)
+            if next1:self.next1_samples.append(self.measured_task_state())
+            if contact:
+                from scripts.pi0294.persistent_teacher import geometry
+                state=self.next1_samples[-1];g=geometry(self.actual_state,state,'T1');row=dict(native_step=state['native_step'],**{k:v for k,v in g.items()if k not in('actual_pad_corners_world','actual_object_world')});self.contact_geometry_samples.append(row);self.command_event(dict(phase='contact-geometry',**row))
             if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_MODE_REFERENCE_MISMATCH')
             if any(r.get('reason')=='PREFIX_TTL_EXPIRED'for r in self.reference_events()):raise RuntimeError('UNEXPECTED_REFERENCE_EXPIRY')
             installed=[r for r in self.active_reference['receiver_events']if r['kind']=='installed'][-1]
@@ -387,10 +416,15 @@ class TargetSequentialAdapter:
             from scripts.pi0292.eval_contract import matrix10
             index=(step-installed_step)//25
             self.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(self.active_reference['action_EEF10'])[index]))
+        if next1 and not hasattr(self,'next1_screen'):assess(self,episode)
+        if contact:
+            samples=self.next1_samples
+            write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,geometry=self.contact_geometry_samples,any_precontact=any(g['precontact_geometry_ready']for g in self.contact_geometry_samples),precontact_end_qualified=len(self.contact_geometry_samples)>=4 and all(g['precontact_geometry_ready']for g in self.contact_geometry_samples[-4:]),native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-decision_atom>=len(self.contact_path)-1))
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_velocity_labels='ABSENT',BASE_pose_reference='MEASURED_INITIAL_MPC_POSE_HOLD'if hasattr(self,'base_pose_hold')else'ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
-        if episode:value.update(reference_rule=episode['reference_rule'],late_decision_applied=decision_applied,decision_atom=8 if late_decision else None)
+        if episode:value.update(reference_rule=episode['reference_rule'],late_decision_applied=decision_applied,decision_atom=decision_atom if late_decision else None)
+        if next1:value.update(sample_start_step=start+episode['prehold_atoms']*25,steady_prefix=self.next1_screen)
         write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value
         if confirmed!=len(windows):raise RuntimeError('SOLVER_TARGET_CONSUMPTION_NOT_CONFIRMED_FOR_EVERY_ATOM')
         return value

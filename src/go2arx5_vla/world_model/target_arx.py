@@ -78,3 +78,14 @@ class CausalARX:
     def arrays(self):
         return {name: getattr(self, name) for name in
                 ('mean', 'scale', 'feature_mean', 'feature_scale', 'weight')}
+
+    @classmethod
+    def from_arrays(cls,meta,arrays):
+        model=cls(meta);n=model.dimension;f=2*n+21
+        shapes=dict(mean=(n,),scale=(n,),feature_mean=(f,),feature_scale=(f,),weight=(f+1,n))
+        for name,shape in shapes.items():
+            value=np.asarray(arrays[name],dtype=float)
+            if value.shape!=shape or not np.isfinite(value).all():raise ValueError('FROZEN_ARX_ARRAY_LAYOUT_DIFFERS')
+            if name in('scale','feature_scale')and not(value>0).all():raise ValueError('FROZEN_ARX_SCALE_INVALID')
+            setattr(model,name,value.copy())
+        return model

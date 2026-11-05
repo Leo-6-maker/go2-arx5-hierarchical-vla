@@ -30,6 +30,10 @@ class TargetNeuralContract(unittest.TestCase):
         a=self.m.predict(**self.data)
         altered={k:v.clone()for k,v in self.data.items()};altered['state'][:,9:]+=100.;altered['source_age'][:,9:]+=100.
         b=self.m.predict(**altered);self.assertEqual(tree_error(a,b),0.)
+        # Privileged teacher-forcing is a distinct diagnostic, never FREE input.
+        teacher=self.m.predict(**self.data,teacher_forced=True)
+        changed=self.m.predict(**altered,teacher_forced=True)
+        self.assertGreater(tree_error(teacher,changed),0.)
     def test_stochastic_optimizer_RNG_and_cursor_restore_exactly(self):
         provenance=dict(purpose='SYNTHETIC_COMPONENT_TEST_NO_NATIVE_QUALIFICATION')
         with tempfile.TemporaryDirectory()as tmp:

@@ -1,0 +1,33 @@
+{
+  "schema": "WM02_NEXT1_CONTACT_GRADES_PREREGISTERED_V1",
+  "prefix": "FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1",
+  "scene_id": "P01",
+  "slots": 1,
+  "grades": [
+    "FREE_X10",
+    "TOWARD_ABOVE_25",
+    "TOWARD_ABOVE_50",
+    "ABOVE_OBJECT"
+  ],
+  "task_atoms": [
+    96,
+    160,
+    160,
+    160
+  ],
+  "ramp_atoms": [
+    32,
+    96,
+    96,
+    108
+  ],
+  "gripper": "ORIGINAL_WORKING_OPEN",
+  "reference_start": "UNCHANGED_PREDETERMINED_INITIAL_HOLD_GOAL_NO_TRACKING_BIAS_COMPENSATION",
+  "full_object_above_height_m": 0.1,
+  "original_static_reference_check": "500Hz_IK_20Hz_RATE_JOIN_SPEED_ACCELERATION_AND_COLLISION",
+  "each_live_install_recertified": true,
+  "predecessors": "Every next grade requires actual previous grade complete safe PASS. No safety failure retry.",
+  "contact_claim": "Free space approach qualification only; descent/close/support/release/withdraw remain distinct subsequent gates.",
+  "no_expert_or_success_labels": true,
+  "no_WM_or_Actor_updates": true
+}

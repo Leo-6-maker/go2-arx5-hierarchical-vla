@@ -186,7 +186,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     try:
         if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
-        if gpu and spec.get('night1_binding'):
+        if gpu and(spec.get('night1_binding')or spec.get('next1_binding')):
             night_campaign_owner=OwnerLock(Path(spec['campaign_root'])/'OWNER.lock')
             night_physical_owner=OwnerLock(spec['physical_owner_lock'])
         os.sched_setaffinity(0, cpus)
