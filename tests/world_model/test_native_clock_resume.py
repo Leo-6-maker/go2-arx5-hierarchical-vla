@@ -6,6 +6,20 @@ from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 
 
 class ClockResume(unittest.TestCase):
+    def test_TTL_keeps_registered_init_windows_and_only_actual_TTL_task_boundaries(self):
+        with tempfile.TemporaryDirectory()as root:
+            a=TargetSequentialAdapter(dict(phase='g2-standing-ttl-v2',max_ticks=2706,startup_pause_stride_ticks=25),root)
+            a.resume_clock_once=Mock();a.spin=Mock(return_value=True);a.observe=Mock(return_value=dict(step=25,time_s=.05))
+            a.advance_to(25);a.resume_clock_once.assert_called_once_with(25)
+            self.assertEqual((Path(root)/'step_quota').read_text(),'25\n')
+            # Ordinary 50ms task pauses remain disallowed in the TTL diagnostic.
+            with self.assertRaisesRegex(PermissionError,'EXACT_REGISTERED_NATIVE_PAUSE'):a.advance_to(2528)
+            a.ttl_boundaries=[2702,2703,2704,2706];a.observe.return_value=dict(step=2702,time_s=5.404)
+            a.advance_to(2702);self.assertEqual((Path(root)/'step_quota').read_text(),'2702\n')
+            with self.assertRaisesRegex(PermissionError,'EXACT_REGISTERED_NATIVE_PAUSE'):a.advance_to(2707)
+            a.spec.pop('startup_pause_stride_ticks')
+            with self.assertRaisesRegex(PermissionError,'EXACT_REGISTERED_NATIVE_PAUSE'):a.advance_to(25)
+
     def adapter(self,root,counts):
         keys=SimpleNamespace(get_subscription_count=Mock(side_effect=counts))
         def spin(seconds,predicate):

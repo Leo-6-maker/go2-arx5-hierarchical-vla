@@ -189,9 +189,10 @@ class TargetSequentialAdapter:
         if self.trace_sealed:raise PermissionError('TRACE_ALREADY_SEALED_NO_FURTHER_INTEGRATION')
         allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
         if self.dynamic_phase():allowed={2500,2503,*range(2528,self.spec['max_ticks']+1,25)}
-        if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         ttl=self.spec['phase']=='g2-standing-ttl-v2'
         if ttl:allowed={2500,2503,*getattr(self,'ttl_boundaries',[])}
+        # TTL restricts task-phase pauses, not the registered cold-init windows.
+        if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
         if self.dynamic_phase()and ticks>2503 and not ttl:
             from .target_reference import require_live_window
