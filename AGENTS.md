@@ -1,5 +1,15 @@
 # GR00T + WBC agent entry · Goal V7
 
+## WM02 PILOT1 current scoped mandate · 2026-11-05
+
+The current user requests long-horizon autonomous progress **without project-internal engineering budgets**, prioritizing a real small-scale learning loop, and stopping for human review before H200 or GPU multi-environment scaling. WBC remains frozen. Read `WM02_PILOT1_START.md`, `docs/handover/2026-11-05/WM02_PILOT1_SCIENCE_FIRST_AUTONOMY_V1.md` and `experiments/wm02/pilot1_science_first_v1.json` first for this work.
+
+For NEW PILOT1 jobs only, this mandate supersedes historical total CPU/GPU/token/storage/tick/attempt/repair/hour caps, exact-200/800 endpoint restrictions and blanket prohibitions on **local small Actor/Policy training**. First deliver a trained and reloadable local four-action goal-conditioned Actor, real native evaluation, then new TRAIN feedback and continued learning. Offline distillation does not wait for contact, complete midpoint restore, a neural WM beating ARX, or teacher superiority over the strong rule. Native evaluation still requires qualified actions, actual task/data contracts and site admission. Contact curriculum and WM-residual work are independent tracks, not prerequisites for this first pilot. Learning-curve checkpoints are scientific endpoints, not engineering budgets.
+
+No project budget does not override actual site quotas, disk/VRAM capacity, owner locks, lease deadlines, finite worker endpoints or safety shutdown. Use the existing owner/registry/Journal; register eligible fresh successor jobs autonomously, never reopen CLOSED leases or hot-edit sealed capsules. Retain historical facts and negative results. Fix only relevant application/interface problems and preserve the frozen WBC/leg weights, control law, gains, costs, solver, robot dynamics, physics dt and original safety. Newly designed reachable scenes are separate tasks, not retroactive passes for the old contact task. No real hardware, active locomotion, other-user/system changes or automatic main merge.
+
+**Mandatory scale-review stop:** before any H200 allocation/job, GPU-physics multiworld construction or trial (MuJoCo Warp/mjlab/Isaac), multi-GPU/distributed scaling or batched replacement of the native WBC, seal results and return `AWAITING_H200_SCALE_REVIEW` with the plan's review packet. No queue submission, performance warmup or remote-large-GPU workaround before explicit user approval. Existing local single-GPU neural batches and qualified one/two CPU-native environments are not this scale transition. Offline scale design is allowed. This file starts no process and grants no external site credential. Older instructions below remain authoritative outside this narrowly updated local pilot.
+
 ## WM02 AUTO1 scoped supplement · 2026-11-04
 
 The current user explicitly requests more Codex autonomy to run the WBC-to-WM pipeline. For this work, read `docs/handover/2026-11-04/WM02_AUTO1_CODEX_EXECUTE.md`, `docs/protocols/WM02_AUTO1_WBC_TO_WM_V1.md` and `experiments/wm02/autonomous_wbc_to_wm_v1.json` first. This is a scoped supplement, not an executed qualification.
