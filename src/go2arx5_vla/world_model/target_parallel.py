@@ -9,8 +9,9 @@ def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
     coverage=batch.get('schema')=='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'
+    supported=batch.get('schema')=='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'
     free=feedback or coverage or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
-    pilot= free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
+    pilot= supported or free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
     runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
     for slot,child in zip(batch['slots'],children):
@@ -22,14 +23,16 @@ def validate_layout(batch, children):
                 or child['source_sha']!=batch['source_sha']
                 or child['ROS_DOMAIN_ID']not in (220,221)
                 or not set(child['cpus'])or cpus.intersection(child['cpus'])
-                or child['phase']not in (('collect-target-pilot1',)if free else('collect-target-pilot1-contact',)if pilot else('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1','collect-target-next2'))
-                or child['max_ticks']not in ((4103,)if free else(5703,)if pilot else(50,2528,3103,3703,4103,4903,6503))
+                or child['phase']not in (('collect-target-pilot2-supported',)if supported else('collect-target-pilot1',)if free else('collect-target-pilot1-contact',)if pilot else('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1','collect-target-next2'))
+                or child['max_ticks']not in ((6703,)if supported else(4103,)if free else(5703,)if pilot else(50,2528,3103,3703,4103,4903,6503))
                 or digest(slot['spec'])!=slot['spec_sha256']):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
     if pilot:
-        if free:
+        if supported:
+            from .pilot2_supported import validate
+        elif free:
             from .pilot1_episode import episode_limit as validate
         else:
             from .pilot1_contact import validate
@@ -38,7 +41,10 @@ def validate_layout(batch, children):
                     or child.get('pilot1_binding_sha256')!=batch.get('pilot1_binding_sha256')):
                 raise PermissionError('SAME_ACTUAL_PILOT1_WINDOW_REQUIRED')
             previous=json.loads(Path(child['previous_stage']).read_text())
-            if validate(child,previous)!=(4103 if free else 5703):raise PermissionError('QUALIFIED_SINGLE_PILOT1_SCENE_REQUIRED')
+            if validate(child,previous)!=(6703 if supported else 4103 if free else 5703):raise PermissionError('QUALIFIED_SINGLE_PILOT1_SCENE_REQUIRED')
+            if supported and (child.get('supported_policy_parallel_schema')!=batch['schema']
+                    or child.get('pilot2_plan_sha')!=batch.get('pilot2_plan_sha')):
+                raise PermissionError('SAME_QUALIFIED_SUPPORTED_POLICY_BATCH_AND_PLAN_REQUIRED')
             if free:
                 episode=json.loads(Path(child['episode_manifest']).read_text())
                 if episode.get('purpose')!=('ACTION_COVERAGE'if coverage else'TRAIN_FEEDBACK'if feedback else'EVALUATION')or feedback and episode.get('split')!='TRAIN':
@@ -49,6 +55,16 @@ def validate_layout(batch, children):
         if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
                 or len(value['children'])!=2 or not all(c['ticks']>=4103 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):
             raise PermissionError('ACTUAL_PRIOR_TWO_NATIVE_SLOT_QUALIFICATION_REQUIRED')
+        if supported:
+            episodes=[json.loads(Path(c['episode_manifest']).read_text())for c in children]
+            if batch.get('purpose')=='SUPPORTED_POLICY_DUAL_COMMISSION':
+                from .pilot2_supported import GOALS
+                if (any(e['method']!='GOAL_FSM' or e['split']!='TRAIN'for e in episodes)
+                        or {e['task_goal']for e in episodes}!=set(GOALS)
+                        or len({e['parent']for e in episodes})!=1):
+                    raise PermissionError('DUAL_COMMISSION_ONLY_BOTH_SINGLE_QUALIFIED_TRAIN_FSM_GOALS')
+            elif batch.get('purpose')!='SUPPORTED_POLICY_PRODUCTION' or any(c['ticks']!=6703 for c in value['children']):
+                raise PermissionError('ACTUAL_FULL_DURATION_TWO_SUPPORTED_POLICY_QUALIFICATION_REQUIRED')
         return
     night1=all(c['phase']=='collect-target-night1'for c in children)
     next2=all(c['phase']=='collect-target-next2'for c in children)

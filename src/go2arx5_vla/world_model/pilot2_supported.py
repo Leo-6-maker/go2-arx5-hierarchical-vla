@@ -39,8 +39,15 @@ def validate(spec,previous):
         from .pilot2_supported_policy_runtime import contract as policy_contract
         policy_contract(episode)
     else:contract(episode)
+    parallel=bool(spec.get('parallel_batch_spec'))
+    if parallel:
+        if (episode.get('schema')!='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1'
+                or spec.get('supported_policy_parallel_schema')!='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'):
+            raise PermissionError('NEW_CONTACT_SINGLE_FIRST_OR_MATCHING_QUALIFIED_POLICY_BATCH_REQUIRED')
+        from .pilot2_supported_policy_runtime import validate_single_qualification
+        validate_single_qualification(spec,episode)
     if (digest(path)!=spec['episode_manifest_sha256']or episode['run']!=spec['registered_root']
-            or spec.get('pilot2_plan_sha')!=PLAN or not spec.get('pilot1_binding')or spec.get('parallel_batch_spec')):
+            or spec.get('pilot2_plan_sha')!=PLAN or not spec.get('pilot1_binding')):
         raise PermissionError('FRESH_SINGLE_PILOT2_CONTACT_SCOPE_AND_PROGRAM_REQUIRED')
     assets=json.loads(Path(spec['scene_allowlist']).read_text());scenes=[s for s in assets['scenes']if s['scene_id']==episode['scene_id']]
     if (digest(spec['scene_allowlist'])!=spec['scene_allowlist_sha256']or len(scenes)!=1

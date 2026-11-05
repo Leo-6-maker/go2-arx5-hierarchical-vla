@@ -48,6 +48,26 @@ def validate_qualifications(spec,episode):
             raise PermissionError('REAL_TRAINED_RESTORED_SUPPORTED_POLICY_REQUIRED')
 
 
+def validate_single_qualification(spec,episode):
+    """A real prior single with this scene, goal, method and model; not a grant."""
+    proof=spec['single_policy_qualification'];p=Path(proof['path']);native=json.loads(p.read_text())
+    decision_path=p.parent/'SUPPORTED_POLICY_DECISION.private.json'
+    episode_path=p.parent.parent/'EPISODE_MANIFEST.private.json'
+    decision=json.loads(decision_path.read_text());old=json.loads(episode_path.read_text())
+    if (digest(p)!=proof['sha256'] or digest(decision_path)!=proof['decision_sha256']
+            or digest(episode_path)!=proof['episode_sha256'] or native['status']!='NATIVE_STAGE_PASSED'
+            or not native['shutdown_clean'] or native['physics_stops'] or native['actual_target_integrations']!=6703
+            or native['scene_sha256']!=digest(spec['model_path'])
+            or native['native_binary_sha256']!=digest(spec['native_binary'])
+            or old.get('schema')!=SCHEMA or any(old.get(k)!=episode.get(k) for k in
+                ('parent','split','scene_id','task_goal','method','close_start_atom','policy_decision_atom'))
+            or decision['native_step']!=5303 or decision['future_response_observed'] is not False
+            or not decision['decision_prefix_eligible']
+            or decision['policy_sha256']!=spec.get('supported_policy_numpy_sha256')):
+        raise PermissionError('ACTUAL_MATCHING_SINGLE_SUPPORTED_POLICY_QUALIFICATION_REQUIRED')
+    # Qualification proves safe execution; do not filter out task failures.
+
+
 def choose(adapter,episode,rows):
     from .pilot2_supported import GOALS
     from .pilot1_contact_policy_numpy import logits
