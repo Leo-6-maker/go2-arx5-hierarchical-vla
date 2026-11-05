@@ -1,0 +1,4356 @@
+{
+  "schema": "WM02_PILOT2_FROZEN_C08_TO_C09_CONTACT_TRANSFER_INSPECTION_V1",
+  "scope": "SAME_SOURCE_TRAIN_PARENT_T01_NEW_EXECUTOR_NOT_HELDOUT_PARENT_GAIN",
+  "new_bundle_sha256": "9cc75b185c7fb8bb02491e32f293023781030b7094036f581635b260f3a7bf40",
+  "episodes": 3,
+  "forecast_anchors": 477,
+  "parents": [
+    "PILOT2_C0_T01_LAYOUT_V1"
+  ],
+  "split_labels_unchanged": [
+    "TRAIN"
+  ],
+  "native_binary_sha256s": [
+    "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c"
+  ],
+  "models": {
+    "OLD_18_EPISODE_6000_ACTION_CONDITIONED": {
+      "arm": "ACTION_CONDITIONED",
+      "portable_model_sha256": "c4bf80a226d1ddbc034b3a524a0e0669f68e7d8908f20139cd966b59c6fe77bf",
+      "forecast_metrics": {
+        "1": {
+          "NATURAL": {
+            "valid_forecasts": 477,
+            "TCP_delta_RMSE_mm": 0.11219627978538331,
+            "object_delta_RMSE_mm": 0.00756821399965798,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.0020137539008804536,
+                "TP": 147,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9932432432432432,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.0016299410755366156,
+                "TP": 144,
+                "FP": 0,
+                "FN": 2,
+                "precision": 1.0,
+                "recall": 0.9863013698630136
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 477,
+                "Brier": 5.959050661198049e-08,
+                "TP": 477,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 300,
+                "Brier": 3.245591840921027e-05,
+                "TP": 300,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 7,
+            "TCP_delta_RMSE_mm": 0.1659577344645251,
+            "object_delta_RMSE_mm": 0.014748822898443098,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 3,
+                "Brier": 1.1334291727129404e-05,
+                "TP": 3,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 2,
+                "Brier": 0.05097203776414748,
+                "TP": 1,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.5
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 7,
+                "Brier": 7.040257178619116e-07,
+                "TP": 7,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 1,
+                "Brier": 8.72183775251585e-06,
+                "TP": 1,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 470,
+            "TCP_delta_RMSE_mm": 0.11119931015296872,
+            "object_delta_RMSE_mm": 0.007408857017219869,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 144,
+                "Brier": 0.002043577171655078,
+                "TP": 144,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.993103448275862,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 144,
+                "Brier": 0.0008950587844296455,
+                "TP": 143,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.9930555555555556
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 470,
+                "Brier": 4.999253538059854e-08,
+                "TP": 470,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 299,
+                "Brier": 3.280940471686315e-05,
+                "TP": 299,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "4": {
+          "NATURAL": {
+            "valid_forecasts": 468,
+            "TCP_delta_RMSE_mm": 0.21059481367514574,
+            "object_delta_RMSE_mm": 0.01297159212206329,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.0019353636112931774,
+                "TP": 147,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9932432432432432,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.00013136854219935346,
+                "TP": 146,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 468,
+                "Brier": 4.657249347119572e-08,
+                "TP": 468,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 291,
+                "Brier": 0.0015708578186379215,
+                "TP": 290,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.9965635738831615
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 25,
+            "TCP_delta_RMSE_mm": 0.22527051524670982,
+            "object_delta_RMSE_mm": 0.043336534386554895,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 9,
+                "Brier": 0.006055923450998676,
+                "TP": 9,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 8,
+                "Brier": 0.00048167361393055094,
+                "TP": 8,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 25,
+                "Brier": 1.833634072046817e-07,
+                "TP": 25,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 4,
+                "Brier": 0.0038463671579189477,
+                "TP": 4,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 443,
+            "TCP_delta_RMSE_mm": 0.20973600535241776,
+            "object_delta_RMSE_mm": 0.008471880230416241,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 138,
+                "Brier": 0.001702826374289481,
+                "TP": 138,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9928057553956835,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 138,
+                "Brier": 0.00011159963295944389,
+                "TP": 138,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 443,
+                "Brier": 3.885291594673263e-08,
+                "TP": 443,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 287,
+                "Brier": 0.001442443070371498,
+                "TP": 286,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.9965156794425087
+              }
+            }
+          }
+        },
+        "8": {
+          "NATURAL": {
+            "valid_forecasts": 456,
+            "TCP_delta_RMSE_mm": 0.18969979145701174,
+            "object_delta_RMSE_mm": 0.018619413588744735,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.0042452624137354796,
+                "TP": 147,
+                "FP": 2,
+                "FN": 0,
+                "precision": 0.9865771812080537,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.003596220163150955,
+                "TP": 143,
+                "FP": 0,
+                "FN": 3,
+                "precision": 1.0,
+                "recall": 0.9794520547945206
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 456,
+                "Brier": 3.885846107693508e-08,
+                "TP": 456,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 279,
+                "Brier": 0.0013991627485485719,
+                "TP": 279,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9964285714285714,
+                "recall": 1.0
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 49,
+            "TCP_delta_RMSE_mm": 0.19451837627026977,
+            "object_delta_RMSE_mm": 0.0398907740762594,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 17,
+                "Brier": 0.01797853507848435,
+                "TP": 17,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9444444444444444,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 16,
+                "Brier": 4.56293592618824e-05,
+                "TP": 16,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 49,
+                "Brier": 2.1645462902026052e-07,
+                "TP": 49,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 8,
+                "Brier": 0.012957695895043555,
+                "TP": 8,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.8888888888888888,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 407,
+            "TCP_delta_RMSE_mm": 0.18911138654550752,
+            "object_delta_RMSE_mm": 0.014030051065061113,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 130,
+                "Brier": 0.0025918708644168207,
+                "TP": 130,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9923664122137404,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 130,
+                "Brier": 0.0040236868692702776,
+                "TP": 127,
+                "FP": 0,
+                "FN": 3,
+                "precision": 1.0,
+                "recall": 0.9769230769230769
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 407,
+                "Brier": 1.7477104248377465e-08,
+                "TP": 407,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 271,
+                "Brier": 7.594875874728809e-06,
+                "TP": 271,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "16": {
+          "NATURAL": {
+            "valid_forecasts": 432,
+            "TCP_delta_RMSE_mm": 0.2114687320303549,
+            "object_delta_RMSE_mm": 0.02670392286709183,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.002400354708204017,
+                "TP": 147,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9932432432432432,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.0013736829468139217,
+                "TP": 145,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.9931506849315068
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 432,
+                "Brier": 6.846133795839349e-08,
+                "TP": 432,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 255,
+                "Brier": 0.0024070430419793065,
+                "TP": 252,
+                "FP": 0,
+                "FN": 3,
+                "precision": 1.0,
+                "recall": 0.9882352941176471
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 79,
+            "TCP_delta_RMSE_mm": 0.19766773162444412,
+            "object_delta_RMSE_mm": 0.039159994803406414,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 33,
+                "Brier": 0.013125967660148508,
+                "TP": 33,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9705882352941176,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 32,
+                "Brier": 0.00749779501790384,
+                "TP": 31,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.96875
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 79,
+                "Brier": 2.502893724617274e-07,
+                "TP": 79,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 16,
+                "Brier": 0.00019871800221955732,
+                "TP": 16,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 353,
+            "TCP_delta_RMSE_mm": 0.2144357415502894,
+            "object_delta_RMSE_mm": 0.02301077911210348,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 114,
+                "Brier": 5.0674005764414465e-09,
+                "TP": 114,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 114,
+                "Brier": 3.130953567169335e-06,
+                "TP": 114,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 353,
+                "Brier": 2.7768944967562408e-08,
+                "TP": 353,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 239,
+                "Brier": 0.0029012574276479196,
+                "TP": 236,
+                "FP": 0,
+                "FN": 3,
+                "precision": 1.0,
+                "recall": 0.9874476987447699
+              }
+            }
+          }
+        },
+        "32": {
+          "NATURAL": {
+            "valid_forecasts": 384,
+            "TCP_delta_RMSE_mm": 0.23624685873303417,
+            "object_delta_RMSE_mm": 0.0450762015560828,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.0009462095434239867,
+                "TP": 147,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9932432432432432,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.0006770474903846012,
+                "TP": 146,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 384,
+                "Brier": 4.93269454915607e-08,
+                "TP": 384,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 207,
+                "Brier": 0.0015307729476574051,
+                "TP": 206,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.9951690821256038
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 127,
+            "TCP_delta_RMSE_mm": 0.2047058978017133,
+            "object_delta_RMSE_mm": 0.048098663977406086,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 65,
+                "Brier": 0.0028609779277782616,
+                "TP": 65,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9848484848484849,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 64,
+                "Brier": 0.00014829768337912744,
+                "TP": 64,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 127,
+                "Brier": 8.150383819873878e-08,
+                "TP": 127,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 32,
+                "Brier": 0.004334170577260416,
+                "TP": 31,
+                "FP": 0,
+                "FN": 1,
+                "precision": 1.0,
+                "recall": 0.96875
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 257,
+            "TCP_delta_RMSE_mm": 0.2503706044391007,
+            "object_delta_RMSE_mm": 0.04350515904994574,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 82,
+                "Brier": 1.042206115225642e-09,
+                "TP": 82,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 82,
+                "Brier": 0.0009383363055196017,
+                "TP": 82,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 257,
+                "Brier": 3.34263020136945e-08,
+                "TP": 257,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 175,
+                "Brier": 0.0001454363758302366,
+                "TP": 175,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "64": {
+          "NATURAL": {
+            "valid_forecasts": 288,
+            "TCP_delta_RMSE_mm": 0.29494852558501955,
+            "object_delta_RMSE_mm": 0.07732345294500079,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 137,
+                "Brier": 0.008715688264803768,
+                "TP": 136,
+                "FP": 2,
+                "FN": 1,
+                "precision": 0.9855072463768116,
+                "recall": 0.9927007299270073
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 136,
+                "Brier": 0.007025459305535297,
+                "TP": 135,
+                "FP": 1,
+                "FN": 1,
+                "precision": 0.9926470588235294,
+                "recall": 0.9926470588235294
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 288,
+                "Brier": 7.732337125340321e-08,
+                "TP": 288,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 141,
+                "Brier": 0.03998134348908333,
+                "TP": 128,
+                "FP": 0,
+                "FN": 13,
+                "precision": 1.0,
+                "recall": 0.9078014184397163
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 155,
+            "TCP_delta_RMSE_mm": 0.28687700476440287,
+            "object_delta_RMSE_mm": 0.07055105899356058,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 100,
+                "Brier": 0.014607151866605028,
+                "TP": 99,
+                "FP": 2,
+                "FN": 1,
+                "precision": 0.9801980198019802,
+                "recall": 0.99
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 99,
+                "Brier": 0.013045986020871328,
+                "TP": 98,
+                "FP": 1,
+                "FN": 1,
+                "precision": 0.98989898989899,
+                "recall": 0.98989898989899
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 155,
+                "Brier": 5.868845494327906e-08,
+                "TP": 155,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 45,
+                "Brier": 5.651168279804503e-05,
+                "TP": 45,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 133,
+            "TCP_delta_RMSE_mm": 0.30408496749608316,
+            "object_delta_RMSE_mm": 0.08453423329801986,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 37,
+                "Brier": 0.0018496968491707208,
+                "TP": 37,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 37,
+                "Brier": 9.055990669998234e-06,
+                "TP": 37,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 133,
+                "Brier": 9.904075492309677e-08,
+                "TP": 133,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 96,
+                "Brier": 0.08651028281219776,
+                "TP": 83,
+                "FP": 0,
+                "FN": 13,
+                "precision": 1.0,
+                "recall": 0.8645833333333334
+              }
+            }
+          }
+        }
+      },
+      "grid_transition_timing": {
+        "schema": "WM02_PILOT2_GRID_EVENT_TRANSITION_TIMING_V1",
+        "clock": "FIRST_DIFFERENT_EVENT_ON_DECLARED_FORECAST_GRID_NOT_NATIVE_FIRST_PASSAGE",
+        "atomic_dt_s": 0.05,
+        "forecast_horizons_atoms": [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "overlapping_anchors_are_not_independent_trials": true,
+        "events": {
+          "PAD_CONTACT_ANY": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 164,
+            "predicted_grid_transitions": 163,
+            "detected_actual_transitions": 163,
+            "missed_actual_transitions": 1,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 313,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 87
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.9939024390243902,
+            "detection_precision": 1.0,
+            "detected_only_timing_MAE_s": 0.021779141104294478,
+            "detected_only_mean_signed_error_s": -0.0070552147239263795,
+            "detected_only_timing_p90_abs_error_s": 0.0,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 331,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 117,
+                "detected_actual_transitions": 117,
+                "missed_actual_transitions": 1,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 213,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 55,
+                    "no_observed_grid_transition": 55
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.9915254237288136,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.020085470085470087,
+                "detected_only_mean_signed_error_s": -0.020085470085470087,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 146,
+                "actual_grid_transitions": 46,
+                "predicted_grid_transitions": 46,
+                "detected_actual_transitions": 46,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 41,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 1.0,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.026086956521739136,
+                "detected_only_mean_signed_error_s": 0.026086956521739136,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 164,
+                "predicted_grid_transitions": 163,
+                "detected_actual_transitions": 163,
+                "missed_actual_transitions": 1,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 313,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 87
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.9939024390243902,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.021779141104294478,
+                "detected_only_mean_signed_error_s": -0.0070552147239263795,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "parent_equal_detection_recall": 0.9939024390243902
+          },
+          "NATIVE_GRASP_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 163,
+            "predicted_grid_transitions": 162,
+            "detected_actual_transitions": 162,
+            "missed_actual_transitions": 1,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 314,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 88
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.9938650306748467,
+            "detection_precision": 1.0,
+            "detected_only_timing_MAE_s": 0.01419753086419753,
+            "detected_only_mean_signed_error_s": -0.0024691358024691366,
+            "detected_only_timing_p90_abs_error_s": 0.0,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 332,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 117,
+                "detected_actual_transitions": 117,
+                "missed_actual_transitions": 1,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 214,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 56,
+                    "no_observed_grid_transition": 56
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.9915254237288136,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.00811965811965812,
+                "detected_only_mean_signed_error_s": 0.00811965811965812,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 145,
+                "actual_grid_transitions": 45,
+                "predicted_grid_transitions": 45,
+                "detected_actual_transitions": 45,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 40,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 1.0,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.030000000000000002,
+                "detected_only_mean_signed_error_s": -0.030000000000000002,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 163,
+                "predicted_grid_transitions": 162,
+                "detected_actual_transitions": 162,
+                "missed_actual_transitions": 1,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 314,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 88
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.9938650306748467,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.01419753086419753,
+                "detected_only_mean_signed_error_s": -0.0024691358024691366,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "parent_equal_detection_recall": 0.9938650306748467
+          },
+          "TABLE_SUPPORT_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 0,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 0,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 477,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 96
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 288
+              }
+            },
+            "detection_recall": null,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 0,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 0,
+                "observed_followup_by_last_valid_atom": {},
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": null
+          },
+          "OPEN_SUPPORTED_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 162,
+            "predicted_grid_transitions": 175,
+            "detected_actual_transitions": 162,
+            "missed_actual_transitions": 0,
+            "false_transition_predictions": 13,
+            "no_observed_grid_transition": 315,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 77
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 145
+              }
+            },
+            "detection_recall": 1.0,
+            "detection_precision": 0.9257142857142857,
+            "detected_only_timing_MAE_s": 0.02839506172839506,
+            "detected_only_mean_signed_error_s": -0.0037037037037037043,
+            "detected_only_timing_p90_abs_error_s": 0.0,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 176,
+                "actual_grid_transitions": 64,
+                "predicted_grid_transitions": 64,
+                "detected_actual_transitions": 64,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 112,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 51,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 94,
+                    "no_observed_grid_transition": 49
+                  }
+                },
+                "detection_recall": 1.0,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.025,
+                "detected_only_mean_signed_error_s": 0.025,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 301,
+                "actual_grid_transitions": 98,
+                "predicted_grid_transitions": 111,
+                "detected_actual_transitions": 98,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 13,
+                "no_observed_grid_transition": 203,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 45,
+                    "no_observed_grid_transition": 45
+                  },
+                  "64": {
+                    "valid_anchors": 194,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 1.0,
+                "detection_precision": 0.8828828828828829,
+                "detected_only_timing_MAE_s": 0.030612244897959183,
+                "detected_only_mean_signed_error_s": -0.022448979591836737,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 162,
+                "predicted_grid_transitions": 175,
+                "detected_actual_transitions": 162,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 13,
+                "no_observed_grid_transition": 315,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 77
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 145
+                  }
+                },
+                "detection_recall": 1.0,
+                "detection_precision": 0.9257142857142857,
+                "detected_only_timing_MAE_s": 0.02839506172839506,
+                "detected_only_mean_signed_error_s": -0.0037037037037037043,
+                "detected_only_timing_p90_abs_error_s": 0.0
+              }
+            },
+            "parent_equal_detection_recall": 1.0
+          }
+        }
+      }
+    },
+    "OLD_18_EPISODE_6000_NO_FUTURE_PROGRAM": {
+      "arm": "NO_FUTURE_PROGRAM",
+      "portable_model_sha256": "b0e3c20eca4e7f7a59b4dd796f6b6fe15a58948ab7793e2f746b6efbc57a7924",
+      "forecast_metrics": {
+        "1": {
+          "NATURAL": {
+            "valid_forecasts": 477,
+            "TCP_delta_RMSE_mm": 0.1280052637468464,
+            "object_delta_RMSE_mm": 0.0077035305694758095,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.004559884740541256,
+                "TP": 147,
+                "FP": 2,
+                "FN": 0,
+                "precision": 0.9865771812080537,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.01799098057231572,
+                "TP": 136,
+                "FP": 2,
+                "FN": 10,
+                "precision": 0.9855072463768116,
+                "recall": 0.9315068493150684
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 477,
+                "Brier": 1.7087847590242154e-05,
+                "TP": 477,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 300,
+                "Brier": 0.0018527364268069806,
+                "TP": 300,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9966777408637874,
+                "recall": 1.0
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 7,
+            "TCP_delta_RMSE_mm": 0.18085538425862846,
+            "object_delta_RMSE_mm": 0.010921767970779971,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 3,
+                "Brier": 0.001143027624679293,
+                "TP": 3,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 2,
+                "Brier": 0.15046586630548628,
+                "TP": 2,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.6666666666666666,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 7,
+                "Brier": 7.940176420621759e-07,
+                "TP": 7,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 1,
+                "Brier": 0.02775814175186825,
+                "TP": 1,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 470,
+            "TCP_delta_RMSE_mm": 0.1270520925980364,
+            "object_delta_RMSE_mm": 0.007645367905619459,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 144,
+                "Brier": 0.004610774101841328,
+                "TP": 144,
+                "FP": 2,
+                "FN": 0,
+                "precision": 0.9863013698630136,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 144,
+                "Brier": 0.016017950359268493,
+                "TP": 134,
+                "FP": 1,
+                "FN": 10,
+                "precision": 0.9925925925925926,
+                "recall": 0.9305555555555556
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 470,
+                "Brier": 1.733052165330015e-05,
+                "TP": 470,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 299,
+                "Brier": 0.0014669112411145793,
+                "TP": 299,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9966666666666667,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "4": {
+          "NATURAL": {
+            "valid_forecasts": 468,
+            "TCP_delta_RMSE_mm": 0.1941129615682517,
+            "object_delta_RMSE_mm": 0.015824092366003156,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.009921441382847621,
+                "TP": 147,
+                "FP": 5,
+                "FN": 0,
+                "precision": 0.9671052631578947,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.010355212734378292,
+                "TP": 146,
+                "FP": 5,
+                "FN": 0,
+                "precision": 0.9668874172185431,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 468,
+                "Brier": 1.1135542528733258e-05,
+                "TP": 468,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 291,
+                "Brier": 0.04372745838214263,
+                "TP": 273,
+                "FP": 6,
+                "FN": 18,
+                "precision": 0.978494623655914,
+                "recall": 0.9381443298969072
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 25,
+            "TCP_delta_RMSE_mm": 0.2868187722810377,
+            "object_delta_RMSE_mm": 0.04522612578672526,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 9,
+                "Brier": 0.12003667770858421,
+                "TP": 9,
+                "FP": 3,
+                "FN": 0,
+                "precision": 0.75,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 8,
+                "Brier": 0.15964236167823992,
+                "TP": 8,
+                "FP": 4,
+                "FN": 0,
+                "precision": 0.6666666666666666,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 25,
+                "Brier": 2.6148034037541114e-07,
+                "TP": 25,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 4,
+                "Brier": 0.24000061725687816,
+                "TP": 4,
+                "FP": 6,
+                "FN": 0,
+                "precision": 0.4,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 443,
+            "TCP_delta_RMSE_mm": 0.1875199961160935,
+            "object_delta_RMSE_mm": 0.012210810764234224,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 138,
+                "Brier": 0.0037072632606277244,
+                "TP": 138,
+                "FP": 2,
+                "FN": 0,
+                "precision": 0.9857142857142858,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 138,
+                "Brier": 0.001930430062602804,
+                "TP": 138,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9928057553956835,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 443,
+                "Brier": 1.1749202923110109e-05,
+                "TP": 443,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 287,
+                "Brier": 0.0326510950144939,
+                "TP": 269,
+                "FP": 0,
+                "FN": 18,
+                "precision": 1.0,
+                "recall": 0.9372822299651568
+              }
+            }
+          }
+        },
+        "8": {
+          "NATURAL": {
+            "valid_forecasts": 456,
+            "TCP_delta_RMSE_mm": 0.17741163083778108,
+            "object_delta_RMSE_mm": 0.021181185762715965,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.01719192501845619,
+                "TP": 147,
+                "FP": 8,
+                "FN": 0,
+                "precision": 0.9483870967741935,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.017340411033682345,
+                "TP": 146,
+                "FP": 8,
+                "FN": 0,
+                "precision": 0.948051948051948,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 456,
+                "Brier": 1.3007065717246335e-05,
+                "TP": 456,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 279,
+                "Brier": 0.1272749290638993,
+                "TP": 234,
+                "FP": 14,
+                "FN": 45,
+                "precision": 0.9435483870967742,
+                "recall": 0.8387096774193549
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 49,
+            "TCP_delta_RMSE_mm": 0.20439474735130464,
+            "object_delta_RMSE_mm": 0.049326258668535065,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 17,
+                "Brier": 0.14268111721812687,
+                "TP": 17,
+                "FP": 7,
+                "FN": 0,
+                "precision": 0.7083333333333334,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 16,
+                "Brier": 0.1613027311127354,
+                "TP": 16,
+                "FP": 8,
+                "FN": 0,
+                "precision": 0.6666666666666666,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 49,
+                "Brier": 2.4486815841065093e-07,
+                "TP": 49,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 8,
+                "Brier": 0.2814463700327886,
+                "TP": 8,
+                "FP": 14,
+                "FN": 0,
+                "precision": 0.36363636363636365,
+                "recall": 1.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 407,
+            "TCP_delta_RMSE_mm": 0.1738808718159782,
+            "object_delta_RMSE_mm": 0.014482059519495574,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 130,
+                "Brier": 0.0020838895939258107,
+                "TP": 130,
+                "FP": 1,
+                "FN": 0,
+                "precision": 0.9923664122137404,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 130,
+                "Brier": 8.338100331979111e-06,
+                "TP": 130,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 407,
+                "Brier": 1.454354650442802e-05,
+                "TP": 407,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 271,
+                "Brier": 0.10871374821015102,
+                "TP": 226,
+                "FP": 0,
+                "FN": 45,
+                "precision": 1.0,
+                "recall": 0.8339483394833949
+              }
+            }
+          }
+        },
+        "16": {
+          "NATURAL": {
+            "valid_forecasts": 432,
+            "TCP_delta_RMSE_mm": 0.22419220274506674,
+            "object_delta_RMSE_mm": 0.043621978285751435,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.14273334006885938,
+                "TP": 137,
+                "FP": 53,
+                "FN": 10,
+                "precision": 0.7210526315789474,
+                "recall": 0.9319727891156463
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.125614977656144,
+                "TP": 133,
+                "FP": 47,
+                "FN": 13,
+                "precision": 0.7388888888888889,
+                "recall": 0.910958904109589
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 432,
+                "Brier": 1.3209456123652733e-05,
+                "TP": 432,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 255,
+                "Brier": 0.19594089513008933,
+                "TP": 199,
+                "FP": 30,
+                "FN": 56,
+                "precision": 0.868995633187773,
+                "recall": 0.7803921568627451
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 79,
+            "TCP_delta_RMSE_mm": 0.23082715651807223,
+            "object_delta_RMSE_mm": 0.044073225010883725,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 33,
+                "Brier": 0.29840815514337343,
+                "TP": 23,
+                "FP": 14,
+                "FN": 10,
+                "precision": 0.6216216216216216,
+                "recall": 0.696969696969697
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 32,
+                "Brier": 0.3159894494248094,
+                "TP": 19,
+                "FP": 15,
+                "FN": 13,
+                "precision": 0.5588235294117647,
+                "recall": 0.59375
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 79,
+                "Brier": 1.1423064634871927e-07,
+                "TP": 79,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 16,
+                "Brier": 0.4409900629142988,
+                "TP": 11,
+                "FP": 30,
+                "FN": 5,
+                "precision": 0.2682926829268293,
+                "recall": 0.6875
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 353,
+            "TCP_delta_RMSE_mm": 0.22268025572738184,
+            "object_delta_RMSE_mm": 0.04352035034466142,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 114,
+                "Brier": 0.10789393386238172,
+                "TP": 114,
+                "FP": 39,
+                "FN": 0,
+                "precision": 0.7450980392156863,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 114,
+                "Brier": 0.0830099259005503,
+                "TP": 114,
+                "FP": 32,
+                "FN": 0,
+                "precision": 0.7808219178082192,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 353,
+                "Brier": 1.6140115649734934e-05,
+                "TP": 353,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 239,
+                "Brier": 0.1410998632463711,
+                "TP": 188,
+                "FP": 0,
+                "FN": 51,
+                "precision": 1.0,
+                "recall": 0.7866108786610879
+              }
+            }
+          }
+        },
+        "32": {
+          "NATURAL": {
+            "valid_forecasts": 384,
+            "TCP_delta_RMSE_mm": 0.25501959809875113,
+            "object_delta_RMSE_mm": 0.07343760949652833,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.31472808350685766,
+                "TP": 109,
+                "FP": 89,
+                "FN": 38,
+                "precision": 0.5505050505050505,
+                "recall": 0.7414965986394558
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.3059598939050423,
+                "TP": 105,
+                "FP": 79,
+                "FN": 41,
+                "precision": 0.5706521739130435,
+                "recall": 0.7191780821917808
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 384,
+                "Brier": 1.1630079295003718e-05,
+                "TP": 384,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 207,
+                "Brier": 0.3440802905882258,
+                "TP": 110,
+                "FP": 37,
+                "FN": 97,
+                "precision": 0.7482993197278912,
+                "recall": 0.5314009661835749
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 127,
+            "TCP_delta_RMSE_mm": 0.24343573161612966,
+            "object_delta_RMSE_mm": 0.056278207494901616,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 65,
+                "Brier": 0.4556519298886461,
+                "TP": 27,
+                "FP": 25,
+                "FN": 38,
+                "precision": 0.5192307692307693,
+                "recall": 0.4153846153846154
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 64,
+                "Brier": 0.4600023951453232,
+                "TP": 23,
+                "FP": 19,
+                "FN": 41,
+                "precision": 0.5476190476190477,
+                "recall": 0.359375
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 127,
+                "Brier": 5.702371972712574e-08,
+                "TP": 127,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 32,
+                "Brier": 0.4500417525189923,
+                "TP": 11,
+                "FP": 37,
+                "FN": 21,
+                "precision": 0.22916666666666666,
+                "recall": 0.34375
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 257,
+            "TCP_delta_RMSE_mm": 0.2605538615822852,
+            "object_delta_RMSE_mm": 0.08057924109370988,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 82,
+                "Brier": 0.2450886730380362,
+                "TP": 82,
+                "FP": 64,
+                "FN": 0,
+                "precision": 0.5616438356164384,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 82,
+                "Brier": 0.22983772403144048,
+                "TP": 82,
+                "FP": 60,
+                "FN": 0,
+                "precision": 0.5774647887323944,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 257,
+                "Brier": 1.7349060065665694e-05,
+                "TP": 257,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 175,
+                "Brier": 0.29171801173527884,
+                "TP": 99,
+                "FP": 0,
+                "FN": 76,
+                "precision": 1.0,
+                "recall": 0.5657142857142857
+              }
+            }
+          }
+        },
+        "64": {
+          "NATURAL": {
+            "valid_forecasts": 288,
+            "TCP_delta_RMSE_mm": 0.30913315788384577,
+            "object_delta_RMSE_mm": 0.13626304499996555,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 137,
+                "Brier": 0.5696327223914033,
+                "TP": 91,
+                "FP": 130,
+                "FN": 46,
+                "precision": 0.4117647058823529,
+                "recall": 0.6642335766423357
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 136,
+                "Brier": 0.5629100016585387,
+                "TP": 81,
+                "FP": 116,
+                "FN": 55,
+                "precision": 0.41116751269035534,
+                "recall": 0.5955882352941176
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 288,
+                "Brier": 3.1588448393882383e-06,
+                "TP": 288,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 141,
+                "Brier": 0.5970383991402687,
+                "TP": 3,
+                "FP": 44,
+                "FN": 138,
+                "precision": 0.06382978723404255,
+                "recall": 0.02127659574468085
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 155,
+            "TCP_delta_RMSE_mm": 0.32966761351440915,
+            "object_delta_RMSE_mm": 0.1079472076219739,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 100,
+                "Brier": 0.6047047938221981,
+                "TP": 54,
+                "FP": 53,
+                "FN": 46,
+                "precision": 0.5046728971962616,
+                "recall": 0.54
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 99,
+                "Brier": 0.6620269750553586,
+                "TP": 44,
+                "FP": 54,
+                "FN": 55,
+                "precision": 0.4489795918367347,
+                "recall": 0.4444444444444444
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 155,
+                "Brier": 5.796590937194168e-06,
+                "TP": 155,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 45,
+                "Brier": 0.4859198047469528,
+                "TP": 3,
+                "FP": 43,
+                "FN": 42,
+                "precision": 0.06521739130434782,
+                "recall": 0.06666666666666667
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 133,
+            "TCP_delta_RMSE_mm": 0.2833303432402978,
+            "object_delta_RMSE_mm": 0.16317620158176216,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 37,
+                "Brier": 0.5287592556863415,
+                "TP": 37,
+                "FP": 77,
+                "FN": 0,
+                "precision": 0.32456140350877194,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 37,
+                "Brier": 0.44739773942916206,
+                "TP": 37,
+                "FP": 62,
+                "FN": 0,
+                "precision": 0.37373737373737376,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 133,
+                "Brier": 8.47798381858396e-08,
+                "TP": 133,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 96,
+                "Brier": 0.726537512906915,
+                "TP": 0,
+                "FP": 1,
+                "FN": 96,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "grid_transition_timing": {
+        "schema": "WM02_PILOT2_GRID_EVENT_TRANSITION_TIMING_V1",
+        "clock": "FIRST_DIFFERENT_EVENT_ON_DECLARED_FORECAST_GRID_NOT_NATIVE_FIRST_PASSAGE",
+        "atomic_dt_s": 0.05,
+        "forecast_horizons_atoms": [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "overlapping_anchors_are_not_independent_trials": true,
+        "events": {
+          "PAD_CONTACT_ANY": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 164,
+            "predicted_grid_transitions": 192,
+            "detected_actual_transitions": 90,
+            "missed_actual_transitions": 74,
+            "false_transition_predictions": 102,
+            "no_observed_grid_transition": 313,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 87
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.5487804878048781,
+            "detection_precision": 0.46875,
+            "detected_only_timing_MAE_s": 0.40111111111111114,
+            "detected_only_mean_signed_error_s": 0.37666666666666665,
+            "detected_only_timing_p90_abs_error_s": 1.6,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 331,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 185,
+                "detected_actual_transitions": 83,
+                "missed_actual_transitions": 35,
+                "false_transition_predictions": 102,
+                "no_observed_grid_transition": 213,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 55,
+                    "no_observed_grid_transition": 55
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.7033898305084746,
+                "detection_precision": 0.4486486486486487,
+                "detected_only_timing_MAE_s": 0.36987951807228914,
+                "detected_only_mean_signed_error_s": 0.3433734939759036,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 146,
+                "actual_grid_transitions": 46,
+                "predicted_grid_transitions": 7,
+                "detected_actual_transitions": 7,
+                "missed_actual_transitions": 39,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 41,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 0.15217391304347827,
+                "detection_precision": 1.0,
+                "detected_only_timing_MAE_s": 0.7714285714285715,
+                "detected_only_mean_signed_error_s": 0.7714285714285715,
+                "detected_only_timing_p90_abs_error_s": 1.2000000000000002
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 164,
+                "predicted_grid_transitions": 192,
+                "detected_actual_transitions": 90,
+                "missed_actual_transitions": 74,
+                "false_transition_predictions": 102,
+                "no_observed_grid_transition": 313,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 87
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.5487804878048781,
+                "detection_precision": 0.46875,
+                "detected_only_timing_MAE_s": 0.40111111111111114,
+                "detected_only_mean_signed_error_s": 0.37666666666666665,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              }
+            },
+            "parent_equal_detection_recall": 0.5487804878048781
+          },
+          "NATIVE_GRASP_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 163,
+            "predicted_grid_transitions": 195,
+            "detected_actual_transitions": 84,
+            "missed_actual_transitions": 79,
+            "false_transition_predictions": 111,
+            "no_observed_grid_transition": 314,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 88
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.5153374233128835,
+            "detection_precision": 0.4307692307692308,
+            "detected_only_timing_MAE_s": 0.5392857142857143,
+            "detected_only_mean_signed_error_s": 0.5309523809523808,
+            "detected_only_timing_p90_abs_error_s": 1.6,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 332,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 172,
+                "detected_actual_transitions": 71,
+                "missed_actual_transitions": 47,
+                "false_transition_predictions": 101,
+                "no_observed_grid_transition": 214,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 56,
+                    "no_observed_grid_transition": 56
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.6016949152542372,
+                "detection_precision": 0.4127906976744186,
+                "detected_only_timing_MAE_s": 0.4443661971830986,
+                "detected_only_mean_signed_error_s": 0.4345070422535212,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 145,
+                "actual_grid_transitions": 45,
+                "predicted_grid_transitions": 23,
+                "detected_actual_transitions": 13,
+                "missed_actual_transitions": 32,
+                "false_transition_predictions": 10,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 40,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 0.28888888888888886,
+                "detection_precision": 0.5652173913043478,
+                "detected_only_timing_MAE_s": 1.057692307692308,
+                "detected_only_mean_signed_error_s": 1.057692307692308,
+                "detected_only_timing_p90_abs_error_s": 1.4000000000000001
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 163,
+                "predicted_grid_transitions": 195,
+                "detected_actual_transitions": 84,
+                "missed_actual_transitions": 79,
+                "false_transition_predictions": 111,
+                "no_observed_grid_transition": 314,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 88
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.5153374233128835,
+                "detection_precision": 0.4307692307692308,
+                "detected_only_timing_MAE_s": 0.5392857142857143,
+                "detected_only_mean_signed_error_s": 0.5309523809523808,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              }
+            },
+            "parent_equal_detection_recall": 0.5153374233128835
+          },
+          "TABLE_SUPPORT_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 0,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 0,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 477,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 96
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 288
+              }
+            },
+            "detection_recall": null,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 0,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 0,
+                "observed_followup_by_last_valid_atom": {},
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": null
+          },
+          "OPEN_SUPPORTED_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 162,
+            "predicted_grid_transitions": 198,
+            "detected_actual_transitions": 80,
+            "missed_actual_transitions": 82,
+            "false_transition_predictions": 118,
+            "no_observed_grid_transition": 315,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 77
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 145
+              }
+            },
+            "detection_recall": 0.49382716049382713,
+            "detection_precision": 0.40404040404040403,
+            "detected_only_timing_MAE_s": 0.5725000000000001,
+            "detected_only_mean_signed_error_s": 0.5725000000000001,
+            "detected_only_timing_p90_abs_error_s": 1.6,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 176,
+                "actual_grid_transitions": 64,
+                "predicted_grid_transitions": 26,
+                "detected_actual_transitions": 14,
+                "missed_actual_transitions": 50,
+                "false_transition_predictions": 12,
+                "no_observed_grid_transition": 112,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 51,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 94,
+                    "no_observed_grid_transition": 49
+                  }
+                },
+                "detection_recall": 0.21875,
+                "detection_precision": 0.5384615384615384,
+                "detected_only_timing_MAE_s": 0.3428571428571429,
+                "detected_only_mean_signed_error_s": 0.3428571428571429,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 301,
+                "actual_grid_transitions": 98,
+                "predicted_grid_transitions": 172,
+                "detected_actual_transitions": 66,
+                "missed_actual_transitions": 32,
+                "false_transition_predictions": 106,
+                "no_observed_grid_transition": 203,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 45,
+                    "no_observed_grid_transition": 45
+                  },
+                  "64": {
+                    "valid_anchors": 194,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.673469387755102,
+                "detection_precision": 0.38372093023255816,
+                "detected_only_timing_MAE_s": 0.6212121212121213,
+                "detected_only_mean_signed_error_s": 0.6212121212121213,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 162,
+                "predicted_grid_transitions": 198,
+                "detected_actual_transitions": 80,
+                "missed_actual_transitions": 82,
+                "false_transition_predictions": 118,
+                "no_observed_grid_transition": 315,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 77
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 145
+                  }
+                },
+                "detection_recall": 0.49382716049382713,
+                "detection_precision": 0.40404040404040403,
+                "detected_only_timing_MAE_s": 0.5725000000000001,
+                "detected_only_mean_signed_error_s": 0.5725000000000001,
+                "detected_only_timing_p90_abs_error_s": 1.6
+              }
+            },
+            "parent_equal_detection_recall": 0.49382716049382713
+          }
+        }
+      }
+    }
+  },
+  "baselines": {
+    "PERSISTENCE": {
+      "forecast_metrics": {
+        "1": {
+          "NATURAL": {
+            "valid_forecasts": 477,
+            "TCP_delta_RMSE_mm": 0.2093864232301712,
+            "object_delta_RMSE_mm": 0.0038916002959012985,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.006289307959377766,
+                "TP": 145,
+                "FP": 1,
+                "FN": 2,
+                "precision": 0.9931506849315068,
+                "recall": 0.9863945578231292
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.006289307959377766,
+                "TP": 144,
+                "FP": 1,
+                "FN": 2,
+                "precision": 0.993103448275862,
+                "recall": 0.9863013698630136
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 477,
+                "Brier": 0.0,
+                "TP": 477,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 300,
+                "Brier": 0.006289307959377766,
+                "TP": 299,
+                "FP": 2,
+                "FN": 1,
+                "precision": 0.9933554817275747,
+                "recall": 0.9966666666666667
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 7,
+            "TCP_delta_RMSE_mm": 0.0832333117723465,
+            "object_delta_RMSE_mm": 0.02073667384684086,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 3,
+                "Brier": 0.4285714328289032,
+                "TP": 1,
+                "FP": 1,
+                "FN": 2,
+                "precision": 0.5,
+                "recall": 0.3333333333333333
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 2,
+                "Brier": 0.4285714328289032,
+                "TP": 0,
+                "FP": 1,
+                "FN": 2,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 7,
+                "Brier": 0.0,
+                "TP": 7,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 1,
+                "Brier": 0.4285714328289032,
+                "TP": 0,
+                "FP": 2,
+                "FN": 1,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 470,
+            "TCP_delta_RMSE_mm": 0.21069522202014923,
+            "object_delta_RMSE_mm": 0.0029942793771624565,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 144,
+                "Brier": 0.0,
+                "TP": 144,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 144,
+                "Brier": 0.0,
+                "TP": 144,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 470,
+                "Brier": 0.0,
+                "TP": 470,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 299,
+                "Brier": 0.0,
+                "TP": 299,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "4": {
+          "NATURAL": {
+            "valid_forecasts": 468,
+            "TCP_delta_RMSE_mm": 0.38086238503456116,
+            "object_delta_RMSE_mm": 0.010062366724014282,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.025641025975346565,
+                "TP": 139,
+                "FP": 4,
+                "FN": 8,
+                "precision": 0.972027972027972,
+                "recall": 0.9455782312925171
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.025641025975346565,
+                "TP": 138,
+                "FP": 4,
+                "FN": 8,
+                "precision": 0.971830985915493,
+                "recall": 0.9452054794520548
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 468,
+                "Brier": 0.0,
+                "TP": 468,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 291,
+                "Brier": 0.025641025975346565,
+                "TP": 287,
+                "FP": 8,
+                "FN": 4,
+                "precision": 0.9728813559322034,
+                "recall": 0.9862542955326461
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 25,
+            "TCP_delta_RMSE_mm": 0.11874404549598694,
+            "object_delta_RMSE_mm": 0.028346000239253044,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 9,
+                "Brier": 0.47999998927116394,
+                "TP": 1,
+                "FP": 4,
+                "FN": 8,
+                "precision": 0.2,
+                "recall": 0.1111111111111111
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 8,
+                "Brier": 0.47999998927116394,
+                "TP": 0,
+                "FP": 4,
+                "FN": 8,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 25,
+                "Brier": 0.0,
+                "TP": 25,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 4,
+                "Brier": 0.47999998927116394,
+                "TP": 0,
+                "FP": 8,
+                "FN": 4,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 443,
+            "TCP_delta_RMSE_mm": 0.39044392108917236,
+            "object_delta_RMSE_mm": 0.007849915884435177,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 138,
+                "Brier": 0.0,
+                "TP": 138,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 138,
+                "Brier": 0.0,
+                "TP": 138,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 443,
+                "Brier": 0.0,
+                "TP": 443,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 287,
+                "Brier": 0.0,
+                "TP": 287,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "8": {
+          "NATURAL": {
+            "valid_forecasts": 456,
+            "TCP_delta_RMSE_mm": 0.46009549498558044,
+            "object_delta_RMSE_mm": 0.0176094900816679,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.05263157933950424,
+                "TP": 131,
+                "FP": 8,
+                "FN": 16,
+                "precision": 0.9424460431654677,
+                "recall": 0.891156462585034
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.05263157933950424,
+                "TP": 130,
+                "FP": 8,
+                "FN": 16,
+                "precision": 0.9420289855072463,
+                "recall": 0.8904109589041096
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 456,
+                "Brier": 0.0,
+                "TP": 456,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 279,
+                "Brier": 0.05263157933950424,
+                "TP": 271,
+                "FP": 16,
+                "FN": 8,
+                "precision": 0.9442508710801394,
+                "recall": 0.9713261648745519
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 49,
+            "TCP_delta_RMSE_mm": 0.15934893488883972,
+            "object_delta_RMSE_mm": 0.030847441405057907,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 17,
+                "Brier": 0.4897959232330322,
+                "TP": 1,
+                "FP": 8,
+                "FN": 16,
+                "precision": 0.1111111111111111,
+                "recall": 0.058823529411764705
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 16,
+                "Brier": 0.4897959232330322,
+                "TP": 0,
+                "FP": 8,
+                "FN": 16,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 49,
+                "Brier": 0.0,
+                "TP": 49,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 8,
+                "Brier": 0.4897959232330322,
+                "TP": 0,
+                "FP": 16,
+                "FN": 8,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 407,
+            "TCP_delta_RMSE_mm": 0.4838559627532959,
+            "object_delta_RMSE_mm": 0.015259932726621628,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 130,
+                "Brier": 0.0,
+                "TP": 130,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 130,
+                "Brier": 0.0,
+                "TP": 130,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 407,
+                "Brier": 0.0,
+                "TP": 407,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 271,
+                "Brier": 0.0,
+                "TP": 271,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "16": {
+          "NATURAL": {
+            "valid_forecasts": 432,
+            "TCP_delta_RMSE_mm": 0.638256311416626,
+            "object_delta_RMSE_mm": 0.03172661364078522,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.1111111119389534,
+                "TP": 115,
+                "FP": 16,
+                "FN": 32,
+                "precision": 0.8778625954198473,
+                "recall": 0.782312925170068
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.1111111119389534,
+                "TP": 114,
+                "FP": 16,
+                "FN": 32,
+                "precision": 0.8769230769230769,
+                "recall": 0.7808219178082192
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 432,
+                "Brier": 0.0,
+                "TP": 432,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 255,
+                "Brier": 0.1111111119389534,
+                "TP": 239,
+                "FP": 32,
+                "FN": 16,
+                "precision": 0.8819188191881919,
+                "recall": 0.9372549019607843
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 79,
+            "TCP_delta_RMSE_mm": 0.25309449434280396,
+            "object_delta_RMSE_mm": 0.03628916293382645,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 33,
+                "Brier": 0.607594907283783,
+                "TP": 1,
+                "FP": 16,
+                "FN": 32,
+                "precision": 0.058823529411764705,
+                "recall": 0.030303030303030304
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 32,
+                "Brier": 0.607594907283783,
+                "TP": 0,
+                "FP": 16,
+                "FN": 32,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 79,
+                "Brier": 0.0,
+                "TP": 79,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 16,
+                "Brier": 0.607594907283783,
+                "TP": 0,
+                "FP": 32,
+                "FN": 16,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 353,
+            "TCP_delta_RMSE_mm": 0.6958473920822144,
+            "object_delta_RMSE_mm": 0.030612558126449585,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 114,
+                "Brier": 0.0,
+                "TP": 114,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 114,
+                "Brier": 0.0,
+                "TP": 114,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 353,
+                "Brier": 0.0,
+                "TP": 353,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 239,
+                "Brier": 0.0,
+                "TP": 239,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "32": {
+          "NATURAL": {
+            "valid_forecasts": 384,
+            "TCP_delta_RMSE_mm": 0.8811573386192322,
+            "object_delta_RMSE_mm": 0.058732930570840836,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 147,
+                "Brier": 0.25,
+                "TP": 83,
+                "FP": 32,
+                "FN": 64,
+                "precision": 0.7217391304347827,
+                "recall": 0.564625850340136
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 146,
+                "Brier": 0.25,
+                "TP": 82,
+                "FP": 32,
+                "FN": 64,
+                "precision": 0.7192982456140351,
+                "recall": 0.5616438356164384
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 384,
+                "Brier": 0.0,
+                "TP": 384,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 207,
+                "Brier": 0.25,
+                "TP": 175,
+                "FP": 64,
+                "FN": 32,
+                "precision": 0.7322175732217573,
+                "recall": 0.8454106280193237
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 127,
+            "TCP_delta_RMSE_mm": 0.4862055778503418,
+            "object_delta_RMSE_mm": 0.0431087352335453,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 65,
+                "Brier": 0.7559055089950562,
+                "TP": 1,
+                "FP": 32,
+                "FN": 64,
+                "precision": 0.030303030303030304,
+                "recall": 0.015384615384615385
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 64,
+                "Brier": 0.7559055089950562,
+                "TP": 0,
+                "FP": 32,
+                "FN": 64,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 127,
+                "Brier": 0.0,
+                "TP": 127,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 32,
+                "Brier": 0.7559055089950562,
+                "TP": 0,
+                "FP": 64,
+                "FN": 32,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 257,
+            "TCP_delta_RMSE_mm": 1.0214242935180664,
+            "object_delta_RMSE_mm": 0.06508354097604752,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 82,
+                "Brier": 0.0,
+                "TP": 82,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 82,
+                "Brier": 0.0,
+                "TP": 82,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 257,
+                "Brier": 0.0,
+                "TP": 257,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 175,
+                "Brier": 0.0,
+                "TP": 175,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        },
+        "64": {
+          "NATURAL": {
+            "valid_forecasts": 288,
+            "TCP_delta_RMSE_mm": 1.108849048614502,
+            "object_delta_RMSE_mm": 0.10056175291538239,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 137,
+                "Brier": 0.4756944477558136,
+                "TP": 37,
+                "FP": 37,
+                "FN": 100,
+                "precision": 0.5,
+                "recall": 0.27007299270072993
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 136,
+                "Brier": 0.4722222089767456,
+                "TP": 37,
+                "FP": 37,
+                "FN": 99,
+                "precision": 0.5,
+                "recall": 0.27205882352941174
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 288,
+                "Brier": 0.0,
+                "TP": 288,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 141,
+                "Brier": 0.4965277910232544,
+                "TP": 96,
+                "FP": 98,
+                "FN": 45,
+                "precision": 0.4948453608247423,
+                "recall": 0.6808510638297872
+              }
+            }
+          },
+          "EVENT_TRANSITION": {
+            "valid_forecasts": 155,
+            "TCP_delta_RMSE_mm": 1.141693353652954,
+            "object_delta_RMSE_mm": 0.06969129294157028,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 100,
+                "Brier": 0.8838709592819214,
+                "TP": 0,
+                "FP": 37,
+                "FN": 100,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 99,
+                "Brier": 0.8774193525314331,
+                "TP": 0,
+                "FP": 37,
+                "FN": 99,
+                "precision": 0.0,
+                "recall": 0.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 155,
+                "Brier": 0.0,
+                "TP": 155,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 45,
+                "Brier": 0.9225806593894958,
+                "TP": 0,
+                "FP": 98,
+                "FN": 45,
+                "precision": 0.0,
+                "recall": 0.0
+              }
+            }
+          },
+          "STEADY": {
+            "valid_forecasts": 133,
+            "TCP_delta_RMSE_mm": 1.0692994594573975,
+            "object_delta_RMSE_mm": 0.12742775678634644,
+            "events": {
+              "PAD_CONTACT_ANY": {
+                "positive_labels": 37,
+                "Brier": 0.0,
+                "TP": 37,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "NATIVE_GRASP_END": {
+                "positive_labels": 37,
+                "Brier": 0.0,
+                "TP": 37,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "TABLE_SUPPORT_END": {
+                "positive_labels": 133,
+                "Brier": 0.0,
+                "TP": 133,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              },
+              "OPEN_SUPPORTED_END": {
+                "positive_labels": 96,
+                "Brier": 0.0,
+                "TP": 96,
+                "FP": 0,
+                "FN": 0,
+                "precision": 1.0,
+                "recall": 1.0
+              }
+            }
+          }
+        }
+      },
+      "grid_transition_timing": {
+        "schema": "WM02_PILOT2_GRID_EVENT_TRANSITION_TIMING_V1",
+        "clock": "FIRST_DIFFERENT_EVENT_ON_DECLARED_FORECAST_GRID_NOT_NATIVE_FIRST_PASSAGE",
+        "atomic_dt_s": 0.05,
+        "forecast_horizons_atoms": [
+          1,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "overlapping_anchors_are_not_independent_trials": true,
+        "events": {
+          "PAD_CONTACT_ANY": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 164,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 164,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 313,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 87
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.0,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 331,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 118,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 213,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 55,
+                    "no_observed_grid_transition": 55
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 146,
+                "actual_grid_transitions": 46,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 46,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 41,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 164,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 164,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 313,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 87
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": 0.0
+          },
+          "NATIVE_GRASP_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 163,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 163,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 314,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 88
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 133
+              }
+            },
+            "detection_recall": 0.0,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 332,
+                "actual_grid_transitions": 118,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 118,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 214,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 56,
+                    "no_observed_grid_transition": 56
+                  },
+                  "64": {
+                    "valid_anchors": 214,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 145,
+                "actual_grid_transitions": 45,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 45,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 100,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 40,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 74,
+                    "no_observed_grid_transition": 37
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 163,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 163,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 314,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 88
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 133
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": 0.0
+          },
+          "TABLE_SUPPORT_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 0,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 0,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 477,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 96
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 288
+              }
+            },
+            "detection_recall": null,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 0,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 0,
+                "observed_followup_by_last_valid_atom": {},
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 0,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 0,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 477,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 96
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 288
+                  }
+                },
+                "detection_recall": null,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": null
+          },
+          "OPEN_SUPPORTED_END": {
+            "valid_anchors": 477,
+            "actual_grid_transitions": 162,
+            "predicted_grid_transitions": 0,
+            "detected_actual_transitions": 0,
+            "missed_actual_transitions": 162,
+            "false_transition_predictions": 0,
+            "no_observed_grid_transition": 315,
+            "observed_followup_by_last_valid_atom": {
+              "1": {
+                "valid_anchors": 9,
+                "no_observed_grid_transition": 9
+              },
+              "4": {
+                "valid_anchors": 12,
+                "no_observed_grid_transition": 12
+              },
+              "8": {
+                "valid_anchors": 24,
+                "no_observed_grid_transition": 24
+              },
+              "16": {
+                "valid_anchors": 48,
+                "no_observed_grid_transition": 48
+              },
+              "32": {
+                "valid_anchors": 96,
+                "no_observed_grid_transition": 77
+              },
+              "64": {
+                "valid_anchors": 288,
+                "no_observed_grid_transition": 145
+              }
+            },
+            "detection_recall": 0.0,
+            "detection_precision": null,
+            "detected_only_timing_MAE_s": null,
+            "detected_only_mean_signed_error_s": null,
+            "detected_only_timing_p90_abs_error_s": null,
+            "by_initial_state": {
+              "INITIALLY_FALSE_ENTRY": {
+                "valid_anchors": 176,
+                "actual_grid_transitions": 64,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 64,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 112,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 3,
+                    "no_observed_grid_transition": 3
+                  },
+                  "4": {
+                    "valid_anchors": 4,
+                    "no_observed_grid_transition": 4
+                  },
+                  "8": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "16": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "32": {
+                    "valid_anchors": 51,
+                    "no_observed_grid_transition": 32
+                  },
+                  "64": {
+                    "valid_anchors": 94,
+                    "no_observed_grid_transition": 49
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              },
+              "INITIALLY_TRUE_EXIT": {
+                "valid_anchors": 301,
+                "actual_grid_transitions": 98,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 98,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 203,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 6,
+                    "no_observed_grid_transition": 6
+                  },
+                  "4": {
+                    "valid_anchors": 8,
+                    "no_observed_grid_transition": 8
+                  },
+                  "8": {
+                    "valid_anchors": 16,
+                    "no_observed_grid_transition": 16
+                  },
+                  "16": {
+                    "valid_anchors": 32,
+                    "no_observed_grid_transition": 32
+                  },
+                  "32": {
+                    "valid_anchors": 45,
+                    "no_observed_grid_transition": 45
+                  },
+                  "64": {
+                    "valid_anchors": 194,
+                    "no_observed_grid_transition": 96
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "by_parent": {
+              "PILOT2_C0_T01_LAYOUT_V1": {
+                "valid_anchors": 477,
+                "actual_grid_transitions": 162,
+                "predicted_grid_transitions": 0,
+                "detected_actual_transitions": 0,
+                "missed_actual_transitions": 162,
+                "false_transition_predictions": 0,
+                "no_observed_grid_transition": 315,
+                "observed_followup_by_last_valid_atom": {
+                  "1": {
+                    "valid_anchors": 9,
+                    "no_observed_grid_transition": 9
+                  },
+                  "4": {
+                    "valid_anchors": 12,
+                    "no_observed_grid_transition": 12
+                  },
+                  "8": {
+                    "valid_anchors": 24,
+                    "no_observed_grid_transition": 24
+                  },
+                  "16": {
+                    "valid_anchors": 48,
+                    "no_observed_grid_transition": 48
+                  },
+                  "32": {
+                    "valid_anchors": 96,
+                    "no_observed_grid_transition": 77
+                  },
+                  "64": {
+                    "valid_anchors": 288,
+                    "no_observed_grid_transition": 145
+                  }
+                },
+                "detection_recall": 0.0,
+                "detection_precision": null,
+                "detected_only_timing_MAE_s": null,
+                "detected_only_mean_signed_error_s": null,
+                "detected_only_timing_p90_abs_error_s": null
+              }
+            },
+            "parent_equal_detection_recall": 0.0
+          }
+        }
+      }
+    }
+  },
+  "WM_updates": 0,
+  "Policy_updates": 0,
+  "native_integrations": 0,
+  "normalizer_refitted": false,
+  "TEST_used": false,
+  "CPU_s": 0.20742299600000003,
+  "wall_s": 0.25632084626704454,
+  "source_sha": "e2ba4a9d61c5af9a9c1199a7c98b2d608d134e33",
+  "private_evidence_sha256": "cf296e8e5e8d83dbe4ad021671d380a64ee39f2c00ba59d4837b951c8fb689db"
+}

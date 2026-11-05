@@ -1,0 +1,220 @@
+{
+  "schema": "WM02_PILOT2_C09_CONTACT_AND_DURATION_V1",
+  "contact_source_sha": "ea346297bde386b9b3d1fed17d736b7b832d300a",
+  "duration_source_sha": "e2ba4a9d61c5af9a9c1199a7c98b2d608d134e33",
+  "native_binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+  "contact": {
+    "status": "PILOT2_C09_CONTACT_CALIBRATION_COMPLETE",
+    "exit_code": 0,
+    "actual_native_attempts": 4,
+    "actual_native_passes": 4,
+    "actual_native_ticks": 24212,
+    "rows": [
+      {
+        "run": "pilot2-c09-c0-cal1-p2ct01-q-01",
+        "kind": "PREFIX_QUALIFICATION",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "native_ticks": 4103,
+        "native_result_sha256": "a266aae1d8a0628dc0e05b90bc8113d384a13c262c944efe3dad5bc57dcfc196",
+        "worker_exit_code": 0,
+        "score": {}
+      },
+      {
+        "run": "pilot2-c09-c0-cal1-p2ct01-open_only-64-01",
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "native_ticks": 6703,
+        "native_result_sha256": "a50c6eb3ab5ab9d552fbc4475e38218d5cce5085fab3f160e0c870b586881838",
+        "worker_exit_code": 0,
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "OPEN_ONLY",
+          "close_start_atom": 64,
+          "qualified_supported_grasp_hold": false,
+          "longest_continuous_supported_grasp_native_ticks": 0,
+          "longest_continuous_supported_grasp_s": 0.0,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": false,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "ea346297bde386b9b3d1fed17d736b7b832d300a",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 0,
+          "bilateral_native_grasp_ticks": 0
+        }
+      },
+      {
+        "run": "pilot2-c09-c0-cal1-p2ct01-close_keep-56-01",
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "native_ticks": 6703,
+        "native_result_sha256": "eb0d86f02033db97c05126a1e96b26ef78833eed1b88291d5424165101bb0aca",
+        "worker_exit_code": 0,
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "CLOSE_KEEP",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 2000,
+          "longest_continuous_supported_grasp_s": 4.0,
+          "terminal_supported_grasp_native_ticks": 2000,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "ea346297bde386b9b3d1fed17d736b7b832d300a",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 2517,
+          "bilateral_native_grasp_ticks": 2517
+        }
+      },
+      {
+        "run": "pilot2-c09-c0-cal1-p2ct01-close_release-56-01",
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "native_ticks": 6703,
+        "native_result_sha256": "ae7861f11e36862a0e65dac72b86b4100debb6a69922ad1f61e00e7802edf9a8",
+        "worker_exit_code": 0,
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+          "command_program": "CLOSE_RELEASE",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 600,
+          "longest_continuous_supported_grasp_s": 1.2,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 1118,
+          "terminal_released_s": 2.236,
+          "qualified_release": true,
+          "qualified_supported_close_hold_release": true,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "ea346297bde386b9b3d1fed17d736b7b832d300a",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 1146,
+          "bilateral_native_grasp_ticks": 1133
+        }
+      }
+    ],
+    "bundle": {
+      "status": "ACTUAL_SUPPORTED_MULTI_HORIZON_CONTACT_BUNDLE_SEALED",
+      "bundle_sha256": "9cc75b185c7fb8bb02491e32f293023781030b7094036f581635b260f3a7bf40",
+      "episodes": 3,
+      "raw_atoms": 504,
+      "raw_native_ticks": 20109,
+      "forecast_anchors": 477,
+      "valid_forecasts": 2505,
+      "forecast_horizons_atoms": [
+        1,
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "TRAIN_parents": [
+        "PILOT2_C0_T01_LAYOUT_V1"
+      ],
+      "DEV_parents": [],
+      "native_integrations_by_builder": 0,
+      "model_updates": 0,
+      "TEST_read": false
+    },
+    "wall_s": 298.39102413179353,
+    "coordinator_CPU_s": 0.538375464,
+    "measured_native_workers_CPU_s": 541.148374815,
+    "native_worker_sum_wall_s": 292.20889976946637,
+    "builder_CPU_s": "NOT_METERED",
+    "C08_data_mixed": false
+  },
+  "duration": {
+    "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+    "worker_exit_code": 0,
+    "actual_native_attempts": 2,
+    "actual_native_passes": 2,
+    "actual_native_ticks": 8206,
+    "recorded_task_atoms": 128,
+    "eligible_TRAIN_atoms": 0,
+    "qualification_only": true,
+    "worker_wall_s": 43.13306663930416,
+    "worker_CPU_s": 136.915746387,
+    "children": [
+      {
+        "run": "pilot2-c09-dual-duration-01-slot-0",
+        "exit_code": 0,
+        "status": "NATIVE_STAGE_PASSED",
+        "ticks": 4103,
+        "shutdown_clean": true,
+        "ROS_DOMAIN_ID": 220,
+        "cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "task_atoms": 64,
+        "collection": true,
+        "split": "TRAIN"
+      },
+      {
+        "run": "pilot2-c09-dual-duration-01-slot-1",
+        "exit_code": 0,
+        "status": "NATIVE_STAGE_PASSED",
+        "ticks": 4103,
+        "shutdown_clean": true,
+        "ROS_DOMAIN_ID": 221,
+        "cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "task_atoms": 64,
+        "collection": true,
+        "split": "TRAIN"
+      }
+    ]
+  },
+  "throughput": {
+    "single_same_scene_HOLD_qualification_ticks_per_s": 91.68666242803376,
+    "dual_HOLD_duration_ticks_per_s": 190.24847151772983,
+    "aggregate_ratio": 2.0749852429960436,
+    "scope": "ONE_SINGLE_VS_ONE_CONCURRENT_PAIR_OBSERVATION_NOT_REPEATED_MATCHED_BENCHMARK"
+  },
+  "all_new_main_model_updates": 0,
+  "cumulative_PILOT2_sealed": {
+    "native_attempts": 354,
+    "native_passes": 351,
+    "native_failed": 3,
+    "native_ticks": 1501092
+  },
+  "current_new_contact_batch": "C09_T04_T05_V03_RUNNING_PLANNED12_NOT_PRECOUNTED",
+  "private_evidence_sha256": {
+    "C09_CONTACT_READ03.private.json": "efc30bf09daaff9816a3e457212d3293174eb60d6294a5a22e7365fc1e6fa47d",
+    "C09_DURATION_READ01.private.json": "55673fd4c8b36d82495bfeaf099b759ccd6d13bf80abdbd6096aae42ef4c4b7d",
+    "C09_TRANSFER_AND_COST01.private.json": "cf296e8e5e8d83dbe4ad021671d380a64ee39f2c00ba59d4837b951c8fb689db"
+  }
+}
