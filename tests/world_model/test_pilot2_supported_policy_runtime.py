@@ -5,6 +5,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from tests.world_model.test_pilot2_supported_decision import supported
 from go2arx5_vla.world_model.pilot2_supported_policy_runtime import choose,contract,SCHEMA
+from go2arx5_vla.world_model.pilot2_supported_policy_runtime import validate_single_qualification
+from go2arx5_vla.world_model.storage import digest
 
 
 class PausedSupportedPolicy(unittest.TestCase):
@@ -38,6 +40,51 @@ class PausedSupportedPolicy(unittest.TestCase):
     def test_unqualified_timing_and_unknown_policy_rejected(self):
         for change in [dict(close_start_atom=64),dict(policy_decision_atom=120),dict(method='UNQUALIFIED')]:
             with self.assertRaises(PermissionError):contract(dict(self.episode(),**change))
+
+    def test_parallel_requires_matching_actual_single_not_a_task_success_filter(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);native=root/'native';native.mkdir();e=self.episode()
+            model=root/'model';model.write_bytes(b'SYNTHETIC_MODEL');binary=root/'binary';binary.write_bytes(b'SYNTHETIC_NATIVE')
+            p=native/'RESULT.json';p.write_text(json.dumps(dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,
+                physics_stops=[],actual_target_integrations=6703,scene_sha256=digest(model),native_binary_sha256=digest(binary))))
+            ep=root/'EPISODE_MANIFEST.private.json';ep.write_text(json.dumps(e));decision=native/'SUPPORTED_POLICY_DECISION.private.json'
+            d=dict(native_step=5303,future_response_observed=False,decision_prefix_eligible=True,
+                policy_sha256=None,goal_success=False);decision.write_text(json.dumps(d))
+            s=dict(model_path=str(model),native_binary=str(binary),single_policy_qualification=dict(
+                path=str(p),sha256=digest(p),decision_sha256=digest(decision),episode_sha256=digest(ep)))
+            validate_single_qualification(s,e)
+            with self.assertRaises(PermissionError):validate_single_qualification(s,dict(e,method='CONSTANT_KEEP'))
+            d['decision_prefix_eligible']=False;decision.write_text(json.dumps(d));s['single_policy_qualification']['decision_sha256']=digest(decision)
+            with self.assertRaises(PermissionError):validate_single_qualification(s,e)
+
+    def test_supported_two_slot_commission_and_full_duration_production_are_separate(self):
+        from unittest.mock import patch
+        from go2arx5_vla.world_model.target_parallel import validate_layout
+        from go2arx5_vla.world_model.pilot2_supported import GOALS
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);runs=root/'runs';runs.mkdir();batchroot=runs/'batch';batchroot.mkdir();children=[];slots=[]
+            for i,goal in enumerate(GOALS):
+                childroot=runs/str(i);childroot.mkdir();ep=childroot/'EPISODE.json'
+                e=dict(self.episode(goal),parent='P',split='TRAIN');ep.write_text(json.dumps(e))
+                previous=root/('prior'+str(i));previous.write_text('{}')
+                child=dict(registered_root=str(childroot),parallel_batch_spec=str(batchroot/'EXECUTION_SPEC.json'),
+                    campaign_root=str(root),physical_owner_lock='SYNTHETIC_OWNER_PATH',source_sha='SYNTHETIC',
+                    ROS_DOMAIN_ID=220+i,cpus=list(range(i*4,i*4+4)),phase='collect-target-pilot2-supported',max_ticks=6703,
+                    pilot1_binding='SYNTHETIC_BINDING',pilot1_binding_sha256='SYNTHETIC_SHA',
+                    previous_stage=str(previous),episode_manifest=str(ep),pilot2_plan_sha='SYNTHETIC_PLAN',
+                    supported_policy_parallel_schema='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1')
+                sp=childroot/'SPEC.json';sp.write_text(json.dumps(child));children.append(child);slots.append(dict(spec=str(sp),spec_sha256=digest(sp)))
+            proof=root/'dual.json';v=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED',children=[dict(ticks=4103,shutdown_clean=True,exit_code=0)]*2);proof.write_text(json.dumps(v))
+            b=dict(schema='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1',purpose='SUPPORTED_POLICY_DUAL_COMMISSION',
+                slots=slots,native_runs_root=str(runs),registered_root=str(batchroot),campaign_root=str(root),
+                physical_owner_lock='SYNTHETIC_OWNER_PATH',source_sha='SYNTHETIC',cpus=list(range(8)),
+                pilot1_binding='SYNTHETIC_BINDING',pilot1_binding_sha256='SYNTHETIC_SHA',pilot2_plan_sha='SYNTHETIC_PLAN',
+                parallel_qualification=str(proof),parallel_qualification_sha256=digest(proof))
+            with patch('go2arx5_vla.world_model.pilot2_supported.validate',return_value=6703):
+                validate_layout(b,children);b['purpose']='SUPPORTED_POLICY_PRODUCTION'
+                with self.assertRaises(PermissionError):validate_layout(b,children)
+                for c in v['children']:c['ticks']=6703
+                proof.write_text(json.dumps(v));b['parallel_qualification_sha256']=digest(proof);validate_layout(b,children)
 
 
 if __name__=='__main__':unittest.main()
