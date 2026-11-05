@@ -16,9 +16,11 @@ PHASE = 'collect-target-pilot1-contact'
 
 def validate(spec, previous):
     path = Path(spec['episode_manifest']); e = json.loads(path.read_text())
-    expected = dict(schema='WM02_PILOT1_TOUCH_WITHDRAW_V1', phase=PHASE,
+    schemas = {'WM02_PILOT1_TOUCH_WITHDRAW_V1': 96, 'WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2': 128}
+    if e.get('schema') not in schemas: raise PermissionError('DECLARED_FINITE_CONTACT_PROTOCOL_REQUIRED')
+    expected = dict(schema=e['schema'], phase=PHASE,
                     reference_rule=RULE, prehold_atoms=40, screen_atom=48,
-                    touch_end_atom=64, task_atoms=96, withdrawal_xyz_m=[0., .001, 0.],
+                    touch_end_atom=64, task_atoms=schemas[e['schema']], withdrawal_xyz_m=[0., .001, 0.],
                     contact_force_threshold_N=.05, required_exit_s=.2,
                     minimum_away_Y_m=.0002, purpose='CONTACT_EXIT_COMMISSION')
     if (digest(path) != spec['episode_manifest_sha256']
@@ -51,7 +53,7 @@ def validate(spec, previous):
             or not previous.get('shutdown_clean')
             or previous.get('native_binary_sha256') != digest(spec['native_binary'])):
         raise PermissionError('EXISTING_UNCHANGED_C08_PREDECESSOR_REQUIRED')
-    return 4903
+    return 2503+25*e['task_atoms']
 
 
 class ContactReader:
@@ -123,7 +125,7 @@ def run(a):
         a.install_reference(np.stack([pose10(p, float(teacher_physical_fraction(1.))) for p in poses]))
 
     install()
-    for atom in range(96):
+    for atom in range(e['task_atoms']):
         step = a.observe()['step']; force = atom == 40
         if atom == 48 and not assess(a, e)['qualified']:
             raise RuntimeError('UNSTABLE_REAL_CONTACT_DECISION_PREFIX')
@@ -166,7 +168,7 @@ def run(a):
     a.capture_loaded_identity(); cancel = a.cancel_reference(); a.seal_trace(a.spec['max_ticks'])
     value = dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1', phase=PHASE,
                  actual_collection_start_step=2503, actual_collection_start_s=initial['time_s'],
-                 task_native_ticks=2400, complete_task_atoms=len(windows), windows=windows,
+                 task_native_ticks=25*e['task_atoms'], complete_task_atoms=len(windows), windows=windows,
                  operator_cancel=cancel, reference_rule=RULE, recorded_gripper_memory=True,
                  controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED', full_task_success=False)
     write(a.output/'DYNAMIC_DIAGNOSTIC.json', value); a.reference_qualification = value

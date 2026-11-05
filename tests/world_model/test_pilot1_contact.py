@@ -25,7 +25,7 @@ class ActualContactIntervals(unittest.TestCase):
         from go2arx5_vla.world_model.pilot1_contact import run
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); episode = root/'EPISODE.json'
-            episode.write_text(json.dumps(dict(withdrawal_xyz_m=[0, .001, 0])))
+            episode.write_text(json.dumps(dict(withdrawal_xyz_m=[0, .001, 0], task_atoms=96)))
             a = SimpleNamespace(output=root, spec=dict(episode_manifest=str(episode), max_ticks=4903),
                                 actual_state=SimpleNamespace(pad=[7, 8], cube_geom=9, model=None),
                                 step=2503, prepare_dynamic=lambda: None, capture_loaded_identity=lambda: None,
@@ -104,6 +104,13 @@ class ActualContactIntervals(unittest.TestCase):
             value = json.loads(Path(contact).read_text()); value['contact_positive_native_ticks'] = 1
             Path(contact).write_text(json.dumps(value)); spec['contact_entry_evidence_sha256'] = digest(contact)
             self.assertEqual(validate(spec, previous), 4903)
+            original = json.loads(Path(episode).read_text())
+            original.update(task_atoms=128)
+            Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
+            with self.assertRaises(PermissionError): validate(spec, previous)
+            original.update(schema='WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2')
+            Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
+            self.assertEqual(validate(spec, previous), 5703)
 
 
 if __name__ == '__main__': unittest.main()
