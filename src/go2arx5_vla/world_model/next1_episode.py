@@ -5,21 +5,25 @@ import numpy as np
 from .storage import digest
 
 RULE='FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1'
+CONTACT_RULE='FIXED_HOLD32_BURN8_CONTACT40_V2'
 
 
 def episode_config(spec):
     path=Path(spec['episode_manifest']);e=json.loads(path.read_text())
-    allowed=('STEADY_SINGLE','STEADY_DUAL','ACTION_PILOT','ACTION_DEV','HOLD_REPEAT','CONTACT_GRADED')
+    contact40=e.get('reference_rule')==CONTACT_RULE
+    allowed=('STEADY_CONTACT','STEADY_SINGLE','STEADY_DUAL','ACTION_PILOT','ACTION_DEV','HOLD_REPEAT','CONTACT_GRADED')
     if (digest(path)!=spec['episode_manifest_sha256'] or e.get('schema')!='WM02_NEXT1_EPISODE_V1'
             or e.get('run')!=spec['registered_root']or e.get('phase')!='collect-target-next1'
-            or e.get('purpose')not in allowed or e.get('reference_rule')!=RULE
-            or e.get('task_atoms')not in(48,64,96,160)or e.get('prehold_atoms')!=40
-            or e.get('screen_atom')!=48 or e.get('split')not in('TRAIN','DEV')
+            or e.get('purpose')not in allowed or e.get('reference_rule')not in(RULE,CONTACT_RULE)
+            or(contact40 and e.get('purpose')not in('STEADY_CONTACT','CONTACT_GRADED'))
+            or(e.get('purpose')=='STEADY_CONTACT'and not contact40)
+            or e.get('task_atoms')not in(40,48,64,96,160)or e.get('prehold_atoms')!=(32 if contact40 else 40)
+            or e.get('screen_atom')!=(40 if contact40 else 48) or e.get('split')not in('TRAIN','DEV')
             or e.get('screen')!=dict(window_s=.4,relative_TCP_diameter_m=.002,max_relative_TCP_speed_m_s=.025)
             or np.asarray(e['offset_xyz_m']).shape!=(3,)or not np.isfinite(e['offset_xyz_m']).all()
             or tuple(e['offset_xyz_m'])not in((0,0,0),(.001,0,0),(-.001,0,0),(0,.001,0))
             or(e['purpose'].startswith('STEADY_')and any(e['offset_xyz_m']))
-            or(e['purpose']not in('STEADY_SINGLE','STEADY_DUAL','CONTACT_GRADED')and e['task_atoms']!=64)):
+            or(e['purpose']not in('STEADY_CONTACT','STEADY_SINGLE','STEADY_DUAL','CONTACT_GRADED')and e['task_atoms']!=64)):
         raise PermissionError('EXACT_PREDECLARED_NEXT1_STEADY_CAUSAL_EPISODE_REQUIRED')
     assets=json.loads(Path(spec['scene_allowlist']).read_text())
     if digest(spec['scene_allowlist'])!=spec['scene_allowlist_sha256']:raise PermissionError('NEXT1_SCENE_ALLOWLIST_CHANGED')
@@ -34,7 +38,7 @@ def episode_config(spec):
         for proof in proofs:
             path=Path(proof['path']);prefix=json.loads(path.read_text());native=json.loads((path.parent/'RESULT.json').read_text())
             if (digest(path)!=proof['sha256']or digest(path.parent/'RESULT.json')!=proof['native_result_sha256']
-                    or prefix.get('qualified')is not True or prefix.get('screen_atom')!=48
+                    or prefix.get('reference_rule',RULE)!=(CONTACT_RULE if contact40 else RULE)or prefix.get('qualified')is not True or prefix.get('screen_atom')!=(40 if contact40 else 48)
                     or native.get('status')!='NATIVE_STAGE_PASSED'or not native.get('shutdown_clean')
                     or native.get('physics_stops')or native.get('native_binary_sha256')!=digest(spec['native_binary'])):raise PermissionError('ACTUAL_SAFE_STEADY_PREFIX_PROOF_REQUIRED')
     if e['purpose']=='CONTACT_GRADED':
@@ -55,6 +59,6 @@ def assess(adapter,episode):
     samples=adapter.next1_samples[-9:]
     b=np.asarray([s['qpos'][:3]for s in samples]);q=np.asarray([s['qpos'][3:7]for s in samples]);tcp=np.asarray([s['tcp'][:3,3]for s in samples]);t=np.asarray([s['time_s']for s in samples])
     relative=motion(b,q,tcp)['relative_tcp'];value=screen(t,relative)
-    value.update(schema='WM02_NEXT1_SCIENTIFIC_PREFIX_V1',reference_rule=RULE,screen_atom=episode['screen_atom'],actual_native_step=adapter.observe()['step'],independent_initialization=True,source_sha=adapter.spec['source_sha'],native_binary_sha256=digest(adapter.spec['native_binary']),world_TCP_displacement_m=(tcp[-1]-tcp[0]).tolist(),BASE_displacement_m=(b[-1]-b[0]).tolist(),physics_paused_at_assessment=True,thresholds_not_native_safety=True)
+    value.update(schema='WM02_NEXT1_SCIENTIFIC_PREFIX_V1',reference_rule=episode['reference_rule'],screen_atom=episode['screen_atom'],actual_native_step=adapter.observe()['step'],independent_initialization=True,source_sha=adapter.spec['source_sha'],native_binary_sha256=digest(adapter.spec['native_binary']),world_TCP_displacement_m=(tcp[-1]-tcp[0]).tolist(),BASE_displacement_m=(b[-1]-b[0]).tolist(),physics_paused_at_assessment=True,thresholds_not_native_safety=True)
     write(adapter.output/'STEADY_PREFIX_RESULT.private.json',value);adapter.next1_screen=value
     return value

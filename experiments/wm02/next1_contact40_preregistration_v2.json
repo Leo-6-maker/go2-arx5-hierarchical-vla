@@ -1,0 +1,34 @@
+{
+  "schema": "WM02_NEXT1_CONTACT40_PREREGISTRATION_V2",
+  "reason": "Finite8s task leaves only5.6s after action decision48; contact-only shorter prefix allows6s. No S1/M0 changes or WBC compensation.",
+  "TRAIN_only_retrospective_evidence": [
+    {
+      "run": "next1-s0-single-01",
+      "decision40_diameter_m": 0.0009512128657766751
+    },
+    {
+      "run": "next1-s0-single-02",
+      "decision40_diameter_m": 0.0006732532624759036
+    }
+  ],
+  "prospective_gate": "Two fresh independent single-slot HOLD32/BURN8/contact40 native safe passes, same scientific thresholds; then static current pose requalification before new descent.",
+  "reference_rule": "FIXED_HOLD32_BURN8_CONTACT40_V2",
+  "prehold_atoms": 32,
+  "screen_atom": 40,
+  "scientific_screen": {
+    "window_s": 0.4,
+    "relative_TCP_diameter_m": 0.002,
+    "max_relative_TCP_speed_m_s": 0.025
+  },
+  "steady_task_atoms": 40,
+  "descend_task_atoms": 160,
+  "descend_ramp_atoms": 116,
+  "grasp_height_offset_m": 0.02,
+  "orientation": "Smoothly to identity in original world frame",
+  "gripper": "ORIGINAL_WORKING_OPEN",
+  "start": "Previous planned HOLD goal with continuous time parameter, no achieved-state reanchor",
+  "predecessor": "Actual native ABOVE_OBJECT PASS and two fresh contact40 HOLD passes",
+  "WM_replay_or_models_changed": false,
+  "each_live_reference_original_certificate": true,
+  "stop": "Preserve first native safety failure; no unsafe retry"
+}

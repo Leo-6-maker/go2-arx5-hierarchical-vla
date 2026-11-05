@@ -13,4 +13,4 @@ class GradedReference(unittest.TestCase):
         for grade,cfg in GRADES.items():
             candidate=planned_path(initial,obj,grade);speed,spin=rates(candidate,np.arange(len(candidate))*.05)
             self.assertLess(speed,.06);self.assertLess(spin,.3)
-            self.assertLessEqual(48+len(candidate)-1,cfg['task_atoms'])
+            self.assertLessEqual((40 if grade=='DESCEND_20_OPEN'else 48)+len(candidate)-1,cfg['task_atoms'])

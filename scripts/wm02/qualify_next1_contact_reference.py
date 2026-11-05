@@ -31,7 +31,7 @@ def main(argv=None):
             else:raise ValueError('STATIC_WITNESS_IK_DID_NOT_CONVERGE')
             qs.append(witness.qpos[qa].copy())
         saved_qpos=sample['qpos'].copy()
-        for offset in range(0,GRADES[a.grade]['task_atoms']-48,7):
+        for offset in range(0,GRADES[a.grade]['task_atoms']-proof['screen_atom'],7):
             # Static witness uses the pinned actual root/legs, never a prediction
             # of future closed-loop state; every live installation is recertified.
             qpos=saved_qpos.copy()
