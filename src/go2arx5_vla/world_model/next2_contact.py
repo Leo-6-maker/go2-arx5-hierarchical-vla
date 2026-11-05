@@ -105,6 +105,7 @@ def run(a):
     def change(new,state,reason,remaining):
         nonlocal stage,stage_since,pending
         events.append(dict(previous=stage,stage=new,native_step=state['native_step'],actual_state_gate=reason,remaining_task_s=remaining));stage=new;stage_since=state['time_s'];pending=True
+        a.command_event(dict(phase='contact-stage-transition',**events[-1],planned_next_path=path.tolist(),planned_only_not_executed=True))
         if new=='CLOSE':a.next2_contact_manipulation_started=True
     install(0)
     for atom in range(400):

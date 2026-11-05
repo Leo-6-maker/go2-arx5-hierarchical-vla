@@ -297,7 +297,11 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-next2-contact':
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','WITHDRAW':'detach'}.get(getattr(self,'next2_contact_stage',None),'approach')
                 if getattr(self,'next2_contact_stage',None)=='WITHDRAW'and not getattr(self,'next2_contact_manipulation_started',False):stage='approach'
-            with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+            try:
+                with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+            except ValueError as error:
+                self.command_event(dict(phase='reference-certificate-rejected',native_step=packet['step'],source_mpc_s=source,stage=stage,action_EEF10=action.tolist(),reason=str(error),contact_details=getattr(error,'native_contact_details',None),submitted_or_executed=False))
+                raise
             doc=measured_base_hold(doc,self.base_pose_hold)
         doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
