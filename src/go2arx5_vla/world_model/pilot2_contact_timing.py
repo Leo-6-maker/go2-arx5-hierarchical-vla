@@ -30,7 +30,7 @@ def transition_timing(probability, data, ids):
             actual_time=float(horizons[actual[0]]*.05)if len(actual)else None
             predicted_time=float(horizons[predicted[0]]*.05)if len(predicted)else None
             rows.append(dict(parent=data['identities'][i]['parent'],initial=bool(current[i,k]),
-                actual=actual_time,predicted=predicted_time))
+                actual=actual_time,predicted=predicted_time,last_observed_atom=int(horizons[available[-1]])))
         def summarize(selected):
             actual=sum(r['actual']is not None for r in selected)
             predicted=sum(r['predicted']is not None for r in selected)
@@ -40,6 +40,10 @@ def transition_timing(probability, data, ids):
                 detected_actual_transitions=len(both),missed_actual_transitions=actual-len(both),
                 false_transition_predictions=predicted-len(both),
                 no_observed_grid_transition= len(selected)-actual,
+                observed_followup_by_last_valid_atom={str(h):dict(
+                    valid_anchors=sum(r['last_observed_atom']==h for r in selected),
+                    no_observed_grid_transition=sum(r['last_observed_atom']==h and r['actual']is None for r in selected))
+                    for h in sorted({r['last_observed_atom']for r in selected})},
                 detection_recall=len(both)/actual if actual else None,
                 detection_precision=len(both)/predicted if predicted else None,
                 detected_only_timing_MAE_s=float(np.abs(errors).mean())if len(errors)else None,

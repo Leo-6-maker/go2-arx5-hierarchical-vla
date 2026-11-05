@@ -27,6 +27,8 @@ class EventTiming(unittest.TestCase):
         d=self.data();d['valid'][0,1:]=False;d['valid'][1]=False
         r=transition_timing(d['events'],d,[0,1,2])['events']['PAD_CONTACT_ANY']
         self.assertEqual(r['valid_anchors'],2);self.assertEqual(r['actual_grid_transitions'],0)
+        self.assertEqual(r['observed_followup_by_last_valid_atom']['1']['no_observed_grid_transition'],1)
+        self.assertEqual(r['observed_followup_by_last_valid_atom']['8']['no_observed_grid_transition'],1)
         self.assertIsNone(r['detection_recall']);self.assertIsNone(r['parent_equal_detection_recall'])
 
     def test_probability_and_grid_contract(self):
