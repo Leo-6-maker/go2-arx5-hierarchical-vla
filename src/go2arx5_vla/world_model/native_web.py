@@ -9,6 +9,7 @@ from pathlib import Path
 import threading
 import time
 from urllib.parse import urlsplit
+import uuid
 
 from .native_live import LiveReceiver, ObserverTransport, load_scene
 from .native_replay import apply_frame, forbid_integration
@@ -18,6 +19,7 @@ from .storage import write_json
 class WebState:
     def __init__(self, receiver, config):
         self.receiver, self.config = receiver, config
+        self.session_id = uuid.uuid4().hex
         self.lock = threading.Lock()
         self.jpeg = None
         self.frame_id = 0
@@ -44,6 +46,7 @@ class WebState:
         message, row = view['message'], view['row']
         with self.lock:
             return dict(status='DATA_ERROR' if self.failure else ('STREAM_ENDED' if self.finished else view['status']),
+                        session_id=self.session_id,
                         episode_id=self.config['episode_id'], frame_id=self.frame_id, frame_step=self.frame_step,
                         native_step=None if row is None else row['step'], sim_time_s=None if row is None else row['time_s'],
                         frames_received=view['frames'], native_advances_seen=view['native_advances'],
@@ -71,6 +74,7 @@ def handler(state):
             self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')
             self.send_header('Cross-Origin-Resource-Policy', 'same-origin')
+            self.send_header('X-WM02-Session', state.session_id)
             self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'")
             self.end_headers()
             try:

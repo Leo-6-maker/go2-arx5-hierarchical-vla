@@ -44,10 +44,14 @@ class WebObserver(unittest.TestCase):
         value = json.loads(raw)
         self.assertEqual(value['status'], 'SEALED')
         self.assertEqual(value['native_step'], 12503)
+        self.assertEqual(headers['X-WM02-Session'], value['session_id'])
         self.assertNotIn('private-route', raw.decode())
         self.assertEqual(headers['Cache-Control'], 'no-store')
         self.assertEqual(headers['Cross-Origin-Resource-Policy'], 'same-origin')
         self.assertEqual(self.request('/api/frame.jpg')[2], self.state.jpeg)
+        self.assertEqual(self.request('/api/frame.jpg')[1]['X-WM02-Session'], value['session_id'])
+        other = WebState(self.state.receiver, self.state.config)
+        self.assertNotEqual(other.session_id, value['session_id'])
 
     def test_camera_request_only_changes_view_and_rejects_control_or_bad_numbers(self):
         before = self.state.payload()
