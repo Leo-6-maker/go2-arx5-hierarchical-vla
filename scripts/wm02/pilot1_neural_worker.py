@@ -29,6 +29,8 @@ def main(argv=None):
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
+    if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') == 'WM02_PILOT2_DIRECT_CONTACT_V1':
+        module = 'scripts.wm02.train_pilot2_contact_wm'
     command = [sys.executable, '-B', '-m', module, '--spec', str(args.spec), '--output', str(root / 'fit-01')]
     started = time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
