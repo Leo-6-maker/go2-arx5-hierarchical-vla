@@ -70,9 +70,8 @@ def task_from_train(data, meta, ids):
 
 
 def goal_offsets(task):
-    rng = np.random.default_rng(task['goal_seed'])
-    jitter = rng.uniform(-task['jitter_m'], task['jitter_m'], (4, task['goals_per_center'], 2))
-    return (np.asarray(task['mean_response_xy_m'])[:, None] + jitter).reshape(-1, 2)
+    from .pilot1_numpy import goal_offsets as generate
+    return generate(task)
 
 
 def robot_columns(meta):
@@ -88,12 +87,8 @@ def robot_columns(meta):
 
 
 def features(data, meta, ids, offsets_xy):
-    # Future state, object pose, episode/parent IDs and teacher predictions are never read here.
-    prefix = data['state'][ids, :9][:, :, robot_columns(meta)].reshape(len(ids), -1)
-    past = data['history_goal'][ids, :8].reshape(len(ids), -1)
-    age = data['source_age'][ids, 8:9]
-    remaining = CausalARX.remaining(data, ids)[:, None]
-    return np.concatenate((prefix, past, np.asarray(offsets_xy) / .001, age, remaining), axis=1)
+    from .pilot1_numpy import actor_features
+    return actor_features(data, meta, ids, offsets_xy)
 
 
 def examples(model, data, meta, ids, task):
@@ -128,12 +123,8 @@ class Actor(nn.Module):
 
 
 def numpy_logits(arrays, x):
-    value = (np.asarray(x, dtype=np.float32) - arrays['mean']) / arrays['scale']
-    for layer in (0, 2, 4):
-        value = value @ arrays[f'w{layer}'].T + arrays[f'b{layer}']
-        if layer < 4:
-            value = np.maximum(value, 0.)
-    return value
+    from .pilot1_numpy import logits
+    return logits(arrays, x)
 
 
 def export_arrays(actor):

@@ -353,12 +353,15 @@ class TargetSequentialAdapter:
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
         next2=self.spec['phase']=='collect-target-next2'
-        next1=self.spec['phase']in('collect-target-next1','collect-target-next2');decision_atom=8;contact=False
+        pilot1=self.spec['phase']=='collect-target-pilot1'
+        next1=self.spec['phase']in('collect-target-next1','collect-target-next2','collect-target-pilot1');decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if next1:
             from .next1_episode import episode_config,assess
             if next2:
                 from .next2_episode import episode_config
+            if pilot1:
+                from .pilot1_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
@@ -395,6 +398,11 @@ class TargetSequentialAdapter:
                 if next2:
                     from .next2_episode import predict_before_install
                     predict_before_install(self,episode)
+                if pilot1:
+                    from .pilot1_episode import choose
+                    chosen=choose(self,episode)
+                    episode=dict(episode,offset_xyz_m=chosen.tolist())
+                    decision_goal=initial['tcp'].copy();decision_goal[:3,3]+=chosen
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
                 if contact:
@@ -435,6 +443,9 @@ class TargetSequentialAdapter:
             index=(step-installed_step)//25
             self.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(self.active_reference['action_EEF10'])[index]))
         if next1 and not hasattr(self,'next1_screen'):assess(self,episode)
+        if pilot1:
+            from .pilot1_episode import score
+            score(self,episode)
         if contact:
             samples=self.next1_samples
             write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,geometry=self.contact_geometry_samples,any_precontact=any(g['precontact_geometry_ready']for g in self.contact_geometry_samples),precontact_end_qualified=len(self.contact_geometry_samples)>=4 and all(g['precontact_geometry_ready']for g in self.contact_geometry_samples[-4:]),native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-decision_atom>=len(self.contact_path)-1))
