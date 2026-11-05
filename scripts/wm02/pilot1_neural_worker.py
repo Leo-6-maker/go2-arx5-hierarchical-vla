@@ -25,6 +25,7 @@ def main(argv=None):
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
     write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
     module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
+              'ACTOR_STUDY': 'scripts.wm02.train_pilot2_matrix',
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
