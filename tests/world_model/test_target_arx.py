@@ -12,6 +12,13 @@ class CausalARXBaseline(unittest.TestCase):
             state[:,t+1,3:]+=.15*(goal[:,:3]-state[:,t,3:])
         return dict(state=state,goal=goal,source_age=np.zeros((12,24)),future_prefix_remaining=np.full(12,7.)),dict(state_fields=[dict(name='qpos',size=3),dict(name='tcp_position_m',size=3)])
 
+    def test_frozen_arrays_reload_without_refit(self):
+        data,meta=self.fixture();ids=np.arange(10);m=CausalARX(meta).fit(data,ids)
+        frozen=CausalARX.from_arrays(meta,m.arrays())
+        np.testing.assert_array_equal(m.predict(data,ids),frozen.predict(data,ids))
+        corrupt=dict(m.arrays(),weight=np.zeros((1,1)))
+        with self.assertRaises(ValueError):CausalARX.from_arrays(meta,corrupt)
+
     def test_inference_is_unchanged_by_future_truth_and_ages(self):
         data,meta=self.fixture();ids=np.arange(10);m=CausalARX(meta).fit(data,ids);pred=m.predict(data,np.array([10,11]))
         data['state'][10:,9:]=100.;data['source_age'][10:,9:]=999.
