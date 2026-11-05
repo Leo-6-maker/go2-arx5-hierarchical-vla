@@ -1,0 +1,193 @@
+{
+  "status": "PILOT1_FIXED_DEV_NATIVE_PANEL_COMPLETE",
+  "methods": {
+    "GEOMETRIC_DIRECTION_RULE": {
+      "n": 4,
+      "successes": 0,
+      "mean_XY_error_mm": 0.7719276816918222,
+      "mean_objective_mm": 0.7919276816918224,
+      "per_goal": [
+        {
+          "scene": "P21",
+          "goal": 64,
+          "action": 2,
+          "error_mm": 1.3027364668315862,
+          "success": false
+        },
+        {
+          "scene": "P21",
+          "goal": 192,
+          "action": 2,
+          "error_mm": 0.8680286932568418,
+          "success": false
+        },
+        {
+          "scene": "P22",
+          "goal": 0,
+          "action": 2,
+          "error_mm": 0.6578441955925611,
+          "success": false
+        },
+        {
+          "scene": "P22",
+          "goal": 128,
+          "action": 2,
+          "error_mm": 0.25910137108629994,
+          "success": false
+        }
+      ]
+    },
+    "TRAIN_MEAN_RESPONSE_RULE": {
+      "n": 4,
+      "successes": 3,
+      "mean_XY_error_mm": 0.12659119279296013,
+      "mean_objective_mm": 0.14159119279296015,
+      "per_goal": [
+        {
+          "scene": "P21",
+          "goal": 64,
+          "action": 1,
+          "error_mm": 0.1236584083016866,
+          "success": true
+        },
+        {
+          "scene": "P21",
+          "goal": 192,
+          "action": 3,
+          "error_mm": 0.09670465004875192,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 0,
+          "action": 0,
+          "error_mm": 0.05169870464076766,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 128,
+          "action": 2,
+          "error_mm": 0.23430300818063435,
+          "success": false
+        }
+      ]
+    },
+    "FROZEN_ARX_SELECTOR": {
+      "n": 4,
+      "successes": 3,
+      "mean_XY_error_mm": 0.1577239639815017,
+      "mean_objective_mm": 0.17272396398150172,
+      "per_goal": [
+        {
+          "scene": "P21",
+          "goal": 64,
+          "action": 1,
+          "error_mm": 0.12831098355014164,
+          "success": true
+        },
+        {
+          "scene": "P21",
+          "goal": 192,
+          "action": 3,
+          "error_mm": 0.09121444071379692,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 0,
+          "action": 0,
+          "error_mm": 0.1586487386394954,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 128,
+          "action": 2,
+          "error_mm": 0.2527216930225729,
+          "success": false
+        }
+      ]
+    },
+    "TRAINED_ACTOR:V0": {
+      "n": 4,
+      "successes": 2,
+      "mean_XY_error_mm": 0.4221028846892348,
+      "mean_objective_mm": 0.43710288468923475,
+      "per_goal": [
+        {
+          "scene": "P21",
+          "goal": 64,
+          "action": 1,
+          "error_mm": 0.12180771938049864,
+          "success": true
+        },
+        {
+          "scene": "P21",
+          "goal": 192,
+          "action": 3,
+          "error_mm": 0.08859163058142357,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 0,
+          "action": 1,
+          "error_mm": 0.6307997295212925,
+          "success": false
+        },
+        {
+          "scene": "P22",
+          "goal": 128,
+          "action": 0,
+          "error_mm": 0.8472124592737243,
+          "success": false
+        }
+      ]
+    },
+    "TRAINED_ACTOR:V1": {
+      "n": 4,
+      "successes": 3,
+      "mean_XY_error_mm": 0.12376463580175545,
+      "mean_objective_mm": 0.13876463580175546,
+      "per_goal": [
+        {
+          "scene": "P21",
+          "goal": 64,
+          "action": 1,
+          "error_mm": 0.12378514113444279,
+          "success": true
+        },
+        {
+          "scene": "P21",
+          "goal": 192,
+          "action": 3,
+          "error_mm": 0.07796215818394892,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 0,
+          "action": 0,
+          "error_mm": 0.05797907981628897,
+          "success": true
+        },
+        {
+          "scene": "P22",
+          "goal": 128,
+          "action": 2,
+          "error_mm": 0.23533216407234114,
+          "success": false
+        }
+      ]
+    }
+  },
+  "native_attempts": 22,
+  "evaluation_attempts": 20,
+  "qualification_attempts": 2,
+  "ticks": 90266,
+  "CPU_s": 1369.650174575,
+  "worker_wall_s": 741.5922395051457,
+  "all_native_pass": true,
+  "TEST_exposed": false
+}

@@ -1,0 +1,769 @@
+{
+  "schema": "WM02_PILOT1_PARALLEL_COVERAGE_RESULTS_V1",
+  "native_source_sha": "cfdea0629fc4bf1f15345f3e815580f500fa4690",
+  "GPU_WM_source_sha": "5850fab8ff4fb2abaca367eefa9b8491a564a586",
+  "policy_source_sha": "31926780c729b52809f0afa7bd8f4eb98ab4b64f",
+  "new_TRAIN_bundle_sha256": "81397691702b1f1dd517bc674f8a082dd248a24762234929f6f8fc09b28c5c0d",
+  "parallel": {
+    "result": {
+      "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "children": [
+        {
+          "run": "pilot1-contact-c05-dual-01-slot-0",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 220,
+          "cpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "task_atoms": 128,
+          "collection": true
+        },
+        {
+          "run": "pilot1-contact-c05-dual-01-slot-1",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 221,
+          "cpus": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "task_atoms": 128,
+          "collection": true
+        }
+      ],
+      "wall_s": 58.66298399865627,
+      "physical_owners": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "learning_atoms": 256
+    },
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "CPU_s": 0.276024881,
+      "child_CPU_s": 218.961229,
+      "wall_s": 58.912093463819474,
+      "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+    },
+    "scores": [
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 0,
+        "terminal_noncontact_s": 0.0,
+        "actual_TCP_away_Y_m": 0.0005983898070585983,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": false,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 2516,
+        "contact_positive_atoms": 105,
+        "contact_negative_atoms": 23,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      },
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 737,
+        "terminal_noncontact_s": 1.474,
+        "actual_TCP_away_Y_m": 0.0009656642532182777,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": true,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 1594,
+        "contact_positive_atoms": 70,
+        "contact_negative_atoms": 58,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      }
+    ]
+  },
+  "WM2": [
+    {
+      "run": "pilot1-contact-wm2-one-gpu-02",
+      "result": {
+        "status": "ACTUAL_CONTACT_ONE_STEP_WM_TRAINED_AND_RESTORED",
+        "source_sha": "5850fab8ff4fb2abaca367eefa9b8491a564a586",
+        "main_WM_updates": 4000,
+        "restore_probe_optimizer_calls": 2,
+        "Actor_updates": 0,
+        "native_integrations": 0,
+        "TRAIN_transitions": 325,
+        "DEV_transitions": 238,
+        "TRAIN_parents": [
+          "PILOT1_CONTACT_PARENT_C02_V1"
+        ],
+        "DEV_parents": [
+          "PILOT1_CONTACT_PARENT_C03_V1"
+        ],
+        "arms": {
+          "ACTION_CONDITIONED": {
+            "main_WM_updates": 2000,
+            "restore_probe_optimizer_calls": 1,
+            "full_restore_error": 0.0,
+            "endpoint_reload_error": 0.0,
+            "checkpoint_sha256": "140d177eb7f1ee0bd3f8b741df264e2fcb78d2723b9732c52a52376df5eca066",
+            "last_loss": 0.0002813301107380539,
+            "metrics": {
+              "TRAIN": {
+                "transitions": 325,
+                "positive_labels": 237,
+                "negative_labels": 88,
+                "TCP_displacement_RMSE_mm": 0.03200436383485794,
+                "object_displacement_RMSE_mm": 0.007919937372207642,
+                "contact_Brier": 5.2419860452346256e-08,
+                "contact_accuracy": 1.0,
+                "true_positive": 237,
+                "false_positive": 0,
+                "false_negative": 0
+              },
+              "DEV": {
+                "transitions": 238,
+                "positive_labels": 171,
+                "negative_labels": 67,
+                "TCP_displacement_RMSE_mm": 0.4474295675754547,
+                "object_displacement_RMSE_mm": 0.1722882091999054,
+                "contact_Brier": 0.2982073128223419,
+                "contact_accuracy": 0.680672268907563,
+                "true_positive": 95,
+                "false_positive": 0,
+                "false_negative": 76
+              }
+            }
+          },
+          "NO_NEW_REFERENCE": {
+            "main_WM_updates": 2000,
+            "restore_probe_optimizer_calls": 1,
+            "full_restore_error": 0.0,
+            "endpoint_reload_error": 0.0,
+            "checkpoint_sha256": "bc21e1752ccf84ab6f255f9d98b5ef9281daf43a7561b05b698eb806a6f18176",
+            "last_loss": 0.00012455671094357967,
+            "metrics": {
+              "TRAIN": {
+                "transitions": 325,
+                "positive_labels": 237,
+                "negative_labels": 88,
+                "TCP_displacement_RMSE_mm": 0.04345919191837311,
+                "object_displacement_RMSE_mm": 0.006268559955060482,
+                "contact_Brier": 4.124402863681098e-08,
+                "contact_accuracy": 1.0,
+                "true_positive": 237,
+                "false_positive": 0,
+                "false_negative": 0
+              },
+              "DEV": {
+                "transitions": 238,
+                "positive_labels": 171,
+                "negative_labels": 67,
+                "TCP_displacement_RMSE_mm": 0.38935214281082153,
+                "object_displacement_RMSE_mm": 0.1764649748802185,
+                "contact_Brier": 0.2879607379436493,
+                "contact_accuracy": 0.6974789915966386,
+                "true_positive": 99,
+                "false_positive": 0,
+                "false_negative": 72
+              }
+            }
+          }
+        },
+        "baselines": {
+          "PERSISTENCE": {
+            "TRAIN": {
+              "transitions": 325,
+              "positive_labels": 237,
+              "negative_labels": 88,
+              "TCP_displacement_RMSE_mm": 0.3186017870903015,
+              "object_displacement_RMSE_mm": 0.0034075737930834293,
+              "contact_Brier": 0.03076923079788685,
+              "contact_accuracy": 0.9692307692307692,
+              "true_positive": 231,
+              "false_positive": 4,
+              "false_negative": 6
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2923493981361389,
+              "object_displacement_RMSE_mm": 0.0032001384533941746,
+              "contact_Brier": 0.02521008439362049,
+              "contact_accuracy": 0.9747899159663865,
+              "true_positive": 168,
+              "false_positive": 3,
+              "false_negative": 3
+            }
+          },
+          "CONSTANT_VELOCITY": {
+            "TRAIN": {
+              "transitions": 325,
+              "positive_labels": 237,
+              "negative_labels": 88,
+              "TCP_displacement_RMSE_mm": 0.291770875453949,
+              "object_displacement_RMSE_mm": 0.0032524694688618183,
+              "contact_Brier": 0.03076923079788685,
+              "contact_accuracy": 0.9692307692307692,
+              "true_positive": 231,
+              "false_positive": 4,
+              "false_negative": 6
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2734898626804352,
+              "object_displacement_RMSE_mm": 0.002755590947344899,
+              "contact_Brier": 0.02521008439362049,
+              "contact_accuracy": 0.9747899159663865,
+              "true_positive": 168,
+              "false_positive": 3,
+              "false_negative": 3
+            }
+          },
+          "TRAIN_EVENT_FREQUENCY": {
+            "TRAIN": {
+              "transitions": 325,
+              "positive_labels": 237,
+              "negative_labels": 88,
+              "TCP_displacement_RMSE_mm": 0.3186017870903015,
+              "object_displacement_RMSE_mm": 0.0034075737930834293,
+              "contact_Brier": 0.19745326042175293,
+              "contact_accuracy": 0.7292307692307692,
+              "true_positive": 237,
+              "false_positive": 88,
+              "false_negative": 0
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2923493981361389,
+              "object_displacement_RMSE_mm": 0.0032001384533941746,
+              "contact_Brier": 0.20237870514392853,
+              "contact_accuracy": 0.7184873949579832,
+              "true_positive": 171,
+              "false_positive": 67,
+              "false_negative": 0
+            }
+          }
+        },
+        "forecast_atoms": 1,
+        "free_rollout_qualified": false,
+        "full_state_or_Markov_claim": false,
+        "native_policy_gain_evaluated": false,
+        "full_manipulation_success": false,
+        "device": "cuda:0",
+        "GPU_elapsed_event_s": 7.11825244140625,
+        "GPU_memory": {
+          "peak_allocated_bytes": 78329344,
+          "peak_reserved_bytes": 92274688
+        },
+        "CPU_s": 6.750407162,
+        "wall_s": 7.417953975964338,
+        "peak_RSS_KiB": 1149376
+      },
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 13.498026756104082,
+        "child_CPU_s": 8.257703
+      }
+    },
+    {
+      "run": "pilot1-contact-wm2-three-gpu-01",
+      "result": {
+        "status": "ACTUAL_CONTACT_ONE_STEP_WM_TRAINED_AND_RESTORED",
+        "source_sha": "5850fab8ff4fb2abaca367eefa9b8491a564a586",
+        "main_WM_updates": 4000,
+        "restore_probe_optimizer_calls": 2,
+        "Actor_updates": 0,
+        "native_integrations": 0,
+        "TRAIN_transitions": 801,
+        "DEV_transitions": 238,
+        "TRAIN_parents": [
+          "PILOT1_CONTACT_PARENT_C02_V1",
+          "PILOT1_CONTACT_PARENT_C04_V1",
+          "PILOT1_CONTACT_PARENT_C05_V1"
+        ],
+        "DEV_parents": [
+          "PILOT1_CONTACT_PARENT_C03_V1"
+        ],
+        "arms": {
+          "ACTION_CONDITIONED": {
+            "main_WM_updates": 2000,
+            "restore_probe_optimizer_calls": 1,
+            "full_restore_error": 0.0,
+            "endpoint_reload_error": 0.0,
+            "checkpoint_sha256": "82a3e95b15ac8ee4ea84f4ccda1e589ad1f11ef993f3737f183cd61ab1024102",
+            "last_loss": 0.0014020770322531462,
+            "metrics": {
+              "TRAIN": {
+                "transitions": 801,
+                "positive_labels": 581,
+                "negative_labels": 220,
+                "TCP_displacement_RMSE_mm": 0.06049441918730736,
+                "object_displacement_RMSE_mm": 0.008876725099980831,
+                "contact_Brier": 0.0009912874083966017,
+                "contact_accuracy": 0.9987515605493134,
+                "true_positive": 580,
+                "false_positive": 0,
+                "false_negative": 1
+              },
+              "DEV": {
+                "transitions": 238,
+                "positive_labels": 171,
+                "negative_labels": 67,
+                "TCP_displacement_RMSE_mm": 0.055225517600774765,
+                "object_displacement_RMSE_mm": 0.010410319082438946,
+                "contact_Brier": 0.03294328972697258,
+                "contact_accuracy": 0.9663865546218487,
+                "true_positive": 168,
+                "false_positive": 5,
+                "false_negative": 3
+              }
+            }
+          },
+          "NO_NEW_REFERENCE": {
+            "main_WM_updates": 2000,
+            "restore_probe_optimizer_calls": 1,
+            "full_restore_error": 0.0,
+            "endpoint_reload_error": 0.0,
+            "checkpoint_sha256": "e0e5b6dca60c452c723a25a96a10dcae05d4b3f668387ff5b867e37db645868c",
+            "last_loss": 0.000992068205960095,
+            "metrics": {
+              "TRAIN": {
+                "transitions": 801,
+                "positive_labels": 581,
+                "negative_labels": 220,
+                "TCP_displacement_RMSE_mm": 0.03814646974205971,
+                "object_displacement_RMSE_mm": 0.009248882532119751,
+                "contact_Brier": 0.0007986598066054285,
+                "contact_accuracy": 0.9987515605493134,
+                "true_positive": 580,
+                "false_positive": 0,
+                "false_negative": 1
+              },
+              "DEV": {
+                "transitions": 238,
+                "positive_labels": 171,
+                "negative_labels": 67,
+                "TCP_displacement_RMSE_mm": 0.04109140485525131,
+                "object_displacement_RMSE_mm": 0.010502713732421398,
+                "contact_Brier": 0.032791171222925186,
+                "contact_accuracy": 0.9663865546218487,
+                "true_positive": 168,
+                "false_positive": 5,
+                "false_negative": 3
+              }
+            }
+          }
+        },
+        "baselines": {
+          "PERSISTENCE": {
+            "TRAIN": {
+              "transitions": 801,
+              "positive_labels": 581,
+              "negative_labels": 220,
+              "TCP_displacement_RMSE_mm": 0.32224854826927185,
+              "object_displacement_RMSE_mm": 0.004016502294689417,
+              "contact_Brier": 0.031210986897349358,
+              "contact_accuracy": 0.968789013732834,
+              "true_positive": 567,
+              "false_positive": 11,
+              "false_negative": 14
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2923493981361389,
+              "object_displacement_RMSE_mm": 0.0032001384533941746,
+              "contact_Brier": 0.02521008439362049,
+              "contact_accuracy": 0.9747899159663865,
+              "true_positive": 168,
+              "false_positive": 3,
+              "false_negative": 3
+            }
+          },
+          "CONSTANT_VELOCITY": {
+            "TRAIN": {
+              "transitions": 801,
+              "positive_labels": 581,
+              "negative_labels": 220,
+              "TCP_displacement_RMSE_mm": 0.2901998460292816,
+              "object_displacement_RMSE_mm": 0.0036117294803261757,
+              "contact_Brier": 0.031210986897349358,
+              "contact_accuracy": 0.968789013732834,
+              "true_positive": 567,
+              "false_positive": 11,
+              "false_negative": 14
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2734898626804352,
+              "object_displacement_RMSE_mm": 0.002755590947344899,
+              "contact_Brier": 0.02521008439362049,
+              "contact_accuracy": 0.9747899159663865,
+              "true_positive": 168,
+              "false_positive": 3,
+              "false_negative": 3
+            }
+          },
+          "TRAIN_EVENT_FREQUENCY": {
+            "TRAIN": {
+              "transitions": 801,
+              "positive_labels": 581,
+              "negative_labels": 220,
+              "TCP_displacement_RMSE_mm": 0.32224854826927185,
+              "object_displacement_RMSE_mm": 0.004016502294689417,
+              "contact_Brier": 0.19922040402889252,
+              "contact_accuracy": 0.7253433208489388,
+              "true_positive": 581,
+              "false_positive": 220,
+              "false_negative": 0
+            },
+            "DEV": {
+              "transitions": 238,
+              "positive_labels": 171,
+              "negative_labels": 67,
+              "TCP_displacement_RMSE_mm": 0.2923493981361389,
+              "object_displacement_RMSE_mm": 0.0032001384533941746,
+              "contact_Brier": 0.20231026411056519,
+              "contact_accuracy": 0.7184873949579832,
+              "true_positive": 171,
+              "false_positive": 67,
+              "false_negative": 0
+            }
+          }
+        },
+        "forecast_atoms": 1,
+        "free_rollout_qualified": false,
+        "full_state_or_Markov_claim": false,
+        "native_policy_gain_evaluated": false,
+        "full_manipulation_success": false,
+        "device": "cuda:0",
+        "GPU_elapsed_event_s": 7.1822236328125,
+        "GPU_memory": {
+          "peak_allocated_bytes": 85218816,
+          "peak_reserved_bytes": 94371840
+        },
+        "CPU_s": 7.232325665,
+        "wall_s": 8.378326957579702,
+        "peak_RSS_KiB": 1174040
+      },
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 10.08407776709646,
+        "child_CPU_s": 8.629482
+      }
+    }
+  ],
+  "policy": {
+    "run": "pilot1-contact-policy-gpu-01",
+    "result": {
+      "status": "CONTACT_EXIT_POLICY_TRAINED_RELOADABLE_NATIVE_EVALUATION_PENDING",
+      "source_sha": "31926780c729b52809f0afa7bd8f4eb98ab4b64f",
+      "main_Actor_updates": 2000,
+      "restore_probe_optimizer_calls": 1,
+      "WM_optimizer_updates": 0,
+      "native_integrations": 0,
+      "checkpoint_sha256": "4c7562944a878de8a50cfad63fe387c779ce05100414b603aeeb9e6975c40171",
+      "portable_policy_sha256": "0cf6f0ae69f66b32d8aca97b305f59aec842900d852fdaeae305b5e713d6ac3f",
+      "teacher_sha256": "4f6f6cc8c0efc900f924cc43d0002c69557b896f588194ded6469905cf011bbe",
+      "complete_restore_error": 0.0,
+      "endpoint_reload_error": 0.0,
+      "portable_max_logit_error": 4.76837158203125e-07,
+      "TRAIN_prefixes": 6,
+      "DEV_prefixes": 2,
+      "TRAIN_parents": [
+        "PILOT1_CONTACT_PARENT_C02_V1",
+        "PILOT1_CONTACT_PARENT_C04_V1",
+        "PILOT1_CONTACT_PARENT_C05_V1"
+      ],
+      "expected_exit_return": [
+        0.0,
+        1.0
+      ],
+      "TRAIN_action_counts": [
+        0,
+        6
+      ],
+      "DEV_action_counts": [
+        0,
+        2
+      ],
+      "state_conditioned_action_advantage_established": false,
+      "strong_rule_advantage_established": false,
+      "full_manipulation_success": false,
+      "device": "cuda:0",
+      "GPU_memory": {
+        "peak_allocated_bytes": 68281856,
+        "peak_reserved_bytes": 69206016
+      },
+      "last_loss": 5.743687870563008e-05,
+      "CPU_s": 5.270760717,
+      "wall_s": 5.562525141052902,
+      "peak_RSS_KiB": 1160340
+    },
+    "worker": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 7.13240783335641,
+      "child_CPU_s": 6.6080689999999995
+    }
+  },
+  "policy_DEV": {
+    "batch": {
+      "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "children": [
+        {
+          "run": "pilot1-contact-policy-dev-c03-01-slot-0",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 220,
+          "cpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "task_atoms": 128,
+          "collection": true
+        },
+        {
+          "run": "pilot1-contact-policy-dev-c03-01-slot-1",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 221,
+          "cpus": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "task_atoms": 128,
+          "collection": true
+        }
+      ],
+      "wall_s": 64.67165010329336,
+      "physical_owners": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "learning_atoms": 256
+    },
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "CPU_s": 0.285330919,
+      "child_CPU_s": 227.375955,
+      "wall_s": 64.94587751710787,
+      "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+    },
+    "scores": [
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 743,
+        "terminal_noncontact_s": 1.486,
+        "actual_TCP_away_Y_m": 0.0009868033502788073,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": true,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 1567,
+        "contact_positive_atoms": 70,
+        "contact_negative_atoms": 58,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      },
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 1184,
+        "terminal_noncontact_s": 2.368,
+        "actual_TCP_away_Y_m": 0.0014583507647224388,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": true,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 829,
+        "contact_positive_atoms": 46,
+        "contact_negative_atoms": 82,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      }
+    ]
+  },
+  "TEST": "COMPLETED_FROZEN_C06_NO_TUNING",
+  "policy_TEST": {
+    "batch": {
+      "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "children": [
+        {
+          "run": "pilot1-contact-policy-test-c06-01-slot-0",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 220,
+          "cpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "task_atoms": 128,
+          "collection": true
+        },
+        {
+          "run": "pilot1-contact-policy-test-c06-01-slot-1",
+          "exit_code": 0,
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 5703,
+          "shutdown_clean": true,
+          "ROS_DOMAIN_ID": 221,
+          "cpus": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "task_atoms": 128,
+          "collection": true
+        }
+      ],
+      "wall_s": 62.78177606174722,
+      "physical_owners": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "learning_atoms": 256
+    },
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "CPU_s": 0.281986836,
+      "child_CPU_s": 224.25493,
+      "wall_s": 63.0727220531553,
+      "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+    },
+    "scores": [
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 630,
+        "terminal_noncontact_s": 1.26,
+        "actual_TCP_away_Y_m": 0.0011131370846853145,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": true,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 1451,
+        "contact_positive_atoms": 70,
+        "contact_negative_atoms": 58,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      },
+      {
+        "actual_contact_before_withdraw": true,
+        "terminal_noncontact_native_ticks": 1254,
+        "terminal_noncontact_s": 2.508,
+        "actual_TCP_away_Y_m": 0.0012697762164473013,
+        "actual_table_support_at_end": true,
+        "qualified_contact_exit": true,
+        "full_manipulation_success": false,
+        "schema": "WM02_PILOT1_ACTUAL_TOUCH_WITHDRAW_SCORE_V1",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "original_contact_threshold_N": 0.05,
+        "actual_task_atoms": 128,
+        "contact_positive_native_ticks": 529,
+        "contact_positive_atoms": 32,
+        "contact_negative_atoms": 96,
+        "history_conditional_not_complete_MPC_WBC_state": true
+      }
+    ]
+  },
+  "sealed_native_totals": {
+    "attempts": 47,
+    "PASS": 46,
+    "preserved_recorder_failures": 1,
+    "native_ticks": 211266,
+    "raw_task_atoms": 3745,
+    "native_CPU_s": 3470.407105403,
+    "aggregate_native_worker_wall_s": 1692.937793472,
+    "wall_definition": "EACH_BATCH_WALL_COUNTED_ONCE"
+  },
+  "training_totals": {
+    "main_WM_updates": 16000,
+    "WM_restore_probe_optimizer_calls": 8,
+    "main_Actor_updates": 6000,
+    "Actor_restore_probe_optimizer_calls": 3
+  },
+  "labels": {
+    "LOCAL_PILOT_TRAINED": true,
+    "LOCAL_POLICY_EVALUATED": true,
+    "LOCAL_CONTROL_GAIN": false,
+    "CONTACT_DATA_AVAILABLE": true,
+    "CONTACT_POLICY_EVALUATED": true,
+    "FULL_MANIPULATION_SUCCESS": false
+  },
+  "legacy_batch_count_note": "The immutable DEV/TEST V5 batch RESULT learning_atoms=256 means raw recorded task atoms in that version; actual TRAIN additions and fitting from DEV/TEST are zero. New successor runner reports eligible TRAIN only.",
+  "free_TEST_partial": {
+    "status": "FROZEN_FREE_TEST_PANEL_FAILED_PRESERVED",
+    "native_attempts": 12,
+    "native_PASS": 11,
+    "preserved_native_recording_failure": 1,
+    "actual_ticks": 49236,
+    "actual_complete_physical_task_atoms": 768,
+    "structured_task_atoms": 704,
+    "CPU_s": 826.605265906,
+    "worker_wall_s": 288.49170837691054,
+    "coordinator_CPU_s": 0.7627018500000001,
+    "coordinator_wall_s": 295.77229243377224,
+    "unit_RAM_peak_bytes": 2792656896,
+    "original_safety_STOPs": 0,
+    "failure": "FILE_NOT_FOUND_READING_FINAL_PAUSE_ACK_AFTER_4103_TICKS",
+    "old_failed_trial_repeated": false,
+    "unstarted_P24_rows": 10,
+    "successor_source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+    "successor_driver_sha256": "94404f1016e5c4e6cabaffbcd61abe885db21c713397c97f359b79c1474c57b4",
+    "successor_status": "REGISTERED_AND_ACTIVE_TEN_UNSTARTED_ROWS_ONLY",
+    "new_TRAIN_atoms": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0
+  }
+}

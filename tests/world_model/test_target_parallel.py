@@ -17,8 +17,41 @@ class ParallelOwner(unittest.TestCase):
             finally:
                 if b.poll()is None:b.kill();b.wait()
     def test_child_environment_keeps_native_ros_paths_after_current_capsule(self):
-        env=child_environment(dict(source_root='/fixture/current',native_environment=dict(PYTHONPATH='/fixture/ros',CUDA_VISIBLE_DEVICES='old')), [8,9])
+        env=child_environment(dict(source_root='/fixture/current',native_environment=dict(PYTHONPATH='/fixture/ros',CUDA_VISIBLE_DEVICES='old',TMPDIR='/old'),tmp='/slot1/tmp',logs='/slot1/logs',cache='/slot1/cache'), [8,9])
         self.assertEqual(env['PYTHONPATH'],'/fixture/current/src:/fixture/current:/fixture/ros');self.assertEqual(env['CUDA_VISIBLE_DEVICES'],'')
+        self.assertEqual(env['TMPDIR'],'/slot1/tmp');self.assertEqual(env['ROS_LOG_DIR'],'/slot1/logs');self.assertEqual(env['XDG_CACHE_HOME'],'/slot1/cache')
+
+    def test_contact_two_slot_requires_single_qualification_and_real_prior_batch(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);runs=root/'separate-data-disk';runs.mkdir();previous=root/'previous';previous.write_text('{}')
+            proof=root/'prior';proof.write_text(json.dumps(dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED',children=[dict(ticks=4103,shutdown_clean=True,exit_code=0)]*2)))
+            batch=dict(schema='WM02_PILOT1_TWO_CONTACT_BATCH_V1',campaign_root=str(root),native_runs_root=str(runs),registered_root=str(runs/'batch'),source_sha='fixture',physical_owner_lock=str(root/'owner'),cpus=list(range(8)),slots=[],pilot1_binding='actual-window',pilot1_binding_sha256='pin',parallel_qualification=str(proof),parallel_qualification_sha256=digest(proof));children=[]
+            for i in range(2):
+                r=runs/str(i);r.mkdir();c=dict(registered_root=str(r),parallel_batch_spec=str(runs/'batch/EXECUTION_SPEC.json'),campaign_root=str(root),physical_owner_lock=batch['physical_owner_lock'],source_sha='fixture',ROS_DOMAIN_ID=220+i,cpus=list(range(i*4,i*4+4)),phase='collect-target-pilot1-contact',max_ticks=5703,pilot1_binding='actual-window',pilot1_binding_sha256='pin',previous_stage=str(previous));s=r/'SPEC';s.write_text(json.dumps(c));batch['slots'].append(dict(spec=str(s),spec_sha256=digest(s)));children.append(c)
+            # This isolates the layout seam; contact.validate has independent real-file tests.
+            with patch('go2arx5_vla.world_model.pilot1_contact.validate',return_value=5703)as validate:
+                validate_layout(batch,children);self.assertEqual(validate.call_count,2)
+                with self.assertRaises(PermissionError):validate_layout(dict(batch,parallel_qualification_sha256='wrong'),children)
+                with self.assertRaises(PermissionError):validate_layout(batch,[children[0],dict(children[1],pilot1_binding='different')])
+                with self.assertRaises(PermissionError):validate_layout(dict(batch,native_runs_root=str(root/'elsewhere')),children)
+                validate.side_effect=PermissionError('single-scene-unqualified')
+                with self.assertRaisesRegex(PermissionError,'single-scene-unqualified'):validate_layout(batch,children)
+            episode=root/'episode';episode.write_text(json.dumps(dict(purpose='EVALUATION')))
+            freechildren=[dict(c,phase='collect-target-pilot1',max_ticks=4103,episode_manifest=str(episode))for c in children]
+            freebatch=dict(batch,schema='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1',slots=[])
+            for slot,child in zip(batch['slots'],freechildren):
+                Path(slot['spec']).write_text(json.dumps(child));freebatch['slots'].append(dict(spec=slot['spec'],spec_sha256=digest(slot['spec'])))
+            with patch('go2arx5_vla.world_model.pilot1_episode.episode_limit',return_value=4103):
+                validate_layout(freebatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='SCENE_QUALIFICATION')))
+                with self.assertRaisesRegex(PermissionError,'PREQUALIFIED_EVALUATION_SCENES'):validate_layout(freebatch,freechildren)
+                trainbatch=dict(freebatch,schema='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1')
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TRAIN')));validate_layout(trainbatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TEST')))
+                with self.assertRaises(PermissionError):validate_layout(trainbatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TRAIN')))
+                with self.assertRaises(PermissionError):validate_layout(freebatch,freechildren)
     def test_inherited_lock_remains_exclusive_until_last_child_closes(self):
         with tempfile.TemporaryDirectory()as tmp:
             path=Path(tmp)/'owner';lock=OwnerLock(path);fd=lock.handle.fileno()

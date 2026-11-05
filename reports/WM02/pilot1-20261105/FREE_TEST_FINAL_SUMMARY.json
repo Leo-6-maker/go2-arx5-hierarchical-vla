@@ -1,0 +1,1253 @@
+{
+  "schema": "WM02_PILOT1_FIXED_TEST_FINAL_V1",
+  "data_identity_sha256": "53d327fd1741d6002912619832bcfc82125feb4742c20a5a26c3c55441df60e6",
+  "native_attempts": 22,
+  "qualification_attempts": 2,
+  "policy_evaluation_attempts": 20,
+  "native_PASS": 21,
+  "native_FAILED_finalization": 1,
+  "actual_native_ticks": 90266,
+  "published_structured_task_atoms": 1344,
+  "complete_physical_consumption_task_atoms": 1408,
+  "TEST_TRAIN_additions": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "native_worker_CPU_s": 1478.597073125,
+  "native_worker_wall_s": 491.8448350690305,
+  "coordinator_CPU_s": 1.401289095,
+  "method_summary": {
+    "FROZEN_ARX_SELECTOR": {
+      "attempts": 4,
+      "native_PASS": 4,
+      "native_FAILED": 0,
+      "recorded_physical_successes": 3,
+      "native_PASS_and_task_success": 3,
+      "recorded_mean_XY_error_mm": 0.12931871775203693
+    },
+    "GEOMETRIC_DIRECTION_RULE": {
+      "attempts": 4,
+      "native_PASS": 4,
+      "native_FAILED": 0,
+      "recorded_physical_successes": 0,
+      "native_PASS_and_task_success": 0,
+      "recorded_mean_XY_error_mm": 0.7599827567743124
+    },
+    "TRAINED_ACTOR-V0": {
+      "attempts": 4,
+      "native_PASS": 4,
+      "native_FAILED": 0,
+      "recorded_physical_successes": 1,
+      "native_PASS_and_task_success": 1,
+      "recorded_mean_XY_error_mm": 0.7293417522990567
+    },
+    "TRAINED_ACTOR-V1": {
+      "attempts": 4,
+      "native_PASS": 4,
+      "native_FAILED": 0,
+      "recorded_physical_successes": 1,
+      "native_PASS_and_task_success": 1,
+      "recorded_mean_XY_error_mm": 0.5523496464455223
+    },
+    "TRAIN_MEAN_RESPONSE_RULE": {
+      "attempts": 4,
+      "native_PASS": 3,
+      "native_FAILED": 1,
+      "recorded_physical_successes": 3,
+      "native_PASS_and_task_success": 2,
+      "recorded_mean_XY_error_mm": 0.11846371097239011
+    }
+  },
+  "identity": {
+    "schema": "WM02_PILOT1_SEALED_FIXED_TEST_IDENTITY_V1",
+    "stages": [
+      {
+        "run": "pilot1-free-test-panel-01",
+        "result_sha256": "56527595f34efda57496071621a5760c385954c38497a1c40b476bb09afcd164",
+        "input_sha256": "e7268208f2348add3ad25c75122ebc3c8a59f10589cacba07bf191d9dbf17062",
+        "driver_sha256": "50352c24cd46fe3bff4e639edd22729378d6318586c4bf35d103999835ce8fde",
+        "status": "FROZEN_FREE_TEST_PANEL_FAILED_PRESERVED"
+      },
+      {
+        "run": "pilot1-free-test-panel-02",
+        "result_sha256": "d70abe01cd7d6c781ecff804521c4069c37d0cb735e0d7ba8f21daaa1e3860d6",
+        "input_sha256": "8c3444f45d52370257990b909875b6f10e83caf71fda4dc03c249ad7422f4ac5",
+        "driver_sha256": "94404f1016e5c4e6cabaffbcd61abe885db21c713397c97f359b79c1474c57b4",
+        "status": "FROZEN_FREE_TEST_REMAINDER_COMPLETE"
+      }
+    ],
+    "rows": [
+      {
+        "run": "pilot1-free-test-q-p23-01",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "SCENE_QUALIFICATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "FROZEN_ARX_SELECTOR",
+        "variant": "V0",
+        "goal_index": 0,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "FROZEN_ARX_SELECTOR",
+          "purpose": "SCENE_QUALIFICATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26386621460069337,
+            -0.022165634067644532,
+            0.7089425045823928
+          ],
+          "task_goal_xy_m": [
+            0.2639026973040286,
+            -0.022210762099629085
+          ],
+          "actual_XY_error_m": 5.8030396461208296e-05,
+          "action": 0,
+          "objective_m": 5.8030396461208296e-05,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -9.88524877859609e-05,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "c85914ceccc158fdf73afaa77fc52290963997eb5b64440939aa44c458f1951c",
+          "EPISODE_MANIFEST.private.json": "6e9bfb663cc75a39f39a09df493a3f837f3737143ac07b9322a5d040158b0964",
+          "native-01/RESULT.json": "2de4fc070b38571cc63fbb2ca7071bee518b7cb768dd69333912069e5932396c",
+          "native-01/state.bin.journal": "324832283aebd718929a6a0869809626218de8f250acccf20c1fcd1ac0c44dbe",
+          "native-01/COMMANDS.private.jsonl": "d04a28d1b81e8b244fa81404ddb93187251f23c3e2f163dcc2d4942268c8b48d",
+          "native-01/PILOT1_SCORE.private.json": "edf7c03b2c42c6f130d014ae694438e7830564cd413f0ab42d6e6edce267ed9f",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "10105137eeb03d2b6c2cf48ba1dac6fd925c1030c0101e8136391a543e1fdb02"
+        }
+      },
+      {
+        "run": "pilot1-free-test-q-p24-01",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "SCENE_QUALIFICATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V0",
+        "goal_index": 64,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "SCENE_QUALIFICATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2618082034777799,
+            -0.02190868618110306,
+            0.7088256033102316
+          ],
+          "task_goal_xy_m": [
+            0.2624080329778058,
+            -0.022002289865474933
+          ],
+          "actual_XY_error_m": 0.0006070890205145512,
+          "action": 0,
+          "objective_m": 0.0006070890205145512,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00020116626791677472,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "977496540ec81fa9882a10c0d643e1566b627079bb7e2eaac9352ee75d1573d1",
+          "EPISODE_MANIFEST.private.json": "27a2b78cd3801ef6e59105a4e9abf343eac1626859e338afcdba4dee82d48616",
+          "native-01/RESULT.json": "3d52ba398b85dc0da0f92ad775e691742769b6ebdc870e07eddd7961ac73cf8f",
+          "native-01/state.bin.journal": "3a6c899a8085a7a47df63609a7edced68722b2b7d14a59c7cac904dc8f84bab9",
+          "native-01/COMMANDS.private.jsonl": "c4e71b1b6396c1ae44e84a965f1650063c5d9a5a4748926bd08765ffbb308b70",
+          "native-01/PILOT1_SCORE.private.json": "623da7d523f4e0439e7a359e0380255292b509bb96c498649acd9268cfa43fbc",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "889e8bdf888bcb4cc90f28169484ac4dc912b89773144ebceddf30821a95158a"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-00-01-slot-0",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "FROZEN_ARX_SELECTOR",
+        "variant": "V0",
+        "goal_index": 0,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "FROZEN_ARX_SELECTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2645040568171403,
+            -0.022580167983783355,
+            0.7087703515112193
+          ],
+          "task_goal_xy_m": [
+            0.2644676064062409,
+            -0.022614919850446436
+          ],
+          "actual_XY_error_m": 5.036193692962007e-05,
+          "action": 0,
+          "objective_m": 5.036193692962007e-05,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.00028275361103058394,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "466e40097bd83bc901db1895c75fc54f527bf39a7fc7f86819045fd90bc50dec",
+          "EPISODE_MANIFEST.private.json": "95d652d7214c84c3cdb55e563293e634210e8b7ab616e97df1bd7174a99fbb63",
+          "native-01/RESULT.json": "4a14c551921c0a560e989253b0dab1eaa09d6afb65e60f0b28dd4ce646fe9759",
+          "native-01/state.bin.journal": "f846d4fe09a69364e24202e1d29662181a6ca87ac7501e352ca20eb33d1eca9b",
+          "native-01/COMMANDS.private.jsonl": "ae982e5ea4c965c6b7261ca0324f77d36f2593290c9fd6972b88c3d0b55604f1",
+          "native-01/PILOT1_SCORE.private.json": "6f13231d811aaed586ac63797c806b6b7f02334149ecedf6269b1cca02a57868",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "7bcf65085ab8a2f94a1416c9bded17e888cc4bd4f0f095d71659fcfe9b928a4e"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-00-01-slot-1",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V0",
+        "goal_index": 0,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26425447679836944,
+            -0.021389203026368715,
+            0.7086193646987524
+          ],
+          "task_goal_xy_m": [
+            0.263714392642817,
+            -0.0214343262134332
+          ],
+          "actual_XY_error_m": 0.0005419658633988545,
+          "action": 1,
+          "objective_m": 0.0005619658633988546,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00036324617403582504,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "90e3a62fffbec4d0f9a2755526c87f6afb4a2be51f578434025dd0db48df9116",
+          "EPISODE_MANIFEST.private.json": "adec183051d8de8e12696cef9b0337b4e017dffde8025daf1cff4ae9530b7b23",
+          "native-01/RESULT.json": "c556d9fee4cac060bad8bc623fa206a061457830d86d3ba23669ea60d2e48059",
+          "native-01/state.bin.journal": "17dc19c48383b678a69e48f8de8b02e0b8e2ac40cdac9118967aa96cde054742",
+          "native-01/COMMANDS.private.jsonl": "5b824b7adeddd029bee1b61b97b27c67159f47885299b5b88a299eb1adc3e3ab",
+          "native-01/PILOT1_SCORE.private.json": "33bbb5b8f42e942bfa05cacb125ff21f52dd5c9242b4127dae0f43bdfefb11e7",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "f5662c9025981edb249e1d8654c1dbd46daf393826e952c13d7a30098f559fd5"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-01-01-slot-0",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V1",
+        "goal_index": 0,
+        "Actor_sha256": "1477e50600407a2f741aa8514ed94555d7d7578db9be9524eb002da15e1f1a82",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26547654975145396,
+            -0.020991178308759247,
+            0.7086551882433157
+          ],
+          "task_goal_xy_m": [
+            0.2649881787845164,
+            -0.021174917308698037
+          ],
+          "actual_XY_error_m": 0.0005217913581557483,
+          "action": 1,
+          "objective_m": 0.0005417913581557483,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00024106805483548044,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "41595108ac59bf1f41f7b7a1cb98a59f57ff42737f5d9be5c2ed310e11f2df85",
+          "EPISODE_MANIFEST.private.json": "e77705994bf2daedf317cf3c31d3747d40763b43f6686eecb41746e2a7272311",
+          "native-01/RESULT.json": "1ab89f965796c448c96853788974f01251746b91bfdb74a84f08134438a44412",
+          "native-01/state.bin.journal": "a224f661572611c2f3f3d5e6d1d47b15bdc22c7d9e8765ba5fc913d37686ec0c",
+          "native-01/COMMANDS.private.jsonl": "1c0c97d2ab595730c8c3ed73a73f701389eb370b59c2d1eb939361dcfc83b4a8",
+          "native-01/PILOT1_SCORE.private.json": "f67a6131f550cf5688820b19ce30f58e8a1d27eb9f1360c61f89df45e212662e",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "1192095a51d272e052aa7f693f2c6a560f3a035e55a8da9556554c2914e7ab97"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-01-01-slot-1",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "GEOMETRIC_DIRECTION_RULE",
+        "variant": "V0",
+        "goal_index": 0,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "GEOMETRIC_DIRECTION_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2635674264534498,
+            -0.02221812322342253,
+            0.7089862229557181
+          ],
+          "task_goal_xy_m": [
+            0.26423617276324474,
+            -0.022259351407291416
+          ],
+          "actual_XY_error_m": 0.0006700159625034587,
+          "action": 2,
+          "objective_m": 0.0006900159625034588,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -2.768686378851193e-05,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "188fb062076644c23d95531eab8fc09e8a0c5ba424ec30bbc504544fe1e96efd",
+          "EPISODE_MANIFEST.private.json": "202d9718bc3d4ca19009737e2d29aee8dad1ddbb0992a5071d0d472af6e67190",
+          "native-01/RESULT.json": "477806d5b294644f9bcb2993f90c08d088650ce575d7361543c5b063ad044236",
+          "native-01/state.bin.journal": "6d7038b6b67808ad52f9cf8af6ef657baf98a91ae1978a04925086cac8d89908",
+          "native-01/COMMANDS.private.jsonl": "021b5c0173751cbb1c2983bbabbac80e7ee5504d2925846f41cdbe7e6352ff9d",
+          "native-01/PILOT1_SCORE.private.json": "8f1dce53c0419bea1fb11f93be4f4855d8c3abf74bff407f4ff93cc8c8418a45",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "f97a4f5f5b8e625c0067a6ddd2db80fb2ea9106185c9a8d48f49a4633d6e3398"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-02-01-slot-0",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAIN_MEAN_RESPONSE_RULE",
+        "variant": "V0",
+        "goal_index": 0,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAIN_MEAN_RESPONSE_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26363477321824924,
+            -0.021802760355954746,
+            0.7085449981696501
+          ],
+          "task_goal_xy_m": [
+            0.26364140014685383,
+            -0.021852960736773584
+          ],
+          "actual_XY_error_m": 5.063590047670492e-05,
+          "action": 0,
+          "objective_m": 5.063590047670492e-05,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.0004706972792414277,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "a112b403e272b139e31f1060e95ba90904a05f4b55172b64543bcb534a1d020b",
+          "EPISODE_MANIFEST.private.json": "951156847bda607d282739987e702bcc91a26f83a1d35e125275218dd3bfd850",
+          "native-01/RESULT.json": "ac7f4281705982fdba94aba978ff895af71517598242d44ce8c1d11b820c3b9b",
+          "native-01/state.bin.journal": "ffa299291abdb93bfa3f1bc0f5371b28b47891613281aecbbb50134584b565f1",
+          "native-01/COMMANDS.private.jsonl": "c0d885b1d19bdec2e279cdb10ef6d05ea1b346695b1c5437f5e03a430af4392c",
+          "native-01/PILOT1_SCORE.private.json": "d00bb7f00c4b37973b7f27d7f7844141822a486de1887b3faf2a2d0da67728c4",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "914a5d57f1d95e958d99440f7f1d13845fe6e34692daaa51a152c26a09c0005d"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-02-01-slot-1",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "FROZEN_ARX_SELECTOR",
+        "variant": "V0",
+        "goal_index": 192,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "FROZEN_ARX_SELECTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2638922947721417,
+            -0.02162011349553077,
+            0.7088035986551263
+          ],
+          "task_goal_xy_m": [
+            0.2638713349348533,
+            -0.02155283805680007
+          ],
+          "actual_XY_error_m": 7.046488086674103e-05,
+          "action": 3,
+          "objective_m": 9.046488086674103e-05,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.00038023064780556837,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "bcd1d82638eab1998f22eacac2ff78e861632e596afc0cf7fe774ca46fe75023",
+          "EPISODE_MANIFEST.private.json": "be472f9fe8b14476d04729b7498468747bd40a349e7768d06a33504dbf8bed94",
+          "native-01/RESULT.json": "4374ec7c0c5c5015590cf9fcc87262d8946612b313cb211c562dd8ef5dd2deaf",
+          "native-01/state.bin.journal": "c625ab935f7d44e7e62d8e5295064faf6ef3e8697a980c1bb15edbf18a9c75bb",
+          "native-01/COMMANDS.private.jsonl": "3894edc8b1b68dc1b5d7190a6e8af00cf507591cb5f9ce31b1b7dcf510333dfe",
+          "native-01/PILOT1_SCORE.private.json": "1af70a0441070263ea4f98de6d829d181c77e949f8c644ba0b53efba593ba1a2",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "d1782909cca14a1b89032379b4f2e053bd9072428fa899f11fcc0d562fdd0d71"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-03-01-slot-0",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V0",
+        "goal_index": 192,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.264916269587449,
+            -0.02208285659405718,
+            0.7087728779451228
+          ],
+          "task_goal_xy_m": [
+            0.2643128626556385,
+            -0.02153202152781114
+          ],
+          "actual_XY_error_m": 0.0008170184793278722,
+          "action": 1,
+          "objective_m": 0.0008370184793278722,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.0003578969140463073,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "ca1f46b842cc2766bd9f6d880f57d9644e133a9b0320c04d3870d97ed6516d5e",
+          "EPISODE_MANIFEST.private.json": "1017301c77f43ff5ee7384dbfc2cc3e9a8ecf407a104063845f58ceb7b342f26",
+          "native-01/RESULT.json": "be2f2c156437eaab1413ce75b23ba57852c27cf20f9c269bd8faba64b1fb4af0",
+          "native-01/state.bin.journal": "5daee88eff97bdc668ebcfc7fab93338c90aec279038f73629f6834ab1c8c991",
+          "native-01/COMMANDS.private.jsonl": "004b540e4d0e6e7d08afbd1307b082d156fed61bf3e794de7577cfdb0fddb524",
+          "native-01/PILOT1_SCORE.private.json": "c3240e97bf1c8bb4ce11bb26ffbec2fa7ab4b4ad53b189106e23fa46d5f5b569",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "d2dfdd267bf58a4af0774e4e6961f85152316a29af88da3ba8b6dca46459b16e"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-03-01-slot-1",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V1",
+        "goal_index": 192,
+        "Actor_sha256": "1477e50600407a2f741aa8514ed94555d7d7578db9be9524eb002da15e1f1a82",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2646558844128667,
+            -0.021859047687266778,
+            0.7088147508395158
+          ],
+          "task_goal_xy_m": [
+            0.26411718094368075,
+            -0.021291609663843095
+          ],
+          "actual_XY_error_m": 0.0007824240142914487,
+          "action": 1,
+          "objective_m": 0.0008024240142914487,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00014514338862747778,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "c7fc4398df6d933cab81680dc89a55edddeb97fb8d317d1c3141a0e135226dd9",
+          "EPISODE_MANIFEST.private.json": "cbb9be840a895d2e7ed276659bd54c3255a1f631a12f3dc908e62b384e182963",
+          "native-01/RESULT.json": "c6bf1258dadf3e7c6558107c167081c2d03bc32ffe14323c0cb0b7d9b34ad855",
+          "native-01/state.bin.journal": "75511227ef4ad25fda20cb6c5523ed18d7db757fc5b877f15109b7547ff07aae",
+          "native-01/COMMANDS.private.jsonl": "8e86627557678511ed3c5011e5b954442d0ffcaad51ff415dad2b34e7b1162ea",
+          "native-01/PILOT1_SCORE.private.json": "187cc3c18a6fd8b38d8443c422938b93b38efca9815a64796f714670cd05f0bd",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "374c11b5f487647a5d825a83a4cb9d8951dae446a4771c3314c5d8384bc15bf5"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-04-01-slot-0",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "GEOMETRIC_DIRECTION_RULE",
+        "variant": "V0",
+        "goal_index": 192,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "GEOMETRIC_DIRECTION_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2639061589921795,
+            -0.022642160715951987,
+            0.708933615307154
+          ],
+          "task_goal_xy_m": [
+            0.2645373632133038,
+            -0.022079979994244936
+          ],
+          "actual_XY_error_m": 0.0008452608666111142,
+          "action": 2,
+          "objective_m": 0.0008652608666111142,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": 2.3842589957911997e-07,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "3533e4ba8de96ede1d0a09598facc63bc96dbc74b797aa01421417989bb00a19",
+          "EPISODE_MANIFEST.private.json": "2b463c65c05f52bc2793542506c100f0f562a6cac97634752636e8da2ef8e38d",
+          "native-01/RESULT.json": "57e05a94adf5748b298651a57a7e989060f8af02a24fffd98b309b4ad908a558",
+          "native-01/state.bin.journal": "a9a734772c5a25fc192a0fefc17df67e466d3a66629ff9b73470126c4f222b83",
+          "native-01/COMMANDS.private.jsonl": "8517d6128c1d937a1a4f6c1b311ff1ccb0aac47d6cb6ef4536172b784ca12221",
+          "native-01/PILOT1_SCORE.private.json": "2edb8613eb866a2785acfccbac5248e9084dcd0f9c4da4228dd6dbe6e1e4651e",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "6b53ed0595d29ff1c39a6bcce5ed4d316f3abcf28669e966590c4ee3f15a20e3"
+        }
+      },
+      {
+        "run": "pilot1-free-test-pair-04-01-slot-1",
+        "source_sha": "5f329b9b3128e26f5393592f02585918e794e98d",
+        "purpose": "EVALUATION",
+        "scene_id": "P23",
+        "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAIN_MEAN_RESPONSE_RULE",
+        "variant": "V0",
+        "goal_index": 192,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "c08bb955b017941a6ee5c26bff682a12c328359af8724534f62ed4035c6bf3f8",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_FAILED_PRESERVED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAIN_MEAN_RESPONSE_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_23_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2653298566497486,
+            -0.021000148402838877,
+            0.7088756652067579
+          ],
+          "task_goal_xy_m": [
+            0.26536146113751136,
+            -0.020921968038550398
+          ],
+          "actual_XY_error_m": 8.432682258347117e-05,
+          "action": 3,
+          "objective_m": 0.00010432682258347116,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.00014410172515411102,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "70cf7cad4a65f523572a7fc6eb93b3c1b489490cd7022b307c459f662877c881",
+          "EPISODE_MANIFEST.private.json": "9cfb9fb8088852ac0599934894b8e7f48a27b21b0c7addea6b4c3a771964fdd1",
+          "native-01/RESULT.json": "fa298be168265f3ced0c9747fb52beb9511b6630c5426090d43c6a6dd5d07333",
+          "native-01/state.bin.journal": "3519fd8ad1c52520e44931bb8dad9f83b8edf7b366bc07566fe2f18ce7717403",
+          "native-01/COMMANDS.private.jsonl": "28d2053dd2566865c864cfd69522acd4b281c9f78025ff6df7418a92e4c85bd8",
+          "native-01/PILOT1_SCORE.private.json": "9e384f19fd0ff558da40f52d368d59ecd01e64d041a3d0be2e0c2fac19d22a57",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": null
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-00-01-slot-0",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V0",
+        "goal_index": 64,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2608055629649291,
+            -0.022154245546927555,
+            0.7088622916631473
+          ],
+          "task_goal_xy_m": [
+            0.2608338625498031,
+            -0.022277819513909367
+          ],
+          "actual_XY_error_m": 0.00012677299325827382,
+          "action": 1,
+          "objective_m": 0.00014677299325827382,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.0002722611371016592,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "5c768162584ac709158cced70514ad54d206eb022a9611795aad67dda6797347",
+          "EPISODE_MANIFEST.private.json": "d2247e433277fbf9ce8148130c3cfac521500b7d86cf39d7055c98555fa4c010",
+          "native-01/RESULT.json": "4620581f440906482be9a6df5d72424444c0af1582f1e4e4c8772ae8a5b424e6",
+          "native-01/state.bin.journal": "0dd2abf10fad83dc5082c0ba3284b283845696430877be181b5d2965155b4452",
+          "native-01/COMMANDS.private.jsonl": "2b0e388f2901de6884376fdbd9a880e102072f460f98073f8a1d461c6d13f770",
+          "native-01/PILOT1_SCORE.private.json": "cb6d7c6e09c61ff6d578a447333a59fcde964d10bc84949018da5d6f1f2e9ffa",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "73c011d23f730a7521546532b43fddfc71ed481fa5820d9b524ae959cc6db63d"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-00-01-slot-1",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V1",
+        "goal_index": 64,
+        "Actor_sha256": "1477e50600407a2f741aa8514ed94555d7d7578db9be9524eb002da15e1f1a82",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26076912181984646,
+            -0.02200246166299978,
+            0.7088349766988877
+          ],
+          "task_goal_xy_m": [
+            0.2607950148813203,
+            -0.02210826493168204
+          ],
+          "actual_XY_error_m": 0.00010892558145971714,
+          "action": 1,
+          "objective_m": 0.00012892558145971716,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.0002809478789174147,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "b8b83c5a0280680c1db5faa91e38867aba1cef524f0a29e3bacec55b1e32d672",
+          "EPISODE_MANIFEST.private.json": "e8518506404d00fa8d9084e3d8e2199b5b329585af9c178e5b058feb5b9aef62",
+          "native-01/RESULT.json": "fc59fd7a12e457bcf895030a86cc86a83429901b78cf993252cc3bdbcbe44d2a",
+          "native-01/state.bin.journal": "6e2942f5e35289a3da0625e1f5decbf2a0ce2e4d553ea0ae3972ebae9a761697",
+          "native-01/COMMANDS.private.jsonl": "ffdb2300ee7c2c2d0444f2c6cd4250aa34bcaf539389bde3d5df7c6bf6c55dd2",
+          "native-01/PILOT1_SCORE.private.json": "daeb3bcb35e0e03771082ad0647f10c3a9cf926bad1c5fd826838f0805ca27d6",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "c711c1a0d52db3527bb1a36d6ffaab410f6293eb01528c1155a0618c407b0c21"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-01-01-slot-0",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "GEOMETRIC_DIRECTION_RULE",
+        "variant": "V0",
+        "goal_index": 64,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "GEOMETRIC_DIRECTION_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.25967594044832404,
+            -0.0228019413844543,
+            0.708968856231318
+          ],
+          "task_goal_xy_m": [
+            0.26093144971750337,
+            -0.02287440791344172
+          ],
+          "actual_XY_error_m": 0.0012575988719853038,
+          "action": 2,
+          "objective_m": 0.0012775988719853039,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -7.274953865832323e-05,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "a6c1713abf3c72d81bc8868c4e0acaf21f666b471f5209104f82ca66415e763d",
+          "EPISODE_MANIFEST.private.json": "97780c5d929c6cdb6f613f73f10f5b03a4d973562ce74f0096de8fa395ac50ca",
+          "native-01/RESULT.json": "e5e3b4071a9b6ce12e72b0ba86c4f02d35da513fa4770bd80030764a4923e03b",
+          "native-01/state.bin.journal": "71505c14e3bcc42312507908004e036f8b4bff7720752d45e7d8aa4390644efe",
+          "native-01/COMMANDS.private.jsonl": "8b5788ea65ce6081caebda485de0c8609ffdada187678412e00c7991bb9973a9",
+          "native-01/PILOT1_SCORE.private.json": "6cb869ba47f48cfaa6f716bb936bf77f62a494e65873917ad41f05ae868e09e0",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "0503d7e9f644f2170d9ff2ede7920e5b0d519f1f7751ab902d7fb2d81449f7b7"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-01-01-slot-1",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAIN_MEAN_RESPONSE_RULE",
+        "variant": "V0",
+        "goal_index": 64,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAIN_MEAN_RESPONSE_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2607186611276773,
+            -0.02221684821435632,
+            0.7087260798048175
+          ],
+          "task_goal_xy_m": [
+            0.2607215648432497,
+            -0.022320976507912038
+          ],
+          "actual_XY_error_m": 0.00010416877211022045,
+          "action": 1,
+          "objective_m": 0.00012416877211022045,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.0003910480598998678,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "86601a25d874398bf06826b8ffc30d68fc3b881d63c8e543ac7ac865c6a366d7",
+          "EPISODE_MANIFEST.private.json": "70c0ef3ca7042607bd167237618a76ced767205d7dbdb36d988c503a51bb0db3",
+          "native-01/RESULT.json": "b990a99c5c9633db159bc675bc9224b0c31c85b325f4b26c14b3204ff134d393",
+          "native-01/state.bin.journal": "cac7f5d496c34bab6b5cc9a1045cb8f0edec90827f8e0c06f989f3246cadc310",
+          "native-01/COMMANDS.private.jsonl": "380848afb2aabe5f82c1a283dfb361104baa2a7a3b0c1d2ec089c2d46b513a9a",
+          "native-01/PILOT1_SCORE.private.json": "caa3c695c4a7735ab63f027bcf8ccfb23ee90bb9cc41e39c5c4f07fb7672ec60",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "c912f0858fe24cfb8926a13e531c2eab636bdcec0a201518344be6336290195d"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-02-01-slot-0",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "FROZEN_ARX_SELECTOR",
+        "variant": "V0",
+        "goal_index": 64,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "FROZEN_ARX_SELECTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2624006342530601,
+            -0.02197213219382693,
+            0.7087842902436896
+          ],
+          "task_goal_xy_m": [
+            0.2623600725805454,
+            -0.022090344065598982
+          ],
+          "actual_XY_error_m": 0.0001249771815374418,
+          "action": 1,
+          "objective_m": 0.0001449771815374418,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": true,
+          "Z_displacement_m": -0.0004440820414934876,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "76887f342ae1cacd64d370c38a92f3eee009640362669434afe849e1bc164f17",
+          "EPISODE_MANIFEST.private.json": "74ed809cd21c049d815060a42a00e93e49e1a4310ae98d2e8835d740dde50b0a",
+          "native-01/RESULT.json": "af5fb1b70efe75adb42b10de7ca2d2d20f6b3fef1fb5fbc869da799862a4c7d5",
+          "native-01/state.bin.journal": "c13a327778a9797b765179c410b2827c68df8021b1c78848e763c8c368e70951",
+          "native-01/COMMANDS.private.jsonl": "0901a54d19b75ccf89cab0a0145f53b0cffd8e0da04d2d1c7e4893fa4466546c",
+          "native-01/PILOT1_SCORE.private.json": "92716ad95c0cd74fca021a3e0526fa23d11fb55306775f7d4253a44988790444",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "7042075b1677f7cec7f1c09e4b023d42e849b8ed367a35aad72fd556da52bf85"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-02-01-slot-1",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V0",
+        "goal_index": 128,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.26084581620223546,
+            -0.02213212507977955,
+            0.7088289847843519
+          ],
+          "task_goal_xy_m": [
+            0.2594327273367569,
+            -0.022361659640777236
+          ],
+          "actual_XY_error_m": 0.001431609673211226,
+          "action": 1,
+          "objective_m": 0.001451609673211226,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.0002704313087537047,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "47f06245f10693e844464ce166ed8c5ccabf709db3e47ec4ca056e9a8db35955",
+          "EPISODE_MANIFEST.private.json": "940cbb48fdcfaa1f0e989416c09176addbe92d50f5bb92fdcdc3d7928a2d96e0",
+          "native-01/RESULT.json": "2e0c97e597d8adeb63a19051394c0fa2c4fd7ac34456cc202536823577081447",
+          "native-01/state.bin.journal": "246b9e10ccef43576cb94072906a2b3839fea7e5329a83598cde704122c70168",
+          "native-01/COMMANDS.private.jsonl": "55c65656d9689623b0eb96278fe32c964dd451a7132db80e1c7212fe6a7f3262",
+          "native-01/PILOT1_SCORE.private.json": "34d2f65188c904694e6c36217ff7d503d5604d6c62020a5aa47f4288ab508fc2",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "350ddda3490fe9badbf833980be649dfb43269b55ff3972db471a0bcd585f891"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-03-01-slot-0",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAINED_ACTOR",
+        "variant": "V1",
+        "goal_index": 128,
+        "Actor_sha256": "1477e50600407a2f741aa8514ed94555d7d7578db9be9524eb002da15e1f1a82",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAINED_ACTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.25995816525060317,
+            -0.02228586593928261,
+            0.7088709919484948
+          ],
+          "task_goal_xy_m": [
+            0.25918898196918344,
+            -0.022491737976975547
+          ],
+          "actual_XY_error_m": 0.0007962576318751753,
+          "action": 0,
+          "objective_m": 0.0007962576318751753,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00010132363953641033,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "eddb37b2b93e7e2f71096f0516c095a1933a84235a611556c4800c52e0212095",
+          "EPISODE_MANIFEST.private.json": "27a8723311edd4e7b8d1af6c9557a49067a975890619ea14aa3dcb5b411290f3",
+          "native-01/RESULT.json": "442eae6aa1eb6344affedd7f2ca8e8a115aec5108be4bacca22eb0941f509b30",
+          "native-01/state.bin.journal": "02f38ed3cfe3833b063763665060c0f535d79cc60fe8d4e93fdc225c321e87d6",
+          "native-01/COMMANDS.private.jsonl": "37af177349cf5fb53d79ef8968b8bd1e0ab6a59cb490109a4af8ce83ed7bb9f5",
+          "native-01/PILOT1_SCORE.private.json": "6dbbb08d235bddcc56c3b1642e0092e790a317c05bb51e515dccab4f6c088d4f",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "64c72728283b58bfa577f685eb8a05f529f5d7aef61057ab15fa946aa07865b9"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-03-01-slot-1",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "GEOMETRIC_DIRECTION_RULE",
+        "variant": "V0",
+        "goal_index": 128,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "GEOMETRIC_DIRECTION_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.259578525716087,
+            -0.02216566274274285,
+            0.7088943834914734
+          ],
+          "task_goal_xy_m": [
+            0.25938459498070493,
+            -0.02234926398734027
+          ],
+          "actual_XY_error_m": 0.00026705532599737263,
+          "action": 2,
+          "objective_m": 0.00028705532599737263,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00024044223920149932,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "9f8b227d8e4d58c6efc9bb7af53509e78b57f931a51169f7553052e23f34f0e6",
+          "EPISODE_MANIFEST.private.json": "2270ca4e340689849d2375674c8791af7a21a9e4c8b7621d354963e47527a338",
+          "native-01/RESULT.json": "97c694a93edc67908377976a8d1a82f16ae8a0533b73531cc02a8efe5ed3dce1",
+          "native-01/state.bin.journal": "a18030f430a0246bb2e905e8057682ba5bda8aff334b8135c4ed2c325cf1e32c",
+          "native-01/COMMANDS.private.jsonl": "4ca0ca78308c9139cfec8ffc1b3fc56bbbdabc39011d0f7550e15168cd223b4d",
+          "native-01/PILOT1_SCORE.private.json": "6feaa9c5f0c0ec528c834cea88ffbbb7ec6b952ddc919700c418da4315a873c4",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "d2d73effda4642142163fad4052a8ee0a8feb9a0b82fdb16a6e17697d8b5f93c"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-04-01-slot-0",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "TRAIN_MEAN_RESPONSE_RULE",
+        "variant": "V0",
+        "goal_index": 128,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "TRAIN_MEAN_RESPONSE_RULE",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.2596854887003859,
+            -0.02211054066084203,
+            0.7090062220940764
+          ],
+          "task_goal_xy_m": [
+            0.2595206240679057,
+            -0.02227761759937969
+          ],
+          "actual_XY_error_m": 0.00023472334871916392,
+          "action": 2,
+          "objective_m": 0.00025472334871916394,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -0.00010463609579303146,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "4e8f2ec86f0c6640ee9a24acbcadace5c35860922eaf8ecce76abbb4f02b20b5",
+          "EPISODE_MANIFEST.private.json": "3c9247bb4fae34a2f1bb688b4da9a17d06cf982ffce301542abc38893eaf9c3c",
+          "native-01/RESULT.json": "777ea0ce082c0dbe2d7d35270ce6234fe3295b3fbec3a273156ebf4b4807e972",
+          "native-01/state.bin.journal": "0cc7a9f7553f0e78183c79b60b47989b2643e2893b5eb75d42712085b225d591",
+          "native-01/COMMANDS.private.jsonl": "b6fbc71f86bcb8fe3494f780429a052d485f02b758f6be2847108c4cc729c8ae",
+          "native-01/PILOT1_SCORE.private.json": "61573060ec16a0bd355d89f7b2376f0e71bd6e9520dca5df460b9d6180625a4b",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "e9ac7f59adaeb394ce6f1ce7fd3b09070b3f675fd981279db63667fe2952260c"
+        }
+      },
+      {
+        "run": "pilot1-free-test-remain-pair-04-01-slot-1",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "purpose": "EVALUATION",
+        "scene_id": "P24",
+        "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+        "split": "TEST",
+        "method": "FROZEN_ARX_SELECTOR",
+        "variant": "V0",
+        "goal_index": 128,
+        "Actor_sha256": "8a4c4154bfc0dca0a0cb0ece7dc6705022e656dcc1f8e7d9a441f9b06539b458",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "scene_sha256": "edb907fc0743095bcf8d34a1864dff3582a37f0f1c39aeb2c6914b5448eb0a32",
+        "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_ticks": 4103,
+        "complete_task_atom_consumption_records": 64,
+        "clock_consumption_and_trace_complete": true,
+        "recorded_score": {
+          "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+          "method": "FROZEN_ARX_SELECTOR",
+          "purpose": "EVALUATION",
+          "split": "TEST",
+          "parent": "PILOT1_PHYSICAL_PARENT_24_ROOT_VARIATION_V1",
+          "actual_endpoint_TCP_m": [
+            0.260575497991541,
+            -0.021452496584930376,
+            0.7090394952907972
+          ],
+          "task_goal_xy_m": [
+            0.260402836521884,
+            -0.02166198274452932
+          ],
+          "actual_XY_error_m": 0.0002714708716743448,
+          "action": 2,
+          "objective_m": 0.0002914708716743448,
+          "success_tolerance_m": 0.00018584456642062617,
+          "local_XY_success": false,
+          "Z_displacement_m": -9.670057983846014e-05,
+          "full_manipulation_success": false
+        },
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "282af2c271136f25ca2f2fa4b73debc52a18b87243a7ec4ec718814690452b3d",
+          "EPISODE_MANIFEST.private.json": "71fd481b5b62578bae115ebbf5457f411b5d5b56dccb699f3e938b5ea1f6482b",
+          "native-01/RESULT.json": "a4c47141ca2d66e83c348d94ba3d1cf3a0c3bd375a8426a2173c250516e4ba41",
+          "native-01/state.bin.journal": "fca2e38c9d8757bbe9308dc70948e0c02ae85d5dde5a5794a091fbe8faf50a40",
+          "native-01/COMMANDS.private.jsonl": "95dca082fa42ece25b8300a3030e780f452468bd6c06a3d6c5dbb7ae8e3d2cb1",
+          "native-01/PILOT1_SCORE.private.json": "33124033298d00a49962611c4b988406573618d6b9257396f2687e66d90f3512",
+          "native-01/DYNAMIC_DIAGNOSTIC.json": "4a05059ab9cb5751022cc211d4916bf873337cbbfb478beee9978630f35c7178"
+        }
+      }
+    ],
+    "old_native_failure_retained": true,
+    "does_not_grant_native_PASS": true,
+    "TEST_fitting": false
+  },
+  "closed_lease_and_native_process_audit": {
+    "observed_epoch": 1793881313.0780492,
+    "stages": [
+      {
+        "run": "pilot1-free-test-panel-01",
+        "coordinator_status": "FROZEN_FREE_TEST_PANEL_FAILED_PRESERVED",
+        "lease_status": "CLOSED",
+        "unit": "MainPID=0\nResult=exit-code\nExecMainStatus=1\nActiveState=failed\nSubState=failed\n"
+      },
+      {
+        "run": "pilot1-free-test-panel-02",
+        "coordinator_status": "FROZEN_FREE_TEST_REMAINDER_COMPLETE",
+        "lease_status": "CLOSED",
+        "unit": "MainPID=0\nResult=success\nExecMainStatus=0\nActiveState=inactive\nSubState=dead\n"
+      }
+    ],
+    "unclosed": [],
+    "live_exact_native_processes": [],
+    "native_attempts": 22,
+    "native_ticks": 90266,
+    "formal_PASS": 21,
+    "formal_FAIL": 1
+  },
+  "new_TEST_model_selection": false,
+  "learned_control_gain": false
+}

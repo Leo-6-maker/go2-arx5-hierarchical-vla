@@ -15,6 +15,15 @@ def native_startup_readiness(output,reference):
         evidence[name]=list(markers)
     return evidence
 
+
+def supported_object_hypothesis(phase,stage,sample):
+    """Use the existing clone-only attachment hypothesis after actual grasp."""
+    if (phase=='collect-target-pilot1-supported-close'and stage in('close','hold','release')
+            and sample.get('native_grasp')is True):
+        from scripts.pi0294.task_path_model import PlanningObjectMotion
+        return PlanningObjectMotion(sample,mode='ACTUAL_GRASP_ATTACHMENT')
+    return None
+
 def native_display_command(spec,output,environment):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
@@ -154,7 +163,15 @@ class TargetSequentialAdapter:
         write(out/'BEFORE_FIRST_INTEGRATION.json',c)
     def observe(self):
         from scripts.pi0294.task_state import read_state
-        return read_state(self.output/'state.bin')
+        until=time.monotonic()+.25
+        while True:
+            try:return read_state(self.output/'state.bin')
+            except FileNotFoundError:
+                # Same observed live-snapshot publication gap as pause_ack.
+                # Never reuse an old packet or change the native step quota.
+                self.guard()
+                if time.monotonic()>=until:raise
+                time.sleep(.002)
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
         self.advance_initialization(ticks);self.seal_trace(ticks)
@@ -180,19 +197,53 @@ class TargetSequentialAdapter:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
         p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
-        self.publish(self.keys,'ENTER')
+        self.resume_clock_once(ticks)
         def paused():
             try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
-        if not self.spin(35,paused):raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
+        if not self.spin(35,paused):
+            from .storage import write_json
+            ack=self.output/'pause_ack.json'
+            try:pause=json.loads(ack.read_text())
+            except(FileNotFoundError,json.JSONDecodeError):pause=None
+            write_json(self.output/'CLOCK_RESUME_FAILURE.json',dict(requested_step=ticks,
+                matched_subscriptions=self.keys.get_subscription_count(),control=self.control(),
+                pause_ack=pause,automatic_ENTER_retries=0,
+                cause='UNRESOLVED_COMMAND_DELIVERY_OR_NATIVE_CONSUMPTION'))
+            raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
         return self.observe()
+    def resume_clock_once(self,ticks):
+        # ENTER toggles the original native clock. Never retry that write when
+        # consumption is unknown. Topic matching is a separate startup barrier;
+        # odometry reception alone did not establish that this publisher matched.
+        def matched():
+            count=self.keys.get_subscription_count()
+            if count>1:raise RuntimeError('ISOLATED_CLOCK_KEY_HAS_MULTIPLE_SUBSCRIBERS')
+            return count==1
+        if not self.spin(3,matched):raise RuntimeError('OWNED_CLOCK_KEY_SUBSCRIBER_NOT_MATCHED')
+        with(self.output/'CLOCK_RESUME_REQUESTS.jsonl').open('a')as stream:
+            stream.write(json.dumps(dict(requested_step=ticks,matched_subscriptions=1,
+                monotonic_s=time.monotonic(),publication_count=1,
+                consumption_evidence='EXACT_NATIVE_PAUSE_REQUIRED_SEPARATELY'))+'\n')
+        self.publish(self.keys,'ENTER')
     def seal_trace(self,ticks):
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
         # safety. The native quota remains responsible for the actual pause.
-        ack=json.loads((self.output/'pause_ack.json').read_text())
-        if ack.get('running')is not False or ack.get('clock_paused')is not True:raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
-        (self.output/'trace_seal_request').write_text(json.dumps(dict(step=ticks,sim_time_s=self.observe()['time_s'])))
+        snapshot={}
+        def confirmed_pause():
+            # The measured local block filesystem can briefly hide a replaced
+            # live snapshot. Retry reads only; never grant another physics tick.
+            try:ack=json.loads((self.output/'pause_ack.json').read_text());packet=self.observe()
+            except(FileNotFoundError,json.JSONDecodeError):return False
+            if (ack.get('step')!=ticks or packet['step']!=ticks
+                    or ack.get('running')is not False or ack.get('clock_paused')is not True
+                    or abs(ack.get('time_s',float('inf'))-packet['time_s'])>1e-8):
+                raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
+            snapshot.update(packet);return True
+        if not self.spin(3,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
+        request=self.output/'trace_seal_request';pending=request.with_suffix('.pending')
+        pending.write_text(json.dumps(dict(step=ticks,sim_time_s=snapshot['time_s'])));os.replace(pending,request)
         def sealed():
             try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
@@ -297,8 +348,13 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-next2-contact':
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','WITHDRAW':'detach'}.get(getattr(self,'next2_contact_stage',None),'approach')
                 if getattr(self,'next2_contact_stage',None)=='WITHDRAW'and not getattr(self,'next2_contact_manipulation_started',False):stage='approach'
+            if self.spec['phase']=='collect-target-pilot1-supported-close':
+                stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             try:
-                with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+                with forbid_integration(mujoco):
+                    sample=self.measured_task_state();motion=supported_object_hypothesis(self.spec['phase'],stage,sample)
+                    certificate=certify_chunk(self.actual_state.model,sample,matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else(),planning_object_motion=motion)
+                    if motion is not None:certificate['planning_object_motion']=dict(motion.evidence(),source_native_step=sample['native_step'])
             except ValueError as error:
                 self.command_event(dict(phase='reference-certificate-rejected',native_step=packet['step'],source_mpc_s=source,stage=stage,action_EEF10=action.tolist(),reason=str(error),contact_details=getattr(error,'native_contact_details',None),submitted_or_executed=False))
                 raise
@@ -343,6 +399,12 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-pilot1-supported-close':
+            from .pilot1_supported_close import run
+            return run(self)
+        if self.spec['phase']=='collect-target-pilot1-contact':
+            from .pilot1_contact import run
+            return run(self)
         if self.spec['phase']=='collect-target-next2-contact':
             from .next2_contact import run
             return run(self)
@@ -353,12 +415,15 @@ class TargetSequentialAdapter:
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
         next2=self.spec['phase']=='collect-target-next2'
-        next1=self.spec['phase']in('collect-target-next1','collect-target-next2');decision_atom=8;contact=False
+        pilot1=self.spec['phase']=='collect-target-pilot1'
+        next1=self.spec['phase']in('collect-target-next1','collect-target-next2','collect-target-pilot1');decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if next1:
             from .next1_episode import episode_config,assess
             if next2:
                 from .next2_episode import episode_config
+            if pilot1:
+                from .pilot1_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
@@ -395,6 +460,11 @@ class TargetSequentialAdapter:
                 if next2:
                     from .next2_episode import predict_before_install
                     predict_before_install(self,episode)
+                if pilot1:
+                    from .pilot1_episode import choose
+                    chosen=choose(self,episode)
+                    episode=dict(episode,offset_xyz_m=chosen.tolist())
+                    decision_goal=initial['tcp'].copy();decision_goal[:3,3]+=chosen
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
                 if contact:
@@ -435,6 +505,9 @@ class TargetSequentialAdapter:
             index=(step-installed_step)//25
             self.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(self.active_reference['action_EEF10'])[index]))
         if next1 and not hasattr(self,'next1_screen'):assess(self,episode)
+        if pilot1:
+            from .pilot1_episode import score
+            score(self,episode)
         if contact:
             samples=self.next1_samples
             write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,geometry=self.contact_geometry_samples,any_precontact=any(g['precontact_geometry_ready']for g in self.contact_geometry_samples),precontact_end_qualified=len(self.contact_geometry_samples)>=4 and all(g['precontact_geometry_ready']for g in self.contact_geometry_samples[-4:]),native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-decision_atom>=len(self.contact_path)-1))

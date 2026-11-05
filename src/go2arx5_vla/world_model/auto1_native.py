@@ -15,6 +15,15 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-pilot1-supported-close':
+        from .pilot1_supported_close import validate
+        return validate(spec,previous)
+    if phase=='collect-target-pilot1-contact':
+        from .pilot1_contact import validate
+        return validate(spec,previous)
+    if phase=='collect-target-pilot1':
+        from .pilot1_episode import episode_limit
+        return episode_limit(spec,previous)
     if phase=='collect-target-next2-contact':
         from .next2_contact import validate
         return validate(spec,previous)
@@ -62,7 +71,7 @@ def admitted_target(spec_path,run_id,output):
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
                 or previous.get('native_binary_sha256')!=digest(spec['native_binary'])or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
-    if type(spec['candidate_index'])is not int or spec['candidate_index']<1 or(not(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding'))and spec['candidate_index']>6):raise PermissionError('ACTUAL_CANDIDATE_IDENTITY_REQUIRED')
+    if type(spec['candidate_index'])is not int or spec['candidate_index']<1 or(not(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')or spec.get('pilot1_binding'))and spec['candidate_index']>6):raise PermissionError('ACTUAL_CANDIDATE_IDENTITY_REQUIRED')
     limit=phase_limit(spec['phase'],previous,spec)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
     if spec['phase'].startswith(('g2-standing-','collect-target-')):
@@ -81,6 +90,9 @@ def admitted_target(spec_path,run_id,output):
                 or trained.get('main_updates')!=200 or trained.get('continuation_probe_updates')!=1
                 or digest(spec['initial_WM_checkpoint'])!=trained.get('checkpoint_sha256')):raise PermissionError('REAL_TARGET_WM200_AND_RESTORE_REQUIRED_BEFORE_BATCH_B')
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
+    if spec.get('pilot1_binding'):
+        from .pilot1_scope import validate
+        validate(spec,json.loads(Path(spec['registry']).read_text()))
     if spec.get('next2_binding'):
         from .next2_scope import validate
         validate(spec,json.loads(Path(spec['registry']).read_text()))

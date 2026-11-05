@@ -50,7 +50,28 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
-    if gpu and spec.get('execution_site')=='CORE_AUTO1_TARGET_NEURAL':
+    if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU':
+        from .pilot1_scope import PLAN_SHA
+        if (gpu or physics or spec.get('physics') is not False
+                or spec.get('profile') != 'wm02-pilot1-offline-cpu'
+                or spec.get('plan_sha') != PLAN_SHA or spec.get('scope') != 'WM02_PILOT1_PC_MODEL_ONLY'
+                or spec.get('kind') not in ('ARX_RESIDUAL','CONTACT_WM') or spec.get('device') != 'cpu'
+                or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or type(spec.get('endpoint')) is not int
+                or spec['endpoint'] < 1):
+            raise PermissionError('FRESH_LOCAL_PC_PILOT1_CPU_MODEL_ONLY_REQUIRED')
+    if gpu and spec.get('execution_site') == 'CORE_PILOT1_NEURAL':
+        import subprocess
+        from .pilot1_scope import validate_gpu
+        from .pilot1_storage import local_path
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'replay'):
+            local_path(spec,spec[key])
+        for item in spec.get('bundles',[]):local_path(spec,item['path'])
+        reply = subprocess.run(['nvidia-smi', '--id='+spec['GPU_uuid'], '--query-gpu=uuid,memory.free',
+                                '--format=csv,noheader,nounits'], capture_output=True, text=True, check=True, timeout=10)
+        uuid, free = [v.strip() for v in reply.stdout.strip().split(',')]
+        validate_gpu(spec, dict(uuid=uuid, free_bytes=int(free)*1024**2))
+        gpu_baseline = reply.stdout
+    elif gpu and spec.get('execution_site')=='CORE_AUTO1_TARGET_NEURAL':
         import subprocess
         from .target_neural import validate_campaign,validate_device
         from scripts.pi0294.e1.smoke import node_local
@@ -173,6 +194,12 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     if not any(e.get('role') == spec['role'] and e.get('path') == str(root)
                and e.get('source_sha') == spec['source_sha'] for e in registry['entries']):
         raise PermissionError('Existing host-aware registry binding missing')
+    if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU' and not any(
+            e.get('role') == spec['role'] and e.get('path') == str(root)
+            and e.get('executor_node') == spec['host'] and e.get('scope') == spec['scope']
+            and e.get('local_lease') == spec['lease'] and e.get('plan_sha') == spec['plan_sha']
+            and e.get('valid_until_epoch') == spec['deadline_epoch'] for e in registry['entries']):
+        raise PermissionError('ORIGINAL_REGISTRY_LOCAL_OFFLINE_GRANT_REQUIRED')
     lease = json.loads(Path(spec['lease']).read_text())
     if lease['status'] != 'ACTIVE' or lease['run_uuid'] != root.name or lease['spec_sha256'] != digest(spec_path):
         raise PermissionError('Exact active WM01 lease required')
@@ -184,7 +211,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     night_campaign_owner = None
     night_physical_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         if gpu and(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')):
             night_campaign_owner=OwnerLock(Path(spec['campaign_root'])/'OWNER.lock')
@@ -193,7 +220,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         output.mkdir(exist_ok=False)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL') else None))
         yield spec
     finally:
         if night_physical_owner is not None:
