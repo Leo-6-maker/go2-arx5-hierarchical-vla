@@ -1,0 +1,16 @@
+{
+  "schema": "WM02_NEXT1_CONTACT40_ATTAINMENT_V3",
+  "grade": "ABOVE_CONTACT40",
+  "purpose": "Same original above-object goal with96-atom planned ramp and24-atom endpoint HOLD; contact-only40 prefix, no action-model dataset changes",
+  "task_atoms": 160,
+  "screen_atom": 40,
+  "ramp_atoms": 96,
+  "endpoint_hold_atoms": 24,
+  "original_geometry_function": "scripts.pi0294.persistent_teacher.geometry(T1)",
+  "attainment": "Final four actual states must pass unchanged precontact_geometry_ready; reference completion and native safety PASS reported separately",
+  "no_WBC_tracking_bias_compensation": true,
+  "descent_gate": "Both prior qualified actual precontact and current same-executor actual precontact; fresh reset may not substitute previous end state",
+  "if_no_time": "Keep contact PARTIAL rather than exceed current finite task endpoint; no forced timed closure",
+  "actual_prior_ABOVE_goal_error_m": 0.0547608945051306,
+  "actual_prior_precontact": false
+}

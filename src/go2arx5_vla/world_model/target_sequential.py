@@ -345,6 +345,7 @@ class TargetSequentialAdapter:
         if next1:
             from .next1_episode import episode_config,assess
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
+            if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
             decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
         elif self.spec['phase']=='collect-target-night1':
@@ -380,6 +381,10 @@ class TargetSequentialAdapter:
                 # chosen small goal at this actual pause, before its response.
                 if contact:
                     from .next1_contact import planned_path
+                    if episode['contact_grade']=='DESCEND_20_OPEN':
+                        from scripts.pi0294.persistent_teacher import geometry
+                        state=self.measured_task_state()
+                        if not geometry(self.actual_state,state,'T1')['precontact_geometry_ready']:raise RuntimeError('CURRENT_ACTUAL_PRECONTACT_GEOMETRY_REQUIRED_NO_RESET_SUBSTITUTION')
                     self.contact_path=planned_path(initial['tcp'],self.measured_task_state()['object_pose'],episode['contact_grade'])
                     write(self.output/'CONTACT_PLANNED_REFERENCE.private.json',dict(grade=episode['contact_grade'],path=self.contact_path.tolist(),planned_reference_only=True,achieved_state_reanchor=False))
                 goal=decision_goal;decision_applied=True
@@ -391,6 +396,9 @@ class TargetSequentialAdapter:
             clock=require_live_window(self.active_reference['source_mpc_s'],before['time_s'],25)
             event_start=len(self.ros_evidence);after=self.advance_to(step+25);self.spin(.15)
             if next1:self.next1_samples.append(self.measured_task_state())
+            if contact:
+                from scripts.pi0294.persistent_teacher import geometry
+                state=self.next1_samples[-1];g=geometry(self.actual_state,state,'T1');row=dict(native_step=state['native_step'],**{k:v for k,v in g.items()if k not in('actual_pad_corners_world','actual_object_world')});self.contact_geometry_samples.append(row);self.command_event(dict(phase='contact-geometry',**row))
             if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_MODE_REFERENCE_MISMATCH')
             if any(r.get('reason')=='PREFIX_TTL_EXPIRED'for r in self.reference_events()):raise RuntimeError('UNEXPECTED_REFERENCE_EXPIRY')
             installed=[r for r in self.active_reference['receiver_events']if r['kind']=='installed'][-1]
@@ -411,7 +419,7 @@ class TargetSequentialAdapter:
         if next1 and not hasattr(self,'next1_screen'):assess(self,episode)
         if contact:
             samples=self.next1_samples
-            write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-decision_atom>=len(self.contact_path)-1))
+            write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,geometry=self.contact_geometry_samples,any_precontact=any(g['precontact_geometry_ready']for g in self.contact_geometry_samples),precontact_end_qualified=len(self.contact_geometry_samples)>=4 and all(g['precontact_geometry_ready']for g in self.contact_geometry_samples[-4:]),native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-decision_atom>=len(self.contact_path)-1))
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_velocity_labels='ABSENT',BASE_pose_reference='MEASURED_INITIAL_MPC_POSE_HOLD'if hasattr(self,'base_pose_hold')else'ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
