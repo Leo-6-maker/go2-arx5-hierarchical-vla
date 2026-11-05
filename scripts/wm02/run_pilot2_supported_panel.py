@@ -8,6 +8,22 @@ from pathlib import Path
 from contextlib import closing
 
 
+def batch_purpose(inp,plan):
+    from go2arx5_vla.world_model.pilot2_supported import GOALS
+    purpose=inp.get('batch_purpose','SUPPORTED_POLICY_PRODUCTION')
+    if purpose not in ('SUPPORTED_POLICY_PRODUCTION','SUPPORTED_POLICY_DUAL_COMMISSION'):
+        raise ValueError('KNOWN_SUPPORTED_BATCH_PURPOSE_REQUIRED')
+    if purpose=='SUPPORTED_POLICY_DUAL_COMMISSION':
+        rows=plan['single_rows']+plan['paired_repeat_rows']
+        if (len(plan['single_rows'])!=2 or len(plan['paired_repeat_rows'])!=2
+                or len(plan['variants'])!=1 or plan['variants'][0]['method']!='GOAL_FSM'
+                or plan.get('split')!='TRAIN' or len({r['parent']for r in rows})!=1
+                or {r['task_goal']for r in rows}!=set(GOALS)
+                or any(r['method']!='GOAL_FSM'or r['split']!='TRAIN'for r in rows)):
+            raise ValueError('DUAL_COMMISSION_ONLY_BOTH_TRAIN_FSM_GOALS_AFTER_REAL_SINGLES')
+    return purpose
+
+
 def run(input_path):
     from scripts.pi0292.durable import OwnerLock,write
     from scripts.pi0294.e1.journal import Journal
@@ -24,6 +40,7 @@ def run(input_path):
     if digest(inp['panel'])!=inp['panel_sha256']or plan['schema']!='WM02_PILOT2_REPEATED_SUPPORTED_POLICY_PANEL_V1':
         raise ValueError('FROZEN_SUPPORTED_POLICY_PANEL_REQUIRED')
     summarize(plan,[])  # Check scientific condition uniqueness before any grant.
+    purpose=batch_purpose(inp,plan)
     source=Path(inp['source_root']);runs=Path(inp['output_parent']);campaign=Path(base['campaign_root'])
     assets=json.loads(Path(base['scene_allowlist']).read_text());variants={v['name']:v for v in inp['variants']}
     if any(variants[v['name']]['method']!=v['method']for v in plan['variants']):raise ValueError('PREREGISTERED_POLICY_VARIANTS_CHANGED')
@@ -127,7 +144,7 @@ def run(input_path):
                     root.mkdir();(root/'control').mkdir()
                     for n in ['data','cache','logs','tmp']:(root/n).mkdir()
                     children=[spec_for(runs/(root.name+'-slot-'+str(i)),row,root)for i,row in enumerate(group)]
-                    s=dict(base);s.update(schema='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1',purpose='SUPPORTED_POLICY_PRODUCTION',
+                    s=dict(base);s.update(schema='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1',purpose=purpose,
                         profile='wm02-auto1-target-batch',source_sha=inp['source_sha'],source_root=str(source),source_files=inp['source_files'],
                         registered_root=str(root),registry_snapshot=str(root/'REGISTRY_SNAPSHOT.private.json'),lease=str(root/'control/LEASE.json'),
                         role='WM02_'+root.name.upper().replace('-','_'),deadline_epoch=min(time.time()+600,inp['deadline_epoch']),cpus=list(range(8)),

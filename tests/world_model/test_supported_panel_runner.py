@@ -7,7 +7,7 @@ from go2arx5_vla.world_model.storage import digest
 
 
 class SupportedPanelRunner(unittest.TestCase):
-    def execute(self,fail_first=False):
+    def execute(self,fail_first=False,commission=False):
         from scripts.wm02.run_pilot2_supported_panel import run
         from go2arx5_vla.world_model.pilot2_supported_policy_runtime import validate_single_qualification
         with tempfile.TemporaryDirectory()as tmp:
@@ -25,7 +25,13 @@ class SupportedPanelRunner(unittest.TestCase):
             for x in ['FSM_STUDENT','WM_STUDENT']:
                 variants.append(dict(name=x,method='TRAINED_GOAL_POLICY',supported_policy_numpy=x,
                     supported_policy_numpy_sha256=x,supported_policy_training_result=x,supported_policy_training_result_sha256=x))
-            plan=panel(scenes,variants,seed=363701);planpath=stage/'PANEL.json';planpath.write_text(json.dumps(plan))
+            plan=panel(scenes,variants,seed=363701)
+            if commission:
+                variants=[variants[0]]
+                for k in ['single_rows','paired_repeat_rows']:
+                    plan[k]=[dict(r,split='TRAIN')for r in plan[k]if r['parent']=='P0'and r['method']=='GOAL_FSM']
+                plan.update(variants=variants,planned_evaluations=4,physical_parents=1,split='TRAIN')
+            planpath=stage/'PANEL.json';planpath.write_text(json.dumps(plan))
             qualification=root/'qualified.json';qualification.write_text('{}')
             base=dict(campaign_root=str(campaign),physical_owner_lock=str(root/'physical.lock'),registry=str(registry),
                 host='SYNTHETIC',owner='SYNTHETIC',pilot1_binding='SYNTHETIC',native_environment={},python=sys.executable,
@@ -36,6 +42,7 @@ class SupportedPanelRunner(unittest.TestCase):
                 output_parent=str(runs),variants=variants,scene_qualifications={s['scene_id']:dict(path=str(qualification),sha256=digest(qualification))for s in scenes},
                 program_qualifications={s['scene_id']:[]for s in scenes},pilot2_plan_sha='SYNTHETIC',storage_proof='SYNTHETIC',storage_proof_sha256='SYNTHETIC',
                 native_binary_sha256=digest(binary),parallel_qualification='SYNTHETIC',parallel_qualification_sha256='SYNTHETIC',deadline_epoch=time.time()+120)
+            if commission:inp['batch_purpose']='SUPPORTED_POLICY_DUAL_COMMISSION'
             inputpath=stage/'INPUT.json';inputpath.write_text(json.dumps(inp));lease=stage/'control/LEASE.json';lease.write_text(json.dumps(dict(status='ACTIVE',run_uuid=stage.name,input_sha256=digest(inputpath))))
             calls=[]
             def snapshot(path):return json.loads(Path(path).read_text()),digest(path)
@@ -62,8 +69,10 @@ class SupportedPanelRunner(unittest.TestCase):
                         for child in s['slots']:produce(child['spec'])
                     else:produce(specpath,failed)
                 def poll(self):return self.returncode
+            def layout(s,children):
+                self.assertEqual(s['purpose'],'SUPPORTED_POLICY_DUAL_COMMISSION'if commission else'SUPPORTED_POLICY_PRODUCTION')
             with patch('scripts.pi0294.night10.native_relay.snapshot',snapshot),patch('scripts.pi0294.night10.native_relay.once',once),\
-                    patch('go2arx5_vla.world_model.pilot2_supported.validate'),patch('go2arx5_vla.world_model.target_parallel.validate_layout'),\
+                    patch('go2arx5_vla.world_model.pilot2_supported.validate'),patch('go2arx5_vla.world_model.target_parallel.validate_layout',layout),\
                     patch('subprocess.Popen',FakePopen):
                 code=run(inputpath)
             result=json.loads((stage/'SUMMARY.private.json').read_text());closed=json.loads(lease.read_text());return code,result,closed,len(calls)
@@ -80,6 +89,24 @@ class SupportedPanelRunner(unittest.TestCase):
         code,r,lease,calls=self.execute(True);self.assertEqual(code,1);self.assertEqual(calls,1)
         self.assertEqual(r['attempted'],1);self.assertEqual(r['native_failed'],1);self.assertEqual(r['not_run'],79)
         self.assertEqual(lease['status'],'CLOSED');self.assertEqual(lease['worker_exit_code'],1)
+
+    def test_first_dual_FSM_commission_waits_for_both_actual_single_outputs(self):
+        code,r,lease,calls=self.execute(commission=True)
+        self.assertEqual(code,0);self.assertEqual(calls,3);self.assertEqual(r['attempted'],4)
+        self.assertEqual(r['variants']['GOAL_FSM']['strict_successes'],4)
+        self.assertEqual(lease['status'],'CLOSED');self.assertFalse(r['CONTACT_CONTROL_GAIN'])
+
+    def test_commission_configuration_rejects_learned_or_DEV_cases_before_grant(self):
+        from scripts.wm02.run_pilot2_supported_panel import batch_purpose
+        from go2arx5_vla.world_model.pilot2_supported import GOALS
+        singles=[dict(parent='P',task_goal=g,method='GOAL_FSM',split='TRAIN')for g in GOALS]
+        plan=dict(single_rows=singles,paired_repeat_rows=singles,variants=[dict(name='FSM',method='GOAL_FSM')],split='TRAIN')
+        inp=dict(batch_purpose='SUPPORTED_POLICY_DUAL_COMMISSION')
+        self.assertEqual(batch_purpose(inp,plan),'SUPPORTED_POLICY_DUAL_COMMISSION')
+        with self.assertRaises(ValueError):batch_purpose(dict(batch_purpose='arbitrary'),plan)
+        with self.assertRaises(ValueError):batch_purpose(inp,dict(plan,single_rows=[dict(r,split='DEV')for r in singles]))
+        with self.assertRaises(ValueError):batch_purpose(inp,dict(plan,single_rows=[dict(r,method='TRAINED_GOAL_POLICY')for r in singles]))
+        with self.assertRaises(ValueError):batch_purpose(inp,dict(plan,variants=[dict(name='NN',method='TRAINED_GOAL_POLICY')]))
 
 
 if __name__=='__main__':unittest.main()
