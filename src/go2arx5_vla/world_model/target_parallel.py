@@ -10,9 +10,10 @@ def validate_layout(batch, children):
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
     coverage=batch.get('schema')=='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'
     supported=batch.get('schema')=='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'
+    commissioning=batch.get('schema')=='WM02_PILOT2_TWO_COMMISSION_BATCH_V1'
     free=feedback or coverage or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
     pilot= supported or free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
-    runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
+    runs=Path(batch['native_runs_root']).resolve() if pilot or commissioning else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
     for slot,child in zip(batch['slots'],children):
         root=Path(child['registered_root']).resolve()
@@ -29,6 +30,13 @@ def validate_layout(batch, children):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
+    if commissioning:
+        from .pilot2_coverage import PLAN
+        if not batch.get('pilot1_binding')or batch.get('pilot2_plan_sha')!=PLAN:
+            raise PermissionError('FRESH_PILOT2_COMMISSION_SCOPE_REQUIRED')
+        for child in children:
+            if any(child.get(k)!=batch.get(k) for k in ('pilot1_binding','pilot1_binding_sha256','pilot2_plan_sha','native_binary','observer_library','candidate_source_sha')):
+                raise PermissionError('SAME_CANDIDATE_AND_SCOPE_FOR_NATIVE_COMMISSION_REQUIRED')
     if pilot:
         if supported:
             from .pilot2_supported import validate

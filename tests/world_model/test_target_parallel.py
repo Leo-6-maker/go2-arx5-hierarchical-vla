@@ -5,6 +5,22 @@ from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inher
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_new_candidate_commission_uses_registered_separate_disk_without_relaxing_slots(self):
+        from go2arx5_vla.world_model.pilot2_coverage import PLAN
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);runs=root/'nonroot-data';runs.mkdir()
+            batch=dict(schema='WM02_PILOT2_TWO_COMMISSION_BATCH_V1',campaign_root=str(root/'campaign'),native_runs_root=str(runs),registered_root=str(runs/'batch'),source_sha='source',physical_owner_lock=str(root/'owner'),cpus=list(range(8)),slots=[],pilot1_binding='live-window',pilot1_binding_sha256='pin',pilot2_plan_sha=PLAN,native_binary='candidate-v2',observer_library='original-safety',candidate_source_sha='build-source')
+            children=[]
+            for i in range(2):
+                r=runs/str(i);r.mkdir();child=dict(batch,registered_root=str(r),parallel_batch_spec=str(runs/'batch/EXECUTION_SPEC.json'),ROS_DOMAIN_ID=220+i,cpus=list(range(i*4,i*4+4)),phase='cold-1',max_ticks=50)
+                path=r/'SPEC';path.write_text(json.dumps(child));batch['slots'].append(dict(spec=str(path),spec_sha256=digest(path)));children.append(child)
+            validate_layout(batch,children)
+            for key,value in [('native_binary','old-candidate'),('observer_library','changed-safety'),('pilot1_binding','old-window'),('pilot2_plan_sha','wrong')]:
+                with self.assertRaises(PermissionError):validate_layout(batch,[children[0],dict(children[1],**{key:value})])
+            with self.assertRaises(PermissionError):validate_layout(dict(batch,pilot1_binding=None),children)
+            # This route cannot masquerade as ordinary learned-policy production.
+            with self.assertRaises(PermissionError):validate_layout(batch,[dict(c,phase='collect-target-pilot1',max_ticks=4103)for c in children])
+
     def test_peer_failure_stops_only_the_live_owned_slot(self):
         import time
         with tempfile.TemporaryDirectory()as tmp:
