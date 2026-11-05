@@ -145,3 +145,29 @@ C0追加P2CT02/P2CT03/P2CV02三个布局，每个先单槽资格，再KEEP56/REL
 B1重复DEV已实现panel生成与父/goal/独立重启层次bootstrap分析，144条件按方法交叉平衡两slot；新TEST需要候选、阈值和分析全部冻结后才开。[预登记](B1_REPEATED_DEV_PREREGISTRATION.json)选择原主seed36001，非新DEV最佳seed；另外两seed仅作离线敏感性。DEV结果不授予LOCAL_CONTROL_GAIN。新6 DEV父48动作采集已登记、dispatch退出0，正在执行，未预记其成功或1152条计划转移。下一冷边界核对封存后才启动B1。
 
 完整cohort水位：PILOT2 147次原生PASS、691541 tick；自由Actor216000主更新＋25恢复探针，接触Policy10000＋5探针，接触WM16000＋8探针，全部为多模型累计。进行中DEV批另列。当前代码239项world_model测试通过（15.363s，退出0）；GitHub CI未执行。所有新bulk仍在合格非根本地盘；现场GPU1后来已有其他工作，仅在共享许可、实际余量及1GiB allocator内运行小Policy。2个CPU-native与单GPU神经工作并行；未扩展到4环境/GPU物理/H200/分布式，唯一owner和原deadline保持。
+
+
+## 冻结接触WM的网格转换时间诊断（0新增训练／积分）
+
+新增只读CLI `scripts.wm02.inspect_pilot2_contact_predictions`，源码 `653de5d5909c23cc1260e19f70c949e77001c833`，对冻结18-episode/每臂6k WM在27-episode真实数据上执行NumPy预测，退出0、1.994s wall/1.865s CPU，无Torch/GPU/优化器/物理积分。两个portable SHA256分别为action-conditioned `c4bf80a226d1ddbc034b3a524a0e0669f68e7d8908f20139cd966b59c6fe77bf`、no-future-program `b0e3c20eca4e7f7a59b4dd796f6b6fe15a58948ab7793e2f746b6efbc57a7924`；原模型/数据字节不修改。
+
+DEV两父、10 episode上的抓持事件：action-conditioned在672个实际网格转换anchor中检出661、漏11、误报2，召回98.36%、precision99.70%；no-future-program检出493、漏179、误报177，召回73.36%、precision73.58%。只在两者均检出各自事件的条件下，网格时间MAE分别28.29ms（661项）和468.66ms（493项），不能把不同检出分母当配对时间收益。PERSISTENCE漏掉全部672；TRAIN事件频率常数虽全部检出，却误报596。全部事件、各horizon及稳定/转换分层指标保留于[完整诊断](C1_FROZEN_CONTACT_GRID_TIMING.json)。
+
+新增且原模型训练未使用的DEV父PILOT2_C0_V02：477重叠anchor、163抓持网格转换；action-conditioned检出160/163、误报0、检出条件时间MAE28.75ms，盲臂108/163、误报8、445.83ms。这个单新父结果是动作条件预测的有限正证据，尚不是跨大量独立父的统计验证或原生控制收益。相邻anchor不是独立episode。
+
+时间定义严格限于1/4/8/16/32/64个50ms的直接预测网格，报告进入/退出、未检出、误报和实际可观察后续长度；不是2ms原生首次接触时间，也不能定位两个网格点之间发生又消失的事件。漏检不填0时间误差，未执行后缀不作真值。新增离线夹具含禁止Torch导入的实际CLI调用，243项全套测试通过（15.406s），随后观察时长分层修订的10项相关测试通过（3.309s）。这些软件夹具不计科研更新。
+
+因此后继不追加一组同配方WM epoch：先以已显示预测能力的冻结WM作匹配Policy教师，并补做归一化控制的另外两个预登记种子；原生DEV对照仍是下一门。该后继尚未登记／执行，必须等当前B0 DEV实际封存冷边界。
+
+
+## 全部新DEV采集封存，B1原生对照已实际启动
+
+新增6个DEV父P2V01–06完成6资格＋48动作episode，54/54原生PASS、221562 tick，新增1152晚期验证转移，TRAIN新增0；全部worker退出0/CLOSED。合并Replay SHA256 `6c8301805694574bf71afdb9c5322535894625fc12810e195da937e3617efb1a`，149 TRAIN/56 DEV（旧8＋新48）。实际逐数组核对旧149 TRAIN、旧8 DEV的状态、目标、历史目标、source_age及窗口时钟完全相等，未导入TEST。coordinator1320.241s wall；30个qualification/batch worker合计1261.263s wall、自身＋子CPU3685.441s，Replay build21.378s wall/21.009s子CPU。
+
+三冻结149-TRAIN Actor的全新DEV只读审计（2.205s wall/2.095s CPU、0优化／积分）得到教师一致率95.285/95.096/96.484%，低于旧DEV约98.6%；高margin错误率2.13/2.20/0.78%。新父V05分别86.67/84.28/92.53%，暴露真实覆盖泛化差距。保持原预登记主seed36001，不事后替换成此处最佳seed。初次只读helper把原生spec的task字段用在神经spec上，退出1且尚未创建输出；已核对无输出后按实际frozen_task字段修复，新调用退出0。一次本地更正脚本路径准备错误也保留，0 SSH／积分／更新。数据、分父审计及失败见[新六DEV实际封存](B0_SIX_DEV_PARENTS_ACTUAL.json)。
+
+归一化控制另外两个种子363202/363203与匹配WM教师Policy均真实完成，各2k主更新＋1恢复探针，所有5个worker退出0/CLOSED。三种子合计：旧TRAIN normalizer的DEV一致率87.5/87.5/100%，当前TRAIN normalizer100/100/100%；仍为相同8标签/2物理DEV父，不能把三seed当6新父。与主seed363201、同27数据/网络/当前TRAIN normalizer/2k的FSM学生相比，WM教师学生同为TRAIN20及DEV8标签100%，尚未显示额外优势。新WM教师Policy checkpoint `58d6c0f004bebbe1c442dd7cbc255c4839bc8d908a90f3ab78e09fffcb3bd63a`，portable `c12fd9ef6669cf24877d6c2c3c93b1fd1515a04d839364617321da78af44ac97`。新增10000 Policy主更新/5探针，coordinator71.813s wall，5worker合计69.821s wall/56.563s子CPU；未增加WM训练。完整身份见[三种子与匹配WM教师](C1_THREE_SEED_AND_WM_TEACHER.json)，新模型原生评价仍待执行。
+
+在真实冷边界，沿用原owner登记B1 144条件有限新作业，实际dispatch退出0：panel SHA256 `16ac561e7ebc9c5338f935a6ef6542e7c3c3513dd143bdaf5caaacb1e6cbd26f`，input SHA256 `cd4459c6dd122ab1acbcda3199efcdbe02ca006f4cd551b58b32695450770255`。使用3a2d5ec0源码、原C08、冻结Actor/ARX/新TRAIN强规则，6父×4goal×3method×2独立重启，方法跨CPU0–3/4–7交叉平衡，ROS220/221，一个实际物理owner。初始两pair已正常执行，整个panel ACTIVE；未据部分结果作选择、未预记144成功，未打开新TEST。
+
+截至完整cohort水位：PILOT2 201次原生PASS、913103 tick；自由Actor216000主更新/25探针，接触Policy20000/10，接触WM16000/8，均为跨模型累计。B1进行中另列。原goal继续ACTIVE，下一冷边界依证据接力剩余5 TRAIN/2 DEV接触布局及冻结新TEST，不因报告／2k检查点退出。

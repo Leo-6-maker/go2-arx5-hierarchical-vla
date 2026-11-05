@@ -1,0 +1,4253 @@
+{
+  "schema": "WM02_PILOT2_NEW_SIX_DEV_PARENTS_ACTUAL_V1",
+  "native": {
+    "result_sha256": "08ce24f26cb57041827b21f978c77a7be2133530ed7f541fd9ffbda737cb445c",
+    "result": {
+      "status": "PILOT2_B0_SIX_DEV_PARENTS_COMPLETE",
+      "source_sha": "1506dc223ba8b5851c18c442d4eb5b648bba2b14",
+      "exit_code": 0,
+      "failure": null,
+      "eligible_collection_episodes": 48,
+      "eligible_replay_atoms": 1152,
+      "build": {
+        "exit_code": 0,
+        "wall_s": 21.378078368026763,
+        "child_CPU_s": 21.00862099999972
+      },
+      "CPU_s": 3.7624801359999998,
+      "wall_s": 1320.241024123039,
+      "WM_updates": 0,
+      "Actor_updates": 0
+    },
+    "workers": [
+      {
+        "run": "pilot2-b0-dev1-q-p2v01-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 38.1772306128405,
+          "CPU_s": 13.024388612,
+          "child_CPU_s": 54.608298000000005
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-q-p2v02-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 36.58964402601123,
+          "CPU_s": 12.928584945999999,
+          "child_CPU_s": 51.717859000000004
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-q-p2v03-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 40.56538074510172,
+          "CPU_s": 12.914098972,
+          "child_CPU_s": 55.562491
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-q-p2v04-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 37.86396511923522,
+          "CPU_s": 13.164699016,
+          "child_CPU_s": 53.452890000000004
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-q-p2v05-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 40.89853594172746,
+          "CPU_s": 13.021640066,
+          "child_CPU_s": 56.069282
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-q-p2v06-01",
+        "kind": "QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 37.366339997854084,
+          "CPU_s": 12.849589556,
+          "child_CPU_s": 53.064321
+        },
+        "native_ticks": 4103,
+        "children": null
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-00-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25642806100000004,
+          "child_CPU_s": 143.387719,
+          "wall_s": 45.05951507203281,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-00-01-slot-0",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 48,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "9da4ac0c849953a1b7f165cd3a14adaa367002dda8e771456f2244d5fa5e50a0",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006347405725886434,
+              "action": 2,
+              "objective_m": 0.0006547405725886435,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0001741237395613826,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-00-01-slot-1",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 48,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "2816508b4fe61833d8e86669806f3f0ff471961f240b84c000a5fbaa42ef3e42",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0007690185445312111,
+              "action": 2,
+              "objective_m": 0.0007890185445312112,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -4.537487821243413e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-01-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25478364000000003,
+          "child_CPU_s": 138.046204,
+          "wall_s": 42.87751299794763,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-01-01-slot-0",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 49,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "a37e78fa2e54f7f39b2a03a5b7e9beb22cdcdadd573adabe28dcc89bdd97d267",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 7.581370820730096e-05,
+              "action": 0,
+              "objective_m": 7.581370820730096e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.00010296594653591562,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-01-01-slot-1",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 49,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "13432c2967e2f2a4fd57891db3a249ca332b01a6d47c45db3880398672ac58a5",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.00016208514880941373,
+              "action": 0,
+              "objective_m": 0.00016208514880941373,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.00012024178677128017,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-02-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.244868719,
+          "child_CPU_s": 131.612752,
+          "wall_s": 40.84800431365147,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-02-01-slot-0",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 50,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "f9bccf0f20e18865935f42e3ee4c7f7584634d22800fbf507c6194611340eb95",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006091483182134575,
+              "action": 1,
+              "objective_m": 0.0006291483182134576,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0005048128991737011,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-02-01-slot-1",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 50,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "fc38183e1dd752b2332e781f6102e9eb1c799a999a9b9391b859ecbde2a49fcc",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006093597352680406,
+              "action": 1,
+              "objective_m": 0.0006293597352680407,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0004343202008563196,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-03-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.248996876,
+          "child_CPU_s": 138.410091,
+          "wall_s": 43.15246069710702,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-03-01-slot-0",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 51,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "9cf5c06012c9720648c3a8cf2d5abefab291eb7711ee271b6d63940894e89603",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.000533859006650586,
+              "action": 3,
+              "objective_m": 0.0005538590066505861,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00031932780156662677,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-03-01-slot-1",
+            "row": {
+              "scene_id": "P2V01",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 51,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "812fe610ff92fee22bedfa9e72d185a79335558307e5fa05e399348d3717cd79",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V01_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006049356419593545,
+              "action": 3,
+              "objective_m": 0.0006249356419593546,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00037872944320027635,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-04-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25274589799999997,
+          "child_CPU_s": 134.751281,
+          "wall_s": 43.634701318107545,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-04-01-slot-0",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 52,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "1f1b4e4ce92dd16801f19cc563d1a06bdc79308dee1460506ebcf5a0535cd483",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 7.702936428489402e-05,
+              "action": 0,
+              "objective_m": 7.702936428489402e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.0001944986219249989,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-04-01-slot-1",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 52,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "7a5cbf31b228f4eef8ae9007f16ec502d0c7a2a1db06fef713b988bcd2fd0451",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 4.374876150754017e-05,
+              "action": 0,
+              "objective_m": 4.374876150754017e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.0004900981407979232,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-05-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.254284009,
+          "child_CPU_s": 139.49533599999998,
+          "wall_s": 44.747511996887624,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-05-01-slot-0",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 53,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "b2461e80b3c108629eeac64b32a571fd16ba824a79da44c8b3af7f8e02440aff",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005719243629072268,
+              "action": 3,
+              "objective_m": 0.0005919243629072268,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -7.170222517582925e-05,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-05-01-slot-1",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 53,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "5307b544c85a3d089cacd4686452832e30255c40316806167d69507967fe94ec",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005034110050894425,
+              "action": 3,
+              "objective_m": 0.0005234110050894425,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0002769882009682201,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-06-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24811457199999998,
+          "child_CPU_s": 135.331686,
+          "wall_s": 41.22845664899796,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-06-01-slot-0",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 54,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "50124742b0956f78a2264c144389e4404474830e24333874c5d562b47818b3c8",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0007512459432973863,
+              "action": 2,
+              "objective_m": 0.0007712459432973863,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": 9.54834704565144e-05,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-06-01-slot-1",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 54,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "59af5990c25f48a8809f3359b03398693726d0862bf72111748dd69e13d14665",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006549530331168885,
+              "action": 2,
+              "objective_m": 0.0006749530331168885,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -8.908751346137223e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-07-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.252872208,
+          "child_CPU_s": 139.571517,
+          "wall_s": 44.20973773719743,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-07-01-slot-0",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 55,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "9ea8a5a98c63ff4e837a3507de8b55b6d027a9971afb29fdf168257ac2fe9182",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.000639481577452803,
+              "action": 1,
+              "objective_m": 0.0006594815774528031,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0005667199934300537,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-07-01-slot-1",
+            "row": {
+              "scene_id": "P2V02",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 55,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "1c1e88ab31dcbc634cf22752b905b0a98e8b939d5f684dada62515c8117e97a0",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V02_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005605577229973954,
+              "action": 1,
+              "objective_m": 0.0005805577229973955,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0003037269901788875,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-08-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24943674,
+          "child_CPU_s": 131.304442,
+          "wall_s": 40.2245322400704,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-08-01-slot-0",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 56,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "55fc79c2970430230d64cdf3c916123b86497445ab0df2c21eab879008939bbe",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006700973630799147,
+              "action": 2,
+              "objective_m": 0.0006900973630799147,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00037196851532428354,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-08-01-slot-1",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 56,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "2139ce5bda1702d61b036526f91cf6b76f62db038f39667feca389790908ee3a",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0007678757426327509,
+              "action": 2,
+              "objective_m": 0.0007878757426327509,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": 0.00015005004701595936,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-09-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24689128400000002,
+          "child_CPU_s": 133.586058,
+          "wall_s": 42.017205216921866,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-09-01-slot-0",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 57,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "167e0f2812c2e7f445b71ecdbe838733a2814ff525b9eed8afaef26adf60b635",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005673560471185124,
+              "action": 1,
+              "objective_m": 0.0005873560471185125,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00015141541121688196,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-09-01-slot-1",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 57,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "3cc85064439bcb9abbb97da271c11bc980799fac62fb503de2b5b5cec4ca545f",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005783704175063593,
+              "action": 1,
+              "objective_m": 0.0005983704175063593,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.000148911345314362,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-10-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25808403199999996,
+          "child_CPU_s": 138.36133700000002,
+          "wall_s": 43.394342452287674,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-10-01-slot-0",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 58,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "14985ee98c7fd7110c4c76a577daafcb24048a8ccb5e498719d24e11c86ab891",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005141354400019263,
+              "action": 3,
+              "objective_m": 0.0005341354400019263,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00010263236483909477,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-10-01-slot-1",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 58,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "beb23de32190ee4e78b52f4cc69aff049851fe8d23e7baa3700dab7d25991065",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006763574929473002,
+              "action": 3,
+              "objective_m": 0.0006963574929473003,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": 1.7870846868772716e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-11-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.246732424,
+          "child_CPU_s": 131.58098900000002,
+          "wall_s": 41.03487768722698,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-11-01-slot-0",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 59,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "b00406ad9969d3ffae3b9a293630cafbd7f35255c5767e300670d32b5d81f6be",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 6.180157335692609e-05,
+              "action": 0,
+              "objective_m": 6.180157335692609e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.0003465478893476259,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-11-01-slot-1",
+            "row": {
+              "scene_id": "P2V03",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 59,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "e73a0ea869448721e2af21cc6a783f3d2783ffb4c7037ecde13a38101b8af660",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V03_ROOT_XY_V1",
+              "actual_XY_error_m": 5.505248646069406e-05,
+              "action": 0,
+              "objective_m": 5.505248646069406e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.0003597491226247085,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-12-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25243366,
+          "child_CPU_s": 138.556014,
+          "wall_s": 43.77241905126721,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-12-01-slot-0",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 60,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "d91900d079059b076a368fa5de2e9f5a43d5635dc0cb6f6a61e113910894d567",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006509848455134134,
+              "action": 2,
+              "objective_m": 0.0006709848455134134,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0001336166650787174,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-12-01-slot-1",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 60,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "ec161a35bbf86ec5eb1d4d759676c3203eb84c471da0c2ee00e6809b20b40395",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006356228315224054,
+              "action": 2,
+              "objective_m": 0.0006556228315224054,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00022827371433364885,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-13-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24644350600000003,
+          "child_CPU_s": 129.765155,
+          "wall_s": 41.223267063032836,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-13-01-slot-0",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 61,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "3ae04fcae94bc2669f7832a9c6b652450572aea4b43ac6835b58eb6aec271046",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005850686218108851,
+              "action": 3,
+              "objective_m": 0.0006050686218108852,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00014114833922485026,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-13-01-slot-1",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 61,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "4c78b80926762c068d46ec904bdae01c6d41342f7143079c7d376e41b4891da6",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005007572504944728,
+              "action": 3,
+              "objective_m": 0.0005207572504944729,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00014285655024726118,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-14-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24895986199999998,
+          "child_CPU_s": 138.101866,
+          "wall_s": 43.83378879772499,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-14-01-slot-0",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 62,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "ce8415b5c6dbb55d0b05cdd71c27e9d162268fbacbff5e5bbec9101389deb6c8",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005019405033364744,
+              "action": 1,
+              "objective_m": 0.0005219405033364744,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -3.9132221737903095e-05,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-14-01-slot-1",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 62,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "751b86648ddc3b2855d42697705d604c5baa749a04e877acbe966a321fbecb24",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 0.000632906926175654,
+              "action": 1,
+              "objective_m": 0.000652906926175654,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0005254570125896585,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-15-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24844589899999997,
+          "child_CPU_s": 136.33828,
+          "wall_s": 44.023935011122376,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-15-01-slot-0",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 63,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "18fba48d7f05faae79919e3984105932e5fc09ecaa603031ae9397bc6c1b205e",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 9.018340983101158e-05,
+              "action": 0,
+              "objective_m": 9.018340983101158e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": 3.668165398018619e-05,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-15-01-slot-1",
+            "row": {
+              "scene_id": "P2V04",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 63,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "daa50536171ae5f3497a40a6fdb16f943a78eefe443a74416f3a4f943a9bdee8",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V04_ROOT_XY_V1",
+              "actual_XY_error_m": 9.926523209299392e-05,
+              "action": 0,
+              "objective_m": 9.926523209299392e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -3.404079677615801e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-16-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24409711700000003,
+          "child_CPU_s": 136.31682700000002,
+          "wall_s": 43.403051854111254,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-16-01-slot-0",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 64,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "23b62b943f969365925fa0e57943d42991ec03a8c0bda69fea912e821eb89b83",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006493267960113937,
+              "action": 2,
+              "objective_m": 0.0006693267960113938,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00013320036587305406,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-16-01-slot-1",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 64,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "18b646a5a6ba50272ad356ee08a90e450b011990035b381acc2a5bf557160e4f",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0007671617234743008,
+              "action": 2,
+              "objective_m": 0.0007871617234743008,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00017395509388085095,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-17-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.255998277,
+          "child_CPU_s": 138.97770799999998,
+          "wall_s": 43.534967452753335,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-17-01-slot-0",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 65,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "42ecb36d403e1e4f77b00c308bce9e59241d13658dad20b199cf245a6397e138",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005531240283659219,
+              "action": 1,
+              "objective_m": 0.000573124028365922,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0002349767912728229,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-17-01-slot-1",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 65,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "6ede2f3ef690aaf6ab7565548f782eabcd19a1c18bb1f149c3da772a1c0221d0",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006312045957642102,
+              "action": 1,
+              "objective_m": 0.0006512045957642103,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00027301555091974183,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-18-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.247576824,
+          "child_CPU_s": 136.048294,
+          "wall_s": 43.06450944580138,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-18-01-slot-0",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 66,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "45f7087786008c2fad3b954b139cc86fbea7cca9e90ad51c59a909ae1330353b",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 7.701886435880256e-05,
+              "action": 0,
+              "objective_m": 7.701886435880256e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -6.088519071156817e-05,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-18-01-slot-1",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 66,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "a1ed9a21eb5f8459541c4b6554197f4d5a5ac8fc821e5a9cf30335ff1b099cec",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 8.953770480820998e-05,
+              "action": 0,
+              "objective_m": 8.953770480820998e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -3.149228257093295e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-19-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.25258319700000004,
+          "child_CPU_s": 142.047564,
+          "wall_s": 44.030004755128175,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-19-01-slot-0",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 67,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "94d549c70d99403e7da0e61970e3651dec2b60118e0fbac4a0494a8d8f470d4c",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.000654835507748419,
+              "action": 3,
+              "objective_m": 0.0006748355077484191,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0001664359018086481,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-19-01-slot-1",
+            "row": {
+              "scene_id": "P2V05",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 67,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "1e7bbcc58d8834bb6bc929df1bba6a8cffac0a810ad9bcb7c9b14ed7cb7aadff",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V05_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006466255209306041,
+              "action": 3,
+              "objective_m": 0.0006666255209306041,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00014611183557677876,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-20-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24458840299999998,
+          "child_CPU_s": 136.03135099999997,
+          "wall_s": 43.228943227790296,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-20-01-slot-0",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 68,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "a91a2a4224be17e7cc54fabbd3846e4131293faae7ee7a2b515b2abc98d8529c",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0006287768633387724,
+              "action": 2,
+              "objective_m": 0.0006487768633387724,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0002989091716815162,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-20-01-slot-1",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 2,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 68,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "048aaffc0cd4da7c5e13c19c6eb7e4936ab30d089b600ebd91ac4ce313809b04",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0007515718732861181,
+              "action": 2,
+              "objective_m": 0.0007715718732861182,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -7.700455099002301e-05,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-21-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.257396774,
+          "child_CPU_s": 138.99263,
+          "wall_s": 43.60847239615396,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-21-01-slot-0",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 69,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "fdd0c3c408c9e5f394a302bf2bf9becb86905a57f42330add893c37a4faae8e8",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005444540130194683,
+              "action": 3,
+              "objective_m": 0.0005644540130194684,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0003312809243847248,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-21-01-slot-1",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 3,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 69,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "734c70424600d86fd35c62b2b6832b9287099461ef93c7054d591dba48f29ec9",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.000496442830756835,
+              "action": 3,
+              "objective_m": 0.0005164428307568351,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.0004973610419658492,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-22-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24195835400000001,
+          "child_CPU_s": 132.348791,
+          "wall_s": 40.75567626208067,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-22-01-slot-0",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 1,
+              "slot": 0,
+              "pair_index": 70,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "3fa270f3e8b9f891a57b222dfa16291e718b429fd80f7652b3184fa05463f07a",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0004876017512831701,
+              "action": 1,
+              "objective_m": 0.0005076017512831701,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00015196350390223046,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-22-01-slot-1",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 1,
+              "repeat_index": 0,
+              "slot": 1,
+              "pair_index": 70,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "c1b372998d13dbf2ad095e57c9aabe2de6e0116167203f934179ba03558d1f4b",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.0005595148183282162,
+              "action": 1,
+              "objective_m": 0.0005795148183282162,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": false,
+              "Z_displacement_m": -0.00015992388593788487,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      },
+      {
+        "run": "pilot2-b0-dev1-pair-23-01",
+        "kind": "RANDOMIZED_ACTION_PAIR",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "CPU_s": 0.24921173399999996,
+          "child_CPU_s": 138.095369,
+          "wall_s": 42.893758178222924,
+          "cost_scope": "BATCH_TOTAL_INCLUDING_DESCENDANTS_NOT_PER_CHILD_CPU"
+        },
+        "native_ticks": null,
+        "children": [
+          {
+            "run": "pilot2-b0-dev1-pair-23-01-slot-0",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 0,
+              "slot": 0,
+              "pair_index": 71,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "ffafc7040cce01e5eb6c083d4075ca314a8dbaa6f7cfaf3e0c136de90a52a967",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 8.61741750645071e-05,
+              "action": 0,
+              "objective_m": 8.61741750645071e-05,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -4.4645248392649606e-06,
+              "full_manipulation_success": false
+            }
+          },
+          {
+            "run": "pilot2-b0-dev1-pair-23-01-slot-1",
+            "row": {
+              "scene_id": "P2V06",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "split": "DEV",
+              "forced_action": 0,
+              "repeat_index": 1,
+              "slot": 1,
+              "pair_index": 71,
+              "goal_index": 0,
+              "task_goal_offset_xy_m": [
+                0.0005193310295757954,
+                -0.00033529066948853945
+              ]
+            },
+            "native_status": "NATIVE_STAGE_PASSED",
+            "native_ticks": 4103,
+            "native_result_sha256": "ea0de3c95b00a2bd704ab8e943476159b1048619f29f73d3710244274e980c17",
+            "score": {
+              "schema": "LOCAL_EEF_REACH_PILOT_SCORE_V1",
+              "method": "PREDECLARED_ACTION",
+              "purpose": "ACTION_COVERAGE",
+              "split": "DEV",
+              "parent": "PILOT2_B0_V06_ROOT_XY_V1",
+              "actual_XY_error_m": 0.00014811276511482446,
+              "action": 0,
+              "objective_m": 0.00014811276511482446,
+              "success_tolerance_m": 0.00018584456642062617,
+              "local_XY_success": true,
+              "Z_displacement_m": -0.00011348390218646198,
+              "full_manipulation_success": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "replay": {
+    "status": "ACTUAL_PILOT2_COVERAGE_APPENDED",
+    "replay_sha256": "6c8301805694574bf71afdb9c5322535894625fc12810e195da937e3617efb1a",
+    "parent_replay_sha256": "d25d0f6f668f266a4b5846d05fc466f6bb09cdd853dfc6dcbee645451ac68392",
+    "incoming_replay_sha256": "d3e823bbe8f2102d88c16300b0636d5a5a72d0c44c2583fdcf4783de5dd3a021",
+    "new_TRAIN_windows": 0,
+    "new_DEV_windows": 48,
+    "existing_DEV_episodes_preserved": 8,
+    "native_integrations": 0,
+    "model_updates": 0,
+    "native_build": {
+      "status": "ACTUAL_TARGET_SEQUENTIAL_REPLAY_BUILT",
+      "schema": "WM02_TARGET_LATE_DECISION_REPLAY_V3",
+      "replay_sha256": "d3e823bbe8f2102d88c16300b0636d5a5a72d0c44c2583fdcf4783de5dd3a021",
+      "manifest_sha256": "c039396196d7c59908eb85bc94086ac0d50e360e273bb27182fa4c139e4974eb",
+      "episodes": 48,
+      "task_atoms": 1152,
+      "windows": 48,
+      "state_dimension": 106,
+      "robot_fingerprint": "1caec33aa67e776215ebb01ea4f8e87799adf348bc55e5a66791347ba25276bf",
+      "scene_assets_sha256": [
+        "0220c868ea8a8131c06ea903e14d1e20495b2770cf6e41e3c4d77f3483bf089b",
+        "87f9972951aaec379fb9683b324cde22853a183cbc8c3e2b3e50130839ada2bc",
+        "c247537991afab805ee46be46ea04b2ba80266d748cb74702bb8be62d266d026",
+        "dc683cd8ed3a1fa383546cf47a9ff7df3218ad5a2724f01704cce541f98e067d",
+        "f56ae322c5e62397dcfffc870a94227812bd4eb35b9094952ce1e0a295a68df7",
+        "fe02e68c1e0f3df5a288c8f0720113111a7e38daeece2cb71b855ef8b014fd16"
+      ],
+      "physics_integrations": 0,
+      "WM_updates": 0,
+      "Actor_updates": 0
+    }
+  },
+  "retained_input_equality": {
+    "replay_sha256": [
+      "d25d0f6f668f266a4b5846d05fc466f6bb09cdd853dfc6dcbee645451ac68392",
+      "6c8301805694574bf71afdb9c5322535894625fc12810e195da937e3617efb1a"
+    ],
+    "old_preserved": {
+      "TRAIN": {
+        "before_windows": 149,
+        "after_windows": 149,
+        "exact_input_arrays": {
+          "state": true,
+          "goal": true,
+          "history_goal": true,
+          "source_age": true,
+          "window_start_s": true,
+          "window_start_atom": true,
+          "future_prefix_remaining": true
+        }
+      },
+      "DEV": {
+        "before_windows": 8,
+        "after_windows": 56,
+        "exact_input_arrays": {
+          "state": true,
+          "goal": true,
+          "history_goal": true,
+          "source_age": true,
+          "window_start_s": true,
+          "window_start_atom": true,
+          "future_prefix_remaining": true
+        }
+      }
+    },
+    "TEST_imported": false,
+    "optimizer_updates": 0,
+    "native_integrations": 0
+  },
+  "frozen_three_seed_teacher_audit": {
+    "schema": "WM02_PILOT2_FROZEN_THREE_ACTOR_NEW_DEV_AUDIT_V1",
+    "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+    "replay_sha256": "6c8301805694574bf71afdb9c5322535894625fc12810e195da937e3617efb1a",
+    "TRAIN_windows": 149,
+    "DEV_windows": 56,
+    "DEV_physical_parents": [
+      "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+      "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+      "PILOT2_B0_V01_ROOT_XY_V1",
+      "PILOT2_B0_V02_ROOT_XY_V1",
+      "PILOT2_B0_V03_ROOT_XY_V1",
+      "PILOT2_B0_V04_ROOT_XY_V1",
+      "PILOT2_B0_V05_ROOT_XY_V1",
+      "PILOT2_B0_V06_ROOT_XY_V1"
+    ],
+    "primary_seed_frozen_before_audit": 36001,
+    "seed_selection": false,
+    "models": [
+      {
+        "seed": 36001,
+        "portable_sha256": "a4f63294238cd075c4012e55819af49e8d63cda6fd008ef74ba9c846c7038682",
+        "checkpoint_sha256": "16c3f1364255c65fb77aae762aca490ecacdb992f198ab99202fb3691f8b5f66",
+        "DEV": {
+          "examples": 14336,
+          "confusion_teacher_rows_student_columns": [
+            [
+              3267,
+              26,
+              89,
+              93
+            ],
+            [
+              251,
+              4302,
+              0,
+              88
+            ],
+            [
+              30,
+              0,
+              2769,
+              19
+            ],
+            [
+              59,
+              16,
+              5,
+              3322
+            ]
+          ],
+          "teacher_argmax_agreement": 0.9528459821428571,
+          "teacher_entropy": 0.16380332812967913,
+          "teacher_student_KL": 0.04415868748712653,
+          "soft_cross_entropy": 0.20796201561680563,
+          "mean_model_regret_m": 3.1759892380079218e-06,
+          "margin_weighted_model_regret_m": 6.330280366100759e-06,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 13093,
+          "high_margin_error_rate": 0.02130909646375926,
+          "selected_action_counts": [
+            3607,
+            4344,
+            2863,
+            3522
+          ],
+          "teacher_action_counts": [
+            3475,
+            4641,
+            2818,
+            3402
+          ],
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  267,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  16,
+                  0,
+                  0,
+                  229
+                ]
+              ],
+              "teacher_argmax_agreement": 0.984375,
+              "teacher_entropy": 0.10132707214413136,
+              "teacher_student_KL": 0.01673628344222955,
+              "soft_cross_entropy": 0.11806335558636091,
+              "mean_model_regret_m": 4.030929342395232e-07,
+              "margin_weighted_model_regret_m": 2.3244165557801592e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                283,
+                256,
+                256,
+                229
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  238,
+                  0,
+                  0,
+                  12
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  262
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98828125,
+              "teacher_entropy": 0.0890962708458068,
+              "teacher_student_KL": 0.011070355458841077,
+              "soft_cross_entropy": 0.1001666263046479,
+              "mean_model_regret_m": 3.660137002214292e-07,
+              "margin_weighted_model_regret_m": 2.3230397314378161e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                238,
+                256,
+                256,
+                274
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  113,
+                  2,
+                  1,
+                  17
+                ],
+                [
+                  0,
+                  501,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  0,
+                  473,
+                  6
+                ],
+                [
+                  2,
+                  2,
+                  4,
+                  925
+                ]
+              ],
+              "teacher_argmax_agreement": 0.982421875,
+              "teacher_entropy": 0.1399000083574863,
+              "teacher_student_KL": 0.01255920689355583,
+              "soft_cross_entropy": 0.15245921525104217,
+              "mean_model_regret_m": 5.930715958359962e-07,
+              "margin_weighted_model_regret_m": 5.431215410800925e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1915,
+              "high_margin_error_rate": 0.0020887728459530026,
+              "selected_action_counts": [
+                115,
+                505,
+                478,
+                950
+              ],
+              "teacher_action_counts": [
+                133,
+                503,
+                479,
+                933
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  962,
+                  0,
+                  0,
+                  18
+                ],
+                [
+                  28,
+                  473,
+                  0,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  0,
+                  32
+                ]
+              ],
+              "teacher_argmax_agreement": 0.96630859375,
+              "teacher_entropy": 0.16778828556109476,
+              "teacher_student_KL": 0.03292506364221419,
+              "soft_cross_entropy": 0.20071334920330894,
+              "mean_model_regret_m": 9.195985315069266e-07,
+              "margin_weighted_model_regret_m": 7.390158724844482e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1861,
+              "high_margin_error_rate": 0.004298764105319721,
+              "selected_action_counts": [
+                1013,
+                473,
+                512,
+                50
+              ],
+              "teacher_action_counts": [
+                980,
+                501,
+                523,
+                44
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  452,
+                  11,
+                  37,
+                  7
+                ],
+                [
+                  55,
+                  751,
+                  0,
+                  49
+                ],
+                [
+                  10,
+                  0,
+                  209,
+                  1
+                ],
+                [
+                  3,
+                  6,
+                  0,
+                  457
+                ]
+              ],
+              "teacher_argmax_agreement": 0.91259765625,
+              "teacher_entropy": 0.26008338090489747,
+              "teacher_student_KL": 0.08455869939946037,
+              "soft_cross_entropy": 0.34464208030435783,
+              "mean_model_regret_m": 6.8716418751960635e-06,
+              "margin_weighted_model_regret_m": 1.545441046340721e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1755,
+              "high_margin_error_rate": 0.0472934472934473,
+              "selected_action_counts": [
+                520,
+                768,
+                246,
+                514
+              ],
+              "teacher_action_counts": [
+                507,
+                855,
+                220,
+                466
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  597,
+                  1,
+                  2,
+                  19
+                ],
+                [
+                  0,
+                  513,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  510,
+                  0
+                ],
+                [
+                  6,
+                  0,
+                  0,
+                  399
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98583984375,
+              "teacher_entropy": 0.10319035590534681,
+              "teacher_student_KL": 0.009828388777840001,
+              "soft_cross_entropy": 0.11301874468318682,
+              "mean_model_regret_m": 3.816132243751232e-07,
+              "margin_weighted_model_regret_m": 3.251569429068614e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1939,
+              "high_margin_error_rate": 0.0020629190304280558,
+              "selected_action_counts": [
+                603,
+                514,
+                512,
+                419
+              ],
+              "teacher_action_counts": [
+                619,
+                514,
+                510,
+                405
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V05_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  540,
+                  12,
+                  47,
+                  2
+                ],
+                [
+                  168,
+                  1054,
+                  0,
+                  33
+                ],
+                [
+                  7,
+                  0,
+                  97,
+                  0
+                ],
+                [
+                  2,
+                  2,
+                  0,
+                  84
+                ]
+              ],
+              "teacher_argmax_agreement": 0.86669921875,
+              "teacher_entropy": 0.23050193998369756,
+              "teacher_student_KL": 0.13223879063746652,
+              "soft_cross_entropy": 0.3627407306211641,
+              "mean_model_regret_m": 1.1854880347065805e-05,
+              "margin_weighted_model_regret_m": 2.5231289071696026e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1778,
+              "high_margin_error_rate": 0.09392575928008999,
+              "selected_action_counts": [
+                717,
+                1068,
+                144,
+                119
+              ],
+              "teacher_action_counts": [
+                601,
+                1255,
+                104,
+                88
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V06_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  98,
+                  0,
+                  2,
+                  18
+                ],
+                [
+                  0,
+                  498,
+                  0,
+                  3
+                ],
+                [
+                  2,
+                  0,
+                  456,
+                  12
+                ],
+                [
+                  18,
+                  6,
+                  1,
+                  934
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9697265625,
+              "teacher_entropy": 0.14994765470026186,
+              "teacher_student_KL": 0.023097343608813447,
+              "soft_cross_entropy": 0.1730449983090753,
+              "mean_model_regret_m": 1.22656577484506e-06,
+              "margin_weighted_model_regret_m": 1.7865958567697744e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1898,
+              "high_margin_error_rate": 0.00684931506849315,
+              "selected_action_counts": [
+                118,
+                504,
+                459,
+                967
+              ],
+              "teacher_action_counts": [
+                118,
+                501,
+                470,
+                959
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  2042,
+                  18,
+                  0,
+                  49
+                ],
+                [
+                  170,
+                  439,
+                  0,
+                  7
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  32,
+                  3,
+                  0,
+                  813
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9190848214285714,
+              "teacher_entropy": 0.23993800817673397,
+              "teacher_student_KL": 0.07339300249683103,
+              "soft_cross_entropy": 0.313331010673565,
+              "mean_model_regret_m": 5.211590893475354e-06,
+              "margin_weighted_model_regret_m": 1.0574107970267163e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3068,
+              "high_margin_error_rate": 0.035202086049543675,
+              "selected_action_counts": [
+                2255,
+                460,
+                0,
+                869
+              ],
+              "teacher_action_counts": [
+                2109,
+                616,
+                11,
+                848
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  28,
+                  3520,
+                  0,
+                  5
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  8,
+                  0,
+                  12
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9885602678571429,
+              "teacher_entropy": 0.06950282551717794,
+              "teacher_student_KL": 0.008558183029766511,
+              "soft_cross_entropy": 0.07806100854694445,
+              "mean_model_regret_m": 4.055853201053561e-07,
+              "margin_weighted_model_regret_m": 3.762723436112892e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3493,
+              "high_margin_error_rate": 0.002576581734898368,
+              "selected_action_counts": [
+                39,
+                3528,
+                0,
+                17
+              ],
+              "teacher_action_counts": [
+                11,
+                3553,
+                0,
+                20
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  607,
+                  0,
+                  89,
+                  5
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  19,
+                  0,
+                  2769,
+                  19
+                ],
+                [
+                  0,
+                  0,
+                  5,
+                  71
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9617745535714286,
+              "teacher_entropy": 0.15658863570365605,
+              "teacher_student_KL": 0.03723091721782551,
+              "soft_cross_entropy": 0.19381955292148154,
+              "mean_model_regret_m": 2.719030933717876e-06,
+              "margin_weighted_model_regret_m": 4.353515245167127e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3330,
+              "high_margin_error_rate": 0.02252252252252252,
+              "selected_action_counts": [
+                626,
+                0,
+                2863,
+                95
+              ],
+              "teacher_action_counts": [
+                701,
+                0,
+                2807,
+                76
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  607,
+                  8,
+                  0,
+                  39
+                ],
+                [
+                  53,
+                  343,
+                  0,
+                  76
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  27,
+                  5,
+                  0,
+                  2426
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9419642857142857,
+              "teacher_entropy": 0.1891838431211485,
+              "teacher_student_KL": 0.05745264720408306,
+              "soft_cross_entropy": 0.24663649032523158,
+              "mean_model_regret_m": 4.3677498047331e-06,
+              "margin_weighted_model_regret_m": 1.0017225905357454e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3202,
+              "high_margin_error_rate": 0.02717051842598376,
+              "selected_action_counts": [
+                687,
+                356,
+                0,
+                2541
+              ],
+              "teacher_action_counts": [
+                654,
+                472,
+                0,
+                2458
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5670219753640766,
+              "0.95": 1.7700258310302646,
+              "0.99": 2.2098157274573023,
+              "1.0": 5.415985696806524
+            },
+            "fraction_absolute_z_above_5": 5.978954081632653e-05,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        }
+      },
+      {
+        "seed": 36002,
+        "portable_sha256": "ddfa05a37e7c56dae7d91b29d14c3f981d680e4e3d1449ce9e5736bf01676dd4",
+        "checkpoint_sha256": "20d88133b83439369d7ada47c160d3945e2ccf2d38c5f5c3d5b9c61df1af2504",
+        "DEV": {
+          "examples": 14336,
+          "confusion_teacher_rows_student_columns": [
+            [
+              3369,
+              21,
+              54,
+              31
+            ],
+            [
+              295,
+              4195,
+              0,
+              151
+            ],
+            [
+              40,
+              0,
+              2764,
+              14
+            ],
+            [
+              79,
+              9,
+              9,
+              3305
+            ]
+          ],
+          "teacher_argmax_agreement": 0.9509626116071429,
+          "teacher_entropy": 0.16380332812967913,
+          "teacher_student_KL": 0.04975191615176402,
+          "soft_cross_entropy": 0.21355524428144315,
+          "mean_model_regret_m": 3.3014496643447157e-06,
+          "margin_weighted_model_regret_m": 6.443455580403702e-06,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 13093,
+          "high_margin_error_rate": 0.021996486672267623,
+          "selected_action_counts": [
+            3783,
+            4225,
+            2827,
+            3501
+          ],
+          "teacher_action_counts": [
+            3475,
+            4641,
+            2818,
+            3402
+          ],
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  266,
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  0,
+                  233
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9873046875,
+              "teacher_entropy": 0.10132707214413136,
+              "teacher_student_KL": 0.00996582562882944,
+              "soft_cross_entropy": 0.1112928977729608,
+              "mean_model_regret_m": 1.9108016247301096e-07,
+              "margin_weighted_model_regret_m": 7.07346152217269e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                278,
+                256,
+                256,
+                234
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  240,
+                  0,
+                  0,
+                  10
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0,
+                  258
+                ]
+              ],
+              "teacher_argmax_agreement": 0.986328125,
+              "teacher_entropy": 0.0890962708458068,
+              "teacher_student_KL": 0.009684659338226003,
+              "soft_cross_entropy": 0.09878093018403282,
+              "mean_model_regret_m": 3.3574338150860395e-07,
+              "margin_weighted_model_regret_m": 1.6555674015953303e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                244,
+                256,
+                256,
+                268
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  127,
+                  0,
+                  1,
+                  5
+                ],
+                [
+                  0,
+                  494,
+                  0,
+                  9
+                ],
+                [
+                  0,
+                  0,
+                  473,
+                  6
+                ],
+                [
+                  14,
+                  0,
+                  5,
+                  914
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98046875,
+              "teacher_entropy": 0.1399000083574863,
+              "teacher_student_KL": 0.010316772638410882,
+              "soft_cross_entropy": 0.1502167809958972,
+              "mean_model_regret_m": 5.152474421255821e-07,
+              "margin_weighted_model_regret_m": 3.3445590971298323e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1915,
+              "high_margin_error_rate": 0.0010443864229765013,
+              "selected_action_counts": [
+                141,
+                494,
+                479,
+                934
+              ],
+              "teacher_action_counts": [
+                133,
+                503,
+                479,
+                933
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  977,
+                  0,
+                  0,
+                  3
+                ],
+                [
+                  35,
+                  466,
+                  0,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  13,
+                  0,
+                  0,
+                  31
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9697265625,
+              "teacher_entropy": 0.16778828556109476,
+              "teacher_student_KL": 0.033185762747766405,
+              "soft_cross_entropy": 0.20097404830886115,
+              "mean_model_regret_m": 1.0129431579718024e-06,
+              "margin_weighted_model_regret_m": 9.882177326139814e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1861,
+              "high_margin_error_rate": 0.006448146157979581,
+              "selected_action_counts": [
+                1036,
+                466,
+                512,
+                34
+              ],
+              "teacher_action_counts": [
+                980,
+                501,
+                523,
+                44
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  467,
+                  20,
+                  17,
+                  3
+                ],
+                [
+                  46,
+                  743,
+                  0,
+                  66
+                ],
+                [
+                  23,
+                  0,
+                  197,
+                  0
+                ],
+                [
+                  5,
+                  9,
+                  0,
+                  452
+                ]
+              ],
+              "teacher_argmax_agreement": 0.90771484375,
+              "teacher_entropy": 0.26008338090489747,
+              "teacher_student_KL": 0.08738277324327007,
+              "soft_cross_entropy": 0.3474661541481675,
+              "mean_model_regret_m": 5.894495824927463e-06,
+              "margin_weighted_model_regret_m": 1.0045993268886793e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1755,
+              "high_margin_error_rate": 0.043304843304843306,
+              "selected_action_counts": [
+                541,
+                772,
+                214,
+                521
+              ],
+              "teacher_action_counts": [
+                507,
+                855,
+                220,
+                466
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  613,
+                  0,
+                  2,
+                  4
+                ],
+                [
+                  1,
+                  512,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  510,
+                  0
+                ],
+                [
+                  17,
+                  0,
+                  0,
+                  388
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98779296875,
+              "teacher_entropy": 0.10319035590534681,
+              "teacher_student_KL": 0.006186605948943494,
+              "soft_cross_entropy": 0.1093769618542903,
+              "mean_model_regret_m": 1.8124777098725488e-07,
+              "margin_weighted_model_regret_m": 7.353134773449634e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1939,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                631,
+                512,
+                512,
+                393
+              ],
+              "teacher_action_counts": [
+                619,
+                514,
+                510,
+                405
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V05_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  567,
+                  0,
+                  33,
+                  1
+                ],
+                [
+                  213,
+                  975,
+                  0,
+                  67
+                ],
+                [
+                  5,
+                  0,
+                  99,
+                  0
+                ],
+                [
+                  3,
+                  0,
+                  0,
+                  85
+                ]
+              ],
+              "teacher_argmax_agreement": 0.8427734375,
+              "teacher_entropy": 0.23050193998369756,
+              "teacher_student_KL": 0.18633240108087412,
+              "soft_cross_entropy": 0.41683434106457173,
+              "mean_model_regret_m": 1.4561654475347498e-05,
+              "margin_weighted_model_regret_m": 3.275723916461487e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1778,
+              "high_margin_error_rate": 0.10854893138357705,
+              "selected_action_counts": [
+                788,
+                975,
+                132,
+                153
+              ],
+              "teacher_action_counts": [
+                601,
+                1255,
+                104,
+                88
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V06_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  112,
+                  1,
+                  1,
+                  4
+                ],
+                [
+                  0,
+                  493,
+                  0,
+                  8
+                ],
+                [
+                  1,
+                  0,
+                  461,
+                  8
+                ],
+                [
+                  11,
+                  0,
+                  4,
+                  944
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9814453125,
+              "teacher_entropy": 0.14994765470026186,
+              "teacher_student_KL": 0.015033854919555415,
+              "soft_cross_entropy": 0.16498150961981728,
+              "mean_model_regret_m": 6.811472070626043e-07,
+              "margin_weighted_model_regret_m": 7.866059615721607e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1898,
+              "high_margin_error_rate": 0.0026343519494204425,
+              "selected_action_counts": [
+                124,
+                494,
+                466,
+                964
+              ],
+              "teacher_action_counts": [
+                118,
+                501,
+                470,
+                959
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  2074,
+                  21,
+                  0,
+                  14
+                ],
+                [
+                  200,
+                  398,
+                  0,
+                  18
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  39,
+                  3,
+                  0,
+                  806
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9146205357142857,
+              "teacher_entropy": 0.23993800817673397,
+              "teacher_student_KL": 0.08941382797239902,
+              "soft_cross_entropy": 0.329351836149133,
+              "mean_model_regret_m": 5.773367679231637e-06,
+              "margin_weighted_model_regret_m": 1.0776442523009622e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3068,
+              "high_margin_error_rate": 0.04302477183833116,
+              "selected_action_counts": [
+                2324,
+                422,
+                0,
+                838
+              ],
+              "teacher_action_counts": [
+                2109,
+                616,
+                11,
+                848
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  35,
+                  3501,
+                  0,
+                  17
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  20
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9854910714285714,
+              "teacher_entropy": 0.06950282551717794,
+              "teacher_student_KL": 0.01018776869268484,
+              "soft_cross_entropy": 0.07969059420986278,
+              "mean_model_regret_m": 5.640944018667628e-07,
+              "margin_weighted_model_regret_m": 5.586177320879648e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3493,
+              "high_margin_error_rate": 0.0034354423131978244,
+              "selected_action_counts": [
+                46,
+                3501,
+                0,
+                37
+              ],
+              "teacher_action_counts": [
+                11,
+                3553,
+                0,
+                20
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  645,
+                  0,
+                  54,
+                  2
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  29,
+                  0,
+                  2764,
+                  14
+                ],
+                [
+                  1,
+                  0,
+                  9,
+                  66
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9695870535714286,
+              "teacher_entropy": 0.15658863570365605,
+              "teacher_student_KL": 0.026577862083656142,
+              "soft_cross_entropy": 0.1831664977873122,
+              "mean_model_regret_m": 1.5057461959877696e-06,
+              "margin_weighted_model_regret_m": 2.0208086168843398e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3330,
+              "high_margin_error_rate": 0.009009009009009009,
+              "selected_action_counts": [
+                675,
+                0,
+                2827,
+                82
+              ],
+              "teacher_action_counts": [
+                701,
+                0,
+                2807,
+                76
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  639,
+                  0,
+                  0,
+                  15
+                ],
+                [
+                  60,
+                  296,
+                  0,
+                  116
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  39,
+                  6,
+                  0,
+                  2413
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9341517857142857,
+              "teacher_entropy": 0.1891838431211485,
+              "teacher_student_KL": 0.07282820585831608,
+              "soft_cross_entropy": 0.26201204897946456,
+              "mean_model_regret_m": 5.362590380292694e-06,
+              "margin_weighted_model_regret_m": 1.241795344963288e-05,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3202,
+              "high_margin_error_rate": 0.03560274828232355,
+              "selected_action_counts": [
+                738,
+                302,
+                0,
+                2544
+              ],
+              "teacher_action_counts": [
+                654,
+                472,
+                0,
+                2458
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5670219753640766,
+              "0.95": 1.7700258310302646,
+              "0.99": 2.2098157274573023,
+              "1.0": 5.415985696806524
+            },
+            "fraction_absolute_z_above_5": 5.978954081632653e-05,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        }
+      },
+      {
+        "seed": 36003,
+        "portable_sha256": "03dc6af1e8b2662d3f8a33a439d67009e2741d7311a1bc6b1dd93de3325c9765",
+        "checkpoint_sha256": "c2e93258ec0cfc297c479206240229ba0c1430e250d28bd8a7e172a857eff9ae",
+        "DEV": {
+          "examples": 14336,
+          "confusion_teacher_rows_student_columns": [
+            [
+              3281,
+              22,
+              62,
+              110
+            ],
+            [
+              132,
+              4415,
+              0,
+              94
+            ],
+            [
+              26,
+              0,
+              2788,
+              4
+            ],
+            [
+              42,
+              5,
+              7,
+              3348
+            ]
+          ],
+          "teacher_argmax_agreement": 0.96484375,
+          "teacher_entropy": 0.16380332812967913,
+          "teacher_student_KL": 0.023578940764142846,
+          "soft_cross_entropy": 0.18738226889382195,
+          "mean_model_regret_m": 1.4281277379207863e-06,
+          "margin_weighted_model_regret_m": 1.5982401817617365e-06,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 13093,
+          "high_margin_error_rate": 0.007790422363094783,
+          "selected_action_counts": [
+            3481,
+            4442,
+            2857,
+            3556
+          ],
+          "teacher_action_counts": [
+            3475,
+            4641,
+            2818,
+            3402
+          ],
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  267,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  20,
+                  0,
+                  0,
+                  225
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98046875,
+              "teacher_entropy": 0.10132707214413136,
+              "teacher_student_KL": 0.018630071866050098,
+              "soft_cross_entropy": 0.11995714401018147,
+              "mean_model_regret_m": 6.848984374042274e-07,
+              "margin_weighted_model_regret_m": 5.871709083003906e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.003076923076923077,
+              "selected_action_counts": [
+                287,
+                256,
+                256,
+                225
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  244,
+                  0,
+                  0,
+                  6
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  3,
+                  0,
+                  0,
+                  259
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9912109375,
+              "teacher_entropy": 0.0890962708458068,
+              "teacher_student_KL": 0.008163655889780333,
+              "soft_cross_entropy": 0.09725992673558714,
+              "mean_model_regret_m": 2.1827355167161732e-07,
+              "margin_weighted_model_regret_m": 1.1558759954977725e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                247,
+                256,
+                256,
+                265
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  112,
+                  5,
+                  0,
+                  16
+                ],
+                [
+                  0,
+                  492,
+                  0,
+                  11
+                ],
+                [
+                  1,
+                  0,
+                  476,
+                  2
+                ],
+                [
+                  1,
+                  0,
+                  5,
+                  927
+                ]
+              ],
+              "teacher_argmax_agreement": 0.97998046875,
+              "teacher_entropy": 0.1399000083574863,
+              "teacher_student_KL": 0.012108762196481378,
+              "soft_cross_entropy": 0.1520087705539677,
+              "mean_model_regret_m": 8.584486780454879e-07,
+              "margin_weighted_model_regret_m": 9.086717550516925e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1915,
+              "high_margin_error_rate": 0.004699738903394256,
+              "selected_action_counts": [
+                114,
+                497,
+                481,
+                956
+              ],
+              "teacher_action_counts": [
+                133,
+                503,
+                479,
+                933
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  967,
+                  0,
+                  0,
+                  13
+                ],
+                [
+                  29,
+                  472,
+                  0,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  3,
+                  0,
+                  0,
+                  41
+                ]
+              ],
+              "teacher_argmax_agreement": 0.97265625,
+              "teacher_entropy": 0.16778828556109476,
+              "teacher_student_KL": 0.019330975863145326,
+              "soft_cross_entropy": 0.1871192614242401,
+              "mean_model_regret_m": 7.116838457567532e-07,
+              "margin_weighted_model_regret_m": 5.825420136821695e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1861,
+              "high_margin_error_rate": 0.0032240730789897904,
+              "selected_action_counts": [
+                1010,
+                472,
+                512,
+                54
+              ],
+              "teacher_action_counts": [
+                980,
+                501,
+                523,
+                44
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  431,
+                  15,
+                  31,
+                  30
+                ],
+                [
+                  20,
+                  794,
+                  0,
+                  41
+                ],
+                [
+                  11,
+                  0,
+                  209,
+                  0
+                ],
+                [
+                  0,
+                  4,
+                  0,
+                  462
+                ]
+              ],
+              "teacher_argmax_agreement": 0.92578125,
+              "teacher_entropy": 0.26008338090489747,
+              "teacher_student_KL": 0.040681290291051164,
+              "soft_cross_entropy": 0.30076467119594863,
+              "mean_model_regret_m": 3.043492315401133e-06,
+              "margin_weighted_model_regret_m": 2.9432738366216364e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1755,
+              "high_margin_error_rate": 0.016524216524216526,
+              "selected_action_counts": [
+                462,
+                813,
+                240,
+                533
+              ],
+              "teacher_action_counts": [
+                507,
+                855,
+                220,
+                466
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  587,
+                  1,
+                  2,
+                  29
+                ],
+                [
+                  0,
+                  514,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  508,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  405
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9833984375,
+              "teacher_entropy": 0.10319035590534681,
+              "teacher_student_KL": 0.006878241161973374,
+              "soft_cross_entropy": 0.11006859706732018,
+              "mean_model_regret_m": 3.269644161972786e-07,
+              "margin_weighted_model_regret_m": 1.8308763829358635e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1939,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                589,
+                515,
+                510,
+                434
+              ],
+              "teacher_action_counts": [
+                619,
+                514,
+                510,
+                405
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V05_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  568,
+                  1,
+                  29,
+                  3
+                ],
+                [
+                  83,
+                  1135,
+                  0,
+                  37
+                ],
+                [
+                  0,
+                  0,
+                  104,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  88
+                ]
+              ],
+              "teacher_argmax_agreement": 0.92529296875,
+              "teacher_entropy": 0.23050193998369756,
+              "teacher_student_KL": 0.06509937873630624,
+              "soft_cross_entropy": 0.2956013187200037,
+              "mean_model_regret_m": 4.139776857840471e-06,
+              "margin_weighted_model_regret_m": 5.9531093085198945e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1778,
+              "high_margin_error_rate": 0.03093363329583802,
+              "selected_action_counts": [
+                651,
+                1136,
+                133,
+                128
+              ],
+              "teacher_action_counts": [
+                601,
+                1255,
+                104,
+                88
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_V06_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  105,
+                  0,
+                  0,
+                  13
+                ],
+                [
+                  0,
+                  496,
+                  0,
+                  5
+                ],
+                [
+                  1,
+                  0,
+                  467,
+                  2
+                ],
+                [
+                  15,
+                  1,
+                  2,
+                  941
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98095703125,
+              "teacher_entropy": 0.14994765470026186,
+              "teacher_student_KL": 0.007557073222127228,
+              "soft_cross_entropy": 0.1575047279223891,
+              "mean_model_regret_m": 4.649420576664568e-07,
+              "margin_weighted_model_regret_m": 2.656174662380928e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1898,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                121,
+                497,
+                469,
+                961
+              ],
+              "teacher_action_counts": [
+                118,
+                501,
+                470,
+                959
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  2034,
+                  20,
+                  0,
+                  55
+                ],
+                [
+                  83,
+                  518,
+                  0,
+                  15
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  21,
+                  1,
+                  0,
+                  826
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9425223214285714,
+              "teacher_entropy": 0.23993800817673397,
+              "teacher_student_KL": 0.03752829966227645,
+              "soft_cross_entropy": 0.27746630783901044,
+              "mean_model_regret_m": 2.166995576255657e-06,
+              "margin_weighted_model_regret_m": 2.3022502388314633e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3068,
+              "high_margin_error_rate": 0.01108213820078227,
+              "selected_action_counts": [
+                2149,
+                539,
+                0,
+                896
+              ],
+              "teacher_action_counts": [
+                2109,
+                616,
+                11,
+                848
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  11,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  29,
+                  3508,
+                  0,
+                  16
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0,
+                  19
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9871651785714286,
+              "teacher_entropy": 0.06950282551717794,
+              "teacher_student_KL": 0.008059107842902485,
+              "soft_cross_entropy": 0.07756193336008042,
+              "mean_model_regret_m": 5.036191742801229e-07,
+              "margin_weighted_model_regret_m": 4.6798491495928225e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3493,
+              "high_margin_error_rate": 0.0028628685943315204,
+              "selected_action_counts": [
+                40,
+                3509,
+                0,
+                35
+              ],
+              "teacher_action_counts": [
+                11,
+                3553,
+                0,
+                20
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  630,
+                  0,
+                  62,
+                  9
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  15,
+                  0,
+                  2788,
+                  4
+                ],
+                [
+                  0,
+                  0,
+                  7,
+                  69
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9729352678571429,
+              "teacher_entropy": 0.15658863570365605,
+              "teacher_student_KL": 0.017895491799413948,
+              "soft_cross_entropy": 0.17448412750307,
+              "mean_model_regret_m": 1.1311262453851938e-06,
+              "margin_weighted_model_regret_m": 1.1198772418994173e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3330,
+              "high_margin_error_rate": 0.006306306306306306,
+              "selected_action_counts": [
+                645,
+                0,
+                2857,
+                82
+              ],
+              "teacher_action_counts": [
+                701,
+                0,
+                2807,
+                76
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 3584,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  606,
+                  2,
+                  0,
+                  46
+                ],
+                [
+                  20,
+                  389,
+                  0,
+                  63
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  21,
+                  3,
+                  0,
+                  2434
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9567522321428571,
+              "teacher_entropy": 0.1891838431211485,
+              "teacher_student_KL": 0.030832863751978502,
+              "soft_cross_entropy": 0.220016706873127,
+              "mean_model_regret_m": 1.9107699557621704e-06,
+              "margin_weighted_model_regret_m": 2.502848331356783e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 3202,
+              "high_margin_error_rate": 0.01155527795128045,
+              "selected_action_counts": [
+                647,
+                394,
+                0,
+                2543
+              ],
+              "teacher_action_counts": [
+                654,
+                472,
+                0,
+                2458
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5670219753640766,
+              "0.95": 1.7700258310302646,
+              "0.99": 2.2098157274573023,
+              "1.0": 5.415985696806524
+            },
+            "fraction_absolute_z_above_5": 5.978954081632653e-05,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        }
+      }
+    ],
+    "optimizer_updates": 0,
+    "native_integrations": 0,
+    "TEST_read": false,
+    "CPU_s": 2.095424787,
+    "wall_s": 2.2048055878840387
+  },
+  "native_control_gain": false,
+  "first_readonly_audit_failure": {
+    "exit_code": 1,
+    "cause": "Used native task key for neural spec; frozen_task is the actual neural key",
+    "before_output_creation": true,
+    "optimizer_updates": 0,
+    "native_integrations": 0
+  },
+  "local_preparation_failure": {
+    "stage": "LOCAL_SCRIPT_PREPARATION",
+    "exit_code": 1,
+    "cause": "File path used as parent directory while preparing correction",
+    "SSH_calls": 0,
+    "native_integrations": 0,
+    "optimizer_updates": 0
+  }
+}
