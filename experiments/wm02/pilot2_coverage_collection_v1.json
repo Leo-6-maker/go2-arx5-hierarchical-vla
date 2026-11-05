@@ -1,0 +1,20 @@
+{
+  "schema": "WM02_PILOT2_COVERAGE_EPISODE_V1",
+  "phase": "collect-target-pilot1",
+  "purpose": "ACTION_COVERAGE",
+  "method": "PREDECLARED_ACTION",
+  "selection_source": "PREREGISTERED_RANDOMIZED_ACTION_MANIFEST",
+  "forced_action": 0,
+  "repeat_index": 0,
+  "split": "TRAIN",
+  "reference_rule": "FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1",
+  "task_atoms": 64,
+  "prehold_atoms": 40,
+  "screen_atom": 48,
+  "screen": {"window_s": 0.4, "relative_TCP_diameter_m": 0.002, "max_relative_TCP_speed_m_s": 0.025},
+  "offset_xyz_m": [0.0, 0.0, 0.0],
+  "goal_index": 0,
+  "task_goal_offset_xy_m": "RESOLVED_FROM_FROZEN_ORIGINAL_TASK_BEFORE_NATIVE_START",
+  "actual_action_set": ["HOLD", "PLUS_X_1MM", "MINUS_X_1MM", "PLUS_Y_1MM"],
+  "whole_batch_PASS_required_for_replay": true
+}

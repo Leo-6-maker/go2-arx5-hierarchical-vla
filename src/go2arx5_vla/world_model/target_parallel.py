@@ -8,7 +8,8 @@ from .storage import digest,write_json
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
-    free=feedback or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
+    coverage=batch.get('schema')=='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'
+    free=feedback or coverage or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
     pilot= free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
     runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
@@ -40,8 +41,10 @@ def validate_layout(batch, children):
             if validate(child,previous)!=(4103 if free else 5703):raise PermissionError('QUALIFIED_SINGLE_PILOT1_SCENE_REQUIRED')
             if free:
                 episode=json.loads(Path(child['episode_manifest']).read_text())
-                if episode.get('purpose')!=('TRAIN_FEEDBACK'if feedback else'EVALUATION')or feedback and episode.get('split')!='TRAIN':
+                if episode.get('purpose')!=('ACTION_COVERAGE'if coverage else'TRAIN_FEEDBACK'if feedback else'EVALUATION')or feedback and episode.get('split')!='TRAIN':
                     raise PermissionError('TWO_SLOT_FREE_BATCH_REQUIRES_PREQUALIFIED_EVALUATION_SCENES_OR_SEPARATE_TRAIN_FEEDBACK')
+                if coverage and child.get('pilot2_plan_sha')!=batch.get('pilot2_plan_sha'):
+                    raise PermissionError('SAME_PREDECLARED_PILOT2_PLAN_REQUIRED')
         proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
         if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
                 or len(value['children'])!=2 or not all(c['ticks']>=4103 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):
@@ -193,6 +196,11 @@ def run_batch(spec_path,output,run_id):
                         result['recorded_task_atoms']=sum(r['task_atoms']for r in rows)
                         result['learning_atoms']=sum(r['task_atoms']for r in rows if r['split']=='TRAIN')if result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'else 0
                         result['learning_atoms_definition']='ELIGIBLE_TRAIN_ONLY_NOT_DEV_TEST_OR_OPTIMIZER_UPDATES'
+                        if spec.get('schema')=='WM02_PILOT2_TWO_COVERAGE_BATCH_V1':
+                            passed=result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
+                            result['learning_atoms']=24*sum(r['split']=='TRAIN'for r in rows)if passed else 0
+                            result['validation_replay_atoms']=24*sum(r['split']=='DEV'for r in rows)if passed else 0
+                            result['learning_atoms_definition']='ELIGIBLE_LATE_DECISION_TRAIN_REPLAY_ATOMS_24_PER_EPISODE'
                     if spec.get('next1_binding')or spec.get('next2_binding'):
                         result['recorded_task_atoms']=sum(r['task_atoms']for r in rows)
                         result['learning_atoms']=sum(r.get('sampled_WM_atoms',0)for r in rows)if result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'else 0

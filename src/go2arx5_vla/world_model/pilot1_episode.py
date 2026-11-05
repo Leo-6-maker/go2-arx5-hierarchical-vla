@@ -12,13 +12,17 @@ METHODS = ('GEOMETRIC_DIRECTION_RULE', 'TRAIN_MEAN_RESPONSE_RULE', 'FROZEN_ARX_S
 def episode_config(spec):
     path = Path(spec['episode_manifest'])
     episode = json.loads(path.read_text())
-    if (digest(path) != spec['episode_manifest_sha256'] or episode.get('schema') != 'WM02_PILOT1_EPISODE_V1'
+    pilot2=episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1'
+    if pilot2:
+        from .pilot2_coverage import coverage_contract
+        coverage_contract(spec,episode)
+    if (digest(path) != spec['episode_manifest_sha256'] or episode.get('schema') != ('WM02_PILOT2_COVERAGE_EPISODE_V1'if pilot2 else'WM02_PILOT1_EPISODE_V1')
             or episode.get('run') != spec['registered_root'] or episode.get('phase') != 'collect-target-pilot1'
-            or episode.get('purpose') not in ('SCENE_QUALIFICATION', 'EVALUATION', 'TRAIN_FEEDBACK')
+            or episode.get('purpose') not in (('SCENE_QUALIFICATION','ACTION_COVERAGE')if pilot2 else('SCENE_QUALIFICATION', 'EVALUATION', 'TRAIN_FEEDBACK'))
             or episode.get('reference_rule') != RULE or episode.get('task_atoms') != 64
             or episode.get('prehold_atoms') != 40 or episode.get('screen_atom') != 48
             or episode.get('screen') != dict(window_s=.4, relative_TCP_diameter_m=.002, max_relative_TCP_speed_m_s=.025)
-            or episode.get('split') not in ('TRAIN','DEV','TEST') or episode.get('method') not in METHODS
+            or episode.get('split') not in (('TRAIN','DEV')if pilot2 else('TRAIN','DEV','TEST')) or episode.get('method') not in (('PREDECLARED_ACTION',)if pilot2 else METHODS)
             or tuple(episode['offset_xyz_m']) != (0,0,0) or not spec.get('pilot1_binding')):
         raise PermissionError('EXACT_PILOT1_TASK_AND_PREDECLARED_NATIVE_METHOD_REQUIRED')
     assets = json.loads(Path(spec['scene_allowlist']).read_text())
@@ -63,6 +67,9 @@ def episode_limit(spec, previous):
 
 
 def choose(adapter, episode):
+    if episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1':
+        from .pilot2_coverage import choose_predeclared
+        return choose_predeclared(adapter,episode)
     from .target_arx import CausalARX
     from .next2_episode import state_vector
     from .target_reference import require_install_clock
