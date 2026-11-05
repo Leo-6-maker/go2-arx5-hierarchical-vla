@@ -40,6 +40,11 @@ def episode_config(spec):
             raise PermissionError('FROZEN_PILOT1_ACTOR_TEACHER_OR_TASK_CHANGED')
     from .pilot1_numpy import goal_offsets
     task=json.loads(Path(spec['task']).read_text())
+    if spec.get('train_mean_response_model'):
+        from .pilot2_coverage import PLAN
+        from .pilot2_mean_rule import responses
+        if spec.get('pilot2_plan_sha')!=PLAN:raise PermissionError('PILOT2_TRAIN_MEAN_RULE_SCOPE_REQUIRED')
+        responses(spec,task)
     goals=goal_offsets(task)
     if (type(episode.get('goal_index'))is not int or not 0<=episode['goal_index']<len(goals)
             or not np.array_equal(np.asarray(episode.get('task_goal_offset_xy_m')),goals[episode['goal_index']])
@@ -107,8 +112,10 @@ def choose(adapter, episode):
     predictions = np.asarray(predictions)
     xy = predictions[:,-1,model.layout['tcp_position_m']][:,:2]
     cost = task['nonhold_action_cost_m'] * np.asarray([0,1,1,1])
+    from .pilot2_mean_rule import responses
+    mean_response,mean_sha=responses(spec,task)
     errors = dict(GEOMETRIC_DIRECTION_RULE=np.linalg.norm(initial[None,:2]+OFFSETS[:,:2]-task_goal,axis=1)+cost,
-                  TRAIN_MEAN_RESPONSE_RULE=np.linalg.norm(np.asarray(task['mean_response_xy_m'])-target_delta,axis=1)+cost,
+                  TRAIN_MEAN_RESPONSE_RULE=np.linalg.norm(mean_response-target_delta,axis=1)+cost,
                   FROZEN_ARX_SELECTOR=np.linalg.norm(xy-task_goal,axis=1)+cost)
     from .pilot1_numpy import actor_features, logits
     inputs = actor_features(data,meta,np.asarray([0]),target_delta[None])
@@ -123,6 +130,7 @@ def choose(adapter, episode):
                  actor_logits=scores.tolist(), proposed_actions=choices, selected_action=selected,
                  selected_offset_xyz_m=OFFSETS[selected].tolist(), future_response_observed=False,
                  Actor_sha256=spec['actor_numpy_sha256'], teacher_sha256=spec['ARX_sha256'], task_sha256=spec['task_sha256'])
+    value['train_mean_response_model_sha256']=mean_sha
     write(adapter.output/'PILOT1_DECISION.private.json',value)
     if adapter.observe()['step'] != packet['step']:
         raise RuntimeError('PHYSICS_ADVANCED_DURING_ACTION_CHOICE')
