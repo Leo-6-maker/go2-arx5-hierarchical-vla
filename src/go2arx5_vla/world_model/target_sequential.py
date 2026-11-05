@@ -197,12 +197,35 @@ class TargetSequentialAdapter:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
         p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
-        self.publish(self.keys,'ENTER')
+        self.resume_clock_once(ticks)
         def paused():
             try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
-        if not self.spin(35,paused):raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
+        if not self.spin(35,paused):
+            from .storage import write_json
+            ack=self.output/'pause_ack.json'
+            try:pause=json.loads(ack.read_text())
+            except(FileNotFoundError,json.JSONDecodeError):pause=None
+            write_json(self.output/'CLOCK_RESUME_FAILURE.json',dict(requested_step=ticks,
+                matched_subscriptions=self.keys.get_subscription_count(),control=self.control(),
+                pause_ack=pause,automatic_ENTER_retries=0,
+                cause='UNRESOLVED_COMMAND_DELIVERY_OR_NATIVE_CONSUMPTION'))
+            raise RuntimeError('EXACT_NATIVE_PAUSE_NOT_REACHED')
         return self.observe()
+    def resume_clock_once(self,ticks):
+        # ENTER toggles the original native clock. Never retry that write when
+        # consumption is unknown. Topic matching is a separate startup barrier;
+        # odometry reception alone did not establish that this publisher matched.
+        def matched():
+            count=self.keys.get_subscription_count()
+            if count>1:raise RuntimeError('ISOLATED_CLOCK_KEY_HAS_MULTIPLE_SUBSCRIBERS')
+            return count==1
+        if not self.spin(3,matched):raise RuntimeError('OWNED_CLOCK_KEY_SUBSCRIBER_NOT_MATCHED')
+        with(self.output/'CLOCK_RESUME_REQUESTS.jsonl').open('a')as stream:
+            stream.write(json.dumps(dict(requested_step=ticks,matched_subscriptions=1,
+                monotonic_s=time.monotonic(),publication_count=1,
+                consumption_evidence='EXACT_NATIVE_PAUSE_REQUIRED_SEPARATELY'))+'\n')
+        self.publish(self.keys,'ENTER')
     def seal_trace(self,ticks):
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
