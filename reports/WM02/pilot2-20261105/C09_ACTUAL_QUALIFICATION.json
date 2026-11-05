@@ -1,0 +1,444 @@
+{
+  "schema": "WM02_PILOT2_C09_APPLICATION_AND_QUALIFICATION_V1",
+  "goal_status": "ACTIVE",
+  "candidate_build_source_sha": "5786f73073aaaa4562f0240fe0038f2cfc83dc96",
+  "TTL_runtime_source_sha": "8e215be272218cf8f7f2bd772a1a459335f0528e",
+  "dual_runtime_source_sha": "ea346297bde386b9b3d1fed17d736b7b832d300a",
+  "native_binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+  "old_C08_binary_preserved": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+  "single_stages": [
+    {
+      "run": "pilot2-c09-q-01-01",
+      "phase": "cold-1",
+      "max_ticks": 50,
+      "result_sha256": "804622d633c656b97e1afdb52aaf0c83a5fcf3bfa29b7aea6c8523d43d706f9e",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-02-01",
+      "phase": "cold-2",
+      "max_ticks": 50,
+      "result_sha256": "68d30f4a8d04e0807eaa028ad68927f7634e592e1876940602968aa0f221d88b",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-03-01",
+      "phase": "hold-2s-1",
+      "max_ticks": 1000,
+      "result_sha256": "51d5fa5cee11112c69b969fadc30aa9ae0e06c76f85fc80487a18ac05fba6aa2",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 1000,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-04-01",
+      "phase": "hold-2s-2",
+      "max_ticks": 1000,
+      "result_sha256": "ba724405cb5d58567cd2f6fe92854838829b1d114acf8932b421cee2de9ff915",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 1000,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-05-01",
+      "phase": "hold-5s-1",
+      "max_ticks": 2500,
+      "result_sha256": "f9699dd99d33dbb86ed5d696f4bc339e327447f4e9cda0616a732d869a5b5517",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2500,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-06-01",
+      "phase": "hold-5s-2",
+      "max_ticks": 2500,
+      "result_sha256": "baa089418ab09ed06acc2b7edaab49c43aa1cebe66a9ddc8431a9d97234aae15",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2500,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-07-01",
+      "phase": "g2-reference-qualification",
+      "max_ticks": 2503,
+      "result_sha256": "c6de06ce084ba3c5c371bc293bb7920673b6c090ecfdd998d867315dacc8da82",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2503,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-08-01",
+      "phase": "g2-standing-hold-short-v2",
+      "max_ticks": 2528,
+      "result_sha256": "0a4be7b1d32c330928240fb5810adbb058b2f74bc87bda89da3af83fb502768d",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2528,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-09-01",
+      "phase": "g2-standing-hold-renew-v2",
+      "max_ticks": 2903,
+      "result_sha256": "0686ac359186b5b2c9eecf7ff224ccadd160ba4bb2598957735b741026d986f7",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2903,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-10-01",
+      "phase": "g2-standing-eef-x-v2",
+      "max_ticks": 2703,
+      "result_sha256": "53457692b189e6342c2227e6d3901471f4c144d0c8b4b64ffe0d77d7946a220b",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2703,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-11-01",
+      "phase": "g2-standing-eef-y-v2",
+      "max_ticks": 2703,
+      "result_sha256": "21eda8f938cc3bf75bf04561a7064e609bbe58636d0fae0df3314aee2e9a6ab5",
+      "worker_exit": 0,
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2703,
+      "physics_stops": []
+    },
+    {
+      "run": "pilot2-c09-q-12-01",
+      "phase": "g2-standing-ttl-v2",
+      "max_ticks": 2706,
+      "result_sha256": "887e3af27e49fcf7aef09c2b15fa3df9905f1219472d1a68d1cd962d3cf73140",
+      "worker_exit": 1,
+      "status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "ticks": 0,
+      "physics_stops": []
+    }
+  ],
+  "application_audit": [
+    {
+      "run": "pilot2-c09-q-01-01",
+      "phase": "cold-1",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 73,
+      "inference_queries": 5,
+      "inference_latency_median_ms": 0.715659,
+      "inference_latency_p95_ms": 20.084968999999997,
+      "PD_max_wall_interval_ms": 246.430301
+    },
+    {
+      "run": "pilot2-c09-q-02-01",
+      "phase": "cold-2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 69,
+      "inference_queries": 5,
+      "inference_latency_median_ms": 0.514797,
+      "inference_latency_p95_ms": 16.5542864,
+      "PD_max_wall_interval_ms": 225.06085
+    },
+    {
+      "run": "pilot2-c09-q-03-01",
+      "phase": "hold-2s-1",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 1000,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 818,
+      "inference_queries": 100,
+      "inference_latency_median_ms": 0.5262935,
+      "inference_latency_p95_ms": 1.01176285,
+      "PD_max_wall_interval_ms": 238.007999
+    },
+    {
+      "run": "pilot2-c09-q-04-01",
+      "phase": "hold-2s-2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 1000,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 849,
+      "inference_queries": 100,
+      "inference_latency_median_ms": 0.5229999999999999,
+      "inference_latency_p95_ms": 1.8339822,
+      "PD_max_wall_interval_ms": 227.923991
+    },
+    {
+      "run": "pilot2-c09-q-05-01",
+      "phase": "hold-5s-1",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2500,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 2362,
+      "inference_queries": 250,
+      "inference_latency_median_ms": 0.5162789999999999,
+      "inference_latency_p95_ms": 0.832374749999998,
+      "PD_max_wall_interval_ms": 333.785433
+    },
+    {
+      "run": "pilot2-c09-q-06-01",
+      "phase": "hold-5s-2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2500,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 1881,
+      "inference_queries": 250,
+      "inference_latency_median_ms": 0.5150965,
+      "inference_latency_p95_ms": 0.7185746,
+      "PD_max_wall_interval_ms": 260.965114
+    },
+    {
+      "run": "pilot2-c09-q-07-01",
+      "phase": "g2-reference-qualification",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2503,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 2166,
+      "inference_queries": 251,
+      "inference_latency_median_ms": 0.509055,
+      "inference_latency_p95_ms": 0.834986,
+      "PD_max_wall_interval_ms": 341.335159
+    },
+    {
+      "run": "pilot2-c09-q-08-01",
+      "phase": "g2-standing-hold-short-v2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2528,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 1959,
+      "inference_queries": 253,
+      "inference_latency_median_ms": 0.511819,
+      "inference_latency_p95_ms": 0.827529,
+      "PD_max_wall_interval_ms": 706.241624
+    },
+    {
+      "run": "pilot2-c09-q-09-01",
+      "phase": "g2-standing-hold-renew-v2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2903,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 2363,
+      "inference_queries": 291,
+      "inference_latency_median_ms": 0.521673,
+      "inference_latency_p95_ms": 0.7862135,
+      "PD_max_wall_interval_ms": 681.489483
+    },
+    {
+      "run": "pilot2-c09-q-10-01",
+      "phase": "g2-standing-eef-x-v2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2703,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 2150,
+      "inference_queries": 271,
+      "inference_latency_median_ms": 0.520442,
+      "inference_latency_p95_ms": 0.70813,
+      "PD_max_wall_interval_ms": 622.527162
+    },
+    {
+      "run": "pilot2-c09-q-11-01",
+      "phase": "g2-standing-eef-y-v2",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 2703,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": 1,
+      "PD_callbacks": 2282,
+      "inference_queries": 271,
+      "inference_latency_median_ms": 0.510353,
+      "inference_latency_p95_ms": 0.8089025,
+      "PD_max_wall_interval_ms": 577.413853
+    },
+    {
+      "run": "pilot2-c09-q-12-01",
+      "phase": "g2-standing-ttl-v2",
+      "status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "ticks": 0,
+      "completed_not_applied_step_count": 0,
+      "first_step_applied": null,
+      "PD_callbacks": 177,
+      "inference_queries": 0,
+      "inference_latency_median_ms": null,
+      "inference_latency_p95_ms": null,
+      "PD_max_wall_interval_ms": 234.848118
+    }
+  ],
+  "TTL_successor": {
+    "run": "pilot2-c09-ttl-q-02",
+    "phase": "g2-standing-ttl-v2",
+    "max_ticks": 2706,
+    "result_sha256": "00fb3fac090291232db8f4f93ce9395d4ddcceb9c6eee1c8093598ad29ef56cb",
+    "worker_exit": 0,
+    "status": "NATIVE_STAGE_PASSED",
+    "ticks": 2706,
+    "physics_stops": []
+  },
+  "dual_cold_children": [
+    {
+      "run": "pilot2-c09-dual-q-01-01-slot-0",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "STOP": [],
+      "gap": 0,
+      "first_step_applied": 1
+    },
+    {
+      "run": "pilot2-c09-dual-q-01-01-slot-1",
+      "status": "NATIVE_STAGE_PASSED",
+      "ticks": 50,
+      "STOP": [],
+      "gap": 0,
+      "first_step_applied": 1
+    }
+  ],
+  "dual_successor_stages": [
+    {
+      "run": "pilot2-c09-dual-q-02-02",
+      "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "worker_exit_code": 0,
+      "children": [
+        {
+          "run": "pilot2-c09-dual-q-02-02-slot-0",
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 2528,
+          "STOP": [],
+          "gap": 0,
+          "first_step_applied": 1
+        },
+        {
+          "run": "pilot2-c09-dual-q-02-02-slot-1",
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 2528,
+          "STOP": [],
+          "gap": 0,
+          "first_step_applied": 1
+        }
+      ]
+    },
+    {
+      "run": "pilot2-c09-dual-q-03-02",
+      "status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "worker_exit_code": 0,
+      "children": [
+        {
+          "run": "pilot2-c09-dual-q-03-02-slot-0",
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 3103,
+          "STOP": [],
+          "gap": 0,
+          "first_step_applied": 1
+        },
+        {
+          "run": "pilot2-c09-dual-q-03-02-slot-1",
+          "status": "NATIVE_STAGE_PASSED",
+          "ticks": 3103,
+          "STOP": [],
+          "gap": 0,
+          "first_step_applied": 1
+        }
+      ]
+    }
+  ],
+  "costs": {
+    "single": {
+      "exit_code": 1,
+      "wall_s": 174.71549303084612,
+      "CPU_s": 0.48221450299999996,
+      "child_CPU_s": 241.238978,
+      "actual_native_attempts": 12,
+      "actual_native_ticks": 20440
+    },
+    "TTL_successor": {
+      "exit_code": 0,
+      "wall_s": 23.031653454061598,
+      "CPU_s": 0.049203821999999994,
+      "child_CPU_s": 31.646282,
+      "actual_native_attempts": 1,
+      "actual_native_ticks": 2706
+    },
+    "cold_parent_closeout_failed": {
+      "exit_code": 1,
+      "wall_s": 7.096780007239431,
+      "CPU_s": 0.06814322800000001,
+      "child_CPU_s": 9.479946,
+      "actual_native_attempts": 2,
+      "actual_native_ticks": 100
+    },
+    "dual_successor": {
+      "exit_code": 0,
+      "wall_s": 53.899748778901994,
+      "CPU_s": 0.47309409399999997,
+      "child_CPU_s": 142.21126999999998,
+      "actual_native_attempts": 4,
+      "actual_native_ticks": 11262
+    },
+    "build": {
+      "exit_code": 0,
+      "wall_s": 37.48475669790059,
+      "CPU_s": 0.252145419,
+      "child_CPU_s": 34.814696999999995
+    },
+    "stage_sum_wall_s": 296.22843196894974,
+    "total_CPU_s": 460.715974066,
+    "monetary_cost": "NOT_METERED",
+    "scope": "BUILD_AND_FINITE_WORKER_SUBTREES_ONCE_EXCLUDES_EDITING_AND_UNMETERED_READONLY_AUDITS"
+  },
+  "all_native_attempts": 19,
+  "native_passes": 18,
+  "native_failed": 1,
+  "native_ticks": 34508,
+  "main_model_updates": 0,
+  "restore_probes": 0,
+  "failed_native_kind": "TTL_INIT_PAUSE_ALLOWLIST_REJECTION_BEFORE_FIRST_INTEGRATION",
+  "failed_coordinators": [
+    "SINGLE_COHORT_EXIT1_PRESERVED",
+    "DUAL_COLD_PARENT_EPISODE_MANIFEST_KEYERROR_EXIT1_BOTH_NATIVE_CHILDREN_PASS"
+  ],
+  "single_passes_not_repeated": true,
+  "cold_native_passes_not_repeated": true,
+  "original_scope_and_deadline_unchanged": true,
+  "closed_leases_not_reused": true,
+  "WBC_math_and_native_safety_unchanged": true,
+  "new_TEST_constructed": false,
+  "eligible_TRAIN_atoms": 0,
+  "C09_contact": "REGISTERED_CALIBRATION_RUNNING_NOT_PRECOUNTED",
+  "C09_data_silently_mixed_with_C08": false,
+  "cumulative_PILOT2_sealed": {
+    "native_attempts": 348,
+    "native_passes": 345,
+    "native_failed": 3,
+    "native_ticks": 1468674
+  },
+  "causal_limit": "RECORDED_APPLICATION_HANDOFF_DEFECT_ELIMINATED_NOT_ALL_STARTUP_SAFETY_CAUSALITY_PROVEN",
+  "evidence_sha256": {
+    "C09_BUILD_READ02.private.json": "d9d5f34b4a0fe7635c2dabf02530095059cc28c9a56adbc7f578e7211205814e",
+    "C09_QUALIFICATION_READ04.private.json": "ede597c6c70528c298c76387b05feca5a1eb639a9dc479d3f4f1b7d4040e8a9b",
+    "C09_TTL_READ02.private.json": "6993be5eb69ba63b449d822781949fcf529bcab4a61460fb99d3832b42174697",
+    "C09_DUAL_CLOSEOUT_FAILURE01.private.json": "56ec8e0570f414d4548fffd6fd63c6e7abddd6e500e57ecc0c6b32110145d8bd",
+    "C09_DUAL_READ03.private.json": "27f79265cf42200053545d5de1a3b40c3717837f32fad52454b6584ce6b143f7",
+    "C09_APPLICATION_AUDIT03.private.json": "e53067201e705a8b57a7ecc76952baa65fd725d4dec4c96204deab07e64c6a42"
+  }
+}
