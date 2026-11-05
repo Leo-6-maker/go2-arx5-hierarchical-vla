@@ -741,5 +741,29 @@
     "CONTACT_POLICY_EVALUATED": true,
     "FULL_MANIPULATION_SUCCESS": false
   },
-  "legacy_batch_count_note": "The immutable DEV/TEST V5 batch RESULT learning_atoms=256 means raw recorded task atoms in that version; actual TRAIN additions and fitting from DEV/TEST are zero. New successor runner reports eligible TRAIN only."
+  "legacy_batch_count_note": "The immutable DEV/TEST V5 batch RESULT learning_atoms=256 means raw recorded task atoms in that version; actual TRAIN additions and fitting from DEV/TEST are zero. New successor runner reports eligible TRAIN only.",
+  "free_TEST_partial": {
+    "status": "FROZEN_FREE_TEST_PANEL_FAILED_PRESERVED",
+    "native_attempts": 12,
+    "native_PASS": 11,
+    "preserved_native_recording_failure": 1,
+    "actual_ticks": 49236,
+    "actual_complete_physical_task_atoms": 768,
+    "structured_task_atoms": 704,
+    "CPU_s": 826.605265906,
+    "worker_wall_s": 288.49170837691054,
+    "coordinator_CPU_s": 0.7627018500000001,
+    "coordinator_wall_s": 295.77229243377224,
+    "unit_RAM_peak_bytes": 2792656896,
+    "original_safety_STOPs": 0,
+    "failure": "FILE_NOT_FOUND_READING_FINAL_PAUSE_ACK_AFTER_4103_TICKS",
+    "old_failed_trial_repeated": false,
+    "unstarted_P24_rows": 10,
+    "successor_source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+    "successor_driver_sha256": "94404f1016e5c4e6cabaffbcd61abe885db21c713397c97f359b79c1474c57b4",
+    "successor_status": "REGISTERED_AND_ACTIVE_TEN_UNSTARTED_ROWS_ONLY",
+    "new_TRAIN_atoms": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0
+  }
 }
