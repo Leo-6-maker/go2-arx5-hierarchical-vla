@@ -18,7 +18,7 @@ def native_startup_readiness(output,reference):
 
 def supported_object_hypothesis(phase,stage,sample):
     """Use the existing clone-only attachment hypothesis after actual grasp."""
-    if (phase=='collect-target-pilot1-supported-close'and stage in('close','hold','release')
+    if (phase in('collect-target-pilot1-supported-close','collect-target-pilot2-supported')and stage in('close','hold','release')
             and sample.get('native_grasp')is True):
         from scripts.pi0294.task_path_model import PlanningObjectMotion
         return PlanningObjectMotion(sample,mode='ACTUAL_GRASP_ATTACHMENT')
@@ -348,7 +348,7 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-next2-contact':
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','WITHDRAW':'detach'}.get(getattr(self,'next2_contact_stage',None),'approach')
                 if getattr(self,'next2_contact_stage',None)=='WITHDRAW'and not getattr(self,'next2_contact_manipulation_started',False):stage='approach'
-            if self.spec['phase']=='collect-target-pilot1-supported-close':
+            if self.spec['phase']in('collect-target-pilot1-supported-close','collect-target-pilot2-supported'):
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             try:
                 with forbid_integration(mujoco):
@@ -399,7 +399,7 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
-        if self.spec['phase']=='collect-target-pilot1-supported-close':
+        if self.spec['phase']in('collect-target-pilot1-supported-close','collect-target-pilot2-supported'):
             from .pilot1_supported_close import run
             return run(self)
         if self.spec['phase']=='collect-target-pilot1-contact':

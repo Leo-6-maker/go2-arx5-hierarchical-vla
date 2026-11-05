@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-pilot2-supported':
+        from .pilot2_supported import validate
+        return validate(spec,previous)
     if phase=='collect-target-pilot1-supported-close':
         from .pilot1_supported_close import validate
         return validate(spec,previous)

@@ -105,14 +105,20 @@ def run(a):
     from .next1_episode import assess
     from .next2_contact import advance_atom,gripper_memory
     e=json.loads(Path(a.spec['episode_manifest']).read_text());a.prepare_dynamic();initial=a.measured_task_state();a.next1_samples=[initial]
+    pilot2=a.spec['phase']=='collect-target-pilot2-supported'
+    if pilot2:
+        from .pilot2_supported import stage_for as select_stage,score as score_goal
+    else:
+        select_stage=lambda atom,episode:stage_for(atom)
+        score_goal=lambda events,episode:score(events)
     reader=GraspReader(a.output/'state.bin.journal',a.actual_state);installed_step=2503;windows=[];samples=[];events=[];early_release=False;first_blocker=None;previous_stage=None
     def install(stage):
         opening=e['close_logical_opening']if stage in('CLOSE','SUPPORTED_HOLD')else 1.
         a.pilot1_supported_stage=stage
         action=np.repeat(pose10(initial['tcp'],float(teacher_physical_fraction(opening)))[None],40,axis=0)
         a.install_reference(action)
-    for atom in range(168):
-        step=a.observe()['step'];stage=stage_for(atom)
+    for atom in range(e['task_atoms']):
+        step=a.observe()['step'];stage=select_stage(atom,e)
         if atom==48 and not assess(a,e)['qualified']:raise RuntimeError('UNSTABLE_SUPPORTED_CLOSE_PREFIX')
         if stage=='SUPPORTED_HOLD'and not early_release:
             current=a.measured_task_state();packet=a.observe();supported=any({c['geom0'],c['geom1']}=={reader.table,a.actual_state.cube_geom}and c['wrench'][0]>=.05 for c in packet['contacts'])
@@ -129,10 +135,10 @@ def run(a):
                  native_grasp=state['native_grasp'],contact_any=any(v['contact_positive']for v in actual_events),native_contact_events=actual_events,actual_gripper_internal_memory=memory,
                  executed_reference_index=(step-installed_step)//25,executed_reference_EEF10=a.active_reference['action_EEF10'][(step-installed_step)//25],reference_sha256=w['reference_sha256'])
         samples.append(row);a.command_event(dict(phase='supported-close-actual-atom',**row))
-    result=score(events);result.update(schema='WM02_PILOT1_SUPPORTED_CLOSE_SCORE_V1',source_sha=a.spec['source_sha'],same_native_process=True,physics_resets=0,state_teleports=0,actual_task_atoms=len(samples),
+    result=score_goal(events,e);result.update(schema='WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1'if pilot2 else'WM02_PILOT1_SUPPORTED_CLOSE_SCORE_V1',source_sha=a.spec['source_sha'],same_native_process=True,physics_resets=0,state_teleports=0,actual_task_atoms=len(samples),
                                      first_blocker=first_blocker,contact_positive_native_ticks=sum(v['contact_positive']for v in events),bilateral_native_grasp_ticks=sum(v['native_grasp']for v in events),samples=samples)
-    write(a.output/'SUPPORTED_CLOSE_RESULT.private.json',result);a.capture_loaded_identity();cancel=a.cancel_reference();a.seal_trace(6703)
-    value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=PHASE,actual_collection_start_step=2503,task_native_ticks=4200,complete_task_atoms=168,windows=windows,operator_cancel=cancel,recorded_gripper_memory=True,full_task_success=False)
+    write(a.output/'SUPPORTED_CLOSE_RESULT.private.json',result);a.capture_loaded_identity();cancel=a.cancel_reference();a.seal_trace(a.spec['max_ticks'])
+    value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=a.spec['phase'],actual_collection_start_step=2503,task_native_ticks=25*e['task_atoms'],complete_task_atoms=e['task_atoms'],windows=windows,operator_cancel=cancel,recorded_gripper_memory=True,full_task_success=False)
     write(a.output/'DYNAMIC_DIAGNOSTIC.json',value);a.reference_qualification=value
     if not all(w['solver_policies_with_exact_installed_target']for w in windows):raise RuntimeError('SOLVER_TARGET_NOT_CONFIRMED_FOR_EVERY_SUPPORTED_ATOM')
     return value
