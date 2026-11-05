@@ -16,16 +16,21 @@ PHASE = 'collect-target-pilot1-contact'
 
 def validate(spec, previous):
     path = Path(spec['episode_manifest']); e = json.loads(path.read_text())
-    schemas = {'WM02_PILOT1_TOUCH_WITHDRAW_V1': 96, 'WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2': 128}
+    schemas = {'WM02_PILOT1_TOUCH_WITHDRAW_V1': 96, 'WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2': 128,
+               'WM02_PILOT1_CONTACT_TWO_ACTION_V3': 128}
     if e.get('schema') not in schemas: raise PermissionError('DECLARED_FINITE_CONTACT_PROTOCOL_REQUIRED')
+    coverage = e['schema'] == 'WM02_PILOT1_CONTACT_TWO_ACTION_V3'
+    offset = e.get('withdrawal_xyz_m') if coverage else [0., .001, 0.]
+    if offset not in ([0., 0., 0.], [0., .001, 0.]):
+        raise PermissionError('ONLY_NATIVE_QUALIFIED_HOLD_OR_PLUS_Y_1MM_CONTACT_ACTIONS')
     expected = dict(schema=e['schema'], phase=PHASE,
                     reference_rule=RULE, prehold_atoms=40, screen_atom=48,
-                    touch_end_atom=64, task_atoms=schemas[e['schema']], withdrawal_xyz_m=[0., .001, 0.],
+                    touch_end_atom=64, task_atoms=schemas[e['schema']], withdrawal_xyz_m=offset,
                     contact_force_threshold_N=.05, required_exit_s=.2,
-                    minimum_away_Y_m=.0002, purpose='CONTACT_EXIT_COMMISSION')
+                    minimum_away_Y_m=.0002, purpose='CONTACT_ACTION_COVERAGE' if coverage else 'CONTACT_EXIT_COMMISSION')
     if (digest(path) != spec['episode_manifest_sha256']
             or any(e.get(k) != v for k, v in expected.items())
-            or e.get('run') != spec['registered_root'] or e.get('split') != 'TRAIN'
+            or e.get('run') != spec['registered_root'] or e.get('split') not in (('TRAIN', 'DEV', 'TEST') if coverage else ('TRAIN',))
             or not spec.get('pilot1_binding') or spec.get('parallel_batch_spec')):
         raise PermissionError('FRESH_SINGLE_PROCESS_QUALIFIED_TOUCH_WITHDRAW_REQUIRED')
     assets = json.loads(Path(spec['scene_allowlist']).read_text())
@@ -145,7 +150,7 @@ def run(a):
         if memory['values']['steps'] != state['native_step'] or memory['values']['sequence'] != a.active_reference['sequence']:
             raise RuntimeError('ACTUAL_GRIPPER_MEMORY_NOT_SAME_NATIVE_PAUSE')
         row = dict(native_start_step=step, native_end_step=step+25,
-                   stage='HOLD_TOUCH' if atom < 64 else 'WITHDRAW_PLUS_Y_1MM',
+                   stage='HOLD_TOUCH' if atom < 64 else ('WITHDRAW_PLUS_Y_1MM' if any(e['withdrawal_xyz_m']) else 'HOLD_CONTROL'),
                    contact_positive_native_ticks=sum(r['contact_positive'] for r in tick_events),
                    contact_any=any(r['contact_positive'] for r in tick_events), native_contact_events=tick_events,
                    TCP_m=state['tcp'][:3, 3].tolist(), object_pose=state['object_pose'].tolist(),
