@@ -340,10 +340,13 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
-        next1=self.spec['phase']=='collect-target-next1';decision_atom=8;contact=False
+        next2=self.spec['phase']=='collect-target-next2'
+        next1=self.spec['phase']in('collect-target-next1','collect-target-next2');decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if next1:
             from .next1_episode import episode_config,assess
+            if next2:
+                from .next2_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
@@ -377,6 +380,9 @@ class TargetSequentialAdapter:
                 value=assess(self,episode)
                 if late_decision and not value['qualified']:raise RuntimeError('UNSTABLE_DECISION_PREFIX_ACTION_NOT_INSTALLED')
             if late_decision and step==start+decision_atom*25 and not decision_applied:
+                if next2:
+                    from .next2_episode import predict_before_install
+                    predict_before_install(self,episode)
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
                 if contact:
