@@ -1,0 +1,127 @@
+{
+  "status": "INTERMEDIATE_LIMITED_PREDICTIVE_POSITIVE_NOT_CONTROL_VALUE",
+  "fit": {
+    "status": "TARGET_WM_ENGINEERING_ENTRY_PASSED",
+    "schema": "WM02_TARGET_NATIVE_REPLAY_V2",
+    "source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+    "data_sha256": "22c1b031d58af446c51b0026a3c22785090f4529e7f8001c78408b31c3bf43f1",
+    "checkpoint_sha256": "31880bd439a7eb4319b76cd644e37cc8bf858c6b93e40e0292c064749bc30ff6",
+    "main_updates": 200,
+    "prior_main_updates": 0,
+    "continuation_probe_updates": 1,
+    "optimizer_calls": 201,
+    "Actor_updates": 0,
+    "physics_integrations": 0,
+    "replay_cursor": 1600,
+    "episodes": 8,
+    "task_atoms": 768,
+    "TRAIN_windows": 438,
+    "DEV_windows": 146,
+    "parameters": 74986,
+    "state_dimension": 106,
+    "first_reload_error": 0.0,
+    "endpoint_reload_error": 0.0,
+    "continuation_error": 0.0,
+    "recipe": "FRESH_V2_MODEL_TRAIN_ONLY_NORMALIZER",
+    "held_out_parent_generalization": true,
+    "contact_qualification": "NOT_QUALIFIED",
+    "main_cuda_elapsed_ms": 3069.984619140625,
+    "main_update_peak": {
+      "peak_allocated_bytes": 75359232,
+      "peak_reserved_bytes": 96468992
+    },
+    "entire_run_peak": {
+      "peak_allocated_bytes": 85086720,
+      "peak_reserved_bytes": 96468992
+    },
+    "CPU_s": 4.06029783,
+    "wall_s": 4.116820241790265,
+    "predictive_value": "REQUIRES_RECORDED_DEV_BASELINE_COMPARISON",
+    "control_value": "NOT_TESTED",
+    "action_encoding": "RAW_WORLD_RELATIVE_V1"
+  },
+  "DEV_metrics": {
+    "1": {
+      "tcp_position_m": {
+        "model_RMSE": 0.0001121547247748822,
+        "persistence_RMSE": 0.00021942451712675393,
+        "local_numeric_velocity_RMSE": 0.00014704203931614757,
+        "TRAIN_ridge_RMSE": 0.00029602234935221963
+      },
+      "0_position_m": {
+        "model_RMSE": 3.326602018205449e-05,
+        "persistence_RMSE": 0.00029255275148898363,
+        "local_numeric_velocity_RMSE": 5.234195486991666e-05,
+        "TRAIN_ridge_RMSE": null
+      },
+      "object_position_m": {
+        "model_RMSE": 8.432586764683947e-05,
+        "persistence_RMSE": 0.0,
+        "local_numeric_velocity_RMSE": 0.0,
+        "TRAIN_ridge_RMSE": 0.0
+      },
+      "finger_position_m": {
+        "model_RMSE": 1.4285401448432822e-05,
+        "persistence_RMSE": 1.067469383997377e-05,
+        "local_numeric_velocity_RMSE": 1.844516009441577e-05,
+        "TRAIN_ridge_RMSE": 6.639814500988553e-06
+      }
+    },
+    "8": {
+      "tcp_position_m": {
+        "model_RMSE": 0.0002478088717907667,
+        "persistence_RMSE": 0.0008242418989539146,
+        "local_numeric_velocity_RMSE": 0.0015409723855555058,
+        "TRAIN_ridge_RMSE": 0.0008967353399281444
+      },
+      "0_position_m": {
+        "model_RMSE": 0.0001177249287138693,
+        "persistence_RMSE": 0.0013077061157673597,
+        "local_numeric_velocity_RMSE": 0.001464011729694903,
+        "TRAIN_ridge_RMSE": null
+      },
+      "object_position_m": {
+        "model_RMSE": 0.00024239759659394622,
+        "persistence_RMSE": 0.0,
+        "local_numeric_velocity_RMSE": 0.0,
+        "TRAIN_ridge_RMSE": 0.0
+      },
+      "finger_position_m": {
+        "model_RMSE": 5.031455657444894e-05,
+        "persistence_RMSE": 7.4309932642790955e-06,
+        "local_numeric_velocity_RMSE": 9.21692480915226e-05,
+        "TRAIN_ridge_RMSE": 3.1793129477074066e-06
+      }
+    },
+    "16": {
+      "tcp_position_m": {
+        "model_RMSE": 0.0003386307507753372,
+        "persistence_RMSE": 0.0009688000427559018,
+        "local_numeric_velocity_RMSE": 0.003354906802996993,
+        "TRAIN_ridge_RMSE": 0.0004945758864423337
+      },
+      "0_position_m": {
+        "model_RMSE": 0.00014707470836583525,
+        "persistence_RMSE": 0.0014945765724405646,
+        "local_numeric_velocity_RMSE": 0.003878646995872259,
+        "TRAIN_ridge_RMSE": null
+      },
+      "object_position_m": {
+        "model_RMSE": 0.00035554359783418477,
+        "persistence_RMSE": 0.0,
+        "local_numeric_velocity_RMSE": 0.0,
+        "TRAIN_ridge_RMSE": 0.0
+      },
+      "finger_position_m": {
+        "model_RMSE": 7.237528188852593e-05,
+        "persistence_RMSE": 7.579840257676551e-06,
+        "local_numeric_velocity_RMSE": 0.00017909730377141386,
+        "TRAIN_ridge_RMSE": 3.433529845744058e-06
+      }
+    }
+  },
+  "DEV_role": "Two passed scene-qualification episodes, not production action episodes",
+  "independent_DEV_parents": 2,
+  "window_independence": false,
+  "counts_as_production_atoms": 0
+}

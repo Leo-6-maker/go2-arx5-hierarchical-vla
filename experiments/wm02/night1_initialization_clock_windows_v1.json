@@ -1,0 +1,11 @@
+{
+  "schema": "WM02_NIGHT1_INITIALIZATION_CLOCK_WINDOWS_V1",
+  "hypothesis": "Continuous initialization exposes wall-scheduled native PD/policy threads to different physics pacing than the already used task-atom seam. Apply the original finite 25-tick quota/pause/ENTER seam during initialization too.",
+  "startup_pause_stride_ticks": 25,
+  "only_initialization_steps_at_most": 2500,
+  "no_state_reset_between_windows": true,
+  "physics_dt_s": 0.002,
+  "native_gains_solver_policy_periods_weights_safety": "UNCHANGED",
+  "qualification": "Fresh cold/hold/reference/length run identities. Preserve original failures, exact native counts and all pause windows. Production only after measured corresponding qualifications.",
+  "actual_effects_of_this_registration": {"physics_integrations": 0, "model_updates": 0}
+}

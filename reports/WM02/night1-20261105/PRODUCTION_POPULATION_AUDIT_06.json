@@ -1,0 +1,2880 @@
+{
+  "schema": "WM02_NIGHT1_POPULATION_AUDIT_V1",
+  "audit_source_sha": "10a32284af686010cfe983819026403846906bdd",
+  "included_episodes": 42,
+  "complete_atoms": 3600,
+  "excluded_production": [
+    {
+      "episode": "night1-decision3-panel-a-r1-pair3-slot-0",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-decision3-panel-a-r1-pair3-slot-1",
+      "reason": "WHOLE_PEER_BATCH_NOT_PASSED"
+    },
+    {
+      "episode": "night1-fallback48-06-slot-0",
+      "reason": "WHOLE_PEER_BATCH_NOT_PASSED"
+    },
+    {
+      "episode": "night1-fallback48-06-slot-1",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-mrt3-panel-a-r2-pair4-slot-0",
+      "reason": "WHOLE_PEER_BATCH_NOT_PASSED"
+    },
+    {
+      "episode": "night1-mrt3-panel-a-r2-pair4-slot-1",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-receiver3-panel-a-r4-pair4-slot-0",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-receiver3-panel-a-r4-pair4-slot-1",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-rootsafe-panel-a-r1-pair4-slot-0",
+      "reason": "NATIVE_FAILED"
+    },
+    {
+      "episode": "night1-rootsafe-panel-a-r1-pair4-slot-1",
+      "reason": "WHOLE_PEER_BATCH_NOT_PASSED"
+    }
+  ],
+  "new_integrations": 0,
+  "new_optimizer_updates": 0,
+  "CPU_s": 16.572946327,
+  "wall_s": 17.6097940960899,
+  "rows": [
+    {
+      "episode_id": "night1-decision3-panel-a-r1-pair1-slot-0",
+      "original_native_source_sha": "47c7278dec17161eb4c111a4aa64ed3fc1f66e50",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "715ebcab03dcf26439f36e856a27d8f470d233d033ab0e5ef0b4af291dde4f0a",
+        "native_result": "686d28a00443da1c43343636ddb4e73b083277f9c76fdf9783bfd11fc6516bb1",
+        "commands": "f13fa72c0b57400412544d706e9d74964f239710afbcddf676d014031c556515"
+      },
+      "manifest_sha256": "4ff8eec860b3236c61b0da51b93d9af22e805a4f0a819abbb2b0bf6276387169",
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 5,
+      "proposed_with_actual_installation": 5,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014594993209190582,
+          -0.0029340343496760887,
+          -0.0250828278898535
+        ],
+        "TCP_max_distance_from_initial_m": 0.03668703985592512,
+        "BASE_max_distance_from_initial_m": 0.017568810735204627,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003409886106067045,
+          0.0003323191860203356
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.05000000000036309,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_LATE_DECISION_TRAIN_A"
+      }
+    },
+    {
+      "episode_id": "night1-decision3-panel-a-r1-pair1-slot-1",
+      "original_native_source_sha": "47c7278dec17161eb4c111a4aa64ed3fc1f66e50",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "a38df3b5bb561eb8732654230fec3e0c40685ef875ad1ac374874a23090dc2d4",
+        "native_result": "37801cce73710ac6ce24cd2086fee259f1bf3813ff31b507bda3ee7f52878610",
+        "commands": "49e0783571171d16c9a22ca86fd0b67c73e7cda090fbc05855097d21b06a6ae4"
+      },
+      "manifest_sha256": "b6c2befe37471887a12662194574044a6454e795059afd825d7bd99771d21339",
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 5,
+      "proposed_with_actual_installation": 5,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013246202291539166,
+          -0.003209934548855136,
+          -0.024840434070521722
+        ],
+        "TCP_max_distance_from_initial_m": 0.03655785472188534,
+        "BASE_max_distance_from_initial_m": 0.019081015830177243,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00022868406103594002,
+          0.00021909018082024584
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_LATE_DECISION_TRAIN_A"
+      }
+    },
+    {
+      "episode_id": "night1-decision3-panel-a-r1-pair2-slot-0",
+      "original_native_source_sha": "47c7278dec17161eb4c111a4aa64ed3fc1f66e50",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "b2953ece7fc55a1278cd981c4c4f473d42d8d953ae3332a05e411a316cf53bde",
+        "native_result": "97560d1c49660a12e828baecada7339877ab924c74e0cb41700db2719fbfeb9b",
+        "commands": "7f747d1cbee95c77803b5643bd6690feb6cc61f501431a1e745f4f2ae4bb3710"
+      },
+      "manifest_sha256": "ad0067cb671145caae5c4f4385c6932ba208be2262c8bfd9b0a5edbb82de1f09",
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 5,
+      "proposed_with_actual_installation": 5,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.01426982399364507,
+          -0.0032555172795286982,
+          -0.024245608876987457
+        ],
+        "TCP_max_distance_from_initial_m": 0.033337205362399334,
+        "BASE_max_distance_from_initial_m": 0.01951325614804279,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00015541197890136388,
+          0.0001479092716034497
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_LATE_DECISION_TRAIN_A"
+      }
+    },
+    {
+      "episode_id": "night1-decision3-panel-a-r1-pair2-slot-1",
+      "original_native_source_sha": "47c7278dec17161eb4c111a4aa64ed3fc1f66e50",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "20e78c1a7b2f14ec7928334bd10e17799ceb3a7971cd0c65836ea5b6dcf5b160",
+        "native_result": "3675b0b51d226b95f7d7ec008c2b37c47075c99e434d4733807b2fe875b3d44a",
+        "commands": "73dfb2ef64d9a227f5fbbea1705a71db1e1fb3e1324bb1ea29c5f51d417d7beb"
+      },
+      "manifest_sha256": "e5a170fe931395ba878c2e0b17947efbb7790c32096ae4d73fbac16a513d84d1",
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 5,
+      "proposed_with_actual_installation": 5,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014260115185337874,
+          -0.003147259591940482,
+          -0.025212857336522898
+        ],
+        "TCP_max_distance_from_initial_m": 0.033978665349419124,
+        "BASE_max_distance_from_initial_m": 0.018968816669193724,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0002639126774045403,
+          0.0002471322862307515
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_LATE_DECISION_TRAIN_A"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-01-slot-0",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "6c9c5541e89b646403b0a37cd71b0b6fe019d7ae0481d49506ae04aac148da53",
+        "native_result": "87e7fa20bb43fa1a723dc7c01b24c4b9b71e7d669dfcae701e7331e823a35c9f",
+        "commands": "21bd0b3ed650411ce89de8f1ecff9f2d8b5658dd690ad691bfe1f03f0d5229d3"
+      },
+      "manifest_sha256": "5a3e684a0d6fe3f64d13b1d5d56e1275344d63906c18b157a10b4640e3b6fe8b",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011278590037120784,
+          -0.0038629942624087213,
+          -0.029931407044313407
+        ],
+        "TCP_max_distance_from_initial_m": 0.03652098337886382,
+        "BASE_max_distance_from_initial_m": 0.017189199561993065,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00017619880218429362,
+          0.00016302747814028046
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-01-slot-1",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "216513a845c154086f9f3629d276e3f0ddee0182dd59a98ff1a03c45a1432229",
+        "native_result": "257450eef93a882aa2140a805f4ab6a0982aa4e09d70e069efd5cea63695f43c",
+        "commands": "a934994104300ea25296eaa5f4b5b4dfc6efe5dbc6c01302ee30a633bfa038d8"
+      },
+      "manifest_sha256": "373bf376a3a41928fbe782b5995d5691d66b8286dd2b8720fcae2bede0ff4f24",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011332637619817731,
+          -0.004120064759551165,
+          -0.03105474459102553
+        ],
+        "TCP_max_distance_from_initial_m": 0.03699118084654382,
+        "BASE_max_distance_from_initial_m": 0.017117634923757948,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001491318220552887,
+          0.00014867289235955677
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-02-slot-0",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "461f9106d94542330b7f5682d236e8e9c5ee1a655cef14b4186609869a86cd1d",
+        "native_result": "2add5f798748e15fca9f84874bc27eda9aa7512fc6cce873b5fdba5ed068439e",
+        "commands": "a75e912e07e9d66866b4ba218f5daacce4e6b9e03770155a0c6f986505d27b91"
+      },
+      "manifest_sha256": "dd5e1bf54385cf22f85cee445e4ec699154a60981224535b0b6d2628fa26891c",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.00945673528371982,
+          -0.007825311347721076,
+          -0.028411958710363727
+        ],
+        "TCP_max_distance_from_initial_m": 0.039346567657435334,
+        "BASE_max_distance_from_initial_m": 0.021681072767863224,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003830924139812883,
+          0.0003712090093415249
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-02-slot-1",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "964dc1cfcfd0dec8fee9f4c5e8279b0b54f3dfc25612e2864afd4fd3ffd52606",
+        "native_result": "31f3e90a6badad1fc53e3a97cc2efaee1108a7ef972165a9e031973f26adb78a",
+        "commands": "6641e1318bf12c57dca75cb780b7bfa34a59f5efa8c244816a29da8b04b3bab4"
+      },
+      "manifest_sha256": "078475e5cf96f1a0b39d37ac527e884d111a92d48ae344c7219cb5e1abc89728",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011493972833634902,
+          -0.003997360653938756,
+          -0.029880727192013068
+        ],
+        "TCP_max_distance_from_initial_m": 0.03730144986726615,
+        "BASE_max_distance_from_initial_m": 0.01722561637341531,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001496762118849415,
+          0.00014791095962386064
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-03-slot-0",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "1c1bd080e7d5970d38fef771178dd62be6d61c25473037abaf3c7ddf4afe2d4b",
+        "native_result": "8f3673920886d56ff0121ab5e326d2d6746ee240c6658e883c84a35ab739aa5f",
+        "commands": "21022c3380664de88eb82cbb1df285faef821100e1fd217dfe47c29659acaea9"
+      },
+      "manifest_sha256": "0835c872f1e324022b1ef4378efc69eaf3b83b97e6e2ea296a190c0337b62d80",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012969150022519582,
+          -0.004173442433558619,
+          -0.03055517952965181
+        ],
+        "TCP_max_distance_from_initial_m": 0.037508518770298926,
+        "BASE_max_distance_from_initial_m": 0.01643444560037914,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00015877396290182172,
+          0.00015222389837507566
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04600000000036264,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-03-slot-1",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "8ca43b93f0c8637b93f0ee581dee4476e1036555a91191aa8ce422387ef86bb9",
+        "native_result": "e0ebf72ffeb3dafe19842e3f220fec37e087a5198cf1439ca181ca61debc0c91",
+        "commands": "debdbc6931def1ca7f256059aa5a9f7c71dd4175f95bbff0996969169158557b"
+      },
+      "manifest_sha256": "82e38ef1be591135e9c20bcb5dc99538eed88f90cfc207f00b6a4a5f3ec9511a",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011821087002788055,
+          -0.004173243021993039,
+          -0.030359174848394344
+        ],
+        "TCP_max_distance_from_initial_m": 0.03750270885741778,
+        "BASE_max_distance_from_initial_m": 0.01719120018598061,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00014465681741109016,
+          0.00014518493789270753
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.050000000000155254,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-04-slot-0",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "525dd0f8d1b4d3fbe56a6c1eeebdf0bfc3f97f08c4bec18eadc2a3801c704ac7",
+        "native_result": "1c90690b4c84123c4aca07c9c0a396077f875bf9e9972354b530d26c87509597",
+        "commands": "a471bfd8133456fd99396ba55e877d3745e40ea76afbc439215b009fd9f37111"
+      },
+      "manifest_sha256": "176d55b718b862d59aa2a1866ced1dd82eda73df797799bee800e5a96e01bfb7",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.010140552600537756,
+          -0.006647743259154924,
+          -0.028388649654825127
+        ],
+        "TCP_max_distance_from_initial_m": 0.03760161000783775,
+        "BASE_max_distance_from_initial_m": 0.02052029217428217,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00030682248462757244,
+          0.0003044695482666976
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-04-slot-1",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "2c11cdb625644fd46ef1a8d90a2d17b13e23ece777fa23cb9fbac61c7293b07c",
+        "native_result": "9915f1b1cca651d9b5d8f15e596778eeca854e30f7adf6991fdec1bdc6f4ca81",
+        "commands": "738f1b89a7759a5837742ed91f7143c23a6283c91927cb40b8d9f8b05657a972"
+      },
+      "manifest_sha256": "df8428553f559045c276475ad1e938289d07ee62e61407405cd47d4a5539785d",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011335250479428904,
+          -0.003957749067399527,
+          -0.030282829803997546
+        ],
+        "TCP_max_distance_from_initial_m": 0.036967320105247545,
+        "BASE_max_distance_from_initial_m": 0.016904091588625957,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.000186438579044039,
+          0.00017507721305434765
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-05-slot-0",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "5c8aa26f48796aaded6b656459dc8f94aa59697d96767a34a11efd8fecfa9449",
+        "native_result": "0ef5489703c3bdf6cb9d777a15a9fcd9105664dcda45e040cc996ef6f8ac51dc",
+        "commands": "b56807cd0c1950db93d707dd098a332ea2ed277a926cb65c62af91e44647f487"
+      },
+      "manifest_sha256": "a91b2f235fcf7f4b899c01b6d45574da44f7fa163117970ef00bf7a9eb4e1a08",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.013013385315505999,
+          -0.004072256292889497,
+          -0.02992806789721869
+        ],
+        "TCP_max_distance_from_initial_m": 0.037592021265545554,
+        "BASE_max_distance_from_initial_m": 0.01721036105807817,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00017075031943974972,
+          0.00016490007548595337
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-fallback48-05-slot-1",
+      "original_native_source_sha": "5c4112bf022bae222cd73b19d1ee1e8171e79f90",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "f9c3a932f34c363bfe0db88ce777782338cf84f928e03682d85a452370ea3c8a",
+        "native_result": "839f45b0ded8a387a199d586821ca2349ce99cebd68ad891c5245982809857dd",
+        "commands": "dee3d0e040106b5f2b0d4fc3c90453b1afbc18c92df28d2f255f6cb7d9ad9fbc"
+      },
+      "manifest_sha256": "17261c16b3850f1da4caa9489acc1ef17d58dbba806bd4d706bf336f43da3468",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.01140835430843068,
+          -0.005817475128976738,
+          -0.029887423337970342
+        ],
+        "TCP_max_distance_from_initial_m": 0.03826236005813121,
+        "BASE_max_distance_from_initial_m": 0.018854233107659584,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00023975169480446035,
+          0.0002340310045601257
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.3322676295501878e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "SAME_ORIGINAL_TASK_SCENE_RESET_V2_ENGINEERING",
+        "split": "TRAIN",
+        "scene_id": "ORIGINAL",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_SAME_PARENT_FALLBACK_WAVE1"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair1-slot-0",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "3ec86be387cffdb6ec856579e03720ddea1cc7700ce55124574a24fbb53b3a41",
+        "native_result": "fcfac121010f7ed02f93beac0f16d7a972bf7b85f2c334124bfebf540c1dd209",
+        "commands": "dffa56f7534c8a9b7863e4fe069ece0d4a5edeeb3fd578ba0c142fe556189317"
+      },
+      "manifest_sha256": "7e6bd852365ab7133fcbcb554db8bbb6a235c0042261d7518dd95582e54d9a95",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.013312687059445716,
+          -0.004452830298094151,
+          -0.025109005098138293
+        ],
+        "TCP_max_distance_from_initial_m": 0.03450747400958207,
+        "BASE_max_distance_from_initial_m": 0.01993047467099706,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00013998688777966395,
+          0.00013163026332625033
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair1-slot-1",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "04d7e3110a8aa59dd10bb9908ffc1a01731c6da55c5ce80dfc9f1b96c6f2addf",
+        "native_result": "1eaa7054030ab232a8ff61c7b65cb5b09b66bec4aa7e9a0a52972ebf42187182",
+        "commands": "5331359d6862160fde8838afffb2093a0f15316defc07ae40dd0f8518e1e3158"
+      },
+      "manifest_sha256": "9b67b8cb3e44348758ed083174e83976fbed8078488391658ec76af4f738b5df",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012204213640928552,
+          -0.004366100629621901,
+          -0.025281564377032106
+        ],
+        "TCP_max_distance_from_initial_m": 0.03594383956162918,
+        "BASE_max_distance_from_initial_m": 0.019423294530403076,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00018363317727938117,
+          0.00018094216216304332
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair2-slot-0",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "1615b1bddbaf8885a0665790bde68a1df7a21ce04fe2ee8269221149e943be12",
+        "native_result": "425d57e97dc63f7d26f34a1369ceeb3f4dc3cac38f88fec4a58589a3639a7dc4",
+        "commands": "9f54b39d39dc0eb9247b8195e10a2d745047220aadc99cd56aa861e2b6f8ba40"
+      },
+      "manifest_sha256": "11f2d6b818d48d5065d34600ce5be88c1a24edce700fda6754af3bdc6c245192",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.01298452589625565,
+          -0.004770276533710566,
+          -0.025208076668185697
+        ],
+        "TCP_max_distance_from_initial_m": 0.035198200586381206,
+        "BASE_max_distance_from_initial_m": 0.019540023414639403,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001041516163265907,
+          0.00010168472604409062
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair2-slot-1",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "03f051442399b2c2a13b96b49ad034e5671924dbc315c906cd750eb157023b0a",
+        "native_result": "c34758b71707c445ce59f650ee3b5d5b64693bc7395f970f23b25bc1d53baeee",
+        "commands": "79fd7f2e9eb45fe75f9324648f8d02f45820f0f04f0c951a2e5e12c5cd53895a"
+      },
+      "manifest_sha256": "4be30ea2d39ecc08f01082ffcb42073a7f3b5030b5ee742db088a255497276a1",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012815547666979343,
+          -0.003694521785784874,
+          -0.025403460739605643
+        ],
+        "TCP_max_distance_from_initial_m": 0.03675048478208866,
+        "BASE_max_distance_from_initial_m": 0.019503990592284918,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00022581210942993618,
+          0.00020821544963973287
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair3-slot-0",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "6d73f444b580f71f56c87b05472b075c0a9103cb352a6d05265ca29861c541bc",
+        "native_result": "4ec31253dbf43c48a8724f48254d4ac46ed2af8a933f155564b904cc0ea16ccf",
+        "commands": "be13aefe97bcec7a9c2f38e0f5253de13c97d2e600f37ea7b7c49a284b7fe495"
+      },
+      "manifest_sha256": "6aecf45ac06fe4d4bbd785a3e72388fcb38ae85ea76738c9b8bc9b1733d6b26e",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.013561991149937502,
+          -0.004365397452374662,
+          -0.024438303595597732
+        ],
+        "TCP_max_distance_from_initial_m": 0.03560711637318203,
+        "BASE_max_distance_from_initial_m": 0.020252025745172444,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003846589310524673,
+          0.0003641148222337104
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-mrt3-panel-a-r2-pair3-slot-1",
+      "original_native_source_sha": "d52c4e435bff6ab26868eae9bbce2e6133b1126f",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "363045dd54be6939cc44b2d46b3d15eca454c148a2a4fa153d04b758341d80e9",
+        "native_result": "1d9444e986f22f85f89ee3c39fe0148af8b7d20cb66bdeac4152c762627e69ae",
+        "commands": "e7817949846d135f42709e6ff89f1610a0253377ce83e43a1bb79197efa73364"
+      },
+      "manifest_sha256": "c2b3116107b27bff7a15dc33174468c165d6328a7d714fe965897f56bb973fd2",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011938823380252261,
+          -0.004859775105727708,
+          -0.024829582044046616
+        ],
+        "TCP_max_distance_from_initial_m": 0.033813735923494605,
+        "BASE_max_distance_from_initial_m": 0.020820703931531025,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00014403466053659886,
+          0.00013763879045283756
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_MRT_RELEASE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-n1-01-slot-0",
+      "original_native_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "3bd0f1f140badcf7ef900f120763bc44753e4e90f7ea3f91d70bb25b108fafaa",
+        "native_result": "a980a315fa4314c8170dd4c6098849507807feeb8698efd74b4ab234912b30a3",
+        "commands": "c66712de87ac9659ec6e247af283cfad94afc4207ab17deca78be014b1cc02e9"
+      },
+      "manifest_sha256": null,
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 4,
+      "proposed_with_actual_installation": 4,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.012621587014314428,
+          -0.0067713570035373045,
+          -0.02722994620047947
+        ],
+        "TCP_max_distance_from_initial_m": 0.04092252968362199,
+        "BASE_max_distance_from_initial_m": 0.020414439538799137,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00038229319739661177,
+          0.00038670583871213554
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {}
+    },
+    {
+      "episode_id": "night1-n1-01-slot-1",
+      "original_native_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
+      "input_sha256": {
+        "scene": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+        "journal": "ecb8067e0123ba78302cb259375abdc3957f86d88f42ee815ad0252a1eebd3f5",
+        "native_result": "9a50a6189be0362cbf8a8329f4717e9af2bea6fdcf5373054ecbabfaf20a411c",
+        "commands": "3c50cede9d25949c5895d8316cdc977309c72a078240cc95d73cd6f434d5f693"
+      },
+      "manifest_sha256": null,
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 4,
+      "proposed_with_actual_installation": 4,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014832163476487026,
+          -0.003972707717646219,
+          -0.029960734313133064
+        ],
+        "TCP_max_distance_from_initial_m": 0.0379658884455494,
+        "BASE_max_distance_from_initial_m": 0.015576263551252923,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          9.638122990848069e-05,
+          9.800553443534837e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {}
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair1-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "68700496414c32853d5081c4a93d068e6b518c2bf6066981ad7db9ff4fb60842",
+        "native_result": "84ebd0f50cc37cb9a06f6c424f1b8a78b331d084b23081e87afaa4a32fbd2e1b",
+        "commands": "d34949b1e5015eaa6251dc0eb934eaaad655ec4c9bab3b313ac98fe9baba702e"
+      },
+      "manifest_sha256": "c4bcbb9209ae8eb16f668e8f29ac8f787591cba30c51856a83921fe6c12b5938",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.013327847583016528,
+          -0.004382948227375141,
+          -0.025014921852526517
+        ],
+        "TCP_max_distance_from_initial_m": 0.03495729493027908,
+        "BASE_max_distance_from_initial_m": 0.019939615754700137,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00012773924991109353,
+          0.00012342433466933783
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair1-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "9c9c22b7aeaee6e54125ed4040fe31f131160e3368c83c72145c02c109fefd08",
+        "native_result": "c11927da3eff731bda042a1653a7f5cfea78e22314b2502366186647e90e8745",
+        "commands": "311eac85f925ec7257ecce100d67cd0b81452a8bac5df2542e4d0ca5613c61a1"
+      },
+      "manifest_sha256": "29aedb78a2c95ecf3dd669c9d5cab80ffcb64647ff9dbd802605f41b8767a357",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012383540417159555,
+          -0.003317814280355623,
+          -0.0255337320302933
+        ],
+        "TCP_max_distance_from_initial_m": 0.0364004554852799,
+        "BASE_max_distance_from_initial_m": 0.019669285372067007,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00025274245466287704,
+          0.0002392095776281647
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair2-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "5326884a7b889e44426b466a33aed663e5525fdb275535053c0753aa70845075",
+        "native_result": "a124d9375fc6b39babaff2fc731fe3b5617b93837f37a8abe0e14329673c2008",
+        "commands": "0e197e13b47b8dacd295aa36e66be5b99c6fea60c584688c8c5051729f4519cb"
+      },
+      "manifest_sha256": "0903cc5ca1d3576d72d873df91d490ee04154a80eb6ca91bf2ce82d87531993b",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.01266117304258324,
+          -0.004220437861074684,
+          -0.025238915639594683
+        ],
+        "TCP_max_distance_from_initial_m": 0.03490589422651851,
+        "BASE_max_distance_from_initial_m": 0.019620871523883383,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0002538581272980081,
+          0.00024085333919571933
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair2-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "0fec9b9f776de8c72cc35bc8ba104471e88f1ff87cbd4ded37b674d183bb528b",
+        "native_result": "4628800adceb709b8903dbbd4be62d9fe332a65bc0aa3e0d201422b3a1973ee8",
+        "commands": "cf7b6647f15dcfb57dd459f7d8a4bad7083a488d35c41346d7d8372ea77bc1db"
+      },
+      "manifest_sha256": "632f33cc2bb0f0f5c21dc9d2bc8c47d71ddc1bf93f47a747e27856970dab0704",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.0120356655992922,
+          -0.005403855892595268,
+          -0.026008708649679857
+        ],
+        "TCP_max_distance_from_initial_m": 0.04022721881827093,
+        "BASE_max_distance_from_initial_m": 0.018667674691827167,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00046409703782897965,
+          0.00045985207649902604
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair3-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "b583dfd59f0188d716998084e6e530673981034e793d9e6bae156525721a03d8",
+        "native_result": "993793ba1088711ec2603282ce638ef3e41d88a91deb1cde3aeabed26c421915",
+        "commands": "b617034356844225b36e9e59a6f19875d7c4770f727c2d913973b871d69bd787"
+      },
+      "manifest_sha256": "d89e035539e18af5a85806456f2c95ecfed2e6479f37245340354b59a0300fe7",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.01339667461878341,
+          -0.004550790565809572,
+          -0.025022122726575446
+        ],
+        "TCP_max_distance_from_initial_m": 0.03504318147714992,
+        "BASE_max_distance_from_initial_m": 0.019592289069828194,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          6.340963333479471e-05,
+          6.079530356462026e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair3-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "6fd06f0a8f228d4aa68c900c26e9668af59c3f42b26be2831af5f445241a97d7",
+        "native_result": "4046afeba5f19cdc2ec10a01ea8dc26e7190ba496997e373b246ce41617261d0",
+        "commands": "eafcad347a5d76f6c153ba65725e0356bd43d8e47c49cdd34e240ed9cb16612a"
+      },
+      "manifest_sha256": "5313beced357edb85a3d50319a3bd02ee095d50d322b06c7909f8b3f5ae0eb2c",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012689074650250487,
+          -0.0037835954583460493,
+          -0.025193812309263652
+        ],
+        "TCP_max_distance_from_initial_m": 0.03757428490250242,
+        "BASE_max_distance_from_initial_m": 0.019500909023722555,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00026682741503236684,
+          0.0002690418901845071
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair4-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "journal": "037813ca00389969d659a394279c29fe1c6a10625f10099596be432548285bd3",
+        "native_result": "59dce87722240ed9aee33fddc0444da05a9faa5649067ca438c1805072d4717f",
+        "commands": "2ca9e24f20020742d042fcdf48642b51c09d9bd492bc0d8c083f0e720914c5d5"
+      },
+      "manifest_sha256": "af9d01ff5b65fb0d792947db750ad3a7f8e0707d46e3a802f544395b6e6afaaa",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012603872170154684,
+          -0.0047929186625326435,
+          -0.02464776010382519
+        ],
+        "TCP_max_distance_from_initial_m": 0.038110464000195354,
+        "BASE_max_distance_from_initial_m": 0.019614058182823607,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00029788047322577144,
+          0.00028499885045073226
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P07",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r3-pair4-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "journal": "b89e45a0fcb62b246bd12aa0499410a39e9351967b1d40c2fc63153903e1a015",
+        "native_result": "63cd7149f3add3d94063d4e852ec124b96a02e602a29a2a99ecbddb1c04b2254",
+        "commands": "85ef0333070c122e8817d8fd4ffdf1814082afc1879d60320edb873afb309f0c"
+      },
+      "manifest_sha256": "1f81a9e8790f8e3520f0ed45e86edc5ee189d949ef306ba84c731df3ae0ec403",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011681533178865833,
+          -0.004636863469396436,
+          -0.02583782359955933
+        ],
+        "TCP_max_distance_from_initial_m": 0.0350811770574222,
+        "BASE_max_distance_from_initial_m": 0.020058664448300047,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0002695541604735979,
+          0.00025937909946122106
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P08",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_A"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair1-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "139be0bdcd3f689192f90950d1182bb7c0fd7e295f1351bafe81848547bf5403",
+        "native_result": "67dae74ad6f7843ddb4f01672ceef9c363259fc20686b111a136d42a0c5ddffd",
+        "commands": "a46b693f70fa5e4fec12104e74e9bee31bc983c66fd2fca64064b591e90783d3"
+      },
+      "manifest_sha256": "7837e314e1f23da72c841737a9c757a1747b4951cf55aff21c1a7e5579ebc85d",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012769208868024073,
+          -0.0045765875305909635,
+          -0.025030820834757828
+        ],
+        "TCP_max_distance_from_initial_m": 0.03375532121658757,
+        "BASE_max_distance_from_initial_m": 0.019820122891430966,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00011822604722556279,
+          0.00011067792291404033
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair1-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "ced6dcee1187026cc73454c27d4d3da7f040fea3d83abb733bc3eed12ddbda5a",
+        "native_result": "a77446bc6cf0e967c6eb64373d87c9405edf47dbfbf886f455d28de9aca5c025",
+        "commands": "a57326bdf8c18fbd3ce27fda360f954259af76fcc5a533d826333bfe8776d958"
+      },
+      "manifest_sha256": "e8b0e9f2048e97040569e1476a13f66bd4d532818691155ee96af9aca18cfe09",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012570283256151837,
+          -0.003943030988786983,
+          -0.025100943938253684
+        ],
+        "TCP_max_distance_from_initial_m": 0.03485889997106093,
+        "BASE_max_distance_from_initial_m": 0.019966219434233302,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00014123114436028622,
+          0.00012815863379719156
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.050000000000155254,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair2-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "90cf59bc8458492a186893961bfaa870422a5885ee8904cea35f25e3c33c26fb",
+        "native_result": "8ea9800ffa813edda003ca490d3740506551b1cfe76366fd1065c78a9b698983",
+        "commands": "9d3a975af8dab66a1c35afb9cfd3972f6449b7f8f082c2e5339038e0d4aff5bc"
+      },
+      "manifest_sha256": "c354758af0fdc992aec8c0dd73823e4330b71309ae4c45bafa8e1cfbeda7469d",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.0132871102330831,
+          -0.004509742843809245,
+          -0.02455574897447199
+        ],
+        "TCP_max_distance_from_initial_m": 0.039458651465318954,
+        "BASE_max_distance_from_initial_m": 0.019882741948484398,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00032567813897586145,
+          0.00032449673235156185
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair2-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "295681f7d17d40f4f367ad9e6a76e0e3d7fb58d7f90f5e85464dc42e50a7af8b",
+        "native_result": "86b1ffd8b6c6ee49e1c31749b28facc81ba41a7087559d1f3d7b803ce466beae",
+        "commands": "ffac38a6a1462d545f9528f918d9ad6e04ba4fe416931d326ca6f328ccb9881a"
+      },
+      "manifest_sha256": "5bf618a35f34edfdfc73c1b76addd089301abd6a4b096c0a89b5e18b5de996fa",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011724544405855686,
+          -0.005298912338335814,
+          -0.024770289055106365
+        ],
+        "TCP_max_distance_from_initial_m": 0.03918282177320221,
+        "BASE_max_distance_from_initial_m": 0.0202397965909884,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00039767860589137727,
+          0.0003848582003689871
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair3-slot-0",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "ae54b94b3835ff6734065eef5135cc653eeda254bea6b51523362f23c034f8ac",
+        "native_result": "2a5ef557401c0a6d56bc6af865af349e6b50c732e251c9a502217044f0312950",
+        "commands": "530ddd8b001b2fcbd3882759087dad922b715b3a15bda788e40be9d4faeb1365"
+      },
+      "manifest_sha256": "41b3f2c914699167cf01734cde794360eb14e864bdef3f643294c92d30f27d71",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012656812117249894,
+          -0.004579442146699135,
+          -0.02510189204126645
+        ],
+        "TCP_max_distance_from_initial_m": 0.033698622947193516,
+        "BASE_max_distance_from_initial_m": 0.01967721496392562,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          7.170324372723219e-05,
+          7.08006282022361e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-receiver3-panel-a-r4-pair3-slot-1",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "ad141a2766e32ac750507730e48035832eda4a961b39cec8289b981acc9c66af",
+        "native_result": "ad4d9dfad16925855e69de94b9449847ab17b3ced6760281aa491ff178f45bd1",
+        "commands": "f20e9069a6f1156bd5777c1cf509e4a200cc505b81b026610b1b7203a5446ce7"
+      },
+      "manifest_sha256": "f8219aedabd7cd2fa7a1a74545932226d4475f224be7d82e5ada29f092015dbd",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012603448202537892,
+          -0.003974351889545345,
+          -0.02526516885656971
+        ],
+        "TCP_max_distance_from_initial_m": 0.03412260887450936,
+        "BASE_max_distance_from_initial_m": 0.02008173897410827,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00028792204583984876,
+          0.00027931961616262796
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_RECEIVER_SAFE_BATCH_B"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair1-slot-0",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "5a4978c16232ed2d032d8326bfcfb864a38f6769ae6f0ca44f692bb796f5142f",
+        "native_result": "984b98693655810e7e67986bf6f3b2bae6e314f2bcd83c5d64feb557538e8dc3",
+        "commands": "d11db4e0648f2a7a591d92af33bca0ee0efbec550d72d73639231b774e268211"
+      },
+      "manifest_sha256": "0c0ed46b502c4f30f379478623706af33ff83eb36a6b44b5a72a96a98952f642",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.01280103570767796,
+          -0.004536974202952182,
+          -0.024906815219499556
+        ],
+        "TCP_max_distance_from_initial_m": 0.034318299151507345,
+        "BASE_max_distance_from_initial_m": 0.019924378565314343,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00015022650751991828,
+          0.00014903886713687337
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04800000000036242,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair1-slot-1",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "d0b6cc3aaa9a799d164aa9272121b0a67f79b28eb13abbe800ae2cc001e84c1f",
+        "native_result": "76dc178e4a204074120ae13e2bc78bb77aff50229517d0095849b73b0975252d",
+        "commands": "f5e8cab44ef43bbed72e801299e4b4fe37acc998f337fc0a11a82cc86ddd058d"
+      },
+      "manifest_sha256": "b6ef1b78e4b57c1b85c69d8077de46b66090bcd43b61bd2180ffd32f151d4d59",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011789424292667106,
+          -0.004683237250092474,
+          -0.025418140742737627
+        ],
+        "TCP_max_distance_from_initial_m": 0.03397240753889475,
+        "BASE_max_distance_from_initial_m": 0.020494259749900726,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00015184110711510823,
+          0.00014693947125682394
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair2-slot-0",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "9fc58dc89f5bdf66fdf3cbfb7a592920c7229906fcca163b8a18258d48c8c1bf",
+        "native_result": "93e5b7a8345401901afda9f56578d9b20ebcd8d31edad262e211a70a8a552fe6",
+        "commands": "95a2580aa7f4508a23bd6bbd7937dcb07379fefbeddb2f20ad213ae80bc4eacd"
+      },
+      "manifest_sha256": "d722b1274e3066dd759e3f61cc1cb68248f845487ce3971bf21b083c8792e770",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.013721633737522498,
+          -0.005052611245830074,
+          -0.02535202053047969
+        ],
+        "TCP_max_distance_from_initial_m": 0.03567543297502327,
+        "BASE_max_distance_from_initial_m": 0.019373267675421014,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          5.362926572558685e-05,
+          5.064819546836408e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04600000000036264,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.3322676295501878e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair2-slot-1",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "113d9ee1c218946980e35272a238c7477b80b4039e2e322f4a21b723341ca790",
+        "native_result": "b44deedeb43958e0cde1ed4cd35a2e42085932f67d1501e2cbdd35333499b87d",
+        "commands": "08a5211a8c650393b8ef3967ae3aecad8f413c681cf2cdf29328869f3668b0e9"
+      },
+      "manifest_sha256": "72ce06c91edefdb0f7daade568e041086c55e004d69fd13396f89084854068e4",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012888601296091207,
+          -0.00397866648380699,
+          -0.025321972965004713
+        ],
+        "TCP_max_distance_from_initial_m": 0.03507872388396053,
+        "BASE_max_distance_from_initial_m": 0.019496721278015158,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          5.781878099270915e-05,
+          5.6129535135888975e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair3-slot-0",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "a12767dbf22b0205f6b6a24c3d4f9e54cbbe91978be9ce5330dd3e6c5daf7d0c",
+        "native_result": "99b1504deed73967bf885099105ffae944379585d4cea04e784de55b8445a2bc",
+        "commands": "b8a52e2106d0a0c49d0c33108c98f634fd047b803a57216cfbe8567dd2d13ec1"
+      },
+      "manifest_sha256": "80f8465e3daec3406b1fe7f937a57dc66cfc379a964f1d4cd4d8c478879bd20f",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.012499363294444066,
+          -0.004597638697016619,
+          -0.025865365302339294
+        ],
+        "TCP_max_distance_from_initial_m": 0.03418487116404384,
+        "BASE_max_distance_from_initial_m": 0.01997593457549543,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00014195622363150084,
+          0.00013564220620701506
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    },
+    {
+      "episode_id": "night1-rootsafe-panel-a-r1-pair3-slot-1",
+      "original_native_source_sha": "d40c9df7dc31d09cc4fa11c07ab589400b50e9f9",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "b2d02d1b803eb6c769e1c26029ed781b0135c10eb226e62071d7b5095eb4e9dd",
+        "native_result": "52b7b6e588e24f09b2b74de01ce545be04061323b61c7cf2d06b583db242d1cc",
+        "commands": "4820f5436b0cd4fa4361711e8652bef34ac7ed0b48607977297a7928132d997c"
+      },
+      "manifest_sha256": "c25c2a0fb19ff3ed0260885768b088341ba5c6796df97ff319605e700ad9dfd7",
+      "native_steps": 4903,
+      "native_clock_s": [
+        0.002,
+        9.805999999999944
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 14,
+      "proposed_with_actual_installation": 14,
+      "coverage": {
+        "task_sampled_states": 97,
+        "TCP_end_displacement_xyz_m": [
+          -0.011952219051306001,
+          -0.004119934489155003,
+          -0.024670430206489402
+        ],
+        "TCP_max_distance_from_initial_m": 0.0345199563054059,
+        "BASE_max_distance_from_initial_m": 0.020106057780248834,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00013287280643680538,
+          0.0001295528622926867
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 96,
+        "solver_confirmed_atoms": 96,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "units": {
+        "position": "m",
+        "hinge": "rad",
+        "time": "s",
+        "contact_force": "N"
+      },
+      "manifest": {
+        "schema": "WM02_NIGHT1_FINITE_EPISODE_V1",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 96,
+        "purpose": "PRODUCTION",
+        "reference_rule": "PREDECLARED_RAMP8_THEN_FIXED_GOAL_V1",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_ROOTSAFE_PANEL_A"
+      }
+    }
+  ]
+}

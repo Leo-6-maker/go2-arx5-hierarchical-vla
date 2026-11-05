@@ -2,9 +2,24 @@ import unittest,tempfile,subprocess,shutil,itertools,sys,json
 from pathlib import Path
 from go2arx5_vla.world_model.auto1_native import phase_limit,task_observer_source,validate_parent_loader
 from scripts.pi0294.task_contacts import allowed
-from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter
+from go2arx5_vla.world_model.target_sequential import native_display_command,TargetSequentialAdapter,native_startup_readiness
 
 class Auto1Native(unittest.TestCase):
+    def test_live_receiver_reader_waits_for_complete_record_and_rejects_committed_corruption(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp);a=TargetSequentialAdapter({},p);f=p/'planner.jsonl';f.write_bytes(b'{"kind":"accept"}\n{"kind":"installed","large":[')
+            self.assertEqual(a.reference_events(),[dict(kind='accept')])
+            with f.open('ab')as h:h.write(b'1,2]}\n')
+            self.assertEqual(a.reference_events()[-1],dict(kind='installed',large=[1,2]))
+            with f.open('ab')as h:h.write(b'{invalid}\n')
+            with self.assertRaises(json.JSONDecodeError):a.reference_events()
+    def test_native_feedback_does_not_substitute_for_completed_controller_construction(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp);(p/'controller.log').write_text('go2_x5_ocs2 ready; waiting for odometry\n');(p/'solver.log').write_text('MPC node is ready.\n')
+            self.assertIsNone(native_startup_readiness(p,False))
+            with(p/'controller.log').open('a')as f:f.write('MRT node is ready.\n')
+            self.assertIsNotNone(native_startup_readiness(p,False));self.assertIsNone(native_startup_readiness(p,True))
+            (p/'planner.log').write_text('Trajectory JSON input: /owned/reference\n');self.assertIsNotNone(native_startup_readiness(p,True))
     @unittest.skipUnless(shutil.which('g++'),'C++ compiler required')
     def test_original_quota_validator_allows_three_init_ticks_but_never_four(self):
         import os
@@ -36,6 +51,14 @@ class Auto1Native(unittest.TestCase):
         validate_parent_loader('/existing/ros:/existing/native','/existing/ros:/existing/native')
         for value in(None,'','/other'):
             with self.assertRaises(PermissionError):validate_parent_loader('/existing/ros:/existing/native',value)
+    def test_signal_diagnostic_traces_only_owned_exec_with_pinned_tool(self):
+        from go2arx5_vla.world_model.storage import digest
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp)/'strace';p.write_bytes(b'fixture tool');s=dict(xvfb_run='/xvfb',native_signal_trace=str(p),frozen_files={str(p):digest(p)},outer_library='/outer',observer_library='/observer',trace_library='/trace',native_binary='/sim')
+            argv,env=native_display_command(s,tmp,{})
+            self.assertEqual(argv[:4],['/xvfb','-a',str(p),'-f']);self.assertIn('trace=none',argv);self.assertIn('signal=SIGINT,SIGTERM',argv)
+            p.write_bytes(b'changed')
+            with self.assertRaises(PermissionError):native_display_command(s,tmp,{})
     def test_import_and_help_do_not_construct_or_import_native_models(self):
         code="import sys;from scripts.wm02.commission_target import main;from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter;assert not {'rclpy','mujoco','torch'}&sys.modules.keys()"
         subprocess.run([sys.executable,'-c',code],check=True)

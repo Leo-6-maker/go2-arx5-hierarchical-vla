@@ -1,0 +1,109 @@
+{
+  "status": "STATIC_NATIVE_CONTACT_APPROACH_INSPECTION_NOT_DYNAMIC_QUALIFICATION",
+  "source_sha": "1f91227f3eff90b9d7f4ce9795e6c141f11e554e",
+  "conditions": {
+    "center": {
+      "status": "PINNED_NATIVE_STATIC_APPROACH_INSPECTED",
+      "episode_id": "night1-c07-original-q24-single-01",
+      "input_sha256": {
+        "scene": "101b88b87966fceff190327b1fa630ad154b08b388928884c91500ac257713d8",
+        "journal": "90db8fc1c144a4df44b1267dea0470e8c497ddf6a185d24b90147da14a4d9807",
+        "native_result": "cd2394904c31339a642d1f6b4fa2048e4e96e7358316ca59a75fa2140d7ff67f"
+      },
+      "initial_native_step": 2503,
+      "initial_TCP_xyz_m": [
+        0.2698222210818748,
+        -0.017770221004785872,
+        0.7334244953392267
+      ],
+      "object_xyz_m": [
+        0.45,
+        -0.07999999999992886,
+        0.4598932559887006
+      ],
+      "grasp_height_offset_m": 0.0,
+      "requested_waypoints": 26,
+      "inspected_waypoints": 25,
+      "IK_iterations": 66,
+      "all_static_waypoints_feasible": false,
+      "first_blocker": "STATIC_IK_OR_ORIGINAL_CONTACT_CONSTRAINT",
+      "base_legs_object_fingers_unchanged": true,
+      "gripper_close": "NOT_TESTED",
+      "contact_grasp_or_dynamic_qualification": false,
+      "actual_actuator_commands": 0,
+      "expert_labels_added": 0,
+      "new_physical_integrations": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "CPU_s": 0.31479742099999974,
+      "wall_s": 0.31486158500774764,
+      "final_static_error_m": 0.00018730425262717776,
+      "first_forbidden_contacts": [
+        {
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link6",
+            "world"
+          ],
+          "distance_m": -0.00024032810352132145
+        },
+        {
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link6",
+            "world"
+          ],
+          "distance_m": -0.0002381672784810343
+        }
+      ],
+      "static_closing_intervals": 0,
+      "static_contact_scope": "Geometric overlap only; no force or task success qualification"
+    },
+    "center_plus20mm": {
+      "status": "PINNED_NATIVE_STATIC_APPROACH_INSPECTED",
+      "episode_id": "night1-c07-original-q24-single-01",
+      "input_sha256": {
+        "scene": "101b88b87966fceff190327b1fa630ad154b08b388928884c91500ac257713d8",
+        "journal": "90db8fc1c144a4df44b1267dea0470e8c497ddf6a185d24b90147da14a4d9807",
+        "native_result": "cd2394904c31339a642d1f6b4fa2048e4e96e7358316ca59a75fa2140d7ff67f"
+      },
+      "initial_native_step": 2503,
+      "initial_TCP_xyz_m": [
+        0.2698222210818748,
+        -0.017770221004785872,
+        0.7334244953392267
+      ],
+      "object_xyz_m": [
+        0.45,
+        -0.07999999999992886,
+        0.4598932559887006
+      ],
+      "grasp_height_offset_m": 0.02,
+      "requested_waypoints": 26,
+      "inspected_waypoints": 26,
+      "IK_iterations": 68,
+      "all_static_waypoints_feasible": true,
+      "first_blocker": "NATIVE_DYNAMIC_APPROACH_NOT_YET_QUALIFIED",
+      "base_legs_object_fingers_unchanged": true,
+      "gripper_close": "STATIC_GEOMETRY_ONLY_FINGERS_RESTORED",
+      "contact_grasp_or_dynamic_qualification": false,
+      "actual_actuator_commands": 0,
+      "expert_labels_added": 0,
+      "new_physical_integrations": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "CPU_s": 0.32388519400000026,
+      "wall_s": 0.32395044100121595,
+      "final_static_error_m": 0.00011895054314550698,
+      "first_forbidden_contacts": [],
+      "static_closing_intervals": 13,
+      "static_contact_scope": "Geometric overlap only; no force or task success qualification"
+    }
+  }
+}

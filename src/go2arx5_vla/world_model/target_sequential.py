@@ -2,12 +2,30 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 
+def native_startup_readiness(output,reference):
+    """Actual owned startup logs, after controller's simulation-time origin is set."""
+    required={'controller':('go2_x5_ocs2 ready; waiting for','MRT node is ready.'),'solver':('MPC node is ready.',)}
+    if reference:required['planner']=('Trajectory JSON input:',)
+    evidence={}
+    for name,markers in required.items():
+        path=Path(output)/(name+'.log')
+        if not path.exists():return None
+        with path.open('rb')as f:f.seek(max(0,path.stat().st_size-16384));text=f.read().decode(errors='replace')
+        if not all(marker in text for marker in markers):return None
+        evidence[name]=list(markers)
+    return evidence
+
 def native_display_command(spec,output,environment):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
     env=dict(environment)
     for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
     prefix=[spec['xvfb_run'],'-a']
+    if spec.get('native_signal_trace'):
+        from .storage import digest
+        path=spec['native_signal_trace']
+        if digest(path)!=spec['frozen_files'].get(path):raise PermissionError('PINNED_OWNED_SIGNAL_DIAGNOSTIC_REQUIRED')
+        prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
@@ -117,25 +135,43 @@ class TargetSequentialAdapter:
             self.launch([s[key],*params,'-p','libFolder:='+str(cache)],name,env)
         if self.reference_phase():
             import sys
-            self.launch([sys.executable,'-B','-m','scripts.pi0294.native_receiver','--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',dict(env,PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name))
-        if not self.spin(30,lambda:self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_FEEDBACK_UNAVAILABLE')
+            # Frozen native_environment may name an older capsule. Load the
+            # receiver and lifecycle helper from this verified source seal.
+            receiver=Path(s['source_root'])/'scripts/pi0294/native_receiver.py'
+            planner_env=dict(env,PYTHONPATH=s['source_root']+':'+s['source_root']+'/src:'+env.get('PYTHONPATH',''),PI0294_PLANNER_TRACE=str(out/'planner.jsonl'),PI0294_EPISODE=out.name)
+            self.launch([sys.executable,'-B',str(receiver),'--ros-args','-p','use_sim_time:=true','-p','mode:=trajectory'],'planner',planner_env)
+        # OCS2 construction/codegen sets start_time_=now(). Starting physics
+        # before it completes gives that process a nonzero clock origin and
+        # permanently stale reference times at the next exact native pause.
+        if not self.spin(30,lambda:native_startup_readiness(out,self.reference_phase())and self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
         c=self.control()
         if c.get('running')or c.get('sim_time_s')!=0 or(out/'physics.jsonl').exists():raise RuntimeError('UNEXPECTED_PHYSICS_BEFORE_STANDBY')
         from scripts.pi0292.durable import write
+        write(out/'PAUSED_EXECUTOR_READINESS.json',dict(status='OWNED_EXECUTORS_CONSTRUCTED_BEFORE_FIRST_INTEGRATION',markers=native_startup_readiness(out,self.reference_phase()),native_control_time_s=c['sim_time_s'],physics_journal_exists=(out/'physics.jsonl').exists(),clock_origin_contract='CONTROLLER_CONSTRUCTOR_START_TIME_AT_NATIVE_ZERO'))
         write(out/'BEFORE_FIRST_INTEGRATION.json',c)
     def observe(self):
         from scripts.pi0294.task_state import read_state
         return read_state(self.output/'state.bin')
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
-        self.advance_to(ticks);self.seal_trace(ticks)
+        self.advance_initialization(ticks);self.seal_trace(ticks)
+        return self.observe()
+    def advance_initialization(self,ticks):
+        if self.spec.get('startup_pause_stride_ticks')is None:return self.advance_to(ticks)
+        if self.spec['startup_pause_stride_ticks']!=25 or not 0<ticks<=2500 or ticks%25:raise PermissionError('EXACT_FINITE_INITIALIZATION_CLOCK_WINDOWS_REQUIRED')
+        # Use the same original quota/pause/ENTER seam as task atoms. No state
+        # reset, synthetic transition, altered gain, dt or safety threshold.
+        for target in range(25,ticks+1,25):
+            state=self.advance_to(target)
+            with(self.output/'INITIALIZATION_CLOCK_WINDOWS.jsonl').open('a')as f:f.write(json.dumps(dict(end_step=state['step'],sim_time_s=state['time_s'],actual_ticks=25,wall_monotonic_s=time.monotonic()))+'\n')
         return self.observe()
     def advance_to(self,ticks):
         if self.trace_sealed:raise PermissionError('TRACE_ALREADY_SEALED_NO_FURTHER_INTEGRATION')
         allowed={2500,2503}if self.spec['phase']=='g2-reference-qualification'else{self.spec['max_ticks']}
         if self.dynamic_phase():allowed={2500,2503,*range(2528,self.spec['max_ticks']+1,25)}
+        if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         ttl=self.spec['phase']=='g2-standing-ttl-v2'
         if ttl:allowed={2500,2503,*getattr(self,'ttl_boundaries',[])}
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
@@ -170,6 +206,7 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_state import ActualState
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0294.base_intent import eef_document
+        from scripts.pi0294.task_clock import actual_source_age
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0292.durable import write
         if self.spec['phase']!='g2-reference-qualification':raise PermissionError('EXACT_REFERENCE_TRANSACTION_SCOPE_REQUIRED')
@@ -182,7 +219,7 @@ class TargetSequentialAdapter:
         # any WBC math. Original quota binding explicitly allows +3 init ticks.
         self.advance_to(2503);packet=self.observe();step=packet['step'];t=packet['time_s']
         def ready():
-            return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=t-float(self.latest[k].time)<=.025 for k in('ee','observation')))
+            return(self.counts.get('mode',0)>before and self.latest.get('mode',self.String()).data=='WBC'and all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation')))
         if not self.spin(20,ready):
             self.save_feedback_diagnostic('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
             raise RuntimeError('NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE')
@@ -194,9 +231,7 @@ class TargetSequentialAdapter:
         source=float(self.latest['ee'].time);document=eef_document(action);document['_pi0294']=dict(episode=self.output.name,sequence=0,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(document,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         write(self.output/'REFERENCE_PROPOSED.json',dict(wire=wire,wire_sha256=ref,action_EEF10=action.tolist(),source_mpc_s=source,native_step=step))
-        def events():
-            p=self.output/'planner.jsonl'
-            return[json.loads(l)for l in p.read_text().splitlines()if l.strip()]if p.exists()else[]
+        events=self.reference_events
         self.publish(self.refs,wire)
         def installed():
             rows=events()
@@ -212,10 +247,16 @@ class TargetSequentialAdapter:
         return self.reference_qualification
     def reference_events(self):
         path=self.output/'planner.jsonl'
-        return [json.loads(l)for l in path.read_text().splitlines()if l.strip()]if path.exists()else[]
+        if not path.exists():return[]
+        raw=path.read_bytes()
+        # The receiver appends large records. A concurrent read may end inside
+        # one write; consume only newline-committed records, retaining strict
+        # parsing for any malformed complete record.
+        if raw and not raw.endswith(b'\n'):raw=raw[:raw.rfind(b'\n')+1]
+        return[json.loads(line)for line in raw.splitlines()if line.strip()]
     def prepare_dynamic(self):
         if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
-        self.advance_to(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
+        self.advance_initialization(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
         if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1;self.reference_history=[]
@@ -298,19 +339,32 @@ class TargetSequentialAdapter:
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
-        self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy()
+        self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
-        if self.spec['phase'].startswith('collect-target-'):
+        if self.spec['phase']=='collect-target-night1':
+            from .target_manifest import episode_config
+            episode=episode_config(self.spec)
+            from .target_manifest import DECISION_RULE
+            late_decision=episode['reference_rule']==DECISION_RULE
+            decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
+            if not late_decision:goal=decision_goal
+        elif self.spec['phase'].startswith('collect-target-'):
             index=int(self.spec['phase'][-2:]);offset={3:(0,.001),4:(0,-.001),5:(1,.001),6:(1,-.001)}.get(index)
             if self.spec['phase'].startswith('collect-target-parallel-'):offset=(0,.001 if index==1 else-.001)
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
-        def action_at_current():
-            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference'))
+        def action_at_current(first_decision=False):
+            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
             return np.stack([pose10(p,float(teacher_physical_fraction(1.)))for p in poses])
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
             before=self.observe();step=before['step']
+            if late_decision and step==start+8*25 and not decision_applied:
+                # The burn prefix receives a hold-only H40. Reveal/install the
+                # chosen small goal at this actual pause, before its response.
+                goal=decision_goal;decision_applied=True
+                self.command_event(dict(phase='decision-boundary',native_step=step,sim_time_s=before['time_s'],reference_rule=episode['reference_rule'],offset_xyz_m=episode['offset_xyz_m'],goal_pose=goal.tolist(),future_response_observed=False))
+                self.install_reference(action_at_current(first_decision=True));installed_step=step
             # V1 dynamic cadence: seven complete relative atoms (350ms),
             # preserving the original source-relative .4s receiver TTL.
             if step-installed_step>=175:self.install_reference(action_at_current());installed_step=step
@@ -336,6 +390,7 @@ class TargetSequentialAdapter:
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_velocity_labels='ABSENT',BASE_pose_reference='MEASURED_INITIAL_MPC_POSE_HOLD'if hasattr(self,'base_pose_hold')else'ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)
+        if episode:value.update(reference_rule=episode['reference_rule'],late_decision_applied=decision_applied,decision_atom=8 if late_decision else None)
         write(self.output/'DYNAMIC_DIAGNOSTIC.json',value);self.reference_qualification=value
         if confirmed!=len(windows):raise RuntimeError('SOLVER_TARGET_CONSUMPTION_NOT_CONFIRMED_FOR_EVERY_ATOM')
         return value

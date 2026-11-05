@@ -1,0 +1,134 @@
+{
+  "status": "TWO_SAME_SOURCE_RECORDING_AUDITS_COMPLETE_NOT_FULL_REPLAY_POPULATION",
+  "audit_source_sha": "c10244eddde56a539f3434a099d5c2f1af26c81d",
+  "records": [
+    {
+      "status": "SAME_SOURCE_RECORDED_TARGET_AUDITED",
+      "episode_id": "night1-c07-original-q24-single-01",
+      "label": "TARGET_QUALIFIED_RECORDING_REPLAY",
+      "original_native_source_sha": "0eb21d5602af05d4ed6ef64716373336afca67c6",
+      "input_sha256": {
+        "scene": "101b88b87966fceff190327b1fa630ad154b08b388928884c91500ac257713d8",
+        "journal": "90db8fc1c144a4df44b1267dea0470e8c497ddf6a185d24b90147da14a4d9807",
+        "native_result": "cd2394904c31339a642d1f6b4fa2048e4e96e7358316ca59a75fa2140d7ff67f",
+        "commands": "8882bcf5785ea0a67487143e6f1c70268995f709a8c74d028973d7b1ef52572a"
+      },
+      "original_native_status": "NATIVE_STAGE_PASSED",
+      "native_steps": 3103,
+      "native_clock_s": [
+        0.002,
+        6.2059999999995386
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 4,
+      "proposed_with_actual_installation": 4,
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014602414438372013,
+          -0.0034409034758112744,
+          -0.024566338152267497
+        ],
+        "TCP_max_distance_from_initial_m": 0.03359681657623029,
+        "BASE_max_distance_from_initial_m": 0.01781725194895723,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00013094808724155999,
+          0.00012106737032347575
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "last_native_joint_violations": [],
+      "physics_stops": [],
+      "trace_audit_errors": [],
+      "valid_learning_atoms_added": 0,
+      "failed_prefix_used_for_learning": false,
+      "full_task_success": "NOT_EVALUATED_NO_BOUND_STANDING_TASK_SCORER",
+      "new_integrations": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "CPU_s": 0.6759091580000001,
+      "wall_s": 0.4248053730116226
+    },
+    {
+      "status": "SAME_SOURCE_RECORDED_TARGET_AUDITED",
+      "episode_id": "night1-receiver3-panel-a-r4-pair4-slot-1",
+      "label": "TARGET_FAILED_REPLAY",
+      "original_native_source_sha": "90486476eb726f74a191478fad8e8dc7baa4907d",
+      "input_sha256": {
+        "scene": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "journal": "f8c99b1d92e87c4f1063533e10b82a1f054e0028ecb017fad805f20914eb33e3",
+        "native_result": "6b1c32dea1928059fe081e33fd3858919ed0b007463ce1dcbbf9bc451dd17fde",
+        "commands": "c94a9d2041e0379c9321375ebc8016ae0e8f18e6a7d9eb1500246a9ed47358ca"
+      },
+      "original_native_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "native_steps": 4255,
+      "native_clock_s": [
+        0.002,
+        8.509999999999511
+      ],
+      "initialization_and_task_separate": true,
+      "proposed_references": 11,
+      "proposed_with_actual_installation": 11,
+      "coverage": {
+        "task_sampled_states": 71,
+        "TCP_end_displacement_xyz_m": [
+          -0.02218975817484775,
+          -0.040825482001187206,
+          0.0337080752339709
+        ],
+        "TCP_max_distance_from_initial_m": 0.09970706246789761,
+        "BASE_max_distance_from_initial_m": 0.10114085731161773,
+        "object_max_distance_from_initial_m": 9.936496070395151e-15,
+        "finger_peak_to_peak_m": [
+          0.0023026314349671242,
+          0.002176935346882451
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        }
+      },
+      "last_native_joint_violations": [
+        {
+          "joint": "RL_calf_joint",
+          "q": -0.8302008656524719,
+          "range": [
+            -2.7227,
+            -0.83776
+          ],
+          "penetration": 0.007559134347528085
+        }
+      ],
+      "physics_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 4255
+        }
+      ],
+      "trace_audit_errors": [],
+      "valid_learning_atoms_added": 0,
+      "failed_prefix_used_for_learning": false,
+      "full_task_success": "NOT_EVALUATED_NO_BOUND_STANDING_TASK_SCORER",
+      "new_integrations": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "CPU_s": 0.675167598,
+      "wall_s": 0.45663347700610757
+    }
+  ]
+}

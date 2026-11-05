@@ -40,7 +40,7 @@ def forbid_integration(mujoco):
 def load(config):
     import mujoco
     if mujoco.__version__!='3.2.7':raise ValueError('Exact saved-model MuJoCo3.2.7 required')
-    if config['label']not in('TARGET_FAILED_REPLAY','SOURCE_REPLAY'):raise PermissionError('Saved replay labels only; live target requires separate owner')
+    if config['label']not in('TARGET_FAILED_REPLAY','SOURCE_REPLAY','TARGET_QUALIFIED_RECORDING_REPLAY'):raise PermissionError('Saved replay labels only; live target requires separate owner')
     for key in('scene','journal'):
         b=config[key]
         if digest(b['path'])!=b['sha256']:raise ValueError('Original replay bytes changed:'+key)
@@ -49,9 +49,25 @@ def load(config):
     if (m.nq,m.nv,m.nu,m.na,m.nplugin)!=(34,32,20,0,0):raise ValueError('Native replay ABI/plugin differs')
     if mujoco.get_mjcb_control()is not None:raise PermissionError('No controller callback in passive replay')
     rows=packets(config['journal']['path'])
+    if config['label']=='TARGET_QUALIFIED_RECORDING_REPLAY':
+        saved=config['native_result']
+        if digest(saved['path'])!=saved['sha256']:raise ValueError('SEALED_NATIVE_RESULT_CHANGED')
+        validate_qualified_recording(config,json.loads(Path(saved['path']).read_text()),rows)
     for row in rows:
         if any(c[k]>=m.ngeom for c in row['contacts']for k in('geom0','geom1')):raise ValueError('Saved contact/model identity differs')
     d=mujoco.MjData(m);return mujoco,m,d,rows
+
+
+def validate_qualified_recording(config,result,rows):
+    if(result.get('status')!='NATIVE_STAGE_PASSED'or not result.get('shutdown_clean')
+            or result.get('physics_stops')or result.get('original_joint_or_warning_samples')
+            or not result.get('owned_process_exits')or any(p['exit_code']!=0 for p in result['owned_process_exits'])
+            or result.get('trace_audit',{}).get('status')!='RECORDED_TRACE_CHECKS_PASS'
+            or result.get('scene_sha256')!=config['scene']['sha256']
+            or result.get('source_sha')!=config['original_native_source_sha']
+            or len(rows)!=result.get('actual_target_integrations')
+            or rows[-1]['step']!=result.get('actual_target_integrations')):
+        raise ValueError('QUALIFIED_LABEL_REQUIRES_SAME_SEALED_PASSED_NATIVE_RECORDING')
 
 
 def apply_frame(mujoco,m,d,row):

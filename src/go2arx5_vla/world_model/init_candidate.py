@@ -67,7 +67,21 @@ def build(spec,output):
     code=Path(spec['source_root']);names=('rl_sim_mujoco.cpp','rl_sim_mujoco.hpp','mujoco_utils.hpp');before=[(clock/n).read_text()for n in names];patched=r1_patch(*before)
     from .native_lifetime import patch_shutdown
     patched=patch_shutdown(*patched)
+    if spec.get('cold_history_init'):
+        if spec['cold_history_init']!='ORIGINAL_BUFFER_RESET_FIRST_REAL_OBSERVATION_V1':raise ValueError('Unknown cold-history repair')
+        from .native_cold_history import patch as cold_history_patch
+        patched=cold_history_patch(*patched)
     sdk=Path(spec['sdk_source']).read_text();cpp,sdk_after=instrument(patched[0],sdk)
+    if spec.get('command_pair_coherence'):
+        if spec['command_pair_coherence']!='SHORT_PAIR_PUBLICATION_PD_TRYLOCK_V1':raise ValueError('Unknown command-pair repair')
+        from .native_command_pair import patch as pair_patch
+        cpp,sdk_after=pair_patch(cpp,sdk_after)
+        shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/command_pair.hpp',output/'command_pair.hpp')
+    if spec.get('physical_callback_clock'):
+        if spec['physical_callback_clock']!='FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1'or not spec.get('command_pair_coherence'):raise ValueError('Explicit coherent physical callback clock required')
+        from .native_control_clock import patch as clock_patch
+        cpp,utils_after=clock_patch(cpp,patched[2]);patched=(patched[0],patched[1],utils_after)
+        shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/control_clock.hpp',output/'control_clock.hpp')
     for n,s in zip(names,(cpp,patched[1],patched[2])):(output/n).write_text(s)
     (output/'rl_sdk.cpp').write_text(sdk_after)
     for name in('native_home.hpp','native_startup.hpp'):shutil.copyfile(clock/name,output/name)
@@ -126,7 +140,7 @@ def build(spec,output):
     if digest(lease)!=lease_before:raise RuntimeError('Historical target lease changed')
     result=dict(status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',source_sha=spec['source_sha'],
         binary_sha256=digest(output/'rl_sim_mujoco'),candidate_sources={n:digest(output/n)for n in(*names,'rl_sdk.cpp','init_trace.hpp','init_trace.cpp')},
-        original_SDK_sha256=digest(spec['sdk_source']),controller_nontrace_text_identical=True,SDK_archive_member_names=original_members,preserved_SDK_members=preserved_members,original_R1_math_assertions_pass=True,
+        original_SDK_sha256=digest(spec['sdk_source']),controller_nontrace_text_identical=not bool(spec.get('cold_history_init')or spec.get('command_pair_coherence')or spec.get('physical_callback_clock')),cold_history_init=spec.get('cold_history_init'),command_pair_coherence=spec.get('command_pair_coherence'),command_pair_header_sha256=digest(output/'command_pair.hpp')if spec.get('command_pair_coherence')else None,physical_callback_clock=spec.get('physical_callback_clock'),control_clock_header_sha256=digest(output/'control_clock.hpp')if spec.get('physical_callback_clock')else None,ongoing_control_math_unchanged=True,SDK_archive_member_names=original_members,preserved_SDK_members=preserved_members,original_R1_math_assertions_pass=True,
         actual_preload_chains=chains,runtime_environment={'LD_LIBRARY_PATH':build_env['LD_LIBRARY_PATH']},target_lease_sha256=lease_before,target_lease_status='CLOSED',native_dynamics_permission='NOT_GRANTED',
         actual_target_integrations=0,leg_policy_queries=0,WM_updates=0,Actor_updates=0,loader_only_checks=2,
         trace_contract='65536 bounded records; async writer10ms; first inputs plus recent28 payload slots; exact pos/vel consumed versions; no emit-path IO/wait or command math change',

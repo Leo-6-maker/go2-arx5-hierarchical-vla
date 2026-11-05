@@ -90,7 +90,7 @@ def ttl_pause_points(source):
     return [at-1,at,at+1,2706]
 
 
-def dynamic_limit(phase, previous):
+def dynamic_limit(phase, previous, spec=None):
     """Versioned finite diagnostic, never accept arbitrary metadata limits."""
     table = {
         'g2-hold-short': ('g2-reference-qualification', TASK_START+25),
@@ -109,6 +109,12 @@ def dynamic_limit(phase, previous):
             table[name]=(first if index==1 else f'collect-target-{batch}-{index-1:02d}',TASK_START+600)
     for index in(1,2):
         table[f'collect-target-parallel-{index:02d}']=('g2-standing-eef-y-v2',TASK_START+600)
+    if phase=='g2-standing-hold-short-v2'and spec and spec.get('cold_history_build_receipt'):
+        # The successor must still pass G1 and the native reference transaction.
+        # Do not replay the known unsafe EE-only renewal just to reproduce STOP.
+        from .auto1_native import standing_repair_ancestor
+        standing_repair_ancestor(spec)
+        table[phase]=('g2-reference-qualification',TASK_START+25)
     if phase not in table:
         raise PermissionError('UNKNOWN_FINITE_DYNAMIC_PHASE')
     parent, limit = table[phase]

@@ -75,5 +75,8 @@ def build(manifest_path,output):
 def load(path):
     with np.load(path,allow_pickle=False)as f:data={k:f[k].copy()for k in f.files}
     meta=json.loads(data.pop('metadata_utf8').tobytes())
+    if meta['schema']in('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3'):
+        from .target_replay_v2 import materialize
+        return materialize(data,meta)
     if meta['schema']!=SCHEMA or data['state'].shape[1:]!=(25,meta['state_dimension']):raise ValueError('REAL_TARGET_SCHEMA_REQUIRED')
     validate_partitions(meta['episodes']);return data,meta

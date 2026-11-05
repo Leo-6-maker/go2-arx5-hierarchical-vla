@@ -1,0 +1,42 @@
+{
+  "schema": "WM02_NIGHT1_C08_FINITE_RELAY_V1",
+  "successor_plan_sha": "59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb",
+  "runtime_source_sha": "93362d53497fa1aaee58ff03e091153e6c893a6c",
+  "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+  "new_executor_requires_new_replay": true,
+  "old_failed_conditions_and_three_arm_preregistrations_retained": true,
+  "native_collection": {
+    "qualification": "All11 cold/hold/reference checks, original single/dual24, late-decision singleP01..P08 and dual; stop first safety or peer failure",
+    "reference": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+    "task_atoms": 24,
+    "physical_parents": ["P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08"],
+    "TRAIN": ["P01", "P02", "P03", "P04", "P05", "P06"],
+    "DEV": ["P07", "P08"],
+    "new_independent_parents_in_this_panel": 0,
+    "actions_xyz_m": [[0,0,0],[0.001,0,0],[-0.001,0,0],[0,0.001,0]],
+    "episodes_per_parent": 4,
+    "max_production_episodes": 32,
+    "assignment": "(zero_based_parent_index+zero_based_repetition)%4; reverse pair slot order on odd repetitions",
+    "whole_failed_pair_excluded": true
+  },
+  "finite_model_contrast": {
+    "status": "REGISTERED_NOT_STARTED",
+    "arms": ["RAW_WORLD_RELATIVE_V1", "SCALED_WORLD_RELATIVE_1CM_V2"],
+    "single_changed_mechanism": "Reference translation input scaling only, as exposed by observed small-action / large-transient mismatch; same weights architecture/loss/data/seed/exposure",
+    "main_updates_per_arm": 200,
+    "restore_probes_per_arm": 1,
+    "seed": 20261105,
+    "fit_normalizer_and_baselines": "TRAIN_ONLY",
+    "required_data": "Same sealed fresh C08 replay with whole qualified production episodes and independent parent DEV",
+    "combined_successor_scope_main_updates_max": 700,
+    "combined_successor_scope_restore_probes_max": 4,
+    "already_observed_main_updates": 700,
+    "already_observed_restore_probes": 4,
+    "dispatch": "NOT_READY_IN_CURRENT_FINITE_RELAY_SCOPE; do not reinterpret engineering uncapping as additional neural recipes or reopen old leases"
+  },
+  "G3_prospective": "P09..P16 remain unsampled until compatible frozen C08 models and TRAIN-fitted controls exist; no post-update prospective claim",
+  "G5": "BLOCKED_DEPENDENCY; no model-selected action, oracle regret or formal Actor",
+  "window": "Original activation/deadline and20minute closeout reserve; no reset or automatic next window",
+  "invariants": "Existing unique owner; at most2 native slots and1 learner; unchanged WBC/leg weights/gains/costs/solver/dt/native safety; no real hardware",
+  "registration_effects": {"new_integrations": 0, "optimizer_updates": 0, "Actor_updates": 0}
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "WM02_NIGHT1_LATE_DECISION_ROOTSAFE_PREREGISTRATION_V4",
+  "parent_action_protocol": "night1_late_decision_prediction_v3.json",
+  "registered_before_first_native_late_decision_episode": true,
+  "workspace": "HOME_ROOT_OBJECT_XY_V3; original initial home root XY offset [-0.10,0]m; no mid-run reset or root command",
+  "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+  "task_atoms": 24,
+  "first_panel": {
+    "parents": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3 through 08",
+    "TRAIN": ["P01", "P02", "P03", "P04", "P05", "P06"],
+    "DEV": ["P07", "P08"],
+    "qualification": "One single-environment complete late-decision episode per scene; new reference pattern also qualified in two environments before production",
+    "production_episodes_per_parent": 4,
+    "offsets_xyz_m": [[0,0,0],[0.001,0,0],[-0.001,0,0],[0,0.001,0]],
+    "assignment": "action index=(parent_index_zero_based+repetition_index_zero_based)%4; odd repetitions reverse each pair's slot order",
+    "purpose": "Action condition panel; existing physical parents are not counted twice"
+  },
+  "prospective_panel": {
+    "parents": "NIGHT1_PHYSICAL_PARENT_09_ROOTSAFE_V3 through 16",
+    "TRAIN": ["P09", "P10", "P11", "P12", "P13", "P14"],
+    "DEV": ["P15", "P16"],
+    "native_qualification_before_production": true,
+    "production_episodes_per_parent": 4,
+    "offsets_and_assignment": "Same first-panel rule, using parent index modulo8",
+    "freeze_all_three_models_before_sampling": true,
+    "DEV_use": "Zero-update evaluation; never normalization, hyperparameter selection or weight fitting"
+  },
+  "matched_WM_arms": {
+    "arms": ["RAW_WORLD_RELATIVE_V1", "SCALED_WORLD_RELATIVE_1CM_V2", "NO_ACTION_V2"],
+    "fresh_same_seed": 20261105,
+    "main_updates_each": 2000,
+    "strict_restore_probe_each": 1,
+    "same_sealed_replay_normalizer_and_exposure": true,
+    "no_DEV_recipe_selection": true
+  },
+  "baselines": [
+    "persistence",
+    "local_numeric_velocity",
+    "TRAIN_only_reference_residual_ridge_lambda1",
+    "TRAIN_STANDARDIZED_ACTION_TIME_ARX1_RECURSIVE_V3_lambda1"
+  ],
+  "ARX_strengthening": "TRAIN-only feature standardization, previous observed/predicted increment, scaled relative action, known source-age mask and elapsed time; recursive future rollout, never future actual states or ages",
+  "primary_prediction_metric": "Per-parent TCP position coordinate RMSE at horizons1,8,16; report pooled and each independent DEV parent, all arms and negative fields",
+  "action_information_test": "Scaled-action vs matched NO_ACTION on independently held-out parents before observing action response; keep raw arm and stronger rule baseline",
+  "limitations": "Not exact counterfactual branching, oracle regret, task success or formal Actor training; decision/control value needs subsequent prospective execution",
+  "safety_owner_and_original_window": "Unchanged; user uncapped engineering revision applies only to cumulative engineering limits",
+  "effects_of_registration": {"native_ticks": 0, "optimizer_updates": 0}
+}

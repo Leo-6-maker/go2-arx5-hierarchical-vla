@@ -1,0 +1,1314 @@
+{
+  "schema": "WM02_NIGHT1_C08_SEALED_DATA_V1",
+  "source_sha": "93362d53497fa1aaee58ff03e091153e6c893a6c",
+  "replay": {
+    "status": "ACTUAL_TARGET_SEQUENTIAL_REPLAY_BUILT",
+    "schema": "WM02_TARGET_LATE_DECISION_REPLAY_V3",
+    "replay_sha256": "3493aa2ed00ceb2f9cd2c9f74a8c5a224f73be8da595be3d6abc4e74424a9a9a",
+    "manifest_sha256": "f5a47098ad494240d3c707dc5c4afde4b85ab5add97f897abcf2e504561ff734",
+    "episodes": 24,
+    "task_atoms": 576,
+    "windows": 24,
+    "state_dimension": 106,
+    "robot_fingerprint": "1caec33aa67e776215ebb01ea4f8e87799adf348bc55e5a66791347ba25276bf",
+    "scene_assets_sha256": [
+      "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+      "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+      "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+      "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+      "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+      "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+      "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+      "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff"
+    ],
+    "physics_integrations": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0
+  },
+  "episodes": [
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair1-slot-0",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "6dda77afda7257c7f0a537e85bd1ef8a43c80b7ac41a1d256262716c5a3785e1",
+        "native_result": "12b664ab211a6a7047193b1258b58a1211cf401b9e06f987d4ee47c5599731be",
+        "commands": "f8d15b9d03b27f04a66ba68aad6ddc3c8ecb5975f5458dee7bf3bf69fd1a9e74"
+      },
+      "manifest_sha256": "b2753361d5cffff79d55f7c9bcb6936d5299c4e32926798291ec67680fc3cb55",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.01350215269116195,
+          -0.0023296901761465354,
+          -0.024366573688795246
+        ],
+        "TCP_max_distance_from_initial_m": 0.03722673596079584,
+        "BASE_max_distance_from_initial_m": 0.019099284515398218,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0002462613820709558,
+          0.00022893224323552314
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair1-slot-1",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "1ad5a9bd63056342dafe84d05b0bb81397ec6a1f9846e578e6e4ae81875e7818",
+        "native_result": "5be1cbc1fb3b9871f5946762836554d2259cbf57bc7783ac149738d30dad425d",
+        "commands": "f21407c2ae56581d82cdf0b0836ab83fe1d2d5b96fb9defe511d9aca5eedee61"
+      },
+      "manifest_sha256": "37c5d37a26317f0a16f2c5561e4e0506f91a852ffb24901eeaaa67fd33af918a",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.012371197911778264,
+          -0.003314695687845485,
+          -0.02430670238132626
+        ],
+        "TCP_max_distance_from_initial_m": 0.0421038570878152,
+        "BASE_max_distance_from_initial_m": 0.019960516401588232,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.000582641614322775,
+          0.0005695971890518625
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair2-slot-0",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "955ed820ad063ef2432b78e179822d0fd83dafd074685a0e7e6dff7f49e884d3",
+        "native_result": "8679d572c82a61d00c1555320c417857f3b99c312a9e10c227d851840ffbc860",
+        "commands": "7de8ba1ab53f3e29936d15c7d033c49137b510044c5928bb4d319198c039d3f0"
+      },
+      "manifest_sha256": "587e05a326b0157aaa4c5319ba9f3431ad0de0d693dbab053e0421036d195d2b",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013922212897858222,
+          -0.003084806538173057,
+          -0.02368556008503997
+        ],
+        "TCP_max_distance_from_initial_m": 0.0335012313315168,
+        "BASE_max_distance_from_initial_m": 0.019545996692256828,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00011727222524374192,
+          0.00010653468906249991
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair2-slot-1",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "d927a6b490775d6a009de874eba7f48804f580bbedde55f73f3c000538e6153d",
+        "native_result": "44eb3617c39713ddf0b05d59ad7fcb33ee036481933b1f59fb57abf5e27fb347",
+        "commands": "3aacca4ccbc818d2d44044ce9f01abce7dc625e0da792f1d3a53206e8793aa79"
+      },
+      "manifest_sha256": "17dfa95986fdc7bae439c768373e1fd172f2be0fd172ff01469066506bf3247b",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013134107928721606,
+          -0.0024981924526596474,
+          -0.02373115803224002
+        ],
+        "TCP_max_distance_from_initial_m": 0.03358024926353461,
+        "BASE_max_distance_from_initial_m": 0.01975238247109987,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00011644152984304629,
+          0.00010692755518737496
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair3-slot-0",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "0d4bab1a7fd5e0473e219ef36a4afd2818531842fab6866b98f2594ec7bdda42",
+        "native_result": "aa9c95d0a82394b5bb675ffeb4d05e2ed9f5e31e3edf8d1b42e152a924fd50f2",
+        "commands": "0785abed6a0a2b10d8bc51eceedb10d0be2cd73ba1d31e2adb009db2fce15368"
+      },
+      "manifest_sha256": "3f764a3f4e8c03eb1525c4fd70ed67b299c77bf21d3c034c27f3e5545fd0df12",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013477052234382836,
+          -0.0021844791852886052,
+          -0.02432641706801042
+        ],
+        "TCP_max_distance_from_initial_m": 0.03553084484269878,
+        "BASE_max_distance_from_initial_m": 0.01905739155138631,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001904656767983126,
+          0.0001904442062242856
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair3-slot-1",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "42cac7a65959dcf211138de43fba72f33a9bcd7a6a5fb79fdf1ca53ae2ecf54d",
+        "native_result": "0553861a6a1f607567883083c8d1ba71dbef9eed024e7d1213d9365aa9693e6a",
+        "commands": "4735fb8248e3594f3927c3de985b935420ba9d1ffcff5b6c1820f8a0445230aa"
+      },
+      "manifest_sha256": "dfef408d8b9784d168933b7d89f8d38bf8e5c9899f352eea2abd720975ec53a3",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.012758881978373215,
+          -0.0028497259196609403,
+          -0.02406349807334407
+        ],
+        "TCP_max_distance_from_initial_m": 0.0346166309126845,
+        "BASE_max_distance_from_initial_m": 0.01952540619777981,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001413626744374008,
+          0.00012975041538652865
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair4-slot-0",
+      "input_sha256": {
+        "scene": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "journal": "3fb3ddb77a0db322155d893ded9ee1cabc784fa730d4c46967588495bebbadc8",
+        "native_result": "d4831b2e013f16a239c7fcb96cdc6a63e599afd205292e0d5432d9184fa99965",
+        "commands": "c4d0444ca1dfbccb81879357235d7cf374076d1fb33e0e084dad692fb4879ba7"
+      },
+      "manifest_sha256": "1ad3afbd0f0d45ed99596c8fd296a0095188ece5f3fc36aeb16a9fcd7373f993",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014238265288244512,
+          -0.002555360716907271,
+          -0.024137071603399618
+        ],
+        "TCP_max_distance_from_initial_m": 0.03893267037222318,
+        "BASE_max_distance_from_initial_m": 0.01889997557362898,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003983619416042805,
+          0.0003822606869357051
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P07",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r1-pair4-slot-1",
+      "input_sha256": {
+        "scene": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "journal": "eb3d38338d5eb049d75db6ffbf563d8cd631d1e9dc04441174a2e8e92085f9f7",
+        "native_result": "c0ad735de84786fa5beaecb1e8988bbb830172b8f8a8490e055d6462dd33a12b",
+        "commands": "556e0d598c242c672fca91926711806ba77ccba6d6a5aa311cd8402fc4b5f289"
+      },
+      "manifest_sha256": "891923057bbf87df96e2c12f88dc84de19c90a72a9cf8600c27c62db49068246",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013289881461429287,
+          -0.0024139090274934005,
+          -0.023747823587731864
+        ],
+        "TCP_max_distance_from_initial_m": 0.033741116771783604,
+        "BASE_max_distance_from_initial_m": 0.01991662714142456,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00013221857880358484,
+          0.0001255996442593582
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P08",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair1-slot-0",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "63308c4340829ad0fbda8419d9aca83ee0994607a04629d5b53cdbec5e7c8e14",
+        "native_result": "e3f439fb10974b686c3fca71a4ba352cd6efc4ab2fa9e5f11c10929bc473c02e",
+        "commands": "5998d6658f379e9b3b17abf3c4693b929d28503f29c8151ef241fe660afaa763"
+      },
+      "manifest_sha256": "82ac5db1aeacf9ca07a6b17876c568afda7e21d7bb866f333ea2b1e8aa4dbc98",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014156925916588126,
+          -0.003184205613777873,
+          -0.02397294891171453
+        ],
+        "TCP_max_distance_from_initial_m": 0.03518777156097046,
+        "BASE_max_distance_from_initial_m": 0.01940939544771253,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          4.782979070817178e-05,
+          4.542572440893039e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair1-slot-1",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "4b48efcd8d23cf2c2460685f264ca3de18f6b8f0910b7a0c5684d62282da7c38",
+        "native_result": "1ba608e8efd4f96a2fa67ce12a0872ea89749e1702ddb5598eba490c1c40ad74",
+        "commands": "a8077b9354406985e69a0e2b3aa6f89a606116d1432ed480f32fe9c8d52cfb94"
+      },
+      "manifest_sha256": "99047fe318246be2fba23590431e5241aa5274a011e6ef4584239e03672a669a",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.012540490083201905,
+          -0.0031006480346390357,
+          -0.024263145207512826
+        ],
+        "TCP_max_distance_from_initial_m": 0.03447675321316275,
+        "BASE_max_distance_from_initial_m": 0.019766366966651433,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          4.828207152536568e-05,
+          4.624230565659915e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair2-slot-0",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "08d99ca001c7140157f10c632597c68750a74c6574ef704ddd87266e70b20397",
+        "native_result": "e53c660673b12acd5618a6d7acaa2460ff1d3bf38812c355e7dfbfad2d9f47a7",
+        "commands": "3ab611ffd09166a6ac86594f9818cf7b33299a669a905a3a1a397f07e4026ee0"
+      },
+      "manifest_sha256": "531d2199585af5edeb2f15ceb87f60b01435d1c030974e6f7968e526d266f6c1",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013527051247591626,
+          -0.001993329699859124,
+          -0.02467953622264696
+        ],
+        "TCP_max_distance_from_initial_m": 0.03877372130926592,
+        "BASE_max_distance_from_initial_m": 0.018539973882422178,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003184847745242511,
+          0.00029573786534524416
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair2-slot-1",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "c97dd6e7c2ea5dbadf6d0bc15f3fac0c1bfa96300b7eaa0495596055d5781128",
+        "native_result": "8e27d3ca4dfb89acc9ad558417738b5c877ffcd0c4e386525f01c7b96f7de3b4",
+        "commands": "2a6a3429c18e14cd5775809db6c9ca449b6fdd92b57b7cf83f5a2d100d96cc06"
+      },
+      "manifest_sha256": "d5afbfd3921aab09a652f19ac0b44a3a2c8e7132b960028e3a3bc366f54d4b5f",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.01346979716437563,
+          -0.00229721793765952,
+          -0.024089507448887937
+        ],
+        "TCP_max_distance_from_initial_m": 0.034538668243859746,
+        "BASE_max_distance_from_initial_m": 0.019391697274431373,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00013195147924568995,
+          0.0001244619924269455
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.05000000000036309,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair3-slot-0",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "e04dec90b99c2951c28c26ea872420c759bd366780df312e033f60471fdb8967",
+        "native_result": "627af66eea6f80889916543f46c2a09ad75982da6b58fe0542beffc66af9eff7",
+        "commands": "5be748750701117fda7b3d4cb2c1f4cf2affbafdab01974f97a211d90e77e054"
+      },
+      "manifest_sha256": "060d5da7fd6ea905a57420b85575bb2088afa601fe716a08c7282265f24ae990",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014091835649579276,
+          -0.0025464427294704453,
+          -0.024064838330768556
+        ],
+        "TCP_max_distance_from_initial_m": 0.03837164583742226,
+        "BASE_max_distance_from_initial_m": 0.01901606672454713,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0003408591962528115,
+          0.0003362846137525896
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair3-slot-1",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "651fcea0a3c6a7205ad5bb0517753ec3c6a33df043d1d94e9e88e1312b3edfc4",
+        "native_result": "03d56eaedf5889754de1c916cfadd78d02618297c2f286fdc054ae5815269361",
+        "commands": "d8a23d809f2983dc22bea270ac3dc21aef911134a206b1ae8cad1cacb82e8b8d"
+      },
+      "manifest_sha256": "0220680b15f08d0fd2bc82c8ca15066f2de0af6f8bc97a792a39200950205d0c",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.01266568006972385,
+          -0.003100823461437136,
+          -0.023775497529607503
+        ],
+        "TCP_max_distance_from_initial_m": 0.03448053011762366,
+        "BASE_max_distance_from_initial_m": 0.01974428820266217,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          4.683652007721889e-05,
+          4.450001816388299e-05
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.0400000000003633,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair4-slot-0",
+      "input_sha256": {
+        "scene": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "journal": "3835dae42f56cc8cd027719229376dbb606d97d4c008db8045537492e1057a67",
+        "native_result": "155e3e76485da3710f48f7c33d13d230ab40b511800cfedf1a78cea4667ef63d",
+        "commands": "5bf87a4d21a2406bda7882af156bedf3b43ba4369a407d85f20b30a04d9240a5"
+      },
+      "manifest_sha256": "09ed501d0d334d2ebdea5794e2dd0df0edd0f42864e22d3c51cbcbf38a0cd2fa",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.0135185041259554,
+          -0.002887371298141669,
+          -0.023913620046729256
+        ],
+        "TCP_max_distance_from_initial_m": 0.03451695673828193,
+        "BASE_max_distance_from_initial_m": 0.01942602041532962,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001294521727598849,
+          0.00012217051775737647
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P08",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r2-pair4-slot-1",
+      "input_sha256": {
+        "scene": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "journal": "a83f4a3636e57eefeed20a4e88b5fc454645b0d87d069931c4634980f1c94929",
+        "native_result": "bba48173c924b67031e17b3047a9bb22551957a5ca48a8cb888514e3c1b44f13",
+        "commands": "9165d078e2601ff85b84d8515a6e688d25b3d2936df0b3d8985a9940055e3be0"
+      },
+      "manifest_sha256": "cbdb918b9ff10c4b3acedd3f4ce20458a383db22190fa004772ab4b276a19534",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013431445318452473,
+          -0.0015421156628490102,
+          -0.024101706477755114
+        ],
+        "TCP_max_distance_from_initial_m": 0.03584792461730881,
+        "BASE_max_distance_from_initial_m": 0.019166250769033527,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00025160179124848747,
+          0.0002394637539467337
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P07",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair1-slot-0",
+      "input_sha256": {
+        "scene": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "journal": "f4753f5a79fc813fb2595c758105dceb648585bdbde5541abfdaf92fdddada5e",
+        "native_result": "e6297c19fc20ed3b828242b679245ebb5cefce00ed55076b17e3df0747d26b70",
+        "commands": "c434303312a3e446dd88423fa036da2d713b4c013368b05af68e5b5a66f212ac"
+      },
+      "manifest_sha256": "c50e47d5873ab3321a3587c3bd0b56fb0c9e046172657987e4d4f79eab62316f",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013853037949916602,
+          -0.002642611957381455,
+          -0.024302666943586182
+        ],
+        "TCP_max_distance_from_initial_m": 0.038786942166090466,
+        "BASE_max_distance_from_initial_m": 0.01940906517070226,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00043035312540169735,
+          0.0004289202458970659
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P01",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair1-slot-1",
+      "input_sha256": {
+        "scene": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "journal": "c520b0116928ae3d63457342b003b1d0d8436f890da831c763c45906bbf90203",
+        "native_result": "d26063d024d7f50e1d73c61b93c6ced36236131c38d2f79fe846ff3084b83d17",
+        "commands": "b9cac3f8556c6fec6f0e0bcfa499222db89f1a37e3797d0452105a73478b93c6"
+      },
+      "manifest_sha256": "ad74858a45058e21f15d09daa1364f07ef91caaeda44bb7157ffcb4e501f6488",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013515270953321945,
+          -0.001766628821813495,
+          -0.024162898788787968
+        ],
+        "TCP_max_distance_from_initial_m": 0.035559962601846115,
+        "BASE_max_distance_from_initial_m": 0.01917792863205225,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001526098841110185,
+          0.00014672128929957284
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P02",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair2-slot-0",
+      "input_sha256": {
+        "scene": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "journal": "9a087812813ea5ff312de6829e3af628365e8243c07a6ad4d9982c817d97ed5a",
+        "native_result": "2abfe2948bdfc04d634d57e567e77c955b9820550607850e9b78491cefae39a0",
+        "commands": "8297193bfbf070754e9caba99a0d9f8f972e3952b36fd6cf9b80e9f00687573e"
+      },
+      "manifest_sha256": "56cdd7676a48f4aa7b98650cf3d9ba9275a9b3d6fcce97eddf1142c8ae5cf30a",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013625377842331643,
+          -0.0023418190907112287,
+          -0.02397989635530795
+        ],
+        "TCP_max_distance_from_initial_m": 0.03653501292741364,
+        "BASE_max_distance_from_initial_m": 0.018994510868129626,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00027493824419091983,
+          0.0002573839628541297
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P03",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair2-slot-1",
+      "input_sha256": {
+        "scene": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "journal": "098c98031997faad4003e75436c5eb626ad72d4e436799cba726bc5f05fc56e8",
+        "native_result": "34abe40f1c0ab5fef287159a946a22092be1e11f1ededeff178c67dd120de34a",
+        "commands": "a6d0b1a27c516323a92f00c8e2ab002f6fa14a739e25bca333169c7f56eed9dd"
+      },
+      "manifest_sha256": "43ecab58d88849d976d9685edc6254e25c5364638cf815de5b64c3d0ab864d8a",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.012905637904685296,
+          -0.002384914805936873,
+          -0.02415762369915886
+        ],
+        "TCP_max_distance_from_initial_m": 0.036714993060835435,
+        "BASE_max_distance_from_initial_m": 0.01910681843081283,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0002639439028041743,
+          0.00025506135575028427
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P04",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair3-slot-0",
+      "input_sha256": {
+        "scene": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "journal": "2291d85bb3893bd6a99131c1354c2e1c7b4ece62992eb9298dd54123a8a3afd5",
+        "native_result": "f3722e1c366cfe4333201efddaebbf4cd4a2141492cc61f1b0d8de66fe7d5e83",
+        "commands": "e8e7a8a513fb94974b352f4f8458513f31e6e5d53f52bd6d9324d820cea39a67"
+      },
+      "manifest_sha256": "658da7a8ca0121249e493ca04431dcdd8ff0b968e9ff28fb8c5e8cb063f66277",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.014342641263797085,
+          -0.002348649020733033,
+          -0.023892319002920992
+        ],
+        "TCP_max_distance_from_initial_m": 0.035466266241509815,
+        "BASE_max_distance_from_initial_m": 0.0190458475617796,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.0001726442825601554,
+          0.00016688257661919004
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P05",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          -0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair3-slot-1",
+      "input_sha256": {
+        "scene": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "journal": "456d1ca8d22db313bbc4a3e5db8098b28d4fb08b4e5377b4e5cc09997e52c980",
+        "native_result": "9e6bdff4f2e9a056647229621c39f96580d67ba020659f456b8423a42827a49e",
+        "commands": "0bc7671116f4ea48c12930835df14aca37a3eff08adb24bdba48c289e7190509"
+      },
+      "manifest_sha256": "75459f89a6f65751e9dd65b7548a8a787f926e6df5b1fed056fa52624a052942",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013423050967954153,
+          -0.00153472755822282,
+          -0.024453549592212354
+        ],
+        "TCP_max_distance_from_initial_m": 0.0358677150126215,
+        "BASE_max_distance_from_initial_m": 0.019060745331017103,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00025736220586988073,
+          0.00023933705806003513
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_id": "P06",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0,
+          0.001,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair4-slot-0",
+      "input_sha256": {
+        "scene": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "journal": "6b0f5cac29becc72df30681a890fde433dead800a60a01cae7e6f0b7df4ec5c6",
+        "native_result": "e28afc7d1c7af724d94a0843c831d6ad042a9c69338750fd213afd1b6b018b67",
+        "commands": "7981900caa3bebe035b337ab615826ad90d0f7a183739517a3d6210a3716f6e9"
+      },
+      "manifest_sha256": "8f1b95c8db6efb79d09fec6f2b594a84ef1007630e03857c2618a5e07fe7d8c7",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.013379630090983918,
+          -0.002621529134669915,
+          -0.02429726088464712
+        ],
+        "TCP_max_distance_from_initial_m": 0.039464244541769826,
+        "BASE_max_distance_from_initial_m": 0.019068710380029722,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00043745660084073407,
+          0.0004283829592667404
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.1102230246251565e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P07",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.0,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    },
+    {
+      "episode_id": "night1-c08-decision-a-r3-pair4-slot-1",
+      "input_sha256": {
+        "scene": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "journal": "2f542a281e813a76c8d05504236182b18e0e9ac3219de0d008814af99e426db0",
+        "native_result": "4f3bad1928a08843b3adeb4754853ac6b3dfe6917517efe22265e6b4c2f3a74f",
+        "commands": "a87f2764c7557a727f2ef27a28c08651bd30ce93dfabf9a4de50dd1efa36f67f"
+      },
+      "manifest_sha256": "0e415f996b76482e542a469ab2fcfceba4ba659e2c337347da169ffd70926911",
+      "coverage": {
+        "task_sampled_states": 25,
+        "TCP_end_displacement_xyz_m": [
+          -0.01274698109954664,
+          -0.002203096032995202,
+          -0.024145137863155086
+        ],
+        "TCP_max_distance_from_initial_m": 0.036424683561407385,
+        "BASE_max_distance_from_initial_m": 0.019202108443290608,
+        "object_max_distance_from_initial_m": 0.0,
+        "finger_peak_to_peak_m": [
+          0.00024014020453819868,
+          0.00021779970650515068
+        ],
+        "contact_and_grasp_counts": {
+          "left_object_contact": 0,
+          "right_object_contact": 0,
+          "native_grasp": 0,
+          "robot_object_contact": 0,
+          "opposing_contact": 0
+        },
+        "complete_atoms": 24,
+        "solver_confirmed_atoms": 24,
+        "expiry_margin_min_s": 0.04400000000036286,
+        "controller_selected_policy": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+      },
+      "maximum_recorded_unit_quaternion_error": 1.2212453270876722e-15,
+      "manifest": {
+        "schema": "WM02_NIGHT1_LATE_DECISION_EPISODE_V3",
+        "phase": "collect-target-night1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_id": "P08",
+        "task_atoms": 24,
+        "purpose": "DECISION_PRODUCTION",
+        "reference_rule": "HOLD8_THEN_DECIDE_RAMP8_FIXED_GOAL_V3",
+        "offset_xyz_m": [
+          0.001,
+          0,
+          0
+        ],
+        "batch": "NIGHT1_C07_LATE_DECISION_FRESH_A"
+      }
+    }
+  ],
+  "TRAIN_episodes": 18,
+  "DEV_episodes": 6,
+  "independent_physical_parents": 8,
+  "TRAIN_parents": 6,
+  "DEV_parents": 2,
+  "complete_action_panel": false,
+  "each_parent_actions_observed": 3,
+  "global_each_action_episodes": 6,
+  "remaining_episodes": 8,
+  "failed_prefixes_used": 0,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0
+}

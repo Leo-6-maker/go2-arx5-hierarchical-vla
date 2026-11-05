@@ -20,6 +20,8 @@ def slices(meta):
 class TargetWM(nn.Module):
     def __init__(self,meta,hidden=64):
         super().__init__();self.meta=meta;self.layout=slices(meta);n=meta['state_dimension'];self.hidden=hidden
+        self.action_encoding=meta.get('action_encoding','RAW_WORLD_RELATIVE_V1')
+        if self.action_encoding not in('RAW_WORLD_RELATIVE_V1','SCALED_WORLD_RELATIVE_1CM_V2','NO_ACTION_V2'):raise ValueError('UNKNOWN_TARGET_ACTION_ENCODING')
         self.register_buffer('mean',torch.zeros(n));self.register_buffer('std',torch.ones(n))
         self.history=nn.GRUCell(n+20,hidden)
         self.delta=nn.Sequential(nn.Linear(n+hidden+20,128),nn.SiLU(),nn.Dropout(.05),nn.Linear(128,n))
@@ -32,19 +34,25 @@ class TargetWM(nn.Module):
         action=goal.clone();action[:,:3]-=state[:,self.layout['tcp_position_m']]
         # Existing native ABI's root free position; other state fields remain raw.
         action[:,10:13]-=state[:,:3]
+        if self.action_encoding=='SCALED_WORLD_RELATIVE_1CM_V2':
+            action[:,:3]/=.01;action[:,10:13]/=.01
+        elif self.action_encoding=='NO_ACTION_V2':action.zero_()
         return torch.cat((action,elapsed[:,None]/1.2,age[:,None],known[:,None]),-1)
-    def predict(self,state,goal,source_age):
+    def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None,history_goal=None,future_prefix_remaining=None):
         batch=len(state);h=state.new_zeros(batch,self.hidden)
+        origin=state.new_zeros(batch)if window_start_s is None else window_start_s
+        remaining=state.new_full((batch,),6.)if window_start_atom is None else 7-torch.remainder(window_start_atom+8,7)
+        if future_prefix_remaining is not None:remaining=future_prefix_remaining
         for i in range(8):
-            elapsed=state.new_full((batch,),i*.05)
-            a=self.encode(state[:,i],goal,elapsed,source_age[:,i],state.new_ones(batch))
+            elapsed=origin+i*.05
+            a=self.encode(state[:,i],goal if history_goal is None else history_goal[:,i],elapsed,source_age[:,i],state.new_ones(batch))
             h=self.history(torch.cat(((state[:,i]-self.mean)/self.std,a),-1),h)
         current=state[:,8];pred=[]
         for i in range(8,24):
             # The next renewal is at atom14. Its actual future source age is
             # unknown; an explicit missing mask replaces that input thereafter.
-            known=state.new_full((batch,),float(i<14));age=(source_age[:,8]+(i-8)*.05)*known
-            a=self.encode(current,goal,state.new_full((batch,),i*.05),age,known)
+            known=(remaining>(i-8)).to(state.dtype);age=(source_age[:,8]+(i-8)*.05)*known
+            a=self.encode(current,goal,origin+i*.05,age,known)
             normalized=(current-self.mean)/self.std
             h=self.history(torch.cat((normalized,a),-1),h)
             current=current+self.delta(torch.cat((normalized,h,a),-1))*self.std
@@ -53,26 +61,31 @@ class TargetWM(nn.Module):
 
 
 def tensors(data,ids,device):
-    return {k:torch.as_tensor(data[k][ids],device=device,dtype=torch.float32)for k in('state','goal','source_age')}
+    return {k:torch.as_tensor(data[k][ids],device=device,dtype=torch.float32)for k in('state','goal','source_age','window_start_s','window_start_atom','history_goal','future_prefix_remaining')if k in data}
 
 
 def update(model,opt,data,cursor,batch=8):
     model.train();ids=torch.randint(len(data['state']),(batch,),device=data['state'].device)
     b={k:v[ids]for k,v in data.items()};opt.zero_grad(set_to_none=True)
-    prediction=model.predict(b['state'],b['goal'],b['source_age'])
+    prediction=model.predict(**b)
     loss=((prediction-b['state'][:,9:])/model.std).square().mean()
     if not torch.isfinite(loss):raise FloatingPointError('NONFINITE_TARGET_LOSS')
     loss.backward();norm=nn.utils.clip_grad_norm_(model.parameters(),1.,error_if_nonfinite=True);opt.step()
     return dict(loss=float(loss.detach()),gradient_norm=float(norm),cursor=cursor+batch)
 
 
+def checkpoint_schema(meta):
+    return{'WM02_TARGET_NATIVE_REPLAY_V2':'WM02_TARGET_WM_CHECKPOINT_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3':'WM02_TARGET_WM_CHECKPOINT_V3'}.get(meta.get('schema'),'WM02_TARGET_WM_CHECKPOINT_V1')
+
 def save(path,model,opt,step,cursor,provenance):
-    torch.save(dict(schema='WM02_TARGET_WM_CHECKPOINT_V1',model=model.state_dict(),optimizer=opt.state_dict(),normalizer=dict(mean=model.mean,std=model.std),rng=rng_state(),step=step,replay_cursor=cursor,provenance=provenance,metadata=model.meta,hidden=model.hidden),path)
+    schema=checkpoint_schema(model.meta)
+    torch.save(dict(schema=schema,model=model.state_dict(),optimizer=opt.state_dict(),normalizer=dict(mean=model.mean,std=model.std),rng=rng_state(),step=step,replay_cursor=cursor,provenance=provenance,metadata=model.meta,hidden=model.hidden),path)
 
 
 def restore(path,device,expected):
     value=torch.load(path,map_location='cpu',weights_only=True)
-    if value['schema']!='WM02_TARGET_WM_CHECKPOINT_V1'or value['provenance']!=expected:raise ValueError('TARGET_CHECKPOINT_IDENTITY_DIFFERS')
+    schema=checkpoint_schema(value['metadata'])
+    if value['schema']!=schema or value['provenance']!=expected:raise ValueError('TARGET_CHECKPOINT_IDENTITY_DIFFERS')
     m=TargetWM(value['metadata'],value['hidden']).to(device);m.load_state_dict(value['model'])
     opt=torch.optim.AdamW(m.parameters(),lr=1e-3,weight_decay=1e-5);opt.load_state_dict(value['optimizer'])
     if tree_error(dict(mean=m.mean,std=m.std),value['normalizer']):raise ValueError('TARGET_NORMALIZER_DIFFERS')
@@ -81,7 +94,22 @@ def restore(path,device,expected):
 
 def evaluate(model,data,meta):
     model.eval()
-    with torch.no_grad():pred=model.predict(data['state'],data['goal'],data['source_age'])
+    with torch.no_grad():pred=model.predict(**data)
+    return prediction_metrics(pred,data,meta)
+
+
+def rotation6d_angle(value,truth):
+    """Gram-Schmidt decoding for offline SO3 diagnostics, never control."""
+    def decode(x):
+        a=x[:,:3];b=x[:,3:];na=a.norm(dim=-1,keepdim=True);u=a/na.clamp_min(1e-8);w=b-(u*b).sum(-1,keepdim=True)*u;nw=w.norm(dim=-1,keepdim=True);v=w/nw.clamp_min(1e-8)
+        return torch.stack((u,v,torch.linalg.cross(u,v,dim=-1)),-1),(na[:,0]>1e-8)&(nw[:,0]>1e-8)
+    a,va=decode(value);b,vb=decode(truth);relative=a.transpose(-1,-2)@b
+    skew=torch.stack((relative[:,2,1]-relative[:,1,2],relative[:,0,2]-relative[:,2,0],relative[:,1,0]-relative[:,0,1]),-1)/2
+    angle=torch.atan2(skew.norm(dim=-1),((relative.diagonal(dim1=-2,dim2=-1).sum(-1)-1)/2).clamp(-1,1))
+    return angle,va&vb
+
+
+def prediction_metrics(pred,data,meta):
     groups=slices(meta);metrics={}
     q0=groups['qpos'].start;v0=groups['qvel'].start
     for j in meta.get('joints',[]):
@@ -97,6 +125,17 @@ def evaluate(model,data,meta):
     for h in(1,8,16):
         real=data['state'][:,8+h];persistence=anchor;cv=anchor+velocity*(h*.05)
         metrics[str(h)]={name:dict(model_RMSE=float((pred[:,h-1,sl]-real[:,sl]).square().mean().sqrt()),persistence_RMSE=float((persistence[:,sl]-real[:,sl]).square().mean().sqrt()),local_numeric_velocity_RMSE=float((cv[:,sl]-real[:,sl]).square().mean().sqrt()))for name,sl in groups.items()}
+        for name,sl in list(groups.items()):
+            if not name.endswith('_quaternion_dimensionless'):continue
+            truth=real[:,sl];valid_truth=truth.norm(dim=-1)>1e-8;truth=truth/truth.norm(dim=-1,keepdim=True).clamp_min(1e-8);row={}
+            for label,value in(('model',pred[:,h-1,sl]),('persistence',persistence[:,sl]),('local_numeric_velocity',cv[:,sl])):
+                valid=valid_truth&(value.norm(dim=-1)>1e-8);unit=value/value.norm(dim=-1,keepdim=True).clamp_min(1e-8);sign=torch.where((unit*truth).sum(-1,keepdim=True)<0,-1.,1.);aligned=truth*sign;angle=4*torch.atan2((unit-aligned).norm(dim=-1),(unit+aligned).norm(dim=-1));row[label+'_RMSE']=float(angle[valid].square().mean().sqrt())if valid.any()else None;row[label+'_invalid_count']=int((~valid).sum())
+            metrics[str(h)][name.replace('_quaternion_dimensionless','_SO3_rad')]=row
+        for name in('tcp_rotation6d','object_rotation6d'):
+            sl=groups[name];row={}
+            for label,value in(('model',pred[:,h-1,sl]),('persistence',persistence[:,sl]),('local_numeric_velocity',cv[:,sl])):
+                angle,valid=rotation6d_angle(value,real[:,sl]);row[label+'_RMSE']=float(angle[valid].square().mean().sqrt())if valid.any()else None;row[label+'_invalid_count']=int((~valid).sum())
+            metrics[str(h)][name.replace('_rotation6d','_SO3_rad')]=row
     return dict(metrics=metrics,evaluation='CAUSAL_FIXED_GOAL_OPEN_LOOP_BURN8_PREDICT16',mixed_unit_aggregates=['qpos','qvel','ctrl'],CV_orientation='Numeric component extrapolation only, not integrated SO3',event_heads='NOT_TRAINED_NO_QUALIFIED_CONTACT_POSITIVES',controller_hidden_state='MISSING_HISTORY_ONLY_NO_MARKOV_CLAIM')
 
 

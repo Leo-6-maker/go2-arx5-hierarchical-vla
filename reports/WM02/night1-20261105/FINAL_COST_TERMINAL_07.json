@@ -1,0 +1,59 @@
+{
+  "schema": "WM02_NIGHT1_COST_AND_TERMINAL_V1",
+  "scope": "NIGHT1_ONLY_EXCLUDES_PRE_NIGHT1_336_ATOMS_300PLUS2",
+  "counts": {
+    "attempts": 217,
+    "native_ticks": 703269,
+    "production_atoms": 4176,
+    "production_episodes": 66,
+    "main_updates": 700,
+    "restore_probes": 4
+  },
+  "actual_native_result_counts": {
+    "passed": 199,
+    "failed_preserved": 17,
+    "pre_native_admission_rejected": 1
+  },
+  "workers_live": [],
+  "all_registered_NIGHT1_leases_closed": true,
+  "campaign_lease": "ORIGINAL_ACTIVE_UNCHANGED_NOT_EXTENDED",
+  "C08": {
+    "native_attempts": 48,
+    "native_ticks": 135251,
+    "passed_native_attempts": 48,
+    "new_production_episodes": 24,
+    "new_production_atoms": 576,
+    "job_cgroup_CPU_s": 1672.155493,
+    "replay_build_wall_s": 8.347317466046661,
+    "replay_build_child_CPU_s": 8.307744,
+    "new_optimizer_updates": 0
+  },
+  "registered_job_cgroup_CPU_s": 9189.680936,
+  "full_population_final_audit": {
+    "CPU_s": 22.828796939,
+    "wall_s": 23.398462178185582,
+    "episodes": 66,
+    "new_integrations": 0
+  },
+  "output_storage": {
+    "observed_epoch": 1793839034.3954186,
+    "scope": "NIGHT1_OUTPUTS_AND_ASSETS_SOURCE_CAPSULES_EXCLUDED",
+    "regular_files": 34875,
+    "unique_inode_logical_bytes": 17299913475,
+    "unique_inode_allocated_bytes": 17400958976,
+    "cleanup_actions": 0
+  },
+  "GPU_snapshot": {
+    "observed_epoch": 1793839034.3954186,
+    "GPU0_total_MiB": 32760,
+    "GPU0_free_MiB": 13651,
+    "GPU1_total_MiB": 16376,
+    "GPU1_free_MiB": 15899,
+    "previous_compute_process_ownership": "GPU0_OTHER_UID_ONLY;GPU1_NO_COMPUTE_TASK",
+    "other_user_process_changes": 0
+  },
+  "GPU_model_event_s_approx": 10.593777,
+  "latest_production_model_peak_allocated_bytes": 85086720,
+  "latest_production_model_peak_reserved_bytes": 96468992,
+  "cost_limits": "Cgroup CPU excludes PC/relay/control/read-only audit/imports and is not billing; GPU event time is not rented-GPU billing. Source capsules excluded from output storage inventory; full-source scan timed out40s and was preserved. No monetary tariff or whole-host cost inferred."
+}
