@@ -33,7 +33,9 @@
 - 每父 HOLD/+X/−X/+Y各两个独立重启，动作顺序和repeat/slot在采集前随机化；没有按教师喜好挑动作。
 - 新增32个可用 TRAIN 窗口、768条晚决策50ms转移；原始动作采集记录2048个atom。完整prefix及raw记录不冒充768个独立初态。
 - 合并后85 TRAIN/8 DEV，既有DEV保留，TEST未读。Replay SHA256：`89aa357c5bf90746ac4869fe720bdcfc21375061e3c0affa17193319df11ffa0`。
-- 三个fresh seed使用同一shuffle配方各8k更新，24,000新增主更新＋3恢复探针，全部退出0/CLOSED、完整恢复误差0。TRAIN一致率98.13/98.57/98.52%，DEV97.02/97.90/98.14%。尚未选择唯一最佳 seed，也未执行新原生策略评价。
+- 三个fresh seed使用同一shuffle配方各8k更新，24,000新增主更新＋3恢复探针，全部退出0/CLOSED、完整恢复误差0。TRAIN一致率98.13/98.57/98.52%，DEV97.02/97.90/98.14%。尚未选择唯一最佳 seed，也未执行新原生策略评价。三种子完整曲线及20/40标签epoch辅助端点见 [85窗口曲线](B0_85_THREE_SEED_CURVES.json)。
+
+![三数据规模shuffle实际曲线](B0_85_SHUFFLE_CURVES.png)
 
 | 动作 | 8个实际episode平均TCP响应 XY，mm | 同动作独立重启平均/最大差，mm |
 | --- | --- | --- |
@@ -48,9 +50,9 @@
 
 SC07B同一原生进程中，三个不同的有限新任务均已原生PASS（各6703 tick/168 atom，退出0/CLOSED）：KEEP64持续3.6s受支撑夹持；RELEASE56先保持1.2s、末端连续释放2.236s；OPEN72始终打开，夹持目标失败，保留为有效负例。累计20,109 tick/504 raw atom，均为脚本行为，不能算Policy学习或完整lift/carry/place。
 
-随后固定了8 TRAIN＋4 DEV新支持布局（object/support XY各在原布局±0.5mm内同时平移）。每个布局检查229个完整初始化轨迹离线状态，12/12通过静态筛查、积分0；该结果不是动态PASS。新布局先单环境原生检查，当前有限接触试批正在执行，终态另封存。
+随后固定了8 TRAIN＋4 DEV新支持布局（object/support XY各在原布局±0.5mm内同时平移）。每个布局检查229个完整初始化轨迹离线状态，12/12通过静态筛查、积分0；该结果不是动态PASS。新布局先单环境原生检查，首对新TRAIN/DEV的8次执行已全部原生PASS；其余10布局尚未动态验收。
 
-已实现 `build_pilot2_contact` 与 `train_pilot2_contact_wm`：真实历史条件直接预测1/4/8/16/32/64个50ms步的TCP/物体位移及原生接触/双侧grasp/支撑/物理打开事件。未来输入仅由预登记程序生成，过去信息在action-conditioned和no-future-program消融中相同；实际未执行或跨安全回退的预测后缀被mask。按自然、事件转换、稳定区间分别报告Brier/precision/recall和位移误差，不将部分状态头当自由rollout模拟器。完整模型/优化器/RNG/sampler恢复和数据扩大时明确冻结旧TRAIN normalizer的接口已有软件测试；**该新接触WM尚未在真实数据上训练**，非恒定Policy原生闭环亦未完成。
+已实现 `build_pilot2_contact` 与 `train_pilot2_contact_wm`：真实历史条件直接预测1/4/8/16/32/64个50ms步的TCP/物体位移及原生接触/双侧grasp/支撑/物理打开事件。未来输入仅由预登记程序生成，过去信息在action-conditioned和no-future-program消融中相同；实际未执行或跨安全回退的预测后缀被mask。按自然、事件转换、稳定区间分别报告Brier/precision/recall和位移误差，不将部分状态头当自由rollout模拟器。完整模型/优化器/RNG/sampler恢复和数据扩大时明确冻结旧TRAIN normalizer的接口已有软件测试；随后已完成两个真实bootstrap训练对照，见下文；非恒定Policy的真实训练和原生闭环仍未完成。
 
 ## 源码、命令与验证
 
@@ -71,3 +73,39 @@ SC07B同一原生进程中，三个不同的有限新任务均已原生PASS（�
 A1两矩阵worker合计144.650s wall/134.686s子CPU；四个20k延续worker合计78.004s wall/70.747s子CPU。16个训练阶段CUDA事件累计187.920s，峰值Torch reserved556MiB；该事件计时不等于全进程GPU成本。B0采集coordinator实际892.866s wall（含14.199s Replay build），20个独立qualification/batch worker合计55.374s自身CPU＋2416.569s子CPU，批次子树只计一次；不能用coordinator自己的2.363s CPU冒充全成本。85窗口三种子worker合计43.668s wall/41.350s子CPU。所有大数据、模型和日志均写入已验收的非根本地数据盘。
 
 累计已封存PILOT2学习为168,000 Actor主更新＋19探针、真实新WM更新0；这是多模型累计。尚缺余下B0父、B1带重复DEV及冻结新TEST、C0布局动态验收和C1真实学习闭环。下一步实际入口为新接触试批的原worker及builder，封存后按原owner登记有限神经任务；其它READY批次继续接力。冻结WBC、安全、2ms dt和唯一owner均保持；未构造GPU物理多世界、未使用H200或分布式。
+
+
+## 冷边界更新：接触新布局采集通过，封存依赖缺陷已修复
+
+首对新 TRAIN/DEV 支持布局已完成2资格＋6脚本采集，8/8原生PASS，48,424 tick；KEEP64和RELEASE56在两布局均达到目标，OPEN64在两布局均为有效负例。接触采集是1008个raw atom，来自两个物理父，不能称1008个独立初态。
+
+原coordinator在后续builder阶段退出1，原因是NumPy数据模块通过模型类导入了Torch，而原生ROS/MuJoCo环境没有Torch。原失败结果和CLOSED lease保持。修复源码 `ca070be5daef79b4837ebe3d1ad8211eac941752` 将过去状态特征和直接Replay与Torch网络分离；219项测试通过，新增子进程测试禁止Torch导入。未往原生环境安装Torch，未改WBC/系统依赖，也未重跑任何物理任务。
+
+以新有限CPU身份重建已有6条episode，退出0、耗时0.900s、积分0；Bundle SHA256 `f3306c3cea0c2175107d944b479977638bf1f11290f7e9452c235926ef6f9228`，954个历史anchor、5010个有真实执行依据的多视野标签，1 TRAIN父＋1 DEV父。该bootstrap数据规模只能检查学习可行性，不代表完成8 TRAIN/4 DEV覆盖或可靠控制收益。下一步是已实现的双消融接触WM有限训练，同时恢复B0下一个四TRAIN父双槽采集；正式C1仍需新增TRAIN反馈、非恒定Policy和冻结原生评价。
+
+
+## C1首个真实数据训练：已完成可行性检查，保留负结果
+
+两个接触模型在上述6个实际episode上各做2000次主更新（总4000＋2次恢复探针），源码 `ca070be5daef79b4837ebe3d1ad8211eac941752`，worker退出0、lease CLOSED；完整恢复/端点重载误差均0。TRAIN和DEV各477历史anchor，均只来自1个物理父。GPU事件8.124s，worker wall10.939s/子CPU9.482s，Torch峰值保留90MiB。checkpoint SHA256：
+
+- action-conditioned：`7b81e7bb68eca4039c5ba5924df3b8f8c50786dda9821fa1d26611ab24e3ae82`。
+- no-future-program：`8852e635f13987490a8b9eb49fb3b08853447b4e2f90ccedad5620b7cce2e6ce`。
+
+DEV 32步（1.6s）自然分布：grasp Brier分别0.06197 / 0.43165 / 0.25（动作条件/动作盲/持恒）；打开且支撑Brier为0.02760 / 0.48305 / 0.25。转换区间grasp为0.17063 / 0.34992 / 0.75591。存在有限的长视野命令预测正证据，但不能只挑这些结果：一步grasp Brier动作条件0.03919，输给持恒0.00629；恒定真实支撑的持恒Brier为0，神经头较差。动作盲模型DEV泛化很差，也可能受单父覆盖/优化/归一化影响，不能将其全部归因于动作因果性。
+
+完整自然/稳定/转换分层、位移和四事件混淆计数见 [C1实际bootstrap](C1_ACTUAL_BOOTSTRAP.json)。这次两臂共享 action-conditioned TRAIN normalizer；未来已实现的受控分支可各用自身输入的TRAIN-only normalizer，保持历史部分一致，并导出经过NumPy/Torch核对的部分预测头。该后继尚未执行，旧结果不替换。
+
+PILOT2当前已封存47次原生PASS、216241 tick、168000 Actor主更新＋19探针、4000 WM主更新＋2探针；B0第二批正在执行，其进行中尝试另列，不预计成功。C1的非恒定Policy、真实反馈更新和冻结评价尚未完成，本goal仍ACTIVE。
+
+
+## 最新冷边界：117 TRAIN历史，归一化对照和待验收Policy
+
+B0第二批P2T05–P2T08再次完成4资格＋32动作采集，36/36原生PASS，147708 tick，新增768条可用转移；869.137s coordinator wall，Replay build14.251s。两批累计新增8个物理TRAIN父、64个真实动作episode、1536条可用转移；总117 TRAIN/原8 DEV。新Replay SHA256 `9ce72009c7bf3505e196627c6ee170941d823cbe43fc3c30455cbb826b6f0791`。三种子各8k更新/完整恢复0，DEV教师一致率98.68/98.44/98.54%；这仍不是新物理DEV任务收益。三checkpoint、完整身份和成本见 [第二批](B0_SECOND_BATCH_ACTUAL.json)。
+
+第二接触训练仅改变normalizer方案（同seed363101、同6个episode、每臂2k），新源码 `a02762212f71476d63b6c5afe52aaf60e76efa4c`。action-conditioned模型/优化器与首次对照最大差0，属于重复控制，不是新独立seed。动作盲臂改为自身TRAIN输入拟合normalizer后，DEV32步grasp Brier为0.50768，未改善原0.43165；不能把泛化问题简单归咎于这个归一化选择。两臂完整恢复0；NumPy/Torch预测最大差3.27e-6以内，便于后续原生环境不加载Torch。实际额外4000 WM更新＋2探针和成本均计入，见 [归一化控制](C1_NORMALIZER_CONTROL.json)。
+
+已实现共同close56前缀的目标条件Policy训练CLI、三类教师接口（原目标FSM、真实父均值return、部分WM事件代理），以及5303原生tick暂停边界的NumPy决策。每个新场景必须先有KEEP56、RELEASE56两项真实成功资格，已持续500个原生tick支持夹持，且模型真实训练/恢复/哈希通过。失败prefix沿原开夹爪路径记录为ineligible；不伪造策略选择成功。新策略反馈数据只在实际选择之后才把未来program供给WM，禁止把自适应未来命令泄漏到早期历史。227项测试及新增13项-O测试通过；**真实Policy模型更新和原生Policy评价当前仍为0**。
+
+当前单环境有限timing后继正在补齐原面板中的KEEP56/KEEP72/RELEASE64/RELEASE72，每布局先单环境；已完成资格和前三程序不重跑。完成后才推进真实Policy和新TRAIN反馈。B0仍缺最后4 TRAIN父、6新DEV父和B1重复/冻结TEST；C0仍缺更多动态父覆盖。
+
+当前已封存累计83次原生PASS/363949 tick、192000 Actor主更新＋22探针、8000 WM主更新＋4探针。进行中的timing任务另列，未预记PASS。原生执行器C08 SHA256 `29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2`；原ARX、任务和冻结WBC保持。PILOT2 goal继续ACTIVE。
