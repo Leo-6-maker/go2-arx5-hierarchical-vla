@@ -1,10 +1,17 @@
 import json,os,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from scripts.pi0292.durable import OwnerLock
-from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children
+from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children,recorded_split
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_commission_closeout_does_not_require_or_infer_a_learning_episode(self):
+        self.assertEqual(recorded_split(dict(schema='WM02_PILOT2_TWO_COMMISSION_BATCH_V1'),{}),'QUALIFICATION')
+        with self.assertRaises(KeyError):recorded_split(dict(schema='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'),{})
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp)/'episode';p.write_text(json.dumps(dict(split='DEV')))
+            self.assertEqual(recorded_split(dict(schema='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'),dict(episode_manifest=str(p))),'DEV')
+
     def test_new_candidate_commission_uses_registered_separate_disk_without_relaxing_slots(self):
         from go2arx5_vla.world_model.pilot2_coverage import PLAN
         with tempfile.TemporaryDirectory()as tmp:

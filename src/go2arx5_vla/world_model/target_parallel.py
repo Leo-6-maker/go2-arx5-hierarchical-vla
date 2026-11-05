@@ -5,6 +5,12 @@ from contextlib import contextmanager
 from .storage import digest,write_json
 
 
+def recorded_split(batch,child):
+    # Commissioning has no learning episode. Do not infer TRAIN from raw atoms.
+    if batch.get('schema')=='WM02_PILOT2_TWO_COMMISSION_BATCH_V1':return 'QUALIFICATION'
+    return json.loads(Path(child['episode_manifest']).read_text())['split']
+
+
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
@@ -211,7 +217,7 @@ def run_batch(spec_path,output,run_id):
                         lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write(lease_path,lease)
                         diag=Path(child['registered_root'])/'native-01/DYNAMIC_DIAGNOSTIC.json';atoms=json.loads(diag.read_text())['complete_task_atoms']if diag.exists()else 0
                         rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus'],task_atoms=atoms,collection=child['phase'].startswith('collect-target-')))
-                        if spec.get('pilot1_binding'):rows[-1]['split']=json.loads(Path(child['episode_manifest']).read_text())['split']
+                        if spec.get('pilot1_binding'):rows[-1]['split']=recorded_split(spec,child)
                         if child['phase']in('collect-target-next1','collect-target-next2'):
                             episode=json.loads(Path(child['episode_manifest']).read_text())
                             rows[-1]['sampled_WM_atoms']=24 if episode['purpose']in('ACTION_PILOT','ACTION_DEV','HOLD_REPEAT','PROSPECTIVE')and value.get('status')=='NATIVE_STAGE_PASSED'else 0
