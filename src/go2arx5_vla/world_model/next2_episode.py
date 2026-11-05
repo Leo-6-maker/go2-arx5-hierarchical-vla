@@ -18,6 +18,9 @@ def episode_config(spec):
     if a['scene_id']not in['P%02d'%i for i in range(9,17)]or a['parent']!=e['parent']or a['split']!=e['split']or a['model_path']!=spec['model_path']or a['model_sha256']!=digest(spec['model_path'])or assets['native_binary_sha256']!=digest(spec['native_binary']):raise PermissionError('P09_TO_P16_ORIGINAL_PHYSICAL_PARENT_AND_SPLIT_REQUIRED')
     for key in('frozen_predictors','frozen_thresholds'):
         if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('PRE_SAMPLING_FROZEN_MODEL_OR_THRESHOLD_CHANGED')
+    if e['purpose']!='SCENE_QUALIFICATION':
+        p=Path(spec['scene_qualification']);q=json.loads(p.read_text());es=json.loads((p.parent.parent/'EPISODE_MANIFEST.private.json').read_text());prefix=json.loads((p.parent/'STEADY_PREFIX_RESULT.private.json').read_text())
+        if digest(p)!=spec['scene_qualification_sha256']or q.get('status')!='NATIVE_STAGE_PASSED'or not q.get('shutdown_clean')or q.get('scene_sha256')!=a['model_sha256']or es.get('purpose')!='SCENE_QUALIFICATION'or es.get('scene_id')!=e['scene_id']or not prefix.get('qualified'):raise PermissionError('CURRENT_PHYSICAL_PARENT_SAFE_QUALIFICATION_REQUIRED')
     proofs=spec['steady_prefix_qualifications']
     if len(proofs)!=2 or len({p['path']for p in proofs})!=2:raise PermissionError('TWO_PRIOR_INDEPENDENT_STEADY_PREFIXES_REQUIRED')
     for proof in proofs:
