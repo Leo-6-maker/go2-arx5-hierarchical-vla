@@ -59,8 +59,8 @@ def build(path,output):
     from scripts.pi0294.task_state import ActualState
     from .target_late_decision import SCHEMA as DECISION,MANIFEST_SCHEMA as DECISION_MANIFEST,goals as decision_goals
     from .next1_replay import MANIFEST as NEXT1_MANIFEST,sample_view
-    manifest=json.loads(Path(path).read_text());entries=manifest['episodes'];validate_partitions(entries);next1=manifest.get('schema')==NEXT1_MANIFEST;decision=next1 or manifest.get('schema')==DECISION_MANIFEST;schema=DECISION if decision else SCHEMA
-    if manifest.get('schema')not in(MANIFEST_SCHEMA,DECISION_MANIFEST,NEXT1_MANIFEST)or not entries:raise ValueError('REGISTERED_VARIABLE_EPISODE_MANIFEST_REQUIRED')
+    manifest=json.loads(Path(path).read_text());entries=manifest['episodes'];validate_partitions(entries);next2=manifest.get('schema')=='WM02_NEXT2_LATE_DECISION_MANIFEST_V1';next1=manifest.get('schema')==NEXT1_MANIFEST or next2;decision=next1 or manifest.get('schema')==DECISION_MANIFEST;schema=DECISION if decision else SCHEMA
+    if manifest.get('schema')not in(MANIFEST_SCHEMA,DECISION_MANIFEST,NEXT1_MANIFEST,'WM02_NEXT2_LATE_DECISION_MANIFEST_V1')or not entries:raise ValueError('REGISTERED_VARIABLE_EPISODE_MANIFEST_REQUIRED')
     allow_path=Path(manifest['scene_allowlist']);assets=json.loads(allow_path.read_text())
     if digest(allow_path)!=manifest['scene_allowlist_sha256']:raise ValueError('SCENE_ALLOWLIST_CHANGED')
     scenes={s['model_sha256']:s for s in assets['scenes']};raw={k:[]for k in('state','source_age','native_step','sim_time','contact_time','wall_monotonic','tcp','object','events')};identities=[];goals=[];models={};state_start=0;atom_start=0;fields=None;joints=None
@@ -70,6 +70,9 @@ def build(path,output):
         root=Path(entry['run']);run=root/'native-01';spec=json.loads((root/'EXECUTION_SPEC.json').read_text());result=json.loads((run/'RESULT.json').read_text());diag=json.loads((run/'DYNAMIC_DIAGNOSTIC.json').read_text());n=entry['task_atoms'];asset=digest(spec['model_path'])
         commands=[json.loads(l)for l in(run/'COMMANDS.private.jsonl').read_text().splitlines()]
         if next1:diag,commands=sample_view(diag,commands)
+        if next2:
+            predictions=run/'PREDICTIONS_BEFORE_ACTION.private.json';pv=json.loads(predictions.read_text());events=[p for p in commands if p['phase']=='predictions-sealed-before-action'];decision_events=[i for i,p in enumerate(commands)if p['phase']=='decision-boundary'];predict_events=[i for i,p in enumerate(commands)if p['phase']=='predictions-sealed-before-action']
+            if len(events)!=1 or len(decision_events)!=1 or predict_events[0]>=decision_events[0]or events[0]['sha256']!=digest(predictions)or pv.get('future_response_observed')is not False or pv['native_step']!=diag['actual_collection_start_step']+200:raise ValueError('ACTUAL_FROZEN_PREDICTIONS_MUST_PRECEDE_CHOSEN_INSTALLATION')
         current_executor={key:digest(spec[key])for key in('native_binary','outer_library','observer_library','trace_library','controller_binary','solver_binary')}
         if current_executor['native_binary']!=result['native_binary_sha256']or current_executor['observer_library']!=result['observer_sha256']:raise ValueError('ACTUAL_EXECUTOR_RESULT_IDENTITY_CHANGED')
         if executor is not None and current_executor!=executor:raise ValueError('DIFFERENT_NATIVE_EXECUTORS_REQUIRE_SEPARATE_REPLAYS')
@@ -94,6 +97,8 @@ def build(path,output):
         if decision:
             if next1:
                 from .next1_episode import episode_config,RULE as DECISION_RULE
+                if next2:
+                    from .next2_episode import episode_config
             else:
                 from .target_manifest import episode_config,DECISION_RULE
             e=episode_config(spec)
@@ -118,6 +123,7 @@ def build(path,output):
         joints=[dict(name=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_JOINT,i),type=int(model.jnt_type[i]),qpos_address=int(model.jnt_qposadr[i]),qvel_address=int(model.jnt_dofadr[i]))for i in range(model.njnt)]
     meta=dict(schema=SCHEMA,state_fields=[dict(name=k,size=n)for k,n in fields],state_dimension=sum(n for _,n in fields),original_model_sha256=assets['original_model_sha256'],robot_fingerprint=assets['robot_fingerprint'],scene_assets_sha256=sorted(models),joints=joints,actuator_gear=model.actuator_gear.tolist(),actuator_gain=model.actuator_gainprm.tolist(),episodes=identities,task_atoms=atom_start,windows=sum(e['window_count']for e in identities),history_burn_atoms=8,predict_atoms=16,action='PREDECLARED_RAMP8_FIXED_WORLD_GOAL_EEF10_BASE_POSE7_V1',window_clock='ACTUAL_EPISODE_RELATIVE_WINDOW_START_S',renewal_atoms=7,source_age_future='CURRENT_PREFIX_ONLY_THEN_MISSING_NO_FUTURE_ACTUAL',controller_hidden_state_exported=False,controller_selected_policy_id='DERIVED_NOT_DIRECT_EXPORT',contact_collection='NOT_QUALIFIED',events=['left_contact','right_contact','grasp','robot_object_contact','opposing','gripper_valid','safety_valid'],held_out_parent_generalization=any(e['split']=='DEV'for e in identities),overlapping_windows_independent=False)
     meta['executor_sha256']=executor
+    if next2:meta.update(prospective_prediction_first=True,new_panel_used_for_model_fitting=False,manifest_schema=manifest['schema'])
     meta['schema']=schema
     if next1:meta.update(collection_protocol='FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1',excluded_prehold_atoms_per_episode=40,raw_task_atoms_per_episode=64)
     if decision:meta.update(action='ACTUAL_HOLD8_PAST_GOALS_THEN_CHOSEN_RAMP8_FUTURE_GOAL_V3',decision_atom=8,current_installed_prefix_atoms=7,history_goal='ACTUAL_PAST_INSTALLED_GOALS_ONLY',future_reference='CHOSEN_GOAL_INSTALLED_AT_DECISION_BEFORE_RESPONSE')

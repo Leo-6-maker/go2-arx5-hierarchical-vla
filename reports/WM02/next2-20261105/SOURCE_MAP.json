@@ -1,0 +1,194 @@
+{
+  "schema": "WM02_NEXT2_EXECUTED_SOURCE_PUBLIC_TREE_MAP_V1",
+  "baseline": "4c1e4cb83a1cd5e83d4849e2c0e84d31daef0910",
+  "source_snapshot_count": 23,
+  "all_public_source_trees_matched": true,
+  "scope": "Executed and analysis code snapshots; this mapping does not claim connector-authored commit IDs equal the executed local IDs",
+  "restore": "Fetch a mapped public commit to obtain the exact source tree, then write each raw_original_commit with git hash-object -t commit -w --stdin in listed parent order. Original commit IDs recompute to source_sha; no remote ref rewrite is needed.",
+  "snapshots": [
+    {
+      "source_sha": "193e70a7700f3a763444986edd72a1ca16bcf0d1",
+      "source_tree": "11c32ff06ccdc93162b9955aa04533215dcadd9e",
+      "base_tree": "19d7091f3ebbf04dafde70440941cd3113141eff",
+      "raw_original_commit": "tree 11c32ff06ccdc93162b9955aa04533215dcadd9e\nparent 4c1e4cb83a1cd5e83d4849e2c0e84d31daef0910\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854338 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854338 +0800\n\nwm02: bind NEXT2 finite endpoints through original owner and closed-window checks\n",
+      "message": "wm02: bind NEXT2 finite endpoints through original owner and closed-window checks",
+      "public_commit": "b8348e24c5b628169d8d00dd0acc679a63822050"
+    },
+    {
+      "source_sha": "b371b04b8f7758a61b19e4521f23853a7622eb19",
+      "source_tree": "7b239f7a22ed60c018154e3b65282d6963fd313f",
+      "base_tree": "11c32ff06ccdc93162b9955aa04533215dcadd9e",
+      "raw_original_commit": "tree 7b239f7a22ed60c018154e3b65282d6963fd313f\nparent 193e70a7700f3a763444986edd72a1ca16bcf0d1\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854400 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854400 +0800\n\nwm02: expose original-owner NEXT2 registration and preserve finite recipe limits\n",
+      "message": "wm02: expose original-owner NEXT2 registration and preserve finite recipe limits",
+      "public_commit": "bf01fd68f0209ad578033e0dd170f3b352d7dd12"
+    },
+    {
+      "source_sha": "130393ccf8a701e65a17603ac393f4b8fa6037fc",
+      "source_tree": "27e78d9e82fed70e16512b54d70205162d2e5a5d",
+      "base_tree": "7b239f7a22ed60c018154e3b65282d6963fd313f",
+      "raw_original_commit": "tree 27e78d9e82fed70e16512b54d70205162d2e5a5d\nparent b371b04b8f7758a61b19e4521f23853a7622eb19\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854753 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793854753 +0800\n\nwm02: audit causal features and first precontact exit; fit TRAIN-only explicit responses\n",
+      "message": "wm02: audit causal features and first precontact exit; fit TRAIN-only explicit responses",
+      "public_commit": "8174aa80f0fae2ffdad123b59e53008539b025d8"
+    },
+    {
+      "source_sha": "beaf8deb201cbc5fbdc03769147e1a92be60cb3e",
+      "source_tree": "20cc675f4db0f540b369d8a064b42b5f4387b408",
+      "base_tree": "27e78d9e82fed70e16512b54d70205162d2e5a5d",
+      "raw_original_commit": "tree 20cc675f4db0f540b369d8a064b42b5f4387b408\nparent 130393ccf8a701e65a17603ac393f4b8fa6037fc\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855060 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855060 +0800\n\nwm02: finite matched-feature optimizer diagnostic under fresh NEXT2 scope\n",
+      "message": "wm02: finite matched-feature optimizer diagnostic under fresh NEXT2 scope",
+      "public_commit": "30d223c13130b841e5046ea4b290438c47a12f69"
+    },
+    {
+      "source_sha": "22d2b70d279e31e2dd4139908da6ce84aa69c3d1",
+      "source_tree": "5d602626e9053626aeecc1bb4c8dfa95eb1ef406",
+      "base_tree": "20cc675f4db0f540b369d8a064b42b5f4387b408",
+      "raw_original_commit": "tree 5d602626e9053626aeecc1bb4c8dfa95eb1ef406\nparent beaf8deb201cbc5fbdc03769147e1a92be60cb3e\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855216 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855216 +0800\n\nwm02: seal four local predictions before native NEXT2 actions; audit state consistency\n",
+      "message": "wm02: seal four local predictions before native NEXT2 actions; audit state consistency",
+      "public_commit": "8e0cbb14c5c40aff563a335b5ff7f8a0eddda98d"
+    },
+    {
+      "source_sha": "76ff7d2b50e313878d774260b6fe7432aa240b4c",
+      "source_tree": "5ba97eb336d6c3a41cac3c0f92e8d09a6af0b118",
+      "base_tree": "5d602626e9053626aeecc1bb4c8dfa95eb1ef406",
+      "raw_original_commit": "tree 5ba97eb336d6c3a41cac3c0f92e8d09a6af0b118\nparent 22d2b70d279e31e2dd4139908da6ce84aa69c3d1\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855272 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855272 +0800\n\nwm02: bind prospective actions to actual same-scene qualification\n",
+      "message": "wm02: bind prospective actions to actual same-scene qualification",
+      "public_commit": "70fbc5680f724edcddee556c948178e244c3bf4a"
+    },
+    {
+      "source_sha": "9f1c0b08f02ea060b36620c0ebc540864585a08e",
+      "source_tree": "62ed57910b988a93bb5e9625a1b39306ec5904f1",
+      "base_tree": "5ba97eb336d6c3a41cac3c0f92e8d09a6af0b118",
+      "raw_original_commit": "tree 62ed57910b988a93bb5e9625a1b39306ec5904f1\nparent 76ff7d2b50e313878d774260b6fe7432aa240b4c\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855471 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855471 +0800\n\nwm02: same-process precontact continuity with actual gripper-memory recording\n",
+      "message": "wm02: same-process precontact continuity with actual gripper-memory recording",
+      "public_commit": "4f884fa15e527a431defb5bdec5271e97b383ee3"
+    },
+    {
+      "source_sha": "88428686d6c9009b19b82cf19d34df24797ff86c",
+      "source_tree": "4ad015dc77994b7f1c5a0db932274fe76e37bc20",
+      "base_tree": "62ed57910b988a93bb5e9625a1b39306ec5904f1",
+      "raw_original_commit": "tree 4ad015dc77994b7f1c5a0db932274fe76e37bc20\nparent 9f1c0b08f02ea060b36620c0ebc540864585a08e\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855593 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855593 +0800\n\nwm02: match live inference to frozen replay clock and score sealed prospective predictions\n",
+      "message": "wm02: match live inference to frozen replay clock and score sealed prospective predictions",
+      "public_commit": "52b643aa120b172a926f6c897da2ac5d237989c2"
+    },
+    {
+      "source_sha": "a44c4b67c49414925dc146f92508859089a36cd9",
+      "source_tree": "4756e22ddbfd144468e683c904da057a41858230",
+      "base_tree": "4ad015dc77994b7f1c5a0db932274fe76e37bc20",
+      "raw_original_commit": "tree 4756e22ddbfd144468e683c904da057a41858230\nparent 88428686d6c9009b19b82cf19d34df24797ff86c\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855742 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855742 +0800\n\nwm02: retain full20s evidence with bounded131072-event trace capacity\n",
+      "message": "wm02: retain full20s evidence with bounded131072-event trace capacity",
+      "public_commit": "3775bec5c99f8b598f16562fc69f500370716a2f"
+    },
+    {
+      "source_sha": "a41efca64c6c882faf0599cb1dcb15800e96768e",
+      "source_tree": "3c07ba76046a0316ac80dffb204df2acb2a5220c",
+      "base_tree": "4756e22ddbfd144468e683c904da057a41858230",
+      "raw_original_commit": "tree 3c07ba76046a0316ac80dffb204df2acb2a5220c\nparent a44c4b67c49414925dc146f92508859089a36cd9\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855762 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793855762 +0800\n\nwm02: capture actually loaded trace successor identity\n",
+      "message": "wm02: capture actually loaded trace successor identity",
+      "public_commit": "a498a19931d9688533ab3a0d4c44f07b3e0aee51"
+    },
+    {
+      "source_sha": "1339a1e7c7704ede2d22cb122e908e3fba7a0d2c",
+      "source_tree": "7eac7f725647929c5e3eb27a878c11691778938d",
+      "base_tree": "3c07ba76046a0316ac80dffb204df2acb2a5220c",
+      "raw_original_commit": "tree 7eac7f725647929c5e3eb27a878c11691778938d\nparent a41efca64c6c882faf0599cb1dcb15800e96768e\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856001 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856001 +0800\n\nwm02: gate same-process descent and supported contact on actual geometry and exit time\n",
+      "message": "wm02: gate same-process descent and supported contact on actual geometry and exit time",
+      "public_commit": "3d0de85cc8de6840e6d366a7f4e70d4a5ad66c15"
+    },
+    {
+      "source_sha": "64522d9a267cd2f37cb94ce5f60bcccff8b02ccf",
+      "source_tree": "b9ffb3b06c925526dadd9548bdfa964df6d4a829",
+      "base_tree": "7eac7f725647929c5e3eb27a878c11691778938d",
+      "raw_original_commit": "tree b9ffb3b06c925526dadd9548bdfa964df6d4a829\nparent 1339a1e7c7704ede2d22cb122e908e3fba7a0d2c\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856118 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856118 +0800\n\nwm02: bind piecewise labels to executed references and check nominal contact paths\n",
+      "message": "wm02: bind piecewise labels to executed references and check nominal contact paths",
+      "public_commit": "a95a525fb30d7e4e50982f71feffa6de09ccf1b0"
+    },
+    {
+      "source_sha": "2a4a7a2de95fd68bbef464b1a18aff86a3b83b21",
+      "source_tree": "845497311392b06f28192eec4759c102b18c2ced",
+      "base_tree": "b9ffb3b06c925526dadd9548bdfa964df6d4a829",
+      "raw_original_commit": "tree 845497311392b06f28192eec4759c102b18c2ced\nparent 64522d9a267cd2f37cb94ce5f60bcccff8b02ccf\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856245 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856245 +0800\n\nwm02: seal piecewise physical transitions with actually consumed trajectories and gripper memory\n",
+      "message": "wm02: seal piecewise physical transitions with actually consumed trajectories and gripper memory",
+      "public_commit": "233f20229af1fec8f89318e62a0dd95bbbbe4efd"
+    },
+    {
+      "source_sha": "4a89cf18fcb11da421d7e8cb4f098e433eb3a043",
+      "source_tree": "9fa4c4dca5f3944328fcbf01856b38916da4917b",
+      "base_tree": "845497311392b06f28192eec4759c102b18c2ced",
+      "raw_original_commit": "tree 9fa4c4dca5f3944328fcbf01856b38916da4917b\nparent 2a4a7a2de95fd68bbef464b1a18aff86a3b83b21\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856308 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856308 +0800\n\nwm02: isolate extended trace preload order to new contact phase\n",
+      "message": "wm02: isolate extended trace preload order to new contact phase",
+      "public_commit": "2959be58d8b9937207c38595952a67cd86be26ea"
+    },
+    {
+      "source_sha": "9e093bce4256d976383f1f5555cc6420a60d68dc",
+      "source_tree": "ef30cb8c18ef2505236b947ad3299a59a2bc5e77",
+      "base_tree": "9fa4c4dca5f3944328fcbf01856b38916da4917b",
+      "raw_original_commit": "tree ef30cb8c18ef2505236b947ad3299a59a2bc5e77\nparent 4a89cf18fcb11da421d7e8cb4f098e433eb3a043\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856362 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856362 +0800\n\nwm02: require every50ms observation in continuity gate and preserve legacy loader order\n",
+      "message": "wm02: require every50ms observation in continuity gate and preserve legacy loader order",
+      "public_commit": "8837f25bacb7e36211aa882c5e95a0405361b9ed"
+    },
+    {
+      "source_sha": "13b5a8a78527638a27abbe7167060f37f96bcf04",
+      "source_tree": "cbb37e0279bef2286222cf26cbc9c422850f3c4b",
+      "base_tree": "ef30cb8c18ef2505236b947ad3299a59a2bc5e77",
+      "raw_original_commit": "tree cbb37e0279bef2286222cf26cbc9c422850f3c4b\nparent 9e093bce4256d976383f1f5555cc6420a60d68dc\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856637 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856637 +0800\n\nwm02: audit NEXT2 terminal identities, finite costs and frozen files without dispatch\n",
+      "message": "wm02: audit NEXT2 terminal identities, finite costs and frozen files without dispatch",
+      "public_commit": "73bd3f19fe70f98d8d145cf5ea867998e923b169"
+    },
+    {
+      "source_sha": "81ed282dbe9a6acf11546ba550bfad221d88e581",
+      "source_tree": "5bde39606ba370d9d9a4b1e6375030e73aa87429",
+      "base_tree": "cbb37e0279bef2286222cf26cbc9c422850f3c4b",
+      "raw_original_commit": "tree 5bde39606ba370d9d9a4b1e6375030e73aa87429\nparent 13b5a8a78527638a27abbe7167060f37f96bcf04\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856788 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793856788 +0800\n\nwm02: preserve pre-contact collision guard on abort and distinguish unmeasured CUDA time\n",
+      "message": "wm02: preserve pre-contact collision guard on abort and distinguish unmeasured CUDA time",
+      "public_commit": "726aa833c5bfcc1613913e79b128c756fe57c6d7"
+    },
+    {
+      "source_sha": "3075500f07a463986f2ce281fb7228b3b276681d",
+      "source_tree": "438342fc4e5aec29111ea99fad5d588566bd42a0",
+      "base_tree": "5bde39606ba370d9d9a4b1e6375030e73aa87429",
+      "raw_original_commit": "tree 438342fc4e5aec29111ea99fad5d588566bd42a0\nparent 81ed282dbe9a6acf11546ba550bfad221d88e581\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857162 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857162 +0800\n\nwm02: retain forbidden collision pair and waypoint evidence without changing safety decisions\n",
+      "message": "wm02: retain forbidden collision pair and waypoint evidence without changing safety decisions",
+      "public_commit": "c1e12a23470ce4939c3ada62917863c7990cb981"
+    },
+    {
+      "source_sha": "d5ff10e4b5729aeb3399263e14d30b4add816d9e",
+      "source_tree": "983703be1327d1a149523373fadef416ac758a19",
+      "base_tree": "438342fc4e5aec29111ea99fad5d588566bd42a0",
+      "raw_original_commit": "tree 983703be1327d1a149523373fadef416ac758a19\nparent 3075500f07a463986f2ce281fb7228b3b276681d\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857362 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857362 +0800\n\nwm02: version geometric grasp-height candidates after evidenced link3-link5 collision\n",
+      "message": "wm02: version geometric grasp-height candidates after evidenced link3-link5 collision",
+      "public_commit": "d461466682297c7406fdf68cc65fee1056d5c75b"
+    },
+    {
+      "source_sha": "b18573a67bec91c1edb1d5b93a09dbb138cea3ed",
+      "source_tree": "049708fd3b9ca5d575b02e5689bc5491a534b469",
+      "base_tree": "983703be1327d1a149523373fadef416ac758a19",
+      "raw_original_commit": "tree 049708fd3b9ca5d575b02e5689bc5491a534b469\nparent d5ff10e4b5729aeb3399263e14d30b4add816d9e\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857479 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857479 +0800\n\nwm02: preserve rejected references and stage-intent paths before any further integration\n",
+      "message": "wm02: preserve rejected references and stage-intent paths before any further integration",
+      "public_commit": "89a15cd2943a2e4877db3b260ff2495b49d2504c"
+    },
+    {
+      "source_sha": "799c9702ab59a6cd5faeb0db6c34336b33b4d64a",
+      "source_tree": "8d985aab3e460f6328f3038ebb636c7e074b1aac",
+      "base_tree": "049708fd3b9ca5d575b02e5689bc5491a534b469",
+      "raw_original_commit": "tree 8d985aab3e460f6328f3038ebb636c7e074b1aac\nparent b18573a67bec91c1edb1d5b93a09dbb138cea3ed\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857628 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857628 +0800\n\nwm02: audit exact free recurrence amplification separately from one-step fit\n",
+      "message": "wm02: audit exact free recurrence amplification separately from one-step fit",
+      "public_commit": "fe30fc846362b9c8f5ec960a5f4b448d3e1ba95e"
+    },
+    {
+      "source_sha": "543970d1a2b5ba7a101a4ca2f367a0b5926741a8",
+      "source_tree": "0ec9342437481a2d72484caf56171c1b93f60221",
+      "base_tree": "8d985aab3e460f6328f3038ebb636c7e074b1aac",
+      "raw_original_commit": "tree 0ec9342437481a2d72484caf56171c1b93f60221\nparent 799c9702ab59a6cd5faeb0db6c34336b33b4d64a\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857893 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857893 +0800\n\nwm02: distinguish the in-episode precontact gate from holding at final endpoint\n",
+      "message": "wm02: distinguish the in-episode precontact gate from holding at final endpoint",
+      "public_commit": "0f0ad259878649eb0eb56c12bc15a937eb20e61e"
+    },
+    {
+      "source_sha": "b32995daa146bf059de6a73d189fe24403a3cf3b",
+      "source_tree": "0eb9d4f5200366aebb1fd1e857e8ed9a188ebb44",
+      "base_tree": "0ec9342437481a2d72484caf56171c1b93f60221",
+      "raw_original_commit": "tree 0eb9d4f5200366aebb1fd1e857e8ed9a188ebb44\nparent 543970d1a2b5ba7a101a4ca2f367a0b5926741a8\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857976 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793857976 +0800\n\nwm02: retain brief contact events across all25 native ticks in each transition\n",
+      "message": "wm02: retain brief contact events across all25 native ticks in each transition",
+      "public_commit": "7f85ed34c79b28ba679e6b5b4253929a5fcc2ce7"
+    }
+  ]
+}

@@ -106,7 +106,12 @@ def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_mo
         mujoco.mj_forward(model, data)
         for c in data.contact if tick >= prefix*25 else ():
             names = [mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_GEOM, g) for g in (c.geom1, c.geom2)]
-            if not contact_permitted(names, c.dist, stage): raise ValueError('ORIGINAL_FULL_NATIVE_CONTACT_REJECT:'+str(names))
+            if not contact_permitted(names, c.dist, stage):
+                error=ValueError('ORIGINAL_FULL_NATIVE_CONTACT_REJECT:'+str(names))
+                error.native_contact_details=dict(geom_ids=[int(c.geom1),int(c.geom2)],geom_names=names,
+                    body_names=[mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_BODY,int(model.geom_bodyid[g]))for g in(c.geom1,c.geom2)],
+                    distance_m=float(c.dist),planned_native_tick=tick,planned_TCP=target.tolist(),planned_arm_qpos=data.qpos[qa].tolist())
+                raise error
         qs.append(data.qpos[qa].copy())
     command_q = np.asarray(qs)[np.arange(len(full))*25]
     velocity = np.diff(command_q, axis=0)/.05

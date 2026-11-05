@@ -13,7 +13,12 @@
 #include <string>
 namespace {
 static_assert(std::atomic<uint64_t>::is_always_lock_free&&std::atomic<float>::is_always_lock_free,"Emit paths require lock-free atomics");
-constexpr uint64_t CAP=65536,SLOTS=32,FLOATS=16384,QCAP=4096;
+#ifndef WM02_INIT_TRACE_CAPACITY
+#define WM02_INIT_TRACE_CAPACITY 65536
+#endif
+static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072,
+              "Only original and finite NEXT2 twenty-second capacities are supported");
+constexpr uint64_t CAP=WM02_INIT_TRACE_CAPACITY,SLOTS=32,FLOATS=16384,QCAP=4096;
 struct Raw {uint64_t ticket,ns;double sim;uint32_t kind,n;uint64_t obs,policy,pos,vel,token;double data[96];};
 static_assert(sizeof(Raw)==840,"Versioned little-endian trace layout");
 struct Cell {std::atomic<uint64_t> ready{0};Raw row{};};

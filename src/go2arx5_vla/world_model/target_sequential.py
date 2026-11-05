@@ -28,7 +28,8 @@ def native_display_command(spec,output,environment):
         prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
-    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in('outer_library','observer_library','trace_library')),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
+    order=('trace_library','outer_library','observer_library')if spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact'else('outer_library','observer_library','trace_library')
+    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
 def owned_simulator_pid(wrapper_pid,binary):
@@ -292,7 +293,15 @@ class TargetSequentialAdapter:
             from scripts.pi0292.eval_contract import matrix10
             from .native_replay import forbid_integration
             import mujoco
-            with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage='approach',history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+            stage='approach'
+            if self.spec['phase']=='collect-target-next2-contact':
+                stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','WITHDRAW':'detach'}.get(getattr(self,'next2_contact_stage',None),'approach')
+                if getattr(self,'next2_contact_stage',None)=='WITHDRAW'and not getattr(self,'next2_contact_manipulation_started',False):stage='approach'
+            try:
+                with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+            except ValueError as error:
+                self.command_event(dict(phase='reference-certificate-rejected',native_step=packet['step'],source_mpc_s=source,stage=stage,action_EEF10=action.tolist(),reason=str(error),contact_details=getattr(error,'native_contact_details',None),submitted_or_executed=False))
+                raise
             doc=measured_base_hold(doc,self.base_pose_hold)
         doc['_pi0294']=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='install')
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
@@ -334,16 +343,22 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-next2-contact':
+            from .next2_contact import run
+            return run(self)
         import numpy as np
         from .target_reference import trajectory_identity,require_live_window,installed_target_identities,fixed_goal_poses
         from go2arx5_vla.task_data.codec import pose10
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
-        next1=self.spec['phase']=='collect-target-next1';decision_atom=8;contact=False
+        next2=self.spec['phase']=='collect-target-next2'
+        next1=self.spec['phase']in('collect-target-next1','collect-target-next2');decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if next1:
             from .next1_episode import episode_config,assess
+            if next2:
+                from .next2_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
@@ -377,6 +392,9 @@ class TargetSequentialAdapter:
                 value=assess(self,episode)
                 if late_decision and not value['qualified']:raise RuntimeError('UNSTABLE_DECISION_PREFIX_ACTION_NOT_INSTALLED')
             if late_decision and step==start+decision_atom*25 and not decision_applied:
+                if next2:
+                    from .next2_episode import predict_before_install
+                    predict_before_install(self,episode)
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
                 if contact:

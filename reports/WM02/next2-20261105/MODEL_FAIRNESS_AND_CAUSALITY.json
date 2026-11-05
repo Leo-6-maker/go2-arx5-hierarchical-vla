@@ -1,0 +1,1795 @@
+{
+  "source_sha": "130393ccf8a701e65a17603ac393f4b8fa6037fc",
+  "replay_sha256": "0b889a835a155b5e2697e3a139b49a4e35ae83e096e05a97d4e3b2c50d74a0de",
+  "ARX_reproduction_max_array_error": 0.0,
+  "ARX_reproduced_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+  "TRAIN_parent_CV": [
+    {
+      "held_parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+      "fit_parents": [
+        "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3"
+      ],
+      "fit_windows": 15,
+      "held_windows": 5,
+      "normalization_fit_only": true,
+      "models": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.081051049018393e-05,
+            "action_delta_RMSE_m": 0.00011470519482744826,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.407725172325137e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00013525373898653576,
+            "action_delta_RMSE_m": 0.00021449945541984294,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000544194930288015,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.917601853883539e-05,
+            "action_delta_RMSE_m": 6.765766864153658e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007063142123301092,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.263149913619417e-05,
+            "action_delta_RMSE_m": 0.00011640989090429462,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 8.698942928761944e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00027787660240526394,
+            "action_delta_RMSE_m": 0.00032576057364854145,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007657455584508298,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0004334360148631535,
+            "action_delta_RMSE_m": 0.000483220115286103,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0011776380697681539,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "constant_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.0001105229337526281,
+            "action_delta_RMSE_m": 0.00012977785225788493,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.808083851018034e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00014001757029018358,
+            "action_delta_RMSE_m": 0.0001350889717939116,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004743533195666864,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 9.996598218520057e-05,
+            "action_delta_RMSE_m": 0.00011047379988189187,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005994665464231076,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "constant_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00011013062723575615,
+            "action_delta_RMSE_m": 0.00012916655518536613,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.616682871552101e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001404270180623309,
+            "action_delta_RMSE_m": 0.00013547615272714507,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004653404078363158,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00010015394872764571,
+            "action_delta_RMSE_m": 0.00011019257061742017,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005884172476107486,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "constant_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00010723460163130957,
+            "action_delta_RMSE_m": 0.0001246168042960044,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 8.074072406409005e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001480392982895579,
+            "action_delta_RMSE_m": 0.00014615667255506333,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00039230244182502115,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00011052473907844887,
+            "action_delta_RMSE_m": 0.0001218407132236485,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004983062128938185,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "constant_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.0001012040090584035,
+            "action_delta_RMSE_m": 0.00011481626840887949,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 3.212978702704853e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00020843579537597182,
+            "action_delta_RMSE_m": 0.00023598834182034565,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015785231230893668,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020661146672736158,
+            "action_delta_RMSE_m": 0.00025178211553437816,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00020292601946204618,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "velocity_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00010155653590775997,
+            "action_delta_RMSE_m": 0.00012871255832476393,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0001883704903251842,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00018758535134539816,
+            "action_delta_RMSE_m": 0.0002178769441914923,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004463601250259671,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00021602057101547626,
+            "action_delta_RMSE_m": 0.0001256528399248629,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005681680270730414,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "velocity_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00010398182664480669,
+            "action_delta_RMSE_m": 0.00012018143799022591,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00016808242378135043,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00016718753768483962,
+            "action_delta_RMSE_m": 0.00019442650579509538,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004378416145289464,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020906691306846472,
+            "action_delta_RMSE_m": 9.661653875153123e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005702337286710631,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "velocity_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00011294937489410158,
+            "action_delta_RMSE_m": 0.0001031367501888415,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00011638527009185996,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00016071705404831143,
+            "action_delta_RMSE_m": 0.00017446889113080524,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00038056870766939804,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00021796732528910526,
+            "action_delta_RMSE_m": 0.0001085156637156316,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004936739828534234,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "velocity_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00010484726139276752,
+            "action_delta_RMSE_m": 0.00010668490111714143,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.3724169545503365e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00021574954958006066,
+            "action_delta_RMSE_m": 0.0002473020067179955,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015675020400134404,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00024870033502633965,
+            "action_delta_RMSE_m": 0.00025159203123260144,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00021246947954905182,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        }
+      }
+    },
+    {
+      "held_parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+      "fit_parents": [
+        "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3"
+      ],
+      "fit_windows": 15,
+      "held_windows": 5,
+      "normalization_fit_only": true,
+      "models": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.301922895138452e-05,
+            "action_delta_RMSE_m": 8.942691280285921e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00014427157651421616,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001799055420994371,
+            "action_delta_RMSE_m": 0.00021128320778214256,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00065432509451874,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00012307348594483607,
+            "action_delta_RMSE_m": 0.0001565214501079001,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006560749537923718,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.646369014823326e-05,
+            "action_delta_RMSE_m": 9.405340364582239e-05,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.00013353278726818454,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00037949707719765426,
+            "action_delta_RMSE_m": 0.00048601953157890006,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.0006858301919507939,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0005017058703544165,
+            "action_delta_RMSE_m": 0.0006666988198181952,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.0009109366258119282,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "constant_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.637253981528425e-05,
+            "action_delta_RMSE_m": 3.848084571624179e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.683878987958736e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 6.886144023987753e-05,
+            "action_delta_RMSE_m": 7.810170119157414e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047828453843843673,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.963455486222289e-05,
+            "action_delta_RMSE_m": 0.0001176163396399559,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006071570661435576,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "constant_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.65699855267694e-05,
+            "action_delta_RMSE_m": 3.849660330181671e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.552978595458902e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 6.95294666025269e-05,
+            "action_delta_RMSE_m": 7.831261158652282e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00046924091981540977,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.923196371651172e-05,
+            "action_delta_RMSE_m": 0.00011654345884377761,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005959409739457869,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "constant_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.82588523562893e-05,
+            "action_delta_RMSE_m": 3.943302200964978e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.4987387443003096e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 8.241293092495459e-05,
+            "action_delta_RMSE_m": 9.210984089379655e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00039588044438397394,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 8.768187508134888e-05,
+            "action_delta_RMSE_m": 0.00012183893958406879,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005045129131439815,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "constant_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 9.449442760165007e-05,
+            "action_delta_RMSE_m": 4.954580380541386e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 2.1848234655968073e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00016478824943758546,
+            "action_delta_RMSE_m": 0.00020062431390443556,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015960441794795284,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00019012731908743034,
+            "action_delta_RMSE_m": 0.0002443016396172406,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00020527663016920217,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "velocity_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 9.848094315122023e-05,
+            "action_delta_RMSE_m": 0.0001805932120850827,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.00028754535914447696,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00017767463473519684,
+            "action_delta_RMSE_m": 0.00019726043452551525,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007294305693550466,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00032497218546759975,
+            "action_delta_RMSE_m": 0.00042679314675204326,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007651394120715307,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "velocity_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.117036294856492e-05,
+            "action_delta_RMSE_m": 0.0001584480916968036,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.0002585697681533386,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 9.958253344464932e-05,
+            "action_delta_RMSE_m": 0.00010611372926258205,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006180783063051794,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0002332244989047859,
+            "action_delta_RMSE_m": 0.00032455597691265355,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006749489839381387,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "velocity_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 5.627458526974946e-05,
+            "action_delta_RMSE_m": 0.00010742763460176468,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00017119871143286274,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 5.319274368319296e-05,
+            "action_delta_RMSE_m": 6.13536635644881e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004158633645679688,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00012424342909690879,
+            "action_delta_RMSE_m": 0.00017332647685458483,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005293268653500469,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "velocity_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.0763760458403016e-05,
+            "action_delta_RMSE_m": 7.774461398719689e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 8.96805562082629e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001593070954977658,
+            "action_delta_RMSE_m": 0.0002019209976718136,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0001632448054119653,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020091082264469032,
+            "action_delta_RMSE_m": 0.0002490759030597437,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000209490015389307,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        }
+      }
+    },
+    {
+      "held_parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+      "fit_parents": [
+        "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3"
+      ],
+      "fit_windows": 15,
+      "held_windows": 5,
+      "normalization_fit_only": true,
+      "models": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.4328095794219704e-05,
+            "action_delta_RMSE_m": 4.086117773577847e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.321053937110183e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 8.748316304564086e-05,
+            "action_delta_RMSE_m": 8.525031796340051e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004048152195147841,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00013359414737440848,
+            "action_delta_RMSE_m": 0.00013678937844414818,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005378723615711206,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 5.821540305724249e-05,
+            "action_delta_RMSE_m": 4.984484918651508e-05,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.00011214487950255369,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0005458365404913047,
+            "action_delta_RMSE_m": 0.0006162017829110369,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.0005354511512356087,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0007581103510070604,
+            "action_delta_RMSE_m": 0.0008485860390254367,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.0007955181235573325,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "constant_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.618310152281549e-05,
+            "action_delta_RMSE_m": 6.352891783801854e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.4299849662847644e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 9.18512914222482e-05,
+            "action_delta_RMSE_m": 0.00011590660281418253,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00048223388579876825,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0001902199358616204,
+            "action_delta_RMSE_m": 0.0001935403374445634,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006200932581402127,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "constant_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.628276368963842e-05,
+            "action_delta_RMSE_m": 6.373340802490345e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.337945093440502e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 9.104183269768972e-05,
+            "action_delta_RMSE_m": 0.0001147796636914246,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047296029908995026,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00018871905628487624,
+            "action_delta_RMSE_m": 0.00019126322769785788,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006086145012333257,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "constant_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.718020763388582e-05,
+            "action_delta_RMSE_m": 6.554957057759876e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 4.5734374464481083e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 9.282839651300846e-05,
+            "action_delta_RMSE_m": 0.00011671468948108088,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0003979957013862426,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00018214864847822742,
+            "action_delta_RMSE_m": 0.00018182308219509856,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005150861396685589,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "constant_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 8.134454123692343e-05,
+            "action_delta_RMSE_m": 7.354954057344942e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 1.9192947900798766e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00016278273817377204,
+            "action_delta_RMSE_m": 0.0002078143124770999,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015935520898583563,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00022784265667942302,
+            "action_delta_RMSE_m": 0.0002560647342766766,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0002094111963206475,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "velocity_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.58416672835618e-05,
+            "action_delta_RMSE_m": 9.845979034953347e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00021683405926477888,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00013360161694592928,
+            "action_delta_RMSE_m": 0.00018243506597707832,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000484591704675388,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0002233834777750898,
+            "action_delta_RMSE_m": 0.00026802181655478767,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006368785104031516,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "velocity_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.115565733164913e-05,
+            "action_delta_RMSE_m": 5.6293545241466015e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00013218643995624275,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001289763741647219,
+            "action_delta_RMSE_m": 0.00016418166700786095,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004744820375506731,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0002045202500939948,
+            "action_delta_RMSE_m": 0.00023640914017037607,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000588873089187777,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "velocity_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.7973932903047384e-05,
+            "action_delta_RMSE_m": 5.297727770942643e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.806377699458114e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001222912187533127,
+            "action_delta_RMSE_m": 0.0001434620794114886,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00040382164436054377,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00018465198003496337,
+            "action_delta_RMSE_m": 0.00019410281537607618,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004855576933601581,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "velocity_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.180302508690605e-05,
+            "action_delta_RMSE_m": 6.205932585171814e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 3.274360412826202e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00017242622188069274,
+            "action_delta_RMSE_m": 0.00021151251213031067,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00016809721575862386,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00023128658345083862,
+            "action_delta_RMSE_m": 0.0002618463853899586,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00019449664588145853,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        }
+      }
+    },
+    {
+      "held_parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+      "fit_parents": [
+        "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3"
+      ],
+      "fit_windows": 15,
+      "held_windows": 5,
+      "normalization_fit_only": true,
+      "models": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 5.256090240683624e-05,
+            "action_delta_RMSE_m": 5.0773332045157696e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00016642344629110494,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00010725029197088038,
+            "action_delta_RMSE_m": 0.00015910157112795776,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00042636877266387786,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00016120326982309524,
+            "action_delta_RMSE_m": 0.00020929341295446285,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000522632218403776,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 5.1436497431982825e-05,
+            "action_delta_RMSE_m": 4.863934943894126e-05,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.00016564689746884138,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00025311522464711763,
+            "action_delta_RMSE_m": 0.0002935573856687967,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.00032996220805174954,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0003811274650142949,
+            "action_delta_RMSE_m": 0.00044004566194806664,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 0.0004064851759501785,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "constant_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.536205746690357e-05,
+            "action_delta_RMSE_m": 9.36003147545943e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.963813034227986e-05,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00011233309264279842,
+            "action_delta_RMSE_m": 0.0001890867169068503,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004868295204137403,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020269397720355496,
+            "action_delta_RMSE_m": 0.0002964359117232444,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005962296647396064,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "constant_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.519167967747365e-05,
+            "action_delta_RMSE_m": 9.363602864361475e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.836593774213889e-05,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00011166109982434925,
+            "action_delta_RMSE_m": 0.00018884764128561165,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004777968374397055,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020209019191052524,
+            "action_delta_RMSE_m": 0.00029558942617636397,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005852196459314049,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "constant_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.407171568514749e-05,
+            "action_delta_RMSE_m": 9.410478829237078e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.797111759607269e-05,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00011101104221203438,
+            "action_delta_RMSE_m": 0.00019138982314930833,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00040423475298098324,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00020236299164427368,
+            "action_delta_RMSE_m": 0.0002947051618244591,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004954641417546911,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "constant_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 6.381546220593025e-05,
+            "action_delta_RMSE_m": 9.790975501672644e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 2.3688006695019204e-05,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00015907985359620564,
+            "action_delta_RMSE_m": 0.0002472825234068264,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00016419674018410308,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0002586218101767647,
+            "action_delta_RMSE_m": 0.00035831830826518513,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00020162461834045929,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "velocity_0.01": {
+          "1": {
+            "absolute_TCP_RMSE_m": 9.952541295998697e-05,
+            "action_delta_RMSE_m": 0.00011080757293666377,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00025312143959403563,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001587817732149965,
+            "action_delta_RMSE_m": 0.000275218291804664,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005142955789578659,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00022212501452012866,
+            "action_delta_RMSE_m": 0.0002798482794243093,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007563766566404872,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "velocity_0.1": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.0001035945229511162,
+            "action_delta_RMSE_m": 0.00010932959085985552,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00024899192271549115,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00014958311149309284,
+            "action_delta_RMSE_m": 0.0002626295426415505,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004979833891834846,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00023479662318927696,
+            "action_delta_RMSE_m": 0.00027099331232578505,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0007484032276279005,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "velocity_1.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 9.368171411865493e-05,
+            "action_delta_RMSE_m": 9.269164459194167e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00021567320961409593,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00013524353624569545,
+            "action_delta_RMSE_m": 0.00023889520340109068,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00041683677699246393,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00024715056256306136,
+            "action_delta_RMSE_m": 0.0002638219618022359,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006455015425309759,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "velocity_10.0": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.921771162468362e-05,
+            "action_delta_RMSE_m": 7.029616847684629e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00010456393995221085,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001613835964172706,
+            "action_delta_RMSE_m": 0.00025587915513708496,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00017745493637729383,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00025381344764209367,
+            "action_delta_RMSE_m": 0.0003271609334473528,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00027985350686290727,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        }
+      }
+    }
+  ],
+  "TRAIN_candidate_ranking": [
+    {
+      "baseline": "constant",
+      "ridge": 0.1,
+      "TRAIN_LOPO_score_m": 0.0001845897996353422
+    },
+    {
+      "baseline": "constant",
+      "ridge": 0.01,
+      "TRAIN_LOPO_score_m": 0.00018533060532163758
+    },
+    {
+      "baseline": "constant",
+      "ridge": 1.0,
+      "TRAIN_LOPO_score_m": 0.00019010392543274845
+    },
+    {
+      "baseline": "velocity",
+      "ridge": 1.0,
+      "TRAIN_LOPO_score_m": 0.00020866390221062987
+    },
+    {
+      "baseline": "velocity",
+      "ridge": 0.1,
+      "TRAIN_LOPO_score_m": 0.00025158260917229895
+    },
+    {
+      "baseline": "velocity",
+      "ridge": 0.01,
+      "TRAIN_LOPO_score_m": 0.00029801787192621334
+    },
+    {
+      "baseline": "constant",
+      "ridge": 10.0,
+      "TRAIN_LOPO_score_m": 0.00029959359520197713
+    },
+    {
+      "baseline": "velocity",
+      "ridge": 10.0,
+      "TRAIN_LOPO_score_m": 0.0003021480422277249
+    }
+  ],
+  "chosen_response": {
+    "baseline": "constant",
+    "ridge": 0.1,
+    "TRAIN_LOPO_score_m": 0.0001845897996353422
+  },
+  "evaluation": {
+    "TRAIN": {
+      "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.625411968557561e-05,
+            "action_delta_RMSE_m": 5.1908502428328866e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0001178373311153685,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 6.758490910371743e-05,
+            "action_delta_RMSE_m": 0.00011946403618671204,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000496458234174893,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 4.577401600812392e-05,
+            "action_delta_RMSE_m": 3.909418009480519e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006348936592500881,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.917783331333787e-05,
+            "action_delta_RMSE_m": 5.49289669546835e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00010732225001658099,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 8.213592930360301e-05,
+            "action_delta_RMSE_m": 0.00013865256451543346,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.000441487518901347,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.259726448943702e-05,
+            "action_delta_RMSE_m": 9.515050094419958e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006848391994020539,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 0.00010258636065506168,
+            "action_delta_RMSE_m": 0.00011982723677323173,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728391e-05,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0001334150978641278,
+            "action_delta_RMSE_m": 0.00013338261074122642,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047259757143669256,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 8.208743597214519e-05,
+            "action_delta_RMSE_m": 8.719976993552985e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371769,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        }
+      },
+      "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.183874811677814e-05,
+            "action_delta_RMSE_m": 3.794029036596956e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.623162230763924e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 7.698196581609687e-05,
+            "action_delta_RMSE_m": 8.982441759662533e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004640534574214822,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 4.740215281241627e-05,
+            "action_delta_RMSE_m": 5.6956021245788286e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005918839166802765,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.1262210814998454e-05,
+            "action_delta_RMSE_m": 3.663640300953739e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 4.158668374521011e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00010614074831822028,
+            "action_delta_RMSE_m": 0.00013509989612650708,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00037591960478714653,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 8.196378634436571e-05,
+            "action_delta_RMSE_m": 0.00010265736371829396,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005254098165396725,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.131167769459785e-05,
+            "action_delta_RMSE_m": 3.155347585438773e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728391e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 5.52703497680228e-05,
+            "action_delta_RMSE_m": 6.728479631096255e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047259757143667847,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.833721492016433e-05,
+            "action_delta_RMSE_m": 0.00010956087473506086,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371768,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        }
+      },
+      "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 2.8108983880748526e-05,
+            "action_delta_RMSE_m": 2.6965893919825573e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.878159185982942e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 5.360513117184542e-05,
+            "action_delta_RMSE_m": 3.175252041666446e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00048517435568690956,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0001049958303593353,
+            "action_delta_RMSE_m": 0.00012117660340414712,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006161902191106626,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 2.8542306313533402e-05,
+            "action_delta_RMSE_m": 2.776209799283942e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.872813825217754e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 8.051045145294859e-05,
+            "action_delta_RMSE_m": 8.627643472326077e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0003914122038279146,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00011359822094763099,
+            "action_delta_RMSE_m": 0.00015149941278346475,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005866858940906082,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.005465504507067e-05,
+            "action_delta_RMSE_m": 4.9181426581514364e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728368e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 7.389491165852384e-05,
+            "action_delta_RMSE_m": 9.143062529733757e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004725975714366855,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00015955970472462144,
+            "action_delta_RMSE_m": 0.00014603206748395827,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371769,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        }
+      },
+      "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 2.796662819731903e-05,
+            "action_delta_RMSE_m": 2.738474187633344e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015998203983973533,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 6.849674286580156e-05,
+            "action_delta_RMSE_m": 0.00011642671750274754,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047957647725037984,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00012095626987007855,
+            "action_delta_RMSE_m": 0.00015472696475568682,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006262052962866057,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.2689944964093545e-05,
+            "action_delta_RMSE_m": 3.4791305302061626e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0001576773419022214,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 9.38231323723641e-05,
+            "action_delta_RMSE_m": 0.00014977174062074498,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00033958352678456065,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00016557579977805306,
+            "action_delta_RMSE_m": 0.0002160336308261043,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005213277939761627,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 5.722552865327978e-05,
+            "action_delta_RMSE_m": 9.325460052441142e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728391e-05,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.000100616171597305,
+            "action_delta_RMSE_m": 0.00017091534383008384,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047259757143668546,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0001577498123443012,
+            "action_delta_RMSE_m": 0.00022814725664244386,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371768,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        }
+      }
+    },
+    "DEV_ALREADY_OPENED": {
+      "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.349676995054536e-05,
+            "action_delta_RMSE_m": 3.724284763558837e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 6.730679900929922e-05,
+            "actual_delta_norm_m": 0.00010402577065895447
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00015752396797995407,
+            "action_delta_RMSE_m": 4.893666871402807e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004940019095805966,
+            "actual_delta_norm_m": 0.0004614153795465202
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.00014358993394302137,
+            "action_delta_RMSE_m": 0.00018169909691524857,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006195266997572904,
+            "actual_delta_norm_m": 0.0005527326325676845
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.077264141870629e-05,
+            "action_delta_RMSE_m": 4.253159859640389e-05,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 5.3710653143471076e-05,
+            "actual_delta_norm_m": 0.00010402577065895447
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.00030722228215178203,
+            "action_delta_RMSE_m": 0.000256076401586717,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.0002087172707368063,
+            "actual_delta_norm_m": 0.0004614153795465202
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0004483195862255947,
+            "action_delta_RMSE_m": 0.0003955724200741985,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.0003351979749298065,
+            "actual_delta_norm_m": 0.0005527326325676845
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 4.075813549070938e-05,
+            "action_delta_RMSE_m": 5.25890170735247e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728368e-05,
+            "actual_delta_norm_m": 0.00010402577065895447
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 7.582837910415762e-05,
+            "action_delta_RMSE_m": 6.136838681736015e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047259757143667847,
+            "actual_delta_norm_m": 0.0004614153795465202
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0001142264681655846,
+            "action_delta_RMSE_m": 0.0001335557968957138,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371769,
+            "actual_delta_norm_m": 0.0005527326325676845
+          }
+        }
+      },
+      "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+        "ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.689444549264904e-05,
+            "action_delta_RMSE_m": 0.00010154252375630246,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.688283749566087e-05,
+            "actual_delta_norm_m": 0.00014487030986589628
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 7.408559810348946e-05,
+            "action_delta_RMSE_m": 7.525332341318618e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0004926550825519161,
+            "actual_delta_norm_m": 0.0004687435696582001
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 6.581011169450619e-05,
+            "action_delta_RMSE_m": 0.00013317372330194595,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0006584660260819802,
+            "actual_delta_norm_m": 0.0006830739378399952
+          }
+        },
+        "NO_FUTURE_CHOICE_ARX": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.802652861654023e-05,
+            "action_delta_RMSE_m": 0.00010147289182648181,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 5.561520631648019e-05,
+            "actual_delta_norm_m": 0.00014487030986589628
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 0.0004148127942414115,
+            "action_delta_RMSE_m": 0.0004620134836561009,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 0.0004376629705187877,
+            "actual_delta_norm_m": 0.0004687435696582001
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 0.0006120863150541878,
+            "action_delta_RMSE_m": 0.0007026543004474782,
+            "direction_fraction": 0.0,
+            "predicted_delta_norm_m": 0.0006805975334524392,
+            "actual_delta_norm_m": 0.0006830739378399952
+          }
+        },
+        "HOLD_RESPONSE": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.224479427459042e-05,
+            "action_delta_RMSE_m": 9.40539283160278e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.004707026728368e-05,
+            "actual_delta_norm_m": 0.00014487030986589628
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 8.826302948770189e-05,
+            "action_delta_RMSE_m": 0.00010343272161389011,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00047259757143667847,
+            "actual_delta_norm_m": 0.0004687435696582001
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 7.90997590834425e-05,
+            "action_delta_RMSE_m": 0.00012493406832316401,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.0005911698579371768,
+            "actual_delta_norm_m": 0.0006830739378399952
+          }
+        }
+      }
+    }
+  },
+  "frozen_thresholds": {
+    "schema": "WM02_NEXT2_TRAIN_ONLY_TOLERANCE_V1",
+    "absolute_TCP_additive_tolerance_m": {
+      "8": 6.686449353405366e-05,
+      "16": 0.0001461033144538561
+    },
+    "estimator": "RMS independent HOLD-pair difference divided sqrt2 across4 TRAIN parents/coordinates; exploratory, not confidence bound",
+    "prospective_direction": "Every parent3/3 atH8/H16",
+    "future_choice_ablation_minimum_delta_RMSE_improvement": 0.2
+  },
+  "historical_NO_ACTION": "All17 reference coordinates masked in both history and future; old results preserved",
+  "new_ablation": "Only chosen future EEF position reset to actual past HOLD reference; other reference/clock/history retained",
+  "ARX_vs_GRU": "State+state delta and fully TRAIN-standardized action/time features; one-step ridge vs16-step free106D GRU objective, not architecture-only contrast",
+  "hold_response_output": "TCP_world3+BASE_world3+TCP_in_BASE3; compact local dynamics, not full safety world model",
+  "new_closed_form_model_fits": 43,
+  "new_closed_form_linear_solves": 76,
+  "matched_feature_diagnostic": {
+    "status": "MATCHED_CAUSAL_FEATURE_OPTIMIZATION_DIAGNOSTIC_EXECUTED",
+    "source_sha": "beaf8deb201cbc5fbdc03769147e1a92be60cb3e",
+    "data_sha256": "0b889a835a155b5e2697e3a139b49a4e35ae83e096e05a97d4e3b2c50d74a0de",
+    "main_updates": 200,
+    "continuation_probe_updates": 2,
+    "actual_optimizer_calls": 202,
+    "endpoints": [
+      {
+        "main_updates": 200,
+        "checkpoint_sha256": "46a19982a2b61ac11361b554bc147f733f532bf4c6a83bc64771dd6205ad0606",
+        "reload_error": 0.0,
+        "continuation_error": 0.0,
+        "actual_restore_probe_optimizer_calls": 2,
+        "TRAIN_objective": 7.648299963049675,
+        "closed_form_optimum": 7.1789851139997145
+      }
+    ],
+    "evaluation": {
+      "TRAIN": {
+        "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.837285463898254e-05,
+            "action_delta_RMSE_m": 5.3363132264927516e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00010935681374174291,
+            "actual_delta_norm_m": 0.00018004541729698328
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 211.6847445914069,
+            "action_delta_RMSE_m": 243.86948305752134,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 389.7723175065751,
+            "actual_delta_norm_m": 0.0005307396415222902
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 224541481242.7509,
+            "action_delta_RMSE_m": 262574438368.1387,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 415439820219.43695,
+            "actual_delta_norm_m": 0.0006261845672548867
+          }
+        },
+        "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.179419874872621e-05,
+            "action_delta_RMSE_m": 3.868882950228634e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 5.108625452711623e-05,
+            "actual_delta_norm_m": 9.18780879598067e-05
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 218.94934171856394,
+            "action_delta_RMSE_m": 397.4476585332026,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 683.771941759237,
+            "actual_delta_norm_m": 0.0004989962013551255
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 222564760302.49942,
+            "action_delta_RMSE_m": 409063854967.0448,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 704531319273.8344,
+            "actual_delta_norm_m": 0.0006057198431494449
+          }
+        },
+        "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 2.844827477246825e-05,
+            "action_delta_RMSE_m": 2.813068185440857e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 9.605743817322952e-05,
+            "actual_delta_norm_m": 0.00013334547501959982
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 343.8268115319198,
+            "action_delta_RMSE_m": 149.5350502706353,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 202.8390656345384,
+            "actual_delta_norm_m": 0.0004997803689734578
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 364717652299.72076,
+            "action_delta_RMSE_m": 149132964936.25476,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 175912523457.96082,
+            "actual_delta_norm_m": 0.0006198443300424683
+          }
+        },
+        "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 2.9776104098308906e-05,
+            "action_delta_RMSE_m": 2.6937423879783253e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 0.00015612816550100996,
+            "actual_delta_norm_m": 0.00016053990141432327
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 207.4856168100283,
+            "action_delta_RMSE_m": 189.79897605453903,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 288.2330954678586,
+            "actual_delta_norm_m": 0.0005451401562276697
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 213581968290.02444,
+            "action_delta_RMSE_m": 195806068419.57104,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 295101008474.9575,
+            "actual_delta_norm_m": 0.0007647834087218922
+          }
+        }
+      },
+      "DEV_ALREADY_OPENED": {
+        "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 3.132821503908794e-05,
+            "action_delta_RMSE_m": 2.8323215488764636e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.737763106114917e-05,
+            "actual_delta_norm_m": 0.00010402577065895447
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 448.5099684319439,
+            "action_delta_RMSE_m": 368.0723191992576,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 594.9312349763258,
+            "actual_delta_norm_m": 0.0004614153795465202
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 480966895179.73724,
+            "action_delta_RMSE_m": 388208908018.64636,
+            "direction_fraction": 0.3333333333333333,
+            "predicted_delta_norm_m": 622069863297.7684,
+            "actual_delta_norm_m": 0.0005527326325676845
+          }
+        },
+        "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+          "1": {
+            "absolute_TCP_RMSE_m": 7.008478853203812e-05,
+            "action_delta_RMSE_m": 9.290202624789706e-05,
+            "direction_fraction": 1.0,
+            "predicted_delta_norm_m": 7.379886614758482e-05,
+            "actual_delta_norm_m": 0.00014487030986589628
+          },
+          "8": {
+            "absolute_TCP_RMSE_m": 363.8503579316704,
+            "action_delta_RMSE_m": 587.9730574664945,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 850.1161309299101,
+            "actual_delta_norm_m": 0.0004687435696582001
+          },
+          "16": {
+            "absolute_TCP_RMSE_m": 381674382143.05927,
+            "action_delta_RMSE_m": 644215447294.2996,
+            "direction_fraction": 0.6666666666666666,
+            "predicted_delta_norm_m": 943387239965.1908,
+            "actual_delta_norm_m": 0.0006830739378399952
+          }
+        }
+      }
+    },
+    "main_update_peak": {
+      "peak_allocated_bytes": 71263744,
+      "peak_reserved_bytes": 73400320
+    },
+    "CPU_s": 0.995619993,
+    "wall_s": 1.1309320027939975,
+    "physics_integrations": 0,
+    "Actor_updates": 0,
+    "diagnostic_only_not_new_prospective_candidate": true,
+    "architecture": "Linear torch neural layer, same ARX features/one-step106D targets and ridge objective; isolates finite optimizer from closed-form solver",
+    "GPU_family": "RTX4080 SUPER16GiB"
+  },
+  "teacher_forced_vs_free": {
+    "schema": "WM02_NEXT2_OPTIMIZER_TEACHER_FORCED_FREE_V1",
+    "results": {
+      "ARX": {
+        "TRAIN": {
+          "TEACHER_FORCED_TCP_RMSE_m": 3.5916400228464885e-05,
+          "H16_TEACHER_FORCED_TCP_RMSE_m": 4.0532622663954215e-05,
+          "FREE_TCP_RMSE_m": {
+            "1": 3.122624834716358e-05,
+            "8": 6.719236725746275e-05,
+            "16": 8.659787561841619e-05
+          }
+        },
+        "DEV": {
+          "TEACHER_FORCED_TCP_RMSE_m": 5.6285669555519e-05,
+          "H16_TEACHER_FORCED_TCP_RMSE_m": 6.047364956448883e-05,
+          "FREE_TCP_RMSE_m": {
+            "1": 5.930762743838996e-05,
+            "8": 0.0001230903658587896,
+            "16": 0.0001116893905682286
+          }
+        },
+        "same_prefix_future_action_delta_norm_m": {
+          "1": [
+            5.003863895716665e-05,
+            5.003863895716669e-05,
+            2.8274459288189804e-05
+          ],
+          "8": [
+            0.0004892079580115137,
+            0.000489207958004985,
+            0.0003863142792615923
+          ],
+          "16": [
+            0.0006496616373329016,
+            0.0006496616373279301,
+            0.0004668275552425624
+          ]
+        }
+      },
+      "NEURAL_LINEAR_FINITE_ADAM": {
+        "TRAIN": {
+          "TEACHER_FORCED_TCP_RMSE_m": 3.7060552107060436e-05,
+          "H16_TEACHER_FORCED_TCP_RMSE_m": 4.082222567212962e-05,
+          "FREE_TCP_RMSE_m": {
+            "1": 3.232362819989879e-05,
+            "8": 252.00019982282052,
+            "16": 263908209613.1431
+          }
+        },
+        "DEV": {
+          "TEACHER_FORCED_TCP_RMSE_m": 5.514154890492126e-05,
+          "H16_TEACHER_FORCED_TCP_RMSE_m": 5.968771160458281e-05,
+          "FREE_TCP_RMSE_m": {
+            "1": 5.428321398515307e-05,
+            "8": 408.3798934508333,
+            "16": 434168451319.9471
+          }
+        },
+        "same_prefix_future_action_delta_norm_m": {
+          "1": [
+            3.973539169487062e-05,
+            3.973539169491873e-05,
+            2.3626326185991724e-05
+          ],
+          "8": [
+            123.44351032286617,
+            123.4435103201582,
+            169.99681378964
+          ],
+          "16": [
+            122094875137.31119,
+            122094875133.39706,
+            132709865622.97032
+          ]
+        }
+      }
+    },
+    "checkpoint_sha256": "46a19982a2b61ac11361b554bc147f733f532bf4c6a83bc64771dd6205ad0606",
+    "model_weight_max_difference": 1.4737154031754862,
+    "interpretation": "Finite first-order optimizer approximated ridge training objective but its recurrent rollout may be unstable; no DEV-driven endpoint extension, no deployment of this diagnostic",
+    "new_integrations": 0,
+    "new_optimizer_updates": 0
+  },
+  "redundant_state_FK": {
+    "schema": "WM02_NEXT2_REDUNDANT_STATE_CONSISTENCY_V1",
+    "results": {
+      "NN": {
+        "1": {
+          "FK_vs_independent_TCP_RMSE_m": 5.150364640769168e-06,
+          "root_quaternion_norm_error_max": 9.363431779263465e-06,
+          "TCP_rotation6d_orthogonality_error_max": 3.209897465813568e-05,
+          "ctrl_norm_max": 13.579204995547167,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        },
+        "8": {
+          "FK_vs_independent_TCP_RMSE_m": 308.31946992597676,
+          "root_quaternion_norm_error_max": 1756.17048533452,
+          "TCP_rotation6d_orthogonality_error_max": 2365974.0977576207,
+          "ctrl_norm_max": 3720847.66202259,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        },
+        "16": {
+          "FK_vs_independent_TCP_RMSE_m": 331653528921.36505,
+          "root_quaternion_norm_error_max": 1979568610949.3445,
+          "TCP_rotation6d_orthogonality_error_max": 3.0958851311154847e+24,
+          "ctrl_norm_max": 3915409937570360.5,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        }
+      },
+      "ARX": {
+        "1": {
+          "FK_vs_independent_TCP_RMSE_m": 1.2157972143161723e-07,
+          "root_quaternion_norm_error_max": 7.310165384133427e-08,
+          "TCP_rotation6d_orthogonality_error_max": 4.779129742616607e-07,
+          "ctrl_norm_max": 13.575921878437876,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        },
+        "8": {
+          "FK_vs_independent_TCP_RMSE_m": 5.67802982050111e-07,
+          "root_quaternion_norm_error_max": 7.414218849977061e-07,
+          "TCP_rotation6d_orthogonality_error_max": 2.341943158480435e-06,
+          "ctrl_norm_max": 13.46780221366344,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        },
+        "16": {
+          "FK_vs_independent_TCP_RMSE_m": 9.870025180349988e-07,
+          "root_quaternion_norm_error_max": 1.6143901149234807e-06,
+          "TCP_rotation6d_orthogonality_error_max": 4.152106193662985e-06,
+          "ctrl_norm_max": 13.390850744569665,
+          "finite": true,
+          "predicted_states_not_repaired": true
+        }
+      }
+    },
+    "new_integrations": 0,
+    "new_optimizer_updates": 0,
+    "compact_response": "Only TCP/BASE/BASE-relative TCP, not full safety state; consistency audit applies to106D predictors"
+  },
+  "historical_neural_M0": "FAIL_PRESERVED",
+  "new_neural_residual": "NOT_STARTED_NO_TRAIN_CV_JUSTIFICATION"
+}

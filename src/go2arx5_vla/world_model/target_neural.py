@@ -5,7 +5,8 @@ from pathlib import Path
 
 def validate_device(spec,actual):
     allowed={'GPU-845348f1-1511-dc19-0877-cc97658e3edd','GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'}
-    next1=bool(spec.get('next1_binding'));night1=bool(spec.get('night1_binding'))or next1
+    next1=bool(spec.get('next1_binding'));next2=bool(spec.get('next2_binding'));night1=bool(spec.get('night1_binding'))or next1 or next2
+    if next2 and(spec.get('endpoint')!=800 or spec.get('resume')or spec.get('next2_recipe')!='MATCHED_ARX_FEATURE_LINEAR_ADAM_V1'or spec.get('allocator_limit_bytes',0)>4*1024**3):raise PermissionError('NEXT2_PREREGISTERED_MATCHED_FEATURE_DIAGNOSTIC_REQUIRED')
     endpoint_ok=(type(spec.get('endpoint'))is int and spec['endpoint']>=2)if night1 else spec.get('endpoint')in(200,100)
     if next1 and(spec.get('endpoint')!=200 or spec.get('resume')or spec.get('action_encoding')not in('RAW_WORLD_RELATIVE_V1','SCALED_WORLD_RELATIVE_1CM_V2','NO_ACTION_V2')or spec.get('allocator_limit_bytes',0)>4*1024**3):raise PermissionError('NEXT1_THREE_FIXED_FRESH200_RECIPE_SCOPE_REQUIRED')
     if (spec.get('GPU_uuid')not in allowed or actual['uuid']!=spec['GPU_uuid']
@@ -34,7 +35,10 @@ def validate_campaign(spec):
     if (digest(spec['replay_result'])!=spec['replay_result_sha256']or build.get('schema')!=spec['data_domain']
             or build.get('status')!='ACTUAL_TARGET_SEQUENTIAL_REPLAY_BUILT'
             or digest(spec['replay'])!=build.get('replay_sha256')):raise PermissionError('REAL_NATIVE_REPLAY_BUILD_IDENTITY_REQUIRED')
-    if spec.get('next1_binding'):
+    if spec.get('next2_binding'):
+        from .next2_scope import validate
+        validate(spec,registry)
+    elif spec.get('next1_binding'):
         from .next1_scope import validate
         validate(spec,registry)
         gate=json.loads(Path(spec['action_effect_gate']).read_text())

@@ -1,0 +1,35 @@
+{
+  "plan_sha": "4c1e4cb83a1cd5e83d4849e2c0e84d31daef0910",
+  "FIT_replay_sha256": "0b889a835a155b5e2697e3a139b49a4e35ae83e096e05a97d4e3b2c50d74a0de",
+  "prospective_replay_sha256": "178c7e3395b5476393b094c8f208848ac71bfc1de76911a5a5cfceb4f535b822",
+  "source_sha": {
+    "fit": "130393ccf8a701e65a17603ac393f4b8fa6037fc",
+    "neural_diagnostic": "beaf8deb201cbc5fbdc03769147e1a92be60cb3e",
+    "inference": "88428686d6c9009b19b82cf19d34df24797ff86c",
+    "prospective_score": "9e093bce4256d976383f1f5555cc6420a60d68dc"
+  },
+  "predictors": {
+    "ARX": {
+      "sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1"
+    },
+    "NO_FUTURE_CHOICE_ARX": {
+      "sha256": "84538fe1c1c3533c888499ddba1a8ed742ac679de57d2c5c6e577a996b615f5c"
+    },
+    "HOLD_RESPONSE": {
+      "sha256": "73b7c9570c1b8e34448c1192c8ac8014224267f56be16e7a43d342a181884767",
+      "baseline": "constant",
+      "ridge": 0.1
+    }
+  },
+  "diagnostic_checkpoint_sha256": "46a19982a2b61ac11361b554bc147f733f532bf4c6a83bc64771dd6205ad0606",
+  "executor_sha256": {
+    "controller_binary": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+    "native_binary": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+    "observer_library": "87423cf290dae9aa767e1286ab1a7573216c546fde76db9ac866fbbc841a3eb7",
+    "outer_library": "65692aa1cfd37c287bd8c77f3c26b64d46bd840d3981cd05c9d99929d21c20b6",
+    "solver_binary": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+    "trace_library": "bd92a15c9ec4e435c3ee435878d94ed2e94075d38d6590d593c7c1201706eaea"
+  },
+  "robot_fingerprint": "1caec33aa67e776215ebb01ea4f8e87799adf348bc55e5a66791347ba25276bf",
+  "private_artifacts_uploaded": false
+}

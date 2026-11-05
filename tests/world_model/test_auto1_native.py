@@ -47,6 +47,10 @@ class Auto1Native(unittest.TestCase):
         argv,env=native_display_command(s,'/run',dict(LD_PRELOAD='bad',WM02_INIT_TRACE='bad',OTHER='kept'))
         self.assertNotIn('LD_PRELOAD',env);self.assertNotIn('WM02_INIT_TRACE',env);self.assertEqual(env['OTHER'],'kept')
         self.assertEqual(argv,['/private/xvfb-run','-a','/usr/bin/env','LD_PRELOAD=/outer:/observer:/trace','WM02_INIT_TRACE=/run/init.trace','WM02_INIT_SEAL_REQUEST=/run/trace_seal_request','/sim','go2_x5','scene'])
+    def test_trace_successor_is_first_only_in_new_contact_phase(self):
+        s=dict(xvfb_run='/xvfb',outer_library='/outer',observer_library='/observer',trace_library='/trace',native_binary='/sim',extended_trace_build='/proof',phase='collect-target-next2-contact')
+        argv,_=native_display_command(s,'/run',{});self.assertIn('LD_PRELOAD=/trace:/outer:/observer',argv)
+        s['phase']='collect-target-next1';argv,_=native_display_command(s,'/run',{});self.assertIn('LD_PRELOAD=/outer:/observer:/trace',argv)
     def test_ROS_parent_loader_must_be_bound_at_exec_not_only_for_future_children(self):
         validate_parent_loader('/existing/ros:/existing/native','/existing/ros:/existing/native')
         for value in(None,'','/other'):

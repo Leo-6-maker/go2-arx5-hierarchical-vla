@@ -17,19 +17,23 @@ def validate_layout(batch, children):
                 or child['source_sha']!=batch['source_sha']
                 or child['ROS_DOMAIN_ID']not in (220,221)
                 or not set(child['cpus'])or cpus.intersection(child['cpus'])
-                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1')
+                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1','collect-target-next2')
                 or child['max_ticks']not in (50,2528,3103,3703,4103,4903,6503)
                 or digest(slot['spec'])!=slot['spec_sha256']):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
     night1=all(c['phase']=='collect-target-night1'for c in children)
-    next1=all(c['phase']=='collect-target-next1'for c in children)
+    next2=all(c['phase']=='collect-target-next2'for c in children)
+    if any(c['phase']=='collect-target-next2'for c in children)and not next2:raise PermissionError('NO_MIXED_NEXT2_LEGACY_BATCH')
+    next1=all(c['phase']=='collect-target-next1'for c in children)or next2
     if any(c['phase']=='collect-target-next1'for c in children)and not next1:raise PermissionError('NO_MIXED_NEXT1_LEGACY_BATCH')
     if next1:
         from .next1_episode import episode_config
+        if next2:
+            from .next2_episode import episode_config
         episodes=[episode_config(c)for c in children]
-        if len({e['task_atoms']for e in episodes})!=1 or any(c.get('next1_binding')!=batch.get('next1_binding')for c in children):raise PermissionError('SAME_NEXT1_WINDOW_AND_LENGTH_REQUIRED')
+        if len({e['task_atoms']for e in episodes})!=1 or any(c.get('next2_binding'if next2 else'next1_binding')!=batch.get('next2_binding'if next2 else'next1_binding')for c in children):raise PermissionError('SAME_NEXT1_WINDOW_AND_LENGTH_REQUIRED')
         if all(e['purpose']=='STEADY_DUAL'for e in episodes):
             proofs=batch['steady_single_qualifications']
             if len(proofs)!=2 or len({p['path']for p in proofs})!=2:raise PermissionError('TWO_INDEPENDENT_SINGLE_PREFIX_RUNS_REQUIRED')
@@ -117,6 +121,9 @@ def run_batch(spec_path,output,run_id):
     from scripts.pi0292.durable import OwnerLock,write
     spec=json.loads(Path(spec_path).read_text());campaign=Path(spec['campaign_root'])
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
+    if spec.get('next2_binding'):
+        from .next2_scope import validate
+        validate(spec,json.loads(Path(spec['registry']).read_text()))
     if spec.get('next1_binding'):
         from .next1_scope import validate
         validate(spec,json.loads(Path(spec['registry']).read_text()))
@@ -142,11 +149,11 @@ def run_batch(spec_path,output,run_id):
                         lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write(lease_path,lease)
                         diag=Path(child['registered_root'])/'native-01/DYNAMIC_DIAGNOSTIC.json';atoms=json.loads(diag.read_text())['complete_task_atoms']if diag.exists()else 0
                         rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus'],task_atoms=atoms,collection=child['phase'].startswith('collect-target-')))
-                        if child['phase']=='collect-target-next1':
+                        if child['phase']in('collect-target-next1','collect-target-next2'):
                             episode=json.loads(Path(child['episode_manifest']).read_text())
-                            rows[-1]['sampled_WM_atoms']=24 if episode['purpose']in('ACTION_PILOT','ACTION_DEV','HOLD_REPEAT')and value.get('status')=='NATIVE_STAGE_PASSED'else 0
+                            rows[-1]['sampled_WM_atoms']=24 if episode['purpose']in('ACTION_PILOT','ACTION_DEV','HOLD_REPEAT','PROSPECTIVE')and value.get('status')=='NATIVE_STAGE_PASSED'else 0
                     result=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'if all(r['exit_code']==0 and r['status']=='NATIVE_STAGE_PASSED'and r['shutdown_clean']for r in rows)else'TWO_ENVIRONMENT_NATIVE_PILOT_FAILED_PRESERVED',children=rows,wall_s=time.monotonic()-start,physical_owners=1,WM_updates=0,Actor_updates=0,learning_atoms=sum(r['task_atoms']for r in rows if r['collection']and r['status']=='NATIVE_STAGE_PASSED'))
-                    if spec.get('next1_binding'):
+                    if spec.get('next1_binding')or spec.get('next2_binding'):
                         result['recorded_task_atoms']=sum(r['task_atoms']for r in rows)
                         result['learning_atoms']=sum(r.get('sampled_WM_atoms',0)for r in rows)if result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'else 0
                     write_json(Path(output)/'RESULT.json',result);return result
