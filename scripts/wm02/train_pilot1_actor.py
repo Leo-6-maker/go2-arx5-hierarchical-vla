@@ -4,6 +4,21 @@ import json
 from pathlib import Path
 
 
+def task_definition(spec,prior,data,meta,train_ids):
+    """A coverage experiment must keep the original task and score frozen."""
+    if spec.get('frozen_task'):
+        from go2arx5_vla.world_model.storage import digest
+        path=Path(spec['frozen_task'])
+        if digest(path)!=spec['frozen_task_sha256']:raise ValueError('FROZEN_ACTOR_TASK_CHANGED')
+        task=json.loads(path.read_text())
+        if task.get('schema')!='LOCAL_EEF_REACH_PILOT_V1'or prior and task!=prior['task']:
+            raise ValueError('ORIGINAL_LOCAL_PILOT_TASK_REQUIRED')
+        return task
+    if prior:return prior['task']
+    from go2arx5_vla.world_model.pilot1_actor import task_from_train
+    return task_from_train(data,meta,train_ids)
+
+
 def run(spec, output):
     import hashlib, random, time
     import numpy as np
@@ -35,7 +50,7 @@ def run(spec, output):
         if digest(spec['resume']) != spec['resume_sha256']:
             raise ValueError('FROZEN_ACTOR_CHECKPOINT_CHANGED')
         prior = torch.load(spec['resume'], map_location='cpu', weights_only=True)
-    task = prior['task'] if prior else task_from_train(data, meta, train_ids)
+    task = task_definition(spec,prior,data,meta,train_ids)
     write_json(output / 'TASK.private.json', task)
     # Equivalent differentiability check uses existing TRAIN histories only.
     ix = train_ids[:4]
