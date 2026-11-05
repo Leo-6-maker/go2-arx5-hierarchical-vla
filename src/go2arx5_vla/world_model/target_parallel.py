@@ -7,7 +7,8 @@ from .storage import digest,write_json
 
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
-    free= batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
+    feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
+    free=feedback or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
     pilot= free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
     runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
@@ -37,8 +38,10 @@ def validate_layout(batch, children):
                 raise PermissionError('SAME_ACTUAL_PILOT1_WINDOW_REQUIRED')
             previous=json.loads(Path(child['previous_stage']).read_text())
             if validate(child,previous)!=(4103 if free else 5703):raise PermissionError('QUALIFIED_SINGLE_PILOT1_SCENE_REQUIRED')
-            if free and json.loads(Path(child['episode_manifest']).read_text()).get('purpose')!='EVALUATION':
-                raise PermissionError('TWO_SLOT_FREE_BATCH_REQUIRES_PREQUALIFIED_EVALUATION_SCENES')
+            if free:
+                episode=json.loads(Path(child['episode_manifest']).read_text())
+                if episode.get('purpose')!=('TRAIN_FEEDBACK'if feedback else'EVALUATION')or feedback and episode.get('split')!='TRAIN':
+                    raise PermissionError('TWO_SLOT_FREE_BATCH_REQUIRES_PREQUALIFIED_EVALUATION_SCENES_OR_SEPARATE_TRAIN_FEEDBACK')
         proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
         if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
                 or len(value['children'])!=2 or not all(c['ticks']>=4103 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):

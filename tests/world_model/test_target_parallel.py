@@ -46,6 +46,12 @@ class ParallelOwner(unittest.TestCase):
                 validate_layout(freebatch,freechildren)
                 episode.write_text(json.dumps(dict(purpose='SCENE_QUALIFICATION')))
                 with self.assertRaisesRegex(PermissionError,'PREQUALIFIED_EVALUATION_SCENES'):validate_layout(freebatch,freechildren)
+                trainbatch=dict(freebatch,schema='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1')
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TRAIN')));validate_layout(trainbatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TEST')))
+                with self.assertRaises(PermissionError):validate_layout(trainbatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='TRAIN_FEEDBACK',split='TRAIN')))
+                with self.assertRaises(PermissionError):validate_layout(freebatch,freechildren)
     def test_inherited_lock_remains_exclusive_until_last_child_closes(self):
         with tempfile.TemporaryDirectory()as tmp:
             path=Path(tmp)/'owner';lock=OwnerLock(path);fd=lock.handle.fileno()
