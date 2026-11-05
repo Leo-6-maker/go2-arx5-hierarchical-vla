@@ -154,7 +154,15 @@ class TargetSequentialAdapter:
         write(out/'BEFORE_FIRST_INTEGRATION.json',c)
     def observe(self):
         from scripts.pi0294.task_state import read_state
-        return read_state(self.output/'state.bin')
+        until=time.monotonic()+.25
+        while True:
+            try:return read_state(self.output/'state.bin')
+            except FileNotFoundError:
+                # Same observed live-snapshot publication gap as pause_ack.
+                # Never reuse an old packet or change the native step quota.
+                self.guard()
+                if time.monotonic()>=until:raise
+                time.sleep(.002)
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
         self.advance_initialization(ticks);self.seal_trace(ticks)
@@ -308,6 +316,8 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-next2-contact':
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','WITHDRAW':'detach'}.get(getattr(self,'next2_contact_stage',None),'approach')
                 if getattr(self,'next2_contact_stage',None)=='WITHDRAW'and not getattr(self,'next2_contact_manipulation_started',False):stage='approach'
+            if self.spec['phase']=='collect-target-pilot1-supported-close':
+                stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             try:
                 with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
             except ValueError as error:
@@ -354,6 +364,9 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-pilot1-supported-close':
+            from .pilot1_supported_close import run
+            return run(self)
         if self.spec['phase']=='collect-target-pilot1-contact':
             from .pilot1_contact import run
             return run(self)

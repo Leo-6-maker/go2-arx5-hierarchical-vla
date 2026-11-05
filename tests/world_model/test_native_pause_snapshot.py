@@ -6,6 +6,18 @@ from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
 
 
 class TracePauseSnapshot(unittest.TestCase):
+    def test_state_publication_gap_retries_without_masking_invalid_ABI(self):
+        a=SimpleNamespace(output=Path('/fixture'),guard=lambda:None)
+        with patch('scripts.pi0294.task_state.read_state',side_effect=[FileNotFoundError(),dict(step=4103)])as read,patch('time.sleep'):
+            self.assertEqual(TargetSequentialAdapter.observe(a),dict(step=4103));self.assertEqual(read.call_count,2)
+        with patch('scripts.pi0294.task_state.read_state',side_effect=ValueError('NATIVE_STATE_ABI'))as read:
+            with self.assertRaisesRegex(ValueError,'NATIVE_STATE_ABI'):TargetSequentialAdapter.observe(a)
+            self.assertEqual(read.call_count,1)
+
+    def test_persistently_absent_state_still_fails_at_bounded_endpoint(self):
+        a=SimpleNamespace(output=Path('/fixture'),guard=lambda:None)
+        with patch('scripts.pi0294.task_state.read_state',side_effect=FileNotFoundError()),patch('time.monotonic',side_effect=[0.,1.]):
+            with self.assertRaises(FileNotFoundError):TargetSequentialAdapter.observe(a)
     def test_transient_replacement_gap_retries_only_reads_then_exactly_seals(self):
         with tempfile.TemporaryDirectory()as tmp:
             r=Path(tmp);ack=r/'pause_ack.json';summary=r/'init.trace.summary';summary.write_text(json.dumps(dict(sealed_at_explicit_pause=True)))
