@@ -118,3 +118,25 @@ Next: seal the finite C04 qualification, audit actual entry before admitting its
 HOLD/+Y controls, then continue C05. Expand TRAIN coverage and preregister the
 next model comparison. Multi-step predictive qualification is still needed
 before a learned contact policy can rely on this model for the3.2s exit task.
+
+Subsequent C04 qualification sealed successfully:4,103 actual native ticks,
+911 force-positive ticks,40 positive /24 negative task atoms, peak0.637938N,
+no native STOP/warnings/rejections, exit0 and lease CLOSED. This advances the
+sealed native totals to37 attempts (36 PASS, one preserved recorder failure),
+157,436 ticks /2,593 raw task atoms,2,457.338151 own-plus-child CPU seconds and
+1,324.648646 summed worker wall seconds. The original canonical mutable state
+was reconciled at this cold boundary: no external permission/resource blocker,
+contact WM1 below the DEV baseline, next C04/C05 TRAIN coverage. The old ENOSPC
+event remains in history; it is no longer the current state.
+
+C04's fresh finite HOLD coverage successor was then actually registered and
+dispatched under the same original mechanism, outside the sealed totals above.
+The private next read is `read_contact_c04_hold01.py`; require its actual CLOSED
+lease and native result before dispatching the ready +Y successor.
+
+The latest cleanup/GPU snapshot saw42,244,927,488 available root bytes (about
+39.3GiB), GPU0/1 free31,997 /15,868MiB, no CUDA compute applications and no old
+727048/3892803/1425203 processes. Only the independently measured16,377,667,584
+root bytes recovered by the two recorded cleanup operations are attributed to
+this work; the larger later free-space observation is not all claimed as our
+cleanup. New native bulk outputs remain on the separate local data disk.
