@@ -59,8 +59,9 @@ def build(path,output):
     from scripts.pi0294.task_state import ActualState
     from .target_late_decision import SCHEMA as DECISION,MANIFEST_SCHEMA as DECISION_MANIFEST,goals as decision_goals
     from .next1_replay import MANIFEST as NEXT1_MANIFEST,sample_view
-    manifest=json.loads(Path(path).read_text());entries=manifest['episodes'];validate_partitions(entries);next2=manifest.get('schema')=='WM02_NEXT2_LATE_DECISION_MANIFEST_V1';next1=manifest.get('schema')==NEXT1_MANIFEST or next2;decision=next1 or manifest.get('schema')==DECISION_MANIFEST;schema=DECISION if decision else SCHEMA
-    if manifest.get('schema')not in(MANIFEST_SCHEMA,DECISION_MANIFEST,NEXT1_MANIFEST,'WM02_NEXT2_LATE_DECISION_MANIFEST_V1')or not entries:raise ValueError('REGISTERED_VARIABLE_EPISODE_MANIFEST_REQUIRED')
+    manifest=json.loads(Path(path).read_text());entries=manifest['episodes'];validate_partitions(entries);pilot1=manifest.get('schema')=='WM02_PILOT1_FEEDBACK_MANIFEST_V1';next2=manifest.get('schema')=='WM02_NEXT2_LATE_DECISION_MANIFEST_V1';next1=manifest.get('schema')==NEXT1_MANIFEST or next2 or pilot1;decision=next1 or manifest.get('schema')==DECISION_MANIFEST;schema=DECISION if decision else SCHEMA
+    if manifest.get('schema')not in(MANIFEST_SCHEMA,DECISION_MANIFEST,NEXT1_MANIFEST,'WM02_NEXT2_LATE_DECISION_MANIFEST_V1','WM02_PILOT1_FEEDBACK_MANIFEST_V1')or not entries:raise ValueError('REGISTERED_VARIABLE_EPISODE_MANIFEST_REQUIRED')
+    if pilot1 and any(e['split']!='TRAIN'for e in entries):raise ValueError('ONLY_NEW_TRAIN_MAY_FLOW_BACK')
     allow_path=Path(manifest['scene_allowlist']);assets=json.loads(allow_path.read_text())
     if digest(allow_path)!=manifest['scene_allowlist_sha256']:raise ValueError('SCENE_ALLOWLIST_CHANGED')
     scenes={s['model_sha256']:s for s in assets['scenes']};raw={k:[]for k in('state','source_age','native_step','sim_time','contact_time','wall_monotonic','tcp','object','events')};identities=[];goals=[];models={};state_start=0;atom_start=0;fields=None;joints=None
@@ -70,6 +71,18 @@ def build(path,output):
         root=Path(entry['run']);run=root/'native-01';spec=json.loads((root/'EXECUTION_SPEC.json').read_text());result=json.loads((run/'RESULT.json').read_text());diag=json.loads((run/'DYNAMIC_DIAGNOSTIC.json').read_text());n=entry['task_atoms'];asset=digest(spec['model_path'])
         commands=[json.loads(l)for l in(run/'COMMANDS.private.jsonl').read_text().splitlines()]
         if next1:diag,commands=sample_view(diag,commands)
+        feedback=None
+        if pilot1:
+            dp=run/'PILOT1_DECISION.private.json';sp=run/'PILOT1_SCORE.private.json';dv=json.loads(dp.read_text());sv=json.loads(sp.read_text());event=[i for i,p in enumerate(commands)if p['phase']=='pilot1-choice-before-install'];boundary=[i for i,p in enumerate(commands)if p['phase']=='decision-boundary']
+            if (entry['native_result_sha256']!=digest(run/'RESULT.json')or entry['decision_sha256']!=digest(dp)or entry['score_sha256']!=digest(sp)
+                    or len(event)!=1 or len(boundary)!=1 or event[0]>=boundary[0]or commands[event[0]]['decision_sha256']!=digest(dp)
+                    or dv['future_response_observed']is not False or dv['native_step']!=diag['actual_collection_start_step']+200
+                    or dv['split']!='TRAIN'or sv['split']!='TRAIN'or sv['purpose']=='SCENE_QUALIFICATION'):
+                raise ValueError('ACTUAL_TRAIN_CHOICE_BEFORE_INSTALL_AND_SCORE_REQUIRED')
+            feedback=dict(action=dv['selected_action'],goal_offset_xy_m=dv['goal_offset_xy_m'],task_goal_xy_m=dv['task_goal_xy_m'],
+                          local_XY_success=sv['local_XY_success'],actual_XY_error_m=sv['actual_XY_error_m'],
+                          success_tolerance_m=sv['success_tolerance_m'],decision_sha256=digest(dp),score_sha256=digest(sp),
+                          actual_outcome_not_counterfactual_oracle=True)
         if next2:
             predictions=run/'PREDICTIONS_BEFORE_ACTION.private.json';pv=json.loads(predictions.read_text());events=[p for p in commands if p['phase']=='predictions-sealed-before-action'];decision_events=[i for i,p in enumerate(commands)if p['phase']=='decision-boundary'];predict_events=[i for i,p in enumerate(commands)if p['phase']=='predictions-sealed-before-action']
             if len(events)!=1 or len(decision_events)!=1 or predict_events[0]>=decision_events[0]or events[0]['sha256']!=digest(predictions)or pv.get('future_response_observed')is not False or pv['native_step']!=diag['actual_collection_start_step']+200:raise ValueError('ACTUAL_FROZEN_PREDICTIONS_MUST_PRECEDE_CHOSEN_INSTALLATION')
@@ -99,9 +112,12 @@ def build(path,output):
                 from .next1_episode import episode_config,RULE as DECISION_RULE
                 if next2:
                     from .next2_episode import episode_config
+                if pilot1:
+                    from .pilot1_episode import episode_config
             else:
                 from .target_manifest import episode_config,DECISION_RULE
             e=episode_config(spec)
+            if pilot1:e=dict(e,offset_xyz_m=dv['selected_offset_xyz_m'])
             if n!=24 or e['reference_rule']!=DECISION_RULE or diag.get('reference_rule')!=DECISION_RULE or diag.get('late_decision_applied')is not True:raise ValueError('ACTUAL_LATE_DECISION_EPISODE_REQUIRED')
             goal,per_atom=decision_goals(commands,diag['windows'],start,e['offset_xyz_m']);raw['goal'].extend(per_atom)
         elif first['native_step']!=start or any(not np.allclose(np.r_[p['action_EEF10'][-1],p['measured_BASE_pose_hold']],goal,atol=1e-8,rtol=0)for p in proposed):raise ValueError('PREDECLARED_FIXED_GOAL_REQUIRED_NO_FUTURE_RELABEL')
@@ -116,6 +132,11 @@ def build(path,output):
         loaded={p.name:digest(p)for p in run.glob('LOADED_EXECUTOR_*.private.json')}
         if not loaded:raise ValueError('ACTUAL_LOADED_EXECUTOR_IDENTITIES_REQUIRED')
         identities.append(dict(episode=root.name,parent=entry['parent'],split=entry['split'],batch=entry.get('batch'),task_atoms=n,state_start=state_start,atom_start=atom_start,window_count=n-23,scene_sha256=asset,scene_id=scene['scene_id'],source_sha=spec['source_sha'],result_sha256=digest(run/'RESULT.json'),state_journal_sha256=digest(run/'state.bin.journal'),command_sha256=digest(run/'COMMANDS.private.jsonl'),loaded_identity_sha256=loaded,terminal=False,collector_truncated=True,partial_ticks=0,full_task_success=False,truncation_reason='PREDECLARED_FINITE_COLLECTION_END'))
+        if feedback is not None:
+            actual_error=float(np.linalg.norm(actual.data.site_xpos[actual.tcp][:2]-feedback['task_goal_xy_m']))
+            if abs(actual_error-feedback['actual_XY_error_m'])>1e-10 or bool(actual_error<=feedback['success_tolerance_m'])!=feedback['local_XY_success']:
+                raise ValueError('ACTUAL_ENDPOINT_AND_FROZEN_LOCAL_SCORE_DIFFER')
+            identities[-1]['pilot1_feedback']=feedback
         state_start+=n+1;atom_start+=n
         current_fields=[('qpos',model.nq),('qvel',model.nv),('ctrl',model.nu),('tcp_position_m',3),('tcp_rotation6d',6),('object_position_m',3),('object_rotation6d',6),('finger_position_m',2)]
         if fields is not None and fields!=current_fields:raise ValueError('STATE_LAYOUT_CHANGED')
@@ -124,6 +145,7 @@ def build(path,output):
     meta=dict(schema=SCHEMA,state_fields=[dict(name=k,size=n)for k,n in fields],state_dimension=sum(n for _,n in fields),original_model_sha256=assets['original_model_sha256'],robot_fingerprint=assets['robot_fingerprint'],scene_assets_sha256=sorted(models),joints=joints,actuator_gear=model.actuator_gear.tolist(),actuator_gain=model.actuator_gainprm.tolist(),episodes=identities,task_atoms=atom_start,windows=sum(e['window_count']for e in identities),history_burn_atoms=8,predict_atoms=16,action='PREDECLARED_RAMP8_FIXED_WORLD_GOAL_EEF10_BASE_POSE7_V1',window_clock='ACTUAL_EPISODE_RELATIVE_WINDOW_START_S',renewal_atoms=7,source_age_future='CURRENT_PREFIX_ONLY_THEN_MISSING_NO_FUTURE_ACTUAL',controller_hidden_state_exported=False,controller_selected_policy_id='DERIVED_NOT_DIRECT_EXPORT',contact_collection='NOT_QUALIFIED',events=['left_contact','right_contact','grasp','robot_object_contact','opposing','gripper_valid','safety_valid'],held_out_parent_generalization=any(e['split']=='DEV'for e in identities),overlapping_windows_independent=False)
     meta['executor_sha256']=executor
     if next2:meta.update(prospective_prediction_first=True,new_panel_used_for_model_fitting=False,manifest_schema=manifest['schema'])
+    if pilot1:meta.update(manifest_schema=manifest['schema'],actual_TASK_feedback=True,feedback_split='TRAIN_ONLY')
     meta['schema']=schema
     if next1:meta.update(collection_protocol='FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1',excluded_prehold_atoms_per_episode=40,raw_task_atoms_per_episode=64)
     if decision:meta.update(action='ACTUAL_HOLD8_PAST_GOALS_THEN_CHOSEN_RAMP8_FUTURE_GOAL_V3',decision_atom=8,current_installed_prefix_atoms=7,history_goal='ACTUAL_PAST_INSTALLED_GOALS_ONLY',future_reference='CHOSEN_GOAL_INSTALLED_AT_DECISION_BEFORE_RESPONSE')

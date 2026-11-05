@@ -44,5 +44,13 @@ class PilotActor(unittest.TestCase):
         actual=numpy_logits(export_arrays(actor),x.numpy().astype(np.float64))
         np.testing.assert_allclose(actual,actor(x).detach().numpy(),atol=1e-6,rtol=0)
 
+    def test_failed_real_action_is_not_cloned_as_successful_expert(self):
+        from go2arx5_vla.world_model.pilot1_actor import observed_feedback_loss
+        logits=torch.zeros((2,4),requires_grad=True)
+        loss=observed_feedback_loss(logits,torch.tensor([1,1]),torch.tensor([True,False]))
+        loss.backward()
+        self.assertLess(logits.grad[0,1].item(),0)
+        self.assertGreater(logits.grad[1,1].item(),0)
+
 
 if __name__=='__main__':unittest.main()

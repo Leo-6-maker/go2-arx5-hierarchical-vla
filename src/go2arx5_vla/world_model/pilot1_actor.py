@@ -133,3 +133,19 @@ def export_arrays(actor):
         arrays[f'w{layer}'] = actor.net[layer].weight.detach().cpu().numpy()
         arrays[f'b{layer}'] = actor.net[layer].bias.detach().cpu().numpy()
     return arrays
+
+
+def observed_feedback_loss(logits, actions, successes):
+    """Observed local successes are clones; failures are unlikelihood, not experts.
+
+    This is weak on-policy/behavior feedback, not a counterfactual value oracle.
+    """
+    if logits.ndim!=2 or logits.shape[1]!=4 or not torch.all((actions>=0)&(actions<4)):
+        raise ValueError('REAL_DISCRETE_FEEDBACK_ACTION_REQUIRED')
+    chosen=logits.gather(1,actions[:,None]).squeeze(1)
+    all_logsum=torch.logsumexp(logits,dim=-1)
+    mask=torch.nn.functional.one_hot(actions,4).bool()
+    others=torch.logsumexp(logits.masked_fill(mask,float('-inf')),dim=-1)
+    success_loss=all_logsum-chosen
+    failure_loss=all_logsum-others
+    return torch.where(successes,success_loss,failure_loss).mean()

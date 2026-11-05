@@ -8,7 +8,7 @@ def run(spec, output):
     import hashlib, random, time
     import numpy as np
     import torch
-    from go2arx5_vla.world_model.pilot1_actor import (Actor, TorchARX, examples, export_arrays, numpy_logits, task_from_train)
+    from go2arx5_vla.world_model.pilot1_actor import (Actor, TorchARX, examples, export_arrays, numpy_logits, task_from_train, features, observed_feedback_loss)
     from go2arx5_vla.world_model.target_arx import CausalARX
     from go2arx5_vla.world_model.target_replay import load
     from go2arx5_vla.world_model.target_replay_v2 import select_samples
@@ -48,6 +48,7 @@ def run(spec, output):
         tensors = {k: torch.as_tensor(v, dtype=dtype, device=device) for k, v in values.items()}
         prediction = port(**tensors)
         errors[label] = {str(h): float(np.max(np.abs(prediction.detach().cpu().numpy()[:, h-1] - reference[:, h-1]))) for h in (1, 8, 16)}
+        errors[label+'_by_state_group']={name:{str(h):float(np.max(np.abs(prediction.detach().cpu().numpy()[:,h-1,sl]-reference[:,h-1,sl])))for h in(1,8,16)}for name,sl in teacher.layout.items()}
         if label == 'FP64':
             if max(errors[label].values()) > 1e-10:
                 raise ValueError('FP64_ARX_EQUIVALENCE_FAILED')
@@ -72,6 +73,18 @@ def run(spec, output):
     optimizer = torch.optim.AdamW(model.parameters(), lr=spec['learning_rate'], weight_decay=1e-4)
     x, labels, scores = [torch.as_tensor(v, dtype=torch.float32, device=device) for v in (x, labels, scores)]
     dx, dlabels, dscores = [torch.as_tensor(v, dtype=torch.float32, device=device) for v in (dx, dlabels, dscores)]
+    feedback=None
+    if spec.get('feedback_recipe'):
+        if spec['feedback_recipe']!='SUCCESS_CLONE_FAILURE_UNLIKELIHOOD_V1'or not prior:
+            raise ValueError('EXPLICIT_RESUMED_ACTOR_FEEDBACK_RECIPE_REQUIRED')
+        ids=np.asarray([i for i in train_ids if meta['episodes'][int(data['episode_index'][i])].get('pilot1_feedback')],dtype=np.int64)
+        if not len(ids):raise ValueError('ACTUAL_NEW_TRAIN_OUTCOMES_REQUIRED')
+        observed=[meta['episodes'][int(data['episode_index'][i])]['pilot1_feedback']for i in ids]
+        fx=features(data,meta,ids,np.asarray([o['goal_offset_xy_m']for o in observed]))
+        feedback=(torch.as_tensor(fx,dtype=torch.float32,device=device),
+                  torch.as_tensor([o['action']for o in observed],dtype=torch.long,device=device),
+                  torch.as_tensor([o['local_XY_success']for o in observed],dtype=torch.bool,device=device))
+        write_json(output/'ACTUAL_FEEDBACK_AUDIT.json',dict(TRAIN_episodes=len(ids),successes=sum(o['local_XY_success']for o in observed),failures=sum(not o['local_XY_success']for o in observed),recipe=spec['feedback_recipe'],weight=spec['feedback_weight'],counterfactual_oracle=False,full_manipulation_successes=0))
     cursor, previous_updates = 0, 0
     if prior:
         if (prior['schema'] != 'WM02_PILOT1_ACTOR_CHECKPOINT_V1' or prior['ARX_sha256'] != spec['ARX_sha256']
@@ -84,6 +97,7 @@ def run(spec, output):
     def update(m, opt, at):
         ids = torch.arange(at, at + spec['batch_size'], device=device) % len(x)
         logits = m(x[ids]); loss = -(labels[ids] * torch.log_softmax(logits, -1)).sum(-1).mean()
+        if feedback is not None:loss=loss+spec['feedback_weight']*observed_feedback_loss(m(feedback[0]),feedback[1],feedback[2])
         opt.zero_grad(set_to_none=True); loss.backward()
         gradient = float(torch.sqrt(sum(p.grad.square().sum() for p in m.parameters())))
         opt.step()
@@ -145,6 +159,7 @@ def run(spec, output):
                   prior_Actor_updates=previous_updates, restore_probe_optimizer_calls=1, complete_restore_error=restore_error,
                   endpoint_reload_error=endpoint_error,
                   portable_max_logit_error=float(np.max(np.abs(actual-expected))), TRAIN_windows=len(train_ids), DEV_windows=len(dev_ids),
+                  real_feedback_examples=0 if feedback is None else len(feedback[0]),feedback_recipe=spec.get('feedback_recipe'),
                   TRAIN=metrics(x, labels, scores), DEV=metrics(dx, dlabels, dscores), WM_updates=0, native_integrations=0,
                   native_policy_evaluation='NOT_YET_EXECUTED', GPU_uuid=spec['GPU_uuid'], GPU_peak=memory(device),
                   CUDA_elapsed_ms=event0.elapsed_time(event1), CPU_s=time.process_time()-cpu, wall_s=time.monotonic()-started)
