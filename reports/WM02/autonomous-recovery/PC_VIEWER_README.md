@@ -1,5 +1,7 @@
 # Private PC native-mesh replay
 
+实时接入另见 [WM02 本体场景实时显示](../../../docs/operations/WM02_LIVE_VIEWER.md)。新的 `watch_native_live` 使用独立的只读原生状态通道；本页旧入口和 recorded-file bridge 仍只用于回放。
+
 The implementation loads the **original same-episode compiled MuJoCo3.2.7 MJB** and original GRTSTATE journal, checks their SHA256 and ABI34/32/20, applies recorded qpos/qvel/ctrl/time, calls `mj_forward`, and synchronizes the native passive viewer. No interpolation, new physics, controller or safety qualification. The old failures are labelled `TARGET_FAILED_REPLAY`.
 
 On the current PC the private variables are already resolved by the operator. A future review command (new output directory each time):
