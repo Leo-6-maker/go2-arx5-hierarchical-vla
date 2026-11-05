@@ -10,7 +10,8 @@ from pathlib import Path
 def run(spec, output):
     import numpy as np
     import torch
-    from go2arx5_vla.world_model.pilot2_contact_model import replay, DirectContactWM, metrics
+    from go2arx5_vla.world_model.pilot2_contact_model import replay, metrics
+    from go2arx5_vla.world_model.pilot2_contact_neural import DirectContactWM
     from go2arx5_vla.world_model.actor_sampling import ExactSampler
     from go2arx5_vla.world_model.neural_training import rng_state, restore_rng, tree_error, memory
     from go2arx5_vla.world_model.storage import digest, write_json

@@ -4,6 +4,8 @@ import json
 import tempfile
 import time
 import unittest
+import subprocess
+import sys
 from pathlib import Path
 import numpy as np
 from go2arx5_vla.world_model.pilot2_contact_model import replay, planned_openings
@@ -31,6 +33,20 @@ def episode(split='TRAIN', parent='P', run='run'):
 
 
 class SupportedDirectPrediction(unittest.TestCase):
+    def test_native_dataset_module_has_no_torch_dependency(self):
+        code = '''
+import builtins
+original = builtins.__import__
+def native_import(name, *args, **kwargs):
+    if name == 'torch' or name.startswith('torch.'):
+        raise ImportError('TORCH_FORBIDDEN_IN_NATIVE_REPLAY_ENVIRONMENT')
+    return original(name, *args, **kwargs)
+builtins.__import__ = native_import
+from go2arx5_vla.world_model.pilot2_contact_model import replay, planned_openings
+from scripts.wm02.build_pilot2_contact import build
+'''
+        subprocess.run([sys.executable, '-B', '-c', code], check=True, capture_output=True, text=True)
+
     def test_future_observation_cannot_enter_input_and_no_future_program_is_matched(self):
         e = episode(); a = replay([e]); changed = copy.deepcopy(e)
         changed['samples'][9]['TCP_m'][0] += .01
