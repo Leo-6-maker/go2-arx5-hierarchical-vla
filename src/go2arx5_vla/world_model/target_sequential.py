@@ -334,6 +334,9 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-next2-contact':
+            from .next2_contact import run
+            return run(self)
         import numpy as np
         from .target_reference import trajectory_identity,require_live_window,installed_target_identities,fixed_goal_poses
         from go2arx5_vla.task_data.codec import pose10
