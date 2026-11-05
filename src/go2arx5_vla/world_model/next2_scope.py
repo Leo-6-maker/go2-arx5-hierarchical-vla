@@ -13,7 +13,7 @@ def validate_limits(b,*,now):
 
 
 def usage(campaign,binding):
-    n=t=m=p=0
+    n=t=m=p=0;recipes=set()
     for root in(Path(campaign)/'runs').glob('next2-*'):
         f=root/'EXECUTION_SPEC.json'
         if not f.exists():continue
@@ -22,10 +22,11 @@ def usage(campaign,binding):
         if s.get('profile')=='wm02-auto1-target':
             n+=1;f=root/'native-01/RESULT.json';t+=json.loads(f.read_text())['actual_target_integrations']if f.exists()else s['max_ticks']
         elif s.get('profile')=='wm02-auto1-target-neural':
+            recipes.add(s['next2_recipe'])
             f=root/'fit-01/RESULT.json'
             if f.exists():v=json.loads(f.read_text());m+=v['main_updates'];p+=v['continuation_probe_updates']
             else:m+=s['endpoint'];p+=1
-    return dict(attempts=n,native_ticks_or_reservations=t,main_updates_or_reservations=m,restore_probes_or_reservations=p)
+    return dict(attempts=n,native_ticks_or_reservations=t,main_updates_or_reservations=m,restore_probes_or_reservations=p,neural_recipes=len(recipes))
 
 
 def validate(spec,registry,*,now=None):
@@ -34,7 +35,7 @@ def validate(spec,registry,*,now=None):
     if not any(e.get('scope')==b['scope']and e.get('path')==str(path.parent.parent)and e.get('local_lease')==str(path.parent/'LEASE.json')and e.get('owner')==b['owner']for e in registry['entries']):raise PermissionError('ACTUAL_NEXT2_WINDOW_REGISTRATION_REQUIRED')
     if not any(e.get('path')==spec['registered_root']and e.get('source_sha')==spec['source_sha']and e.get('next2_binding')==str(path)for e in registry['entries']):raise PermissionError('ACTUAL_NEXT2_WORKER_REGISTRATION_REQUIRED')
     u=usage(spec['campaign_root'],path)
-    if u['attempts']>96 or u['native_ticks_or_reservations']>600000 or u['main_updates_or_reservations']>1600 or u['restore_probes_or_reservations']>4:raise PermissionError('NEXT2_FINITE_ENDPOINTS_EXHAUSTED')
+    if u['attempts']>96 or u['native_ticks_or_reservations']>600000 or u['main_updates_or_reservations']>1600 or u['restore_probes_or_reservations']>4 or u['neural_recipes']>2:raise PermissionError('NEXT2_FINITE_ENDPOINTS_EXHAUSTED')
     if digest(spec['native_binary'])!=C08:raise PermissionError('NEXT2_FROZEN_C08_BINARY_REQUIRED')
     return b
 
