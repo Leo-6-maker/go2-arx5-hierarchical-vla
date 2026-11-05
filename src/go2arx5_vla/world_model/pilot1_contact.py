@@ -151,7 +151,7 @@ def run(a):
                    finger_q=state['finger_q'].tolist(), actual_gripper_internal_memory=memory,
                    reference_sha256=window['reference_sha256'],
                    executed_reference_index=(step-installed_step)//25,
-                   executed_reference_EEF10=a.active_reference['action_EEF10'][(step-installed_step)//25].tolist())
+                   executed_reference_EEF10=np.asarray(a.active_reference['action_EEF10'])[(step-installed_step)//25].tolist())
         samples.append(row); a.command_event(dict(phase='contact-actual-atom', **row))
     table_id = mujoco.mj_name2id(a.actual_state.model, mujoco.mjtObj.mjOBJ_GEOM, 'task_table')
     support = any({c['geom0'], c['geom1']} == {table_id, a.actual_state.cube_geom} and c['wrench'][0] >= .05 for c in a.observe()['contacts'])
