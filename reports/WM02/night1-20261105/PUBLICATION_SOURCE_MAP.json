@@ -1,7 +1,7 @@
 {
   "schema": "WM02_EXACT_SOURCE_PUBLICATION_MAP_V1",
   "base_sha": "6e99a72e56eaa1066e567fb66f95ad7121695742",
-  "purpose": "Exact source recovery, same Git trees. Static IK is not contact qualification; C08 has no remote receipt.",
+  "purpose": "Exact original commit recovery and identical published Git trees. Includes C08 native acceptance, real4176atom closeout and bounded successor partials; no full manipulation or Actor claim.",
   "snapshots": [
     {
       "actual_source_sha": "d8a7604f84d7a1e506afd478452d2e0efc60aeda",
@@ -124,24 +124,6 @@
       "published_snapshot_sha": "a3b5e07e7b78955e9651c3852db6090b8db2990a"
     },
     {
-      "actual_source_sha": "18dc312b584675465fca53f28ec323e7809bd345",
-      "tree_sha": "77928816e28c10ee7517b3372a75edcc1720ea97",
-      "original_commit_object": "tree 77928816e28c10ee7517b3372a75edcc1720ea97\nparent 6e99a72e56eaa1066e567fb66f95ad7121695742\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813449 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813449 +0800\n\ndocs(wm02): append eight evidence-gated successor goals to NIGHT1",
-      "published_snapshot_sha": "18dc312b584675465fca53f28ec323e7809bd345"
-    },
-    {
-      "actual_source_sha": "bea65e275079906e07ac7ca149660162ae5f694b",
-      "tree_sha": "009a056b3413403be75404e36724a0b757f5932f",
-      "original_commit_object": "tree 009a056b3413403be75404e36724a0b757f5932f\nparent 18dc312b584675465fca53f28ec323e7809bd345\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813566 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813566 +0800\n\nexperiments(wm02): add finite successor DAG and bounded follow-on model comparisons",
-      "published_snapshot_sha": "bea65e275079906e07ac7ca149660162ae5f694b"
-    },
-    {
-      "actual_source_sha": "59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb",
-      "tree_sha": "f2c9d24eb9b4ab60a8385e76e3a3a36c97f2f950",
-      "original_commit_object": "tree f2c9d24eb9b4ab60a8385e76e3a3a36c97f2f950\nparent bea65e275079906e07ac7ca149660162ae5f694b\nauthor Liu Yu <122090353@link.cuhk.edu.cn> 1793813599 +0800\ncommitter Liu Yu <122090353@link.cuhk.edu.cn> 1793813599 +0800\n\ndocs(wm02): mount successor goals after current NIGHT1 goal without hot updates",
-      "published_snapshot_sha": "59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb"
-    },
-    {
       "actual_source_sha": "7a37e694764229baf30ddf3b2377159f9aadba29",
       "tree_sha": "916e7d1cbefbe5c66cf155f32082c41e9969becc",
       "original_commit_object": "tree 916e7d1cbefbe5c66cf155f32082c41e9969becc\nparent de9653cf98bd224eced5a5a279da23257ee2dd70\nparent 59aa9e4d12208e3e51de8fc0d84ab7fa93ebe6cb\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793817223 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793817223 +0800\n\nmerge: preserve concurrent NIGHT1 successor handoff before new cold-boundary work\n",
@@ -236,6 +218,48 @@
       "tree_sha": "832d67f682f31ea815f62e32f777df17cb471515",
       "original_commit_object": "tree 832d67f682f31ea815f62e32f777df17cb471515\nparent 1f91227f3eff90b9d7f4ce9795e6c141f11e554e\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793825145 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793825145 +0800\n\nreport(wm02): identify wrist-table obstruction and feasible static upper-object approach\n",
       "published_snapshot_sha": "5f17a5fdab1cf851356611333de1ab29d4b2a138"
+    },
+    {
+      "actual_source_sha": "1e50839e80a5202497d9a13c145e50f1d6b8f3e7",
+      "tree_sha": "b86778293756527a853fffac02bbdfcb7d309d7c",
+      "original_commit_object": "tree b86778293756527a853fffac02bbdfcb7d309d7c\nparent 57f5c36b70958c11204dedf411bdaa384389d788\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793825248 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793825248 +0800\n\nreport(wm02): preserve exact static-approach source identity\n",
+      "published_snapshot_sha": "f743e510f8b799aca5c3bc7d342963fc0c54e53e"
+    },
+    {
+      "actual_source_sha": "80384d504e305e613df5b6a452f2365b99908be0",
+      "tree_sha": "c1f74d2422c3441f915ad98efd16af74acaf30ba",
+      "original_commit_object": "tree c1f74d2422c3441f915ad98efd16af74acaf30ba\nparent 1e50839e80a5202497d9a13c145e50f1d6b8f3e7\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838000 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838000 +0800\n\nwm02: audit all sealed target production recordings without integration\n",
+      "published_snapshot_sha": "efa402221258ed88fe91b1aa63cdba1879f2cc20"
+    },
+    {
+      "actual_source_sha": "b0c56f4a26553e26f93637c767e52bc6dbaec6c4",
+      "tree_sha": "b06cb15cbf4b91b513b9db47a71f61c61ec666b3",
+      "original_commit_object": "tree b06cb15cbf4b91b513b9db47a71f61c61ec666b3\nparent 80384d504e305e613df5b6a452f2365b99908be0\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838194 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838194 +0800\n\nwm02: preregister bounded C08 relay and preserve finite neural scope\n",
+      "published_snapshot_sha": "8bc61a0b7abcc27290133decb4ced66b3324abd8"
+    },
+    {
+      "actual_source_sha": "10a32284af686010cfe983819026403846906bdd",
+      "tree_sha": "0654a8a7efbfd9b24fcfcb4673b2fd7162464204",
+      "original_commit_object": "tree 0654a8a7efbfd9b24fcfcb4673b2fd7162464204\nparent b0c56f4a26553e26f93637c767e52bc6dbaec6c4\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838259 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838259 +0800\n\nwm02: validate native quaternion units in population audits\n",
+      "published_snapshot_sha": "e75c93c0a417d5f6162c379ace6fe831071dfd67"
+    },
+    {
+      "actual_source_sha": "38956a2be3e62e17cc79994b0a6f6478f3505757",
+      "tree_sha": "32bca4e2ec41ba860174570e3111b270d5cf5d39",
+      "original_commit_object": "tree 32bca4e2ec41ba860174570e3111b270d5cf5d39\nparent 10a32284af686010cfe983819026403846906bdd\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838685 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793838685 +0800\n\nreport(wm02): record C08 native acceptance and full population action limits\n",
+      "published_snapshot_sha": "1f6b8f118826bf1476f31ace201c2d656b0f8c71"
+    },
+    {
+      "actual_source_sha": "a50a7244af914305834042bad6d68f74c974e7cb",
+      "tree_sha": "9d0fd2d7659626e36fdd53329874dfd69073121b",
+      "original_commit_object": "tree 9d0fd2d7659626e36fdd53329874dfd69073121b\nparent 38956a2be3e62e17cc79994b0a6f6478f3505757\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793839153 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793839153 +0800\n\nreport(wm02): close NIGHT1 with 4176 real atoms and per-goal successor handoff\n",
+      "published_snapshot_sha": "0b884edab99bbd93e3ce832daca7538df59b93dc"
+    },
+    {
+      "actual_source_sha": "a1653bc63f8fb590767d1f7373f4b3cc45c7bb2d",
+      "tree_sha": "ef6e8a37a6dc29fc4c634aad874496aceca651c5",
+      "original_commit_object": "tree ef6e8a37a6dc29fc4c634aad874496aceca651c5\nparent a50a7244af914305834042bad6d68f74c974e7cb\nauthor Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793839187 +0800\ncommitter Leo-6-maker <173348536+Leo-6-maker@users.noreply.github.com> 1793839187 +0800\n\ndocs(wm02): distinguish episode windows from independent parents\n",
+      "published_snapshot_sha": "ecff816ed5a4befb5a8a677700010f74a760b6d8"
     }
   ]
 }
