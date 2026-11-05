@@ -15,6 +15,15 @@ def native_startup_readiness(output,reference):
         evidence[name]=list(markers)
     return evidence
 
+
+def supported_object_hypothesis(phase,stage,sample):
+    """Use the existing clone-only attachment hypothesis after actual grasp."""
+    if (phase=='collect-target-pilot1-supported-close'and stage in('close','hold','release')
+            and sample.get('native_grasp')is True):
+        from scripts.pi0294.task_path_model import PlanningObjectMotion
+        return PlanningObjectMotion(sample,mode='ACTUAL_GRASP_ATTACHMENT')
+    return None
+
 def native_display_command(spec,output,environment):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
@@ -319,7 +328,10 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-pilot1-supported-close':
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             try:
-                with forbid_integration(mujoco):certificate=certify_chunk(self.actual_state.model,self.measured_task_state(),matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else())
+                with forbid_integration(mujoco):
+                    sample=self.measured_task_state();motion=supported_object_hypothesis(self.spec['phase'],stage,sample)
+                    certificate=certify_chunk(self.actual_state.model,sample,matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else(),planning_object_motion=motion)
+                    if motion is not None:certificate['planning_object_motion']=dict(motion.evidence(),source_native_step=sample['native_step'])
             except ValueError as error:
                 self.command_event(dict(phase='reference-certificate-rejected',native_step=packet['step'],source_mpc_s=source,stage=stage,action_EEF10=action.tolist(),reason=str(error),contact_details=getattr(error,'native_contact_details',None),submitted_or_executed=False))
                 raise

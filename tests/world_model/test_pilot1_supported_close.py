@@ -16,6 +16,14 @@ def actual_events():
 
 
 class SupportedClosePilot(unittest.TestCase):
+    def test_existing_attachment_is_only_a_planning_hypothesis_after_actual_grasp(self):
+        from go2arx5_vla.world_model.target_sequential import supported_object_hypothesis
+        sample=dict(native_grasp=True,tcp=np.eye(4),object_pose=np.eye(4))
+        motion=supported_object_hypothesis(PHASE,'close',sample)
+        self.assertEqual(motion.mode,'ACTUAL_GRASP_ATTACHMENT');self.assertFalse(motion.evidence()['actual_physics_or_labels_modified'])
+        for p,stage,value in [(PHASE,'close',False),(PHASE,'approach',True),('collect-target-pilot1','close',True)]:
+            self.assertIsNone(supported_object_hypothesis(p,stage,dict(sample,native_grasp=value)))
+        np.testing.assert_array_equal(sample['tcp'],np.eye(4));np.testing.assert_array_equal(sample['object_pose'],np.eye(4))
     def test_reader_uses_original_grasp_updater_not_two_contact_shortcut(self):
         def packet(step,nan=False):
             raw=struct.pack('<8sQdIII',b'GRTSTATE',step,step*.002,34,32,20)+np.zeros(86,dtype='<f8').tobytes()+struct.pack('<I',3)
