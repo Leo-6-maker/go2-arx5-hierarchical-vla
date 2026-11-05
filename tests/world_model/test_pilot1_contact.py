@@ -125,6 +125,15 @@ class ActualContactIntervals(unittest.TestCase):
             original.update(withdrawal_xyz_m=[0., .002, 0.])
             Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
             with self.assertRaises(PermissionError): validate(spec, previous)
+            policy=save('policy',{});teacher=save('teacher',{})
+            fitted=save('trained',dict(status='CONTACT_EXIT_POLICY_TRAINED_RELOADABLE_NATIVE_EVALUATION_PENDING',main_Actor_updates=4,complete_restore_error=0,endpoint_reload_error=0,portable_policy_sha256=digest(policy),teacher_sha256=digest(teacher)))
+            spec.update(contact_policy_numpy=policy,contact_policy_numpy_sha256=digest(policy),contact_teacher=teacher,contact_teacher_sha256=digest(teacher),contact_policy_result=fitted,contact_policy_result_sha256=digest(fitted))
+            original.update(schema='WM02_PILOT1_CONTACT_POLICY_V5',purpose='CONTACT_POLICY_EVALUATION',withdrawal_xyz_m=None,method='TRAINED_CONTACT_POLICY')
+            Path(episode).write_text(json.dumps(original));spec['episode_manifest_sha256']=digest(episode)
+            self.assertEqual(validate(spec,previous),5703)
+            broken=json.loads(Path(fitted).read_text());broken['complete_restore_error']=1
+            Path(fitted).write_text(json.dumps(broken));spec['contact_policy_result_sha256']=digest(fitted)
+            with self.assertRaisesRegex(PermissionError,'FROZEN_TRAINED_CONTACT_POLICY'):validate(spec,previous)
 
 
 if __name__ == '__main__': unittest.main()

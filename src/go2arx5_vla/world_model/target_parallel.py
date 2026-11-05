@@ -7,7 +7,7 @@ from .storage import digest,write_json
 
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
-    pilot= batch.get('schema')=='WM02_PILOT1_TWO_CONTACT_BATCH_V1'
+    pilot= batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
     runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
     for slot,child in zip(batch['slots'],children):

@@ -18,23 +18,37 @@ def validate(spec, previous):
     path = Path(spec['episode_manifest']); e = json.loads(path.read_text())
     schemas = {'WM02_PILOT1_TOUCH_WITHDRAW_V1': 96, 'WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2': 128,
                'WM02_PILOT1_CONTACT_TWO_ACTION_V3': 128,
-               'WM02_PILOT1_CONTACT_TWO_SLOT_V4': 128}
+               'WM02_PILOT1_CONTACT_TWO_SLOT_V4': 128,
+               'WM02_PILOT1_CONTACT_POLICY_V5': 128}
     if e.get('schema') not in schemas: raise PermissionError('DECLARED_FINITE_CONTACT_PROTOCOL_REQUIRED')
-    parallel = e['schema'] == 'WM02_PILOT1_CONTACT_TWO_SLOT_V4'
+    policy = e['schema'] == 'WM02_PILOT1_CONTACT_POLICY_V5'
+    parallel = e['schema'] in ('WM02_PILOT1_CONTACT_TWO_SLOT_V4','WM02_PILOT1_CONTACT_POLICY_V5')
     coverage = e['schema'] in ('WM02_PILOT1_CONTACT_TWO_ACTION_V3','WM02_PILOT1_CONTACT_TWO_SLOT_V4')
-    offset = e.get('withdrawal_xyz_m') if coverage else [0., .001, 0.]
-    if offset not in ([0., 0., 0.], [0., .001, 0.]):
+    offset = None if policy else e.get('withdrawal_xyz_m') if coverage else [0., .001, 0.]
+    if not policy and offset not in ([0., 0., 0.], [0., .001, 0.]):
         raise PermissionError('ONLY_NATIVE_QUALIFIED_HOLD_OR_PLUS_Y_1MM_CONTACT_ACTIONS')
     expected = dict(schema=e['schema'], phase=PHASE,
                     reference_rule=RULE, prehold_atoms=40, screen_atom=48,
                     touch_end_atom=64, task_atoms=schemas[e['schema']], withdrawal_xyz_m=offset,
                     contact_force_threshold_N=.05, required_exit_s=.2,
-                    minimum_away_Y_m=.0002, purpose='CONTACT_ACTION_COVERAGE' if coverage else 'CONTACT_EXIT_COMMISSION')
+                    minimum_away_Y_m=.0002, purpose='CONTACT_POLICY_EVALUATION'if policy else'CONTACT_ACTION_COVERAGE' if coverage else 'CONTACT_EXIT_COMMISSION')
     if (digest(path) != spec['episode_manifest_sha256']
             or any(e.get(k) != v for k, v in expected.items())
-            or e.get('run') != spec['registered_root'] or e.get('split') not in (('TRAIN', 'DEV', 'TEST') if coverage else ('TRAIN',))
+            or e.get('run') != spec['registered_root'] or e.get('split') not in (('TRAIN', 'DEV', 'TEST') if coverage or policy else ('TRAIN',))
             or not spec.get('pilot1_binding') or bool(spec.get('parallel_batch_spec')) != parallel):
         raise PermissionError('FRESH_SINGLE_PROCESS_QUALIFIED_TOUCH_WITHDRAW_REQUIRED')
+    if policy:
+        result=Path(spec['contact_policy_result']);trained=json.loads(result.read_text())
+        if (e.get('method')not in('TRAINED_CONTACT_POLICY','STRONG_PLUS_Y_EXIT_RULE')
+                or digest(spec['contact_policy_numpy'])!=spec['contact_policy_numpy_sha256']
+                or digest(spec['contact_teacher'])!=spec['contact_teacher_sha256']
+                or digest(result)!=spec['contact_policy_result_sha256']
+                or trained.get('status')!='CONTACT_EXIT_POLICY_TRAINED_RELOADABLE_NATIVE_EVALUATION_PENDING'
+                or trained.get('main_Actor_updates',0)<1 or trained.get('complete_restore_error')!=0
+                or trained.get('endpoint_reload_error')!=0
+                or trained.get('portable_policy_sha256')!=spec['contact_policy_numpy_sha256']
+                or trained.get('teacher_sha256')!=spec['contact_teacher_sha256']):
+            raise PermissionError('FROZEN_TRAINED_CONTACT_POLICY_AND_EMPIRICAL_TEACHER_REQUIRED')
     assets = json.loads(Path(spec['scene_allowlist']).read_text())
     scenes = [s for s in assets['scenes'] if s['scene_id'] == e['scene_id']]
     if (digest(spec['scene_allowlist']) != spec['scene_allowlist_sha256'] or len(scenes) != 1
@@ -126,6 +140,7 @@ def run(a):
     a.prepare_dynamic(); initial = a.measured_task_state(); a.next1_samples = [initial]
     reader = ContactReader(a.output/'state.bin.journal', a.actual_state.pad, a.actual_state.cube_geom)
     goal = initial['tcp'].copy(); installed_step = 2503; windows = []; samples = []; events = []; departure = None
+    actual_offset=e['withdrawal_xyz_m']
 
     def install(first=False):
         poses = fixed_goal_poses(initial['tcp'], goal, renewed=hasattr(a, 'active_reference') and not first)
@@ -138,9 +153,12 @@ def run(a):
             raise RuntimeError('UNSTABLE_REAL_CONTACT_DECISION_PREFIX')
         if atom == 64:
             departure = a.measured_task_state()['tcp'][:3, 3].copy()
-            goal = initial['tcp'].copy(); goal[:3, 3] += e['withdrawal_xyz_m']
+            if e.get('schema')=='WM02_PILOT1_CONTACT_POLICY_V5':
+                from .pilot1_contact_policy_numpy import choose
+                actual_offset=choose(a,e,samples)
+            goal = initial['tcp'].copy(); goal[:3, 3] += actual_offset
             a.command_event(dict(phase='contact-withdraw-before-install', native_step=step,
-                                 offset_xyz_m=e['withdrawal_xyz_m'], future_response_observed=False,
+                                 offset_xyz_m=np.asarray(actual_offset).tolist(), future_response_observed=False,
                                  actual_prior_positive_ticks=sum(r['contact_positive'] for r in events)))
             install(first=True); installed_step = step
         elif force or step-installed_step >= 175:
@@ -152,7 +170,7 @@ def run(a):
         if memory['values']['steps'] != state['native_step'] or memory['values']['sequence'] != a.active_reference['sequence']:
             raise RuntimeError('ACTUAL_GRIPPER_MEMORY_NOT_SAME_NATIVE_PAUSE')
         row = dict(native_start_step=step, native_end_step=step+25,
-                   stage='HOLD_TOUCH' if atom < 64 else ('WITHDRAW_PLUS_Y_1MM' if any(e['withdrawal_xyz_m']) else 'HOLD_CONTROL'),
+                   stage='HOLD_TOUCH' if atom < 64 else ('WITHDRAW_PLUS_Y_1MM' if any(actual_offset) else 'HOLD_CONTROL'),
                    contact_positive_native_ticks=sum(r['contact_positive'] for r in tick_events),
                    contact_any=any(r['contact_positive'] for r in tick_events), native_contact_events=tick_events,
                    TCP_m=state['tcp'][:3, 3].tolist(), object_pose=state['object_pose'].tolist(),

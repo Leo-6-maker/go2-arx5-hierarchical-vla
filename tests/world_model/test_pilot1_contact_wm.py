@@ -4,9 +4,9 @@ import numpy as np
 from go2arx5_vla.world_model.pilot1_contact_wm import replay
 
 
-def bundle(split,parent):
+def bundle(split,parent,count=22):
     rows=[]
-    for i in range(22):
+    for i in range(count):
         start=2503+25*i;pose=np.eye(4);pose[0,3]=i*.00001
         positive=i%5<3
         events=[dict(native_step=step,contact_positive=positive,max_pad_cube_normal_force_N=.1 if positive else 0.)for step in range(start+1,start+26)]
