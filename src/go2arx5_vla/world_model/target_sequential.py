@@ -340,11 +340,11 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_gripper_contract import teacher_physical_fraction
         from scripts.pi0292.durable import write
         self.prepare_dynamic();initial=self.measured_task_state();goal=initial['tcp'].copy();episode=None;late_decision=False;decision_applied=False
-        next1=self.spec['phase']=='collect-target-next1';decision_atom=8
+        next1=self.spec['phase']=='collect-target-next1';decision_atom=8;contact=False
         offset={'g2-eef-x':(0,.001),'g2-eef-y':(1,.001),'g2-standing-eef-x-v2':(0,.001),'g2-standing-eef-y-v2':(1,.001)}.get(self.spec['phase'])
         if next1:
             from .next1_episode import episode_config,assess
-            episode=episode_config(self.spec);self.next1_samples=[initial]
+            episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
             decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
         elif self.spec['phase']=='collect-target-night1':
@@ -360,7 +360,10 @@ class TargetSequentialAdapter:
         if offset:goal[offset[0],3]+=offset[1]
         # Original EEF compiler limits still apply. No BASE command labels.
         def action_at_current(first_decision=False):
-            poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
+            if contact and decision_applied:
+                from .next1_contact import chunk
+                poses=chunk(self.contact_path,(self.observe()['step']-2503)//25-decision_atom)
+            else:poses=fixed_goal_poses(initial['tcp'],goal,renewed=hasattr(self,'active_reference')and not first_decision)
             return np.stack([pose10(p,float(teacher_physical_fraction(1.)))for p in poses])
         windows=[];self.install_reference(action_at_current());start=2503;installed_step=start
         while self.observe()['step']<self.spec['max_ticks']:
@@ -375,6 +378,10 @@ class TargetSequentialAdapter:
             if late_decision and step==start+decision_atom*25 and not decision_applied:
                 # The burn prefix receives a hold-only H40. Reveal/install the
                 # chosen small goal at this actual pause, before its response.
+                if contact:
+                    from .next1_contact import planned_path
+                    self.contact_path=planned_path(initial['tcp'],self.measured_task_state()['object_pose'],episode['contact_grade'])
+                    write(self.output/'CONTACT_PLANNED_REFERENCE.private.json',dict(grade=episode['contact_grade'],path=self.contact_path.tolist(),planned_reference_only=True,achieved_state_reanchor=False))
                 goal=decision_goal;decision_applied=True
                 self.command_event(dict(phase='decision-boundary',native_step=step,sim_time_s=before['time_s'],reference_rule=episode['reference_rule'],offset_xyz_m=episode['offset_xyz_m'],goal_pose=goal.tolist(),future_response_observed=False))
                 self.install_reference(action_at_current(first_decision=True));installed_step=step
@@ -402,6 +409,9 @@ class TargetSequentialAdapter:
             index=(step-installed_step)//25
             self.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(self.active_reference['action_EEF10'])[index]))
         if next1 and not hasattr(self,'next1_screen'):assess(self,episode)
+        if contact:
+            samples=self.next1_samples
+            write(self.output/'CONTACT_GRADE_RESULT.private.json',dict(grade=episode['contact_grade'],completed=True,native_steps=[s['native_step']for s in samples],TCP_world_xyz_m=[s['tcp'][:3,3].tolist()for s in samples],object_xyz_m=[s['object_pose'][:3,3].tolist()for s in samples],left_object_contact=sum(bool(s['left_object_contact'])for s in samples),right_object_contact=sum(bool(s['right_object_contact'])for s in samples),native_grasp=sum(bool(s['native_grasp'])for s in samples),safety_valid=all(s['safety_valid']for s in samples),full_grasp_release_success=False,reference_path_end_reached_in_time=len(windows)-48>=len(self.contact_path)-1))
         self.capture_loaded_identity();cancel=self.cancel_reference();self.seal_trace(self.spec['max_ticks'])
         confirmed=sum(bool(w['solver_policies_with_exact_installed_target'])for w in windows)
         value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=self.spec['phase'],actual_collection_start_step=start,actual_collection_start_s=initial['time_s'],task_native_ticks=self.observe()['step']-start,complete_task_atoms=len(windows),partial_task_ticks=0,solver_target_confirmed_atoms=confirmed,controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',windows=windows,operator_cancel=cancel,observer_safety_stop='NOT_TESTED',full_task_success=False,BASE_velocity_labels='ABSENT',BASE_pose_reference='MEASURED_INITIAL_MPC_POSE_HOLD'if hasattr(self,'base_pose_hold')else'ABSENT',replan_cadence_s=.35,source_relative_ttl_s=.4)

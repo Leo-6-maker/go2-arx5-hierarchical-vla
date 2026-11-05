@@ -9,7 +9,7 @@ RULE='FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1'
 
 def episode_config(spec):
     path=Path(spec['episode_manifest']);e=json.loads(path.read_text())
-    allowed=('STEADY_SINGLE','STEADY_DUAL','ACTION_PILOT','ACTION_DEV','HOLD_REPEAT')
+    allowed=('STEADY_SINGLE','STEADY_DUAL','ACTION_PILOT','ACTION_DEV','HOLD_REPEAT','CONTACT_GRADED')
     if (digest(path)!=spec['episode_manifest_sha256'] or e.get('schema')!='WM02_NEXT1_EPISODE_V1'
             or e.get('run')!=spec['registered_root']or e.get('phase')!='collect-target-next1'
             or e.get('purpose')not in allowed or e.get('reference_rule')!=RULE
@@ -19,7 +19,7 @@ def episode_config(spec):
             or np.asarray(e['offset_xyz_m']).shape!=(3,)or not np.isfinite(e['offset_xyz_m']).all()
             or tuple(e['offset_xyz_m'])not in((0,0,0),(.001,0,0),(-.001,0,0),(0,.001,0))
             or(e['purpose'].startswith('STEADY_')and any(e['offset_xyz_m']))
-            or(not e['purpose'].startswith('STEADY_')and e['task_atoms']!=64)):
+            or(e['purpose']not in('STEADY_SINGLE','STEADY_DUAL','CONTACT_GRADED')and e['task_atoms']!=64)):
         raise PermissionError('EXACT_PREDECLARED_NEXT1_STEADY_CAUSAL_EPISODE_REQUIRED')
     assets=json.loads(Path(spec['scene_allowlist']).read_text())
     if digest(spec['scene_allowlist'])!=spec['scene_allowlist_sha256']:raise PermissionError('NEXT1_SCENE_ALLOWLIST_CHANGED')
@@ -37,6 +37,9 @@ def episode_config(spec):
                     or prefix.get('qualified')is not True or prefix.get('screen_atom')!=48
                     or native.get('status')!='NATIVE_STAGE_PASSED'or not native.get('shutdown_clean')
                     or native.get('physics_stops')or native.get('native_binary_sha256')!=digest(spec['native_binary'])):raise PermissionError('ACTUAL_SAFE_STEADY_PREFIX_PROOF_REQUIRED')
+    if e['purpose']=='CONTACT_GRADED':
+        from .next1_contact import validate
+        validate(spec,e)
     return e
 
 
