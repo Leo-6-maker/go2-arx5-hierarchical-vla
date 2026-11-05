@@ -101,6 +101,27 @@ from go2arx5_vla.world_model.pilot2_contact_numpy import predict
             self.assertFalse(r['TEST_read']); self.assertFalse(r['free_rollout_qualified'])
             for arm in r['arms'].values():
                 self.assertEqual(arm['full_restore_error'], 0); self.assertEqual(arm['endpoint_reload_error'], 0)
+            inspection=root/'inspection.json';manifest=root/'inspect-manifest.json'
+            manifest.write_text(json.dumps(dict(schema='WM02_PILOT2_FROZEN_CONTACT_INSPECTION_V1',
+                source_sha=s['source_sha'],bundles=s['bundles'],models=[dict(name=arm,arm=arm,
+                    path=str(out/arm/'DIRECT_CONTACT_NUMPY.npz'),sha256=value['portable_sha256'])
+                    for arm,value in r['arms'].items()])))
+            code='''
+import builtins,sys
+original=builtins.__import__
+def native_import(name,*args,**kwargs):
+    if name=='torch'or name.startswith('torch.'):raise ImportError('TORCH_FORBIDDEN_IN_INSPECTION')
+    return original(name,*args,**kwargs)
+builtins.__import__=native_import
+from scripts.wm02.inspect_pilot2_contact_predictions import main
+raise SystemExit(main(sys.argv[1:]))
+'''
+            subprocess.run([sys.executable,'-B','-c',code,'--manifest',str(manifest),'--output',str(inspection)],
+                check=True,capture_output=True,text=True)
+            inspected=json.loads(inspection.read_text());self.assertEqual(inspected['model_updates'],0)
+            timing=inspected['baselines']['PERSISTENCE']['DEV']['grid_transition_timing']['events']['NATIVE_GRASP_END']
+            self.assertGreater(timing['missed_actual_transitions'],0)
+            self.assertIsNone(timing['detected_only_timing_MAE_s'])
             s['resume_arms'] = {arm: dict(path=str(out/arm/'checkpoint-4.pt'), sha256=r['arms'][arm]['checkpoint_sha256']) for arm in r['arms']}
             out2 = root/'continued'; out2.mkdir(); r2 = run(s, out2)
             for arm in r2['arms'].values(): self.assertEqual(arm['prior_WM_updates'], 4)
