@@ -139,7 +139,24 @@
       "models_and_thresholds_frozen_before_collection": true,
       "zero_update_predictions_first": true,
       "no_fitting_on_same_prospective_parent": true,
-      "selector_requires_later_gate": true
+      "selector_requires_later_gate": true,
+      "original_declared_split": {
+        "TRAIN": [
+          "P09",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14"
+        ],
+        "DEV": [
+          "P15",
+          "P16"
+        ]
+      },
+      "TRAIN_tagged_P09_P14_not_used_to_fit_in_this_frozen_prospective_panel": true,
+      "no_dev_relabel_after_collection": true,
+      "future_fit_on_P09_P14_requires_new_version_and_discloses_prior_prediction_exposure": true
     },
     "contact": {
       "initial_native_slots_max": 1,
