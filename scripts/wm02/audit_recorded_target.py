@@ -1,13 +1,13 @@
 """Audit same-source native recording coverage; no integration or learning."""
-def main(argv=None):
-    import argparse,json,time
+def audit(config):
+    import json,time
     from pathlib import Path
     import numpy as np
     from go2arx5_vla.world_model.native_replay import load,forbid_integration
     from go2arx5_vla.world_model.storage import digest,write_json
     from go2arx5_vla.world_model.target_replay import validate_windows
     from scripts.pi0294.task_state import ActualState
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args(argv);start=time.monotonic();cpu=time.process_time();config=json.loads(a.config.read_text())
+    start=time.monotonic();cpu=time.process_time()
     mujoco,model,_,rows=load(config);result_path=Path(config['native_result']['path'])
     if digest(result_path)!=config['native_result']['sha256']:raise ValueError('SEALED_NATIVE_RESULT_CHANGED')
     result=json.loads(result_path.read_text());diag=result.get('reference_qualification');ep_start=diag.get('actual_collection_start_step')if diag else None
@@ -36,6 +36,14 @@ def main(argv=None):
         q=float(last['qpos'][model.jnt_qposadr[j]]);low,high=model.jnt_range[j];penetration=max(low-q,q-high,0.)
         if penetration:violations.append(dict(joint=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_JOINT,j),q=q,range=[float(low),float(high)],penetration=float(penetration)))
     output=dict(status='SAME_SOURCE_RECORDED_TARGET_AUDITED',episode_id=config['episode_id'],label=config['label'],original_native_source_sha=config['original_native_source_sha'],input_sha256={k:config[k]['sha256']for k in ['scene','journal','native_result','commands']if k in config},original_native_status=result['status'],native_steps=len(rows),native_clock_s=[rows[0]['time_s'],rows[-1]['time_s']],initialization_and_task_separate=True,proposed_references=len(proposed),proposed_with_actual_installation=sum(r['wire_sha256']in installed for r in proposed),coverage=coverage,last_native_joint_violations=violations,physics_stops=result['physics_stops'],trace_audit_errors=result.get('trace_audit',{}).get('errors'),valid_learning_atoms_added=0,failed_prefix_used_for_learning=False,full_task_success='NOT_EVALUATED_NO_BOUND_STANDING_TASK_SCORER',new_integrations=0,new_WM_updates=0,new_Actor_updates=0,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
-    write_json(a.output,output);print(json.dumps(output));return 0
+    return output
+
+
+def main(argv=None):
+    import argparse,json
+    from pathlib import Path
+    from go2arx5_vla.world_model.storage import write_json
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",type=Path,required=True);p.add_argument("--output",type=Path,required=True);a=p.parse_args(argv)
+    output=audit(json.loads(a.config.read_text()));write_json(a.output,output);print(json.dumps(output));return 0
 
 if __name__=='__main__':raise SystemExit(main())
