@@ -28,6 +28,15 @@ def episode_config(spec):
     a=matches[0]
     if (a['parent']!=e['parent']or a['split']!=e['split']or a['model_path']!=spec['model_path']
             or a['model_sha256']!=digest(spec['model_path'])or assets['native_binary_sha256']!=digest(spec['native_binary'])):raise PermissionError('NEXT1_FROZEN_MODEL_PARENT_SPLIT_REQUIRED')
+    if not e['purpose'].startswith('STEADY_'):
+        proofs=spec.get('steady_prefix_qualifications',[])
+        if len(proofs)!=2 or len({p['path']for p in proofs})!=2:raise PermissionError('TWO_REAL_INDEPENDENT_STEADY_PREFIXES_REQUIRED')
+        for proof in proofs:
+            path=Path(proof['path']);prefix=json.loads(path.read_text());native=json.loads((path.parent/'RESULT.json').read_text())
+            if (digest(path)!=proof['sha256']or digest(path.parent/'RESULT.json')!=proof['native_result_sha256']
+                    or prefix.get('qualified')is not True or prefix.get('screen_atom')!=48
+                    or native.get('status')!='NATIVE_STAGE_PASSED'or not native.get('shutdown_clean')
+                    or native.get('physics_stops')or native.get('native_binary_sha256')!=digest(spec['native_binary'])):raise PermissionError('ACTUAL_SAFE_STEADY_PREFIX_PROOF_REQUIRED')
     return e
 
 
