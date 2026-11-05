@@ -22,7 +22,7 @@ def validate(spec,previous):
         proof=Path(spec['precontact_qualification']);v=json.loads(proof.read_text());native=json.loads((proof.parent/'RESULT.json').read_text())
         if digest(proof)!=spec['precontact_qualification_sha256']or not v.get('precontact_continuity_verified')or not v.get('same_native_process')or native.get('status')!='NATIVE_STAGE_PASSED'or native.get('physics_stops')or not native.get('shutdown_clean'):raise PermissionError('COMPLETE_NATIVE_AND_SCIENTIFIC_C1_QUALIFICATION_REQUIRED')
         p=Path(spec['contact_stage_static']);check=json.loads(p.read_text())
-        if digest(p)!=spec['contact_stage_static_sha256']or not check.get('all_nominal_stage_chunks_feasible')or check.get('actual_C1_continuity_sha256')!=spec['precontact_qualification_sha256']or check.get('new_integrations')!=0:raise PermissionError('ACTUAL_CURRENT_C1_NOMINAL_CONTACT_PATH_CHECK_REQUIRED')
+        if digest(p)!=spec['contact_stage_static_sha256']or not check.get('all_nominal_stage_chunks_feasible')or check.get('actual_C1_continuity_sha256')!=spec['precontact_qualification_sha256']or check.get('new_integrations')!=0 or e.get('nominal_grasp_height_m',.02)not in(.02,.021,.022,.025,.03)or check.get('nominal_grasp_height_m')!=e.get('nominal_grasp_height_m',.02):raise PermissionError('ACTUAL_CURRENT_C1_NOMINAL_CONTACT_PATH_CHECK_REQUIRED')
     return 12503
 
 
@@ -127,7 +127,7 @@ def run(a):
         if e['purpose']=='GRADED_CONTACT':
             if stage=='PRECONTACT_HOLD'and elapsed>=1.5-1e-9:
                 if enough_time(remaining,'DESCEND'):
-                    target=above.copy();target[:3,3]=state['object_pose'][:3,3]+[0,0,.02];path=stage_path(above,target);path_start=atom+1;descended=True;change('DESCEND',state,'CURRENT1S_PLUS0.5S_PRECONTACT_AND10S_CHAIN_BUDGET',remaining)
+                    target=above.copy();target[:3,3]=state['object_pose'][:3,3]+[0,0,e.get('nominal_grasp_height_m',.02)];path=stage_path(above,target);path_start=atom+1;descended=True;change('DESCEND',state,'CURRENT1S_PLUS0.5S_PRECONTACT_AND10S_CHAIN_BUDGET',remaining)
                 elif first_blocker is None:first_blocker='INSUFFICIENT_REMAINING_TIME_FOR_DESCENT_AND_SAFE_EXIT'
             elif stage=='DESCEND'and path_done:
                 if g['actual_contact_alignment']and speed<=VELOCITY_LIMIT and enough_time(remaining,'CLOSE'):

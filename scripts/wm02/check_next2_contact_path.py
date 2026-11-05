@@ -13,12 +13,14 @@ def run(spec):
     if native['status']!='NATIVE_STAGE_PASSED'or not proof['precontact_continuity_verified']or not native['shutdown_clean']or native['physics_stops']:raise ValueError('ACTUAL_NATIVE_AND_CONTINUITY_PASS_REQUIRED')
     model=mujoco.MjModel.from_binary_path(execution['model_path']);engine=ActualState(model)
     with forbid_integration(mujoco):
-        state=engine.update(packets(r/'state.bin.journal')[-1]);above=np.asarray(json.loads((r/'CONTACT_PLANNED_REFERENCE.private.json').read_text())['path'])[-1];end=above.copy();end[:3,3]=state['object_pose'][:3,3]+[0,0,.02];descend=stage_path(above,end);withdraw=stage_path(end,above);checks=[]
+        height=spec.get('grasp_height_m',.02)
+        if height not in(.02,.021,.022,.025,.03):raise ValueError('DECLARED_GEOMETRIC_GRASP_CANDIDATE_REQUIRED')
+        state=engine.update(packets(r/'state.bin.journal')[-1]);above=np.asarray(json.loads((r/'CONTACT_PLANNED_REFERENCE.private.json').read_text())['path'])[-1];end=above.copy();end[:3,3]=state['object_pose'][:3,3]+[0,0,height];descend=stage_path(above,end);withdraw=stage_path(end,above);checks=[]
         for label,path in [('DESCEND_80_TO20',descend),('WITHDRAW_20_TO80',withdraw)]:
             for offset in range(0,51,7):
                 try:checks.append(dict(stage=label,offset=offset,passed=True,certificate=certify_chunk(model,state,chunk(path,offset),stage='align')))
                 except ValueError as error:checks.append(dict(stage=label,offset=offset,passed=False,reason=str(error),contact_details=getattr(error,'native_contact_details',None)))
-    return dict(schema='WM02_NEXT2_CONTACT_STAGE_STATIC_V1',all_nominal_stage_chunks_feasible=all(c['passed']for c in checks),actual_C1_native_result_sha256=digest(r/'RESULT.json'),actual_C1_continuity_sha256=digest(r/'PRECONTACT_CONTINUITY.private.json'),state_journal_sha256=digest(r/'state.bin.journal'),checks=checks,stage_atoms=50,planning_only_not_actual_future_history=True,new_integrations=0,new_optimizer_updates=0,remaining_time_rule=dict(DESCEND_s=10.,CLOSE_s=6.25,WITHDRAW_s=3.),native_original_certificates_still_required_at_every_real_install=True)
+    return dict(schema='WM02_NEXT2_CONTACT_STAGE_STATIC_V1',all_nominal_stage_chunks_feasible=all(c['passed']for c in checks),nominal_grasp_height_m=height,actual_C1_native_result_sha256=digest(r/'RESULT.json'),actual_C1_continuity_sha256=digest(r/'PRECONTACT_CONTINUITY.private.json'),state_journal_sha256=digest(r/'state.bin.journal'),checks=checks,stage_atoms=50,planning_only_not_actual_future_history=True,new_integrations=0,new_optimizer_updates=0,remaining_time_rule=dict(DESCEND_s=10.,CLOSE_s=6.25,WITHDRAW_s=3.),native_original_certificates_still_required_at_every_real_install=True)
 
 def main(argv=None):
     import argparse,json
