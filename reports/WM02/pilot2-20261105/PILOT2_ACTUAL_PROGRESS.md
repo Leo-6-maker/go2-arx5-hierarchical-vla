@@ -258,3 +258,21 @@ DEV两父、10 episode上的抓持事件：action-conditioned在672个实际网�
 两项响应审计分别0.079s/0.075s wall（CPU0.067/0.067s），全部优化／积分0。当前主要科学问题已由“只提升学生拟合”转为“教师绝对响应与简单规则的差距，以及任务是否需要复杂模型”；原生B1仍按原预登记完成，不热改候选。
 
 新的有限接触Policy评价CLI `scripts.wm02.run_pilot2_supported_panel` 已实现于 `c395708ab1c182003317b113a928c0d7fc652895`：先单槽40条件资格及评价，再20个双槽独立重复，四DEV父、两目标、规则/两恒定命令/同27数据FSM学生与WM学生，共80计划评价。每条件两次跨slot，单槽安全且前缀合格即可晋级重复，不按任务成功筛除失败。仍使用原registry/Journal/owner和原worker，没有新调度器。247项全套测试通过（16.659s），相关4项在-O下通过（1.265s）；模拟worker夹具不计真实Native。入口和未来capsule尚未在Core动态执行，需先完成剩余C0布局真实资格。旧更新4k模型另保留两目标的原生DEV诊断后继，未假报执行。
+
+
+### C09 second coverage cohort and frozen-model new-parent validation
+
+Runtime source `e2ba4a9d61c5af9a9c1199a7c98b2d608d134e33`: T06/T07/T08/V04 prefix and three contact programs completed 16/16 native PASS, 96,848 ticks, exit 0/CLOSED. The C09-only 24-episode bundle SHA256 is `f879c6c0818f1adb1d275ade47d8d2825ec37487b301938c846f03ba09522faa`: 4,032 raw atoms, 3,816 forecast anchors and 20,040 valid multihorizon labels, six TRAIN/two DEV parents. C08 data were not mixed. Wall 1,192.477 s; native worker child CPU 1,697.164 s; coordinator own CPU 2.079 s; builder CPU not separately metered.
+
+Frozen12 models were evaluated before any data expansion/refit. On new DEV parent V04, action-conditioned versus no-future-program grasp Brier is 0.000397/0.209967 at 32 atoms and 0.011995/0.277125 at 64; on prior DEV V03 the previous 0.000666/0.494718 at 32 is reproduced. Frozen FSM-student teacher agreement is 4/4 on V04 and 4/4 on V03. These correlated anchor predictions and offline action labels do not establish native control gain.
+
+A matched WM-teacher Policy completed 2,000 main updates plus one exact-restore probe, errors 0, exit 0/CLOSED. Same frozen12 data, seed363901, network, batch32/lr0.001, own TRAIN normalizer and fresh start as the FSM student; only the teacher changes. Checkpoint SHA256 `223f36faa3f8af7aa4cea8e4218bdd00b4325843ee6dd7acda9ad4fc355aeed4`, portable `f8007026ab23bf637b6b9b8325b1fb4a1272a9a166923dfa0177b913982376d1`. TRAIN12/DEV4 agreement is 100%; native execution still pending at this watermark. Worker wall12.138 s/child CPU10.735 s, Torch reserved68 MiB, not whole-process NVML. Current teachers have identical argmax, so equal native performance is a valid result.
+
+At this sealed watermark PILOT2 has 382 native attempts = 379 PASS + 3 FAIL, 1,670,576 ticks; free Actor216000+25 probes, contact Policy24000+12, contact WM20000+10 across models. The new C09 FSM supported dual commission is ACTIVE under source `5a7423d74f6d605d2477d14e8dbf61988efc1e0c`; it is excluded from the sealed totals until terminal. Details and strong baseline forecast metrics are in [C09_CONTACT24_FROZEN12_AND_TEACHERS.json](C09_CONTACT24_FROZEN12_AND_TEACHERS.json). No new TEST or native control gain is declared.
+
+
+### C09 full supported-policy dual qualification
+
+Source `5a7423d74f6d605d2477d14e8dbf61988efc1e0c` has now actually run: two T01 TRAIN FSM single goals followed by their opposite-slot paired independent repeats, 4/4 native PASS, 26,812 ticks, 4/4 strict supported microgoal successes, no invalid prefix/evidence or safety STOP. Coordinator exit0/CLOSED; wall267.870 s. Native child leases are all CLOSED; full supported6703 dual qualification now exists for this C09 executor. This is FSM qualification, not learned Policy gain. The two matched frozen12 learned students are now ACTIVE in a separately registered eight-rollout TRAIN feedback panel, single first per goal/model; these planned attempts are excluded from totals.
+
+Sealed cumulative native totals are 386 attempts = 383 PASS + 3 FAIL, 1,697,388 ticks. Frozen WBC, original safety,2ms physics, unique canonical owner and original deadline remain. [C09_SUPPORTED_FSM_DUAL_ACTUAL.json](C09_SUPPORTED_FSM_DUAL_ACTUAL.json) records actual decisions, physical hold/release times, source/native/evidence SHA and measured costs.

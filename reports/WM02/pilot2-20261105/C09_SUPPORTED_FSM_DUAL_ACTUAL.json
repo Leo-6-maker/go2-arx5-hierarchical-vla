@@ -1,0 +1,213 @@
+{
+  "schema": "WM02_PILOT2_C09_ACTUAL_SUPPORTED_FSM_DUAL_COMMISSION_V1",
+  "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+  "native_binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+  "native_attempts": 4,
+  "native_PASS": 4,
+  "native_FAIL": 0,
+  "native_ticks": 26812,
+  "single_first": true,
+  "independent_single_runs": 2,
+  "paired_opposite_slot_repeats": 2,
+  "hidden_state_fork": false,
+  "native": [
+    {
+      "run": "pilot2-c09-supported-fsm-dual-commission-01-single-00",
+      "native_sha256": "3c79516168d416c6c63a94d7a10a5d9412a2d634af63a83a6d7ffc1df44275d9",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "GOAL_FSM",
+        "task_goal": "SUPPORTED_GRASP_HOLD",
+        "selected_action": 0,
+        "selected_program": "CLOSE_KEEP",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": null
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 4.0,
+        "terminal_released_s": 0.0,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-supported-fsm-dual-commission-01-single-01",
+      "native_sha256": "0ed0a57361f294ca439738be7f50d75a75cb002fb5a363906f2c2993082b41b2",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "GOAL_FSM",
+        "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+        "selected_action": 1,
+        "selected_program": "CLOSE_RELEASE",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": null
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 1.2,
+        "terminal_released_s": 2.236,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-supported-fsm-dual-commission-01-pair-00-slot-0",
+      "native_sha256": "df4bcd388c8fd38f53274b5800d9a8b4b66121ee80ee5771c5042da936e0d77b",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "GOAL_FSM",
+        "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+        "selected_action": 1,
+        "selected_program": "CLOSE_RELEASE",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": null
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 1.2,
+        "terminal_released_s": 2.236,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-supported-fsm-dual-commission-01-pair-00-slot-1",
+      "native_sha256": "ff72e38c8aaf03b32d2b49c5309b9056232b5cf270addc9a808134b3cf44d59b",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "GOAL_FSM",
+        "task_goal": "SUPPORTED_GRASP_HOLD",
+        "selected_action": 0,
+        "selected_program": "CLOSE_KEEP",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": null
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 4.0,
+        "terminal_released_s": 0.0,
+        "full_manipulation_success": false
+      }
+    }
+  ],
+  "summary": {
+    "schema": "WM02_PILOT2_REPEATED_SUPPORTED_POLICY_SUMMARY_V1",
+    "planned": 4,
+    "attempted": 4,
+    "not_run": 0,
+    "native_failed": 0,
+    "invalid_evidence": 0,
+    "ineligible_prefix": 0,
+    "safety_stops": 0,
+    "variants": {
+      "GOAL_FSM": {
+        "attempted": 4,
+        "valid_eligible": 4,
+        "strict_successes": 4,
+        "strict_success_rate": 1.0,
+        "successes_per_planned_case": 1.0,
+        "by_parent": {
+          "PILOT2_C0_T01_LAYOUT_V1": {
+            "valid_eligible": 4,
+            "strict_successes": 4
+          }
+        },
+        "by_goal": {
+          "SUPPORTED_GRASP_HOLD": {
+            "valid_eligible": 2,
+            "strict_successes": 2
+          },
+          "RELEASE_FROM_SUPPORTED_GRASP": {
+            "valid_eligible": 2,
+            "strict_successes": 2
+          }
+        }
+      }
+    },
+    "CONTACT_CONTROL_GAIN": false,
+    "frame_counts_are_not_independent_trials": true
+  },
+  "costs": {
+    "coordinator_wall_s": 267.86997160315514,
+    "coordinator_own_CPU_s": 1.282588009,
+    "workers": [
+      {
+        "run": "pilot2-c09-supported-fsm-dual-commission-01-single-00",
+        "exit_code": 0,
+        "wall_s": 84.96166457002982,
+        "child_CPU_s": 123.164091
+      },
+      {
+        "run": "pilot2-c09-supported-fsm-dual-commission-01-single-01",
+        "exit_code": 0,
+        "wall_s": 86.88015217101201,
+        "child_CPU_s": 122.955415
+      },
+      {
+        "run": "pilot2-c09-supported-fsm-dual-commission-01-pair-00",
+        "exit_code": 0,
+        "wall_s": 90.42794950958341,
+        "child_CPU_s": 318.191322
+      }
+    ],
+    "worker_subtree_CPU_s": 632.032828839,
+    "monetary": "NOT_METERED"
+  },
+  "WM_updates": 0,
+  "Policy_updates": 0,
+  "TEST_read": false,
+  "CONTACT_CONTROL_GAIN": false,
+  "qualification_not_learned_policy_evidence": true,
+  "cumulative_sealed_native": {
+    "attempts": 386,
+    "PASS": 383,
+    "FAIL": 3,
+    "ticks": 1697388
+  }
+}
