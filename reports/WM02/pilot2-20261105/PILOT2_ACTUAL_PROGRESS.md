@@ -109,3 +109,20 @@ B0第二批P2T05–P2T08再次完成4资格＋32动作采集，36/36原生PASS�
 当前单环境有限timing后继正在补齐原面板中的KEEP56/KEEP72/RELEASE64/RELEASE72，每布局先单环境；已完成资格和前三程序不重跑。完成后才推进真实Policy和新TRAIN反馈。B0仍缺最后4 TRAIN父、6新DEV父和B1重复/冻结TEST；C0仍缺更多动态父覆盖。
 
 当前已封存累计83次原生PASS/363949 tick、192000 Actor主更新＋22探针、8000 WM主更新＋4探针。进行中的timing任务另列，未预记PASS。原生执行器C08 SHA256 `29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2`；原ARX、任务和冻结WBC保持。PILOT2 goal继续ACTIVE。
+
+
+## 实际双槽接触与首次训练策略反哺
+
+源码 `1063aa1954d1ea09156925db409d352f3d48e826` 新增严格的双槽支持Policy合同：每子任务先有匹配scene/goal/method/model的真实单槽资格，原owner的最大2实例不变。首次commission只允许已通过单槽的两项TRAIN规则目标；生产必须再有6703 tick的实际双槽完整时长证明。不以任务成功筛除安全但失败的策略结果。GPU物理后端/4环境/分布式均未启动。
+
+首次启动因父进程CPU绑定8–11与登记0–7不匹配而退出1，0物理积分；两个实际未启动子lease经独立核对后关闭，未复活CLOSED父任务。修正运行参数后以新身份双槽执行：两子各6703 tick、168 raw atom，分别KEEP/RELEASE且目标均成功；worker退出0、父子lease CLOSED，wall84.807s，自身CPU0.600s＋子CPU297.735s，一个物理owner。后续源码 `c4d7a486d9828f43739f8bcd5ecdb39de49462d3` 已增加“尚无启动marker且无native输出”时的严格未启动lease收尾；231项测试通过。两次私有bootstrap路径守卫错误也保留为前准入失败，未产生登记或物理效果。
+
+真实Policy已有两个各2k的训练条件：规则教师与WM事件代理教师。它们TRAIN4标签均100%，DEV4标签均75%；WM教师尚未改善策略。规则教师Policy checkpoint `4caea9fe3643555e9ce1b172a4b65fa9d88dd22c2700957438ad03443a877d09`，NumPy `34eb468b587a09beefb9f66fa2008442766b41de614cf11f86642fb8bc1f5c84`；WM教师Policy checkpoint `6ffd494b2bb1c2d0edf23400dd199dda872e5d5ea3ad35a3937af9f1b6e62abf`。后者尚未原生评价。
+
+规则教师Policy已在TRAIN同一物理父上完成KEEP/RELEASE各一次单槽执行，又完成一次双槽独立重启：四个真实rollout均原生PASS且微任务成功。每次于5303 tick暂停边界用过去状态＋已知目标推理并封存选择后才安装动作；KEEP总支持保持4.0s（含决策前1.2s、决策后2.8s），RELEASE要求先实际支持夹持再打开。双槽训练策略采样wall85.121s，自身＋子CPU298.235s。它们不是四个新父，也不是完整控制状态fork或独立TEST。逐模型与原生事实见 [C1模型/首次原生](C1_MODELS_AND_FIRST_NATIVE.json)。
+
+四个真实Policy TRAIN rollout已加入旧14 episode，封存18-episode Bundle：`abed558af5d0e9a22e5493540b9c30bfb5dc807dbd4d34f0feba129396c646ab`。3024 raw atom、2450历史anchor、12586个有效多视野标签；自适应未来程序仅在实际选择之后作为WM输入。新增4000 WM主更新＋2恢复探针，以及Policy新增2000主更新＋1探针均完成，所有worker退出0/CLOSED、恢复误差0。
+
+此次是真实“训练→原生策略采样→新TRAIN→更新”，但尚无泛化正结论：更新Policy TRAIN12个标签仍100%，原DEV4个标签由75%降至50%。新checkpoint `4258c4a6001164f13bc983910ed8341114df2586e3b88fd9634edd3202bf31f6`，须冻结后做原生DEV验证，不能用原训练父的4/4成功替代。接触数据仍为1 TRAIN父＋1 DEV父，下一优先级为独立父覆盖及输入泛化审查，继续叠加同父更新没有证据支持。具体更新、负结果与成本见 [真实策略反哺](C1_REAL_POLICY_FEEDBACK_UPDATE.json)。
+
+当前已封存99次原生PASS、471197 tick；自由空间Actor192000主更新/22探针，接触Policy6000主更新/3探针，接触WM16000主更新/8探针。合计Actor/Policy198000主更新/25探针，均为跨模型累计。B0第三批P2T09–P2T12正在实际执行，未预记其32条计划窗口。新DEV/TEST控制收益、完整8 TRAIN＋4 DEV接触覆盖仍未完成，goal保持ACTIVE。
