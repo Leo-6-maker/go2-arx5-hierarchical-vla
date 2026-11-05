@@ -1,0 +1,260 @@
+{
+  "schema": "WM02_NEXT_WINDOW_ACTION_EFFECT_V1",
+  "date": "2026-11-05",
+  "publication": "PLAN_ONLY_NOT_EXECUTED",
+  "parent": {
+    "pr": 356,
+    "head": "3d62dc098eadf789aa92f962484e1bdc442c7a99",
+    "night1_episodes": 66,
+    "night1_valid_atoms": 4176,
+    "night1_native_ticks": 703269,
+    "night1_main_updates": 700,
+    "night1_probes": 4,
+    "night1_worker_leases": "CLOSED",
+    "c08_executor_source": "93362d53497fa1aaee58ff03e091153e6c893a6c",
+    "c08_native_bin_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+    "c08_replay_sha256": "3493aa2ed00ceb2f9cd2c9f74a8c5a224f73be8da595be3d6abc4e74424a9a9a",
+    "c08_real_episodes": 24,
+    "c08_missing_predeclared_episodes": 8,
+    "c08_training_updates": 0,
+    "c08_parents": 8,
+    "c08_train_parents": 6,
+    "c08_dev_parents": 2,
+    "last_trained_model": "C06_ONLY",
+    "last_c06_checkpoint_sha256": "c32cd16ac30782d3e1efe135c922f3134ae1dd100c4515a48de49dcfb20f438f",
+    "last_c06_H16_TCP_RMSE_DEV_m": 0.000273214,
+    "c08_task_TCP_max_displacement_m": 0.042103857,
+    "c08_task_BASE_max_displacement_m": 0.019960516,
+    "contact_positive_episodes": 0,
+    "Actor_updates": 0
+  },
+  "authority": {
+    "current_new_native_scope": "NOT_GRANTED",
+    "requires_fresh_original_owner_registry_lease": true,
+    "no_restart_CLOSED_NIGHT1_leases": true,
+    "requested_max_window_hours": 6,
+    "requested_closeout_reserve_minutes": 20,
+    "requested_max_native_slots": 2,
+    "requested_max_new_native_attempts_including_failures": 64,
+    "requested_max_new_native_ticks_all": 400000,
+    "requested_per_episode_task_seconds_max": 8,
+    "requested_gpu_model_workers_max": 1,
+    "site_stricter_limits_override": true,
+    "no_new_scheduler": true,
+    "no_real_hardware": true,
+    "no_active_locomotion": true,
+    "no_formal_Actor_training": true,
+    "no_WBC_weight_gain_solver_cost_safety_dt_changes": true,
+    "no_system_network_or_other_user_changes": true,
+    "all_runs_finite_and_hashed": true,
+    "actual_scope_is_not_provided_by_this_file": true
+  },
+  "model_data_contract": {
+    "source_domain": "FULL_GO2_ARX5_NATIVE_WBC",
+    "native_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "ticks_per_atom": 25,
+    "history_burn_atoms": 8,
+    "predict_atoms": 16,
+    "actual_selected_policy_id": "DERIVED",
+    "full_hidden_state_restore": "NOT_QUALIFIED",
+    "history_conditioned_not_exact_Markov": true,
+    "future_achieved_state_as_input": false,
+    "unexecuted_reference_suffix_as_executed_label": false,
+    "scene_and_executor_SHA_version_required": true,
+    "TRAIN_only_normalization": true,
+    "old_C08_24_of_32_must_remain_24_if_protocol_changes": true
+  },
+  "planned_science": {
+    "stable_prefix": {
+      "independent_native_initializations_min": 2,
+      "screening_window_s": 0.4,
+      "proposed_relative_TCP_peak_to_peak_m_max": 0.002,
+      "threshold_kind": "TRAIN_CALIBRATED_RESEARCH_SCREEN_NOT_NATIVE_SAFETY",
+      "report_world_TCP_and_TCP_relative_BASE": true,
+      "all_unstable_count_in_denominator": true
+    },
+    "action_effect": {
+      "pilot_parent_count": 4,
+      "actions": [
+        "HOLD",
+        "PLUS_X_1MM",
+        "MINUS_X_1MM",
+        "PLUS_Y_1MM"
+      ],
+      "attempts": 16,
+      "action_at_atom": 8,
+      "compare_H": [
+        1,
+        8,
+        16
+      ],
+      "desired_per_parent_direction_consistency": 0.75,
+      "desired_effect_over_HOLD_std": 3,
+      "diagnostic_only": true,
+      "exact_same_state_counterfactual_claim": false,
+      "no_larger_action_without_new_qualified_scope": true
+    },
+    "known_C08": {
+      "parent_count": 8,
+      "actions_per_parent": 4,
+      "episodes_already_collected": 24,
+      "missing_episodes": 8,
+      "protocol_identity_required_to_fill": true
+    },
+    "models": {
+      "arms": [
+        "RAW",
+        "SCALED",
+        "NO_ACTION"
+      ],
+      "fresh_main_updates_each": 200,
+      "recovery_probes_each": 1,
+      "main_update_upper_bound": 600,
+      "probe_upper_bound": 3,
+      "same_train_seed_batch_exposure": true,
+      "baselines": [
+        "persistence",
+        "local_CV",
+        "TRAIN_only_ridge",
+        "TRAIN_only_ARX"
+      ],
+      "action_delta_prediction_required": true,
+      "desired_H8_H16_delta_RMSE_improvement_vs_NO_ACTION": 0.2,
+      "desired_direction_correct_fraction": 0.75,
+      "DEVs_independent_parents_required": true,
+      "no_2000_auto_extension": true
+    },
+    "prospective": {
+      "new_unseen_parents": [
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16"
+      ],
+      "models_and_thresholds_frozen_before_collection": true,
+      "zero_update_predictions_first": true,
+      "no_fitting_on_same_prospective_parent": true,
+      "selector_requires_later_gate": true
+    },
+    "contact": {
+      "initial_native_slots_max": 1,
+      "starts_only_after_stable_prefix_qualified": true,
+      "old_static_candidate": "OBJECT_CENTER_PLUS_20MM_MUST_BE_RECERTIFIED",
+      "phases": [
+        "free_space_approach",
+        "upper_object_approach",
+        "measured_contact",
+        "bounded_gripper_close",
+        "supported_hold",
+        "supported_release",
+        "withdraw"
+      ],
+      "true_native_contacts_needed": true,
+      "no_safety_relaxation": true
+    }
+  },
+  "stages": [
+    {
+      "id": "R0",
+      "depends": [],
+      "mode": "READ_ONLY",
+      "gate": "ACTUAL_NIGHT1_AND_C08_ACTION_CLOCK_CAUSAL_AUDIT"
+    },
+    {
+      "id": "S0",
+      "depends": [
+        "R0"
+      ],
+      "mode": "NEW_OWNER_BOUND_NATIVE_SCOPE",
+      "gate": "PREDECLARED_STABLE_PREFIX_INDEPENDENT_RUNS"
+    },
+    {
+      "id": "S1",
+      "depends": [
+        "S0"
+      ],
+      "mode": "NEW_OWNER_BOUND_NATIVE_SCOPE",
+      "gate": "FOUR_PARENT_X_FOUR_ACTIONS_EFFECT_AND_NOISE"
+    },
+    {
+      "id": "D0",
+      "depends": [
+        "R0"
+      ],
+      "mode": "READ_ONLY_WITH_OPTIONAL_QUALIFIED_NEW_SCOPE",
+      "gate": "C08_24_OF_32_COMPLETION_ONLY_IF_SAME_PROTOCOL"
+    },
+    {
+      "id": "M0",
+      "depends": [
+        "S1",
+        "D0"
+      ],
+      "mode": "NEW_LEGAL_GPU_SCOPE",
+      "gate": "MATCHED_3_MODEL_200_PLUS_PROBE_AND_ACTION_EFFECT_DEV"
+    },
+    {
+      "id": "V0",
+      "depends": [
+        "M0"
+      ],
+      "mode": "NEW_OWNER_BOUND_NATIVE_SCOPE",
+      "gate": "P09_P16_PROSPECTIVE_AFTER_FROZEN_MODELS"
+    },
+    {
+      "id": "C0",
+      "depends": [
+        "S0"
+      ],
+      "mode": "READ_ONLY",
+      "gate": "CURRENT_POSE_STATIC_GEOMETRY_REQUALIFIED"
+    },
+    {
+      "id": "C1",
+      "depends": [
+        "C0"
+      ],
+      "mode": "NEW_OWNER_BOUND_NATIVE_SCOPE",
+      "gate": "STAGED_REAL_CONTACT_OR_PRESERVED_FAIL"
+    },
+    {
+      "id": "B0",
+      "depends": [
+        "S0"
+      ],
+      "mode": "NEW_OWNER_BOUND_NATIVE_SCOPE",
+      "optional": true,
+      "gate": "MATCHED_ONE_VS_TWO_QUALITY_PER_WALL"
+    },
+    {
+      "id": "FINAL",
+      "depends": [
+        "R0"
+      ],
+      "mode": "READ_ONLY",
+      "always": true,
+      "gate": "TRUE_RUN_IDS_SHA_COUNTS_COSTS_LEASES_AND_UNRUN_LABELS"
+    }
+  ],
+  "status_labels": [
+    "EXECUTOR_STEADY_QUALIFIED",
+    "ACTION_EFFECT_IDENTIFIABLE",
+    "ACTION_CONDITIONED_WM_PREDICTIVE",
+    "CONTACT_COLLECTION_QUALIFIED",
+    "MODEL_USEFUL_FOR_CONTROL_NOT_ASSUMED"
+  ],
+  "next_ready_task": "R0_READ_ONLY_NOT_NATIVE_RESTART",
+  "guide": "docs/handover/2026-11-05/WM02_NEXT_WINDOW_ACTION_EFFECT_AND_CONTACT_V1.md",
+  "this_publication_effects": {
+    "new_native_ticks": 0,
+    "new_training_updates": 0,
+    "new_model_probes": 0,
+    "new_workers": 0,
+    "Actor_updates": 0
+  }
+}
