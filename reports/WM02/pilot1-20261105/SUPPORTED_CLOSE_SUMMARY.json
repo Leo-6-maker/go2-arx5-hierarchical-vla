@@ -1,0 +1,141 @@
+{
+  "schema": "WM02_PILOT1_SUPPORTED_CLOSE_DELIVERY_V1",
+  "scene_sha256": "dca8d261e525175ba3c5526a1bb101a5a126ea64402de586bd6ed7f2b77c0ab4",
+  "scene_compiler_source_sha": "26a35bf69f57d5ce21e7157cfab4acabb0df375e",
+  "qualification_source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+  "failed_runtime_source_sha": "a69ecdd96134f0de28f291a1fec026582aeee074",
+  "passed_runtime_source_sha": "acec4861fdf8ddf18e755e6fea74a303e3529749",
+  "qualification": {
+    "native_ticks": 4103,
+    "status": "NATIVE_STAGE_PASSED",
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 33.30046412721276,
+      "CPU_s": 12.673712286999999,
+      "child_CPU_s": 49.577481
+    }
+  },
+  "failure": {
+    "native_ticks": 4453,
+    "status": "NATIVE_STAGE_FAILED_PRESERVED",
+    "reason": "EXISTING_STATIC_OBJECT_PLANNING_CERTIFICATE_REJECTED_AFTER_REAL_GRASP",
+    "actual_task_atoms": 78,
+    "physics_stops": [],
+    "shutdown_clean": true,
+    "cost": {
+      "exit_code": 1,
+      "failure": null,
+      "wall_s": 44.667978837154806,
+      "CPU_s": 15.058501257000001,
+      "child_CPU_s": 62.128918000000006
+    }
+  },
+  "passed": {
+    "native_ticks": 6703,
+    "status": "NATIVE_STAGE_PASSED",
+    "score": {
+      "qualified_supported_grasp_hold": true,
+      "longest_continuous_supported_grasp_native_ticks": 600,
+      "longest_continuous_supported_grasp_s": 1.2,
+      "terminal_released_native_ticks": 918,
+      "terminal_released_s": 1.836,
+      "qualified_release": true,
+      "qualified_supported_close_hold_release": true,
+      "full_manipulation_success": false,
+      "original_native_grasp_predicate": true,
+      "schema": "WM02_PILOT1_SUPPORTED_CLOSE_SCORE_V1",
+      "source_sha": "acec4861fdf8ddf18e755e6fea74a303e3529749",
+      "same_native_process": true,
+      "physics_resets": 0,
+      "state_teleports": 0,
+      "actual_task_atoms": 168,
+      "first_blocker": null,
+      "contact_positive_native_ticks": 1156,
+      "bilateral_native_grasp_ticks": 1128
+    },
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 77.22560848016292,
+      "CPU_s": 32.953834425,
+      "child_CPU_s": 114.827984
+    },
+    "physics_stops": [],
+    "shutdown_clean": true
+  },
+  "static_grid": {
+    "candidates": 12,
+    "feasible": 4,
+    "CPU_s": 4.599510496000001,
+    "wall_s": 2.614181614946574,
+    "physics_integrations": 0,
+    "old_central_layout_rejected": true,
+    "selection": "FIRST_FEASIBLE_PREDECLARED_TRAIN_ONLY_GRID"
+  },
+  "diagnostic": {
+    "actual_native_grasp": true,
+    "static_rejected": true,
+    "actual_grasp_object_hypothesis_passed": true,
+    "new_integrations": 0,
+    "physics_or_native_object_binding_modified": false
+  },
+  "main_WM_updates_this_subtask": 0,
+  "main_Actor_updates_this_subtask": 0,
+  "trained_supported_grasp_policy": false,
+  "full_manipulation_success": false,
+  "data_identity_sha256": "99f033e33ee0218ccc836ad1a77ff60fc7c7f23aafbec43234cc954b713e251f",
+  "data_identity": {
+    "schema": "WM02_PILOT1_SEALED_SUPPORTED_DATA_IDENTITY_V1",
+    "episodes": [
+      {
+        "run": "pilot1-q-supported-sc07b-01",
+        "source_sha": "e13344f7eb95453ee93a8870f58f8f15cf42cfba",
+        "scene_sha256": "dca8d261e525175ba3c5526a1bb101a5a126ea64402de586bd6ed7f2b77c0ab4",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_ticks": 4103,
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "7e8b8f8b997422662666ebc3c5674d5a52861df64cb18d98234ae9d840c20bc5",
+          "EPISODE_MANIFEST.private.json": "087d5e90bf71175e6164ae6118e74c60daf787dcafccd6b3500ba2dbdd84ca04",
+          "native-01/RESULT.json": "3f7c16e08d2d5d3ff49a66c63386b0a386d8aac2b80c89152287146f73b44de1",
+          "native-01/state.bin.journal": "4ba60bf8c5876ab5b6cfbcfe50c030a1c23891fd1217c7c09ca4c6d4e442848f",
+          "native-01/COMMANDS.private.jsonl": "1a156fb4de15d48221ae4ac409bb86e31264af8772aa64971d73b7eb9ba64738",
+          "native-01/SUPPORTED_CLOSE_RESULT.private.json": null
+        }
+      },
+      {
+        "run": "pilot1-supported-close-sc07b-01",
+        "source_sha": "a69ecdd96134f0de28f291a1fec026582aeee074",
+        "scene_sha256": "dca8d261e525175ba3c5526a1bb101a5a126ea64402de586bd6ed7f2b77c0ab4",
+        "native_status": "NATIVE_STAGE_FAILED_PRESERVED",
+        "actual_native_ticks": 4453,
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "967315b365cbc7739fa80b724b31c4cce29de73b47d57de88d26086ab2eb46eb",
+          "EPISODE_MANIFEST.private.json": "c90043fc02ad32686e8924c0b9a4153f249eab10dc3c1214e5404b6ddc2684e5",
+          "native-01/RESULT.json": "d2788728b69e7484860d54eb10d6b1414a19be660fb150e9f8291f8d85537be0",
+          "native-01/state.bin.journal": "f3219b213a32ec684c25d9e577794ac402c4709af60799bd79308966e4589a4a",
+          "native-01/COMMANDS.private.jsonl": "8e8a83f6833a168ba755d7caa8e92254b3b563db7b4466c7ae74e7559fb60e8e",
+          "native-01/SUPPORTED_CLOSE_RESULT.private.json": null
+        }
+      },
+      {
+        "run": "pilot1-supported-close-sc07b-02",
+        "source_sha": "acec4861fdf8ddf18e755e6fea74a303e3529749",
+        "scene_sha256": "dca8d261e525175ba3c5526a1bb101a5a126ea64402de586bd6ed7f2b77c0ab4",
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_ticks": 6703,
+        "files_sha256": {
+          "EXECUTION_SPEC.json": "c15753b5244e9cd684c6574bd79c4919480495f3d03353da2400eaa0be701314",
+          "EPISODE_MANIFEST.private.json": "6d4407ae2c5e01252371496e6bf05160441353471ab58260553aab7bd009a896",
+          "native-01/RESULT.json": "cb1d8277116c7fe3ca45bc96c1bdbd14325152a986eeb5d25f1a5fe2f3361b95",
+          "native-01/state.bin.journal": "7d8ca5298d907c7cf47f215dc1f13ec399df0dc78c010e3862608beb4c3d0254",
+          "native-01/COMMANDS.private.jsonl": "788076a57cbaa6b85a1a8dc52c330518f9dc4578ac83b3527343a8bba5150fab",
+          "native-01/SUPPORTED_CLOSE_RESULT.private.json": "667d9d5a7e1e67d07dc799b87f463cfdba54cfc6f49de7f2608ac413314efb98"
+        }
+      }
+    ],
+    "manual_controller_not_trained_policy": true,
+    "failure_retained": true,
+    "raw_data_private": true
+  }
+}
