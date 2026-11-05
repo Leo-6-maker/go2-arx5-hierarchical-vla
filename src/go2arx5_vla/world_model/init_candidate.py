@@ -78,9 +78,17 @@ def build(spec,output):
         cpp,sdk_after=pair_patch(cpp,sdk_after)
         shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/command_pair.hpp',output/'command_pair.hpp')
     if spec.get('physical_callback_clock'):
-        if spec['physical_callback_clock']!='FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1'or not spec.get('command_pair_coherence'):raise ValueError('Explicit coherent physical callback clock required')
-        from .native_control_clock import patch as clock_patch
-        cpp,utils_after=clock_patch(cpp,patched[2]);patched=(patched[0],patched[1],utils_after)
+        version=spec['physical_callback_clock']
+        if not spec.get('command_pair_coherence'):raise ValueError('Explicit coherent physical callback clock required')
+        if version=='FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1':
+            from .native_control_clock import patch as clock_patch
+            cpp,utils_after=clock_patch(cpp,patched[2])
+        elif version=='FROZEN_PERIOD_PD_POLICY_APPLIED_CLOCK_V2':
+            from .native_applied_clock import patch as applied_patch
+            cpp,sdk_after,utils_after=applied_patch(cpp,sdk_after,patched[2])
+            shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/applied_control_clock.hpp',output/'applied_control_clock.hpp')
+        else:raise ValueError('Unknown physical callback clock version')
+        patched=(patched[0],patched[1],utils_after)
         shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/control_clock.hpp',output/'control_clock.hpp')
     for n,s in zip(names,(cpp,patched[1],patched[2])):(output/n).write_text(s)
     (output/'rl_sdk.cpp').write_text(sdk_after)
@@ -145,4 +153,6 @@ def build(spec,output):
         actual_target_integrations=0,leg_policy_queries=0,WM_updates=0,Actor_updates=0,loader_only_checks=2,
         trace_contract='65536 bounded records; async writer10ms; first inputs plus recent28 payload slots; exact pos/vel consumed versions; no emit-path IO/wait or command math change',
         CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
+    if spec.get('physical_callback_clock')=='FROZEN_PERIOD_PD_POLICY_APPLIED_CLOCK_V2':
+        result['applied_control_clock_header_sha256']=digest(output/'applied_control_clock.hpp')
     write_json(output/'CANDIDATE.private.json',result);return result
