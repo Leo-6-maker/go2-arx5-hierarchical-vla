@@ -25,7 +25,7 @@ def usage(campaign,binding):
             recipes.add(s['next2_recipe'])
             f=root/'fit-01/RESULT.json'
             if f.exists():v=json.loads(f.read_text());m+=v['main_updates'];p+=v['continuation_probe_updates']
-            else:m+=s['endpoint'];p+=1
+            else:m+=s['endpoint'];p+=s.get('restore_probe_reservation',1)
     return dict(attempts=n,native_ticks_or_reservations=t,main_updates_or_reservations=m,restore_probes_or_reservations=p,neural_recipes=len(recipes))
 
 
