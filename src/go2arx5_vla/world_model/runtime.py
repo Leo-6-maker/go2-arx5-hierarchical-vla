@@ -55,7 +55,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         if (gpu or physics or spec.get('physics') is not False
                 or spec.get('profile') != 'wm02-pilot1-offline-cpu'
                 or spec.get('plan_sha') != PLAN_SHA or spec.get('scope') != 'WM02_PILOT1_PC_MODEL_ONLY'
-                or spec.get('kind') != 'ARX_RESIDUAL' or spec.get('device') != 'cpu'
+                or spec.get('kind') not in ('ARX_RESIDUAL','CONTACT_WM') or spec.get('device') != 'cpu'
                 or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or type(spec.get('endpoint')) is not int
                 or spec['endpoint'] < 1):
             raise PermissionError('FRESH_LOCAL_PC_PILOT1_CPU_MODEL_ONLY_REQUIRED')

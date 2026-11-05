@@ -25,7 +25,8 @@ def main(argv=None):
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
     write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
     module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
-              'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual'}[spec['kind']]
+              'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
+              'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm'}[spec['kind']]
     command = [sys.executable, '-B', '-m', module, '--spec', str(args.spec), '--output', str(root / 'fit-01')]
     started = time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
