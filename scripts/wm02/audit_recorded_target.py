@@ -1,4 +1,15 @@
 """Audit same-source native recording coverage; no integration or learning."""
+def quaternion_error(model, rows):
+    import numpy as np
+    addresses = [int(model.jnt_qposadr[j]) + (3 if int(model.jnt_type[j]) == 0 else 0)
+                 for j in range(model.njnt) if int(model.jnt_type[j]) in (0, 1)]
+    error = max((abs(float(np.linalg.norm(row['qpos'][a:a+4])) - 1.)
+                 for row in rows for a in addresses), default=0.)
+    if not np.isfinite(error) or error > 1e-6:
+        raise ValueError('RECORDED_QUATERNION_NOT_UNIT')
+    return error
+
+
 def audit(config):
     import json,time
     from pathlib import Path
@@ -13,6 +24,7 @@ def audit(config):
     result=json.loads(result_path.read_text());diag=result.get('reference_qualification');ep_start=diag.get('actual_collection_start_step')if diag else None
     if result['scene_sha256']!=config['scene']['sha256']or result['source_sha']!=config['original_native_source_sha']or result['actual_target_integrations']!=len(rows):raise ValueError('SAME_ORIGINAL_NATIVE_RECORDING_REQUIRED')
     if not all(np.isfinite(np.r_[r['qpos'],r['qvel'],r['ctrl']]).all()for r in rows):raise ValueError('NONFINITE_NATIVE_RECORDING')
+    quat_error=quaternion_error(model,rows)
     commands=[]
     if config.get('commands'):
         if digest(config['commands']['path'])!=config['commands']['sha256']:raise ValueError('ORIGINAL_COMMAND_BYTES_CHANGED')
@@ -36,6 +48,8 @@ def audit(config):
         q=float(last['qpos'][model.jnt_qposadr[j]]);low,high=model.jnt_range[j];penetration=max(low-q,q-high,0.)
         if penetration:violations.append(dict(joint=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_JOINT,j),q=q,range=[float(low),float(high)],penetration=float(penetration)))
     output=dict(status='SAME_SOURCE_RECORDED_TARGET_AUDITED',episode_id=config['episode_id'],label=config['label'],original_native_source_sha=config['original_native_source_sha'],input_sha256={k:config[k]['sha256']for k in ['scene','journal','native_result','commands']if k in config},original_native_status=result['status'],native_steps=len(rows),native_clock_s=[rows[0]['time_s'],rows[-1]['time_s']],initialization_and_task_separate=True,proposed_references=len(proposed),proposed_with_actual_installation=sum(r['wire_sha256']in installed for r in proposed),coverage=coverage,last_native_joint_violations=violations,physics_stops=result['physics_stops'],trace_audit_errors=result.get('trace_audit',{}).get('errors'),valid_learning_atoms_added=0,failed_prefix_used_for_learning=False,full_task_success='NOT_EVALUATED_NO_BOUND_STANDING_TASK_SCORER',new_integrations=0,new_WM_updates=0,new_Actor_updates=0,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
+    output['maximum_recorded_unit_quaternion_error']=quat_error
+    output['units']=dict(position='m',hinge='rad',time='s',contact_force='N')
     return output
 
 

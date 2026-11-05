@@ -3,9 +3,20 @@ import tempfile
 import unittest
 from pathlib import Path
 from scripts.wm02.audit_target_population import select
+from scripts.wm02.audit_recorded_target import quaternion_error
+from types import SimpleNamespace
+import numpy as np
 
 
 class PopulationSelection(unittest.TestCase):
+    def test_quaternion_validation_handles_free_ball_and_hinge_layout(self):
+        model=SimpleNamespace(njnt=3,jnt_type=[0,1,3],jnt_qposadr=[0,7,11])
+        q=np.r_[0.,0.,0.,1.,0.,0.,0.,1.,0.,0.,0.,0.]
+        self.assertEqual(quaternion_error(model,[dict(qpos=q)]),0.)
+        q[7]=.5
+        with self.assertRaisesRegex(ValueError,'RECORDED_QUATERNION_NOT_UNIT'):
+            quaternion_error(model,[dict(qpos=q)])
+
     def test_passed_child_of_failed_pair_and_partial_worker_are_excluded(self):
         with tempfile.TemporaryDirectory() as tmp:
             c = Path(tmp)
