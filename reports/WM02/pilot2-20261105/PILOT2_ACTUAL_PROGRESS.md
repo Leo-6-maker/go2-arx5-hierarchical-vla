@@ -126,3 +126,22 @@ B0第二批P2T05–P2T08再次完成4资格＋32动作采集，36/36原生PASS�
 此次是真实“训练→原生策略采样→新TRAIN→更新”，但尚无泛化正结论：更新Policy TRAIN12个标签仍100%，原DEV4个标签由75%降至50%。新checkpoint `4258c4a6001164f13bc983910ed8341114df2586e3b88fd9634edd3202bf31f6`，须冻结后做原生DEV验证，不能用原训练父的4/4成功替代。接触数据仍为1 TRAIN父＋1 DEV父，下一优先级为独立父覆盖及输入泛化审查，继续叠加同父更新没有证据支持。具体更新、负结果与成本见 [真实策略反哺](C1_REAL_POLICY_FEEDBACK_UPDATE.json)。
 
 当前已封存99次原生PASS、471197 tick；自由空间Actor192000主更新/22探针，接触Policy6000主更新/3探针，接触WM16000主更新/8探针。合计Actor/Policy198000主更新/25探针，均为跨模型累计。B0第三批P2T09–P2T12正在实际执行，未预记其32条计划窗口。新DEV/TEST控制收益、完整8 TRAIN＋4 DEV接触覆盖仍未完成，goal保持ACTIVE。
+
+
+## 2026-11-06冷边界：12 TRAIN父完成，接触输入条件对照
+
+B0第三批P2T09–12完成4资格＋32随机动作episode，36/36原生PASS、147708 tick，worker均退出0/CLOSED。三批合计12个新物理TRAIN父、96个实际动作episode、2304条可用晚期转移；合并149 TRAIN/原8 DEV窗口，Replay SHA256 `d25d0f6f668f266a4b5846d05fc466f6bb09cdd853dfc6dcbee645451ac68392`。第三批coordinator 880.994s wall；20个qualification/batch worker自身＋子CPU合计2470.924s，子树只计一次；Replay build14.604s wall/13.918s子CPU。三种子各8k新增更新与完整恢复探针通过，模型见[完整身份及曲线](B0_TWELVE_TRAIN_PARENTS_ACTUAL.json)、[曲线图](B0_149_MATCHED_CURVES.png)。8k的旧DEV教师一致率98.633/98.682/98.584%；这些2048个目标标签仍只来自旧2个DEV物理父，不是新DEV原生收益。三训练worker合计72.508s wall/69.371s子CPU，CUDA事件合计57.281s；峰值Torch reserved662MiB。
+
+C0追加P2CT02/P2CT03/P2CV02三个布局，每个先单槽资格，再KEEP56/RELEASE56/OPEN64：12/12原生PASS、72636 tick，coordinator849.808s wall，12 worker自身＋子CPU1538.190s。每布局KEEP实际支持夹持4.0s；RELEASE先保持1.2s、末端连续释放2.236s；OPEN三个夹持失败均保留有效负例。没有reset/teleport，完整搬运成功仍为0。新增1512 raw atom后，27-episode Bundle SHA256 `5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336`，4536 raw atom、3881历史anchor、20101有效多视野标签，3 TRAIN/2 DEV父。8 TRAIN/4 DEV覆盖尚未完成。
+
+对旧18数据和三个冻结Policy的只读审计发现：929维输入中336维normalizer被clamp到1e-4；实际历史绝对z最大136.82，更新4k模型首层DEV预激活|x|>3占92.97%。将历史归一化值诊断性置零、保留目标后三个模型均100%教师一致，但这不是实际部署或物理改善。由此建立新假说，而非继续在同父上加epoch。
+
+源码 `3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b` 在新隔离capsule实施fresh模型的匹配normalizer对照：同27数据、同seed363201、同网络/教师/shuffle/batch32/lr/各2k更新，仅输入normalizer为旧TRAIN或当前TRAIN。两者TRAIN20标签均100%；DEV8标签分别87.5%和100%，只来自2物理DEV父。DEV首层饱和比例15.23%→1.56%，abs-z最大140.13→6.12。两者恢复误差0、退出0/CLOSED；合计4000新增Policy主更新＋2探针，coordinator24.721s wall，两worker合计24.192s wall/22.078s子CPU，Torch reserved各68MiB。这是受控输入条件改善的有限证据，尚未实际原生评价。全部旧模型、50%负结果和失败保留，见[新接触数据与归一化对照](C1_EXPANDED_COVERAGE_AND_INPUT_CONTROL.json)。
+
+当前27数据上，FSM与实际父均值return教师的输入、软标签最大差均0（TRAIN20、DEV8标签）；此数据中的经验教师并非独立不同监督方法，不重复训练一个字节等价的模型来增加“模型数量”。WM事件教师尚无控制优势证据。
+
+强规则也未削弱：用12预登记TRAIN父×4动作×2真实重启、父等权拟合新响应表，源码/CLI `scripts.wm02.fit_pilot2_mean_rule` 实际退出0，1.468s wall/0.328s子CPU，积分/神经更新0；模型SHA256 `68e6ab05ebcedd265acf7fa53d42696d58488fb1c4a56eedba8a3e675fdb246f`。原任务、goal生成和score不改，原历史规则仍可复现。TRAIN同动作重启差p90=0.171247mm，结合原任务效用预登记改善阈值0.085624mm，不能把同动作不同重启当作策略收益。
+
+B1重复DEV已实现panel生成与父/goal/独立重启层次bootstrap分析，144条件按方法交叉平衡两slot；新TEST需要候选、阈值和分析全部冻结后才开。[预登记](B1_REPEATED_DEV_PREREGISTRATION.json)选择原主seed36001，非新DEV最佳seed；另外两seed仅作离线敏感性。DEV结果不授予LOCAL_CONTROL_GAIN。新6 DEV父48动作采集已登记、dispatch退出0，正在执行，未预记其成功或1152条计划转移。下一冷边界核对封存后才启动B1。
+
+完整cohort水位：PILOT2 147次原生PASS、691541 tick；自由Actor216000主更新＋25恢复探针，接触Policy10000＋5探针，接触WM16000＋8探针，全部为多模型累计。进行中DEV批另列。当前代码239项world_model测试通过（15.363s，退出0）；GitHub CI未执行。所有新bulk仍在合格非根本地盘；现场GPU1后来已有其他工作，仅在共享许可、实际余量及1GiB allocator内运行小Policy。2个CPU-native与单GPU神经工作并行；未扩展到4环境/GPU物理/H200/分布式，唯一owner和原deadline保持。

@@ -1,0 +1,52 @@
+{
+  "schema": "WM02_PILOT2_B1_DEV_PREREGISTRATION_V1",
+  "plan_sha": "6d82fa23c892f167001abe743dd5eadfca6fd777",
+  "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+  "split": "DEV",
+  "physical_scene_ids": [
+    "P2V01",
+    "P2V02",
+    "P2V03",
+    "P2V04",
+    "P2V05",
+    "P2V06"
+  ],
+  "methods": [
+    "TRAIN_MEAN_RESPONSE_RULE",
+    "FROZEN_ARX_SELECTOR",
+    "TRAINED_ACTOR"
+  ],
+  "goal_indices": [
+    8,
+    72,
+    136,
+    200
+  ],
+  "restarts_per_method_goal_parent": 2,
+  "evaluation_attempts": 144,
+  "panel_seed": 363401,
+  "primary_method": "TRAINED_ACTOR",
+  "primary_actor_seed": 36001,
+  "primary_seed_selection": "ORIGINAL_PREREGISTERED_PRIMARY_SEED_NOT_NEW_DEV_BEST_SEED",
+  "primary_actor_updates": 8000,
+  "primary_actor_checkpoint_sha256": "16c3f1364255c65fb77aae762aca490ecacdb992f198ab99202fb3691f8b5f66",
+  "primary_actor_numpy_sha256": "a4f63294238cd075c4012e55819af49e8d63cda6fd008ef74ba9c846c7038682",
+  "TRAIN_replay_sha256": "d25d0f6f668f266a4b5846d05fc466f6bb09cdd853dfc6dcbee645451ac68392",
+  "TRAIN_response_rule_sha256": "68e6ab05ebcedd265acf7fa53d42696d58488fb1c4a56eedba8a3e675fdb246f",
+  "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+  "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+  "native_binary_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+  "minimum_practical_improvement_m": 8.562357573755856e-05,
+  "minimum_gain_rule": "MAX_HALF_TRAIN_P90_RESTART_GAP_AND_QUARTER_ORIGINAL_TASK_TOLERANCE",
+  "bootstrap_seed": 363501,
+  "bootstrap_replicates": 10000,
+  "analysis_unit": "PARENT_GOAL_INDEPENDENT_RESTART_HIERARCHY",
+  "exact_fork_oracle": false,
+  "same_original_task_and_action_cost": true,
+  "no_TEST_opened": true,
+  "other_seeds": "FROZEN_36002_AND_36003_OFFLINE_SENSITIVITY_NO_BEST_SEED_NATIVE_CLAIM",
+  "local_control_gain_from_DEV": false,
+  "driver_sha256": "0dc78adf207da9ab6452e06a283f1f91342a91be7ac80be859b62bdcd9722849",
+  "local_preregistration_sha256": "4fe86d9fee6547eb2a85213d65577d8ea58d5009f1ed235957fe703912d423af",
+  "execution_status": "NOT_YET_DISPATCHED_WAIT_FOR_B0_DEV_COLD_BOUNDARY"
+}
