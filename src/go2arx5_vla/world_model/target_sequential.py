@@ -28,7 +28,7 @@ def native_display_command(spec,output,environment):
         prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
-    order=('trace_library','outer_library','observer_library')if spec.get('extended_trace_build')else('outer_library','observer_library','trace_library')
+    order=('trace_library','outer_library','observer_library')if spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact'else('outer_library','observer_library','trace_library')
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
