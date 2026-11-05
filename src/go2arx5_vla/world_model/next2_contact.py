@@ -28,8 +28,10 @@ def validate(spec,previous):
 
 class Continuity:
     """Twenty complete50ms intervals plus0.5s further hold; no sample-count shortcut."""
-    def __init__(self):self.since=None;self.longest_s=0.;self.losses=[];self.was_ready=False
+    def __init__(self):self.since=None;self.longest_s=0.;self.losses=[];self.was_ready=False;self.last_time=None
     def observe(self,time_s,geometry,speed):
+        if self.last_time is not None and abs(time_s-self.last_time-.05)>1e-7:raise ValueError('EVERY_ACTUAL50MS_PRECONTACT_OBSERVATION_REQUIRED')
+        self.last_time=time_s
         ready=bool(geometry and speed<=VELOCITY_LIMIT)
         if ready:
             if self.since is None:self.since=time_s
