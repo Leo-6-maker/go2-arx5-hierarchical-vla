@@ -1,0 +1,40 @@
+{
+  "schema": "WM02_NEXT1_STEADY_PREFIX_PREREGISTRATION_V1",
+  "plan_sha": "a673d4b0d361c6fea9fcd5d5b9cbd28f58461b4f",
+  "protocol": "FIXED_HOLD40_BURN8_DECIDE_RAMP8_V1",
+  "calibration": "C08 TRAIN only: original0..0.4s relative TCP diameter39..42mm,0of18 screen passes; last0.4s through1.2s still0of18 pass, max3.5831mm. DEV is reported but not used to choose thresholds or prefix.",
+  "screen": {"window_s": 0.4, "relative_TCP_diameter_m": 0.002, "max_relative_TCP_speed_m_s": 0.025},
+  "screen_definition": "Maximum pairwise Euclidean distance of9 real50ms TCP-in-BASE samples and max finite-difference speed; native safety remains independent",
+  "S0": {
+    "first_single_attempts": 2,
+    "single_task_atoms": 48,
+    "single_seconds": 2.4,
+    "parent": "P01_TRAIN",
+    "all_goals": "Measured initial world EEF and BASE HOLD; renew same fixed poses, never achieved-state reanchor",
+    "require_both_independent_runs_safe_and_screen_pass": true,
+    "two_slot_qualification_only_after_single_pass": true,
+    "two_slot_task_atoms": 64,
+    "screen_atom": 48,
+    "stable_gate_failure": "Preserve UNSTABLE_PREFIX; inspect before separately versioned longer HOLD; no unsafe-state retry"
+  },
+  "S1": {
+    "prehold_atoms": 40,
+    "sampled_burn_atoms": 8,
+    "decision_global_atom": 48,
+    "prediction_atoms": 16,
+    "task_atoms": 64,
+    "screen_before_any_nonzero_action": true,
+    "H40_prefix_has_no_future_chosen_action": true,
+    "past_installed_goals_only": true,
+    "offsets_xyz_m": [[0,0,0],[0.001,0,0],[-0.001,0,0],[0,0.001,0]],
+    "TRAIN_parents": ["P01","P02","P03","P04"],
+    "base_panel_attempts": 16,
+    "additional_HOLD_repeats": 4,
+    "why_HOLD_repeats": "One HOLD per parent does not estimate repeat noise; add one preregistered repeat per TRAIN parent, not a fabricated standard deviation",
+    "DEV_parents_for_matched_model_evaluation": ["P07","P08"],
+    "DEV_action_panel_attempts": 8,
+    "scope_counts_all_failures_refusals_and_initialization": true
+  },
+  "historical_C08": "Remain24of32; new steady-prefix protocol cannot fill old missing8 cells",
+  "execution": "New actual finite scope and original owner required; no new physics or updates are started by this file"
+}
