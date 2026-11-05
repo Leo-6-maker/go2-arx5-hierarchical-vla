@@ -343,6 +343,9 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-pilot1-contact':
+            from .pilot1_contact import run
+            return run(self)
         if self.spec['phase']=='collect-target-next2-contact':
             from .next2_contact import run
             return run(self)
