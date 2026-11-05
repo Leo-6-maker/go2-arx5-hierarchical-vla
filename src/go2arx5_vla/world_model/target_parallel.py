@@ -7,22 +7,37 @@ from .storage import digest,write_json
 
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
+    pilot= batch.get('schema')=='WM02_PILOT1_TWO_CONTACT_BATCH_V1'
+    runs=Path(batch['native_runs_root']).resolve() if pilot else Path(batch['campaign_root'])/'runs'
     domains=[];cpus=set();roots=set()
     for slot,child in zip(batch['slots'],children):
         root=Path(child['registered_root']).resolve()
-        if (root.parent!=Path(batch['campaign_root'])/'runs' or str(root)in roots
+        if (root.parent!=runs or str(root)in roots
                 or child.get('parallel_batch_spec')!=str(Path(batch['registered_root'])/'EXECUTION_SPEC.json')
                 or child['campaign_root']!=batch['campaign_root']
                 or child['physical_owner_lock']!=batch['physical_owner_lock']
                 or child['source_sha']!=batch['source_sha']
                 or child['ROS_DOMAIN_ID']not in (220,221)
                 or not set(child['cpus'])or cpus.intersection(child['cpus'])
-                or child['phase']not in ('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1','collect-target-next2')
-                or child['max_ticks']not in (50,2528,3103,3703,4103,4903,6503)
+                or child['phase']not in (('collect-target-pilot1-contact',)if pilot else('cold-1','g2-standing-hold-short-v2','collect-target-parallel-01','collect-target-parallel-02','collect-target-night1','collect-target-next1','collect-target-next2'))
+                or child['max_ticks']not in ((5703,)if pilot else(50,2528,3103,3703,4103,4903,6503))
                 or digest(slot['spec'])!=slot['spec_sha256']):
             raise PermissionError('ISOLATED_PINNED_FINITE_TARGET_SLOTS_REQUIRED')
         domains.append(child['ROS_DOMAIN_ID']);cpus.update(child['cpus']);roots.add(str(root))
     if len(set(domains))!=2 or not cpus<=set(batch['cpus']):raise PermissionError('DISTINCT_DOMAINS_AND_AVAILABLE_CPUS_REQUIRED')
+    if pilot:
+        from .pilot1_contact import validate
+        for child in children:
+            if (child.get('pilot1_binding')!=batch.get('pilot1_binding')
+                    or child.get('pilot1_binding_sha256')!=batch.get('pilot1_binding_sha256')):
+                raise PermissionError('SAME_ACTUAL_PILOT1_WINDOW_REQUIRED')
+            previous=json.loads(Path(child['previous_stage']).read_text())
+            if validate(child,previous)!=5703:raise PermissionError('QUALIFIED_SINGLE_CONTACT_SCENE_REQUIRED')
+        proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
+        if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
+                or len(value['children'])!=2 or not all(c['ticks']>=4103 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):
+            raise PermissionError('ACTUAL_PRIOR_TWO_NATIVE_SLOT_QUALIFICATION_REQUIRED')
+        return
     night1=all(c['phase']=='collect-target-night1'for c in children)
     next2=all(c['phase']=='collect-target-next2'for c in children)
     if any(c['phase']=='collect-target-next2'for c in children)and not next2:raise PermissionError('NO_MIXED_NEXT2_LEGACY_BATCH')
@@ -66,6 +81,8 @@ def process_start(pid):
 def child_environment(child,fds):
     env=dict(os.environ,**child['native_environment'])
     env.update(CUDA_VISIBLE_DEVICES='',PYTHONPATH=child['source_root']+'/src:'+child['source_root']+':'+env.get('PYTHONPATH',''),WM02_AUTO1_OWNER_FDS=json.dumps(fds),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+    for key,field in [('TMPDIR','tmp'),('ROS_LOG_DIR','logs'),('XDG_CACHE_HOME','cache'),('XDG_CONFIG_HOME','cache')]:
+        if field in child:env[key]=child[field]
     return env
 
 
@@ -121,6 +138,15 @@ def run_batch(spec_path,output,run_id):
     from scripts.pi0292.durable import OwnerLock,write
     spec=json.loads(Path(spec_path).read_text());campaign=Path(spec['campaign_root'])
     validate_scope(spec,json.loads((campaign/'control/LEASE.json').read_text()),json.loads(Path(spec['registry']).read_text()),host=os.uname().nodename,uid=os.getuid(),now=time.time())
+    if spec.get('pilot1_binding'):
+        from .pilot1_scope import validate
+        validate(spec,json.loads(Path(spec['registry']).read_text()))
+        runs=Path(spec['native_runs_root']).resolve(strict=True)
+        proof=Path(spec['output_storage_proof']);value=json.loads(proof.read_text())
+        if (digest(proof)!=spec['output_storage_proof_sha256']or value.get('status')!='PASSED_NODE_LOCAL_HDD_IO'
+                or value.get('same_root_device')is not False or runs.stat().st_dev!=value['device']
+                or runs.stat().st_dev==Path('/').stat().st_dev):
+            raise PermissionError('ACTUAL_QUALIFIED_NON_ROOT_LOCAL_DATA_DISK_REQUIRED')
     if spec.get('next2_binding'):
         from .next2_scope import validate
         validate(spec,json.loads(Path(spec['registry']).read_text()))

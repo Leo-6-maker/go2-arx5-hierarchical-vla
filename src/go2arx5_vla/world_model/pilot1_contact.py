@@ -17,9 +17,11 @@ PHASE = 'collect-target-pilot1-contact'
 def validate(spec, previous):
     path = Path(spec['episode_manifest']); e = json.loads(path.read_text())
     schemas = {'WM02_PILOT1_TOUCH_WITHDRAW_V1': 96, 'WM02_PILOT1_TOUCH_WITHDRAW_HOLD64_V2': 128,
-               'WM02_PILOT1_CONTACT_TWO_ACTION_V3': 128}
+               'WM02_PILOT1_CONTACT_TWO_ACTION_V3': 128,
+               'WM02_PILOT1_CONTACT_TWO_SLOT_V4': 128}
     if e.get('schema') not in schemas: raise PermissionError('DECLARED_FINITE_CONTACT_PROTOCOL_REQUIRED')
-    coverage = e['schema'] == 'WM02_PILOT1_CONTACT_TWO_ACTION_V3'
+    parallel = e['schema'] == 'WM02_PILOT1_CONTACT_TWO_SLOT_V4'
+    coverage = e['schema'] in ('WM02_PILOT1_CONTACT_TWO_ACTION_V3','WM02_PILOT1_CONTACT_TWO_SLOT_V4')
     offset = e.get('withdrawal_xyz_m') if coverage else [0., .001, 0.]
     if offset not in ([0., 0., 0.], [0., .001, 0.]):
         raise PermissionError('ONLY_NATIVE_QUALIFIED_HOLD_OR_PLUS_Y_1MM_CONTACT_ACTIONS')
@@ -31,7 +33,7 @@ def validate(spec, previous):
     if (digest(path) != spec['episode_manifest_sha256']
             or any(e.get(k) != v for k, v in expected.items())
             or e.get('run') != spec['registered_root'] or e.get('split') not in (('TRAIN', 'DEV', 'TEST') if coverage else ('TRAIN',))
-            or not spec.get('pilot1_binding') or spec.get('parallel_batch_spec')):
+            or not spec.get('pilot1_binding') or bool(spec.get('parallel_batch_spec')) != parallel):
         raise PermissionError('FRESH_SINGLE_PROCESS_QUALIFIED_TOUCH_WITHDRAW_REQUIRED')
     assets = json.loads(Path(spec['scene_allowlist']).read_text())
     scenes = [s for s in assets['scenes'] if s['scene_id'] == e['scene_id']]

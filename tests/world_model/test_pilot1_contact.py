@@ -114,6 +114,14 @@ class ActualContactIntervals(unittest.TestCase):
             original.update(schema='WM02_PILOT1_CONTACT_TWO_ACTION_V3', purpose='CONTACT_ACTION_COVERAGE', withdrawal_xyz_m=[0., 0., 0.])
             Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
             self.assertEqual(validate(spec, previous), 5703)
+            spec['parallel_batch_spec']='fixture-batch'
+            with self.assertRaises(PermissionError): validate(spec, previous)
+            original.update(schema='WM02_PILOT1_CONTACT_TWO_SLOT_V4')
+            Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
+            self.assertEqual(validate(spec, previous),5703)
+            del spec['parallel_batch_spec']
+            with self.assertRaises(PermissionError): validate(spec, previous)
+            spec['parallel_batch_spec']='fixture-batch'
             original.update(withdrawal_xyz_m=[0., .002, 0.])
             Path(episode).write_text(json.dumps(original)); spec['episode_manifest_sha256']=digest(episode)
             with self.assertRaises(PermissionError): validate(spec, previous)
