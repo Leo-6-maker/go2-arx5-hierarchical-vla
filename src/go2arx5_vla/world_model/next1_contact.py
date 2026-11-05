@@ -8,6 +8,7 @@ GRADES={
     'FREE_X10':dict(task_atoms=96,ramp_atoms=32,fraction=None),
     'TOWARD_ABOVE_25':dict(task_atoms=160,ramp_atoms=96,fraction=.25),
     'TOWARD_ABOVE_50':dict(task_atoms=160,ramp_atoms=96,fraction=.5),
+    'PRECONTACT_80':dict(task_atoms=160,ramp_atoms=100,fraction=1.),
     'ABOVE_CONTACT40':dict(task_atoms=160,ramp_atoms=96,fraction=1.),
     'DESCEND_20_OPEN':dict(task_atoms=160,ramp_atoms=116,fraction=1.),
     'ABOVE_OBJECT':dict(task_atoms=160,ramp_atoms=108,fraction=1.),
@@ -16,7 +17,7 @@ GRADES={
 
 def validate(spec,e):
     grade=e.get('contact_grade')
-    expected=dict(FREE_X10=None,TOWARD_ABOVE_25='FREE_X10',TOWARD_ABOVE_50='TOWARD_ABOVE_25',ABOVE_OBJECT='TOWARD_ABOVE_50',ABOVE_CONTACT40='ABOVE_OBJECT',DESCEND_20_OPEN='ABOVE_CONTACT40')
+    expected=dict(FREE_X10=None,TOWARD_ABOVE_25='FREE_X10',TOWARD_ABOVE_50='TOWARD_ABOVE_25',ABOVE_OBJECT='TOWARD_ABOVE_50',ABOVE_CONTACT40='ABOVE_OBJECT',PRECONTACT_80='ABOVE_CONTACT40',DESCEND_20_OPEN='PRECONTACT_80')
     if grade not in GRADES or e.get('predecessor_contact_grade')!=expected.get(grade)or e['task_atoms']!=GRADES[grade]['task_atoms'] or any(e['offset_xyz_m']) or spec.get('parallel_batch_spec') or e['scene_id']!='P01':
         raise PermissionError('SINGLE_SLOT_PREREGISTERED_CONTACT_GRADE_REQUIRED')
     p=Path(spec['contact_static']);v=json.loads(p.read_text())
@@ -25,7 +26,7 @@ def validate(spec,e):
     p=Path(spec['contact_reference_check']);q=json.loads(p.read_text())
     if digest(p)!=spec['contact_reference_check_sha256']or q.get('grade')!=grade or not q.get('all_static_chunks_feasible')or q.get('new_physical_integrations')!=0:
         raise PermissionError('ORIGINAL_STATIC_REFERENCE_CERTIFICATES_REQUIRED')
-    if grade in('DESCEND_20_OPEN','ABOVE_CONTACT40')and e['reference_rule']!='FIXED_HOLD32_BURN8_CONTACT40_V2':raise PermissionError('DESCENT_REQUIRES_FRESH_CONTACT40_QUALIFICATION')
+    if grade in('DESCEND_20_OPEN','ABOVE_CONTACT40','PRECONTACT_80')and e['reference_rule']!='FIXED_HOLD32_BURN8_CONTACT40_V2':raise PermissionError('DESCENT_REQUIRES_FRESH_CONTACT40_QUALIFICATION')
     if e.get('predecessor_contact_grade'):
         p=Path(spec['previous_stage']);previous=json.loads(p.read_text());proof=p.parent/'CONTACT_GRADE_RESULT.private.json'
         if not proof.exists()or previous.get('status')!='NATIVE_STAGE_PASSED' or previous.get('physics_stops') or not previous.get('shutdown_clean'):
@@ -44,10 +45,10 @@ def planned_path(initial,object_pose,grade):
     end=start.copy()
     if cfg['fraction']is None:end[0,3]+=.01
     else:
-        f=cfg['fraction'];above=obj[:3,3]+np.array([0.,0.,.02 if grade=='DESCEND_20_OPEN'else .1]);end[:3,3]+=(above-start[:3,3])*f
+        f=cfg['fraction'];above=obj[:3,3]+np.array([0.,0.,.02 if grade=='DESCEND_20_OPEN'else(.08 if grade=='PRECONTACT_80'else .1)]);end[:3,3]+=(above-start[:3,3])*f
         end[:3,:3]=quat_to_matrix(quat_slerp(matrix_to_quat(start[:3,:3]),matrix_to_quat(np.eye(3)),f))
     n=cfg['ramp_atoms'];t=np.arange(n+1,dtype=float)
-    if grade in('ABOVE_OBJECT','ABOVE_CONTACT40','DESCEND_20_OPEN'):
+    if grade in('ABOVE_OBJECT','ABOVE_CONTACT40','PRECONTACT_80','DESCEND_20_OPEN'):
         # Fixed eight-atom acceleration/deceleration; no adaptive rate search.
         b=8.;area=n-b
         progress=np.where(t<b,t*t/(2*b),np.where(t<=n-b,t-b/2,area-(n-t)**2/(2*b)))/area

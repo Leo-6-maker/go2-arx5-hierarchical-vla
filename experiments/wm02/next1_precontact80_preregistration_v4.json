@@ -1,0 +1,17 @@
+{
+  "schema": "WM02_NEXT1_PRECONTACT80_V4",
+  "grade": "PRECONTACT_80",
+  "scene": "P01 unchanged",
+  "nominal_goal": "Object center plus80mm, within unchanged original precontact slab; no per-axis measured tracking offset correction.",
+  "reason": "Nominal +100mm approach at upper slab boundary retained no vertical geometry margin. CONTACT40 HOLD restored X overlap but pads still above slab.",
+  "task_atoms": 160,
+  "screen_atom": 40,
+  "ramp_atoms": 100,
+  "endpoint_hold_atoms": 20,
+  "prefix": "FIXED_HOLD32_BURN8_CONTACT40_V2",
+  "native_safety_and_WBC_unchanged": true,
+  "gate": "Final four real observations must pass original persistent_teacher.geometry(T1) precontact_geometry_ready. No descent/closure on timer.",
+  "predecessor": "Actual ABOVE_CONTACT40 safe native PASS; separate from failed semantic attainment",
+  "further_contact": "Require current same live executor actual precontact; previous run end cannot replace reset state. Respect finite8s task endpoint.",
+  "optimizer_updates": 0
+}
