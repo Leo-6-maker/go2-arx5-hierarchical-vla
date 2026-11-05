@@ -15,6 +15,9 @@ test = ["pytest>=7", "Pillow>=9", "safetensors>=0.4", "scipy>=1.10"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"go2arx5_vla.world_model" = ["native_web.html"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src", "scripts"]
 testpaths = ["tests"]
