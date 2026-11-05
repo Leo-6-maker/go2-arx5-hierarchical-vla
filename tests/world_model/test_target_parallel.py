@@ -1,10 +1,31 @@
 import json,os,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from scripts.pi0292.durable import OwnerLock
-from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children,recorded_split
+from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children,recorded_split,validate_duration_commission
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_full_duration_commission_requires_real_same_executor_short_runs_and_hold(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);batch=root/'prior';(batch/'batch-01').mkdir(parents=True)
+            binary=root/'binary';binary.write_bytes(b'unchanged native');proof=batch/'batch-01/RESULT.json'
+            prior=dict(native_binary=str(binary),observer_library='original-safety',native_runs_root=str(root))
+            (batch/'EXECUTION_SPEC.json').write_text(json.dumps(prior));rows=[]
+            for i in range(2):
+                r=root/('child'+str(i));(r/'native-01').mkdir(parents=True)
+                native=dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,physics_stops=[],actual_target_integrations=3103,native_binary_sha256=digest(binary))
+                (r/'native-01/RESULT.json').write_text(json.dumps(native));rows.append(dict(run=r.name))
+            episode=root/'episode';episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=0)))
+            single=root/'single';single.write_text(json.dumps(dict(actual_target_integrations=4103)))
+            child=dict(native_binary=str(binary),observer_library='original-safety',episode_manifest=str(episode),previous_stage=str(single))
+            validate_duration_commission({},[child,child],proof,dict(children=rows))
+            episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=1)))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[child,child],proof,dict(children=rows))
+            episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=0)))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[dict(child,observer_library='different'),child],proof,dict(children=rows))
+            native['native_binary_sha256']='old executor';(root/'child0/native-01/RESULT.json').write_text(json.dumps(native))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[child,child],proof,dict(children=rows))
+
     def test_commission_closeout_does_not_require_or_infer_a_learning_episode(self):
         self.assertEqual(recorded_split(dict(schema='WM02_PILOT2_TWO_COMMISSION_BATCH_V1'),{}),'QUALIFICATION')
         with self.assertRaises(KeyError):recorded_split(dict(schema='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'),{})

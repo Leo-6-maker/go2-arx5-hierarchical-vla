@@ -11,6 +11,26 @@ def recorded_split(batch,child):
     return json.loads(Path(child['episode_manifest']).read_text())['split']
 
 
+def validate_duration_commission(batch,children,proof,value):
+    """HOLD-only full-duration successor after actual single and short dual runs."""
+    prior=json.loads((proof.parent.parent/'EXECUTION_SPEC.json').read_text())
+    for child in children:
+        episode=json.loads(Path(child['episode_manifest']).read_text())
+        single=json.loads(Path(child['previous_stage']).read_text())
+        if (episode.get('purpose')!='ACTION_COVERAGE'or episode.get('forced_action')!=0
+                or single.get('actual_target_integrations')!=4103
+                or prior.get('native_binary')!=child['native_binary']
+                or prior.get('observer_library')!=child['observer_library']):
+            raise PermissionError('DURATION_COMMISSION_REQUIRES_SINGLE_QUALIFIED_HOLD_AND_SAME_EXECUTOR')
+    for row in value['children']:
+        if Path(row['run']).name!=row['run']:raise PermissionError('PRIOR_COMMISSION_CHILD_IDENTITY_INVALID')
+        native=json.loads((Path(prior['native_runs_root'])/row['run']/'native-01/RESULT.json').read_text())
+        if (native.get('status')!='NATIVE_STAGE_PASSED'or not native.get('shutdown_clean')
+                or native.get('physics_stops')or native.get('actual_target_integrations',0)<3103
+                or native.get('native_binary_sha256')!=digest(children[0]['native_binary'])):
+            raise PermissionError('ACTUAL_SAME_EXECUTOR_SHORT_DUAL_NATIVE_RESULTS_REQUIRED')
+
+
 def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
@@ -66,9 +86,11 @@ def validate_layout(batch, children):
                 if coverage and child.get('pilot2_plan_sha')!=batch.get('pilot2_plan_sha'):
                     raise PermissionError('SAME_PREDECLARED_PILOT2_PLAN_REQUIRED')
         proof=Path(batch['parallel_qualification']);value=json.loads(proof.read_text())
+        duration_commission=coverage and batch.get('purpose')=='COVERAGE_DUAL_DURATION_COMMISSION'
         if (digest(proof)!=batch['parallel_qualification_sha256']or value['status']!='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'
-                or len(value['children'])!=2 or not all(c['ticks']>=4103 and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):
+                or len(value['children'])!=2 or not all(c['ticks']>=(3103 if duration_commission else 4103)and c['shutdown_clean']and c['exit_code']==0 for c in value['children'])):
             raise PermissionError('ACTUAL_PRIOR_TWO_NATIVE_SLOT_QUALIFICATION_REQUIRED')
+        if duration_commission:validate_duration_commission(batch,children,proof,value)
         if supported:
             episodes=[json.loads(Path(c['episode_manifest']).read_text())for c in children]
             if batch.get('purpose')=='SUPPORTED_POLICY_DUAL_COMMISSION':
@@ -231,6 +253,9 @@ def run_batch(spec_path,output,run_id):
                             result['learning_atoms']=24*sum(r['split']=='TRAIN'for r in rows)if passed else 0
                             result['validation_replay_atoms']=24*sum(r['split']=='DEV'for r in rows)if passed else 0
                             result['learning_atoms_definition']='ELIGIBLE_LATE_DECISION_TRAIN_REPLAY_ATOMS_24_PER_EPISODE'
+                            if spec.get('purpose')=='COVERAGE_DUAL_DURATION_COMMISSION':
+                                result.update(qualification_only=True,learning_atoms=0,validation_replay_atoms=0,
+                                    learning_atoms_definition='FULL_DURATION_HOLD_COMMISSION_NOT_TRAIN_DATA')
                     if spec.get('next1_binding')or spec.get('next2_binding'):
                         result['recorded_task_atoms']=sum(r['task_atoms']for r in rows)
                         result['learning_atoms']=sum(r.get('sampled_WM_atoms',0)for r in rows)if result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'else 0
