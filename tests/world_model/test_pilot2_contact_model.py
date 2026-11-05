@@ -44,6 +44,7 @@ def native_import(name, *args, **kwargs):
 builtins.__import__ = native_import
 from go2arx5_vla.world_model.pilot2_contact_model import replay, planned_openings
 from scripts.wm02.build_pilot2_contact import build
+from go2arx5_vla.world_model.pilot2_contact_numpy import predict
 '''
         subprocess.run([sys.executable, '-B', '-c', code], check=True, capture_output=True, text=True)
 
@@ -63,6 +64,11 @@ from scripts.wm02.build_pilot2_contact import build
         self.assertGreater(a['valid'].sum(), b['valid'].sum())
         np.testing.assert_array_equal(a['history'][0], b['history'][0])
         self.assertTrue(b['valid'][:30, 0].all())
+
+    def test_adaptive_program_not_given_to_wm_before_actual_policy_decision(self):
+        e=episode();e['program_known_from_anchor']=111;r=replay([e])
+        self.assertEqual(len(r['history']),56)
+        self.assertEqual(r['identities'][0]['anchor_native_step'],5303)
 
     def test_parent_test_clock_and_actual_contact_contracts(self):
         e = episode()
@@ -98,6 +104,14 @@ from scripts.wm02.build_pilot2_contact import build
             s['resume_arms'] = {arm: dict(path=str(out/arm/'checkpoint-4.pt'), sha256=r['arms'][arm]['checkpoint_sha256']) for arm in r['arms']}
             out2 = root/'continued'; out2.mkdir(); r2 = run(s, out2)
             for arm in r2['arms'].values(): self.assertEqual(arm['prior_WM_updates'], 4)
+            s.pop('resume_arms'); s['normalizer_fit'] = 'OWN_ARM_TRAIN'
+            out3 = root/'own-arm'; out3.mkdir(); r3 = run(s, out3)
+            for arm in r3['arms'].values():
+                self.assertEqual(arm['normalization_mode'], 'OWN_ARM_TRAIN')
+                self.assertLess(arm['numpy_torch_max_error'], 1e-4)
+            with np.load(out3/'ACTION_CONDITIONED/DIRECT_CONTACT_NUMPY.npz') as a, np.load(out3/'NO_FUTURE_PROGRAM/DIRECT_CONTACT_NUMPY.npz') as b:
+                np.testing.assert_array_equal(a['mean'][:-64], b['mean'][:-64])
+                self.assertFalse(np.array_equal(a['mean'][-64:], b['mean'][-64:]))
 
 
 if __name__=='__main__': unittest.main()

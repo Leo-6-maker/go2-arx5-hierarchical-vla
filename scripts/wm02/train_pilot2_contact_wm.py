@@ -21,6 +21,9 @@ def run(spec, output):
         raise ValueError('DECLARED_PILOT2_DIRECT_CONTACT_RECIPE_REQUIRED')
     if type(spec.get('endpoint')) is not int or spec['endpoint'] < 2:
         raise ValueError('FINITE_ENDPOINT_WITH_RESTORE_PREDECESSOR_REQUIRED')
+    normalization_mode = spec.get('normalizer_fit', 'COMMON_ACTION_CONDITIONED_TRAIN')
+    if normalization_mode not in ('COMMON_ACTION_CONDITIONED_TRAIN', 'OWN_ARM_TRAIN'):
+        raise ValueError('EXPLICIT_CONTACT_TRAIN_ONLY_NORMALIZER_DESIGN_REQUIRED')
     torch.set_num_threads(len(spec['cpus'])); torch.use_deterministic_algorithms(True)
     if device.type == 'cuda':
         props = torch.cuda.get_device_properties(0)
@@ -61,8 +64,10 @@ def run(spec, output):
     prior_roots = spec.get('resume_arms', {})
     for arm, future in [('ACTION_CONDITIONED', plan), ('NO_FUTURE_PROGRAM', blind)]:
         random.seed(spec['seed']); np.random.seed(spec['seed']); torch.manual_seed(spec['seed'])
+        x = torch.cat((history, future), -1)
         model = DirectContactWM(history.shape[1], plan.shape[1], len(data['horizons']), spec['hidden']).to(device)
-        model.fit_normalizer(canonical[train]); opt = torch.optim.AdamW(model.parameters(), lr=spec['learning_rate'], weight_decay=1e-4)
+        model.fit_normalizer(x[train] if normalization_mode=='OWN_ARM_TRAIN' else canonical[train])
+        opt = torch.optim.AdamW(model.parameters(), lr=spec['learning_rate'], weight_decay=1e-4)
         sampler = ExactSampler(len(train), 'SEEDED_GLOBAL_SHUFFLE', spec['seed']); previous_updates = 0
         if prior_roots:
             item = prior_roots[arm]
@@ -70,6 +75,7 @@ def run(spec, output):
             prior = torch.load(item['path'], map_location='cpu', weights_only=True)
             if (prior['schema'] != 'WM02_PILOT2_DIRECT_CONTACT_CHECKPOINT_V1' or prior['arm'] != arm
                     or prior['horizons'] != list(data['horizons']) or prior['seed'] != spec['seed']
+                    or prior.get('normalization_mode', 'COMMON_ACTION_CONDITIONED_TRAIN') != normalization_mode
                     or any(e not in identities for e in prior['episode_identities'])):
                 raise ValueError('CONTACT_CONTINUATION_MUST_RETAIN_OLD_PARENT_SPLITS_AND_EPISODES')
             model.load_state_dict(prior['model']); opt.load_state_dict(prior['optimizer'])
@@ -77,7 +83,7 @@ def run(spec, output):
             if prior['bundles'] == spec['bundles']: sampler.load_state_dict(prior['sampler'])
             elif spec.get('data_expansion_normalizer') != 'FROZEN_PRIOR_TRAIN_NORMALIZER_NEW_SHUFFLE':
                 raise ValueError('NEW_DATA_CONTINUATION_NORMALIZER_AND_SAMPLER_MUST_BE_EXPLICIT')
-        x = torch.cat((history, future), -1); folder = output/arm; folder.mkdir()
+        folder = output/arm; folder.mkdir()
         def update(m, o, s):
             ix = torch.as_tensor(train[s.take(spec['batch_size'])], device=device)
             pred = m(x[ix]); mask = valid[ix]
@@ -99,12 +105,14 @@ def run(spec, output):
                 source_sha=spec['source_sha'], model=model.state_dict(), optimizer=opt.state_dict(),
                 rng=rng_state(), sampler=sampler.state_dict(), updates=step, bundles=spec['bundles'],
                 episode_identities=identities, horizons=list(data['horizons']),
+                normalization_mode=normalization_mode,
                 normalization='OWN_TRAIN_ONLY_OR_EXPLICIT_FROZEN_PRIOR',
                 full_state_simulator=False), path)
             return path
         measure(previous_updates)
         for step in range(1, spec['endpoint']+1):
-            if time.time() >= spec['deadline_epoch'] or (Path(spec['registered_root'])/'STOP.json').exists():
+            if (time.time() >= spec['deadline_epoch'] or (Path(spec['registered_root'])/'STOP.json').exists()
+                    or spec.get('campaign_root') and (Path(spec['campaign_root'])/'STOP.json').exists()):
                 raise TimeoutError('FINITE_CONTACT_WORKER_ENDPOINT_OR_STOP')
             loss = update(model, opt, sampler); total += 1
             with (folder/'OPTIMIZER_STEPS.jsonl').open('a') as log:
@@ -129,9 +137,20 @@ def run(spec, output):
         reload = max(tree_error(endpoint['model'], model.state_dict()), tree_error(endpoint['optimizer'], opt.state_dict()),
             tree_error(endpoint['sampler'], sampler.state_dict()))
         if error != 0 or reload != 0: raise ValueError('COMPLETE_DIRECT_CONTACT_RESTORE_DIFFERS')
+        from go2arx5_vla.world_model.pilot2_contact_numpy import predict
+        arrays = {k: v.detach().cpu().numpy() for k, v in model.state_dict().items()}
+        arrays['horizon_count'] = np.array(len(data['horizons']), dtype=np.int64)
+        portable = folder/'DIRECT_CONTACT_NUMPY.npz'
+        with portable.open('xb') as f: np.savez_compressed(f, **arrays)
+        held_ids = np.r_[train[:128], dev[:128]]
+        held = x[held_ids].cpu().numpy()
+        with torch.no_grad(): expected = model(x[held_ids]).cpu().numpy()
+        numpy_error = float(np.max(np.abs(predict(arrays, held)-expected)))
+        if numpy_error > 1e-4: raise ValueError('PARTIAL_CONTACT_NUMPY_TORCH_INFERENCE_DIFFERS')
         arms[arm] = dict(main_WM_updates=spec['endpoint'], prior_WM_updates=previous_updates,
             restore_probe_optimizer_calls=1, full_restore_error=error, endpoint_reload_error=reload,
-            checkpoint_sha256=digest(final_path), last_loss=loss, metrics=measure(final_step))
+            checkpoint_sha256=digest(final_path), portable_sha256=digest(portable), numpy_torch_max_error=numpy_error,
+            normalization_mode=normalization_mode, last_loss=loss, metrics=measure(final_step))
     elapsed = None
     if device.type=='cuda': end.record(); torch.cuda.synchronize(); elapsed = begin.elapsed_time(end)/1000
     result = dict(status='DIRECT_MULTIHORIZON_CONTACT_WM_TRAINED_AND_RESTORED', source_sha=spec['source_sha'],

@@ -62,7 +62,11 @@ def replay(episodes, horizons=HORIZONS):
             poses.append(np.r_[row['TCP_m'], np.asarray(row['object_pose'])[:3, 3]])
             actual.append(row['executed_reference_EEF10'][-1])
         observations, poses, events, actual = map(np.asarray, (observations, poses, events, actual))
+        known_from = ep.get('program_known_from_anchor', 8)
+        if type(known_from) is not int or known_from not in (8, 111):
+            raise ValueError('DECLARED_FIXED_OR_PAUSED_POLICY_PROGRAM_KNOWLEDGE_REQUIRED')
         for i in range(8, len(rows)-1):
+            if i < known_from: continue
             # Only past observations/receiver memory. Planned openings are known
             # at this boundary; no future stage or measured timestamp is read.
             future = plan[i+1:i+1+max(horizons)]

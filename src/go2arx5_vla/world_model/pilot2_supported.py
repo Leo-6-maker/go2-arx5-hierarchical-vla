@@ -34,7 +34,11 @@ def contract(episode):
 
 
 def validate(spec,previous):
-    path=Path(spec['episode_manifest']);episode=contract(json.loads(path.read_text()))
+    path=Path(spec['episode_manifest']);episode=json.loads(path.read_text())
+    if episode.get('schema')=='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1':
+        from .pilot2_supported_policy_runtime import contract as policy_contract
+        policy_contract(episode)
+    else:contract(episode)
     if (digest(path)!=spec['episode_manifest_sha256']or episode['run']!=spec['registered_root']
             or spec.get('pilot2_plan_sha')!=PLAN or not spec.get('pilot1_binding')or spec.get('parallel_batch_spec')):
         raise PermissionError('FRESH_SINGLE_PILOT2_CONTACT_SCOPE_AND_PROGRAM_REQUIRED')
@@ -52,6 +56,9 @@ def validate(spec,previous):
             or not previous or previous.get('status')!='NATIVE_STAGE_PASSED'or not previous.get('shutdown_clean')
             or previous.get('native_binary_sha256')!=digest(spec['native_binary'])):
         raise PermissionError('ACTUAL_NEW_SCENE_PREFIX_QUALIFICATION_REQUIRED')
+    if episode.get('schema')=='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1':
+        from .pilot2_supported_policy_runtime import validate_qualifications
+        validate_qualifications(spec,episode)
     return 6703
 
 

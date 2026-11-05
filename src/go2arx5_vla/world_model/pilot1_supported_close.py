@@ -111,6 +111,10 @@ def run(a):
     else:
         select_stage=lambda atom,episode:stage_for(atom)
         score_goal=lambda events,episode:score(events)
+    policy_episode=e if e.get('schema')=='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1' else None
+    if policy_episode:
+        from .pilot2_supported_policy_runtime import effective
+        e=effective(policy_episode)
     reader=GraspReader(a.output/'state.bin.journal',a.actual_state);installed_step=2503;windows=[];samples=[];events=[];early_release=False;first_blocker=None;previous_stage=None
     def install(stage):
         opening=e['close_logical_opening']if stage in('CLOSE','SUPPORTED_HOLD')else 1.
@@ -118,6 +122,9 @@ def run(a):
         action=np.repeat(pose10(initial['tcp'],float(teacher_physical_fraction(opening)))[None],40,axis=0)
         a.install_reference(action)
     for atom in range(e['task_atoms']):
+        if policy_episode and atom==policy_episode['policy_decision_atom']:
+            from .pilot2_supported_policy_runtime import choose
+            e=choose(a,policy_episode,samples)
         step=a.observe()['step'];stage=select_stage(atom,e)
         if atom==48 and not assess(a,e)['qualified']:raise RuntimeError('UNSTABLE_SUPPORTED_CLOSE_PREFIX')
         if stage=='SUPPORTED_HOLD'and not early_release:
@@ -137,6 +144,9 @@ def run(a):
         samples.append(row);a.command_event(dict(phase='supported-close-actual-atom',**row))
     result=score_goal(events,e);result.update(schema='WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1'if pilot2 else'WM02_PILOT1_SUPPORTED_CLOSE_SCORE_V1',source_sha=a.spec['source_sha'],same_native_process=True,physics_resets=0,state_teleports=0,actual_task_atoms=len(samples),
                                      first_blocker=first_blocker,contact_positive_native_ticks=sum(v['contact_positive']for v in events),bilateral_native_grasp_ticks=sum(v['native_grasp']for v in events),samples=samples)
+    if policy_episode:
+        result.update(original_episode_schema=policy_episode['schema'],effective_episode=e,
+            policy_decision_sha256=digest(a.output/'SUPPORTED_POLICY_DECISION.private.json'))
     write(a.output/'SUPPORTED_CLOSE_RESULT.private.json',result);a.capture_loaded_identity();cancel=a.cancel_reference();a.seal_trace(a.spec['max_ticks'])
     value=dict(schema='WM02_TARGET_DYNAMIC_DIAGNOSTIC_V1',phase=a.spec['phase'],actual_collection_start_step=2503,task_native_ticks=25*e['task_atoms'],complete_task_atoms=e['task_atoms'],windows=windows,operator_cancel=cancel,recorded_gripper_memory=True,full_task_success=False)
     write(a.output/'DYNAMIC_DIAGNOSTIC.json',value);a.reference_qualification=value

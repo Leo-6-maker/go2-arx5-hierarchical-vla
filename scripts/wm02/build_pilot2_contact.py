@@ -22,6 +22,16 @@ def build(manifest, output):
                 raise ValueError('SEALED_CONTACT_EVIDENCE_CHANGED:'+name)
         spec, result, score, episode = [json.loads(p.read_text()) for p in
             (spec_path, result_path, score_path, episode_path)]
+        declared_schema=episode['schema'];known_from=8;policy_pin=None
+        if declared_schema=='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1':
+            from go2arx5_vla.world_model.pilot2_supported_policy_runtime import contract as policy_contract,effective
+            policy_contract(episode);decision_path=native/'SUPPORTED_POLICY_DECISION.private.json'
+            decision=json.loads(decision_path.read_text());policy_pin=digest(decision_path)
+            if (score['policy_decision_sha256']!=policy_pin or decision['future_response_observed']is not False
+                    or decision['native_step']!=5303 or decision['selected_action']not in (0,1)
+                    or score['effective_episode']!=effective(episode,decision['selected_action'])):
+                raise ValueError('ACTUAL_PAUSED_POLICY_CHOICE_MUST_PRECEDE_LABELLED_PROGRAM')
+            episode=score['effective_episode'];known_from=111
         contract(episode)
         if (result['status'] != 'NATIVE_STAGE_PASSED' or result['physics_stops'] or not result['shutdown_clean']
                 or result['actual_target_integrations'] != 6703 or result.get('native_outer_guard_rejection_count')
@@ -42,6 +52,8 @@ def build(manifest, output):
             score_sha256=digest(score_path), source_sha=spec['source_sha'],
             native_binary_sha256=result['native_binary_sha256'], scene_sha256=result['scene_sha256'],
             goal_success=score['goal_success'], first_blocker=score['first_blocker']))
+        episodes[-1].update(declared_episode_schema=declared_schema,program_known_from_anchor=known_from,
+            policy_decision_sha256=policy_pin)
     data = replay(episodes)
     output = Path(output); output.mkdir(exist_ok=False)
     path = output/'CONTACT_BUNDLE.private.json.gz'
