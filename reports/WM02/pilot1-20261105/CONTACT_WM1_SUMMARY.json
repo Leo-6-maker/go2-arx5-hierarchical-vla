@@ -1,0 +1,185 @@
+{
+  "status": "ACTUAL_CONTACT_ONE_STEP_WM_TRAINED_AND_RESTORED",
+  "source_sha": "e547d150ca6c10a151bf5a3b89619b6d02b36646",
+  "bundles": [
+    {
+      "name": "C02_TRAIN.json.gz",
+      "sha256": "281d8421bc5532dc1f48367558d8c1832b29a11c68e2e1ae3e0d313cdd41ba3f"
+    },
+    {
+      "name": "C03_DEV.json.gz",
+      "sha256": "c7dc2ea71f904bf0a6a70e19aefdd0b08f886842299b46aba97d75db9bbe57cd"
+    }
+  ],
+  "main_WM_updates": 4000,
+  "restore_probe_optimizer_calls": 2,
+  "Actor_updates": 0,
+  "native_integrations": 0,
+  "TRAIN_transitions": 325,
+  "DEV_transitions": 238,
+  "TRAIN_parents": [
+    "PILOT1_CONTACT_PARENT_C02_V1"
+  ],
+  "DEV_parents": [
+    "PILOT1_CONTACT_PARENT_C03_V1"
+  ],
+  "arms": {
+    "ACTION_CONDITIONED": {
+      "main_WM_updates": 2000,
+      "restore_probe_optimizer_calls": 1,
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0,
+      "checkpoint_sha256": "75ae8bb65879f7bed10bc768e3e9b49307995c170ea8ce57d5cfaf233fa41100",
+      "last_loss": 0.00027053122175857425,
+      "metrics": {
+        "TRAIN": {
+          "transitions": 325,
+          "positive_labels": 237,
+          "negative_labels": 88,
+          "TCP_displacement_RMSE_mm": 0.04265590384602547,
+          "object_displacement_RMSE_mm": 0.005683145485818386,
+          "contact_Brier": 4.138196985081777e-08,
+          "contact_accuracy": 1.0,
+          "true_positive": 237,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "DEV": {
+          "transitions": 238,
+          "positive_labels": 171,
+          "negative_labels": 67,
+          "TCP_displacement_RMSE_mm": 0.4179646074771881,
+          "object_displacement_RMSE_mm": 0.1829732358455658,
+          "contact_Brier": 0.29573726654052734,
+          "contact_accuracy": 0.6932773109243697,
+          "true_positive": 98,
+          "false_positive": 0,
+          "false_negative": 73
+        }
+      }
+    },
+    "NO_NEW_REFERENCE": {
+      "main_WM_updates": 2000,
+      "restore_probe_optimizer_calls": 1,
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0,
+      "checkpoint_sha256": "bc44d5147db9d9dd81c48fc8578d7e4076aa2e1258e84f490268b10a52479523",
+      "last_loss": 5.2895011322107166e-05,
+      "metrics": {
+        "TRAIN": {
+          "transitions": 325,
+          "positive_labels": 237,
+          "negative_labels": 88,
+          "TCP_displacement_RMSE_mm": 0.011348278261721134,
+          "object_displacement_RMSE_mm": 0.0045727575197815895,
+          "contact_Brier": 4.2012818113335015e-08,
+          "contact_accuracy": 1.0,
+          "true_positive": 237,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "DEV": {
+          "transitions": 238,
+          "positive_labels": 171,
+          "negative_labels": 67,
+          "TCP_displacement_RMSE_mm": 0.25802552700042725,
+          "object_displacement_RMSE_mm": 0.166578471660614,
+          "contact_Brier": 0.2793009579181671,
+          "contact_accuracy": 0.7058823529411765,
+          "true_positive": 101,
+          "false_positive": 0,
+          "false_negative": 70
+        }
+      }
+    }
+  },
+  "baselines": {
+    "PERSISTENCE": {
+      "TRAIN": {
+        "transitions": 325,
+        "positive_labels": 237,
+        "negative_labels": 88,
+        "TCP_displacement_RMSE_mm": 0.3186017870903015,
+        "object_displacement_RMSE_mm": 0.0034075737930834293,
+        "contact_Brier": 0.03076923079788685,
+        "contact_accuracy": 0.9692307692307692,
+        "true_positive": 231,
+        "false_positive": 4,
+        "false_negative": 6
+      },
+      "DEV": {
+        "transitions": 238,
+        "positive_labels": 171,
+        "negative_labels": 67,
+        "TCP_displacement_RMSE_mm": 0.2923493981361389,
+        "object_displacement_RMSE_mm": 0.0032001384533941746,
+        "contact_Brier": 0.02521008439362049,
+        "contact_accuracy": 0.9747899159663865,
+        "true_positive": 168,
+        "false_positive": 3,
+        "false_negative": 3
+      }
+    },
+    "CONSTANT_VELOCITY": {
+      "TRAIN": {
+        "transitions": 325,
+        "positive_labels": 237,
+        "negative_labels": 88,
+        "TCP_displacement_RMSE_mm": 0.291770875453949,
+        "object_displacement_RMSE_mm": 0.0032524694688618183,
+        "contact_Brier": 0.03076923079788685,
+        "contact_accuracy": 0.9692307692307692,
+        "true_positive": 231,
+        "false_positive": 4,
+        "false_negative": 6
+      },
+      "DEV": {
+        "transitions": 238,
+        "positive_labels": 171,
+        "negative_labels": 67,
+        "TCP_displacement_RMSE_mm": 0.2734898626804352,
+        "object_displacement_RMSE_mm": 0.002755590947344899,
+        "contact_Brier": 0.02521008439362049,
+        "contact_accuracy": 0.9747899159663865,
+        "true_positive": 168,
+        "false_positive": 3,
+        "false_negative": 3
+      }
+    },
+    "TRAIN_EVENT_FREQUENCY": {
+      "TRAIN": {
+        "transitions": 325,
+        "positive_labels": 237,
+        "negative_labels": 88,
+        "TCP_displacement_RMSE_mm": 0.3186017870903015,
+        "object_displacement_RMSE_mm": 0.0034075737930834293,
+        "contact_Brier": 0.19745326042175293,
+        "contact_accuracy": 0.7292307692307692,
+        "true_positive": 237,
+        "false_positive": 88,
+        "false_negative": 0
+      },
+      "DEV": {
+        "transitions": 238,
+        "positive_labels": 171,
+        "negative_labels": 67,
+        "TCP_displacement_RMSE_mm": 0.2923493981361389,
+        "object_displacement_RMSE_mm": 0.0032001384533941746,
+        "contact_Brier": 0.20237870514392853,
+        "contact_accuracy": 0.7184873949579832,
+        "true_positive": 171,
+        "false_positive": 67,
+        "false_negative": 0
+      }
+    }
+  },
+  "forecast_atoms": 1,
+  "free_rollout_qualified": false,
+  "full_state_or_Markov_claim": false,
+  "native_policy_gain_evaluated": false,
+  "full_manipulation_success": false,
+  "device": "cpu",
+  "CPU_s": 32.420606402,
+  "wall_s": 17.38913842400143,
+  "peak_RSS_KiB": 329260
+}
