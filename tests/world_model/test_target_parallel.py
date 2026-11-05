@@ -37,6 +37,15 @@ class ParallelOwner(unittest.TestCase):
                 with self.assertRaises(PermissionError):validate_layout(dict(batch,native_runs_root=str(root/'elsewhere')),children)
                 validate.side_effect=PermissionError('single-scene-unqualified')
                 with self.assertRaisesRegex(PermissionError,'single-scene-unqualified'):validate_layout(batch,children)
+            episode=root/'episode';episode.write_text(json.dumps(dict(purpose='EVALUATION')))
+            freechildren=[dict(c,phase='collect-target-pilot1',max_ticks=4103,episode_manifest=str(episode))for c in children]
+            freebatch=dict(batch,schema='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1',slots=[])
+            for slot,child in zip(batch['slots'],freechildren):
+                Path(slot['spec']).write_text(json.dumps(child));freebatch['slots'].append(dict(spec=slot['spec'],spec_sha256=digest(slot['spec'])))
+            with patch('go2arx5_vla.world_model.pilot1_episode.episode_limit',return_value=4103):
+                validate_layout(freebatch,freechildren)
+                episode.write_text(json.dumps(dict(purpose='SCENE_QUALIFICATION')))
+                with self.assertRaisesRegex(PermissionError,'PREQUALIFIED_EVALUATION_SCENES'):validate_layout(freebatch,freechildren)
     def test_inherited_lock_remains_exclusive_until_last_child_closes(self):
         with tempfile.TemporaryDirectory()as tmp:
             path=Path(tmp)/'owner';lock=OwnerLock(path);fd=lock.handle.fileno()
