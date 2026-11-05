@@ -40,6 +40,9 @@ class LocalResidual(unittest.TestCase):
         for k in ('x','base','observed'):np.testing.assert_array_equal(actual[k],inputs(teacher,changed,meta)[k])
         blind=inputs(teacher,data,meta,blind_choice=True);np.testing.assert_array_equal(blind['x'][:,:-4],actual['x'][:,:-4]);np.testing.assert_array_equal(blind['x'][:,-2:],actual['x'][:,-2:])
         np.testing.assert_array_equal(blind['x'][:,-4:-2],0.)
+        tensor_input={k:torch.as_tensor(actual[k],dtype=torch.float32)for k in ('x','base','observed')}
+        net=TCPResidual(tensor_input['x'].shape[-1]);net.fit_normalizer(tensor_input['x'])
+        torch.testing.assert_close(net(**tensor_input),tensor_input['base'],atol=0,rtol=0)
 
     def test_zero_output_is_exact_ARX_and_future_labels_never_enter_forward(self):
         torch.manual_seed(36002)

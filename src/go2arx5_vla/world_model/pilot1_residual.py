@@ -25,21 +25,21 @@ class TCPResidual(nn.Module):
         self.mean.copy_(train_x.mean(0))
         self.scale.copy_(train_x.std(0, unbiased=False).clamp_min(1e-4))
 
-    def forward(self, x, base_tcp, observed_tcp, horizon=16):
-        if not 1 <= horizon <= 16 or base_tcp.shape[1:] != (16, 3):
+    def forward(self, x, base, observed, horizon=16):
+        if not 1 <= horizon <= 16 or base.shape[1:] != (16, 3):
             raise ValueError('DECLARED_LOCAL_16_ATOM_TCP_FORECAST_REQUIRED')
         context = self.context((x-self.mean)/self.scale)
-        residual = torch.zeros_like(observed_tcp)
+        residual = torch.zeros_like(observed)
         previous_delta = torch.zeros_like(residual)
         result = []
         for step in range(horizon):
-            preceding = observed_tcp if step == 0 else base_tcp[:, step-1]
-            base_delta = base_tcp[:, step]-preceding
+            preceding = observed if step == 0 else base[:, step-1]
+            base_delta = base[:, step]-preceding
             clock = torch.full_like(residual[:, :1], step/16.)
             inputs = torch.cat((context, residual/.001, previous_delta/.001, base_delta/.001, clock), -1)
             previous_delta = self.step(inputs)*.0001
             residual = residual+previous_delta
-            result.append(base_tcp[:, step]+residual)
+            result.append(base[:, step]+residual)
         return torch.stack(result, 1)
 
 
