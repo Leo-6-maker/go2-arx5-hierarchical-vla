@@ -73,6 +73,11 @@ class SupportedPolicyData(unittest.TestCase):
             s.update(resume=str(out/'checkpoint-200.pt'),resume_sha256=r['checkpoint_sha256'],endpoint=4)
             continued=root/'continued';continued.mkdir();r=run(s,continued)
             self.assertEqual(r['prior_Actor_updates'],200);self.assertEqual(r['complete_restore_error'],0)
+            s.update(normalizer_reference=str(out/'checkpoint-200.pt'),normalizer_reference_sha256=digest(out/'checkpoint-200.pt'))
+            with self.assertRaisesRegex(ValueError,'FRESH_NORMALIZER_CONTROL'):run(s,root/'invalid-control')
+            s.pop('resume');s.pop('resume_sha256');fresh=root/'normalizer-control';fresh.mkdir();r=run(s,fresh)
+            self.assertEqual(r['normalization_origin'],'PINNED_PRIOR_TRAIN_INPUTS_FRESH_MODEL_CONTROL')
+            self.assertEqual(r['prior_Actor_updates'],0);self.assertEqual(r['complete_restore_error'],0)
 
 
 if __name__=='__main__': unittest.main()

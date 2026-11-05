@@ -45,6 +45,19 @@ def run(spec, output):
     if not len(train) or not len(dev): raise ValueError('NONEMPTY_WHOLE_PARENT_SUPPORTED_TRAIN_DEV_REQUIRED')
     t=lambda v:torch.as_tensor(v,dtype=torch.float32,device=device)
     x,labels=t(data['x']),t(data['labels']); mean=x[train].mean(0); scale=x[train].std(0,unbiased=False).clamp_min(1e-4)
+    normalization_origin='CURRENT_TRAIN_INPUTS'
+    if spec.get('normalizer_reference'):
+        if spec.get('resume'):raise ValueError('FRESH_NORMALIZER_CONTROL_MUST_NOT_SILENTLY_CHANGE_RESUMED_INPUTS')
+        if digest(spec['normalizer_reference'])!=spec['normalizer_reference_sha256']:
+            raise ValueError('FROZEN_TRAIN_NORMALIZER_REFERENCE_CHANGED')
+        reference=torch.load(spec['normalizer_reference'],map_location='cpu',weights_only=True)
+        if (reference['schema']!='WM02_PILOT2_SUPPORTED_POLICY_CHECKPOINT_V1'
+                or reference['mean'].shape!=(x.shape[1],) or reference['scale'].shape!=(x.shape[1],)
+                or not torch.isfinite(reference['mean']).all() or not torch.isfinite(reference['scale']).all()
+                or not (reference['scale']>0).all()):
+            raise ValueError('EXPLICIT_TRAIN_POLICY_NORMALIZER_REFERENCE_REQUIRED')
+        mean=reference['mean'].to(device);scale=reference['scale'].to(device)
+        normalization_origin='PINNED_PRIOR_TRAIN_INPUTS_FRESH_MODEL_CONTROL'
     def create(): return torch.nn.Sequential(torch.nn.Linear(x.shape[1],32),torch.nn.Tanh(),
         torch.nn.Linear(32,32),torch.nn.Tanh(),torch.nn.Linear(32,2)).to(device)
     model=create(); opt=torch.optim.AdamW(model.parameters(),lr=spec['learning_rate'],weight_decay=1e-4)
@@ -60,6 +73,7 @@ def run(spec, output):
             raise ValueError('WM_TEACHER_UPDATE_MUST_BE_EXPLICIT')
         model.load_state_dict(c['model']);opt.load_state_dict(c['optimizer']);mean=c['mean'].to(device);scale=c['scale'].to(device)
         previous=c['updates'];restore_rng(c['rng'])
+        normalization_origin='EXPLICIT_FROZEN_RESUMED_TRAIN_NORMALIZER'
         if c['bundles']==spec['bundles']: sampler.load_state_dict(c['sampler'])
         elif spec.get('data_expansion_normalizer')!='FROZEN_PRIOR_TRAIN_NORMALIZER_NEW_SHUFFLE':
             raise ValueError('NEW_POLICY_DATA_NORMALIZER_AND_SAMPLER_MUST_BE_EXPLICIT')
@@ -74,6 +88,7 @@ def run(spec, output):
         torch.save(dict(schema='WM02_PILOT2_SUPPORTED_POLICY_CHECKPOINT_V1',source_sha=spec['source_sha'],
             teacher_method=spec['teacher_method'],wm_numpy_sha256=spec.get('wm_numpy_sha256'),seed=spec['seed'],
             model=model.state_dict(),optimizer=opt.state_dict(),mean=mean,scale=scale,
+            normalization_origin=normalization_origin,normalizer_reference_sha256=spec.get('normalizer_reference_sha256'),
             rng=rng_state(),sampler=sampler.state_dict(),updates=step,bundles=spec['bundles'],episode_identities=identities),
             output/f'checkpoint-{step}.pt')
     def measure():
@@ -117,6 +132,7 @@ def run(spec, output):
     result=dict(status='SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING',source_sha=spec['source_sha'],
         bundles=spec['bundles'],wm_numpy_sha256=spec.get('wm_numpy_sha256'),decision_atom=112,
         teacher_method=spec['teacher_method'],main_Actor_updates=spec['endpoint'],prior_Actor_updates=previous,
+        normalization_origin=normalization_origin,normalizer_reference_sha256=spec.get('normalizer_reference_sha256'),
         WM_updates=0,restore_probe_optimizer_calls=1,complete_restore_error=error,endpoint_reload_error=reload,
         checkpoint_sha256=digest(final),portable_policy_sha256=digest(portable),portable_max_logit_error=numpy_error,
         TRAIN_parents=sorted({x['parent'] for x in identities if x['split']=='TRAIN'}),
