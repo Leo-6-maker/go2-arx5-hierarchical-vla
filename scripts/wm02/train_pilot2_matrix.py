@@ -12,10 +12,13 @@ PLAN_SHA='6d82fa23c892f167001abe743dd5eadfca6fd777'
 
 def validate_design(spec):
     arms=spec['study_arms']
+    proofs=spec.get('completed_arm_proofs',{})
+    if (not isinstance(proofs,dict) or any(k not in [str(i)for i in range(12)]for k in proofs)):
+        raise ValueError('EXPLICIT_COMPLETED_ARM_IDENTITIES_REQUIRED')
     expected={(d,m,s)for d in ('OLD_24','EXPANDED_53')for m in MODES for s in (36001,36002,36003)}
     if (spec.get('pilot2_plan_sha')!=PLAN_SHA or len(arms)!=12
             or {(a['dataset'],a['sampler'],a['seed'])for a in arms}!=expected
-            or spec.get('endpoint')!=96000 or spec.get('arm_endpoint')!=8000
+            or spec.get('endpoint')!=(12-len(proofs))*8000 or spec.get('arm_endpoint')!=8000
             or spec.get('batch_size')!=128 or spec.get('learning_rate')!=.001
             or spec.get('physics')is not False or spec.get('kind')!='ACTOR_STUDY'):
         raise ValueError('FROZEN_PILOT2_TWO_BY_TWO_BY_THREE_DESIGN_REQUIRED')
@@ -69,6 +72,7 @@ def run(spec,output):
     from go2arx5_vla.world_model.storage import digest,write_json
     from go2arx5_vla.world_model.pilot1_storage import local_path
     from scripts.wm02.train_pilot1_actor import run as train
+    from scripts.pi0292.durable import write
     arms=validate_design(spec);output=Path(output);started=time.monotonic();cpu=time.process_time()
     for item in spec['study_datasets'].values():
         local_path(spec,item['path'])
@@ -85,7 +89,32 @@ def run(spec,output):
         for i,arm in enumerate(arms):
             if time.time()>=spec['deadline_epoch']or any((Path(spec[k])/'STOP.json').exists()for k in('registered_root','campaign_root')):
                 raise TimeoutError('FINITE_MATRIX_DEADLINE_OR_OPERATOR_STOP')
-            dataset=spec['study_datasets'][arm['dataset']];root=output/('arm-%02d'%i);root.mkdir()
+            dataset=spec['study_datasets'][arm['dataset']]
+            if str(i)in spec.get('completed_arm_proofs',{}):
+                proof=spec['completed_arm_proofs'][str(i)];path=Path(proof['result'])
+                if digest(path)!=proof['result_sha256']or digest(path.parent/'ARM_SPEC.json')!=proof['spec_sha256']:
+                    raise ValueError('PRIOR_COMPLETE_ARM_RESULT_CHANGED')
+                value=json.loads(path.read_text());oldspec=json.loads((path.parent/'ARM_SPEC.json').read_text())
+                lease=json.loads(Path(proof['closed_lease']).read_text())
+                if (lease['status']!='CLOSED'or value['status']!='SMALL_ACTOR_TRAINED_AND_RELOADABLE'
+                        or value['main_Actor_updates']!=8000 or value['complete_restore_error']!=0
+                        or value['endpoint_reload_error']!=0 or value['sampler_restore_error']!=0
+                        or value['seed']!=arm['seed']or value['sampler']!=arm['sampler']
+                        or value['replay_sha256']!=dataset['sha256']
+                        or oldspec['ARX_sha256']!=spec['ARX_sha256']
+                        or oldspec['frozen_task_sha256']!=spec['frozen_task_sha256']
+                        or digest(path.parent/'checkpoint-8000.pt')!=value['checkpoint_sha256']):
+                    raise ValueError('ONLY_SEALED_COMPLETE_MATCHING_MODEL_MAY_BE_REUSED')
+                for name in ('scripts/wm02/train_pilot1_actor.py','src/go2arx5_vla/world_model/actor_sampling.py',
+                             'src/go2arx5_vla/world_model/actor_diagnostics.py','src/go2arx5_vla/world_model/pilot1_actor.py',
+                             'src/go2arx5_vla/world_model/pilot1_numpy.py'):
+                    if digest(Path(spec['source_root'])/name)!=oldspec['source_files'][name]:
+                        raise ValueError('REUSED_MODEL_TRAINER_BYTES_DIFFER')
+                results.append(dict(arm_index=i,arm=arm,result=value,reused_completed_arm=True,
+                    prior_result_sha256=proof['result_sha256'],spec_sha256=digest(path.parent/'ARM_SPEC.json')))
+                write(output/'COMPLETED_ARMS.json',results)
+                continue
+            root=output/('arm-%02d'%i);root.mkdir()
             n=dataset['TRAIN_windows']*256
             checkpoints=sorted({2000,8000,20*n//128,40*n//128})
             s=dict(spec);s.update(kind='ACTOR_DISTILLATION',actor_recipe='WM02_PILOT2_ACTOR_V1',
@@ -96,7 +125,7 @@ def run(spec,output):
                 s.update(legacy_control_checkpoint=dataset['legacy_checkpoint'],
                          legacy_control_checkpoint_sha256=dataset['legacy_checkpoint_sha256'])
             write_json(root/'ARM_SPEC.json',s)
-            write_json(output/'PROGRESS.json',dict(arm_index=i,arm=arm,completed_arms=len(results),
+            write(output/'PROGRESS.json',dict(arm_index=i,arm=arm,completed_arms=len(results),
                 completed_main_updates=sum(v['result']['main_Actor_updates']for v in results),updated_epoch=time.time()))
             attempt=dict(arm_index=i,arm=arm,main_updates_logged=0,restore_probes_recorded=0,status='STARTED')
             attempts.append(attempt)
@@ -113,9 +142,9 @@ def run(spec,output):
                         attempt['main_updates_logged']=json.loads(complete[-1])['update']
                 probe=root/'RESTORE_PROBE.json'
                 if probe.exists():attempt['restore_probes_recorded']=json.loads(probe.read_text())['actual_optimizer_calls']
-                write_json(output/'ACTUAL_ATTEMPTS.json',attempts)
+                write(output/'ACTUAL_ATTEMPTS.json',attempts)
             results.append(dict(arm_index=i,arm=arm,result=value,spec_sha256=digest(root/'ARM_SPEC.json')))
-            write_json(output/'COMPLETED_ARMS.json',results)
+            write(output/'COMPLETED_ARMS.json',results)
             gc.collect();torch.cuda.empty_cache()
     except BaseException as error:
         failure=type(error).__name__+': '+str(error)
@@ -125,6 +154,8 @@ def run(spec,output):
             source_sha=spec['source_sha'],pilot2_plan_sha=PLAN_SHA,results=results,attempts=attempts,failure=failure,
             main_Actor_updates=sum(v['main_updates_logged']for v in attempts),
             separate_restore_probes=sum(v['restore_probes_recorded']for v in attempts),
+            reused_completed_main_updates=sum(v['result']['main_Actor_updates']for v in results if v.get('reused_completed_arm')),
+            full_matrix_completed_main_updates=sum(v['result']['main_Actor_updates']for v in results),
             WM_updates=0,native_integrations=0,TEST_read=False,CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-started,
             equal_exposure_epochs=[20,40],primary_update_comparisons=[2000,8000],
             future_20000_rule='FRESH_SUCCESSOR_ONLY_IF_TRAIN_HIGH_MARGIN_ERROR_GT_0_02_AND_KL_DROP_2K_TO_8K_GE_0_005_AND_DEV_REGRET_NOT_WORSE_BY_MORE_THAN_MAX_20_PERCENT_0_005MM')
