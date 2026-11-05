@@ -38,7 +38,7 @@ class TargetWM(nn.Module):
             action[:,:3]/=.01;action[:,10:13]/=.01
         elif self.action_encoding=='NO_ACTION_V2':action.zero_()
         return torch.cat((action,elapsed[:,None]/1.2,age[:,None],known[:,None]),-1)
-    def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None,history_goal=None,future_prefix_remaining=None):
+    def predict(self,state,goal,source_age,window_start_s=None,window_start_atom=None,history_goal=None,future_prefix_remaining=None,teacher_forced=False):
         batch=len(state);h=state.new_zeros(batch,self.hidden)
         origin=state.new_zeros(batch)if window_start_s is None else window_start_s
         remaining=state.new_full((batch,),6.)if window_start_atom is None else 7-torch.remainder(window_start_atom+8,7)
@@ -49,6 +49,7 @@ class TargetWM(nn.Module):
             h=self.history(torch.cat(((state[:,i]-self.mean)/self.std,a),-1),h)
         current=state[:,8];pred=[]
         for i in range(8,24):
+            if teacher_forced:current=state[:,i]
             # The next renewal is at atom14. Its actual future source age is
             # unknown; an explicit missing mask replaces that input thereafter.
             known=(remaining>(i-8)).to(state.dtype);age=(source_age[:,8]+(i-8)*.05)*known

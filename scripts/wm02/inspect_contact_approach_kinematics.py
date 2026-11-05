@@ -10,6 +10,10 @@ def main(argv=None):
     if not np.isfinite(a.grasp_height_offset_m)or not 0<=a.grasp_height_offset_m<=.035:raise ValueError('FINITE_STATIC_GRASP_HEIGHT_RANGE_REQUIRED')
     if cfg['label']!='TARGET_QUALIFIED_RECORDING_REPLAY':raise ValueError('QUALIFIED_ORIGINAL_INITIAL_STATE_REQUIRED')
     mj,m,d,rows=load(cfg);native=json.loads(Path(cfg['native_result']['path']).read_text());step=native['reference_qualification']['actual_collection_start_step'];row=next(r for r in rows if r['step']==step)
+    if cfg.get('steady_prefix'):
+        proof=cfg['steady_prefix'];value=json.loads(Path(proof['path']).read_text())
+        if digest(proof['path'])!=proof['sha256']or not value.get('qualified')or native['reference_qualification'].get('steady_prefix')!=value:raise ValueError('ACTUAL_SAME_RECORDING_STEADY_PREFIX_REQUIRED')
+        step=value['actual_native_step'];row=next(r for r in rows if r['step']==step)
     arm=[mj.mj_name2id(m,mj.mjtObj.mjOBJ_JOINT,'x5_joint'+str(i))for i in range(1,7)]
     if any(j<0 for j in arm):raise ValueError('EXACT_NATIVE_SIX_ARM_JOINTS_REQUIRED')
     qa=m.jnt_qposadr[arm];va=m.jnt_dofadr[arm];low=m.jnt_range[arm,0];high=m.jnt_range[arm,1];site=mj.mj_name2id(m,mj.mjtObj.mjOBJ_SITE,'x5_ee');cube=mj.mj_name2id(m,mj.mjtObj.mjOBJ_BODY,'task_cube');fingers=[mj.mj_name2id(m,mj.mjtObj.mjOBJ_JOINT,'task_'+side+'_slide')for side in ['left','right']]

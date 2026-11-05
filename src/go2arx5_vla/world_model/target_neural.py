@@ -5,8 +5,9 @@ from pathlib import Path
 
 def validate_device(spec,actual):
     allowed={'GPU-845348f1-1511-dc19-0877-cc97658e3edd','GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'}
-    night1=bool(spec.get('night1_binding'))
+    next1=bool(spec.get('next1_binding'));night1=bool(spec.get('night1_binding'))or next1
     endpoint_ok=(type(spec.get('endpoint'))is int and spec['endpoint']>=2)if night1 else spec.get('endpoint')in(200,100)
+    if next1 and(spec.get('endpoint')!=200 or spec.get('resume')or spec.get('action_encoding')not in('RAW_WORLD_RELATIVE_V1','SCALED_WORLD_RELATIVE_1CM_V2','NO_ACTION_V2')or spec.get('allocator_limit_bytes',0)>4*1024**3):raise PermissionError('NEXT1_THREE_FIXED_FRESH200_RECIPE_SCOPE_REQUIRED')
     if (spec.get('GPU_uuid')not in allowed or actual['uuid']!=spec['GPU_uuid']
             or spec.get('profile')!='wm02-auto1-target-neural' or spec.get('physics')is not False
             or spec.get('data_domain')not in(('WM02_TARGET_NATIVE_REPLAY_V2','WM02_TARGET_LATE_DECISION_REPLAY_V3')if night1 else('WM02_TARGET_NATIVE_STATE_V1',))
@@ -33,7 +34,13 @@ def validate_campaign(spec):
     if (digest(spec['replay_result'])!=spec['replay_result_sha256']or build.get('schema')!=spec['data_domain']
             or build.get('status')!='ACTUAL_TARGET_SEQUENTIAL_REPLAY_BUILT'
             or digest(spec['replay'])!=build.get('replay_sha256')):raise PermissionError('REAL_NATIVE_REPLAY_BUILD_IDENTITY_REQUIRED')
-    if night1:
+    if spec.get('next1_binding'):
+        from .next1_scope import validate
+        validate(spec,registry)
+        gate=json.loads(Path(spec['action_effect_gate']).read_text())
+        if digest(spec['action_effect_gate'])!=spec['action_effect_gate_sha256']or gate.get('status')!='ACTUAL_ACTION_EFFECT_DIAGNOSTIC_PASSED'or not gate.get('gate_passed')or gate.get('TRAIN_parents')!=4:raise PermissionError('ACTUAL_TRAIN_ACTION_RESPONSE_GATE_REQUIRED_BEFORE_NEXT1_MODELS')
+        if spec.get('endpoint')!=200 or spec.get('resume'):raise PermissionError('NEXT1_FIXED_FRESH200_NO_LEGACY_RESUME_REQUIRED')
+    elif night1:
         from .target_manifest import validate_night1
         validate_night1(spec,registry)
         if build.get('windows',0)<1 or build['task_atoms']<24:raise PermissionError('REAL_NIGHT1_WINDOWS_REQUIRED')

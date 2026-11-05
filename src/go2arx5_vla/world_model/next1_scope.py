@@ -21,17 +21,25 @@ def validate_limits(b,*,now):
 
 
 def usage(campaign,binding):
-    attempts=ticks=0
+    attempts=ticks=main=probes=0
     for root in (Path(campaign)/'runs').glob('next1-*'):
         p=root/'EXECUTION_SPEC.json'
         if not p.exists():continue
         s=json.loads(p.read_text())
-        if s.get('next1_binding')!=str(binding) or s.get('profile')!='wm02-auto1-target':continue
+        if s.get('next1_binding')!=str(binding):continue
+        if s.get('profile')=='wm02-auto1-target-neural':
+            result=root/'fit-01/RESULT.json'
+            if result.exists():
+                v=json.loads(result.read_text());main+=v['main_updates'];probes+=v['continuation_probe_updates']
+            else:
+                main+=s['endpoint'];probes+=1
+            continue
+        if s.get('profile')!='wm02-auto1-target':continue
         attempts+=1
         result=root/'native-01/RESULT.json'
         # Reserve full finite endpoints for outstanding/unknown attempts.
         ticks+=json.loads(result.read_text())['actual_target_integrations'] if result.exists() else s['max_ticks']
-    return dict(attempts=attempts,native_ticks_or_outstanding_reservations=ticks)
+    return dict(attempts=attempts,native_ticks_or_outstanding_reservations=ticks,main_updates_or_reservations=main,restore_probes_or_reservations=probes)
 
 
 def validate(spec,registry,*,now=None):
@@ -48,6 +56,7 @@ def validate(spec,registry,*,now=None):
     if not any(e.get('path')==spec['registered_root']and e.get('source_sha')==spec['source_sha']and e.get('next1_binding')==str(path)for e in registry['entries']):raise PermissionError('ACTUAL_NEXT1_WORKER_REGISTRATION_REQUIRED')
     u=usage(spec['campaign_root'],path)
     if u['attempts']>b['max_native_attempts']or u['native_ticks_or_outstanding_reservations']>b['max_native_ticks']:raise PermissionError('NEXT1_FINITE_ATTEMPTS_OR_TICKS_EXHAUSTED')
+    if u['main_updates_or_reservations']>b['max_main_updates']or u['restore_probes_or_reservations']>b['max_restore_probes']:raise PermissionError('NEXT1_FINITE_MODEL_SCOPE_EXHAUSTED')
     if digest(spec['native_binary'])!=C08:raise PermissionError('NEXT1_FROZEN_C08_EXECUTOR_REQUIRED')
     return b
 

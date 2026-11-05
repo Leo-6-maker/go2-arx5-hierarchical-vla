@@ -142,7 +142,13 @@ def run_batch(spec_path,output,run_id):
                         lease_path=Path(child['lease']);lease=json.loads(lease_path.read_text());lease.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=p.returncode);write(lease_path,lease)
                         diag=Path(child['registered_root'])/'native-01/DYNAMIC_DIAGNOSTIC.json';atoms=json.loads(diag.read_text())['complete_task_atoms']if diag.exists()else 0
                         rows.append(dict(run=Path(child['registered_root']).name,exit_code=p.returncode,status=value.get('status'),ticks=value.get('actual_target_integrations',0),shutdown_clean=value.get('shutdown_clean',False),ROS_DOMAIN_ID=child['ROS_DOMAIN_ID'],cpus=child['cpus'],task_atoms=atoms,collection=child['phase'].startswith('collect-target-')))
+                        if child['phase']=='collect-target-next1':
+                            episode=json.loads(Path(child['episode_manifest']).read_text())
+                            rows[-1]['sampled_WM_atoms']=24 if episode['purpose']in('ACTION_PILOT','ACTION_DEV','HOLD_REPEAT')and value.get('status')=='NATIVE_STAGE_PASSED'else 0
                     result=dict(status='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'if all(r['exit_code']==0 and r['status']=='NATIVE_STAGE_PASSED'and r['shutdown_clean']for r in rows)else'TWO_ENVIRONMENT_NATIVE_PILOT_FAILED_PRESERVED',children=rows,wall_s=time.monotonic()-start,physical_owners=1,WM_updates=0,Actor_updates=0,learning_atoms=sum(r['task_atoms']for r in rows if r['collection']and r['status']=='NATIVE_STAGE_PASSED'))
+                    if spec.get('next1_binding'):
+                        result['recorded_task_atoms']=sum(r['task_atoms']for r in rows)
+                        result['learning_atoms']=sum(r.get('sampled_WM_atoms',0)for r in rows)if result['status']=='TWO_ENVIRONMENT_NATIVE_PILOT_PASSED'else 0
                     write_json(Path(output)/'RESULT.json',result);return result
                 finally:
                     for child,p in jobs:
