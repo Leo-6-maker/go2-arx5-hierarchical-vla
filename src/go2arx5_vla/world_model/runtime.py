@@ -50,6 +50,15 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
+    if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU':
+        from .pilot1_scope import PLAN_SHA
+        if (gpu or physics or spec.get('physics') is not False
+                or spec.get('profile') != 'wm02-pilot1-offline-cpu'
+                or spec.get('plan_sha') != PLAN_SHA or spec.get('scope') != 'WM02_PILOT1_PC_MODEL_ONLY'
+                or spec.get('kind') != 'ARX_RESIDUAL' or spec.get('device') != 'cpu'
+                or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or type(spec.get('endpoint')) is not int
+                or spec['endpoint'] < 1):
+            raise PermissionError('FRESH_LOCAL_PC_PILOT1_CPU_MODEL_ONLY_REQUIRED')
     if gpu and spec.get('execution_site') == 'CORE_PILOT1_NEURAL':
         import subprocess
         from .pilot1_scope import validate_gpu
@@ -184,6 +193,12 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     if not any(e.get('role') == spec['role'] and e.get('path') == str(root)
                and e.get('source_sha') == spec['source_sha'] for e in registry['entries']):
         raise PermissionError('Existing host-aware registry binding missing')
+    if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU' and not any(
+            e.get('role') == spec['role'] and e.get('path') == str(root)
+            and e.get('executor_node') == spec['host'] and e.get('scope') == spec['scope']
+            and e.get('local_lease') == spec['lease'] and e.get('plan_sha') == spec['plan_sha']
+            and e.get('valid_until_epoch') == spec['deadline_epoch'] for e in registry['entries']):
+        raise PermissionError('ORIGINAL_REGISTRY_LOCAL_OFFLINE_GRANT_REQUIRED')
     lease = json.loads(Path(spec['lease']).read_text())
     if lease['status'] != 'ACTIVE' or lease['run_uuid'] != root.name or lease['spec_sha256'] != digest(spec_path):
         raise PermissionError('Exact active WM01 lease required')

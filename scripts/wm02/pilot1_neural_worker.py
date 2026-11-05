@@ -24,7 +24,9 @@ def main(argv=None):
     if (root / 'SUPERVISOR.private.json').exists():
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
     write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
-    command = [sys.executable, '-B', '-m', 'scripts.wm02.train_pilot1_actor', '--spec', str(args.spec), '--output', str(root / 'fit-01')]
+    module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
+              'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual'}[spec['kind']]
+    command = [sys.executable, '-B', '-m', module, '--spec', str(args.spec), '--output', str(root / 'fit-01')]
     started = time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
     failure, exit_code = None, 1
