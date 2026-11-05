@@ -190,9 +190,20 @@ class TargetSequentialAdapter:
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
         # safety. The native quota remains responsible for the actual pause.
-        ack=json.loads((self.output/'pause_ack.json').read_text())
-        if ack.get('running')is not False or ack.get('clock_paused')is not True:raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
-        (self.output/'trace_seal_request').write_text(json.dumps(dict(step=ticks,sim_time_s=self.observe()['time_s'])))
+        snapshot={}
+        def confirmed_pause():
+            # The measured local block filesystem can briefly hide a replaced
+            # live snapshot. Retry reads only; never grant another physics tick.
+            try:ack=json.loads((self.output/'pause_ack.json').read_text());packet=self.observe()
+            except(FileNotFoundError,json.JSONDecodeError):return False
+            if (ack.get('step')!=ticks or packet['step']!=ticks
+                    or ack.get('running')is not False or ack.get('clock_paused')is not True
+                    or abs(ack.get('time_s',float('inf'))-packet['time_s'])>1e-8):
+                raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
+            snapshot.update(packet);return True
+        if not self.spin(3,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
+        request=self.output/'trace_seal_request';pending=request.with_suffix('.pending')
+        pending.write_text(json.dumps(dict(step=ticks,sim_time_s=snapshot['time_s'])));os.replace(pending,request)
         def sealed():
             try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
