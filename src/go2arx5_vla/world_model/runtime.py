@@ -62,9 +62,10 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     if gpu and spec.get('execution_site') == 'CORE_PILOT1_NEURAL':
         import subprocess
         from .pilot1_scope import validate_gpu
-        from scripts.pi0294.e1.smoke import node_local
+        from .pilot1_storage import local_path
         for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'replay'):
-            node_local(spec[key])
+            local_path(spec,spec[key])
+        for item in spec.get('bundles',[]):local_path(spec,item['path'])
         reply = subprocess.run(['nvidia-smi', '--id='+spec['GPU_uuid'], '--query-gpu=uuid,memory.free',
                                 '--format=csv,noheader,nounits'], capture_output=True, text=True, check=True, timeout=10)
         uuid, free = [v.strip() for v in reply.stdout.strip().split(',')]

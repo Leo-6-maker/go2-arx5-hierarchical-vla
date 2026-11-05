@@ -57,7 +57,7 @@ def validate(spec, registry=None, now=None):
 def validate_gpu(spec, actual):
     if (spec.get('profile') != 'wm02-pilot1-neural' or spec.get('physics') is not False
             or spec.get('GPU_uuid') not in GPU_UUIDS or actual['uuid'] != spec['GPU_uuid']
-            or spec.get('kind') not in ('ACTOR_DISTILLATION', 'ARX_RESIDUAL', 'ARX_EQUIVALENCE')
+            or spec.get('kind') not in ('ACTOR_DISTILLATION', 'ARX_RESIDUAL', 'ARX_EQUIVALENCE','CONTACT_WM')
             or type(spec.get('endpoint')) is not int or spec['endpoint'] < 1
             or not 0 < spec.get('allocator_limit_bytes', 0) < actual['free_bytes'] - 1024**3
             or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']):
