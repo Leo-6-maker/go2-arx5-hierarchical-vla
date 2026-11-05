@@ -1,4 +1,6 @@
-# WM02 NEXT1 · 新窗口自主推进入口（尚未启动）
+# WM02 NEXT1 · 已实际执行并结算（2026-11-05）
+
+实际执行接续固定`a673d4b0d361c6fea9fcd5d5b9cbd28f58461b4f`，原机制登记的新NEXT1窗口现已CLOSED。40次原生安全PASS、174920 tick；新共享replay28窗口/672转移；三组WM各200+1，Actor0。稳定前缀与真实动作辨识通过；神经M0科学Gate未通过，C1仅短暂预接触、尚无物体接触。**不复用CLOSED lease或把原生PASS当任务成功。** [实际成果/完整SHA/成本/接续点](reports/WM02/next1-20261105/NEXT1_FINAL.md)，[实际命令](reports/WM02/next1-20261105/EXECUTED_COMMANDS.md)。以下保留原计划说明作为历史上下文。
 
 基线：[PR #356](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/356) 完整NIGHT1收尾 `3d62dc098eadf789aa92f962484e1bdc442c7a99`。NIGHT1全部动态worker/lease CLOSED、原截止已过，**不得重开或派发**。本文件与同分支的[详细方案](docs/handover/2026-11-05/WM02_NEXT_WINDOW_ACTION_EFFECT_AND_CONTACT_V1.md)和[机读Gates](experiments/wm02/next_window_action_effect_v1.json)只提出后续研究，尚未取得新scope。
 

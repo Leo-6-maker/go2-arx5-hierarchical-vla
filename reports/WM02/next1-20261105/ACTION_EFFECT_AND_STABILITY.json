@@ -1,0 +1,5115 @@
+{
+  "schema": "WM02_NEXT1_PUBLIC_IDENTIFICATION_V1",
+  "R0": {
+    "schema": "WM02_NEXT1_STABILITY_CAUSALITY_AUDIT_V1",
+    "old_replay_sha256": "3493aa2ed00ceb2f9cd2c9f74a8c5a224f73be8da595be3d6abc4e74424a9a9a",
+    "TRAIN_screen_passes": 0,
+    "TRAIN_screen_denominator": 18,
+    "rows": [
+      {
+        "episode": "night1-c08-decision-a-r1-pair1-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "c082843d99383ebb5748c261e776d29f5fa9b5c331d9aeb232bed9c683c616f8",
+          "COMMANDS.private.jsonl": "f8d15b9d03b27f04a66ba68aad6ddc3c8ecb5975f5458dee7bf3bf69fd1a9e74",
+          "planner.jsonl": "cf1bbb6db2880e6efaf70648d77f4a0478f900bff9b174491d70c95a2a8ff4d7",
+          "RESULT.json": "12b664ab211a6a7047193b1258b58a1211cf401b9e06f987d4ee47c5599731be"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04068367164183751,
+          "relative_TCP_max_speed_m_s": 0.28848176773874407,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03722673596079584,
+        "BASE_diameter_predecision_m": 0.007578722893119825,
+        "world_TCP_max_from_task_start_m": 0.03722673596079584,
+        "installed_reference_tracking_error_max_m": 0.03722674022869225,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0010212729507960705,
+              -0.00032788470240821196,
+              0.0038079671228058443
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001243286403055599,
+              7.942125893135518e-05,
+              0.0015348146683983321
+            ],
+            "delta_BASE_m": [
+              0.001712692399415336,
+              -3.706906467640359e-05,
+              0.002804631628110954
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.004799248190395067,
+              -0.0027865951616071073,
+              0.003493586192064968
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007635449511332104,
+              0.0006864813724622148,
+              0.001958887422747746
+            ],
+            "delta_BASE_m": [
+              0.00829194501804946,
+              0.0009802801865736541,
+              0.005631002534869367
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005200650644052562,
+              -0.004560006711707603,
+              0.004118486990902004
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010409491655535341,
+              0.001216315395366107,
+              0.0031834115230064963
+            ],
+            "delta_BASE_m": [
+              0.008164316095188445,
+              0.0011757593984762207,
+              0.008285363072972951
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1102230246251565e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair1-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "82c6259b54a887f7225d019a79cd25f04eeaddcc3dadc0a9dd4f5d12e9556c1b",
+          "COMMANDS.private.jsonl": "f21407c2ae56581d82cdf0b0836ab83fe1d2d5b96fb9defe511d9aca5eedee61",
+          "planner.jsonl": "69855437c22fda41076d275664f31124561e617f674912964ed7a40e080e76ad",
+          "RESULT.json": "5be1cbc1fb3b9871f5946762836554d2259cbf57bc7783ac149738d30dad425d"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04094971505898046,
+          "relative_TCP_max_speed_m_s": 0.30848839567113323,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.0421038570878152,
+        "BASE_diameter_predecision_m": 0.010015834628387189,
+        "world_TCP_max_from_task_start_m": 0.0421038570878152,
+        "installed_reference_tracking_error_max_m": 0.04210387550451155,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.00060371837169515,
+              -0.0018568077655554665,
+              0.0030755323209158414
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001382421812396395,
+              -0.0004055457109078259,
+              0.001966640274741027
+            ],
+            "delta_BASE_m": [
+              7.136248202979645e-05,
+              -0.0002826907490482088,
+              0.002995668464072454
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0025020420201841698,
+              -0.005534204197737938,
+              0.006918065334981627
+            ],
+            "delta_TCP_BASE_m": [
+              -0.006776619268052009,
+              0.0005315242062884033,
+              0.0019430376567491359
+            ],
+            "delta_BASE_m": [
+              0.005750256027850703,
+              -0.001453218987654781,
+              0.008443834163828434
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.004288119750958608,
+              -0.009024518670711334,
+              0.00867612147190533
+            ],
+            "delta_TCP_BASE_m": [
+              -0.009572675492272142,
+              0.0011252082545436543,
+              0.0020337634367035284
+            ],
+            "delta_BASE_m": [
+              0.007284963071721773,
+              -0.0024011170038218607,
+              0.013129097922711441
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.249000902703301e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair2-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "5a9761c437d7380db914be3cc55360af09c2eba6f8bf5c7c64b10e95c998ee89",
+          "COMMANDS.private.jsonl": "7de8ba1ab53f3e29936d15c7d033c49137b510044c5928bb4d319198c039d3f0",
+          "planner.jsonl": "2d94863f9214ea8fe499211dbe0934d9e17fd0f317f5677bbba567b6fea80e20",
+          "RESULT.json": "8679d572c82a61d00c1555320c417857f3b99c312a9e10c227d851840ffbc860"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.039458226750770556,
+          "relative_TCP_max_speed_m_s": 0.30892534144955863,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.0335012313315168,
+        "BASE_diameter_predecision_m": 0.007646049799229028,
+        "world_TCP_max_from_task_start_m": 0.0335012313315168,
+        "installed_reference_tracking_error_max_m": 0.03350122905825622,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0010054310058738025,
+              0.0004926206317777855,
+              0.00013352296958457632
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013836982101975148,
+              0.0003050284291053855,
+              -0.00019225207551276657
+            ],
+            "delta_BASE_m": [
+              0.001689438354706585,
+              0.00034189456995658836,
+              0.000998735748345858
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.004987646706654358,
+              -0.000695164423557347,
+              0.003243547498571142
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008259332055308044,
+              0.001018873201908476,
+              0.0011024329145691292
+            ],
+            "delta_BASE_m": [
+              0.008391749754652691,
+              0.0025268152786633957,
+              0.006922555297531996
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.004067988184790039,
+              -0.0022133969290749657,
+              0.003560628180767189
+            ],
+            "delta_TCP_BASE_m": [
+              -0.01078315647353506,
+              0.0016073401365526273,
+              0.0017219180417826219
+            ],
+            "delta_BASE_m": [
+              0.007913833416417881,
+              0.002725181465518094,
+              0.0086816835471063
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.3183898417423734e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair2-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "d6a02afda19cf5dd1006e6477ffe6b596c1bd04d446ece9d777025f6287371d0",
+          "COMMANDS.private.jsonl": "3aacca4ccbc818d2d44044ce9f01abce7dc625e0da792f1d3a53206e8793aa79",
+          "planner.jsonl": "47c13fc42ec8787711df6bb87e078358ff857ee94cb819c93f5fb1fc54f3c0f1",
+          "RESULT.json": "44eb3617c39713ddf0b05d59ad7fcb33ee036481933b1f59fb57abf5e27fb347"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.039646081270678514,
+          "relative_TCP_max_speed_m_s": 0.309277977972162,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03358024926353461,
+        "BASE_diameter_predecision_m": 0.007730612728453999,
+        "world_TCP_max_from_task_start_m": 0.03358024926353461,
+        "installed_reference_tracking_error_max_m": 0.03358024053762397,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.001065194529020208,
+              0.0004836224562198947,
+              0.00031048993235138767
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001387490713489925,
+              0.00035094202328660173,
+              7.855330483763634e-05
+            ],
+            "delta_BASE_m": [
+              0.0016721125041241902,
+              0.0003265331280871671,
+              0.000982221374744352
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005699598950733964,
+              -0.00024407088430234564,
+              0.0035598383321783222
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007966134115472534,
+              0.0013932528013525982,
+              0.0016336562130093712
+            ],
+            "delta_BASE_m": [
+              0.008553279655423726,
+              0.002561831289758011,
+              0.006940692882462074
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.00482050045596405,
+              -0.0016665871059219732,
+              0.0037433721441253454
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010430131031930245,
+              0.0019581918193036976,
+              0.002112700995622885
+            ],
+            "delta_BASE_m": [
+              0.008053225630925975,
+              0.0027794606995261385,
+              0.008710042145898322
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1102230246251565e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair3-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "7b0ddf3e84e9cccec0dbd8b26143639c22b8bb24ed517ba14cc50612ca95626c",
+          "COMMANDS.private.jsonl": "0785abed6a0a2b10d8bc51eceedb10d0be2cd73ba1d31e2adb009db2fce15368",
+          "planner.jsonl": "7b2282a355b3c467ecc36dd53fae41daa74e170285c33ee6c5df7ce0569632f9",
+          "RESULT.json": "aa9c95d0a82394b5bb675ffeb4d05e2ed9f5e31e3edf8d1b42e152a924fd50f2"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.040335048894626975,
+          "relative_TCP_max_speed_m_s": 0.28527802732988117,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03553084484269878,
+        "BASE_diameter_predecision_m": 0.007894344853027747,
+        "world_TCP_max_from_task_start_m": 0.03553084484269878,
+        "installed_reference_tracking_error_max_m": 0.03553083245179346,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0013177490090209298,
+              0.00023453734293534326,
+              0.0021923924105571313
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013331367983420717,
+              0.0002815614403965331,
+              0.0012477783483926252
+            ],
+            "delta_BASE_m": [
+              0.0016684420691895074,
+              0.00020173056707718838,
+              0.0018920382430410165
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005642757922768138,
+              -0.0011915540477932859,
+              0.0015392373100522327
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008008277086163917,
+              0.0009468788757185913,
+              0.002201758069592219
+            ],
+            "delta_BASE_m": [
+              0.008683825153605884,
+              0.0019129636133140614,
+              0.004222715624242479
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005880045791795352,
+              -0.003045070809519594,
+              0.0023564432113580835
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010858169230043624,
+              0.0014748892630942704,
+              0.003563143372280919
+            ],
+            "delta_BASE_m": [
+              0.008563401436793433,
+              0.0021885961658184507,
+              0.006844456552027756
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.0581813203458523e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair3-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "9d65e657eda7c9e98d19ea06688ace781444c298c9b5621fc4596aeb23a4d084",
+          "COMMANDS.private.jsonl": "4735fb8248e3594f3927c3de985b935420ba9d1ffcff5b6c1820f8a0445230aa",
+          "planner.jsonl": "0454ba5ad24b944b0c3248a1ec804d65c87c1a6e48a7d4862b33f5ccc46a2b21",
+          "RESULT.json": "0553861a6a1f607567883083c8d1ba71dbef9eed024e7d1213d9365aa9693e6a"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.0400019362846983,
+          "relative_TCP_max_speed_m_s": 0.2858622002619119,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.0346166309126845,
+        "BASE_diameter_predecision_m": 0.0078220880056674,
+        "world_TCP_max_from_task_start_m": 0.0346166309126845,
+        "installed_reference_tracking_error_max_m": 0.03461661100783634,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0013838974418668992,
+              -0.00022598888271279684,
+              0.0008207960061349384
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013517964116358527,
+              0.00020732434256732005,
+              0.0003253575361789607
+            ],
+            "delta_BASE_m": [
+              0.0018929489334067878,
+              0.00027677358915666455,
+              0.001331852062189054
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.006835085443738398,
+              -0.0009371975341295573,
+              0.0013945730507185505
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007778824073183421,
+              0.001014059813837228,
+              0.001729804110661981
+            ],
+            "delta_BASE_m": [
+              0.0089466578938944,
+              0.002378448136220643,
+              0.0052635654872841275
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.006394117903267882,
+              -0.002630765517053449,
+              0.0023348206779978398
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010507250645878596,
+              0.0015785375125588023,
+              0.003056408453287751
+            ],
+            "delta_BASE_m": [
+              0.008585966674890713,
+              0.0027245926206553362,
+              0.007496784180088034
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1622647289044608e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair4-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "a348710b6b784aa922b7ab2bc39257d90a5cb74a8912895544ca5928066ec129",
+          "COMMANDS.private.jsonl": "c4d0444ca1dfbccb81879357235d7cf374076d1fb33e0e084dad692fb4879ba7",
+          "planner.jsonl": "b87a5f8debde1e602b767a8b705ec5872655a04cc4828ed5d56a0ba9be5007c2",
+          "RESULT.json": "d4831b2e013f16a239c7fcb96cdc6a63e599afd205292e0d5432d9184fa99965"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04069798780063234,
+          "relative_TCP_max_speed_m_s": 0.30900048931755764,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03893267037222318,
+        "BASE_diameter_predecision_m": 0.007756458518563536,
+        "world_TCP_max_from_task_start_m": 0.03893267037222318,
+        "installed_reference_tracking_error_max_m": 0.038932700048922325,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0011552504734034241,
+              -0.000915912634828998,
+              0.003502795873577824
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0012665317815195865,
+              -8.990543104776816e-06,
+              0.0016523141212066994
+            ],
+            "delta_BASE_m": [
+              0.0012353847567040527,
+              -0.00023665654168015735,
+              0.00301290937059584
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0020086178405835375,
+              -0.0035499089215751227,
+              0.004635899421631007
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007726889444492957,
+              0.0005294864076975121,
+              0.0017770218643521352
+            ],
+            "delta_BASE_m": [
+              0.0068777992083867145,
+              -3.587080746700398e-05,
+              0.005665986128310652
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.0031646420079098347,
+              -0.005711247968005498,
+              0.0060591346654776945
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010491043807290268,
+              0.0009722251472216448,
+              0.0028243710914718223
+            ],
+            "delta_BASE_m": [
+              0.007650734674733123,
+              -0.0004324732800675829,
+              0.00912421405573055
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.3183898417423734e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r1-pair4-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "48f459e1e087b006d91ce85fdca3fff926788c7f289b99d6df03fe3d1f1e2dc1",
+          "COMMANDS.private.jsonl": "556e0d598c242c672fca91926711806ba77ccba6d6a5aa311cd8402fc4b5f289",
+          "planner.jsonl": "d69a0bac4b140d3ac98f9d5fa704f7baf4ae69af47cd279b2d80a34486f19ffe",
+          "RESULT.json": "c0ad735de84786fa5beaecb1e8988bbb830172b8f8a8490e055d6462dd33a12b"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.03961556233586157,
+          "relative_TCP_max_speed_m_s": 0.27303196871629654,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.033741116771783604,
+        "BASE_diameter_predecision_m": 0.007106302968782168,
+        "world_TCP_max_from_task_start_m": 0.033741116771783604,
+        "installed_reference_tracking_error_max_m": 0.03374110966031752,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0012837480824903214,
+              0.0004334929033175221,
+              0.00017413754084250055
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0014276242603741829,
+              0.000287156193748429,
+              0.00013880062302346063
+            ],
+            "delta_BASE_m": [
+              0.0016906541653572138,
+              0.0002670968018688607,
+              0.0010222171632755517
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.006393651958272295,
+              -5.967955123984195e-05,
+              0.003346230491780955
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008299514901319416,
+              0.0014136837362871638,
+              0.0014631075360346801
+            ],
+            "delta_BASE_m": [
+              0.009241592410674473,
+              0.002628104257963825,
+              0.007230951885844661
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005475562230902231,
+              -0.001484620554828349,
+              0.0037049189570474983
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010963603200888294,
+              0.001997395307856689,
+              0.0021671700323142584
+            ],
+            "delta_BASE_m": [
+              0.008792101809038902,
+              0.0028590394116342036,
+              0.009050625472449447
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 6.938893903907228e-17,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair1-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "3ed546b92330051588baeafdd137dcf0a1151f954d80cdfe0ace0c33552c2f6d",
+          "COMMANDS.private.jsonl": "5998d6658f379e9b3b17abf3c4693b929d28503f29c8151ef241fe660afaa763",
+          "planner.jsonl": "b563b2b84d5264311ba5e02e015f26020f93f0e994e52de0b124a9ca98025fe9",
+          "RESULT.json": "e3f439fb10974b686c3fca71a4ba352cd6efc4ab2fa9e5f11c10929bc473c02e"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.03989713423265356,
+          "relative_TCP_max_speed_m_s": 0.3099450698678656,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03518777156097046,
+        "BASE_diameter_predecision_m": 0.006754374397257481,
+        "world_TCP_max_from_task_start_m": 0.03518777156097046,
+        "installed_reference_tracking_error_max_m": 0.035187766268465856,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0013696960430524263,
+              -0.0003651493492157244,
+              0.0005038742764034154
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0015426029361263471,
+              0.00012139883150114397,
+              0.00044705858359705974
+            ],
+            "delta_BASE_m": [
+              0.0018092170592553247,
+              0.0003952349921760416,
+              0.0011562945997931062
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005566208490592306,
+              -0.0010093279038564107,
+              0.0038821391590226906
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008670271654603323,
+              0.0010367182903545276,
+              0.0016985387587155065
+            ],
+            "delta_BASE_m": [
+              0.009126130474296695,
+              0.00245477543028326,
+              0.007215902299183563
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.0044675312846237936,
+              -0.0026305617478858644,
+              0.004515480166942587
+            ],
+            "delta_TCP_BASE_m": [
+              -0.011260436138845142,
+              0.0016313942683341288,
+              0.002455454512514499
+            ],
+            "delta_BASE_m": [
+              0.008533832295744198,
+              0.002697284696021254,
+              0.009157472337976147
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 9.71445146547012e-17,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair1-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "43b773613bf884e4924647a1a631e00f15b09ef50a729ed9ebeaab01fe6c15fe",
+          "COMMANDS.private.jsonl": "a8077b9354406985e69a0e2b3aa6f89a606116d1432ed480f32fe9c8d52cfb94",
+          "planner.jsonl": "488d567c15b4d4605f4afdbf8a92afcc7d87f1fda415ddd4a2da571b7f35a69a",
+          "RESULT.json": "1ba608e8efd4f96a2fa67ce12a0872ea89749e1702ddb5598eba490c1c40ad74"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.039457823731780244,
+          "relative_TCP_max_speed_m_s": 0.2814458192331208,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03447675321316275,
+        "BASE_diameter_predecision_m": 0.006652988235648539,
+        "world_TCP_max_from_task_start_m": 0.03447675321316275,
+        "installed_reference_tracking_error_max_m": 0.0344767596124671,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0014409815371158596,
+              -0.0003430161369568606,
+              0.0004055571791038437
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001447327013887556,
+              0.00011108980036197286,
+              0.000320699448421613
+            ],
+            "delta_BASE_m": [
+              0.0018135794949010464,
+              0.0003866759353626831,
+              0.0011562805642679752
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.007027227017686877,
+              -0.0009329387454250736,
+              0.003505468497882469
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008023209942826848,
+              0.001041667812378893,
+              0.0015460488495083191
+            ],
+            "delta_BASE_m": [
+              0.009655059040781733,
+              0.0025443941577800726,
+              0.007285496108581591
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.006023233850756593,
+              -0.0025218178253168834,
+              0.003764485072666246
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010513082079671776,
+              0.0016230214737180618,
+              0.0019279072554734822
+            ],
+            "delta_BASE_m": [
+              0.009055293381354579,
+              0.0027717561176799003,
+              0.009243572979445225
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.0061396160665481e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair2-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "cdc2354b7dabe03bbab3a4005403570d9eda548cd0422de95b10851bb7cc2fd7",
+          "COMMANDS.private.jsonl": "3ab611ffd09166a6ac86594f9818cf7b33299a669a905a3a1a397f07e4026ee0",
+          "planner.jsonl": "8daae2b19f5ac48e309b394a3e3b398e7ea31375e1b02a5cc3deb33e492bc018",
+          "RESULT.json": "e53c660673b12acd5618a6d7acaa2460ff1d3bf38812c355e7dfbfad2d9f47a7"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04049738288816688,
+          "relative_TCP_max_speed_m_s": 0.31512698630472935,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03877372130926592,
+        "BASE_diameter_predecision_m": 0.007637879165446446,
+        "world_TCP_max_from_task_start_m": 0.03877372130926592,
+        "installed_reference_tracking_error_max_m": 0.03877370152026185,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0008727205022925899,
+              -0.0008465784184548408,
+              0.0033222314950025478
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013397058115177107,
+              4.433156398524641e-05,
+              0.0017932804324334306
+            ],
+            "delta_BASE_m": [
+              0.0011647763977272602,
+              5.176928747232298e-06,
+              0.002553202833784185
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0025148704413654466,
+              -0.003325378910377026,
+              0.0034959777466460062
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0074501917105293525,
+              0.0005329256985871665,
+              0.0018371064531704784
+            ],
+            "delta_BASE_m": [
+              0.006683925489987044,
+              0.0005837505950380851,
+              0.004889365248954114
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.0038275974672364876,
+              -0.00552616879131723,
+              0.004694212840655632
+            ],
+            "delta_TCP_BASE_m": [
+              -0.01012960167563881,
+              0.0010860328930422042,
+              0.002501609615201794
+            ],
+            "delta_BASE_m": [
+              0.0076516127626473085,
+              0.0002263800242297239,
+              0.008403889442795187
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1796119636642288e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair2-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "73442acdd09613c537b1c8c7081208c9898cefd0baff09d1d853220327c25387",
+          "COMMANDS.private.jsonl": "2a6a3429c18e14cd5775809db6c9ca449b6fdd92b57b7cf83f5a2d100d96cc06",
+          "planner.jsonl": "121c5681090e9dff9d156ec49908b34bce907e44557f016164d9bff71ad8d768",
+          "RESULT.json": "8e27d3ca4dfb89acc9ad558417738b5c877ffcd0c4e386525f01c7b96f7de3b4"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.03966485545240397,
+          "relative_TCP_max_speed_m_s": 0.27072044608412843,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.034538668243859746,
+        "BASE_diameter_predecision_m": 0.007772315479597694,
+        "world_TCP_max_from_task_start_m": 0.034538668243859746,
+        "installed_reference_tracking_error_max_m": 0.03453865947781401,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0013420323495481612,
+              -0.0001914362866712576,
+              0.0008358135161719016
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0014071331994234826,
+              0.00025788651082355764,
+              0.00030991139752944985
+            ],
+            "delta_BASE_m": [
+              0.0019127276094336731,
+              0.00028406814141843594,
+              0.0013541161391710799
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.006059625431091287,
+              -0.00041471711734041884,
+              0.0013418330838694814
+            ],
+            "delta_TCP_BASE_m": [
+              -0.00831868914881867,
+              0.0013583149534595763,
+              0.001522620348070769
+            ],
+            "delta_BASE_m": [
+              0.008853972588740641,
+              0.0024422627981071326,
+              0.005244279491349979
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005611296314581404,
+              -0.002049788074057762,
+              0.0019446177958392097
+            ],
+            "delta_TCP_BASE_m": [
+              -0.011037731534147999,
+              0.0018965380230074394,
+              0.0025201336514829586
+            ],
+            "delta_BASE_m": [
+              0.00846477515978826,
+              0.0028051428173836703,
+              0.007481042423774675
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 9.71445146547012e-17,
+        "TTL_margin_min_s": 0.05000000000036309,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair3-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "aaf2ea39e42d1ea657f84d163ee2dde6ef6569833a9464ba70e08c33c7079c5e",
+          "COMMANDS.private.jsonl": "5be748750701117fda7b3d4cb2c1f4cf2affbafdab01974f97a211d90e77e054",
+          "planner.jsonl": "ea2e9c1319babfdec8aef01ee901d361ae58ee44df66bb2edc69f96ed7f9280f",
+          "RESULT.json": "627af66eea6f80889916543f46c2a09ad75982da6b58fe0542beffc66af9eff7"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.0415813275702287,
+          "relative_TCP_max_speed_m_s": 0.3094723169952365,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03837164583742226,
+        "BASE_diameter_predecision_m": 0.007519495697657452,
+        "world_TCP_max_from_task_start_m": 0.03837164583742226,
+        "installed_reference_tracking_error_max_m": 0.038371665132643076,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0017325825826596253,
+              -0.00029756440513221266,
+              0.004370667245802706
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0014751499014308833,
+              0.00010503034760980193,
+              0.002670635663950649
+            ],
+            "delta_BASE_m": [
+              0.0012552071224278816,
+              -0.00011314979221433764,
+              0.0035980828665070352
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0021622725520087926,
+              -0.0033881526239266085,
+              0.007685486281430731
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007896893008271899,
+              0.0005874014618761775,
+              0.0033177093405121205
+            ],
+            "delta_BASE_m": [
+              0.006851265455815186,
+              -0.0001770604649857289,
+              0.007497169909412682
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.0034503490827543226,
+              -0.005627462061801834,
+              0.008794983159488456
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010636131166953722,
+              0.0009931507016938072,
+              0.004349752894423409
+            ],
+            "delta_BASE_m": [
+              0.0077167478025284425,
+              -0.0005828143414832894,
+              0.010673822926482612
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.457167719820518e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair3-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "3a5328165bd91688eae6933c5492a2b4832fc1ce704468a06842379147a0580d",
+          "COMMANDS.private.jsonl": "d8a23d809f2983dc22bea270ac3dc21aef911134a206b1ae8cad1cacb82e8b8d",
+          "planner.jsonl": "8c64e76c8d0ee2e319865582fbadc2bf1d56b822dd9b194e8129173aa1a059df",
+          "RESULT.json": "03d56eaedf5889754de1c916cfadd78d02618297c2f286fdc054ae5815269361"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.0394294443457467,
+          "relative_TCP_max_speed_m_s": 0.28365420325139584,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03448053011762366,
+        "BASE_diameter_predecision_m": 0.006669479376629117,
+        "world_TCP_max_from_task_start_m": 0.03448053011762366,
+        "installed_reference_tracking_error_max_m": 0.03448054940272859,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0014192673906918696,
+              -0.0003155027811177283,
+              0.00029434159856955855
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0014437429226260012,
+              0.0001223739266766853,
+              0.00018799743981268158
+            ],
+            "delta_BASE_m": [
+              0.0018106871280840903,
+              0.0003850490988243085,
+              0.0011561929672055937
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0069259187500324,
+              -0.000930007856545869,
+              0.003667134907102132
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008061347901048121,
+              0.001054321423952849,
+              0.0017175471829517508
+            ],
+            "delta_BASE_m": [
+              0.009608119080394398,
+              0.0025284446977020935,
+              0.0072542634198293765
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005910901628880916,
+              -0.002502250404784412,
+              0.004174965757738236
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010615998002674654,
+              0.001650483090364781,
+              0.002368809292723817
+            ],
+            "delta_BASE_m": [
+              0.00904143794391428,
+              0.002761386954530324,
+              0.009200769119378283
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.249000902703301e-16,
+        "TTL_margin_min_s": 0.0400000000003633,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair4-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "4ab8b2480eb168c2586e63b33a9276eb2b26967533abcc6c2c448af604d8b426",
+          "COMMANDS.private.jsonl": "5bf87a4d21a2406bda7882af156bedf3b43ba4369a407d85f20b30a04d9240a5",
+          "planner.jsonl": "2f9f099c233bb89da4abda87d8a149644463d32bf26043dedfedb263efd3ffd2",
+          "RESULT.json": "155e3e76485da3710f48f7c33d13d230ab40b511800cfedf1a78cea4667ef63d"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.03975020354573343,
+          "relative_TCP_max_speed_m_s": 0.28734778815501244,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03451695673828193,
+        "BASE_diameter_predecision_m": 0.007829275122653774,
+        "world_TCP_max_from_task_start_m": 0.03451695673828193,
+        "installed_reference_tracking_error_max_m": 0.03451693602016266,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0013585491457022703,
+              -0.0002310848061745415,
+              0.0009947889709731594
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013830545496047453,
+              0.00021563546806764762,
+              0.00045046554581174014
+            ],
+            "delta_BASE_m": [
+              0.001925204800200933,
+              0.0002827413488617539,
+              0.0013525039133923666
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.006087622556487204,
+              -0.0009063828821112719,
+              0.0012186731017345132
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008138140522391313,
+              0.0009966753536709057,
+              0.0012781830515469217
+            ],
+            "delta_BASE_m": [
+              0.008822219937251366,
+              0.002370241942531609,
+              0.0052704395924695335
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005639367513950666,
+              -0.0026298041799378818,
+              0.002079368927216052
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010851672707319682,
+              0.001562556449893832,
+              0.0025230657685293423
+            ],
+            "delta_BASE_m": [
+              0.008427559970465265,
+              0.0027111272192603337,
+              0.007517163020679896
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1796119636642288e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r2-pair4-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "f157309ef0fe41e7734d7a7f4061fedcf61883dc0f1b26ae435dec32b1ce30df",
+          "COMMANDS.private.jsonl": "9165d078e2601ff85b84d8515a6e688d25b3d2936df0b3d8985a9940055e3be0",
+          "planner.jsonl": "d61e69fadb419296295e7e7dfe7023879205ce4bb8f67e44704f6e061b64c5a8",
+          "RESULT.json": "bba48173c924b67031e17b3047a9bb22551957a5ca48a8cb888514e3c1b44f13"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04078556368113115,
+          "relative_TCP_max_speed_m_s": 0.3101942186826407,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03584792461730881,
+        "BASE_diameter_predecision_m": 0.007436610733207628,
+        "world_TCP_max_from_task_start_m": 0.03584792461730881,
+        "installed_reference_tracking_error_max_m": 0.03584792991105743,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0012437883913299363,
+              0.0004955875744805348,
+              0.0030709348492040656
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013477429509966,
+              0.0003343899289449028,
+              0.0013258029566565188
+            ],
+            "delta_BASE_m": [
+              0.001689709602901615,
+              0.00022102379187619264,
+              0.002603202292397022
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005095016527196683,
+              -0.00043848090855886507,
+              0.0033589811248916357
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007691407321056276,
+              0.0012960293660294955,
+              0.002130220172017805
+            ],
+            "delta_BASE_m": [
+              0.008419970098875934,
+              0.0018004064995178976,
+              0.0054916888246352435
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005496755311718948,
+              -0.002181605266849452,
+              0.004472973181170348
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010580338055947824,
+              0.0017944059737296843,
+              0.004007293932316136
+            ],
+            "delta_BASE_m": [
+              0.008377787849031093,
+              0.0021418113114846163,
+              0.007998435458635322
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 9.71445146547012e-17,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair1-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "55d95256f4523d0dac24c6af5517723afe372659aa724608f38a9648e394f921",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "362192fd414b72431211affc4780e9b19ca0c1a6f2b08c1d5fe67e46b92a18c1",
+          "COMMANDS.private.jsonl": "c434303312a3e446dd88423fa036da2d713b4c013368b05af68e5b5a66f212ac",
+          "planner.jsonl": "cd314bd0e819841b990da2dfe9f7ae443530d47035d52b95a7214da9d219f193",
+          "RESULT.json": "e6297c19fc20ed3b828242b679245ebb5cefce00ed55076b17e3df0747d26b70"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.041797899088780614,
+          "relative_TCP_max_speed_m_s": 0.30696121626508105,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.038786942166090466,
+        "BASE_diameter_predecision_m": 0.008098934983084484,
+        "world_TCP_max_from_task_start_m": 0.038786942166090466,
+        "installed_reference_tracking_error_max_m": 0.03878694444717807,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.001993112369567007,
+              -0.0007259550272337191,
+              0.00488238721113865
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0012911732227608441,
+              -7.603874239678343e-05,
+              0.002753321551019927
+            ],
+            "delta_BASE_m": [
+              0.001382784660762526,
+              -0.0002922049230649026,
+              0.003983858244200444
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.002797307886588496,
+              -0.004448486061841424,
+              0.007677955164428485
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0076812077002734735,
+              0.0003890971948990029,
+              0.0029274252039590554
+            ],
+            "delta_BASE_m": [
+              0.007018258807327038,
+              -0.0008381916562481221,
+              0.008146986112838761
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.003947545542510256,
+              -0.0066791151353383215,
+              0.00872764577852081
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010378487520057933,
+              0.0007530614010325017,
+              0.003939236048383643
+            ],
+            "delta_BASE_m": [
+              0.007742785622670251,
+              -0.0012227365532312966,
+              0.011244089886720987
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.457167719820518e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair1-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "76035066151346ac88d38449c126a4f6b9b5c69f64d3659345a2df7c18d76c2a",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "a0994a09e8b8a98ab56d22e63d5a9236464b1697248f0ed4b673f3d9b0b5ef1c",
+          "COMMANDS.private.jsonl": "b9cac3f8556c6fec6f0e0bcfa499222db89f1a37e3797d0452105a73478b93c6",
+          "planner.jsonl": "a851298e218a7f24ab0e1679a23cb1b3e977b381eff43089f29204464349dd05",
+          "RESULT.json": "d26063d024d7f50e1d73c61b93c6ced36236131c38d2f79fe846ff3084b83d17"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.040622294473580275,
+          "relative_TCP_max_speed_m_s": 0.31519728531941266,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.035559962601846115,
+        "BASE_diameter_predecision_m": 0.008075168626894854,
+        "world_TCP_max_from_task_start_m": 0.035559962601846115,
+        "installed_reference_tracking_error_max_m": 0.03555997505477099,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0012948523369175624,
+              8.557377463591295e-05,
+              0.0024215001283347526
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001322789235406241,
+              0.00031704963927333893,
+              0.001439083889959225
+            ],
+            "delta_BASE_m": [
+              0.0017084435917188306,
+              0.0002928651261105237,
+              0.0018639091011520281
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0054778521392429,
+              -0.00045174892779021106,
+              0.0018458709440800636
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007820858556673194,
+              0.0012077151859890226,
+              0.0021637197191559654
+            ],
+            "delta_BASE_m": [
+              0.008426970772086734,
+              0.0020700928174798355,
+              0.004453793387498517
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005676653759413952,
+              -0.00221181088745432,
+              0.0028246669400652236
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010679691241186229,
+              0.001760135065112094,
+              0.0037621390927316534
+            ],
+            "delta_BASE_m": [
+              0.008382811257826694,
+              0.002403820992199278,
+              0.0068863538679204694
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.734723475976807e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair2-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "e91878ba530aabe9d7e54d73f55bb88c08ed9b983e364545ed192efd519321ff",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "d2ddfcef229a90e130710120b17c2d352dba592e3104a3ce6b4fc81f7e1186f4",
+          "COMMANDS.private.jsonl": "8297193bfbf070754e9caba99a0d9f8f972e3952b36fd6cf9b80e9f00687573e",
+          "planner.jsonl": "c24281480d8d6103545974cb8e3df0ace7ff8814f21f9c5404b32d7d77abf07d",
+          "RESULT.json": "2abfe2948bdfc04d634d57e567e77c955b9820550607850e9b78491cefae39a0"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04033576267499701,
+          "relative_TCP_max_speed_m_s": 0.3174122614813443,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.03653501292741364,
+        "BASE_diameter_predecision_m": 0.008179780670546722,
+        "world_TCP_max_from_task_start_m": 0.03653501292741364,
+        "installed_reference_tracking_error_max_m": 0.036535029852629984,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0009213868623824117,
+              -0.0006368215566857627,
+              0.002593235553638773
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001300734273897708,
+              0.00012079621596280694,
+              0.0010371759734377761
+            ],
+            "delta_BASE_m": [
+              0.0017730796448368613,
+              8.496471534283692e-05,
+              0.0020028163965951085
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.0049439912197080105,
+              -0.002738130205713514,
+              0.001116837883084587
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007550980718556977,
+              0.0007037292071367931,
+              0.0011079797381697842
+            ],
+            "delta_BASE_m": [
+              0.008156843627249236,
+              0.001331171952975249,
+              0.0043199427122265766
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005122436203303993,
+              -0.004511096545228889,
+              0.0028171174931990173
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010441530426471501,
+              0.001295104234545103,
+              0.0031410421107210817
+            ],
+            "delta_BASE_m": [
+              0.007965695082630814,
+              0.0015218110189973127,
+              0.007178742734535615
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1102230246251565e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair2-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "2fe641968c3a174615f26d0c3ae5f25788172503388b2c97bad6accd8983109d",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "ef5e0425181469cacb1fab4e1423128f1a0115ea7130eb35f660c3fcfd95200a",
+          "COMMANDS.private.jsonl": "a6d0b1a27c516323a92f00c8e2ab002f6fa14a739e25bca333169c7f56eed9dd",
+          "planner.jsonl": "219edc4a56f36f37bec4b27e806c878fa64cd9d95e79aef51981237c30c27134",
+          "RESULT.json": "34abe40f1c0ab5fef287159a946a22092be1e11f1ededeff178c67dd120de34a"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.03993081296236181,
+          "relative_TCP_max_speed_m_s": 0.31058744625912554,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.036714993060835435,
+        "BASE_diameter_predecision_m": 0.008608084949543326,
+        "world_TCP_max_from_task_start_m": 0.036714993060835435,
+        "installed_reference_tracking_error_max_m": 0.036715020762296574,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0008863534326681299,
+              -0.001080155635363086,
+              0.0017210742272408819
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013336069284102248,
+              0.0001528412325633461,
+              0.0006983707322341104
+            ],
+            "delta_BASE_m": [
+              0.0017503898771226711,
+              0.00024322240553067411,
+              0.0015109276903534918
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005448043770024169,
+              -0.002775903755395841,
+              -9.021775518425201e-06
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0073938256221636744,
+              0.0006175843967279951,
+              0.0009434040473595418
+            ],
+            "delta_BASE_m": [
+              0.00807532295653686,
+              0.001512845929921461,
+              0.003787173719014547
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.005667778736152873,
+              -0.004489130753371507,
+              0.0012949341985035723
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010121287356880226,
+              0.001302187817308129,
+              0.002388342101402652
+            ],
+            "delta_BASE_m": [
+              0.00791217773096331,
+              0.0016417267399748549,
+              0.006703564696118047
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.1796119636642288e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair3-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "4147ff9cd8c3b0f319f4d583a5a54e9f18777597bc8250764637ad5440f40ac6",
+        "offset_xyz_m": [
+          -0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "56d555217039445dca41518b40c4afe3421e73a1248e569eb640c99ae6be1509",
+          "COMMANDS.private.jsonl": "e8e7a8a513fb94974b352f4f8458513f31e6e5d53f52bd6d9324d820cea39a67",
+          "planner.jsonl": "ab139b950d4fc0c10c3ac292769417f987a00bb2e09b2bc868781d087185a366",
+          "RESULT.json": "f3722e1c366cfe4333201efddaebbf4cd4a2141492cc61f1b0d8de66fe7d5e83"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04041896982906236,
+          "relative_TCP_max_speed_m_s": 0.3093301662579675,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.035466266241509815,
+        "BASE_diameter_predecision_m": 0.008088550772582054,
+        "world_TCP_max_from_task_start_m": 0.035466266241509815,
+        "installed_reference_tracking_error_max_m": 0.03546627518827352,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0012241096788193628,
+              0.00017793661573876733,
+              0.0023155646819006392
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013793149605679789,
+              0.0003001920325488832,
+              0.0012743827758776582
+            ],
+            "delta_BASE_m": [
+              0.0017176290296337937,
+              0.000300218837657643,
+              0.0018970802495432704
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.004770515542887599,
+              -0.0009867543498887597,
+              0.0018135882717038587
+            ],
+            "delta_TCP_BASE_m": [
+              -0.008235231790217623,
+              0.0008641209849436626,
+              0.001944046474718908
+            ],
+            "delta_BASE_m": [
+              0.008334304317399233,
+              0.0019102763700915622,
+              0.004454454017466469
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.004834657204824955,
+              -0.00286032695562791,
+              0.0028344981987337148
+            ],
+            "delta_TCP_BASE_m": [
+              -0.011132185903425296,
+              0.0014603589955505467,
+              0.0035349408119359493
+            ],
+            "delta_BASE_m": [
+              0.008224813658895977,
+              0.0021999726557274607,
+              0.006906661275720649
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.0408340855860843e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair3-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "scene_sha256": "1f8520eb650a8754a3aab07708753e1cc305da452275f5bb3e751c31f8c1cdad",
+        "offset_xyz_m": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "9557974c24ec247db5f9b9417c755792c097943a1af53b1ea2e357ef69569997",
+          "COMMANDS.private.jsonl": "0bc7671116f4ea48c12930835df14aca37a3eff08adb24bdba48c289e7190509",
+          "planner.jsonl": "cb31b9bd7391063e9bd06cd6d8a49518b956b83252a772c7599ef21815fc0e22",
+          "RESULT.json": "9e6bdff4f2e9a056647229621c39f96580d67ba020659f456b8423a42827a49e"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.0401478864068074,
+          "relative_TCP_max_speed_m_s": 0.30493888899511445,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.0358677150126215,
+        "BASE_diameter_predecision_m": 0.008276169008928361,
+        "world_TCP_max_from_task_start_m": 0.0358677150126215,
+        "installed_reference_tracking_error_max_m": 0.03586772681176746,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0010453121868295168,
+              -0.0003538039131775715,
+              0.0021301428711877346
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0013232027930659696,
+              0.00020670934446327498,
+              0.0009034579245573715
+            ],
+            "delta_BASE_m": [
+              0.0017781126839923889,
+              0.00017562237342974726,
+              0.0018069309177598525
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005067482957214653,
+              -0.0018679147736587152,
+              0.00118951536743106
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007824017831526642,
+              0.0010494373844414338,
+              0.0017321551593806328
+            ],
+            "delta_BASE_m": [
+              0.008267516443316747,
+              0.0016318210942049994,
+              0.004008946922886891
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.00538141611566334,
+              -0.003551063164576082,
+              0.0018889703289504123
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010596380148157947,
+              0.0016226531628970465,
+              0.0027606293957060934
+            ],
+            "delta_BASE_m": [
+              0.008097471406137674,
+              0.0018335065928121314,
+              0.006885582021833814
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.457167719820518e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair4-slot-0",
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "b4eb50fbd185ab77d095240153b0ef3243c8f1c6636a77662a2c69e76a25d685",
+        "offset_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "99b93df3246173c471e0d19f0156247b0b3f62fd12b3253938d615eed79d0570",
+          "COMMANDS.private.jsonl": "7981900caa3bebe035b337ab615826ad90d0f7a183739517a3d6210a3716f6e9",
+          "planner.jsonl": "c30333575d320d5978ab6e1f85c53c2289e63669df0f5dcfb1d8f75482e7fc60",
+          "RESULT.json": "e28afc7d1c7af724d94a0843c831d6ad042a9c69338750fd213afd1b6b018b67"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04089994512340955,
+          "relative_TCP_max_speed_m_s": 0.3110864593790202,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.039464244541769826,
+        "BASE_diameter_predecision_m": 0.007894915376610684,
+        "world_TCP_max_from_task_start_m": 0.039464244541769826,
+        "installed_reference_tracking_error_max_m": 0.03946421448058252,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0012537992967738831,
+              -0.0012490234566629368,
+              0.003737537053517981
+            ],
+            "delta_TCP_BASE_m": [
+              -0.001225637005786484,
+              -0.00016875694525916168,
+              0.001908989725773802
+            ],
+            "delta_BASE_m": [
+              0.0012186726627134298,
+              -0.00041228005366041173,
+              0.0030660882764983466
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.002692331259920966,
+              -0.004173592324118788,
+              0.0047578555319891525
+            ],
+            "delta_TCP_BASE_m": [
+              -0.007332126300423736,
+              0.0004551348571715944,
+              0.002196584525644807
+            ],
+            "delta_BASE_m": [
+              0.006859585363824305,
+              -0.0005077288656040748,
+              0.005671943876189078
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.004150348081385147,
+              -0.006381680277222163,
+              0.006056091777448147
+            ],
+            "delta_TCP_BASE_m": [
+              -0.010061427607947704,
+              0.0008898534898884427,
+              0.003197229860995854
+            ],
+            "delta_BASE_m": [
+              0.00780778944319184,
+              -0.0009111152012175679,
+              0.009144222339412589
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 6.938893903907228e-17,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      },
+      {
+        "episode": "night1-c08-decision-a-r3-pair4-slot-1",
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "scene_sha256": "8f671ff23294c25d988dd8ac5a59b91f650295283e969b672314d1a642ec3689",
+        "offset_xyz_m": [
+          0.001,
+          0.0,
+          0.0
+        ],
+        "input_sha256": {
+          "DYNAMIC_DIAGNOSTIC.json": "48c1d573da2dc676796dda5397a6d9dc691be0c96e18a41d32517468df20ad06",
+          "COMMANDS.private.jsonl": "a87f2764c7557a727f2ef27a28c08651bd30ce93dfabf9a4de50dd1efa36f67f",
+          "planner.jsonl": "c3cd6c7802297df8d88ceee44c3798c35d71432060893df484b9583f15d2d281",
+          "RESULT.json": "4f3bad1928a08843b3adeb4754853ac6b3dfe6917517efe22265e6b4c2f3a74f"
+        },
+        "predecision": {
+          "qualified": false,
+          "relative_TCP_diameter_m": 0.04041615322426358,
+          "relative_TCP_max_speed_m_s": 0.284933870541291,
+          "window_s": 0.39999999999995595,
+          "diameter_threshold_m": 0.002,
+          "speed_threshold_m_s": 0.025,
+          "screen_is_native_safety": false
+        },
+        "world_TCP_diameter_predecision_m": 0.036424683561407385,
+        "BASE_diameter_predecision_m": 0.007561488254430875,
+        "world_TCP_max_from_task_start_m": 0.036424683561407385,
+        "installed_reference_tracking_error_max_m": 0.03642470333754572,
+        "reference_reanchor_error_max_m": 0.0,
+        "postdecision": {
+          "1": {
+            "delta_TCP_world_m": [
+              0.0011476738700251787,
+              -0.0001670633971651292,
+              0.003206837139356322
+            ],
+            "delta_TCP_BASE_m": [
+              -0.0012486917649078833,
+              0.00016505604058222878,
+              0.0012737183170117294
+            ],
+            "delta_BASE_m": [
+              0.0016856409813870987,
+              7.757151307772724e-05,
+              0.002621357861066209
+            ]
+          },
+          "8": {
+            "delta_TCP_world_m": [
+              0.005649000941460591,
+              -0.0023511895251544634,
+              0.0025881620844391273
+            ],
+            "delta_TCP_BASE_m": [
+              -0.00733181949448336,
+              0.0007526383185269027,
+              0.0016956090701524817
+            ],
+            "delta_BASE_m": [
+              0.008501920591048276,
+              0.0012964400845290188,
+              0.005326826357691328
+            ]
+          },
+          "16": {
+            "delta_TCP_world_m": [
+              0.006070644368445732,
+              -0.004163192230941717,
+              0.0037720575564279546
+            ],
+            "delta_TCP_BASE_m": [
+              -0.01018330268649481,
+              0.001296401218002242,
+              0.0034932266745169582
+            ],
+            "delta_BASE_m": [
+              0.008482159641191755,
+              0.0014756203090546007,
+              0.007946978998208565
+            ]
+          }
+        },
+        "decomposition_residual_max_m": 1.0755285551056204e-16,
+        "TTL_margin_min_s": 0.04400000000036286,
+        "mode_confirmed": true,
+        "controller_selected_policy": "DERIVED_NOT_DIRECT_EXPORT"
+      }
+    ],
+    "parent_restart_scatter": [
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.006775669617103197,
+        "decision_TCP_BASE_diameter_m": 0.002950166636410805,
+        "decision_BASE_diameter_m": 0.004315166384161614,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.008191437892674626,
+        "decision_TCP_BASE_diameter_m": 0.0010578309271246436,
+        "decision_BASE_diameter_m": 0.008525428745596919,
+        "HOLD_repetitions": 0,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.003099068284880083,
+        "decision_TCP_BASE_diameter_m": 0.001043859132878122,
+        "decision_BASE_diameter_m": 0.0014290365618200396,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.004861836532775917,
+        "decision_TCP_BASE_diameter_m": 0.0004694008910600716,
+        "decision_BASE_diameter_m": 0.0023473969537423636,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_05_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.0023762727155190633,
+        "decision_TCP_BASE_diameter_m": 0.0014574589654037173,
+        "decision_BASE_diameter_m": 0.0019603374008098696,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_06_ROOTSAFE_V3",
+        "split": "TRAIN",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.007449140884140717,
+        "decision_TCP_BASE_diameter_m": 0.0019152599383353292,
+        "decision_BASE_diameter_m": 0.0044749741320137355,
+        "HOLD_repetitions": 0,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3",
+        "split": "DEV",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.0030581990068114335,
+        "decision_TCP_BASE_diameter_m": 0.0004982260530904089,
+        "decision_BASE_diameter_m": 0.002294501804442512,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3",
+        "split": "DEV",
+        "episodes": 3,
+        "decision_TCP_world_diameter_m": 0.0029823995808236857,
+        "decision_TCP_BASE_diameter_m": 0.0010403052163940759,
+        "decision_BASE_diameter_m": 0.001363048957801401,
+        "HOLD_repetitions": 1,
+        "exact_same_state_restore": false
+      }
+    ],
+    "decomposition_residual_max_m": 1.734723475976807e-16,
+    "audit_CPU_s": 0.406116847,
+    "audit_wall_s": 0.4127981950005051
+  },
+  "S1": {
+    "schema": "WM02_NEXT1_ACTION_EFFECT_AUDIT_V1",
+    "status": "ACTUAL_ACTION_EFFECT_DIAGNOSTIC_PASSED",
+    "gate_passed": true,
+    "gate_scope": "Relative TCP increments in decision world axes under matched independent restarts; absolute world response also reported",
+    "replay_sha256": "6af363573a7f645ca1beb9dd70bc24ad73fdfe037e127948020d16049591d8e9",
+    "TRAIN_parents": 4,
+    "TRAIN_windows": 20,
+    "matched_effects": [
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -4.29170976909421e-06,
+          2.247655866317866e-05,
+          7.268277056116101e-05
+        ],
+        "signed_projection_m": 2.247655866317866e-05,
+        "HOLD_mean_xyz_m": [
+          2.7818553527486634e-05,
+          -2.4897379003300385e-05,
+          2.297033184106567e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.9551027465658565e-05,
+          5.971662206356883e-06,
+          0.00012384106378103942
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 3.763869737851578,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -2.5755014550571387e-05,
+          -3.831422143114882e-06,
+          -0.00024673028475330483
+        ],
+        "signed_projection_m": 2.5755014550571387e-05,
+        "HOLD_mean_xyz_m": [
+          2.7818553527486634e-05,
+          -2.4897379003300385e-05,
+          2.297033184106567e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.9551027465658565e-05,
+          5.971662206356883e-06,
+          0.00012384106378103942
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.3173228156837353,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          7.963491745185958e-05,
+          -3.573927732317822e-06,
+          -0.00020057595612110735
+        ],
+        "signed_projection_m": 7.963491745185958e-05,
+        "HOLD_mean_xyz_m": [
+          2.7818553527486634e-05,
+          -2.4897379003300385e-05,
+          2.297033184106567e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.9551027465658565e-05,
+          5.971662206356883e-06,
+          0.00012384106378103942
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 4.073183242759928,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          1.3808246997298767e-06,
+          2.3614304653252198e-05,
+          6.269158107548048e-05
+        ],
+        "signed_projection_m": 2.3614304653252198e-05,
+        "HOLD_mean_xyz_m": [
+          -4.003432263503992e-05,
+          1.0300149187669235e-05,
+          7.832990851367553e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.583408042183645e-05,
+          4.319716569849634e-06,
+          0.0001366665020724971
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.466632884683495,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -2.5513005970841793e-05,
+          3.694418138155899e-06,
+          -0.00026210988969553313
+        ],
+        "signed_projection_m": 2.5513005970841793e-05,
+        "HOLD_mean_xyz_m": [
+          -4.003432263503992e-05,
+          1.0300149187669235e-05,
+          7.832990851367553e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.583408042183645e-05,
+          4.319716569849634e-06,
+          0.0001366665020724971
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.6112717184167724,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          8.596453798207086e-05,
+          1.875975868604195e-07,
+          -0.00022140072295454428
+        ],
+        "signed_projection_m": 8.596453798207086e-05,
+        "HOLD_mean_xyz_m": [
+          -4.003432263503992e-05,
+          1.0300149187669235e-05,
+          7.832990851367553e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.583408042183645e-05,
+          4.319716569849634e-06,
+          0.0001366665020724971
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.429083072201588,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -1.3916664824698e-07,
+          6.715379574518537e-07,
+          4.787532448535803e-06
+        ],
+        "signed_projection_m": 6.715379574518537e-07,
+        "HOLD_mean_xyz_m": [
+          6.687545961475694e-06,
+          2.3491191430219057e-05,
+          -1.2212251545185016e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.1098999647257265e-06,
+          3.5612618380500016e-06,
+          1.2354584264237117e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.1885674201983306,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          1.408047672318835e-06,
+          -2.7027956134244692e-06,
+          1.3510209885381208e-05
+        ],
+        "signed_projection_m": -1.408047672318835e-06,
+        "HOLD_mean_xyz_m": [
+          6.687545961475694e-06,
+          2.3491191430219057e-05,
+          -1.2212251545185016e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.1098999647257265e-06,
+          3.5612618380500016e-06,
+          1.2354584264237117e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.3425990132129167,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          1.4016638207048349e-07,
+          -8.977815342824146e-07,
+          1.4081514400410278e-05
+        ],
+        "signed_projection_m": 1.4016638207048349e-07,
+        "HOLD_mean_xyz_m": [
+          6.687545961475694e-06,
+          2.3491191430219057e-05,
+          -1.2212251545185016e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.1098999647257265e-06,
+          3.5612618380500016e-06,
+          1.2354584264237117e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.03410457268388465,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          3.713045357284228e-05,
+          0.0003928721949780292,
+          -0.00011064782600894718
+        ],
+        "signed_projection_m": 0.0003928721949780292,
+        "HOLD_mean_xyz_m": [
+          0.00024870274282495775,
+          -0.00016025326604588927,
+          -0.00010255282239785002
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.377576964623706e-05,
+          4.870129511644457e-05,
+          0.0001926583978002001
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 8.0669763306843,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0004395669225096821,
+          -4.438747296239831e-05,
+          -0.0001004433077715361
+        ],
+        "signed_projection_m": 0.0004395669225096821,
+        "HOLD_mean_xyz_m": [
+          0.00024870274282495775,
+          -0.00016025326604588927,
+          -0.00010255282239785002
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.377576964623706e-05,
+          4.870129511644457e-05,
+          0.0001926583978002001
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.246945797882336,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005885380156535613,
+          -6.732861607898488e-06,
+          -0.0004306477785929741
+        ],
+        "signed_projection_m": 0.0005885380156535613,
+        "HOLD_mean_xyz_m": [
+          0.00024870274282495775,
+          -0.00016025326604588927,
+          -0.00010255282239785002
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.377576964623706e-05,
+          4.870129511644457e-05,
+          0.0001926583978002001
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.025157967975727,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          5.234405781492132e-05,
+          0.00035675129924847,
+          -0.00015875231211795926
+        ],
+        "signed_projection_m": 0.00035675129924847,
+        "HOLD_mean_xyz_m": [
+          -0.0002424404128576663,
+          6.591877485364429e-05,
+          0.0004983185945427106
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.898163127295816e-05,
+          2.7244807416144745e-05,
+          0.0003034947412027912
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 13.094285960599821,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.00041091651854446154,
+          1.721408804717952e-05,
+          -0.00022588345545642612
+        ],
+        "signed_projection_m": 0.00041091651854446154,
+        "HOLD_mean_xyz_m": [
+          -0.0002424404128576663,
+          6.591877485364429e-05,
+          0.0004983185945427106
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.898163127295816e-05,
+          2.7244807416144745e-05,
+          0.0003034947412027912
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.956897669155977,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005001930928018679,
+          1.7479686573112382e-05,
+          -0.00047287909579492136
+        ],
+        "signed_projection_m": 0.0005001930928018679,
+        "HOLD_mean_xyz_m": [
+          -0.0002424404128576663,
+          6.591877485364429e-05,
+          0.0004983185945427106
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.898163127295816e-05,
+          2.7244807416144745e-05,
+          0.0003034947412027912
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.251105599730157,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          7.856967480103505e-06,
+          1.6748344162314773e-05,
+          2.5541822275487736e-05
+        ],
+        "signed_projection_m": 1.6748344162314773e-05,
+        "HOLD_mean_xyz_m": [
+          4.426754174027131e-05,
+          0.0001955029970515112,
+          -0.00013511115474373891
+        ],
+        "HOLD_sample_std_xyz_m": [
+          3.3989656581748595e-05,
+          2.6005923799437123e-05,
+          9.153624170956056e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.6440203505740211,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          6.7461531737603164e-06,
+          -1.952377872652491e-05,
+          8.851746547910988e-05
+        ],
+        "signed_projection_m": -6.7461531737603164e-06,
+        "HOLD_mean_xyz_m": [
+          4.426754174027131e-05,
+          0.0001955029970515112,
+          -0.00013511115474373891
+        ],
+        "HOLD_sample_std_xyz_m": [
+          3.3989656581748595e-05,
+          2.6005923799437123e-05,
+          9.153624170956056e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.19847665002248932,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          5.7452388652699804e-05,
+          -5.836991368616271e-06,
+          7.137783219413052e-05
+        ],
+        "signed_projection_m": 5.7452388652699804e-05,
+        "HOLD_mean_xyz_m": [
+          4.426754174027131e-05,
+          0.0001955029970515112,
+          -0.00013511115474373891
+        ],
+        "HOLD_sample_std_xyz_m": [
+          3.3989656581748595e-05,
+          2.6005923799437123e-05,
+          9.153624170956056e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.6902903539057814,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -1.6752883711779187e-05,
+          0.00046305920024403494,
+          0.0001911251511035328
+        ],
+        "signed_projection_m": 0.00046305920024403494,
+        "HOLD_mean_xyz_m": [
+          0.00044077079176202405,
+          -0.0002354765281831414,
+          -0.000360606415587994
+        ],
+        "HOLD_sample_std_xyz_m": [
+          7.694720453000327e-05,
+          8.990625460126562e-05,
+          8.827159905817596e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.150467031439617,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0005917419526691448,
+          -8.679959832280648e-05,
+          0.00019031666594515606
+        ],
+        "signed_projection_m": 0.0005917419526691448,
+        "HOLD_mean_xyz_m": [
+          0.00044077079176202405,
+          -0.0002354765281831414,
+          -0.000360606415587994
+        ],
+        "HOLD_sample_std_xyz_m": [
+          7.694720453000327e-05,
+          8.990625460126562e-05,
+          8.827159905817596e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.690233274665783,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0007267358085400466,
+          -1.1379263050250582e-05,
+          -0.00018376897847927065
+        ],
+        "signed_projection_m": 0.0007267358085400466,
+        "HOLD_mean_xyz_m": [
+          0.00044077079176202405,
+          -0.0002354765281831414,
+          -0.000360606415587994
+        ],
+        "HOLD_sample_std_xyz_m": [
+          7.694720453000327e-05,
+          8.990625460126562e-05,
+          8.827159905817596e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 9.44460312728681,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -1.8418869926511766e-05,
+          0.0003565051033118123,
+          0.0001304397031697248
+        ],
+        "signed_projection_m": 0.0003565051033118123,
+        "HOLD_mean_xyz_m": [
+          -0.00036838003352561584,
+          0.00010364782225976038,
+          0.0007485529914606542
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4788933280835796e-05,
+          4.5356662419707964e-05,
+          8.77183946739414e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.86003828969803,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.000542031888748332,
+          3.1768377567975215e-05,
+          -2.3998018288348927e-05
+        ],
+        "signed_projection_m": 0.000542031888748332,
+        "HOLD_mean_xyz_m": [
+          -0.00036838003352561584,
+          0.00010364782225976038,
+          0.0007485529914606542
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4788933280835796e-05,
+          4.5356662419707964e-05,
+          8.77183946739414e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 21.86588194851346,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0004896663896396253,
+          2.3236963531117556e-05,
+          -0.00019694935263246075
+        ],
+        "signed_projection_m": 0.0004896663896396253,
+        "HOLD_mean_xyz_m": [
+          -0.00036838003352561584,
+          0.00010364782225976038,
+          0.0007485529914606542
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4788933280835796e-05,
+          4.5356662419707964e-05,
+          8.77183946739414e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 19.753427228681275,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.467951556266862e-05,
+          4.463652140916782e-05,
+          3.61545136656205e-05
+        ],
+        "signed_projection_m": 4.463652140916782e-05,
+        "HOLD_mean_xyz_m": [
+          3.857768942194112e-05,
+          0.00040537318772762804,
+          -0.00030496062322576956
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.332718598636318e-05,
+          4.7438103378724664e-05,
+          0.00014405076674502165
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.9409423697404118,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          1.9793515181824872e-05,
+          -3.536112155265816e-05,
+          0.00014197442174862518
+        ],
+        "signed_projection_m": -1.9793515181824872e-05,
+        "HOLD_mean_xyz_m": [
+          3.857768942194112e-05,
+          0.00040537318772762804,
+          -0.00030496062322576956
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.332718598636318e-05,
+          4.7438103378724664e-05,
+          0.00014405076674502165
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.23753970504973201,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.00014338978977452427,
+          -1.1204950212470024e-05,
+          0.00010254750366922583
+        ],
+        "signed_projection_m": 0.00014338978977452427,
+        "HOLD_mean_xyz_m": [
+          3.857768942194112e-05,
+          0.00040537318772762804,
+          -0.00030496062322576956
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.332718598636318e-05,
+          4.7438103378724664e-05,
+          0.00014405076674502165
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.7208044178761848,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          6.287433048451918e-05,
+          -8.41739294579584e-06,
+          -6.544465909186226e-05
+        ],
+        "signed_projection_m": 6.287433048451918e-05,
+        "HOLD_mean_xyz_m": [
+          3.4900961495498706e-05,
+          -2.1350688914857294e-05,
+          -8.282723869668107e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.876856659699463e-05,
+          3.3469159071348962e-06,
+          0.00018780035654533464
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 3.3499804132398214,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -4.796833305475978e-05,
+          -7.558256843143499e-06,
+          0.00014251227786155063
+        ],
+        "signed_projection_m": 4.796833305475978e-05,
+        "HOLD_mean_xyz_m": [
+          3.4900961495498706e-05,
+          -2.1350688914857294e-05,
+          -8.282723869668107e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.876856659699463e-05,
+          3.3469159071348962e-06,
+          0.00018780035654533464
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.555780315287415,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.035048979004417e-05,
+          1.2731798970844546e-05,
+          -2.3983331824406484e-05
+        ],
+        "signed_projection_m": 1.2731798970844546e-05,
+        "HOLD_mean_xyz_m": [
+          3.4900961495498706e-05,
+          -2.1350688914857294e-05,
+          -8.282723869668107e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.876856659699463e-05,
+          3.3469159071348962e-06,
+          0.00018780035654533464
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 3.8040390987126753,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          6.849400062554626e-05,
+          2.3508359387893095e-06,
+          -8.386349824498561e-05
+        ],
+        "signed_projection_m": 6.849400062554626e-05,
+        "HOLD_mean_xyz_m": [
+          -3.9247480154649485e-05,
+          1.0742518952803283e-05,
+          3.3059778676228365e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4962041581554276e-05,
+          2.0048281326771917e-06,
+          0.00020479296364391672
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.7439262290212656,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -5.7222624025380044e-05,
+          3.062236651694386e-06,
+          0.00013263114579547725
+        ],
+        "signed_projection_m": 5.7222624025380044e-05,
+        "HOLD_mean_xyz_m": [
+          -3.9247480154649485e-05,
+          1.0742518952803283e-05,
+          3.3059778676228365e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4962041581554276e-05,
+          2.0048281326771917e-06,
+          0.00020479296364391672
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.2923855742498542,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.8274465757278903e-05,
+          2.4704798987780864e-05,
+          -5.309126942446656e-05
+        ],
+        "signed_projection_m": 2.4704798987780864e-05,
+        "HOLD_mean_xyz_m": [
+          -3.9247480154649485e-05,
+          1.0742518952803283e-05,
+          3.3059778676228365e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4962041581554276e-05,
+          2.0048281326771917e-06,
+          0.00020479296364391672
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 12.322651794989909,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          -4.598400078770215e-07,
+          -4.905570464247842e-06,
+          1.3024498107139237e-05
+        ],
+        "signed_projection_m": -4.598400078770215e-07,
+        "HOLD_mean_xyz_m": [
+          7.64817119498773e-06,
+          2.5239024926790077e-05,
+          -1.6864011204598128e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.465088748046918e-07,
+          1.5567182481803369e-06,
+          1.1412468383016698e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.4598400078770215,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          6.6047041409611484e-06,
+          -4.131733858462407e-06,
+          1.2072564958331977e-05
+        ],
+        "signed_projection_m": -6.6047041409611484e-06,
+        "HOLD_mean_xyz_m": [
+          7.64817119498773e-06,
+          2.5239024926790077e-05,
+          -1.6864011204598128e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.465088748046918e-07,
+          1.5567182481803369e-06,
+          1.1412468383016698e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 6.604704140961148,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.2528549541156462e-07,
+          -3.7559206723845287e-06,
+          2.041192197560493e-05
+        ],
+        "signed_projection_m": -3.7559206723845287e-06,
+        "HOLD_mean_xyz_m": [
+          7.64817119498773e-06,
+          2.5239024926790077e-05,
+          -1.6864011204598128e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.465088748046918e-07,
+          1.5567182481803369e-06,
+          1.1412468383016698e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.412717058321158,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005290035330147713,
+          -4.48273783653242e-05,
+          -9.479358329472776e-05
+        ],
+        "signed_projection_m": 0.0005290035330147713,
+        "HOLD_mean_xyz_m": [
+          0.00024409322958945934,
+          -0.00014474171463869402,
+          -0.00010579762830892347
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.884313975688524e-06,
+          3.1216626284732985e-05,
+          1.668553361922343e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 108.30661903552169,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.000442026611014279,
+          -6.289752586212914e-05,
+          0.00024932378997516436
+        ],
+        "signed_projection_m": 0.000442026611014279,
+        "HOLD_mean_xyz_m": [
+          0.00024409322958945934,
+          -0.00014474171463869402,
+          -0.00010579762830892347
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.884313975688524e-06,
+          3.1216626284732985e-05,
+          1.668553361922343e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 90.49922122419825,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          0.00011885445193543509,
+          0.00034370798117844097,
+          -0.00025872101327822916
+        ],
+        "signed_projection_m": 0.00034370798117844097,
+        "HOLD_mean_xyz_m": [
+          0.00024409322958945934,
+          -0.00014474171463869402,
+          -0.00010579762830892347
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.884313975688524e-06,
+          3.1216626284732985e-05,
+          1.668553361922343e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 11.010414067279818,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0004554796869724267,
+          2.679817049075628e-05,
+          -0.0001413664924499624
+        ],
+        "signed_projection_m": 0.0004554796869724267,
+        "HOLD_mean_xyz_m": [
+          -0.0002454336144067142,
+          5.9620829959747164e-05,
+          0.0005233765475847205
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.309375212496867e-06,
+          1.368798986619625e-05,
+          7.089123524529894e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 54.81515460842459,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.00042071594369689136,
+          1.801390013811285e-05,
+          0.00010172154145268177
+        ],
+        "signed_projection_m": 0.00042071594369689136,
+        "HOLD_mean_xyz_m": [
+          -0.0002454336144067142,
+          5.9620829959747164e-05,
+          0.0005233765475847205
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.309375212496867e-06,
+          1.368798986619625e-05,
+          7.089123524529894e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 50.631477450212685,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          8.610528811150506e-05,
+          0.00038089266471960263,
+          -0.00039105085972939585
+        ],
+        "signed_projection_m": 0.00038089266471960263,
+        "HOLD_mean_xyz_m": [
+          -0.0002454336144067142,
+          5.9620829959747164e-05,
+          0.0005233765475847205
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.309375212496867e-06,
+          1.368798986619625e-05,
+          7.089123524529894e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 27.826778690145886,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          4.2156939977028296e-05,
+          -3.293697014918317e-05,
+          7.627525241121758e-05
+        ],
+        "signed_projection_m": 4.2156939977028296e-05,
+        "HOLD_mean_xyz_m": [
+          3.469613235541902e-05,
+          0.00020655109787471243,
+          -0.0001546649543297529
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.821858956880373e-05,
+          1.1518435013100918e-05,
+          6.647339639789785e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.3139519015903933,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          1.780691205839624e-05,
+          -2.940903961815537e-05,
+          0.00010565675187207413
+        ],
+        "signed_projection_m": -1.780691205839624e-05,
+        "HOLD_mean_xyz_m": [
+          3.469613235541902e-05,
+          0.00020655109787471243,
+          -0.0001546649543297529
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.821858956880373e-05,
+          1.1518435013100918e-05,
+          6.647339639789785e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.9774034368109144,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          3.5090761839010054e-05,
+          -1.44797737052969e-05,
+          0.00012416542198928626
+        ],
+        "signed_projection_m": -1.44797737052969e-05,
+        "HOLD_mean_xyz_m": [
+          3.469613235541902e-05,
+          0.00020655109787471243,
+          -0.0001546649543297529
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.821858956880373e-05,
+          1.1518435013100918e-05,
+          6.647339639789785e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.2570955766844882,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0007247565482335905,
+          -7.727719129248939e-05,
+          -8.056667367806192e-05
+        ],
+        "signed_projection_m": 0.0007247565482335905,
+        "HOLD_mean_xyz_m": [
+          0.000383593568634627,
+          -0.00020686280494659412,
+          -0.0002852727232872665
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.926508134645141e-05,
+          5.35637671079037e-05,
+          0.00014356847674253185
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 10.463519772805713,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.000524687068602564,
+          -0.00011393184731410544,
+          0.000399416681072684
+        ],
+        "signed_projection_m": 0.000524687068602564,
+        "HOLD_mean_xyz_m": [
+          0.000383593568634627,
+          -0.00020686280494659412,
+          -0.0002852727232872665
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.926508134645141e-05,
+          5.35637671079037e-05,
+          0.00014356847674253185
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.575058866648465,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          0.00016301886168709756,
+          0.0003810814006044577,
+          -1.2334122175383655e-05
+        ],
+        "signed_projection_m": 0.0003810814006044577,
+        "HOLD_mean_xyz_m": [
+          0.000383593568634627,
+          -0.00020686280494659412,
+          -0.0002852727232872665
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.926508134645141e-05,
+          5.35637671079037e-05,
+          0.00014356847674253185
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.114536956237093,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0004887585165132828,
+          4.163620107179576e-05,
+          -7.751227825090925e-05
+        ],
+        "signed_projection_m": 0.0004887585165132828,
+        "HOLD_mean_xyz_m": [
+          -0.0004033781730717267,
+          9.166091298592158e-05,
+          0.00085657724837225
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.0989189294106076e-05,
+          3.0712853551422704e-05,
+          0.0002675249382407181
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 11.924083518859996,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0005100643464162035,
+          3.8901290308219005e-05,
+          0.0001664905542206706
+        ],
+        "signed_projection_m": 0.0005100643464162035,
+        "HOLD_mean_xyz_m": [
+          -0.0004033781730717267,
+          9.166091298592158e-05,
+          0.00085657724837225
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.0989189294106076e-05,
+          3.0712853551422704e-05,
+          0.0002675249382407181
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 12.443874963136848,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -1.0411793794100593e-05,
+          0.0003979603405936332,
+          -0.00014368979095089724
+        ],
+        "signed_projection_m": 0.0003979603405936332,
+        "HOLD_mean_xyz_m": [
+          -0.0004033781730717267,
+          9.166091298592158e-05,
+          0.00085657724837225
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.0989189294106076e-05,
+          3.0712853551422704e-05,
+          0.0002675249382407181
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 12.957452485726407,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0001237364865510071,
+          -5.653752979546732e-05,
+          0.00010573376107528287
+        ],
+        "signed_projection_m": 0.0001237364865510071,
+        "HOLD_mean_xyz_m": [
+          1.1921213480300952e-05,
+          0.0004249897897495308,
+          -0.0003321181222160352
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.373758534381165e-05,
+          2.2553419956690373e-05,
+          0.00010006201698839666
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.3026060020997288,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          4.901141556670763e-05,
+          -5.182905400544018e-05,
+          0.00016457971740993504
+        ],
+        "signed_projection_m": -4.901141556670763e-05,
+        "HOLD_mean_xyz_m": [
+          1.1921213480300952e-05,
+          0.0004249897897495308,
+          -0.0003321181222160352
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.373758534381165e-05,
+          2.2553419956690373e-05,
+          0.00010006201698839666
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.912050946337352,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          0.00011189906528939753,
+          -8.855247320832212e-06,
+          0.00018001947636384075
+        ],
+        "signed_projection_m": -8.855247320832212e-06,
+        "HOLD_mean_xyz_m": [
+          1.1921213480300952e-05,
+          0.0004249897897495308,
+          -0.0003321181222160352
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.373758534381165e-05,
+          2.2553419956690373e-05,
+          0.00010006201698839666
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.3926343471560881,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.2405364723726562e-05,
+          2.720813480257961e-05,
+          -0.00018501926612773945
+        ],
+        "signed_projection_m": 2.720813480257961e-05,
+        "HOLD_mean_xyz_m": [
+          3.5941582908566305e-05,
+          -2.6562350758877612e-05,
+          3.194371037779087e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.180430712641115e-05,
+          1.8042005847403494e-06,
+          0.00022512456819335027
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 15.080437858573942,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -6.26349923645575e-05,
+          -4.943327721551594e-06,
+          0.00011283209501450342
+        ],
+        "signed_projection_m": 6.26349923645575e-05,
+        "HOLD_mean_xyz_m": [
+          3.5941582908566305e-05,
+          -2.6562350758877612e-05,
+          3.194371037779087e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.180430712641115e-05,
+          1.8042005847403494e-06,
+          0.00022512456819335027
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.4982904076165378,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          6.640624906048553e-05,
+          -1.055787679213327e-06,
+          -4.901642618021507e-05
+        ],
+        "signed_projection_m": 6.640624906048553e-05,
+        "HOLD_mean_xyz_m": [
+          3.5941582908566305e-05,
+          -2.6562350758877612e-05,
+          3.194371037779087e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.180430712641115e-05,
+          1.8042005847403494e-06,
+          0.00022512456819335027
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.5885025640941997,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.1835260789124867e-05,
+          3.2082238414249926e-05,
+          -0.0001881393381832377
+        ],
+        "signed_projection_m": 3.2082238414249926e-05,
+        "HOLD_mean_xyz_m": [
+          -2.4915707405766748e-05,
+          1.0965511415414751e-05,
+          9.248944799710263e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.557067045294618e-05,
+          2.5988784433658827e-06,
+          0.000235487333708601
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 12.34464755215688,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -7.072387768844016e-05,
+          2.0213970164438224e-06,
+          0.00011352035306145388
+        ],
+        "signed_projection_m": 7.072387768844016e-05,
+        "HOLD_mean_xyz_m": [
+          -2.4915707405766748e-05,
+          1.0965511415414751e-05,
+          9.248944799710263e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.557067045294618e-05,
+          2.5988784433658827e-06,
+          0.000235487333708601
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.551960438270616,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          6.886078130169889e-05,
+          -5.877276754344974e-07,
+          -5.372965306615163e-05
+        ],
+        "signed_projection_m": 6.886078130169889e-05,
+        "HOLD_mean_xyz_m": [
+          -2.4915707405766748e-05,
+          1.0965511415414751e-05,
+          9.248944799710263e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.557067045294618e-05,
+          2.5988784433658827e-06,
+          0.000235487333708601
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.511076765324329,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.7869314228601283e-07,
+          -1.5597575577335474e-06,
+          3.3241053571386736e-06
+        ],
+        "signed_projection_m": -1.5597575577335474e-06,
+        "HOLD_mean_xyz_m": [
+          6.166609843510917e-06,
+          2.3143667633325623e-05,
+          -3.272186240632635e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.19955047493234e-07,
+          1.6857152509585915e-06,
+          6.8300757832835705e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.9252793773127357,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          3.3464822837558916e-06,
+          -2.85568378551737e-06,
+          3.873802417342365e-06
+        ],
+        "signed_projection_m": -3.3464822837558916e-06,
+        "HOLD_mean_xyz_m": [
+          6.166609843510917e-06,
+          2.3143667633325623e-05,
+          -3.272186240632635e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.19955047493234e-07,
+          1.6857152509585915e-06,
+          6.8300757832835705e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 3.3464822837558916,
+        "direction_correct": false
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          2.2664676478656443e-07,
+          2.5596329343086565e-07,
+          1.9214645706755462e-06
+        ],
+        "signed_projection_m": 2.2664676478656443e-07,
+        "HOLD_mean_xyz_m": [
+          6.166609843510917e-06,
+          2.3143667633325623e-05,
+          -3.272186240632635e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          5.19955047493234e-07,
+          1.6857152509585915e-06,
+          6.8300757832835705e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.22664676478656443,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          1.565101843339911e-05,
+          0.00037479883890051066,
+          4.654383917879201e-05
+        ],
+        "signed_projection_m": 0.00037479883890051066,
+        "HOLD_mean_xyz_m": [
+          0.00026463337312263024,
+          -0.00017212326405214098,
+          -6.887557628021401e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.577864690166609e-05,
+          2.0366188264913958e-05,
+          5.186729652139798e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 18.402993924307324,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0004832547318405489,
+          -4.284774220546239e-05,
+          0.0001246250526792947
+        ],
+        "signed_projection_m": 0.0004832547318405489,
+        "HOLD_mean_xyz_m": [
+          0.00026463337312263024,
+          -0.00017212326405214098,
+          -6.887557628021401e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.577864690166609e-05,
+          2.0366188264913958e-05,
+          5.186729652139798e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 30.62713392677045,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005435986108761337,
+          6.621718940145321e-06,
+          -0.000298997376119714
+        ],
+        "signed_projection_m": 0.0005435986108761337,
+        "HOLD_mean_xyz_m": [
+          0.00026463337312263024,
+          -0.00017212326405214098,
+          -6.887557628021401e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.577864690166609e-05,
+          2.0366188264913958e-05,
+          5.186729652139798e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 34.45153530995959,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -5.94750533907518e-06,
+          0.0003601717948780713,
+          3.828168968465366e-05
+        ],
+        "signed_projection_m": 0.0003601717948780713,
+        "HOLD_mean_xyz_m": [
+          -0.00022224012778984643,
+          7.344244356503149e-05,
+          0.00046085590781336157
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.910778391162818e-06,
+          1.0064582248771551e-05,
+          2.0413781605623247e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 35.78606503235965,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0004564778559069199,
+          1.0054743461655787e-05,
+          6.297391173325505e-05
+        ],
+        "signed_projection_m": 0.0004564778559069199,
+        "HOLD_mean_xyz_m": [
+          -0.00022224012778984643,
+          7.344244356503149e-05,
+          0.00046085590781336157
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.910778391162818e-06,
+          1.0064582248771551e-05,
+          2.0413781605623247e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 51.227607271619235,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.000476489306256519,
+          3.3935887585174025e-06,
+          -0.0002661121245072662
+        ],
+        "signed_projection_m": 0.000476489306256519,
+        "HOLD_mean_xyz_m": [
+          -0.00022224012778984643,
+          7.344244356503149e-05,
+          0.00046085590781336157
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.910778391162818e-06,
+          1.0064582248771551e-05,
+          2.0413781605623247e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 53.47336510232067,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          9.32518904810109e-06,
+          1.4080935570195507e-06,
+          1.743734820591758e-05
+        ],
+        "signed_projection_m": 1.4080935570195507e-06,
+        "HOLD_mean_xyz_m": [
+          5.771807691229425e-05,
+          0.00019286335649384788,
+          -8.223297819953679e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.717340602127253e-05,
+          1.0848058861298836e-05,
+          3.6286970867100436e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.12980143037783629,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -1.0320003143188261e-05,
+          -2.1504196813818433e-05,
+          4.398681997935805e-05
+        ],
+        "signed_projection_m": 1.0320003143188261e-05,
+        "HOLD_mean_xyz_m": [
+          5.771807691229425e-05,
+          0.00019286335649384788,
+          -8.223297819953679e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.717340602127253e-05,
+          1.0848058861298836e-05,
+          3.6286970867100436e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.6009293165493772,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          3.362687750013693e-05,
+          4.893754322542426e-07,
+          -2.3095043255594305e-07
+        ],
+        "signed_projection_m": 3.362687750013693e-05,
+        "HOLD_mean_xyz_m": [
+          5.771807691229425e-05,
+          0.00019286335649384788,
+          -8.223297819953679e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.717340602127253e-05,
+          1.0848058861298836e-05,
+          3.6286970867100436e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.958078523181927,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -2.968781377155061e-05,
+          0.0004350993051213236,
+          0.0003771802306172245
+        ],
+        "signed_projection_m": 0.0004350993051213236,
+        "HOLD_mean_xyz_m": [
+          0.0004450618780741933,
+          -0.00025752234875288556,
+          -0.00023698461855231612
+        ],
+        "HOLD_sample_std_xyz_m": [
+          0.00012921994269024666,
+          3.3047658498257994e-05,
+          0.0003847757565274461
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 13.165813400796868,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.000590400213386133,
+          -7.979006544709712e-05,
+          0.0001678020155673754
+        ],
+        "signed_projection_m": 0.000590400213386133,
+        "HOLD_mean_xyz_m": [
+          0.0004450618780741933,
+          -0.00025752234875288556,
+          -0.00023698461855231612
+        ],
+        "HOLD_sample_std_xyz_m": [
+          0.00012921994269024666,
+          3.3047658498257994e-05,
+          0.0003847757565274461
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 4.568955852281891,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0006596283551845161,
+          1.3434095603235066e-05,
+          -7.48174012470959e-05
+        ],
+        "signed_projection_m": 0.0006596283551845161,
+        "HOLD_mean_xyz_m": [
+          0.0004450618780741933,
+          -0.00025752234875288556,
+          -0.00023698461855231612
+        ],
+        "HOLD_sample_std_xyz_m": [
+          0.00012921994269024666,
+          3.3047658498257994e-05,
+          0.0003847757565274461
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.1046946891604215,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -0.00010432688985308983,
+          0.0003614794450449752,
+          0.0003920214698162534
+        ],
+        "signed_projection_m": 0.0003614794450449752,
+        "HOLD_mean_xyz_m": [
+          -0.0003858554299172031,
+          0.0001180378387827896,
+          0.0007733040918395922
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.38512434901008e-05,
+          2.1325795186039302e-05,
+          0.00042041932385223014
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 16.950338399649162,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0005169876452647544,
+          2.1514667641157106e-05,
+          3.986347745532507e-05
+        ],
+        "signed_projection_m": 0.0005169876452647544,
+        "HOLD_mean_xyz_m": [
+          -0.0003858554299172031,
+          0.0001180378387827896,
+          0.0007733040918395922
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.38512434901008e-05,
+          2.1325795186039302e-05,
+          0.00042041932385223014
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 8.096751402263697,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005091782621818276,
+          -3.5747306711655295e-06,
+          2.0103544390922146e-07
+        ],
+        "signed_projection_m": 0.0005091782621818276,
+        "HOLD_mean_xyz_m": [
+          -0.0003858554299172031,
+          0.0001180378387827896,
+          0.0007733040918395922
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.38512434901008e-05,
+          2.1325795186039302e-05,
+          0.00042041932385223014
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.974445513512485,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          2.8339405832703002e-05,
+          2.088860463289469e-05,
+          2.345828469862976e-05
+        ],
+        "signed_projection_m": 2.088860463289469e-05,
+        "HOLD_mean_xyz_m": [
+          7.909450069033819e-05,
+          0.0003996559621037999,
+          -0.00022603337283749747
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.3027931125156226e-05,
+          1.8581476840324425e-05,
+          5.436072435022296e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.12416277846998,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -2.5269578878758803e-05,
+          -3.616394486115728e-05,
+          7.822237194743398e-05
+        ],
+        "signed_projection_m": 2.5269578878758803e-05,
+        "HOLD_mean_xyz_m": [
+          7.909450069033819e-05,
+          0.0003996559621037999,
+          -0.00022603337283749747
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.3027931125156226e-05,
+          1.8581476840324425e-05,
+          5.436072435022296e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.5872831488285286,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          7.548091175030303e-05,
+          1.0252940914378186e-07,
+          -2.6834008007847743e-06
+        ],
+        "signed_projection_m": 7.548091175030303e-05,
+        "HOLD_mean_xyz_m": [
+          7.909450069033819e-05,
+          0.0003996559621037999,
+          -0.00022603337283749747
+        ],
+        "HOLD_sample_std_xyz_m": [
+          4.3027931125156226e-05,
+          1.8581476840324425e-05,
+          5.436072435022296e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.7542305608594135,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -2.5941771346266185e-05,
+          8.712144644216005e-06,
+          -0.00013529247704924252
+        ],
+        "signed_projection_m": 2.5941771346266185e-05,
+        "HOLD_mean_xyz_m": [
+          2.1079802888873678e-05,
+          -2.7891543367993335e-05,
+          0.0001285797887082829
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.671489549111037e-05,
+          5.8110393928101486e-06,
+          4.0556130615998665e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.5520151687495158,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          6.041205470666555e-05,
+          7.2574106224337215e-06,
+          -0.0002563576225500519
+        ],
+        "signed_projection_m": 6.041205470666555e-05,
+        "HOLD_mean_xyz_m": [
+          2.1079802888873678e-05,
+          -2.7891543367993335e-05,
+          0.0001285797887082829
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.671489549111037e-05,
+          5.8110393928101486e-06,
+          4.0556130615998665e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 3.6142645784889904,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          7.039461902919042e-06,
+          3.237285984145598e-05,
+          -7.293620472448303e-05
+        ],
+        "signed_projection_m": 3.237285984145598e-05,
+        "HOLD_mean_xyz_m": [
+          2.1079802888873678e-05,
+          -2.7891543367993335e-05,
+          0.0001285797887082829
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.671489549111037e-05,
+          5.8110393928101486e-06,
+          4.0556130615998665e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 5.57092417606222,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -2.4822959772933276e-05,
+          -2.5597896222188787e-06,
+          -0.00012362505039478962
+        ],
+        "signed_projection_m": 2.4822959772933276e-05,
+        "HOLD_mean_xyz_m": [
+          -4.449301473048919e-05,
+          1.0675625169098264e-05,
+          0.00019344963440189711
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.2132032788142055e-05,
+          2.5157406910121886e-06,
+          5.301140427903594e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.12158517071387,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          4.9388362437797624e-05,
+          -2.5414643099992212e-06,
+          -0.0002336203696302965
+        ],
+        "signed_projection_m": 4.9388362437797624e-05,
+        "HOLD_mean_xyz_m": [
+          -4.449301473048919e-05,
+          1.0675625169098264e-05,
+          0.00019344963440189711
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.2132032788142055e-05,
+          2.5157406910121886e-06,
+          5.301140427903594e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 2.231533041296551,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          4.289192440826369e-06,
+          2.7983576869545604e-05,
+          -6.406461997682808e-05
+        ],
+        "signed_projection_m": 2.7983576869545604e-05,
+        "HOLD_mean_xyz_m": [
+          -4.449301473048919e-05,
+          1.0675625169098264e-05,
+          0.00019344963440189711
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.2132032788142055e-05,
+          2.5157406910121886e-06,
+          5.301140427903594e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 11.123394779724547,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -1.6890078305062395e-06,
+          4.0007489138509805e-06,
+          -1.1071413058200141e-05
+        ],
+        "signed_projection_m": 1.6890078305062395e-06,
+        "HOLD_mean_xyz_m": [
+          8.563211838140405e-06,
+          2.283757699148012e-05,
+          -5.118791161023983e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.3521549768094853e-06,
+          3.7716617321788115e-06,
+          8.359838126911436e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.2491229625849432,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          3.8086799002828853e-07,
+          3.601951491040493e-06,
+          -1.2113727448831435e-05
+        ],
+        "signed_projection_m": 3.8086799002828853e-07,
+        "HOLD_mean_xyz_m": [
+          8.563211838140405e-06,
+          2.283757699148012e-05,
+          -5.118791161023983e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.3521549768094853e-06,
+          3.7716617321788115e-06,
+          8.359838126911436e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.28167480544794954,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 1,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          1.4178980758255966e-07,
+          2.272871914392921e-06,
+          -6.078891028188371e-06
+        ],
+        "signed_projection_m": 2.272871914392921e-06,
+        "HOLD_mean_xyz_m": [
+          8.563211838140405e-06,
+          2.283757699148012e-05,
+          -5.118791161023983e-06
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.3521549768094853e-06,
+          3.7716617321788115e-06,
+          8.359838126911436e-06
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.6026181762275722,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0004322613832805078,
+          5.2835702606961535e-05,
+          -0.00032158017022743124
+        ],
+        "signed_projection_m": 0.0004322613832805078,
+        "HOLD_mean_xyz_m": [
+          0.00023632688443214755,
+          -0.00017810951050423705,
+          6.533237436046058e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.3305512880010215e-05,
+          4.198980844728767e-05,
+          1.4348378001266751e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 18.547602256428792,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.00048526827318323695,
+          5.62099276272144e-05,
+          -0.0002766927143644793
+        ],
+        "signed_projection_m": 0.00048526827318323695,
+        "HOLD_mean_xyz_m": [
+          0.00023632688443214755,
+          -0.00017810951050423705,
+          6.533237436046058e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.3305512880010215e-05,
+          4.198980844728767e-05,
+          1.4348378001266751e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 20.8220379307535,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          5.334194708039863e-05,
+          0.00042531840526408536,
+          -0.0003161789464433129
+        ],
+        "signed_projection_m": 0.00042531840526408536,
+        "HOLD_mean_xyz_m": [
+          0.00023632688443214755,
+          -0.00017810951050423705,
+          6.533237436046058e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.3305512880010215e-05,
+          4.198980844728767e-05,
+          1.4348378001266751e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 10.129086580569023,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.00038239169147944455,
+          -2.61623971357588e-05,
+          -0.00025557761217629815
+        ],
+        "signed_projection_m": 0.00038239169147944455,
+        "HOLD_mean_xyz_m": [
+          -0.00025582936354054175,
+          7.412579220080859e-05,
+          0.0005994614340304856
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4468015372969797e-05,
+          1.8051107743535682e-05,
+          4.059342039358919e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 15.628226713551875,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.00043606172437562205,
+          -2.0604325101517106e-05,
+          -0.00015825859601003932
+        ],
+        "signed_projection_m": 0.00043606172437562205,
+        "HOLD_mean_xyz_m": [
+          -0.00025582936354054175,
+          7.412579220080859e-05,
+          0.0005994614340304856
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4468015372969797e-05,
+          1.8051107743535682e-05,
+          4.059342039358919e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 17.821703874575228,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          5.320230469771695e-05,
+          0.0003461770592532241,
+          -0.0002700028936731274
+        ],
+        "signed_projection_m": 0.0003461770592532241,
+        "HOLD_mean_xyz_m": [
+          -0.00025582936354054175,
+          7.412579220080859e-05,
+          0.0005994614340304856
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.4468015372969797e-05,
+          1.8051107743535682e-05,
+          4.059342039358919e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 19.17760750041472,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -3.548557307420791e-05,
+          2.5858565492674438e-05,
+          -8.03815941402275e-05
+        ],
+        "signed_projection_m": 3.548557307420791e-05,
+        "HOLD_mean_xyz_m": [
+          6.437868210609071e-05,
+          0.00019059673101230363,
+          -8.68362205610207e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.6559290039452965e-06,
+          2.6184754901678927e-05,
+          5.0776994813420764e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 13.360889173428673,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          1.2993741360448063e-06,
+          2.6095495494823977e-05,
+          -7.042779910401697e-05
+        ],
+        "signed_projection_m": 1.2993741360448063e-06,
+        "HOLD_mean_xyz_m": [
+          6.437868210609071e-05,
+          0.00019059673101230363,
+          -8.68362205610207e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.6559290039452965e-06,
+          2.6184754901678927e-05,
+          5.0776994813420764e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.48923526725098004,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 8,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -7.213261868067866e-06,
+          2.798499074049043e-05,
+          -3.943049910046237e-05
+        ],
+        "signed_projection_m": 2.798499074049043e-05,
+        "HOLD_mean_xyz_m": [
+          6.437868210609071e-05,
+          0.00019059673101230363,
+          -8.68362205610207e-05
+        ],
+        "HOLD_sample_std_xyz_m": [
+          2.6559290039452965e-06,
+          2.6184754901678927e-05,
+          5.0776994813420764e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.0687512961481291,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0007177411045441451,
+          8.93706273940812e-05,
+          0.0001792821359686836
+        ],
+        "signed_projection_m": 0.0007177411045441451,
+        "HOLD_mean_xyz_m": [
+          0.00043466463426811153,
+          -0.00026850232186876634,
+          -0.00013696131355017682
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.661912545658776e-05,
+          7.132289607940097e-05,
+          0.00016627528723134482
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 8.286173529930943,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.0005885720683217466,
+          0.00010951319315452741,
+          -0.0003594706174179785
+        ],
+        "signed_projection_m": 0.0005885720683217466,
+        "HOLD_mean_xyz_m": [
+          0.00043466463426811153,
+          -0.00026850232186876634,
+          -0.00013696131355017682
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.661912545658776e-05,
+          7.132289607940097e-05,
+          0.00016627528723134482
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 6.794943555701567,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          0.00010228368777948083,
+          0.0005257884707907858,
+          -0.0006611128655474308
+        ],
+        "signed_projection_m": 0.0005257884707907858,
+        "HOLD_mean_xyz_m": [
+          0.00043466463426811153,
+          -0.00026850232186876634,
+          -0.00013696131355017682
+        ],
+        "HOLD_sample_std_xyz_m": [
+          8.661912545658776e-05,
+          7.132289607940097e-05,
+          0.00016627528723134482
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.371945051213936,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0005433037748743979,
+          -4.785605630963421e-05,
+          0.00022934116771994827
+        ],
+        "signed_projection_m": 0.0005433037748743979,
+        "HOLD_mean_xyz_m": [
+          -0.00039660382897679935,
+          0.00012032322911110832,
+          0.0008715777118293608
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.755710415864986e-05,
+          3.375752437813264e-05,
+          0.00024467809388935963
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 8.042141261687496,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          0.00047775645895623047,
+          -3.994959607895981e-05,
+          -0.0001346431004158726
+        ],
+        "signed_projection_m": 0.00047775645895623047,
+        "HOLD_mean_xyz_m": [
+          -0.00039660382897679935,
+          0.00012032322911110832,
+          0.0008715777118293608
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.755710415864986e-05,
+          3.375752437813264e-05,
+          0.00024467809388935963
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 7.071890734603958,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          0.00011952706409979196,
+          0.00033799500445662274,
+          -0.0005944267838546717
+        ],
+        "signed_projection_m": 0.00033799500445662274,
+        "HOLD_mean_xyz_m": [
+          -0.00039660382897679935,
+          0.00012032322911110832,
+          0.0008715777118293608
+        ],
+        "HOLD_sample_std_xyz_m": [
+          6.755710415864986e-05,
+          3.375752437813264e-05,
+          0.00024467809388935963
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 10.01243458112018,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "MINUS_X",
+        "matched_effect_xyz_m": [
+          -0.0001057941849067559,
+          4.5942230050357875e-05,
+          -0.0001196158901057287
+        ],
+        "signed_projection_m": 0.0001057941849067559,
+        "HOLD_mean_xyz_m": [
+          8.82128161222781e-05,
+          0.000394923337934951,
+          -0.00023077888776429356
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.5686377571273067e-05,
+          4.684140273934503e-05,
+          8.15718023762662e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 6.744334976387408,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_X",
+        "matched_effect_xyz_m": [
+          5.052286890884494e-06,
+          4.7976804498427866e-05,
+          -0.00011955269035834881
+        ],
+        "signed_projection_m": 5.052286890884494e-06,
+        "HOLD_mean_xyz_m": [
+          8.82128161222781e-05,
+          0.000394923337934951,
+          -0.00023077888776429356
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.5686377571273067e-05,
+          4.684140273934503e-05,
+          8.15718023762662e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 0.32208117316625723,
+        "direction_correct": true
+      },
+      {
+        "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+        "horizon": 16,
+        "frame": "BASE",
+        "action": "PLUS_Y",
+        "matched_effect_xyz_m": [
+          -2.662001258010166e-05,
+          6.503095912752414e-05,
+          -5.939148622075008e-05
+        ],
+        "signed_projection_m": 6.503095912752414e-05,
+        "HOLD_mean_xyz_m": [
+          8.82128161222781e-05,
+          0.000394923337934951,
+          -0.00023077888776429356
+        ],
+        "HOLD_sample_std_xyz_m": [
+          1.5686377571273067e-05,
+          4.684140273934503e-05,
+          8.15718023762662e-05
+        ],
+        "HOLD_noise_floor_m": 1e-06,
+        "signal_over_HOLD_std": 1.3883221962714742,
+        "direction_correct": true
+      }
+    ],
+    "horizon_gates": {
+      "8": {
+        "parents": [
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 7.251105599730157
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 50.631477450212685
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 51.227607271619235
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 17.821703874575228
+          }
+        ],
+        "parents_meeting_direction_and_SNR": 4,
+        "qualified": true
+      },
+      "16": {
+        "parents": [
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 19.753427228681275
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 12.443874963136848
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 8.096751402263697
+          },
+          {
+            "parent": "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3",
+            "all_three_directions_correct": true,
+            "median_SNR": 8.042141261687496
+          }
+        ],
+        "parents_meeting_direction_and_SNR": 4,
+        "qualified": true
+      }
+    },
+    "parent_bootstrap": [
+      {
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0005366021081819258,
+        "parent_bootstrap95_m": [
+          0.0004998508576064611,
+          0.0005773031644592044
+        ]
+      },
+      {
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.00044927741216125444,
+        "parent_bootstrap95_m": [
+          0.00043408776808780136,
+          0.0004723327795078322
+        ]
+      },
+      {
+        "horizon": 8,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.00038417435508026655,
+        "parent_bootstrap95_m": [
+          0.00035599903462833803,
+          0.0004126885136731917
+        ]
+      },
+      {
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0004670559526016089,
+        "parent_bootstrap95_m": [
+          0.0004457707056740244,
+          0.0004890147413445076
+        ]
+      },
+      {
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.00041762550240692935,
+        "parent_bootstrap95_m": [
+          0.0003919727545338063,
+          0.0004475373778544127
+        ]
+      },
+      {
+        "horizon": 8,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.000360998204524842,
+        "parent_bootstrap95_m": [
+          0.0003496757431594359,
+          0.0003748573233518195
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.000674923195069975,
+        "parent_bootstrap95_m": [
+          0.0006226181882997076,
+          0.0007257461783868185
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "MINUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0006061425848004967,
+        "parent_bootstrap95_m": [
+          0.0005414507896192092,
+          0.0006859058817546421
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "world_TCP",
+        "action": "PLUS_Y",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0004512570941901505,
+        "parent_bootstrap95_m": [
+          0.000401575850514352,
+          0.0005031161793734203
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0004913399068227416,
+        "parent_bootstrap95_m": [
+          0.00048073394162707916,
+          0.0005040733257646913
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "MINUS_X",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.000528096913825922,
+        "parent_bootstrap95_m": [
+          0.000513525995840479,
+          0.0005426678318113649
+        ]
+      },
+      {
+        "horizon": 16,
+        "frame": "relative_TCP_in_decision_world",
+        "action": "PLUS_Y",
+        "physical_parents": 4,
+        "mean_signed_effect_m": 0.0003634849733517609,
+        "parent_bootstrap95_m": [
+          0.00034386611460371087,
+          0.00038759653127317794
+        ]
+      }
+    ],
+    "exact_counterfactual_restore": false,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "Actor_updates": 0
+  },
+  "TRAIN_only_replay_sha256": "6af363573a7f645ca1beb9dd70bc24ad73fdfe037e127948020d16049591d8e9",
+  "shared_TRAIN_DEV_replay_sha256": "0b889a835a155b5e2697e3a139b49a4e35ae83e096e05a97d4e3b2c50d74a0de",
+  "training_normalizers": "Exactly equal between all three matched arms; TRAIN only; 20 TRAIN windows and8 DEV windows",
+  "full_controller_restore": "NOT_QUALIFIED_MATCHED_INDEPENDENT_INITIALIZATIONS_ONLY"
+}

@@ -1,0 +1,231 @@
+{
+  "schema": "WM02_NEXT1_PUBLIC_CLOSEOUT_V1",
+  "status": "CLOSED_SCIENTIFIC_PARTIAL",
+  "gates": {
+    "R0": "PASS_ACTUAL_READONLY_AUDIT",
+    "S0": "PASS_4_OF_4",
+    "S1": "PASS_ACTUAL_ACTION_EFFECT_IDENTIFIABLE",
+    "D0": "NEW_PROTOCOL_SEPARATE_OLD_C08_REMAINS_24_OF_32",
+    "M0": "FAILED_NEURAL_ACTION_PREDICTION_GATE_MODELS_ENGINEERING_PASSED",
+    "V0": "NOT_READY_M0_FAILED_UNTOUCHED_P09_P16",
+    "C0": "PASS_CURRENT_STATIC_GEOMETRY",
+    "C1": "PARTIAL_SAFE_FREE_APPROACH_TRANSIENT_PRECONTACT_NOT_STABLE_NO_CONTACT",
+    "B0": "OPTIONAL_NOT_RUN"
+  },
+  "totals": {
+    "native_attempts": 40,
+    "native_PASS": 40,
+    "native_FAIL": 0,
+    "native_ticks": 174920,
+    "raw_task_atoms": 2992,
+    "eligible_free_WM_atoms": 672,
+    "eligible_free_WM_episodes": 28,
+    "main_updates": 600,
+    "restore_probe_updates": 3,
+    "Actor_updates": 0,
+    "native_full_tasks": 0,
+    "all_worker_leases_closed": true,
+    "all_exact_units_terminal": true,
+    "actual_units_CPU_s": 2916.287181,
+    "neural_main_CUDA_s": 13.6673037109375,
+    "neural_entire_run_peak_allocated_bytes": 72076800
+  },
+  "window_binding_sha256": "8cc7682e3a01212958e98482d96fc1ce6539da84f0e50801d0632351041bac88",
+  "closeout_sha256": "b561d77cf24f0e9daa1300df237ffe7fbbcd6698d863328e42bad259410d1b3d",
+  "window_closed_lease_sha256": "4f9999862470a07f11709bf6fc48681f5f116e79daf3a68b238a9116faa90bca",
+  "closed_epoch": 1793848645.380172,
+  "original_deadline_epoch": 1793866570.4530132,
+  "original_dispatch_cutoff_epoch": 1793865370.4530132,
+  "deadline_not_extended": true,
+  "registered_worker_roles": 58,
+  "exact_unit_count": 28,
+  "unit_terminal_exits": [
+    {
+      "run": "next1-c1-above-contact40-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 133.729775
+    },
+    {
+      "run": "next1-c1-contact40-single-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 50.099306
+    },
+    {
+      "run": "next1-c1-contact40-single-02",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 46.970687
+    },
+    {
+      "run": "next1-c1-grade01-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 86.154597
+    },
+    {
+      "run": "next1-c1-grade02-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 129.470106
+    },
+    {
+      "run": "next1-c1-grade03-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 131.195263
+    },
+    {
+      "run": "next1-c1-grade04-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 131.558281
+    },
+    {
+      "run": "next1-c1-precontact80-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 133.280229
+    },
+    {
+      "run": "next1-m0-dev-pair01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 126.407899
+    },
+    {
+      "run": "next1-m0-dev-pair02",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 130.391528
+    },
+    {
+      "run": "next1-m0-dev-pair03",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 126.5863
+    },
+    {
+      "run": "next1-m0-dev-pair04",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 150.26155
+    },
+    {
+      "run": "next1-m0-no-action-200-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 7.539694
+    },
+    {
+      "run": "next1-m0-raw-200-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 7.683662
+    },
+    {
+      "run": "next1-m0-scaled-200-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 8.290472
+    },
+    {
+      "run": "next1-s0-dual-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 123.000554
+    },
+    {
+      "run": "next1-s0-single-01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 50.943465
+    },
+    {
+      "run": "next1-s0-single-02",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 51.644014
+    },
+    {
+      "run": "next1-s1-pilot-pair01",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 125.261569
+    },
+    {
+      "run": "next1-s1-pilot-pair02",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 132.73958
+    },
+    {
+      "run": "next1-s1-pilot-pair03",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 133.227026
+    },
+    {
+      "run": "next1-s1-pilot-pair04",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 124.422875
+    },
+    {
+      "run": "next1-s1-pilot-pair05",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 132.156267
+    },
+    {
+      "run": "next1-s1-pilot-pair06",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 130.155763
+    },
+    {
+      "run": "next1-s1-pilot-pair07",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 131.917434
+    },
+    {
+      "run": "next1-s1-pilot-pair08",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 129.178928
+    },
+    {
+      "run": "next1-s1-pilot-pair09",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 125.243469
+    },
+    {
+      "run": "next1-s1-pilot-pair10",
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "CPU_s": 126.776888
+    }
+  ],
+  "frozen_files_checked": 95,
+  "changed_frozen_files": [],
+  "unknown_runs": [],
+  "recorded_Core_review_child_CPU_s": 64.084356,
+  "recorded_Core_review_wall_s": 64.87614567717537,
+  "separate_M0_evaluation_CPU_s": 1.98806,
+  "separate_M0_evaluation_wall_s": 2.046394456643611,
+  "R0_PC_CPU_s": 0.406116847,
+  "frozen_intervention_PC_CPU_s": 0.12374370599999995,
+  "GPU1_final_free_MiB": 15899,
+  "GPU0_final_free_MiB": 10613,
+  "GPU_scope": "All three learners used GPU1, one at a time. Original2 native CPU slots only; no4env.",
+  "GPU_memory_measurement": "Torch allocator maximum72,076,800 bytes; CUDA context/driver/NVML peak not measured. This is not total VRAM usage.",
+  "monetary_cost": "NOT_METERED",
+  "full_simulated_native_time_s": 349.84000000000003,
+  "Actor_updates": 0,
+  "formal_task_successes": 0,
+  "old_NIGHT1_reopened": false,
+  "no_background_successor": true
+}
