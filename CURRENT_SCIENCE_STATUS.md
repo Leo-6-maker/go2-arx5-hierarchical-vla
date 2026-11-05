@@ -1,5 +1,9 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+## WM02 NEXT2 · 2026-11-05 实际结算
+
+[完整报告](reports/WM02/next2-20261105/NEXT2_FINAL.md)：ARX在P09–P16共40次冻结前瞻全部晋级；C1原生＋连续12.90s预接触通过。C2同进程下降后仍缺实际对齐，按退出预留开爪撤离，接触/完整任务/Actor均0。51次原生/234453tick，200主更新＋2恢复比较；76 worker lease与NEXT2窗口已CLOSED、99冻结文件无变化。保持原失败与旧CLOSED lease；不是POLICY_READY。
+
 2026-11-04 WM02 AUTO1续轮：**原WBC参考install/cancel/HOLD入口实际通过，保留3tick初始化partial，累计目标12353tick。** FIT24上1参数夹爪响应模型将已打开DEV8释放开度H16 RMSE .06947→.000380、原评分正regret3/8→0/8；不代表新的在线策略收益。目标任务动作消费、八项诊断、目标WM/Actor仍未完成。见[完整SHA、命令、退出码及成本](reports/WM02/auto1-target-entry/G2_AND_OPENING_REPORT.md)。
 
 2026-11-04 WM02 AUTO1最新实测：**新scope已登记；独立候选六层冷启动/2s/5s保持通过，7100tick，三个子进程正常退出；含旧失败共7350新目标tick。** arm HOLD及冻结腿策略活动；G2参考消费、目标WM与Actor尚未完成。夹爪命令记忆只读重建误差0，未完成物理响应小模型。见[实际SHA、失败、命令与成本](reports/WM02/auto1-target-entry/EXECUTION_REPORT.md)。

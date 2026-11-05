@@ -1,0 +1,174 @@
+{
+  "schema": "WM02_NEXT2_CONTACT_RESULTS_PUBLIC_V1",
+  "C0": {
+    "first_enter_step": 6028,
+    "first_leave_step": 6278,
+    "failed_margins": {
+      "overlap_x_m": -4.8594089075554986e-05
+    },
+    "reference_max_change_m": 0.0,
+    "BASE_translation_m": [
+      -0.0008659856227762053,
+      4.652415631721529e-05,
+      0.0022933594448588668
+    ],
+    "BASE_rotation_TCP_component_m": [
+      -0.0004258904859959888,
+      0.00020876176368260762,
+      0.0008441099936551377
+    ],
+    "relative_arm_world_component_m": [
+      -5.425818750327234e-06,
+      -3.862513351952812e-05,
+      -0.0031164682107031084
+    ],
+    "controller_selection": "DERIVED_ONLY; no causal WBC attribution"
+  },
+  "C1_first20s": {
+    "source_sha": "9f1c0b08f02ea060b36620c0ebc540864585a08e",
+    "native_status": "FAILED_TRACE_CAPACITY_EVIDENCE",
+    "actual_ticks": 12503,
+    "longest_low_speed_hold_s": 12.85,
+    "trace_events": 87540,
+    "trace_written": 65536,
+    "trace_dropped": 22004,
+    "physics_stops": 0,
+    "preserved": true
+  },
+  "C1_qualified": {
+    "source_sha": "81ed282dbe9a6acf11546ba550bfad221d88e581",
+    "native_status": "NATIVE_STAGE_PASSED",
+    "actual_ticks": 12503,
+    "longest_continuous_low_speed_hold_s": 12.899999999996307,
+    "velocity_limit_m_s": 0.015,
+    "required_s": 1.0,
+    "further_hold_s": 0.5,
+    "trace": {
+      "events": 89117,
+      "written": 89117,
+      "dropped": 0,
+      "stop_latched": false,
+      "sealed_at_explicit_pause": true
+    },
+    "same_native_process": true,
+    "resets": 0,
+    "teleports": 0
+  },
+  "original20mm_candidate": {
+    "status": "STATIC_REJECTED_NOT_EXECUTED",
+    "source_sha": "3075500f07a463986f2ce281fb7228b3b276681d",
+    "nominal_goal_height_m": 0.02,
+    "first_forbidden_bodies": [
+      "x5_link3",
+      "x5_link5"
+    ],
+    "geom_ids": [
+      68,
+      71
+    ],
+    "distance_m": -1.0259126111411554e-06,
+    "rejection_TCP_height_above_object_m": 0.020500000000000018,
+    "unchanged_original_contact_guard": true
+  },
+  "candidate25mm": {
+    "static_status": "PASS_16_OF_16_ORIGINAL_CERTIFICATES",
+    "source_sha": "d5ff10e4b5729aeb3399263e14d30b4add816d9e",
+    "nominal_goal_height_m": 0.025,
+    "selection": "Independent geometric clearance repair after20mm self-collision; original pad predicates unchanged, no WBC tracking-bias compensation"
+  },
+  "C2": {
+    "source_sha": "b18573a67bec91c1edb1d5b93a09dbb138cea3ed",
+    "native_status": "NATIVE_STAGE_PASSED",
+    "actual_ticks": 12503,
+    "task_atoms": 400,
+    "same_native_process": true,
+    "current_precontact_gate_passed_before_descent": true,
+    "raw_precontact_continuity_verified_field": false,
+    "raw_flag_note": "Executed b185 code used this field only for C1 final holding. C2 actual1.5s gate is evidenced by the recorded6753 transition. Raw receipt retained; future code separates in-episode qualification and final holding.",
+    "stage_events": [
+      {
+        "stage": "INIT",
+        "native_step": 0
+      },
+      {
+        "stage": "STEADY",
+        "native_step": 2503
+      },
+      {
+        "stage": "APPROACH",
+        "native_step": 3503,
+        "actual_state_gate": "QUALIFIED_CURRENT_STEADY_PREFIX"
+      },
+      {
+        "previous": "APPROACH",
+        "stage": "PRECONTACT_HOLD",
+        "native_step": 6003,
+        "actual_state_gate": "ACTUAL_ORIGINAL_PAD_GEOMETRY_AND_PREREGISTERED_LOW_SPEED",
+        "remaining_task_s": 13.0
+      },
+      {
+        "previous": "PRECONTACT_HOLD",
+        "stage": "DESCEND",
+        "native_step": 6753,
+        "actual_state_gate": "CURRENT1S_PLUS0.5S_PRECONTACT_AND10S_CHAIN_BUDGET",
+        "remaining_task_s": 11.5
+      },
+      {
+        "previous": "DESCEND",
+        "stage": "WITHDRAW",
+        "native_step": 9403,
+        "actual_state_gate": "OPEN_GRIPPER_NO_FORCED_CLOSE_AT_RESERVE",
+        "remaining_task_s": 6.2
+      }
+    ],
+    "first_blocker": "NO_ACTUAL_CONTACT_ALIGNMENT_BEFORE_CLOSE_EXIT_RESERVE",
+    "tracking": {
+      "descend_samples": 106,
+      "alignment_samples": 0,
+      "closest_pad_bottom_above_contact_top_m": 0.03971440865345795,
+      "last_native_step": 9403,
+      "last_reference_TCP_world_m": [
+        0.458,
+        -0.07999999999999997,
+        0.48489325598870064
+      ],
+      "last_actual_TCP_world_m": [
+        0.4202318655113926,
+        -0.06891800616923142,
+        0.540874471135764
+      ],
+      "last_TCP_error_m": [
+        -0.03776813448860744,
+        0.01108199383076855,
+        0.05598121514706339
+      ],
+      "last_TCP_error_norm_m": 0.06843346417767064,
+      "min_TTL_margin_s": 0.049999999998018296,
+      "solver_target_confirmed_samples": 106
+    },
+    "contact_positive_atoms": 0,
+    "contact_positive_native_ticks": 0,
+    "supported_grasp": false,
+    "release_not_entered": true,
+    "actual_withdrawn": true,
+    "trace": {
+      "events": 89292,
+      "written": 89292,
+      "dropped": 0,
+      "stop_latched": false,
+      "sealed_at_explicit_pause": true
+    },
+    "full_task_success": false
+  },
+  "piecewise_data": {
+    "C1_replay_sha256": "c9cac67da421a6dc7225b6b311faf976bf146c5af7eaad221be2dbb6db4f1e99",
+    "C2_replay_sha256": "e7bdc5dc79ad4638dce0aa0d5071ef2936e3d1dcbdd3440aa7fbb89329e70cc8",
+    "total_atoms": 800,
+    "format": "ACTUAL_H40_REFERENCE_AND_EXECUTED_INDEX_PLUS_WRAPPER_MEMORY; no final-goal relabel",
+    "state_dimension": 106,
+    "within_atom_native_events_preserved_in_C2": true,
+    "controller_hidden_state": "MPC/WBC complete midpoint restore still not qualified"
+  },
+  "TARGET_CONTACT_TRANSITIONS_AVAILABLE": false,
+  "POLICY_READY": false
+}

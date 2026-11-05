@@ -1,5 +1,9 @@
 # WM02 NEXT2 · 唯一接续入口
 
+## 2026-11-05 已执行接续
+
+[实际执行报告](reports/WM02/next2-20261105/NEXT2_FINAL.md)：ARX八父前瞻通过、同进程低速预接触连续12.90s通过；C2实际接触对齐未达门槛，开爪撤离。51次原生尝试/234453tick、200主更新＋2恢复比较调用；Actor0、完整任务0。76条worker lease与NEXT2子scope已CLOSED，不能重放旧动态命令。先读报告的身份、失败和只读下一命令；下列原计划作为历史保留。
+
 基线：PR #357 / `bef9a1a16f5f2d8490764fba6495f6179a165f1e`。NEXT1已结算，CLOSED lease不得复用。本计划未启动任何现场工作。
 
 先读`AGENTS.md`、`reports/WM02/next1-20261105/NEXT1_FINAL.md`、[详细审阅与计划](docs/handover/2026-11-05/WM02_NEXT2_RESPONSE_CONTACT_V1.md)、[机读阶段配置](experiments/wm02/next2_response_contact_v1.json)。只通过原owner/registry/Journal登记新的有效有限scope，保留原安全、冻结WBC、数据和失败；现场已有并发工作时先核身份，不重置/覆盖。

@@ -1,0 +1,44 @@
+{
+  "schema": "WM02_NEXT2_LINEAR_RECURRENCE_STABILITY_V1",
+  "source_sha": "799c9702ab59a6cd5faeb0db6c34336b33b4d64a",
+  "ARX": {
+    "companion_dimension": 212,
+    "spectral_radius": 1.0003125854050976,
+    "largest_eigenvalue_magnitudes": [
+      1.0003125854050976,
+      1.0001076700478453,
+      1.000039495396711,
+      1.0000008088010952,
+      1.0000008088010952,
+      1.0000000018140371,
+      1.0000000018140371,
+      1.0000000000001328
+    ],
+    "largest_singular_value": 176373.57417015114,
+    "interpretation": "Fixed-goal state+previous-state free recurrence. Large radius predicts error amplification; this is not closed-loop WBC stability or a global model safety guarantee."
+  },
+  "NEURAL_LINEAR_FINITE_ADAM": {
+    "companion_dimension": 212,
+    "spectral_radius": 13.534034417684651,
+    "largest_eigenvalue_magnitudes": [
+      13.534034417684651,
+      9.347575148026412,
+      9.347575148026412,
+      5.775612554311453,
+      5.775612554311453,
+      5.262784333376491,
+      3.1441544509801567,
+      3.1441544509801567
+    ],
+    "largest_singular_value": 83270.73454153194,
+    "interpretation": "Fixed-goal state+previous-state free recurrence. Large radius predicts error amplification; this is not closed-loop WBC stability or a global model safety guarantee."
+  },
+  "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+  "checkpoint_sha256": "46a19982a2b61ac11361b554bc147f733f532bf4c6a83bc64771dd6205ad0606",
+  "new_integrations": 0,
+  "new_model_fits": 0,
+  "new_optimizer_updates": 0,
+  "exit_code": 0,
+  "child_CPU_s": 1.203681,
+  "wall_s": 2.0011916300281882
+}
