@@ -77,12 +77,18 @@ python3 "$WM02_CORE_ROUTE" "$FUSION_PRIVATE/audit_response_learning_actual.py" 4
 
 Executed registered runtime modules: `scripts.wm02.run_fusion_identification --input`, `scripts.wm02.build_fusion_replay --manifest --output`, `scripts.wm02.train_fusion_response --spec --output`, `scripts.wm02.run_fusion_calibration --input`. Full concrete argv/spec/exit/lease records stay in the original private owner journal; published IDs bind those effects. Final source has **316 world-model tests passed**,37FUSION tests passed; CI not run.
 
-The implemented next command is a fresh finite frozen DEV continuation, not a repeat of the completed studies:
+The following continuation command was actually executed once with dispatch exit0 after the completed refit. Do not redispatch it:
 
 ```bash
 python3 "$WM02_CORE_ROUTE" "$FUSION_PRIVATE/dispatch_four_arm_dev02.py" 60
 ```
 
-Only after actual refit CLOSED0/five native PASS: six new DEV parents, four known intents, four arms,two independent restarts,192evaluations +6single-world qualifications; planned812,394ticks, original two slots, primary366301/static model frozen regardless of scores. [Preregistered comparison and TRAIN-only practical-gain threshold](../../../docs/protocols/WM02_FUSION_FROZEN_DEV_PANEL_V1.md). Consult [live-state snapshot](FUSION_NIGHT1_STATUS.json) for actual dispatched/current versus planned counts; a dispatched panel is not completed physics.
+Actual continuation input `a5081d5124441b7e50099b65562cbfef4157fc841279adb5ae075e19bfe1687c`, panel `6496de639c323f82d46ae19b1552507c2f599e7a7c52bb29e336ce4543eb6e3b`. At the latest read, five pairs/ten evaluations plus one scene qualification were complete:11 native PASS/45,133 ticks in the active panel. This is a partial observation, not all192 evaluation outcomes. Design: six new DEV parents, four known intents, four arms,two independent restarts,192evaluations +6single-world qualifications; planned812,394ticks, original two slots, primary366301/static model frozen regardless of scores. [Preregistered comparison and TRAIN-only practical-gain threshold](../../../docs/protocols/WM02_FUSION_FROZEN_DEV_PANEL_V1.md). Consult [live-state snapshot](FUSION_NIGHT1_STATUS.json) for actual dispatched/current versus planned counts; a dispatched panel is not completed physics.
+
+The next executable command is read-only, followed by the same frozen panel's terminal result/analysis at its cold boundary:
+
+```bash
+python3 "$WM02_CORE_ROUTE" "$FUSION_PRIVATE/read_response_learning.py" 45
+```
 
 The first outstanding F4 limitation is unchanged: real GR00T H40 spans150.646mm/22.169°, outside the qualified1mm family; source desired-outcome and live target camera mapping remain unresolved. No target VLA command is silently projected or executed. `REAL_VLA_INFERENCE_DONE=true`, `FROZEN_VLA_NATIVE_COMPARISON=false`, `TASK_TRANSFER_GAIN=false`, no formal control-gain claim. Original parent deadline2026-11-07 19:54:21.739793SGT; supplement ends19:34:21.739793SGT with20minute reserve. Goal remains ACTIVE; continue legal READY branches and retain all failures/costs.
