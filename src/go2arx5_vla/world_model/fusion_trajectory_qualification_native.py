@@ -23,7 +23,8 @@ def actual_trace_binding(adapter):
     with (adapter.output/'init.trace').open('rb') as stream:
         header = stream.read(16)
     capacity = (adapter.spec.get('trajectory_trace_capacity',262144) if adapter.spec.get('phase') in (
-        'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2') else 131072)
+        'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
+        'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -71,11 +72,24 @@ def confirm_gripper(adapter, submitted, actual):
 
 
 def run(adapter):
+    episode, inputs = episode_config(adapter.spec)
+    return run_program(adapter, episode, inputs)
+
+
+def run_program(adapter, episode, inputs, *, program_factory=None,
+                report_context=None, task_score_contract=None, report_finalizer=None):
+    """Reuse actual native consumption for an independently checked recipe.
+
+    The original entry supplies its unchanged contract. A versioned caller may
+    supply a different verified proposal, but cannot replace the native safety,
+    full-preview certificate, TTL, gripper ACK or exact-step consumption below.
+    """
     from scripts.pi0292.durable import write
     from scripts.pi0292.eval_contract import matrix10
     from .target_stability import motion, screen
     from .next2_episode import state_vector
-    episode, inputs = episode_config(adapter.spec)
+    program_factory = make_program if program_factory is None else program_factory
+    report_context = {} if report_context is None else report_context
     end_step = endpoint(episode)
     adapter.prepare_dynamic()
     trace_binding = actual_trace_binding(adapter)
@@ -125,7 +139,7 @@ def run(adapter):
             write(adapter.output/'TRAJECTORY_QUALIFICATION_PREFIX.private.json', prefix)
             need(prefix['qualified'], 'ORIGINAL_STEADY_PREFIX_FAILED_NO_NEW_ACTION')
             decision = adapter.measured_task_state()
-            program = make_program(inputs, episode, initial['tcp'], decision['tcp'],
+            program = program_factory(inputs, episode, initial['tcp'], decision['tcp'],
                                    adapter.trajectory_initial_base)
             adapter.trajectory_program = program
             history = history_input()
@@ -140,6 +154,7 @@ def run(adapter):
                 actual_history=history,
                 actual_native_step=step, future_response_observed=False,
                 online_query=False, actual_VLA_commands=0, original_Processor_decodes=0)
+            evidence.update(report_context)
             write(adapter.output/'TRAJECTORY_QUALIFICATION_DECISION.private.json', evidence)
             need(adapter.observe()['step'] == step, 'NO_DECISION_INTEGRATION')
             adapter.command_event(dict(phase='trajectory-decision-before-install', **evidence))
@@ -217,6 +232,14 @@ def run(adapter):
         safety_STOP_qualification='NOT_TESTED', target_task_qualification=False,
         target_collision_qualification='ORIGINAL_PER_PREVIEW_CERTIFIER_ONLY_NOT_A_GENERAL_DOMAIN',
         domain_generalization_claim=False, native_stage_RESULT_json_required=True)
+    report.update(report_context)
+    if task_score_contract is not None:
+        from .fusion_short_skill import score
+        report['short_skill_score'] = score(
+            [sample for sample in samples if sample['native_step'] >= DECISION_STEP],
+            task_score_contract)
+    if report_finalizer is not None:
+        report_finalizer(report)
     write(adapter.output/'TRAJECTORY_QUALIFICATION.private.json', report)
     need(len(windows) == (end_step-INIT_STEP)//25 and confirmed == len(windows)
          and len(grippers) == len(windows) and all(knots_consumed),
