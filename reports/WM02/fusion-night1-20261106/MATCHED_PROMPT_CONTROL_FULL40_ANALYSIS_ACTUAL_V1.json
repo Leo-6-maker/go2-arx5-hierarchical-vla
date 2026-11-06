@@ -1,0 +1,797 @@
+{
+  "schema": "WM02_FUSION_MATCHED_PROMPT_CONTROL_FULL40_ANALYSIS_ACTUAL_V1",
+  "status": "ACTUAL_FOUR_CLOSED_DRAWS_FULL40_LANGUAGE_SENSITIVITY_DESCRIBED_WITH_LIMITS",
+  "study": "SAME_SAVED_INPUT_SOURCE_TARGET_ORIGINAL_SHORT_LANGUAGE_2X2_V1",
+  "question": "How do the full forty decoded action knots change between the original full-task prompt and the short approach/hold prompt, conditional on each fixed saved observation?",
+  "provenance": {
+    "actual_read_only_analysis": {
+      "name": "MATCHED_PROMPT_CONTROL_ANALYSIS_ACTUAL01.private.json",
+      "sha256": "e15f309bc477acd35b58e25289688e05d0117238b86c6f37c1565ce328f424e2",
+      "bytes": 22121
+    },
+    "executed_helper_body": {
+      "name": "audit_matched_prompt_control01.template.py",
+      "sha256": "c616761f04d2ad4d36fa73650ff58de0c8c3e450e00ded356859c117fd1993b0",
+      "bytes": 22229
+    },
+    "execution_wrapper": {
+      "name": "run_matched_prompt_control_audit01.py",
+      "sha256": "d7ec6f6210bc75383c3f254f09f99f35fa9b579c730c5b967c3cf82a9bf14be6",
+      "bytes": 23644
+    },
+    "wrapper_embedded_body_matches_helper_bytes": true,
+    "analysis_source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+    "analysis_source_members": {
+      "src/go2arx5_vla/world_model/fusion_prompt_control.py": "b11dc785e33cd1bcb299b03ba0758828fe31f2abf99d92d79e9e7853e5180cc5",
+      "src/go2arx5_vla/world_model/fusion_source_posture_query_archive_v3.py": "61ddb47e50ab6ff520c6e954cfcbaae29ab7cb1b67c724ece32f02fa3641948b",
+      "scripts/wm02/infer_fusion_vla.py": "f0192703079fe101d54ec29c2bb6de68b19112bcbb20a8d368c522e2874f6b61"
+    },
+    "sealed_protocol": {
+      "name": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
+      "sha256": "bd0af7f2df204716b1dc573e5736d1022dde02940061e64c214d457550a249b9",
+      "registered_before_SS_TO": true
+    },
+    "earlier_query_source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+    "new_prompt_view_query_source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+    "shared_generation_precision_and_input_helper_source_sha256": {
+      "scripts/pi0294/resident.py": "6d79fb415bd4b520298be943d689e92e5710ca968890577120445c87755a1e02",
+      "scripts/pi0294/e1/model.py": "ec9a32f5fa1125bd3996180c8342f20908b7e710eba1bacac510852ccba24842",
+      "scripts/pi0292/live_inputs.py": "bcd1670b184b3f9b4ec13e24bad9bde0c16273b9728ac486afa0a98aaf67cdef"
+    },
+    "infer_function_body_unchanged_between_source_commits": true,
+    "only_existing_infer_entry_change": "Four-line recorded_payload branch for explicit FROZEN_PROMPT_CONTROL_VIEW_V1; original loader/generate body unchanged"
+  },
+  "sample_design": {
+    "distinct_fixed_observations": 2,
+    "predeclared_seed": 366104,
+    "seed_count": 1,
+    "draws_per_condition": 1,
+    "completed_conditions": 4,
+    "fresh_prompt_control_queries": 3,
+    "existing_TS_query_reused": 1,
+    "existing_TS_rerun": false,
+    "total_unique_queries_represented": 4,
+    "original_decoded_knots_per_draw": 40,
+    "knots_are_independent_samples": false,
+    "observations_are_a_random_population_sample": false,
+    "stochastic_repeatability_or_confidence_intervals_estimated": false,
+    "confidence_interval": null,
+    "seed_selection": false,
+    "prefix_selection": false,
+    "original_source_split_or_confirmation_role": "RETAINED_ORIGINAL_ROLE_NOT_RECLASSIFIED; SOURCE71558_FIXED_DIAGNOSTIC_OBSERVATION",
+    "new_TEST_sampling": false,
+    "new_TEST_based_model_selection": false,
+    "source_observation_used_as_new_WM_training_or_expert_label": false
+  },
+  "fairness": {
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "complete_checkpoint_and_saved_processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "same_checkpoint_inventory_all_four": true,
+    "original_saved_Processor_unchanged": true,
+    "source_embodiment": "new_embodiment_CATEGORY10_FIXED_BASE_ARX5",
+    "target_embodiment_qualified": false,
+    "model_parameter_bytes": 12576064000,
+    "weights_frozen_at_query_time": true,
+    "numeric_mode": "ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST",
+    "same_actual_recorded_noise_identity_all_four": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+    },
+    "same_recorded_precision_all_four": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "noise_bytes_retained": false,
+    "noise_regenerated_by_analysis": false,
+    "checkpoint_bulk_bytes_reread_by_analysis": false,
+    "original_Processor_decode_per_query_contract": 1,
+    "decode_count_separately_instrumented": false,
+    "nonlanguage_fields_compared": [
+      "snapshot_uuid",
+      "state_eef10",
+      "images",
+      "frame",
+      "tcp"
+    ],
+    "source_pair_nonlanguage_fieldwise_exact": true,
+    "target_pair_nonlanguage_fieldwise_exact": true,
+    "source_pair_nonlanguage_sha256": "67c9c4967a9e088da4f37ad22abf078bd03d51e8fb48d704e88ad26b58922207",
+    "target_pair_nonlanguage_sha256": "45883de0696da6432271cae0fe04a03c1276ac953ef8ec706b0d3165424a7126",
+    "source_target_nonlanguage_inputs_equal": false,
+    "task_or_score_sidecars_rewritten": false,
+    "privileged_object_geometry_supplied_to_policy": false
+  },
+  "metric_definitions": {
+    "primary_scope": "Every original decoded knot, indices 0 through 39; SHORT minus ORIGINAL within the same base",
+    "XYZ_vector_RMS_mm": "1000 * sqrt(mean_over_40(sum_over_XYZ((short_xyz_m-original_xyz_m)**2)))",
+    "XYZ_maximum_L2_mm": "1000 * max_over_40(norm(short_xyz_m-original_xyz_m))",
+    "endpoint_delta": "SHORT minus ORIGINAL at knot39; XYZ vector and Euclidean norm both reported",
+    "coordinate_RMS_mm": "Auxiliary scalar-coordinate RMS over 40*3 values; equals vector RMS divided by sqrt(3)",
+    "SO3": "Geodesic angle between native row-packed rot6d reconstructions; report RMS/max/knot39 in radians",
+    "gripper": "Decoded source mechanical fraction, not commanded target working opening or achieved finger motion; RMS/max-absolute/signed knot39 difference",
+    "normalized": "Auxiliary float32 coordinate differences over first10 and all132 normalized action components; not physical error",
+    "raw_geometry": "Secondary full40 command geometry relative to each observed TCP, not actual response, task success or native qualification",
+    "raw_path_length": "Adjacent raw command-knot distances only; observed-state-to-first-knot jump is excluded"
+  },
+  "conditions": {
+    "SO": {
+      "identity": {
+        "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+        "spec_sha256": "243e35aa50a571a70fcc16f8fbd49c7e4b66812dbb0f1cb8a9ce28198a909cde",
+        "result_sha256": "a6c6a1e0b38d3ccd93d76d414290320fe20f88b57ab4dfb8801f5ab7de5cc645",
+        "action_sha256": "407c64944072f588f02cf98960c409c7e521c2bb19ea525bdbaf0231d02bfd25",
+        "run": "fusion-night1-prompt-control-so-01"
+      },
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+      "seed": 366104,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+      },
+      "precision": {
+        "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+        "cuda_matmul_allow_tf32": false,
+        "bf16_autocast": true,
+        "training_flag_on_entry": false
+      },
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "terminal": {
+        "lease_sha256": "544ae1c68d5184ba82bfacb168975d1c162b77fd6f8a8eeb30769f624792f253",
+        "worker_sha256": "1bb744b551d89c05ebbc4f1c3b766df6dbd861a9729b52e2c451092f259e98b5",
+        "worker_wall_s": 31.85611450811848,
+        "worker_child_CPU_s": 20.336437,
+        "worker_exit_code": 0
+      },
+      "raw_array_identity": {
+        "physical_H40": {
+          "shape": [
+            40,
+            10
+          ],
+          "dtype": "<f8",
+          "sha256": "adcdce957372a6eb73077829a5b1afd492aaad93e2909fd4fa6d00acac2636ab"
+        },
+        "normalized": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "<f4",
+          "sha256": "4a3883d5435df419109e5b9c256e70f41facf75bd8f58a9609a6283847535cf4"
+        }
+      },
+      "payload_identity": {
+        "canonical_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+        "language_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+        "nonlanguage_canonical_sha256": "67c9c4967a9e088da4f37ad22abf078bd03d51e8fb48d704e88ad26b58922207",
+        "image_sha256": [
+          {
+            "camera": "external_rgb",
+            "sha256": "bc099f096d019dc1c877999e1ef2ea4c95087282ca91c8841c0bfae1b8542283"
+          },
+          {
+            "camera": "wrist_rgb",
+            "sha256": "2962924187bce3821405017a4bab42b2655c5eff6bc74bf8be101a36e8643090"
+          }
+        ],
+        "state_eef10_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880"
+      },
+      "raw_command_geometry": {
+        "full40": {
+          "knots": 40,
+          "endpoint_displacement_xyz_mm": [
+            -0.827219611493013,
+            2.2144749622173276,
+            -78.77571547730582
+          ],
+          "endpoint_excursion_mm": 78.81117649550328,
+          "maximum_excursion_mm": 82.18023994636906,
+          "translation_path_length_mm": 123.0808758600627,
+          "maximum_rotation_from_observed_TCP_rad": 0.01699280885548934,
+          "endpoint_rotation_from_observed_TCP_rad": 0.0006380988035031538,
+          "raw_gripper_fraction_range": [
+            0.0,
+            1.0
+          ],
+          "raw_gripper_endpoint_fraction": 0.0,
+          "desired_not_achieved": true,
+          "actual_reference_installed": false,
+          "success_evaluated": false
+        },
+        "prefix_selected": false,
+        "translation_path_length_definition": "Sum of adjacent raw command-knot distances; excludes observed-state-to-first-knot segment",
+        "original_command_knots_not_retimed_or_executed": true,
+        "source_cube_metadata_read": false
+      },
+      "original_cost": {
+        "query_wall_s": 0.8132315562106669,
+        "GPU_event_s": 0.813093994140625,
+        "wall_s": 30.631354429759085,
+        "CPU_s": 19.292529441,
+        "peak_allocated_bytes": 13320805376,
+        "peak_reserved_bytes": 13524533248
+      },
+      "base": "SOURCE_71558",
+      "prompt_variant": "ORIGINAL_71558",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "fresh_query_for_prompt_study": true,
+      "existing_query_reused": false,
+      "source_task_success_established": false,
+      "target_task_success_established": false,
+      "output_semantics": "RAW_ORIGINAL_PROCESSOR_DECODED_COMMANDS_NOT_ACHIEVED_MOTION",
+      "reference_installations_for_this_proposal": 0
+    },
+    "SS": {
+      "identity": {
+        "source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+        "spec_sha256": "341131673c8a26d51c7a47559b7c8c8a52ebd02f21c8e5c2e3a6fc56195198a7",
+        "result_sha256": "a59548229170d97d03907b8b6508b34f997ec2333caa53382b2309b06e49aa6a",
+        "action_sha256": "6d6f60908cd74664e7c2dd98570a25c72cca916440c6598c6769326aa23eea29",
+        "run": "fusion-night1-prompt-control-ss-01"
+      },
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+      "seed": 366104,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+      },
+      "precision": {
+        "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+        "cuda_matmul_allow_tf32": false,
+        "bf16_autocast": true,
+        "training_flag_on_entry": false
+      },
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "terminal": {
+        "lease_sha256": "05542094f0c18cde72767eaf1310d57923bf25fdb4083dc2c416b84da7d90b40",
+        "worker_sha256": "4da8c5e1bc07ea6236d236e096def3fd706cdc97ab949b147c057d12d2c1f638",
+        "worker_wall_s": 37.972920544911176,
+        "worker_child_CPU_s": 18.586730000000003,
+        "worker_exit_code": 0
+      },
+      "raw_array_identity": {
+        "physical_H40": {
+          "shape": [
+            40,
+            10
+          ],
+          "dtype": "<f8",
+          "sha256": "e576d295f0a93d4b63d98eba6843672f641fcb2a886cade9cf0d8929904bcc97"
+        },
+        "normalized": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "<f4",
+          "sha256": "a1aea24c3c2eec29c09031aa978ecb126db4f83a80a75d93f2c3ee54fe12916c"
+        }
+      },
+      "payload_identity": {
+        "canonical_sha256": "37421b5f5e21b2d85613a08788799963366925dead96a1b9eb16d0766d051922",
+        "language_sha256": "3b4699f03e00438f01ca4593d28537ed640c13b876de0640124cb1ebcb2e16b5",
+        "nonlanguage_canonical_sha256": "67c9c4967a9e088da4f37ad22abf078bd03d51e8fb48d704e88ad26b58922207",
+        "image_sha256": [
+          {
+            "camera": "external_rgb",
+            "sha256": "bc099f096d019dc1c877999e1ef2ea4c95087282ca91c8841c0bfae1b8542283"
+          },
+          {
+            "camera": "wrist_rgb",
+            "sha256": "2962924187bce3821405017a4bab42b2655c5eff6bc74bf8be101a36e8643090"
+          }
+        ],
+        "state_eef10_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880"
+      },
+      "raw_command_geometry": {
+        "full40": {
+          "knots": 40,
+          "endpoint_displacement_xyz_mm": [
+            -1.2290008199046243,
+            -57.854409465061806,
+            -3.0810935623963864
+          ],
+          "endpoint_excursion_mm": 57.94942860034601,
+          "maximum_excursion_mm": 62.32144527667116,
+          "translation_path_length_mm": 108.22793151365924,
+          "maximum_rotation_from_observed_TCP_rad": 0.33797880538699693,
+          "endpoint_rotation_from_observed_TCP_rad": 0.3333293860382153,
+          "raw_gripper_fraction_range": [
+            0.9810950756072998,
+            1.0
+          ],
+          "raw_gripper_endpoint_fraction": 0.9988595247268677,
+          "desired_not_achieved": true,
+          "actual_reference_installed": false,
+          "success_evaluated": false
+        },
+        "prefix_selected": false,
+        "translation_path_length_definition": "Sum of adjacent raw command-knot distances; excludes observed-state-to-first-knot segment",
+        "original_command_knots_not_retimed_or_executed": true,
+        "source_cube_metadata_read": false
+      },
+      "original_cost": {
+        "query_wall_s": 0.8201615582220256,
+        "GPU_event_s": 0.8200181274414062,
+        "wall_s": 36.7991072172299,
+        "CPU_s": 17.548690971,
+        "peak_allocated_bytes": 13318658048,
+        "peak_reserved_bytes": 13524533248
+      },
+      "base": "SOURCE_71558",
+      "prompt_variant": "CURRENT_SHORT",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "fresh_query_for_prompt_study": true,
+      "existing_query_reused": false,
+      "source_task_success_established": false,
+      "target_task_success_established": false,
+      "output_semantics": "RAW_ORIGINAL_PROCESSOR_DECODED_COMMANDS_NOT_ACHIEVED_MOTION",
+      "reference_installations_for_this_proposal": 0
+    },
+    "TO": {
+      "identity": {
+        "source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+        "spec_sha256": "0ab3f987d2237481fad9d2bf284d6c0c97c95a7aea4f7fc7fd5b715cbb24cc44",
+        "result_sha256": "708c44364a61ca8e7249512f24e77acd1eb5fde1e505929cb81623d8ed8300e0",
+        "action_sha256": "a5a56bf8a77cb0b930e573a92426530e6b207b4083048f7dc65c5aa804a3b608",
+        "run": "fusion-night1-prompt-control-to-01"
+      },
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+      "seed": 366104,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+      },
+      "precision": {
+        "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+        "cuda_matmul_allow_tf32": false,
+        "bf16_autocast": true,
+        "training_flag_on_entry": false
+      },
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "terminal": {
+        "lease_sha256": "7c371a5257e9f8a3ceeae8505144c40acef102175dd822c16822de7730f50c43",
+        "worker_sha256": "d6f93facb14b66a69218864b5b9f27d9ef8788136cdc0766f49c3ed2e6bf86d7",
+        "worker_wall_s": 135.2539927358739,
+        "worker_child_CPU_s": 21.663663,
+        "worker_exit_code": 0
+      },
+      "raw_array_identity": {
+        "physical_H40": {
+          "shape": [
+            40,
+            10
+          ],
+          "dtype": "<f8",
+          "sha256": "f0ce67d44b9b4424dc3140e21f8229d19a80d42832d035be7a7abc62d21732bd"
+        },
+        "normalized": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "<f4",
+          "sha256": "9631fdb6cd7639fb1b96c08846043cf11329b9a8a2aa62e6764305af879f4987"
+        }
+      },
+      "payload_identity": {
+        "canonical_sha256": "d2fb5b9d535a8b56802b0dae87393df3b855f8169f3ce832b473465f0d008ce3",
+        "language_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+        "nonlanguage_canonical_sha256": "45883de0696da6432271cae0fe04a03c1276ac953ef8ec706b0d3165424a7126",
+        "image_sha256": [
+          {
+            "camera": "external_rgb",
+            "sha256": "9495ca2ded062600bd44bea18fcbb9e149e8e706465890d42525b1e24316c73c"
+          },
+          {
+            "camera": "wrist_rgb",
+            "sha256": "83b6113d8ca0b954fc4cc717dd4b92325c3f10548f1102adafc3bf43022e3bdb"
+          }
+        ],
+        "state_eef10_sha256": "492842bd784968e6bdb836dcf27b1b383a460c26b3dffd62a2136030b09ef83c"
+      },
+      "raw_command_geometry": {
+        "full40": {
+          "knots": 40,
+          "endpoint_displacement_xyz_mm": [
+            -0.21333716503207922,
+            6.563951441799124,
+            19.078181497146353
+          ],
+          "endpoint_excursion_mm": 20.176917022041252,
+          "maximum_excursion_mm": 26.07705406722085,
+          "translation_path_length_mm": 186.93593773930274,
+          "maximum_rotation_from_observed_TCP_rad": 0.025557899021170442,
+          "endpoint_rotation_from_observed_TCP_rad": 0.020355006748479697,
+          "raw_gripper_fraction_range": [
+            0.9523344039916992,
+            1.0
+          ],
+          "raw_gripper_endpoint_fraction": 1.0,
+          "desired_not_achieved": true,
+          "actual_reference_installed": false,
+          "success_evaluated": false
+        },
+        "prefix_selected": false,
+        "translation_path_length_definition": "Sum of adjacent raw command-knot distances; excludes observed-state-to-first-knot segment",
+        "original_command_knots_not_retimed_or_executed": true,
+        "source_cube_metadata_read": false
+      },
+      "original_cost": {
+        "query_wall_s": 1.3777396972291172,
+        "GPU_event_s": 1.3743369140625,
+        "wall_s": 133.5083332969807,
+        "CPU_s": 20.561405899,
+        "peak_allocated_bytes": 13320805376,
+        "peak_reserved_bytes": 13524533248
+      },
+      "base": "TARGET_FULL1_V3",
+      "prompt_variant": "ORIGINAL_71558",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "fresh_query_for_prompt_study": true,
+      "existing_query_reused": false,
+      "source_task_success_established": false,
+      "target_task_success_established": false,
+      "output_semantics": "RAW_ORIGINAL_PROCESSOR_DECODED_COMMANDS_NOT_ACHIEVED_MOTION",
+      "reference_installations_for_this_proposal": 0
+    },
+    "TS": {
+      "identity": {
+        "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+        "spec_sha256": "52b44802228137bd1ae1c7db425f60cb40425aa2c16cd82ef3672cdede2537e5",
+        "result_sha256": "88173fa865230030f91c113afed8aafad2891101082b696085db527597a06306",
+        "action_sha256": "b4592284f9a3d1109a335107f86f3fd5afaf84aac0b72e2668a29d8fd9152a87",
+        "run": "fusion-night1-source-posture-s100-query-gpu-01"
+      },
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+      "seed": 366104,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+      },
+      "precision": {
+        "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+        "cuda_matmul_allow_tf32": false,
+        "bf16_autocast": true,
+        "training_flag_on_entry": false
+      },
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "terminal": {
+        "lease_sha256": "acfab1c47e0c881ef7bd924e49029af918de6eb5a6819512596a57a361197384",
+        "worker_sha256": "48890a8648d9ba6b9ab4f66a2de3707b64049c5f784b7e8ff36080280993c4f9",
+        "worker_wall_s": 438.08089180802926,
+        "worker_child_CPU_s": 97.934701,
+        "worker_exit_code": 0
+      },
+      "raw_array_identity": {
+        "physical_H40": {
+          "shape": [
+            40,
+            10
+          ],
+          "dtype": "<f8",
+          "sha256": "8c6e6c5f380672488069a980fe8fa74f2829dd94e5d1bebca0d398611899eb78"
+        },
+        "normalized": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "<f4",
+          "sha256": "433ed42f5cebdf7a34e17b45157b3b2335d3fde4b68fd2b39f312a239e32b360"
+        }
+      },
+      "payload_identity": {
+        "canonical_sha256": "faa4f63298cf87e61cd0331ac71a24388fb92220ef830d7c44cc77cccf1517fa",
+        "language_sha256": "3b4699f03e00438f01ca4593d28537ed640c13b876de0640124cb1ebcb2e16b5",
+        "nonlanguage_canonical_sha256": "45883de0696da6432271cae0fe04a03c1276ac953ef8ec706b0d3165424a7126",
+        "image_sha256": [
+          {
+            "camera": "external_rgb",
+            "sha256": "9495ca2ded062600bd44bea18fcbb9e149e8e706465890d42525b1e24316c73c"
+          },
+          {
+            "camera": "wrist_rgb",
+            "sha256": "83b6113d8ca0b954fc4cc717dd4b92325c3f10548f1102adafc3bf43022e3bdb"
+          }
+        ],
+        "state_eef10_sha256": "492842bd784968e6bdb836dcf27b1b383a460c26b3dffd62a2136030b09ef83c"
+      },
+      "raw_command_geometry": {
+        "full40": {
+          "knots": 40,
+          "endpoint_displacement_xyz_mm": [
+            1.2168021357411019,
+            5.208264515205715,
+            22.34955052991372
+          ],
+          "endpoint_excursion_mm": 22.980623046102597,
+          "maximum_excursion_mm": 27.652418292421434,
+          "translation_path_length_mm": 159.9287513686189,
+          "maximum_rotation_from_observed_TCP_rad": 0.032997017828232854,
+          "endpoint_rotation_from_observed_TCP_rad": 0.019885851088980996,
+          "raw_gripper_fraction_range": [
+            0.9445219039916992,
+            1.0
+          ],
+          "raw_gripper_endpoint_fraction": 1.0,
+          "desired_not_achieved": true,
+          "actual_reference_installed": false,
+          "success_evaluated": false
+        },
+        "prefix_selected": false,
+        "translation_path_length_definition": "Sum of adjacent raw command-knot distances; excludes observed-state-to-first-knot segment",
+        "original_command_knots_not_retimed_or_executed": true,
+        "source_cube_metadata_read": false
+      },
+      "original_cost": {
+        "query_wall_s": 1.2226565652526915,
+        "GPU_event_s": 1.2225115966796876,
+        "wall_s": 435.41335901385173,
+        "CPU_s": 95.877764201,
+        "peak_allocated_bytes": 13318658048,
+        "peak_reserved_bytes": 13524533248
+      },
+      "base": "TARGET_FULL1_V3",
+      "prompt_variant": "CURRENT_SHORT",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "fresh_query_for_prompt_study": false,
+      "existing_query_reused": true,
+      "source_task_success_established": false,
+      "target_task_success_established": false,
+      "output_semantics": "RAW_ORIGINAL_PROCESSOR_DECODED_COMMANDS_NOT_ACHIEVED_MOTION",
+      "reference_installations_for_this_proposal": 0
+    }
+  },
+  "within_base_full40_action_differences": {
+    "SOURCE": {
+      "original": "SO",
+      "short": "SS",
+      "nonlanguage_fieldwise_canonical_equal": {
+        "snapshot_uuid": true,
+        "state_eef10": true,
+        "images": true,
+        "frame": true,
+        "tcp": true
+      },
+      "nonlanguage_payload_sha256": "67c9c4967a9e088da4f37ad22abf078bd03d51e8fb48d704e88ad26b58922207",
+      "primary": {
+        "comparison": "SHORT_MINUS_ORIGINAL_AT_IDENTICAL_FORTY_KNOT_INDICES",
+        "knots": 40,
+        "XYZ": {
+          "vector_RMS_mm": 74.54489496455915,
+          "maximum_L2_mm": 101.9826187523459,
+          "endpoint_delta_xyz_mm": [
+            -0.40178120841161125,
+            -60.06888442727913,
+            75.69462191490945
+          ],
+          "endpoint_L2_mm": 96.63388686852215,
+          "coordinate_RMS_mm": 43.0385151745006,
+          "RMS_definition": "sqrt(mean_over_40(sum_over_XYZ(delta_m**2)))"
+        },
+        "SO3": {
+          "geodesic_RMS_rad": 0.2005222962307554,
+          "maximum_rad": 0.3379383818873615,
+          "endpoint_rad": 0.3333866809398201,
+          "rotation_conversion": "ORIGINAL_NATIVE_ROT6D_ROWS_GRAM_SCHMIDT_NOT_PROCESSOR_REDECODE"
+        },
+        "gripper_mechanical_fraction": {
+          "RMS": 0.4613236996006305,
+          "maximum_absolute": 0.9988595247268677,
+          "endpoint_delta": 0.9988595247268677,
+          "mechanical_travel_m": 0.044
+        },
+        "normalized_auxiliary": {
+          "first10": {
+            "coordinate_RMS": 0.45272818207740784,
+            "maximum_absolute": 2.0009765625,
+            "endpoint_coordinate_RMS": 0.860981285572052,
+            "endpoint_L2": 2.7226619720458984
+          },
+          "full132": {
+            "coordinate_RMS": 0.14111162722110748,
+            "maximum_absolute": 2.0009765625,
+            "endpoint_coordinate_RMS": 0.2658173143863678,
+            "endpoint_L2": 3.0540084838867188
+          }
+        },
+        "future_achieved_outcome_comparison": false,
+        "task_ranking": false,
+        "independent_knots": false,
+        "confidence_interval": null
+      }
+    },
+    "TARGET": {
+      "original": "TO",
+      "short": "TS",
+      "nonlanguage_fieldwise_canonical_equal": {
+        "snapshot_uuid": true,
+        "state_eef10": true,
+        "images": true,
+        "frame": true,
+        "tcp": true
+      },
+      "nonlanguage_payload_sha256": "45883de0696da6432271cae0fe04a03c1276ac953ef8ec706b0d3165424a7126",
+      "primary": {
+        "comparison": "SHORT_MINUS_ORIGINAL_AT_IDENTICAL_FORTY_KNOT_INDICES",
+        "knots": 40,
+        "XYZ": {
+          "vector_RMS_mm": 5.878904088229374,
+          "maximum_L2_mm": 9.293846342027583,
+          "endpoint_delta_xyz_mm": [
+            1.430139300773181,
+            -1.355686926593408,
+            3.2713690327673683
+          ],
+          "endpoint_L2_mm": 3.8190366339041044,
+          "coordinate_RMS_mm": 3.394186857879221,
+          "RMS_definition": "sqrt(mean_over_40(sum_over_XYZ(delta_m**2)))"
+        },
+        "SO3": {
+          "geodesic_RMS_rad": 0.015479765232435855,
+          "maximum_rad": 0.02109879868720788,
+          "endpoint_rad": 0.01981209656147142,
+          "rotation_conversion": "ORIGINAL_NATIVE_ROT6D_ROWS_GRAM_SCHMIDT_NOT_PROCESSOR_REDECODE"
+        },
+        "gripper_mechanical_fraction": {
+          "RMS": 0.005142995367779993,
+          "maximum_absolute": 0.01246500015258789,
+          "endpoint_delta": 0.0,
+          "mechanical_travel_m": 0.044
+        },
+        "normalized_auxiliary": {
+          "first10": {
+            "coordinate_RMS": 0.07691400498151779,
+            "maximum_absolute": 0.1474609375,
+            "endpoint_coordinate_RMS": 0.08965028077363968,
+            "endpoint_L2": 0.2834990620613098
+          },
+          "full132": {
+            "coordinate_RMS": 0.025218961760401726,
+            "maximum_absolute": 0.1474609375,
+            "endpoint_coordinate_RMS": 0.029928209260106087,
+            "endpoint_L2": 0.34384894371032715
+          }
+        },
+        "future_achieved_outcome_comparison": false,
+        "task_ranking": false,
+        "independent_knots": false,
+        "confidence_interval": null
+      }
+    }
+  },
+  "target_existing_archive_pins": {
+    "native_spec_sha256": "c1a0878ae26ef1ea895cd2eb65d2ba938ecd792b04c314304c5787572f84033f",
+    "gpu_spec_sha256": "52b44802228137bd1ae1c7db425f60cb40425aa2c16cd82ef3672cdede2537e5",
+    "gpu_result_sha256": "88173fa865230030f91c113afed8aafad2891101082b696085db527597a06306",
+    "action_sha256": "b4592284f9a3d1109a335107f86f3fd5afaf84aac0b72e2668a29d8fd9152a87",
+    "observation_sha256": "c200d27fccc774becac6a3379176d4fc0098d14d27feb559472cd3459367428c",
+    "pair_sha256": "1eee790f88bf39bcbf4e4ceb975a800b6f1f2a69a63c0e1bf5b1bc74d34a8609",
+    "native_result_sha256": "82c5590d660202162802589916cb6361d691d21fcf74c2cce03ca63bbdacae46",
+    "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_file_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "task_sha256": "83fb721af5ce7fcbb3efcaaa2f560496912eb34cdff2abe4eda5939ab36b8c90",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "query_uuid": "976d8ba1-a6a8-4833-a653-ee25e32417f2",
+    "seed": 366104,
+    "episode_sha256": "79358e93d63cebe1486b9f745fdddbb1b77a7cb7136424297b073561d5c6853f",
+    "physical_report_sha256": "f5553c13a9e957a45b2167b4d320e45148d99851aeb2d45a242c1086fe54e984",
+    "query_report_sha256": "e0c1843826c16e00ee6bf129b2c22a94a4086b37ed263b90aaf0775177f72689",
+    "source_camera_identity_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+    "noise_sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+  },
+  "findings": [
+    "For the fixed source observation, switching from the original full-task text to the short text changes the complete decoded action sequence: XYZ vector RMS 74.544895 mm, maximum 101.982619 mm and endpoint difference 96.633887 mm; SO3 RMS 0.200522 rad; gripper-fraction RMS 0.461324.",
+    "For the fixed target observation, the same text switch also changes the sequence: XYZ vector RMS 5.878904 mm, maximum 9.293846 mm and endpoint difference 3.819037 mm; SO3 RMS 0.015480 rad; gripper-fraction RMS 0.005143. This is a smaller observed change, not zero language sensitivity.",
+    "The source ORIGINAL command ends with decoded gripper fraction 0, while source SHORT ends at 0.998860. These are different command proposals for different objectives, not observed closing/opening or a task-success ranking.",
+    "The source and target inputs differ in state, images, scene and task phase together. The contrast between their language responses does not isolate a camera, posture, embodiment or task-phase mechanism.",
+    "The original long pick/place/release/retreat prompt was not scored by a short toward-cube objective. No prefix, knot, seed or condition was selected for a favorable outcome."
+  ],
+  "validation": {
+    "readiness": "SHARE_WITH_EXPLICIT_SAMPLING_AND_TASK_LIMITS",
+    "actual_helper_verified_all_four_CLOSED0": true,
+    "actual_helper_verified_exact_action_NPZ_bytes_and_full40_shapes": true,
+    "exact_input_and_noise_evidence_from_pinned_actual_receipt": true,
+    "local_review_independently_checked": [
+      "Endpoint deltas equal differences of the paired full40 endpoint displacements",
+      "Endpoint XYZ vector norms match reported endpoint L2",
+      "Vector XYZ RMS equals coordinate RMS times sqrt(3)",
+      "Same noise, checkpoint inventory, precision and non-language input identities within each base",
+      "Pinned commit diff leaves original infer/generate/precision/input helper bodies unchanged"
+    ],
+    "full40_raw_NPZ_metrics_independently_recomputed_locally": false,
+    "full40_metric_source": "Actual pinned read-only helper operated on original NPZ files; local review used its sealed output and formula inspection, not an additional raw-data run",
+    "normalized_auxiliary_arithmetic": "Original helper uses float32 arithmetic for normalized differences; last digits have float32 precision",
+    "rendered_visual_review": "NOT_APPLICABLE_MACHINE_READABLE_JSON_NO_CHARTS"
+  },
+  "costs": {
+    "per_query_and_worker_costs": "Retained in each condition without summing overlapping fields",
+    "timing_comparability": "Query wall, CUDA event, function wall/CPU and worker wall/CPU cover different overlapping regions. TS includes original snapshot wait and loader work; these four draws are not a latency benchmark.",
+    "actual_read_only_analysis_wall_s": 2.7519455142319202,
+    "actual_read_only_analysis_CPU_s": 0.760265089,
+    "cost_scope": "Read-only helper body only; wrapper overhead, original queries and this local report aggregation are excluded"
+  },
+  "analysis_effects": {
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_integrations": 0,
+    "FK_calls": 0,
+    "renderer_calls": 0,
+    "optimizer_updates": 0,
+    "processor_decodes": 0,
+    "reference_installations": 0,
+    "source_writes": 0,
+    "site_writes": 0,
+    "subprocesses": 0,
+    "total_new_effects": 0
+  },
+  "claims": {
+    "task_gain": false,
+    "source_skill_success": false,
+    "target_task_success": false,
+    "source_target_transfer_gain": false,
+    "native_execution_or_action_domain_qualification": false,
+    "online_closed_loop": false,
+    "model_training": false,
+    "WM_or_Actor_updates": false,
+    "camera_single_factor_causal_effect": false,
+    "posture_single_factor_causal_effect": false,
+    "representative_language_sensitivity_established": false,
+    "zero_shot": false
+  },
+  "limitations": [
+    "Two fixed observations and one matched seed provide conditional examples, not a population estimate. Forty correlated knots are not forty independent draws; no confidence interval is reported.",
+    "Matching the recorded initial diffusion-noise identity and precision does not measure an independent repeated-run numerical/stochastic floor.",
+    "The checkpoint and saved Processor inventory were verified during actual inference. This read-only analysis does not bulk-reread model weights or regenerate noise.",
+    "The ORIGINAL and SHORT prompts specify different objectives. A full-H40 approach-to-cube criterion cannot judge completion or failure of the original longer task.",
+    "Commands were not installed by these four query conditions. All geometry and paired differences concern decoded proposals, not achieved motion, physical safety or task outcomes.",
+    "Between-base state, pixels, scene, relative task phase and prior adaptation differ. The larger source-side response does not establish the cause of the source-target difference.",
+    "All earlier source/target negative results and gates remain unchanged; no old calibration or response model is newly qualified by this language diagnostic.",
+    "Only aggregate metrics and content identities are published. Private host-bound paths, raw robot states, raw images, action arrays and camera/pose matrices are omitted."
+  ]
+}

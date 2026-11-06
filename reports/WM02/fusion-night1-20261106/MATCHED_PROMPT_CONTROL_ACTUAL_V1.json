@@ -1,6 +1,6 @@
 {
   "schema": "WM02_FUSION_MATCHED_PROMPT_CONTROL_ACTUAL_V1",
-  "status": "PARTIAL_TWO_OF_FOUR_CONDITIONS_COMPLETE_SS_TO_NOT_RUN",
+  "status": "ALL_FOUR_FIXED_CONDITIONS_COMPLETE_FULL40_READ_ONLY_ANALYSIS_PASS",
   "protocol": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
   "SO": {
     "state": "ACTUAL_CLOSED0_PID0",
@@ -63,18 +63,121 @@
     "actual_queries_already_counted": 1
   },
   "SS": {
-    "state": "NOT_RUN",
-    "actual_queries": 0
+    "state": "ACTUAL_CLOSED0_PID0",
+    "source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+    "spec_sha256": "341131673c8a26d51c7a47559b7c8c8a52ebd02f21c8e5c2e3a6fc56195198a7",
+    "result_sha256": "a59548229170d97d03907b8b6508b34f997ec2333caa53382b2309b06e49aa6a",
+    "action_sha256": "6d6f60908cd74664e7c2dd98570a25c72cca916440c6598c6769326aa23eea29",
+    "view_manifest_sha256": "bc10195a30baa19811672bcfff1ab02868824a0ee24d2c7556c650697cd263ea",
+    "condition_manifest_sha256": "51524eec44679bdf0a2456fa3c874a557386d70d6a0027d744860bab0e6d0d6a",
+    "seed": 366104,
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+    },
+    "precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "effects": {
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "GR00T_updates": 0,
+      "native_integrations": 0
+    },
+    "cost": {
+      "query_wall_s": 0.8201615582220256,
+      "GPU_event_s": 0.8200181274414062,
+      "peak_allocated_bytes": 13318658048,
+      "peak_reserved_bytes": 13524533248,
+      "wall_s": 36.7991072172299,
+      "CPU_s": 17.548690971
+    },
+    "worker_cost": {
+      "wall_s": 37.972920544911176,
+      "child_CPU_s": 18.586730000000003,
+      "systemd_CPU_s": 18.699133,
+      "systemd_peak_memory_bytes": null,
+      "timing_definitions_overlap_do_not_sum": true
+    },
+    "non_language_payload_sha256": "67c9c4967a9e088da4f37ad22abf078bd03d51e8fb48d704e88ad26b58922207",
+    "selected_language_sha256": "3b4699f03e00438f01ca4593d28537ed640c13b876de0640124cb1ebcb2e16b5",
+    "command": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_vla --spec FRESH_fusion-night1-prompt-control-ss-01_EXECUTION_SPEC --output NEW_SCOPE_ROOT/fit-01",
+    "worker_exit_code": 0,
+    "task_success": "NOT_ESTABLISHED_BY_QUERY"
   },
   "TO": {
-    "state": "NOT_RUN",
-    "actual_queries": 0
+    "state": "ACTUAL_CLOSED0_PID0",
+    "source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
+    "spec_sha256": "0ab3f987d2237481fad9d2bf284d6c0c97c95a7aea4f7fc7fd5b715cbb24cc44",
+    "result_sha256": "708c44364a61ca8e7249512f24e77acd1eb5fde1e505929cb81623d8ed8300e0",
+    "action_sha256": "a5a56bf8a77cb0b930e573a92426530e6b207b4083048f7dc65c5aa804a3b608",
+    "view_manifest_sha256": "c455b0707430a9029e94cf66b1c8578f9d28b7e80f134b3e438fa5082e5a998a",
+    "condition_manifest_sha256": "73fefc330af77ed6165120a72623c39d536841a13fa986c7eed62d41b6a03030",
+    "seed": 366104,
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+    },
+    "precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "effects": {
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "GR00T_updates": 0,
+      "native_integrations": 0
+    },
+    "cost": {
+      "query_wall_s": 1.3777396972291172,
+      "GPU_event_s": 1.3743369140625,
+      "peak_allocated_bytes": 13320805376,
+      "peak_reserved_bytes": 13524533248,
+      "wall_s": 133.5083332969807,
+      "CPU_s": 20.561405899
+    },
+    "worker_cost": {
+      "wall_s": 135.2539927358739,
+      "child_CPU_s": 21.663663,
+      "systemd_CPU_s": 21.826424,
+      "systemd_peak_memory_bytes": 8469397504,
+      "timing_definitions_overlap_do_not_sum": true
+    },
+    "non_language_payload_sha256": "45883de0696da6432271cae0fe04a03c1276ac953ef8ec706b0d3165424a7126",
+    "selected_language_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+    "command": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_vla --spec FRESH_fusion-night1-prompt-control-to-01_EXECUTION_SPEC --output NEW_SCOPE_ROOT/fit-01",
+    "worker_exit_code": 0,
+    "task_success": "NOT_ESTABLISHED_BY_QUERY"
   },
-  "total_current_FUSION_VLA_queries": 7,
+  "total_current_FUSION_VLA_queries": 9,
   "new_physics_for_prompt_controls": 0,
   "new_model_updates_for_prompt_controls": 0,
   "matched_noise_SO_TS": true,
   "causal_language_effect_established": false,
   "task_transfer_gain_established": false,
-  "source_target_phase_equivalence": false
+  "source_target_phase_equivalence": false,
+  "new_queries_for_completed_prompt_controls": 3,
+  "matched_noise_all_four": true,
+  "full40_analysis_report": "MATCHED_PROMPT_CONTROL_FULL40_ANALYSIS_ACTUAL_V1.json",
+  "within_base_language_only_input_contrast_established": true,
+  "language_only_causal_claim_scope": "CONTROLLED_INPUT_CONTRAST_AT_TWO_FIXED_OBSERVATIONS_ONE_SEED; NO_GENERAL_CAUSAL_OR_TASK_GAIN_CLAIM"
 }
