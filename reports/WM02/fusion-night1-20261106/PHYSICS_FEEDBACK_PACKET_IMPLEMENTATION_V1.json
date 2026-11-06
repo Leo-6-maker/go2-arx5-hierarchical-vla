@@ -1,0 +1,105 @@
+{
+  "schema": "WM02_FUSION_PHYSICS_FEEDBACK_IMPLEMENTATION_V1",
+  "status": "OFFLINE_PROTOTYPE_TESTED_NOT_RUNTIME_INTEGRATED_OR_NATIVE_QUALIFIED",
+  "scope": "Scientific record consistency, separate from the active native calibration capsule",
+  "source_files": {
+    "src/go2arx5_vla/world_model/fusion_physics_feedback.py": "9d1cc7229a16d02763dd405454465a11c44f75e20c0da4021667f76fb17c2d6d",
+    "tests/world_model/test_fusion_physics_feedback.py": "fc56e8b81ea6c0465193e5567eb8e2db5b8558dc92fb6e5fd6be87c27ac211db"
+  },
+  "sections": {
+    "measured": "Actual native TCP, BASE, fingers and object state, measured TCP velocity, original event flags and installed-reference tracking error. Missing values are null with false masks.",
+    "innovation": "Actual response minus an immutable prediction saved before the first effect, at the exact declared native target step, conditioned on the complete actual command chain. Tracking error is not innovation.",
+    "forecast": "Separate candidate-conditioned estimates. Full-preview certificate, current-state identity, external model-domain qualification and calibration references are checked for consistency. These records authorize no execution."
+  },
+  "command_domains": {
+    "UPSTREAM_INSTALLED_REFERENCE": "Original accept/install ACK, exact wire bytes, full decoded H40 and BASE, complete 25-tick window, original source clock/TTL and actual owned-child gripper consumption.",
+    "SOLVER_TARGET_CONFIRMED": "Additional join from each solver target hash and send time to raw installed receiver events for the same reference, including rolling targets.",
+    "CONTROLLER_SELECTED_POLICY": "Not exported by the present executor; remains DERIVED/unknown with a separate false mask. Solver confirmation is not selected-WBC-policy proof.",
+    "upstream_conditioned_innovation": "Can be valid with a complete upstream command/response chain while hidden controller selection remains unknown. A solver-conditioned model additionally needs solver-domain evidence."
+  },
+  "causal_checks": [
+    "Same run, native spec, executor, scene, frame and TCP semantics",
+    "Pinned prediction bytes plus a post-fsync receipt ordered before original first-effect trace time",
+    "Exact issue/history/target native clocks; no nearest-frame or future-frame substitution",
+    "Every actual atom matches its planned global index, full effective H40 suffix, source subatom phase, fixed BASE and held gripper command",
+    "Actual state document chain and same original gripper child/library with contiguous sequence numbers",
+    "Same-program wire renewal is allowed with matching content and clock evidence",
+    "Command/reference change, cancel, TTL expiry, reset, takeover, partial interval, STOP, HOLD or unknown lifecycle event masks old innovation"
+  ],
+  "authentication_boundary": {
+    "producer_and_file_authentication_performed_by_packet": false,
+    "receipt_consistency_is_not_receipt_authenticity": true,
+    "required_external_verification": "The caller must authenticate original producer/source identity, raw packet and file pins, prediction persistence, trace timing, complete lifecycle/command records, history inputs and model-domain/calibration receipts. This pure assembler does not read or authenticate those files or manufacture missing receipts.",
+    "actual_state_hash": "Canonical measured-state document SHA; explicitly not the raw state.bin or file SHA",
+    "old_predictions_without_required_evidence": "Innovation remains masked false; no legacy prediction or weak local WM is automatically upgraded",
+    "actual_historical_predictions_reprocessed_by_this_change": 0
+  },
+  "information_boundary": {
+    "native_simulator_state": "Privileged simulator information, not qualified RGB deployment input",
+    "reference_age": "Execution metadata",
+    "forecast": "Conditional model estimate, not a measurement, current proprioception, command or expert label",
+    "uncertainty": "Availability and calibration-reference masks are distinct; the packet does not establish empirical calibration",
+    "future_state_added_to_GR00T_inputs": false,
+    "Processor_padding_modified": false,
+    "language_or_prompt_modified": false,
+    "GR00T_head_or_weights_modified": false,
+    "future_achieved_state_relabelled_as_expert_action": false
+  },
+  "validation": {
+    "interpreter": "Project native CI Python; machine-specific executable path remains private",
+    "environment": {"PYTHONPATH": "src:."},
+    "normal_argv": [
+      "python", "-m", "pytest", "-q",
+      "tests/world_model/test_fusion_physics_feedback.py",
+      "tests/world_model/test_target_reference.py",
+      "tests/world_model/test_next2_prediction_first.py",
+      "tests/world_model/test_pilot2_contact_observer.py"
+    ],
+    "normal": {"exit_code": 0, "passed": 105, "pytest_elapsed_s": 2.39},
+    "optimized_argv": [
+      "python", "-O", "-m", "pytest", "-q",
+      "tests/world_model/test_fusion_physics_feedback.py",
+      "tests/world_model/test_target_reference.py",
+      "tests/world_model/test_next2_prediction_first.py",
+      "tests/world_model/test_pilot2_contact_observer.py"
+    ],
+    "optimized": {"exit_code": 0, "passed": 105, "pytest_elapsed_s": 2.43, "warnings": 1,
+      "warning": "Expected pytest notice about Python -O assertions outside rewritten test modules"},
+    "new_tests": 86,
+    "related_existing_tests": 19,
+    "fixture_scope": "Hermetic synthetic records; passing fixtures are not native or model qualification",
+    "meaningful_negative_cases": [
+      "Unrelated solver target and wrong send time",
+      "Changed full H40 lookahead or source phase under the same claimed program ID",
+      "Missing receiver ACK, wrong wire/state/target/gripper proof and expired reference",
+      "Late prediction save, wrong target/history/restart, missing atom and lifecycle discontinuities",
+      "Held old gripper sequence and changed actual child",
+      "Unknown WM domain, wrong candidate state/full preview, incomplete certificate and uncalibrated uncertainty/events",
+      "Missing measured values remain masked instead of being filled by forecast"
+    ],
+    "assembly_artifact_reads_or_process_spawns": "Forbidden by a passing hermetic test",
+    "fresh_import_loaded_torch_mujoco_transformers": false
+  },
+  "effects": {
+    "remote_actions": 0,
+    "model_queries": 0,
+    "renderer_or_FK_calls": 0,
+    "physics_integrations": 0,
+    "action_installations": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "shared_runtime_source_edits": 0,
+    "new_runtime_routes_or_services": 0
+  },
+  "qualification": {
+    "native_runtime": "NOT_QUALIFIED",
+    "runtime_integration": "NOT_IMPLEMENTED",
+    "model_or_candidate_qualified_by_packet": false,
+    "online_deployment_qualified": false,
+    "native_execution_authorized": false,
+    "existing_owner_lease_safety_requirements_changed": false,
+    "WBC_gains_costs_solver_dynamics_dt_or_native_safety_changed": false,
+    "active_native_capsule_changed": false
+  }
+}
