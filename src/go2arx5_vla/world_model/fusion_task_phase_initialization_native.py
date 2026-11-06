@@ -82,12 +82,14 @@ def run(adapter):
     return run_initialization_program(adapter, episode, source)
 
 
-def run_initialization_program(adapter, episode, source):
+def run_initialization_program(adapter, episode, source, *, recipe_module=recipe, actual_phase=PHASE,
+                               report_schema=REPORT_SCHEMA, goal_schema=GOAL_SCHEMA,
+                               reference_calibration_factory=None, report_context=None):
     """Run one checked fixed grade; no query or model entry is reachable."""
     from scripts.pi0292.durable import write
     from .fusion_trajectory_qualification_native import run_program
-    recipe.episode_contract(episode)
-    need(adapter.spec.get('phase') == PHASE and adapter.spec['max_ticks'] == recipe.endpoint(episode),
+    recipe_module.episode_contract(episode)
+    need(adapter.spec.get('phase') == actual_phase and adapter.spec['max_ticks'] == recipe_module.endpoint(episode),
          'ACTUAL_NEW_PHASE_AND_STATIC_ENDPOINT')
     need(set(source) == {'source_observation_bytes', 'T_source_from_target', 'scene_sha256'},
          'EXACT_FROZEN_SOURCE_CONFIGURATION')
@@ -132,8 +134,12 @@ def run_initialization_program(adapter, episode, source):
         saved_state = paths['TASK_PHASE_DECISION_MEASURED.private.json']
         write(saved_state, _plain(measured))
         goal_path = paths['TASK_PHASE_GOAL_BINDING.private.json']
-        goal = dict(schema=GOAL_SCHEMA, episode_sha256=adapter.spec['episode_manifest_sha256'],
-            actual_spec_phase=PHASE, actual_spec_source_sha=adapter.spec['source_sha'],
+        calibrated_program, reference_binding = None, None
+        if reference_calibration_factory is not None:
+            calibrated_program, reference_binding = reference_calibration_factory(
+                loaded, actual_episode, initial_tcp, decision_tcp, base)
+        goal = dict(schema=goal_schema, episode_sha256=adapter.spec['episode_manifest_sha256'],
+            actual_spec_phase=actual_phase, actual_spec_source_sha=adapter.spec['source_sha'],
             frozen_input=loaded['frozen'], actual_fk_witness=witness,
             original_packet_path=str(state_path), saved_packet_path=str(saved_packet),
             saved_packet_sha256=digest(saved_packet), measured_state_path=str(saved_state),
@@ -142,6 +148,8 @@ def run_initialization_program(adapter, episode, source):
             experiment_role='NON_VLA_CALIBRATION', actual_VLA_commands=0, VLA_queries=0,
             source_pose_is_expert_action_label=False, object_and_goal_are_policy_inputs=False,
             native_execution_authorized_by_binding=False)
+        if reference_binding is not None:
+            goal['frozen_predecision_reference_calibration'] = reference_binding
         write(goal_path, goal)
         need(json.loads(goal_path.read_bytes()) == goal and saved_packet.read_bytes() == raw
              and digest(saved_packet) == loaded['provenance']['decision_packet_sha256']
@@ -150,8 +158,11 @@ def run_initialization_program(adapter, episode, source):
         goal_receipt.update(goal_binding_path=str(goal_path), goal_binding_sha256=digest(goal_path),
             goal_binding_body_sha256=loaded['frozen']['sha256'],
             decision_packet_sha256=digest(saved_packet), actual_fk_witness=witness)
+        if reference_binding is not None:
+            goal_receipt['frozen_predecision_reference_calibration'] = reference_binding
         inputs.update(loaded)
-        return recipe.make_program(inputs, episode, initial_tcp, decision_tcp, base)
+        return (recipe_module.make_program(inputs, episode, initial_tcp, decision_tcp, base)
+                if calibrated_program is None else calibrated_program)
 
     def finalizer(report):
         need(bool(goal_receipt) and len(actual_tail) == 9,
@@ -161,7 +172,7 @@ def run_initialization_program(adapter, episode, source):
         write(samples_path, samples)
         saved_samples = json.loads(samples_path.read_bytes())
         need(saved_samples == samples, 'NINE_REAL_COMPLETE_SAMPLES_SAVED_READBACK')
-        readiness = recipe.query_readiness(saved_samples, episode, inputs)
+        readiness = recipe_module.query_readiness(saved_samples, episode, inputs)
         path = paths['TASK_PHASE_READINESS.private.json']
         write(path, readiness)
         need(json.loads(path.read_bytes()) == readiness, 'ACTUAL_READINESS_SAVED_READBACK')
@@ -175,12 +186,15 @@ def run_initialization_program(adapter, episode, source):
             query_readiness_is_native_or_GPU_grant=False, generated_calibration_waypoints=40,
             raw_VLA_knots=0, full_task_success=False)
 
-    return run_program(adapter, episode, inputs, program_factory=factory,
-        report_context=dict(schema=REPORT_SCHEMA, actual_spec_phase=PHASE,
+    context = dict(schema=report_schema, actual_spec_phase=actual_phase,
             experiment_role='NON_VLA_CALIBRATION', desired_outcome_provenance='CALIBRATION_INTENT',
             generated_reference_is_GR00T_action=False, source_pose_is_expert_action_label=False,
             object_and_goal_are_policy_inputs=False, actual_VLA_commands=0, VLA_commands=0,
             VLA_reference_replays=0, VLA_queries=0, original_Processor_decodes=0,
             calibration_goal='ACTUAL_3703_CUBE_CENTER_PLUS_WORLD_Z_0P14M_SOURCE_ROTATION',
-            query_readiness_is_permission=False), report_finalizer=finalizer,
+            query_readiness_is_permission=False)
+    if report_context is not None:
+        context.update(report_context)
+    return run_program(adapter, episode, inputs, program_factory=factory,
+        report_context=context, report_finalizer=finalizer,
         sample_observer=record_sample)

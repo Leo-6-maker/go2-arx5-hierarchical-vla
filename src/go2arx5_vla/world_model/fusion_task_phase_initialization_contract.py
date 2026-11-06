@@ -61,7 +61,20 @@ def _source(spec):
 
 def episode_config(spec):
     """Check immutable inputs without constructing a native model or a grant."""
-    need(spec.get('phase') == PHASE and spec.get('kind') == KIND
+    return recipe_config(spec)
+
+
+def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, source_members=SOURCE_MEMBERS):
+    """Reuse immutable operational checks with an explicitly checked new recipe.
+
+    Callers retain their actual spec and episode identities; this is no phase
+    substitution and gives no execution grant. The V1 entry above stays exact.
+    """
+    need((actual_phase, actual_kind) in ((PHASE, KIND),
+         ('collect-target-fusion-task-phase-bias-calibration-v2', 'FUSION_TASK_PHASE_BIAS_CALIBRATION_V2'))
+         and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
+         'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
+    need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
          and spec.get('profile') == 'wm02-auto1-target'
          and spec.get('domain') == 'WM02_AUTO1_TARGET_COMMISSION_V1'
          and spec.get('site_profile') == '4080-simulation' and spec.get('physics') is True
@@ -75,9 +88,13 @@ def episode_config(spec):
          and type(spec.get('wall_limit_s')) in (int, float) and 0 < spec['wall_limit_s'] <= 1200,
          'FROZEN_WBC_2MS_FINITE_NATIVE_WALL')
     source, files = Path(spec['source_root']), spec.get('source_files', {})
-    need(all(name in files and digest(source / name) == files[name] for name in SOURCE_MEMBERS),
+    need(all(name in files and digest(source / name) == files[name] for name in source_members),
          'EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES')
-    episode = recipe.episode_contract(_json(spec['episode_manifest'], spec['episode_manifest_sha256']))
+    if episode is None:
+        episode = recipe.episode_contract(_json(spec['episode_manifest'], spec['episode_manifest_sha256']))
+    else:
+        need(_json(spec['episode_manifest'], spec['episode_manifest_sha256']) == episode,
+             'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int
          and spec['max_ticks'] == recipe.endpoint(episode)
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
