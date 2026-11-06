@@ -44,11 +44,11 @@ def minimum_practical_gain(rule,task):
         TEST_used=False)
 
 
-def analyze(plan,observations,*,minimum_gain_m,seed=363501,bootstrap=10000):
+def analyze(plan,observations,*,minimum_gain_m,seed=363501,bootstrap=10000,baseline='TRAIN_MEAN_RESPONSE_RULE'):
     """Missing/invalid/native fail stay separate; no exact-fork oracle regret."""
     def key(r):return(r['parent'],r['goal_index'],r['method'],r['repeat_index'])
     expected={key(r):r for r in plan['rows']}
-    if len(expected)!=len(plan['rows'])or minimum_gain_m<=0 or bootstrap<100:
+    if len(expected)!=len(plan['rows'])or minimum_gain_m<=0 or bootstrap<100 or baseline not in plan['methods']:
         raise ValueError('UNIQUE_FROZEN_PANEL_AND_PREREGISTERED_ANALYSIS_REQUIRED')
     found={}
     for r in observations:
@@ -82,7 +82,7 @@ def analyze(plan,observations,*,minimum_gain_m,seed=363501,bootstrap=10000):
             valid_measured_median_XY_error_m=float(np.median(err))if len(err)else None,
             valid_measured_p90_XY_error_m=float(np.quantile(err,.9))if len(err)else None,
             valid_measured_mean_objective_m=float(objective.mean())if len(objective)else None)
-    baseline='TRAIN_MEAN_RESPONSE_RULE';rng=np.random.default_rng(seed)
+    rng=np.random.default_rng(seed)
     for method in methods:
         if method==baseline:continue
         complete=[p for p in parents if all((p,g,m,r)in valid for g in goals for m in (baseline,method)for r in range(2))]

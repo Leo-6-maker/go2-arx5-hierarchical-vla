@@ -1,4 +1,4 @@
-"""Run one registered finite balanced response cohort using existing native workers."""
+"""Run a registered response cohort or frozen four-arm DEV panel with existing workers."""
 import argparse, json, os, resource, subprocess, time
 from contextlib import closing
 from pathlib import Path
@@ -13,6 +13,7 @@ def run(input_path):
     from go2arx5_vla.world_model.fusion_identification import validate as validate_panel
     from go2arx5_vla.world_model.target_parallel import validate_layout
     inp = json.loads(input_path.read_text()); stage = input_path.parent
+    evaluation = inp.get('study_kind')=='FROZEN_FOUR_ARM_DEV'
     base = json.loads(Path(inp['base_spec']).read_text()); source = Path(inp['source_root'])
     campaign = Path(base['campaign_root']); runs = Path(inp['output_parent'])
     lease_path = stage/'control/LEASE.json'; lease = json.loads(lease_path.read_text())
@@ -88,21 +89,32 @@ def run(input_path):
         passed = bool(native.get('status') == 'NATIVE_STAGE_PASSED' and native.get('shutdown_clean')
             and not native.get('physics_stops') and native.get('actual_target_integrations') == 4103)
         valid = bool(passed and decision.get('native_step') == 3703
-            and decision.get('selected_action') == row['nominal_action']
-            and decision.get('method') == 'B0_DIRECT' and decision.get('source_sha') == inp['source_sha']
+            and (decision.get('selected_action') in range(4) if evaluation else decision.get('selected_action') == row['nominal_action'])
+            and decision.get('nominal_action')==row['nominal_action'] and decision.get('future_response_observed')is False
+            and decision.get('method') == row['method'] and decision.get('source_sha') == inp['source_sha']
+            and decision.get('WM_sha256')==base.get('response_numpy_sha256',base['ARX_sha256'])
+            and decision.get('static_model_sha256')==base['train_mean_response_model_sha256']
             and score.get('parent') == row['parent'] and score.get('split') == row['split']
+            and score.get('selected_action')==decision.get('selected_action')
             and native.get('native_binary_sha256') == inp['native_binary_sha256'])
         return dict(run=root.name, row=row, attempted=n.exists(), native_passed=passed, evidence_valid=valid,
             native_ticks=native.get('actual_target_integrations', 0), score=score,
             evidence_sha256={k:digest(p) for k,p in paths.items() if p.exists()})
 
     try:
+        if inp.get('study_kind')not in (None,'BALANCED_RESPONSE','FROZEN_FOUR_ARM_DEV'):
+            raise ValueError('EXPLICIT_FUSION_STUDY_KIND_REQUIRED')
         if (not Path(__file__).resolve().is_relative_to(source.resolve()) or inp['max_native_slots'] != 2
                 or time.time()+600 >= inp['deadline_epoch']): raise PermissionError('FINITE_QUALIFIED_LOCAL_TWO_SLOT_COHORT_REQUIRED')
         for name, pin in inp['source_files'].items():
             if digest(source/name) != pin: raise ValueError('IMMUTABLE_FUSION_SOURCE_CHANGED:'+name)
         if digest(inp['panel']) != inp['panel_sha256']: raise ValueError('PREREGISTERED_RESPONSE_PANEL_CHANGED')
-        rows = validate_panel(json.loads(Path(inp['panel']).read_text()))
+        plan=json.loads(Path(inp['panel']).read_text())
+        if evaluation:
+            from go2arx5_vla.world_model.fusion_evaluation import validate as validate_panel
+            from go2arx5_vla.world_model.fusion_response_inference import validate_asset
+            validate_asset(base)
+        rows = validate_panel(plan)
         validate(dict(base, registered_root=str(stage), deadline_epoch=inp['deadline_epoch']))
         catalog = json.loads(Path(base['scene_allowlist']).read_text())
         write(stage/'STARTED.private.json', dict(pid=os.getpid(), source_sha=inp['source_sha'], started_epoch=time.time()))
@@ -112,7 +124,7 @@ def run(input_path):
             group = rows[at:at+2]; scene_id = group[0]['scene_id']
             if scene_id not in proofs:
                 root = runs/(inp['run_prefix']+'-q-'+scene_id.lower()); key = root.name.upper()
-                qrow = dict(group[0], purpose='SCENE_QUALIFICATION', nominal_action=0, desired_delta_xy_m=[0., 0.])
+                qrow = dict(group[0], purpose='SCENE_QUALIFICATION', method='B0_DIRECT', nominal_action=0, desired_delta_xy_m=[0., 0.])
                 def register_qual():
                     with closing(OwnerLock(campaign/'OWNER.lock')), closing(OwnerLock(base['physical_owner_lock'])):
                         s = child(root, qrow, 0); grant([s], key); return dict(spec_sha256=digest(root/'EXECUTION_SPEC.json'))
@@ -161,11 +173,23 @@ def run(input_path):
     except BaseException as error: failure = type(error).__name__+': '+str(error)
     finally:
         after = resource.getrusage(resource.RUSAGE_CHILDREN)
-        write(stage/'RESULT.private.json', dict(schema='WM02_FUSION_BALANCED_RESPONSE_COHORT_RESULT_V1',
+        analysis_sha=None
+        if evaluation and code==0:
+            from go2arx5_vla.world_model.pilot2_evaluation import analyze
+            observations=[dict(c['row'],attempted=c['attempted'],native_passed=c['native_passed'],evidence_valid=c['evidence_valid'],
+                safety_stop=not c['native_passed'],task_success=c['score'].get('local_XY_success',False),
+                XY_error_m=c['score'].get('actual_XY_error_m'),objective_m=c['score'].get('objective_m'))for b in results for c in b['children']]
+            try:
+                analysis=analyze(plan,observations,minimum_gain_m=inp['minimum_practical_improvement_m'],
+                    baseline=plan['baseline'],seed=366502,bootstrap=10000)
+                write(stage/'ANALYSIS.private.json',analysis);analysis_sha=digest(stage/'ANALYSIS.private.json')
+            except BaseException as error:code=1;failure='ANALYSIS_FAILED_AFTER_NATIVE: '+type(error).__name__+': '+str(error)
+        write(stage/'RESULT.private.json', dict(schema='WM02_FUSION_FOUR_ARM_DEV_COHORT_RESULT_V1'if evaluation else'WM02_FUSION_BALANCED_RESPONSE_COHORT_RESULT_V1',
             source_sha=inp['source_sha'], exit_code=code, failure=failure, qualification_results=qualifications, results=results,
             actual_native_ticks=sum(q['native_ticks'] for q in qualifications)+sum(c['native_ticks'] for b in results for c in b['children']),
             actual_response_evaluations=sum(c['attempted'] for b in results for c in b['children']),
-            planned_evaluations=48, planned_qualifications=6, WM_updates=0, Actor_updates=0, GR00T_updates=0,
+            planned_evaluations=192 if evaluation else 48, planned_qualifications=6, analysis_sha256=analysis_sha,
+            WM_updates=0, Actor_updates=0, GR00T_updates=0,
             VLA_inferences=0, TEST_read=False, exact_fork=False, wall_s=time.monotonic()-start,
             CPU_s=time.process_time()-cpu, child_CPU_s=after.ru_utime+after.ru_stime-usage.ru_utime-usage.ru_stime))
         lease.update(status='CLOSED', worker_exit_code=code, closed_epoch=time.time()); write(lease_path, lease)
