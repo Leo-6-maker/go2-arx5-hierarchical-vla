@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793981767.9866624,
+  "snapshot_epoch": 1793983877.7182522,
   "implementation_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; V7_FULL1_CLOSED1_ORIGINAL_FUTURE_JOINT4_CERT_REJECT",
+  "live_process_state": "COLD; V8_TRANSLATION_BIAS_FADE_IMPLEMENTED_TESTED_NOT_NATIVE_QUALIFIED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 285,
   "FUSION_native_passes": 281,
@@ -267,10 +267,12 @@
     "TASK_PHASE_POSE_CONTINUATION_IMPLEMENTATION_V7.json",
     "TASK_PHASE_POSE_TRANSIENT_KINEMATICS_ACTUAL_V1.json",
     "TASK_PHASE_POSE_CONTINUATION_POINT5_ACTUAL_V7.json",
-    "TASK_PHASE_POSE_CONTINUATION_FULL1_FAILURE_ACTUAL_V7.json"
+    "TASK_PHASE_POSE_CONTINUATION_FULL1_FAILURE_ACTUAL_V7.json",
+    "TASK_PHASE_FULL1_REFERENCE_GEOMETRY_ACTUAL_V1.json",
+    "TASK_PHASE_BIAS_FADE_IMPLEMENTATION_V8.json"
   ],
-  "next": "Diagnose explicit finite waypoint/bias geometry using original certifier and saved real state; keep full1 FAIL. Finish staged same-world query/skill interfaces without seal/unseal or active-capsule edits.",
-  "next_executable": null,
+  "next": "Register one fresh original-owner full1 translation-bias-fade scope after cold gate; preserve V7 full1 failure and all frozen controller identities.",
+  "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_bias_fade_check_v8 --spec FRESH_REGISTERED_V8_SPEC --execute",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -476,7 +478,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "READ_ONLY_GEOMETRY_DIAGNOSIS_THEN_NEW_FINITE_SCOPE_IF_QUALIFIED",
+  "next_command_status": "REQUIRES_FRESH_OWNER_REGISTRATION_AND_COLD_RESOURCES_GATE",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -635,5 +637,11 @@
     "reference_published": false,
     "feedback_decisions": 0,
     "full_goal_qualified": false
+  },
+  "task_phase_bias_fade_v8": {
+    "implementation_report": "TASK_PHASE_BIAS_FADE_IMPLEMENTATION_V8.json",
+    "native_run_started_at_this_snapshot": false,
+    "source_commit": "CONTAINING_IMPLEMENTATION_COMMIT",
+    "geometry_repair_is_WM_benefit": false
   }
 }

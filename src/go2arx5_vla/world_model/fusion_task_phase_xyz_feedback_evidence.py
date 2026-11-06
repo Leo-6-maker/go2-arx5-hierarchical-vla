@@ -30,7 +30,8 @@ def audit_completed_feedback(spec, result, *, recipe):
     from . import fusion_task_phase_xyz_feedback_continuation_v5 as v5
     from . import fusion_task_phase_pose_feedback_v6 as v6
     from . import fusion_task_phase_pose_continuation_v7 as v7
-    need((spec.get('phase'), recipe) in ((v4.PHASE, v4), (v5.PHASE, v5), (v6.PHASE, v6), (v7.PHASE, v7)),
+    from . import fusion_task_phase_bias_fade_v8 as v8
+    need((spec.get('phase'), recipe) in ((v4.PHASE, v4), (v5.PHASE, v5), (v6.PHASE, v6), (v7.PHASE, v7), (v8.PHASE, v8)),
          'EXACT_KNOWN_RECIPE_CALLER')
     need(Path(sys.executable) == Path(spec['python']) and Path(spec['python']).is_absolute()
          and Path(sys.executable).resolve() == Path(spec['python']).resolve(),
@@ -207,7 +208,7 @@ def audit_completed_feedback(spec, result, *, recipe):
         saved_original_FK_witness_rejoined_without_new_FK=True,
         native_execution_authorized=False, GPU_query_authorized=False,
         new_integrations=0, model_loads=0, queries=0, source_writes=0)
-    if recipe in (v6,v7):
+    if recipe in (v6,v7,v8):
         angular_nonzero = sum(d['applied_rotation_norm_rad'] > 0 for d in nonlinear)
         angular_holds = sum(d['angular_deadband_hold'] for d in nonlinear)
         angular_total = sum(d['applied_rotation_norm_rad'] for d in nonlinear)

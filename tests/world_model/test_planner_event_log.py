@@ -74,13 +74,16 @@ def test_decode_work_is_new_committed_records_and_original_trajectory_hashes_mat
         assert installed_target_identities(actual,'A')==installed_target_identities(expected,'A')
 
 
-def test_only_new_explicit_phase_uses_incremental_reader_old_versions_keep_legacy(tmp_path):
+@pytest.mark.parametrize('phase', [
+    'collect-target-fusion-task-phase-pose-continuation-v7',
+    'collect-target-fusion-task-phase-bias-fade-v8'])
+def test_only_new_explicit_phase_uses_incremental_reader_old_versions_keep_legacy(tmp_path,phase):
     from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
     path=tmp_path/'planner.jsonl';path.write_text('{"kind":"accept","ref_id":"A"}\n')
     old=TargetSequentialAdapter({'phase':'collect-target-fusion-task-phase-pose-feedback-v6'},tmp_path)
     first=old.reference_events();first[0]['ref_id']='MUTATED_LOCAL_COPY'
     assert old.reference_events()[0]['ref_id']=='A' and not hasattr(old,'_planner_event_log')
-    new=TargetSequentialAdapter({'phase':'collect-target-fusion-task-phase-pose-continuation-v7'},tmp_path)
+    new=TargetSequentialAdapter({'phase':phase},tmp_path)
     assert new.reference_events()==legacy(path) and hasattr(new,'_planner_event_log')
     with path.open('ab')as f:f.write(b'{"kind":"lifecycle","reason":"PREFIX_TTL_EXPIRED"}\n')
     assert new.reference_events()==legacy(path)

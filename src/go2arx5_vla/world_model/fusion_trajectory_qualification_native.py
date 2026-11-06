@@ -26,7 +26,7 @@ def actual_trace_binding(adapter):
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
         'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
         'collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2',
-        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7') else 131072)
+        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -80,7 +80,7 @@ def run(adapter):
 
 def run_program(adapter, episode, inputs, *, program_factory=None,
                 report_context=None, task_score_contract=None, report_finalizer=None,
-                sample_observer=None, before_preview=None):
+                sample_observer=None, before_preview=None, continuation=None):
     """Reuse actual native consumption for an independently checked recipe.
 
     The original entry supplies its unchanged contract. A versioned caller may
@@ -94,6 +94,16 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
     program_factory = make_program if program_factory is None else program_factory
     report_context = {} if report_context is None else report_context
     end_step = endpoint(episode)
+    if continuation is not None:
+        need(callable(continuation)
+             and adapter.spec.get('phase') == 'collect-target-fusion-task-phase-live-skill-v8'
+             and adapter.spec.get('kind') == 'FUSION_TASK_PHASE_LIVE_SKILL_V8'
+             and adapter.spec.get('live_skill_start_step') == end_step
+             and type(adapter.spec.get('max_ticks')) is int
+             and end_step < adapter.spec['max_ticks'] <= 66503
+             and (adapter.spec['max_ticks']-end_step) % 25 == 0
+             and not getattr(adapter, 'trace_sealed', False),
+             'EXPLICIT_V8_PREREGISTERED_QUERY_BOUNDARY_AND_FINAL_ENDPOINT')
     adapter.prepare_dynamic()
     trace_binding = actual_trace_binding(adapter)
     initial = adapter.measured_task_state()
@@ -213,8 +223,15 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
         adapter.reference_history.append(dict(end_native_step=after['step'],
             pose=matrix10(adapter.active_reference['action_EEF10'])[index]))
     adapter.capture_loaded_identity()
-    cancel = adapter.cancel_reference()
-    adapter.seal_trace(end_step)
+    if continuation is None:
+        cancel = adapter.cancel_reference()
+        adapter.seal_trace(end_step)
+    else:
+        # The real quota/ACK pauses physics while keeping the original WBC
+        # history and simtime TTL. A HOLD/WBC mode roundtrip is unnecessary.
+        need(adapter.latest['mode'].data == 'WBC', 'WBC_AT_INTERMEDIATE_NATIVE_PAUSE')
+        cancel = dict(kind='NO_CANCEL_AT_INTERMEDIATE_NATIVE_PAUSE',
+            native_step=end_step, mode='WBC', physics_pause='ORIGINAL_QUOTA_ACK_REQUIRED_BY_CAPTURE')
     program = adapter.trajectory_program
     need(program is not None, 'ACTUAL_PROGRAM_REQUIRED')
     confirmed = sum(bool(w['solver_policies_with_exact_installed_target']) for w in windows)
@@ -251,6 +268,51 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
             task_score_contract)
     if report_finalizer is not None:
         report_finalizer(report)
+    if continuation is not None:
+        # The intermediate evidence is not a final trace or CLOSED proof. The
+        # original quota/ACK pauses the world; its recorder stays open until E.
+        import copy
+        import hashlib
+        import json
+        prefix_path = adapter.output/'LIVE_SKILL_INITIALIZATION_STAGE.private.json'
+        need(not prefix_path.exists() and not prefix_path.is_symlink(),
+             'FRESH_PRESEAL_INITIALIZATION_STAGE')
+        need(len(windows) == (end_step-INIT_STEP)//25 and confirmed == len(windows)
+             and len(grippers) == len(windows) and all(knots_consumed),
+             'COMPLETE_INITIALIZATION_BEFORE_QUERY_CONTINUATION')
+        prefix = copy.deepcopy(report)
+        spec_before_continuation = copy.deepcopy(adapter.spec)
+        final_step = adapter.spec['max_ticks']
+        write(prefix_path, prefix)
+        prefix_raw = prefix_path.read_bytes()
+        need(json.loads(prefix_raw) == prefix,
+             'PRESEAL_INITIALIZATION_SAVED_READBACK')
+        complete = continuation(adapter, report, tuple(samples), tuple(windows))
+        total = (final_step-INIT_STEP)//25
+        need(adapter.spec == spec_before_continuation
+             and report == prefix and prefix_path.read_bytes() == prefix_raw
+             and isinstance(complete, dict) and complete is not report
+             and complete.get('actual_spec_phase') == adapter.spec['phase']
+             and complete.get('native_endpoint_step') == final_step
+             and complete.get('complete_task_atoms') == total
+             and complete.get('solver_target_confirmed_atoms') == total
+             and complete.get('gripper_confirmed_atoms') == total
+             and complete.get('all_40_knots_consumed') is True
+             and isinstance(complete.get('windows'), list)
+             and len(complete['windows']) == total
+             and complete['windows'][:len(windows)] == prefix['windows']
+             and adapter.observe()['step'] == final_step
+             and not adapter.trace_sealed,
+             'SAME_WORLD_COMPLETE_SUFFIX_AND_UNCHANGED_PREFIX_BEFORE_FINAL_SEAL')
+        adapter.capture_loaded_identity()
+        complete['operator_cancel'] = adapter.cancel_reference()
+        adapter.seal_trace(final_step)
+        complete['initialization_stage'] = dict(path=str(prefix_path),
+            sha256=hashlib.sha256(prefix_raw).hexdigest(), native_endpoint_step=end_step,
+            final_trace_sealed_at_this_boundary=False)
+        write(adapter.output/'TRAJECTORY_QUALIFICATION.private.json', complete)
+        adapter.reference_qualification = complete
+        return complete
     write(adapter.output/'TRAJECTORY_QUALIFICATION.private.json', report)
     need(len(windows) == (end_step-INIT_STEP)//25 and confirmed == len(windows)
          and len(grippers) == len(windows) and all(knots_consumed),

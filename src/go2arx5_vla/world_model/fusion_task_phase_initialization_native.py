@@ -85,12 +85,21 @@ def run(adapter):
 def run_initialization_program(adapter, episode, source, *, recipe_module=recipe, actual_phase=PHASE,
                                report_schema=REPORT_SCHEMA, goal_schema=GOAL_SCHEMA,
                                reference_calibration_factory=None, report_context=None,
-                               before_preview=None, report_extension=None):
-    """Run one checked fixed grade; no query or model entry is reachable."""
+                               before_preview=None, report_extension=None, continuation=None):
+    """Run a checked grade; only an explicit V8 caller may continue before seal."""
     from scripts.pi0292.durable import write
     from .fusion_trajectory_qualification_native import run_program
     recipe_module.episode_contract(episode)
-    need(adapter.spec.get('phase') == actual_phase and adapter.spec['max_ticks'] == recipe_module.endpoint(episode),
+    boundary = recipe_module.endpoint(episode)
+    registered_end = adapter.spec['max_ticks']
+    continuation_bound = (continuation is not None
+        and actual_phase == 'collect-target-fusion-task-phase-live-skill-v8'
+        and adapter.spec.get('kind') == 'FUSION_TASK_PHASE_LIVE_SKILL_V8'
+        and adapter.spec.get('live_skill_start_step') == boundary
+        and type(registered_end) is int and boundary < registered_end <= 66503
+        and (registered_end-boundary) % 25 == 0)
+    need(adapter.spec.get('phase') == actual_phase
+         and ((continuation is None and registered_end == boundary) or continuation_bound),
          'ACTUAL_NEW_PHASE_AND_STATIC_ENDPOINT')
     need(set(source) == {'source_observation_bytes', 'T_source_from_target', 'scene_sha256'},
          'EXACT_FROZEN_SOURCE_CONFIGURATION')
@@ -200,4 +209,4 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
         context.update(report_context)
     return run_program(adapter, episode, inputs, program_factory=factory,
         report_context=context, report_finalizer=finalizer,
-        sample_observer=record_sample, before_preview=before_preview)
+        sample_observer=record_sample, before_preview=before_preview, continuation=continuation)
