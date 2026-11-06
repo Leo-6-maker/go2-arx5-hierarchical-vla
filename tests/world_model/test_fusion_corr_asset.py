@@ -4,11 +4,13 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from scripts.wm02 import stage_fusion_corr_asset as staging
@@ -62,10 +64,10 @@ def tiny_original_consumer(root):
         repo_id=staging.REPO_ID, data_revision=staging.DATA_REVISION, prefix=staging.PREFIX,
         manifest=str(manifest_path), manifest_sha256=sha(manifest_raw),
         source_first_shard=str(source), source_first_shard_sha256=sha(first), source_first_shard_bytes=len(first),
-        source_sha='SYNTHETIC_ONLY_SOURCE', registered_root=str(job), campaign_root=str(root/'campaign'),
+        source_sha='SYNTHETIC_ONLY_SOURCE', uid=os.getuid(), registered_root=str(job), campaign_root=str(root/'campaign'),
         fusion_binding=str(root/'fusion/control/BINDING.json'),
         pilot1_binding=str(root/'pilot/control/BINDING.json'),
-        output_storage_proof='SYNTHETIC_QUALIFIED_PROOF', output_storage_proof_sha256='synthetic',
+        output_storage_proof='/SYNTHETIC_ONLY/QUALIFIED_PROOF', output_storage_proof_sha256='a'*64,
         deadline_epoch=time.time()+60.)
     payload['INFERENCE_MANIFEST.json'] = manifest_raw
     calls = []
@@ -92,6 +94,31 @@ def tiny_original_consumer(root):
 
 
 class CorrAssetStaging(unittest.TestCase):
+    def test_uid_mapped_qualified_hdd_runs_original_consumer_without_chmod(self):
+        with tempfile.TemporaryDirectory() as tmp, tiny_original_consumer(Path(tmp)) as fixture:
+            spec, output, _, download, _ = fixture
+            spec['uid'] = 2009
+            root = Path(spec['registered_root'])
+            actual_stat = Path.stat
+            def mapped(path, *args, **kwargs):
+                value = actual_stat(path, *args, **kwargs)
+                if Path(path).is_relative_to(root):
+                    attributes = {name: getattr(value, name) for name in dir(value) if name.startswith('st_')}
+                    attributes.update(st_uid=0, st_dev=2050, st_mode=stat.S_IFMT(value.st_mode) | 0o777)
+                    return SimpleNamespace(**attributes)
+                return value
+            before = staging.identity(spec['source_first_shard'])
+            with patch.object(os, 'getuid', return_value=2009), patch.object(Path, 'stat', mapped), \
+                    patch.object(os, 'chmod', side_effect=AssertionError('NO_CHMOD')), \
+                    patch.object(os, 'fchmod', side_effect=AssertionError('NO_FCHMOD')):
+                report = staging.run(spec, output, download=download)
+            self.assertEqual(len(report['inference_files_sha256']), 9)
+            self.assertEqual(report['observed_asset_root_identity']['uid'], 0)
+            self.assertEqual(report['observed_asset_root_identity']['device'], 2050)
+            self.assertEqual((report['process_uid'], report['spec_uid']), (2009, 2009))
+            self.assertFalse(report['staged_copy_posix_readonly_enforced'])
+            self.assertEqual(staging.identity(spec['source_first_shard']), before)
+
     def test_actual_original_consumer_small_stream_root_local_downloads_and_old_inode_untouched(self):
         with tempfile.TemporaryDirectory() as tmp, tiny_original_consumer(Path(tmp)) as fixture:
             spec, output, payload, download, calls = fixture
@@ -165,6 +192,8 @@ class CorrAssetStaging(unittest.TestCase):
                            dict(data_revision='main'), dict(repo_id='other/repo'), dict(physics=True)]:
                 with self.subTest(change=change), self.assertRaises(PermissionError):
                     staging.run(dict(spec, **change), output, download=download)
+            with self.assertRaisesRegex(PermissionError, 'ADMITTED_OUTPUT'):
+                staging.run(dict(spec, uid=spec['uid']+1), output, download=download)
             with patch('go2arx5_vla.world_model.pilot1_storage.qualified_block_path',
                        side_effect=PermissionError('UNQUALIFIED_ROOT')):
                 with self.assertRaisesRegex(PermissionError, 'UNQUALIFIED_ROOT'):
@@ -220,7 +249,7 @@ class CorrAssetStaging(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, tiny_original_consumer(Path(tmp)) as fixture:
             spec, output, _, download, calls = fixture
             root = Path(spec['registered_root'])
-            def rogue_consume(_root, _bindings, *, download):
+            def rogue_consume(_root, _bindings, *, download, frozen_member_storage):
                 return download(staging.REPO_ID, staging.PREFIX+'/UNLISTED_LARGE_MODEL',
                                 repo_type='dataset', revision=staging.DATA_REVISION,
                                 local_dir=root/'download')

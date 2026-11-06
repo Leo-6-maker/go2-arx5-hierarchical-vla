@@ -210,7 +210,45 @@ def publish(root, bindings, *, api, add, download):
     return journal
 
 
-def consume(root, bindings, *, download):
+def _frozen_member_storage(root, frozen, proof):
+    """Optional narrow qualification for the measured UID-mapped local HDD.
+
+    The historical consumer still requires the inode UID when no proof is
+    supplied. This branch accepts only one private copied first shard on the
+    exact registered non-root block volume; it never changes mount/permissions.
+    """
+    if proof is None:
+        if frozen.stat().st_uid != os.getuid():
+            fail('REUSED_LOCAL_FROZEN_BYTES_NOT_JUST_HF_OR_OLD_RECEIPT')
+        return
+    required = {'registered_root', 'output_storage_proof',
+                'output_storage_proof_sha256', 'expected_uid'}
+    if (type(proof) is not dict or set(proof) != required
+            or type(proof['expected_uid']) is not int or proof['expected_uid'] != os.getuid()):
+        fail('EXPLICIT_REGISTERED_FROZEN_MEMBER_STORAGE_PROOF')
+    if (type(proof['registered_root']) is not str
+            or type(proof['output_storage_proof']) is not str
+            or not Path(proof['output_storage_proof']).is_absolute()
+            or type(proof['output_storage_proof_sha256']) is not str
+            or len(proof['output_storage_proof_sha256']) != 64
+            or any(c not in '0123456789abcdef' for c in proof['output_storage_proof_sha256'])):
+        fail('ABSOLUTE_FROZEN_MEMBER_PROOF_PATH_AND_FULL_SHA256_REQUIRED')
+    root, frozen = Path(root), Path(frozen)
+    registered = Path(proof['registered_root'])
+    if (not registered.is_absolute() or registered != root
+            or root.is_symlink() or not root.is_dir()
+            or (root/'frozen-base').is_symlink()
+            or frozen != root/'frozen-base'/FIRST or frozen.is_symlink()
+            or not frozen.resolve().is_relative_to(root.resolve())):
+        fail('EXACT_PRIVATE_REGISTERED_ROOT_FROZEN_BASE_FIRST_REQUIRED')
+    from go2arx5_vla.world_model.pilot1_storage import qualified_block_path
+    qualified_block_path(root, proof['output_storage_proof'], proof['output_storage_proof_sha256'])
+    qualified_block_path(frozen, proof['output_storage_proof'], proof['output_storage_proof_sha256'])
+    if frozen.stat().st_dev != root.stat().st_dev:
+        fail('FROZEN_MEMBER_MUST_SHARE_ACTUAL_QUALIFIED_ROOT_DEVICE')
+
+
+def consume(root, bindings, *, download, frozen_member_storage=None):
     transfer = bindings['transfer']
     if (transfer['schema'] != SCHEMA or transfer['repo_id'] != REPO or transfer['prefix'] != PREFIX
             or transfer['status'] != 'PAYLOAD_COMMITTED_PENDING_INDEPENDENT_CONSUMER_READBACK'
@@ -228,8 +266,10 @@ def consume(root, bindings, *, download):
             or value['files'] != {n:r for n,r in transfer['files'].items() if n!='INFERENCE_MANIFEST.json'}):
         fail('EXACT_MANIFEST_TRANSFER_IDENTITY')
     frozen = Path(bindings['frozen_local_member'])
-    if (frozen.is_symlink() or frozen.stat().st_uid != os.getuid()
-            or frozen.stat().st_size != dependency()['bytes'] or sha(frozen) != FIRST_SHA):
+    if frozen.is_symlink():
+        fail('REUSED_LOCAL_FROZEN_BYTES_NOT_JUST_HF_OR_OLD_RECEIPT')
+    _frozen_member_storage(root, frozen, frozen_member_storage)
+    if frozen.stat().st_size != dependency()['bytes'] or sha(frozen) != FIRST_SHA:
         fail('REUSED_LOCAL_FROZEN_BYTES_NOT_JUST_HF_OR_OLD_RECEIPT')
     paths = {n:get(n) for n in value['files']}
     checkpoint = root/'inference'; checkpoint.mkdir(mode=0o700)

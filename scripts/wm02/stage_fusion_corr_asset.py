@@ -89,9 +89,6 @@ def copy_frozen(source, destination, *, expected_bytes, expected_sha256,
         os.fsync(target.fileno())
         if copied != expected_bytes or value.hexdigest() != expected_sha256 or identity(source) != before:
             raise ValueError('FROZEN_FIRST_COPY_BYTES_HASH_OR_SOURCE_IDENTITY_CHANGED')
-        # Only the new inode is made read-only. The original is never chmod'ed.
-        os.fchmod(target.fileno(), 0o400)
-        os.fsync(target.fileno())
     check()
     if (identity(destination)['device'], identity(destination)['inode']) == (before['device'], before['inode']):
         raise ValueError('NEW_PRIVATE_FIRST_SHARD_MUST_HAVE_DISTINCT_INODE')
@@ -101,17 +98,23 @@ def copy_frozen(source, destination, *, expected_bytes, expected_sha256,
 def qualified_root(spec, output):
     from go2arx5_vla.world_model.pilot1_storage import qualified_block_path
     root, output = Path(spec['registered_root']), Path(output)
-    if (root.is_symlink() or output.is_symlink() or not root.is_dir() or not output.is_dir()
-            or root.stat().st_uid != os.getuid() or output.stat().st_uid != os.getuid()
+    # The measured fuseblk volume maps all inode UIDs to zero. Ownership comes
+    # from actual admitted process/spec identity, exact paths and its disk proof.
+    if (type(spec.get('uid')) is not int or spec['uid'] != os.getuid()
+            or not root.is_absolute() or root.is_symlink() or output.is_symlink()
+            or not root.is_dir() or not output.is_dir()
             or output.parent.resolve() != root.resolve()):
         raise PermissionError('FRESH_OWNED_ASSET_ROOT_AND_ADMITTED_OUTPUT_CHILD_REQUIRED')
     qualified_block_path(root, spec['output_storage_proof'], spec['output_storage_proof_sha256'])
+    qualified_block_path(output, spec['output_storage_proof'], spec['output_storage_proof_sha256'])
     if root.stat().st_dev != output.stat().st_dev:
         raise PermissionError('ASSET_OUTPUT_MUST_STAY_ON_QUALIFIED_HDD')
     cache = root/'cache'
     if (cache.is_symlink() or cache.exists() and (
-            not cache.is_dir() or cache.stat().st_uid != os.getuid() or any(cache.iterdir()))):
+            not cache.is_dir() or cache.stat().st_dev != root.stat().st_dev or any(cache.iterdir()))):
         raise PermissionError('FRESH_EMPTY_OWNED_HF_CACHE_REQUIRED_NO_EXTERNAL_SYMLINKS')
+    if cache.exists():
+        qualified_block_path(cache, spec['output_storage_proof'], spec['output_storage_proof_sha256'])
     return root
 
 
@@ -233,7 +236,11 @@ def run(spec, output, *, download=None):
             if download is None:
                 from huggingface_hub import hf_hub_download
                 download = hf_hub_download
-            consumed = assets.consume(root, bindings, download=owned_download)
+            consumed = assets.consume(root, bindings, download=owned_download,
+                frozen_member_storage=dict(registered_root=str(root),
+                    output_storage_proof=spec['output_storage_proof'],
+                    output_storage_proof_sha256=spec['output_storage_proof_sha256'],
+                    expected_uid=spec['uid']))
         if requested != set(files) or accounting['download_file_calls_completed'] != 14:
             raise ValueError('EXACT_THIRTEEN_DELTA_MEMBERS_PLUS_MANIFEST_REQUIRED')
         expected = {name: FIRST_SHA256 if name == FIRST else manifest['files'][name]['sha256']
@@ -273,6 +280,9 @@ def run(spec, output, *, download=None):
             model_loads=0, processor_loads=0, VLA_inferences=0, native_integrations=0,
             optimizer_updates=0, GR00T_updates=0, GPU_calls=0, automatic_retry=False,
             preserved_failures_and_partial_files=True, old_E1_frozen_condition_not_replaced=True,
+            storage_ownership_basis='ADMITTED_PROCESS_UID_AND_QUALIFIED_BLOCK_PROOF_NOT_MAPPED_INODE_UID',
+            process_uid=os.getuid(), spec_uid=spec['uid'],
+            observed_asset_root_identity=identity(root), staged_copy_posix_readonly_enforced=False,
             model_and_processor='OWN_CORR_MANIFEST_WITH_EXPLICIT_PUBLIC_COSMOS_NAME_RELOCATION',
             task_transfer_gain=False, CPU_s=time.process_time()-cpu, wall_s=time.monotonic()-start,
             CPU_peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
