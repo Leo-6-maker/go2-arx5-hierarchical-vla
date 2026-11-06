@@ -21,36 +21,36 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793946263.1096313,
-  "implementation_sha": "3d0df83f44ae3c5c6a9438eda661fb8fc08957d7",
+  "snapshot_epoch": 1793949172.019804,
+  "implementation_sha": "5103ae60520939d9a9d399b20f783a15b144f670",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "0f235865a30f94cd877b7648598823d2039fa6ae",
+  "actual_last_native_source_sha": "5103ae60520939d9a9d399b20f783a15b144f670",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
   "live_process_state": "ALL_PROJECT_PHYSICS_GPU_AND_OFFLINE_ROLES_IN_THIS_SNAPSHOT_CLOSED; parent scopes ACTIVE",
-  "FUSION_completed_physical_cohorts": 4,
-  "FUSION_native_attempts": 262,
-  "FUSION_native_passes": 262,
+  "FUSION_completed_physical_cohorts": 5,
+  "FUSION_native_attempts": 263,
+  "FUSION_native_passes": 263,
   "FUSION_native_failures": 0,
-  "FUSION_native_ticks": 1074986,
+  "FUSION_native_ticks": 1079089,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
-  "FUSION_VLA_inferences": 1,
+  "FUSION_VLA_inferences": 3,
   "FUSION_WM_updates": 12200,
   "FUSION_completed_model_main_updates": 12000,
   "FUSION_failed_uncheckpointed_updates": 200,
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 916,
-  "sealed_native_passes_with_inherited_PILOT2": 911,
+  "sealed_native_attempts_with_inherited_PILOT2": 917,
+  "sealed_native_passes_with_inherited_PILOT2": 912,
   "retained_historical_native_failures": 5,
-  "sealed_native_ticks_with_inherited_PILOT2": 4062279,
+  "sealed_native_ticks_with_inherited_PILOT2": 4066382,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
-  "M1": "ONE_REAL_E1_SOURCE_QUERY_ORIGINAL_GATE_REJECT; NEW_CORR_ASSETS_READY_SOURCE_SHADOW_WAIT_HEADROOM",
-  "M2": "NOT_RUN_SOURCE_GATE_AND_FULL_REFERENCE_SUPPORT_UNQUALIFIED",
+  "M1": "THREE_REAL_FROZEN_QUERIES; NEW_VERSION_INTENT_POSE_REFERENCE_LABEL_SEMANTICS_VERIFIED; TARGET_INPUT_AND_FULL_DOMAIN_UNQUALIFIED",
+  "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
   "M3": "REAL_NEW_TRAIN_UPDATE_EXACT_RESTORE_AND_SEALED_NATIVE_REEVALUATION_COMPLETE",
   "CALIBRATION_CORRECTION_GAIN": false,
   "REAL_VLA_INFERENCE_DONE": true,
@@ -126,22 +126,41 @@
       "model_loads": 0,
       "full_resume": false,
       "prior_asset01_failure_retained": true
+    },
+    "contact_FULL927": {
+      "spec_sha256": "198d42c1f88527e1b2f4fa4e36130fbfc48406163a01a2c235f03796f1423071",
+      "result_sha256": "7caab93a06b37aa24c89238fc3a12614f4eba644a4f16880a8bf3250a716af17",
+      "worker_exit_code": 0,
+      "lease_status": "CLOSED",
+      "MainPID": 0,
+      "model_fits": 2,
+      "head_solves": 12,
+      "optimizer_updates": 0
     }
   },
   "fresh_CORR_source_shadow": {
-    "dispatch_check_exit_code": 75,
-    "status": "WAIT_ACTUAL_SHARED_FP32_HEADROOM",
-    "jobs_started": 0,
-    "effects": 0,
-    "model_loads": 0,
-    "VLA_queries": 0,
-    "shared_GPU_free_MiB": [
-      9066,
-      3199
-    ],
-    "required_free_bytes_strictly_greater_than": 15032385536,
-    "resource_check_before_journal_or_registration": true,
-    "automatic_job_retry": false
+    "status": "CLOSED_REAL_QUERY_COMPLETED",
+    "source_sha": "1ca3b833139e92019c29029ef6be5a4f368de717",
+    "spec_sha256": "0b5847f799115893be24b1363d946bed6ea7f32cf8a26e6c3ad3bde720908199",
+    "result_sha256": "c47161e6a6ab87f7289d613742c2dbdf019f119bbbca3c8911cec34d0148c791",
+    "worker_exit_code": 0,
+    "model_loads": 1,
+    "VLA_queries": 1,
+    "previous_readonly_wait": {
+      "dispatch_check_exit_code": 75,
+      "status": "WAIT_ACTUAL_SHARED_FP32_HEADROOM",
+      "jobs_started": 0,
+      "effects": 0,
+      "model_loads": 0,
+      "VLA_queries": 0,
+      "shared_GPU_free_MiB": [
+        9066,
+        3199
+      ],
+      "required_free_bytes_strictly_greater_than": 15032385536,
+      "resource_check_before_journal_or_registration": true,
+      "automatic_job_retry": false
+    }
   },
   "archived_source_outcomes": {
     "status": "READONLY227_CHECKS_PASS",
@@ -165,14 +184,79 @@
     "UID_fix_passed": 26,
     "UID_fix_subtests_passed": 41,
     "UID_fix_optimized_passed": 26,
-    "UID_fix_optimized_subtests_passed": 41
+    "UID_fix_optimized_subtests_passed": 41,
+    "new_reference_and_full_history_source": "5103ae60520939d9a9d399b20f783a15b144f670",
+    "new_reference_and_full_history_full_passed": 424,
+    "new_reference_and_full_history_full_subtests": 270,
+    "new_reference_and_full_history_full_wall_s": 34.13,
+    "new_reference_and_full_history_optimized_passed": 45,
+    "new_reference_and_full_history_optimized_subtests": 50
   },
   "reports": [
     "FROZEN_NATIVE_STRUCTURED_TIMING_AND_CAPTURE.md",
     "FROZEN_NATIVE_STRUCTURED_TIMING_AND_CAPTURE_ACTUAL.json",
-    "CORR_ASSET_REPAIR_ACTUAL.json"
+    "CORR_ASSET_REPAIR_ACTUAL.json",
+    "SCIENCE_FOCUS_COLD_BOUNDARY.md",
+    "SCIENCE_FOCUS_COLD_BOUNDARY_ACTUAL.json"
   ],
-  "next": "Refresh actual GPU headroom; run one fixed CORR source shadow then saved-target shadow under fresh owner registration. Continue FULL927 contact baseline and separately qualified small-Z native entry; no raw VLA execution outside verified support.",
-  "next_executable": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/read_fusion_live.py\" 45",
-  "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES"
+  "next": "Complete shared versioned full-trajectory adaptation and single-world graded geometry qualification; preserve all 40 knots, explicit time/gripper/reference changes, original certifier, per-atom actual gripper consumption and causal WM history. Do not use old XY1mm model outside its domain.",
+  "next_executable": "Pending tested new trajectory check CLI and fresh original-owner native registration; no dispatcher for a CLOSED run may be replayed.",
+  "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
+  "priority_supplement": {
+    "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
+    "path": "docs/handover/2026-11-06/WM02_FUSION_SCIENCE_FOCUS_V1.md",
+    "blob_sha": "73bcbd78387223fe56cd3053b1af6db6df3f97dd",
+    "adopted": "PRIORITIES_ONLY_NO_SOURCE_DOWNGRADE_NO_PLAN_MERGE",
+    "weak_ARX_teacher_distillation": "PAUSED",
+    "completed_balanced_replay_response_HOLD_and_192_panel": "REUSED_NO_RERUN"
+  },
+  "CONTRACT_STATUS": {
+    "auditor_updates_existing_status_file": false,
+    "existing_status_file_merge_key": "CONTRACT_STATUS",
+    "new_ledger_or_scheduler": false,
+    "next": "Use the complete bound proposal table to select one task-relevant reference family for original single-world qualification; retain shadow until command/outcome alignment and actual WM inputs are resolved.",
+    "resolved": [
+      "physical_H40 is already original-Processor-decoded; audit does no second decode or relative accumulation.",
+      "Each completed query binds frozen model/processor inventory, exact observation, fixed seed, recorded noise fingerprint and action SHA.",
+      "Nominal command, desired outcome, compiled/installed/consumed reference and achieved motion remain separate.",
+      "New-version frozen-label audit supports INTENT_POSE / INTENT_POSE_REFERENCE; it does not claim actual TCP equals command or source/target task success. Old unresolved receipts remain unchanged."
+    ],
+    "unresolved": [
+      "WM 9x106 causal history, 8x17 past references, absolute INIT2503/BASE hold and training state range are not supplied.",
+      "Entire compiled target preview, workspace/collision/native certificate and live TTL remain unqualified; N1 is not a latency distribution.",
+      "Target task language, camera transfer and embodiment remain unqualified; the historical target shadow borrowed source T1 language for a calibration task.",
+      "SOURCE_OUTCOME for these exact queries is unavailable; the new reference-intent interpretation does not use or invent it."
+    ]
+  },
+  "weak_ARX_teacher_distillation": "PAUSED",
+  "full_trajectory_adaptation_implementation": "IN_PROGRESS_NOT_NATIVE_STARTED",
+  "fresh_CORR_target_saved_shadow": {
+    "run": "fusion-night1-corr2048-target-shadow-01",
+    "source_sha": "1ca3b833139e92019c29029ef6be5a4f368de717",
+    "spec_sha256": "0988bdafe07c49fc0740d6075fd9e172314894adf477fad8e9e54070972c7689",
+    "result_sha256": "140d4c0db91e5daa36bdc51557942e040fd0b7d14b6753f1bdba0c93dbc39d09",
+    "worker_exit_code": 0,
+    "lease_status": "CLOSED",
+    "actual_VLA_queries": 1,
+    "actual_target_online_input": false
+  },
+  "new_reference_qualification": {
+    "source_sha": "5103ae60520939d9a9d399b20f783a15b144f670",
+    "spec_sha": "30c6506c8035133108c684abfcc5958ad48be68f2c0f75d54d676ff3773322d9",
+    "result_sha": "fd163e866a1c82873c3a5e044e60c3295b7696655b4af28580321a7cfad9b9c0",
+    "native_ticks": 4103,
+    "task_atoms": 64,
+    "consumed_atoms": 64,
+    "real_motion_mm": [
+      0.44118396190406806,
+      -0.2874330678213372,
+      0.34719567734842194
+    ],
+    "endpoint_error_mm": [
+      0.44118396190406806,
+      -0.2874330678213372,
+      -0.152804322651523
+    ],
+    "domain_generalization": false
+  }
 }
