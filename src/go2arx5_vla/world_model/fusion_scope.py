@@ -160,6 +160,22 @@ def validate_corr_asset_cpu(spec):
     return validate(spec)
 
 
+def validate_contact_timing_cpu(spec):
+    """Independent C-line event diagnostic; no contact execution grant."""
+    if (spec.get('execution_site') != 'CORE_FUSION_CONTACT_TIMING_CPU'
+            or spec.get('profile') != 'wm02-fusion-contact-timing-offline-cpu'
+            or spec.get('kind') != 'FUSION_CONTACT_TIMING_BASELINE'
+            or spec.get('recipe') != 'WM02_CONTACT_TIMING_MATCHED_TRAIN_FIR_V1'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('numeric_mode') != 'NUMPY_FLOAT64' or spec.get('ridge') != 1.
+            or spec.get('arms') != ['ACTION_CONDITIONED', 'NO_FUTURE_PROGRAM']
+            or spec.get('information') != 'PREDECLARED_PROGRAM_CONDITIONAL'
+            or spec.get('GR00T_updates') != 0 or spec.get('WBC_changes') is not False
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''):
+        raise PermissionError('FINITE_SAME_INFORMATION_CONTACT_CPU_EVENT_DIAGNOSTIC_REQUIRED')
+    return validate(spec)
+
+
 def register(path):
     """Register once under the same canonical locks, only after the sealed batch.
 

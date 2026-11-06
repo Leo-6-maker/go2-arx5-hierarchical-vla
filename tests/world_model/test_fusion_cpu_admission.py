@@ -3,7 +3,8 @@ import unittest
 from unittest.mock import patch
 
 from go2arx5_vla.world_model.fusion_scope import (
-    validate_structured_cpu, validate_target_capture_cpu, validate_corr_asset_cpu)
+    validate_structured_cpu, validate_target_capture_cpu, validate_corr_asset_cpu,
+    validate_contact_timing_cpu)
 
 
 class StructuredCPUAdmission(unittest.TestCase):
@@ -80,6 +81,21 @@ class StructuredCPUAdmission(unittest.TestCase):
             with patch.dict(os.environ, CUDA_VISIBLE_DEVICES='GPU-0'):
                 with self.assertRaises(PermissionError):
                     validate_corr_asset_cpu(spec)
+
+    def test_contact_timing_offline_role_keeps_original_scope_without_native_or_GPU_grant(self):
+        spec = dict(execution_site='CORE_FUSION_CONTACT_TIMING_CPU',
+            profile='wm02-fusion-contact-timing-offline-cpu', kind='FUSION_CONTACT_TIMING_BASELINE',
+            recipe='WM02_CONTACT_TIMING_MATCHED_TRAIN_FIR_V1', physics=False, device='cpu',
+            numeric_mode='NUMPY_FLOAT64', ridge=1., arms=['ACTION_CONDITIONED', 'NO_FUTURE_PROGRAM'],
+            information='PREDECLARED_PROGRAM_CONDITIONAL', GR00T_updates=0, WBC_changes=False)
+        with patch.dict(os.environ, CUDA_VISIBLE_DEVICES=''), patch(
+                'go2arx5_vla.world_model.fusion_scope.validate', return_value='original') as check:
+            self.assertEqual(validate_contact_timing_cpu(spec), 'original')
+            check.assert_called_once_with(spec)
+            for key, value in [('physics', True), ('device', 'cuda'), ('GR00T_updates', 1),
+                               ('ridge', .1), ('information', 'INSTALLED_FUTURE')]:
+                with self.subTest(key=key), self.assertRaises(PermissionError):
+                    validate_contact_timing_cpu(dict(spec, **{key:value}))
 
 
 if __name__ == '__main__':
