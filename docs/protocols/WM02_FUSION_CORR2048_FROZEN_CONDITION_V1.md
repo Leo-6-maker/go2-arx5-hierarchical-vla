@@ -18,3 +18,10 @@
 13 个 delta 文件及 manifest 共 14 次逻辑文件调用；原 consumer 完整核验，随后重新核验九个 inference 文件与原第一 shard。逻辑文件调用与返回文件大小不是 HTTP 请求或实测网络流量。失败与部分文件保留，不自动重派。该资产只支持 inference，不包含 optimizer/RNG，不能称完整训练恢复。两处 Cosmos 名称元数据迁移按原 manifest 明示，权重、index 与统计不变。
 
 资产验收后，只有实际 GPU 余量足够时才另行登记单次冻结 shadow；全部权重、processor、seed、数值精度与观察身份必须记录。目标相机/状态桥、完整参考支持域与原安全仍需分别验收。旧 CORR 的已执行 first8 与真实 400 ms 后果不能配给新 E1 动作，也不能扩展成 H40/H16 真值。目标 replay 不是在线闭环，更不是任务迁移成功。
+
+后继 shadow 在调用前固定两条条件，逐条 fresh lease、单 GPU 串行，不按输出筛 seed：
+
+1. 原始封存源观测，seed `366101`，与本轮 E1 使用相同输入和 seed；记录新 CORR 完整 H40 与原 Gate 结果。该新输出不借用历史 CORR 的 SOURCE_OUTCOME。
+2. 若三视图目标 capture 实际验收成功，使用事先固定的决策 tick `3703`，seed `366102`。读取完整 bound sidecar、原 PNG/状态/标定 hash 与已 CLOSED producer，不抽出 payload 后丢弃目标来源。旧 T1 语言与目标校准场景不匹配，必须随结果保留 `task_prompt_matches_target_task=False`；相机、embodiment、任务、在线执行均不因此获资格。此次仅检查真实目标输入能否经过同一冻结推理链，不评价任务成功。
+
+源 CORR 原 proposal 的只读后果审计、同 seed 新源推理、目标保存观测 shadow 是三种独立证据，不能相互替换。每次失败、拒绝与未运行项均保留；不因 shadow 通过而改动现役物理面板。
