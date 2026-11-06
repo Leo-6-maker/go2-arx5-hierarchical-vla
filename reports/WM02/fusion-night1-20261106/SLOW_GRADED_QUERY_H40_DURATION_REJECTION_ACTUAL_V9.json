@@ -1,0 +1,524 @@
+{
+  "schema": "WM02_SLOW_GRADED_QUERY_FULL_H40_DURATION_REJECTION_ACTUAL_V9",
+  "status": "NATIVE_CLOSED1_GPU_CLOSED0_FRESH_NINE_PREDICATES_AND_QUERY_COMPLETE_FULL_PROPOSAL_TOO_LONG",
+  "goal": "ACTIVE",
+  "source_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
+  "QUESTION": "Can a slower half-grade prefix support a fresh real query and its whole H40 under the predeclared clock?",
+  "CHANGED": "12 ordinary-feedback slots with1.4s movement and.4s settle; same B34303/E66503, frozen GR00T/Processor, full geometry and time2 adapter.",
+  "NATIVE_RESULT": "Nine non-full arrival/hold predicates reported PASS at34303, real frozen query1 and complete H40 saved. Whole time2 proposal requires126.5s versus64.4s available; rejected before any generated reference installation.",
+  "VALID_FAILURES": "Native partial attempt remains FAIL despite the successful initialization substage and GPU query. Zero generated knots consumed; no safety STOP, warning, trace drop or forced termination.",
+  "SCIENCE_DECISION": "Initialization/query engineering advanced. P0 whole-proposal execution and task transfer gain remain unqualified; do not clip the proposal, retry a seed to select a win or widen native safety.",
+  "NEXT_GATE": "Read-only replay of saved12 feedback decisions/1272windows and complete new action geometry/semantics/time mapping. An explicit original time1 hypothesis may be audited, never assumed safe or executed by this report.",
+  "native": {
+    "run": "fusion-night1-slow-graded-live-s050-01",
+    "spec_sha256": "9b66c648281a5babd467aa5de3b2eacf18be4f871e2d0ed4aebb1ff771c2f7cb",
+    "result_sha256": "895c37994f8d81b28f39d947f4e11e33c73573d73f4add4f9c5b766bb495b866",
+    "lease_sha256": "f4dac0d8ed88da57332f6b19063a65b30e650e98ec4d6c114123425b0ae36e29",
+    "worker_sha256": "c44ee503f50ed180816c478885542b666b4eb5d8ec2a5e3b84c680e4fd5ede71",
+    "exit_code": 1,
+    "MainPID": 0
+  },
+  "gpu": {
+    "run": "fusion-night1-slow-graded-live-s050-gpu-01",
+    "spec_sha256": "4684b786ead1442440e7caf663185279cd2f82726eeb9c6aec186da63faa4c5c",
+    "result_sha256": "552088fb15cca56f8f515a3a6f319c07d4f384d63e1a9fcec70ff55b3a8a80e7",
+    "lease_sha256": "6356edbf206a515cc3e1f9269c0865c356ac64e2a973aad367e3f1f2a57ce1be",
+    "worker_sha256": "da813dfad102a9e662ab82c4f9cc903fa59122778e2ad3a6aa85360882a8c034",
+    "exit_code": 0,
+    "MainPID": 0
+  },
+  "physics": {
+    "actual_integrations": 34303,
+    "complete_25tick_physical_transitions": 1372,
+    "complete_task_pose_gripper_windows": 1272,
+    "partial_native_ticks": 3,
+    "actual_generated_reference_installations": 0,
+    "generated_knots_consumed": 0,
+    "complete_generated_skills": 0,
+    "complete_tasks": 0,
+    "physics_stops": 0,
+    "joint_or_warning_samples": 0,
+    "outer_guard_rejections": 0,
+    "trace": {
+      "PD_callbacks_recorded": 25790,
+      "STOP_observed": false,
+      "errors": [],
+      "full_payload_records": 3431,
+      "full_payloads_not_retained": 0,
+      "input_files_sha256": {
+        "init.trace": "b7919ec84cab7ad30b1701fa3d6dc337ce26d554ed3f55f5d46e965295ec39b0",
+        "init.trace.snapshots": "14df4a7a72fad3409100fbfa6d575236b0eb742651113a5e824e122e4d9edd42",
+        "init.trace.summary": "47c275e2e70662ff47c91ba17b7ac81f0e465c75fa0fecd030f61b1db3ee4956"
+      },
+      "integrations_after_first_STOP": null,
+      "missing": [],
+      "native_step_records": 34303,
+      "records": 268860,
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "writer": {
+        "dropped": 0,
+        "events": 268860,
+        "sealed_at_explicit_pause": true,
+        "stop_latched": false,
+        "written": 268860
+      }
+    },
+    "shutdown_clean": true,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    }
+  },
+  "initialization_substage": {
+    "artifact_sha256": "41beead4400915173782d60e3057ff245b152b959fa4f0f5569fbae881406323",
+    "artifact_bytes": 70849589,
+    "exact_saved_readiness": {
+      "actual_sample_steps": [
+        34103,
+        34128,
+        34153,
+        34178,
+        34203,
+        34228,
+        34253,
+        34278,
+        34303
+      ],
+      "predicates": {
+        "actual_cube_distance": true,
+        "actual_open": true,
+        "continuous_relative_hold": true,
+        "cube_still": true,
+        "full_grade": false,
+        "lateral": true,
+        "no_contact": true,
+        "orientation": true,
+        "original_safety": true,
+        "position": true
+      },
+      "query_ready": false,
+      "relative_hold": {
+        "diameter_threshold_m": 0.002,
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.00022727114826628345,
+        "relative_TCP_max_speed_m_s": 0.002024777710941236,
+        "screen_is_native_safety": false,
+        "speed_threshold_m_s": 0.025,
+        "window_s": 0.39999999999906777
+      },
+      "scalar_metrics": {
+        "maximum_cube_displacement_m": 0.0,
+        "maximum_cube_rotation_from_frozen_rad": 0.0,
+        "maximum_lateral_error_m": 0.002600674639661692,
+        "maximum_orientation_error_rad": 0.03853466334559598,
+        "maximum_position_error_m": 0.0045746713014168175,
+        "minimum_actual_cube_distance_m": 0.21796593614779453,
+        "minimum_actual_finger_opening_m": 0.04193451412907604
+      },
+      "schema": "WM02_FUSION_TASK_PHASE_POSE_SLOW_FEEDBACK_READINESS_V9"
+    },
+    "feedback": {
+      "Actor_updates": 0,
+      "VLA_queries": 0,
+      "WM_updates": 0,
+      "actual_feedback_reference_updates": 12,
+      "angular_deadband_HOLD_count": 0,
+      "causal_completed_window_feedback": true,
+      "committed_feedback_decisions": 12,
+      "deadband_HOLD_count": 0,
+      "final_reference_path_sha256": "cf54a21f54baa504f678b05f79aeca440b9b1f191bfde5b4933a85cb5ba5c67e",
+      "nonzero_SO3_corrections": 12,
+      "nonzero_XYZ_corrections": 12,
+      "ordinary_feedback_not_model_benefit": true,
+      "original_windows_retain_ACK_solver_pose_and_gripper_consumption": true,
+      "reference_rotation_from_previous_committed_endpoint": true,
+      "rotation_error_frame": "ACTUAL_TARGET_WORLD_LEFT_LOG_R_GOAL_R_ACTUAL_TRANSPOSE",
+      "saved_decision_steps": [
+        23103,
+        24003,
+        24903,
+        25803,
+        26703,
+        27603,
+        28503,
+        29403,
+        30303,
+        31203,
+        32103,
+        33003
+      ],
+      "schema": "WM02_NATIVE_FINITE_POSE_FEEDBACK_REPORT_LIVE_V9",
+      "sum_applied_SO3_delta_norms_rad": 0.12000000000000001,
+      "sum_applied_XYZ_delta_norms_m": 0.07993536964574348,
+      "unchanged_desired_path_sha256": "4d6143df155f419699b4356f40a6d971c97d83a033b7233b7e80220dbfb160e9"
+    },
+    "original_install_ACK_count": 193,
+    "all_ACK_summaries_accept_install": true,
+    "actual_endpoint_minus_graded_goal_L2_m": 0.004512090071614072,
+    "actual_endpoint_minus_reference_L2_m": 0.10707984858942945,
+    "original_calibration_knots_all_consumed": true,
+    "prefix_PASS_is_not_global_native_PASS": true,
+    "full_grade_and_old_query_ready_false_retained": true,
+    "raw_ROS_selected_WBC_policy_independently_rejoined": false,
+    "all_12_math_replays_pending": true,
+    "source80mm_equivalence": false
+  },
+  "query": {
+    "actual_model_loads": 1,
+    "actual_queries": 1,
+    "Processor_decode_contract": "ONE_ORIGINAL_RESIDENT_GENERATE_DECODE",
+    "native_extra_decodes": 0,
+    "seed": 366104,
+    "noise": {
+      "device": null,
+      "dtype": "torch.float32",
+      "seed": null,
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "action_npz": {
+      "basename": "REAL_VLA_ACTION.npz",
+      "bytes": 22941,
+      "sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12"
+    },
+    "physical_H40_shape": [
+      40,
+      10
+    ],
+    "normalized_shape": [
+      1,
+      40,
+      132
+    ],
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "observation": {
+      "capture_camera_recipe": "SIM_EXTERNAL_WORLD_SOURCE_RIG",
+      "capture_condition": "PRESEAL_WBC_ORIGINAL_QUOTA_ACK_PAUSED",
+      "experiment_role": "GRADED_NONCONTACT_DIAGNOSTIC",
+      "initialization_geometry_scale": 0.5,
+      "initialization_recipe_phase": "collect-target-fusion-task-phase-pose-slow-feedback-v9",
+      "mapped_payload_sha256": "fa00ddac6228eaada215ab1bbaa3c777fbbdee3ed12eab3b7d9bf6c05f09592a",
+      "native_boundary_step": 34303,
+      "native_endpoint_step": 66503,
+      "native_step": 34303,
+      "native_time_s": 68.60600000002151,
+      "native_trace_seal_checked_by_GPU": false,
+      "observation_sha256": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+      "old_initialization_readiness_relabelled": false,
+      "physical_recipe_phase": "collect-target-fusion-task-phase-pose-slow-feedback-v9",
+      "producer_phase": "collect-target-fusion-task-phase-live-skill-v9",
+      "query_uuid": "e13d8ed0-ce0a-41a9-b6bb-3117a0db9d10",
+      "returned_VLA_action_installations": 0,
+      "sealed_body_sha256": "09fa5d041c59b7993850634cc7a9a66778385df15776277a1cba77f458951b39",
+      "snapshot_binding_mode": "PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9",
+      "snapshot_uuid": "e13d8ed0-ce0a-41a9-b6bb-3117a0db9d10",
+      "source_camera_identity_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+      "source_task_phase_equivalence": false,
+      "task_condition": "SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE",
+      "task_sha256": "1167d4170bba15e5493467f60d5b22a70194db60dbd4b0c47cc01bb0acd67bc3"
+    },
+    "capture_member_sha256": {
+      "BOUND_SHADOW_ABI.private.json": "27dd7730a197538eab48b45da7b1ed20697e6b725cb7e7cf9301bee772477ace",
+      "STATE.private.bin": "3f0ee06430774414863a6606eec985d061224f303b642980a672c9c3e2f10bbd",
+      "images/000000-body_rgb.png": "660f1876d687b7c8cbc9186c3900ae4debc91dfc6d3dc1b285bb01103149fcf0",
+      "images/000000-calibration.json": "851feb9c9b1c4b564a876ff9a8cdf06bdb61927f308dcf473deaaf85a34333af",
+      "images/000000-wrist_rgb.png": "82817c12cd2bf484340b9e3fd21a3314e955188cce6b50dce53d164eeb8acd3b",
+      "native-camera/images/000000-body_rgb.png": "5b1cf319e5d66c4abb52a9899c24380d85d22bc50bf5d0c7c4a91dc54059295b",
+      "native-camera/images/000000-calibration.json": "8e3956675891fbe0eaf6d6b8268f0bebc4da02b36aee27d0d1a9972bb7b6fd2d",
+      "native-camera/images/000000-wrist_rgb.png": "82817c12cd2bf484340b9e3fd21a3314e955188cce6b50dce53d164eeb8acd3b"
+    },
+    "precision": {
+      "bf16_autocast": true,
+      "cuda_matmul_allow_tf32": false,
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "training_flag_on_entry": false
+    },
+    "original_FP32_parameter_bytes": 12576064000,
+    "weights_frozen": true,
+    "native_query_integrations": 0,
+    "native_return_revalidation_record_present": true
+  },
+  "full_proposal": {
+    "artifact_sha256": "d8a94483d9dc0716a6950eb295d234ef0d9d721f32d7a72f22183830c26fe52d",
+    "artifact_bytes": 33572,
+    "summary": {
+      "action_npz_sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+      "actual_contact_domain": "NONCONTACT_ONLY_NOT_GRASP_OR_RELEASE",
+      "adaptation": {
+        "MODEL_DOMAIN_COVERAGE": "NOT_ESTABLISHED_OLD_XY_LOCAL_MODEL_CANNOT_QUALIFY_THIS_PATH",
+        "Processor_decodes": 0,
+        "adapted_knots_retained": 40,
+        "clock": {
+          "atom_dt_s": 0.05,
+          "bridge_atoms": 26,
+          "end_atom": 2522,
+          "end_time_s": 126.10000000000001,
+          "knot_indices": [
+            26,
+            90,
+            154,
+            218,
+            282,
+            346,
+            410,
+            474,
+            538,
+            602,
+            666,
+            730,
+            794,
+            858,
+            922,
+            986,
+            1050,
+            1114,
+            1178,
+            1242,
+            1306,
+            1370,
+            1434,
+            1498,
+            1562,
+            1626,
+            1690,
+            1754,
+            1818,
+            1882,
+            1946,
+            2010,
+            2074,
+            2138,
+            2202,
+            2266,
+            2330,
+            2394,
+            2458,
+            2522
+          ],
+          "native_dt_s": 0.002,
+          "native_ticks_per_atom": 25,
+          "preview_points": 40,
+          "preview_tail": "REPEAT_FINAL_KNOT",
+          "uniform_retime_factor": 64
+        },
+        "command_clips": 0,
+        "decoded_H40": {
+          "dtype": "<f8",
+          "sha256": "02242ed9fd1aa628d982fb55ee478bddfeee40485d62599473bdcb5addb65388",
+          "shape": [
+            40,
+            10
+          ]
+        },
+        "desired_knots": {
+          "dtype": "<f8",
+          "sha256": "677b239322d96114bba6c3a77dc046f2edabb72ed7650b13561912f5701bd477",
+          "shape": [
+            40,
+            10
+          ]
+        },
+        "desired_path": {
+          "dtype": "<f8",
+          "sha256": "3f9cc36d815de69499003e082ca9e4a3ba5bf5896a64364ffa80c9b8c8d5e664",
+          "shape": [
+            2523,
+            10
+          ]
+        },
+        "full_raw_geometry": true,
+        "geometry_scale": 1.0,
+        "mapped_H40": {
+          "dtype": "<f8",
+          "sha256": "19647656dab4c533cd3591c4a084531529506a913f21308732f2938a225a6e07",
+          "shape": [
+            40,
+            10
+          ]
+        },
+        "raw_knots_retained": 40,
+        "recipe": "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2",
+        "reference_knots": {
+          "dtype": "<f8",
+          "sha256": "e4068133426629242c6ebe98cc89ba658e8db92996e524cdcefc77f0f6c20b6e",
+          "shape": [
+            40,
+            10
+          ]
+        },
+        "reference_path": {
+          "dtype": "<f8",
+          "sha256": "a0c324ab11a56d3159919b2d1f3d5461eb0e768fd439dc4296668bc4dfd5d17f",
+          "shape": [
+            2523,
+            10
+          ]
+        },
+        "relative_action_accumulations": 0,
+        "schema": "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V2",
+        "time_stretch_factor": 2
+      },
+      "clips": 0,
+      "cube_ground_truth_use": "DIAGNOSTIC_SAFETY_ENVELOPE_NOT_MODEL_OR_GR00T_INPUT",
+      "geometry_scale": 1.0,
+      "native_step": 34303,
+      "original_Processor_extra_decodes": 0,
+      "policy_input_distribution_equivalence": false,
+      "pre_effect": true,
+      "raw_knots": 40,
+      "schema": "WM02_ACTUAL_GENERATED_LIVE_PROPOSAL_V9",
+      "time_stretch_factor": 2
+    },
+    "failure_artifact_sha256": "1872b128dc3dc2b564a9e9fc31c141b173a7da1fa39e0d819063ef1d3930b8ed",
+    "failure": "ValueError: TASK_PHASE_LIVE_SKILL_V8_WHOLE_H40_AND_TAIL_MUST_FIT_PREREGISTERED_E_NO_PREFIX_SELECTION",
+    "all40_generated_knots_retained": true,
+    "geometry_clips": 0,
+    "B": 34303,
+    "E": 66503,
+    "available_suffix_atoms": 1288,
+    "available_suffix_s": 64.4,
+    "required_current_time2_suffix_atoms": 2530,
+    "required_current_time2_suffix_s": 126.5,
+    "would_require_endpoint": 97553,
+    "shortfall_native_ticks": 31050,
+    "requirement_is_for_declared_adapter_not_proven_physical_minimum": true,
+    "noncontact_domain_check_not_reached": true,
+    "generated_original_certificate_not_reached": true,
+    "no_native_safety_qualification_from_duration_math": true
+  },
+  "saved_native_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 68681636,
+      "sha256": "7e80b68239e7592fff85c631f3680ef9ce72c6006beb58265ad81431a4177301"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 225842416,
+      "sha256": "b7919ec84cab7ad30b1701fa3d6dc337ce26d554ed3f55f5d46e965295ec39b0"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "3f0ee06430774414863a6606eec985d061224f303b642980a672c9c3e2f10bbd"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "read_error": "[Errno 2] No such file or directory: '<PRIVATE_PATH>'"
+    }
+  ],
+  "model_updates": {
+    "WM": 0,
+    "GR00T": 0,
+    "Actor": 0
+  },
+  "cost": {
+    "native_worker": {
+      "CPU_s": 201.722103757,
+      "child_CPU_s": 958.5281560000001,
+      "exit_code": 1,
+      "wall_s": 719.6562438979745
+    },
+    "native_function": {
+      "wall_s": 717.595543618314,
+      "CPU_s": 199.859580578
+    },
+    "native_systemd_CPU_s": 1166.750091,
+    "native_peak_host_bytes": 5890916352,
+    "GPU_worker": {
+      "CPU_s": null,
+      "child_CPU_s": 147.437398,
+      "exit_code": 0,
+      "wall_s": 715.2567024468444
+    },
+    "GPU_function": {
+      "wall_s": 713.1946640256792,
+      "CPU_s": 146.06755107700002,
+      "snapshot_wait_wall_s": 464.58936384832487,
+      "model_cold_load_wall_s": 128.2293525529094,
+      "query_wall_s": 1.348054513335228,
+      "query_GPU_event_s": 1.3456795654296876
+    },
+    "GPU_systemd_CPU_s": 147.959313,
+    "GPU_peak_host_bytes": 12884901888,
+    "CUDA_peak_allocated_bytes": 13320805376,
+    "CUDA_peak_reserved_bytes": 13524533248,
+    "source_staging": {
+      "CPU_s": 1.415817783,
+      "actual_source_bytes_written": 46418324,
+      "copied_parent_bytes": 45735417,
+      "copied_parent_members": 3396,
+      "overlay_members": 40,
+      "overlay_written_bytes": 682907,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 193.9939820081927
+    },
+    "source_staging_shared_once": true,
+    "resource_snapshot": "SLOW_LIVE_V9_RESOURCE01.private.json",
+    "host_cache_at_limit_not_OOM": true,
+    "overlapping_worker_function_systemd_and_elapsed_costs_do_not_sum": true
+  },
+  "actual_commands": [
+    {
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_live_skill_check_v9 --spec REGISTERED_V9_NATIVE_SPEC --execute",
+      "exit_code": 1
+    },
+    {
+      "command": "GR00T_PYTHON -B -m scripts.wm02.pilot1_neural_worker --spec REGISTERED_V9_GPU_SPEC",
+      "exit_code": 0
+    }
+  ],
+  "provenance": {
+    "GRADED_LIVE_SKILL_S050_V9_ACTUAL06.private.json": {
+      "basename": "GRADED_LIVE_SKILL_S050_V9_ACTUAL06.private.json",
+      "bytes": 37640,
+      "sha256": "b38e35cdc505066782917a67977f28f921b9250a793e35e300f8b4654e5bceed"
+    },
+    "GRADED_LIVE_SKILL_S050_V9_PRECHECK01.private.json": {
+      "basename": "GRADED_LIVE_SKILL_S050_V9_PRECHECK01.private.json",
+      "bytes": 1036,
+      "sha256": "fdf5784cc59725b0f857b216cf41b892715ce640fbbf9e3ffc3368547465b761"
+    },
+    "GRADED_LIVE_SKILL_S050_V9_DISPATCH01.private.json": {
+      "basename": "GRADED_LIVE_SKILL_S050_V9_DISPATCH01.private.json",
+      "bytes": 1512,
+      "sha256": "7d34062bbe3f6a5254f72a2b5228a59365300adfe918a865739881a9a2fc6c91"
+    },
+    "read_graded_live_skill_s050_v9_01.py": {
+      "basename": "read_graded_live_skill_s050_v9_01.py",
+      "bytes": 27115,
+      "sha256": "f8af3043db26cccbbee33d7f48f5aa2e9266602e05cc8403de19b3185e0e4131"
+    },
+    "SLOW_LIVE_V9_RESOURCE01.private.json": {
+      "basename": "SLOW_LIVE_V9_RESOURCE01.private.json",
+      "bytes": 1442,
+      "sha256": "d32cf3215dff3bf95306917daf22decdf5f38e358b0afa49518ee99e036b7d24"
+    },
+    "GRADED_LIVE_SKILL_V9_SOURCE_DELTA01.private.json": {
+      "basename": "GRADED_LIVE_SKILL_V9_SOURCE_DELTA01.private.json",
+      "bytes": 5985,
+      "sha256": "42c2df04d1216c7d882dcf2cc129b4e926dbb95f1c72de904ffee76da0f4d564"
+    }
+  },
+  "counts_after_this_sealed_pair": {
+    "FUSION_attempts": 288,
+    "FUSION_passes": 281,
+    "FUSION_failures": 7,
+    "FUSION_native_ticks": 1475589,
+    "with_PILOT2_attempts": 942,
+    "with_PILOT2_passes": 930,
+    "with_PILOT2_failures": 12,
+    "with_PILOT2_native_ticks": 4462882,
+    "VLA_queries": 10,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  }
+}
