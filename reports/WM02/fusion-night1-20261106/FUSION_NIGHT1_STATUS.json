@@ -24,16 +24,16 @@
   "snapshot_epoch": 1793970829.8841074,
   "implementation_sha": "94b6b789cc4789fb1c9202d1147b1bee56c79895",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "94b6b789cc4789fb1c9202d1147b1bee56c79895",
+  "actual_last_native_source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
   "live_process_state": "COLD; BIAS_GRADE010_CLOSED0_NATIVE_PASS_GOAL_DIAGNOSTIC_FAIL; NO_POINT25",
   "FUSION_completed_physical_cohorts": 5,
-  "FUSION_native_attempts": 280,
-  "FUSION_native_passes": 277,
+  "FUSION_native_attempts": 281,
+  "FUSION_native_passes": 278,
   "FUSION_native_failures": 3,
-  "FUSION_native_ticks": 1277465,
+  "FUSION_native_ticks": 1290568,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
@@ -44,10 +44,10 @@
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 934,
-  "sealed_native_passes_with_inherited_PILOT2": 926,
+  "sealed_native_attempts_with_inherited_PILOT2": 935,
+  "sealed_native_passes_with_inherited_PILOT2": 927,
   "retained_historical_native_failures": 8,
-  "sealed_native_ticks_with_inherited_PILOT2": 4264758,
+  "sealed_native_ticks_with_inherited_PILOT2": 4277861,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
   "M1": "NINE_REAL_FROZEN_QUERIES; MATCHED_FOUR_CONDITIONS_COMPLETE; LANGUAGE_AND_TASK_PHASE_MISMATCH_DIAGNOSED; GENERATED_ACTION_PHYSICAL_QUALIFICATION_PENDING",
   "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
@@ -265,7 +265,7 @@
     "TASK_PHASE_INITIALIZATION_ACTUAL_V1.json",
     "TASK_SEMANTICS_ALIGNMENT_ACTUAL_V1.json"
   ],
-  "next": "Implement/test finite ordinary XYZ feedback after the same .1 static ramp in one fresh native process. Preserve failed .1 result/10mm criteria; no .25, WM training or task-transfer claim.",
+  "next": "Implement/test V5 adjacent .25 ordinary XYZ feedback using actual audited V4 .1 predecessor. Reuse original owner/fresh finite scope; later .5/1 each gated by actual preceding grade. Keep old V3 .1 failure and all negative model results.",
   "next_executable": null,
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
@@ -472,7 +472,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "SUCCESSOR_FEEDBACK_IMPLEMENTATION_IN_PROGRESS_NOT_YET_EXECUTABLE",
+  "next_command_status": "V4_POINT1_GATE_AUDITED_PASS_V5_SOURCE_IN_DEVELOPMENT_NOT_REGISTERED",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -503,5 +503,24 @@
     "query_ready": false,
     "next_larger_grade_blocked": true,
     "WM_or_task_gain_claim": false
+  },
+  "task_phase_finite_XYZ_feedback": {
+    "report": "TASK_PHASE_FINITE_XYZ_FEEDBACK_ACTUAL_V4.json",
+    "run": "fusion-night1-task-phase-xyz-feedback-s010-01",
+    "source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+    "spec_sha256": "1688fa86537129306fdd74051f69a5ca095b4ba0189472abf8d79410d264f2dc",
+    "result_sha256": "01b6e25762b86c809bdb4cd679bc38de31549212f3ea76e52cfa598207b98a61",
+    "status": "CLOSED0_NATIVE_PASS_POINT1_GOAL_AND_FULL_AGGREGATE_REFERENCE_CHAIN_AUDITED",
+    "actual_target_integrations": 13103,
+    "complete_atomic_transitions": 524,
+    "complete_task_atoms": 424,
+    "maximum_position_error_mm": 3.998839529145638,
+    "all_nine_non_full_grade_predicates": true,
+    "query_ready": false,
+    "VLA_queries": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "deep_aggregate_artifact_gate_pass": true,
+    "actual_reference_renewals_verified": 62
   }
 }
