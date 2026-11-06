@@ -1,4 +1,10 @@
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
+from pathlib import Path
+import json
+import tempfile
+import time
 import numpy as np
 import torch
 from go2arx5_vla.world_model.pilot2_contact_neural import DirectContactWM, PrefixContactWM
@@ -77,6 +83,25 @@ class ContactCommandPrefixes(unittest.TestCase):
         for horizons in [(), (4, 1), (1, 1), (1, 65), (1., 4)]:
             with self.assertRaisesRegex(ValueError, 'DECLARED_FORECAST_PREFIXES'):
                 PrefixContactWM(1, 64, horizons)
+
+    def test_actual_worker_routes_prefix_recipe_and_closes_only_fresh_lease(self):
+        from scripts.wm02.pilot1_neural_worker import main
+        from go2arx5_vla.world_model.storage import digest
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); lease = root/'LEASE.json'; spec = root/'SPEC.json'
+            spec.write_text(json.dumps(dict(registered_root=str(root), lease=str(lease),
+                source_sha='SYNTHETIC_WORKER_ROUTE_TEST_NOT_SITE_ADMISSION',
+                kind='CONTACT_WM', contact_recipe='WM02_PILOT2_PREFIX_CONTACT_V1',
+                wall_limit_s=30, deadline_epoch=time.time()+60)))
+            lease.write_text(json.dumps(dict(status='ACTIVE', run_uuid=root.name, spec_sha256=digest(spec))))
+            with patch('scripts.wm02.pilot1_neural_worker.subprocess.run', return_value=SimpleNamespace(returncode=0)) as child:
+                self.assertEqual(main(['--spec', str(spec)]), 0)
+                self.assertEqual(child.call_args.args[0][3], 'scripts.wm02.train_pilot2_contact_wm')
+                self.assertEqual(json.loads(lease.read_text())['status'], 'CLOSED')
+                self.assertEqual(json.loads((root/'WORKER_EXIT.private.json').read_text())['exit_code'], 0)
+                with self.assertRaisesRegex(PermissionError, 'EXACT_FRESH_PILOT1_WORKER_REQUIRED'):
+                    main(['--spec', str(spec)])
+                self.assertEqual(child.call_count, 1)
 
 
 if __name__ == '__main__': unittest.main()

@@ -29,7 +29,8 @@ def main(argv=None):
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
-    if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') == 'WM02_PILOT2_DIRECT_CONTACT_V1':
+    if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
+            'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
         module = 'scripts.wm02.train_pilot2_contact_wm'
     if spec['kind'] == 'CONTACT_POLICY' and spec.get('policy_recipe') == 'WM02_PILOT2_SUPPORTED_GOAL_POLICY_V1':
         module = 'scripts.wm02.train_pilot2_supported_policy'
