@@ -64,16 +64,33 @@ def _task(value, expected_hash, scene_hash):
     return copy.deepcopy(value)
 
 
+def _read_live_snapshot(adapter, name, *, decode_json=False):
+    # The actual paused wait observed ENOENT for a repeatedly published native
+    # snapshot. Match TargetSequentialAdapter.observe's bounded read retry;
+    # never replay a write, reuse an old packet, or advance the quota.
+    path = Path(adapter.output) / name
+    until = time.monotonic() + .25
+    while True:
+        adapter.guard()
+        try:
+            raw = path.read_bytes()
+            return json.loads(raw) if decode_json else raw
+        except (FileNotFoundError, json.JSONDecodeError):
+            if time.monotonic() >= until:
+                raise
+            time.sleep(.002)
+
+
 def _pause(adapter):
     """Read actual adapter feedback and its original pause/quota files together."""
     adapter.guard()
     observed = adapter.observe()
-    raw = (Path(adapter.output) / "state.bin").read_bytes()
+    raw = _read_live_snapshot(adapter, "state.bin")
     packet = parse_state(raw)
     _need(observed["step"] == packet["step"] and observed["time_s"] == packet["time_s"]
           and all(np.array_equal(observed[k], packet[k]) for k in ("qpos", "qvel", "ctrl")),
           "ADAPTER_OBSERVE_AND_CURRENT_PACKET_MUST_AGREE")
-    pause = json.loads((Path(adapter.output) / "pause_ack.json").read_text())
+    pause = _read_live_snapshot(adapter, "pause_ack.json", decode_json=True)
     quota = (Path(adapter.output) / "step_quota").read_bytes()
     _need(pause.get("clock_paused") is True and pause.get("running") is False
           and type(pause.get("step")) is int and pause["step"] == packet["step"]
@@ -97,7 +114,7 @@ def _after_pause(adapter, first):
     # The original native pause ACK continues to acknowledge its unchanged
     # physics/FSM/leg history. A caller's `paused=True` is never accepted.
     def fresh():
-        value = json.loads((Path(adapter.output) / "pause_ack.json").read_text())
+        value = _read_live_snapshot(adapter, "pause_ack.json", decode_json=True)
         return value.get("ack_sequence", -1) > first["pause"]["ack_sequence"]
     _need(adapter.spin(1., fresh), "FRESH_ACTUAL_NATIVE_PAUSE_ACK_REQUIRED")
     last = _pause(adapter)
