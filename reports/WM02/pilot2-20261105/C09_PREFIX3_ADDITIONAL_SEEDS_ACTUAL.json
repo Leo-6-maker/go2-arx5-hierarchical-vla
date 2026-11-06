@@ -1,0 +1,104 @@
+{
+  "schema": "WM02_PILOT2_PREFIX_ADDITIONAL_TWO_SEEDS_ACTUAL_V1",
+  "source_sha": "bffd34c40d7c47d02f3f0e725d06ca2abbce14ee",
+  "data_sha256": "5e227e7e83705130f893f309f2cca7cf6433ac9569fc67eec90235bb6a810f88",
+  "new_main_WM_updates": 8000,
+  "restore_probes": 4,
+  "Actor_updates": 0,
+  "native_integrations": 0,
+  "cohort": {
+    "status": "PILOT2_C09_PREFIX_THREE_SEED_COHORT_COMPLETE",
+    "exit_code": 0,
+    "failure": null,
+    "CPU_s": 0.03323931399999999,
+    "wall_s": 44.90917675336823
+  },
+  "models": {
+    "pilot2-c09-prefix-script36-seed363902-01": {
+      "lease": "CLOSED",
+      "exit_code": 0,
+      "arms": {
+        "ACTION_CONDITIONED": {
+          "main_WM_updates": 2000,
+          "prior_WM_updates": 0,
+          "architecture": "HORIZON_PREFIX_V1",
+          "restore_probe_optimizer_calls": 1,
+          "full_restore_error": 0.0,
+          "endpoint_reload_error": 0.0,
+          "checkpoint_sha256": "5313ca55427e32bbe9d8405cb4686619330cbb449f7d0ac4dc72dede6f652159",
+          "portable_sha256": "dbed646ee62c207906dc38d0922d41d527069eca3f529a018feabe0c760fac40",
+          "numpy_torch_max_error": 1.884495169690581e-06,
+          "normalization_mode": "OWN_ARM_TRAIN",
+          "last_loss": 0.005811620503664017
+        },
+        "NO_FUTURE_PROGRAM": {
+          "main_WM_updates": 2000,
+          "prior_WM_updates": 0,
+          "architecture": "HORIZON_PREFIX_V1",
+          "restore_probe_optimizer_calls": 1,
+          "full_restore_error": 0.0,
+          "endpoint_reload_error": 0.0,
+          "checkpoint_sha256": "a2b0c959f072c212130c803206d7fb8a5d806759618f96c5e1e70374b0d2a808",
+          "portable_sha256": "0990315a0dc89b5aa43f90e5949214fe2faec2f6871c3c136e1779a8ba0faea2",
+          "numpy_torch_max_error": 2.053699605042425e-06,
+          "normalization_mode": "OWN_ARM_TRAIN",
+          "last_loss": 0.027650214731693268
+        }
+      },
+      "cost": {
+        "CPU_s": 19.384944888,
+        "wall_s": 20.069648027885705,
+        "GPU_elapsed_event_s": 19.870455078125,
+        "GPU_memory": {
+          "peak_allocated_bytes": 319626752,
+          "peak_reserved_bytes": 452984832
+        }
+      },
+      "worker_wall_s": 21.71734338393435,
+      "worker_child_CPU_s": 20.775994
+    },
+    "pilot2-c09-prefix-script36-seed363903-01": {
+      "lease": "CLOSED",
+      "exit_code": 0,
+      "arms": {
+        "ACTION_CONDITIONED": {
+          "main_WM_updates": 2000,
+          "prior_WM_updates": 0,
+          "architecture": "HORIZON_PREFIX_V1",
+          "restore_probe_optimizer_calls": 1,
+          "full_restore_error": 0.0,
+          "endpoint_reload_error": 0.0,
+          "checkpoint_sha256": "28b994bf72add03f84668ed7adf462dc7b01b2d43a16a44c865fe9f5d5c18d6f",
+          "portable_sha256": "d799fc5c786c8b26f4febfb14108d90c71c72edf7fa209fcdaca87fb5dd97d03",
+          "numpy_torch_max_error": 2.029192302188676e-06,
+          "normalization_mode": "OWN_ARM_TRAIN",
+          "last_loss": 0.006066976580768824
+        },
+        "NO_FUTURE_PROGRAM": {
+          "main_WM_updates": 2000,
+          "prior_WM_updates": 0,
+          "architecture": "HORIZON_PREFIX_V1",
+          "restore_probe_optimizer_calls": 1,
+          "full_restore_error": 0.0,
+          "endpoint_reload_error": 0.0,
+          "checkpoint_sha256": "c2f0c469968b20f2ec8a260aaf581a2c8c55f50553c7631bc61a2599d2ba5522",
+          "portable_sha256": "d79a45add07fb909fc27bb4d0df5d984a2c772a44f090b812a705d18754e475d",
+          "numpy_torch_max_error": 2.222782645056043e-06,
+          "normalization_mode": "OWN_ARM_TRAIN",
+          "last_loss": 0.05621759966015816
+        }
+      },
+      "cost": {
+        "CPU_s": 20.571354667999998,
+        "wall_s": 21.09004468191415,
+        "GPU_elapsed_event_s": 20.85760546875,
+        "GPU_memory": {
+          "peak_allocated_bytes": 319626752,
+          "peak_reserved_bytes": 452984832
+        }
+      },
+      "worker_wall_s": 22.709811124950647,
+      "worker_child_CPU_s": 22.0467
+    }
+  }
+}
