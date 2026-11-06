@@ -2,7 +2,7 @@
   "schema": "WM02_FUSION_TRAJECTORY_SLOW_NATIVE_ACTUAL_V2",
   "source_sha": "be0a5fd15fd0ebd25e2256134823117f28497fe4",
   "priority_plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
-  "status": "HALF_PASS_FULL1_FAILED_TRACE_OVERFLOW_PRESERVED",
+  "status": "HALF_AND_REPAIRED_FULL1_NATIVE_PASS; BOTH_HISTORICAL_FAILURES_RETAINED",
   "retained_previous_failure_sha256": "77bea49654a7d33007312d20d416f3796896a508d3e93dbce134a7d2ca5e1a8d",
   "trace_only_build": {
     "status": "TRACE_ONLY_262144_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED",
@@ -366,15 +366,78 @@
         "CPUUsageNSec": "1432383464000",
         "MemoryPeak": "3510472704"
       }
+    },
+    {
+      "run": "fusion-night1-trajectory-s100-slow-trace524-02",
+      "source_sha": "67faba025f906c6cb8e1c5c5a176a0cc3322bcec",
+      "spec_sha256": "9e62e4448a771d8584ba5b0b16b3b303021c57c6891e81eea4e3f9ee1669fafb",
+      "result_sha256": "673c12772c2120af9a456569dea3599704cf7fd4a99fe25c1a181cee1bbc10dc",
+      "qualification_sha256": "947c13ecd42b91159cc406fe444fbccd6e2137f60fa45067d05093383cb3feda",
+      "decision_sha256": "a3196ea98d4307a70e3e72cc48a0db7d4546c4cef0cb390cd894e1e1b8dbabf4",
+      "status": "NATIVE_STAGE_PASSED",
+      "worker_exit_code": 0,
+      "native_ticks": 29753,
+      "actual_task_atoms": 1090,
+      "post_decision_atoms": 1042,
+      "solver_confirmed_atoms": 1090,
+      "gripper_confirmed_atoms": 1090,
+      "all_40_knots_consumed": true,
+      "physical_parent": "FUSION_F2_T06_ROOT_XY_V1",
+      "split": "TRAIN",
+      "geometry_scale": 1.0,
+      "trace_records": 270061,
+      "trace_dropped": 0,
+      "shutdown_clean": true,
+      "failure": null,
+      "physics_stops": [],
+      "desired_error": {
+        "endpoint_xyz_mm": [
+          3.07867151189431,
+          4.384632717303903,
+          -0.4442676058545869
+        ],
+        "endpoint_l2_mm": 5.375927459463452,
+        "post_decision_trajectory_l2_RMSE_mm": 3.3422620067351936,
+        "post_decision_l2_p95_mm": 5.6208872698854035,
+        "post_decision_l2_max_mm": 7.42452917683149,
+        "trajectory_axis_bias_mm": [
+          -0.49574201315957234,
+          1.7425786359210869,
+          -0.9059997702531225
+        ],
+        "rotation_endpoint_deg": 0.13308671742983735,
+        "rotation_max_deg": 0.31341616874252815
+      },
+      "actual_motion_from_decision": {
+        "endpoint_xyz_mm": [
+          -12.972352504162233,
+          -0.6837377178021704,
+          -0.8128424577470428
+        ],
+        "max_l2_mm": 13.265501361207875
+      },
+      "minimum_remaining_TTL_s": 0.09400000000036268,
+      "full_task_success": false,
+      "online_VLA": false,
+      "VLA_inferences": 0,
+      "Processor_decodes": 0,
+      "WM_updates": 0,
+      "worker_cost": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 676.1395959667861,
+        "CPU_s": 434.47804012,
+        "child_CPU_s": 1010.587498
+      }
     }
   ],
   "current_full1": null,
   "new_effects": {
-    "sealed_native_attempts": 2,
-    "passes": 1,
+    "sealed_native_attempts": 3,
+    "passes": 2,
     "failures": 1,
-    "integrations": 51556,
-    "task_transitions": 1862,
+    "integrations": 81309,
+    "task_transitions": 2952,
     "unique_physical_parents": 1,
     "VLA_queries": 0,
     "Processor_decodes": 0,
@@ -398,13 +461,51 @@
     "exit_code": 0,
     "github_CI": "NOT_RUN"
   },
-  "next": "Commit isolated trace capacity repair, stage a new immutable source via the original owner, build/verify524288 without physics, then one fresh full1 qualification. Response collection remains NOT_RUN.",
+  "next": "Fresh preregistered HOLD3703 plus one frozen target RGB query. Inspect the actual new task proposal/domain before deciding whether to expand the archived-geometry responsepilot/72.",
   "repair_successor": {
-    "status": "IMPLEMENTED_LOCAL_TESTS_PASS_NOT_DEPLOYED_OR_QUALIFIED",
+    "status": "TRACE_ONLY_BUILD_CLOSED0_AND_FRESH_FULL1_NATIVE_CLOSED0",
     "trace_capacity": 524288,
     "changes": "BUFFER_CAPACITY_ASSERT_ONLY; NO_EVENT_FILTERING; NATIVE_WBC_OBSERVER_OUTER_UNCHANGED",
     "planned_synthetic_records": 280000,
     "full1_retry_is_versioned_engineering_requalification": true,
-    "half_rerun": false
+    "half_rerun": false,
+    "source_sha": "67faba025f906c6cb8e1c5c5a176a0cc3322bcec",
+    "spec_sha256": "9e62e4448a771d8584ba5b0b16b3b303021c57c6891e81eea4e3f9ee1669fafb",
+    "result_sha256": "673c12772c2120af9a456569dea3599704cf7fd4a99fe25c1a181cee1bbc10dc",
+    "capacity": 524288
+  },
+  "trace524_actual": {
+    "status": "TRACE_ONLY_524288_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED",
+    "source_sha": "67faba025f906c6cb8e1c5c5a176a0cc3322bcec",
+    "trace_capacity": 524288,
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "source_files": {
+      "src/go2arx5_vla/target_mujoco/init_trace.cpp": "6f656cd2ab59c48e7db0178747f27dd9d560e41b0a38523d91b22e791af05caf",
+      "src/go2arx5_vla/target_mujoco/init_trace.hpp": "0c196146a73052787fe2f10586eea48e004b8201e0198a48cd6b967c0c349ef0"
+    },
+    "trace_source_compatibility": {
+      "changed_members": [
+        "src/go2arx5_vla/target_mujoco/init_trace.cpp"
+      ],
+      "extension": "CAPACITY_STATIC_ASSERT_AND_MESSAGE_ONLY_DEFAULT_65536_UNCHANGED",
+      "original_CPP_sha256": "e4c533ead0267dba085b5eb72bb55dc64dda0945d151173c1ff1feaa584d4817",
+      "new_CPP_sha256": "6f656cd2ab59c48e7db0178747f27dd9d560e41b0a38523d91b22e791af05caf",
+      "restored_original_CPP_sha256": "e4c533ead0267dba085b5eb72bb55dc64dda0945d151173c1ff1feaa584d4817"
+    },
+    "synthetic_trace_records": 280000,
+    "trace_summary": {
+      "events": 280000,
+      "written": 280000,
+      "dropped": 0,
+      "stop_latched": false,
+      "sealed_at_explicit_pause": false
+    },
+    "new_target_integrations": 0,
+    "wall_s": 8.42450911179185,
+    "CPU_s": 0.2522309279999999,
+    "child_CPU_s": 1.764268,
+    "result_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "spec_sha256": "52c90646403196016c040cdb99bd675db051eafffbc9ecf5b715440bce668383",
+    "worker_wall_s": 8.611910346895456
   }
 }

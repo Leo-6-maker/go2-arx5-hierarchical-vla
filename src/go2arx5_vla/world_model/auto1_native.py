@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-fusion-paused-query-v2':
+        from .fusion_paused_query_native import episode_limit
+        return episode_limit(spec,previous)
     if phase=='collect-target-fusion-trajectory-response-v1':
         from .fusion_trajectory_response_native_contract import episode_limit
         return episode_limit(spec,previous)
@@ -64,7 +67,7 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     root=Path(spec['campaign_root']);binding=Path(spec['campaign_binding'])
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
-    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1')else 600
+    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2')else 600
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid

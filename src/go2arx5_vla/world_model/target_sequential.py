@@ -41,7 +41,7 @@ def native_display_command(spec,output,environment):
         prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
-    trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1'))
+    trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2'))
     order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
@@ -337,6 +337,10 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
+        if self.spec.get('phase')=='collect-target-fusion-paused-query-v2':
+            from .fusion_paused_query_native import validate_adapter_install
+            self.command_event(dict(phase='paused-query-hold-only-envelope',
+                                    **validate_adapter_install(self,action)))
         if self.spec.get('phase')=='collect-target-fusion-trajectory-response-v1':
             from .fusion_trajectory_response_native import validate_adapter_install
             self.command_event(dict(phase='trajectory-response-full-H40-envelope',
@@ -389,7 +393,7 @@ class TargetSequentialAdapter:
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
-        if self.spec.get('phase')not in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1'):
+        if self.spec.get('phase')not in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2'):
             write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]))
         self.publish(self.refs,wire)
         def installed():
@@ -427,6 +431,9 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-fusion-paused-query-v2':
+            from .fusion_paused_query_native import run
+            return run(self)
         if self.spec['phase']=='collect-target-fusion-trajectory-response-v1':
             from .fusion_trajectory_response_native import run
             return run(self)

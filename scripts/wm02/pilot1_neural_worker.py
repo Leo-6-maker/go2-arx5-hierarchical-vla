@@ -30,6 +30,8 @@ def main(argv=None):
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy',
               'FROZEN_VLA_SHADOW': 'scripts.wm02.infer_fusion_vla',
+              'FROZEN_VLA_LIVE_PAUSED_QUERY': 'scripts.wm02.infer_fusion_paused_vla',
+              'FUSION_TRAJECTORY_RESPONSE_OFFLINE': 'scripts.wm02.fit_fusion_trajectory_response',
               'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',
               'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
               'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation',
