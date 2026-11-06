@@ -40,7 +40,10 @@ def response_window(episode, decision, native, score, states, native_steps, wind
                    or not w['solver_policies_with_exact_installed_target']for w in actual)):
         raise ValueError('INSTALLED_TARGET_AND_SOLVER_CONSUMPTION_EVIDENCE_REQUIRED')
     age=float(decision['source_age_s'])
-    if not np.isfinite(age) or not 0 <= age < .4:raise ValueError('ACTUAL_VALID_DECISION_SOURCE_AGE_REQUIRED')
+    # Native admission already compares the integer-nanosecond ROS clock.
+    # Keep the original raw subtraction used by the predictor, including tiny
+    # floating accumulation error, rather than silently replacing it with zero.
+    if not np.isfinite(age) or not -1e-8 <= age < .4:raise ValueError('ACTUAL_VALID_DECISION_SOURCE_AGE_REQUIRED')
     goal=np.asarray(decision['past_reference'],float).copy()
     if goal.shape != (17,) or not np.isfinite(goal).all():raise ValueError('ACTUAL_PAST_EEF_AND_BASE_REFERENCE_REQUIRED')
     goal[:3]+=OFFSETS[decision['selected_action']]

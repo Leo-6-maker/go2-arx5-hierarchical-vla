@@ -31,6 +31,12 @@ class CausalFusionReplay(unittest.TestCase):
         np.testing.assert_array_equal(before['state'][:9],after['state'][:9])
         self.assertFalse(np.array_equal(before['state'][9:],after['state'][9:]))
 
+    def test_raw_floating_clock_jitter_is_preserved_after_original_native_clock_admission(self):
+        args=self.fixture();args['decision']['source_age_s']=-1e-12
+        self.assertEqual(response_window(**args)['source_age'][8],-1e-12)
+        args['decision']['source_age_s']=-.001
+        with self.assertRaises(ValueError):response_window(**args)
+
     def test_test_partial_changed_prefix_or_missing_consumption_is_rejected(self):
         for case in ['TEST','PARTIAL','PREFIX','CONSUMPTION']:
             with self.subTest(case=case):
