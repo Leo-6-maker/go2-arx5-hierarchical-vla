@@ -43,14 +43,16 @@ class StructuredCPUAdmission(unittest.TestCase):
                     kind='FUSION_TARGET_OBSERVATION_REPLAY', physics=False, device='cpu',
                     capture_steps=[3503, 3703, 4103], expected_native_ticks=4103,
                     GR00T_updates=0, WBC_changes=False)
-        env = dict(CUDA_VISIBLE_DEVICES='', MUJOCO_GL='osmesa',
-                   PYOPENGL_PLATFORM='osmesa', LIBGL_ALWAYS_SOFTWARE='1')
+        env = dict(CUDA_VISIBLE_DEVICES='', MUJOCO_GL='egl',
+                   PYOPENGL_PLATFORM='egl', LIBGL_ALWAYS_SOFTWARE='1',
+                   __EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json')
         with patch.dict(os.environ, env), patch(
                 'go2arx5_vla.world_model.fusion_scope.validate', return_value='original') as check:
             self.assertEqual(validate_target_capture_cpu(spec), 'original')
             check.assert_called_once_with(spec)
-            for key, value in [('MUJOCO_GL', 'egl'), ('CUDA_VISIBLE_DEVICES', 'GPU-0'),
-                               ('PYOPENGL_PLATFORM', 'egl'), ('LIBGL_ALWAYS_SOFTWARE', '0')]:
+            for key, value in [('MUJOCO_GL', 'osmesa'), ('CUDA_VISIBLE_DEVICES', 'GPU-0'),
+                               ('PYOPENGL_PLATFORM', 'osmesa'), ('LIBGL_ALWAYS_SOFTWARE', '0'),
+                               ('__EGL_VENDOR_LIBRARY_FILENAMES', 'nvidia.json'), ('MUJOCO_EGL_DEVICE_ID', '0')]:
                 with self.subTest(key=key), patch.dict(os.environ, {key: value}):
                     with self.assertRaises(PermissionError):
                         validate_target_capture_cpu(spec)

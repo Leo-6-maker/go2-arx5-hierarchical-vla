@@ -2,7 +2,7 @@
 
 This is saved-state image reconstruction, not online feedback, a controller
 restore, a source outcome, or new target physics. The existing owner must admit
-the finite CPU role before this entry can create an OSMesa renderer.
+the finite CPU role before this entry can create an EGL Mesa software renderer.
 """
 import argparse
 from contextlib import contextmanager
@@ -71,9 +71,11 @@ def validate_inputs(spec):
             and spec.get('device') == 'cpu' and spec.get('physics') is False
             and spec.get('capture_steps') == list(STEPS) and spec.get('expected_native_ticks') == TICKS,
             'FINITE_THREE_FRAME_CPU_REPLAY_PROFILE')
-    require(os.environ.get('CUDA_VISIBLE_DEVICES') == '' and os.environ.get('MUJOCO_GL') == 'osmesa'
-            and os.environ.get('PYOPENGL_PLATFORM') == 'osmesa'
-            and os.environ.get('LIBGL_ALWAYS_SOFTWARE') == '1', 'EXPLICIT_CPU_OSMESA_ENVIRONMENT')
+    require(os.environ.get('CUDA_VISIBLE_DEVICES') == '' and os.environ.get('MUJOCO_GL') == 'egl'
+            and os.environ.get('PYOPENGL_PLATFORM') == 'egl'
+            and os.environ.get('LIBGL_ALWAYS_SOFTWARE') == '1'
+            and os.environ.get('__EGL_VENDOR_LIBRARY_FILENAMES') == '/usr/share/glvnd/egl_vendor.d/50_mesa.json'
+            and 'MUJOCO_EGL_DEVICE_ID' not in os.environ, 'EXPLICIT_CPU_EGL_MESA_ENVIRONMENT')
     original = spec['original']; root = Path(original['run_root'])
     require(root.name == original['run_id'] == ORIGINAL_RUN, 'EXACT_ORIGINAL_T06_QUALIFICATION')
     required = ('spec', 'episode', 'lease', 'worker_exit', 'native_result', 'journal', 'scene')
@@ -127,7 +129,7 @@ def software_renderer_identity():
     renderer = GL.glGetString(GL.GL_RENDERER).decode()
     require('mesa' in vendor.lower() and any(name in renderer.lower() for name in
             ('llvmpipe', 'softpipe', 'software rasterizer')), 'ACTUAL_MESA_SOFTWARE_RENDERER')
-    return dict(GL_VENDOR=vendor, GL_RENDERER=renderer, backend='osmesa_cpu')
+    return dict(GL_VENDOR=vendor, GL_RENDERER=renderer, backend='egl_mesa_cpu')
 
 
 @contextmanager

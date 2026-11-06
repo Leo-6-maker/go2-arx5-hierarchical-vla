@@ -20,7 +20,8 @@ from go2arx5_vla.world_model.fusion_observation import shadow_inference_payload
 from go2arx5_vla.world_model.storage import digest
 from tests.world_model.test_fusion_observation import fixture as observation_fixture
 
-ENV = dict(CUDA_VISIBLE_DEVICES='', MUJOCO_GL='osmesa', PYOPENGL_PLATFORM='osmesa', LIBGL_ALWAYS_SOFTWARE='1')
+ENV = dict(CUDA_VISIBLE_DEVICES='', MUJOCO_GL='egl', PYOPENGL_PLATFORM='egl', LIBGL_ALWAYS_SOFTWARE='1',
+           __EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json')
 
 
 def write(path, value):
@@ -209,8 +210,28 @@ class CaptureFusionObservation(unittest.TestCase):
             with self.subTest(change=change), tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, ENV):
                 spec = fixture(tmp); spec.update(change)
                 with self.assertRaises(ValueError): unit.validate_inputs(spec)
-        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, dict(ENV, MUJOCO_GL='egl')):
-            with self.assertRaises(ValueError): unit.validate_inputs(fixture(tmp))
+        for environment in (dict(ENV, MUJOCO_GL='osmesa'), dict(ENV, PYOPENGL_PLATFORM='glx'),
+                            dict(ENV, LIBGL_ALWAYS_SOFTWARE='0'), dict(ENV, CUDA_VISIBLE_DEVICES='0'),
+                            dict(ENV, __EGL_VENDOR_LIBRARY_FILENAMES='/other/vendor.json'),
+                            dict(ENV, MUJOCO_EGL_DEVICE_ID='0'), dict(ENV, MUJOCO_EGL_DEVICE_ID='')):
+            with self.subTest(environment=environment), tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, environment):
+                with self.assertRaises(ValueError): unit.validate_inputs(fixture(tmp))
+
+    def test_actual_gl_identity_requires_mesa_software_renderer_without_gpu_fallback(self):
+        for vendor, renderer, allowed in (('Mesa/X.org', 'llvmpipe (LLVM)', True),
+                                         ('Mesa', 'softpipe', True),
+                                         ('NVIDIA Corporation', 'NVIDIA GPU', False),
+                                         ('Mesa/X.org', 'AMD GPU', False)):
+            gl = SimpleNamespace(GL_VENDOR=1, GL_RENDERER=2,
+                glGetString=lambda key: (vendor if key == 1 else renderer).encode())
+            with self.subTest(vendor=vendor, renderer=renderer), patch.dict(sys.modules, OpenGL=SimpleNamespace(GL=gl)):
+                if allowed:
+                    value = unit.software_renderer_identity()
+                    self.assertEqual(value['backend'], 'egl_mesa_cpu')
+                    self.assertEqual(value['GL_RENDERER'], renderer)
+                else:
+                    with self.assertRaisesRegex(ValueError, 'ACTUAL_MESA_SOFTWARE_RENDERER'):
+                        unit.software_renderer_identity()
 
     def test_cli_uses_existing_cpu_admission_and_never_admits_physics_or_gpu(self):
         @contextmanager

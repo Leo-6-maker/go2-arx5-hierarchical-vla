@@ -134,9 +134,11 @@ def validate_target_capture_cpu(spec):
             or spec.get('expected_native_ticks') != 4103
             or spec.get('GR00T_updates') != 0 or spec.get('WBC_changes') is not False
             or os.environ.get('CUDA_VISIBLE_DEVICES') != ''
-            or os.environ.get('MUJOCO_GL') != 'osmesa'
-            or os.environ.get('PYOPENGL_PLATFORM') != 'osmesa'
-            or os.environ.get('LIBGL_ALWAYS_SOFTWARE') != '1'):
+            or os.environ.get('MUJOCO_GL') != 'egl'
+            or os.environ.get('PYOPENGL_PLATFORM') != 'egl'
+            or os.environ.get('LIBGL_ALWAYS_SOFTWARE') != '1'
+            or os.environ.get('__EGL_VENDOR_LIBRARY_FILENAMES') != '/usr/share/glvnd/egl_vendor.d/50_mesa.json'
+            or 'MUJOCO_EGL_DEVICE_ID' in os.environ):
         raise PermissionError('READ_ONLY_SAVED_TARGET_CPU_CAPTURE_REQUIRED')
     return validate(spec)
 

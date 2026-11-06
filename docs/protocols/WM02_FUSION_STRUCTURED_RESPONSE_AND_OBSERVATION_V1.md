@@ -26,7 +26,7 @@ DEV已用于此前研究，是开发数据，不能将这次复用变成独立�
 
 相机保留真实 `body_rgb/wrist_rgb` 名称、父body、局部外参和FOV。源世界固定 body 相机55°与目标 base_link 相机75°不同。映射成 source-policy 输入槽只表示使用同一个冻结源策略评价目标图像，必须随附目标来源封套，明确视觉域与目标 embodiment 尚未资格。缺显式、独立固定的 source-from-target 刚体坐标关系时只保留目标观察，不产生可送入模型的 source-policy payload。
 
-`scripts.wm02.capture_fusion_observation` 仅在新 owner 注册的 CPU/OSMesa job 内，从已封存的原生 PASS 记录生成三对图像和绑定；禁止所有 `mj_step*`。原始 journal、场景、运行结果、加载的执行器身份必须匹配且旧 lease CLOSED。它是保存状态的真实几何渲染，**不是实时在线捕获、完整控制器恢复、视觉匹配验收或动态准入**。图片与原始状态仅留私有非根数据盘。绑定与渲染完成后，后续真实模型推理仍需各自新有效 lease 和资源检查。
+`scripts.wm02.capture_fusion_observation` 仅在新 owner 注册的 CPU EGL Mesa job 内，从已封存的原生 PASS 记录生成三对图像和绑定；禁止所有 `mj_step*`。只读预检发现现场没有OSMesa库，因此复用既有 EGL Mesa 软件渲染路径：固定Mesa vendor、`LIBGL_ALWAYS_SOFTWARE=1`、CUDA不可见、禁止GPU设备选择，并核实实际GL_VENDOR/llvmpipe；不安装系统依赖或退到GPU。原始 journal、场景、运行结果、加载的执行器身份必须匹配且旧 lease CLOSED。它是保存状态的真实几何渲染，**不是实时在线捕获、完整控制器恢复、视觉匹配验收或动态准入**。图片与原始状态仅留私有非根数据盘。绑定与渲染完成后，后续真实模型推理仍需各自新有效 lease 和资源检查。
 
 ## 当前确定限制
 
