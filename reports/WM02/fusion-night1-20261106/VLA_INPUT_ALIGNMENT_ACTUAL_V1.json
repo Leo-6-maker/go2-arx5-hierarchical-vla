@@ -17,7 +17,11 @@
     "source_goal_is_expert_action_label": false
   },
   "state_comparison_in_explicit_source_policy_frame": {
-    "target_minus_source_xyz_m": [-0.1016310133958, 0.08053982708090787, 0.24119084678968616],
+    "target_minus_source_xyz_m": [
+      -0.1016310133958,
+      0.08053982708090787,
+      0.24119084678968616
+    ],
     "position_distance_m": 0.2738403754109421,
     "rotation_angle_rad": 1.4037710456531913,
     "rotation_angle_deg": 80.43015631859427,
@@ -32,7 +36,10 @@
     "actual_target_body": "CLOSE_OBLIQUE_TABLE_VIEW",
     "source_wrist": "DOWNWARD_CLOSE_VIEW",
     "actual_target_wrist": "ROTATED_SIDE_VIEW",
-    "image_dimensions_each": [256, 256],
+    "image_dimensions_each": [
+      256,
+      256
+    ],
     "target_policy_external_slot_is_body_alias": true,
     "source_intrinsics_and_extrinsics": "MISSING_FROM_ARCHIVED_SOURCE_OBSERVATION",
     "source_camera_equivalence_established": false,
@@ -55,7 +62,13 @@
     "query02_full_proposal_replay": "IMPLEMENTED_TESTED_BUT_DEFERRED_NOT_RUN",
     "next": "FRESH_ORIGINAL_OWNER_SINGLE_WORLD_GRADED_KNOWN_SOURCE_POSTURE_COMMISSIONING",
     "posture_goal": "SOURCE_OBSERVED_POSE_USED_AS_EXPLICIT_CALIBRATION_REFERENCE_NOT_A_VLA_COMMAND",
-    "grades": [0.03, 0.1, 0.25, 0.5, 1.0],
+    "grades": [
+      0.03,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
     "posture_qualification": "NOT_YET_RUN",
     "camera_alignment_and_new_same_world_query": "STILL_REQUIRED_AFTER_REACHABILITY_CHECK",
     "scientific_exit": "SAME_FROZEN_GR00T_AND_SAME_EXPLICIT_TRAJECTORY_ADAPTATION_WITH_VS_WITHOUT_WM_ACTUAL_SHORT_SKILL",
@@ -76,5 +89,34 @@
   "WBC_changes": false,
   "physics_dt_s": 0.002,
   "native_safety_changes": false,
-  "scale_review_crossed": false
+  "scale_review_crossed": false,
+  "later_source_camera_identity_recovery": {
+    "status": "PASS_EXACT_71558_EPISODE_SCENE_CAMERA_CHAIN",
+    "actual_exit_code": 0,
+    "passed_checks": 32,
+    "read_only": true,
+    "audit_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+    "reader_sha256": "4a5717e500acc467fef70d6400609345b96d97a553e4cabf7056cda29a9e7656",
+    "source_code_sha": "887e65629291f16f73863e2b111123007542d268",
+    "source_XML_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+    "FILE_MANIFEST_sha256": "eb5fb12f1120c8cde7a761f63a303029844da91971c718a95f51c72d0bb05b13",
+    "STATIC_QUALIFICATION_sha256": "b903afed7e875dfd4cdb08b192be2a3c81989155d3cb64cca20212c42403f23f",
+    "original_saved_observation_equals_original_episode_observation0": true,
+    "PNG_aliases_byte_verified": true,
+    "original_render_pair_and_static_calibration_join": true,
+    "source_camera_intrinsics_and_extrinsics_recovered_privately": true,
+    "previous_observation_file_lacks_calibration_still_true": true,
+    "source_external_camera_parent": "world_fixed_rig",
+    "source_external_fovy_deg": 55,
+    "target_original_body_fovy_deg": 75,
+    "source_wrist_parent": "x5_link6",
+    "source_wrist_fovy_deg": 75,
+    "camera_equivalence": false,
+    "target_rig_adaptation_executed": false,
+    "new_queries": 0,
+    "native_integrations": 0,
+    "engine_or_renderer_starts": 0,
+    "wall_s": 0.008923600427806377,
+    "CPU_s": 0.006315840999999999
+  }
 }

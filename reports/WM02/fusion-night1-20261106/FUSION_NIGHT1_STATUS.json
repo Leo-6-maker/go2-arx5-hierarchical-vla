@@ -21,19 +21,19 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793960816.1432128,
-  "implementation_sha": "d069fb8715b81523f7b6373a75097eb036676744",
+  "snapshot_epoch": 1793961868.1855664,
+  "implementation_sha": "719217356ccba0d5be0347aee5fece1946de904e",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "d069fb8715b81523f7b6373a75097eb036676744",
+  "actual_last_native_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; PAIRED02_CLOSED0_REAL_GPU1_QUERY_AND_SAME_NATIVE_PAUSE_REVALIDATED; FAILED_PAIR01_RETAINED",
+  "live_process_state": "COLD; fusion-night1-source-posture-s010-01_CLOSED0_NATIVE_PASS; NEXT_GRADE_REQUIRES_FRESH_SCOPE",
   "FUSION_completed_physical_cohorts": 5,
-  "FUSION_native_attempts": 272,
-  "FUSION_native_passes": 269,
+  "FUSION_native_attempts": 274,
+  "FUSION_native_passes": 271,
   "FUSION_native_failures": 3,
-  "FUSION_native_ticks": 1203591,
+  "FUSION_native_ticks": 1216897,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
@@ -44,10 +44,10 @@
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 926,
-  "sealed_native_passes_with_inherited_PILOT2": 918,
+  "sealed_native_attempts_with_inherited_PILOT2": 928,
+  "sealed_native_passes_with_inherited_PILOT2": 920,
   "retained_historical_native_failures": 8,
-  "sealed_native_ticks_with_inherited_PILOT2": 4190884,
+  "sealed_native_ticks_with_inherited_PILOT2": 4204190,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
   "M1": "FIVE_FROZEN_QUERIES; TRUE16GB_GPU1_AND_ACTUAL_PAUSE_RETURN_QUALIFIED; TASK_INTENT_AND_NATIVE_PROPOSAL_UNQUALIFIED",
   "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
@@ -228,7 +228,8 @@
     "SCIENCE_FOCUS_COLD_BOUNDARY_ACTUAL.json",
     "PAUSED_QUERY_ACTUAL_V1.json",
     "PAUSED_QUERY_REPAIR_ACTUAL_V2.json",
-    "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json"
+    "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json",
+    "SOURCE_POSTURE_ACTUAL_V1.json"
   ],
   "next": "First qualify the known source-observed posture through fresh original AUTO1/P1 single-world grades. Query02 wrong-direction full-H40 replay is implemented but DEFERRED_NOT_RUN while input alignment is investigated. Then qualify camera/input alignment and a fresh same-world frozen GR00T query, before the matched with/without-WM short-skill experiment.",
   "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_qualification --spec FRESH_ACTIVE_REGISTERED_SPEC --execute; fresh finite original-owner registration required, never replay a CLOSED dispatcher.",
@@ -324,7 +325,7 @@
   },
   "slow_native_actual_report": "TRAJECTORY_SLOW_ACTUAL_V2.json",
   "future_implementation_in_this_commit": {
-    "status": "ARCHIVED_QUERY_READER_AND_GRADED_POSTURE_IMPLEMENTED_FULL_TEST_PASS_NOT_DEPLOYED",
+    "status": "ARCHIVED_QUERY_READER_AND_SOURCE_POSTURE003_SITE_PASS_FUTURE_QUERY_V3_NOT_RUN",
     "paired_native_GPU_query": true,
     "new_task_and_score": true,
     "CPU_response_fit_reload": true,
@@ -332,7 +333,7 @@
     "actual_new_fits": 0,
     "no_new_Actor_Critic": true,
     "live_proposal_qualification": "DEFERRED_NOT_RUN",
-    "source_posture_qualification": "IMPLEMENTED_NOT_RUN"
+    "source_posture_qualification": "SITE_PASSED_GRADES_0.03,0.1"
   },
   "live_paused_query_actual_report": "PAUSED_QUERY_ACTUAL_V1.json",
   "snapshot_read_repair": {
@@ -360,5 +361,6 @@
     }
   },
   "last_live_paused_pair_report": "PAUSED_QUERY_REPAIR_ACTUAL_V2.json",
-  "input_alignment_report": "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json"
+  "input_alignment_report": "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json",
+  "source_posture_actual_report": "SOURCE_POSTURE_ACTUAL_V1.json"
 }
