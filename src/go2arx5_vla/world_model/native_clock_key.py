@@ -19,9 +19,15 @@ APPLIED = '''
 
 
 def patch(cpp):
+    start = 'void RL_Sim::RobotControl()\n{'
+    end = 'void RL_Sim::StartRosInterface()'
+    if cpp.count(start) != 1 or cpp.count(end) != 1:
+        raise ValueError('EXACT_NATIVE_CONTROL_FUNCTION_BOUNDARIES_REQUIRED')
+    control = cpp.split(start, 1)[1].split(end, 1)[0]
     if (cpp.count(CALLBACK) != 1 or cpp.count(TOGGLE) != 1
-            or cpp.count('const std::lock_guard<std::recursive_mutex> lock(sim->mtx);') != 1
-            or cpp.count('    this->control.ClearInput();') != 1):
+            or control.count('const std::lock_guard<std::recursive_mutex> lock(sim->mtx);') != 1
+            or control.count('    this->control.ClearInput();') != 1
+            or control.count(TOGGLE) != 1):
         raise ValueError('EXACT_SINGLE_NATIVE_KEY_CALLBACK_AND_CONTROL_CONSUMER_REQUIRED')
     changed = cpp.replace(CALLBACK, SERIALIZED).replace(TOGGLE, TOGGLE+APPLIED)
     if changed.replace(SERIALIZED, CALLBACK).replace(TOGGLE+APPLIED, TOGGLE) != cpp:

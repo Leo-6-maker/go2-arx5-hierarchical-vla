@@ -8,12 +8,15 @@ from go2arx5_vla.world_model.native_clock_key import patch, CALLBACK, SERIALIZED
 
 class NativeClockKey(unittest.TestCase):
     def test_only_delivery_and_observation_change_not_controller_math(self):
-        old = ('const std::lock_guard<std::recursive_mutex> lock(sim->mtx);\n'
-            'FROZEN_CONTROL_MATH();\n'+TOGGLE+'\n    this->control.ClearInput();\n'+CALLBACK)
+        old = ('void RL_Sim::RobotControl()\n{\nconst std::lock_guard<std::recursive_mutex> lock(sim->mtx);\n'
+            'FROZEN_CONTROL_MATH();\n'+TOGGLE+'\n    this->control.ClearInput();\n}\n'
+            'void RL_Sim::StartRosInterface()\n{'+CALLBACK+'}\n'
+            'void OtherNativeFunction(){const std::lock_guard<std::recursive_mutex> lock(sim->mtx);}')
         new = patch(old)
         self.assertEqual(new.replace(SERIALIZED, CALLBACK).replace(TOGGLE+APPLIED, TOGGLE), old)
         with self.assertRaises(ValueError): patch(new)
         with self.assertRaises(ValueError): patch(old+CALLBACK)
+        with self.assertRaises(ValueError): patch(old.replace('RobotControl()', 'WrongFunction()'))
 
     @unittest.skipUnless(shutil.which('g++'), 'compiler required')
     def test_event_between_key_test_and_clear_is_lost_without_serialization(self):
