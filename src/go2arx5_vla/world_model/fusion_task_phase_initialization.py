@@ -331,7 +331,7 @@ def query_readiness(samples,episode,inputs):
     return _query_readiness_at_endpoint(samples,episode,inputs,end=endpoint(episode))
 
 
-def _query_readiness_at_endpoint(samples,episode,inputs,*,end):
+def _query_readiness_at_endpoint(samples,episode,inputs,*,end,maximum_endpoint=33000):
     """Pure measurement math at an explicit finite caller-owned endpoint.
 
     The public V1 entry retains its exact manifest/clock. A versioned wrapper
@@ -339,7 +339,8 @@ def _query_readiness_at_endpoint(samples,episode,inputs,*,end):
     relabelling that episode or granting execution.
     """
     body=_inputs(inputs);episode_contract(episode)
-    need(type(end) is int and endpoint(episode)<=end<=33000
+    need(type(maximum_endpoint) is int and maximum_endpoint in (33000,35103)
+         and type(end) is int and endpoint(episode)<=end<=maximum_endpoint
          and (end-DECISION_STEP)%TICKS_PER_ATOM==0, 'FINITE_EXPLICIT_MEASUREMENT_ENDPOINT')
     required={'native_step','time_s','tcp','object_pose','qpos','qvel','ctrl','finger_q',
         'safety_valid','native_abort','robot_object_contact','left_object_contact','right_object_contact',

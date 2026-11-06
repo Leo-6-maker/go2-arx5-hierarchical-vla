@@ -1,0 +1,354 @@
+{
+  "schema": "WM02_TASK_PHASE_FINITE_XYZ_SO3_FEEDBACK_IMPLEMENTATION_V6",
+  "status": "IMPLEMENTED_RELATED_AND_FULL_SHARED_REGRESSION_PASS_INDEPENDENT_REVIEW_PASS_NATIVE_NOT_RUN",
+  "experiment_role": "NON_VLA_CALIBRATION",
+  "purpose": "FINITE_ORDINARY_REFERENCE_COMMISSIONING_NOT_A_WORLD_MODEL_OR_VLA_BENEFIT",
+  "implementation": {
+    "phase": "collect-target-fusion-task-phase-pose-feedback-v6",
+    "kind": "FUSION_TASK_PHASE_POSE_FEEDBACK_V6",
+    "condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_SO3_FEEDBACK_V6",
+    "baseline_condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_GRADED_V5",
+    "actual_parent_capsule_source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+    "future_source_commit": "NOT_COMMITTED_BY_THIS_IMPLEMENTER",
+    "source_and_test_sha256": {
+      "src/go2arx5_vla/world_model/auto1_native.py": "bd2fd3ba8ba6b37b99ac5c2c6616691fd909794fc254fd639344e7e65833d8a0",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization.py": "98a15618655a10a2de606143ef6b48c316b1fe8c23d07d2de20398d5e7d9c443",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "7b42d43e6552aa85211f56c2ff5ec219fa98ec41e721e6f116e17640add6cb92",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_evidence.py": "bfa643058f1cb6e49abcedecd0fd652de104b320060c5f323a60d4f09363e737",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py": "ae7c1287249ecf0646bbfcf5460f3770828c16893736fd076ad375ddbbdd9abf",
+      "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "0fc42e7701a5c55ddcbfbc06d114289093c56089a9a7beb0b871891117d92bb0",
+      "src/go2arx5_vla/world_model/target_sequential.py": "4ce34f592c952c61f73b3cffbddeff15b37ec7aeece41ef8d7b7e3b4f5ccb454",
+      "scripts/wm02/fusion_task_phase_pose_feedback_check_v6.py": "09a29f6bd53eb96b24646e2b98a1358ab47122733ec8261c4ca7d2541f77e12c",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_contract_v6.py": "80ca75f80089ffc03d01a5db787cb939a872f8a0d24739c5bbaec08b38b1981c",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_native_v6.py": "eff500ede1531a78efcf5db0da70896287ac971cf839f3e7af121e5be55c09fd",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_v6.py": "700518d503819b35c525661e41981469c88a9e9c648f2f8d66ff5f3542085126",
+      "tests/world_model/test_fusion_task_phase_pose_feedback_v6.py": "be1603d13f465f0d6029841f912ac40308ddf54cd45496729089f224bfeb8960"
+    },
+    "frozen_source_and_test_members": 12,
+    "CLI": "scripts.wm02.fusion_task_phase_pose_feedback_check_v6",
+    "original_worker": "scripts.wm02.pilot1_native_worker"
+  },
+  "evidence_for_repair": {
+    "previous_actual_source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+    "previous_actual_spec_sha256": "90f5aa95552180dbe2c447608948643ca6e6988580521335310dab7d357184a4",
+    "previous_actual_result_sha256": "f6d6913a17490381c65946361cff5d8b6c47ca91c84ab5e9a2783a74b50cd023",
+    "previous_scope_closed": true,
+    "previous_worker_exit_code": 0,
+    "previous_MainPID": 0,
+    "previous_grade": 0.25,
+    "previous_native_safety_pass": true,
+    "previous_measured_goal_gate_pass": false,
+    "failed_predicates": [
+      "position",
+      "lateral",
+      "orientation"
+    ],
+    "passed_predicates": [
+      "actual_cube_distance",
+      "continuous_relative_hold",
+      "actual_open",
+      "cube_still",
+      "no_contact",
+      "original_safety"
+    ],
+    "maximum_position_error_m": 0.020912651065322536,
+    "maximum_lateral_error_m": 0.01633151180951891,
+    "maximum_orientation_error_rad": 0.055373548411616444,
+    "previous_four_reference_corrections_sum_m": 0.016,
+    "observed_goal_error_checkpoint_mm": [
+      31.730055494814252,
+      29.180414531269125,
+      26.52683717916593,
+      23.78083331674707,
+      20.687483119945504
+    ],
+    "sequential_reductions_are_causal_gain_estimates": false,
+    "matched_HOLD_counterfactual_available": false,
+    "retained_V5_point5_status": "DEFERRED_NO_DISPATCH_NO_RELABELING"
+  },
+  "finite_recipe": {
+    "geometry_scales": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "first_execution_if_admitted": "POINT25_SAME_GRADE_REPAIR_ONLY",
+    "initial_measurement_step": 2503,
+    "decision_measurement_step": 3703,
+    "original_ramp_atoms": [
+      512,
+      768,
+      1024
+    ],
+    "planned_end_atom_rule": "ramp_atoms + 8*(20+8)",
+    "feedback_decisions": 8,
+    "native_endpoint_steps": [
+      22303,
+      28703,
+      35103
+    ],
+    "maximum_native_endpoint": 35103,
+    "complete_task_atom_counts_if_complete": [
+      792,
+      1048,
+      1304
+    ],
+    "physics_dt_s": 0.002,
+    "native_ticks_per_atom": 25,
+    "atom_dt_s": 0.05,
+    "wall_limit_s": 1200,
+    "feedback_steps_rule": "3703 + 25*(ramp_atoms+8) + 700*i for i in 0..7",
+    "translation": {
+      "error": "p_unchanged_desired_goal - p_fresh_actual_TCP",
+      "gain": 0.5,
+      "deadband_m": 0.005,
+      "step_norm_cap_m": 0.004,
+      "cumulative_sum_of_step_norms_cap_m": 0.032,
+      "frame": "ACTUAL_TARGET_WORLD_COMPONENT_XYZ"
+    },
+    "rotation": {
+      "error": "Log(R_unchanged_desired_goal @ R_fresh_actual_TCP.T)",
+      "frame": "ACTUAL_TARGET_WORLD_LEFT_ROTATION_VECTOR",
+      "gain": 0.5,
+      "deadband_rad": 0.005,
+      "step_angle_cap_rad": 0.01,
+      "cumulative_sum_of_step_angle_norms_cap_rad": 0.08,
+      "reference_update": "Exp(quintic_weight * applied_world_rotvec) @ previous_committed_reference_R",
+      "rotation_vector_is_body_local": false,
+      "XYZ_rotation_coupled_as_SE3_translation": false
+    },
+    "move_atoms": 20,
+    "move_time_s": 1.0,
+    "settle_atoms": 8,
+    "settle_time_s": 0.4,
+    "reference_start": "PREVIOUS_COMMITTED_REFERENCE_ENDPOINT_NOT_ACHIEVED_STATE",
+    "desired_goal_and_path": "UNCHANGED_ORIGINAL_ALGORITHM_FROM_THIS_RESTART_3703_GOAL",
+    "independent_restart_desired_path_bytes_claimed_equal_to_old_V5": false,
+    "BASE_reference_unchanged": true,
+    "physical_gripper_reference_unchanged": true,
+    "original_full_H40_certification_ACK_TTL_and_safety_required": true,
+    "fixed_dose_sufficiency": "FINITE_ENGINEERING_HYPOTHESIS_NOT_PROVEN_FOR_POINT25_OR_HIGHER_GRADES"
+  },
+  "chronology": [
+    "Seal the actual V6 static episode and finite scope before physics; keep old V5 failure and deferred .5 intact.",
+    "Measure this restart at INIT2503 and DEC3703 through the original native reader. Freeze the object-derived geometric goal and known simple predecision bias before generated reference installation.",
+    "At each declared feedback boundary require the preceding complete 25-tick pose, gripper, solver and original ACK window plus fresh original same-packet measured-state/FK witness.",
+    "Compute bounded TARGET_WORLD XYZ and left-SO3 errors against the unchanged desired goal, from current completed measurements only.",
+    "Save and read back STATE, MEASURED, full updated path, remaining path, H40 and the decision with their hashes before committing the new reference revision.",
+    "Force the original full40 certification/install ACK path; retain exact nominal references, actual consumption windows, source-relative TTL, rolling renewals and original cancel/stop.",
+    "Save nine distinct actual terminal samples and recompute the original nine non-full-grade predicates. Only an exact completed qualified adjacent V6 predecessor may advance amplitude."
+  ],
+  "gate": {
+    "first_point25": {
+      "source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+      "spec_sha256": "90f5aa95552180dbe2c447608948643ca6e6988580521335310dab7d357184a4",
+      "result_sha256": "f6d6913a17490381c65946361cff5d8b6c47ca91c84ab5e9a2783a74b50cd023",
+      "required_failure_predicates": [
+        "position",
+        "lateral",
+        "orientation"
+      ],
+      "required_other_non_full_grade_predicates_true": 6,
+      "native_SAFE_and_full_consumption_required": true,
+      "same_grade_repair_not_fake_qualified_advance": true
+    },
+    "later_grades": "IMMEDIATE_SAME_V6_SOURCE_SAME_LAW_COMPLETE_EXECUTION_ALL_NINE_NON_FULL_GRADE_PREDICATES_TRUE",
+    "eight_saved_decisions_and_every_rolling_H40_suffix_recomputed": true,
+    "original_native_python_and_BLAS1_required_for_strict_hash_replay": true,
+    "full1_ready_is_not_a_GPU_or_native_execution_grant": true,
+    "failed_measurement_gate": "RETAIN_FAILURE_AND_STOP_ADJACENT_CHAIN_NO_AUTOMATIC_AMPLITUDE_ADVANCE"
+  },
+  "native_quota_ABI": {
+    "unchanged_header": "scripts/pi0294/task_quota_r1.hpp",
+    "header_sha256": "9f96f3c308550df2081de3269735006302bc5a239fab9085231299b2d8438e75",
+    "old_V4_V5_bucket": 64,
+    "new_V6_bucket": 96,
+    "original_ABI_already_supports_bucket96": true,
+    "exact_finite_binding_limits_actual_ticks": true,
+    "header_or_native_binary_changed": false,
+    "compiled_boundary_checks": [
+      "35103 with old bucket64 is rejected",
+      "22303,28703,35103 with original bucket96 are accepted"
+    ],
+    "quota_bucket_is_actual_task_atom_count": false
+  },
+  "preserved": {
+    "old_V4_V5_manifest_identity": true,
+    "old_V4_V5_default_artifact_bytes": true,
+    "old_WBC_gains_solver_and_native_safety": true,
+    "physics_step": true,
+    "old_ledgers_and_failures": true,
+    "frozen_native_identity": {
+      "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+      "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+      "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+      "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+      "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+      "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+      "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+      "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+      "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+      "source_files_members": 3379,
+      "source_files_canonical_sha256": "58b466053303f4e5775b2649644843e704d4eb29c60fb92be0afc1de89c37db8",
+      "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c"
+    },
+    "comparison_limits": "No novel WM gain, learned adapter, formal Actor, source task success, real hardware or GR00T capability inference"
+  },
+  "tests": {
+    "environment": {
+      "PYTHON": "LOCAL_RECORDED_TEST_VENV",
+      "PYTHONPATH": "src:.",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "normal_command": "$PYTHON -B -m pytest -q tests/world_model/test_fusion_task_phase_pose_feedback_v6.py tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_auto1_native.py tests/world_model/test_fusion_trajectory_qualification.py",
+    "optimized_command": "$PYTHON -B -O -m pytest -q tests/world_model/test_fusion_task_phase_pose_feedback_v6.py tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_auto1_native.py tests/world_model/test_fusion_trajectory_qualification.py",
+    "related_normal": {
+      "passed": 310,
+      "exit_code": 0,
+      "pytest_wall_s": 115.03,
+      "launcher_wall_s": 115.24470769699838,
+      "child_CPU_s": 112.130368,
+      "log_sha256": "b129ffeb1e5822de73cd61c8a7a40248d2272839010a93b09dfeb794cdfd144f",
+      "source_before_after_pins_unchanged": true,
+      "source_members_checked": 12
+    },
+    "related_optimized": {
+      "passed": 310,
+      "exit_code": 0,
+      "pytest_wall_s": 119.44,
+      "launcher_wall_s": 119.87261535800644,
+      "child_CPU_s": 116.70048799999999,
+      "log_sha256": "2690058babc1fd8e0b99b9419d01408e5ec983b8ac90eda13d969f4e25dc9723",
+      "source_before_after_pins_unchanged": true,
+      "source_members_checked": 12,
+      "expected_pytest_optimized_assertion_warning_count": 1
+    },
+    "meaningful_coverage": [
+      "Exact distinct V6 manifests, all three endpoint clocks and eight finite slots; old public manifests/readiness remain strict.",
+      "World-left SO3 error, noncommuting-frame sign/order, zero/pi numerical limits, quintic midpoint and reference continuity without achieved-state reanchor.",
+      "Independent XYZ/angle deadbands, per-step caps, sums of norms, fixed eight-slot exhaustion and no unsaved scheduled revision.",
+      "Original native wrapper saves and reads back eight nonzero XYZ/SO3 updates, then all rolling reference/ACK/solver/gripper/TTL records rejoin.",
+      "Negative angular law/dose, old wire after a new decision, changed H40, wrong first exact identity, changed predecessor failure predicates, open lease and skipped grade.",
+      "The unchanged C++ quota header is actually compiled; full1 bucket64 rejects while all new exact V6 endpoints accept bucket96.",
+      "Read-only git show of e527 native engine is executed in a synthetic fixture: old V4/V5 reports and every artifact byte equal current default output at the same path."
+    ],
+    "retained_test_failures": [
+      {
+        "command": "$PYTHON -B -m pytest -q tests/world_model/test_fusion_task_phase_pose_feedback_v6.py",
+        "passed": 26,
+        "failed": 2,
+        "pytest_wall_s": 38.28,
+        "exit_code": 1,
+        "reason": "New synthetic fixture used setup packet identity for readiness instead of its saved native-fixture3703 packet with changed qvel. Strict checker correctly rejected. Fixture now reloads its own saved packet/MEASURED; no hash or threshold weakened."
+      },
+      {
+        "command": "$PYTHON -B -m pytest -q tests/world_model/test_fusion_task_phase_pose_feedback_v6.py",
+        "passed": 33,
+        "failed": 1,
+        "pytest_wall_s": 67.01,
+        "exit_code": 1,
+        "reason": "Parent test process found src through pytest configuration, but unconfigured child Python lacked PYTHONPATH and could not import package. Final actual test commands bind PYTHONPATH=src:. explicitly. No physical execution occurred."
+      }
+    ],
+    "broad_shared_regression": {
+      "status": "PASS",
+      "command": "$PYTHON -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py",
+      "passed": 1589,
+      "subtests_passed": 302,
+      "exit_code": 0,
+      "pytest_wall_s": 263.32,
+      "launcher_wall_s": 264.82102029900125,
+      "child_CPU_s": 256.669225,
+      "source_members_checked": 40,
+      "source_before_after_pins_unchanged": true,
+      "stdout_sha256": "bb9de55734f25517cbea2d0b865b1dd61a1e75dd3ad679175472c12c1cf9f90f",
+      "receipt_sha256": "4c045cc8a38e462dea5578cfcc2677a39fdbbdd71856a9db21327c780e95e298",
+      "driver_sha256": "dfb2cdc87fa1fc4130cc849f03c5f0d31b719425193da2ed1d7e6ab782895e34",
+      "GitHub_CI": false,
+      "native_qualification": false
+    },
+    "independent_readonly_review": {
+      "status": "NO_CONFIRMED_FIRST_USE_BLOCKER",
+      "source_members_checked": 12,
+      "source_pins_exact_against_both_related_test_modes": true,
+      "reviewed": [
+        "world-left SO3 law and previous committed reference continuity",
+        "exact failed V5 same-grade predecessor and qualified adjacent V6 gates",
+        "original quota header unchanged; V6 selects supported96 bucket with exact finite endpoints",
+        "fresh measured packet and original FK witness; six artifacts save-readback before commit/install/physics",
+        "POSE_FEEDBACK prefix, schemas, CLI and private dispatcher/readers agree",
+        "original full-H40 certification ACK TTL safety and frozen WBC remain required"
+      ],
+      "method": "INDEPENDENT_READ_ONLY_SOURCE_AND_RECORDED_TEST_REVIEW_NO_TEST_RERUN_OR_NATIVE_EXECUTION",
+      "private_dispatcher_template_sha256": "a6c2c1696bff7a993ba50756c9ed30e25586b95027ee042472f3fbb54db8c6a5",
+      "private_status_template_sha256": "12c8149bbc4051e9804705bc874d2e831aa47858f5d4bb0808100009e8f176c8",
+      "does_not_supply_site_permission_or_physical_qualification": true
+    },
+    "git_diff_check_exit_code": 0,
+    "focused_receipt_sha256": "747a896c81cde7b9e64140d639cec4c276e3f002d9198b6ee24c8685dbcd69d1",
+    "frozen_e527_old_V4_V5_artifact_byte_parity": {
+      "status": "PASS",
+      "conditions": 2,
+      "source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+      "scope": "Explicitly synthetic same-path reports and every saved artifact; no native replay or physics qualification",
+      "tolerance_used": false
+    },
+    "unchanged_native_CPP_header_boundary_execution": {
+      "status": "PASS",
+      "header_sha256": "9f96f3c308550df2081de3269735006302bc5a239fab9085231299b2d8438e75",
+      "compiler": "g++ -std=c++17",
+      "full1_35103_bucket64_exit_code": 1,
+      "all_three_V6_endpoints_bucket96_exit_code": 0,
+      "native_header_unchanged_from_actual_parent_source": true
+    }
+  },
+  "actual_V6": {
+    "status": "NOT_RUN",
+    "registered_native_scopes": 0,
+    "target_integrations": 0,
+    "complete_physical_transitions": 0,
+    "native_tasks": 0,
+    "VLA_queries": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "learned_model_loads": 0,
+    "checkpoint_sha256": null,
+    "native_qualification_established": false,
+    "physical_benefit_established": false
+  },
+  "next": {
+    "required": "Frozen-code review plus original-owner fresh finite same-point25 scope before first native execution.",
+    "check_only_command": "PYTHONPATH=src:. \"$PYTHON\" -B -m scripts.wm02.fusion_task_phase_pose_feedback_check_v6 --spec \"$FRESH_V6_SPEC\" --check-only",
+    "command_does_not_register_or_grant_scope": true
+  },
+  "publication": {
+    "private_host_paths_included": false,
+    "raw_state_or_pose_matrices_included": false,
+    "raw_policy_actions_or_pixels_included": false,
+    "source_modified_by_report_writer": false
+  },
+  "cost": {
+    "related_normal_wall_s": 115.24470769699838,
+    "related_normal_child_CPU_s": 112.130368,
+    "related_optimized_wall_s": 119.87261535800644,
+    "related_optimized_child_CPU_s": 116.70048799999999,
+    "early_failed_test_pytest_wall_s": [
+      38.28,
+      67.01
+    ],
+    "early_failed_test_CPU_s": null,
+    "test_timings_include_synthetic_fixtures_and_quota_compile": true,
+    "new_native_worker_wall_s": 0,
+    "GPU_s": 0,
+    "parent_broad_cost": {
+      "launcher_wall_s": 264.82102029900125,
+      "child_CPU_s": 256.669225,
+      "timings_overlap_pytest_wall_do_not_sum": true,
+      "GPU_s": 0,
+      "physics_integrations": 0
+    },
+    "timing_scope": "LOCAL_TEST_VALIDATION_ONLY_NOT_NATIVE_EXECUTION_OR_MODEL_TRAINING"
+  }
+}

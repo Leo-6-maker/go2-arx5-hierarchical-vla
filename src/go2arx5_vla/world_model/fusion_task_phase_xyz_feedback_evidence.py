@@ -28,7 +28,8 @@ def audit_completed_feedback(spec, result, *, recipe):
     """Recompute one archived result, without supplying any execution grant."""
     from . import fusion_task_phase_xyz_feedback_v4 as v4
     from . import fusion_task_phase_xyz_feedback_continuation_v5 as v5
-    need((spec.get('phase'), recipe) in ((v4.PHASE, v4), (v5.PHASE, v5)),
+    from . import fusion_task_phase_pose_feedback_v6 as v6
+    need((spec.get('phase'), recipe) in ((v4.PHASE, v4), (v5.PHASE, v5), (v6.PHASE, v6)),
          'EXACT_KNOWN_RECIPE_CALLER')
     need(Path(sys.executable) == Path(spec['python']) and Path(spec['python']).is_absolute()
          and Path(sys.executable).resolve() == Path(spec['python']).resolve(),
@@ -92,8 +93,8 @@ def audit_completed_feedback(spec, result, *, recipe):
          'INITIAL_FIXED_BIAS_AND_STATIC_REFERENCE_PATH_RECOMPUTE')
     feedback = report['finite_xyz_feedback']
     decisions = feedback['decisions']
-    need(len(decisions) == 4 and [d['native_step'] for d in decisions] == list(steps),
-         'EXACT_FOUR_FINITE_DECISIONS')
+    need(len(decisions) == len(steps) and [d['native_step'] for d in decisions] == list(steps),
+         'EXACT_PREDECLARED_FINITE_DECISIONS')
     acks = report['original_install_ACKs']
     ack_ids = {a['wire_sha256'] for a in acks if a.get('accepted', 0) > 0 and a.get('installed', 0) > 0}
     wires, decision_summaries, decision_index = {}, [], 0
@@ -176,16 +177,16 @@ def audit_completed_feedback(spec, result, *, recipe):
              and abs(row['actual_installed_source_age_s']-(clock['native_start_s']-clock['source_mpc_s'])) <= 1e-9,
              'ORIGINAL_SOURCE_RELATIVE_TTL_AND_COMPLETE_ATOM_CLOCK')
     proof = program.evidence()
-    need(decision_index == 4 and proof == report['adaptation'], 'FINAL_PROGRAM_ALL_FOUR_REVISIONS_EXACT_RESULT_JOIN')
+    need(decision_index == len(steps) and proof == report['adaptation'], 'FINAL_PROGRAM_ALL_REVISIONS_EXACT_RESULT_JOIN')
     nonlinear = proof['feedback_decisions']
     nonzero = sum(d['applied_delta_norm_m'] > 0 for d in nonlinear)
     holds = sum(d['deadband_hold'] for d in nonlinear)
     total = sum(d['applied_delta_norm_m'] for d in nonlinear)
-    need(feedback['committed_feedback_decisions'] == feedback['actual_feedback_reference_updates'] == 4
+    need(feedback['committed_feedback_decisions'] == feedback['actual_feedback_reference_updates'] == len(steps)
          and feedback['nonzero_XYZ_corrections'] == nonzero
          and feedback['deadband_HOLD_count'] == holds
          and feedback['sum_applied_XYZ_delta_norms_m'] == total
-         and total <= .016+1e-12
+         and total <= recipe.CUMULATIVE_CAP_M+1e-12
          and feedback['final_reference_path_sha256'] == recipe.fixed._sha(program.reference_path)
          and feedback['unchanged_desired_path_sha256'] == recipe.fixed._sha(program.desired_path),
          'EXACT_ACTUAL_DOSE_COUNTS_AND_FINAL_REFERENCE_PATH')
@@ -194,7 +195,7 @@ def audit_completed_feedback(spec, result, *, recipe):
          and recomputed['query_ready'] is all(predicates.values())
          and recomputed['native_execution_authorized'] is recomputed['GPU_query_authorized'] is False,
          'CORRECT_GRADE_PREDICATE_NOT_A_NATIVE_OR_GPU_PERMISSION')
-    return dict(status='SAVED_CAUSAL_FEEDBACK_AND_ALL_AGGREGATE_ROLLING_CONSUMPTION_RECOMPUTED',
+    value = dict(status='SAVED_CAUSAL_FEEDBACK_AND_ALL_AGGREGATE_ROLLING_CONSUMPTION_RECOMPUTED',
         readiness=recomputed, all_nine_non_full_grade_predicates_passed=all(
             value for key,value in predicates.items() if key != 'full_grade'),
         actual_feedback_decisions=decision_index, nonzero_XYZ_corrections=nonzero,
@@ -205,3 +206,17 @@ def audit_completed_feedback(spec, result, *, recipe):
         saved_original_FK_witness_rejoined_without_new_FK=True,
         native_execution_authorized=False, GPU_query_authorized=False,
         new_integrations=0, model_loads=0, queries=0, source_writes=0)
+    if recipe is v6:
+        angular_nonzero = sum(d['applied_rotation_norm_rad'] > 0 for d in nonlinear)
+        angular_holds = sum(d['angular_deadband_hold'] for d in nonlinear)
+        angular_total = sum(d['applied_rotation_norm_rad'] for d in nonlinear)
+        need(feedback['nonzero_SO3_corrections'] == angular_nonzero
+             and feedback['angular_deadband_HOLD_count'] == angular_holds
+             and feedback['sum_applied_SO3_delta_norms_rad'] == angular_total
+             and angular_total <= recipe.ANGULAR_CUMULATIVE_CAP_RAD+1e-12
+             and feedback['rotation_error_frame'] == 'ACTUAL_TARGET_WORLD_LEFT_LOG_R_GOAL_R_ACTUAL_TRANSPOSE'
+             and feedback['reference_rotation_from_previous_committed_endpoint'] is True,
+             'EXACT_V6_ANGULAR_DOSE_AND_WORLD_LEFT_SEMANTICS')
+        value.update(nonzero_SO3_corrections=angular_nonzero,angular_deadband_HOLD_count=angular_holds,
+            sum_applied_SO3_delta_norms_rad=angular_total)
+    return value
