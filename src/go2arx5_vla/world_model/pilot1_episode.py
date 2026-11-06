@@ -12,6 +12,9 @@ METHODS = ('GEOMETRIC_DIRECTION_RULE', 'TRAIN_MEAN_RESPONSE_RULE', 'FROZEN_ARX_S
 def episode_config(spec):
     path = Path(spec['episode_manifest'])
     episode = json.loads(path.read_text())
+    if episode.get('schema') == 'WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1':
+        from .fusion_episode import episode_config as fusion_config
+        return fusion_config(spec)
     pilot2=episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1'
     if pilot2:
         from .pilot2_coverage import coverage_contract
@@ -72,6 +75,9 @@ def episode_limit(spec, previous):
 
 
 def choose(adapter, episode):
+    if episode.get('schema') == 'WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1':
+        from .fusion_episode import choose as fusion_choose
+        return fusion_choose(adapter, episode)
     if episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1':
         from .pilot2_coverage import choose_predeclared
         return choose_predeclared(adapter,episode)
@@ -139,6 +145,9 @@ def choose(adapter, episode):
 
 
 def score(adapter, episode):
+    if episode.get('schema') == 'WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1':
+        from .fusion_episode import score as fusion_score
+        return fusion_score(adapter, episode)
     from scripts.pi0292.durable import write
     decision = json.loads((adapter.output/'PILOT1_DECISION.private.json').read_text())
     task = json.loads(Path(adapter.spec['task']).read_text())

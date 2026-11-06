@@ -331,6 +331,13 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
+        if hasattr(self,'fusion_initial_tcp'):
+            from .fusion_contract import validate_local_preview
+            envelope=validate_local_preview(action,initial_tcp=self.fusion_initial_tcp,
+                chosen_action=self.fusion_selected_action,renewed=self.fusion_install_action_count>0,
+                base_pose=self.base_pose_hold,frozen_base_pose=self.fusion_base_pose_hold)
+            self.command_event(dict(phase='fusion-full-final-reference-envelope',**envelope))
+            self.fusion_install_action_count+=1
         from .target_reference import deadline,require_install_clock
         from scripts.pi0294.base_intent import eef_document
         from scripts.pi0294.task_state import write_gripper
@@ -426,6 +433,9 @@ class TargetSequentialAdapter:
             if pilot1:
                 from .pilot1_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
+            if episode.get('schema')=='WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1':
+                self.fusion_initial_tcp=initial['tcp'].copy();self.fusion_base_pose_hold=list(self.base_pose_hold)
+                self.fusion_selected_action=0;self.fusion_install_action_count=0
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
             decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])
