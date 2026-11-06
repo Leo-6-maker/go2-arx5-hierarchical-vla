@@ -21,7 +21,7 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793991330.2282841,
+  "snapshot_epoch": 1793992482.2131517,
   "implementation_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
@@ -277,10 +277,12 @@
     "SLOW_GRADED_QUERY_H40_DURATION_REJECTION_ACTUAL_V9.json",
     "SLOW_LIVE_FULL_H40_STATIC_AUDIT_ACTUAL_V1.json",
     "SLOW_LIVE_TIME1_FIRST_CERTIFICATE_AND_INTENT_ACTUAL_V1.json",
-    "DECLARED_FULL_H40_TIME_MAPPING_IMPLEMENTATION_V9.json"
+    "DECLARED_FULL_H40_TIME_MAPPING_IMPLEMENTATION_V9.json",
+    "GRADED_PROMPT_CONTROL_PROTOCOL_V2.json",
+    "GRADED_PROMPT_CONTROL_IMPLEMENTATION_V2.json"
   ],
   "next": "At the same sealedV9 observation, compare a fresh explicitSHORT frozenquery to existingORIGINAL with matched seed/noise/precision before dynamic skill scope.",
-  "next_executable": null,
+  "next_executable": "python3 CORE_CONTROL_HELPER read_graded_v9_view_readonly_preflight01.py 360",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -486,7 +488,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "NEW_SEALED_V9_PROMPT_VIEW_READER_IMPLEMENTATION_IN_PROGRESS",
+  "next_command_status": "READONLY_ARCHIVE_PREFLIGHT_READY_CORE_SSH_CONNECTION_TIMEOUT",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -713,5 +715,15 @@
     "first_preview_certificate_report": "SLOW_LIVE_TIME1_FIRST_CERTIFICATE_AND_INTENT_ACTUAL_V1.json",
     "time_mapping_implementation_report": "DECLARED_FULL_H40_TIME_MAPPING_IMPLEMENTATION_V9.json",
     "time1_native_dynamic_qualification": false
-  }
+  },
+  "graded_prompt_control_v2": {
+    "protocol": "GRADED_PROMPT_CONTROL_PROTOCOL_V2.json",
+    "implementation_report": "GRADED_PROMPT_CONTROL_IMPLEMENTATION_V2.json",
+    "registered": false,
+    "actual_new_queries": 0,
+    "original_query_reused": true,
+    "remote_readonly_archive_check": "SSH_CONNECTION_TIMEOUT_EXIT255",
+    "new_native_integrations": 0
+  },
+  "current_operational_block": "CORE_SSH_CONNECTION_TIMEOUT_BEFORE_READONLY_SCRIPT_EXECUTION_NO_NEW_REGISTERED_JOB"
 }

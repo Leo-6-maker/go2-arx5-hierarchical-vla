@@ -15,6 +15,10 @@ def recorded_payload(spec):
     """
     from go2arx5_vla.world_model.storage import digest
     from scripts.pi0292.relay_protocol import unseal, validate_observation
+    if spec.get('observation_mode') == 'FROZEN_GRADED_PROMPT_CONTROL_VIEW_V2':
+        from go2arx5_vla.world_model.fusion_graded_prompt_control_v2 import prompt_control_payload
+        return prompt_control_payload(Path(spec['recorded_observation']).read_bytes(),
+            view_sha256=spec['recorded_observation_sha256'], query_spec=spec)
     if spec.get('observation_mode') == 'FROZEN_PROMPT_CONTROL_VIEW_V1':
         from go2arx5_vla.world_model.fusion_prompt_control import prompt_control_payload
         return prompt_control_payload(Path(spec['recorded_observation']).read_bytes(),
