@@ -104,7 +104,11 @@ def run(a):
     from go2arx5_vla.task_data.codec import pose10
     from .next1_episode import assess
     from .next2_contact import advance_atom,gripper_memory
-    e=json.loads(Path(a.spec['episode_manifest']).read_text());a.prepare_dynamic();initial=a.measured_task_state();a.next1_samples=[initial]
+    e=json.loads(Path(a.spec['episode_manifest']).read_text());observer=None
+    if a.spec.get('contact_forecast_observer')is not None:
+        from .pilot2_contact_observer import prepare
+        observer=prepare(a,e)
+    a.prepare_dynamic();initial=a.measured_task_state();a.next1_samples=[initial]
     pilot2=a.spec['phase']=='collect-target-pilot2-supported'
     if pilot2:
         from .pilot2_supported import stage_for as select_stage,score as score_goal
@@ -142,6 +146,7 @@ def run(a):
                  native_grasp=state['native_grasp'],contact_any=any(v['contact_positive']for v in actual_events),native_contact_events=actual_events,actual_gripper_internal_memory=memory,
                  executed_reference_index=(step-installed_step)//25,executed_reference_EEF10=a.active_reference['action_EEF10'][(step-installed_step)//25],reference_sha256=w['reference_sha256'])
         samples.append(row);a.command_event(dict(phase='supported-close-actual-atom',**row))
+        if observer:observer(a,e,samples)
     result=score_goal(events,e);result.update(schema='WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1'if pilot2 else'WM02_PILOT1_SUPPORTED_CLOSE_SCORE_V1',source_sha=a.spec['source_sha'],same_native_process=True,physics_resets=0,state_teleports=0,actual_task_atoms=len(samples),
                                      first_blocker=first_blocker,contact_positive_native_ticks=sum(v['contact_positive']for v in events),bilateral_native_grasp_ticks=sum(v['native_grasp']for v in events),samples=samples)
     if policy_episode:

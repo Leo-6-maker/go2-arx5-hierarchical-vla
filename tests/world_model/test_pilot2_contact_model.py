@@ -84,6 +84,7 @@ builtins.__import__ = native_import
 from go2arx5_vla.world_model.pilot2_contact_model import replay, planned_openings
 from scripts.wm02.build_pilot2_contact import build
 from go2arx5_vla.world_model.pilot2_contact_numpy import predict
+from go2arx5_vla.world_model.pilot2_contact_observer import record
 '''
         subprocess.run([sys.executable, '-B', '-c', code], check=True, capture_output=True, text=True)
 
