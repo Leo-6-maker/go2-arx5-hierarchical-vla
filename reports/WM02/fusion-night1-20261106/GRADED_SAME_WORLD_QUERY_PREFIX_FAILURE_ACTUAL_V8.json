@@ -1,0 +1,335 @@
+{
+  "schema": "WM02_GRADED_SAME_WORLD_QUERY_PREFIX_FAILURE_ACTUAL_V8",
+  "status": "BOTH_CLOSED1_PID0_PREFIX_REFERENCE_ACCELERATION_REJECT_BEFORE_QUERY",
+  "goal": "ACTIVE",
+  "source_sha": "bfafbeed6722175ffad76e465b549b9a48adb9ab",
+  "QUESTION": "Can the qualified-half recipe reach a fresh same-world query boundary and consume the generated complete H40?",
+  "CHANGED": "Typed preregistered B34303/E66503 same-world query/fullH40 entry; unchanged V7 half initialization recipe.",
+  "NATIVE_RESULT": "Stopped at30103 before the query boundary; the eleventh ordinary feedback candidate was saved then rejected before publication. No generated H40 exists.",
+  "VALID_FAILURES": "One new native attempt and one paired GPU input-validation failure retained. No physics STOP, actual joint warning, trace loss or forced process termination.",
+  "SCIENCE_DECISION": "P0 not passed. Real query/complete generated skill/+WM gain remain unqualified. Do not retry unchanged or relax the original certificate.",
+  "NEXT_GATE": "Read-only reference-geometry/IK diagnosis, then test a versioned outer-reference repair before any fresh original-owner finite scopes.",
+  "native": {
+    "run": "fusion-night1-graded-live-s050-01",
+    "spec_sha256": "bb4b2fc4e998241e0875c575780d7efcd62a1e36643d734d54a2848554ef35ff",
+    "result_sha256": "a32a70570b4bda1e1d35d217c62e1804c942f5a78d0248a677f2dbd0db75388e",
+    "lease_sha256": "cc582021c67a85ea24386d07cd92ccb94c5413f707e2a90dd123e0750a45cbf6",
+    "worker_sha256": "59fbf5ea2cddf1f420ef3dba6968616f43bd55f7f8f19410e65e9c6b24e9b578",
+    "exit_code": 1,
+    "MainPID": 0
+  },
+  "gpu": {
+    "run": "fusion-night1-graded-live-s050-gpu-01",
+    "spec_sha256": "72c72286a8f5d16985a6210f6475dc79f6b519a317acc7df84bfd598d763f56a",
+    "failure_sha256": "a57ab7b4a98e454929eaed6f772e5c2775c658bf523108c9abe2cd0b0f39603e",
+    "lease_sha256": "a33a13d4aacae676ee65d6620f5f9ab17b8e23546d7ba5564433d3ecd827230d",
+    "worker_sha256": "8d6acdcc6c48ce820d7306cd45cb10b247765121830e26336f929884282f65a1",
+    "exit_code": 1,
+    "MainPID": 0,
+    "failure": "ValueError: FUSION_PAUSED_QUERY_BRIDGE_EXACT_REGISTERED_SCOPE_LEASE_STATE",
+    "stage": "INPUT_VALIDATION",
+    "attempt_markers": 1,
+    "model_loads": 0,
+    "generation_invocations": 0,
+    "completed_queries": 0,
+    "no_model_load_intent_or_loaded_or_generation_intent_artifact": true,
+    "dependent_failure_not_a_GR00T_training_failure": true
+  },
+  "pair_sha256": "e86d3beec247f98e3de456bb68f9ce72b395598d7c89532680bf0e8b7e37b939",
+  "task_sha256": "dbc4b3b71f35592b6a8b286b73be5e2cab7d74d29c443e61a0e5b8df0cab3e5a",
+  "clocks": {
+    "physics_dt_s": 0.002,
+    "capture_B": 34303,
+    "registered_endpoint_E": 66503,
+    "actual_endpoint": 30103,
+    "query_boundary_reached": false,
+    "exact_feedback_decision_index": 10,
+    "feedback_number": 11,
+    "feedback_native_step": 30103,
+    "feedback_start_step": 23103,
+    "feedback_period_ticks": 700
+  },
+  "physics": {
+    "actual_integrations": 30103,
+    "complete_25tick_transitions": 1204,
+    "partial_native_ticks": 3,
+    "complete_task_pose_gripper_windows": 1104,
+    "saved_feedback_decisions": 11,
+    "last_candidate_submitted_or_executed": false,
+    "generated_H40_installations": 0,
+    "generated_knots_consumed": 0,
+    "task_successes": 0,
+    "physics_STOP_count": 0,
+    "actual_joint_or_warning_samples": 0,
+    "outer_guard_rejections": 0,
+    "trace": {
+      "PD_callbacks_recorded": 22890,
+      "STOP_observed": false,
+      "errors": [],
+      "full_payload_records": 3011,
+      "full_payloads_not_retained": 0,
+      "input_files_sha256": {
+        "init.trace": "d91f0df45c32b335da95aa4cd16ff68f999befbbe39f0d4eae76e9eb742c7d65",
+        "init.trace.snapshots": "2d8db1ed48ac890065cb094eb703fd9a088fb79e9c165a1e71e293e3b5247c8f",
+        "init.trace.summary": "0b2cd039c6e1b9db6f258d065148768e962de8990695a93f032e6c44907c77d2"
+      },
+      "integrations_after_first_STOP": null,
+      "missing": [],
+      "native_step_records": 30103,
+      "records": 224220,
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "writer": {
+        "dropped": 0,
+        "events": 224220,
+        "sealed_at_explicit_pause": true,
+        "stop_latched": false,
+        "written": 224220
+      }
+    },
+    "shutdown_clean": true,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    }
+  },
+  "first_deterministic_block": {
+    "reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+    "rejected_action_sha256": "6b71fbf541eebd2ed9adf24e693bddbe82a60e172daad3d3bb963b5ba4e3fab9",
+    "extrema": {
+      "IK_iterations": 2105,
+      "acceleration_index": 17,
+      "full_pose_indices": [
+        17,
+        18,
+        19
+      ],
+      "involves_reference_history": false,
+      "max_acceleration_by_joint": [
+        0.001727592889566587,
+        0.5690717292107905,
+        1.1003852724245533,
+        0.5885610945552955,
+        0.0006093448939092916,
+        0.0038800222309454124
+      ],
+      "max_joint_acceleration_rad_s2": 1.1003852724245533,
+      "max_joint_speed_rad_s": 0.3190969018941292,
+      "points": 1051,
+      "prefix_history_points": 2,
+      "q_triplet_rad": [
+        2.5275534517353226,
+        2.5367457343626665,
+        2.543187053808949
+      ],
+      "velocity_pair_rad_s": [
+        0.1838456525468768,
+        0.12882638892564913
+      ],
+      "worst_acceleration": -1.1003852724245533,
+      "worst_joint_name": "x5_joint3"
+    },
+    "history_native_end_steps": [
+      30078,
+      30103
+    ],
+    "worst_midpoint_active_H40_index": 16,
+    "effect_is_re_solved_future_reference_not_actual_joint_acceleration": true,
+    "unchanged_native_limit_rad_s2": 1.0,
+    "maximum_joint_speed_rad_s": 0.3190969018941292,
+    "unchanged_speed_limit_rad_s": 0.7,
+    "feedback_xyz_norm_m": 0.008,
+    "feedback_SO3_norm_rad": 0.01
+  },
+  "independent_restart_comparison": {
+    "prior_source_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
+    "prior_spec_sha256": "79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad",
+    "prior_result_sha256": "1e1b0c75626cefeaf89f417cb0c1d276ec14fbc4eb473cf2b64fc238581581ae",
+    "replayed_step": 30103,
+    "prior_certificate": {
+      "Cartesian_reference_values_changed": false,
+      "actual_state_modified": false,
+      "executed_reference_history_points": 2,
+      "local_IK_iterations": 2105,
+      "max_joint_acceleration_rad_s2": 0.31729052788982415,
+      "max_joint_speed_rad_s": 0.10163034842730845,
+      "physics_integrations": 0,
+      "points": 1051,
+      "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF"
+    },
+    "prior_action_sha256": "ba1fa272cecdd38230330047a885ac5809eb71bc7ba0f9d24a5c98620ceb0016",
+    "prior_feedback_xyz_norm_m": 0.003681617499312486,
+    "prior_error_m": 0.007363234998624972,
+    "new_feedback_error_m": 0.019828064216172427,
+    "same_actual_state_or_same_proposal": false,
+    "old_half_PASS_preserved": true,
+    "restart_difference_is_not_a_causal_effect_estimate": true
+  },
+  "saved_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 60081636,
+      "sha256": "041e634b64bafe817815e2a051e1ecccbbf1b2232abe77eb7994dde9bb609329"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 1688,
+      "sha256": "a6638d35034e6789a4c19a48ce3540963c685e4c880bb4f12bcdf01089c74359"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 188344816,
+      "sha256": "d91f0df45c32b335da95aa4cd16ff68f999befbbe39f0d4eae76e9eb742c7d65"
+    },
+    {
+      "basename": "COMMANDS.private.jsonl",
+      "bytes": 49576181,
+      "sha256": "c86596433961081b47eca7918dc6575d2961452afec7a979e4a01646448ea554"
+    }
+  ],
+  "frozen_assets": {
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "model_loaded_in_this_pair": false,
+    "old_WM_loaded_in_this_pair": false,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "additional_Processor_decodes": 0
+  },
+  "cost": {
+    "native_worker": {
+      "CPU_s": 155.393235484,
+      "child_CPU_s": 615.646079,
+      "exit_code": 1,
+      "wall_s": 405.6138713620603
+    },
+    "native_function": {
+      "wall_s": 403.68967423401773,
+      "CPU_s": 153.6260744
+    },
+    "native_systemd_CPU_s": 776.432021,
+    "native_peak_host_bytes": 4329029632,
+    "GPU_worker": {
+      "CPU_s": null,
+      "child_CPU_s": 108.755089,
+      "exit_code": 1,
+      "wall_s": 409.2461075540632
+    },
+    "GPU_function": {
+      "wall_s": 408.694065310061,
+      "CPU_s": 108.35601796099999
+    },
+    "GPU_systemd_CPU_s": 109.081753,
+    "GPU_peak_host_bytes": 69062656,
+    "new_CUDA_model_compute_s": 0,
+    "source_staging": {
+      "CPU_s": 1.127694026,
+      "actual_source_bytes_written": 46321710,
+      "copied_parent_bytes": 45735417,
+      "copied_parent_members": 3396,
+      "overlay_members": 31,
+      "overlay_written_bytes": 586293,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 65.32196156959981
+    },
+    "source_staging_shared_once": true,
+    "overlapping_worker_native_systemd_costs_do_not_sum": true,
+    "successful_certifier_replays": [
+      {
+        "run": "fusion-night1-graded-live-s050-01",
+        "FK_calls": 3157,
+        "wall_s": 2.516836548689753,
+        "CPU_s": 2.509026415,
+        "physics_integrations": 0
+      },
+      {
+        "run": "fusion-night1-task-phase-pose-continuation-s050-01",
+        "FK_calls": 3157,
+        "wall_s": 3.234348364174366,
+        "CPU_s": 3.223546763,
+        "physics_integrations": 0
+      }
+    ],
+    "audit_helper_failures_retained": [
+      "AUDIT01: invalid saved replay label; rejected before model load.",
+      "AUDIT02: current certificate replay succeeded; old qualified recording config omitted native_result; no physics. Corrected AUDIT03 succeeded."
+    ]
+  },
+  "actual_commands": [
+    {
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_live_skill_check_v8 --spec REGISTERED_NATIVE_SPEC --execute",
+      "exit_code": 1
+    },
+    {
+      "command": "GR00T_PYTHON -B -m scripts.wm02.pilot1_neural_worker --spec REGISTERED_GPU_SPEC",
+      "exit_code": 1
+    }
+  ],
+  "provenance": {
+    "GRADED_LIVE_SKILL_S050_V8_ACTUAL01.private.json": {
+      "basename": "GRADED_LIVE_SKILL_S050_V8_ACTUAL01.private.json",
+      "bytes": 21193,
+      "sha256": "68308f534452287dd9db8cd112fad81d7c3a8159f1e4057b32b7e7a6c475ba36"
+    },
+    "read_graded_live_skill_s050_v8_01.py": {
+      "basename": "read_graded_live_skill_s050_v8_01.py",
+      "bytes": 27105,
+      "sha256": "10e9fe832c680f6b586b3ae7f9187dcf8b9d214c2d224db8f17cf85392d39cfb"
+    },
+    "audit_graded_live_prefix_acceleration01.py": {
+      "basename": "audit_graded_live_prefix_acceleration01.py",
+      "bytes": 9535,
+      "sha256": "d3892ae40e0f1ba6e9bb11853b5729ca919931bc44bdcb162f66ab714e0d857c"
+    },
+    "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT01.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT01.private.json",
+      "bytes": 813,
+      "sha256": "f0d0dfea84ae2335d38f5f449167766d0c9e1f34e7e7731421804a53f7ebd732"
+    },
+    "audit_graded_live_prefix_acceleration02.py": {
+      "basename": "audit_graded_live_prefix_acceleration02.py",
+      "bytes": 9584,
+      "sha256": "94a88e338bd4b331a9fde5d9784e811d28cffcf99e097a41011d9903f7049f04"
+    },
+    "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT02.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT02.private.json",
+      "bytes": 7429,
+      "sha256": "978ed5e48711d4c7788fe36580395ed6e0b945aab2140b7334ce1046c6c04875"
+    },
+    "audit_graded_live_prefix_acceleration03.py": {
+      "basename": "audit_graded_live_prefix_acceleration03.py",
+      "bytes": 9737,
+      "sha256": "543e40ea76034cd2e44f187a2f90c0d342e1b07d6ee38faa3779bc703501096e"
+    },
+    "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT03.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_ACCELERATION_AUDIT03.private.json",
+      "bytes": 7550,
+      "sha256": "ba8b3020c08abff9e734f2dd613bab25d1e2791e11e7a9155cae42968e340807"
+    }
+  },
+  "counts_after_this_sealed_run": {
+    "FUSION_attempts": 287,
+    "FUSION_passes": 281,
+    "FUSION_failures": 6,
+    "FUSION_native_ticks": 1441286,
+    "with_PILOT2_attempts": 941,
+    "with_PILOT2_passes": 930,
+    "with_PILOT2_failures": 11,
+    "with_PILOT2_native_ticks": 4428579,
+    "VLA_queries": 9,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "limits": [
+    "No source80mm phase equivalence, new GR00T query, generated skill execution or transfer gain established.",
+    "All1104 retained command-window scalar solver/gripper joins and exact two-point history were checked; this replay does not rejoin every raw ROS event or selected WBC policy.",
+    "An internal future-reference acceleration peak is not evidence of numerical IK jitter, nor evidence of actual unsafe motion.",
+    "The old1mm XY WM remains outside this pose/H40 domain; no additional training was launched."
+  ]
+}
