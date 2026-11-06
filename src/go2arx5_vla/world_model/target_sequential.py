@@ -331,6 +331,10 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
+        if self.spec.get('phase')=='collect-target-fusion-reference-qualification-v1':
+            from .fusion_reference_qualification_native import validate_adapter_install
+            self.command_event(dict(phase='new-reference-qualification-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
         if hasattr(self,'fusion_initial_tcp'):
             from .fusion_contract import validate_local_preview
             envelope=validate_local_preview(action,initial_tcp=self.fusion_initial_tcp,
@@ -407,6 +411,9 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec['phase']=='collect-target-fusion-reference-qualification-v1':
+            from .fusion_reference_qualification_native import run
+            return run(self)
         if self.spec['phase']in('collect-target-pilot1-supported-close','collect-target-pilot2-supported'):
             from .pilot1_supported_close import run
             return run(self)

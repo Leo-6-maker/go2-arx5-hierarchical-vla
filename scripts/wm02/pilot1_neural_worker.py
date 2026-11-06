@@ -34,7 +34,8 @@ def main(argv=None):
               'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
               'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation',
               'FUSION_CORR_ASSET': 'scripts.wm02.stage_fusion_corr_asset',
-              'FUSION_CONTACT_TIMING_BASELINE': 'scripts.wm02.fit_contact_timing_baseline'}[spec['kind']]
+              'FUSION_CONTACT_TIMING_BASELINE': 'scripts.wm02.fit_contact_timing_baseline',
+              'FUSION_CONTACT_TIMING_FULL_HISTORY_BASELINE': 'scripts.wm02.fit_contact_timing_full_history'}[spec['kind']]
     if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
             'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
         module = 'scripts.wm02.train_pilot2_contact_wm'

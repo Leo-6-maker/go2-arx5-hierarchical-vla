@@ -94,6 +94,21 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         for item in spec['evaluation_bundles']:
             local_path(spec, item['path'])
         validate_contact_timing_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_CONTACT_FULL_HISTORY_CPU':
+        from .fusion_scope import validate_contact_full_history_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('FULL927_CONTACT_DIAGNOSTIC_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp',
+                    'training_manifest'):
+            local_path(spec, spec[key])
+        for item in spec['evaluation_bundles'] + [spec['matched_training_package'],
+                spec['frozen_fir']['freeze']] + spec['frozen_fir']['models']:
+            local_path(spec, item['path'])
+        for item in spec.get('frozen_models', []):
+            local_path(spec, item['path'])
+            local_path(spec, item['checkpoint'])
+        validate_contact_full_history_cpu(spec)
     if gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
         import subprocess
         from .fusion_scope import validate_gpu

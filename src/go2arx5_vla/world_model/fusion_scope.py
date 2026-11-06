@@ -176,6 +176,26 @@ def validate_contact_timing_cpu(spec):
     return validate(spec)
 
 
+def validate_contact_full_history_cpu(spec):
+    """New full927 CPU recipe; the historical FIR admission stays unchanged."""
+    from .contact_timing_full_history import BLIND_SOURCE, FEATURE_RECIPE
+    if (spec.get('execution_site') != 'CORE_FUSION_CONTACT_FULL_HISTORY_CPU'
+            or spec.get('profile') != 'wm02-fusion-contact-full-history-offline-cpu'
+            or spec.get('kind') != 'FUSION_CONTACT_TIMING_FULL_HISTORY_BASELINE'
+            or spec.get('recipe') != 'WM02_CONTACT_TIMING_FULL927_MATCHED_TRAIN_RIDGE_V1'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('numeric_mode') != 'NUMPY_FLOAT64'
+            or type(spec.get('ridge')) not in (int, float) or spec['ridge'] != 1.
+            or spec.get('arms') != ['ACTION_CONDITIONED', 'NO_FUTURE_PROGRAM']
+            or spec.get('information') != 'PREDECLARED_PROGRAM_CONDITIONAL'
+            or spec.get('feature_recipe') != FEATURE_RECIPE
+            or spec.get('observed_history_features') != 927 or spec.get('blind_source') != BLIND_SOURCE
+            or spec.get('GR00T_updates') != 0 or spec.get('WBC_changes') is not False
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''):
+        raise PermissionError('FINITE_FULL927_MATCHED_TRAIN_CPU_CONTACT_DIAGNOSTIC_REQUIRED')
+    return validate(spec)
+
+
 def register(path):
     """Register once under the same canonical locks, only after the sealed batch.
 
