@@ -1,0 +1,284 @@
+{
+  "schema": "WM02_TASK_PHASE_POSE_CONTINUATION_FULL1_FAILURE_ACTUAL_V7",
+  "status": "CLOSED1_FULL_GRADE_REJECTED_BEFORE_FIRST_FEEDBACK_NO_RETRY",
+  "run": "fusion-night1-task-phase-pose-continuation-s100-01",
+  "source_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
+  "spec_sha256": "f7c79e28cba447f72d005d5be2e39cb1d0a73a1354d840aeaae23a939ce8ff3a",
+  "result_sha256": "595e05e9538918990c068227eee32e5009aaf7c1c6220189e754d31f89d85b79",
+  "lease_sha256": "240d9d957eff2d8ea77050201e3df106d519d436a4678741c353167570641ecd",
+  "worker_sha256": "a9b0cbc3ae383730c269904f87bd4fcafe6aafeed8c85ae6ca90639dde254b13",
+  "worker_exit_code": 1,
+  "MainPID": 0,
+  "lease_status": "CLOSED",
+  "geometry_scale": 1.0,
+  "expected_endpoint": 46303,
+  "outcome": {
+    "native_execution": "FAIL_PRESERVED",
+    "initialization_goal": "NOT_REACHED_OR_SCORED",
+    "actual_joint_limit_stop": false,
+    "native_safety_thresholds_changed": false,
+    "reference_certificate": "ORIGINAL_GUARD_CORRECTLY_REJECTED_UNPUBLISHED_FUTURE_PATH",
+    "WBC_failure_established": false,
+    "WM_training_failure": false,
+    "full_task_success": false
+  },
+  "physics": {
+    "actual_integrations": 20503,
+    "complete_25tick_physical_transitions": 820,
+    "complete_task_pose_gripper_windows": 720,
+    "proposed_references": 104,
+    "all_40_calibration_knots_consumed": false,
+    "first_feedback_step": 29503,
+    "feedback_decisions": 0,
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "errors": [],
+      "missing": [],
+      "writer": {
+        "events": 151131,
+        "written": 151131,
+        "dropped": 0,
+        "stop_latched": false,
+        "sealed_at_explicit_pause": true
+      },
+      "native_step_records": 20503
+    },
+    "physics_stops": [],
+    "actual_joint_or_warning_samples": 0,
+    "outer_guard_rejections": 0,
+    "shutdown_clean": true,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    },
+    "physics_dt_s": 0.002
+  },
+  "first_deterministic_block": {
+    "native_step": 20503,
+    "reason": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP",
+    "original_certifier": "scripts/pi0294/task_path_model.py:certify_chunk",
+    "rejected_action_published": false,
+    "actual_arm_inside_native_limits": true,
+    "actual_arm_joint_margin_rad": [
+      2.039313127511221,
+      1.1517982131546893,
+      1.2076715291813866,
+      0.65755596261401,
+      1.6442844123614382,
+      2.0370279049526223
+    ],
+    "exact_original_certifier_replay": {
+      "active_H40_index": 28,
+      "arm_joint_limits_rad": [
+        [
+          -2.094,
+          3.14159
+        ],
+        [
+          0.0,
+          3.665
+        ],
+        [
+          0.0,
+          3.24
+        ],
+        [
+          -1.671,
+          1.671
+        ],
+        [
+          -1.671,
+          1.671
+        ],
+        [
+          -2.094,
+          2.094
+        ]
+      ],
+      "arm_qpos_rad": [
+        -0.09293527003847227,
+        1.832151112476831,
+        2.3474109925919313,
+        -1.671127839951058,
+        -0.044217780378868796,
+        -0.09591794589219506
+      ],
+      "full_pose_index": 30,
+      "interpolation_fraction": 0.6800000000000006,
+      "local_IK_iterations": 1539,
+      "planned_interpolation_tick": 767,
+      "planned_point_kind": "ACTIVE_UNPUBLISHED_H40",
+      "points": 768,
+      "prefix_history_points": 2,
+      "rejected_joint_names": [
+        "x5_joint4"
+      ],
+      "violation_rad": [
+        0.0,
+        0.0,
+        0.0,
+        0.0001278399510580286,
+        0.0,
+        0.0
+      ]
+    },
+    "rejected_action_sha256": "766726d636539ec2616fc1e0f9df6b6b07cf6092dbdcb366269f1f924c2200a8",
+    "last_two_actual_consumed_history_steps": [
+      20478,
+      20503
+    ],
+    "no_clipping_or_tolerance_change": true,
+    "control_cause_not_inferred_from_IK_alone": true
+  },
+  "readonly_reproduction": {
+    "status": "SEALED_FULL1_ORIGINAL_CERTIFIER_JOINT_REJECTION_REPRODUCED",
+    "exit_code": 0,
+    "raw_command_ledger_720_reported_consumer_joins_verified": true,
+    "planner_or_policy_log_joins_independently_recomputed": false,
+    "original_ActualState_FK_equals_last_recorded_TCP": true,
+    "native_MuJoCo_model_loads": 1,
+    "FK_calls": 2307,
+    "physics_integrations": 0,
+    "controller_starts": 0,
+    "learned_models": 0,
+    "queries": 0,
+    "writes": 0,
+    "registrations": 0,
+    "first_observed_artifact_hashes_not_previously_externally_pinned": true
+  },
+  "saved_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 40765956,
+      "sha256": "ddb0c56d0bface5b795a2662a6ac9b3a8cc2f5832605a242f9f717b379e322e8"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 1688,
+      "sha256": "c4772ceafa29f4def2d96da030d1dfe83631e2c0047842a75e0ef70b8a90af05"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 126950056,
+      "sha256": "e81da256bca499400671bfd853c1bdc796105cc822c052c1d7c22728557619a0"
+    },
+    {
+      "basename": "COMMANDS.private.jsonl",
+      "bytes": 32319024,
+      "sha256": "13bcf983733c038f958eb9a4ba05e6fcbba0437452bf1449f85670878b1b5666"
+    }
+  ],
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+    "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+    "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c"
+  },
+  "actual_command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_pose_continuation_check_v7 --spec REGISTERED_POSE100_SPEC --execute",
+  "provenance": {
+    "dispatcher": {
+      "basename": "dispatch_pose_continuation_s100_v7_01.py",
+      "bytes": 29665,
+      "sha256": "ee1788282fcf03c1c41fe8144092bfb117d55959560a7cf7ded47c10743f2025"
+    },
+    "precheck": {
+      "basename": "POSE_CONTINUATION_S100_V7_PRECHECK01.private.json",
+      "bytes": 1081,
+      "sha256": "0a74312ea86b79c59c45bb4668c719d418675e81f9047afc36c34e334dcf1328"
+    },
+    "dispatch": {
+      "basename": "POSE_CONTINUATION_S100_V7_DISPATCH01.private.json",
+      "bytes": 960,
+      "sha256": "bd49432f2aa648bf10854426f8e0cf985f12b45d0b56c17c16a3cd9ee0c1092e"
+    },
+    "terminal": {
+      "basename": "POSE_CONTINUATION_S100_V7_ACTUAL02.private.json",
+      "bytes": 21509,
+      "sha256": "c32b7406b081edd9b553cefc8ec73a655bae6f0b734553b2f698d50efd95b31f"
+    },
+    "original_certifier_helper": {
+      "basename": "audit_pose_continuation_full1_joint_reject01.py",
+      "bytes": 8944,
+      "sha256": "03019366f9a738990a7097604387b2f1bc6a33560024a45498d134e0b6e176d7"
+    },
+    "original_certifier_receipt": {
+      "basename": "POSE_CONTINUATION_S100_V7_JOINT_REJECT_AUDIT01.private.json",
+      "bytes": 2723,
+      "sha256": "9dfc5bc6cc4188cac789944f6ebfbd0dc47165406dc4fb393131fba3837b44df"
+    }
+  },
+  "cost": {
+    "worker": {
+      "exit_code": 1,
+      "failure": null,
+      "wall_s": 265.5999782946892,
+      "CPU_s": 103.614080369,
+      "child_CPU_s": 404.488234
+    },
+    "native_function": {
+      "wall_s": 263.62352944305167,
+      "own_CPU_s": 101.87987494
+    },
+    "systemd_CPU_s": 512.146728,
+    "systemd_peak_memory_bytes": 1837457408,
+    "original_certifier_replay": {
+      "wall_s": 2.0345752467401326,
+      "child_CPU_s": 2.0027650000000006,
+      "inner_wall_s": 1.8142245020717382,
+      "inner_CPU_s": 1.794142801
+    },
+    "source_reused_without_copy": true,
+    "new_source_bytes_written": 0,
+    "prior_source_staging_cost_not_recounted": true,
+    "source_reuse_verification_CPU_s": "NOT_EXPORTED_BY_TERMINAL_READER",
+    "GPU_s": 0,
+    "overlapping_cost_scopes_do_not_sum": true
+  },
+  "actual_effects": {
+    "native_attempts": 1,
+    "native_passes": 0,
+    "native_failures": 1,
+    "VLA_queries": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "checkpoint_sha256": null,
+    "full_tasks": 0
+  },
+  "counts_after_this_sealed_run": {
+    "FUSION_attempts": 285,
+    "FUSION_passes": 281,
+    "FUSION_failures": 4,
+    "FUSION_native_ticks": 1387180,
+    "with_PILOT2_attempts": 939,
+    "with_PILOT2_passes": 930,
+    "with_PILOT2_failures": 9,
+    "with_PILOT2_native_ticks": 4374473,
+    "VLA_queries": 9,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "next": {
+    "goal": "ACTIVE",
+    "dynamic_job_started": false,
+    "action": "FINITE_READONLY_ORIGINAL_CERTIFIER_PATH_AND_FROZEN_BIAS_DIAGNOSIS_BEFORE_NEW_PHYSICS",
+    "no_exact_full1_rerun": true,
+    "staged_query_skill_entry": "LOCAL_IMPLEMENTATION_AND_TESTS_ONLY_NOT_NATIVE_QUALIFIED"
+  },
+  "limits": [
+    "The planned joint4 violation is not an actual joint stop or WBC divergence.",
+    "Additional slots after29503 cannot repair the first20503 rejection.",
+    "Slowing alone does not establish feasibility of the unchanged reference geometry.",
+    "Half-grade qualification remains valid but cannot be relabelled full1 or source80mm task equivalence.",
+    "The existing WM action domain is not qualified for this pose path, and frozen-GR00T +/- WM short-skill comparisons remain0."
+  ]
+}
