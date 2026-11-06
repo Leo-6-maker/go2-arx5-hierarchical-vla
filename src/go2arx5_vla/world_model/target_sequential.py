@@ -2,6 +2,10 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 
+def native_task_bucket(phase,dynamic):
+    """Select only existing quota ABI buckets for the exact finite phase."""
+    return '64'if phase in('collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1')else('32'if dynamic else'0')
+
 def native_startup_readiness(output,reference):
     """Actual owned startup logs, after controller's simulation-time origin is set."""
     required={'controller':('go2_x5_ocs2 ready; waiting for','MRT node is ready.'),'solver':('MPC node is ready.',)}
@@ -37,7 +41,7 @@ def native_display_command(spec,output,environment):
         prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
-    trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')=='collect-target-fusion-trajectory-qualification-v1')
+    trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1'))
     order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
@@ -132,7 +136,8 @@ class TargetSequentialAdapter:
         warmup=min(5,(s['max_ticks']+499)//500)
         # Existing C++ admits task allocation buckets; the exact bound below
         # still restricts this diagnostic to its declared few task ticks.
-        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'32'if self.dynamic_phase()else'0'))+'\n')
+        task_bucket=native_task_bucket(s.get('phase'),self.dynamic_phase())
+        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
@@ -332,7 +337,11 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
-        if self.spec.get('phase')=='collect-target-fusion-trajectory-qualification-v1':
+        if self.spec.get('phase')=='collect-target-fusion-trajectory-response-v1':
+            from .fusion_trajectory_response_native import validate_adapter_install
+            self.command_event(dict(phase='trajectory-response-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2'):
             from .fusion_trajectory_qualification_native import validate_adapter_install
             self.command_event(dict(phase='trajectory-qualification-full-H40-envelope',
                                     **validate_adapter_install(self,action)))
@@ -380,7 +389,7 @@ class TargetSequentialAdapter:
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
-        if self.spec.get('phase')!='collect-target-fusion-trajectory-qualification-v1':
+        if self.spec.get('phase')not in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1'):
             write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]))
         self.publish(self.refs,wire)
         def installed():
@@ -418,7 +427,10 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
-        if self.spec['phase']=='collect-target-fusion-trajectory-qualification-v1':
+        if self.spec['phase']=='collect-target-fusion-trajectory-response-v1':
+            from .fusion_trajectory_response_native import run
+            return run(self)
+        if self.spec['phase']in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2'):
             from .fusion_trajectory_qualification_native import run
             return run(self)
         if self.spec['phase']=='collect-target-fusion-reference-qualification-v1':

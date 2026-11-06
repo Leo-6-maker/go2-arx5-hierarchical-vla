@@ -16,8 +16,8 @@ static_assert(std::atomic<uint64_t>::is_always_lock_free&&std::atomic<float>::is
 #ifndef WM02_INIT_TRACE_CAPACITY
 #define WM02_INIT_TRACE_CAPACITY 65536
 #endif
-static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072,
-              "Only original and finite NEXT2 twenty-second capacities are supported");
+static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072 || WM02_INIT_TRACE_CAPACITY==262144,
+              "Only explicit original, NEXT2 and FUSION retimed capacities are supported");
 constexpr uint64_t CAP=WM02_INIT_TRACE_CAPACITY,SLOTS=32,FLOATS=16384,QCAP=4096;
 struct Raw {uint64_t ticket,ns;double sim;uint32_t kind,n;uint64_t obs,policy,pos,vel,token;double data[96];};
 static_assert(sizeof(Raw)==840,"Versioned little-endian trace layout");

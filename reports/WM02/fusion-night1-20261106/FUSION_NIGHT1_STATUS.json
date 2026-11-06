@@ -21,19 +21,19 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793949172.019804,
-  "implementation_sha": "5103ae60520939d9a9d399b20f783a15b144f670",
+  "snapshot_epoch": 1793954384.883337,
+  "implementation_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "5103ae60520939d9a9d399b20f783a15b144f670",
+  "actual_last_native_source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "ALL_PROJECT_PHYSICS_GPU_AND_OFFLINE_ROLES_IN_THIS_SNAPSHOT_CLOSED; parent scopes ACTIVE",
+  "live_process_state": "CURRENT_NATIVE_COHORT_CLOSED; ONE_ORIGINAL_GUARD_FAILURE_RETAINED; PARENT_OWNER_SCOPES_ACTIVE",
   "FUSION_completed_physical_cohorts": 5,
-  "FUSION_native_attempts": 263,
-  "FUSION_native_passes": 263,
-  "FUSION_native_failures": 0,
-  "FUSION_native_ticks": 1079089,
+  "FUSION_native_attempts": 267,
+  "FUSION_native_passes": 266,
+  "FUSION_native_failures": 1,
+  "FUSION_native_ticks": 1114876,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
@@ -44,10 +44,10 @@
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 917,
-  "sealed_native_passes_with_inherited_PILOT2": 912,
-  "retained_historical_native_failures": 5,
-  "sealed_native_ticks_with_inherited_PILOT2": 4066382,
+  "sealed_native_attempts_with_inherited_PILOT2": 921,
+  "sealed_native_passes_with_inherited_PILOT2": 915,
+  "retained_historical_native_failures": 6,
+  "sealed_native_ticks_with_inherited_PILOT2": 4102169,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
   "M1": "THREE_REAL_FROZEN_QUERIES; NEW_VERSION_INTENT_POSE_REFERENCE_LABEL_SEMANTICS_VERIFIED; TARGET_INPUT_AND_FULL_DOMAIN_UNQUALIFIED",
   "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
@@ -190,7 +190,16 @@
     "new_reference_and_full_history_full_subtests": 270,
     "new_reference_and_full_history_full_wall_s": 34.13,
     "new_reference_and_full_history_optimized_passed": 45,
-    "new_reference_and_full_history_optimized_subtests": 50
+    "new_reference_and_full_history_optimized_subtests": 50,
+    "slow_response_paused_full": {
+      "passed": 622,
+      "subtests_passed": 270,
+      "wall_s": 57.86,
+      "exit_code": 0,
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=PRIVATE_TEST_DEPS:src CI_PYTHON -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py",
+      "native_qualification": false,
+      "GitHub_CI": "NOT_RUN"
+    }
   },
   "reports": [
     "FROZEN_NATIVE_STRUCTURED_TIMING_AND_CAPTURE.md",
@@ -199,8 +208,8 @@
     "SCIENCE_FOCUS_COLD_BOUNDARY.md",
     "SCIENCE_FOCUS_COLD_BOUNDARY_ACTUAL.json"
   ],
-  "next": "Complete shared versioned full-trajectory adaptation and single-world graded geometry qualification; preserve all 40 knots, explicit time/gripper/reference changes, original certifier, per-atom actual gripper consumption and causal WM history. Do not use old XY1mm model outside its domain.",
-  "next_executable": "Pending tested new trajectory check CLI and fresh original-owner native registration; no dispatcher for a CLOSED run may be replayed.",
+  "next": "Deploy committed cold source, build the 262144-record trace variant without physics, then register a new finite slow-V2 half-scale qualification. Full1 and response pilot remain gated on actual native predecessors.",
+  "next_executable": "Prepared private source/trace dispatcher at a fresh root through the original Journal/owner; read-only precheck before one-time dispatch. CLOSED run dispatchers must never be replayed.",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -258,5 +267,35 @@
       -0.152804322651523
     ],
     "domain_generalization": false
+  },
+  "trajectory_geometry_actual_report": "TRAJECTORY_GEOMETRY_ACTUAL_V1.json",
+  "new_trajectory_cohort": {
+    "status": "SEALED_PARTIAL_FAILURE",
+    "passed_scales": [
+      0.03,
+      0.1,
+      0.25
+    ],
+    "failed_scale": 0.5,
+    "full_scale_not_run": true,
+    "task_transitions": 1031,
+    "unique_physical_parents": 1,
+    "correction_gain": false,
+    "task_success": false
+  },
+  "retiming_successor": {
+    "status": "TESTED_PENDING_COMMIT_DEPLOY_AND_NATIVE_QUALIFICATION",
+    "recipe": "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2",
+    "time_stretch_factor": 2,
+    "geometry_clips": 0,
+    "knots_retained": 40,
+    "trace_capacity": 262144,
+    "new_trace_CPP_change": "ONLY_CAPACITY_ASSERT_AND_MESSAGE; NORMALIZED_SOURCE_MUST_MATCH_ORIGINAL_C10_SHA",
+    "new_slow_native_attempts": 0,
+    "response_pilot_attempts": 0,
+    "response_model_fits": 0,
+    "live_paused_captures": 0,
+    "formal_Actor_started": false,
+    "scale_review_crossed": false
   }
 }

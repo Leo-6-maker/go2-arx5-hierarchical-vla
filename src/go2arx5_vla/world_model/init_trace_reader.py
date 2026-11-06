@@ -13,7 +13,7 @@ def read_trace(path):
         header=f.read(16)
         if len(header)!=16 or header[:8]!=b'WM02IT01':raise ValueError('Unknown trace header')
         size,cap=struct.unpack('<II',header[8:])
-        if size!=RECORD.size or cap not in(65536,131072):raise ValueError('Unknown trace layout')
+        if size!=RECORD.size or cap not in(65536,131072,262144):raise ValueError('Unknown trace layout')
         while blob:=f.read(size):
             if len(blob)!=size:raise ValueError('Incomplete trace record')
             a=RECORD.unpack(blob)

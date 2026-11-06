@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+from dataclasses import FrozenInstanceError
 
 import numpy as np
 import pytest
@@ -268,3 +269,94 @@ def test_import_constructs_no_model_and_imports_no_neural_or_physics_runtime():
     completed = subprocess.run([sys.executable, '-c', source], text=True, capture_output=True)
     assert completed.returncode == 0, completed.stderr
     assert not any(token in Path(a.__file__).read_text() for token in ['subprocess.', 'hf_hub_download(', 'decode_action('])
+
+
+def stretched(p, factor):
+    return a.TrajectoryAdaptation(p.decoded_H40, p.query_TCP_source, p.T_source_from_target,
+        p.decision_TCP_target, p.initial_reference_TCP_target, p.base_pose_hold,
+        p.geometry_scale, time_stretch_factor=factor)
+
+
+@pytest.mark.parametrize("scale", a.GEOMETRY_SCALES)
+def test_explicit_time2_retains_full_geometry_and_exactly_doubles_every_clock(scale):
+    original = fixture(scale)
+    slow = stretched(original, 2)
+    assert original.time_stretch_factor == 1 and slow.time_stretch_factor == 2
+    assert slow.bridge_atoms == 2 * original.bridge_atoms
+    assert slow.retime_factor == 2 * original.retime_factor
+    assert slow.knot_indices == tuple(2 * i for i in original.knot_indices)
+    assert slow.end_atom == 2 * original.end_atom
+    for name in ("decoded_H40", "mapped_H40", "desired_knots", "reference_knots",
+                 "query_TCP_source", "decision_TCP_target", "initial_reference_TCP_target", "base_pose_hold"):
+        np.testing.assert_array_equal(getattr(slow, name), getattr(original, name))
+    np.testing.assert_array_equal(slow.desired_path[list(slow.knot_indices)], original.desired_knots)
+    np.testing.assert_array_equal(slow.reference_path[list(slow.knot_indices)], original.reference_knots)
+    # Every old atomic time is the corresponding doubled time on the same
+    # analytic quintic; added points must not be linear interpolation of it.
+    np.testing.assert_array_equal(slow.desired_path[::2], original.desired_path)
+    np.testing.assert_array_equal(slow.reference_path[::2], original.reference_path)
+    for path in (slow.desired_path, slow.reference_path, slow.preview(7), slow.desired_at(7)):
+        with pytest.raises(ValueError): path.setflags(write=True)
+    with pytest.raises(FrozenInstanceError): slow.time_stretch_factor = 1
+    e = slow.evidence()
+    assert e["schema"] == a.SLOW_SCHEMA == "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V2"
+    assert e["recipe"] == a.SLOW_RECIPE == "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2"
+    assert e["time_stretch_factor"] == e["clock"]["time_stretch_factor"] == 2
+    assert e["clock"]["unstretched_bridge_atoms"] == original.bridge_atoms
+    assert e["clock"]["unstretched_uniform_retime_factor"] == original.retime_factor
+    assert e["retiming"]["geometry_changed_by_time_stretch"] is False
+    assert e["clock"]["end_time_s"] == 2 * original.evidence()["clock"]["end_time_s"]
+    assert a.trajectory_domain_envelope(slow)["time_stretch_factor"] == 2
+    json.dumps(e, allow_nan=False)
+
+
+def test_time2_added_samples_follow_original_quintic_instead_of_linear_old_samples():
+    original = fixture(.5)
+    slow = stretched(original, 2)
+    j = 1  # In the bridge: its endpoint grip differs, giving a clear witness.
+    u = j / slow.bridge_atoms
+    weight = 10 * u ** 3 - 15 * u ** 4 + 6 * u ** 5
+    expected = (1 - weight) * original.desired_path[0] + weight * original.desired_knots[0]
+    np.testing.assert_allclose(slow.desired_path[j, [0, 1, 2, 9]], expected[[0, 1, 2, 9]], atol=1e-15)
+    linear_old = (original.desired_path[0, 9] + original.desired_path[1, 9]) / 2
+    assert abs(slow.desired_path[j, 9] - linear_old) > 1e-7
+    for elapsed in (0, slow.bridge_atoms, slow.end_atom - 1, slow.end_atom, slow.end_atom + 1):
+        np.testing.assert_array_equal(slow.preview(elapsed),
+            slow.reference_path[np.minimum(elapsed + np.arange(40), slow.end_atom)])
+
+
+@pytest.mark.parametrize("scale, bridge, factor, end", [(.5, 14, 18, 716), (1., 20, 26, 1034)])
+def test_time2_finite_endpoints_with_independent_rotation_duration_fixture(scale, bridge, factor, end):
+    # Analytic angular-acceleration-limited segments: first angle .04rad,
+    # then one .07rad increment. No private query arrays enter this fixture.
+    raw = rows([pose(angle=.04)] + [pose(angle=.11)] * 39)
+    slow = a.TrajectoryAdaptation(raw, np.eye(4), np.eye(4), np.eye(4), np.eye(4),
+                                 BASE, scale, time_stretch_factor=2)
+    assert (slow.bridge_atoms, slow.retime_factor, slow.end_atom) == (bridge, factor, end)
+
+
+@pytest.mark.parametrize("invalid", [False, True, np.bool_(True), 0, -1, 3, 1., 2., np.int64(2), "2", None])
+def test_time_stretch_accepts_only_exact_python_integer_1_or_2(invalid):
+    with pytest.raises(ValueError, match="TIME_STRETCH_FACTOR"):
+        stretched(fixture(), invalid)
+
+
+def test_time_stretch_is_keyword_only_and_default1_keeps_existing_serialized_clock_keys():
+    p = fixture()
+    with pytest.raises(TypeError):
+        a.TrajectoryAdaptation(p.decoded_H40, p.query_TCP_source, p.T_source_from_target,
+            p.decision_TCP_target, p.initial_reference_TCP_target, p.base_pose_hold, p.geometry_scale, 2)
+    explicit = stretched(p, 1)
+    for name in ("desired_path", "reference_path", "desired_knots", "reference_knots"):
+        np.testing.assert_array_equal(getattr(p, name), getattr(explicit, name))
+    before, after = p.evidence(), explicit.evidence()
+    assert before == after
+    assert after["schema"] == a.SCHEMA == "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V1"
+    assert after["recipe"] == a.RECIPE == "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_V1"
+    assert "time_stretch_factor" not in after
+    assert not {"time_stretch_factor", "unstretched_bridge_atoms", "unstretched_uniform_retime_factor"} & set(after["clock"])
+    assert not {"time_stretch_factor", "stretched_from", "geometry_changed_by_time_stretch"} & set(after["retiming"])
+    assert "time_stretch_factor" not in a.trajectory_domain_envelope(p)
+    assert {"bridge_atoms", "uniform_retime_factor", "knot_indices", "knot_native_tick_offsets",
+            "end_atom", "end_time_s", "preview_points", "preview_tail"} <= set(after["clock"])
+    assert a.LEGACY_RECIPE.endswith("_V1") and a.LEGACY_SCHEMA.endswith("_V1")

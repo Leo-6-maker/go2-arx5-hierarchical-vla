@@ -16,6 +16,11 @@ from .fusion_trajectory_adapter import TrajectoryAdaptation, GEOMETRY_SCALES, RE
 
 PHASE = 'collect-target-fusion-trajectory-qualification-v1'
 SCHEMA = 'WM02_FUSION_TRAJECTORY_QUALIFICATION_EPISODE_V1'
+SLOW_PHASE = 'collect-target-fusion-trajectory-slow-qualification-v2'
+SLOW_SCHEMA = 'WM02_FUSION_TRAJECTORY_QUALIFICATION_EPISODE_V2'
+SLOW_RECIPE = 'FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2'
+SLOW_FAILED_RESULT = '77bea49654a7d33007312d20d416f3796896a508d3e93dbce134a7d2ca5e1a8d'
+SLOW_FIRST_PREDECESSOR = '2732f75836d8d89f5789d53bb0b9de4f28716728bf44819a5fc46513b76be9c0'
 TAIL_ATOMS = 8
 PINS = dict(
     checkpoint='94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38',
@@ -40,6 +45,7 @@ SOURCE_MEMBERS = (
     'src/go2arx5_vla/world_model/target_reference.py',
     'src/go2arx5_vla/world_model/target_stability.py',
     'src/go2arx5_vla/world_model/next2_episode.py',
+    'src/go2arx5_vla/world_model/init_trace_reader.py',
     'src/go2arx5_vla/world_model/next1_episode.py',
     'src/go2arx5_vla/trajectory/so3.py',
     'scripts/wm02/infer_fusion_vla.py',
@@ -58,6 +64,7 @@ def need(condition, reason):
 
 
 def episode_contract(episode):
+    slow = isinstance(episode, dict) and episode.get('phase') == SLOW_PHASE
     exact = dict(schema=SCHEMA, phase=PHASE, purpose='TRAJECTORY_GEOMETRY_QUALIFICATION',
         experiment_role='NON_VLA_CALIBRATION', split='TRAIN', reference_rule=RECIPE,
         reference_anchor_mode='INIT_TCP_2503_REFERENCE_V1', prehold_atoms=40,
@@ -65,10 +72,17 @@ def episode_contract(episode):
         desired_outcome_provenance='CALIBRATION_INTENT', physics_dt_s=.002,
         base_program='MEASURED_INIT_BASE_POSE_HOLD', query_pins={k: v for k, v in PINS.items()
                                                               if k != 'first_predecessor'})
+    if slow:
+        exact.update(schema=SLOW_SCHEMA, phase=SLOW_PHASE, reference_rule=SLOW_RECIPE,
+                     time_stretch_factor=2)
     need(isinstance(episode, dict) and all(episode.get(k) == v for k, v in exact.items()),
          'EXACT_VERSIONED_TRAIN_GEOMETRY_RECIPE_AND_ARCHIVED_QUERY')
     need(type(episode.get('geometry_scale')) in (int, float)
-         and episode['geometry_scale'] in GEOMETRY_SCALES, 'PREDECLARED_GRADED_GEOMETRY_SCALE')
+         and episode['geometry_scale'] in ((.5, 1.) if slow else GEOMETRY_SCALES),
+         'PREDECLARED_GRADED_GEOMETRY_SCALE')
+    if slow:
+        need(type(episode.get('time_stretch_factor')) is int,
+             'EXPLICIT_INTEGER_2X_TIME_STRETCH_NO_BOOL')
     need(all(isinstance(episode.get(k), str) and episode[k] for k in ('run', 'scene_id', 'parent')),
          'EXACT_RUN_SCENE_PARENT')
     need(type(episode.get('planned_end_atom')) is int and episode['planned_end_atom'] >= 40,
@@ -76,7 +90,7 @@ def episode_contract(episode):
     need(not (set(episode) - set(exact) - {'run', 'scene_id', 'parent', 'geometry_scale', 'planned_end_atom'}),
          'NO_ARBITRARY_PROGRAM_OR_GRANT_FIELDS')
     end = DECISION_STEP + 25 * (episode['planned_end_atom'] + TAIL_ATOMS)
-    need(end <= 17000, 'FINITE_NATIVE_ENDPOINT_MAX_17000_WITH_EXISTING_TRACE_CAPACITY')
+    need(end <= (33000 if slow else 17000), 'FINITE_NATIVE_ENDPOINT_WITH_VERSIONED_TRACE_CAPACITY')
     return episode
 
 
@@ -122,14 +136,16 @@ def load_query(spec):
 
 
 def make_program(inputs, episode, initial_tcp, decision_tcp, base):
+    kwargs = dict(time_stretch_factor=2) if episode['phase'] == SLOW_PHASE else {}
     program = TrajectoryAdaptation(inputs['raw'], inputs['query_tcp'], inputs['frame_map'],
-        decision_tcp, initial_tcp, base, episode['geometry_scale'])
+        decision_tcp, initial_tcp, base, episode['geometry_scale'], **kwargs)
     need(program.end_atom == episode['planned_end_atom'], 'ACTUAL_RETIME_LENGTH_MUST_EQUAL_PREDECLARED_LENGTH')
     return program
 
 
 def episode_config(spec):
-    need(spec.get('phase') == PHASE and spec.get('profile') == 'wm02-auto1-target'
+    slow = spec.get('phase') == SLOW_PHASE
+    need(spec.get('phase') in (PHASE, SLOW_PHASE) and spec.get('profile') == 'wm02-auto1-target'
          and spec.get('domain') == 'WM02_AUTO1_TARGET_COMMISSION_V1'
          and spec.get('physics') is True and bool(spec.get('pilot1_binding')),
          'ORIGINAL_AUTO1_P1_OWNER_REQUIRED')
@@ -137,7 +153,8 @@ def episode_config(spec):
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_NEW_WORLD_NO_OLD_FUSION_BINDING_OR_BYPASS')
     need(spec.get('WBC_changes') is False and spec.get('physics_dt_s') == .002
-         and type(spec.get('wall_limit_s')) in (int, float) and 0 < spec['wall_limit_s'] <= 600,
+         and type(spec.get('wall_limit_s')) in (int, float)
+         and 0 < spec['wall_limit_s'] <= (1200 if slow else 600),
          'UNCHANGED_WBC_2MS_AND_FINITE_WALL')
     source, pins = Path(spec['source_root']), spec.get('source_files', {})
     need(all(name in pins and digest(source/name) == pins[name] for name in SOURCE_MEMBERS),
@@ -145,8 +162,9 @@ def episode_config(spec):
     build_path = Path(spec['trajectory_trace_capacity_build'])
     need(digest(build_path) == spec['trajectory_trace_capacity_build_sha256'], 'TRACE_CAPACITY_BUILD_RECEIPT_BYTES')
     build = json.loads(build_path.read_text())
-    need(build.get('status') == 'TRACE_ONLY_131072_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
-         and build.get('trace_capacity') == 131072
+    capacity = 262144 if slow else 131072
+    need(build.get('status') == f'TRACE_ONLY_{capacity}_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+         and build.get('trace_capacity') == capacity
          and build.get('trace_library_sha256') == digest(spec['trace_library'])
          and build.get('native_binary_sha256') == digest(spec['native_binary'])
          and build.get('observer_sha256') == digest(spec['observer_library'])
@@ -158,7 +176,8 @@ def episode_config(spec):
     path = Path(spec['episode_manifest'])
     need(digest(path) == spec['episode_manifest_sha256'], 'EXACT_EPISODE_BYTES')
     episode = episode_contract(json.loads(path.read_text()))
-    need(episode['run'] == spec['registered_root'] and spec.get('max_ticks') == endpoint(episode)
+    need(episode['phase'] == spec['phase'] and episode['run'] == spec['registered_root']
+         and spec.get('max_ticks') == endpoint(episode)
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'EXACT_RUN_ENDPOINT_AND_ORIGINAL_BASE_HOLD_REPAIR')
     catalog = Path(spec['scene_allowlist'])
@@ -223,7 +242,16 @@ def episode_limit(spec, previous):
              and report.get('program', {}).get('candidate_id') == 'Z_PLUS_0P5MM', 'FIRST_SCALE_REQUIRES_ACTUAL_Z_PLUS_0P5_PASS')
     else:
         prior_episode = report.get('episode') or {}
-        need(previous.get('phase') == PHASE and prior_spec.get('phase') == PHASE
+        slow = episode['phase'] == SLOW_PHASE
+        first_slow = slow and episode['geometry_scale'] == .5
+        expected_prior_phase = PHASE if not slow or first_slow else SLOW_PHASE
+        if first_slow:
+            need(spec['previous_stage_sha256'] == SLOW_FIRST_PREDECESSOR,
+                 'NEW_2X_HALF_SCALE_REQUIRES_ACTUAL_OLD_QUARTER_SCALE_PASS')
+        if slow:
+            validate_retiming_failure(spec)
+        need(previous.get('phase') == expected_prior_phase
+             and prior_spec.get('phase') == expected_prior_phase
              and prior_episode.get('geometry_scale') == GEOMETRY_SCALES[scale_index-1]
              and prior_episode.get('query_pins') == episode['query_pins']
              and report.get('all_40_knots_consumed') is True
@@ -252,6 +280,38 @@ def episode_limit(spec, previous):
                  and values.get('expiry') == submitted.get('expiry'),
                  'PREDECESSOR_EACH_ACTUAL_POSE_AND_GRIPPER_ATOM')
     return endpoint(episode)
+
+
+def validate_retiming_failure(spec):
+    """Keep the actual old-half rejection; it is never a successful predecessor."""
+    path = Path(spec['retiming_failed_result'])
+    need(spec.get('retiming_failed_result_sha256') == SLOW_FAILED_RESULT
+         and digest(path) == SLOW_FAILED_RESULT, 'EXACT_RETAINED_ORIGINAL_HALF_SCALE_FAILURE')
+    failed = json.loads(path.read_text())
+    root = path.parent.parent
+    lease = json.loads((root/'control/LEASE.json').read_text())
+    worker = json.loads((root/'WORKER_EXIT.private.json').read_text())
+    trace = failed.get('trace_audit') or {}
+    need(lease.get('status') == 'CLOSED'
+         and lease.get('worker_exit_code') == worker.get('exit_code') == 1
+         and lease.get('spec_sha256') == digest(root/'EXECUTION_SPEC.json')
+         and failed.get('status') == 'NATIVE_STAGE_FAILED_PRESERVED'
+         and failed.get('phase') == PHASE
+         and failed.get('actual_target_integrations') == 10178
+         and 'ORIGINAL_JOINT_ACCELERATION_REJECT' in (failed.get('failure') or '')
+         and failed.get('shutdown_clean') is True and failed.get('physics_stops') == []
+         and failed.get('original_joint_or_warning_samples') == 0
+         and trace.get('status') == 'RECORDED_TRACE_CHECKS_PASS'
+         and trace.get('native_step_records') == 10178
+         and (trace.get('writer') or {}).get('dropped') == 0
+         and {p.get('name') for p in failed.get('owned_process_exits', [])}
+             == {'sim', 'controller', 'solver', 'planner'}
+         and all(p.get('exit_code') == 0 for p in failed['owned_process_exits'])
+         and failed.get('native_binary_sha256') == digest(spec['native_binary'])
+         and failed.get('observer_sha256') == digest(spec['observer_library'])
+         and failed.get('scene_sha256') == digest(spec['model_path']),
+         'RETAINED_FAILURE_MUST_BE_TERMINAL_ORIGINAL_GUARD_REJECTION_WITH_CLEAN_CLOSEOUT')
+    return failed
 
 
 def validate_install_preview(action, *, initial_tcp, program, step, base, frozen_base, end_step):

@@ -15,7 +15,10 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
-    if phase=='collect-target-fusion-trajectory-qualification-v1':
+    if phase=='collect-target-fusion-trajectory-response-v1':
+        from .fusion_trajectory_response_native_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2'):
         from .fusion_trajectory_qualification_contract import episode_limit
         return episode_limit(spec,previous)
     if phase=='collect-target-fusion-reference-qualification-v1':
@@ -61,13 +64,14 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     root=Path(spec['campaign_root']);binding=Path(spec['campaign_binding'])
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
+    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1')else 600
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
             or lease.get('status')!='ACTIVE'or lease.get('scope')!='WM02_AUTO1_SIM_ONLY'
             or lease.get('owner')!=spec['owner']or lease.get('run_uuid')!=root.name
             or lease.get('binding_sha256')!=digest(binding)or now>=lease['deadline_epoch']
-            or (root/'STOP.json').exists()or not 0<spec['wall_limit_s']<=600):raise PermissionError('AUTO1_REGISTERED_SCOPE_HOST_LEASE_OR_TIME_INVALID')
+            or (root/'STOP.json').exists()or not 0<spec['wall_limit_s']<=wall_bound):raise PermissionError('AUTO1_REGISTERED_SCOPE_HOST_LEASE_OR_TIME_INVALID')
     if not any(e.get('scope')=='WM02_AUTO1_SIM_ONLY'and e.get('owner')==spec['owner']and e.get('path')==str(root)and e.get('local_lease')==str(root/'control/LEASE.json')for e in registry['entries']):raise PermissionError('AUTO1_ACTUAL_REGISTRY_BINDING_REQUIRED')
 
 @contextmanager

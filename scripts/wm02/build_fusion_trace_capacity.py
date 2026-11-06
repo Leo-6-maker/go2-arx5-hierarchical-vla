@@ -1,7 +1,7 @@
 """Fresh registered trace-only capacity successor; never launch the simulator.
 
 Keep the frozen executable, observer and actuation DSO. Compile the same trace
-sources at their already supported 131072 capacity and check the actual DSO
+sources at an explicit 131072 or 262144 capacity and check the actual DSO
 resolution and serialized-key events in a small loader process.
 """
 import argparse
@@ -19,6 +19,10 @@ import time
 CPP = 'src/go2arx5_vla/target_mujoco/init_trace.cpp'
 HPP = 'src/go2arx5_vla/target_mujoco/init_trace.hpp'
 STATUS = 'TRACE_ONLY_131072_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+ORIGINAL_CAPACITY_ASSERT = (b'static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072,\n'
+    b'              "Only original and finite NEXT2 twenty-second capacities are supported");')
+EXTENDED_CAPACITY_ASSERT = (b'static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072 || WM02_INIT_TRACE_CAPACITY==262144,\n'
+    b'              "Only explicit original, NEXT2 and FUSION retimed capacities are supported");')
 DOCTOR = r'''#include <dlfcn.h>
 #include <cstdint>
 #include <cstdio>
@@ -48,6 +52,11 @@ def build(spec, output):
     out, source = Path(output), Path(spec['source_root'])
     start, cpu = time.monotonic(), time.process_time()
     children = resource.getrusage(resource.RUSAGE_CHILDREN)
+    capacity = spec.get('trace_capacity', 131072)
+    need(type(capacity) is int and capacity in (131072, 262144),
+         'EXPLICIT_SUPPORTED_INTEGER_CAPACITY')
+    synthetic_records = 70000 * (capacity // 131072)
+    status = f'TRACE_ONLY_{capacity}_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
     need(spec.get('profile') == 'core-wm02-init-build'
          and spec.get('domain') == 'TARGET_INIT_BUILD_ONLY_V1'
          and spec.get('physics') is False
@@ -61,9 +70,23 @@ def build(spec, output):
          'ORIGINAL_C10_BUILD_RECEIPT')
     base_candidate=json.loads(Path(spec['base_candidate_result']).read_text())
     need(base_candidate['binary_sha256'] == original['native_binary'], 'SAME_FROZEN_C10_BINARY')
+    source_compatibility = dict(changed_members=[], extension='NONE_EXACT_ORIGINAL_SOURCE')
     for name in (CPP, HPP):
-        need(digest(source/name) == spec['source_files'][name]
-             == base_candidate['candidate_sources'][Path(name).name], 'ORIGINAL_TRACE_SOURCE_BYTES')
+        actual = digest(source/name)
+        original_pin = base_candidate['candidate_sources'][Path(name).name]
+        need(actual == spec['source_files'][name], 'CAPSULE_TRACE_SOURCE_BYTES')
+        if actual != original_pin:
+            import hashlib
+            raw = (source/name).read_bytes()
+            need(name == CPP and capacity == 262144 and raw.count(EXTENDED_CAPACITY_ASSERT) == 1,
+                 'ONLY_NEW_262144_ASSERT_EXTENSION_ALLOWED')
+            restored = raw.replace(EXTENDED_CAPACITY_ASSERT, ORIGINAL_CAPACITY_ASSERT)
+            need(hashlib.sha256(restored).hexdigest() == original_pin,
+                 'ALL_EXECUTABLE_TRACE_SOURCE_BYTES_EXCEPT_CAPACITY_ASSERT_MUST_MATCH_ORIGINAL')
+            source_compatibility = dict(changed_members=[CPP],
+                extension='CAPACITY_STATIC_ASSERT_AND_MESSAGE_ONLY_DEFAULT_65536_UNCHANGED',
+                original_CPP_sha256=original_pin, new_CPP_sha256=actual,
+                restored_original_CPP_sha256=hashlib.sha256(restored).hexdigest())
     commands = []
 
     def execute(argv, name, env=None):
@@ -90,7 +113,7 @@ def build(spec, output):
          'BASE_TRACE_DSO_NEEDED_IDENTITY')
     trace = out/'libwm02_init_trace.so'
     execute(['g++', '-std=c++17', '-O2', '-shared', '-fPIC', '-pthread',
-        '-DWM02_INIT_TRACE_CAPACITY=131072', '-Wl,-soname,'+soname,
+        '-DWM02_INIT_TRACE_CAPACITY='+str(capacity), '-Wl,-soname,'+soname,
         str(source/CPP), '-o', str(trace)], 'trace_compile')
     doctor = out/'loader_doctor.cpp'; doctor.write_text(DOCTOR)
     executable = out/'loader_doctor'
@@ -108,7 +131,7 @@ def build(spec, output):
                    spec['observer_library']]), WM02_INIT_TRACE=str(new_trace))
     old = dict(line.split('=',1) for line in execute([str(executable),'0'],
                'original_load_order', old_env).splitlines() if '=' in line)
-    new = dict(line.split('=',1) for line in execute([str(executable),'70000'],
+    new = dict(line.split('=',1) for line in execute([str(executable),str(synthetic_records)],
                'new_trace_first_load_order', new_env).splitlines() if '=' in line)
     need(Path(new['TRACE']).resolve() == trace.resolve(), 'ACTUAL_NEW_TRACE_DLSYM_OWNER')
     need(Path(old['TRACE']).resolve() == Path(spec['base_trace_library']).resolve(),
@@ -122,21 +145,24 @@ def build(spec, output):
     kinds, records = Counter(), 0
     with new_trace.open('rb') as stream:
         header = stream.read(16)
-        need(header[:8] == b'WM02IT01' and struct.unpack('<II',header[8:]) == (840,131072),
-             'ACTUAL_NEW_131072_HEADER')
+        need(header[:8] == b'WM02IT01' and struct.unpack('<II',header[8:]) == (840,capacity),
+             'ACTUAL_NEW_DECLARED_CAPACITY_HEADER')
         while raw := stream.read(840):
             need(len(raw) == 840 and struct.unpack_from('<Q',raw)[0] == records,
                  'COMPLETE_ORDERED_RECORDS')
             kinds[struct.unpack_from('<I',raw,24)[0]] += 1; records += 1
     summary = json.loads(Path(str(new_trace)+'.summary').read_text())
-    need(records == 70000 and kinds == {17:35000,18:35000}
-         and summary['events'] == summary['written'] == 70000
-         and summary['dropped'] == 0, 'SERIALIZED_KEY_EVENTS_COMPLETE_BEYOND_65536')
+    need(records == synthetic_records
+         and kinds == {17:synthetic_records//2,18:synthetic_records//2}
+         and summary['events'] == summary['written'] == synthetic_records
+         and summary['dropped'] == 0,
+         'SERIALIZED_KEY_EVENTS_COMPLETE_BEYOND_PREVIOUS_CAPACITY')
     need(original == {key:digest(spec[key]) for key in original}, 'FROZEN_INPUTS_UNCHANGED')
     after = resource.getrusage(resource.RUSAGE_CHILDREN)
-    result = dict(status=STATUS, source_sha=spec['source_sha'], trace_capacity=131072,
+    result = dict(status=status, source_sha=spec['source_sha'], trace_capacity=capacity,
         trace_library_sha256=digest(trace), trace_library=str(trace),
         source_files={name:spec['source_files'][name] for name in (CPP,HPP)},
+        trace_source_compatibility=source_compatibility,
         native_binary_sha256=original['native_binary'], observer_sha256=original['observer_library'],
         outer_library_sha256=original['outer_library'], original_trace_library_sha256=original['base_trace_library'],
         original_candidate_result_sha256=spec['base_candidate_result_sha256'],

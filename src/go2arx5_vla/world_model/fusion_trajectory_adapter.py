@@ -19,6 +19,9 @@ from ..trajectory.so3 import (
 
 SCHEMA = "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V1"
 RECIPE = "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_V1"
+LEGACY_SCHEMA, LEGACY_RECIPE = SCHEMA, RECIPE
+SLOW_SCHEMA = "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V2"
+SLOW_RECIPE = "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2"
 GEOMETRY_SCALES = (.03, .1, .25, .5, 1.)
 ATOM_DT_S = .05
 NATIVE_DT_S = .002
@@ -171,6 +174,10 @@ class TrajectoryAdaptation:
     ``geometry_scale`` is a declared geometry-calibration intervention, shared
     by all comparison arms. Only 1.0 retains the full raw geometry. No scale
     constitutes a VLA result, model-domain grant, or native PASS.
+
+    The keyword-only ``time_stretch_factor`` is exactly 1 or 2. It stretches
+    every original segment's duration and resamples its original quintic;
+    it never interpolates an already sampled path or changes the knots.
     """
     decoded_H40: object
     query_TCP_source: object
@@ -179,6 +186,7 @@ class TrajectoryAdaptation:
     initial_reference_TCP_target: object
     base_pose_hold: object
     geometry_scale: float
+    time_stretch_factor: int = field(default=1, kw_only=True)
     mapped_H40: np.ndarray = field(init=False, repr=False)
     desired_knots: np.ndarray = field(init=False, repr=False)
     reference_knots: np.ndarray = field(init=False, repr=False)
@@ -201,6 +209,8 @@ class TrajectoryAdaptation:
               and not isinstance(self.geometry_scale, (bool, np.bool_))
               and self.geometry_scale in GEOMETRY_SCALES, "EXPLICIT_VERSIONED_GEOMETRY_SCALE")
         object.__setattr__(self, "geometry_scale", float(self.geometry_scale))
+        _need(type(self.time_stretch_factor) is int and self.time_stretch_factor in (1, 2),
+              "EXPLICIT_INTEGER_TIME_STRETCH_FACTOR_1_OR_2")
         for name in ("query_TCP_source", "T_source_from_target", "decision_TCP_target",
                      "initial_reference_TCP_target"):
             object.__setattr__(self, name, _rigid(getattr(self, name), name))
@@ -240,6 +250,8 @@ class TrajectoryAdaptation:
         bridge_atoms = max(1, math.ceil(float(_interval_ratios(
             np.stack((anchor, desired_knots[0])))[0])))
         retime_factor = max(1, math.ceil(float(np.max(_interval_ratios(desired_knots)))))
+        bridge_atoms *= self.time_stretch_factor
+        retime_factor *= self.time_stretch_factor
         indices = tuple(bridge_atoms + i * retime_factor for i in range(40))
         path = np.concatenate([anchor[None], _interpolate(anchor, desired_knots[0], bridge_atoms)]
                               + [_interpolate(desired_knots[i - 1], desired_knots[i], retime_factor)
@@ -283,11 +295,13 @@ class TrajectoryAdaptation:
         """JSON-safe audit data only; no file writes or admission decision."""
         raw_xyz = np.asarray(self.decoded_H40[:, :3], dtype=np.float64)
         raw_rotations = rot6d_rows_to_matrix(self.decoded_H40[:, 3:9])
-        return dict(
-            schema=SCHEMA, recipe=RECIPE,
+        value = dict(
+            schema=SLOW_SCHEMA if self.time_stretch_factor == 2 else SCHEMA,
+            recipe=SLOW_RECIPE if self.time_stretch_factor == 2 else RECIPE,
             intent_kind="INTENT_POSE_REFERENCE", desired_outcome_provenance="INTENT_POSE",
             experiment_role="NON_VLA_CALIBRATION", geometry_scale=self.geometry_scale,
             full_raw_geometry=self.geometry_scale == 1.,
+            time_stretch_factor=self.time_stretch_factor,
             Processor_decodes=0, relative_action_accumulations=0, command_clips=0,
             learned_models_loaded=0, optimizer_updates=0, native_execution_authorized=False,
             native_qualification="NOT_ESTABLISHED_BY_PURE_ADAPTER",
@@ -329,12 +343,18 @@ class TrajectoryAdaptation:
             clock=dict(atom_dt_s=ATOM_DT_S, native_dt_s=NATIVE_DT_S,
                        native_ticks_per_atom=NATIVE_TICKS_PER_ATOM,
                        original_knot_atoms=list(range(40)), prepend_anchor_atom=0,
+                       time_stretch_factor=self.time_stretch_factor,
+                       unstretched_bridge_atoms=self.bridge_atoms // self.time_stretch_factor,
+                       unstretched_uniform_retime_factor=self.retime_factor // self.time_stretch_factor,
                        bridge_atoms=self.bridge_atoms, uniform_retime_factor=self.retime_factor,
                        knot_indices=list(self.knot_indices),
                        knot_native_tick_offsets=[i * NATIVE_TICKS_PER_ATOM for i in self.knot_indices],
                        end_atom=self.end_atom, end_time_s=self.end_atom * ATOM_DT_S,
                        preview_points=40, preview_tail="REPEAT_FINAL_KNOT"),
             retiming=dict(time_law="REST_TO_REST_QUINTIC_10u3_MINUS_15u4_PLUS_6u5_EACH_SEGMENT",
+                          time_stretch_factor=self.time_stretch_factor,
+                          stretched_from="ORIGINAL_ADAPTED_KNOTS_NOT_RESAMPLED_OLD_PATH",
+                          geometry_changed_by_time_stretch=False,
                           sampling="50MS_QUINTIC_SAMPLES_ORIGINAL_NATIVE_BETWEEN_GRID_INTERPOLATION_UNCHANGED",
                           path_smoothing=False, knot_deletion=False,
                           uniform_duration_after_first_knot=True,
@@ -349,6 +369,15 @@ class TrajectoryAdaptation:
             whole_reference_path=_geometry(self.reference_path, self.initial_reference_TCP_target),
             raw_knots_retained=40, adapted_knots_retained=40,
             MODEL_DOMAIN_COVERAGE="NOT_ESTABLISHED_OLD_XY_LOCAL_MODEL_CANNOT_QUALIFY_THIS_PATH")
+        if self.time_stretch_factor == 1:
+            # Existing sealed V1 programs and their readers compare the whole
+            # evidence dictionary. Default timing retains even its exact keys.
+            value.pop("time_stretch_factor")
+            for key in ("time_stretch_factor", "unstretched_bridge_atoms", "unstretched_uniform_retime_factor"):
+                value["clock"].pop(key)
+            for key in ("time_stretch_factor", "stretched_from", "geometry_changed_by_time_stretch"):
+                value["retiming"].pop(key)
+        return value
 
 
 def trajectory_domain_envelope(adaptation, correction_xyz_candidates=()):
@@ -366,13 +395,16 @@ def trajectory_domain_envelope(adaptation, correction_xyz_candidates=()):
           and np.isfinite(candidates).all(), "FINITE_WORLD_XYZ_CORRECTION_CATALOGUE")
     offsets = np.vstack((np.zeros(3), candidates))
     result = dict(schema="WM02_FULL_TRAJECTORY_DOMAIN_ENVELOPE_V1",
-                  recipe=RECIPE, correction_candidates_xyz_m=candidates.tolist(),
+                  recipe=SLOW_RECIPE if adaptation.time_stretch_factor == 2 else RECIPE,
+                  correction_candidates_xyz_m=candidates.tolist(),
                   candidate_count=len(candidates), nominal_included=True,
                   all_path_points_checked=len(adaptation.reference_path),
                   rotations_and_gripper="ENTIRE_UNMODIFIED_NOMINAL_PATH_CHECKED",
                   native_execution_authorized=False, model_support="NOT_ESTABLISHED",
                   old_local_XY_qualification_reused=False,
                   correction_join_speed_qualification="NOT_ESTABLISHED_BY_CONSTANT_OFFSET_BOUNDS")
+    if adaptation.time_stretch_factor == 2:
+        result.update(schema="WM02_FULL_TRAJECTORY_DOMAIN_ENVELOPE_V2", time_stretch_factor=2)
     for name, path, anchor in (("desired", adaptation.desired_path, adaptation.decision_TCP_target),
                                ("reference", adaptation.reference_path, adaptation.initial_reference_TCP_target)):
         # Exact extrema for all time points and every constant catalogue member.
