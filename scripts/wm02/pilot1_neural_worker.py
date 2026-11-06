@@ -30,7 +30,9 @@ def main(argv=None):
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy',
               'FROZEN_VLA_SHADOW': 'scripts.wm02.infer_fusion_vla',
-              'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response'}[spec['kind']]
+              'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',
+              'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
+              'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation'}[spec['kind']]
     if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
             'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
         module = 'scripts.wm02.train_pilot2_contact_wm'

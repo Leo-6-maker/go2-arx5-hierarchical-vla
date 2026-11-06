@@ -101,6 +101,46 @@ def validate_response_gpu(spec,actual):
         raise PermissionError('ACTUAL_COMPLETE_BALANCED_NEW_RESPONSE_DATA_REQUIRED')
 
 
+def validate_structured_cpu(spec):
+    """Finite two-arm NumPy fit under the existing FUSION owner and real data.
+
+    It does not acquire or qualify a physical slot, invoke Torch or admit CUDA.
+    The CLI separately checks sealed replay/task bytes before any fitting.
+    """
+    if (spec.get('execution_site') != 'CORE_FUSION_OFFLINE_CPU'
+            or spec.get('profile') != 'wm02-fusion-structured-offline-cpu'
+            or spec.get('kind') != 'FUSION_STRUCTURED_RESPONSE'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('numeric_mode') != 'NUMPY_FLOAT64'
+            or spec.get('arms') != ['ACTION_CONDITIONED', 'NO_FUTURE_ACTION']
+            or spec.get('min_lopo_gain_mm') != .08124448952310876
+            or spec.get('GR00T_updates') != 0
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''):
+        raise PermissionError('FINITE_TRAIN_ONLY_STRUCTURED_CPU_FUSION_REQUIRED')
+    return validate(spec)
+
+
+def validate_target_capture_cpu(spec):
+    """Read-only, CPU-rendered pixels from a sealed actual target recording.
+
+    Saved-state rendering is not target dynamic admission or online perception.
+    Original scene/result/journal checks remain the capture CLI's responsibility.
+    """
+    if (spec.get('execution_site') != 'CORE_FUSION_TARGET_OBSERVATION_REPLAY_CPU'
+            or spec.get('profile') != 'wm02-fusion-target-observation-replay-cpu'
+            or spec.get('kind') != 'FUSION_TARGET_OBSERVATION_REPLAY'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('capture_steps') != [3503, 3703, 4103]
+            or spec.get('expected_native_ticks') != 4103
+            or spec.get('GR00T_updates') != 0 or spec.get('WBC_changes') is not False
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''
+            or os.environ.get('MUJOCO_GL') != 'osmesa'
+            or os.environ.get('PYOPENGL_PLATFORM') != 'osmesa'
+            or os.environ.get('LIBGL_ALWAYS_SOFTWARE') != '1'):
+        raise PermissionError('READ_ONLY_SAVED_TARGET_CPU_CAPTURE_REQUIRED')
+    return validate(spec)
+
+
 def register(path):
     """Register once under the same canonical locks, only after the sealed batch.
 

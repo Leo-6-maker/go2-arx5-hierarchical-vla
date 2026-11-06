@@ -28,6 +28,7 @@ class ActionSemantics:
     tcp_semantic_id: str
     evidence_sha256: str
     clock: str = 'SOURCE_MPC_SIM_S'
+    point_time_origin: str = 'OBSERVATION_PLUS_DT'
 
     def validate(self, count):
         if (self.frame not in ('WORLD', 'BASE', 'CAMERA', 'TOOL')
@@ -36,6 +37,7 @@ class ActionSemantics:
                 or self.rotation not in ('QUAT_XYZW', 'ROT6D_COLUMNS', 'ROT6D_ROWS')
                 or self.gripper not in ('OPEN_FRACTION', 'CLOSED_FRACTION')
                 or self.position_unit != 'm' or self.clock != 'SOURCE_MPC_SIM_S'
+                or self.point_time_origin not in ('OBSERVATION_PLUS_DT','OBSERVATION_INCLUSIVE_ISSUE')
                 or not np.isfinite(self.point_dt_s) or self.point_dt_s <= 0
                 or type(self.execution_points) is not int or not 0 < self.execution_points <= count
                 or not self.tcp_semantic_id
@@ -57,12 +59,13 @@ def decode(*, positions, orientations, gripper, timestamps, observation_timestam
     if xyz.ndim != 2 or xyz.shape[1] != 3 or not len(xyz):
         raise ValueError('NONEMPTY_XYZ_ACTION_SEQUENCE_REQUIRED')
     n = len(xyz); semantics.validate(n)
+    first=0 if semantics.point_time_origin=='OBSERVATION_INCLUSIVE_ISSUE' else 1
     if (rotation.shape != (n, 4 if semantics.rotation == 'QUAT_XYZW' else 6)
             or grip.shape != (n,) or ts.shape != (n,)
             or not all(np.isfinite(v).all() for v in (xyz, rotation, grip, ts))
             or not np.isfinite(observation_timestamp) or np.any(grip < 0) or np.any(grip > 1)
             or provenance not in PROVENANCE or not proposal_id
-            or not np.allclose(ts, observation_timestamp + np.arange(1, n+1)*semantics.point_dt_s,
+            or not np.allclose(ts, observation_timestamp + np.arange(first, n+first)*semantics.point_dt_s,
                                atol=1e-8, rtol=0)):
         raise ValueError('FINITE_ACTION_UNITS_RANGE_AND_ACTUAL_SOURCE_CLOCK_REQUIRED')
     # Validate both transforms with the existing strict SE(3) implementation.
@@ -88,7 +91,7 @@ def decode(*, positions, orientations, gripper, timestamps, observation_timestam
     from ..trajectory.relative_se3 import pose_position, pose_quaternion
     output = np.asarray(output)
     opening = grip if semantics.gripper == 'OPEN_FRACTION' else 1-grip
-    return TrajectoryChunkV1(chunk_id=proposal_id, source='FUSION_DECODED_PROPOSAL_V1',
+    return TrajectoryChunkV1(chunk_id=proposal_id, source='FUSION_DECODED_PROPOSAL_V2_ISSUE_CLOCK'if first==0 else'FUSION_DECODED_PROPOSAL_V1',
         observation_timestamp=float(observation_timestamp), point_timestamps=ts.copy(),
         eef_position=pose_position(output), eef_orientation=pose_quaternion(output),
         source_frame='world', tcp_semantic_id=semantics.tcp_semantic_id,
@@ -96,6 +99,7 @@ def decode(*, positions, orientations, gripper, timestamps, observation_timestam
         gripper=opening.copy(), provenance=dict(desired_outcome_provenance=provenance,
             semantics_evidence_sha256=semantics.evidence_sha256, source_frame=semantics.frame,
             pose_mode=semantics.pose_mode, execution_points=semantics.execution_points,
+            point_time_origin=semantics.point_time_origin,
             original_source_timestamps_preserved=True, runtime_admission='NOT_PROVIDED_BY_DECODER'))
 
 

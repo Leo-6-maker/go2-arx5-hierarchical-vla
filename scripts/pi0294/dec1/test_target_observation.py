@@ -156,7 +156,7 @@ def test_measured_target_observation_enters_existing_e1_model_loop_and_original_
         monkeypatch.setattr(neural.time,'sleep',lambda _:None)
         monkeypatch.setattr(neural.signal,'signal',lambda *a:None)
         monkeypatch.setattr(neural.signal,'alarm',lambda *a:None)
-        neural.serve(root,label,SimpleNamespace(identity=identity,generate=generate),dict(allocation_end_epoch=1000.),
+        neural.serve(root,label,SimpleNamespace(identity=identity,generate=generate),dict(job_id='CPU-fixture-job',allocation_end_epoch=1000.),
             SimpleNamespace(charge=lambda k,n:charges.append((k,n))),guard,max_queries=80,mapped_ack_contracts={c.episode:contract})
         result=read(directory/'outbox'/f"{body['query_uuid']}.json");command=exchange.action(result,100.)
         state=read(directory/'QUERY_STATE.json');binding=state['queries'][0]['mapped_ack_binding']

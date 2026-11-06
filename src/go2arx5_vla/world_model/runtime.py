@@ -59,6 +59,22 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                 or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or type(spec.get('endpoint')) is not int
                 or spec['endpoint'] < 1):
             raise PermissionError('FRESH_LOCAL_PC_PILOT1_CPU_MODEL_ONLY_REQUIRED')
+    if spec.get('execution_site') == 'CORE_FUSION_OFFLINE_CPU':
+        from .fusion_scope import validate_structured_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('STRUCTURED_OFFLINE_CPU_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'replay'):
+            local_path(spec, spec[key])
+        validate_structured_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_TARGET_OBSERVATION_REPLAY_CPU':
+        from .fusion_scope import validate_target_capture_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('SAVED_TARGET_CPU_CAPTURE_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
+            local_path(spec, spec[key])
+        validate_target_capture_cpu(spec)
     if gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
         import subprocess
         from .fusion_scope import validate_gpu
