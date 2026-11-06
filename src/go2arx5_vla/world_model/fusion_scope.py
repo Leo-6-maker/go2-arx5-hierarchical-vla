@@ -47,6 +47,32 @@ def validate(spec, registry=None, now=None):
     return binding
 
 
+def validate_gpu(spec, actual):
+    """One finite frozen-VLA shadow, after the actual four-arm calibration."""
+    from .pilot1_scope import GPU_UUIDS
+    if (spec.get('execution_site') != 'CORE_FUSION_NEURAL'
+            or spec.get('profile') != 'wm02-fusion-vla-shadow' or spec.get('physics') is not False
+            or spec.get('kind') != 'FROZEN_VLA_SHADOW' or spec.get('max_queries') != 1
+            or spec.get('inference_mode') != 'OFFLINE_REAL_VLA_INFERENCE'
+            or spec.get('GPU_uuid') not in GPU_UUIDS or actual['uuid'] != spec['GPU_uuid']
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']
+            or not 0 < spec.get('allocator_limit_bytes', 0) < actual['free_bytes']-1024**3
+            or type(spec.get('checkpoint_parameter_bytes')) is not int
+            or spec.get('checkpoint_parameter_bytes', 0) <= 0
+            or spec.get('allocator_limit_bytes', 0) < spec.get('checkpoint_parameter_bytes', 0)
+            or spec.get('numeric_mode') != 'ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST'
+            or spec.get('GR00T_updates') != 0):
+        raise PermissionError('FINITE_FROZEN_VLA_ORIGINAL_PRECISION_AND_ACTUAL_HEADROOM_REQUIRED')
+    validate(spec)
+    path = Path(spec['calibration_result']); result = json.loads(path.read_text())
+    lease = json.loads((path.parent/'control/LEASE.json').read_text())
+    if (digest(path) != spec['calibration_result_sha256'] or lease.get('status') != 'CLOSED'
+            or result.get('schema') != 'WM02_FUSION_FIRST_ACTUAL_CALIBRATION_GROUP_V1'
+            or result.get('exit_code') != 0 or result.get('actual_method_evaluations') != 4
+            or result.get('actual_native_ticks') != 5*4103):
+        raise PermissionError('ACTUAL_FIRST_NATIVE_CALIBRATION_BEFORE_VLA_REQUIRED')
+
+
 def register(path):
     """Register once under the same canonical locks, only after the sealed batch.
 

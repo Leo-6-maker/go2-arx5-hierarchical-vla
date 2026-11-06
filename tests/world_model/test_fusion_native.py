@@ -122,5 +122,27 @@ class FusionNative(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(PermissionError):binding_contract(dict(v,**change),101)
         with self.assertRaises(PermissionError):binding_contract(v,2000)
 
+    def test_gpu_guard_requires_actual_capacity_and_completed_physical_calibration(self):
+        from go2arx5_vla.world_model.fusion_scope import validate_gpu
+        gpu='GPU-845348f1-1511-dc19-0877-cc97658e3edd'
+        with tempfile.TemporaryDirectory()as tmp:
+            r=Path(tmp);(r/'control').mkdir()
+            result=r/'RESULT.private.json';result.write_text(json.dumps(dict(
+                schema='WM02_FUSION_FIRST_ACTUAL_CALIBRATION_GROUP_V1',exit_code=0,
+                actual_method_evaluations=4,actual_native_ticks=20515)))
+            (r/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED')))
+            s=dict(execution_site='CORE_FUSION_NEURAL',profile='wm02-fusion-vla-shadow',physics=False,
+                kind='FROZEN_VLA_SHADOW',max_queries=1,inference_mode='OFFLINE_REAL_VLA_INFERENCE',
+                GPU_uuid=gpu,allocator_limit_bytes=13*1024**3,checkpoint_parameter_bytes=12576064000,
+                numeric_mode='ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST',GR00T_updates=0,
+                calibration_result=str(result),calibration_result_sha256=digest(result))
+            with patch.dict(os.environ,CUDA_VISIBLE_DEVICES=gpu),patch('go2arx5_vla.world_model.fusion_scope.validate'):
+                validate_gpu(s,dict(uuid=gpu,free_bytes=15*1024**3))
+                for change in [dict(max_queries=2),dict(numeric_mode='SILENT_BF16_WEIGHTS'),dict(checkpoint_parameter_bytes=0)]:
+                    with self.subTest(change=change),self.assertRaises(PermissionError):validate_gpu(dict(s,**change),dict(uuid=gpu,free_bytes=15*1024**3))
+                with self.assertRaises(PermissionError):validate_gpu(s,dict(uuid=gpu,free_bytes=13*1024**3))
+                (r/'control/LEASE.json').write_text(json.dumps(dict(status='ACTIVE')))
+                with self.assertRaisesRegex(PermissionError,'CALIBRATION'):validate_gpu(s,dict(uuid=gpu,free_bytes=15*1024**3))
+
 
 if __name__=='__main__':unittest.main()

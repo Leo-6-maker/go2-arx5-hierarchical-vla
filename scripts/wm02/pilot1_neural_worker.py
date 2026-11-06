@@ -28,7 +28,8 @@ def main(argv=None):
               'ACTOR_STUDY': 'scripts.wm02.train_pilot2_matrix',
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
-              'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
+              'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy',
+              'FROZEN_VLA_SHADOW': 'scripts.wm02.infer_fusion_vla'}[spec['kind']]
     if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
             'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
         module = 'scripts.wm02.train_pilot2_contact_wm'
