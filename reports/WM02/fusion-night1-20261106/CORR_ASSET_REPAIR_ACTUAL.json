@@ -1,0 +1,150 @@
+{
+  "schema": "WM02_FUSION_CORR_ASSET_REPAIR_ACTUAL_V1",
+  "snapshot_epoch": 1793946263.1096313,
+  "source_sha": "3d0df83f44ae3c5c6a9438eda661fb8fc08957d7",
+  "first_failed_run": {
+    "run": "fusion-night1-corr2048-assets-01",
+    "source_sha": "9467c59a428d291f224f4331e9d5e493e557cc0c",
+    "lease": "CLOSED",
+    "worker_exit_code": 1,
+    "failure": "QUALIFIED_ROOT_REJECTED_MAPPED_INODE_UID_BEFORE_MATERIALIZATION",
+    "copied_bytes": 0,
+    "download_file_calls": 0,
+    "model_loads": 0,
+    "GPU_calls": 0,
+    "wrapper_wall_s": 0.3647058312781155,
+    "child_CPU_s": 0.24382199999999998,
+    "systemd_CPU_s": 0.34398,
+    "evidence_retained": true,
+    "root_not_reused": true
+  },
+  "repair": {
+    "default_historical_consumer_guard_unchanged": true,
+    "explicit_exception": "EXACT_FROZEN_FIRST_MEMBER_ON_REGISTERED_QUALIFIED_DISK_WITH_PROCESS_AND_PROOF_IDENTITY",
+    "mount_permission_or_system_changes": false,
+    "source_inode_or_mode_changes": false,
+    "normal_tests": 26,
+    "normal_subtests": 41,
+    "optimized_tests": 26,
+    "optimized_subtests": 41,
+    "independent_review": "PASS"
+  },
+  "successor_run": "fusion-night1-corr2048-assets-02",
+  "spec_sha256": "9a572dae9298a4065ec1969e9e9f05fe6adf6ed2cfbd01c4541879a0be55e318",
+  "lease_status": "CLOSED",
+  "worker_exit_code": 0,
+  "result_sha256": "caa949697ae80264961c66f8f519485123dedc927d3dc493c6b4554bcaeebf61",
+  "lease_sha256": "7e6760e3a04130bfa1c67b330320f090b84d494185bd61f92c51f6084b9a2290",
+  "result": {
+    "status": "CORR2048_INFERENCE_ASSETS_STAGED_AND_REHASHED_NO_MODEL",
+    "schema": "WM02_FUSION_CORR_ASSET_RESULT_V1",
+    "source_sha": "3d0df83f44ae3c5c6a9438eda661fb8fc08957d7",
+    "repo_id": "leoyuer/pi0294-public-artifacts",
+    "prefix": "PI0294/20261018T182956Z-localpc-pv1/DEC1_CORR2048_INFERENCE_DELTA_V1",
+    "data_revision": "b37a3d959335b548abb45f87ad48a5186ec662d9",
+    "manifest_sha256": "ec46067a1179405d6c75081cfa333f0daa994f8e1c54bd3658eac0b5fb4eff61",
+    "original_checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "source_first_shard_final_sha256": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+    "original_first_shard_inode_mode_and_bytes_retained": true,
+    "inference_files_sha256": {
+      "config.json": "83dee2a2e6c6da3efd880b8f2bab2a0183a0bc2910781cad45c3384972898b77",
+      "model-00001-of-00003.safetensors": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+      "model-00002-of-00003.safetensors": "6420dd8b76193732a9bb5e40487d1900c0af9ee44869814a4eddb0856d4751fc",
+      "model-00003-of-00003.safetensors": "fc1b1b6e003809e0a4f3c439e00db51bdfb640d369e2aea60020b1505d9f3005",
+      "model.safetensors.index.json": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+      "processor/embodiment_id.json": "3ccbf5ade2c95c92b76571e4f7ffd4fa2734e615ffe4dde8c0c63fc087b7c044",
+      "processor/processor_config.json": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14",
+      "processor/statistics.json": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+      "statistics.json": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+    },
+    "accounting": {
+      "copied_first_shard_bytes": 4986649584,
+      "wrapper_final_readback_hashed_bytes": 17562973992,
+      "requested_file_bytes": 7589737180,
+      "returned_download_file_bytes": 7589737180,
+      "download_file_calls_attempted": 14,
+      "download_file_calls_completed": 14
+    },
+    "retained_download_tree_logical_bytes": 7589738640,
+    "retained_cache_tree_logical_bytes": 0,
+    "retained_frozen_base_tree_logical_bytes": 4986649584,
+    "logical_file_calls_are_not_HTTP_requests": true,
+    "network_wire_bytes": null,
+    "returned_bytes_are_materialized_file_bytes_not_measured_wire_bytes": true,
+    "hash_accounting_scope": "WRAPPER_FINAL_NINE_MEMBER_AND_ORIGINAL_SOURCE_ONLY_EXCLUDES_CONSUMER_AND_COPY_HASHES",
+    "eligibility": "REQUIRES_SUCCESSFUL_NEW_FUSION_STAGE_RESULT_AND_CLOSED_WORKER_NOT_CONSUMPTION_ALONE",
+    "metadata_changes": {
+      "config.json": {
+        "original_sha256": "94f461c5930cc0724fd729a1867599a8e8b75b073334618f6bbae60295e5436a",
+        "change": "ONLY_PRIVATE_COSMOS_MODEL_NAME_TO_PUBLIC_REPO_ID"
+      },
+      "processor/processor_config.json": {
+        "original_sha256": "cc5836fbc0be4baa69f772b5cff9c436f262305307ba905edac277e90392ebcc",
+        "change": "ONLY_PRIVATE_COSMOS_MODEL_NAME_TO_PUBLIC_REPO_ID"
+      }
+    },
+    "full_resume": false,
+    "model_loads": 0,
+    "processor_loads": 0,
+    "VLA_inferences": 0,
+    "native_integrations": 0,
+    "optimizer_updates": 0,
+    "GR00T_updates": 0,
+    "GPU_calls": 0,
+    "automatic_retry": false,
+    "preserved_failures_and_partial_files": true,
+    "old_E1_frozen_condition_not_replaced": true,
+    "storage_ownership_basis": "ADMITTED_PROCESS_UID_AND_QUALIFIED_BLOCK_PROOF_NOT_MAPPED_INODE_UID",
+    "staged_copy_posix_readonly_enforced": false,
+    "model_and_processor": "OWN_CORR_MANIFEST_WITH_EXPLICIT_PUBLIC_COSMOS_NAME_RELOCATION",
+    "task_transfer_gain": false,
+    "CPU_s": 41.34006499,
+    "wall_s": 515.0762892789207,
+    "CPU_peak_RSS_KiB": 86920
+  },
+  "wrapper_cost": {
+    "wall_s": 515.4733493649401,
+    "child_CPU_s": 41.614172999999994,
+    "systemd_CPU_s": 41.95556,
+    "unit_memory_peak_bytes": 6443540480,
+    "overlapping_CPU_scopes_do_not_sum": true
+  },
+  "next_source_shadow": {
+    "dispatch_check_exit_code": 75,
+    "status": "WAIT_ACTUAL_SHARED_FP32_HEADROOM",
+    "jobs_started": 0,
+    "effects": 0,
+    "model_loads": 0,
+    "VLA_queries": 0,
+    "shared_GPU_free_MiB": [
+      9066,
+      3199
+    ],
+    "required_free_bytes_strictly_greater_than": 15032385536,
+    "resource_check_before_journal_or_registration": true,
+    "automatic_job_retry": false
+  },
+  "readback_receipt": {
+    "name": "FUSION_LIVE05.private.json",
+    "sha256": "388b2fafb6d547786233c671c86cc35b437b4eff7a048b78385ad7eb70eb2dfa"
+  },
+  "claims": {
+    "inference_assets_ready": true,
+    "fresh_CORR_inference_done": false,
+    "frozen_VLA_native_comparison": false,
+    "task_transfer_gain": false
+  },
+  "commands": [
+    {
+      "module": "scripts.wm02.stage_fusion_corr_asset",
+      "argv": "python -B -m scripts.wm02.stage_fusion_corr_asset --spec \"$CORR_ASSET_SPEC\" --output \"$CORR_ASSET_RUN/fit-01\"",
+      "worker_exit_code": 0
+    },
+    {
+      "dispatcher": "dispatch_corr_source_shadow04.py",
+      "argv": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/dispatch_corr_source_shadow04.py\" 45",
+      "exit_code": 75,
+      "effects": 0
+    }
+  ]
+}
