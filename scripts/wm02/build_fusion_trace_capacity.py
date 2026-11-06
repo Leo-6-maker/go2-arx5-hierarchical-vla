@@ -1,7 +1,7 @@
 """Fresh registered trace-only capacity successor; never launch the simulator.
 
 Keep the frozen executable, observer and actuation DSO. Compile the same trace
-sources at an explicit 131072 or 262144 capacity and check the actual DSO
+sources at an explicit 131072, 262144 or 524288 capacity and check the actual DSO
 resolution and serialized-key events in a small loader process.
 """
 import argparse
@@ -21,7 +21,7 @@ HPP = 'src/go2arx5_vla/target_mujoco/init_trace.hpp'
 STATUS = 'TRACE_ONLY_131072_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
 ORIGINAL_CAPACITY_ASSERT = (b'static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072,\n'
     b'              "Only original and finite NEXT2 twenty-second capacities are supported");')
-EXTENDED_CAPACITY_ASSERT = (b'static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072 || WM02_INIT_TRACE_CAPACITY==262144,\n'
+EXTENDED_CAPACITY_ASSERT = (b'static_assert(WM02_INIT_TRACE_CAPACITY==65536 || WM02_INIT_TRACE_CAPACITY==131072 || WM02_INIT_TRACE_CAPACITY==262144 || WM02_INIT_TRACE_CAPACITY==524288,\n'
     b'              "Only explicit original, NEXT2 and FUSION retimed capacities are supported");')
 DOCTOR = r'''#include <dlfcn.h>
 #include <cstdint>
@@ -53,7 +53,7 @@ def build(spec, output):
     start, cpu = time.monotonic(), time.process_time()
     children = resource.getrusage(resource.RUSAGE_CHILDREN)
     capacity = spec.get('trace_capacity', 131072)
-    need(type(capacity) is int and capacity in (131072, 262144),
+    need(type(capacity) is int and capacity in (131072, 262144, 524288),
          'EXPLICIT_SUPPORTED_INTEGER_CAPACITY')
     synthetic_records = 70000 * (capacity // 131072)
     status = f'TRACE_ONLY_{capacity}_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
@@ -78,8 +78,8 @@ def build(spec, output):
         if actual != original_pin:
             import hashlib
             raw = (source/name).read_bytes()
-            need(name == CPP and capacity == 262144 and raw.count(EXTENDED_CAPACITY_ASSERT) == 1,
-                 'ONLY_NEW_262144_ASSERT_EXTENSION_ALLOWED')
+            need(name == CPP and capacity in (262144, 524288) and raw.count(EXTENDED_CAPACITY_ASSERT) == 1,
+                 'ONLY_EXPLICIT_CAPACITY_ASSERT_EXTENSION_ALLOWED')
             restored = raw.replace(EXTENDED_CAPACITY_ASSERT, ORIGINAL_CAPACITY_ASSERT)
             need(hashlib.sha256(restored).hexdigest() == original_pin,
                  'ALL_EXECUTABLE_TRACE_SOURCE_BYTES_EXCEPT_CAPACITY_ASSERT_MUST_MATCH_ORIGINAL')

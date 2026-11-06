@@ -12,13 +12,13 @@ from go2arx5_vla.world_model.storage import digest
 ROOT=Path(__file__).resolve().parents[2]
 
 
-@pytest.mark.parametrize('capacity', [131072, 262144])
+@pytest.mark.parametrize('capacity', [131072, 262144, 524288])
 def test_real_dso_overrides_absolute_old_dependency_and_keeps_next_resolution(tmp_path,monkeypatch,capacity):
     monkeypatch.setenv('CUDA_VISIBLE_DEVICES','')
     base=tmp_path/'base';base.mkdir()
     old=base/'libwm02_init_trace.so'
     old_cpp=ROOT/CPP
-    if capacity==262144:
+    if capacity>=262144:
         old_cpp=base/'init_trace.cpp'
         old_cpp.write_bytes((ROOT/CPP).read_bytes().replace(EXTENDED_CAPACITY_ASSERT,ORIGINAL_CAPACITY_ASSERT))
         (base/'init_trace.hpp').write_bytes((ROOT/HPP).read_bytes())
@@ -46,7 +46,7 @@ def test_real_dso_overrides_absolute_old_dependency_and_keeps_next_resolution(tm
         source_files={p:digest(ROOT/p)for p in (CPP,HPP)},deadline_epoch=time.time()+90,
         native_binary=paths['native'],outer_library=paths['outer'],observer_library=paths['observer'],
         base_trace_library=str(old),native_environment={})
-    if capacity==262144:spec['trace_capacity']=capacity
+    if capacity>=262144:spec['trace_capacity']=capacity
     spec['unchanged_inputs_sha256']={k:digest(spec[k])for k in (
         'native_binary','outer_library','observer_library','base_trace_library')}
     parent=base/'candidate.json'
@@ -60,7 +60,7 @@ def test_real_dso_overrides_absolute_old_dependency_and_keeps_next_resolution(tm
     records=70000*(capacity//131072)
     assert result['synthetic_trace_records']==records
     assert result['key_kind_counts']=={17:records//2,18:records//2}
-    assert result['trace_source_compatibility']['changed_members']==([CPP]if capacity==262144 else [])
+    assert result['trace_source_compatibility']['changed_members']==([CPP]if capacity>=262144 else [])
     assert result['trace_summary']['dropped']==0
     assert result['original_next_resolution_unchanged']
     assert result['new_trace_needed_soname']==str(old)
@@ -70,7 +70,7 @@ def test_real_dso_overrides_absolute_old_dependency_and_keeps_next_resolution(tm
     assert all(row['exit_code']==0 for row in result['commands'])
 
 
-@pytest.mark.parametrize('bad', [True, 262144., 0, 524288])
+@pytest.mark.parametrize('bad', [True, 262144., 0, 1048576])
 def test_unknown_or_noninteger_capacity_rejected_before_build(tmp_path,monkeypatch,bad):
     monkeypatch.setenv('CUDA_VISIBLE_DEVICES','')
     with pytest.raises(ValueError,match='SUPPORTED_INTEGER_CAPACITY'):

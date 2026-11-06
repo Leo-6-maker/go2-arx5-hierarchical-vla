@@ -21,19 +21,19 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793954384.883337,
-  "implementation_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+  "snapshot_epoch": 1793956323.3076382,
+  "implementation_sha": "be0a5fd15fd0ebd25e2256134823117f28497fe4",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+  "actual_last_native_source_sha": "be0a5fd15fd0ebd25e2256134823117f28497fe4",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "CURRENT_NATIVE_COHORT_CLOSED; ONE_ORIGINAL_GUARD_FAILURE_RETAINED; PARENT_OWNER_SCOPES_ACTIVE",
+  "live_process_state": "COLD; HALF_CLOSED0; FULL1_CLOSED1_TRACE_OVERFLOW; ORIGINAL_OWNER_SCOPES_ACTIVE",
   "FUSION_completed_physical_cohorts": 5,
-  "FUSION_native_attempts": 267,
-  "FUSION_native_passes": 266,
-  "FUSION_native_failures": 1,
-  "FUSION_native_ticks": 1114876,
+  "FUSION_native_attempts": 269,
+  "FUSION_native_passes": 267,
+  "FUSION_native_failures": 2,
+  "FUSION_native_ticks": 1166432,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
@@ -44,10 +44,10 @@
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 921,
-  "sealed_native_passes_with_inherited_PILOT2": 915,
-  "retained_historical_native_failures": 6,
-  "sealed_native_ticks_with_inherited_PILOT2": 4102169,
+  "sealed_native_attempts_with_inherited_PILOT2": 923,
+  "sealed_native_passes_with_inherited_PILOT2": 916,
+  "retained_historical_native_failures": 7,
+  "sealed_native_ticks_with_inherited_PILOT2": 4153725,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
   "M1": "THREE_REAL_FROZEN_QUERIES; NEW_VERSION_INTENT_POSE_REFERENCE_LABEL_SEMANTICS_VERIFIED; TARGET_INPUT_AND_FULL_DOMAIN_UNQUALIFIED",
   "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
@@ -208,8 +208,8 @@
     "SCIENCE_FOCUS_COLD_BOUNDARY.md",
     "SCIENCE_FOCUS_COLD_BOUNDARY_ACTUAL.json"
   ],
-  "next": "Deploy committed cold source, build the 262144-record trace variant without physics, then register a new finite slow-V2 half-scale qualification. Full1 and response pilot remain gated on actual native predecessors.",
-  "next_executable": "Prepared private source/trace dispatcher at a fresh root through the original Journal/owner; read-only precheck before one-time dispatch. CLOSED run dispatchers must never be replayed.",
+  "next": "Build524288 trace-only successor after isolated tests/commit; new full1 qualification before responsepilot.",
+  "next_executable": "Prepared fresh source/trace original-owner dispatcher; CLOSED full1 and half dispatchers must not be replayed.",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -231,14 +231,14 @@
       "New-version frozen-label audit supports INTENT_POSE / INTENT_POSE_REFERENCE; it does not claim actual TCP equals command or source/target task success. Old unresolved receipts remain unchanged."
     ],
     "unresolved": [
-      "WM 9x106 causal history, 8x17 past references, absolute INIT2503/BASE hold and training state range are not supplied.",
-      "Entire compiled target preview, workspace/collision/native certificate and live TTL remain unqualified; N1 is not a latency distribution.",
-      "Target task language, camera transfer and embodiment remain unqualified; the historical target shadow borrowed source T1 language for a calibration task.",
-      "SOURCE_OUTCOME for these exact queries is unavailable; the new reference-intent interpretation does not use or invent it."
+      "Actual 9x106 and8x17 history is recorded for the new trajectory. Old XY model does not qualify the complete new nominal family or state domain.",
+      "Slowhalf full previews/consumption/TTL are actual PASS; slowfull1 and future corrected program are not yet qualified.",
+      "Fresh live-paused capture/query bridge, target short-skill task score, camera transfer and sequential VLA feedback remain unqualified.",
+      "SOURCE_OUTCOME for these exact queries is unavailable; new reference-intent interpretation does not invent it."
     ]
   },
   "weak_ARX_teacher_distillation": "PAUSED",
-  "full_trajectory_adaptation_implementation": "IN_PROGRESS_NOT_NATIVE_STARTED",
+  "full_trajectory_adaptation_implementation": "FULL40_EXECUTED_BUT_FULL1_NATIVE_QUALIFICATION_FAILED_TRACE_OVERFLOW",
   "fresh_CORR_target_saved_shadow": {
     "run": "fusion-night1-corr2048-target-shadow-01",
     "source_sha": "1ca3b833139e92019c29029ef6be5a4f368de717",
@@ -284,18 +284,20 @@
     "task_success": false
   },
   "retiming_successor": {
-    "status": "TESTED_PENDING_COMMIT_DEPLOY_AND_NATIVE_QUALIFICATION",
+    "status": "HALF_PASS_FULL1_FAILED_TRACE_OVERFLOW_PRESERVED",
     "recipe": "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2",
     "time_stretch_factor": 2,
     "geometry_clips": 0,
     "knots_retained": 40,
     "trace_capacity": 262144,
     "new_trace_CPP_change": "ONLY_CAPACITY_ASSERT_AND_MESSAGE; NORMALIZED_SOURCE_MUST_MATCH_ORIGINAL_C10_SHA",
-    "new_slow_native_attempts": 0,
+    "new_slow_native_attempts": 2,
     "response_pilot_attempts": 0,
     "response_model_fits": 0,
     "live_paused_captures": 0,
     "formal_Actor_started": false,
-    "scale_review_crossed": false
-  }
+    "scale_review_crossed": false,
+    "sealed_slow_native_attempts": 2
+  },
+  "slow_native_actual_report": "TRAJECTORY_SLOW_ACTUAL_V2.json"
 }

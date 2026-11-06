@@ -92,8 +92,11 @@ def episode_config(spec):
     build_path = Path(spec['trajectory_trace_capacity_build'])
     need(digest(build_path) == spec['trajectory_trace_capacity_build_sha256'], 'EXACT_TRACE_BUILD_RECEIPT')
     build = json.loads(build_path.read_text())
-    need(build.get('status') == 'TRACE_ONLY_262144_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
-         and build.get('trace_capacity') == 262144 and build.get('new_target_integrations') == 0
+    capacity=spec.get('trajectory_trace_capacity',262144)
+    need(type(capacity) is int and capacity in (262144,524288),'EXPLICIT_RESPONSE_TRACE_CAPACITY')
+    if capacity==524288:geometry.validate_trace_capacity_failure(spec)
+    need(build.get('status') == f'TRACE_ONLY_{capacity}_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+         and build.get('trace_capacity') == capacity and build.get('new_target_integrations') == 0
          and build.get('trace_library_sha256') == digest(spec['trace_library'])
          and build.get('native_binary_sha256') == digest(spec['native_binary'])
          and build.get('observer_sha256') == digest(spec['observer_library'])
@@ -140,7 +143,7 @@ def episode_limit(spec, previous):
          'COMPLETE_ORIGINAL_NATIVE_TRACE_SAFETY_AND_ALL_PROCESS_EXITS')
     need(prior_episode.get('geometry_scale') == 1. and prior_episode.get('time_stretch_factor') == 2
          and prior_episode.get('reference_rule') == geometry.SLOW_RECIPE
-         and (report.get('actual_trace_binding') or {}).get('actual_trace_capacity') == 262144
+         and (report.get('actual_trace_binding') or {}).get('actual_trace_capacity') == spec.get('trajectory_trace_capacity',262144)
          and prior_episode.get('query_pins') == panel['query_pins']
          and report.get('all_40_knots_consumed') is True
          and report.get('complete_task_atoms') == report.get('solver_target_confirmed_atoms') == report.get('gripper_confirmed_atoms')

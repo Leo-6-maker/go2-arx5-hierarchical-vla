@@ -20,6 +20,7 @@ SLOW_PHASE = 'collect-target-fusion-trajectory-slow-qualification-v2'
 SLOW_SCHEMA = 'WM02_FUSION_TRAJECTORY_QUALIFICATION_EPISODE_V2'
 SLOW_RECIPE = 'FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2'
 SLOW_FAILED_RESULT = '77bea49654a7d33007312d20d416f3796896a508d3e93dbce134a7d2ca5e1a8d'
+TRACE_CAPACITY_FAILED_RESULT='cf06b2d90f08266b8158940e9914002d6e7d6fc24791a9319ed6874cf5719f1c'
 SLOW_FIRST_PREDECESSOR = '2732f75836d8d89f5789d53bb0b9de4f28716728bf44819a5fc46513b76be9c0'
 TAIL_ATOMS = 8
 PINS = dict(
@@ -162,7 +163,13 @@ def episode_config(spec):
     build_path = Path(spec['trajectory_trace_capacity_build'])
     need(digest(build_path) == spec['trajectory_trace_capacity_build_sha256'], 'TRACE_CAPACITY_BUILD_RECEIPT_BYTES')
     build = json.loads(build_path.read_text())
-    capacity = 262144 if slow else 131072
+    capacity = spec.get('trajectory_trace_capacity',262144) if slow else 131072
+    need(type(capacity) is int and capacity in ((262144,524288) if slow else (131072,)),
+         'EXPLICIT_SUPPORTED_PHASE_TRACE_CAPACITY')
+    if capacity==524288:
+        need(episode_contract(json.loads(Path(spec['episode_manifest']).read_text()))['geometry_scale']==1.,
+             'CAPACITY_REPAIR_REQUALIFIES_FULL1_ONLY_NO_HALF_RERUN')
+        validate_trace_capacity_failure(spec)
     need(build.get('status') == f'TRACE_ONLY_{capacity}_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
          and build.get('trace_capacity') == capacity
          and build.get('trace_library_sha256') == digest(spec['trace_library'])
@@ -332,3 +339,36 @@ def validate_install_preview(action, *, initial_tcp, program, step, base, frozen
     return dict(status='EXACT_TRAJECTORY_SUFFIX_NOT_NATIVE_QUALIFIED', native_step=step,
                 points_checked=40, original_certify_chunk_required=True,
                 original_install_ACK_required=True, physics_advance_authorized=False)
+
+
+def validate_trace_capacity_failure(spec):
+    """Keep the complete but trace-unqualified overflowing run FAILED."""
+    pin=TRACE_CAPACITY_FAILED_RESULT
+    path=Path(spec['trace_capacity_failed_result']);root=path.parent.parent
+    need(spec.get('trace_capacity_failed_result_sha256')==pin and digest(path)==pin,
+         'EXACT_RETAINED_FULL1_TRACE_OVERFLOW_FAILURE')
+    failed=json.loads(path.read_text());ps=json.loads((root/'EXECUTION_SPEC.json').read_text())
+    lease=json.loads((root/'control/LEASE.json').read_text());worker=json.loads((root/'WORKER_EXIT.private.json').read_text())
+    trace=failed.get('trace_audit')or{};writer=trace.get('writer')or{};report=failed.get('reference_qualification')or{}
+    need(lease.get('status')=='CLOSED' and lease.get('worker_exit_code')==worker.get('exit_code')==1
+         and lease.get('spec_sha256')==digest(root/'EXECUTION_SPEC.json')
+         and failed.get('status')=='NATIVE_STAGE_FAILED_PRESERVED' and failed.get('phase')==SLOW_PHASE
+         and failed.get('actual_target_integrations')==ps.get('max_ticks')==29753
+         and failed.get('reached_exact_pause') is True and failed.get('shutdown_clean') is True
+         and failed.get('failure') is None and failed.get('physics_stops')==[]
+         and failed.get('original_joint_or_warning_samples')==0
+         and failed.get('native_outer_guard_rejection_count')==0
+         and trace.get('status')=='RECORDED_TRACE_CHECKS_FAIL'
+         and set(trace.get('errors',[]))=={'WRITER_EVENT_COUNT_DIFFERS','WRITER_REPORTED_DROPPED_EVENTS'}
+         and trace.get('missing')==[] and writer.get('events')==266763
+         and writer.get('written')==262144 and writer.get('dropped')==4619
+         and writer.get('sealed_at_explicit_pause') is True and writer.get('stop_latched') is False
+         and report.get('all_40_knots_consumed') is True
+         and report.get('complete_task_atoms')==report.get('solver_target_confirmed_atoms')==report.get('gripper_confirmed_atoms')==1090
+         and failed.get('native_binary_sha256')==digest(spec['native_binary'])
+         and failed.get('observer_sha256')==digest(spec['observer_library'])
+         and failed.get('scene_sha256')==digest(spec['model_path'])
+         and {p.get('name')for p in failed.get('owned_process_exits',[])}=={'sim','controller','solver','planner'}
+         and all(p.get('exit_code')==0 for p in failed['owned_process_exits']),
+         'ACTUAL_FAILED_TRACE_EVIDENCE_NOT_A_PHYSICAL_OR_TASK_PASS')
+    return failed
