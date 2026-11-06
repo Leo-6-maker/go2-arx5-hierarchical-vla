@@ -1,0 +1,948 @@
+{
+  "schema": "WM02_TASK_PHASE_FINITE_XYZ_FEEDBACK_CONTINUATION_ACTUAL_V5",
+  "status": "ACTUAL_CLOSED0_NATIVE_SAFE_POINT25_POSITION_LATERAL_ORIENTATION_GATE_FAIL_NO_NEXT_GRADE",
+  "experiment_role": "NON_VLA_CALIBRATION",
+  "purpose": "FINITE_ORDINARY_XYZ_REFERENCE_FEEDBACK_COMMISSIONING_NOT_A_LEARNED_MODEL_OR_VLA_COMPARISON",
+  "run": "fusion-night1-task-phase-xyz-feedback-s025-01",
+  "condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_GRADED_V5",
+  "baseline_condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_V4",
+  "source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+  "parent_source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+  "phase": "collect-target-fusion-task-phase-xyz-feedback-continuation-v5",
+  "kind": "FUSION_TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_V5",
+  "profile": "wm02-auto1-target",
+  "spec_sha256": "90f5aa95552180dbe2c447608948643ca6e6988580521335310dab7d357184a4",
+  "native_result_sha256": "f6d6913a17490381c65946361cff5d8b6c47ca91c84ab5e9a2783a74b50cd023",
+  "lease_status": "CLOSED",
+  "worker_exit_code": 0,
+  "MainPID": 0,
+  "outcome_separation": {
+    "native_execution": "SAFE_COMPLETE_PASS",
+    "graded_goal_qualification": "FAILED",
+    "failed_non_full_grade_predicates": [
+      "position",
+      "lateral",
+      "orientation"
+    ],
+    "passed_non_full_grade_predicates": [
+      "actual_cube_distance",
+      "continuous_relative_hold",
+      "actual_open",
+      "cube_still",
+      "no_contact",
+      "original_safety"
+    ],
+    "nine_non_full_grade_initialization_gate": false,
+    "query_ready": false,
+    "full_grade_false_expected_at_point25": true,
+    "query_ready_false_due_only_to_small_grade": false,
+    "goal_qualification_failure_is_new_native_failure": false,
+    "native_completion_or_readonly_audit_success_does_not_override_measurement_failure": true
+  },
+  "scope": {
+    "mechanism": "ORIGINAL_AUTO1_P1_SIM_ONLY_OWNER_AND_FINITE_WORKER_LIFECYCLE",
+    "fresh_scope": true,
+    "CLOSED_lease_reused": false,
+    "automatic_retry": false,
+    "cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "ROS_DOMAIN_ID": 220,
+    "wall_limit_s": 1200,
+    "GPU_used": false,
+    "memory_max_bytes": 8589934592,
+    "new_scheduler_or_permission_platform": false
+  },
+  "recipe": {
+    "name": "FROZEN_BIAS_FINITE_XYZ_FEEDBACK_ADJACENT_GRADED_QUINTIC_V5",
+    "geometry_scale": 0.25,
+    "initial_measurement_native_step": 2503,
+    "decision_measurement_native_step": 3703,
+    "largest_calibration_measurement_native_step": 3703,
+    "ramp_atoms": 512,
+    "tail_atoms": 8,
+    "planned_end_atom": 624,
+    "native_endpoint_step": 19503,
+    "native_ticks_per_atom": 25,
+    "atom_duration_s": 0.05,
+    "physics_dt_s": 0.002,
+    "desired_intent": "UNCHANGED_V1_ALGORITHM: FROZEN_ACTUAL_CUBE_PLUS_WORLD_Z_140MM_STANDOFF_AND_PINNED_SOURCE_ROTATION_AT_THE_DECLARED_GRADE",
+    "translation_rule": "Initial frozen bias reference p_desired-(p_DEC-p_INIT); thereafter add only each explicitly committed bounded ordinary XYZ feedback increment to the previous reference endpoint",
+    "orientation_rule": "R_INIT @ R_DEC.T @ R_desired during the unchanged initial ramp; feedback segments retain that static reference endpoint rotation",
+    "translation_and_rotation_coupled_as_one_SE3_translation": false,
+    "first_reference_equals_measured_INIT": true,
+    "frozen_before_generated_reference_install": true,
+    "future_tracking_error_used": false,
+    "historical_terminal_error_used": false,
+    "learned_model_used": false,
+    "source_observation_role": "RETAINED_SOURCE_CONFIRM_V1_OBSERVATION_USED_AS_KNOWN_CALIBRATION_ORIENTATION_REFERENCE_NOT_NEW_TRAINING_OR_EXPERT_ACTION_LABEL",
+    "object_truth_use": "CALIBRATION_GOAL_AND_DIAGNOSTIC_ONLY_NOT_POLICY_INPUT_OR_EXPERT_LABEL",
+    "full_H40_original_native_certification_and_install_ACK_retained": true,
+    "source_relative_TTL_s": 0.4,
+    "reference_renewal_cadence_s": 0.35,
+    "WBC_changes": false,
+    "cube_or_scene_changes": false,
+    "feedback_decision_native_steps": [
+      16703,
+      17403,
+      18103,
+      18803
+    ],
+    "feedback_gain": 0.5,
+    "feedback_step_norm_cap_m": 0.004,
+    "feedback_deadband_m": 0.005,
+    "feedback_cumulative_path_length_cap_m": 0.016,
+    "feedback_move_atoms": 20,
+    "feedback_settle_atoms": 8,
+    "feedback_reference_starts_at_previous_committed_reference_not_achieved_TCP": true,
+    "feedback_uses_only_completed_actual_measurements": true,
+    "feedback_does_not_change_desired_goal_or_initial_ramp": true,
+    "silent_path_clipping_or_adaptive_retime": false
+  },
+  "physics": {
+    "actual_target_integrations": 19503,
+    "native_time_s": 39.006000000001706,
+    "complete_atomic_transitions": 780,
+    "complete_task_atoms": 680,
+    "postdecision_program_and_tail_atoms": 632,
+    "pose_confirmed_atoms": 680,
+    "gripper_confirmed_atoms": 680,
+    "generated_calibration_knots": 40,
+    "all40_generated_calibration_knots_consumed": true,
+    "raw_VLA_knots": 0,
+    "physical_transitions_are_independent_WM_training_samples": false
+  },
+  "native_audit": {
+    "status": "NATIVE_STAGE_PASSED",
+    "failure": null,
+    "shutdown_clean": true,
+    "reached_exact_pause": true,
+    "physics_stops": [],
+    "original_joint_or_warning_samples": 0,
+    "native_outer_guard_rejections": 0,
+    "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+    "trace_events": 162574,
+    "trace_written": 162574,
+    "trace_dropped": 0,
+    "trace_stop_latched": false,
+    "trace_native_step_records": 19503,
+    "trace_capacity": 524288,
+    "trace_sealed_at_explicit_pause": true,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    },
+    "endpoint_operator_cancel_mode": "HOLD",
+    "mode_ACK_alone_proves_physics_stop": false
+  },
+  "actual_readiness": {
+    "schema": "WM02_FUSION_TASK_PHASE_XYZ_FEEDBACK_READINESS_V5",
+    "query_ready": false,
+    "predicates": {
+      "full_grade": false,
+      "position": false,
+      "lateral": false,
+      "orientation": false,
+      "actual_cube_distance": true,
+      "continuous_relative_hold": true,
+      "actual_open": true,
+      "cube_still": true,
+      "no_contact": true,
+      "original_safety": true
+    },
+    "metrics": {
+      "maximum_position_error_m": 0.020912651065322536,
+      "maximum_lateral_error_m": 0.01633151180951891,
+      "maximum_orientation_error_rad": 0.055373548411616444,
+      "minimum_actual_cube_distance_m": 0.26911593311822696,
+      "minimum_actual_finger_opening_m": 0.04194385200479423,
+      "maximum_cube_displacement_m": 0.0,
+      "maximum_cube_rotation_from_frozen_rad": 0.0,
+      "relative_hold": {
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.00029444035986584636,
+        "relative_TCP_max_speed_m_s": 0.002782215327276141,
+        "window_s": 0.40000000000048885,
+        "diameter_threshold_m": 0.002,
+        "speed_threshold_m_s": 0.025,
+        "screen_is_native_safety": false
+      }
+    },
+    "sample_count": 9,
+    "exact_actual_sample_native_steps": [
+      19303,
+      19328,
+      19353,
+      19378,
+      19403,
+      19428,
+      19453,
+      19478,
+      19503
+    ],
+    "sample_identity_verified": true,
+    "readiness_numerically_recomputed_by_original_native_environment": true,
+    "non_full_grade_predicates_true": 6,
+    "non_full_grade_predicates_false": [
+      "position",
+      "lateral",
+      "orientation"
+    ],
+    "graded_point25_goal_diagnostics_passed": false,
+    "position_diagnostic_threshold_m": 0.01,
+    "lateral_diagnostic_threshold_m": 0.01,
+    "orientation_diagnostic_threshold_rad": 0.05,
+    "readiness_thresholds_are_native_safety": false,
+    "readiness_grants_GPU_or_native_execution": false,
+    "full_task_success": false
+  },
+  "endpoint_error_definitions": {
+    "frame": "ACTUAL_TARGET_WORLD_XYZ",
+    "desired": "DECLARED_GRADED_GEOMETRIC_INTENT",
+    "reference": "INSTALLED_FROZEN_BIAS_PLUS_FINITE_XYZ_FEEDBACK_REFERENCE",
+    "actual_minus_desired_xyz_m": [
+      -0.013701540325805783,
+      0.008759408228096042,
+      -0.012787201336958431
+    ],
+    "actual_minus_desired_L2_m": 0.020687483119945504,
+    "actual_minus_reference_xyz_m": [
+      -0.0383178196195057,
+      0.009795911664243161,
+      -0.04533976080386626
+    ],
+    "actual_minus_reference_L2_m": 0.06016568037908687,
+    "final_actual_desired_error_mm": 20.687483119945504,
+    "terminal_maximum_over_nine_actual_position_error_mm": 20.912651065322535,
+    "distinction": "The final desired-goal error and the compensated reference-tracking residual are separate diagnostics. Neither is innovation without a matching saved pre-effect response prediction.",
+    "pre_effect_response_prediction_saved": false,
+    "tracking_residual_is_innovation": false,
+    "independent_HOLD_counterfactual_available": false
+  },
+  "finite_xyz_feedback": {
+    "reported": {
+      "schema": "WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V5",
+      "actual_feedback_reference_updates": 4,
+      "committed_feedback_decisions": 4,
+      "nonzero_XYZ_corrections": 4,
+      "deadband_HOLD_count": 0,
+      "sum_applied_XYZ_delta_norms_m": 0.016,
+      "final_reference_path_sha256": "eb07c5b7ef37b10b847e7651a6a31a4d1a94897035d8fc9bf8a8be809bdd7225",
+      "unchanged_desired_path_sha256": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+      "causal_completed_window_feedback": true,
+      "ordinary_feedback_not_model_benefit": true,
+      "original_windows_retain_ACK_solver_pose_and_gripper_consumption": true,
+      "WM_updates": 0,
+      "VLA_queries": 0,
+      "Actor_updates": 0
+    },
+    "decisions": [
+      {
+        "native_step": 16703,
+        "decision_sha256": "ef7d518781428a935dea7ec22ede3b4e1464566fd49c148cf1cd285afb942531",
+        "saved_before_program_commit_and_reference_install": true,
+        "causal_completed_window_measurement_used": true,
+        "reference_correction": {
+          "native_step": 16703,
+          "decision_index": 0,
+          "error_world_xyz_m": [
+            0.02404451232026278,
+            -0.011064775932803937,
+            0.017499388061917087
+          ],
+          "error_norm_m": 0.03173005549481425,
+          "raw_gain_delta_world_m": [
+            0.01202225616013139,
+            -0.005532387966401969,
+            0.008749694030958544
+          ],
+          "applied_delta_world_m": [
+            0.0030311339763263194,
+            -0.0013948637353769883,
+            0.002206033086173085
+          ],
+          "applied_delta_norm_m": 0.003999999999999999,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.003999999999999999,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "777390f2bccbe8b3e377496404b7c8916453754c61f512f2ce3c33295aa345cd",
+          "reference_path_after_sha256": "342566e80a2f7491fd6b594404f53a0949f25c756432bf7991f528553d94dab6",
+          "new_H40_sha256": "c4170d1b40d8bcd5a415d5e8854438435a4ea10017e6e1d5408da2b1d18b2127",
+          "unchanged_desired_path_sha256": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "observed_actual_response": {
+          "actual_measurement_interval_native_steps": [
+            16703,
+            17403
+          ],
+          "actual_measured_TCP_change_xyz_m": [
+            0.002037329141751143,
+            -0.0007310230203597043,
+            0.001362658792678939
+          ],
+          "actual_measured_TCP_change_L2_m": 0.0025577223604976163,
+          "error_at_next_boundary_mm": 29.180414531269125,
+          "error_before_mm": 31.730055494814252,
+          "next_boundary_native_step": 17403,
+          "observed_actual_TCP_change_norm_mm": 2.5577223604976163,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.5502913662903866,
+          "observed_goal_error_reduction_mm": 2.5496409635451265
+        },
+        "pinned_artifact_identities": {
+          "STATE.bin": {
+            "sha256": "1537e0f33a2335a46821e0726d8b97d3ea4ee46b61751b5f125569361fc8469d",
+            "expected_sha256": "1537e0f33a2335a46821e0726d8b97d3ea4ee46b61751b5f125569361fc8469d",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "183829a54d17a4455f1f817479423941cb31c99bb2d12f05d19f0c07045a1d3d",
+            "expected_sha256": "183829a54d17a4455f1f817479423941cb31c99bb2d12f05d19f0c07045a1d3d",
+            "bytes": 3927,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "cf847beac8b55a01fe3b5b0925d811c5d01aef7be779eb9ca739ee4c903aa191",
+            "expected_sha256": "cf847beac8b55a01fe3b5b0925d811c5d01aef7be779eb9ca739ee4c903aa191",
+            "bytes": 161929,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "beb6c747e45cdf833017a8c5e234abbcab581e8a9079ec40a5c133b5e9139ab5",
+            "expected_sha256": "beb6c747e45cdf833017a8c5e234abbcab581e8a9079ec40a5c133b5e9139ab5",
+            "bytes": 27387,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "35048dda8223abf1e879583d643d4eadb3858215b56ea910abebedff715716dd",
+            "expected_sha256": "35048dda8223abf1e879583d643d4eadb3858215b56ea910abebedff715716dd",
+            "bytes": 10422,
+            "file_sha256_matches": true
+          }
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 16703,
+          "native_end_step": 16728,
+          "actual_ticks": 25,
+          "reference_sha256": "95f34f7e3bf2235b059a0290180d3075f8a487fb0b9fd7f1c40990a93caf95ba",
+          "target_trajectory_sha256": "b2df3103be8a120fdd20ccbb19808b7fc9ac7ec1671f8838633928a1c5f9803a",
+          "actual_installed_source_age_s": -5.137223979545524e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 17403,
+        "decision_sha256": "3f6653270a735ed921fdc1d8d0064c0c714b4ea78fa2a2974858998a073362e0",
+        "saved_before_program_commit_and_reference_install": true,
+        "causal_completed_window_measurement_used": true,
+        "reference_correction": {
+          "native_step": 17403,
+          "decision_index": 1,
+          "error_world_xyz_m": [
+            0.022007183178511636,
+            -0.010333752912444233,
+            0.016136729269238148
+          ],
+          "error_norm_m": 0.029180414531269124,
+          "raw_gain_delta_world_m": [
+            0.011003591589255818,
+            -0.0051668764562221164,
+            0.008068364634619074
+          ],
+          "applied_delta_world_m": [
+            0.003016706038213295,
+            -0.001416532709138974,
+            0.00221199452145498
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.008,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "342566e80a2f7491fd6b594404f53a0949f25c756432bf7991f528553d94dab6",
+          "reference_path_after_sha256": "6cf70c5901c67d12ae367fcb8c0c46297efbb74f6965131c9d44dc7e7defb145",
+          "new_H40_sha256": "e0ea7ee555e8de9701e46d7797781b0bb53986ffaef2b8abc1943f79ab6d64dc",
+          "unchanged_desired_path_sha256": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "observed_actual_response": {
+          "actual_measurement_interval_native_steps": [
+            17403,
+            18103
+          ],
+          "actual_measured_TCP_change_xyz_m": [
+            0.002232332786673785,
+            -0.0007567126621361893,
+            0.0012737321705911242
+          ],
+          "actual_measured_TCP_change_L2_m": 0.0026792382062621385,
+          "error_at_next_boundary_mm": 26.52683717916593,
+          "error_before_mm": 29.180414531269125,
+          "next_boundary_native_step": 18103,
+          "observed_actual_TCP_change_norm_mm": 2.6792382062621383,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.6559221543360967,
+          "observed_goal_error_reduction_mm": 2.653577352103195
+        },
+        "pinned_artifact_identities": {
+          "STATE.bin": {
+            "sha256": "b19f2e2a055d06a3652619a26ae9c2cb399b3aeb6db5d08e4e92d647cfa114fc",
+            "expected_sha256": "b19f2e2a055d06a3652619a26ae9c2cb399b3aeb6db5d08e4e92d647cfa114fc",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "b6594d8c4f715a7656eab3788bcac4f0174b1ca17ecf810e298610af7ef66fa7",
+            "expected_sha256": "b6594d8c4f715a7656eab3788bcac4f0174b1ca17ecf810e298610af7ef66fa7",
+            "bytes": 3920,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "c336bcfe798ba42ae86e5e2135f92a0483b7a2a4cdbb2e7124efb4acc5fe5498",
+            "expected_sha256": "c336bcfe798ba42ae86e5e2135f92a0483b7a2a4cdbb2e7124efb4acc5fe5498",
+            "bytes": 161855,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "538ae50e9ef1bcba490dca4e14cf545e008fa6a132ee4d52fb5f7e98e3726950",
+            "expected_sha256": "538ae50e9ef1bcba490dca4e14cf545e008fa6a132ee4d52fb5f7e98e3726950",
+            "bytes": 20026,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "1a38bda7a7cb6410586ba4b7d276a08b6e97ebd2cd452b08d9deeead526d8d67",
+            "expected_sha256": "1a38bda7a7cb6410586ba4b7d276a08b6e97ebd2cd452b08d9deeead526d8d67",
+            "bytes": 10406,
+            "file_sha256_matches": true
+          }
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 17403,
+          "native_end_step": 17428,
+          "actual_ticks": 25,
+          "reference_sha256": "b57f1893b73462217b003be94994c9e4cff6cf5a0ed52698ea7f764365c85a04",
+          "target_trajectory_sha256": "cf0c7b4732e188c916d77471a2ca4e4f8bfa4f4e72810c218cdb794be66bb435",
+          "actual_installed_source_age_s": -3.424815986363683e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 18103,
+        "decision_sha256": "d167e4c1aa3535a6588368e905ebbd88cde12602d147beefb54841607a3f4b41",
+        "saved_before_program_commit_and_reference_install": true,
+        "causal_completed_window_measurement_used": true,
+        "reference_correction": {
+          "native_step": 18103,
+          "decision_index": 2,
+          "error_world_xyz_m": [
+            0.01977485039183785,
+            -0.009577040250308044,
+            0.014862997098647024
+          ],
+          "error_norm_m": 0.02652683717916593,
+          "raw_gain_delta_world_m": [
+            0.009887425195918925,
+            -0.004788520125154022,
+            0.007431498549323512
+          ],
+          "applied_delta_world_m": [
+            0.00298186327427967,
+            -0.001444128477982262,
+            0.002241201542160535
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.012,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "6cf70c5901c67d12ae367fcb8c0c46297efbb74f6965131c9d44dc7e7defb145",
+          "reference_path_after_sha256": "6596c861b8e43e00e78ae4419bd49bf61d08fcba70f7a8f9035f9075fda01148",
+          "new_H40_sha256": "71230696c05195249ad6520a1ff0fc1a307e6baa95fa2e22d417bf162ced5540",
+          "unchanged_desired_path_sha256": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "observed_actual_response": {
+          "actual_measurement_interval_native_steps": [
+            18103,
+            18803
+          ],
+          "actual_measured_TCP_change_xyz_m": [
+            0.0022131149140035555,
+            -0.0008529439629949981,
+            0.0014092383593513613
+          ],
+          "actual_measured_TCP_change_L2_m": 0.002758866394021627,
+          "error_at_next_boundary_mm": 23.78083331674707,
+          "error_before_mm": 26.52683717916593,
+          "next_boundary_native_step": 18803,
+          "observed_actual_TCP_change_norm_mm": 2.7588663940216267,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.747338483790498,
+          "observed_goal_error_reduction_mm": 2.74600386241886
+        },
+        "pinned_artifact_identities": {
+          "STATE.bin": {
+            "sha256": "0602602625310d70c84d5963fba36d96ae9e3a6a16eb78168220d59eead9fdb2",
+            "expected_sha256": "0602602625310d70c84d5963fba36d96ae9e3a6a16eb78168220d59eead9fdb2",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "6b7c46f5d7d2638a509ebce856fe15aa92059141f55752ff70c3bf772a7dea3c",
+            "expected_sha256": "6b7c46f5d7d2638a509ebce856fe15aa92059141f55752ff70c3bf772a7dea3c",
+            "bytes": 3924,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "d1191d7cf7004da5d3cee721308a19aa10f12d1e0e2d2c7373fac501199aea77",
+            "expected_sha256": "d1191d7cf7004da5d3cee721308a19aa10f12d1e0e2d2c7373fac501199aea77",
+            "bytes": 161882,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "b1dc61f1ff87a07b243812e7353490ea1c18d673f47cc5f248d599840bb3f0c6",
+            "expected_sha256": "b1dc61f1ff87a07b243812e7353490ea1c18d673f47cc5f248d599840bb3f0c6",
+            "bytes": 12770,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "2fe29c5b0d3ec0de1b10db9d66a28ec06425b8cb01c8e031fe56a7e6a87dfe26",
+            "expected_sha256": "2fe29c5b0d3ec0de1b10db9d66a28ec06425b8cb01c8e031fe56a7e6a87dfe26",
+            "bytes": 10421,
+            "file_sha256_matches": true
+          }
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 18103,
+          "native_end_step": 18128,
+          "actual_ticks": 25,
+          "reference_sha256": "f313363b12564bc38939116545bd90a6f3e68bdd3d077c1e202f94543efe7708",
+          "target_trajectory_sha256": "ae874dfef9e9d666c01ae75ee59562b2fab3ff44add390756df6e9e77a8cc570",
+          "actual_installed_source_age_s": -1.7195134205394424e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 18803,
+        "decision_sha256": "a1be1b7e88a4992892374ed21243cf0c597644f65512f286e4763c2a77500485",
+        "saved_before_program_commit_and_reference_install": true,
+        "causal_completed_window_measurement_used": true,
+        "reference_correction": {
+          "native_step": 18803,
+          "decision_index": 3,
+          "error_world_xyz_m": [
+            0.017561735477834295,
+            -0.008724096287313046,
+            0.013453758739295663
+          ],
+          "error_norm_m": 0.02378083331674707,
+          "raw_gain_delta_world_m": [
+            0.008780867738917147,
+            -0.004362048143656523,
+            0.006726879369647831
+          ],
+          "applied_delta_world_m": [
+            0.0029539310492482825,
+            -0.001467416414069782,
+            0.0022629583345712585
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.016,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "6596c861b8e43e00e78ae4419bd49bf61d08fcba70f7a8f9035f9075fda01148",
+          "reference_path_after_sha256": "eb07c5b7ef37b10b847e7651a6a31a4d1a94897035d8fc9bf8a8be809bdd7225",
+          "new_H40_sha256": "beaa2ac79de706bcdec4a9d3ed3e2af13bde8e02209908a74ad82d3858ce3171",
+          "unchanged_desired_path_sha256": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "observed_actual_response": {
+          "actual_measurement_interval_native_steps": [
+            18803,
+            19503
+          ],
+          "actual_measured_TCP_change_xyz_m": [
+            0.0038601951520285116,
+            3.531194078299632e-05,
+            0.0006665574023372312
+          ],
+          "actual_measured_TCP_change_L2_m": 0.003917480352920336,
+          "error_at_next_boundary_mm": 20.687483119945504,
+          "error_before_mm": 23.78083331674707,
+          "next_boundary_native_step": 19503,
+          "observed_actual_TCP_change_norm_mm": 3.9174803529203364,
+          "observed_actual_change_projected_on_reference_correction_mm": 3.2148311558265728,
+          "observed_goal_error_reduction_mm": 3.093350196801566
+        },
+        "pinned_artifact_identities": {
+          "STATE.bin": {
+            "sha256": "26c34b0e00b285cb30d2d7497e211a6c563b37a5c3236c5fc9db03319c4a0868",
+            "expected_sha256": "26c34b0e00b285cb30d2d7497e211a6c563b37a5c3236c5fc9db03319c4a0868",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "5e97bd015c1b1d1f8291ee6e608137025f8ba03c0c1bcf15b96836db08aa87d1",
+            "expected_sha256": "5e97bd015c1b1d1f8291ee6e608137025f8ba03c0c1bcf15b96836db08aa87d1",
+            "bytes": 3911,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "ae5cf096dca4863ad6ba6ee1c9094dbd800772f7b9720e816d50de0349c84056",
+            "expected_sha256": "ae5cf096dca4863ad6ba6ee1c9094dbd800772f7b9720e816d50de0349c84056",
+            "bytes": 161861,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "5ca0bf131ea54281bcc14937ceecb4e1bf73df28a62652b45bc1cb594d1f6922",
+            "expected_sha256": "5ca0bf131ea54281bcc14937ceecb4e1bf73df28a62652b45bc1cb594d1f6922",
+            "bytes": 5463,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "e0a43bb81f9bbd56ccfaa7e2a7e7aa8ceeebbb34983d29a50f09b33fe8cac298",
+            "expected_sha256": "e0a43bb81f9bbd56ccfaa7e2a7e7aa8ceeebbb34983d29a50f09b33fe8cac298",
+            "bytes": 10422,
+            "file_sha256_matches": true
+          }
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 18803,
+          "native_end_step": 18828,
+          "actual_ticks": 25,
+          "reference_sha256": "3a44c57a1cdd180eac33d15fdbfc424c8da3a2eaf811677bcb3905ab32dffc75",
+          "target_trajectory_sha256": "cc3c953ca361b72e6c8a1331c26513dd96f49bd054c086953719e3758974afff",
+          "actual_installed_source_age_s": -7.105427357601002e-15
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      }
+    ],
+    "actual_reference_correction_count": 4,
+    "nonzero_corrections": 4,
+    "deadband_HOLD_count": 0,
+    "sum_applied_reference_delta_norms_mm": 16.0,
+    "all_four_reference_steps_at_4mm_cap": true,
+    "desired_goal_error_checkpoint_mm": [
+      31.730055494814252,
+      29.180414531269125,
+      26.52683717916593,
+      23.78083331674707,
+      20.687483119945504
+    ],
+    "interpretation": "Error decreased within this one process while the fixed ordinary XYZ feedback law ran. These measurements have no matched no-correction HOLD continuation or same hidden-state fork, so they do not identify a causal feedback gain, WM gain, or VLA task gain.",
+    "four_full_saved_artifacts_and_first_consumption_joins": true,
+    "all_680_windows_and_99_rolling_references_recomputed_by_deep_audit": true,
+    "desired_path_changed_by_feedback": false,
+    "orientation_reference_changed_by_feedback": false,
+    "pre_effect_prediction_present": false,
+    "measured_tracking_residual_is_innovation": false
+  },
+  "artifact_sha256": {
+    "execution_spec": "90f5aa95552180dbe2c447608948643ca6e6988580521335310dab7d357184a4",
+    "episode": "0b0cc11ea0a2a8088691ae7f99f1ddf3728e86619d1ccae584b700fd019e57d3",
+    "native_result": "f6d6913a17490381c65946361cff5d8b6c47ca91c84ab5e9a2783a74b50cd023",
+    "lease": "32c018e87c9356aca2f1f201bda4ea4a95ac81714b8dda7cf56edb38e443affb",
+    "worker_exit": "0da3cfecda36bd12191f0bbe4e3ff2b49c7b4e2b015d288b0375da364e0e6460",
+    "supervisor": "f8fa65f34c50beb8de1ea09c5d6b6d3297bbe920984c6ac33c47867cc4ff016e",
+    "terminal_state_header": "f6879ae85152e5c93cc56c8cf0153b8fee59fbc296b9f458faee334b3aaea9ae",
+    "terminal_pause_ACK": "36209d4caae6be350c6f39a71378723248eeb68fccb48f9db5a5fd10dc2b7945",
+    "goal_binding": "a99b1dde3514553afa6a5656b44796eb7e75afade2b4619b5350da590eaa09ab",
+    "frozen_input_body": "c84cee49abe1f4a6c0bec4b9ae0739851118780351b09713cc7f28f43066f738",
+    "decision_packet": "42f75bcb45a85b80997c70365c47773b1727999e2487389c95f7ec2ae998ce04",
+    "decision_measured_state": "eb3ce887925da44e9824cb9fbf7b30252dab07395d70ac058ad84a0b26e07dd8",
+    "readiness": "0c32eecd1d3070169fa34ceb537574922b1f1763f319c0f740411af2e015b6fa",
+    "complete_nine_actual_hold_samples": "7b95addcf7b06125c38b0829c77d1d9f81df46d667f9c3aa0b2e733f289dfd74",
+    "initial_TCP": "81063fb65402f3005bc11159a8cc783bc1edce758e1da350465293021864ffbb",
+    "decision_TCP": "4d40eb60f148d1bf2e0c2b4ff146b1a234190c2cd070de6d2ca6b684c5550e33",
+    "translation_bias": "53962a13972d42dca93d2d65408d9921895ea223ade31aac4d989e8178c552c8",
+    "left_rotation": "20d3816351ba6eeb938d473235ea557637f0f0ee48b0532fddaa29f2ea4b28ef",
+    "initial_frozen_reference_path": "777390f2bccbe8b3e377496404b7c8916453754c61f512f2ce3c33295aa345cd",
+    "unchanged_desired_path": "0b40ed22447113cd0f92fc9d6a8f091c8a1907a7f0b934bda6f50a666988be3c",
+    "final_feedback_reference_path": "eb07c5b7ef37b10b847e7651a6a31a4d1a94897035d8fc9bf8a8be809bdd7225",
+    "actual_state_vector": "d33314f905102b0f4cbc4a7a6a0e91e7f35310b8fc7971d81e30ab127b395223",
+    "frozen_cube_pose": "d24fdee45f8c003deafbbea24f62ecf5661e51fc828dbb5bf6a6d747a932c3ab",
+    "full_goal_TCP": "2791c32a4db713903121fbab4978724641f04115c751059d16ad773562bdc223"
+  },
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+    "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+    "source_files_members": 3379,
+    "source_files_canonical_sha256": "58b466053303f4e5775b2649644843e704d4eb29c60fb92be0afc1de89c37db8",
+    "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c"
+  },
+  "entry_and_provenance": {
+    "actual_CLI_module": "scripts.wm02.fusion_task_phase_xyz_feedback_continuation_check_v5",
+    "original_native_worker_module": "scripts.wm02.pilot1_native_worker",
+    "actual_dispatcher": {
+      "basename": "dispatch_task_phase_xyz_feedback_s025_v5_01.py",
+      "bytes": 148405,
+      "sha256": "978752632b846e8bc0b2100a306348a5b14eefdd8e4794b2b846565e01cf6038"
+    },
+    "actual_status_reader": {
+      "basename": "read_task_phase_xyz_feedback_s025_v5_initialization01.py",
+      "bytes": 25681,
+      "sha256": "0c35ce03663058e3e15412685d71316889192fb26ee935761b598b3153b767ab"
+    },
+    "actual_terminal_receipt": {
+      "basename": "TASK_PHASE_XYZ_FEEDBACK_S025_V5_ACTUAL04.private.json",
+      "bytes": 48680,
+      "sha256": "c1fcd31d3939a0d383d1a2be447fa786a9ea15a59b36d540ee4a9402eee74532"
+    },
+    "actual_deep_audit_helper": {
+      "basename": "audit_task_phase_xyz_feedback_s025_gate01.py",
+      "bytes": 12961,
+      "sha256": "4028e50390ffd5b4ed4a119dda60fa410739005a0c77e94c0b68a289c7409b9c"
+    },
+    "actual_deep_audit_receipt": {
+      "basename": "TASK_PHASE_XYZ_FEEDBACK_S025_GATE_AUDIT01.private.json",
+      "bytes": 6782,
+      "sha256": "cbfcd1db8942d520a81e24abb09d56c3358a528d00b38e3752bee9fc406090d2"
+    },
+    "committed_source_delta": {
+      "manifest": {
+        "basename": "TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_SOURCE_DELTA01.private.json",
+        "bytes": 2497,
+        "sha256": "afaf4c2827c3b14a5601beea10b9e345ba07c3e66e0922dcf2bd24b9529bf8c1"
+      },
+      "parent_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+      "source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+      "gzip_sha256": "705acfee06a135cfba827c55707b4b9b0e0c19d24afd406cdb91b3c86f23fd33",
+      "gzip_bytes": 71346,
+      "members": 15,
+      "changed_source_and_test_sha256": {
+        "scripts/wm02/fusion_task_phase_xyz_feedback_continuation_check_v5.py": "3cd123a193d38381cfdf0c1258461053dbeff2f10c3f3ebd64c848cc63070a64",
+        "src/go2arx5_vla/world_model/auto1_native.py": "f0f3437c8da1936de7c8a946a7eee5b1ed70390e0d1a99805b0fd7e58d627d9e",
+        "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "51f68587ef8b282e41a48aad5de6823d3654d9c156a061616ed9c387ac6b6f52",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_contract_v5.py": "fa8d8f18a323a9ecbda44fc5dba875598968fbf28c934838c4e5a4c79cb32a08",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_native_v5.py": "bcebde448c8d031cb462411ce882b1f37a033d618c14dc5961a40c474b46297b",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_v5.py": "98f8902581430f13f8153d332a9dc8241096b55b5175819c608e4b58e0f22cb3",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_evidence.py": "ad9dfd7c3495a93aab207932933cb772451b675e7ad34de6ed27037e7e5c88cb",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py": "b92907853f409286e3ece1af6e32e1fa271d40bfae8d22c1f1784ed6e4a33b42",
+        "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_v4.py": "3752683e78e055eac0f81c65866d5d2f315962f55474cbcc6f2fb9be2e98d5b1",
+        "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "75bc91af3052ce9e4ea7b7097dee0df937d48e59837ecffe97bee82b675dd6e9",
+        "src/go2arx5_vla/world_model/target_sequential.py": "d5e323c0793ed63de38ec16c421a27ac1cdc9e57d1375396f9c373502124ec73",
+        "tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py": "d1c05de339fb740c73ebc060d30e50b2b7e4de9009317081be91c6028037bf7a"
+      }
+    },
+    "source_observation_role": "RETAINED_SOURCE_CONFIRM_OBSERVATION_USED_AS_CALIBRATION_REFERENCE_NOT_RECLASSIFIED_AS_TRAINING_OR_EXPERT_ACTION_LABEL"
+  },
+  "gate_audit": {
+    "status": "VERIFIED_AGGREGATE_EXECUTION_MEASUREMENT_GATE_FAIL_NO_NEXT_GRADE",
+    "child_exit_code": 0,
+    "original_native_environment_used": true,
+    "python_version": "3.12.3",
+    "numpy_version": "2.5.4",
+    "all_original_aggregate_execution_and_causal_reference_joins_verified": true,
+    "actual_feedback_decisions": 4,
+    "complete_task_atoms": 680,
+    "complete_25tick_physics_transitions": 780,
+    "actual_rolling_references": 99,
+    "imported_recorded_source_members_verified": 51,
+    "measurement_predicates": {
+      "actual_cube_distance": true,
+      "actual_open": true,
+      "continuous_relative_hold": true,
+      "cube_still": true,
+      "full_grade": false,
+      "lateral": false,
+      "no_contact": true,
+      "orientation": false,
+      "original_safety": true,
+      "position": false
+    },
+    "nine_non_full_grade_initialization_gate": false,
+    "next_grade_authorized_by_this_reader": false,
+    "result_sha256_externally_pinned": true,
+    "raw_ROS_or_policy_logs_independently_reread": false,
+    "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+    "saved_original_FK_witness_rejoined_not_independently_recomputed": true,
+    "write_before_install_chronology": "PINNED_PRODUCER_CODE_AND_SAVED_RECORDS_NOT_AN_INDEPENDENT_WALLCLOCK_LEDGER",
+    "effects": {
+      "FK": 0,
+      "integrations": 0,
+      "model_loads": 0,
+      "permission_changes": 0,
+      "queries": 0,
+      "registrations": 0,
+      "writes": 0
+    },
+    "audit_exit0_is_not_measurement_gate_pass": true,
+    "recompute_rejection_in_this_V5_audit": false,
+    "different_Python_or_NumPy_environment_is_not_interchangeable_for_exact_recomputation": true
+  },
+  "sealed_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 39212836,
+      "sha256": "71ef719414a3ece66c4b5d5db101f4519be9ab35518442b90f1f27b37847bc44"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 136562176,
+      "sha256": "35e99f1f11cd2088c03dc679a0ffac817c3b09ab70b3ac37bb805dd0abd8058a"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "bytes": 37121815,
+      "sha256": "fa2f477024118b6e84c2c96bcbeead64c0ad818c6549ffc83219349cf8846d1e"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "8fd7cdb74ecc2d96316f67ff3fe8a648307c04a12aeef6ea57636a0ec16e8f80"
+    }
+  ],
+  "cost": {
+    "source_staging": {
+      "wall_s": 188.13417190127075,
+      "CPU_s": 1.426715977,
+      "copied_parent_members": 3371,
+      "copied_parent_bytes": 45347232,
+      "overlay_members": 15,
+      "overlay_written_bytes": 264592,
+      "actual_source_bytes_written": 45611824,
+      "unlisted_assets_or_cache_copied": 0,
+      "CPU_scope": "DISPATCHER_PROCESS_CPU_ONLY_EXCLUDES_READ_ONLY_CHILD_CPU",
+      "source_stage_separate_from_worker": true
+    },
+    "worker_wall_s": 365.85918318806216,
+    "worker_own_CPU_s": 206.75400672499998,
+    "worker_child_CPU_s": 545.6583370000001,
+    "native_function_wall_s": 362.2717406717129,
+    "native_function_own_CPU_s": 204.195226881,
+    "systemd_CPU_s": 756.043671,
+    "systemd_peak_memory_bytes": 3240271872,
+    "read_only_gate_audit": {
+      "inner_wall_s": 0.5278819347731769,
+      "inner_own_CPU_s": 0.49787332,
+      "wrapper_wall_s": 0.5999244209378958,
+      "wrapper_own_CPU_s": 0.002350691999999998,
+      "wrapper_child_CPU_s": 0.565361,
+      "effects": {
+        "FK": 0,
+        "integrations": 0,
+        "model_loads": 0,
+        "permission_changes": 0,
+        "queries": 0,
+        "registrations": 0,
+        "writes": 0
+      },
+      "included_in_native_worker_or_physics_counts": false
+    },
+    "timing_fields_overlap_do_not_sum": true,
+    "CPU_fields_measure_different_scopes_do_not_sum_with_systemd": true,
+    "GPU_queries": 0,
+    "optimizer_updates": 0
+  },
+  "actual_run_effects": {
+    "VLA_queries": 0,
+    "VLA_inferences": 0,
+    "VLA_action_installations": 0,
+    "original_Processor_decodes": 0,
+    "new_learned_model_readbacks": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "optimizer_updates": 0,
+    "full_tasks": 0,
+    "WBC_changes": false,
+    "physics_dt_s": 0.002,
+    "scene_changes": false,
+    "cube_changes": false,
+    "note": "The native simulator and its original measured-state FK reader run normally; zero learned-model/query counts do not mean zero native physics or zero native model use."
+  },
+  "retained_prior_scientific_conclusions": {
+    "original_192_frozen_native_negative_result_changed": false,
+    "previous_V3_point1_goal_failure_retained": true,
+    "previous_V4_point1_goal_pass_retained": true,
+    "GR00T_plus_minus_WM_control_comparisons": 0,
+    "learned_model_or_Actor_benefit_established": false,
+    "earlier_query_success_or_source_outcome_attribution_not_strengthened_by_this_calibration": true
+  },
+  "limits": [
+    "One registered target parent, one independent restart at this grade; generated knots and overlapping windows are not independent episodes or confidence-interval replicates.",
+    "This is ordinary calibration using measured object truth solely for a separately recorded geometric goal and diagnostics. It installs no GR00T action, trains no WM, and establishes no task success, zero-shot transfer, or online VLA result.",
+    "A full 100% task-phase initialization has not completed; .25 position, lateral and orientation failed despite safe complete native execution and passing hold/contact/open/safety diagnostics.",
+    "The aggregate audit verifies pinned producer records, four saved decisions, all consumption windows and rolling references. It does not independently replay raw ROS/policy-selection logs or compute new FK.",
+    "No matched HOLD continuation exists; sequential error reduction and actual motion cannot be treated as a same-state counterfactual, response Jacobian, model innovation, or causal gain.",
+    "The historical source observation retains its original confirmation role; it is not relabeled as a new TRAIN/DEV sample or expert action label."
+  ],
+  "next": {
+    "status": "V5_POINT5_DEFERRED_BECAUSE_POINT25_POSITION_LATERAL_ORIENTATION_FAIL",
+    "point5_dispatched": false,
+    "point5_template_executed": false,
+    "automatic_grade_chain": false,
+    "deferred_template_guard": "DEFERRED_BECAUSE_V5_POINT25_POSITION_LATERAL_ORIENTATION_FAIL",
+    "unrun_pre_deferred_template_sha256": "7d32d7eea3af4ec9b5095a669aaf5e9e25ec75a1faa5a8a3941038a47c28f1d7",
+    "deferred_template_sha256": "b073282d08d6445a2d4ec6341fe9312e6b444fea562133f19345e3a81bd7b689",
+    "same_point25_finite_XYZ_plus_SO3_ordinary_repair": "SEPARATE_IMPLEMENTATION_IN_PROGRESS_NOT_EXECUTED_OR_QUALIFIED_BY_THIS_REPORT",
+    "available_next_execution_command": null
+  },
+  "publication": {
+    "private_host_paths_included": false,
+    "raw_state_or_pose_matrices_included": false,
+    "raw_policy_actions_or_pixels_included": false,
+    "only_sanitized_identities_scalar_metrics_and_aggregate_XYZ_deltas": true,
+    "source_or_status_modified_by_report_writer": false
+  }
+}
