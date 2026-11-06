@@ -1,6 +1,7 @@
 """Synthetic lifecycle seam only; no query, physics or native qualification."""
 import copy
 import json
+import struct
 import numpy as np
 import pytest
 
@@ -18,13 +19,20 @@ def prepare(recipe, tmp_path, monkeypatch, *, continuation=True):
     boundary = contract.endpoint(episode)
     if continuation:
         spec.update(phase=PHASE, kind='FUSION_TASK_PHASE_LIVE_SKILL_V8',
-                    live_skill_start_step=boundary, max_ticks=boundary+50)
+                    live_skill_start_step=boundary, max_ticks=boundary+50,
+                    trajectory_trace_capacity=524288)
 
     class Adapter(FakeAdapter):
         def __init__(self):
             super().__init__(spec, tmp_path)
             self.trace_sealed = False
             self.order = []
+
+        def prepare_dynamic(self):
+            super().prepare_dynamic()
+            if continuation:
+                from go2arx5_vla.world_model.init_trace_reader import RECORD
+                (self.output/'init.trace').write_bytes(struct.pack('<8sII',b'WM02IT01',RECORD.size,524288))
 
         def install_reference(self, action):
             # The fixture checks the prefix recipe, while the new explicit

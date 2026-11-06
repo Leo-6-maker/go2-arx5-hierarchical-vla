@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793984759.0933263,
+  "snapshot_epoch": 1793985970.38923,
   "implementation_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "cdced494d46bd4df1930142317244b2da1ba9229",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; V8_FULL1_FADE_CLOSED1_FUTURE_JOINT4_CERT_REJECT_AT24003",
+  "live_process_state": "COLD; GRADED_LIVE_ENTRY_IMPLEMENTED_TESTED_NOT_DEPLOYED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 286,
   "FUSION_native_passes": 281,
@@ -270,10 +270,11 @@
     "TASK_PHASE_POSE_CONTINUATION_FULL1_FAILURE_ACTUAL_V7.json",
     "TASK_PHASE_FULL1_REFERENCE_GEOMETRY_ACTUAL_V1.json",
     "TASK_PHASE_BIAS_FADE_IMPLEMENTATION_V8.json",
-    "TASK_PHASE_BIAS_FADE_FULL1_FAILURE_ACTUAL_V8.json"
+    "TASK_PHASE_BIAS_FADE_FULL1_FAILURE_ACTUAL_V8.json",
+    "GRADED_SAME_WORLD_QUERY_FULL_H40_IMPLEMENTATION_V8.json"
   ],
-  "next": "Finish new graded-half same-world paused query/fullH40 entry; preserve old false full-grade readiness and use fresh original-owner paired scopes. No immediate full1 geometry grid.",
-  "next_executable": null,
+  "next": "Register fresh paired original-owner scopes for graded-half same-world capture/query/fullH40 native diagnosis after cold resources gate.",
+  "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_live_skill_check_v8 --spec FRESH_REGISTERED_GRADED_LIVE_SPEC --execute",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -479,7 +480,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "LIVE_ENTRY_IMPLEMENTATION_AND_TESTS_PENDING",
+  "next_command_status": "ONLY_AFTER_REVIEWED_ONCE_DISPATCHER_FRESH_OWNER_BOTH_ACTIVE_SCOPES_AND_RESOURCES",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -654,5 +655,14 @@
     "complete_task_windows": 860,
     "full_goal_qualified": false,
     "first_block": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP"
+  },
+  "graded_live_skill_v8": {
+    "report": "GRADED_SAME_WORLD_QUERY_FULL_H40_IMPLEMENTATION_V8.json",
+    "source_commit": "CONTAINING_IMPLEMENTATION_COMMIT",
+    "native_run_started_at_this_snapshot": false,
+    "initialization_boundary": 34303,
+    "final_endpoint": 66503,
+    "old_half_query_ready": false,
+    "task_condition": "SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE"
   }
 }

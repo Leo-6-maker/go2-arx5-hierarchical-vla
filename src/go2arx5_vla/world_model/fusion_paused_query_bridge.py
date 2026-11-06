@@ -16,6 +16,7 @@ from .storage import digest, write_json
 SCHEMA = 'WM02_FUSION_PAUSED_QUERY_PAIR_V1'
 MODE = 'PRE_REGISTERED_SINGLE_SNAPSHOT_V1'
 POSTURE_MODE = 'PRE_REGISTERED_SOURCE_POSTURE_SNAPSHOT_V2'
+LIVE_SKILL_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8'
 KEYS = {'schema', 'pair_uuid', 'query_uuid', 'native_root', 'native_run_id',
         'native_boundary_step', 'capture_index', 'gpu_root', 'task_sha256', 'scene_sha256',
         'frame_map_sha256', 'seed', 'checkpoint_manifest_sha256', 'source_sha',
@@ -45,13 +46,19 @@ def validate_pair_spec(spec):
     if spec.get('snapshot_binding_mode') == POSTURE_MODE:
         from .fusion_source_posture_paused_query_v3 import validate_pair_spec as posture_pair
         return posture_pair(spec)
+    if spec.get('snapshot_binding_mode') == LIVE_SKILL_MODE:
+        from .fusion_task_phase_live_skill_pair_v8 import validate_pair_spec as skill_pair
+        return skill_pair(spec)
     return _validate_pair_spec(spec)
 
 
 def _validate_pair_spec(spec, *, pair_schema=SCHEMA, binding_mode=MODE,
-                        boundary_step=3703, pair_keys=None):
-    """Common original-owner checks; only the explicit V3 validator varies ABI."""
+                        boundary_step=3703, pair_keys=None, producer_endpoint_step=None):
+    """Common owner checks; explicit typed modes may separate pause and end."""
     from .fusion_paused_inference import CHECKPOINT, KIND
+    need(producer_endpoint_step is None or (binding_mode == LIVE_SKILL_MODE
+         and type(producer_endpoint_step) is int and producer_endpoint_step > boundary_step),
+         'DISTINCT_PRODUCER_ENDPOINT_REQUIRES_EXPLICIT_LIVE_SKILL_MODE')
     pair_path = Path(spec['paused_query_pair'])
     need(not pair_path.is_symlink() and digest(pair_path) == spec['paused_query_pair_sha256'],
          'IMMUTABLE_PREDECLARED_PAIR_BYTES')
@@ -85,7 +92,8 @@ def _validate_pair_spec(spec, *, pair_schema=SCHEMA, binding_mode=MODE,
          and producer.get('source_sha') == spec['source_sha'] == pair['source_sha']
          and producer.get('source_root') == spec['source_root']
          and producer.get('physics') is True
-         and producer.get('max_ticks') == pair['native_boundary_step'],
+         and producer.get('max_ticks') == (pair['native_boundary_step']
+             if producer_endpoint_step is None else producer_endpoint_step),
          'ACTUAL_PRODUCER_SPEC_AND_COMMON_PAIR_NO_CIRCULAR_SHA')
     need(spec.get('kind') == KIND and spec.get('snapshot_binding_mode') == binding_mode
          and spec.get('registered_root') == str(gpu_root)
@@ -124,6 +132,9 @@ def validate_pair_capture(spec, record):
          'CAPTURE_MUST_BE_THE_PREDECLARED_ACTUAL_NATIVE_BOUNDARY')
     if spec['snapshot_binding_mode']==POSTURE_MODE:
         from .fusion_source_posture_paused_query_v3 import validate_capture_camera
+        validate_capture_camera(pair,shadow)
+    elif spec['snapshot_binding_mode']==LIVE_SKILL_MODE:
+        from .fusion_task_phase_live_skill_pair_v8 import validate_capture_camera
         validate_capture_camera(pair,shadow)
     else:
         need('sensor_adapter' not in shadow['target_observation'],
@@ -188,7 +199,7 @@ def preflight_pair(gpu_spec_path, native_spec):
              'MODEL_LOAD_INTENT.private.json','GENERATION_INTENT.private.json',
              'RESULT.private.json','FAILED.private.json')),
          'FRESH_PAIR_WITHOUT_PREVIOUS_CAPTURE_LOAD_OR_QUERY')
-    return dict(schema=pair['schema'],status='PRE_REGISTERED_PAIR_READ_ONLY_PREFLIGHT_PASSED',
+    proof = dict(schema=pair['schema'],status='PRE_REGISTERED_PAIR_READ_ONLY_PREFLIGHT_PASSED',
         pair_sha256=spec['paused_query_pair_sha256'],gpu_spec_sha256=digest(gpu_spec_path),
         producer_native_spec_sha256=spec['producer_native_spec_sha256'],
         query_uuid=pair['query_uuid'],native_boundary_step=pair['native_boundary_step'],
@@ -196,11 +207,14 @@ def preflight_pair(gpu_spec_path, native_spec):
         source_sha=pair['source_sha'],seed=pair['seed'],
         registered_scope_leases='BOTH_ACTIVE_EXACT_SPEC_SHA',
         native_execution_authorized=False,GPU_execution_authorized=False)
+    if spec['snapshot_binding_mode'] == LIVE_SKILL_MODE:
+        proof['native_endpoint_step'] = pair['native_endpoint_step']
+    return proof
 
 
 def wait_for_snapshot(spec):
     """GPU worker's one bounded wait, after original admission, before CUDA."""
-    if spec['snapshot_binding_mode'] not in (MODE,POSTURE_MODE):
+    if spec['snapshot_binding_mode'] not in (MODE,POSTURE_MODE,LIVE_SKILL_MODE):
         return
     pair, producer = validate_pair_spec(spec)
     producer_path = Path(spec['producer_native_spec'])
@@ -230,6 +244,9 @@ def _waiting_pause(adapter, record):
     # query return, rather than writing one loaded-identity snapshot per poll.
     from .fusion_paused_observation import _pause, _after_pause
     import hashlib
+    if adapter.spec.get('phase') == 'collect-target-fusion-task-phase-live-skill-v8':
+        from .fusion_task_phase_live_skill_pair_v8 import validate_native_pause
+        validate_native_pause(adapter)
     body = unseal(record)
     current = _pause(adapter)
     need(hashlib.sha256(current['raw']).hexdigest() == body['files']['STATE.private.bin']
@@ -257,19 +274,28 @@ def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path
          and binding.expected_transform_sha256 == pair['frame_map_sha256'],
          'ACTUAL_OWNER_ADAPTER_TASK_AND_FIXED_FRAME_BINDING')
     camera_kwargs = {}
-    if spec['snapshot_binding_mode'] == POSTURE_MODE:
-        from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_RECIPE
+    if spec['snapshot_binding_mode'] in (POSTURE_MODE,LIVE_SKILL_MODE):
+        if spec['snapshot_binding_mode'] == LIVE_SKILL_MODE:
+            from .fusion_task_phase_live_skill_pair_v8 import SOURCE_CAMERA_RECIPE
+        else:
+            from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_RECIPE
         if pair['camera_recipe'] == SOURCE_CAMERA_RECIPE:
             from .fusion_source_camera_capture import SourceCameraCapture
-            need(isinstance(camera_recipe,SourceCameraCapture) and camera_recipe.name == SOURCE_CAMERA_RECIPE,
+            need(isinstance(camera_recipe,SourceCameraCapture) and camera_recipe.name == SOURCE_CAMERA_RECIPE
+                 and (spec['snapshot_binding_mode'] != LIVE_SKILL_MODE or type(camera_recipe) is SourceCameraCapture),
                  'EXACT_TYPED_PREDECLARED_SOURCE_CAMERA_CAPTURE_REQUIRED')
             camera_kwargs['camera_recipe'] = camera_recipe
         else:
             need(camera_recipe is None,'ORIGINAL_CAMERA_RECIPE_CANNOT_ACCEPT_SILENT_OVERRIDE')
     else:
         need(camera_recipe is None,'PAIR_V1_ORIGINAL_CAMERA_DEFAULT_UNCHANGED')
+    if spec['snapshot_binding_mode'] == LIVE_SKILL_MODE:
+        from .fusion_task_phase_live_skill_pair_v8 import validate_native_pause
+        validate_native_pause(adapter)
     record = capture_paused_observation(adapter, binding=binding, task=task,
         task_sha256=task_sha256, query_uuid=pair['query_uuid'], capture_index=capture_index,**camera_kwargs)
+    if spec['snapshot_binding_mode'] == LIVE_SKILL_MODE:
+        validate_native_pause(adapter)
     read_payload(spec)
     # The original capture writer fsyncs its final envelope. Publish readiness
     # only after it returns and all actual members are checked, so the GPU never

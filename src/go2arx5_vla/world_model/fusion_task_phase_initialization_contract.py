@@ -77,7 +77,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-fusion-task-phase-xyz-feedback-continuation-v5', 'FUSION_TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_V5'),
          ('collect-target-fusion-task-phase-pose-feedback-v6', 'FUSION_TASK_PHASE_POSE_FEEDBACK_V6'),
          ('collect-target-fusion-task-phase-pose-continuation-v7', 'FUSION_TASK_PHASE_POSE_CONTINUATION_V7'),
-         ('collect-target-fusion-task-phase-bias-fade-v8', 'FUSION_TASK_PHASE_BIAS_FADE_V8'))
+         ('collect-target-fusion-task-phase-bias-fade-v8', 'FUSION_TASK_PHASE_BIAS_FADE_V8'),
+         ('collect-target-fusion-task-phase-live-skill-v8', 'FUSION_TASK_PHASE_LIVE_SKILL_V8'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -86,10 +87,17 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and spec.get('site_profile') == '4080-simulation' and spec.get('physics') is True
          and spec.get('scope') == 'WM02_PILOT1_SIM_ONLY' and bool(spec.get('pilot1_binding')),
          'ORIGINAL_AUTO1_P1_NATIVE_BACKEND_REQUIRED_NOT_A_GRANT')
+    live_skill = actual_phase == 'collect-target-fusion-task-phase-live-skill-v8'
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
-        'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger',
-        'paused_query_gpu_spec', 'paused_query_pair', 'snapshot_binding_mode')),
-         'SINGLE_WORLD_INITIALIZATION_WITHOUT_NEW_GPU_OR_QUERY')
+        'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
+         'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
+    if live_skill:
+        need(spec.get('snapshot_binding_mode') == 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8'
+             and bool(spec.get('paused_query_gpu_spec')) and bool(spec.get('paused_query_pair')),
+             'EXPLICIT_LIVE_PAIR_CHECKED_BY_ITS_SEPARATE_CONTRACT')
+    else:
+        need(not any(spec.get(k) for k in ('paused_query_gpu_spec', 'paused_query_pair', 'snapshot_binding_mode')),
+             'SINGLE_WORLD_INITIALIZATION_WITHOUT_NEW_GPU_OR_QUERY')
     need(spec.get('WBC_changes') is False and spec.get('physics_dt_s') == .002
          and type(spec.get('wall_limit_s')) in (int, float) and 0 < spec['wall_limit_s'] <= 1200,
          'FROZEN_WBC_2MS_FINITE_NATIVE_WALL')
@@ -103,7 +111,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
-    elif actual_phase == 'collect-target-fusion-task-phase-pose-continuation-v7':
+    elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
+                          'collect-target-fusion-task-phase-live-skill-v8'):
         from .fusion_task_phase_pose_continuation_v7 import endpoint as actual_endpoint
     elif actual_phase == 'collect-target-fusion-task-phase-pose-feedback-v6':
         from .fusion_task_phase_pose_feedback_v6 import endpoint as actual_endpoint
@@ -113,8 +122,10 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
         from .fusion_task_phase_xyz_feedback_v4 import endpoint as actual_endpoint
     else:
         actual_endpoint = recipe.endpoint
-    need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int
-         and spec['max_ticks'] == actual_endpoint(episode)
+    clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
+             and episode['geometry_scale'] == .5 and spec.get('max_ticks') == 66503) if live_skill else (
+             spec.get('max_ticks') == actual_endpoint(episode))
+    need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int and clock
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')
     catalog = _json(spec['scene_allowlist'], spec['scene_allowlist_sha256'])

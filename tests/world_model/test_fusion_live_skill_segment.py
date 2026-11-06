@@ -182,6 +182,31 @@ def run(flow):
         end_step=adapter.spec['max_ticks'], past_samples=samples, past_windows=windows)
 
 
+def test_measurement_observer_rejects_before_any_new_install(flow):
+    adapter,program,samples,windows=flow
+    def reject(sample):
+        raise ValueError('DIAGNOSTIC_SCOPE_REJECT')
+    with pytest.raises(ValueError,match='DIAGNOSTIC_SCOPE_REJECT'):
+        segment.run_consumed_segment(adapter,program,start_step=B,end_step=adapter.spec['max_ticks'],
+            past_samples=samples,past_windows=windows,sample_observer=reject)
+    assert adapter.installs==[] and adapter.advances==[]
+
+
+def test_measurement_observer_stops_after_first_actual_effect_and_preserves_failure(flow):
+    adapter,program,samples,windows=flow
+    seen=[]
+    def reject_after_effect(sample):
+        seen.append(sample['native_step'])
+        if sample['native_step']>B:raise ValueError('CONTACT_SCOPE_REJECT')
+    with pytest.raises(ValueError,match='CONTACT_SCOPE_REJECT'):
+        segment.run_consumed_segment(adapter,program,start_step=B,end_step=adapter.spec['max_ticks'],
+            past_samples=samples,past_windows=windows,sample_observer=reject_after_effect)
+    assert seen==[B,B+25] and adapter.advances==[B+25]
+    failed=json.loads((adapter.output/'LIVE_SKILL_SEGMENT.private.json').read_text())
+    assert failed['status']=='FAILED_RETAINED_NO_RETRY' and failed['complete_suffix_atoms']==0
+    assert failed['last_observed_native_step']==B+25 and not adapter.trace_sealed
+
+
 def test_fresh_install_after_query_continues_same_history_sequences_and_real_solver_join(flow):
     adapter, program, past_samples, past_windows = flow
     initial_spec = copy.deepcopy(adapter.spec)

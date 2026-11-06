@@ -143,7 +143,7 @@ def _preflight(adapter, program, start_step, end_step, samples, windows):
 
 
 def run_consumed_segment(adapter, program, *, start_step, end_step,
-                         past_samples, past_windows):
+                         past_samples, past_windows, sample_observer=None):
     """Return ``(suffix_report, all_samples, all_windows)`` without finalizing.
 
     B is ``spec.live_skill_start_step`` and E is ``spec.max_ticks``, fixed
@@ -155,6 +155,9 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
 
     atoms, history = _preflight(adapter, program, start_step, end_step,
                                 past_samples, past_windows)
+    _need(sample_observer is None or callable(sample_observer), 'CALLABLE_MEASUREMENT_OBSERVER')
+    if sample_observer is not None:
+        sample_observer(past_samples[-1])
     decision_path = adapter.output/'LIVE_SKILL_SEGMENT_DECISION.private.json'
     result_path = adapter.output/'LIVE_SKILL_SEGMENT.private.json'
     _need(not decision_path.exists() and not result_path.exists(),
@@ -248,6 +251,8 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
                 actual_packet=dict(step=after['step'], time_s=after['time_s']),
                 stage='ACTUAL_EFFECT_OBSERVED_NOT_YET_CONFIRMED')
             _sample(actual, step+25)
+            if sample_observer is not None:
+                sample_observer(actual)
             _need(after['step'] == step+25 and abs(after['time_s']-actual['time_s']) <= 1e-8,
                   'EXACT_ORIGINAL_NATIVE_PAUSE_AFTER_ATOM')
             _need(adapter.latest['mode'].data == 'WBC'

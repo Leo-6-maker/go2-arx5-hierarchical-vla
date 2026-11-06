@@ -32,7 +32,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         report_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_V4',
         goal_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_GOAL_BINDING_V4',
         decision_schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_DECISION_V4',
-        feedback_report_schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4'):
+        feedback_report_schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4', continuation=None):
     """Original lifecycle with a checked caller's typed finite fixed-law recipe."""
     from scripts.pi0292.durable import write
     from .fusion_task_phase_initialization_native import run_initialization_program
@@ -46,6 +46,8 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         from . import fusion_task_phase_pose_continuation_v7 as declared_recipe
     elif actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from . import fusion_task_phase_bias_fade_v8 as declared_recipe
+    elif actual_phase == 'collect-target-fusion-task-phase-live-skill-v8':
+        from . import fusion_task_phase_pose_continuation_v7 as declared_recipe
     else:
         raise ValueError('EXACT_KNOWN_FINITE_FEEDBACK_NATIVE_CALLER_REQUIRED')
     need(recipe_module is declared_recipe, 'EXACT_TYPED_VERSIONED_FEEDBACK_RECIPE_MODULE')
@@ -92,7 +94,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
              and measured.get('gripper_state_valid') is True and measured.get('object_present') is True,
              'ORIGINAL_SAFE_NONCONTACT_FEEDBACK_MEASUREMENT')
         update = program.prepare_feedback(step, measured['tcp'])
-        prefix = 'POSE_FEEDBACK' if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8') else 'XYZ_FEEDBACK'
+        prefix = 'POSE_FEEDBACK' if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8') else 'XYZ_FEEDBACK'
         paths = {name: adapter.output/f'{prefix}_{len(receipts)+1:02d}_{name}' for name in (
             'STATE.bin', 'MEASURED.private.json', 'REFERENCE_PATH.private.json',
             'REMAINING_PATH.private.json', 'H40.private.json', 'DECISION.private.json')}
@@ -133,7 +135,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         program.commit_feedback(update, saved_decision_sha256=receipt['decision_sha256'])
         receipts.append(receipt)
         event = ('finite-xyz-so3-feedback-saved-before-reference-install'
-            if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8')
+            if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8')
             else 'finite-xyz-feedback-saved-before-reference-install')
         adapter.command_event(dict(phase=event, **receipt))
         return True
@@ -156,7 +158,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
             causal_completed_window_feedback=True, ordinary_feedback_not_model_benefit=True,
             original_windows_retain_ACK_solver_pose_and_gripper_consumption=True,
             WM_updates=0, VLA_queries=0, Actor_updates=0)
-        if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8'):
+        if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8'):
             rows = program.evidence()['feedback_decisions']
             report['finite_xyz_feedback'].update(
                 nonzero_SO3_corrections=sum(row['applied_rotation_norm_rad'] > 0 for row in rows),
@@ -171,7 +173,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         historical_terminal_tracking_error_used=False, learned_reference_adapter_used=False,
         ordinary_XYZ_feedback_commissioning_not_WM_or_VLA_gain=True,
         independent_restart_not_complete_MPC_state_fork=True)
-    if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8'):
+    if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8'):
         context['ordinary_XYZ_SO3_feedback_commissioning_not_WM_or_VLA_gain'] = True
 
     return run_initialization_program(adapter, episode, source, recipe_module=recipe,
@@ -179,4 +181,4 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         goal_schema=goal_schema,
         reference_calibration_factory=freeze, before_preview=before_preview,
         report_extension=extend_report,
-        report_context=context)
+        report_context=context, continuation=continuation)
