@@ -1,0 +1,310 @@
+{
+  "schema": "WM02_FINITE_XYZ_FEEDBACK_CONTINUATION_IMPLEMENTATION_V5",
+  "status": "IMPLEMENTED_RELATED_TESTS_PASS_ACTUAL_V5_NOT_RUN",
+  "implementation_base_source_sha": "342d477163c97a97e042cca77c041b8022b0fb0a",
+  "scientific_scope": {
+    "condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_GRADED_V5",
+    "qualified_predecessor_condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_V4",
+    "purpose": "ADJACENT_GRADED_INITIALIZATION_QUALIFICATION_WITH_THE_SAME_FINITE_ORDINARY_FEEDBACK_LAW",
+    "new_WM_or_VLA_gain_claim": false,
+    "formal_GR00T_B0_B1_condition": false,
+    "repeat_qualified_point1": false,
+    "revive_deferred_static_V3_point25": false,
+    "larger_grade_after_failed_measurement_gate": false,
+    "learned_adapter_Actor_Critic_or_WM_training": false,
+    "full_MPC_same_state_fork_claim": false,
+    "independent_restart_desired_path_byte_equality_claim": false
+  },
+  "entry": {
+    "phase": "collect-target-fusion-task-phase-xyz-feedback-continuation-v5",
+    "kind": "FUSION_TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_V5",
+    "episode_schema": "WM02_FUSION_TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_EPISODE_V5",
+    "profile": "wm02-auto1-target",
+    "CLI_module": "scripts.wm02.fusion_task_phase_xyz_feedback_continuation_check_v5",
+    "read_only_check": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m scripts.wm02.fusion_task_phase_xyz_feedback_continuation_check_v5 --spec \"$SPEC\" --check-only",
+    "execution_route": "The same CLI with --execute delegates to the existing pilot1_native_worker. All original owner, finite scope, P1 safety, certificate, ACK, TTL and physical lifecycle checks remain mandatory.",
+    "new_scope_and_lease_required": true,
+    "CLOSED_lease_reuse": false,
+    "first_ready_candidate_only": 0.25,
+    "single_world": true,
+    "finite_wall_limit_s": 1200,
+    "new_platform_or_scheduler": false,
+    "graded_clocks": [
+      {
+        "geometry_scale": 0.25,
+        "original_ramp_atoms": 512,
+        "planned_end_atom": 624,
+        "feedback_decision_native_steps": [
+          16703,
+          17403,
+          18103,
+          18803
+        ],
+        "endpoint_native_step": 19503,
+        "complete_task_atoms_expected": 680
+      },
+      {
+        "geometry_scale": 0.5,
+        "original_ramp_atoms": 768,
+        "planned_end_atom": 880,
+        "feedback_decision_native_steps": [
+          23103,
+          23803,
+          24503,
+          25203
+        ],
+        "endpoint_native_step": 25903,
+        "complete_task_atoms_expected": 936
+      },
+      {
+        "geometry_scale": 1.0,
+        "original_ramp_atoms": 1024,
+        "planned_end_atom": 1136,
+        "feedback_decision_native_steps": [
+          29503,
+          30203,
+          30903,
+          31603
+        ],
+        "endpoint_native_step": 32303,
+        "complete_task_atoms_expected": 1192
+      }
+    ],
+    "full_generated_calibration_knots": 40,
+    "raw_VLA_knots": 0
+  },
+  "unchanged_feedback_law": {
+    "gain": 0.5,
+    "per_decision_delta_norm_cap_m": 0.004,
+    "error_norm_deadband_m": 0.005,
+    "sum_of_delta_norms_cap_m": 0.016,
+    "decisions_per_run": 4,
+    "each_move_atoms": 20,
+    "each_settle_atoms": 8,
+    "time_law": "REST_TO_REST_QUINTIC_10u3_MINUS15u4_PLUS6u5",
+    "reference_endpoint": "PREVIOUS_COMMITTED_REFERENCE_ENDPOINT_PLUS_BOUNDED_DELTA",
+    "desired_goal": "UNCHANGED_CURRENT_RESTART_REGISTERED_GRADED_GOAL_FROM_FROZEN3703_CUBE_AND_SOURCE_ROTATION",
+    "reference_orientation_gripper_and_BASE": "UNCHANGED_FROM_STATIC_FROZEN_PREDECISION_BIAS_RECIPE",
+    "clipping_is_a_GR00T_action_adapter": false,
+    "caps_are_explicit_ordinary_feedback_reference_bounds": true,
+    "unbounded_retry_dose_or_parameter_search": false
+  },
+  "first_predecessor": {
+    "source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+    "spec_sha256": "1688fa86537129306fdd74051f69a5ca095b4ba0189472abf8d79410d264f2dc",
+    "result_sha256": "01b6e25762b86c809bdb4cd679bc38de31549212f3ea76e52cfa598207b98a61",
+    "source_files_members": 3371,
+    "source_files_canonical_sha256": "bbf67f67a187c827bf52433201b5e4060e32d7f79fa7b545aafbdae3989990bb",
+    "actual_status": "CLOSED0_NATIVE_PASS_ALL_NINE_NON_FULL_GRADE_MEASUREMENTS_PASS",
+    "native_ticks": 13103,
+    "complete_task_atoms": 424,
+    "complete_25tick_physical_transitions": 524,
+    "physical_transitions_are_VLA_expert_or_WM_training_samples": false,
+    "actual_deep_read_only_gate": {
+      "status": "ALL_AGGREGATE_EXECUTION_AND_CAUSAL_REFERENCE_JOINS_VERIFIED",
+      "actual_reference_renewals": 62,
+      "actual_feedback_decisions": 4,
+      "imported_recorded_source_members_verified": 49,
+      "wall_s": 0.4290015040896833,
+      "CPU_s": 0.387229033,
+      "new_integrations": 0,
+      "FK": 0,
+      "models": 0,
+      "queries": 0,
+      "writes": 0
+    },
+    "sealed_data": [
+      {
+        "basename": "state.bin.journal",
+        "bytes": 26344676,
+        "sha256": "ae07014897cebb90dc6deb8e77b64c8603e2f8a66cf378450950aabbb1e9ba1d"
+      },
+      {
+        "basename": "init.trace",
+        "bytes": 86329336,
+        "sha256": "eb908bbf966465593fed234a966f77cdf3aaf5a6fac620f04a1b7eaf3c3fc99c"
+      },
+      {
+        "basename": "TRAJECTORY_QUALIFICATION.private.json",
+        "bytes": 22481510,
+        "sha256": "34624df962ef57af2c6d5ee6d7d8dc0523573b88847c0fdadbbf9a1a093dd53e"
+      },
+      {
+        "basename": "state.bin",
+        "bytes": 2008,
+        "sha256": "6b4054ec6113370827f9403a62dc0b28cdda59b2bfc773997a7b9fb674005bf9"
+      }
+    ]
+  },
+  "gate_reconstruction": {
+    "first_point25": "Exact qualified V4 point1 source/spec/result, original CLOSED0 worker join and complete native/trace proof.",
+    "later_grades": "Only the immediately preceding V5 registered grade, identical V5 source SHA, source root and all required source-member identities.",
+    "saved_measurement_requirement": "Rehash original3703 packet/MEASURED/goal binding and nine complete terminal samples; recompute the exact frozen goal and all nine non-full-grade measurement predicates. Match terminal TCP/fingers to the corresponding original consumed windows.",
+    "saved_feedback_requirement": "Recompute every saved decision from its same-clock packet/MEASURED/FK witness and unchanged goal. Rejoin saved prior complete window, path/remaining path/H40, gain/deadband/norm caps and cumulative path length.",
+    "rolling_execution_requirement": "For every25-tick atom, match its actual installed wire and full40 rolling suffix to the committed reference revision, original aggregate ACK, solver target, source TTL, gripper sequence/memory and unchanged BASE. Match the final reconstructed program evidence and path hashes to RESULT.",
+    "all_nine_non_full_grade_predicates_required": true,
+    "full_grade_flag_matches_actual_grade": true,
+    "query_ready_is_execution_grant": false,
+    "raw_ROS_or_policy_logs_independently_reread": false,
+    "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+    "saved_original_FK_witness_is_new_FK_proof": false,
+    "global_presence_of_previously_loaded_backends_is_rejected": false,
+    "function_calls_model_or_FK_or_step": false
+  },
+  "numerical_identity_and_retained_engineering_findings": {
+    "strict_runtime": "Recorded absolute spec.python virtual-environment path AND resolved Python binary; original single-thread OMP/OPENBLAS/MKL environment.",
+    "different_venv_same_base_python_accepted": false,
+    "tolerance_replaces_saved_frozen_hash": false,
+    "readiness_thresholds_relaxed": false,
+    "retained_private_audit01": "A20MB read bound rejected the actual larger terminal RESULT. The bounded exact-identity terminal audit was raised to128MiB; no native rerun.",
+    "retained_private_audit02_default_environment": "Strict frozen-goal identity rejected under default Python3.12.3/NumPy1.26.4. Field diagnosis found only one full_goal_TCP_target element differing by6.938893903907228e-18 and its hash; other frozen body fields were identical.",
+    "original_native_environment_audit03": "All exact joins passed. The metadata-only numeric difference is not a physics, control-state restore or threshold failure.",
+    "synthetic_test_fixture_rejection": "The first new gate test correctly rejected an older synthetic fixture reusing one wire SHA for every renewal. The new V5 fixture now binds each synthetic wire to its own step/full40; the checker was not weakened."
+  },
+  "backward_compatibility": {
+    "old_V1_V2_V3_V4_actual_episode_identity_and_default_behavior_retained": true,
+    "private_engine_only_known_V4_V5_module_phase_pairs": true,
+    "old_V4_typed_guard_rejects_V5": true,
+    "old_V4_default_read_only_QA": {
+      "frozen_source_commit": "59db1a50e006417eab16ae2e828116b5d7775448",
+      "frozen_module_sha256": "bc0de800ed9a8a9ffc9b4c66f9f9bfc734a93a922fd4fba5b3aded72ca3f7ac0",
+      "same_synthetic_input_static_episode_exact": true,
+      "full_evidence_and_desired_reference_paths_exact_at_revisions": 5,
+      "all_four_pending_updates_exact": true,
+      "comparison_uses_tolerance": false,
+      "model_loads": 0,
+      "FK": 0,
+      "steps": 0
+    },
+    "actual_V5_manifests_relabelled_as_V4": false
+  },
+  "invariants": {
+    "WBC_or_native_controller_changes": false,
+    "physics_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "source_relative_TTL_s": 0.4,
+    "reference_renewal_cadence_s": 0.35,
+    "original_full40_native_certificate_and_install_ACK_required": true,
+    "original_contiguous_gripper_sequence_required": true,
+    "trace_capacity": 524288,
+    "original_absolute_native_limit": 33000,
+    "privileged_object_geometry_is_policy_input_or_expert_label": false,
+    "old_active_or_closed_capsules_modified": false,
+    "GPU_query_or_model_training": false
+  },
+  "frozen_source_and_test_sha256": {
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_v5.py": "98f8902581430f13f8153d332a9dc8241096b55b5175819c608e4b58e0f22cb3",
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_contract_v5.py": "fa8d8f18a323a9ecbda44fc5dba875598968fbf28c934838c4e5a4c79cb32a08",
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_native_v5.py": "bcebde448c8d031cb462411ce882b1f37a033d618c14dc5961a40c474b46297b",
+    "scripts/wm02/fusion_task_phase_xyz_feedback_continuation_check_v5.py": "3cd123a193d38381cfdf0c1258461053dbeff2f10c3f3ebd64c848cc63070a64",
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_evidence.py": "ad9dfd7c3495a93aab207932933cb772451b675e7ad34de6ed27037e7e5c88cb",
+    "tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py": "d1c05de339fb740c73ebc060d30e50b2b7e4de9009317081be91c6028037bf7a",
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_v4.py": "3752683e78e055eac0f81c65866d5d2f315962f55474cbcc6f2fb9be2e98d5b1",
+    "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py": "b92907853f409286e3ece1af6e32e1fa271d40bfae8d22c1f1784ed6e4a33b42",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "51f68587ef8b282e41a48aad5de6823d3654d9c156a061616ed9c387ac6b6f52",
+    "src/go2arx5_vla/world_model/auto1_native.py": "f0f3437c8da1936de7c8a946a7eee5b1ed70390e0d1a99805b0fd7e58d627d9e",
+    "src/go2arx5_vla/world_model/target_sequential.py": "d5e323c0793ed63de38ec16c421a27ac1cdc9e57d1375396f9c373502124ec73",
+    "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "75bc91af3052ce9e4ea7b7097dee0df937d48e59837ecffe97bee82b675dd6e9"
+  },
+  "related_validation": {
+    "unique_tests_covered_normal": 356,
+    "unique_tests_covered_optimized": 356,
+    "runs": [
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py",
+        "passed": 226,
+        "pytest_wall_s": 47.31,
+        "exit_code": 0,
+        "validation_scope": "BEFORE_FINAL_VENV_PATH_GUARD_STRENGTHENING",
+        "warning": null
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py",
+        "passed": 226,
+        "pytest_wall_s": 49.28,
+        "exit_code": 0,
+        "validation_scope": "BEFORE_FINAL_VENV_PATH_GUARD_STRENGTHENING",
+        "warning": "Expected pytest -O assertion warning; contract checks use explicit exceptions."
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+        "passed": 129,
+        "pytest_wall_s": 18.06,
+        "exit_code": 0,
+        "validation_scope": "SHARED_OLDER_ROUTES_UNCHANGED_BY_FINAL_GUARD",
+        "warning": null
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+        "passed": 129,
+        "pytest_wall_s": 18.22,
+        "exit_code": 0,
+        "validation_scope": "SHARED_OLDER_ROUTES_UNCHANGED_BY_FINAL_GUARD",
+        "warning": "Expected pytest -O assertion warning; contract checks use explicit exceptions."
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py",
+        "passed": 28,
+        "pytest_wall_s": 32.07,
+        "exit_code": 0,
+        "validation_scope": "FINAL_ONLY_AFFECTED_V5_EVIDENCE_GUARD_AND_ONE_NEW_NEGATIVE",
+        "warning": null
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py",
+        "passed": 28,
+        "pytest_wall_s": 31.78,
+        "exit_code": 0,
+        "validation_scope": "FINAL_ONLY_AFFECTED_V5_EVIDENCE_GUARD_AND_ONE_NEW_NEGATIVE",
+        "warning": "Expected pytest -O assertion warning; contract checks use explicit exceptions."
+      }
+    ],
+    "why_only_final_V5_rerun": "The final absolute-venv guard changed only the new evidence checker and added one focused negative case. Final28 V5 tests were rerun in normal and-O modes; the328 older-route tests had unchanged dependencies after their recorded passing runs.",
+    "CPU_s": "NOT_SEPARATELY_MEASURED_FOR_RELATED_LOCAL_PYTEST_PROCESSES",
+    "synthetic_native_or_FK_witnesses_are_actual_qualification": false,
+    "meaningful_negative_cases": [
+      "repeat point1 or unregistered amplitude",
+      "skip grade or change V5 source",
+      "open or incomplete predecessor lifecycle",
+      "changed rolling suffix or stale wire at a feedback decision",
+      "saved decision delta inconsistent with actual error",
+      "changed packet or remaining path",
+      "wrong dose summary",
+      "missing ACK, unconsumed gripper or dropped trace",
+      "saved hold TCP inconsistent with original consumed window",
+      "genuine failed terminal goal with otherwise complete execution",
+      "wrong native Python or alternate venv sharing the same Python binary",
+      "wrong BLAS thread environment",
+      "unknown shared engine caller and old typed program substitution"
+    ],
+    "independent_read_only_review": "Structured independent reviewer and root: no confirmed first-use blocker. Exact adjacent gate, first actual59db replay, nine-sample/window joins, fixed dose/clocks, typed installation/ACK/TTL/scope and old V4 defaults reviewed; frozen file hashes matched.",
+    "broad_regression": {
+      "status": "PASS",
+      "command": "\"$WM02_NATIVE_PYTHON\" -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py",
+      "passed": 1553,
+      "subtests_passed": 302,
+      "pytest_wall_s": 192.5,
+      "driver_wall_s": 193.78550293800072,
+      "child_CPU_s": 187.75783199999998,
+      "exit_code": 0,
+      "source_members_checked_before_and_after": 34,
+      "all_source_pins_unchanged": true,
+      "log_sha256": "898e15a86db424cd2feec6c629ac0a09869071f461f9a259587c99976d65a992",
+      "receipt_sha256": "df7e804b6f4faed08051edab19557c0472d7929d976bf28f8f142967887880d4",
+      "actual_native_or_CI_qualification": false
+    }
+  },
+  "actual_V5_effects_at_implementation_delivery": {
+    "status": "NOT_RUN",
+    "new_scope_granted": false,
+    "actual_native_integrations": 0,
+    "actual_feedback_decisions": 0,
+    "actual_task_atoms": 0,
+    "actual_model_queries": 0,
+    "actual_model_updates": 0,
+    "checkpoint_created": false,
+    "new_grade_feedback_benefit": "NOT_MEASURED"
+  },
+  "next": "After independent review, shared regression, immutable-source publication and the original fresh finite owner registration, execute only the new V5 point25 condition. Advance to point5/full1 only when its exact adjacent predecessor passes every measurement and causal execution join. Retain all failures and resource costs; no automatic retries or dose expansion.",
+  "private_host_paths_raw_state_arrays_or_assets_published": false
+}

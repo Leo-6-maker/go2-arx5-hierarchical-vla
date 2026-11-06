@@ -92,31 +92,45 @@ class FeedbackUpdate:
 @dataclass(frozen=True, init=False, eq=False)
 class FeedbackProgram(fixed.FrozenBiasProgram):
     def __init__(self, inputs, episode, initial_tcp, decision_tcp, base):
-        self._initialize(inputs, episode, initial_tcp, decision_tcp, base,
+        self._initialize_feedback(inputs, episode, initial_tcp, decision_tcp, base,
             episode_validator=episode_contract, ancestor_view=parent_recipe_view,
-            schema=SCHEMA, recipe_name=RECIPE, condition=CONDITION,
-            binding_schema='WM02_FROZEN_PREDECISION_REFERENCE_BINDING_V4')
-        n = FINAL_MOVE_ATOM+1
-        desired = self.desired_path[np.minimum(np.arange(n), 256)]
-        reference = self.reference_path[np.minimum(np.arange(n), 256)]
+            schema=SCHEMA, recipe_name=RECIPE, condition=CONDITION, baseline=BASELINE_CONDITION,
+            binding_schema='WM02_FROZEN_PREDECISION_REFERENCE_BINDING_V4',
+            decision_schema='WM02_FINITE_CAUSAL_XYZ_FEEDBACK_DECISION_V4',
+            final_step=FINAL_STEP, final_move_atom=FINAL_MOVE_ATOM,
+            ramp_atoms=256, feedback_steps=FEEDBACK_STEPS)
+
+    def _initialize_feedback(self, inputs, episode, initial_tcp, decision_tcp, base, *,
+                             episode_validator, ancestor_view, schema, recipe_name, condition, baseline,
+                             binding_schema, decision_schema, final_step, final_move_atom,
+                             ramp_atoms, feedback_steps):
+        """Fixed-law math shared only by explicit versioned typed recipes."""
+        self._initialize(inputs, episode, initial_tcp, decision_tcp, base,
+            episode_validator=episode_validator, ancestor_view=ancestor_view,
+            schema=schema, recipe_name=recipe_name, condition=condition, binding_schema=binding_schema)
+        n = final_move_atom+1
+        desired = self.desired_path[np.minimum(np.arange(n), ramp_atoms)]
+        reference = self.reference_path[np.minimum(np.arange(n), ramp_atoms)]
         object.__setattr__(self, 'desired_path', fixed._immutable(desired))
         object.__setattr__(self, 'reference_path', fixed._immutable(reference))
-        object.__setattr__(self, 'end_atom', FINAL_MOVE_ATOM)
+        object.__setattr__(self, 'end_atom', final_move_atom)
+        object.__setattr__(self, '_feedback_steps', tuple(feedback_steps))
+        object.__setattr__(self, '_feedback_decision_schema', decision_schema)
         object.__setattr__(self, '_feedback_receipts', ())
         object.__setattr__(self, '_cumulative_feedback_m', 0.)
         evidence = copy.deepcopy(self._evidence)
-        evidence.update(native_endpoint_step=FINAL_STEP,
-            baseline_condition=BASELINE_CONDITION,
+        evidence.update(native_endpoint_step=final_step,
+            baseline_condition=baseline,
             static_component_absolute_ancestor_condition=fixed.BASELINE_CONDITION,
             initial_static_reference_endpoint_TCP=matrix10_pose(reference[-1]).tolist(),
             clock=dict(atom_dt_s=.05, native_dt_s=.002, native_ticks_per_atom=25,
-                end_atom=FINAL_MOVE_ATOM, knot_indices=list(self.knot_indices)),
+                end_atom=final_move_atom, knot_indices=list(self.knot_indices)),
             reference_path_sha256=fixed._sha(reference), desired_path_sha256=fixed._sha(desired),
             online_feedback_uses_completed_actual_measurements=True,
-            original_static_ramp_atoms=256, feedback_decision_native_steps=list(FEEDBACK_STEPS),
+            original_static_ramp_atoms=ramp_atoms, feedback_decision_native_steps=list(feedback_steps),
             future_reference_placeholder='HOLD_ONLY_UNTIL_NEXT_SAVED_CAUSAL_DECISION')
         evidence['frozen_predecision_reference_binding'].update(
-            baseline_condition=BASELINE_CONDITION,
+            baseline_condition=baseline,
             static_component_absolute_ancestor_condition=fixed.BASELINE_CONDITION,
             reference_path_sha256=fixed._sha(reference), desired_path_sha256=fixed._sha(desired),
             future_online_feedback_path_known_at3703=False)
@@ -128,8 +142,8 @@ class FeedbackProgram(fixed.FrozenBiasProgram):
 
     def prepare_feedback(self, native_step, actual_tcp):
         """Calculate, but do not commit or install, one bounded reference update."""
-        need(type(native_step) is int and self.feedback_count < len(FEEDBACK_STEPS)
-             and native_step == FEEDBACK_STEPS[self.feedback_count], 'EXACT_NEXT_CAUSAL_FEEDBACK_STEP')
+        need(type(native_step) is int and self.feedback_count < len(self._feedback_steps)
+             and native_step == self._feedback_steps[self.feedback_count], 'EXACT_NEXT_CAUSAL_FEEDBACK_STEP')
         actual = rigid(actual_tcp)
         error = self.graded_goal_TCP_target[:3, 3]-actual[:3, 3]
         error_norm = float(np.linalg.norm(error))
@@ -159,7 +173,7 @@ class FeedbackProgram(fixed.FrozenBiasProgram):
              and np.array_equal(path[:atom], self.reference_path[:atom]),
              'XYZ_ONLY_FUTURE_REFERENCE_SUFFIX_PAST_ORIENTATION_GRIPPER_UNCHANGED')
         preview = path[np.minimum(atom+np.arange(40), self.end_atom)]
-        proof = dict(schema='WM02_FINITE_CAUSAL_XYZ_FEEDBACK_DECISION_V4',
+        proof = dict(schema=self._feedback_decision_schema,
             decision_index=self.feedback_count, native_step=native_step,
             actual_TCP=actual.tolist(), unchanged_desired_goal_TCP=self.graded_goal_TCP_target.tolist(),
             error_world_xyz_m=error.tolist(), error_norm_m=error_norm,
@@ -196,7 +210,7 @@ class FeedbackProgram(fixed.FrozenBiasProgram):
             dict(copy.deepcopy(update.evidence), saved_decision_sha256=saved_decision_sha256)))
 
     def require_decisions_through(self, native_step):
-        need(self.feedback_count == sum(step <= native_step for step in FEEDBACK_STEPS),
+        need(self.feedback_count == sum(step <= native_step for step in self._feedback_steps),
              'NO_SCHEDULED_REFERENCE_WITHOUT_COMMITTED_SAVED_CAUSAL_DECISION')
 
     def evidence(self):

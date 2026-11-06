@@ -23,10 +23,29 @@ def validate_adapter_install(adapter, action):
 
 
 def run(adapter):
-    from scripts.pi0292.durable import write
     from .fusion_task_phase_xyz_feedback_contract_v4 import episode_config
-    from .fusion_task_phase_initialization_native import run_initialization_program
     episode, source = episode_config(adapter.spec)
+    return run_feedback_program(adapter, episode, source)
+
+
+def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actual_phase=PHASE,
+        report_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_V4',
+        goal_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_GOAL_BINDING_V4',
+        decision_schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_DECISION_V4',
+        feedback_report_schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4'):
+    """Original lifecycle with a checked caller's typed finite fixed-law recipe."""
+    from scripts.pi0292.durable import write
+    from .fusion_task_phase_initialization_native import run_initialization_program
+    if actual_phase == PHASE:
+        from . import fusion_task_phase_xyz_feedback_v4 as declared_recipe
+    elif actual_phase == 'collect-target-fusion-task-phase-xyz-feedback-continuation-v5':
+        from . import fusion_task_phase_xyz_feedback_continuation_v5 as declared_recipe
+    else:
+        raise ValueError('EXACT_KNOWN_FINITE_FEEDBACK_NATIVE_CALLER_REQUIRED')
+    need(recipe_module is declared_recipe, 'EXACT_TYPED_VERSIONED_FEEDBACK_RECIPE_MODULE')
+    recipe = recipe_module
+    phase = actual_phase
+    steps = tuple(episode['feedback_decision_native_steps'])
     receipts = []
 
     def freeze(inputs, actual_episode, initial_tcp, decision_tcp, base):
@@ -35,9 +54,9 @@ def run(adapter):
 
     def before_preview(current_adapter, before, last_sample, closed_window):
         step = before['step']
-        if step not in recipe.FEEDBACK_STEPS:
+        if step not in steps:
             return False
-        need(current_adapter is adapter and len(receipts) == recipe.FEEDBACK_STEPS.index(step),
+        need(current_adapter is adapter and len(receipts) == steps.index(step),
              'ONE_SAVED_DECISION_PER_PREDECLARED_STEP_NO_RETRY')
         program = adapter.trajectory_program
         need(type(program) is recipe.FeedbackProgram and closed_window is not None
@@ -84,8 +103,8 @@ def run(adapter):
             os.fsync(handle.fileno())
         for name, value in documents.items():
             write(paths[name], value)
-        decision = dict(schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_DECISION_V4',
-            actual_spec_phase=PHASE, actual_spec_source_sha=adapter.spec['source_sha'],
+        decision = dict(schema=decision_schema,
+            actual_spec_phase=phase, actual_spec_source_sha=adapter.spec['source_sha'],
             episode_sha256=adapter.spec['episode_manifest_sha256'],
             original_goal_binding_sha256=digest(adapter.output/'TASK_PHASE_GOAL_BINDING.private.json'),
             decision=copy.deepcopy(update.evidence), actual_fk_witness=witness,
@@ -112,9 +131,9 @@ def run(adapter):
     def extend_report(report):
         program = adapter.trajectory_program
         need(len(receipts) == program.feedback_count == 4
-             and [row['native_step'] for row in receipts] == list(recipe.FEEDBACK_STEPS),
+             and [row['native_step'] for row in receipts] == list(steps),
              'ALL_FOUR_SAVED_FINITE_DECISIONS_REQUIRED')
-        report['finite_xyz_feedback'] = dict(schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4',
+        report['finite_xyz_feedback'] = dict(schema=feedback_report_schema,
             decisions=copy.deepcopy(receipts), actual_feedback_reference_updates=4,
             committed_feedback_decisions=4,
             nonzero_XYZ_corrections=sum(row['applied_delta_norm_m'] > 0
@@ -129,8 +148,8 @@ def run(adapter):
             WM_updates=0, VLA_queries=0, Actor_updates=0)
 
     return run_initialization_program(adapter, episode, source, recipe_module=recipe,
-        actual_phase=PHASE, report_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_V4',
-        goal_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_GOAL_BINDING_V4',
+        actual_phase=phase, report_schema=report_schema,
+        goal_schema=goal_schema,
         reference_calibration_factory=freeze, before_preview=before_preview,
         report_extension=extend_report,
         report_context=dict(initialization_condition=recipe.CONDITION,

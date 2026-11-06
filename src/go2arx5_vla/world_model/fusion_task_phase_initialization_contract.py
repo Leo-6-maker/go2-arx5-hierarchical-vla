@@ -73,7 +73,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     need((actual_phase, actual_kind) in ((PHASE, KIND),
          ('collect-target-fusion-task-phase-bias-calibration-v2', 'FUSION_TASK_PHASE_BIAS_CALIBRATION_V2'),
          ('collect-target-fusion-task-phase-bias-continuation-v3', 'FUSION_TASK_PHASE_BIAS_CONTINUATION_V3'),
-         ('collect-target-fusion-task-phase-xyz-feedback-v4', 'FUSION_TASK_PHASE_XYZ_FEEDBACK_V4'))
+         ('collect-target-fusion-task-phase-xyz-feedback-v4', 'FUSION_TASK_PHASE_XYZ_FEEDBACK_V4'),
+         ('collect-target-fusion-task-phase-xyz-feedback-continuation-v5', 'FUSION_TASK_PHASE_XYZ_FEEDBACK_CONTINUATION_V5'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -97,7 +98,9 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         need(_json(spec['episode_manifest'], spec['episode_manifest_sha256']) == episode,
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
-    if actual_phase == 'collect-target-fusion-task-phase-xyz-feedback-v4':
+    if actual_phase == 'collect-target-fusion-task-phase-xyz-feedback-continuation-v5':
+        from .fusion_task_phase_xyz_feedback_continuation_v5 import endpoint as actual_endpoint
+    elif actual_phase == 'collect-target-fusion-task-phase-xyz-feedback-v4':
         from .fusion_task_phase_xyz_feedback_v4 import endpoint as actual_endpoint
     else:
         actual_endpoint = recipe.endpoint
