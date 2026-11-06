@@ -2,7 +2,8 @@ import os
 import unittest
 from unittest.mock import patch
 
-from go2arx5_vla.world_model.fusion_scope import validate_structured_cpu, validate_target_capture_cpu
+from go2arx5_vla.world_model.fusion_scope import (
+    validate_structured_cpu, validate_target_capture_cpu, validate_corr_asset_cpu)
 
 
 class StructuredCPUAdmission(unittest.TestCase):
@@ -58,6 +59,27 @@ class StructuredCPUAdmission(unittest.TestCase):
                         validate_target_capture_cpu(spec)
             with self.assertRaises(PermissionError):
                 validate_target_capture_cpu(dict(spec, capture_steps=[3503, 3703]))
+
+    def test_fixed_source_asset_is_not_a_grant_to_load_a_model_or_use_cuda(self):
+        spec = dict(execution_site='CORE_FUSION_ASSET_CPU',
+                    profile='wm02-fusion-corr-asset-cpu', kind='FUSION_CORR_ASSET',
+                    physics=False, device='cpu', GR00T_updates=0, WBC_changes=False,
+                    original_checkpoint_manifest_sha256=
+                    '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38',
+                    manifest_sha256='ec46067a1179405d6c75081cfa333f0daa994f8e1c54bd3658eac0b5fb4eff61',
+                    data_revision='b37a3d959335b548abb45f87ad48a5186ec662d9')
+        with patch.dict(os.environ, CUDA_VISIBLE_DEVICES=''), patch(
+                'go2arx5_vla.world_model.fusion_scope.validate', return_value='original') as check:
+            self.assertEqual(validate_corr_asset_cpu(spec), 'original')
+            check.assert_called_once_with(spec)
+            for key, value in [('manifest_sha256', 'e1-other-model'), ('physics', True),
+                               ('device', 'cuda'), ('GR00T_updates', 1),
+                               ('data_revision', 'main')]:
+                with self.subTest(key=key), self.assertRaises(PermissionError):
+                    validate_corr_asset_cpu(dict(spec, **{key: value}))
+            with patch.dict(os.environ, CUDA_VISIBLE_DEVICES='GPU-0'):
+                with self.assertRaises(PermissionError):
+                    validate_corr_asset_cpu(spec)
 
 
 if __name__ == '__main__':

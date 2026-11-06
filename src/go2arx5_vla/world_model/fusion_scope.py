@@ -143,6 +143,23 @@ def validate_target_capture_cpu(spec):
     return validate(spec)
 
 
+def validate_corr_asset_cpu(spec):
+    """Stage only the already published, fixed source CORR inference files."""
+    if (spec.get('execution_site') != 'CORE_FUSION_ASSET_CPU'
+            or spec.get('profile') != 'wm02-fusion-corr-asset-cpu'
+            or spec.get('kind') != 'FUSION_CORR_ASSET'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('GR00T_updates') != 0 or spec.get('WBC_changes') is not False
+            or spec.get('original_checkpoint_manifest_sha256') !=
+                '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
+            or spec.get('manifest_sha256') !=
+                'ec46067a1179405d6c75081cfa333f0daa994f8e1c54bd3658eac0b5fb4eff61'
+            or spec.get('data_revision') != 'b37a3d959335b548abb45f87ad48a5186ec662d9'
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''):
+        raise PermissionError('FIXED_SOURCE_CORR_INFERENCE_ASSET_CPU_ONLY_REQUIRED')
+    return validate(spec)
+
+
 def register(path):
     """Register once under the same canonical locks, only after the sealed batch.
 

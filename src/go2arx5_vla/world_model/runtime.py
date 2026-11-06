@@ -75,6 +75,14 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
             local_path(spec, spec[key])
         validate_target_capture_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_ASSET_CPU':
+        from .fusion_scope import validate_corr_asset_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('SOURCE_CORR_ASSET_STAGING_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
+            local_path(spec, spec[key])
+        validate_corr_asset_cpu(spec)
     if gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
         import subprocess
         from .fusion_scope import validate_gpu
