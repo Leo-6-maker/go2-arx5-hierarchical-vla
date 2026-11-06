@@ -1,0 +1,256 @@
+{
+  "schema": "WM02_FUSION_SEMANTICS_AND_OBSERVATION_ACTUAL_V1",
+  "snapshot_SGT": "2026-11-06T13:11:49.764103+08:00",
+  "implementation_source_sha": "7c12085a6c858b914423f14b425539fa6e224f1e",
+  "active_native_source_sha": "0f235865a30f94cd877b7648598823d2039fa6ae",
+  "new_code_deployed": false,
+  "proposal_action_sha256": "0eb9040757d8fc4dc3922dc51ff2c839f043a69b754c159fa60301f2fe133a4e",
+  "original_source_gate": {
+    "decision": "REJECT",
+    "issues": [
+      {
+        "code": "LINEAR_SPEED_REJECT",
+        "severity": "REJECT",
+        "message": "linear_speed exceeds rejection threshold (m/s)",
+        "provenance": "TEST_ONLY",
+        "observed": 4.968442457823003,
+        "threshold": 2.0
+      },
+      {
+        "code": "ANGULAR_SPEED_REJECT",
+        "severity": "REJECT",
+        "message": "angular_speed exceeds rejection threshold (rad/s)",
+        "provenance": "TEST_ONLY",
+        "observed": 15.231470776199435,
+        "threshold": 4.0
+      },
+      {
+        "code": "PATH_LENGTH_SANITY",
+        "severity": "REJECT",
+        "message": "trajectory translation path exceeds the configured test envelope",
+        "provenance": "TEST_ONLY",
+        "observed": 5.628811567669246,
+        "threshold": 5.0
+      }
+    ],
+    "metrics": {
+      "chunk_id": "fusion-source-gate-readonly",
+      "linear_speed_mps": {
+        "mean": 2.886570034702177,
+        "median": 2.97789958801111,
+        "p95": 4.581057217580983,
+        "max": 4.968442457823003
+      },
+      "angular_speed_radps": {
+        "mean": 6.39554405242713,
+        "median": 5.643124642497378,
+        "p95": 14.589335574998639,
+        "max": 15.231470776199435
+      },
+      "translation_path_length_m": 5.628811567669246,
+      "se3_arc_length_m": 6.0870576357355795,
+      "initial_position_discontinuity_m": 0.07078525332768598,
+      "initial_rotation_discontinuity_rad": 0.07176947843869912,
+      "chunk_age_s": 0.0
+    },
+    "provenance": {
+      "gate": "TrajectorySafetyGateV1",
+      "corrective_action": "NONE",
+      "threshold_provenance": {
+        "initial_position_warn_m": "BENCHMARK_DERIVED",
+        "initial_position_reject_m": "BENCHMARK_DERIVED",
+        "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+        "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+        "linear_speed_warn_mps": "TEST_ONLY",
+        "linear_speed_reject_mps": "TEST_ONLY",
+        "angular_speed_warn_radps": "TEST_ONLY",
+        "angular_speed_reject_radps": "TEST_ONLY",
+        "workspace_warn_min_m": "GENERATOR_SUPPORT",
+        "workspace_warn_max_m": "GENERATOR_SUPPORT",
+        "workspace_reject_min_m": "TEST_ONLY",
+        "workspace_reject_max_m": "TEST_ONLY",
+        "max_path_length_m": "TEST_ONLY",
+        "min_arc_length_m": "CONTROLLER_CONTRACT",
+        "aging_age_s": "CONTROLLER_CONTRACT",
+        "stale_age_s": "CONTROLLER_CONTRACT",
+        "min_points": "CONTROLLER_CONTRACT"
+      }
+    }
+  },
+  "frozen_processor_audit": {
+    "schema": "WM02_FUSION_FROZEN_PROCESSOR_CLIP_AUDIT_V1",
+    "physical_channels": [
+      "x",
+      "y",
+      "z",
+      "r00",
+      "r01",
+      "r02",
+      "r10",
+      "r11",
+      "r12",
+      "mechanical_open_fraction"
+    ],
+    "outside_unit_components": 136,
+    "outside_unit_components_by_channel": [
+      12,
+      7,
+      9,
+      15,
+      13,
+      16,
+      17,
+      24,
+      11,
+      12
+    ],
+    "affected_points": 40,
+    "raw_used_min_by_channel": [
+      -1.6592791080474854,
+      -2.2062482833862305,
+      -2.4240777492523193,
+      -0.8065567016601562,
+      -2.1626386642456055,
+      -2.5219132900238037,
+      -2.7243523597717285,
+      -1.5185627937316895,
+      -2.5566868782043457,
+      -1.9519494771957397
+    ],
+    "raw_used_max_by_channel": [
+      2.0717475414276123,
+      1.5320873260498047,
+      3.0865635871887207,
+      2.5197935104370117,
+      2.0585877895355225,
+      2.199181318283081,
+      2.1443912982940674,
+      2.7935895919799805,
+      1.7655394077301025,
+      2.02026104927063
+    ],
+    "original_processor_inverse_clip": true,
+    "inverse_clip_source": "FROZEN_UNNORMALIZE_VALUES_MINMAX_IMPLEMENTATION",
+    "original_processor_or_weights_changed": false,
+    "fusion_clipping_applied": false,
+    "source_command_is_measured_outcome": false,
+    "physical_execution_authorized": false
+  },
+  "mechanical_gripper_audit": {
+    "source_semantics": "MECHANICAL_OPEN_FRACTION_ABSOLUTE",
+    "source_min": 0.0,
+    "source_max": 1.0,
+    "target_working_mechanical_fraction": [
+      0.045454545454545456,
+      0.9545454545454547
+    ],
+    "outside_working_stroke_points": 14,
+    "outside_working_stroke_indices": [
+      0,
+      2,
+      4,
+      8,
+      9,
+      11,
+      13,
+      15,
+      19,
+      27,
+      31,
+      34,
+      36,
+      39
+    ],
+    "target_stroke_compatible": false,
+    "rescaled_or_clamped": false,
+    "teacher_logical_fraction_conversion_applied": false,
+    "native_admission": "NOT_GRANTED_BY_STROKE_AUDIT"
+  },
+  "geometry": {
+    "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_result_sha256": "112c10f7d28ab346ff41245b9e3bb9ed5f7f5eb9dc464f042055d7d52d0f94f5",
+    "journal_sha256": "4d75842eb6059e76ae5567f813f7440671b32a45ac61caad9a898c4333211985",
+    "capture_steps": [
+      3503,
+      3703,
+      4103
+    ],
+    "all_cube_corners_in_both_camera_frusta": true,
+    "occlusion_tested": false,
+    "images_captured": 0,
+    "renderers_created": 0
+  },
+  "target_capture_input_preflight": {
+    "status": "READ_ONLY_CAPTURE_INPUT_PREFLIGHT_PASS",
+    "exit_code": 0,
+    "original_native_ticks": 4103,
+    "original_packets_used_as_new_transitions": false
+  },
+  "coordinate_relation": {
+    "status": "EXPLICIT_KINEMATIC_BASE_FRAME_RELATION_NOT_VISION_OR_BEHAVIOR_QUALIFICATION",
+    "map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_model_xml_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+    "same_mount_chain": [
+      "base_link",
+      "x5_base_link",
+      "x5_link1"
+    ],
+    "anchor_step": 3703,
+    "camera_equivalence": false,
+    "source_outcomes_supplied": false,
+    "native_execution_authorized": false
+  },
+  "dependencies": {
+    "OSMesa_loadable": false,
+    "EGL_loadable": true,
+    "new_backend": "EXISTING_CPU_EGL_MESA_SOFTWARE",
+    "actual_renderer_qualification": "NOT_RUN"
+  },
+  "pending": {
+    "structured_real_data_fits": 0,
+    "structured_optimizer_updates": 0,
+    "target_capture_pairs": 0,
+    "target_VLA_queries": 0
+  },
+  "active_DEV_panel": {
+    "status": "ACTIVE",
+    "completed_pairs": 38,
+    "completed_evaluations": 76,
+    "completed_qualifications": 3,
+    "native_passed": 79,
+    "evidence_valid": 79,
+    "native_ticks": 324137,
+    "panel_terminal": false,
+    "resource_cost_status": "OPEN",
+    "systemd_CPU_s_snapshot": 5807.005864,
+    "MemoryPeak_bytes_snapshot": 3948982272
+  },
+  "FUSION_before_live_panel": {
+    "native_passed": 64,
+    "native_ticks": 262592,
+    "real_response_windows": 48,
+    "real_postchoice_transitions": 768,
+    "main_optimizer_calls": 12200,
+    "completed_main_updates": 12000,
+    "failed_without_checkpoint_optimizer_calls": 200,
+    "restore_probe_calls": 6,
+    "actual_VLA_queries": 1,
+    "Actor_updates": 0,
+    "GR00T_updates": 0
+  },
+  "new_effects_of_audits": {
+    "native_integrations": 0,
+    "optimizer_updates": 0,
+    "VLA_queries": 0,
+    "source_gate_wall_s": 0.021593880839645863,
+    "geometry_wall_s": 0.2856780611909926,
+    "geometry_CPU_s": 0.284155139,
+    "frame_map02_wall_s": 0.09996845899149776,
+    "frame_map02_CPU_s": 0.09973114299999997,
+    "capture_input_preflight_wall_s": 0.584718856960535,
+    "archived_array_audit_wall_s": 0.0053736320696771145,
+    "archived_array_audit_CPU_s": 0.004647773000000001
+  },
+  "task_transfer_gain": false,
+  "CI_NOT_RUN": true
+}
