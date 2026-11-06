@@ -1,0 +1,193 @@
+{
+  "schema": "WM02_FUSION_TASK_PHASE_INITIALIZATION_ACTUAL_V1",
+  "status": "ACTUAL_CLOSED0_SAFE_CONSUMPTION_HOLD_PASS_GRADED_GOAL_NOT_REACHED",
+  "condition": "INIT_ABSOLUTE_V1",
+  "role": "KNOWN_INTENT_INITIALIZATION_CALIBRATION_NOT_GR00T_SKILL_BASELINE",
+  "source_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+  "run": "fusion-night1-task-phase-s003-01",
+  "spec_sha256": "fd15364dbe76753a677865842adb6c5d65bf62998249cbb19a5a661b241a97ec",
+  "native_result_sha256": "9c71b1d4d69d6c27c7d49d211794237f3f12f5acc3b54d48e86af2629b6cd8b4",
+  "worker_exit_sha256": "14f67362f8770e99b28cd0ff2729df80cb12ed57491d9976f3bce90c9512bf83",
+  "lease_sha256": "02db8ffc43a7847678c69119392602234ecbf39d6ad4104ebd08483691be824b",
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "MainPID": 0,
+  "physics": {
+    "native_dt_s": 0.002,
+    "actual_target_integrations": 7103,
+    "native_time_s": 14.206,
+    "complete_atomic_transitions": 284,
+    "task_atoms": 184,
+    "postdecision_program_and_tail_atoms": 136,
+    "pose_confirmed_atoms": 184,
+    "gripper_confirmed_atoms": 184,
+    "all40_generated_calibration_knots_consumed": true,
+    "raw_VLA_knots": 0
+  },
+  "native_audit": {
+    "shutdown_clean": true,
+    "reached_exact_pause": true,
+    "physics_stops": [],
+    "original_joint_or_warning_samples": 0,
+    "native_outer_guard_rejections": 0,
+    "trace_events": 51547,
+    "trace_written": 51547,
+    "trace_dropped": 0,
+    "trace_native_step_records": 7103,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    }
+  },
+  "artifact_sha256": {
+    "episode": "766ee2819e895fdfcfe673b352ba20da24013a7cdee1d7f2b86bbf29b590fb1e",
+    "goal_binding": "1dc489f6d35d3587eb07adb5b8ef7beccd7e9385d6a2494c1c8dac245935e176",
+    "goal_binding_body": "50671a1b0d06fe6cb8ef6598561ced8d26af6c3167fbce438472e4a670c1aa5c",
+    "decision_packet": "966a8e14a26a6091919b6605fd6e4b2ef42b9df3b3c5495d59f8fda34c0ce7be",
+    "readiness": "f9a8dbe50d55a93af1f9f1cc5261484462657bb31ab4e860a6371a789450496d",
+    "complete_nine_actual_hold_samples": "7f7593c0638bad8fe6ac57d5c796f53401b86c57a25ff92cbcb88634908946c1"
+  },
+  "runtime_goal": {
+    "actual_state_FK_same_packet_verified": true,
+    "actual_cube_pose_frozen_at_step3703": true,
+    "goal_binding_saved_before_new_reference_install": true,
+    "static_episode_and_spec_not_rewritten": true,
+    "object_truth_policy_input": false,
+    "source_pose_is_expert_label": false
+  },
+  "actual_readiness": {
+    "query_ready": false,
+    "predicates": {
+      "full_grade": false,
+      "position": false,
+      "lateral": false,
+      "orientation": true,
+      "actual_cube_distance": true,
+      "continuous_relative_hold": true,
+      "actual_open": true,
+      "cube_still": true,
+      "no_contact": true,
+      "original_safety": true
+    },
+    "metrics": {
+      "maximum_position_error_m": 0.025649634549416402,
+      "maximum_lateral_error_m": 0.01360224368036503,
+      "maximum_orientation_error_rad": 0.04809542980278347,
+      "minimum_actual_cube_distance_m": 0.30875558517273305,
+      "minimum_actual_finger_opening_m": 0.04193296740594948,
+      "maximum_cube_displacement_m": 0.0,
+      "maximum_cube_rotation_from_frozen_rad": 0.0,
+      "relative_hold": {
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.0001204495103127996,
+        "relative_TCP_max_speed_m_s": 0.0008015346015137243,
+        "window_s": 0.4000000000001336,
+        "diameter_threshold_m": 0.002,
+        "speed_threshold_m_s": 0.025,
+        "screen_is_native_safety": false
+      }
+    },
+    "exact_actual_sample_steps": [
+      6903,
+      6928,
+      6953,
+      6978,
+      7003,
+      7028,
+      7053,
+      7078,
+      7103
+    ],
+    "nine_sample_identity_verified": true,
+    "full_grade_false_is_expected_for_small_grade": true,
+    "graded_goal_position_and_lateral_errors_also_exceed_diagnostics": true,
+    "thresholds_are_native_safety": false,
+    "full_task_success": false
+  },
+  "cost": {
+    "worker_wall_s": 90.14626667182893,
+    "worker_own_CPU_s": 37.675026442000004,
+    "worker_child_CPU_s": 131.684254,
+    "native_function_wall_s": 88.52351686591282,
+    "native_function_own_CPU_s": 36.479254959,
+    "systemd_CPU_s": 171.107507,
+    "systemd_peak_memory_bytes": null,
+    "peak_memory_measurement": "[not set]",
+    "source_staging_CPU_not_separately_measured": true,
+    "timing_fields_overlap_do_not_sum": true,
+    "GPU_queries": 0,
+    "optimizer_updates": 0
+  },
+  "baseline_bias_readonly_diagnostic": {
+    "read_only": true,
+    "initial_reference_to_actual_decision_bias_xyz_mm": [
+      -12.471316670275122,
+      -4.56287650042444,
+      -23.658284939766403
+    ],
+    "bias_L2_mm": 27.13057367140595,
+    "actual_minus_reference_xyz_mm": [
+      -13.602152287798708,
+      -0.049862606859241154,
+      -21.7442262813875
+    ],
+    "actual_minus_reference_L2_mm": 25.6482437939952,
+    "after_subtracting_frozen_predecision_bias_xyz_mm": [
+      -1.1308356175235845,
+      4.513013893565199,
+      1.9140586583789032
+    ],
+    "residual_L2_mm": 5.030875087406535,
+    "predecision_orientation_bias_rad": 0.04812822041172454,
+    "actual_reference_orientation_error_rad": 0.04806211931806003,
+    "orientation_bias_residual_rad": 0.002674464493739626,
+    "desired_reference_endpoint_equal": true,
+    "predicted_static_reference_correction_xyz_mm": [
+      12.471316670275122,
+      4.56287650042444,
+      23.658284939766403
+    ],
+    "static_reference_correction_rotation_rule": "R_init @ R_decision.T @ R_desired; predecision measured calibration, no future achieved target labels",
+    "hypothesis": "At this single small grade, quantify how much terminal reference error is explained by frozen predecision bias; correction not yet installed, not a task or causal gain result",
+    "effects": {
+      "new_queries": 0,
+      "new_integrations": 0,
+      "FK": 0,
+      "renderer": 0,
+      "model_loads": 0,
+      "updates": 0,
+      "reference_installations": 0,
+      "writes": 0
+    },
+    "wall_s": 0.051345443818718195,
+    "CPU_s": 0.04907058500000001
+  },
+  "actual_command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_initialization_check --spec NEW_SCOPE_EXECUTION_SPEC --execute",
+  "dispatcher_sha256": "d8f60e722a46917aec17697cdf38d95fc57da4611bb3dcfbda101d466549204b",
+  "readonly_receipt_sha256": "96cf30d03fabd566e2b7616d3712504cf7ebecf4764c144f805b116a75d23456",
+  "readonly_reader_sha256": "b20db073fedef70a4e3af746128f3452927efa1f357a114d23a0b608d8d36783",
+  "baseline_bias_helper_sha256": "4d8742ae2d08f3a6071a54bd5212d7383fdfb9cfc20ae729062c41b2c852d100",
+  "scientific_interpretation": "Stable actual hold and safe complete consumption do not imply reaching the declared goal. Frozen predecision bias explains much of the observed error algebraically, but its compensation has not yet been installed or shown useful.",
+  "next": "Fresh versioned INIT_FROZEN_PREDECISION_BIAS_V2 at the same grade/desired-path algorithm/ramp/clock. Measure actual gain against the retained V1 result; independent restarts, not full-MPC same-state forks. No WM promotion or model training.",
+  "new_VLA_queries": 0,
+  "GR00T_updates": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "frozen_VLA_plus_minus_WM_skill_comparisons": 0,
+  "task_transfer_gain_established": false,
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "GR00T_checkpoint_used": null,
+    "WM_checkpoint_used": null,
+    "Actor_checkpoint_used": null
+  },
+  "existing_anchor_context": "The existing trajectory adaptation already distinguished the measured INIT reference anchor from the actual decision anchor. The new absolute-endpoint initialization did not carry that compensation. The next calibration restores this known strong simple baseline for the new world-goal recipe; any improvement is interface/calibration qualification, not new WM benefit or an E3 comparison against a deliberately weaker baseline."
+}
