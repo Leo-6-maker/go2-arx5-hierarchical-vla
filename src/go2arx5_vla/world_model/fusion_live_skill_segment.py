@@ -90,7 +90,8 @@ def _history(samples, windows):
 
 def _preflight(adapter, program, start_step, end_step, samples, windows):
     spec = adapter.spec
-    _need(spec.get('phase') == PHASE, 'EXACT_FUTURE_V8_TYPED_PHASE_REQUIRED')
+    _need(spec.get('phase') in (PHASE,'collect-target-fusion-task-phase-live-skill-v9'),
+          'EXACT_FUTURE_V8_OR_V9_TYPED_PHASE_REQUIRED')
     _need(type(program) is TrajectoryAdaptation, 'EXACT_TRAJECTORY_ADAPTATION_NO_WM_OR_DUCK_TYPE')
     _need(type(start_step) is int and type(end_step) is int
           and 2503 <= start_step < end_step
@@ -164,7 +165,7 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
           'EXISTING_ATTEMPT_MUST_NOT_BE_REPLAYED')
     samples, windows = list(past_samples), list(past_windows)
     suffix, acks, installs = [], [], []
-    report = dict(schema=SCHEMA, phase=PHASE, status='STARTED_NOT_NATIVE_QUALIFIED',
+    report = dict(schema=SCHEMA, phase=adapter.spec['phase'], status='STARTED_NOT_NATIVE_QUALIFIED',
         start_step=start_step, native_endpoint_step=end_step, finite_suffix_atoms=atoms,
         movement_interval_atoms=program.end_atom, minimum_tail_hold_atoms=TAIL_ATOMS,
         extra_final_hold_atoms=atoms-program.end_atom-TAIL_ATOMS,

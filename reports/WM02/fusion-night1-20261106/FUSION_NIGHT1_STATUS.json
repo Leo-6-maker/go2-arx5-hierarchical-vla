@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793987355.4180963,
+  "snapshot_epoch": 1793988594.6657245,
   "implementation_sha": "bfafbeed6722175ffad76e465b549b9a48adb9ab",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "bfafbeed6722175ffad76e465b549b9a48adb9ab",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; GRADED_LIVE_PAIR_BOTH_CLOSED1_PREFIX_REFERENCE_ACCELERATION_REJECT_AT30103",
+  "live_process_state": "COLD; SLOW_V9_IMPLEMENTED_TESTED_NOT_DEPLOYED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 287,
   "FUSION_native_passes": 281,
@@ -272,10 +272,11 @@
     "TASK_PHASE_BIAS_FADE_IMPLEMENTATION_V8.json",
     "TASK_PHASE_BIAS_FADE_FULL1_FAILURE_ACTUAL_V8.json",
     "GRADED_SAME_WORLD_QUERY_FULL_H40_IMPLEMENTATION_V8.json",
-    "GRADED_SAME_WORLD_QUERY_PREFIX_FAILURE_ACTUAL_V8.json"
+    "GRADED_SAME_WORLD_QUERY_PREFIX_FAILURE_ACTUAL_V8.json",
+    "SLOW_FEEDBACK_SAME_WORLD_IMPLEMENTATION_V9.json"
   ],
-  "next": "Read-only exact-prefix reference-geometry diagnosis; test versioned outer-reference repair before fresh original-owner finite scopes.",
-  "next_executable": null,
+  "next": "Register a fresh original-owner finite V9 pair after cold resources gate; consume actual full H40 only after fresh nine-predicate readiness and original certificate.",
+  "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_live_skill_check_v9 --spec FRESH_REGISTERED_V9_NATIVE_SPEC --execute",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -481,7 +482,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "READONLY_GEOMETRY_HELPER_PENDING_NO_CLOSED_SCOPE_REUSE",
+  "next_command_status": "NEW_TYPED_CLI_EXISTS_SCOPE_NOT_YET_REGISTERED",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -677,5 +678,19 @@
     "model_loads": 0,
     "new_queries": 0,
     "generated_knots_consumed": 0
+  },
+  "slow_feedback_live_v9": {
+    "implementation_report": "SLOW_FEEDBACK_SAME_WORLD_IMPLEMENTATION_V9.json",
+    "implementation_tested": true,
+    "native_deployed": false,
+    "expected_B": 34303,
+    "expected_E": 66503,
+    "feedback_slots": 12,
+    "move_atoms": 28,
+    "settle_atoms": 8,
+    "static_original_certificate_move28_max_acceleration_rad_s2": 0.5669780092500076,
+    "static_replay_is_dynamic_PASS": false,
+    "new_actual_queries": 0,
+    "new_integrations": 0
   }
 }

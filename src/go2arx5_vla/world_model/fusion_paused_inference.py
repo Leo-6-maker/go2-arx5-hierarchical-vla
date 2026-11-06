@@ -21,7 +21,9 @@ BINDING_MODE = 'SEALED_SNAPSHOT_EXACT_SHA'
 PAIR_BINDING_MODE = 'PRE_REGISTERED_SINGLE_SNAPSHOT_V1'
 POSTURE_PAIR_BINDING_MODE = 'PRE_REGISTERED_SOURCE_POSTURE_SNAPSHOT_V2'
 LIVE_SKILL_PAIR_BINDING_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8'
-PAIR_BINDING_MODES = (PAIR_BINDING_MODE, POSTURE_PAIR_BINDING_MODE, LIVE_SKILL_PAIR_BINDING_MODE)
+SLOW_LIVE_SKILL_PAIR_BINDING_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9'
+LIVE_SKILL_PAIR_BINDING_MODES = (LIVE_SKILL_PAIR_BINDING_MODE,SLOW_LIVE_SKILL_PAIR_BINDING_MODE)
+PAIR_BINDING_MODES = (PAIR_BINDING_MODE, POSTURE_PAIR_BINDING_MODE, *LIVE_SKILL_PAIR_BINDING_MODES)
 RESULT_SCHEMA = 'WM02_FUSION_LIVE_PAUSED_INFERENCE_RESULT_V1'
 CHECKPOINT = '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
 # Exact full-file inventory of the actually delivered CORR source/target draws.
@@ -97,7 +99,7 @@ def read_payload(spec):
     shadow = unseal(body['original_shadow_ABI'])
     source_sensor = shadow['target_observation'].get('sensor_adapter')
     need(source_sensor is None or spec['snapshot_binding_mode'] in (
-             POSTURE_PAIR_BINDING_MODE,LIVE_SKILL_PAIR_BINDING_MODE),
+             POSTURE_PAIR_BINDING_MODE,*LIVE_SKILL_PAIR_BINDING_MODES),
          'SOURCE_CAMERA_SENSOR_REQUIRES_EXPLICIT_POSTURE_PAIR_V2')
     if spec['snapshot_binding_mode'] in PAIR_BINDING_MODES:
         from .fusion_paused_query_bridge import validate_pair_capture
@@ -145,13 +147,17 @@ def read_payload(spec):
             capture_camera_recipe=pair['camera_recipe'],
             source_camera_identity_sha256=pair['source_camera_identity_sha256'],
             returned_VLA_action_installations=0,camera_equivalence=False)
-    elif spec['snapshot_binding_mode'] == LIVE_SKILL_PAIR_BINDING_MODE:
-        from .fusion_task_phase_live_skill_pair_v8 import PHASE, EXPERIMENT_ROLE, TASK_CONDITION
-        identity.update(producer_phase=PHASE, experiment_role=EXPERIMENT_ROLE,
-            physical_recipe_phase='collect-target-fusion-task-phase-pose-continuation-v7',
-            initialization_recipe_phase='collect-target-fusion-task-phase-pose-continuation-v7',
+    elif spec['snapshot_binding_mode'] in LIVE_SKILL_PAIR_BINDING_MODES:
+        from .fusion_paused_query_bridge import _live_pair_module
+        module = _live_pair_module(spec['snapshot_binding_mode'])
+        initialization = ('collect-target-fusion-task-phase-pose-slow-feedback-v9'
+            if spec['snapshot_binding_mode']==SLOW_LIVE_SKILL_PAIR_BINDING_MODE
+            else 'collect-target-fusion-task-phase-pose-continuation-v7')
+        identity.update(producer_phase=module.PHASE, experiment_role=module.EXPERIMENT_ROLE,
+            physical_recipe_phase=initialization,
+            initialization_recipe_phase=initialization,
             initialization_geometry_scale=.5, native_boundary_step=pair['native_boundary_step'],
-            native_endpoint_step=pair['native_endpoint_step'], task_condition=TASK_CONDITION,
+            native_endpoint_step=pair['native_endpoint_step'], task_condition=module.TASK_CONDITION,
             capture_condition='PRESEAL_WBC_ORIGINAL_QUOTA_ACK_PAUSED',
             capture_camera_recipe=pair['camera_recipe'],
             source_camera_identity_sha256=pair['source_camera_identity_sha256'],
@@ -163,9 +169,9 @@ def read_payload(spec):
 
 def verify_paused_query_return(adapter, spec, result_path):
     """Native-owner readback only; this never certifies or installs an action."""
-    if spec['snapshot_binding_mode'] == LIVE_SKILL_PAIR_BINDING_MODE:
-        from .fusion_task_phase_live_skill_pair_v8 import validate_native_pause
-        validate_native_pause(adapter)
+    if spec['snapshot_binding_mode'] in LIVE_SKILL_PAIR_BINDING_MODES:
+        from .fusion_paused_query_bridge import _live_pair_module
+        _live_pair_module(spec['snapshot_binding_mode']).validate_native_pause(adapter)
     _, identity, record = read_payload(spec)
     result_path = Path(result_path)
     need(result_path == Path(spec['registered_root'])/'fit-01/RESULT.private.json'
@@ -199,8 +205,8 @@ def verify_paused_query_return(adapter, spec, result_path):
     # A successful GPU result alone does not prove that its native world is
     # still the captured world. This is the existing actual-owner barrier.
     pause = verify_still_paused(adapter, record)
-    if spec['snapshot_binding_mode'] == LIVE_SKILL_PAIR_BINDING_MODE:
-        validate_native_pause(adapter)
+    if spec['snapshot_binding_mode'] in LIVE_SKILL_PAIR_BINDING_MODES:
+        _live_pair_module(spec['snapshot_binding_mode']).validate_native_pause(adapter)
     return dict(schema=RESULT_SCHEMA, query_uuid=identity['query_uuid'],
         result_sha256=digest(result_path), action_sha256=result['action_sha256'],
         original_pause_revalidation=pause, model_result_checked=True,

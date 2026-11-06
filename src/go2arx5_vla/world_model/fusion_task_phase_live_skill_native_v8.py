@@ -61,6 +61,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
     from .fusion_paused_inference import read_payload
     from .fusion_live_skill_segment import run_consumed_segment
     spec=adapter.spec;start,cpu=time.monotonic(),time.process_time()
+    identity=(spec.get('phase'),spec.get('kind'))
+    need(identity in ((PHASE,KIND),
+        ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9')),
+        'EXACT_VERSIONED_GENERATED_SKILL_CONSUMER')
+    version='V9' if identity[0].endswith('-v9') else 'V8'
     frozen_spec=document_hash(spec)
     ready=report['task_phase_initialization']['readiness']
     need(adapter.observe()['step']==B and not adapter.trace_sealed
@@ -95,7 +100,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         program=TrajectoryAdaptation(raw,matrix10(payload['state_eef10']),
             spec['paused_source_from_target'],actual,anchor,adapter.base_pose_hold,
             1.,time_stretch_factor=2)
-        proposal=dict(schema='WM02_ACTUAL_GENERATED_LIVE_PROPOSAL_V8',
+        proposal=dict(schema='WM02_ACTUAL_GENERATED_LIVE_PROPOSAL_'+version,
             query=query,action_npz_sha256=digest(action),observation_identity=identity,
             original_decoded_physical_H40=raw.tolist(),adaptation=program.evidence(),
             raw_knots=40,geometry_scale=1.,time_stretch_factor=2,clips=0,
@@ -120,10 +125,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         final=np.asarray(all_samples[-1]['tcp'])
         desired_final=matrix10(program.desired_at(program.end_atom))
         reference_final=matrix10(program.preview(program.end_atom)[0])
-        complete=dict(copy.deepcopy(report),schema='WM02_NATIVE_GENERATED_GRADED_LIVE_SKILL_V8',
-            actual_spec_phase=PHASE,experiment_role=ROLE,native_endpoint_step=E,
+        complete=dict(copy.deepcopy(report),schema='WM02_NATIVE_GENERATED_GRADED_LIVE_SKILL_'+version,
+            actual_spec_phase=spec['phase'],experiment_role=ROLE,native_endpoint_step=E,
             desired_outcome_provenance='ACTUAL_FROZEN_VLA_PROPOSAL_NOT_EXPERT_LABEL',
-            episode_role='UNCHANGED_V7_INITIALIZATION_PREFIX_ONLY',
+            episode_role=('SLOW_V9_INITIALIZATION_PREFIX_ONLY' if version=='V9'
+                          else 'UNCHANGED_V7_INITIALIZATION_PREFIX_ONLY'),
             initialization_adaptation=report.get('adaptation'),adaptation=program.evidence(),
             initialization_raw_knot_consumed=report.get('raw_knot_consumed'),
             finite_feedback_stage='INITIALIZATION_PREFIX_ONLY',
@@ -153,7 +159,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         return complete
     except BaseException as error:
         write_json(adapter.output/'LIVE_SKILL_FAILED.private.json',dict(
-            schema='WM02_GRADED_LIVE_SKILL_FAILURE_V8',phase=PHASE,native_step=adapter.observe()['step'],
+            schema='WM02_GRADED_LIVE_SKILL_FAILURE_'+version,phase=spec['phase'],native_step=adapter.observe()['step'],
             failure=type(error).__name__+': '+str(error),query=query,
             proposal_saved=proposal is not None,automatic_retry=False,full_task_success=False,
             wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu))

@@ -78,7 +78,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-fusion-task-phase-pose-feedback-v6', 'FUSION_TASK_PHASE_POSE_FEEDBACK_V6'),
          ('collect-target-fusion-task-phase-pose-continuation-v7', 'FUSION_TASK_PHASE_POSE_CONTINUATION_V7'),
          ('collect-target-fusion-task-phase-bias-fade-v8', 'FUSION_TASK_PHASE_BIAS_FADE_V8'),
-         ('collect-target-fusion-task-phase-live-skill-v8', 'FUSION_TASK_PHASE_LIVE_SKILL_V8'))
+         ('collect-target-fusion-task-phase-live-skill-v8', 'FUSION_TASK_PHASE_LIVE_SKILL_V8'),
+         ('collect-target-fusion-task-phase-live-skill-v9', 'FUSION_TASK_PHASE_LIVE_SKILL_V9'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -87,12 +88,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and spec.get('site_profile') == '4080-simulation' and spec.get('physics') is True
          and spec.get('scope') == 'WM02_PILOT1_SIM_ONLY' and bool(spec.get('pilot1_binding')),
          'ORIGINAL_AUTO1_P1_NATIVE_BACKEND_REQUIRED_NOT_A_GRANT')
-    live_skill = actual_phase == 'collect-target-fusion-task-phase-live-skill-v8'
+    live_skill = actual_phase in ('collect-target-fusion-task-phase-live-skill-v8',
+                                 'collect-target-fusion-task-phase-live-skill-v9')
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
     if live_skill:
-        need(spec.get('snapshot_binding_mode') == 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8'
+        mode = ('PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9' if actual_phase.endswith('-v9')
+                else 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8')
+        need(spec.get('snapshot_binding_mode') == mode
              and bool(spec.get('paused_query_gpu_spec')) and bool(spec.get('paused_query_pair')),
              'EXPLICIT_LIVE_PAIR_CHECKED_BY_ITS_SEPARATE_CONTRACT')
     else:
@@ -111,6 +115,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
+    elif actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
+        from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
                           'collect-target-fusion-task-phase-live-skill-v8'):
         from .fusion_task_phase_pose_continuation_v7 import endpoint as actual_endpoint

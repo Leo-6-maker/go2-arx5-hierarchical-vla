@@ -26,7 +26,7 @@ def actual_trace_binding(adapter):
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
         'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
         'collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2',
-        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8') else 131072)
+        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -96,8 +96,9 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
     end_step = endpoint(episode)
     if continuation is not None:
         need(callable(continuation)
-             and adapter.spec.get('phase') == 'collect-target-fusion-task-phase-live-skill-v8'
-             and adapter.spec.get('kind') == 'FUSION_TASK_PHASE_LIVE_SKILL_V8'
+             and (adapter.spec.get('phase'),adapter.spec.get('kind')) in (
+                 ('collect-target-fusion-task-phase-live-skill-v8','FUSION_TASK_PHASE_LIVE_SKILL_V8'),
+                 ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'))
              and adapter.spec.get('live_skill_start_step') == end_step
              and type(adapter.spec.get('max_ticks')) is int
              and end_step < adapter.spec['max_ticks'] <= 66503

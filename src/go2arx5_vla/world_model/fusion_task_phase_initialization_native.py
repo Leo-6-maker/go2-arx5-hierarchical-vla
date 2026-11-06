@@ -93,8 +93,9 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
     boundary = recipe_module.endpoint(episode)
     registered_end = adapter.spec['max_ticks']
     continuation_bound = (continuation is not None
-        and actual_phase == 'collect-target-fusion-task-phase-live-skill-v8'
-        and adapter.spec.get('kind') == 'FUSION_TASK_PHASE_LIVE_SKILL_V8'
+        and (actual_phase,adapter.spec.get('kind')) in (
+            ('collect-target-fusion-task-phase-live-skill-v8','FUSION_TASK_PHASE_LIVE_SKILL_V8'),
+            ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'))
         and adapter.spec.get('live_skill_start_step') == boundary
         and type(registered_end) is int and boundary < registered_end <= 66503
         and (registered_end-boundary) % 25 == 0)
