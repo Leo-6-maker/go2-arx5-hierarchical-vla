@@ -90,6 +90,10 @@ def build(spec,output):
         else:raise ValueError('Unknown physical callback clock version')
         patched=(patched[0],patched[1],utils_after)
         shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/control_clock.hpp',output/'control_clock.hpp')
+    if spec.get('native_clock_key_delivery'):
+        if spec['native_clock_key_delivery']!='SERIALIZED_ROS_KEY_WITH_NATIVE_CONSUMER_V1':raise ValueError('Unknown native key delivery version')
+        from .native_clock_key import patch as key_patch
+        cpp=key_patch(cpp)
     for n,s in zip(names,(cpp,patched[1],patched[2])):(output/n).write_text(s)
     (output/'rl_sdk.cpp').write_text(sdk_after)
     for name in('native_home.hpp','native_startup.hpp'):shutil.copyfile(clock/name,output/name)
@@ -155,4 +159,6 @@ def build(spec,output):
         CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)
     if spec.get('physical_callback_clock')=='FROZEN_PERIOD_PD_POLICY_APPLIED_CLOCK_V2':
         result['applied_control_clock_header_sha256']=digest(output/'applied_control_clock.hpp')
+    if spec.get('native_clock_key_delivery'):
+        result.update(native_clock_key_delivery=spec['native_clock_key_delivery'],key_event_trace_kinds=[17,18])
     write_json(output/'CANDIDATE.private.json',result);return result
