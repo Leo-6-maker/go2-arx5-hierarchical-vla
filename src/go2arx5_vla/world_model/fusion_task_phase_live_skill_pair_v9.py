@@ -19,6 +19,8 @@ PAIR_SCHEMA = 'WM02_FUSION_TASK_PHASE_LIVE_SKILL_PAIR_V9'
 BOUNDARY_STEP, ENDPOINT_STEP = 34303, 66503
 EXPERIMENT_ROLE = 'GRADED_NONCONTACT_DIAGNOSTIC'
 TASK_CONDITION = 'SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
+SHORT_TASK_CONDITION = 'GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
+TASK_CONDITIONS = (TASK_CONDITION, SHORT_TASK_CONDITION)
 SOURCE_CAMERA_RECIPE = 'SIM_EXTERNAL_WORLD_SOURCE_RIG'
 SOURCE_CAMERA_IDENTITY = '0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858'
 FRAME_MAP = 'fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1'
@@ -68,10 +70,24 @@ def _task(producer):
     need(document_hash(source) == SOURCE_PAYLOAD, 'EXACT_ORIGINAL_SOURCE_POLICY_PAYLOAD')
     task = json.loads(_bytes(producer['paused_target_task'],
                              producer['paused_target_task_file_sha256']))
+    condition=producer.get('task_condition')
+    need(condition in TASK_CONDITIONS,'EXPLICIT_ORIGINAL_FULL_OR_NEW_SHORT_TASK')
+    language=source['language']
+    if condition==SHORT_TASK_CONDITION:
+        from . import fusion_graded_short_skill_v1 as short
+        language=short.LANGUAGE
+        score=json.loads(_bytes(producer['paused_score_contract'],producer['paused_score_contract_file_sha256']))
+        need(score.get('task_condition')==condition
+             and score.get('actual_short_skill_score_contract')==short.score_contract()
+             and score.get('actual_short_skill_score_contract_sha256')==document_hash(short.score_contract())
+             and task.get('score_contract_sha256')==document_hash(score)
+             and task.get('language_provenance')=='NEW_TARGET_SHORT_SKILL_PROMPT'
+             and task.get('task_id')==short.TASK_ID,
+             'DISTINCT_SHORT_TASK_AND_ACTUAL34303_SCORE_NOT_OLD_FULL_TASK')
     need(document_hash(task) == producer['paused_target_task_sha256']
          and task.get('scene_sha256') == digest(producer['model_path'])
-         and task.get('language') == source['language'],
-         'SOURCE71558_FULL_TASK_LANGUAGE_UNCHANGED')
+         and task.get('language') == language,
+         'SOURCE71558_FULL_TASK_OR_EXPLICIT_NEW_SHORT_LANGUAGE')
 
 
 def validate_pair_spec(spec):
@@ -93,7 +109,8 @@ def validate_pair_spec(spec):
          and type(producer.get('live_skill_start_step')) is int
          and producer['live_skill_start_step'] == BOUNDARY_STEP
          and pair['capture_index'] == 0
-         and pair['task_condition'] == producer.get('task_condition') == TASK_CONDITION
+         and pair['task_condition'] == producer.get('task_condition')
+         and pair['task_condition'] in TASK_CONDITIONS
          and producer.get('experiment_role') == EXPERIMENT_ROLE
          and type(producer.get('live_skill_time_stretch_factor')) is int
          and producer['live_skill_time_stretch_factor'] in (1,2)
@@ -118,7 +135,11 @@ def validate_pair_spec(spec):
          and episode['frame_map_sha256'] == FRAME_MAP
          and episode['source_observation_sha256'] == SOURCE_OBSERVATION,
          'EXACT_V9_SLOW_HALF_INITIALIZATION_MANIFEST_NOT_FULL_GRADE')
-    for member in SOURCE_MEMBERS:
+    members=SOURCE_MEMBERS
+    if pair['task_condition']==SHORT_TASK_CONDITION:
+        members=(*members,'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
+                 'src/go2arx5_vla/world_model/fusion_short_skill.py')
+    for member in members:
         pin = producer.get('source_files', {}).get(member)
         need(pin is not None and spec.get('source_files', {}).get(member) == pin
              and digest(Path(producer['source_root']) / member) == pin,

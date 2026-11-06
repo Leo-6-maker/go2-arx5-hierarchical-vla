@@ -69,6 +69,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
     factor=spec.get('live_skill_time_stretch_factor') if version=='V9' else 2
     need(type(factor)is int and factor in(1,2),
          'EXPLICIT_PREREGISTERED_FULL_H40_TIME_MAPPING')
+    is_short=False
+    if version=='V9':
+        from .fusion_task_phase_live_skill_contract_v9 import TASK_CONDITIONS,SHORT_TASK_CONDITION
+        need(spec.get('task_condition')in TASK_CONDITIONS,'EXPLICIT_V9_FULL_OR_DISTINCT_SHORT_TASK')
+        is_short=spec['task_condition']==SHORT_TASK_CONDITION
     frozen_spec=document_hash(spec)
     ready=report['task_phase_initialization']['readiness']
     need(adapter.observe()['step']==B and not adapter.trace_sealed
@@ -118,6 +123,12 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         reference_clearance=np.linalg.norm(program.reference_path[:,:3]-cube[:3,3],axis=1)
         need(float(min(clearance.min(),reference_clearance.min()))>=.14,
              'FULL_PROPOSAL_OUTSIDE_PREDECLARED_NONCONTACT_ENVELOPE_KEEP_ALL40_REJECT_NO_CLIP')
+        short_intent=None
+        if is_short:
+            from .fusion_graded_short_skill_v1 import screen_proposal
+            short_intent=screen_proposal(program,cube)
+            write_json(adapter.output/'LIVE_SKILL_SHORT_INTENT_SCREEN.private.json',short_intent)
+            need(short_intent['qualified'],'WHOLE_GENERATED_SHORT_INTENT_REJECT_KEEP_ALL40_NO_INSTALL')
         adapter.live_skill_program=program
         suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=E,
             past_samples=samples,past_windows=windows,sample_observer=lambda s:_noncontact(s,cube))
@@ -159,6 +170,12 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             feedback_state106_contains_privileged_simulator_fields_not_deployable_policy_input=True,
             query_and_suffix_wall_s=time.monotonic()-start,query_and_suffix_CPU_s=time.process_time()-cpu)
         for k in ('original_Processor_decodes','Processor_decodes'):complete.pop(k,None)
+        if is_short:
+            from . import fusion_graded_short_skill_v1 as short
+            complete.update(short_task_condition=spec['task_condition'],
+                short_intent_screen=short_intent,
+                graded_short_skill_score=short.score(
+                    [sample for sample in all_samples if sample['native_step']>=B],short.score_contract()))
         return complete
     except BaseException as error:
         write_json(adapter.output/'LIVE_SKILL_FAILED.private.json',dict(

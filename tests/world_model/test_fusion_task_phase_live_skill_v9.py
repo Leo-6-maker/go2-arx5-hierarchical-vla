@@ -124,7 +124,8 @@ def test_fake_generate_roundtrip_uses_new_wait_mode_and_rechecks_original_pause(
 
 def test_slow_prefix_shared_consumer_keeps_full_draw_and_actual_v9_identity(composition):
     a,samples,windows,report,raw,action,calls=composition
-    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=2)
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=2,
+        task_condition=contract.TASK_CONDITION)
     Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
     original=copy.deepcopy(report)
     result=live9._continue(a,report,samples,windows,task={'full':'original'},camera=object())
@@ -185,7 +186,8 @@ def test_undeclared_or_noninteger_time_mapping_rejected_before_capture(slow_pair
 
 def test_explicit_time1_consumes_entire_same_draw_and_install_guard_binds_its_clock(composition):
     a,samples,windows,report,raw,action,calls=composition
-    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1)
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
+        task_condition=contract.TASK_CONDITION)
     Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
     result=live9._continue(a,report,samples,windows,task={'full':'original'},camera=object())
     saved=json.loads((a.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json').read_bytes())
@@ -229,3 +231,125 @@ def test_recipe_requires_its_actual_declared_time_task_and_score(slow_pair,monke
     write_json(score_path,wrong);spec['paused_score_contract_file_sha256']=digest(score_path)
     with pytest.raises(ValueError,match='EXACT_SOURCE_FULL_LANGUAGE_AND_DISTINCT'):
         contract.recipe_config(spec)
+
+
+@pytest.fixture
+def short_pair(slow_pair):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    f=slow_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    task=contract.task_document(digest(a.spec['model_path']),short.LANGUAGE,
+        time_stretch_factor=1,task_condition=contract.SHORT_TASK_CONDITION)
+    score=contract.score_contract(time_stretch_factor=1,task_condition=contract.SHORT_TASK_CONDITION)
+    path=Path(a.spec['registered_root'])/'SYNTHETIC_SHORT_SCORE.json';write_json(path,score)
+    write_json(a.spec['paused_target_task'],task)
+    a.spec.update(task_condition=contract.SHORT_TASK_CONDITION,live_skill_time_stretch_factor=1,
+        paused_target_task_file_sha256=digest(a.spec['paused_target_task']),
+        paused_target_task_sha256=document_hash(task),paused_score_contract=str(path),
+        paused_score_contract_file_sha256=digest(path))
+    p.update(task_condition=contract.SHORT_TASK_CONDITION,task_sha256=document_hash(task))
+    g['paused_task_sha256']=document_hash(task)
+    capsule=Path(g['source_root'])
+    for name in('src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
+                'src/go2arx5_vla/world_model/fusion_short_skill.py'):
+        dest=capsule/name;dest.write_bytes((PROJECT/name).read_bytes());g['source_files'][name]=digest(dest)
+    a.spec['source_files']=g['source_files'].copy();bind(g,a,p)
+    a.fixture_task=task;f['task']=task
+    return f
+
+
+def test_old_full_task_score_and_document_remain_identical():
+    assert document_hash(contract.score_contract())=='65916035e2cb58bd1bc2f05599dd2625b4f045dee71489c77050f368b1ec78a7'
+    assert document_hash(contract.task_document('a'*64,'original full task'))=='3b1aa63cba0bd25ca0824d0b1bae01e9420791130815210b092c9e5e45442ad9'
+
+
+def test_new_short_language_and34303_score_are_explicit_in_pair_and_payload(short_pair):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    assert bridge.validate_pair_spec(g)==(p,a.spec)
+    original_source=digest(f['source_path'])
+    record=capture_source_archive(f)
+    payload,identity,_=inference.read_payload(g)
+    assert payload['language']==short.LANGUAGE and payload['language']!=f['source_payload']['language']
+    assert identity['task_condition']==contract.SHORT_TASK_CONDITION
+    assert identity['physical_recipe_phase']==slow.PHASE and not identity['source_task_phase_equivalence']
+    assert identity['task']['score_contract_sha256']==document_hash(
+        contract.score_contract(time_stretch_factor=1,task_condition=contract.SHORT_TASK_CONDITION))
+    assert digest(f['source_path'])==original_source and not identity['native_execution_authorized']
+
+
+@pytest.mark.parametrize('fault',['original-language','old3703-score','full-taskID','implicit-task-condition'])
+def test_rehashed_short_task_cannot_use_original_intent_or_old_clock(short_pair,fault):
+    from go2arx5_vla.world_model import fusion_short_skill as old
+    f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair'];task=copy.deepcopy(f['task'])
+    if fault=='original-language':task['language']=f['source_payload']['language']
+    elif fault=='full-taskID':task['task_id']='ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9_TIME1'
+    elif fault=='implicit-task-condition':p['task_condition']=a.spec['task_condition']='SHORT'
+    else:
+        score=json.loads(Path(a.spec['paused_score_contract']).read_bytes())
+        score.update(actual_short_skill_score_contract=old.score_contract(),
+            actual_short_skill_score_contract_sha256=document_hash(old.score_contract()))
+        write_json(a.spec['paused_score_contract'],score)
+        a.spec['paused_score_contract_file_sha256']=digest(a.spec['paused_score_contract'])
+        task['score_contract_sha256']=document_hash(score)
+    write_json(a.spec['paused_target_task'],task)
+    a.spec['paused_target_task_file_sha256']=digest(a.spec['paused_target_task'])
+    a.spec['paused_target_task_sha256']=g['paused_task_sha256']=p['task_sha256']=document_hash(task)
+    bind(g,a,p)
+    with pytest.raises(ValueError):bridge.preflight_pair(Path(g['registered_root'])/'EXECUTION_SPEC.json',a.spec)
+    assert not Path(g['recorded_observation']).exists()
+
+
+@pytest.fixture
+def real_clock_composition(monkeypatch,request):
+    import test_fusion_live_skill_segment as segment_fixture
+    import test_fusion_task_phase_live_skill_native_v8 as live_fixture
+    monkeypatch.setattr(segment_fixture,'B',34303)
+    monkeypatch.setattr(live_fixture,'B',34303)
+    return request.getfixturevalue('composition')
+
+
+def test_short_desired_intent_does_not_fake_actual_skill_success(real_clock_composition):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    a,samples,windows,report,raw,action,calls=real_clock_composition
+    actual=samples[-1]['tcp'];cube=samples[-1]['object_pose']
+    direction=cube[:3,3]-actual[:3,3];direction/=np.linalg.norm(direction)
+    raw[:,:3]=actual[:3,3]+.003*np.minimum(np.arange(40)/8,1.)[:,None]*direction
+    raw[:,9]=1.
+    with action.open('wb')as f:np.savez(f,physical_H40=raw)
+    result_path=action.parent/'RESULT.private.json';gpu_result=json.loads(result_path.read_bytes())
+    gpu_result['action_sha256']=digest(action);result_path.write_text(json.dumps(gpu_result))
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
+        task_condition=contract.SHORT_TASK_CONDITION)
+    Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
+    complete=live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+    assert complete['short_intent_screen']['qualified'] and complete['all_40_knots_consumed']
+    measured=complete['graded_short_skill_score']
+    assert not measured['approach_step_success'] and measured['decision_native_step']==34303
+    assert measured['metrics']['signed_progress_m']<.002
+    assert not complete['full_task_success'] and not measured['native_execution_authorized']
+
+
+def test_late_short_closure_preserves_complete_proposal_without_install_or_integration(real_clock_composition):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    a,samples,windows,report,raw,action,calls=real_clock_composition
+    actual=samples[-1]['tcp'];cube=samples[-1]['object_pose']
+    direction=cube[:3,3]-actual[:3,3];direction/=np.linalg.norm(direction)
+    raw[:,:3]=actual[:3,3]+.003*np.minimum(np.arange(40)/8,1.)[:,None]*direction
+    # Keep duration admissible, so the semantic gate rather than the earlier
+    # duration guard must reject this gradually closing late suffix.
+    raw[:,9]=1.;raw[-16:,9]=np.linspace(1.,.85,16)
+    with action.open('wb')as f:np.savez(f,physical_H40=raw)
+    result_path=action.parent/'RESULT.private.json';gpu_result=json.loads(result_path.read_bytes())
+    gpu_result['action_sha256']=digest(action);result_path.write_text(json.dumps(gpu_result))
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
+        task_condition=contract.SHORT_TASK_CONDITION)
+    Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
+    with pytest.raises(ValueError,match='WHOLE_GENERATED_SHORT_INTENT_REJECT'):
+        live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+    assert len(calls)==1 and not a.installs and not a.advances
+    saved=json.loads((a.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json').read_bytes())
+    np.testing.assert_array_equal(saved['original_decoded_physical_H40'],raw)
+    screen=json.loads((a.output/'LIVE_SKILL_SHORT_INTENT_SCREEN.private.json').read_bytes())
+    assert screen['raw_knots']==40 and not screen['qualified'] and not screen['predicates']['open']
+    failed=json.loads((a.output/'LIVE_SKILL_FAILED.private.json').read_bytes())
+    assert failed['proposal_saved'] and not failed['automatic_retry']

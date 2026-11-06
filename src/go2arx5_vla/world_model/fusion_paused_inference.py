@@ -157,7 +157,7 @@ def read_payload(spec):
             physical_recipe_phase=initialization,
             initialization_recipe_phase=initialization,
             initialization_geometry_scale=.5, native_boundary_step=pair['native_boundary_step'],
-            native_endpoint_step=pair['native_endpoint_step'], task_condition=module.TASK_CONDITION,
+            native_endpoint_step=pair['native_endpoint_step'], task_condition=pair['task_condition'],
             capture_condition='PRESEAL_WBC_ORIGINAL_QUOTA_ACK_PAUSED',
             capture_camera_recipe=pair['camera_recipe'],
             source_camera_identity_sha256=pair['source_camera_identity_sha256'],

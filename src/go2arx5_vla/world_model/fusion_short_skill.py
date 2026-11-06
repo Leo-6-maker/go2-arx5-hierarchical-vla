@@ -47,7 +47,12 @@ def score(samples, contract):
     No inference or desired/reference pose is used as an achieved pose. The
     precontact point and direction are fixed from the first actual sample.
     """
-    if contract != score_contract() or not isinstance(samples, list) or len(samples) < 9:
+    return _score_measured_samples(samples, contract, expected_contract=score_contract())
+
+
+def _score_measured_samples(samples, contract, *, expected_contract):
+    """Shared arithmetic; each public task entry supplies its own frozen contract."""
+    if contract != expected_contract or not isinstance(samples, list) or len(samples) < 9:
         raise ValueError('SHORT_SKILL_FROZEN_CONTRACT_AND_ACTUAL_HOLD_WINDOW_REQUIRED')
     required = ('native_step', 'time_s', 'tcp', 'object_pose', 'qpos', 'finger_q',
                 'safety_valid', 'native_abort', 'robot_object_contact')
@@ -60,7 +65,7 @@ def score(samples, contract):
     base = np.asarray([s['qpos'][:7] for s in samples], float)
     fingers = np.asarray([s['finger_q'] for s in samples], float)
     if (steps.dtype.kind not in 'iu' or any(type(s['native_step']) is not int for s in samples)
-            or steps[0] != 3703 or not np.all(np.diff(steps) == 25)
+            or steps[0] != contract['decision_native_step'] or not np.all(np.diff(steps) == 25)
             or not np.allclose(times, steps*.002, rtol=0, atol=1e-8)
             or tcp.shape != (len(samples), 4, 4) or objects.shape != tcp.shape
             or base.shape != (len(samples), 7) or fingers.shape != (len(samples), 2)
@@ -109,7 +114,7 @@ def score(samples, contract):
         hold=hold_diameter <= contract['final_hold_TCP_diameter_m'] and hold_speed <= contract['final_hold_TCP_max_speed_m_s'],
         original_native_safety=safe, no_robot_object_contact=no_contact)
     return dict(schema=contract['schema'], score_contract_sha256=document_hash(contract),
-        task_id=TASK_ID, metrics=metrics, predicates=predicates,
+        task_id=contract['task_id'], metrics=metrics, predicates=predicates,
         approach_step_success=all(predicates.values()), full_task_success=False,
         precontact_arrival_claim=False, pick_place_success_claim=False,
         scorer_only_privileged_geometry=True, thresholds_are_native_safety=False)
