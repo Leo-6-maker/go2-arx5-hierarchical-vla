@@ -67,6 +67,12 @@ def validate_layout(batch, children):
             if any(child.get(k)!=batch.get(k) for k in ('pilot1_binding','pilot1_binding_sha256','pilot2_plan_sha','native_binary','observer_library','candidate_source_sha')):
                 raise PermissionError('SAME_CANDIDATE_AND_SCOPE_FOR_NATIVE_COMMISSION_REQUIRED')
     if pilot:
+        if batch.get('fusion_binding'):
+            if not free or any(any(c.get(k)!=batch.get(k) for k in
+                    ('fusion_binding','fusion_binding_sha256','fusion_plan_sha')) or
+                    json.loads(Path(c['episode_manifest']).read_text()).get('schema')!='WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1'
+                    for c in children):
+                raise PermissionError('SAME_FUSION_SUPPLEMENT_AND_QUALIFIED_LOCAL_ACTION_BATCH_REQUIRED')
         if supported:
             from .pilot2_supported import validate
         elif free:
@@ -218,6 +224,9 @@ def run_batch(spec_path,output,run_id):
                 or value.get('same_root_device')is not False or runs.stat().st_dev!=value['device']
                 or runs.stat().st_dev==Path('/').stat().st_dev):
             raise PermissionError('ACTUAL_QUALIFIED_NON_ROOT_LOCAL_DATA_DISK_REQUIRED')
+    if spec.get('fusion_binding'):
+        from .fusion_scope import validate
+        validate(spec,json.loads(Path(spec['registry']).read_text()))
     if spec.get('next2_binding'):
         from .next2_scope import validate
         validate(spec,json.loads(Path(spec['registry']).read_text()))

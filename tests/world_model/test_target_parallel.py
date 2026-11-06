@@ -88,6 +88,16 @@ class ParallelOwner(unittest.TestCase):
                 Path(slot['spec']).write_text(json.dumps(child));freebatch['slots'].append(dict(spec=slot['spec'],spec_sha256=digest(slot['spec'])))
             with patch('go2arx5_vla.world_model.pilot1_episode.episode_limit',return_value=4103):
                 validate_layout(freebatch,freechildren)
+                fusion=dict(fusion_binding='fusion-active',fusion_binding_sha256='sealed',fusion_plan_sha='fixed')
+                fusedchildren=[dict(c,**fusion)for c in freechildren]
+                fusedbatch=dict(freebatch,**fusion)
+                with self.assertRaisesRegex(PermissionError,'SAME_FUSION'):
+                    validate_layout(fusedbatch,fusedchildren)
+                episode.write_text(json.dumps(dict(schema='WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1',purpose='EVALUATION')))
+                validate_layout(fusedbatch,fusedchildren)
+                for key in fusion:
+                    with self.assertRaisesRegex(PermissionError,'SAME_FUSION'):
+                        validate_layout(fusedbatch,[fusedchildren[0],dict(fusedchildren[1],**{key:'different'})])
                 episode.write_text(json.dumps(dict(purpose='SCENE_QUALIFICATION')))
                 with self.assertRaisesRegex(PermissionError,'PREQUALIFIED_EVALUATION_SCENES'):validate_layout(freebatch,freechildren)
                 trainbatch=dict(freebatch,schema='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1')
