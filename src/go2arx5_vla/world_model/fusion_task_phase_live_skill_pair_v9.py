@@ -95,6 +95,8 @@ def validate_pair_spec(spec):
          and pair['capture_index'] == 0
          and pair['task_condition'] == producer.get('task_condition') == TASK_CONDITION
          and producer.get('experiment_role') == EXPERIMENT_ROLE
+         and type(producer.get('live_skill_time_stretch_factor')) is int
+         and producer['live_skill_time_stretch_factor'] in (1,2)
          and producer.get('physics_dt_s') == .002 and producer.get('WBC_changes') is False,
          'EXACT_GRADED_DIAGNOSTIC_V9_PRODUCER_AND_DISTINCT_B_E')
     need(pair['camera_recipe'] == SOURCE_CAMERA_RECIPE

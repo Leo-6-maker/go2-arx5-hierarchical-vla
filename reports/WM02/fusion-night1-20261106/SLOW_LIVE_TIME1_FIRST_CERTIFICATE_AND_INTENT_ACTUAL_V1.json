@@ -1,0 +1,299 @@
+{
+  "schema": "WM02_SLOW_LIVE_TIME1_FIRST_CERTIFICATE_AND_INTENT_ACTUAL_V1",
+  "status": "SEALED_FIRST_ORIGINAL_CERTIFICATE_AND_INTENT_AUDIT_COMPLETED_NO_EXECUTION_GRANT",
+  "goal": "ACTIVE",
+  "actual_source_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
+  "QUESTION": "Does the original certificate accept the first time1 preview at actualB, and is complete full-task intent established?",
+  "CHANGED": "Read-only original MuJoCo model/FK/certifier at recordedB34303 with true34278/34303 consumed-command history; no native process or inference.",
+  "NATIVE_RESULT": "First complete40-point preview certificate PASS in cloned MjData. This retains only one adapted raw knot in the40-point preview and does not qualify the future whole trajectory.",
+  "VALID_FAILURES": "Original time2 nativeFAIL retained. Desired gripper closes≤20mm while still183.30mm from frozen cube, ending at179.47mm/3.663mm opening; actual grasp is neither observed nor established. Source phase label absent, phase equivalence false.",
+  "SCIENCE_DECISION": "Do not turn time-fit or first-preview PASS into full-task qualification. First diagnose full-task vs explicit short-intent response at this same saved observation; no dynamic job started by these audits.",
+  "NEXT_GATE": "Fresh separately registered one-query GPU scope for the language-only CURRENT_SHORT view of this sealedV9 observation, matched checkpoint/seed/noise/precision; reuse existing ORIGINAL query as comparator, never repeat the completed old2x2.",
+  "sealed_source_identities": {
+    "native_spec": "9b66c648281a5babd467aa5de3b2eacf18be4f871e2d0ed4aebb1ff771c2f7cb",
+    "native_lease": "f4dac0d8ed88da57332f6b19063a65b30e650e98ec4d6c114123425b0ae36e29",
+    "native_worker": "c44ee503f50ed180816c478885542b666b4eb5d8ec2a5e3b84c680e4fd5ede71",
+    "native_result": "895c37994f8d81b28f39d947f4e11e33c73573d73f4add4f9c5b766bb495b866",
+    "gpu_spec": "4684b786ead1442440e7caf663185279cd2f82726eeb9c6aec186da63faa4c5c",
+    "gpu_lease": "6356edbf206a515cc3e1f9269c0865c356ac64e2a973aad367e3f1f2a57ce1be",
+    "gpu_worker": "da813dfad102a9e662ab82c4f9cc903fa59122778e2ad3a6aa85360882a8c034",
+    "gpu_result": "552088fb15cca56f8f515a3a6f319c07d4f384d63e1a9fcec70ff55b3a8a80e7",
+    "initialization": "41beead4400915173782d60e3057ff245b152b959fa4f0f5569fbae881406323",
+    "proposal": "d8a94483d9dc0716a6950eb295d234ef0d9d721f32d7a72f22183830c26fe52d",
+    "failure": "1872b128dc3dc2b564a9e9fc31c141b173a7da1fa39e0d819063ef1d3930b8ed",
+    "action": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+    "capture": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+    "capture_body": "09fa5d041c59b7993850634cc7a9a66778385df15776277a1cba77f458951b39",
+    "payload": "fa00ddac6228eaada215ab1bbaa3c777fbbdee3ed12eab3b7d9bf6c05f09592a",
+    "noise": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+    "episode": "44c40836c2f7f73a40fb85d857d0ebc862d4c9905cbef97afdaa1fdf88ac22f7",
+    "task": "1167d4170bba15e5493467f60d5b22a70194db60dbd4b0c47cc01bb0acd67bc3",
+    "pair": "e84103a7282d3cb0481bc20dd2e226ff5d85393d7fac944e03e67b90aa43c723",
+    "state": "3f0ee06430774414863a6606eec985d061224f303b642980a672c9c3e2f10bbd",
+    "source_observation": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "scene": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2"
+  },
+  "first_preview_original_certificate": {
+    "status": "ORIGINAL_FIRST_PREVIEW_CERTIFICATE_PASS",
+    "original_certificate": {
+      "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+      "points": 1051,
+      "local_IK_iterations": 2105,
+      "physics_integrations": 0,
+      "actual_state_modified": false,
+      "max_joint_speed_rad_s": 0.10974138603726757,
+      "max_joint_acceleration_rad_s2": 0.529823157788023,
+      "executed_reference_history_points": 2,
+      "Cartesian_reference_values_changed": false
+    },
+    "original_rejection": null,
+    "original_certifier_locals": {
+      "points": 1051,
+      "iterations": 2105,
+      "tick": 1050,
+      "prefix": 2,
+      "max_joint_acceleration_rad_s2": 0.529823157788023,
+      "max_joint_speed_rad_s": 0.10974138603726757,
+      "worst_acceleration_rad_s2": -0.529823157788023,
+      "worst_joint_name": "x5_joint3",
+      "worst_acceleration_middle_preview_index": 3,
+      "worst_acceleration_involves_true_history": false
+    },
+    "stage": "approach",
+    "planning_object_motion": null,
+    "actual_native_step": 34303,
+    "history_end_native_steps": [
+      34278,
+      34303
+    ],
+    "history_kind": "ACTUAL_COMPLETED_COMMANDS_NOT_ACHIEVED_TCP_OR_FUTURE_HISTORY",
+    "proposed_H40": {
+      "shape": [
+        40,
+        10
+      ],
+      "dtype": "<f8",
+      "byte_order": "C",
+      "sha256": "60c1b4207d4147acfb0e3078df9e7daa04c6285ea29886cd9423e43ed623f9a2"
+    },
+    "proposed_full_points": 40,
+    "adapted_original_knots_visible_in_first_preview": 1,
+    "native_MuJoCo_model_loads": 1,
+    "readonly_FK_calls": 3157,
+    "physics_integrations": 0,
+    "integration_attempts": 0,
+    "controller_starts": 0,
+    "original_state_modified": false,
+    "original_model_modified": false,
+    "certificate_scope": "ONLY_FIRST_H40_AT_ACTUAL_B_ROOT_WITH_TRUE_PAST_HISTORY_IN_CLONED_MJDATA",
+    "complete_future_dynamic_trajectory_qualification": false,
+    "future_static_same_B_IK_scan": "NOT_RUN_NO_FUTURE_ACTUAL_STATES_OR_TRUE_REFERENCE_HISTORY_AVAILABLE",
+    "action_installations": 0,
+    "consumed_atoms": 0,
+    "native_execution_authorized": false
+  },
+  "task_intent_geometry": {
+    "language_characters": 93,
+    "language_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+    "phase_metadata": {
+      "explicit_phase_label_present": false,
+      "absent_phase_label_is_not_inferred_from_snapshot_or_filename": true,
+      "source_phase_equivalence": false,
+      "target_capture_phase": "collect-target-fusion-task-phase-live-skill-v9",
+      "physical_initialization_recipe_phase": "collect-target-fusion-task-phase-pose-slow-feedback-v9",
+      "target_initialization_geometry_scale": 0.5,
+      "generated_geometry_scale": 1.0
+    },
+    "actual_B_TCP_minus_cube_world_m": {
+      "x": -0.10039011271973425,
+      "y": 0.031881790052295335,
+      "z": 0.19086976920125648
+    },
+    "actual_B_TCP_cube_distance_m": 0.21800433955258894,
+    "actual_B_finger_opening_min_m": 0.041935980292777376,
+    "actual_B_finger_opening_mean_m": 0.04200002946595681,
+    "desired_final_TCP_minus_cube_world_m": {
+      "x": -0.07625462346219025,
+      "y": 0.03114108849199971,
+      "z": 0.15945361610576475
+    },
+    "desired_final_TCP_cube_distance_m": 0.17947142023462,
+    "reference_final_TCP_minus_cube_world_m": {
+      "x": -0.01241294382680952,
+      "y": 0.016462494467566362,
+      "z": 0.2441582369521767
+    },
+    "reference_final_TCP_cube_distance_m": 0.24502722210019326,
+    "gripper_closure_timing": {
+      "time_stretch_factor": 1,
+      "event_thresholds_are_descriptive_not_native_safety": true,
+      "minimum_target_finger_opening_m": 0.0036633665561676024,
+      "maximum_target_finger_opening_m": 0.041999999999999996,
+      "initial_target_finger_opening_m": 0.041999999999999996,
+      "final_target_finger_opening_m": 0.0036633665561676024,
+      "events": {
+        "first_decrease_gt_1e_minus12_m": {
+          "atom": 1,
+          "elapsed_s": 0.05,
+          "absolute_native_step_if_executed": 34328,
+          "adapted_raw_knots_reached": 0,
+          "target_finger_opening_m": 0.041999582812377916,
+          "desired_TCP_to_frozen_cube_m": 0.21794880729180327,
+          "reference_TCP_to_frozen_cube_m": 0.27846588855953175,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.10036026900783984,
+            "y": 0.031903401732648023,
+            "z": 0.19081842668484322
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.21794880729180327,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "first_1mm_below_initial_opening": {
+          "atom": 1045,
+          "elapsed_s": 52.25,
+          "absolute_native_step_if_executed": 60428,
+          "adapted_raw_knots_reached": 33,
+          "target_finger_opening_m": 0.04090211173333227,
+          "desired_TCP_to_frozen_cube_m": 0.1912063720624434,
+          "reference_TCP_to_frozen_cube_m": 0.25572003270417304,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.08191948035129154,
+            "y": 0.03193904062529206,
+            "z": 0.1697909689594586
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.18545745428992666,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "first_opening_le_20mm": {
+          "atom": 1118,
+          "elapsed_s": 55.900000000000006,
+          "absolute_native_step_if_executed": 62253,
+          "adapted_raw_knots_reached": 35,
+          "target_finger_opening_m": 0.019742685011138517,
+          "desired_TCP_to_frozen_cube_m": 0.18329984051850093,
+          "reference_TCP_to_frozen_cube_m": 0.24895935157399202,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.07595185471163923,
+            "y": 0.034868391167216045,
+            "z": 0.16313902843090594
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.18329984051850093,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "first_opening_le_10mm": {
+          "atom": 1124,
+          "elapsed_s": 56.2,
+          "absolute_native_step_if_executed": 62403,
+          "adapted_raw_knots_reached": 35,
+          "target_finger_opening_m": 0.00952883481498088,
+          "desired_TCP_to_frozen_cube_m": 0.1806250161215852,
+          "reference_TCP_to_frozen_cube_m": 0.24646231934503476,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.07418410166075634,
+            "y": 0.03664735052763395,
+            "z": 0.16055867217006442
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.1806250161215852,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "first_opening_le_4mm": {
+          "atom": 1245,
+          "elapsed_s": 62.25,
+          "absolute_native_step_if_executed": 65428,
+          "adapted_raw_knots_reached": 39,
+          "target_finger_opening_m": 0.003972870230674744,
+          "desired_TCP_to_frozen_cube_m": 0.18314836709259966,
+          "reference_TCP_to_frozen_cube_m": 0.24766142849932943,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.07883294185816253,
+            "y": 0.03425227706665246,
+            "z": 0.16172653821319022
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.17723206754831936,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "minimum_opening": {
+          "atom": 1261,
+          "elapsed_s": 63.050000000000004,
+          "absolute_native_step_if_executed": 65828,
+          "adapted_raw_knots_reached": 40,
+          "target_finger_opening_m": 0.0036633665561676024,
+          "desired_TCP_to_frozen_cube_m": 0.17947142023462,
+          "reference_TCP_to_frozen_cube_m": 0.24502722210019326,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.07625462346219025,
+            "y": 0.03114108849199971,
+            "z": 0.15945361610576475
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.17723206754831936,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        },
+        "final_point": {
+          "atom": 1261,
+          "elapsed_s": 63.050000000000004,
+          "absolute_native_step_if_executed": 65828,
+          "adapted_raw_knots_reached": 40,
+          "target_finger_opening_m": 0.0036633665561676024,
+          "desired_TCP_to_frozen_cube_m": 0.17947142023462,
+          "reference_TCP_to_frozen_cube_m": 0.24502722210019326,
+          "desired_TCP_minus_frozen_cube_world_m": {
+            "x": -0.07625462346219025,
+            "y": 0.03114108849199971,
+            "z": 0.15945361610576475
+          },
+          "minimum_desired_cube_distance_up_to_event_m": 0.17723206754831936,
+          "achieved_motion_observed": false,
+          "actually_consumed": false
+        }
+      },
+      "target_gripper_command_is_achieved_opening": false,
+      "cube_assumption": "FROZEN_ACTUAL_B_CUBE_NOT_FUTURE_OBSERVED_MOTION"
+    },
+    "task_phase_alignment_established": false,
+    "full_task_success": false,
+    "future_achieved_motion_or_grasp_observed": false,
+    "interpretation": "SAME_FULL_TASK_LANGUAGE_AND_PURE_PROPOSED_GEOMETRY_DO_NOT_ESTABLISH_TASK_PHASE_EQUIVALENCE"
+  },
+  "effects": {
+    "physics_integrations": 0,
+    "native_MuJoCo_model_loads": 1,
+    "readonly_FK_calls": 3157,
+    "neural_model_loads": 0,
+    "queries": 0,
+    "Processor_decodes": 0,
+    "registrations": 0,
+    "WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "native_execution_authorized": false
+  },
+  "cost": {
+    "wrapper_wall_s": 7.952350453939289,
+    "wrapper_child_CPU_s": 1.7396829999999999,
+    "child_wall_s": 6.324003649875522,
+    "child_own_CPU_s": 1.519614022,
+    "overlapping_intervals_not_summed": true
+  },
+  "provenance": {
+    "receipt_sha256": "fa5f7c75a48b2153334b87a6c8ce9f329c2b23dfb988056feffe5661bf8526d0",
+    "helper_sha256": "534fee1897bdf3c49b9236a8e5b52c96a8bc9bab81cf76b6ae618a915c817cd3",
+    "child_exit_code": 0,
+    "stderr_bytes": 0,
+    "imported_source_members_verified": 59
+  },
+  "actual_command": {
+    "command": "python3 CORE_CONTROL_HELPER audit_slow_live_time1_original_certificate01.py 360",
+    "exit_code": 0
+  },
+  "limitations": [
+    "No future measured state or true future reference history exists; no pseudo-dynamic future certificate scan performed.",
+    "Cloned first-preview PASS is not full-H40 dynamic qualification, action installation or task success.",
+    "Full pick/place/release/retreat language is not scored by a short toward-cube task. Closure timing is descriptive evidence, not a relaxed native safety predicate."
+  ]
+}

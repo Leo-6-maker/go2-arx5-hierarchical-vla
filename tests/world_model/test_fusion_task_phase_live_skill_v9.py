@@ -35,6 +35,7 @@ def slow_pair(tmp_path,monkeypatch):
     episode=slow.make_episode(run=a.spec['registered_root'],geometry_scale=.5)
     write_json(a.spec['episode_manifest'],episode)
     a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,snapshot_binding_mode=pair9.PAIR_MODE,
+        live_skill_time_stretch_factor=2,
         episode_manifest_sha256=digest(a.spec['episode_manifest']))
     g['snapshot_binding_mode']=pair9.PAIR_MODE
     p.update(schema=pair9.PAIR_SCHEMA,producer_phase=pair9.PHASE)
@@ -123,7 +124,7 @@ def test_fake_generate_roundtrip_uses_new_wait_mode_and_rechecks_original_pause(
 
 def test_slow_prefix_shared_consumer_keeps_full_draw_and_actual_v9_identity(composition):
     a,samples,windows,report,raw,action,calls=composition
-    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND)
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=2)
     Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
     original=copy.deepcopy(report)
     result=live9._continue(a,report,samples,windows,task={'full':'original'},camera=object())
@@ -158,3 +159,73 @@ def test_new_score_changes_only_declared_prefix_and_retains_full_H40_safety():
     assert score['capture_boundary_step']==34303 and score['registered_final_step']==66503
     assert score['geometry_scale']==1. and score['time_stretch_factor']==2 and score['raw_knots_required']==40
     assert not score['native_safety_thresholds_changed'] and not score['old_prefix_query_ready_reclassified']
+
+
+def test_declared_time1_is_a_distinct_score_and_task_not_a_relabelled_time2():
+    old=contract.score_contract();fast=contract.score_contract(time_stretch_factor=1)
+    expected=dict(old,schema=old['schema']+'_TIME1',time_stretch_factor=1)
+    assert fast==expected and document_hash(fast)!=document_hash(old)
+    original=contract.task_document('a'*64,'verbatim original task')
+    changed=contract.task_document('a'*64,'verbatim original task',time_stretch_factor=1)
+    assert changed==dict(original,task_id=original['task_id']+'_TIME1',
+        score_contract_sha256=document_hash(fast))
+    assert original['score_contract_sha256']==document_hash(old)
+
+
+@pytest.mark.parametrize('factor',[None,True,False,0,3,1.,'1'])
+def test_undeclared_or_noninteger_time_mapping_rejected_before_capture(slow_pair,factor):
+    f=slow_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    a.spec['live_skill_time_stretch_factor']=factor;bind(g,a,p)
+    with pytest.raises(ValueError,match='EXACT_GRADED_DIAGNOSTIC'):
+        bridge.preflight_pair(Path(g['registered_root'])/'EXECUTION_SPEC.json',a.spec)
+    with pytest.raises(ValueError,match='EXPLICIT_ORIGINAL_ADAPTER'):
+        contract.score_contract(time_stretch_factor=factor)
+    assert not Path(g['recorded_observation']).exists() and f['events'].saves==[]
+
+
+def test_explicit_time1_consumes_entire_same_draw_and_install_guard_binds_its_clock(composition):
+    a,samples,windows,report,raw,action,calls=composition
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1)
+    Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
+    result=live9._continue(a,report,samples,windows,task={'full':'original'},camera=object())
+    saved=json.loads((a.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json').read_bytes())
+    assert saved['time_stretch_factor']==1 and len(calls)==1
+    np.testing.assert_array_equal(saved['original_decoded_physical_H40'],raw)
+    assert result['all_40_knots_consumed'] and all(result['raw_knot_consumed'])
+    assert result['full_task_success'] is False and result['additional_action_decodes']==0
+    program=a.live_skill_program
+    check=SimpleNamespace(spec=a.spec,observe=lambda:{'step':contract.B},live_skill_program=program,
+        base_pose_hold=program.base_pose_hold,trajectory_initial_base=program.base_pose_hold)
+    proof=live9.validate_adapter_install(check,program.preview(0))
+    assert proof['time_stretch_factor']==1 and proof['physics_advance_authorized'] is False
+    check.spec=dict(a.spec,live_skill_time_stretch_factor=2)
+    with pytest.raises(ValueError,match='WHOLE_LIVE_SUFFIX'):
+        live9.validate_adapter_install(check,program.preview(0))
+
+
+@pytest.mark.parametrize('factor',[1,2])
+def test_recipe_requires_its_actual_declared_time_task_and_score(slow_pair,monkeypatch,factor):
+    from go2arx5_vla.world_model import fusion_source_posture_paused_query_v3 as sensor
+    f=slow_pair;a=f['adapter'];spec=a.spec;episode=f['episode']
+    source={'source_observation_bytes':Path(spec['task_phase_source_observation']).read_bytes(),
+        'T_source_from_target':spec['paused_source_from_target']}
+    calls=[]
+    def operational(s,e,**kwargs):
+        calls.append((s,e,kwargs));return e,source
+    monkeypatch.setattr(contract.operational,'recipe_config',operational)
+    monkeypatch.setattr(sensor,'SOURCE_CAMERA_IDENTITY',spec['source_camera_identity_sha256'])
+    spec.update(live_skill_geometry_scale=1.,live_skill_time_stretch_factor=factor,
+        live_skill_start_step=34303)
+    task=contract.task_document(digest(spec['model_path']),f['source_payload']['language'],time_stretch_factor=factor)
+    score=contract.score_contract(time_stretch_factor=factor)
+    score_path=Path(spec['registered_root'])/'DECLARED_SCORE.json';write_json(score_path,score)
+    write_json(spec['paused_target_task'],task)
+    spec.update(paused_score_contract=str(score_path),paused_score_contract_file_sha256=digest(score_path),
+        paused_target_task_file_sha256=digest(spec['paused_target_task']),paused_target_task_sha256=document_hash(task))
+    got=contract.recipe_config(spec)
+    assert got[:3]==(episode,source,task) and len(calls)==1
+    assert calls[0][2]['actual_phase']==pair9.PHASE
+    wrong=contract.score_contract(time_stretch_factor=3-factor)
+    write_json(score_path,wrong);spec['paused_score_contract_file_sha256']=digest(score_path)
+    with pytest.raises(ValueError,match='EXACT_SOURCE_FULL_LANGUAGE_AND_DISTINCT'):
+        contract.recipe_config(spec)

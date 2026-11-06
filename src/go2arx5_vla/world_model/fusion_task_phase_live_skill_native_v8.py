@@ -66,6 +66,9 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9')),
         'EXACT_VERSIONED_GENERATED_SKILL_CONSUMER')
     version='V9' if identity[0].endswith('-v9') else 'V8'
+    factor=spec.get('live_skill_time_stretch_factor') if version=='V9' else 2
+    need(type(factor)is int and factor in(1,2),
+         'EXPLICIT_PREREGISTERED_FULL_H40_TIME_MAPPING')
     frozen_spec=document_hash(spec)
     ready=report['task_phase_initialization']['readiness']
     need(adapter.observe()['step']==B and not adapter.trace_sealed
@@ -99,11 +102,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         anchor=np.asarray(adapter.reference_history[-1]['pose'],float)
         program=TrajectoryAdaptation(raw,matrix10(payload['state_eef10']),
             spec['paused_source_from_target'],actual,anchor,adapter.base_pose_hold,
-            1.,time_stretch_factor=2)
+            1.,time_stretch_factor=factor)
         proposal=dict(schema='WM02_ACTUAL_GENERATED_LIVE_PROPOSAL_'+version,
             query=query,action_npz_sha256=digest(action),observation_identity=identity,
             original_decoded_physical_H40=raw.tolist(),adaptation=program.evidence(),
-            raw_knots=40,geometry_scale=1.,time_stretch_factor=2,clips=0,
+            raw_knots=40,geometry_scale=1.,time_stretch_factor=factor,clips=0,
             original_Processor_extra_decodes=0,native_step=B,pre_effect=True,
             actual_contact_domain='NONCONTACT_ONLY_NOT_GRASP_OR_RELEASE',
             cube_ground_truth_use='DIAGNOSTIC_SAFETY_ENVELOPE_NOT_MODEL_OR_GR00T_INPUT',

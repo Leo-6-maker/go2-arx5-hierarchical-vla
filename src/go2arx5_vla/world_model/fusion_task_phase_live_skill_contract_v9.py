@@ -45,14 +45,19 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
 def need(ok,why):
     if not ok:raise ValueError('TASK_PHASE_LIVE_SKILL_V9_'+why)
 
-def score_contract():
-    return dict(schema='WM02_GRADED_FULL_TASK_PROPOSAL_DIAGNOSTIC_SCORE_V9',
+def score_contract(*,time_stretch_factor=2):
+    # Keep the original time2 document byte-equivalent. A new time1 run binds
+    # its distinct task/score hashes before capture, never after a rejection.
+    need(type(time_stretch_factor)is int and time_stretch_factor in(1,2),
+         'EXPLICIT_ORIGINAL_ADAPTER_TIME1_OR_TIME2')
+    return dict(schema=('WM02_GRADED_FULL_TASK_PROPOSAL_DIAGNOSTIC_SCORE_V9'
+        +('_TIME1' if time_stretch_factor==1 else '')),
         purpose='FULL_GENERATED_H40_NATIVE_TRACKING_AND_INTENT_DIAGNOSIS_NOT_FULL_TASK_SCORE',
         task_condition=TASK_CONDITION,capture_boundary_step=B,registered_final_step=E,
         initialization_scale=.5,source_task_phase_equivalence=False,
         prefix_full_grade_required=False,old_prefix_query_ready_reclassified=False,
         initialization_recipe='12_SLOTS_MOVE28_SETTLE8_SAME_B34303',
-        geometry_scale=1.,time_stretch_factor=2,raw_knots_required=40,
+        geometry_scale=1.,time_stretch_factor=time_stretch_factor,raw_knots_required=40,
         minimum_tail_atoms=8,extra_budget='FINAL_HOLD_ONLY_NO_TRAJECTORY_CLIP',
         candidate_minimum_TCP_cube_distance_m=.14,
         candidate_gripper_rule='ORIGINAL_MECHANICAL_TO_WORKING_MAPPING_ALL40_UNCHANGED',
@@ -60,11 +65,13 @@ def score_contract():
         measured_tracking_error_is_prediction_innovation=False,
         full_task_success_claim=False,native_safety_thresholds_changed=False)
 
-def task_document(scene_sha256,language):
+def task_document(scene_sha256,language,*,time_stretch_factor=2):
     from .fusion_paused_observation import TASK_SCHEMA
+    score=score_contract(time_stretch_factor=time_stretch_factor)
     return dict(schema=TASK_SCHEMA,
-        task_id='ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9',language=language,
-        scene_sha256=scene_sha256,score_contract_sha256=document_hash(score_contract()),
+        task_id=('ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9'
+            +('_TIME1' if time_stretch_factor==1 else '')),language=language,
+        scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),
         language_provenance='EXACT_SOURCE_TASK_PROMPT')
 
 def recipe_config(spec):
@@ -79,14 +86,16 @@ def recipe_config(spec):
          and type(spec.get('max_ticks'))is int and spec['max_ticks']==E
          and spec.get('snapshot_binding_mode')==PAIR_MODE
          and type(spec.get('live_skill_geometry_scale'))in(int,float) and spec['live_skill_geometry_scale']==1.
-         and type(spec.get('live_skill_time_stretch_factor'))is int and spec['live_skill_time_stretch_factor']==2,
+         and type(spec.get('live_skill_time_stretch_factor'))is int and spec['live_skill_time_stretch_factor'] in(1,2),
          'EXPLICIT_HALF_PREFIX_B_DISTINCT_FULL_H40_SUFFIX_E_NO_SCALE_CLIP')
     episode,source=operational.recipe_config(spec,episode,actual_phase=PHASE,actual_kind=KIND,
                                             source_members=SOURCE_MEMBERS)
     language=unseal(json.loads(source['source_observation_bytes']))['payload']['language']
     task=common._json(spec['paused_target_task'],spec['paused_target_task_file_sha256'])
     score=common._json(spec['paused_score_contract'],spec['paused_score_contract_file_sha256'])
-    need(task==task_document(digest(spec['model_path']),language) and score==score_contract()
+    factor=spec['live_skill_time_stretch_factor']
+    need(task==task_document(digest(spec['model_path']),language,time_stretch_factor=factor)
+         and score==score_contract(time_stretch_factor=factor)
          and document_hash(task)==spec.get('paused_target_task_sha256'),
          'EXACT_SOURCE_FULL_LANGUAGE_AND_DISTINCT_VERSIONED_DIAGNOSTIC_SCORE')
     need(transform_hash(spec['paused_source_from_target'])==spec.get('paused_frame_map_sha256')
