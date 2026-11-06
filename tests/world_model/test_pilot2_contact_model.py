@@ -85,6 +85,7 @@ from go2arx5_vla.world_model.pilot2_contact_model import replay, planned_opening
 from scripts.wm02.build_pilot2_contact import build
 from go2arx5_vla.world_model.pilot2_contact_numpy import predict
 from go2arx5_vla.world_model.pilot2_contact_observer import record
+from go2arx5_vla.world_model.pilot2_static_contact_parallel import validate_single
 '''
         subprocess.run([sys.executable, '-B', '-c', code], check=True, capture_output=True, text=True)
 

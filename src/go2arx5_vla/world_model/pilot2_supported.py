@@ -41,11 +41,16 @@ def validate(spec,previous):
     else:contract(episode)
     parallel=bool(spec.get('parallel_batch_spec'))
     if parallel:
-        if (episode.get('schema')!='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1'
+        if (episode.get('schema')=='WM02_PILOT2_SUPPORTED_EPISODE_V1'
+                and spec.get('supported_static_parallel_schema')=='WM02_PILOT2_TWO_STATIC_CONTACT_BATCH_V1'):
+            from .pilot2_static_contact_parallel import validate_single
+            validate_single(spec,episode)
+        elif (episode.get('schema')!='WM02_PILOT2_SUPPORTED_POLICY_EPISODE_V1'
                 or spec.get('supported_policy_parallel_schema')!='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'):
             raise PermissionError('NEW_CONTACT_SINGLE_FIRST_OR_MATCHING_QUALIFIED_POLICY_BATCH_REQUIRED')
-        from .pilot2_supported_policy_runtime import validate_single_qualification
-        validate_single_qualification(spec,episode)
+        else:
+            from .pilot2_supported_policy_runtime import validate_single_qualification
+            validate_single_qualification(spec,episode)
     if (digest(path)!=spec['episode_manifest_sha256']or episode['run']!=spec['registered_root']
             or spec.get('pilot2_plan_sha')!=PLAN or not spec.get('pilot1_binding')):
         raise PermissionError('FRESH_SINGLE_PILOT2_CONTACT_SCOPE_AND_PROGRAM_REQUIRED')

@@ -8,6 +8,8 @@ from .storage import digest,write_json
 def recorded_split(batch,child):
     # Commissioning has no learning episode. Do not infer TRAIN from raw atoms.
     if batch.get('schema')=='WM02_PILOT2_TWO_COMMISSION_BATCH_V1':return 'QUALIFICATION'
+    if (batch.get('schema')=='WM02_PILOT2_TWO_STATIC_CONTACT_BATCH_V1'
+            and batch.get('purpose')=='SUPPORTED_STATIC_DUAL_COMMISSION'):return 'QUALIFICATION'
     return json.loads(Path(child['episode_manifest']).read_text())['split']
 
 
@@ -35,7 +37,8 @@ def validate_layout(batch, children):
     if len(children)!=2 or len(batch['slots'])!=2:raise PermissionError('EXACT_TWO_SLOT_PILOT_REQUIRED')
     feedback=batch.get('schema')=='WM02_PILOT1_TWO_FREE_FEEDBACK_BATCH_V1'
     coverage=batch.get('schema')=='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'
-    supported=batch.get('schema')=='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'
+    static_supported=batch.get('schema')=='WM02_PILOT2_TWO_STATIC_CONTACT_BATCH_V1'
+    supported=static_supported or batch.get('schema')=='WM02_PILOT2_TWO_SUPPORTED_POLICY_BATCH_V1'
     commissioning=batch.get('schema')=='WM02_PILOT2_TWO_COMMISSION_BATCH_V1'
     free=feedback or coverage or batch.get('schema')=='WM02_PILOT1_TWO_FREE_EVALUATION_BATCH_V1'
     pilot= supported or free or batch.get('schema')in('WM02_PILOT1_TWO_CONTACT_BATCH_V1','WM02_PILOT1_TWO_CONTACT_POLICY_BATCH_V1')
@@ -76,7 +79,7 @@ def validate_layout(batch, children):
                 raise PermissionError('SAME_ACTUAL_PILOT1_WINDOW_REQUIRED')
             previous=json.loads(Path(child['previous_stage']).read_text())
             if validate(child,previous)!=(6703 if supported else 4103 if free else 5703):raise PermissionError('QUALIFIED_SINGLE_PILOT1_SCENE_REQUIRED')
-            if supported and (child.get('supported_policy_parallel_schema')!=batch['schema']
+            if supported and (child.get('supported_static_parallel_schema'if static_supported else'supported_policy_parallel_schema')!=batch['schema']
                     or child.get('pilot2_plan_sha')!=batch.get('pilot2_plan_sha')):
                 raise PermissionError('SAME_QUALIFIED_SUPPORTED_POLICY_BATCH_AND_PLAN_REQUIRED')
             if free:
@@ -92,6 +95,10 @@ def validate_layout(batch, children):
             raise PermissionError('ACTUAL_PRIOR_TWO_NATIVE_SLOT_QUALIFICATION_REQUIRED')
         if duration_commission:validate_duration_commission(batch,children,proof,value)
         if supported:
+            if static_supported:
+                from .pilot2_static_contact_parallel import validate_batch
+                validate_batch(batch,children,proof,value)
+                return
             episodes=[json.loads(Path(c['episode_manifest']).read_text())for c in children]
             if batch.get('purpose')=='SUPPORTED_POLICY_DUAL_COMMISSION':
                 from .pilot2_supported import GOALS
