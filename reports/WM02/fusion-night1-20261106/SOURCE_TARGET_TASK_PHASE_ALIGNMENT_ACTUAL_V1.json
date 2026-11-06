@@ -1,0 +1,70 @@
+{
+  "schema": "WM02_FUSION_SOURCE_TARGET_TASK_PHASE_ALIGNMENT_ACTUAL_V1",
+  "status": "SOURCE_POSTURE_AND_CAMERA_ALIGNMENT_DOES_NOT_ALIGN_OBJECT_RELATIVE_TASK_PHASE",
+  "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+  "target_observation_sha256": "c200d27fccc774becac6a3379176d4fc0098d14d27feb559472cd3459367428c",
+  "target_packet_sha256": "23f1c95f700ff0106070d07a3216a819d3e215151243d459940b91340e6927e7",
+  "target_scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "explicit_unchanged_frame_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+  "source_initial_state_sha256": "abb3594bbed45c98489e4e0fb963cfdaa87a93ce90a44c5eda8a951940c3b8aa",
+  "source_scene_record_sha256": "e633c45438b208dc50f4781c31bbd9c3884849255804da76cf81a114e689b094",
+  "source_XML_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+  "source_card_sha256": "9494434d910b1aea9d642bd3cf2a8be31849d7a5d5d99388d57accbe7898da2f",
+  "actual_RO_receipt_sha256": "919f911a901f240007b7b9da6f4f7161eeb5b236d3c3d4a463b98a7edf2ce3a9",
+  "helper_sha256": "119a1b8505ffcec870d9180071b44e38cf077e9bf29ab5e73f86c9e8baa913fd",
+  "source": {
+    "TCP_to_cube_vector_source_world_m": [
+      5.118904796153068e-07,
+      -4.4582175856566764e-07,
+      -0.0799996963193938
+    ],
+    "TCP_to_cube_vector_local_TCP_m": [
+      0.07999969631941412,
+      -4.458034122514631e-07,
+      5.087249487589121e-07
+    ],
+    "TCP_to_cube_distance_m": 0.07999969632227374,
+    "condition": "ACTUAL_SOURCE71558_INITIAL_HAND_DIRECTLY_ABOVE_CUBE",
+    "data_role": "SOURCE_CONFIRM_V1_NOT_NEW_TRAIN_OR_TEST"
+  },
+  "target": {
+    "TCP_to_cube_vector_source_world_m": [
+      0.1628040982061107,
+      -0.01700716755068958,
+      -0.002542523799055174
+    ],
+    "TCP_to_cube_vector_local_TCP_m": [
+      0.024776749957802924,
+      -0.01611472935253589,
+      0.16101959733987006
+    ],
+    "TCP_to_cube_distance_m": 0.16370975098652776,
+    "native_step": 16403,
+    "condition": "ACTUAL_TARGET_CUBE_MAINLY_FORWARD_OF_HAND_NOT_BELOW"
+  },
+  "relative_geometry_vector_difference_m": 0.18109072277740218,
+  "interpretation": "A measured domain/phase difference, not proof of the cause of poor proposal intent. Absolute observed source TCP and fixed external rig do not establish equivalent task context. The frozen source record began near pregrasp; the target short task asks for a different approach direction.",
+  "policy_input_protection": {
+    "object_or_teacher_metadata_added_to_policy": false,
+    "GT_object_fitted_frame": false,
+    "source_images_replayed_as_target": false,
+    "privileged_geometry_used_only_for_diagnostic": true
+  },
+  "invariants": {
+    "original_short_task_score_unchanged": true,
+    "old_task_failures_retained": true,
+    "WBC_changes": false,
+    "physics_dt_s": 0.002
+  },
+  "effects": {
+    "writes": 0,
+    "physics": 0,
+    "FK": 0,
+    "model_queries": 0
+  },
+  "cost": {
+    "Core_RO_wall_s": 0.0012546852231025696,
+    "Core_RO_CPU_s": 0.0007333179999999967
+  },
+  "next": "Complete preregistered prompt controls while preserving this geometry difference. A future target initialization must declare its task phase and demonstrate real attainment/holding under original safety; do not call a new scene or start condition an old-task pass."
+}

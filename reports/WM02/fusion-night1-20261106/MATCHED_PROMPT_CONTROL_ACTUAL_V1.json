@@ -1,0 +1,80 @@
+{
+  "schema": "WM02_FUSION_MATCHED_PROMPT_CONTROL_ACTUAL_V1",
+  "status": "PARTIAL_TWO_OF_FOUR_CONDITIONS_COMPLETE_SS_TO_NOT_RUN",
+  "protocol": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
+  "SO": {
+    "state": "ACTUAL_CLOSED0_PID0",
+    "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+    "spec_sha256": "243e35aa50a571a70fcc16f8fbd49c7e4b66812dbb0f1cb8a9ce28198a909cde",
+    "result_sha256": "a6c6a1e0b38d3ccd93d76d414290320fe20f88b57ab4dfb8801f5ab7de5cc645",
+    "action_sha256": "407c64944072f588f02cf98960c409c7e521c2bb19ea525bdbaf0231d02bfd25",
+    "condition_manifest_sha256": "bbbe033a54625d1928aa27195de32d62fc919a119b1e01952e1bc47fc25d5f26",
+    "original_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "seed": 366104,
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+    },
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "effects": {
+      "actual_model_loads": 1,
+      "actual_VLA_inferences": 1,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "GR00T_updates": 0,
+      "native_integrations": 0
+    },
+    "cost": {
+      "query_wall_s": 0.8132315562106669,
+      "GPU_event_s": 0.813093994140625,
+      "peak_allocated_bytes": 13320805376,
+      "peak_reserved_bytes": 13524533248,
+      "wall_s": 30.631354429759085,
+      "CPU_s": 19.292529441
+    },
+    "worker_cost": {
+      "wall_s": 31.85611450811848,
+      "child_CPU_s": 20.336437,
+      "systemd_CPU_s": 20.439569,
+      "systemd_peak_memory_bytes": null,
+      "timing_definitions_overlap_do_not_sum": true
+    },
+    "command": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_vla --spec FRESH_fusion-night1-prompt-control-so-01_EXECUTION_SPEC --output NEW_SCOPE_ROOT/fit-01",
+    "worker_exit_code": 0,
+    "dispatcher_sha256": "3282ebd7cb83d70cad0d459aa8f4d25f02f436dd0b7d4eb9abbbe4e76b43421b",
+    "original_packet_state_images_prompt_changed": false,
+    "source_skill_success": "NOT_ESTABLISHED_BY_QUERY"
+  },
+  "TS": {
+    "state": "REUSE_COMPLETE_NO_RERUN",
+    "report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
+    "result_sha256": "88173fa865230030f91c113afed8aafad2891101082b696085db527597a06306",
+    "actual_queries_already_counted": 1
+  },
+  "SS": {
+    "state": "NOT_RUN",
+    "actual_queries": 0
+  },
+  "TO": {
+    "state": "NOT_RUN",
+    "actual_queries": 0
+  },
+  "total_current_FUSION_VLA_queries": 7,
+  "new_physics_for_prompt_controls": 0,
+  "new_model_updates_for_prompt_controls": 0,
+  "matched_noise_SO_TS": true,
+  "causal_language_effect_established": false,
+  "task_transfer_gain_established": false,
+  "source_target_phase_equivalence": false
+}
