@@ -1,0 +1,79 @@
+{
+  "schema": "WM02_FUSION_SOURCE_CAMERA_CPU_ACTUAL_V1",
+  "status": "SINGLE_SEALED_TARGET_SOURCE_RIG_CPU_RENDER_PASS",
+  "run": "fusion-night1-source-camera-cpuqual-01",
+  "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+  "spec_sha256": "548b0535c028b8ff998b9fde6bb032491e5beb8f982fed981f8e629c5bcdb563",
+  "result_sha256": "34c7c1e84bbe9fbab3783e144aff9836e18b8af43edf62278092f95b6d83aa83",
+  "bound_observation_sha256": "3a34142708671d893b852e4e02e2b8fd242e756f61e3fff63223207d1a8f60c7",
+  "lease": "CLOSED",
+  "worker_exit_code": 0,
+  "MainPID": 0,
+  "camera_recipe": "SIM_EXTERNAL_WORLD_SOURCE_RIG",
+  "source_camera_identity_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+  "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+  "saved_native": {
+    "native_step": 8503,
+    "expected_native_ticks": 8503,
+    "packet_sha256": "0a54ae1b13afc44b5d80e24a233f53333fd8541397bc8a90390de5a69843ff39"
+  },
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "saved_native_result_sha256": "79ebd44fe4ae2ff6fc2eea7eaf8a5280de39a7e0c226a6c623c68a44c7cbe436",
+  "saved_native_journal_sha256": "f78d80e03af50fd008d0b81b9e73406aea4df9256a2b84d752e68511662ac373",
+  "renderer": {
+    "GL_VENDOR": "Mesa",
+    "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "backend": "egl_mesa_cpu"
+  },
+  "capture": {
+    "index": 0,
+    "native_step": 8503,
+    "time_s": 17.006000000001453
+  },
+  "retained_files": {
+    "STATE.private.bin": "0a54ae1b13afc44b5d80e24a233f53333fd8541397bc8a90390de5a69843ff39",
+    "images/000000-calibration.json": "855ba8826810e03feb92411574a1aff01f591f84330c743a591a4738eb926ad9",
+    "images/000000-body_rgb.png": "b058b817850d6ddaabd35f16c5d7f696961cb3cac6d05d843a9c2c742581a9d6",
+    "images/000000-wrist_rgb.png": "f5e382dd0245687dd629cbd6f28dcf71feb52d411314b7e57192f747d356e077",
+    "BOUND_OBSERVATION.private.json": "3a34142708671d893b852e4e02e2b8fd242e756f61e3fff63223207d1a8f60c7",
+    "native-camera/images/000000-body_rgb.png": "bcaf54e9eecf86f5c9e491b1c3455690465f695db1fdd5373ea45330a1c69a0f",
+    "native-camera/images/000000-wrist_rgb.png": "f5e382dd0245687dd629cbd6f28dcf71feb52d411314b7e57192f747d356e077",
+    "native-camera/images/000000-calibration.json": "56db680b2c7665407726e16a9da91ce1bbf6fa47caefd6740c725dbf787cacd6"
+  },
+  "effects": {
+    "actual_snapshot_render_saves": 1,
+    "bound_observations": 1,
+    "actual_python_forward_calls": 3,
+    "native_integrations": 0,
+    "prohibited_integration_calls": 0,
+    "VLA_inferences": 0,
+    "GR00T_model_loads": 0,
+    "WM_model_loads": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0
+  },
+  "claims": {
+    "online_closed_loop": false,
+    "exact_controller_restore": false,
+    "source_images_supplied": false,
+    "native_camera_equivalence": false,
+    "image_domain_equivalence": false,
+    "target_task_success": false,
+    "native_execution_authorized": false
+  },
+  "interpretation": "ACTUAL_CORE_SOFTWARE_RENDER_OF_ONE_SEALED_PACKET; NOT_LIVE_SCENE_OR_DYNAMIC_RESTORE_OR_CAMERA_DOMAIN_EQUIVALENCE_OR_TASK_GAIN",
+  "cost": {
+    "function_wall_s": 5.010098576080054,
+    "function_CPU_s": 3.850173118,
+    "worker_wall_s": 5.52749847387895,
+    "worker_child_CPU_s": 4.255599,
+    "systemd_CPU_s": 4.341828,
+    "systemd_peak_memory_bytes": null,
+    "timing_definitions_overlap_do_not_sum": true
+  },
+  "command": "NATIVE_PYTHON -B -m scripts.wm02.qualify_fusion_source_camera --spec FRESH_fusion-night1-source-camera-cpuqual-01_EXECUTION_SPEC --output NEW_SCOPE_ROOT/fit-01",
+  "dispatcher_sha256": "d1f44470ab20f2993fb2c07fa05842ae3a21338bdd72e438a98f2a72c01468c0",
+  "retained_negative": "Local Intel Mesa ADL GT2 renderer rejected by strict CPU renderer qualification before Core trial; hermetic fixtures were not site qualification",
+  "next": "Fresh original-owner full1 source-posture/paused-query V3 pair; preserve actual native views, full decoded action and task geometry audit"
+}

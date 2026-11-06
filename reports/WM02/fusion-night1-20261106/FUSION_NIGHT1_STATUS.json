@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793962806.9286845,
-  "implementation_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+  "snapshot_epoch": 1793963668.411901,
+  "implementation_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; fusion-night1-source-posture-s050-01_CLOSED0_NATIVE_PASS; NEXT_GRADE_REQUIRES_FRESH_SCOPE",
+  "live_process_state": "COLD; SOURCE_POSTURE_003_010_025_050_AND_SOURCE_CAMERA_CPU_QUALIFICATION_CLOSED0; FULL1_V3_PAIR_PENDING_NEW_SCOPE",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 276,
   "FUSION_native_passes": 273,
@@ -136,6 +136,17 @@
       "model_fits": 2,
       "head_solves": 12,
       "optimizer_updates": 0
+    },
+    "source_camera_qualification": {
+      "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+      "spec_sha256": "548b0535c028b8ff998b9fde6bb032491e5beb8f982fed981f8e629c5bcdb563",
+      "result_sha256": "34c7c1e84bbe9fbab3783e144aff9836e18b8af43edf62278092f95b6d83aa83",
+      "worker_exit_code": 0,
+      "MainPID": 0,
+      "status": "CLOSED0",
+      "native_integrations": 0,
+      "model_queries": 0,
+      "actual_snapshot_render_saves": 1
     }
   },
   "fresh_CORR_source_shadow": {
@@ -239,10 +250,11 @@
     "PAUSED_QUERY_REPAIR_ACTUAL_V2.json",
     "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json",
     "SOURCE_POSTURE_ACTUAL_V1.json",
-    "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json"
+    "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json",
+    "SOURCE_CAMERA_CPU_ACTUAL_V1.json"
   ],
-  "next": "Current original-source grades .03/.1/.25/.5 CLOSED0PASS. First run one new finite CPU source-rig render qualification on Core from the sealed025 packet. Preserve native camera/scene/packet. Audit measured/reference residual without assuming cause. Only after actual render PASS register new full1 source-posture/query pair using tested new code and original finite scope. Then judge complete proposal and matched physical with/without-WM short skill.",
-  "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.qualify_fusion_source_camera --spec NEW_ACTIVE_CPU_SPEC --output NEW_SCOPE_ROOT/fit-01",
+  "next": "Fresh original-owner full1 source-posture/paused-query V3 pair; preserve actual native views, full decoded action and task geometry audit",
+  "next_executable": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_paused_query_check --spec FRESH_ACTIVE_REGISTERED_NATIVE_SPEC --execute",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -335,7 +347,7 @@
   },
   "slow_native_actual_report": "TRAJECTORY_SLOW_ACTUAL_V2.json",
   "future_implementation_in_this_commit": {
-    "status": "SOURCE_RIG_CPU_QUALIFIER_AND_FULL1_PAIRED_QUERY_IMPLEMENTED_TESTED_NOT_DEPLOYED",
+    "status": "SOURCE_RIG_CPU_ACTUAL_PASS_FULL1_PAIRED_QUERY_IMPLEMENTED_NOT_REGISTERED",
     "paired_native_GPU_query": true,
     "new_task_and_score": true,
     "CPU_response_fit_reload": true,
@@ -344,7 +356,7 @@
     "no_new_Actor_Critic": true,
     "live_proposal_qualification": "DEFERRED_NOT_RUN",
     "source_posture_qualification": "SITE_PASSED_GRADES_0.03,0.1,0.25,0.5",
-    "source_camera_capture": "TYPED_COPY_ONLY_IMPLEMENTED_NOT_CORE_RENDER_QUALIFIED",
+    "source_camera_capture": "ACTUAL_CORE_SEALED_PACKET_CPU_RENDER_PASS",
     "source_posture_query_V3": "IMPLEMENTED_NOT_REGISTERED_NOT_RUN"
   },
   "live_paused_query_actual_report": "PAUSED_QUERY_ACTUAL_V1.json",
@@ -375,5 +387,7 @@
   "last_live_paused_pair_report": "PAUSED_QUERY_REPAIR_ACTUAL_V2.json",
   "input_alignment_report": "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json",
   "source_posture_actual_report": "SOURCE_POSTURE_ACTUAL_V1.json",
-  "new_source_rig_query_implementation_report": "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json"
+  "new_source_rig_query_implementation_report": "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json",
+  "actual_last_CPU_source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+  "source_camera_CPU_actual_report": "SOURCE_CAMERA_CPU_ACTUAL_V1.json"
 }
