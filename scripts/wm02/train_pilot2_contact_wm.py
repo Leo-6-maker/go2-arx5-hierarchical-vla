@@ -11,14 +11,17 @@ def run(spec, output):
     import numpy as np
     import torch
     from go2arx5_vla.world_model.pilot2_contact_model import replay, metrics
-    from go2arx5_vla.world_model.pilot2_contact_neural import DirectContactWM
+    from go2arx5_vla.world_model.pilot2_contact_neural import DirectContactWM, PrefixContactWM
     from go2arx5_vla.world_model.actor_sampling import ExactSampler
     from go2arx5_vla.world_model.neural_training import rng_state, restore_rng, tree_error, memory
     from go2arx5_vla.world_model.storage import digest, write_json
     from go2arx5_vla.world_model.runtime import cuda_uuid
     start, cpu = time.monotonic(), time.process_time(); device = torch.device(spec['device'])
-    if spec['kind'] != 'CONTACT_WM' or spec.get('contact_recipe') != 'WM02_PILOT2_DIRECT_CONTACT_V1':
+    recipes = {'WM02_PILOT2_DIRECT_CONTACT_V1': 'FULL_FUTURE_PLAN_V1',
+               'WM02_PILOT2_PREFIX_CONTACT_V1': 'HORIZON_PREFIX_V1'}
+    if spec['kind'] != 'CONTACT_WM' or spec.get('contact_recipe') not in recipes:
         raise ValueError('DECLARED_PILOT2_DIRECT_CONTACT_RECIPE_REQUIRED')
+    architecture = recipes[spec['contact_recipe']]
     if type(spec.get('endpoint')) is not int or spec['endpoint'] < 2:
         raise ValueError('FINITE_ENDPOINT_WITH_RESTORE_PREDECESSOR_REQUIRED')
     normalization_mode = spec.get('normalizer_fit', 'COMMON_ACTION_CONDITIONED_TRAIN')
@@ -62,10 +65,14 @@ def run(spec, output):
     write_json(output/'BASELINES.json', baselines)
     identities = [dict(run_id=e['run_id'], parent=e['parent'], split=e['split']) for e in episodes]
     prior_roots = spec.get('resume_arms', {})
+    def create():
+        if architecture == 'HORIZON_PREFIX_V1':
+            return PrefixContactWM(history.shape[1], plan.shape[1], data['horizons'], spec['hidden']).to(device)
+        return DirectContactWM(history.shape[1], plan.shape[1], len(data['horizons']), spec['hidden']).to(device)
     for arm, future in [('ACTION_CONDITIONED', plan), ('NO_FUTURE_PROGRAM', blind)]:
         random.seed(spec['seed']); np.random.seed(spec['seed']); torch.manual_seed(spec['seed'])
         x = torch.cat((history, future), -1)
-        model = DirectContactWM(history.shape[1], plan.shape[1], len(data['horizons']), spec['hidden']).to(device)
+        model = create()
         model.fit_normalizer(x[train] if normalization_mode=='OWN_ARM_TRAIN' else canonical[train])
         opt = torch.optim.AdamW(model.parameters(), lr=spec['learning_rate'], weight_decay=1e-4)
         sampler = ExactSampler(len(train), 'SEEDED_GLOBAL_SHUFFLE', spec['seed']); previous_updates = 0
@@ -73,6 +80,8 @@ def run(spec, output):
             item = prior_roots[arm]
             if digest(item['path']) != item['sha256']: raise ValueError('PRIOR_CONTACT_CHECKPOINT_CHANGED')
             prior = torch.load(item['path'], map_location='cpu', weights_only=True)
+            if prior.get('architecture', 'FULL_FUTURE_PLAN_V1') != architecture:
+                raise ValueError('CONTACT_ARCHITECTURE_CHANGE_REQUIRES_FRESH_MODEL')
             if (prior['schema'] != 'WM02_PILOT2_DIRECT_CONTACT_CHECKPOINT_V1' or prior['arm'] != arm
                     or prior['horizons'] != list(data['horizons']) or prior['seed'] != spec['seed']
                     or prior.get('normalization_mode', 'COMMON_ACTION_CONDITIONED_TRAIN') != normalization_mode
@@ -102,6 +111,7 @@ def run(spec, output):
         def save(step):
             path = folder/f'checkpoint-{step}.pt'
             torch.save(dict(schema='WM02_PILOT2_DIRECT_CONTACT_CHECKPOINT_V1', arm=arm, seed=spec['seed'],
+                architecture=architecture,
                 source_sha=spec['source_sha'], model=model.state_dict(), optimizer=opt.state_dict(),
                 rng=rng_state(), sampler=sampler.state_dict(), updates=step, bundles=spec['bundles'],
                 episode_identities=identities, horizons=list(data['horizons']),
@@ -123,7 +133,7 @@ def run(spec, output):
             if step % 500 == 0 and step != spec['endpoint']: measure(previous_updates+step)
         final_step = previous_updates+spec['endpoint']; final_path = save(final_step) if not (folder/f'checkpoint-{final_step}.pt').exists() else folder/f'checkpoint-{final_step}.pt'
         saved_rng = rng_state()
-        clone = DirectContactWM(history.shape[1], plan.shape[1], len(data['horizons']), spec['hidden']).to(device)
+        clone = create()
         co = torch.optim.AdamW(clone.parameters(), lr=spec['learning_rate'], weight_decay=1e-4)
         prior = torch.load(folder/f'checkpoint-{final_step-1}.pt', map_location='cpu', weights_only=True)
         clone.load_state_dict(prior['model']); co.load_state_dict(prior['optimizer']); restore_rng(prior['rng'])
@@ -137,9 +147,8 @@ def run(spec, output):
         reload = max(tree_error(endpoint['model'], model.state_dict()), tree_error(endpoint['optimizer'], opt.state_dict()),
             tree_error(endpoint['sampler'], sampler.state_dict()))
         if error != 0 or reload != 0: raise ValueError('COMPLETE_DIRECT_CONTACT_RESTORE_DIFFERS')
-        from go2arx5_vla.world_model.pilot2_contact_numpy import predict
-        arrays = {k: v.detach().cpu().numpy() for k, v in model.state_dict().items()}
-        arrays['horizon_count'] = np.array(len(data['horizons']), dtype=np.int64)
+        from go2arx5_vla.world_model.pilot2_contact_numpy import predict, export_arrays
+        arrays = export_arrays({k: v.detach().cpu().numpy() for k, v in model.state_dict().items()}, len(data['horizons']))
         portable = folder/'DIRECT_CONTACT_NUMPY.npz'
         with portable.open('xb') as f: np.savez_compressed(f, **arrays)
         held_ids = np.r_[train[:128], dev[:128]]
@@ -148,12 +157,14 @@ def run(spec, output):
         numpy_error = float(np.max(np.abs(predict(arrays, held)-expected)))
         if numpy_error > 1e-4: raise ValueError('PARTIAL_CONTACT_NUMPY_TORCH_INFERENCE_DIFFERS')
         arms[arm] = dict(main_WM_updates=spec['endpoint'], prior_WM_updates=previous_updates,
+            architecture=architecture,
             restore_probe_optimizer_calls=1, full_restore_error=error, endpoint_reload_error=reload,
             checkpoint_sha256=digest(final_path), portable_sha256=digest(portable), numpy_torch_max_error=numpy_error,
             normalization_mode=normalization_mode, last_loss=loss, metrics=measure(final_step))
     elapsed = None
     if device.type=='cuda': end.record(); torch.cuda.synchronize(); elapsed = begin.elapsed_time(end)/1000
     result = dict(status='DIRECT_MULTIHORIZON_CONTACT_WM_TRAINED_AND_RESTORED', source_sha=spec['source_sha'],
+        architecture=architecture, prefix_invariant_by_construction=architecture=='HORIZON_PREFIX_V1',
         bundles=spec['bundles'], main_WM_updates=total, restore_probe_optimizer_calls=2, Actor_updates=0,
         native_integrations=0, TRAIN_anchors=len(train), DEV_anchors=len(dev),
         TRAIN_parents=sorted({e['parent'] for e in episodes if e['split']=='TRAIN'}),

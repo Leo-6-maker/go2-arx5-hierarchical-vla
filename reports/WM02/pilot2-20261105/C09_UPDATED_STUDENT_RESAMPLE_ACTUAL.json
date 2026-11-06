@@ -1,0 +1,211 @@
+{
+  "schema": "WM02_PILOT2_C09_UPDATED_STUDENT_SECOND_NATIVE_SAMPLE_V1",
+  "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+  "policy_checkpoint_sha256": "83f2b20f03a331dbd3cc596b7cf4544ab841a638075d23950a379d7796a2cc87",
+  "portable_policy_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0",
+  "model_training_data_sha256": "829212d466ff3c7a4836ef20054b6d21f20322f269b14fd4eed7acecf2c8d0a3",
+  "native_attempts": 4,
+  "native_PASS": 4,
+  "native_FAIL": 0,
+  "native_ticks": 26812,
+  "summary": {
+    "schema": "WM02_PILOT2_REPEATED_SUPPORTED_POLICY_SUMMARY_V1",
+    "planned": 4,
+    "attempted": 4,
+    "not_run": 0,
+    "native_failed": 0,
+    "invalid_evidence": 0,
+    "ineligible_prefix": 0,
+    "safety_stops": 0,
+    "variants": {
+      "UPDATED_WM32": {
+        "attempted": 4,
+        "valid_eligible": 4,
+        "strict_successes": 4,
+        "strict_success_rate": 1.0,
+        "successes_per_planned_case": 1.0,
+        "by_parent": {
+          "PILOT2_C0_T01_LAYOUT_V1": {
+            "valid_eligible": 4,
+            "strict_successes": 4
+          }
+        },
+        "by_goal": {
+          "SUPPORTED_GRASP_HOLD": {
+            "valid_eligible": 2,
+            "strict_successes": 2
+          },
+          "RELEASE_FROM_SUPPORTED_GRASP": {
+            "valid_eligible": 2,
+            "strict_successes": 2
+          }
+        }
+      }
+    },
+    "CONTACT_CONTROL_GAIN": false,
+    "frame_counts_are_not_independent_trials": true
+  },
+  "native": [
+    {
+      "run": "pilot2-c09-contact32-updated-policy-train-resample-01-single-00",
+      "native_sha256": "694e9d08e770ee838a7d8101c2150a835c8817a85bb54e23f01a0318fa14f86c",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "TRAINED_GOAL_POLICY",
+        "task_goal": "SUPPORTED_GRASP_HOLD",
+        "selected_action": 0,
+        "selected_program": "CLOSE_KEEP",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0"
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 4.0,
+        "terminal_released_s": 0.0,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-contact32-updated-policy-train-resample-01-single-01",
+      "native_sha256": "9222b6b05e83e82ce100d23185a61df55f1ecb0cf80328dd08e42731cdf6d1e2",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "TRAINED_GOAL_POLICY",
+        "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+        "selected_action": 1,
+        "selected_program": "CLOSE_RELEASE",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0"
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 1.2,
+        "terminal_released_s": 2.236,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-contact32-updated-policy-train-resample-01-pair-00-slot-0",
+      "native_sha256": "26ac03064c881c517e9dd8ddbf81dd3efddf2db978100ed9609fc7a55786a74a",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "TRAINED_GOAL_POLICY",
+        "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+        "selected_action": 1,
+        "selected_program": "CLOSE_RELEASE",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0"
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 1.2,
+        "terminal_released_s": 2.236,
+        "full_manipulation_success": false
+      }
+    },
+    {
+      "run": "pilot2-c09-contact32-updated-policy-train-resample-01-pair-00-slot-1",
+      "native_sha256": "14b193913ef764bbe98d7259fec4fda9d90befa4be5d24e385ed4972a72b548a",
+      "status": "NATIVE_STAGE_PASSED",
+      "source_sha": "5a7423d74f6d605d2477d14e8dbf61988efc1e0c",
+      "binary_sha256": "e4119a7c655c036939d948c03dcaca761d3a3672e6545e330825f34e3bc3c21c",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "physics_stops": [],
+      "trace_audit": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "applied_mixed_versions": 0,
+        "integrations_after_first_STOP": null
+      },
+      "decision": {
+        "native_step": 5303,
+        "method": "TRAINED_GOAL_POLICY",
+        "task_goal": "SUPPORTED_GRASP_HOLD",
+        "selected_action": 0,
+        "selected_program": "CLOSE_KEEP",
+        "decision_prefix_eligible": true,
+        "future_response_observed": false,
+        "policy_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0"
+      },
+      "score": {
+        "goal_success": true,
+        "longest_continuous_supported_grasp_s": 4.0,
+        "terminal_released_s": 0.0,
+        "full_manipulation_success": false
+      }
+    }
+  ],
+  "costs": {
+    "coordinator_wall_s": 263.53443416487426,
+    "coordinator_own_CPU_s": 1.270081024,
+    "worker_subtree_CPU_s": 627.582692834,
+    "workers": [
+      {
+        "run": "pilot2-c09-contact32-updated-policy-train-resample-01-single-00",
+        "exit_code": 0,
+        "wall_s": 83.62788381194696,
+        "child_CPU_s": 121.93752599999999
+      },
+      {
+        "run": "pilot2-c09-contact32-updated-policy-train-resample-01-single-01",
+        "exit_code": 0,
+        "wall_s": 84.38595318933949,
+        "child_CPU_s": 121.663816
+      },
+      {
+        "run": "pilot2-c09-contact32-updated-policy-train-resample-01-pair-00",
+        "exit_code": 0,
+        "wall_s": 90.27726138290018,
+        "child_CPU_s": 316.103586
+      }
+    ],
+    "monetary": "NOT_METERED"
+  },
+  "closed_learning_loop": "C09_REAL_DATA_TO_WM_AND_GOAL_POLICY_TO_8_REAL_TRAIN_EXECUTIONS_TO_NEW_TRAIN_REPLAY_TO_WM_AND_POLICY_UPDATES_TO_4_SECOND_REAL_TRAIN_EXECUTIONS",
+  "CONTACT_CONTROL_GAIN": false,
+  "heldout_native_gain": false,
+  "full_manipulation_success": false,
+  "new_model_updates": 0,
+  "cumulative_sealed_native": {
+    "attempts": 414,
+    "PASS": 411,
+    "FAIL": 3,
+    "ticks": 1874672
+  }
+}

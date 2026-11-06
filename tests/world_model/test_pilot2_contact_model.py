@@ -33,6 +33,45 @@ def episode(split='TRAIN', parent='P', run='run'):
 
 
 class SupportedDirectPrediction(unittest.TestCase):
+    def test_prefix_training_restores_and_architectures_cannot_be_mixed(self):
+        from scripts.wm02.train_pilot2_contact_wm import run
+        from go2arx5_vla.world_model.storage import digest
+        from go2arx5_vla.world_model.pilot2_contact_numpy import predict
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); bundle = root/'bundle.gz'
+            eps = [episode(), episode('DEV', 'Q', 'other')]
+            bundle.write_bytes(gzip.compress(json.dumps(dict(schema='WM02_PILOT2_SUPPORTED_ACTUAL_BUNDLE_V1',
+                complete_MPC_WBC_hidden_state=False, episodes=eps)).encode(), mtime=0))
+            s = dict(kind='CONTACT_WM', contact_recipe='WM02_PILOT2_PREFIX_CONTACT_V1',
+                device='cpu', source_sha='SYNTHETIC_PREFIX_SOFTWARE_TEST_NOT_NATIVE', cpus=[0], seed=363101,
+                hidden=8, learning_rate=.001, batch_size=8, endpoint=3, normalizer_fit='OWN_ARM_TRAIN',
+                bundles=[dict(path=str(bundle), sha256=digest(bundle))],
+                deadline_epoch=time.time()+60, registered_root=str(root))
+            out = root/'fit'; out.mkdir(); result = run(s, out)
+            self.assertEqual(result['architecture'], 'HORIZON_PREFIX_V1')
+            self.assertTrue(result['prefix_invariant_by_construction'])
+            self.assertEqual(result['main_WM_updates'], 6)
+            self.assertEqual(result['restore_probe_optimizer_calls'], 2)
+            data = replay(eps)
+            for arm in result['arms'].values():
+                self.assertEqual(arm['full_restore_error'], 0)
+                self.assertEqual(arm['endpoint_reload_error'], 0)
+                self.assertLess(arm['numpy_torch_max_error'], 1e-4)
+            with np.load(out/'ACTION_CONDITIONED/DIRECT_CONTACT_NUMPY.npz') as z:
+                arrays = {k: z[k].copy() for k in z.files}
+            x = np.c_[data['history'][:4], data['plan'][:4]]; changed = x.copy(); changed[:, -63:] += 1
+            np.testing.assert_array_equal(predict(arrays, x)[:, 0], predict(arrays, changed)[:, 0])
+            s['resume_arms'] = {arm: dict(path=str(out/arm/'checkpoint-3.pt'), sha256=value['checkpoint_sha256'])
+                for arm, value in result['arms'].items()}
+            continued = root/'continued'; continued.mkdir(); r2 = run(s, continued)
+            for arm in r2['arms'].values():
+                self.assertEqual(arm['prior_WM_updates'], 3)
+                self.assertEqual(arm['full_restore_error'], 0)
+            s['contact_recipe'] = 'WM02_PILOT2_DIRECT_CONTACT_V1'
+            wrong = root/'wrong'; wrong.mkdir()
+            with self.assertRaisesRegex(ValueError, 'ARCHITECTURE_CHANGE_REQUIRES_FRESH_MODEL'):
+                run(s, wrong)
+
     def test_native_dataset_module_has_no_torch_dependency(self):
         code = '''
 import builtins
