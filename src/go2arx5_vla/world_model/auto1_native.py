@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-fusion-trajectory-qualification-v1':
+        from .fusion_trajectory_qualification_contract import episode_limit
+        return episode_limit(spec,previous)
     if phase=='collect-target-fusion-reference-qualification-v1':
         from .fusion_reference_qualification_contract import episode_limit
         return episode_limit(spec,previous)
