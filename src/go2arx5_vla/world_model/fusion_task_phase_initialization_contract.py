@@ -1,0 +1,161 @@
+"""Read-only admission recipe for a new, finite task-phase calibration.
+
+The static episode contains no future cube measurement or runtime goal hash.
+Actual AUTO1/P1 ownership and native safety are still checked by the original
+worker. A separately persisted 3703 goal binding is created only by that worker.
+"""
+import hashlib
+import json
+from pathlib import Path
+
+from scripts.pi0292.relay_protocol import unseal, validate_observation, digest as document_hash
+from scripts.pi0294.dec1.target_observation import rigid, transform_hash
+from . import fusion_task_phase_initialization as recipe
+from . import fusion_live_proposal_qualification_contract as common
+from . import fusion_trajectory_qualification_contract as geometry
+from .storage import digest
+
+PHASE = 'collect-target-fusion-task-phase-initialization-v1'
+KIND = 'FUSION_TASK_PHASE_INITIALIZATION'
+SCALES = tuple(recipe.RAMPS)
+FIRST_PREDECESSOR = '82c5590d660202162802589916cb6361d691d21fcf74c2cce03ca63bbdacae46'
+FIRST_PREDECESSOR_SPEC = 'c1a0878ae26ef1ea895cd2eb65d2ba938ecd792b04c314304c5787572f84033f'
+FIRST_PREDECESSOR_SOURCE = '9459b60263c24f3b998b29e257a0aa35a9082f34'
+TRACE_BUILD = common.TRACE_BUILD
+SOURCE_MEMBERS = tuple(dict.fromkeys((*common.SOURCE_MEMBERS,
+    'src/go2arx5_vla/world_model/fusion_source_posture_qualification_contract.py',
+    'src/go2arx5_vla/world_model/fusion_source_posture_paused_query_v3.py',
+    'src/go2arx5_vla/world_model/fusion_task_phase_initialization.py',
+    'src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py',
+    'src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py',
+    'scripts/wm02/fusion_task_phase_initialization_check.py')))
+
+
+def need(value, reason):
+    if not value:
+        raise ValueError('TASK_PHASE_INITIALIZATION_NATIVE_' + reason)
+
+
+def _json(path, pin=None):
+    return common._json(path, pin)
+
+
+def _source(spec):
+    path = Path(spec['task_phase_source_observation'])
+    need(path.is_absolute() and path.resolve() == path and not path.is_symlink(),
+         'ORIGINAL_SOURCE_CANONICAL_PRIVATE_FILE')
+    raw = path.read_bytes()
+    need(hashlib.sha256(raw).hexdigest() == spec.get('task_phase_source_observation_sha256')
+         == recipe.SOURCE_OBSERVATION, 'EXACT_ORIGINAL_71558_BYTES')
+    payload = unseal(json.loads(raw))['payload']
+    validate_observation(payload)
+    need(document_hash(payload) == recipe.SOURCE_PAYLOAD
+         and document_hash(payload['state_eef10']) == recipe.SOURCE_STATE,
+         'EXACT_ORIGINAL_SOURCE_POLICY_STATE')
+    frame = rigid(spec['task_phase_source_from_target'])
+    need(transform_hash(frame) == spec.get('task_phase_frame_map_sha256') == recipe.FRAME_MAP,
+         'UNCHANGED_EXPLICIT_FC347_FRAME')
+    return dict(source_observation_bytes=raw, T_source_from_target=frame,
+                scene_sha256=digest(spec['model_path']))
+
+
+def episode_config(spec):
+    """Check immutable inputs without constructing a native model or a grant."""
+    need(spec.get('phase') == PHASE and spec.get('kind') == KIND
+         and spec.get('profile') == 'wm02-auto1-target'
+         and spec.get('domain') == 'WM02_AUTO1_TARGET_COMMISSION_V1'
+         and spec.get('site_profile') == '4080-simulation' and spec.get('physics') is True
+         and spec.get('scope') == 'WM02_PILOT1_SIM_ONLY' and bool(spec.get('pilot1_binding')),
+         'ORIGINAL_AUTO1_P1_NATIVE_BACKEND_REQUIRED_NOT_A_GRANT')
+    need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
+        'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger',
+        'paused_query_gpu_spec', 'paused_query_pair', 'snapshot_binding_mode')),
+         'SINGLE_WORLD_INITIALIZATION_WITHOUT_NEW_GPU_OR_QUERY')
+    need(spec.get('WBC_changes') is False and spec.get('physics_dt_s') == .002
+         and type(spec.get('wall_limit_s')) in (int, float) and 0 < spec['wall_limit_s'] <= 1200,
+         'FROZEN_WBC_2MS_FINITE_NATIVE_WALL')
+    source, files = Path(spec['source_root']), spec.get('source_files', {})
+    need(all(name in files and digest(source / name) == files[name] for name in SOURCE_MEMBERS),
+         'EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES')
+    episode = recipe.episode_contract(_json(spec['episode_manifest'], spec['episode_manifest_sha256']))
+    need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int
+         and spec['max_ticks'] == recipe.endpoint(episode)
+         and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
+         'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')
+    catalog = _json(spec['scene_allowlist'], spec['scene_allowlist_sha256'])
+    matches = [s for s in catalog['scenes'] if s['scene_id'] == common.SCENE_ID]
+    need(len(matches) == 1 and matches[0]['parent'] == common.PARENT and matches[0]['split'] == 'TRAIN'
+         and matches[0]['model_path'] == spec['model_path']
+         and matches[0]['model_sha256'] == digest(spec['model_path']) == recipe.SCENE
+         and matches[0].get('static_check') == 'PASSED_NO_INTEGRATION'
+         and catalog['native_binary_sha256'] == digest(spec['native_binary']),
+         'EXACT_STATIC_T06_AND_FROZEN_BINARY')
+    need(spec.get('trajectory_trace_capacity') == 524288
+         and type(spec.get('trajectory_trace_capacity')) is int
+         and spec.get('trajectory_trace_capacity_build_sha256') == TRACE_BUILD,
+         'EXACT_BUILD03_TRACE524_RECEIPT_PIN')
+    geometry.validate_trace_capacity_failure(spec)
+    path = Path(spec['trajectory_trace_capacity_build'])
+    build = _json(path, TRACE_BUILD)
+    need(build.get('status') == 'TRACE_ONLY_524288_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+         and build.get('trace_capacity') == 524288 and build.get('new_target_integrations') == 0
+         and build.get('trace_library_sha256') == digest(spec['trace_library'])
+         and build.get('native_binary_sha256') == digest(spec['native_binary'])
+         and build.get('observer_sha256') == digest(spec['observer_library'])
+         and all(build.get('source_files', {}).get(name) == files[name] for name in (
+             'src/go2arx5_vla/target_mujoco/init_trace.cpp', 'src/go2arx5_vla/target_mujoco/init_trace.hpp')),
+         'ACTUAL_TRACE_ONLY_BUILD03_UNCHANGED_NATIVE_BYTES')
+    common._closed(path.parent.parent)
+    return episode, _source(spec)
+
+
+def _previous(spec, episode, previous):
+    path = Path(spec['previous_stage'])
+    actual = _json(path, spec['previous_stage_sha256'])
+    need(previous == actual, 'EXACT_PINNED_PREDECESSOR_RESULT')
+    prior_spec, prior_pin = common._closed(path.parent.parent)
+    report = actual.get('reference_qualification') or {}
+    prior = report.get('episode') or {}
+    need(_json(prior_spec['episode_manifest'], prior_spec['episode_manifest_sha256']) == prior,
+         'PREDECESSOR_SPEC_EPISODE_REPORT_JOIN')
+    index = SCALES.index(episode['geometry_scale'])
+    if index == 0:
+        from . import fusion_source_posture_paused_query_v3 as v3
+        need(spec['previous_stage_sha256'] == FIRST_PREDECESSOR
+             and prior_pin == FIRST_PREDECESSOR_SPEC
+             and prior_spec.get('source_sha') == FIRST_PREDECESSOR_SOURCE
+             and actual.get('phase') == prior_spec.get('phase') == v3.PHASE,
+             'FIRST_GRADE_REQUIRES_EXACT_CLOSED_FULL1_V3_COLD_BOUNDARY')
+        v3.episode_contract(prior)
+        need(prior['geometry_scale'] == 1. and v3.endpoint(prior) == 16403,
+             'COMPLETE_PRIOR_FULL1_NOT_NEW_TASK_PHASE_QUALIFICATION')
+        expected_end = 16403
+    else:
+        recipe.episode_contract(prior)
+        need(actual.get('phase') == prior_spec.get('phase') == PHASE
+             and prior['geometry_scale'] == SCALES[index-1]
+             and prior['source_observation_sha256'] == episode['source_observation_sha256']
+             and prior['frame_map_sha256'] == episode['frame_map_sha256']
+             and prior['scene_sha256'] == episode['scene_sha256'],
+             'IMMEDIATELY_PRECEDING_SAME_RECIPE_GRADE')
+        binding = report.get('task_phase_initialization') or {}
+        need(binding.get('experiment_role') == 'NON_VLA_CALIBRATION'
+             and binding.get('actual_VLA_commands') == binding.get('VLA_queries') == 0
+             and binding.get('object_and_goal_are_policy_inputs') is False
+             and digest(binding['goal_binding_path']) == binding.get('goal_binding_sha256')
+             and digest(binding['readiness_path']) == binding.get('readiness_sha256'),
+             'PREDECESSOR_RETAINS_SEPARATE_GOAL_BINDING_AND_REAL_READINESS')
+        expected_end = recipe.endpoint(prior)
+    need(prior['scene_id'] == common.SCENE_ID and prior['parent'] == common.PARENT,
+         'UNCHANGED_T06_SCENE_LINEAGE')
+    common._complete_previous(spec, actual, prior_spec, report, expected_end)
+
+
+def episode_limit(spec, previous):
+    episode, _ = episode_config(spec)
+    _previous(spec, episode, previous)
+    return recipe.endpoint(episode)
+
+
+def wall_limit(spec):
+    return 1200

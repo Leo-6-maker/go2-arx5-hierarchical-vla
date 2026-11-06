@@ -24,7 +24,8 @@ def actual_trace_binding(adapter):
         header = stream.read(16)
     capacity = (adapter.spec.get('trajectory_trace_capacity',262144) if adapter.spec.get('phase') in (
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
-        'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3') else 131072)
+        'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
+        'collect-target-fusion-task-phase-initialization-v1') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -77,7 +78,8 @@ def run(adapter):
 
 
 def run_program(adapter, episode, inputs, *, program_factory=None,
-                report_context=None, task_score_contract=None, report_finalizer=None):
+                report_context=None, task_score_contract=None, report_finalizer=None,
+                sample_observer=None):
     """Reuse actual native consumption for an independently checked recipe.
 
     The original entry supplies its unchanged contract. A versioned caller may
@@ -95,6 +97,8 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
     trace_binding = actual_trace_binding(adapter)
     initial = adapter.measured_task_state()
     need(initial['native_step'] == INIT_STEP, 'ACTUAL_INIT_2503_REQUIRED')
+    if sample_observer is not None:
+        sample_observer(initial)
     adapter.trajectory_initial_tcp = initial['tcp'].copy()
     adapter.trajectory_initial_base = list(adapter.base_pose_hold)
     adapter.trajectory_program = None
@@ -177,6 +181,8 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
         need(actual['native_step'] == after['step'] == step+25
              and actual['safety_valid'] is True and actual['native_abort'] is False,
              'ORIGINAL_NATIVE_FEEDBACK_AND_SAFETY')
+        if sample_observer is not None:
+            sample_observer(actual)
         need(adapter.latest['mode'].data == 'WBC'
              and not any(r.get('reason') == 'PREFIX_TTL_EXPIRED' for r in adapter.reference_events()),
              'ORIGINAL_WBC_AND_TTL')
