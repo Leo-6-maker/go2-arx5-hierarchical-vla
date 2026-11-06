@@ -327,7 +327,20 @@ def query_readiness(samples,episode,inputs):
     does not supply original owner/admission/certificate/native-PASS authority.
     Small grades can never be query-ready, even if already near the full goal.
     """
-    body=_inputs(inputs);episode_contract(episode);end=endpoint(episode)
+    episode_contract(episode)
+    return _query_readiness_at_endpoint(samples,episode,inputs,end=endpoint(episode))
+
+
+def _query_readiness_at_endpoint(samples,episode,inputs,*,end):
+    """Pure measurement math at an explicit finite caller-owned endpoint.
+
+    The public V1 entry retains its exact manifest/clock. A versioned wrapper
+    can use this math after validating its own actual episode, without
+    relabelling that episode or granting execution.
+    """
+    body=_inputs(inputs);episode_contract(episode)
+    need(type(end) is int and endpoint(episode)<=end<=33000
+         and (end-DECISION_STEP)%TICKS_PER_ATOM==0, 'FINITE_EXPLICIT_MEASUREMENT_ENDPOINT')
     required={'native_step','time_s','tcp','object_pose','qpos','qvel','ctrl','finger_q',
         'safety_valid','native_abort','robot_object_contact','left_object_contact','right_object_contact',
         'native_grasp','contact_valid','gripper_state_valid','object_present','illegal_contact',

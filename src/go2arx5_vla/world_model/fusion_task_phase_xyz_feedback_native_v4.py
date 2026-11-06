@@ -1,0 +1,140 @@
+"""Causal finite XYZ reference commissioning on the original native loop."""
+import copy
+import json
+import os
+
+import numpy as np
+
+from scripts.pi0294.task_state import parse_state
+from . import fusion_task_phase_xyz_feedback_v4 as recipe
+from .fusion_task_phase_xyz_feedback_contract_v4 import PHASE, need
+from .fusion_task_phase_initialization_native import _plain, _verify_actual_fk
+from .fusion_reference_qualification_native import require_original_install_ack
+from .storage import digest
+
+
+def validate_adapter_install(adapter, action):
+    need(adapter.spec.get('phase') == PHASE and hasattr(adapter, 'trajectory_initial_tcp'),
+         'ACTUAL_V4_PHASE_AND_MEASURED_INIT')
+    return recipe.validate_install_preview(action, initial_tcp=adapter.trajectory_initial_tcp,
+        program=adapter.trajectory_program, step=adapter.observe()['step'],
+        base=adapter.base_pose_hold, frozen_base=adapter.trajectory_initial_base,
+        end_step=adapter.spec['max_ticks'])
+
+
+def run(adapter):
+    from scripts.pi0292.durable import write
+    from .fusion_task_phase_xyz_feedback_contract_v4 import episode_config
+    from .fusion_task_phase_initialization_native import run_initialization_program
+    episode, source = episode_config(adapter.spec)
+    receipts = []
+
+    def freeze(inputs, actual_episode, initial_tcp, decision_tcp, base):
+        program = recipe.make_program(inputs, actual_episode, initial_tcp, decision_tcp, base)
+        return program, program.evidence()['frozen_predecision_reference_binding']
+
+    def before_preview(current_adapter, before, last_sample, closed_window):
+        step = before['step']
+        if step not in recipe.FEEDBACK_STEPS:
+            return False
+        need(current_adapter is adapter and len(receipts) == recipe.FEEDBACK_STEPS.index(step),
+             'ONE_SAVED_DECISION_PER_PREDECLARED_STEP_NO_RETRY')
+        program = adapter.trajectory_program
+        need(type(program) is recipe.FeedbackProgram and closed_window is not None
+             and closed_window.get('native_start_step') == step-25
+             and closed_window.get('native_end_step') == step
+             and closed_window.get('actual_ticks') == 25
+             and bool(closed_window.get('solver_policies_with_exact_installed_target'))
+             and (closed_window.get('gripper') or {}).get('command_consumed') is True
+             and closed_window.get('reference_sha256') == adapter.active_reference['wire_sha256']
+             and last_sample.get('native_step') == step,
+             'PREVIOUS_REAL_COMPLETE_POSE_GRIPPER_AND_SOLVER_WINDOW_REQUIRED')
+        ack = require_original_install_ack(adapter.active_reference)
+        state_path = adapter.output/'state.bin'
+        raw = state_path.read_bytes()
+        packet = parse_state(raw)
+        original_reader = getattr(adapter, 'actual_state', None)
+        measured = adapter.measured_task_state()
+        need(getattr(adapter, 'actual_state', None) is original_reader
+             and packet['step'] == before['step'] == step
+             and measured['native_step'] == last_sample['native_step'] == step
+             and all(np.array_equal(measured[key], last_sample[key])
+                     for key in ('qpos', 'qvel', 'ctrl', 'tcp', 'object_pose')),
+             'FRESH_ORIGINAL_READER_SAME_ACTUAL_CLOSED_WINDOW_AND_PACKET')
+        witness = _verify_actual_fk(adapter, packet, measured, expected_step=step)
+        need(measured.get('safety_valid') is True and measured.get('native_abort') is False
+             and measured.get('robot_object_contact') is False
+             and measured.get('gripper_state_valid') is True and measured.get('object_present') is True,
+             'ORIGINAL_SAFE_NONCONTACT_FEEDBACK_MEASUREMENT')
+        update = program.prepare_feedback(step, measured['tcp'])
+        paths = {name: adapter.output/f'XYZ_FEEDBACK_{len(receipts)+1:02d}_{name}' for name in (
+            'STATE.bin', 'MEASURED.private.json', 'REFERENCE_PATH.private.json',
+            'REMAINING_PATH.private.json', 'H40.private.json', 'DECISION.private.json')}
+        need(not any(path.exists() or path.is_symlink() for path in paths.values()),
+             'FRESH_FEEDBACK_ARTIFACTS_NO_OVERWRITE_OR_UNCERTAIN_REPLAY')
+        atom = (step-recipe.DECISION_STEP)//25
+        remaining = update.reference_path[atom:]
+        preview = update.reference_path[np.minimum(atom+np.arange(40), program.end_atom)]
+        documents = {'MEASURED.private.json': _plain(measured),
+            'REFERENCE_PATH.private.json': update.reference_path.tolist(),
+            'REMAINING_PATH.private.json': remaining.tolist(), 'H40.private.json': preview.tolist()}
+        with paths['STATE.bin'].open('xb') as handle:
+            handle.write(raw)
+            handle.flush()
+            os.fsync(handle.fileno())
+        for name, value in documents.items():
+            write(paths[name], value)
+        decision = dict(schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_DECISION_V4',
+            actual_spec_phase=PHASE, actual_spec_source_sha=adapter.spec['source_sha'],
+            episode_sha256=adapter.spec['episode_manifest_sha256'],
+            original_goal_binding_sha256=digest(adapter.output/'TASK_PHASE_GOAL_BINDING.private.json'),
+            decision=copy.deepcopy(update.evidence), actual_fk_witness=witness,
+            previous_complete_window=copy.deepcopy(closed_window), previous_original_install_ACK=ack,
+            artifact_files={name: dict(path=str(path), sha256=digest(path))
+                            for name, path in paths.items() if name != 'DECISION.private.json'},
+            saved_before_program_commit_and_reference_install=True,
+            planned_install_outcome='NOT_YET_KNOWN_RETAIN_ORIGINAL_ACK_AND_CONSUMPTION_RECORDS',
+            old_unconsumed_previews_are_expert_labels=False, native_execution_authorized=False,
+            original_WBC_safety_and_physics_unchanged=True, WM_updates=0, VLA_queries=0)
+        write(paths['DECISION.private.json'], decision)
+        need(json.loads(paths['DECISION.private.json'].read_bytes()) == decision
+             and all(json.loads(paths[name].read_bytes()) == value for name, value in documents.items())
+             and paths['STATE.bin'].read_bytes() == raw == state_path.read_bytes()
+             and adapter.observe()['step'] == step,
+             'DURABLE_READBACK_AND_UNCHANGED_PACKET_BEFORE_COMMIT_OR_INSTALL')
+        receipt = dict(native_step=step, decision_path=str(paths['DECISION.private.json']),
+                       decision_sha256=digest(paths['DECISION.private.json']))
+        program.commit_feedback(update, saved_decision_sha256=receipt['decision_sha256'])
+        receipts.append(receipt)
+        adapter.command_event(dict(phase='finite-xyz-feedback-saved-before-reference-install', **receipt))
+        return True
+
+    def extend_report(report):
+        program = adapter.trajectory_program
+        need(len(receipts) == program.feedback_count == 4
+             and [row['native_step'] for row in receipts] == list(recipe.FEEDBACK_STEPS),
+             'ALL_FOUR_SAVED_FINITE_DECISIONS_REQUIRED')
+        report['finite_xyz_feedback'] = dict(schema='WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4',
+            decisions=copy.deepcopy(receipts), actual_feedback_reference_updates=4,
+            committed_feedback_decisions=4,
+            nonzero_XYZ_corrections=sum(row['applied_delta_norm_m'] > 0
+                                       for row in program.evidence()['feedback_decisions']),
+            deadband_HOLD_count=sum(row['deadband_hold'] for row in program.evidence()['feedback_decisions']),
+            sum_applied_XYZ_delta_norms_m=sum(row['applied_delta_norm_m']
+                                            for row in program.evidence()['feedback_decisions']),
+            final_reference_path_sha256=recipe.fixed._sha(program.reference_path),
+            unchanged_desired_path_sha256=recipe.fixed._sha(program.desired_path),
+            causal_completed_window_feedback=True, ordinary_feedback_not_model_benefit=True,
+            original_windows_retain_ACK_solver_pose_and_gripper_consumption=True,
+            WM_updates=0, VLA_queries=0, Actor_updates=0)
+
+    return run_initialization_program(adapter, episode, source, recipe_module=recipe,
+        actual_phase=PHASE, report_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_V4',
+        goal_schema='WM02_NATIVE_TASK_PHASE_XYZ_FEEDBACK_GOAL_BINDING_V4',
+        reference_calibration_factory=freeze, before_preview=before_preview,
+        report_extension=extend_report,
+        report_context=dict(initialization_condition=recipe.CONDITION,
+            baseline_condition=recipe.BASELINE_CONDITION,
+            historical_terminal_tracking_error_used=False, learned_reference_adapter_used=False,
+            ordinary_XYZ_feedback_commissioning_not_WM_or_VLA_gain=True,
+            independent_restart_not_complete_MPC_state_fork=True))

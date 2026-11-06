@@ -314,7 +314,8 @@ def test_new_phase_route_uses_existing_quota_and_exact_typed_wrapper(tmp_path, m
     assert target_sequential.native_task_bucket('cold-1', False) == '0'
 
 
-def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_reload(tmp_path, monkeypatch):
+@pytest.mark.parametrize('native_step', [3703, 10303])
+def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_reload(tmp_path, monkeypatch, native_step):
     mujoco = pytest.importorskip('mujoco')
     from scripts.pi0294.task_state import ActualState, parse_state
     from go2arx5_vla.world_model.native_replay import forbid_integration
@@ -337,7 +338,7 @@ def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_relo
     reader = ActualState(model)
     qpos = model.qpos0.copy()
     qpos[reader.finger_q] = .042
-    state = dict(native_step=3703, time_s=7.406, qpos=qpos, qvel=np.zeros(32), ctrl=np.zeros(20))
+    state = dict(native_step=native_step, time_s=native_step*.002, qpos=qpos, qvel=np.zeros(32), ctrl=np.zeros(20))
     packet = parse_state(pack(state))
     model_qpos0, body_pos = model.qpos0.copy(), model.body_pos.copy()
     with forbid_integration(mujoco):
@@ -348,18 +349,21 @@ def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_relo
         raise AssertionError('Witness verification cannot forward/step/load a model')
     monkeypatch.setattr(mujoco, 'mj_step', forbidden)
     monkeypatch.setattr(mujoco, 'mj_forward', forbidden)
-    proof = native._verify_actual_fk(adapter, packet, measured)
+    kwargs = {} if native_step == 3703 else dict(expected_step=native_step)
+    proof = native._verify_actual_fk(adapter, packet, measured, **kwargs)
     assert proof['status'] == 'ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET'
     assert proof['wrapper_mj_step_calls'] == proof['wrapper_mj_forward_calls'] == proof['wrapper_model_loads'] == 0
-    assert np.array_equal(reader.data.qpos, packet['qpos']) and reader.data.time == 7.406
+    assert np.array_equal(reader.data.qpos, packet['qpos']) and reader.data.time == native_step*.002
     assert np.array_equal(model.qpos0, model_qpos0) and np.array_equal(model.body_pos, body_pos)
     changed = copy.deepcopy(measured)
     changed['object_pose'][0, 3] += .001
     with pytest.raises(ValueError, match='ACTUAL_FK_MEASURED_object_pose'):
-        native._verify_actual_fk(adapter, packet, changed)
+        native._verify_actual_fk(adapter, packet, changed, **kwargs)
+    with pytest.raises(ValueError, match='ACTUAL_FK_EXACT_DECISION_CLOCK'):
+        native._verify_actual_fk(adapter, packet, measured, expected_step=native_step+25)
     adapter.actual_state = SimpleNamespace(model=reader.model, data=reader.data, pose=reader.pose)
     with pytest.raises(ValueError, match='ORIGINAL_ACTUALSTATE_READER'):
-        native._verify_actual_fk(adapter, packet, measured)
+        native._verify_actual_fk(adapter, packet, measured, **kwargs)
 
 
 def test_check_import_has_no_native_renderer_or_model_and_execute_delegates_original_worker(recipe, tmp_path, monkeypatch):

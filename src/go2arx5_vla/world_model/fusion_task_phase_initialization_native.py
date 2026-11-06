@@ -34,7 +34,7 @@ def _plain(value):
     return value
 
 
-def _verify_actual_fk(adapter, packet, measured):
+def _verify_actual_fk(adapter, packet, measured, *, expected_step=recipe.DECISION_STEP):
     """Join the original reader's current FK data to the exact saved packet.
 
     No forward or step is performed here. TargetSequentialAdapter's unchanged
@@ -47,7 +47,7 @@ def _verify_actual_fk(adapter, packet, measured):
     need((state.model.nq, state.model.nv, state.model.nu) == (34, 32, 20)
          and digest(adapter.spec['model_path']) == recipe.SCENE,
          'ORIGINAL_SCENE_AND_NATIVE_STATE_ABI')
-    need(measured['native_step'] == packet['step'] == recipe.DECISION_STEP
+    need(type(expected_step) is int and measured['native_step'] == packet['step'] == expected_step
          and measured['time_s'] == state.data.time == packet['time_s'],
          'ACTUAL_FK_EXACT_DECISION_CLOCK')
     for key in ('qpos', 'qvel', 'ctrl'):
@@ -84,7 +84,8 @@ def run(adapter):
 
 def run_initialization_program(adapter, episode, source, *, recipe_module=recipe, actual_phase=PHASE,
                                report_schema=REPORT_SCHEMA, goal_schema=GOAL_SCHEMA,
-                               reference_calibration_factory=None, report_context=None):
+                               reference_calibration_factory=None, report_context=None,
+                               before_preview=None, report_extension=None):
     """Run one checked fixed grade; no query or model entry is reachable."""
     from scripts.pi0292.durable import write
     from .fusion_trajectory_qualification_native import run_program
@@ -185,6 +186,8 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
             object_and_goal_are_policy_inputs=False, source_pose_is_expert_action_label=False,
             query_readiness_is_native_or_GPU_grant=False, generated_calibration_waypoints=40,
             raw_VLA_knots=0, full_task_success=False)
+        if report_extension is not None:
+            report_extension(report)
 
     context = dict(schema=report_schema, actual_spec_phase=actual_phase,
             experiment_role='NON_VLA_CALIBRATION', desired_outcome_provenance='CALIBRATION_INTENT',
@@ -197,4 +200,4 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
         context.update(report_context)
     return run_program(adapter, episode, inputs, program_factory=factory,
         report_context=context, report_finalizer=finalizer,
-        sample_observer=record_sample)
+        sample_observer=record_sample, before_preview=before_preview)

@@ -26,7 +26,7 @@ def actual_trace_binding(adapter):
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
         'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
         'collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2',
-        'collect-target-fusion-task-phase-bias-continuation-v3') else 131072)
+        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -80,7 +80,7 @@ def run(adapter):
 
 def run_program(adapter, episode, inputs, *, program_factory=None,
                 report_context=None, task_score_contract=None, report_finalizer=None,
-                sample_observer=None):
+                sample_observer=None, before_preview=None):
     """Reuse actual native consumption for an independently checked recipe.
 
     The original entry supplies its unchanged contract. A versioned caller may
@@ -131,6 +131,10 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
     installed_step = install()
     while adapter.observe()['step'] < end_step:
         before = adapter.observe(); step = before['step']
+        force_install = False
+        if before_preview is not None:
+            force_install = before_preview(adapter, before, samples[-1], windows[-1] if windows else None)
+            need(type(force_install) is bool, 'EXPLICIT_BEFORE_PREVIEW_FORCE_INSTALL_BOOLEAN')
         if step == INIT_STEP+40*25:
             installed_step = install()
         if step == DECISION_STEP:
@@ -164,7 +168,7 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
             need(adapter.observe()['step'] == step, 'NO_DECISION_INTEGRATION')
             adapter.command_event(dict(phase='trajectory-decision-before-install', **evidence))
             installed_step = install()
-        elif step-installed_step >= 175:
+        elif force_install or step-installed_step >= 175:
             installed_step = install()
         expected = action_now()[0]
         history = history_input() if step >= DECISION_STEP else None
