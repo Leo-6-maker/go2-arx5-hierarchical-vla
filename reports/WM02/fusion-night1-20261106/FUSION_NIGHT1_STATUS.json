@@ -21,19 +21,19 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1793968328.5569313,
-  "implementation_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+  "snapshot_epoch": 1793969505.941012,
+  "implementation_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+  "actual_last_native_source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
   "current_native_job": null,
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "COLD; TASK_PHASE_S003_CLOSED0_PID0; FROZEN_PREDECISION_BIAS_V2_CODE_IN_PROGRESS",
+  "live_process_state": "COLD; TASK_PHASE_BIAS_S003_CLOSED0_PID0; V3_GRADED_CONTINUATION_IMPLEMENTATION_IN_PROGRESS",
   "FUSION_completed_physical_cohorts": 5,
-  "FUSION_native_attempts": 278,
-  "FUSION_native_passes": 275,
+  "FUSION_native_attempts": 279,
+  "FUSION_native_passes": 276,
   "FUSION_native_failures": 3,
-  "FUSION_native_ticks": 1260059,
+  "FUSION_native_ticks": 1267162,
   "FUSION_method_evaluations": 248,
   "FUSION_method_successes": 17,
   "FUSION_method_score_interpretation": "HETEROGENEOUS_LOCAL_XY_DIAGNOSTICS_NOT_FULL_TASK_SUCCESS_OR_AGGREGATE_GAIN_ESTIMATE",
@@ -44,10 +44,10 @@
   "FUSION_restore_probes": 6,
   "FUSION_Actor_updates": 0,
   "FUSION_GR00T_updates": 0,
-  "sealed_native_attempts_with_inherited_PILOT2": 932,
-  "sealed_native_passes_with_inherited_PILOT2": 924,
+  "sealed_native_attempts_with_inherited_PILOT2": 933,
+  "sealed_native_passes_with_inherited_PILOT2": 925,
   "retained_historical_native_failures": 8,
-  "sealed_native_ticks_with_inherited_PILOT2": 4247352,
+  "sealed_native_ticks_with_inherited_PILOT2": 4254455,
   "M0": "FOUR_ARM_CALIBRATION_COMPLETE_NEGATIVE_NO_GAIN",
   "M1": "NINE_REAL_FROZEN_QUERIES; MATCHED_FOUR_CONDITIONS_COMPLETE; LANGUAGE_AND_TASK_PHASE_MISMATCH_DIAGNOSED; GENERATED_ACTION_PHYSICAL_QUALIFICATION_PENDING",
   "M2": "NOT_RUN_FULL_TARGET_REFERENCE_WM_INPUT_AND_LIVE_QUALIFICATION_INCOMPLETE",
@@ -265,8 +265,8 @@
     "TASK_PHASE_INITIALIZATION_ACTUAL_V1.json",
     "TASK_SEMANTICS_ALIGNMENT_ACTUAL_V1.json"
   ],
-  "next": "Implement/test fresh same-grade frozen predecision-bias reference calibration before amplitude expansion; do not train WM to conceal task-intent or reference-anchor errors.",
-  "next_executable": "New versioned bias-calibration CLI after local tests and original-owner finite scope; current abc .03 is CLOSED and never rerun.",
+  "next": "Implement/test adjacent graded continuation of measured frozen predecision calibration; first .1 only after fresh original owner/scope admission. Full initialization and actual frozen-GR00T +/-WM short skill still incomplete.",
+  "next_executable": null,
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -400,7 +400,7 @@
   "input_alignment_report": "VLA_INPUT_ALIGNMENT_ACTUAL_V1.json",
   "source_posture_actual_report": "SOURCE_POSTURE_ACTUAL_V1.json",
   "new_source_rig_query_implementation_report": "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json",
-  "actual_last_CPU_source_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+  "actual_last_CPU_source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
   "source_camera_CPU_actual_report": "SOURCE_CAMERA_CPU_ACTUAL_V1.json",
   "actual_last_GPU_source_sha": "fe70730d40f2ca9aebc03f6e941bc00db13ab679",
   "last_source_posture_query_actual_report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
@@ -431,7 +431,7 @@
     "query_ready": false,
     "maximum_graded_goal_position_error_mm": 25.6496345494164,
     "actual_hold_diameter_mm": 0.1204495103127996,
-    "next_condition": "INIT_FROZEN_PREDECISION_BIAS_V2_NOT_STARTED"
+    "next_condition": "INIT_FROZEN_PREDECISION_BIAS_V2_ACTUAL_CLOSED0"
   },
   "physical_feedback_successor_guidance": {
     "attachment_sha256": "b50ff48d1ca2d2d5b856072b4fbbef82e2ff7cb645f0e8bff94ca1a44b9cd504",
@@ -441,5 +441,36 @@
     "measured_innovation_forecast_are_distinct": true,
     "same_task_paraphrase_study_claimed": false,
     "GR00T_head_projection_training": "NOT_STARTED_CONDITIONAL_SUCCESSOR_ONLY"
-  }
+  },
+  "task_phase_frozen_predecision_bias": {
+    "report": "TASK_PHASE_FROZEN_PREDECISION_BIAS_ACTUAL_V2.json",
+    "source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
+    "spec_sha256": "d244df6e81cc57ef4c6feefa3914c016de8593a47789b630989ce0d711466628",
+    "result_sha256": "5c9d9cbfed522e9deaed2d957e04f8141785b696d91a022d901808af1292e262",
+    "status": "ACTUAL_CLOSED0_POINT03_DESIRED_GOAL_AND_HOLD_PREDICATES_PASS",
+    "actual_target_integrations": 7103,
+    "complete_atomic_transitions": 284,
+    "complete_task_atoms": 184,
+    "query_ready": false,
+    "graded_goal_position_max_error_mm": 5.350030786849759,
+    "graded_goal_orientation_max_error_rad": 0.00576712945894337,
+    "actual_hold_diameter_mm": 0.13537838701822325,
+    "all_predicates_except_full_grade": true,
+    "same_state_counterfactual_claim": false,
+    "WM_benefit_claim": false,
+    "positive_interpretation": "SINGLE_SMALL_GRADE_KNOWN_SIMPLE_INITIALIZATION_CALIBRATION_DESIRED_GOAL_GAIN_NOT_WM_OR_TASK_TRANSFER"
+  },
+  "physics_feedback_packet_prototype": {
+    "implementation_source_sha": "b55da2d831121a9971803f013ad4c6b921bd2984",
+    "report": "PHYSICS_FEEDBACK_PACKET_IMPLEMENTATION_V1.json",
+    "runtime_integrated": false,
+    "native_qualified": false,
+    "tests_passed": 105,
+    "effects": {
+      "queries": 0,
+      "updates": 0,
+      "physics": 0
+    }
+  },
+  "next_command_status": "SUCCESSOR_IMPLEMENTATION_IN_PROGRESS_NO_EXECUTABLE_COMMAND_CLAIM"
 }
