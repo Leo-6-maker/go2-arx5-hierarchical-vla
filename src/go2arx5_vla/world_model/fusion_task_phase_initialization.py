@@ -339,7 +339,7 @@ def _query_readiness_at_endpoint(samples,episode,inputs,*,end,maximum_endpoint=3
     relabelling that episode or granting execution.
     """
     body=_inputs(inputs);episode_contract(episode)
-    need(type(maximum_endpoint) is int and maximum_endpoint in (33000,35103)
+    need(type(maximum_endpoint) is int and maximum_endpoint in (33000,35103,46303)
          and type(end) is int and endpoint(episode)<=end<=maximum_endpoint
          and (end-DECISION_STEP)%TICKS_PER_ATOM==0, 'FINITE_EXPLICIT_MEASUREMENT_ENDPOINT')
     required={'native_step','time_s','tcp','object_pose','qpos','qvel','ctrl','finger_q',

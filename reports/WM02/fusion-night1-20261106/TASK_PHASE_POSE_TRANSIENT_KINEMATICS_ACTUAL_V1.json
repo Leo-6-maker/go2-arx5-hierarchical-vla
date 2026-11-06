@@ -1,0 +1,926 @@
+{
+  "schema": "WM02_TASK_PHASE_POSE_TRANSIENT_KINEMATICS_ACTUAL_V1",
+  "status": "ORIGINAL_SAVED_KINEMATICS_RECONSTRUCTED_NO_INTEGRATION",
+  "run": "fusion-night1-task-phase-pose-feedback-s025-01",
+  "original_native_source_sha": "da177fe856fb184c50c9d7763132ec626ecfc172",
+  "spec_sha256": "3dc59acc133d2d6dc4de15e07b1ee7bea13abba49348327a628db300b48d2857",
+  "result_sha256": "c0a113d1426f0f460fcd4d4b9e9c3859f52f9b28a1a856567124ed1bfb4679ba",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "journal_sha256": "b3f34af6252a72d05287f329576e3cc7d47718bb07cb1380b61b144f141681d4",
+  "recorded_packets": 22303,
+  "reconstruction": {
+    "method": "ORIGINAL_native_replay.load_apply_frame_forbid_integration",
+    "MuJoCo": "3.2.7",
+    "Python": "3.12.3",
+    "NumPy": "2.5.4",
+    "native_model_loads": 1,
+    "forward_kinematics_calls": 63,
+    "maximum_difference_from_original_recorded_TCP": 0.0,
+    "new_integrations": 0,
+    "new_controller_starts": 0,
+    "new_learned_model_loads": 0,
+    "new_queries": 0,
+    "new_updates": 0
+  },
+  "physical_decomposition": {
+    "root_body": "base_link",
+    "equation": "delta_p_EE = delta_p_root + (R_root_after-R_root_before)*r_before + R_root_after*(r_after-r_before)",
+    "r": "EE_POSITION_RELATIVE_TO_ACTUAL_PHYSICAL_ROOT_BODY",
+    "root_point_is_qualified_MPC_BASE_reference": false,
+    "existing_BASE_tracking_and_innovation_masks_unchanged": true,
+    "window_results": [
+      {
+        "actual_TCP_change_norm_mm": 1.8259922991630886,
+        "actual_TCP_change_world_mm": [
+          1.594688597880367,
+          -0.5421311234902227,
+          0.7052020968038031
+        ],
+        "decomposition_residual_m": 4.951499835520883e-16,
+        "internal_relative_TCP_motion_norm_mm": 1.5783504810750273,
+        "internal_relative_TCP_world_mm": [
+          0.8622870634547826,
+          -0.39030943083989567,
+          1.2630557428339158
+        ],
+        "native_interval": [
+          16703,
+          17403
+        ],
+        "physical_root_rotation_rad": 0.0010864234289284054,
+        "physical_root_translation_mm": [
+          0.3875994787235493,
+          -0.049683879563458544,
+          -0.14812769175409635
+        ],
+        "physical_root_translation_norm_mm": 0.4179038847147032,
+        "root_rotation_induced_TCP_world_mm": [
+          0.3448020557023658,
+          -0.10213781308689403,
+          -0.4097259542756487
+        ],
+        "max_arm_hinge_change_rad": 0.013027868968298217,
+        "max_leg_hinge_change_rad": 0.0019296340689296532
+      },
+      {
+        "actual_TCP_change_norm_mm": 2.0570948747232043,
+        "actual_TCP_change_world_mm": [
+          1.82804188775465,
+          -0.5540668108047243,
+          0.7634868364232439
+        ],
+        "decomposition_residual_m": 1.4464650324946885e-15,
+        "internal_relative_TCP_motion_norm_mm": 1.774947797215331,
+        "internal_relative_TCP_world_mm": [
+          0.7359149746635038,
+          -0.401169084834926,
+          1.5645869097874614
+        ],
+        "native_interval": [
+          17403,
+          18103
+        ],
+        "physical_root_rotation_rad": 0.0016857476399342228,
+        "physical_root_translation_mm": [
+          0.5429391754977475,
+          -0.0873067844939495,
+          -0.15426395913492597
+        ],
+        "physical_root_translation_norm_mm": 0.5711416566814479,
+        "root_rotation_induced_TCP_world_mm": [
+          0.5491877375945136,
+          -0.0655909414759107,
+          -0.646836114228372
+        ],
+        "max_arm_hinge_change_rad": 0.013282438686635034,
+        "max_leg_hinge_change_rad": 0.0027715495645355137
+      },
+      {
+        "actual_TCP_change_norm_mm": 3.4038031852235324,
+        "actual_TCP_change_world_mm": [
+          3.394734065178373,
+          0.20398151521411334,
+          0.14159199096819286
+        ],
+        "decomposition_residual_m": 2.0045572237111434e-15,
+        "internal_relative_TCP_motion_norm_mm": 2.799783738344139,
+        "internal_relative_TCP_world_mm": [
+          -0.2152390168507033,
+          -0.7706152166932576,
+          2.6830231707762473
+        ],
+        "native_interval": [
+          18103,
+          18803
+        ],
+        "physical_root_rotation_rad": 0.0035675748303552785,
+        "physical_root_translation_mm": [
+          2.478982140603811,
+          0.5817196307363915,
+          -1.2431108850090578
+        ],
+        "physical_root_translation_norm_mm": 2.8335622200058954,
+        "root_rotation_induced_TCP_world_mm": [
+          1.1309909414237405,
+          0.3928771011710694,
+          -1.298320294800295
+        ],
+        "max_arm_hinge_change_rad": 0.014075557104159864,
+        "max_leg_hinge_change_rad": 0.04210584298116071
+      },
+      {
+        "actual_TCP_change_norm_mm": 2.7946308212617166,
+        "actual_TCP_change_world_mm": [
+          2.334079892963581,
+          -1.0564585761324365,
+          1.116211340797646
+        ],
+        "decomposition_residual_m": 7.667382117486997e-16,
+        "internal_relative_TCP_motion_norm_mm": 1.283191526854286,
+        "internal_relative_TCP_world_mm": [
+          0.3452591704527609,
+          -0.5569387823263046,
+          1.103265966369759
+        ],
+        "native_interval": [
+          18803,
+          19503
+        ],
+        "physical_root_rotation_rad": 0.0030937209705966555,
+        "physical_root_translation_mm": [
+          2.109303332878648,
+          -0.2099535652241107,
+          -0.10676253960828497
+        ],
+        "physical_root_translation_norm_mm": 2.1224135528937094,
+        "root_rotation_induced_TCP_world_mm": [
+          -0.12048261036720544,
+          -0.28956622858205816,
+          0.11970791403661761
+        ],
+        "max_arm_hinge_change_rad": 0.012924046832135438,
+        "max_leg_hinge_change_rad": 0.01785234411834491
+      },
+      {
+        "actual_TCP_change_norm_mm": 20.58513424115298,
+        "actual_TCP_change_world_mm": [
+          18.217055514236634,
+          6.450652395816301,
+          -7.090537623189008
+        ],
+        "decomposition_residual_m": 1.485407117830828e-15,
+        "internal_relative_TCP_motion_norm_mm": 14.222537169707538,
+        "internal_relative_TCP_world_mm": [
+          -3.7931500768589412,
+          0.2468555548748605,
+          13.705168308822952
+        ],
+        "native_interval": [
+          19503,
+          20203
+        ],
+        "physical_root_rotation_rad": 0.014950401273946203,
+        "physical_root_translation_mm": [
+          17.819277302389775,
+          6.009459672686603,
+          -15.87522175526307
+        ],
+        "physical_root_translation_norm_mm": 24.610219725063157,
+        "root_rotation_induced_TCP_world_mm": [
+          4.190928288704673,
+          0.19433716825490258,
+          -4.920484176749854
+        ],
+        "max_arm_hinge_change_rad": 0.03329440028066566,
+        "max_leg_hinge_change_rad": 0.13992227612670027
+      },
+      {
+        "actual_TCP_change_norm_mm": 18.203576964961403,
+        "actual_TCP_change_world_mm": [
+          -7.989829528647796,
+          -13.990193341706748,
+          8.473920502582333
+        ],
+        "decomposition_residual_m": 9.267528816937865e-16,
+        "internal_relative_TCP_motion_norm_mm": 8.022919510843282,
+        "internal_relative_TCP_world_mm": [
+          1.1869147726741813,
+          1.6792018941616644,
+          -7.754917910495346
+        ],
+        "native_interval": [
+          20203,
+          20903
+        ],
+        "physical_root_rotation_rad": 0.027632418894645894,
+        "physical_root_translation_mm": [
+          0.07864981396034365,
+          -18.33652715540217,
+          5.84404272468797
+        ],
+        "physical_root_translation_norm_mm": 19.245447494979572,
+        "root_rotation_induced_TCP_world_mm": [
+          -9.255394115281652,
+          2.6671319195337126,
+          10.384795688390348
+        ],
+        "max_arm_hinge_change_rad": 0.020034450507368184,
+        "max_leg_hinge_change_rad": 0.11917019007423713
+      },
+      {
+        "actual_TCP_change_norm_mm": 6.5348961646749,
+        "actual_TCP_change_world_mm": [
+          -0.13602356968767104,
+          -3.6254878264110753,
+          5.4352740034074865
+        ],
+        "decomposition_residual_m": 2.4132240058696756e-15,
+        "internal_relative_TCP_motion_norm_mm": 5.126120777691315,
+        "internal_relative_TCP_world_mm": [
+          -0.6995383421239741,
+          0.47226654973010895,
+          -5.0561571021263845
+        ],
+        "native_interval": [
+          20903,
+          21603
+        ],
+        "physical_root_rotation_rad": 0.011590800194954664,
+        "physical_root_translation_mm": [
+          -0.09796759247177045,
+          1.062195222527979,
+          11.555572469119202
+        ],
+        "physical_root_translation_norm_mm": 11.604702125819587,
+        "root_rotation_induced_TCP_world_mm": [
+          0.6614823649098679,
+          -5.159949598669274,
+          -1.0641413635837218
+        ],
+        "max_arm_hinge_change_rad": 0.006509554614432256,
+        "max_leg_hinge_change_rad": 0.09014697616412315
+      },
+      {
+        "actual_TCP_change_norm_mm": 2.789505925090886,
+        "actual_TCP_change_world_mm": [
+          1.2491860182346493,
+          0.2800020554816901,
+          2.4784019946106906
+        ],
+        "decomposition_residual_m": 1.512513859887792e-15,
+        "internal_relative_TCP_motion_norm_mm": 2.004041459313809,
+        "internal_relative_TCP_world_mm": [
+          0.9240003624852056,
+          0.18189040485385852,
+          1.7689888019424906
+        ],
+        "native_interval": [
+          21603,
+          22303
+        ],
+        "physical_root_rotation_rad": 0.0007090714350011346,
+        "physical_root_translation_mm": [
+          0.38562188675053677,
+          0.23870969793185742,
+          0.6518122094434919
+        ],
+        "physical_root_translation_norm_mm": 0.7940690875530725,
+        "root_rotation_induced_TCP_world_mm": [
+          -0.06043623100218537,
+          -0.14059804730395456,
+          0.05760098322366396
+        ],
+        "max_arm_hinge_change_rad": 0.008637937531004836,
+        "max_leg_hinge_change_rad": 0.005672304169456188
+      }
+    ]
+  },
+  "transient_windows_25ticks": [
+    {
+      "actual_TCP_change_mm": 0.07270189108539808,
+      "native_interval": [
+        19503,
+        19528
+      ],
+      "orientation_change_rad": 0.00038817407473781205,
+      "relative_TCP_change_mm": 0.03212348234276248,
+      "root_translation_mm": 0.018243277098175522
+    },
+    {
+      "actual_TCP_change_mm": 0.08166753855312948,
+      "native_interval": [
+        19528,
+        19553
+      ],
+      "orientation_change_rad": 0.0006403021703735541,
+      "relative_TCP_change_mm": 0.06455657489518124,
+      "root_translation_mm": 0.017599171987053738
+    },
+    {
+      "actual_TCP_change_mm": 0.0976780538539309,
+      "native_interval": [
+        19553,
+        19578
+      ],
+      "orientation_change_rad": 0.00038800814765864585,
+      "relative_TCP_change_mm": 0.043248210237521484,
+      "root_translation_mm": 0.017525049905003198
+    },
+    {
+      "actual_TCP_change_mm": 0.1483907295532139,
+      "native_interval": [
+        19578,
+        19603
+      ],
+      "orientation_change_rad": 0.00021671509577224644,
+      "relative_TCP_change_mm": 0.09630317627464091,
+      "root_translation_mm": 0.01980888689723347
+    },
+    {
+      "actual_TCP_change_mm": 0.17179099325807964,
+      "native_interval": [
+        19603,
+        19628
+      ],
+      "orientation_change_rad": 0.00016144614670292467,
+      "relative_TCP_change_mm": 0.12010898725866896,
+      "root_translation_mm": 0.0212337513222126
+    },
+    {
+      "actual_TCP_change_mm": 0.06993259060738496,
+      "native_interval": [
+        19628,
+        19653
+      ],
+      "orientation_change_rad": 0.0007945151100553893,
+      "relative_TCP_change_mm": 0.11122011452128831,
+      "root_translation_mm": 0.023962054090810588
+    },
+    {
+      "actual_TCP_change_mm": 0.09058126130532287,
+      "native_interval": [
+        19653,
+        19678
+      ],
+      "orientation_change_rad": 0.0006156084434479639,
+      "relative_TCP_change_mm": 0.04843121305686773,
+      "root_translation_mm": 0.018463936680949648
+    },
+    {
+      "actual_TCP_change_mm": 0.15514132418770274,
+      "native_interval": [
+        19678,
+        19703
+      ],
+      "orientation_change_rad": 0.00028401829256714545,
+      "relative_TCP_change_mm": 0.11832253954866431,
+      "root_translation_mm": 0.019479168769732318
+    },
+    {
+      "actual_TCP_change_mm": 1.0903338408276178,
+      "native_interval": [
+        19703,
+        19728
+      ],
+      "orientation_change_rad": 0.004819546766304165,
+      "relative_TCP_change_mm": 2.131206754379663,
+      "root_translation_mm": 2.0169196197198467
+    },
+    {
+      "actual_TCP_change_mm": 3.7737132290954007,
+      "native_interval": [
+        19728,
+        19753
+      ],
+      "orientation_change_rad": 0.00845581672862755,
+      "relative_TCP_change_mm": 1.8203390888437934,
+      "root_translation_mm": 1.3906972447781947
+    },
+    {
+      "actual_TCP_change_mm": 0.8278336298901351,
+      "native_interval": [
+        19753,
+        19778
+      ],
+      "orientation_change_rad": 0.004915271051157684,
+      "relative_TCP_change_mm": 0.8235541107850073,
+      "root_translation_mm": 1.638354640164156
+    },
+    {
+      "actual_TCP_change_mm": 2.8755181887578223,
+      "native_interval": [
+        19778,
+        19803
+      ],
+      "orientation_change_rad": 0.004687716513845452,
+      "relative_TCP_change_mm": 1.4244777676254647,
+      "root_translation_mm": 1.329687712432277
+    },
+    {
+      "actual_TCP_change_mm": 2.397322896607555,
+      "native_interval": [
+        19803,
+        19828
+      ],
+      "orientation_change_rad": 0.004283717424334082,
+      "relative_TCP_change_mm": 0.9001459011930042,
+      "root_translation_mm": 0.7355721968727603
+    },
+    {
+      "actual_TCP_change_mm": 1.1942561377910799,
+      "native_interval": [
+        19828,
+        19853
+      ],
+      "orientation_change_rad": 0.007546091424902675,
+      "relative_TCP_change_mm": 2.659296640305579,
+      "root_translation_mm": 2.5474716499660355
+    },
+    {
+      "actual_TCP_change_mm": 4.754227305007547,
+      "native_interval": [
+        19853,
+        19878
+      ],
+      "orientation_change_rad": 0.011707131906806624,
+      "relative_TCP_change_mm": 3.1519741293995898,
+      "root_translation_mm": 1.4970911155877427
+    },
+    {
+      "actual_TCP_change_mm": 1.506909709281777,
+      "native_interval": [
+        19878,
+        19903
+      ],
+      "orientation_change_rad": 0.005789545239280314,
+      "relative_TCP_change_mm": 1.5288657606620977,
+      "root_translation_mm": 2.5007092708380485
+    },
+    {
+      "actual_TCP_change_mm": 2.9719003696531536,
+      "native_interval": [
+        19903,
+        19928
+      ],
+      "orientation_change_rad": 0.006363900142706949,
+      "relative_TCP_change_mm": 1.720022820906707,
+      "root_translation_mm": 1.0783750400650451
+    },
+    {
+      "actual_TCP_change_mm": 1.6343517208093004,
+      "native_interval": [
+        19928,
+        19953
+      ],
+      "orientation_change_rad": 0.002377622459029144,
+      "relative_TCP_change_mm": 0.3745474756855461,
+      "root_translation_mm": 0.6496331273549082
+    },
+    {
+      "actual_TCP_change_mm": 1.4042960038468333,
+      "native_interval": [
+        19953,
+        19978
+      ],
+      "orientation_change_rad": 0.0011665743901486747,
+      "relative_TCP_change_mm": 1.3981238592795713,
+      "root_translation_mm": 1.2281538773427862
+    },
+    {
+      "actual_TCP_change_mm": 1.5689363193001982,
+      "native_interval": [
+        19978,
+        20003
+      ],
+      "orientation_change_rad": 0.004245884121783734,
+      "relative_TCP_change_mm": 0.8444093113688771,
+      "root_translation_mm": 0.42200666364532435
+    },
+    {
+      "actual_TCP_change_mm": 3.454177141681934,
+      "native_interval": [
+        20003,
+        20028
+      ],
+      "orientation_change_rad": 0.00601881228950125,
+      "relative_TCP_change_mm": 1.8125379636335803,
+      "root_translation_mm": 4.379823205790401
+    },
+    {
+      "actual_TCP_change_mm": 4.4243717731254195,
+      "native_interval": [
+        20028,
+        20053
+      ],
+      "orientation_change_rad": 0.006812157612184551,
+      "relative_TCP_change_mm": 3.141446480604116,
+      "root_translation_mm": 6.013804377074028
+    },
+    {
+      "actual_TCP_change_mm": 7.692717649868461,
+      "native_interval": [
+        20053,
+        20078
+      ],
+      "orientation_change_rad": 0.010066454492334403,
+      "relative_TCP_change_mm": 3.3293968593726744,
+      "root_translation_mm": 9.036402799248604
+    },
+    {
+      "actual_TCP_change_mm": 14.580489985778222,
+      "native_interval": [
+        20078,
+        20103
+      ],
+      "orientation_change_rad": 0.01234889539355267,
+      "relative_TCP_change_mm": 2.867852011377011,
+      "root_translation_mm": 10.088229817385944
+    },
+    {
+      "actual_TCP_change_mm": 13.898302079644541,
+      "native_interval": [
+        20103,
+        20128
+      ],
+      "orientation_change_rad": 0.03275987038109413,
+      "relative_TCP_change_mm": 4.641032385100932,
+      "root_translation_mm": 4.239839737609773
+    },
+    {
+      "actual_TCP_change_mm": 6.432126563974204,
+      "native_interval": [
+        20128,
+        20153
+      ],
+      "orientation_change_rad": 0.007578738745538003,
+      "relative_TCP_change_mm": 2.1504026729663184,
+      "root_translation_mm": 4.223238005789637
+    },
+    {
+      "actual_TCP_change_mm": 12.60721800160226,
+      "native_interval": [
+        20153,
+        20178
+      ],
+      "orientation_change_rad": 0.019121779397444614,
+      "relative_TCP_change_mm": 5.731701180435244,
+      "root_translation_mm": 5.211748580733419
+    },
+    {
+      "actual_TCP_change_mm": 8.609182176720644,
+      "native_interval": [
+        20178,
+        20203
+      ],
+      "orientation_change_rad": 0.01986054356910391,
+      "relative_TCP_change_mm": 5.431089745608783,
+      "root_translation_mm": 3.5732056069220524
+    },
+    {
+      "actual_TCP_change_mm": 7.623984925356996,
+      "native_interval": [
+        20203,
+        20228
+      ],
+      "orientation_change_rad": 0.004238083532019779,
+      "relative_TCP_change_mm": 2.9042795815823914,
+      "root_translation_mm": 5.0577474474198745
+    },
+    {
+      "actual_TCP_change_mm": 2.7611815767552685,
+      "native_interval": [
+        20228,
+        20253
+      ],
+      "orientation_change_rad": 0.013086376922237046,
+      "relative_TCP_change_mm": 3.966600263081016,
+      "root_translation_mm": 1.0416509893745938
+    },
+    {
+      "actual_TCP_change_mm": 7.879966609414212,
+      "native_interval": [
+        20253,
+        20278
+      ],
+      "orientation_change_rad": 0.007093724423067103,
+      "relative_TCP_change_mm": 1.1418187655994072,
+      "root_translation_mm": 4.534508340755876
+    },
+    {
+      "actual_TCP_change_mm": 5.327279034468738,
+      "native_interval": [
+        20278,
+        20303
+      ],
+      "orientation_change_rad": 0.03183760685544171,
+      "relative_TCP_change_mm": 11.453247808868113,
+      "root_translation_mm": 4.560346169083691
+    },
+    {
+      "actual_TCP_change_mm": 10.500250848710458,
+      "native_interval": [
+        20303,
+        20328
+      ],
+      "orientation_change_rad": 0.013062835436859491,
+      "relative_TCP_change_mm": 3.78091315690958,
+      "root_translation_mm": 6.390489448553246
+    },
+    {
+      "actual_TCP_change_mm": 5.9778907637220255,
+      "native_interval": [
+        20328,
+        20353
+      ],
+      "orientation_change_rad": 0.014166965089552445,
+      "relative_TCP_change_mm": 3.1631850106699004,
+      "root_translation_mm": 2.202553823967093
+    },
+    {
+      "actual_TCP_change_mm": 3.6512143096405048,
+      "native_interval": [
+        20353,
+        20378
+      ],
+      "orientation_change_rad": 0.007430931953142865,
+      "relative_TCP_change_mm": 4.829867940415931,
+      "root_translation_mm": 2.4316742245522303
+    },
+    {
+      "actual_TCP_change_mm": 9.790265249720859,
+      "native_interval": [
+        20378,
+        20403
+      ],
+      "orientation_change_rad": 0.008129533273069547,
+      "relative_TCP_change_mm": 3.8751560730243972,
+      "root_translation_mm": 5.005926093892722
+    },
+    {
+      "actual_TCP_change_mm": 6.399337319134292,
+      "native_interval": [
+        20403,
+        20428
+      ],
+      "orientation_change_rad": 0.013725611987851216,
+      "relative_TCP_change_mm": 3.06890293502543,
+      "root_translation_mm": 2.7751570663672323
+    },
+    {
+      "actual_TCP_change_mm": 8.31846463080062,
+      "native_interval": [
+        20428,
+        20453
+      ],
+      "orientation_change_rad": 0.011399860035079541,
+      "relative_TCP_change_mm": 1.5183589414930694,
+      "root_translation_mm": 7.258105313838878
+    },
+    {
+      "actual_TCP_change_mm": 11.54080661605204,
+      "native_interval": [
+        20453,
+        20478
+      ],
+      "orientation_change_rad": 0.02339208956603671,
+      "relative_TCP_change_mm": 4.237683220193364,
+      "root_translation_mm": 6.202528745966494
+    },
+    {
+      "actual_TCP_change_mm": 7.875658307291391,
+      "native_interval": [
+        20478,
+        20503
+      ],
+      "orientation_change_rad": 0.009288096231315525,
+      "relative_TCP_change_mm": 1.974149669549446,
+      "root_translation_mm": 6.107075405456339
+    },
+    {
+      "actual_TCP_change_mm": 4.888629418604618,
+      "native_interval": [
+        20503,
+        20528
+      ],
+      "orientation_change_rad": 0.011705112851761774,
+      "relative_TCP_change_mm": 4.204972723844429,
+      "root_translation_mm": 5.767109165626576
+    },
+    {
+      "actual_TCP_change_mm": 3.3182454741403906,
+      "native_interval": [
+        20528,
+        20553
+      ],
+      "orientation_change_rad": 0.008049040698938106,
+      "relative_TCP_change_mm": 3.6043513731586136,
+      "root_translation_mm": 6.1458173342291955
+    },
+    {
+      "actual_TCP_change_mm": 2.9937651531684395,
+      "native_interval": [
+        20553,
+        20578
+      ],
+      "orientation_change_rad": 0.00827157961888433,
+      "relative_TCP_change_mm": 1.3785297872146327,
+      "root_translation_mm": 3.1592143970875046
+    },
+    {
+      "actual_TCP_change_mm": 5.147803887545018,
+      "native_interval": [
+        20578,
+        20603
+      ],
+      "orientation_change_rad": 0.003752710701701236,
+      "relative_TCP_change_mm": 2.5866365360889,
+      "root_translation_mm": 5.063968550477031
+    },
+    {
+      "actual_TCP_change_mm": 5.088678626973257,
+      "native_interval": [
+        20603,
+        20628
+      ],
+      "orientation_change_rad": 0.004070006511506281,
+      "relative_TCP_change_mm": 1.7204209008727354,
+      "root_translation_mm": 4.769491575852176
+    },
+    {
+      "actual_TCP_change_mm": 4.998599884723281,
+      "native_interval": [
+        20628,
+        20653
+      ],
+      "orientation_change_rad": 0.010981440973114561,
+      "relative_TCP_change_mm": 2.057754493623308,
+      "root_translation_mm": 1.678899700149207
+    },
+    {
+      "actual_TCP_change_mm": 2.438320227788082,
+      "native_interval": [
+        20653,
+        20678
+      ],
+      "orientation_change_rad": 0.011512087008723276,
+      "relative_TCP_change_mm": 2.734171979673742,
+      "root_translation_mm": 5.437722226595233
+    },
+    {
+      "actual_TCP_change_mm": 8.802013129963674,
+      "native_interval": [
+        20678,
+        20703
+      ],
+      "orientation_change_rad": 0.01642914274304074,
+      "relative_TCP_change_mm": 4.3773756912962485,
+      "root_translation_mm": 4.91199252375256
+    },
+    {
+      "actual_TCP_change_mm": 4.220348671032065,
+      "native_interval": [
+        20703,
+        20728
+      ],
+      "orientation_change_rad": 0.014569617216853837,
+      "relative_TCP_change_mm": 1.8710431502047125,
+      "root_translation_mm": 4.036267099004594
+    },
+    {
+      "actual_TCP_change_mm": 4.7638561460224915,
+      "native_interval": [
+        20728,
+        20753
+      ],
+      "orientation_change_rad": 0.00712099212812815,
+      "relative_TCP_change_mm": 3.617247871449269,
+      "root_translation_mm": 2.196758036816881
+    },
+    {
+      "actual_TCP_change_mm": 1.968289601479691,
+      "native_interval": [
+        20753,
+        20778
+      ],
+      "orientation_change_rad": 0.0091563781043407,
+      "relative_TCP_change_mm": 1.9499092759609504,
+      "root_translation_mm": 1.784104446446473
+    },
+    {
+      "actual_TCP_change_mm": 5.6293220411002745,
+      "native_interval": [
+        20778,
+        20803
+      ],
+      "orientation_change_rad": 0.0057457115150727055,
+      "relative_TCP_change_mm": 1.1132060580314327,
+      "root_translation_mm": 4.499996569656701
+    },
+    {
+      "actual_TCP_change_mm": 6.789360549079184,
+      "native_interval": [
+        20803,
+        20828
+      ],
+      "orientation_change_rad": 0.012208224176390664,
+      "relative_TCP_change_mm": 1.877083473952574,
+      "root_translation_mm": 3.986335553087598
+    },
+    {
+      "actual_TCP_change_mm": 2.8830970470193096,
+      "native_interval": [
+        20828,
+        20853
+      ],
+      "orientation_change_rad": 0.00722989498807212,
+      "relative_TCP_change_mm": 1.5844207785166669,
+      "root_translation_mm": 4.006170101525332
+    },
+    {
+      "actual_TCP_change_mm": 2.2730745348645502,
+      "native_interval": [
+        20853,
+        20878
+      ],
+      "orientation_change_rad": 0.006787035449636228,
+      "relative_TCP_change_mm": 1.6144208875884556,
+      "root_translation_mm": 2.965343877395527
+    },
+    {
+      "actual_TCP_change_mm": 2.445329557605335,
+      "native_interval": [
+        20878,
+        20903
+      ],
+      "orientation_change_rad": 0.005644954795835703,
+      "relative_TCP_change_mm": 2.7469817561355274,
+      "root_translation_mm": 1.6451235434137486
+    }
+  ],
+  "finding": {
+    "slots": [
+      5,
+      6
+    ],
+    "EE_motion_norm_mm": [
+      20.58513424115298,
+      18.203576964961403
+    ],
+    "root_translation_norm_mm": [
+      24.610219725063157,
+      19.245447494979572
+    ],
+    "root_relative_internal_TCP_motion_norm_mm": [
+      14.222537169707538,
+      8.022919510843282
+    ],
+    "max_leg_hinge_change_rad": [
+      0.13992227612670027,
+      0.11917019007423713
+    ],
+    "geometry_not_decode_or_FK_disagreement": true,
+    "entire_motion_is_reference_response_gain": false,
+    "control_layer_cause": "NOT_ESTABLISHED",
+    "selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+    "matched_HOLD_counterfactual": false
+  },
+  "provenance": {
+    "helper_basename": "audit_pose_feedback_v6_transient_kinematics02.py",
+    "helper_sha256": "f5ff118e17ea59eb71620f75befa5da0a5aa925f3906e061983dd43671951648",
+    "receipt_sha256": "e9036e9591fdb5e07cdf0933ff904995ad575edc503b361eca9883f2d8024cd0",
+    "native_source_and_original_artifact_pins_checked": true
+  },
+  "cost": {
+    "inner_wall_s": 1.365949906874448,
+    "inner_CPU_s": 1.337591209,
+    "wrapper_wall_s": 1.5954344179481268,
+    "wrapper_child_CPU_s": 1.5563299999999998,
+    "overlapping_fields_do_not_sum": true,
+    "GPU_s": 0
+  },
+  "retained_readonly_failure": {
+    "attempt": "KINEMATICS01",
+    "exit_code": 1,
+    "reason": "Helper requested absent model_sha256 metadata key; KINEMATICS02 uses the exact already pinned registered scene SHA.",
+    "wall_s": 0.12041732994839549,
+    "child_CPU_s": 0.108277,
+    "integrations": 0,
+    "models_loaded": 0,
+    "FK_calls": 0,
+    "counts_as_native_failure": false
+  },
+  "limits": [
+    "Saved geometric state reconstruction only; not MPC/WBC/history restore or new physical rollouts.",
+    "Root/arm motion decomposition does not identify a controller fault or isolate the causal effect of a reference correction.",
+    "Terminal point25 qualification and the transient are both retained. No full task, WM benefit or source80mm equivalence follows."
+  ],
+  "next": {
+    "status": "COLD_SUCCESSOR_IMPLEMENTATION_IN_PROGRESS",
+    "WBC_and_native_safety_unchanged": true,
+    "no_direct_gain_fit_from_the_two_transient_windows": true,
+    "original_deadline_unchanged": true
+  },
+  "publication": {
+    "raw_qpos_poses_policy_commands_or_private_paths": false
+  }
+}

@@ -138,17 +138,22 @@ class FeedbackProgram(engine.FeedbackProgram):
             ramp_atoms=episode['ramp_atoms'],feedback_steps=feedback_steps(episode))
         object.__setattr__(self,'_cumulative_feedback_rad',0.)
 
+    def _law_parameters(self):
+        return (GAIN,STEP_CAP_M,DEADBAND_M,CUMULATIVE_CAP_M,
+                ANGULAR_GAIN,ANGULAR_STEP_CAP_RAD,ANGULAR_DEADBAND_RAD,ANGULAR_CUMULATIVE_CAP_RAD)
+
     def prepare_feedback(self,native_step,actual_tcp):
         need(type(native_step) is int and self.feedback_count < len(self._feedback_steps)
              and native_step == self._feedback_steps[self.feedback_count],'EXACT_NEXT_CAUSAL_FEEDBACK_STEP')
         actual = rigid(actual_tcp)
+        gain,step_cap,deadband,total_cap,angular_gain,angular_cap,angular_deadband,angular_total_cap = self._law_parameters()
         error = self.graded_goal_TCP_target[:3,3]-actual[:3,3]
         angular_error = _log_so3(self.graded_goal_TCP_target[:3,:3]@actual[:3,:3].T)
-        error_norm,raw_delta,delta,applied_norm = _bounded(error,GAIN,DEADBAND_M,STEP_CAP_M)
+        error_norm,raw_delta,delta,applied_norm = _bounded(error,gain,deadband,step_cap)
         angle,raw_rotation,rotation,applied_angle = _bounded(
-            angular_error,ANGULAR_GAIN,ANGULAR_DEADBAND_RAD,ANGULAR_STEP_CAP_RAD)
-        need(self._cumulative_feedback_m+applied_norm <= CUMULATIVE_CAP_M+1e-12
-             and self._cumulative_feedback_rad+applied_angle <= ANGULAR_CUMULATIVE_CAP_RAD+1e-12,
+            angular_error,angular_gain,angular_deadband,angular_cap)
+        need(self._cumulative_feedback_m+applied_norm <= total_cap+1e-12
+             and self._cumulative_feedback_rad+applied_angle <= angular_total_cap+1e-12,
              'FINITE_XYZ_AND_ANGULAR_SUM_OF_NORMS_NO_EXTRA_ATTEMPT')
         peak_speed,peak_acceleration = 1.875*applied_norm,(10*np.sqrt(3)/3)*applied_norm
         peak_angular_speed,peak_angular_acceleration = 1.875*applied_angle,(10*np.sqrt(3)/3)*applied_angle
@@ -180,18 +185,18 @@ class FeedbackProgram(engine.FeedbackProgram):
             actual_TCP=actual.tolist(),unchanged_desired_goal_TCP=self.graded_goal_TCP_target.tolist(),
             error_world_xyz_m=error.tolist(),error_norm_m=error_norm,
             raw_gain_delta_world_m=raw_delta.tolist(),applied_delta_world_m=delta.tolist(),
-            applied_delta_norm_m=applied_norm,deadband_hold=error_norm <= DEADBAND_M,
-            gain=GAIN,step_norm_cap_m=STEP_CAP_M,deadband_m=DEADBAND_M,
+            applied_delta_norm_m=applied_norm,deadband_hold=error_norm <= deadband,
+            gain=gain,step_norm_cap_m=step_cap,deadband_m=deadband,
             cumulative_reference_path_length_m=self._cumulative_feedback_m+applied_norm,
-            cumulative_reference_path_length_cap_m=CUMULATIVE_CAP_M,
+            cumulative_reference_path_length_cap_m=total_cap,
             angular_error_target_world_rotvec_rad=angular_error.tolist(),angular_error_norm_rad=angle,
             angular_error_convention='LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT',
             raw_gain_rotation_target_world_rad=raw_rotation.tolist(),applied_rotation_target_world_rad=rotation.tolist(),
-            applied_rotation_norm_rad=applied_angle,angular_deadband_hold=angle <= ANGULAR_DEADBAND_RAD,
-            angular_gain=ANGULAR_GAIN,angular_step_cap_rad=ANGULAR_STEP_CAP_RAD,
-            angular_deadband_rad=ANGULAR_DEADBAND_RAD,
+            applied_rotation_norm_rad=applied_angle,angular_deadband_hold=angle <= angular_deadband,
+            angular_gain=angular_gain,angular_step_cap_rad=angular_cap,
+            angular_deadband_rad=angular_deadband,
             cumulative_reference_rotation_path_rad=self._cumulative_feedback_rad+applied_angle,
-            cumulative_reference_rotation_path_cap_rad=ANGULAR_CUMULATIVE_CAP_RAD,
+            cumulative_reference_rotation_path_cap_rad=angular_total_cap,
             peak_translation_speed_m_s=peak_speed,peak_translation_acceleration_m_s2=peak_acceleration,
             peak_angular_speed_rad_s=peak_angular_speed,peak_angular_acceleration_rad_s2=peak_angular_acceleration,
             move_atoms=MOVE_ATOMS,settle_atoms=SETTLE_ATOMS,
