@@ -166,6 +166,13 @@ def infer(spec, output):
             latency_distribution='N1_SINGLE_OBSERVATION_NOT_P50_P95',
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),
             peak_reserved_bytes=torch.cuda.max_memory_reserved(), **timing)
+        if 'producer_phase' in identity:
+            result.update(producer_phase=identity['producer_phase'],
+                physical_recipe_phase=identity['physical_recipe_phase'],
+                capture_condition=identity['capture_condition'],
+                capture_camera_recipe=identity['capture_camera_recipe'],
+                source_camera_identity_sha256=identity['source_camera_identity_sha256'],
+                returned_VLA_action_installations=0,camera_equivalence=False)
         write_json(output/'RESULT.private.json', result)
         return result
     except BaseException as error:

@@ -132,7 +132,8 @@ class TargetShadowBinding:
 
     def bind(self, *, actual_state, native_state_bytes, expected_state_sha256,
              capture, calibration_bytes, expected_calibration_sha256,
-             image_bytes, expected_image_sha256, language, snapshot_uuid):
+             image_bytes, expected_image_sha256, language, snapshot_uuid,
+             camera_adapter=None):
         """Bind already captured bytes; FrameRecorder.save supplies capture.
 
         Required capture fields are index/native_step/time_s, unchanged from the
@@ -174,7 +175,17 @@ class TargetShadowBinding:
         grip = measured['gripper_fraction']
         require(finite_number(grip) and 0 <= grip <= 1, 'MEASURED_MECHANICAL_GRIPPER_NO_CLIP')
         calibration = json_object(calibration_bytes)
-        cameras = camera_records(actual_state, calibration, stamp)
+        sensor_adapter = None
+        if camera_adapter is None:
+            cameras = camera_records(actual_state, calibration, stamp)
+        else:
+            from .fusion_source_camera_capture import CapturedSourceCameraAdapter
+            require(isinstance(camera_adapter, CapturedSourceCameraAdapter),
+                    'EXPLICIT_TYPED_SOURCE_CAMERA_ADAPTER')
+            require(camera_adapter.original_model_sha256 == self.scene_sha256,
+                    'SOURCE_SENSOR_COPY_FROM_EXACT_NATIVE_SCENE')
+            cameras, sensor_adapter = camera_adapter.validate(actual_state=actual_state,
+                packet=packet, calibration=calibration, image_bytes=image_bytes)
         state10 = np.r_[tcp[:3, 3], rotation_matrix_to_rot6d_rows(tcp[:3, :3]), grip]
         policy = None
         if self.T_source_from_target is not None:
@@ -192,7 +203,7 @@ class TargetShadowBinding:
             policy = dict(payload=payload, relation='EXPLICIT_MAPPED_POLICY_FRAME_VIEW',
                           T_source_from_target=self.T_source_from_target.tolist(),
                           transform_sha256=self.expected_transform_sha256)
-        return sealed(dict(schema=SCHEMA, native_step=step, native_time_s=stamp,
+        result = dict(schema=SCHEMA, native_step=step, native_time_s=stamp,
             snapshot_uuid=snapshot_uuid, capture=copy.deepcopy(capture),
             target_observation=dict(frame=self.target_world_frame, tcp=TCP,
                 actual_state_eef10=state10.tolist(), cameras=cameras,
@@ -213,7 +224,14 @@ class TargetShadowBinding:
                 capture_actuality='OWNER_CAPTURE_AND_ORIGINAL_BYTE_READBACK_REQUIRED',
                 scene_identity='OWNER_VERIFIED_COMPILED_SCENE_BYTES_REQUIRED',
                 source_H40_command_offsets_s=(np.arange(40) * .05).tolist(),
-                outcome_times_are_not_command_issue_times=True)))
+                outcome_times_are_not_command_issue_times=True))
+        if sensor_adapter is not None:
+            result['target_observation']['sensor_adapter'] = sensor_adapter
+            result['provenance']['policy_camera_sensor_mapping'] = copy.deepcopy(
+                sensor_adapter['policy_camera_role_mapping'])
+            result['provenance']['source_camera_domain_shift'] = (
+                'EXPLICIT_SOURCE_WORLD_RIG_RENDERED_ON_ACTUAL_TARGET_SCENE_UNQUALIFIED_IMAGE_DOMAIN')
+        return sealed(result)
 
 
 def shadow_inference_payload(bound):
@@ -233,6 +251,14 @@ def shadow_inference_payload(bound):
             and transform_hash(view['T_source_from_target']) == view['transform_sha256'], 'EXPLICIT_POLICY_FRAME_MAP')
     validate_observation(view['payload'])
     target, payload = body['target_observation'], view['payload']
+    if 'sensor_adapter' in target:
+        from .fusion_source_camera_capture import validate_sensor_sidecar
+        validate_sensor_sidecar(target['sensor_adapter'], target=target,
+            native_step=body['native_step'], native_time_s=body['native_time_s'],
+            transform_sha256=view['transform_sha256'])
+        require(provenance.get('policy_camera_sensor_mapping') ==
+                target['sensor_adapter']['policy_camera_role_mapping'],
+                'EXPLICIT_SOURCE_SENSOR_ROLE_MAPPING')
     require(provenance['frame_relation'] == 'EXPLICIT_RIGID_MAP'
             and target['frame'] != FRAME and target['tcp'] == TCP
             and payload['snapshot_uuid'] == body['snapshot_uuid'], 'PRESERVED_TARGET_FRAME_AND_SNAPSHOT')

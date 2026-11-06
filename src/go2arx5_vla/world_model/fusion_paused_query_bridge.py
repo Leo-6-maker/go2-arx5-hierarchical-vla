@@ -15,6 +15,7 @@ from .storage import digest, write_json
 
 SCHEMA = 'WM02_FUSION_PAUSED_QUERY_PAIR_V1'
 MODE = 'PRE_REGISTERED_SINGLE_SNAPSHOT_V1'
+POSTURE_MODE = 'PRE_REGISTERED_SOURCE_POSTURE_SNAPSHOT_V2'
 KEYS = {'schema', 'pair_uuid', 'query_uuid', 'native_root', 'native_run_id',
         'native_boundary_step', 'capture_index', 'gpu_root', 'task_sha256', 'scene_sha256',
         'frame_map_sha256', 'seed', 'checkpoint_manifest_sha256', 'source_sha',
@@ -41,14 +42,24 @@ def _snapshot(pair):
 
 def validate_pair_spec(spec):
     """Acyclic pins: pair -> producer spec -> consumer spec, never the reverse."""
+    if spec.get('snapshot_binding_mode') == POSTURE_MODE:
+        from .fusion_source_posture_paused_query_v3 import validate_pair_spec as posture_pair
+        return posture_pair(spec)
+    return _validate_pair_spec(spec)
+
+
+def _validate_pair_spec(spec, *, pair_schema=SCHEMA, binding_mode=MODE,
+                        boundary_step=3703, pair_keys=None):
+    """Common original-owner checks; only the explicit V3 validator varies ABI."""
     from .fusion_paused_inference import CHECKPOINT, KIND
     pair_path = Path(spec['paused_query_pair'])
     need(not pair_path.is_symlink() and digest(pair_path) == spec['paused_query_pair_sha256'],
          'IMMUTABLE_PREDECLARED_PAIR_BYTES')
     pair = _json(pair_path)
-    need(set(pair) == KEYS and pair['schema'] == SCHEMA, 'EXACT_VERSIONED_PAIR_SCHEMA')
+    need(set(pair) == (KEYS if pair_keys is None else pair_keys)
+         and pair['schema'] == pair_schema, 'EXACT_VERSIONED_PAIR_SCHEMA')
     uuid_string(pair['pair_uuid']); uuid_string(pair['query_uuid'])
-    need(type(pair['native_boundary_step']) is int and pair['native_boundary_step'] == 3703
+    need(type(pair['native_boundary_step']) is int and pair['native_boundary_step'] == boundary_step
          and type(pair['capture_index']) is int and pair['capture_index'] >= 0
          and pair['native_run_id'] == 'native-01'
          and type(pair['max_queries']) is int and pair['max_queries'] == 1
@@ -76,7 +87,7 @@ def validate_pair_spec(spec):
          and producer.get('physics') is True
          and producer.get('max_ticks') == pair['native_boundary_step'],
          'ACTUAL_PRODUCER_SPEC_AND_COMMON_PAIR_NO_CIRCULAR_SHA')
-    need(spec.get('kind') == KIND and spec.get('snapshot_binding_mode') == MODE
+    need(spec.get('kind') == KIND and spec.get('snapshot_binding_mode') == binding_mode
          and spec.get('registered_root') == str(gpu_root)
          and spec.get('recorded_observation') == str(_snapshot(pair))
          and spec.get('recorded_observation_sha256') is None
@@ -111,6 +122,12 @@ def validate_pair_capture(spec, record):
          and body['task_sha256'] == pair['task_sha256']
          and shadow['source_policy_view']['transform_sha256'] == pair['frame_map_sha256'],
          'CAPTURE_MUST_BE_THE_PREDECLARED_ACTUAL_NATIVE_BOUNDARY')
+    if spec['snapshot_binding_mode']==POSTURE_MODE:
+        from .fusion_source_posture_paused_query_v3 import validate_capture_camera
+        validate_capture_camera(pair,shadow)
+    else:
+        need('sensor_adapter' not in shadow['target_observation'],
+             'PAIR_V1_ORIGINAL_CAMERA_IDENTITY_UNCHANGED')
     return pair
 
 
@@ -171,7 +188,7 @@ def preflight_pair(gpu_spec_path, native_spec):
              'MODEL_LOAD_INTENT.private.json','GENERATION_INTENT.private.json',
              'RESULT.private.json','FAILED.private.json')),
          'FRESH_PAIR_WITHOUT_PREVIOUS_CAPTURE_LOAD_OR_QUERY')
-    return dict(schema=SCHEMA,status='PRE_REGISTERED_PAIR_READ_ONLY_PREFLIGHT_PASSED',
+    return dict(schema=pair['schema'],status='PRE_REGISTERED_PAIR_READ_ONLY_PREFLIGHT_PASSED',
         pair_sha256=spec['paused_query_pair_sha256'],gpu_spec_sha256=digest(gpu_spec_path),
         producer_native_spec_sha256=spec['producer_native_spec_sha256'],
         query_uuid=pair['query_uuid'],native_boundary_step=pair['native_boundary_step'],
@@ -183,7 +200,7 @@ def preflight_pair(gpu_spec_path, native_spec):
 
 def wait_for_snapshot(spec):
     """GPU worker's one bounded wait, after original admission, before CUDA."""
-    if spec['snapshot_binding_mode'] != MODE:
+    if spec['snapshot_binding_mode'] not in (MODE,POSTURE_MODE):
         return
     pair, producer = validate_pair_spec(spec)
     producer_path = Path(spec['producer_native_spec'])
@@ -197,7 +214,7 @@ def wait_for_snapshot(spec):
         ready_path = folder/'PAIR_SNAPSHOT_READY.private.json'
         if ready_path.exists():
             ready = _json(ready_path)
-            need(ready == dict(schema=SCHEMA, pair_sha256=spec['paused_query_pair_sha256'],
+            need(ready == dict(schema=pair['schema'], pair_sha256=spec['paused_query_pair_sha256'],
                 producer_native_spec_sha256=spec['producer_native_spec_sha256'],
                 observation_sha256=digest(_snapshot(pair)), query_uuid=pair['query_uuid']),
                 'EXACT_CAPTURE_COMPLETION_AND_OBSERVATION_BYTES')
@@ -221,7 +238,8 @@ def _waiting_pause(adapter, record):
     _after_pause(adapter, dict(current, pause=body['pause_after']))
 
 
-def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path, capture_index=0):
+def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path, capture_index=0,
+                           camera_recipe=None):
     """Native-owner callable: one capture + one existing GPU job, no motion.
 
     Both jobs must already be registered; this function never competes for the
@@ -238,8 +256,20 @@ def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path
          and binding.scene_sha256 == pair['scene_sha256']
          and binding.expected_transform_sha256 == pair['frame_map_sha256'],
          'ACTUAL_OWNER_ADAPTER_TASK_AND_FIXED_FRAME_BINDING')
+    camera_kwargs = {}
+    if spec['snapshot_binding_mode'] == POSTURE_MODE:
+        from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_RECIPE
+        if pair['camera_recipe'] == SOURCE_CAMERA_RECIPE:
+            from .fusion_source_camera_capture import SourceCameraCapture
+            need(isinstance(camera_recipe,SourceCameraCapture) and camera_recipe.name == SOURCE_CAMERA_RECIPE,
+                 'EXACT_TYPED_PREDECLARED_SOURCE_CAMERA_CAPTURE_REQUIRED')
+            camera_kwargs['camera_recipe'] = camera_recipe
+        else:
+            need(camera_recipe is None,'ORIGINAL_CAMERA_RECIPE_CANNOT_ACCEPT_SILENT_OVERRIDE')
+    else:
+        need(camera_recipe is None,'PAIR_V1_ORIGINAL_CAMERA_DEFAULT_UNCHANGED')
     record = capture_paused_observation(adapter, binding=binding, task=task,
-        task_sha256=task_sha256, query_uuid=pair['query_uuid'], capture_index=capture_index)
+        task_sha256=task_sha256, query_uuid=pair['query_uuid'], capture_index=capture_index,**camera_kwargs)
     read_payload(spec)
     # The original capture writer fsyncs its final envelope. Publish readiness
     # only after it returns and all actual members are checked, so the GPU never
@@ -247,7 +277,7 @@ def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path
     folder = _snapshot(pair).parent
     pending = folder/'PAIR_SNAPSHOT_READY.pending.private.json'
     write_json(pending, dict(
-        schema=SCHEMA, pair_sha256=spec['paused_query_pair_sha256'],
+        schema=pair['schema'], pair_sha256=spec['paused_query_pair_sha256'],
         producer_native_spec_sha256=spec['producer_native_spec_sha256'],
         observation_sha256=digest(_snapshot(pair)), query_uuid=pair['query_uuid']))
     ready = folder/'PAIR_SNAPSHOT_READY.private.json'
@@ -274,7 +304,7 @@ def capture_and_wait_query(adapter, *, binding, task, task_sha256, gpu_spec_path
         if lease.get('status') == 'CLOSED':
             _registered(spec, gpu_spec_path, closed=True)
             checked = verify_paused_query_return(adapter, spec, result_path)
-            return dict(schema=SCHEMA, pair_sha256=spec['paused_query_pair_sha256'],
+            return dict(schema=pair['schema'], pair_sha256=spec['paused_query_pair_sha256'],
                 query_uuid=pair['query_uuid'], gpu_spec_sha256=digest(gpu_spec_path),
                 capture_sha256=digest(_snapshot(pair)), query_result=checked,
                 native_integrations_by_bridge=0, native_execution_authorized=False,

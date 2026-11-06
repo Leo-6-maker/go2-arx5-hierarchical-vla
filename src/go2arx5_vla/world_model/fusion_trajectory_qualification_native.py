@@ -24,7 +24,7 @@ def actual_trace_binding(adapter):
         header = stream.read(16)
     capacity = (adapter.spec.get('trajectory_trace_capacity',262144) if adapter.spec.get('phase') in (
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
-        'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1') else 131072)
+        'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))

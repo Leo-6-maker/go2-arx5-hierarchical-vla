@@ -7,10 +7,16 @@ import numpy as np
 
 
 def run(adapter):
-    from .fusion_source_posture_qualification_contract import episode_config, make_program
+    from .fusion_source_posture_qualification_contract import episode_config
+    episode, inputs = episode_config(adapter.spec)
+    return run_posture_program(adapter, episode, inputs)
+
+
+def run_posture_program(adapter, episode, inputs, *, program_factory=None, report_context=None):
+    """Original posture execution; a versioned caller keeps its actual phase."""
+    from .fusion_source_posture_qualification_contract import make_program
     from .fusion_trajectory_qualification_native import run_program
     from ..trajectory.so3 import geodesic_angle
-    episode, inputs = episode_config(adapter.spec)
     if inputs.get('raw_is_generated_calibration_reference') is not True:
         raise ValueError('SOURCE_POSTURE_GENERATED_CALIBRATION_REFERENCE_MUST_BE_EXPLICIT')
     goal = np.asarray(inputs['source_goal_TCP_source'], float)
@@ -27,6 +33,8 @@ def run(adapter):
         geometry_intervention_scale=episode['geometry_scale'],
         target_task_qualification=False, full_task_success=False,
         online_query=False, online_VLA=False)
+    if report_context is not None:
+        context.update(report_context)
 
     def finalizer(report):
         measured = np.asarray(report['actual_endpoint_TCP'], float)
@@ -46,5 +54,6 @@ def run(adapter):
             task_success=False, source_observation_used_as_expert_action_label=False,
             residual_basis='ACTUAL_MEASURED_ENDPOINT_NOT_REFERENCE_OR_MODEL_PREDICTION')
 
-    return run_program(adapter, episode, inputs, program_factory=make_program,
+    return run_program(adapter, episode, inputs, program_factory=(
+                           make_program if program_factory is None else program_factory),
                        report_context=context, report_finalizer=finalizer)

@@ -141,7 +141,19 @@ def make_program(inputs,episode,initial_tcp,decision_tcp,base):
 
 
 def episode_config(spec):
-    need(spec.get('phase')==PHASE and spec.get('profile')=='wm02-auto1-target'
+    return recipe_config(spec,None)
+
+
+def recipe_config(spec,episode,*,actual_phase=PHASE):
+    """Check the unchanged physical recipe against an explicit actual phase.
+
+    V3 supplies a separately validated, explicitly labelled parent-recipe view.
+    The real spec and on-disk V3 manifest are never rewritten or relabelled.
+    V1's public entry still reads and validates its original exact manifest.
+    """
+    need(actual_phase in (PHASE,'collect-target-fusion-source-posture-query-v3'),
+         'KNOWN_EXPLICIT_PHYSICAL_RECIPE_CALLER')
+    need(spec.get('phase')==actual_phase and spec.get('profile')=='wm02-auto1-target'
          and spec.get('domain')=='WM02_AUTO1_TARGET_COMMISSION_V1'
          and spec.get('site_profile')=='4080-simulation' and spec.get('physics') is True
          and spec.get('scope')=='WM02_PILOT1_SIM_ONLY' and bool(spec.get('pilot1_binding')),
@@ -155,7 +167,8 @@ def episode_config(spec):
     source,files=Path(spec['source_root']),spec.get('source_files',{})
     need(all(name in files and digest(source/name)==files[name]for name in SOURCE_MEMBERS),
          'NEW_SOURCE_POSTURE_CAPSULE_AND_SHARED_ORIGINAL_HELPERS')
-    episode=episode_contract(_json(spec['episode_manifest'],spec['episode_manifest_sha256']))
+    episode=episode_contract(_json(spec['episode_manifest'],spec['episode_manifest_sha256'])
+                             if episode is None else episode)
     need(episode['run']==spec['registered_root'] and type(spec.get('max_ticks')) is int
          and spec['max_ticks']==endpoint(episode)
          and spec.get('reference_binding_version')=='MEASURED_EEF_AND_BASE_POSE_HOLD_V2',

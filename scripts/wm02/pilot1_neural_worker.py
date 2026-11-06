@@ -35,6 +35,7 @@ def main(argv=None):
               'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',
               'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
               'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation',
+              'FUSION_SOURCE_CAMERA_QUALIFICATION': 'scripts.wm02.qualify_fusion_source_camera',
               'FUSION_CORR_ASSET': 'scripts.wm02.stage_fusion_corr_asset',
               'FUSION_CONTACT_TIMING_BASELINE': 'scripts.wm02.fit_contact_timing_baseline',
               'FUSION_CONTACT_TIMING_FULL_HISTORY_BASELINE': 'scripts.wm02.fit_contact_timing_full_history'}[spec['kind']]

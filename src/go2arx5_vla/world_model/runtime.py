@@ -51,6 +51,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
     trajectory_response_scope = None
+    source_camera_scope = None
     # Any part of this new identity must take the dedicated route: misspelling
     # the site may not turn a response fit into an unchecked generic CPU run.
     if (spec.get('execution_site') == 'CORE_FUSION_TRAJECTORY_RESPONSE_CPU'
@@ -70,6 +71,20 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp',
                     'panel', 'source_manifest', 'raw_action'):
             local_path(spec, spec[key])
+    if (spec.get('execution_site') == 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
+            or spec.get('profile') == 'wm02-fusion-source-camera-qualification-cpu'
+            or spec.get('kind') == 'FUSION_SOURCE_CAMERA_QUALIFICATION'):
+        from scripts.wm02.qualify_fusion_source_camera import PROFILE, KIND, SITE, _scope as source_camera_scope
+        from .fusion_scope import validate_source_camera_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics or profile != PROFILE or spec.get('kind') != KIND or spec.get('execution_site') != SITE:
+            raise PermissionError('EXACT_SOURCE_CAMERA_CPU_SITE_NO_CUDA_OR_PHYSICS_REQUIRED')
+        validate_source_camera_cpu(spec)
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'source_camera_identity'):
+            local_path(spec, spec[key])
+        for descriptor in spec['saved_native'].values():
+            if isinstance(descriptor, dict):
+                local_path(spec, descriptor['path'])
     if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU':
         from .pilot1_scope import PLAN_SHA
         if (gpu or physics or spec.get('physics') is not False
@@ -302,6 +317,8 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             # The unchanged CLI validator also validates the exact existing
             # fit-01 directory, so invoke it before STARTED or caller compute.
             trajectory_response_scope(spec, output)
+        if source_camera_scope is not None:
+            source_camera_scope(spec, output)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
             GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL') else None))

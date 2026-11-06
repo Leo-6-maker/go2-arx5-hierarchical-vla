@@ -149,7 +149,8 @@ def _runtime(adapter, binding):
                 simulator_pid=simulator["pid"], quota_binding_sha256=_sha(quota_binding))
 
 
-def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uuid, capture_index=0):
+def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uuid, capture_index=0,
+                               camera_recipe=None):
     """Retain a current dual-RGB input; never query a model or advance physics.
 
     The caller supplies its already admitted TargetSequentialAdapter and reader.
@@ -160,6 +161,11 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     uuid_string(query_uuid)
     _need(type(capture_index) is int and capture_index >= 0, "NONNEGATIVE_CAPTURE_INDEX")
     _cpu_renderer_environment()
+    if camera_recipe is not None:
+        from .fusion_source_camera_capture import SourceCameraCapture
+        _need(isinstance(camera_recipe, SourceCameraCapture)
+              and np.array_equal(camera_recipe.T_source_from_target, binding.T_source_from_target),
+              'EXPLICIT_TYPED_SOURCE_CAMERA_RECIPE_AND_SAME_FRAME_MAP')
     declared_task = _task(task, task_sha256, binding.scene_sha256)
     first = _pause(adapter)
     world = _runtime(adapter, binding)
@@ -176,7 +182,8 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     started = time.monotonic()
     recorder = None
     try:
-        recorder = FrameRecorder(Path(adapter.spec["model_path"]), output)
+        recorder = (FrameRecorder(Path(adapter.spec["model_path"]), output) if camera_recipe is None
+                    else camera_recipe.recorder(Path(adapter.spec["model_path"]), output))
         capture = recorder.save(capture_index, first["packet"])
         _need(capture == dict(index=capture_index, native_step=first["packet"]["step"],
                              time_s=first["packet"]["time_s"]), "ORIGINAL_RECORDER_SAME_PACKET")
@@ -193,15 +200,17 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
         calibration = output / "images" / f"{capture_index:06d}-calibration.json"
         images = {camera: output / "images" / f"{capture_index:06d}-{camera}.png"
                   for camera in ("body_rgb", "wrist_rgb")}
+        camera_kwargs = {} if camera_recipe is None else dict(camera_adapter=recorder.camera_adapter)
         shadow = binding.bind(actual_state=adapter.actual_state,
             native_state_bytes=state_path.read_bytes(), expected_state_sha256=_sha(first["raw"]),
             capture=capture, calibration_bytes=calibration.read_bytes(),
             expected_calibration_sha256=digest(calibration),
             image_bytes={k: p.read_bytes() for k, p in images.items()},
             expected_image_sha256={k: digest(p) for k, p in images.items()},
-            language=declared_task["language"], snapshot_uuid=query_uuid)
+            language=declared_task["language"], snapshot_uuid=query_uuid, **camera_kwargs)
         shadow_inference_payload(shadow)  # Require an explicit mapped policy view.
         write_json(output / "BOUND_SHADOW_ABI.private.json", shadow)
+        extra_files = [] if camera_recipe is None else recorder.retained_files(capture_index)
         recorder.close()
         recorder = None
         last = _after_pause(adapter, first)
@@ -210,7 +219,7 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
               and _sha((Path(adapter.output) / "quota.binding").read_bytes()) == world["quota_binding_sha256"],
               "SCENE_RUNTIME_OR_QUOTA_BINDING_CHANGED_DURING_CAPTURE")
         files = {p.relative_to(output).as_posix(): digest(p) for p in
-                 [state_path, calibration, *images.values(), output / "BOUND_SHADOW_ABI.private.json"]}
+                 [state_path, calibration, *images.values(), output / "BOUND_SHADOW_ABI.private.json", *extra_files]}
         record = sealed(dict(schema=SCHEMA, input_mode=INPUT_MODE,
             query_uuid=query_uuid, snapshot_uuid=query_uuid, capture=capture,
             native_step=first["packet"]["step"], native_time_s=first["packet"]["time_s"],
@@ -262,6 +271,13 @@ def paused_inference_payload(record):
           and body["files"][f"images/{index:06d}-calibration.json"] == target["calibration_sha256"]
           and all(body["files"][f"images/{index:06d}-{camera}.png"] == target["image_sha256"][camera]
                   for camera in ("body_rgb", "wrist_rgb")), "ORIGINAL_STATE_CALIBRATION_AND_IMAGE_FILE_BINDINGS")
+    if 'sensor_adapter' in target:
+        sensor = target['sensor_adapter']
+        prefix = f"native-camera/images/{index:06d}-"
+        _need(body['files'].get(prefix + 'calibration.json') == sensor['native_calibration_sha256']
+              and all(body['files'].get(prefix + name + '.png') == pin for name, pin in
+                      sensor['native_image_sha256'].items()),
+              'RETAINED_ORIGINAL_NATIVE_CAMERA_FILES_AND_HASHES')
     require_pause(body["pause_before"], body["pause_after"], body["native_step"])
     _need(body["provenance"]["native_execution_authorized"] is False
           and body["provenance"]["VLA_inferences"] == 0

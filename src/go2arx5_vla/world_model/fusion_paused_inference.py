@@ -19,6 +19,8 @@ MODE = 'ACTUAL_LIVE_PAUSED_VLA_INFERENCE'
 PROFILE = 'wm02-fusion-vla-shadow'
 BINDING_MODE = 'SEALED_SNAPSHOT_EXACT_SHA'
 PAIR_BINDING_MODE = 'PRE_REGISTERED_SINGLE_SNAPSHOT_V1'
+POSTURE_PAIR_BINDING_MODE = 'PRE_REGISTERED_SOURCE_POSTURE_SNAPSHOT_V2'
+PAIR_BINDING_MODES = (PAIR_BINDING_MODE, POSTURE_PAIR_BINDING_MODE)
 RESULT_SCHEMA = 'WM02_FUSION_LIVE_PAUSED_INFERENCE_RESULT_V1'
 CHECKPOINT = '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
 # Exact full-file inventory of the actually delivered CORR source/target draws.
@@ -71,7 +73,7 @@ def validate_spec(spec):
     uuid_string(spec['query_uuid'])
     if spec.get('snapshot_binding_mode') == BINDING_MODE:
         need(_hash(spec.get('recorded_observation_sha256')), 'PREEXISTING_EXACT_SNAPSHOT_SHA')
-    elif spec.get('snapshot_binding_mode') == PAIR_BINDING_MODE:
+    elif spec.get('snapshot_binding_mode') in PAIR_BINDING_MODES:
         from .fusion_paused_query_bridge import validate_pair_spec
         validate_pair_spec(spec)
     else:
@@ -87,13 +89,17 @@ def read_payload(spec):
     path = Path(spec['recorded_observation'])
     observation_hash = digest(path)
     need(path.name == 'PAUSED_OBSERVATION.private.json' and not path.is_symlink()
-         and (spec['snapshot_binding_mode'] == PAIR_BINDING_MODE
+         and (spec['snapshot_binding_mode'] in PAIR_BINDING_MODES
               or observation_hash == spec['recorded_observation_sha256']), 'EXACT_SEALED_PAUSED_ENVELOPE_BYTES')
     record = json.loads(path.read_text()); body = unseal(record)
     payload = paused_inference_payload(record)
-    if spec['snapshot_binding_mode'] == PAIR_BINDING_MODE:
+    shadow = unseal(body['original_shadow_ABI'])
+    source_sensor = shadow['target_observation'].get('sensor_adapter')
+    need(source_sensor is None or spec['snapshot_binding_mode']==POSTURE_PAIR_BINDING_MODE,
+         'SOURCE_CAMERA_SENSOR_REQUIRES_EXPLICIT_POSTURE_PAIR_V2')
+    if spec['snapshot_binding_mode'] in PAIR_BINDING_MODES:
         from .fusion_paused_query_bridge import validate_pair_capture
-        validate_pair_capture(spec, record)
+        pair = validate_pair_capture(spec, record)
     root = path.parent
     need(root.name == body['query_uuid'] == spec['query_uuid']
          and root.parent.name == 'PAUSED_OBSERVATIONS'
@@ -104,7 +110,11 @@ def read_payload(spec):
     expected = {'STATE.private.bin', 'BOUND_SHADOW_ABI.private.json',
                 f'images/{index:06d}-calibration.json',
                 *(f'images/{index:06d}-{camera}.png' for camera in ('body_rgb','wrist_rgb'))}
-    need(set(body['files']) == expected, 'EXACT_FIVE_CAPTURE_MEMBERS_NO_DROPPED_SIDECAR')
+    if source_sensor is not None:
+        expected |= {f'native-camera/images/{index:06d}-{suffix}' for suffix in
+                     ('body_rgb.png','wrist_rgb.png','calibration.json')}
+    need(set(body['files']) == expected, 'EXACT_VERSIONED_CAPTURE_MEMBERS_NO_DROPPED_SIDECAR'
+         if source_sensor is not None else 'EXACT_FIVE_CAPTURE_MEMBERS_NO_DROPPED_SIDECAR')
     for name, pin in body['files'].items():
         member = root/name
         need(not member.is_symlink() and member.resolve().is_relative_to(root.resolve())
@@ -114,7 +124,6 @@ def read_payload(spec):
     raw = parse_state((root/'STATE.private.bin').read_bytes())
     need(raw['step'] == body['native_step'] and raw['time_s'] == body['native_time_s']
          and abs(raw['time_s']-raw['step']*.002) <= 1e-8, 'ORIGINAL_ABSOLUTE_RAW_STATE_CLOCK_NO_RETIMING')
-    shadow = unseal(nested)
     identity = dict(query_uuid=body['query_uuid'], snapshot_uuid=body['snapshot_uuid'],
         observation_sha256=observation_hash, sealed_body_sha256=record['sha256'],
         task_sha256=body['task_sha256'], task=body['task'], world=body['world'],
@@ -127,6 +136,13 @@ def read_payload(spec):
         native_caller_must_verify_still_paused=True, native_execution_authorized=False,
         target_embodiment_qualified=False, target_task_qualified=False,
         online_closed_loop=False, source_outcomes_supplied=False)
+    if spec['snapshot_binding_mode'] == POSTURE_PAIR_BINDING_MODE:
+        identity.update(producer_phase='collect-target-fusion-source-posture-query-v3',
+            physical_recipe_phase='collect-target-fusion-source-posture-qualification-v1',
+            capture_condition='FULL_SOURCE_POSTURE_AFTER_CANCEL_HOLD_AND_TRACE_SEAL',
+            capture_camera_recipe=pair['camera_recipe'],
+            source_camera_identity_sha256=pair['source_camera_identity_sha256'],
+            returned_VLA_action_installations=0,camera_equivalence=False)
     return payload, identity, record
 
 

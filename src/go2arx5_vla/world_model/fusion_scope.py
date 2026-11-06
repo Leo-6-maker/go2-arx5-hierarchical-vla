@@ -167,6 +167,33 @@ def validate_target_capture_cpu(spec):
     return validate(spec)
 
 
+def validate_source_camera_cpu(spec):
+    """One saved actual packet, explicit sensor rig, CPU rendering only."""
+    from .fusion_source_camera_rig import SOURCE_IDENTITY_SHA256, FRAME_MAP_SHA256, RIG
+    if (spec.get('execution_site') != 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
+            or spec.get('profile') != 'wm02-fusion-source-camera-qualification-cpu'
+            or spec.get('kind') != 'FUSION_SOURCE_CAMERA_QUALIFICATION'
+            or spec.get('recipe') != 'WM02_FUSION_ONE_SEALED_TARGET_SOURCE_CAMERA_CPU_V1'
+            or spec.get('physics') is not False or spec.get('device') != 'cpu'
+            or spec.get('camera_recipe') != RIG or type(spec.get('capture_count')) is not int or spec['capture_count'] != 1
+            or spec.get('source_camera_identity_sha256') != SOURCE_IDENTITY_SHA256
+            or spec.get('frame_map', {}).get('sha256') != FRAME_MAP_SHA256
+            or any(type(spec.get(k)) is not int or spec[k] != 0 for k in ('GR00T_updates', 'WM_updates', 'Actor_updates'))
+            or spec.get('WBC_changes') is not False
+            or type(spec.get('wall_limit_s')) not in (int, float) or not 0 < spec['wall_limit_s'] <= 180
+            or type(spec.get('cpus')) is not list or not 1 <= len(spec['cpus']) <= 4
+            or len(set(spec['cpus'])) != len(spec['cpus'])
+            or any(type(cpu) is not int or cpu < 0 for cpu in spec['cpus'])
+            or os.environ.get('CUDA_VISIBLE_DEVICES') != ''
+            or os.environ.get('MUJOCO_GL') != 'egl'
+            or os.environ.get('PYOPENGL_PLATFORM') != 'egl'
+            or os.environ.get('LIBGL_ALWAYS_SOFTWARE') != '1'
+            or os.environ.get('__EGL_VENDOR_LIBRARY_FILENAMES') != '/usr/share/glvnd/egl_vendor.d/50_mesa.json'
+            or 'MUJOCO_EGL_DEVICE_ID' in os.environ):
+        raise PermissionError('ONE_SAVED_TARGET_SOURCE_RIG_CPU_QUALIFICATION_REQUIRED')
+    return validate(spec)
+
+
 def validate_corr_asset_cpu(spec):
     """Stage only the already published, fixed source CORR inference files."""
     if (spec.get('execution_site') != 'CORE_FUSION_ASSET_CPU'
