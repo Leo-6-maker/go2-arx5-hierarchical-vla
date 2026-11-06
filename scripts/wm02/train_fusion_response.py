@@ -3,6 +3,13 @@ import argparse,json
 from pathlib import Path
 
 
+def record_status(output,progress=None,completed=None):
+    """Mutable observer snapshots use atomic replacement, unlike sealed artifacts."""
+    from scripts.pi0292.durable import write
+    if progress is not None:write(output/'PROGRESS.private.json',progress)
+    if completed is not None:write(output/'COMPLETED.private.json',completed)
+
+
 def run(spec,output):
     import random,time,resource
     import numpy as np,torch
@@ -77,7 +84,7 @@ def run(spec,output):
                     loss,grad=update(model,opt,sampler);main_updates+=1
                     f.write(json.dumps(dict(update=step,loss=loss,gradient_norm=grad))+'\n')
                     if step in (1999,2000):save(step)
-                    if step%100==0:write_json(output/'PROGRESS.private.json',dict(seed=seed,arm=arm,updates=step,total_main_updates=main_updates))
+                    if step%100==0:record_status(output,progress=dict(seed=seed,arm=arm,updates=step,total_main_updates=main_updates))
             actual_rng=rng_state();actual_sampler=sampler.state_dict()
             clone=ResponseModel(t['x'].shape[1],32).to(device);co=torch.optim.AdamW(clone.parameters(),lr=spec['learning_rate'],weight_decay=.0001)
             cs=ExactSampler(len(train),spec['sampler'],seed);last=torch.load(d/'checkpoint-1999.pt',map_location='cpu',weights_only=True)
@@ -102,7 +109,7 @@ def run(spec,output):
                 normalization_split='OWN_ARM_TRAIN_ONLY',candidate_removed_from_both_features_and_ARX_base=arm==ARMS[1],
                 absolute={s:errors(prediction,truth,ids)for s,ids in splits.items()},
                 action_effect={s:action_effect(prediction,hold_prediction,data,ids,teacher.layout)for s,ids in splits.items()})
-            results.append(r);write_json(d/'RESULT.private.json',r);write_json(output/'COMPLETED.private.json',results)
+            results.append(r);write_json(d/'RESULT.private.json',r);record_status(output,completed=results)
     result=dict(schema='WM02_FUSION_MATCHED_RESPONSE_STUDY_RESULT_V1',status='TRAINED_EXACTLY_RESTORED_AND_NUMPY_EXPORTED',
         source_sha=spec['source_sha'],replay_sha256=spec['replay_sha256'],ARX_sha256=spec['ARX_sha256'],results=results,
         primary_seed=spec['primary_seed'],primary_chosen_before_DEV=True,main_WM_updates=main_updates,restore_probe_optimizer_calls=probe_updates,

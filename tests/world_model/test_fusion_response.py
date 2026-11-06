@@ -8,6 +8,20 @@ from go2arx5_vla.world_model.fusion_response_numpy import predict
 
 
 class ResponseLearning(unittest.TestCase):
+    def test_progress_survives_multiple_updates_and_second_completed_arm_without_reopening_artifacts(self):
+        from scripts.wm02.train_fusion_response import record_status
+        from go2arx5_vla.world_model.storage import write_json,digest
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);artifact=root/'sealed.json';write_json(artifact,dict(identity='fixture'))
+            pin=digest(artifact)
+            for step in (100,200,2000):record_status(root,progress=dict(updates=step))
+            first=dict(arm='ACTION_CONDITIONED',updates=2000);second=dict(arm='NO_FUTURE_ACTION',updates=2000)
+            record_status(root,completed=[first]);record_status(root,completed=[first,second])
+            self.assertEqual(json.loads((root/'PROGRESS.private.json').read_text())['updates'],2000)
+            self.assertEqual(len(json.loads((root/'COMPLETED.private.json').read_text())),2)
+            self.assertEqual(digest(artifact),pin)
+            with self.assertRaises(FileExistsError):write_json(artifact,dict(identity='changed'))
+
     def test_native_model_requires_frozen_primary_seed_full_restore_and_closed_training(self):
         from go2arx5_vla.world_model.fusion_response_inference import validate_asset
         from go2arx5_vla.world_model.storage import digest
