@@ -71,7 +71,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     substitution and gives no execution grant. The V1 entry above stays exact.
     """
     need((actual_phase, actual_kind) in ((PHASE, KIND),
-         ('collect-target-fusion-task-phase-bias-calibration-v2', 'FUSION_TASK_PHASE_BIAS_CALIBRATION_V2'))
+         ('collect-target-fusion-task-phase-bias-calibration-v2', 'FUSION_TASK_PHASE_BIAS_CALIBRATION_V2'),
+         ('collect-target-fusion-task-phase-bias-continuation-v3', 'FUSION_TASK_PHASE_BIAS_CONTINUATION_V3'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind

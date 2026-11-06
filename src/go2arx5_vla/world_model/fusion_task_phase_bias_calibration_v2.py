@@ -91,9 +91,17 @@ def _sha(array):
 @dataclass(frozen=True, init=False, eq=False)
 class FrozenBiasProgram:
     def __init__(self, inputs, episode, initial_tcp, decision_tcp, base):
-        episode_contract(episode)
+        self._initialize(inputs, episode, initial_tcp, decision_tcp, base,
+            episode_validator=episode_contract, ancestor_view=parent_recipe_view,
+            schema=SCHEMA, recipe_name=RECIPE, condition=CONDITION,
+            binding_schema='WM02_FROZEN_PREDECISION_REFERENCE_BINDING_V2')
+
+    def _initialize(self, inputs, episode, initial_tcp, decision_tcp, base, *,
+                    episode_validator, ancestor_view, schema, recipe_name, condition, binding_schema):
+        """Shared fixed math; each version keeps its actual manifest and type."""
+        episode_validator(episode)
         initial, decision = rigid(initial_tcp), rigid(decision_tcp)
-        ancestor = original.make_program(inputs, parent_recipe_view(episode), initial, decision, base)
+        ancestor = original.make_program(inputs, ancestor_view(episode), initial, decision, base)
         bias = decision[:3, 3] - initial[:3, 3]
         left_rotation = initial[:3, :3] @ decision[:3, :3].T
         desired_poses = matrix10(ancestor.desired_path)
@@ -113,8 +121,8 @@ class FrozenBiasProgram:
             frozen_translation_bias_m=_immutable(bias), frozen_left_rotation=_immutable(left_rotation),
             knot_indices=ancestor.knot_indices, end_atom=ancestor.end_atom).items():
             object.__setattr__(self, key, value)
-        binding = dict(schema='WM02_FROZEN_PREDECISION_REFERENCE_BINDING_V2',
-            condition=CONDITION, baseline_condition=BASELINE_CONDITION,
+        binding = dict(schema=binding_schema,
+            condition=condition, baseline_condition=BASELINE_CONDITION,
             initial_native_step=INIT_STEP, decision_native_step=DECISION_STEP,
             largest_measurement_native_step=DECISION_STEP,
             initial_TCP_target=initial.tolist(), decision_TCP_target=decision.tolist(),
@@ -133,7 +141,7 @@ class FrozenBiasProgram:
             source_or_target_achieved_pose_used_as_expert_label=False,
             calibration_is_native_or_GPU_grant=False)
         evidence = ancestor.evidence()
-        evidence.update(schema=SCHEMA, recipe=RECIPE, initialization_condition=CONDITION,
+        evidence.update(schema=schema, recipe=recipe_name, initialization_condition=condition,
             baseline_condition=BASELINE_CONDITION,
             desired_path_construction=original.RECIPE,
             reference_path_sha256=_sha(self.reference_path), desired_path_sha256=_sha(self.desired_path),
@@ -166,6 +174,13 @@ def make_program(inputs, episode, initial_tcp, decision_tcp, base):
 
 
 def validate_install_preview(action, *, initial_tcp, program, step, base, frozen_base, end_step):
+    return _validate_install_preview(action, initial_tcp=initial_tcp, program=program, step=step,
+        base=base, frozen_base=frozen_base, end_step=end_step, program_type=FrozenBiasProgram,
+        allowed_endpoints=(7103,), status='EXACT_FROZEN_BIAS_CALIBRATION_SUFFIX_NOT_NATIVE_QUALIFIED')
+
+
+def _validate_install_preview(action, *, initial_tcp, program, step, base, frozen_base, end_step,
+                              program_type, allowed_endpoints, status):
     need(type(step) is int and INIT_STEP <= step < end_step and (step-INIT_STEP) % 25 == 0,
          'ORIGINAL_ACTUAL_ATOM_BOUNDARY')
     base, frozen_base = np.asarray(base, float), np.asarray(frozen_base, float)
@@ -175,17 +190,18 @@ def validate_install_preview(action, *, initial_tcp, program, step, base, frozen
         need(program is None, 'PREDECISION_INIT_HOLD_ONLY')
         expected = np.repeat(pose10(rigid(initial_tcp), original.OPEN)[None], 40, axis=0)
     else:
-        need(type(program) is FrozenBiasProgram
+        need(type(program) is program_type
              and np.allclose(program.initial_reference_TCP_target, rigid(initial_tcp), rtol=0, atol=1e-12)
              and np.allclose(program.base_pose_hold, frozen_base, rtol=0, atol=1e-10)
-             and end_step == 7103 == DECISION_STEP + 25*(program.end_atom+TAIL_ATOMS),
+             and end_step in allowed_endpoints
+             and end_step == DECISION_STEP + 25*(program.end_atom+TAIL_ATOMS),
              'EXACT_NEW_TYPED_FROZEN_BIAS_PROGRAM')
         expected = program.preview((step-DECISION_STEP)//25)
     action = np.asarray(action, float)
     need(action.shape == (40, 10) and np.isfinite(action).all()
          and np.allclose(action, expected, rtol=0, atol=1e-12), 'ENTIRE_TRANSFORMED_H40_SUFFIX_NO_CLIP')
     require_working_target(action[:, 9])
-    return dict(status='EXACT_FROZEN_BIAS_CALIBRATION_SUFFIX_NOT_NATIVE_QUALIFIED', native_step=step,
+    return dict(status=status, native_step=step,
         points_checked=40, original_certify_chunk_required=True, original_install_ACK_required=True,
         physics_advance_authorized=False, native_execution_authorized=False)
 

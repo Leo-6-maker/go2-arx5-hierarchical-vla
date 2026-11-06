@@ -1,0 +1,206 @@
+{
+  "schema": "WM02_TASK_PHASE_FROZEN_BIAS_CONTINUATION_IMPLEMENTATION_V3",
+  "status": "IMPLEMENTED_RELATED_TESTS_PASS_ACTUAL_NATIVE_NOT_RUN",
+  "implementation_base_source_sha": "b55da2d831121a9971803f013ad4c6b921bd2984",
+  "scientific_scope": {
+    "condition": "INIT_FROZEN_PREDECISION_BIAS_GRADED_V3",
+    "qualified_initial_condition": "INIT_FROZEN_PREDECISION_BIAS_V2",
+    "absolute_reference_condition": "INIT_ABSOLUTE_V1",
+    "purpose": "ADJACENT_GRADED_QUALIFICATION_OF_THE_EXISTING_STRONG_SIMPLE_PREDECISION_REFERENCE_ANCHOR",
+    "new_WM_or_VLA_task_transfer_improvement_claim": false,
+    "formal_GR00T_B0_B1_condition": false,
+    "learned_adapter_Actor_Critic_or_WM_training": false,
+    "old_absolute_condition_failures_relabelled": false,
+    "complete_MPC_same_state_fork_claim": false,
+    "same_desired_algorithm_implies_independent_restart_path_byte_equality": false,
+    "old_TrajectoryAdaptation_byte_equivalence_claim": false
+  },
+  "entry": {
+    "phase": "collect-target-fusion-task-phase-bias-continuation-v3",
+    "kind": "FUSION_TASK_PHASE_BIAS_CONTINUATION_V3",
+    "episode_schema": "WM02_FUSION_TASK_PHASE_BIAS_CONTINUATION_EPISODE_V3",
+    "recipe": "FROZEN_PREDECISION_XYZ_SO3_BIAS_REFERENCE_GRADED_QUINTIC_V3",
+    "profile": "wm02-auto1-target",
+    "CLI_module": "scripts.wm02.fusion_task_phase_bias_continuation_check_v3",
+    "read_only_check": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m scripts.wm02.fusion_task_phase_bias_continuation_check_v3 --spec \"$SPEC\" --check-only",
+    "execution_route": "The same CLI with --execute delegates to the original scripts.wm02.pilot1_native_worker; original AUTO1/P1 owner, finite admission, certificate and lifecycle checks remain required.",
+    "new_scope_and_lease_required": true,
+    "CLOSED_lease_reuse": false,
+    "single_world": true,
+    "finite_native_wall_limit_s": 1200,
+    "registered_grades": [
+      {
+        "geometry_scale": 0.1,
+        "ramp_atoms": 256,
+        "endpoint_native_step": 10303
+      },
+      {
+        "geometry_scale": 0.25,
+        "ramp_atoms": 512,
+        "endpoint_native_step": 16703
+      },
+      {
+        "geometry_scale": 0.5,
+        "ramp_atoms": 768,
+        "endpoint_native_step": 23103
+      },
+      {
+        "geometry_scale": 1.0,
+        "ramp_atoms": 1024,
+        "endpoint_native_step": 29503
+      }
+    ],
+    "first_successful_complete_pose_and_gripper_atoms_expected": 312,
+    "full_generated_waypoints": 40,
+    "raw_VLA_knots": 0,
+    "new_platform_or_scheduler": false,
+    "first_candidate_grade_pending_original_admission": 0.1
+  },
+  "first_predecessor": {
+    "condition": "INIT_FROZEN_PREDECISION_BIAS_V2",
+    "geometry_scale": 0.03,
+    "source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
+    "spec_sha256": "d244df6e81cc57ef4c6feefa3914c016de8593a47789b630989ce0d711466628",
+    "result_sha256": "5c9d9cbfed522e9deaed2d957e04f8141785b696d91a022d901808af1292e262",
+    "required_lifecycle": "Exact CLOSED0 worker/spec/result join, 7103 ticks, all184 pose/gripper atoms, all40 knots, four clean child exits, original safety and zero dropped trace records.",
+    "required_saved_actual_evidence": "Rehash separate goal, original3703 packet, measured state, nine complete hold samples and readiness. Reconstruct the frozen goal from the exact prior packet, then recompute readiness from the saved samples without FK, rendering or physics.",
+    "required_non_full_grade_predicates": [
+      "position",
+      "lateral",
+      "orientation",
+      "actual_cube_distance",
+      "continuous_relative_hold",
+      "actual_open",
+      "cube_still",
+      "no_contact",
+      "original_safety"
+    ],
+    "full_grade_false_is_expected_at_point03": true,
+    "prior_readiness_is_runtime_or_GPU_grant": false,
+    "old_measurement_reused_for_current_bias": false
+  },
+  "adjacent_gate": {
+    "subsequent_grade_requires": "Immediately preceding registered V3 grade, identical source SHA, source root and required source-member hashes, exact CLOSED0 native completion and all nine recomputed non-full-grade measurement predicates.",
+    "skipping_repeating_or_automatic_failure_retry": false,
+    "full_grade_predicate_must_match_actual_prior_grade": true,
+    "all_saved_readiness_artifact_report_and_step_list_joins_exact": true,
+    "first_point1_requires_point03_actual_qualified_V2_not_any_previous_PASS": true,
+    "read_only_check_creates_current_bias_or_goal_binding": false,
+    "read_only_check_grants_native_or_GPU_execution": false
+  },
+  "measurement_and_installation_chronology": [
+    "Persist the actual V3 static episode and registered grade/clock before physics; do not rewrite the actual manifest as V1 or V2.",
+    "Each independent restart obtains its own measured INIT2503 and DEC3703. Prior-stage measurements qualify admission only and do not supply current reference bias.",
+    "At3703, join original ActualState FK and qpos/qvel/ctrl to the exact native packet. Build the original desired goal/path algorithm from the current frozen cube and source rotation at the current registered grade.",
+    "Freeze b=p_DEC-p_INIT in fixed target-world components and C_R=R_INIT*transpose(R_DEC). Set reference_xyz=desired_xyz-b and reference_R=C_R*desired_R; the first reference remains exactly INIT. No terminal/future tracking error is an input.",
+    "Persist and read back the current packet, measured state and independent goal binding including b/C_R, measurement step/pose identities and full reference/desired path hashes before the first generated reference installation.",
+    "Save both complete paths, check each exact new typed full40 suffix, then retain original native certify_chunk, install ACK, source-relative TTL, working-gripper sequence and actual atom consumption.",
+    "At the exact endpoint, preserve original cancel/HOLD, trace seal and shutdown audit. Save nine distinct complete actual states B-200..B at25-tick spacing, read back the file and compute readiness; partial grades are not full-grade query qualification."
+  ],
+  "fixed_math_and_compatibility": {
+    "translation": "reference_xyz=desired_xyz-(p_DEC-p_INIT)",
+    "orientation": "reference_R=(R_INIT*transpose(R_DEC))*desired_R",
+    "translation_coupled_as_SE3_rotation_of_world_origin": false,
+    "future_response_or_terminal_error_used": false,
+    "clipping_or_adaptive_retime": false,
+    "out_of_original_rate_or_native_certified_domain": "REJECT_WITH_EVIDENCE_NO_CLIP",
+    "old_V1_V2_on_disk_episode_and_default_behavior": "Preserved. The reusable V2 math helper has version-specific actual validators and metadata; old V2 still rejects V3 types and non-.03 episodes.",
+    "known_operational_phase_kind_whitelist": "Only exact V1, V2 and new V3 pairs, retaining the original SOURCE_MEMBERS superset and actual-source checks.",
+    "independent_restart_actual_goal_or_path_byte_equality_claim": false
+  },
+  "invariants": {
+    "original_owner_P1_and_finite_site_admission_required": true,
+    "WBC_or_leg_controller_changes": false,
+    "physics_dt_s": 0.002,
+    "source_relative_TTL_s": 0.4,
+    "reference_renewal_cadence_s": 0.35,
+    "native_ticks_per_atom": 25,
+    "original_full40_certificate_ACK_and_contiguous_gripper_sequence_required": true,
+    "actual_trace_capacity": 524288,
+    "old_active_capsules_or_episodes_modified": false,
+    "privileged_object_geometry_is_policy_input_or_expert_label": false,
+    "GPU_query_WM_Actor_or_checkpoint_operation": false
+  },
+  "frozen_source_and_test_sha256": {
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_v3.py": "28755816b9bc2f9e5f046f7e0dfd499693556f1715bf355f3e9d65fd4f604cda",
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_contract_v3.py": "f29ca5659c8ad7659e45e159f1212e10f2f61c70b27211e1b2c0ba496ead8623",
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_native_v3.py": "930f2a412305cb078240bf574763b2bb3e16d206103d2133da403dc993e650d4",
+    "scripts/wm02/fusion_task_phase_bias_continuation_check_v3.py": "a1c560fe1f3895165242944fb5463871f9e33e34b3ea6d0181eaae5654aacb72",
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_v2.py": "8d67153e4427f8fa5c81e734698c51d31b4a8b2d3a5803b0b1e2e460b7b6937d",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "eb208b34d5f226bb41a197ba490cac26c3f74682eea60c8a2f0b36d8f0ee53a9",
+    "src/go2arx5_vla/world_model/auto1_native.py": "6555e1c46d247504383880a46c0b63b6bf143d7f155b89f7f214f04c4da353bf",
+    "src/go2arx5_vla/world_model/target_sequential.py": "77375757cc305b6b261a906f1fbf4c7c0345fe7beef2004dc78f81b54c846a3e",
+    "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "564fe17af14c3b24b68a6cf04b4dd819b043dcce1c3264704e17b725673d3899",
+    "tests/world_model/test_fusion_task_phase_bias_continuation_v3.py": "1d943f1594070746586d7a5154fa729bf8310655aa2998f4178d3ce5eab5b857"
+  },
+  "related_validation": {
+    "normal_total_passed": 301,
+    "optimized_total_passed": 301,
+    "runs": [
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py",
+        "passed": 172,
+        "pytest_wall_s": 7.19,
+        "exit_code": 0,
+        "optimized": false,
+        "warnings": null
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_task_phase_bias_continuation_v3.py tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py",
+        "passed": 172,
+        "pytest_wall_s": 7.51,
+        "exit_code": 0,
+        "optimized": true,
+        "warnings": "One expected pytest optimization-mode assertion warning; admission checks use explicit exceptions."
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+        "passed": 129,
+        "pytest_wall_s": 15.85,
+        "exit_code": 0,
+        "optimized": false,
+        "warnings": null
+      },
+      {
+        "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+        "passed": 129,
+        "pytest_wall_s": 15.61,
+        "exit_code": 0,
+        "optimized": true,
+        "warnings": "One expected pytest optimization-mode assertion warning; admission checks use explicit exceptions."
+      }
+    ],
+    "CPU_usage_s": "NOT_SEPARATELY_MEASURED_FOR_THESE_LOCAL_PYTEST_PROCESSES",
+    "coverage": "All four grade math/clock/desired-intent invariants; old strict typed guards; nine independent failed measurement predicates; no skip/repeat; trace/consumption/lease and changed packet/sample/readiness failures; exact-source adjacent successors; original shared native lifecycle with synthetic distinct samples; older native/trajectory/query regressions.",
+    "synthetic_consumption_is_actual_native_evidence": false,
+    "engineering_failure_retained": "The first new test collection stopped on a test-only lambda spelling error (or75); corrected to or 75 before the recorded passing runs. No native, model or registration operation was attempted.",
+    "independent_read_only_review": "No confirmed blocker in frozen V3 modules, contract, tests or five narrow shared differences. Root also reviewed the reusable math.",
+    "broad_regression": {
+      "command": "\"$WM02_NATIVE_PYTHON\" -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py",
+      "status": "PASS",
+      "passed": 1487,
+      "subtests_passed": 302,
+      "pytest_wall_s": 141.18,
+      "driver_wall_s": 142.183804315,
+      "child_CPU_s": 137.352906,
+      "exit_code": 0,
+      "source_members_checked_before_and_after": 21,
+      "all_source_pins_unchanged": true,
+      "log_sha256": "1d8bae2d11490e0a4c19c8b4136626cd2dbf2fcee2ce4c9db197f4cbc55f6fd4",
+      "feedback_prototype_test_included": true,
+      "actual_native_or_CI_qualification": false
+    }
+  },
+  "actual_experiment_effects_at_implementation_delivery": {
+    "first_point1_native_status": "NOT_RUN",
+    "new_runtime_scope_granted": false,
+    "actual_native_integrations": 0,
+    "actual_new_task_atoms": 0,
+    "actual_model_queries": 0,
+    "actual_model_updates": 0,
+    "actual_model_or_checkpoint_created": false,
+    "actual_point1_correction_benefit": "NOT_MEASURED"
+  },
+  "next": "After broad regression, immutable-source publication and the original fresh finite owner registration, execute only the .1 initialization condition. Retain its actual errors, nine hold predicates, consumption, native shutdown, failures and costs; admit .25 only if the exact new .1 evidence passes the adjacent gate.",
+  "host_paths_raw_arrays_private_source_paths_or_assets_published": false
+}
