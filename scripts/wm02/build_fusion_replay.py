@@ -50,9 +50,10 @@ def build(manifest,output):
         if r['parent']in parent_splits and parent_splits[r['parent']]!=r['split']:raise ValueError('WHOLE_PARENT_SPLIT_REQUIRED')
         parent_splits[r['parent']]=r['split']
     arrays={key:np.stack([r[key]for r in records])for key in ['state','goal','history_goal','source_age','source_age_valid','desired_xy_m']}
-    for key in ['future_prefix_remaining','window_start_s','observed_action','task_success','actual_XY_error_m','nominal_action']:
+    for key in ['future_prefix_remaining','window_start_s','observed_action','task_success','actual_XY_error_m','nominal_action','repeat_index']:
         arrays[key]=np.asarray([r[key]for r in records])
     arrays['split']=np.asarray([r['split']for r in records]);arrays['parent']=np.asarray([r['parent']for r in records])
+    arrays['run_id']=np.asarray([r['run']for r in identities])
     data=output/'REAL_RESPONSE_WINDOWS.npz'
     with data.open('xb')as f:np.savez_compressed(f,**arrays)
     result=dict(schema='WM02_FUSION_REAL_RESPONSE_REPLAY_V1',manifest_sha256=digest(manifest),

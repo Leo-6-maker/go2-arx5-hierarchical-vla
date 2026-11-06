@@ -53,6 +53,7 @@ def response_window(episode, decision, native, score, states, native_steps, wind
         observed_action=decision['selected_action'],parent=episode['parent'],split=episode['split'],
         task_success=bool(score['local_XY_success']),actual_XY_error_m=float(score['actual_XY_error_m']),
         nominal_action=decision['nominal_action'],desired_xy_m=np.asarray(decision['desired_xy_m']),
+        repeat_index=episode.get('repeat_index',-1),
         desired_outcome_provenance='CALIBRATION_INTENT',physical_future_atoms=16,
         history_atoms=8,exact_Markov_state=False,expert_action_label=False,
         controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',

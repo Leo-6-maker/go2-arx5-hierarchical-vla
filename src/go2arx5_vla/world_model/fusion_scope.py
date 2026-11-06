@@ -49,6 +49,8 @@ def validate(spec, registry=None, now=None):
 
 def validate_gpu(spec, actual):
     """One finite frozen-VLA shadow, after the actual four-arm calibration."""
+    if spec.get('kind')=='FUSION_RESPONSE_WM':
+        return validate_response_gpu(spec,actual)
     from .pilot1_scope import GPU_UUIDS
     if (spec.get('execution_site') != 'CORE_FUSION_NEURAL'
             or spec.get('profile') != 'wm02-fusion-vla-shadow' or spec.get('physics') is not False
@@ -71,6 +73,32 @@ def validate_gpu(spec, actual):
             or result.get('exit_code') != 0 or result.get('actual_method_evaluations') != 4
             or result.get('actual_native_ticks') != 5*4103):
         raise PermissionError('ACTUAL_FIRST_NATIVE_CALIBRATION_BEFORE_VLA_REQUIRED')
+
+
+def validate_response_gpu(spec,actual):
+    """One small response-training worker, sharing measured local GPU headroom."""
+    from collections import Counter
+    from .pilot1_scope import GPU_UUIDS
+    if (spec.get('execution_site')!='CORE_FUSION_NEURAL' or spec.get('profile')!='wm02-fusion-response-train'
+            or spec.get('physics') is not False or spec.get('device')!='cuda'
+            or spec.get('GPU_uuid')not in GPU_UUIDS or actual['uuid']!=spec['GPU_uuid']
+            or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']
+            or not 0<spec.get('allocator_limit_bytes',0)<=2*1024**3
+            or spec['allocator_limit_bytes']+1024**3>=actual['free_bytes']
+            or spec.get('GR00T_updates')!=0 or spec.get('numeric_mode')!='FP32_TF32_OFF'
+            or spec.get('endpoint')!=2000 or spec.get('seeds')!=[366301,366302,366303]
+            or spec.get('arms')!=['ACTION_CONDITIONED','NO_FUTURE_ACTION']):
+        raise PermissionError('FINITE_SHARED_LOCAL_RESPONSE_WM_AND_ACTUAL_HEADROOM_REQUIRED')
+    validate(spec)
+    path=Path(spec['training_replay_result']);value=json.loads(path.read_text())
+    lease=json.loads((path.parent.parent/'control/LEASE.json').read_text())
+    if (digest(path)!=spec['training_replay_result_sha256'] or lease.get('status')!='CLOSED'
+            or value.get('schema')!='WM02_FUSION_REAL_RESPONSE_REPLAY_V1'
+            or value.get('eligible_windows')!=48 or value.get('real_post_choice_transitions')!=768
+            or Counter(value.get('physical_parents',{}).values())!=dict(TRAIN=4,DEV=2)
+            or value.get('excluded') or value.get('TEST_read')is not False
+            or value.get('replay_sha256')!=spec.get('replay_sha256')):
+        raise PermissionError('ACTUAL_COMPLETE_BALANCED_NEW_RESPONSE_DATA_REQUIRED')
 
 
 def register(path):

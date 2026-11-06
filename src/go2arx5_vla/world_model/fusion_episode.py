@@ -43,6 +43,9 @@ def episode_config(spec):
     for name in ['task', 'ARX', 'teacher_metadata', 'train_mean_response_model']:
         if digest(spec[name]) != spec[name+'_sha256']:
             raise PermissionError('FROZEN_FUSION_TASK_OR_TRAIN_MODEL_CHANGED')
+    if spec.get('response_numpy'):
+        from .fusion_response_inference import validate_asset
+        validate_asset(spec)
     if e['purpose'] != 'SCENE_QUALIFICATION':
         proof = Path(spec['scene_qualification']); result = json.loads(proof.read_text())
         old = json.loads((proof.parent.parent/'EPISODE_MANIFEST.private.json').read_text())
@@ -83,6 +86,13 @@ def choose(adapter, episode):
         candidate = dict(data, goal=reference[None].copy()); candidate['goal'][:, :3] += offset
         predictions.append(model.predict(candidate, np.array([0]))[0])
     predictions = np.asarray(predictions); current = adapter.measured_task_state()
+    response_identity=None
+    if spec.get('response_numpy'):
+        from .fusion_response_inference import validate_asset
+        from .fusion_response_numpy import candidate_forecasts
+        response_identity=validate_asset(spec)
+        with np.load(spec['response_numpy'],allow_pickle=False)as z:
+            predictions=candidate_forecasts(z,data,meta,predictions,model.layout,spec['response_arm'])
     tcp = current['tcp'][:3, 3].copy(); desired = tcp[:2]+np.asarray(episode['desired_delta_xy_m'])
     value = select(arm=episode['method'], nominal_action=episode['nominal_action'],
         desired_xy_m=desired, provenance=episode['desired_outcome_provenance'], actual_tcp_xy_m=tcp[:2],
@@ -108,12 +118,13 @@ def choose(adapter, episode):
         desired_delta_xy_m=episode['desired_delta_xy_m'], nominal_reference_EEF10=preview(episode['nominal_action']).tolist(),
         proposed_reference_EEF10=preview(selected).tolist(), predictions=predictions.tolist(),
         past_reference=reference.tolist(), method=episode['method'], parent=episode['parent'], split=episode['split'],
-        task_sha256=spec['task_sha256'], WM_sha256=spec['ARX_sha256'], static_model_sha256=mean_sha,
+        task_sha256=spec['task_sha256'], WM_sha256=response_identity['model_sha256']if response_identity else spec['ARX_sha256'],
+        ARX_sha256=spec['ARX_sha256'],response_model=response_identity,static_model_sha256=mean_sha,
         inference_mode='CALIBRATION_NO_VLA', VLA_inferences=0, vla_raw_action=None,
         installed_reference='NOT_YET_INSTALLED', consumed_reference='NOT_YET_OBSERVED',
         controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',
         model_clock=dict(window_start_s=0., future_prefix_remaining=7., history_atoms=8, forecast_atoms=16),
-        executor_model_transfer='FROZEN_C08_ARX_ON_C10_EXECUTOR_DIAGNOSTIC_NOT_REFIT',
+        executor_model_transfer='NEW_C10_TRAIN_TCP_RESIDUAL_OVER_FROZEN_C08_ARX'if response_identity else 'FROZEN_C08_ARX_ON_C10_EXECUTOR_DIAGNOSTIC_NOT_REFIT',
         observation_information='MATCHED_SIMULATOR_STATE_INCLUDING_OBJECT_POSE_NOT_RGB_DEPLOYMENT',
         decision_wall_mode='PAUSE_ASSISTED_DIAGNOSTIC')
     write(adapter.output/'FUSION_DECISION.private.json', value)
