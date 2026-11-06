@@ -1,10 +1,54 @@
 import json,os,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from scripts.pi0292.durable import OwnerLock
-from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children
+from go2arx5_vla.world_model.target_parallel import validate_layout,verify_inherited_owner,child_environment,wait_children,recorded_split,validate_duration_commission
 from go2arx5_vla.world_model.storage import digest
 
 class ParallelOwner(unittest.TestCase):
+    def test_full_duration_commission_requires_real_same_executor_short_runs_and_hold(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);batch=root/'prior';(batch/'batch-01').mkdir(parents=True)
+            binary=root/'binary';binary.write_bytes(b'unchanged native');proof=batch/'batch-01/RESULT.json'
+            prior=dict(native_binary=str(binary),observer_library='original-safety',native_runs_root=str(root))
+            (batch/'EXECUTION_SPEC.json').write_text(json.dumps(prior));rows=[]
+            for i in range(2):
+                r=root/('child'+str(i));(r/'native-01').mkdir(parents=True)
+                native=dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,physics_stops=[],actual_target_integrations=3103,native_binary_sha256=digest(binary))
+                (r/'native-01/RESULT.json').write_text(json.dumps(native));rows.append(dict(run=r.name))
+            episode=root/'episode';episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=0)))
+            single=root/'single';single.write_text(json.dumps(dict(actual_target_integrations=4103)))
+            child=dict(native_binary=str(binary),observer_library='original-safety',episode_manifest=str(episode),previous_stage=str(single))
+            validate_duration_commission({},[child,child],proof,dict(children=rows))
+            episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=1)))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[child,child],proof,dict(children=rows))
+            episode.write_text(json.dumps(dict(purpose='ACTION_COVERAGE',forced_action=0)))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[dict(child,observer_library='different'),child],proof,dict(children=rows))
+            native['native_binary_sha256']='old executor';(root/'child0/native-01/RESULT.json').write_text(json.dumps(native))
+            with self.assertRaises(PermissionError):validate_duration_commission({},[child,child],proof,dict(children=rows))
+
+    def test_commission_closeout_does_not_require_or_infer_a_learning_episode(self):
+        self.assertEqual(recorded_split(dict(schema='WM02_PILOT2_TWO_COMMISSION_BATCH_V1'),{}),'QUALIFICATION')
+        with self.assertRaises(KeyError):recorded_split(dict(schema='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'),{})
+        with tempfile.TemporaryDirectory()as tmp:
+            p=Path(tmp)/'episode';p.write_text(json.dumps(dict(split='DEV')))
+            self.assertEqual(recorded_split(dict(schema='WM02_PILOT2_TWO_COVERAGE_BATCH_V1'),dict(episode_manifest=str(p))),'DEV')
+
+    def test_new_candidate_commission_uses_registered_separate_disk_without_relaxing_slots(self):
+        from go2arx5_vla.world_model.pilot2_coverage import PLAN
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);runs=root/'nonroot-data';runs.mkdir()
+            batch=dict(schema='WM02_PILOT2_TWO_COMMISSION_BATCH_V1',campaign_root=str(root/'campaign'),native_runs_root=str(runs),registered_root=str(runs/'batch'),source_sha='source',physical_owner_lock=str(root/'owner'),cpus=list(range(8)),slots=[],pilot1_binding='live-window',pilot1_binding_sha256='pin',pilot2_plan_sha=PLAN,native_binary='candidate-v2',observer_library='original-safety',candidate_source_sha='build-source')
+            children=[]
+            for i in range(2):
+                r=runs/str(i);r.mkdir();child=dict(batch,registered_root=str(r),parallel_batch_spec=str(runs/'batch/EXECUTION_SPEC.json'),ROS_DOMAIN_ID=220+i,cpus=list(range(i*4,i*4+4)),phase='cold-1',max_ticks=50)
+                path=r/'SPEC';path.write_text(json.dumps(child));batch['slots'].append(dict(spec=str(path),spec_sha256=digest(path)));children.append(child)
+            validate_layout(batch,children)
+            for key,value in [('native_binary','old-candidate'),('observer_library','changed-safety'),('pilot1_binding','old-window'),('pilot2_plan_sha','wrong')]:
+                with self.assertRaises(PermissionError):validate_layout(batch,[children[0],dict(children[1],**{key:value})])
+            with self.assertRaises(PermissionError):validate_layout(dict(batch,pilot1_binding=None),children)
+            # This route cannot masquerade as ordinary learned-policy production.
+            with self.assertRaises(PermissionError):validate_layout(batch,[dict(c,phase='collect-target-pilot1',max_ticks=4103)for c in children])
+
     def test_peer_failure_stops_only_the_live_owned_slot(self):
         import time
         with tempfile.TemporaryDirectory()as tmp:

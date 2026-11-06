@@ -1,0 +1,176 @@
+{
+  "schema": "WM02_PILOT2_B1_PARTIAL_DEV_AND_STARTUP_HANDOFF_V1",
+  "plan_sha": "6d82fa23c892f167001abe743dd5eadfca6fd777",
+  "native_source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+  "executor_sha256": "29b261541b9dc2b2ed5c6df065026b33a11c3019181b9a8cfa980a7878d91df2",
+  "input_sha256": "cd4459c6dd122ab1acbcda3199efcdbe02ca006f4cd551b58b32695450770255",
+  "panel_sha256": "16ac561e7ebc9c5338f935a6ef6542e7c3c3513dd143bdaf5caaacb1e6cbd26f",
+  "status": "FAILED_PRESERVED_CLOSED_EXIT1",
+  "analysis": {
+    "schema": "WM02_PILOT2_PARENT_GOAL_RESTART_ANALYSIS_V1",
+    "planned": 144,
+    "attempted": 128,
+    "not_run": 16,
+    "invalid_evidence": 0,
+    "native_failed": 2,
+    "safety_stops": 1,
+    "methods": {
+      "TRAIN_MEAN_RESPONSE_RULE": {
+        "attempted": 42,
+        "valid_measured": 42,
+        "strict_task_successes": 12,
+        "strict_task_success_rate": 0.2857142857142857,
+        "valid_measured_mean_XY_error_m": 0.00021501133482130795,
+        "valid_measured_median_XY_error_m": 0.00022727598544463893,
+        "valid_measured_p90_XY_error_m": 0.0002825532108466047,
+        "valid_measured_mean_objective_m": 0.00023024943005940315
+      },
+      "FROZEN_ARX_SELECTOR": {
+        "attempted": 43,
+        "valid_measured": 42,
+        "strict_task_successes": 10,
+        "strict_task_success_rate": 0.23255813953488372,
+        "valid_measured_mean_XY_error_m": 0.000303019939091698,
+        "valid_measured_median_XY_error_m": 0.0002472157971155497,
+        "valid_measured_p90_XY_error_m": 0.0006257325520851286,
+        "valid_measured_mean_objective_m": 0.0003201627962345552
+      },
+      "TRAINED_ACTOR": {
+        "attempted": 43,
+        "valid_measured": 42,
+        "strict_task_successes": 10,
+        "strict_task_success_rate": 0.23255813953488372,
+        "valid_measured_mean_XY_error_m": 0.0002718387143516078,
+        "valid_measured_median_XY_error_m": 0.0002620874605758776,
+        "valid_measured_p90_XY_error_m": 0.00045275427582794456,
+        "valid_measured_mean_objective_m": 0.00028707680958970304
+      }
+    },
+    "comparisons": {
+      "FROZEN_ARX_SELECTOR": {
+        "complete_physical_parents": 5,
+        "total_physical_parents": 6,
+        "incomplete_parents_excluded_from_paired_cost_only": [
+          "PILOT2_B0_V01_ROOT_XY_V1"
+        ],
+        "LOCAL_CONTROL_GAIN": false,
+        "parent_equal_mean_cost_improvement_m": -9.336178042225785e-05,
+        "parent_effects_m": {
+          "PILOT2_B0_V02_ROOT_XY_V1": -0.00013933115498316695,
+          "PILOT2_B0_V03_ROOT_XY_V1": -9.46956817004792e-05,
+          "PILOT2_B0_V04_ROOT_XY_V1": 2.2754523381396917e-05,
+          "PILOT2_B0_V05_ROOT_XY_V1": -0.00018673681489529172,
+          "PILOT2_B0_V06_ROOT_XY_V1": -6.879977391374836e-05
+        },
+        "hierarchical_95_interval_m": [
+          -0.0001996267814873233,
+          -5.002873193314656e-06
+        ],
+        "positive_parent_count": 1,
+        "DEV_GAIN_CANDIDATE": false
+      },
+      "TRAINED_ACTOR": {
+        "complete_physical_parents": 5,
+        "total_physical_parents": 6,
+        "incomplete_parents_excluded_from_paired_cost_only": [
+          "PILOT2_B0_V01_ROOT_XY_V1"
+        ],
+        "LOCAL_CONTROL_GAIN": false,
+        "parent_equal_mean_cost_improvement_m": -5.913795757020034e-05,
+        "parent_effects_m": {
+          "PILOT2_B0_V02_ROOT_XY_V1": -0.0001264848526237787,
+          "PILOT2_B0_V03_ROOT_XY_V1": -6.774888731389183e-05,
+          "PILOT2_B0_V04_ROOT_XY_V1": -6.200029583966002e-06,
+          "PILOT2_B0_V05_ROOT_XY_V1": 1.0347541282433562e-06,
+          "PILOT2_B0_V06_ROOT_XY_V1": -9.629077245760851e-05
+        },
+        "hierarchical_95_interval_m": [
+          -0.00013057006386751636,
+          -4.6548851432519085e-06
+        ],
+        "positive_parent_count": 1,
+        "DEV_GAIN_CANDIDATE": false
+      }
+    },
+    "exact_fork_oracle": false,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 363501,
+    "minimum_practical_improvement_m": 8.562357573755856e-05
+  },
+  "actual_native_ticks": 521063,
+  "actual_valid_task_atoms": 8064,
+  "actual_native_model_updates": 0,
+  "new_TEST_constructed": false,
+  "original_deadline_unchanged": true,
+  "all_owned_native_processes_exited": true,
+  "worker_leases_closed": true,
+  "physical_owner_locks_free": true,
+  "safety": {
+    "reason": "REGISTERED_JOINT_SAFETY",
+    "native_tick": 1785,
+    "sim_time_s": 3.57,
+    "peer_stopped_at_tick": 2300,
+    "integrations_after_STOP": 0,
+    "initialization_complete_tick": 2500,
+    "actor_decision_tick": 3703,
+    "actor_decision_executed": false,
+    "causal_attribution": "BEFORE_WBC_SWITCH_AND_TASK_ACTOR_INFERENCE_NOT_A_LEARNED_ACTOR_CAUSAL_FAILURE",
+    "joints": [
+      {
+        "name": "RL_calf_joint",
+        "q": -0.798710557761048,
+        "upper": -0.83776,
+        "overshoot_rad": 0.039049442238951904,
+        "qvel_rad_s": 32.244233233907984
+      },
+      {
+        "name": "RR_calf_joint",
+        "q": -0.8132812282390062,
+        "upper": -0.83776,
+        "overshoot_rad": 0.02447877176099378,
+        "qvel_rad_s": 32.69550000783069
+      }
+    ]
+  },
+  "cost": {
+    "coordinator_wall_s": 2821.674231037963,
+    "coordinator_CPU_s": 9.935478668,
+    "batch_count": 64,
+    "batch_own_CPU_s": 15.923547519,
+    "batch_descendant_CPU_s": 8670.874415,
+    "CPU_total_s": 8696.733441187,
+    "batch_sum_wall_s": 2739.306726288516,
+    "GPU_training_updates": 0,
+    "monetary_cost": "NOT_METERED"
+  },
+  "clock_evidence": {
+    "failed_first_step_applied_version": 0,
+    "healthy_first_step_applied_version": 1,
+    "failed_first_zero_leg_torque_ticks": 3,
+    "first_policy_output_identical": true,
+    "failed_completed_but_not_applied_steps": 452,
+    "failed_steps": 1785,
+    "healthy_same_parent_completed_but_not_applied_steps": 1081,
+    "healthy_steps": 4103,
+    "observation": "V1_CLOCK_DOES_NOT_REQUIRE_ACTUAL_PD_APPLICATION",
+    "safety_cause": "HANDOFF_DEFECT_CONFIRMED_DIRECT_CAUSE_OF_LATE_JOINT_STOP_NOT_YET_PROVEN",
+    "native_repair_status": "OFFLINE_V2_IMPLEMENTED_NOT_NATIVE_QUALIFIED"
+  },
+  "cumulative_PILOT2": {
+    "native_attempts": 329,
+    "native_passes": 327,
+    "native_failures": 2,
+    "native_ticks": 1434166,
+    "free_Actor_main_updates": 216000,
+    "free_Actor_restore_probes": 25,
+    "contact_Policy_main_updates": 20000,
+    "contact_Policy_restore_probes": 10,
+    "contact_WM_main_updates": 16000,
+    "contact_WM_restore_probes": 8
+  },
+  "private_evidence_sha256": {
+    "B1_NATIVE_FAILURE01.private.json": "d0866273f51a85095b397b39273d0b165e7e4f30b9c2866726698f2ccd3e1068",
+    "B1_TERMINAL_COST01.private.json": "a6246ac05728436fc4319a9084201a751338b2bee6405f8e4e34b4997c1fbd46",
+    "C08_CAUSALITY_AUDIT01.private.json": "dad0d0e19dba22eb180c4d3ec3ce2ba9f01d9fe63fabeaec27384e37fb100dd1"
+  }
+}

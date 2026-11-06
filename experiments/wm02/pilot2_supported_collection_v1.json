@@ -1,0 +1,19 @@
+{
+  "schema": "WM02_PILOT2_SUPPORTED_EPISODE_V1",
+  "phase": "collect-target-pilot2-supported",
+  "reference_rule": "FIXED_EEF_HOLD40_PILOT2_PREDECLARED_GRIPPER_PROGRAM_V1",
+  "purpose": "SUPPORTED_CONTACT_COLLECTION",
+  "split": "TRAIN",
+  "task_atoms": 168,
+  "prehold_atoms": 40,
+  "screen_atom": 48,
+  "close_start_atom": 64,
+  "command_program": "CLOSE_KEEP",
+  "task_goal": "SUPPORTED_GRASP_HOLD",
+  "close_logical_opening": 0.4,
+  "required_supported_grasp_native_ticks": 500,
+  "required_released_native_ticks": 100,
+  "minimum_open_finger_q_m": 0.040,
+  "contact_force_threshold_N": 0.05,
+  "EEF_offset_xyz_m": [0.0, 0.0, 0.0]
+}

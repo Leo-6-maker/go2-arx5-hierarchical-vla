@@ -1,0 +1,306 @@
+{
+  "schema": "WM02_PILOT2_C09_CONTACT32_TEACHER_STRENGTH_DIAGNOSTIC_V1",
+  "bundle_sha256": "829212d466ff3c7a4836ef20054b6d21f20322f269b14fd4eed7acecf2c8d0a3",
+  "WM_updates": 0,
+  "Policy_updates": 0,
+  "native_integrations": 0,
+  "TEST_read": false,
+  "exact_fork": false,
+  "empirical_returns_are_parent_restart_aggregates": true,
+  "by_model": {
+    "FROZEN12": {
+      "portable_WM_sha256": "a9ce33544f3771dd3ba9e51874c4f7f32982382da2dd3f5bf4fbd9d1da622ec9",
+      "partitions": {
+        "TRAIN": {
+          "examples": 40,
+          "teacher_vs_FSM_argmax_disagreements": 0,
+          "teacher_vs_empirical_restart_argmax_disagreements": 0,
+          "teacher_correct_action_soft_probability_min": 0.5907102823257446,
+          "teacher_correct_action_soft_probability_mean": 0.9844293594360352,
+          "teacher_entropy_nats_mean": 0.03540749475359917,
+          "teacher_entropy_nats_max": 0.6765990257263184,
+          "by_parent": {
+            "PILOT2_C0_T01_LAYOUT_V1": {
+              "examples": 20,
+              "correct_action_probability_min": 0.874285101890564
+            },
+            "PILOT2_C0_T04_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999274015426636
+            },
+            "PILOT2_C0_T05_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999536275863647
+            },
+            "PILOT2_C0_T06_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999537467956543
+            },
+            "PILOT2_C0_T07_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.5907102823257446
+            },
+            "PILOT2_C0_T08_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9818783402442932
+            }
+          },
+          "student": {
+            "FROZEN12_WM_STUDENT": {
+              "portable_sha256": "f8007026ab23bf637b6b9b8325b1fb4a1272a9a166923dfa0177b913982376d1",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.10521243512630463
+            },
+            "UPDATED32_WM_STUDENT": {
+              "portable_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.12745556235313416
+            }
+          }
+        },
+        "DEV": {
+          "examples": 8,
+          "teacher_vs_FSM_argmax_disagreements": 0,
+          "teacher_vs_empirical_restart_argmax_disagreements": 0,
+          "teacher_correct_action_soft_probability_min": 0.9999536871910095,
+          "teacher_correct_action_soft_probability_mean": 0.9999539852142334,
+          "teacher_entropy_nats_mean": 0.00050551095046103,
+          "teacher_entropy_nats_max": 0.0005083594005554914,
+          "by_parent": {
+            "PILOT2_C0_V03_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999538064002991
+            },
+            "PILOT2_C0_V04_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999536871910095
+            }
+          },
+          "student": {
+            "FROZEN12_WM_STUDENT": {
+              "portable_sha256": "f8007026ab23bf637b6b9b8325b1fb4a1272a9a166923dfa0177b913982376d1",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.0010724252788349986
+            },
+            "UPDATED32_WM_STUDENT": {
+              "portable_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.000676809111610055
+            }
+          }
+        }
+      }
+    },
+    "UPDATED32": {
+      "portable_WM_sha256": "be24a0306f3051a1050fa7e886cee81c3ed687cdf26f215f36c81b1ed3b7c78e",
+      "partitions": {
+        "TRAIN": {
+          "examples": 40,
+          "teacher_vs_FSM_argmax_disagreements": 0,
+          "teacher_vs_empirical_restart_argmax_disagreements": 0,
+          "teacher_correct_action_soft_probability_min": 0.999954342842102,
+          "teacher_correct_action_soft_probability_mean": 0.9999544024467468,
+          "teacher_entropy_nats_mean": 0.0005008294829167426,
+          "teacher_entropy_nats_max": 0.0005020793178118765,
+          "by_parent": {
+            "PILOT2_C0_T01_LAYOUT_V1": {
+              "examples": 20,
+              "correct_action_probability_min": 0.999954342842102
+            },
+            "PILOT2_C0_T04_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999544024467468
+            },
+            "PILOT2_C0_T05_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.999954342842102
+            },
+            "PILOT2_C0_T06_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.9999544024467468
+            },
+            "PILOT2_C0_T07_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.999954342842102
+            },
+            "PILOT2_C0_T08_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.999954342842102
+            }
+          },
+          "student": {
+            "FROZEN12_WM_STUDENT": {
+              "portable_sha256": "f8007026ab23bf637b6b9b8325b1fb4a1272a9a166923dfa0177b913982376d1",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.002059606369584799
+            },
+            "UPDATED32_WM_STUDENT": {
+              "portable_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.0006104171043261886
+            }
+          }
+        },
+        "DEV": {
+          "examples": 8,
+          "teacher_vs_FSM_argmax_disagreements": 0,
+          "teacher_vs_empirical_restart_argmax_disagreements": 0,
+          "teacher_correct_action_soft_probability_min": 0.999954342842102,
+          "teacher_correct_action_soft_probability_mean": 0.9999544620513916,
+          "teacher_entropy_nats_mean": 0.0005007574218325317,
+          "teacher_entropy_nats_max": 0.0005019186064600945,
+          "by_parent": {
+            "PILOT2_C0_V03_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.999954342842102
+            },
+            "PILOT2_C0_V04_LAYOUT_V1": {
+              "examples": 4,
+              "correct_action_probability_min": 0.999954342842102
+            }
+          },
+          "student": {
+            "FROZEN12_WM_STUDENT": {
+              "portable_sha256": "f8007026ab23bf637b6b9b8325b1fb4a1272a9a166923dfa0177b913982376d1",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.0010683146538212895
+            },
+            "UPDATED32_WM_STUDENT": {
+              "portable_sha256": "7a3cf499da05cb64e6d2980fefca6183d705acbe67d4e4048d750b10b593cac0",
+              "teacher_argmax_agreement": 1.0,
+              "FSM_argmax_agreement": 1.0,
+              "soft_teacher_CE": 0.0006729222950525582
+            }
+          }
+        }
+      }
+    }
+  },
+  "wall_s": 1.2481733271852136,
+  "CPU_s": 1.11838246,
+  "optimizer_transient": {
+    "new_integrations": 0,
+    "new_model_updates": 0,
+    "rows": 2000,
+    "first20": [
+      {
+        "new_update": 1,
+        "cumulative_update": 2001,
+        "loss": 0.0008998796110972762
+      },
+      {
+        "new_update": 2,
+        "cumulative_update": 2002,
+        "loss": 0.00448630191385746
+      },
+      {
+        "new_update": 3,
+        "cumulative_update": 2003,
+        "loss": 0.121628537774086
+      },
+      {
+        "new_update": 4,
+        "cumulative_update": 2004,
+        "loss": 5.665555953979492
+      },
+      {
+        "new_update": 5,
+        "cumulative_update": 2005,
+        "loss": 4.741244316101074
+      },
+      {
+        "new_update": 6,
+        "cumulative_update": 2006,
+        "loss": 5.040861129760742
+      },
+      {
+        "new_update": 7,
+        "cumulative_update": 2007,
+        "loss": 3.415315866470337
+      },
+      {
+        "new_update": 8,
+        "cumulative_update": 2008,
+        "loss": 2.3123388290405273
+      },
+      {
+        "new_update": 9,
+        "cumulative_update": 2009,
+        "loss": 2.3347721099853516
+      },
+      {
+        "new_update": 10,
+        "cumulative_update": 2010,
+        "loss": 2.0174789428710938
+      },
+      {
+        "new_update": 11,
+        "cumulative_update": 2011,
+        "loss": 1.3701435327529907
+      },
+      {
+        "new_update": 12,
+        "cumulative_update": 2012,
+        "loss": 1.0019190311431885
+      },
+      {
+        "new_update": 13,
+        "cumulative_update": 2013,
+        "loss": 0.741837203502655
+      },
+      {
+        "new_update": 14,
+        "cumulative_update": 2014,
+        "loss": 0.6856427192687988
+      },
+      {
+        "new_update": 15,
+        "cumulative_update": 2015,
+        "loss": 0.598253607749939
+      },
+      {
+        "new_update": 16,
+        "cumulative_update": 2016,
+        "loss": 0.6216850876808167
+      },
+      {
+        "new_update": 17,
+        "cumulative_update": 2017,
+        "loss": 0.6632043123245239
+      },
+      {
+        "new_update": 18,
+        "cumulative_update": 2018,
+        "loss": 0.7137755155563354
+      },
+      {
+        "new_update": 19,
+        "cumulative_update": 2019,
+        "loss": 0.6088354587554932
+      },
+      {
+        "new_update": 20,
+        "cumulative_update": 2020,
+        "loss": 0.6515125036239624
+      }
+    ],
+    "max_loss_row": {
+      "new_update": 4,
+      "cumulative_update": 2004,
+      "loss": 5.665555953979492
+    },
+    "final_loss_row": {
+      "new_update": 2000,
+      "cumulative_update": 4000,
+      "loss": 0.0006109839305281639
+    }
+  },
+  "interpretation": "Both WM teachers agree with goal FSM and empirical parent-restart argmax on all48 labels; the current decision task does not establish state-dependent action advantage. The transient optimizer loss increase recovered at the fixed final endpoint; its mechanism was not isolated."
+}

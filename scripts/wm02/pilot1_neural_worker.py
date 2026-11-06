@@ -25,9 +25,15 @@ def main(argv=None):
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
     write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
     module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
+              'ACTOR_STUDY': 'scripts.wm02.train_pilot2_matrix',
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
+    if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
+            'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
+        module = 'scripts.wm02.train_pilot2_contact_wm'
+    if spec['kind'] == 'CONTACT_POLICY' and spec.get('policy_recipe') == 'WM02_PILOT2_SUPPORTED_GOAL_POLICY_V1':
+        module = 'scripts.wm02.train_pilot2_supported_policy'
     command = [sys.executable, '-B', '-m', module, '--spec', str(args.spec), '--output', str(root / 'fit-01')]
     started = time.monotonic()
     before = resource.getrusage(resource.RUSAGE_CHILDREN)

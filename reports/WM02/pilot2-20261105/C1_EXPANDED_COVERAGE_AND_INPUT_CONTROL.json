@@ -1,0 +1,872 @@
+{
+  "schema": "WM02_PILOT2_CONTACT_COVERAGE_NORMALIZER_CONTROL_ACTUAL_V1",
+  "execution_source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+  "native_cohort": {
+    "result_sha256": "15c804a921106f58ae01da57eaa9130fbdc313c18e057dadaa0d8bdd66ef090d",
+    "result": {
+      "status": "PILOT2_CONTACT_EXPANSION_BATCH1_COMPLETE",
+      "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+      "exit_code": 0,
+      "failure": null,
+      "collection_episodes": 9,
+      "raw_contact_atoms": 1512,
+      "build": {
+        "exit_code": 0
+      },
+      "wall_s": 849.8075036862865,
+      "CPU_s": 1.507332453,
+      "WM_updates": 0,
+      "Actor_updates": 0
+    },
+    "lease": {
+      "status": "CLOSED",
+      "run_uuid": "pilot2-c0-expansion-batch-01",
+      "input_sha256": "02994bf3400c3aab876b2eee3b607b1171bd4e489886778b7ecfc6a43b226a68",
+      "deadline_epoch": 1793908841.4500813,
+      "worker_exit_code": 0,
+      "closed_epoch": 1793908012.0679317
+    },
+    "workers": [
+      {
+        "kind": "PREFIX_QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 40.337090502958745,
+          "CPU_s": 13.074175239999999,
+          "child_CPU_s": 56.254412
+        },
+        "native_ticks": 4103,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {}
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 76.17647160915658,
+          "CPU_s": 32.763094683000006,
+          "child_CPU_s": 113.048904
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "CLOSE_KEEP",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 2000,
+          "longest_continuous_supported_grasp_s": 4.0,
+          "terminal_supported_grasp_native_ticks": 2000,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 2526,
+          "bilateral_native_grasp_ticks": 2510
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 77.85012738127261,
+          "CPU_s": 32.208130934,
+          "child_CPU_s": 115.567851
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "OPEN_ONLY",
+          "close_start_atom": 64,
+          "qualified_supported_grasp_hold": false,
+          "longest_continuous_supported_grasp_native_ticks": 0,
+          "longest_continuous_supported_grasp_s": 0.0,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": false,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 0,
+          "bilateral_native_grasp_ticks": 0
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 79.07113662175834,
+          "CPU_s": 32.73590144,
+          "child_CPU_s": 116.51536
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+          "command_program": "CLOSE_RELEASE",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 600,
+          "longest_continuous_supported_grasp_s": 1.2,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 1118,
+          "terminal_released_s": 2.236,
+          "qualified_release": true,
+          "qualified_supported_close_hold_release": true,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 1146,
+          "bilateral_native_grasp_ticks": 1133
+        }
+      },
+      {
+        "kind": "PREFIX_QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 39.711049089208245,
+          "CPU_s": 12.871336968,
+          "child_CPU_s": 55.222016
+        },
+        "native_ticks": 4103,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {}
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 78.85363996215165,
+          "CPU_s": 32.256889908999995,
+          "child_CPU_s": 115.99612
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+          "command_program": "CLOSE_RELEASE",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 600,
+          "longest_continuous_supported_grasp_s": 1.2,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 1118,
+          "terminal_released_s": 2.236,
+          "qualified_release": true,
+          "qualified_supported_close_hold_release": true,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 1145,
+          "bilateral_native_grasp_ticks": 1134
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 77.22589080408216,
+          "CPU_s": 31.512534578,
+          "child_CPU_s": 113.318865
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "OPEN_ONLY",
+          "close_start_atom": 64,
+          "qualified_supported_grasp_hold": false,
+          "longest_continuous_supported_grasp_native_ticks": 0,
+          "longest_continuous_supported_grasp_s": 0.0,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": false,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 0,
+          "bilateral_native_grasp_ticks": 0
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 80.53019275004044,
+          "CPU_s": 33.030157755,
+          "child_CPU_s": 117.136693
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "CLOSE_KEEP",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 2000,
+          "longest_continuous_supported_grasp_s": 4.0,
+          "terminal_supported_grasp_native_ticks": 2000,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 2532,
+          "bilateral_native_grasp_ticks": 2508
+        }
+      },
+      {
+        "kind": "PREFIX_QUALIFICATION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 37.224731113296,
+          "CPU_s": 12.706138367,
+          "child_CPU_s": 51.654305
+        },
+        "native_ticks": 4103,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {}
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 81.57743482291698,
+          "CPU_s": 32.788489621000004,
+          "child_CPU_s": 118.305154
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "CLOSE_KEEP",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 2000,
+          "longest_continuous_supported_grasp_s": 4.0,
+          "terminal_supported_grasp_native_ticks": 2000,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 2537,
+          "bilateral_native_grasp_ticks": 2506
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 78.93176555773243,
+          "CPU_s": 31.895431266,
+          "child_CPU_s": 116.875107
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "SUPPORTED_GRASP_HOLD",
+          "command_program": "OPEN_ONLY",
+          "close_start_atom": 64,
+          "qualified_supported_grasp_hold": false,
+          "longest_continuous_supported_grasp_native_ticks": 0,
+          "longest_continuous_supported_grasp_s": 0.0,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 0,
+          "terminal_released_s": 0.0,
+          "qualified_release": false,
+          "qualified_supported_close_hold_release": false,
+          "goal_success": false,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 0,
+          "bilateral_native_grasp_ticks": 0
+        }
+      },
+      {
+        "kind": "SUPPORTED_CONTACT_COLLECTION",
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 80.69127066899091,
+          "CPU_s": 33.049721721000004,
+          "child_CPU_s": 117.40367499999999
+        },
+        "native_ticks": 6703,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "score": {
+          "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+          "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+          "command_program": "CLOSE_RELEASE",
+          "close_start_atom": 56,
+          "qualified_supported_grasp_hold": true,
+          "longest_continuous_supported_grasp_native_ticks": 600,
+          "longest_continuous_supported_grasp_s": 1.2,
+          "terminal_supported_grasp_native_ticks": 0,
+          "terminal_released_native_ticks": 1118,
+          "terminal_released_s": 2.236,
+          "qualified_release": true,
+          "qualified_supported_close_hold_release": true,
+          "goal_success": true,
+          "full_manipulation_success": false,
+          "original_native_grasp_predicate": true,
+          "source_sha": "a02762212f71476d63b6c5afe52aaf60e76efa4c",
+          "same_native_process": true,
+          "physics_resets": 0,
+          "state_teleports": 0,
+          "actual_task_atoms": 168,
+          "first_blocker": null,
+          "contact_positive_native_ticks": 1166,
+          "bilateral_native_grasp_ticks": 1125
+        }
+      }
+    ]
+  },
+  "bundle": {
+    "status": "ACTUAL_SUPPORTED_MULTI_HORIZON_CONTACT_BUNDLE_SEALED",
+    "bundle_sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336",
+    "episodes": 27,
+    "raw_atoms": 4536,
+    "raw_native_ticks": 180981,
+    "forecast_anchors": 3881,
+    "valid_forecasts": 20101,
+    "forecast_horizons_atoms": [
+      1,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "TRAIN_parents": [
+      "PILOT2_C0_T01_LAYOUT_V1",
+      "PILOT2_C0_T02_LAYOUT_V1",
+      "PILOT2_C0_T03_LAYOUT_V1"
+    ],
+    "DEV_parents": [
+      "PILOT2_C0_V01_LAYOUT_V1",
+      "PILOT2_C0_V02_LAYOUT_V1"
+    ],
+    "native_integrations_by_builder": 0,
+    "model_updates": 0,
+    "TEST_read": false
+  },
+  "input_generalization_audit": {
+    "schema": "WM02_PILOT2_CONTACT_POLICY_INPUT_AUDIT_V1",
+    "bundle_sha256": "abed558af5d0e9a22e5493540b9c30bfb5dc807dbd4d34f0feba129396c646ab",
+    "optimizer_updates": 0,
+    "native_integrations": 0,
+    "rows": [
+      {
+        "model": "pilot2-c1-goal-policy-fsm-01",
+        "checkpoint_sha256": "4caea9fe3643555e9ce1b172a4b65fa9d88dd22c2700957438ad03443a877d09",
+        "examples": 16,
+        "features": 929,
+        "normalizer_clamped_features": 336,
+        "by_split": {
+          "TRAIN": {
+            "physical_prefixes": 6,
+            "goal_augmented_examples": 12,
+            "teacher_agreement": 0.75,
+            "abs_z_quantiles": {
+              "0.5": 0.9208950102329254,
+              "0.95": 2.3494613528251618,
+              "0.99": 7.975768170356797,
+              "1": 136.8212890625
+            },
+            "fraction_abs_z_gt5": 0.022246142805884463,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.3541666666666667,
+            "median_state_preactivation_l2": 16.422584533691406,
+            "median_goal_preactivation_l2": 1.585740327835083,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          },
+          "DEV": {
+            "physical_prefixes": 2,
+            "goal_augmented_examples": 4,
+            "teacher_agreement": 0.75,
+            "abs_z_quantiles": {
+              "0.5": 0.6146070659160614,
+              "0.95": 2.9753525853157043,
+              "0.99": 7.420599985122678,
+              "1": 46.628662109375
+            },
+            "fraction_abs_z_gt5": 0.02529601722282024,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.125,
+            "median_state_preactivation_l2": 10.470085144042969,
+            "median_goal_preactivation_l2": 1.585740327835083,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          }
+        }
+      },
+      {
+        "model": "pilot2-c1-goal-policy-wmteacher-01",
+        "checkpoint_sha256": "6ffd494b2bb1c2d0edf23400dd199dda872e5d5ea3ad35a3937af9f1b6e62abf",
+        "examples": 16,
+        "features": 929,
+        "normalizer_clamped_features": 336,
+        "by_split": {
+          "TRAIN": {
+            "physical_prefixes": 6,
+            "goal_augmented_examples": 12,
+            "teacher_agreement": 0.75,
+            "abs_z_quantiles": {
+              "0.5": 0.9208950102329254,
+              "0.95": 2.3494613528251618,
+              "0.99": 7.975768170356797,
+              "1": 136.8212890625
+            },
+            "fraction_abs_z_gt5": 0.022246142805884463,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.3541666666666667,
+            "median_state_preactivation_l2": 16.422603607177734,
+            "median_goal_preactivation_l2": 1.5856616497039795,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          },
+          "DEV": {
+            "physical_prefixes": 2,
+            "goal_augmented_examples": 4,
+            "teacher_agreement": 0.75,
+            "abs_z_quantiles": {
+              "0.5": 0.6146070659160614,
+              "0.95": 2.9753525853157043,
+              "0.99": 7.420599985122678,
+              "1": 46.628662109375
+            },
+            "fraction_abs_z_gt5": 0.02529601722282024,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.125,
+            "median_state_preactivation_l2": 10.4700927734375,
+            "median_goal_preactivation_l2": 1.5856616497039795,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          }
+        },
+        "normalizer_equal_first": true
+      },
+      {
+        "model": "pilot2-c1-goal-policy-real-feedback-01",
+        "checkpoint_sha256": "4258c4a6001164f13bc983910ed8341114df2586e3b88fd9634edd3202bf31f6",
+        "examples": 16,
+        "features": 929,
+        "normalizer_clamped_features": 336,
+        "by_split": {
+          "TRAIN": {
+            "physical_prefixes": 6,
+            "goal_augmented_examples": 12,
+            "teacher_agreement": 1.0,
+            "abs_z_quantiles": {
+              "0.5": 0.9208950102329254,
+              "0.95": 2.3494613528251618,
+              "0.99": 7.975768170356797,
+              "1": 136.8212890625
+            },
+            "fraction_abs_z_gt5": 0.022246142805884463,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.953125,
+            "median_state_preactivation_l2": 116.931396484375,
+            "median_goal_preactivation_l2": 3.142153024673462,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          },
+          "DEV": {
+            "physical_prefixes": 2,
+            "goal_augmented_examples": 4,
+            "teacher_agreement": 0.5,
+            "abs_z_quantiles": {
+              "0.5": 0.6146070659160614,
+              "0.95": 2.9753525853157043,
+              "0.99": 7.420599985122678,
+              "1": 46.628662109375
+            },
+            "fraction_abs_z_gt5": 0.02529601722282024,
+            "first_hidden_fraction_abs_preactivation_gt3": 0.9296875,
+            "median_state_preactivation_l2": 62.844234466552734,
+            "median_goal_preactivation_l2": 3.142153024673462,
+            "diagnostic_history_zero_normalized_teacher_agreement": 1.0,
+            "history_zero_is_model_diagnostic_not_physical_result": true
+          }
+        },
+        "normalizer_equal_first": true
+      }
+    ]
+  },
+  "matched_models": [
+    {
+      "arm": "prior-train-normalizer",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-prior-train-normalizer-01",
+        "spec_sha256": "365f777a856ee62223484c107a1b9d03eebe54c48128a8c3678796399219a111",
+        "closed_epoch": 1793908161.6268306,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 13.145769910886884,
+        "child_CPU_s": 11.520512
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "PINNED_PRIOR_TRAIN_INPUTS_FRESH_MODEL_CONTROL",
+        "normalizer_reference_sha256": "4caea9fe3643555e9ce1b172a4b65fa9d88dd22c2700957438ad03443a877d09",
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "1d051d81d54bca99af0df448b85db4f78919c205da70f994d1de81a48a12ebbb",
+        "portable_policy_sha256": "bbc112f81fcf3712d24c637130a1185fea1f9f1b802c6284487a585375c079c0",
+        "portable_max_logit_error": 7.152557373046875e-07,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 0.875,
+            "action_counts": [
+              3,
+              5
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                3,
+                1
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 9.911986491,
+        "wall_s": 10.541078218724579
+      },
+      "input_audit": {
+        "TRAIN": {
+          "abs_z_max": 136.8212890625,
+          "fraction_z_above5": 0.032185145317545745,
+          "hidden_pre_activation_abs_gt3_fraction": 0.2,
+          "teacher_agreement": 1.0
+        },
+        "DEV": {
+          "abs_z_max": 140.13111877441406,
+          "fraction_z_above5": 0.028256189451022606,
+          "hidden_pre_activation_abs_gt3_fraction": 0.15234375,
+          "teacher_agreement": 0.875
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "arm": "current-train-normalizer",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-current-train-normalizer-01",
+        "spec_sha256": "fdf7702f0d0de6811d50c9acb5cb08d90bb636c576ab40a470275141d79d2f61",
+        "closed_epoch": 1793908172.9579573,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 11.045978006906807,
+        "child_CPU_s": 10.557398000000001
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "CURRENT_TRAIN_INPUTS",
+        "normalizer_reference_sha256": null,
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "ab0dd947421640259e6a49c80dbddca68af08dd8aadcea9a7f9f57f3451019e2",
+        "portable_policy_sha256": "900df7dfa7870051e6ed2be532ee5f4b74c6f44c9c31109983bcc900bd392619",
+        "portable_max_logit_error": 1.430511474609375e-06,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              4,
+              4
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 9.100968734999999,
+        "wall_s": 9.431720630265772
+      },
+      "input_audit": {
+        "TRAIN": {
+          "abs_z_max": 2.9174394607543945,
+          "fraction_z_above5": 0.0,
+          "hidden_pre_activation_abs_gt3_fraction": 0.025,
+          "teacher_agreement": 1.0
+        },
+        "DEV": {
+          "abs_z_max": 6.1232404708862305,
+          "fraction_z_above5": 0.0005382131324004305,
+          "hidden_pre_activation_abs_gt3_fraction": 0.015625,
+          "teacher_agreement": 1.0
+        }
+      },
+      "stderr": ""
+    }
+  ],
+  "teacher_equality": {
+    "inputs_max_diff": 0.0,
+    "labels_max_diff": 0.0,
+    "by_split": {
+      "TRAIN": {
+        "labels": 20,
+        "parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "argmax_equal": true
+      },
+      "DEV": {
+        "labels": 8,
+        "parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "argmax_equal": true
+      }
+    }
+  },
+  "TRAIN_mean_response_rule": {
+    "model_sha256": "68e6ab05ebcedd265acf7fa53d42696d58488fb1c4a56eedba8a3e675fdb246f",
+    "mean_response_xy_m": [
+      [
+        0.0004494758530483589,
+        -0.00024159543413864855
+      ],
+      [
+        0.0010868607187049795,
+        -0.00025458955732662734
+      ],
+      [
+        -0.0001635934817638592,
+        -0.0002746448891175555
+      ],
+      [
+        0.0004928331485199005,
+        0.0001992437630954227
+      ]
+    ],
+    "minimum_gain": {
+      "minimum_practical_improvement_m": 8.562357573755856e-05,
+      "TRAIN_restart_pair_gap_p90_m": 0.0001712471514751171,
+      "task_utility_floor_m": 4.646114160515654e-05,
+      "formula": "MAX_HALF_TRAIN_P90_RESTART_GAP_AND_QUARTER_ORIGINAL_TASK_TOLERANCE",
+      "TEST_used": false
+    }
+  },
+  "finite_cohort": {
+    "status": "PILOT2_POLICY_NORMALIZER_COHORT_COMPLETE",
+    "exit_code": 0,
+    "failure": null,
+    "results": [
+      {
+        "worker": {
+          "exit_code": 0
+        }
+      },
+      {
+        "worker": {
+          "exit_code": 0
+        }
+      }
+    ],
+    "CPU_s": 0.019918332999999996,
+    "wall_s": 24.721149506047368
+  },
+  "new_policy_main_updates": 4000,
+  "new_policy_restore_probes": 2,
+  "normalizer_control_native_evaluated": false,
+  "CONTACT_CONTROL_GAIN": false
+}

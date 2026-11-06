@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-pilot2-supported':
+        from .pilot2_supported import validate
+        return validate(spec,previous)
     if phase=='collect-target-pilot1-supported-close':
         from .pilot1_supported_close import validate
         return validate(spec,previous)
@@ -134,8 +137,11 @@ def standing_repair_ancestor(spec):
     clock=build.get('physical_callback_clock')
     if clock is not None:
         header=Path(spec['cold_history_build_receipt']).parent/'control_clock.hpp'
-        if(clock!='FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1'or receipt.get('physical_callback_clock')!=clock
+        if(clock not in ('FROZEN_PERIOD_PD_POLICY_PHYSICAL_CLOCK_V1','FROZEN_PERIOD_PD_POLICY_APPLIED_CLOCK_V2')or receipt.get('physical_callback_clock')!=clock
                 or not header.is_file()or digest(header)!=receipt.get('control_clock_header_sha256')):raise PermissionError('EXACT_PHYSICAL_CALLBACK_CLOCK_SUCCESSOR_PROOF_REQUIRED')
+        if clock=='FROZEN_PERIOD_PD_POLICY_APPLIED_CLOCK_V2':
+            applied_header=header.parent/'applied_control_clock.hpp'
+            if not applied_header.is_file()or digest(applied_header)!=receipt.get('applied_control_clock_header_sha256'):raise PermissionError('EXACT_APPLIED_CLOCK_SUCCESSOR_PROOF_REQUIRED')
     if pair is not None:
         header=Path(spec['cold_history_build_receipt']).parent/'command_pair.hpp'
         if(pair!='SHORT_PAIR_PUBLICATION_PD_TRYLOCK_V1'or receipt.get('command_pair_coherence')!=pair

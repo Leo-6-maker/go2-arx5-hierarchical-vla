@@ -1,0 +1,4479 @@
+{
+  "schema": "WM02_PILOT2_B0_FIRST_BATCH_ACTUAL_V1",
+  "plan_sha": "6d82fa23c892f167001abe743dd5eadfca6fd777",
+  "source_sha": "1506dc223ba8b5851c18c442d4eb5b648bba2b14",
+  "parent_panel_sha256": "8e502a719431b43db807ddec0994fea32080a0b91f41e0123b15011a8731b944",
+  "collection_qualifications": 4,
+  "collection_action_episodes": 32,
+  "native_attempts": 36,
+  "native_passes": 36,
+  "native_ticks": 147708,
+  "new_physical_TRAIN_parents": 4,
+  "new_eligible_TRAIN_windows": 32,
+  "new_eligible_TRAIN_atoms": 768,
+  "raw_collection_atoms": 2048,
+  "total_TRAIN_windows": 85,
+  "unchanged_DEV_windows": 8,
+  "replay_sha256": "89aa357c5bf90746ac4869fe720bdcfc21375061e3c0affa17193319df11ffa0",
+  "coordinator_result_sha256": "6aa72aec49d049faf4cea1260e2b4f84ebef4790f195df30c25b16db5879d539",
+  "coordinator_worker_exit_code": 0,
+  "coordinator_lease_status": "CLOSED",
+  "coordinator_wall_s": 892.8662565043196,
+  "replay_build_wall_s": 14.199235551059246,
+  "replay_build_CPU_s": 13.946472000000213,
+  "exact_control_state_fork": false,
+  "by_action": {
+    "0": {
+      "episodes": 8,
+      "parents": 4,
+      "mean_response_xy_mm": [
+        0.45655830988407686,
+        -0.24013047480551764
+      ],
+      "mean_restart_pair_gap_mm": 0.054440942790699186,
+      "max_restart_pair_gap_mm": 0.13557494066103878
+    },
+    "1": {
+      "episodes": 8,
+      "parents": 4,
+      "mean_response_xy_mm": [
+        1.0954424679695791,
+        -0.25081268620588504
+      ],
+      "mean_restart_pair_gap_mm": 0.0625368982055597,
+      "max_restart_pair_gap_mm": 0.17001657867688094
+    },
+    "2": {
+      "episodes": 8,
+      "parents": 4,
+      "mean_response_xy_mm": [
+        -0.14079822863107952,
+        -0.2861518849206906
+      ],
+      "mean_restart_pair_gap_mm": 0.09154294099727692,
+      "max_restart_pair_gap_mm": 0.20894165961620859
+    },
+    "3": {
+      "episodes": 8,
+      "parents": 4,
+      "mean_response_xy_mm": [
+        0.5002466682476935,
+        0.20259165010615715
+      ],
+      "mean_restart_pair_gap_mm": 0.040971141716471204,
+      "max_restart_pair_gap_mm": 0.07613327550588221
+    }
+  },
+  "actual_episodes": [
+    {
+      "run": "pilot2-b0-train1-pair-00-01-slot-0",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "f9c901083e9cba1c0fbd15183bfe754ee56a12961b0e25fca08f23ba143bafc5",
+      "actual_response_xy_mm": [
+        1.1111782119123088,
+        -0.257880185008337
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-00-01-slot-1",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "bc00b62d090dc5283807c7bb2900931414dbbde9add1dfa6f65671ac88e57661",
+      "actual_response_xy_mm": [
+        1.0806714431319504,
+        -0.28550461791084636
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-01-01-slot-0",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "6f2c11f3737d705ba63e2b6cf1a77c237da3deaec6e41a2c435c05fba78f2b2e",
+      "actual_response_xy_mm": [
+        0.5107770743809056,
+        0.19591217313353482
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-01-01-slot-1",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "a3043a43a203f3fa2d64103e179da98c2bc08dd77517e16438c3697e7601f0dc",
+      "actual_response_xy_mm": [
+        0.5181829709921512,
+        0.1965328555817506
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-02-01-slot-0",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "b7bada3c4bd66b4cdfc63980d03335c9f3b625b1a15dfb073a9dfb43d41bebcd",
+      "actual_response_xy_mm": [
+        0.5242059528827699,
+        -0.27739603399818885
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": true
+    },
+    {
+      "run": "pilot2-b0-train1-pair-02-01-slot-1",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "1918a49287b0f5aa03dc2c86311f911f53e5928b598aab535a10af528f7fde56",
+      "actual_response_xy_mm": [
+        0.4971395863849733,
+        -0.28105131746812556
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": true
+    },
+    {
+      "run": "pilot2-b0-train1-pair-03-01-slot-0",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "28900d44eec6d33aa37901578272c18edef72c7029840385a319326b97260ab3",
+      "actual_response_xy_mm": [
+        -0.13649447613018045,
+        -0.2841934336624725
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-03-01-slot-1",
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "f80e41522a47525aa24d059a35da36d42cb9a90da728a0f7e511cf5849750e48",
+      "actual_response_xy_mm": [
+        -0.09027451428384164,
+        -0.2816871028450476
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-04-01-slot-0",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "d2232a9365bcc146ce573e2c2b42a9b2c4dce032d0faae9958a2f2d0a71eefbc",
+      "actual_response_xy_mm": [
+        1.0345375432791988,
+        -0.14379339170497366
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-04-01-slot-1",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "17f649d8a10144a07713ce9aff511d1a07004e1502b379d24b6986cbe9c42534",
+      "actual_response_xy_mm": [
+        1.1473086340915124,
+        -0.27102671321311067
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-05-01-slot-0",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "daf288ece63beeb07cdeb2d84eaa2b54d7ecd22a255f7482e267935fe55f30fc",
+      "actual_response_xy_mm": [
+        -0.0816617165506654,
+        -0.31404819695499475
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-05-01-slot-1",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "38539cdffc9a61e7dc7a7a9d51e518b7617666c288a6cab57b1ea480af2f5408",
+      "actual_response_xy_mm": [
+        -0.15742710121752473,
+        -0.2991636900980601
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-06-01-slot-0",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "0af208759bad177e92a151651e306dc1bcd82a50e8f8e1497e2843a18541b9ca",
+      "actual_response_xy_mm": [
+        0.52841829400557,
+        0.21514246710967194
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-06-01-slot-1",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "efdf0675ff3b26ef6205d8cbe4b34f2102d5c19a549f2244c4b612b595ec18cf",
+      "actual_response_xy_mm": [
+        0.5095859193630622,
+        0.1785477928495927
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-07-01-slot-0",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "bc8e8a0ec1e35a583bf34144b10fed494447002dbe2fe7c3c3204f9247544bd5",
+      "actual_response_xy_mm": [
+        0.4850980230128284,
+        -0.28362219413096545
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": true
+    },
+    {
+      "run": "pilot2-b0-train1-pair-07-01-slot-1",
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "e0f35c4a31a23e3d0ebe8c363d98014a01f0cac78e7e4234834536bf3e2cfd39",
+      "actual_response_xy_mm": [
+        0.49315966114182613,
+        -0.2790812199746847
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": true
+    },
+    {
+      "run": "pilot2-b0-train1-pair-08-01-slot-0",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "f154bea13311e1ee797eec706e2b6b0b9c70c7b36c8ad105c46a132b9f3bb627",
+      "actual_response_xy_mm": [
+        0.5009077725337515,
+        0.17271436529948606
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-08-01-slot-1",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "15684f5bdf5ff174c19cc764e176c09df05a67dbaacd4cf733b74b9acfa61057",
+      "actual_response_xy_mm": [
+        0.48316345035387137,
+        0.20762713874628377
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-09-01-slot-0",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "4df7cbb736f53e41ab5471ae0a96ec571eba62ae5825d72945d56aac572eae64",
+      "actual_response_xy_mm": [
+        0.4235921162507013,
+        -0.15297397843800833
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-09-01-slot-1",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "9bc0aae2aca07ebbe9c11c1a92c027c1c5f6a68a07a9048503bd783f3ad66d8b",
+      "actual_response_xy_mm": [
+        0.37810300927981505,
+        -0.15648192727728613
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-10-01-slot-0",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "046f7413bd976f1fccd113affaacbdd1f7c5d5f79f9dd620468e3d7d4ff8b2f9",
+      "actual_response_xy_mm": [
+        1.0911495812398448,
+        -0.2778921108214371
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-10-01-slot-1",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "7e0562a4e849d2589ddad0bd181d425c617a4063eb06c5bb996dc95a85240850",
+      "actual_response_xy_mm": [
+        1.074985267013215,
+        -0.2649267681353248
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-11-01-slot-0",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "07e36d3908cb774e71fd7dacff4d39f162416da5d9de613bd8ab00643cc802c2",
+      "actual_response_xy_mm": [
+        -0.14624863095613877,
+        -0.31077180291792444
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-11-01-slot-1",
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "3463c7dc69d9fb3e02f7643844ee02793ed8c8d688a4753817f59e89af5588f1",
+      "actual_response_xy_mm": [
+        -0.17987260037178027,
+        -0.3081168418245343
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-12-01-slot-0",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "1003996b8312cede67c089a8af586b5f6576e5bc33e9a38d0066c974b4710314",
+      "actual_response_xy_mm": [
+        0.4733432752231899,
+        -0.2933246856252763
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": true
+    },
+    {
+      "run": "pilot2-b0-train1-pair-12-01-slot-1",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 0,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "134fcc909d29c54282fa4109353b558aa3f8048e2f1ee29189039ef9a4b2251c",
+      "actual_response_xy_mm": [
+        0.3778248548965109,
+        -0.19711244153160565
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-13-01-slot-0",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "f1bb2ea121d5fb9c4326773167233990e9746ef5aa91f5c44038aeb851781d75",
+      "actual_response_xy_mm": [
+        -0.23851279853448742,
+        -0.16926831061482567
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-13-01-slot-1",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 2,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "4b7c5044b4ac44825c7d558e69ca9cc4634042796eb0fdb35c473430a962fed6",
+      "actual_response_xy_mm": [
+        -0.09589399100401724,
+        -0.32196570044766554
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-14-01-slot-0",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "adcec255689996b3d7012b862951ed327d0347f76b6a08d6b6e10cdb58431a36",
+      "actual_response_xy_mm": [
+        1.1033047346619114,
+        -0.2559329936047856
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-14-01-slot-1",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 1,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "d04393408b57b149db990ac3127d679a88039010c9927eb90c08c330796e333e",
+      "actual_response_xy_mm": [
+        1.1204043284266914,
+        -0.24954470924826508
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-15-01-slot-0",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "eccd8609a803c0bc57ac47c325ae857db592a9136d00136ba635adfe4bfed370",
+      "actual_response_xy_mm": [
+        0.4545826270799776,
+        0.2589532126150499
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    },
+    {
+      "run": "pilot2-b0-train1-pair-15-01-slot-1",
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 3,
+      "repeat": 1,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_ticks": 4103,
+      "native_result_sha256": "fb3cc26c4f162b7e3d2b2b99075fb771ddb3cf807a585403e9d92a645cd61fd8",
+      "actual_response_xy_mm": [
+        0.49635523727225866,
+        0.19530319551388722
+      ],
+      "arbitrary_collection_goal_not_policy_evaluation": false
+    }
+  ],
+  "actual_same_action_restart_pairs": [
+    {
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 1,
+      "same_action_restart_gap_mm": 0.04115546421319401
+    },
+    {
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 3,
+      "same_action_restart_gap_mm": 0.007431860555606642
+    },
+    {
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 0,
+      "same_action_restart_gap_mm": 0.027312072287518543
+    },
+    {
+      "parent": "PILOT2_B0_T01_ROOT_XY_V1",
+      "action": 2,
+      "same_action_restart_gap_mm": 0.046287866306877756
+    },
+    {
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 1,
+      "same_action_restart_gap_mm": 0.17001657867688094
+    },
+    {
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 2,
+      "same_action_restart_gap_mm": 0.07721361316562836
+    },
+    {
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 3,
+      "same_action_restart_gap_mm": 0.041156148008251195
+    },
+    {
+      "parent": "PILOT2_B0_T02_ROOT_XY_V1",
+      "action": 0,
+      "same_action_restart_gap_mm": 0.00925259183207169
+    },
+    {
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 3,
+      "same_action_restart_gap_mm": 0.03916328279614476
+    },
+    {
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 0,
+      "same_action_restart_gap_mm": 0.04562416638216772
+    },
+    {
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 1,
+      "same_action_restart_gap_mm": 0.020721611071187394
+    },
+    {
+      "parent": "PILOT2_B0_T03_ROOT_XY_V1",
+      "action": 2,
+      "same_action_restart_gap_mm": 0.033728624900392995
+    },
+    {
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 0,
+      "same_action_restart_gap_mm": 0.13557494066103878
+    },
+    {
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 2,
+      "same_action_restart_gap_mm": 0.20894165961620859
+    },
+    {
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 1,
+      "same_action_restart_gap_mm": 0.01825393886097648
+    },
+    {
+      "parent": "PILOT2_B0_T04_ROOT_XY_V1",
+      "action": 3,
+      "same_action_restart_gap_mm": 0.07613327550588221
+    }
+  ],
+  "neural_models": [
+    {
+      "seed": 36001,
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "worker_wall_s": 15.361780384089798,
+      "worker_child_CPU_s": 13.850066,
+      "result": {
+        "source_sha": "1506dc223ba8b5851c18c442d4eb5b648bba2b14",
+        "checkpoint_sha256": "9c3c633444c023d25ba354ba5f517f4316374406cca7e7c5b72d016afce94716",
+        "portable_actor_sha256": "13884448e47333e1fba772d41eb183b69e3b4eae9c5e04d602d748fc0a85065f",
+        "replay_sha256": "89aa357c5bf90746ac4869fe720bdcfc21375061e3c0affa17193319df11ffa0",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "main_Actor_updates": 8000,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "sampler_restore_error": 0.0,
+        "TRAIN": {
+          "examples": 21760,
+          "teacher_argmax_agreement": 0.98125,
+          "mean_model_regret_m": 4.472289300097413e-07,
+          "selected_action_counts": [
+            5176,
+            5317,
+            5435,
+            5832
+          ],
+          "soft_cross_entropy": 0.15835491428291448,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              4964,
+              29,
+              53,
+              22
+            ],
+            [
+              39,
+              5226,
+              0,
+              7
+            ],
+            [
+              52,
+              0,
+              5360,
+              1
+            ],
+            [
+              121,
+              62,
+              22,
+              5802
+            ]
+          ],
+          "teacher_entropy": 0.1502632134798125,
+          "teacher_student_KL": 0.008091700803101965,
+          "margin_weighted_model_regret_m": 2.9835503124746534e-07,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 20096,
+          "high_margin_error_rate": 0.001244028662420382,
+          "teacher_action_counts": [
+            5068,
+            5272,
+            5413,
+            6007
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  315,
+                  0,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  319,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  312
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9890625,
+              "teacher_entropy": 0.10225720644319405,
+              "teacher_student_KL": 0.0033457084433550304,
+              "soft_cross_entropy": 0.10560291488654908,
+              "mean_model_regret_m": 1.4620338788517985e-07,
+              "margin_weighted_model_regret_m": 4.678265361037014e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1225,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                327,
+                320,
+                319,
+                314
+              ],
+              "teacher_action_counts": [
+                317,
+                320,
+                320,
+                323
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  310,
+                  0,
+                  1,
+                  2
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  319,
+                  0
+                ],
+                [
+                  14,
+                  0,
+                  0,
+                  314
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98671875,
+              "teacher_entropy": 0.09644903941563854,
+              "teacher_student_KL": 0.005297816331521188,
+              "soft_cross_entropy": 0.10174685574715973,
+              "mean_model_regret_m": 2.2411442159864237e-07,
+              "margin_weighted_model_regret_m": 1.0912859461256782e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1226,
+              "high_margin_error_rate": 0.0008156606851549756,
+              "selected_action_counts": [
+                324,
+                320,
+                320,
+                316
+              ],
+              "teacher_action_counts": [
+                313,
+                320,
+                319,
+                328
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  311,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  318,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  0,
+                  327
+                ]
+              ],
+              "teacher_argmax_agreement": 0.996875,
+              "teacher_entropy": 0.08544943610109869,
+              "teacher_student_KL": 0.004142203357954776,
+              "soft_cross_entropy": 0.08959163945905346,
+              "mean_model_regret_m": 1.1664621979434742e-07,
+              "margin_weighted_model_regret_m": 9.239513355569319e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1235,
+              "high_margin_error_rate": 0.0008097165991902834,
+              "selected_action_counts": [
+                315,
+                320,
+                318,
+                327
+              ],
+              "teacher_action_counts": [
+                311,
+                320,
+                320,
+                329
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  325,
+                  0,
+                  0,
+                  5
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  318,
+                  0
+                ],
+                [
+                  10,
+                  0,
+                  0,
+                  300
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98671875,
+              "teacher_entropy": 0.08738790277802935,
+              "teacher_student_KL": 0.007818487164825855,
+              "soft_cross_entropy": 0.0952063899428552,
+              "mean_model_regret_m": 3.777955612349615e-07,
+              "margin_weighted_model_regret_m": 3.6885739656729027e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1229,
+              "high_margin_error_rate": 0.0016273393002441008,
+              "selected_action_counts": [
+                337,
+                320,
+                318,
+                305
+              ],
+              "teacher_action_counts": [
+                330,
+                320,
+                320,
+                310
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  233,
+                  3,
+                  13,
+                  0
+                ],
+                [
+                  7,
+                  179,
+                  0,
+                  0
+                ],
+                [
+                  9,
+                  0,
+                  360,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  7,
+                  213
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9619140625,
+              "teacher_entropy": 0.2289887180767169,
+              "teacher_student_KL": 0.019165614539948826,
+              "soft_cross_entropy": 0.24815433261666575,
+              "mean_model_regret_m": 1.3845901207787392e-06,
+              "margin_weighted_model_regret_m": 1.1687391614609545e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 905,
+              "high_margin_error_rate": 0.0077348066298342545,
+              "selected_action_counts": [
+                249,
+                182,
+                380,
+                213
+              ],
+              "teacher_action_counts": [
+                249,
+                186,
+                369,
+                220
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  549,
+                  17,
+                  5,
+                  1
+                ],
+                [
+                  0,
+                  687,
+                  0,
+                  0
+                ],
+                [
+                  25,
+                  0,
+                  561,
+                  0
+                ],
+                [
+                  14,
+                  3,
+                  0,
+                  698
+                ]
+              ],
+              "teacher_argmax_agreement": 0.974609375,
+              "teacher_entropy": 0.14669567088107924,
+              "teacher_student_KL": 0.014467677898050774,
+              "soft_cross_entropy": 0.16116334877913002,
+              "mean_model_regret_m": 8.01818487161654e-07,
+              "margin_weighted_model_regret_m": 7.004302727445082e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2358,
+              "high_margin_error_rate": 0.003816793893129771,
+              "selected_action_counts": [
+                588,
+                707,
+                566,
+                699
+              ],
+              "teacher_action_counts": [
+                572,
+                687,
+                586,
+                715
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  902,
+                  6,
+                  11,
+                  7
+                ],
+                [
+                  3,
+                  685,
+                  0,
+                  2
+                ],
+                [
+                  1,
+                  0,
+                  611,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  0,
+                  320
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98359375,
+              "teacher_entropy": 0.1397198472768096,
+              "teacher_student_KL": 0.007240043961849888,
+              "soft_cross_entropy": 0.14695989123865952,
+              "mean_model_regret_m": 3.74204324771199e-07,
+              "margin_weighted_model_regret_m": 2.1850078419028904e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2400,
+              "high_margin_error_rate": 0.0004166666666666667,
+              "selected_action_counts": [
+                918,
+                691,
+                622,
+                329
+              ],
+              "teacher_action_counts": [
+                926,
+                690,
+                612,
+                332
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": {
+              "examples": 2304,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  280,
+                  0,
+                  10,
+                  0
+                ],
+                [
+                  3,
+                  472,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  0,
+                  623,
+                  0
+                ],
+                [
+                  9,
+                  7,
+                  10,
+                  888
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9822048611111112,
+              "teacher_entropy": 0.20107513207825728,
+              "teacher_student_KL": 0.007406964486465319,
+              "soft_cross_entropy": 0.2084820965647226,
+              "mean_model_regret_m": 2.868144090623698e-07,
+              "margin_weighted_model_regret_m": 1.0220810755287917e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2072,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                292,
+                479,
+                643,
+                890
+              ],
+              "teacher_action_counts": [
+                290,
+                477,
+                623,
+                914
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  573,
+                  2,
+                  13,
+                  0
+                ],
+                [
+                  25,
+                  647,
+                  0,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  400,
+                  0
+                ],
+                [
+                  4,
+                  16,
+                  0,
+                  364
+                ]
+              ],
+              "teacher_argmax_agreement": 0.96875,
+              "teacher_entropy": 0.2370409495816368,
+              "teacher_student_KL": 0.00834884264199405,
+              "soft_cross_entropy": 0.24538979222363083,
+              "mean_model_regret_m": 6.691504808031823e-07,
+              "margin_weighted_model_regret_m": 3.711511778962854e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1727,
+              "high_margin_error_rate": 0.0005790387955993051,
+              "selected_action_counts": [
+                606,
+                665,
+                413,
+                364
+              ],
+              "teacher_action_counts": [
+                588,
+                672,
+                404,
+                384
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  24,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  252,
+                  0,
+                  3
+                ],
+                [
+                  1,
+                  0,
+                  520,
+                  1
+                ],
+                [
+                  24,
+                  36,
+                  5,
+                  1182
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9658203125,
+              "teacher_entropy": 0.2116481358349016,
+              "teacher_student_KL": 0.011570931060661576,
+              "soft_cross_entropy": 0.2232190668955632,
+              "mean_model_regret_m": 7.325143442926674e-07,
+              "margin_weighted_model_regret_m": 3.8321558899418115e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1811,
+              "high_margin_error_rate": 0.0011043622308117063,
+              "selected_action_counts": [
+                49,
+                288,
+                525,
+                1186
+              ],
+              "teacher_action_counts": [
+                24,
+                255,
+                522,
+                1247
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  688,
+                  0,
+                  0,
+                  3
+                ],
+                [
+                  1,
+                  511,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  0,
+                  321
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9921875,
+              "teacher_entropy": 0.1162002299032318,
+              "teacher_student_KL": 0.003334071100856347,
+              "soft_cross_entropy": 0.11953430100408816,
+              "mean_model_regret_m": 1.3348979166494246e-07,
+              "margin_weighted_model_regret_m": 7.944548463949161e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1955,
+              "high_margin_error_rate": 0.0005115089514066496,
+              "selected_action_counts": [
+                701,
+                511,
+                512,
+                324
+              ],
+              "teacher_action_counts": [
+                691,
+                512,
+                512,
+                333
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  454,
+                  1,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  513,
+                  0,
+                  0
+                ],
+                [
+                  7,
+                  0,
+                  499,
+                  0
+                ],
+                [
+                  9,
+                  0,
+                  0,
+                  563
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99072265625,
+              "teacher_entropy": 0.10071930711825335,
+              "teacher_student_KL": 0.004792547026287151,
+              "soft_cross_entropy": 0.1055118541445405,
+              "mean_model_regret_m": 1.9118823502140003e-07,
+              "margin_weighted_model_regret_m": 1.0246507111219726e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1953,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                470,
+                514,
+                499,
+                565
+              ],
+              "teacher_action_counts": [
+                457,
+                513,
+                506,
+                572
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  4144,
+                  20,
+                  23,
+                  0
+                ],
+                [
+                  28,
+                  115,
+                  0,
+                  0
+                ],
+                [
+                  10,
+                  0,
+                  146,
+                  0
+                ],
+                [
+                  85,
+                  0,
+                  15,
+                  854
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9667279411764705,
+              "teacher_entropy": 0.23709854551975315,
+              "teacher_student_KL": 0.012621141676949787,
+              "soft_cross_entropy": 0.24971968719670293,
+              "mean_model_regret_m": 7.402084199437763e-07,
+              "margin_weighted_model_regret_m": 4.46955110110782e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4750,
+              "high_margin_error_rate": 0.002105263157894737,
+              "selected_action_counts": [
+                4267,
+                135,
+                184,
+                854
+              ],
+              "teacher_action_counts": [
+                4187,
+                143,
+                156,
+                954
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  103,
+                  3,
+                  0,
+                  0
+                ],
+                [
+                  11,
+                  4998,
+                  0,
+                  5
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  43,
+                  0,
+                  275
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9882352941176471,
+              "teacher_entropy": 0.10797839431149332,
+              "teacher_student_KL": 0.0050343394518719,
+              "soft_cross_entropy": 0.11301273376336521,
+              "mean_model_regret_m": 2.5271516171735985e-07,
+              "margin_weighted_model_regret_m": 1.4114670935699383e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5165,
+              "high_margin_error_rate": 0.0003872216844143272,
+              "selected_action_counts": [
+                116,
+                5044,
+                0,
+                280
+              ],
+              "teacher_action_counts": [
+                106,
+                5014,
+                0,
+                320
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  167,
+                  0,
+                  30,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  42,
+                  0,
+                  5200,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9865808823529412,
+              "teacher_entropy": 0.07940446905602672,
+              "teacher_student_KL": 0.007702943451122203,
+              "soft_cross_entropy": 0.08710741250714893,
+              "mean_model_regret_m": 4.784671974073931e-07,
+              "margin_weighted_model_regret_m": 4.399077500801585e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5226,
+              "high_margin_error_rate": 0.002104860313815538,
+              "selected_action_counts": [
+                209,
+                0,
+                5230,
+                1
+              ],
+              "teacher_action_counts": [
+                197,
+                0,
+                5243,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  550,
+                  6,
+                  0,
+                  22
+                ],
+                [
+                  0,
+                  113,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  0,
+                  14,
+                  0
+                ],
+                [
+                  34,
+                  19,
+                  7,
+                  4673
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9834558823529411,
+              "teacher_entropy": 0.17657144503197686,
+              "teacher_student_KL": 0.007008378632463969,
+              "soft_cross_entropy": 0.18357982366444084,
+              "mean_model_regret_m": 3.1752494097043593e-07,
+              "margin_weighted_model_regret_m": 1.65410555441927e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4955,
+              "high_margin_error_rate": 0.0004036326942482341,
+              "selected_action_counts": [
+                584,
+                138,
+                21,
+                4697
+              ],
+              "teacher_action_counts": [
+                578,
+                115,
+                14,
+                4733
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5358457700673644,
+              "0.95": 1.8193284725397245,
+              "0.99": 2.3129835982058133,
+              "1.0": 9.004720940278057
+            },
+            "fraction_absolute_z_above_5": 0.0001444327731092437,
+            "fraction_absolute_z_above_10": 0.0
+          },
+          "sample_draws_by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": 60239,
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": 60236,
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": 60241,
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": 60232,
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": 48177,
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": 120453,
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": 120485,
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": 108409,
+            "PILOT2_B0_T01_ROOT_XY_V1": 96391,
+            "PILOT2_B0_T02_ROOT_XY_V1": 96368,
+            "PILOT2_B0_T03_ROOT_XY_V1": 96389,
+            "PILOT2_B0_T04_ROOT_XY_V1": 96380
+          },
+          "effective_label_epochs": 47.05882352941177
+        },
+        "DEV": {
+          "examples": 2048,
+          "teacher_argmax_agreement": 0.97021484375,
+          "mean_model_regret_m": 1.5251209646294228e-06,
+          "selected_action_counts": [
+            576,
+            512,
+            509,
+            451
+          ],
+          "soft_cross_entropy": 0.12604534785984362,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              516,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              512,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              509,
+              0
+            ],
+            [
+              57,
+              0,
+              0,
+              450
+            ]
+          ],
+          "teacher_entropy": 0.09521167158935204,
+          "teacher_student_KL": 0.03083367627049157,
+          "margin_weighted_model_regret_m": 2.1560924195605225e-06,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 1947,
+          "high_margin_error_rate": 0.008731381612737545,
+          "teacher_action_counts": [
+            517,
+            512,
+            512,
+            507
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  266,
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  254,
+                  0
+                ],
+                [
+                  29,
+                  0,
+                  0,
+                  216
+                ]
+              ],
+              "teacher_argmax_agreement": 0.96875,
+              "teacher_entropy": 0.10132707246863039,
+              "teacher_student_KL": 0.03074202206112418,
+              "soft_cross_entropy": 0.13206909452975457,
+              "mean_model_regret_m": 1.801855844973943e-06,
+              "margin_weighted_model_regret_m": 2.917211825632677e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.011282051282051283,
+              "selected_action_counts": [
+                297,
+                256,
+                254,
+                217
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  250,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  255,
+                  0
+                ],
+                [
+                  28,
+                  0,
+                  0,
+                  234
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9716796875,
+              "teacher_entropy": 0.08909627071007367,
+              "teacher_student_KL": 0.030925330479858966,
+              "soft_cross_entropy": 0.12002160118993263,
+              "mean_model_regret_m": 1.2483860842849026e-06,
+              "margin_weighted_model_regret_m": 1.3949730134883675e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.006172839506172839,
+              "selected_action_counts": [
+                279,
+                256,
+                255,
+                234
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  484,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  28,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9453125,
+              "teacher_entropy": 0.16946283686576463,
+              "teacher_student_KL": 0.04173729073635383,
+              "soft_cross_entropy": 0.21120012760211845,
+              "mean_model_regret_m": 1.74671893660161e-06,
+              "margin_weighted_model_regret_m": 1.1254142912491934e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 457,
+              "high_margin_error_rate": 0.002188183807439825,
+              "selected_action_counts": [
+                512,
+                0,
+                0,
+                0
+              ],
+              "teacher_action_counts": [
+                484,
+                0,
+                0,
+                28
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 1.0,
+              "teacher_entropy": 0.027799293099740757,
+              "teacher_student_KL": 0.003285911948367849,
+              "soft_cross_entropy": 0.031085205048108605,
+              "mean_model_regret_m": 0.0,
+              "margin_weighted_model_regret_m": 0.0,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 509,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  3,
+                  0,
+                  509,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 0.994140625,
+              "teacher_entropy": 0.027366850871211497,
+              "teacher_student_KL": 0.018298348086231667,
+              "soft_cross_entropy": 0.04566519895744317,
+              "mean_model_regret_m": 1.1519174165641743e-06,
+              "margin_weighted_model_regret_m": 3.6640470177256605e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 511,
+              "high_margin_error_rate": 0.005870841487279843,
+              "selected_action_counts": [
+                3,
+                0,
+                509,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                0,
+                512,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  32,
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  29,
+                  0,
+                  0,
+                  450
+                ]
+              ],
+              "teacher_argmax_agreement": 0.94140625,
+              "teacher_entropy": 0.15621770552069125,
+              "teacher_student_KL": 0.060013154311012944,
+              "soft_cross_entropy": 0.2162308598317042,
+              "mean_model_regret_m": 3.201847505351907e-06,
+              "margin_weighted_model_regret_m": 3.834908369267235e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 470,
+              "high_margin_error_rate": 0.027659574468085105,
+              "selected_action_counts": [
+                61,
+                0,
+                0,
+                451
+              ],
+              "teacher_action_counts": [
+                33,
+                0,
+                0,
+                479
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5483370669052238,
+              "0.95": 1.923353245616505,
+              "0.99": 2.4750594227245193,
+              "1.0": 5.133486612423597
+            },
+            "fraction_absolute_z_above_5": 0.00013950892857142856,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        },
+        "GPU_peak": {
+          "peak_allocated_bytes": 314695680,
+          "peak_reserved_bytes": 497025024
+        },
+        "CUDA_elapsed_ms": 10384.2392578125
+      }
+    },
+    {
+      "seed": 36002,
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "worker_wall_s": 14.002659088931978,
+      "worker_child_CPU_s": 13.580555,
+      "result": {
+        "source_sha": "1506dc223ba8b5851c18c442d4eb5b648bba2b14",
+        "checkpoint_sha256": "b5ea6097fd3cdfab6b4b92be3742a8b4e4f1ec4f48ec2981b48a2499ae43fa97",
+        "portable_actor_sha256": "aab626646d04bb5db479f9694cee8f419c95edf7b7389165ee48c0c753031b54",
+        "replay_sha256": "89aa357c5bf90746ac4869fe720bdcfc21375061e3c0affa17193319df11ffa0",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "main_Actor_updates": 8000,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "sampler_restore_error": 0.0,
+        "TRAIN": {
+          "examples": 21760,
+          "teacher_argmax_agreement": 0.9857077205882353,
+          "mean_model_regret_m": 2.5386832074967543e-07,
+          "selected_action_counts": [
+            5126,
+            5295,
+            5416,
+            5923
+          ],
+          "soft_cross_entropy": 0.15518403515009194,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              4978,
+              41,
+              24,
+              25
+            ],
+            [
+              17,
+              5229,
+              0,
+              26
+            ],
+            [
+              43,
+              0,
+              5370,
+              0
+            ],
+            [
+              88,
+              25,
+              22,
+              5872
+            ]
+          ],
+          "teacher_entropy": 0.1502632134798125,
+          "teacher_student_KL": 0.004920821670279408,
+          "margin_weighted_model_regret_m": 1.1781483922805937e-07,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 20096,
+          "high_margin_error_rate": 9.952229299363058e-05,
+          "teacher_action_counts": [
+            5068,
+            5272,
+            5413,
+            6007
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  314,
+                  1,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  319,
+                  0
+                ],
+                [
+                  10,
+                  1,
+                  0,
+                  312
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98828125,
+              "teacher_entropy": 0.10225720644319405,
+              "teacher_student_KL": 0.006606584462752266,
+              "soft_cross_entropy": 0.1088637909059463,
+              "mean_model_regret_m": 2.551925263105659e-07,
+              "margin_weighted_model_regret_m": 9.209402368174836e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1225,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                325,
+                322,
+                319,
+                314
+              ],
+              "teacher_action_counts": [
+                317,
+                320,
+                320,
+                323
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  310,
+                  1,
+                  1,
+                  1
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  319,
+                  0
+                ],
+                [
+                  7,
+                  1,
+                  0,
+                  320
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99140625,
+              "teacher_entropy": 0.09644903941563854,
+              "teacher_student_KL": 0.00315533428369996,
+              "soft_cross_entropy": 0.0996043736993385,
+              "mean_model_regret_m": 8.637678092782152e-08,
+              "margin_weighted_model_regret_m": 1.6876463779587367e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1226,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                317,
+                322,
+                320,
+                321
+              ],
+              "teacher_action_counts": [
+                313,
+                320,
+                319,
+                328
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  309,
+                  0,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  320,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  329
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9984375,
+              "teacher_entropy": 0.08544943610109869,
+              "teacher_student_KL": 0.0020732763351902824,
+              "soft_cross_entropy": 0.08752271243628898,
+              "mean_model_regret_m": 3.3031653856596677e-08,
+              "margin_weighted_model_regret_m": 1.1535091863899843e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1235,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                309,
+                320,
+                320,
+                331
+              ],
+              "teacher_action_counts": [
+                311,
+                320,
+                320,
+                329
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  329,
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  320,
+                  0
+                ],
+                [
+                  14,
+                  0,
+                  0,
+                  296
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98828125,
+              "teacher_entropy": 0.08738790277802935,
+              "teacher_student_KL": 0.003738832463023588,
+              "soft_cross_entropy": 0.09112673524105294,
+              "mean_model_regret_m": 1.8565568780104513e-07,
+              "margin_weighted_model_regret_m": 8.368199804899735e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1229,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                343,
+                320,
+                320,
+                297
+              ],
+              "teacher_action_counts": [
+                330,
+                320,
+                320,
+                310
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  234,
+                  7,
+                  8,
+                  0
+                ],
+                [
+                  5,
+                  181,
+                  0,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  365,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  3,
+                  215
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9716796875,
+              "teacher_entropy": 0.2289887180767169,
+              "teacher_student_KL": 0.012442207600511044,
+              "soft_cross_entropy": 0.24143092567722796,
+              "mean_model_regret_m": 7.57532802708738e-07,
+              "margin_weighted_model_regret_m": 5.404341167541703e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 905,
+              "high_margin_error_rate": 0.0022099447513812156,
+              "selected_action_counts": [
+                245,
+                188,
+                376,
+                215
+              ],
+              "teacher_action_counts": [
+                249,
+                186,
+                369,
+                220
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  557,
+                  7,
+                  5,
+                  3
+                ],
+                [
+                  0,
+                  687,
+                  0,
+                  0
+                ],
+                [
+                  6,
+                  0,
+                  580,
+                  0
+                ],
+                [
+                  4,
+                  6,
+                  0,
+                  705
+                ]
+              ],
+              "teacher_argmax_agreement": 0.987890625,
+              "teacher_entropy": 0.14669567088107924,
+              "teacher_student_KL": 0.004841513198884466,
+              "soft_cross_entropy": 0.1515371840799637,
+              "mean_model_regret_m": 1.981699313091667e-07,
+              "margin_weighted_model_regret_m": 9.338015501392523e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2358,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                567,
+                700,
+                585,
+                708
+              ],
+              "teacher_action_counts": [
+                572,
+                687,
+                586,
+                715
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  912,
+                  7,
+                  0,
+                  7
+                ],
+                [
+                  0,
+                  690,
+                  0,
+                  0
+                ],
+                [
+                  6,
+                  0,
+                  606,
+                  0
+                ],
+                [
+                  0,
+                  2,
+                  0,
+                  330
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99140625,
+              "teacher_entropy": 0.1397198472768096,
+              "teacher_student_KL": 0.003518142723192538,
+              "soft_cross_entropy": 0.14323799000000217,
+              "mean_model_regret_m": 1.1780942941186367e-07,
+              "margin_weighted_model_regret_m": 3.4968429925621915e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2400,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                918,
+                699,
+                606,
+                337
+              ],
+              "teacher_action_counts": [
+                926,
+                690,
+                612,
+                332
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": {
+              "examples": 2304,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  283,
+                  1,
+                  6,
+                  0
+                ],
+                [
+                  4,
+                  469,
+                  0,
+                  4
+                ],
+                [
+                  0,
+                  0,
+                  623,
+                  0
+                ],
+                [
+                  20,
+                  2,
+                  13,
+                  879
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9782986111111112,
+              "teacher_entropy": 0.20107513207825728,
+              "teacher_student_KL": 0.006253262725103457,
+              "soft_cross_entropy": 0.20732839480336074,
+              "mean_model_regret_m": 4.4180347913425067e-07,
+              "margin_weighted_model_regret_m": 2.0409288966785114e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2072,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                307,
+                472,
+                642,
+                883
+              ],
+              "teacher_action_counts": [
+                290,
+                477,
+                623,
+                914
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  561,
+                  17,
+                  4,
+                  6
+                ],
+                [
+                  8,
+                  662,
+                  0,
+                  2
+                ],
+                [
+                  25,
+                  0,
+                  379,
+                  0
+                ],
+                [
+                  2,
+                  9,
+                  0,
+                  373
+                ]
+              ],
+              "teacher_argmax_agreement": 0.96435546875,
+              "teacher_entropy": 0.2370409495816368,
+              "teacher_student_KL": 0.008236932839303907,
+              "soft_cross_entropy": 0.24527788242094067,
+              "mean_model_regret_m": 7.1060262030187e-07,
+              "margin_weighted_model_regret_m": 3.5687968949515327e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1727,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                596,
+                688,
+                383,
+                381
+              ],
+              "teacher_action_counts": [
+                588,
+                672,
+                404,
+                384
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  24,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  235,
+                  0,
+                  20
+                ],
+                [
+                  0,
+                  0,
+                  522,
+                  0
+                ],
+                [
+                  16,
+                  3,
+                  6,
+                  1222
+                ]
+              ],
+              "teacher_argmax_agreement": 0.97802734375,
+              "teacher_entropy": 0.2116481358349016,
+              "teacher_student_KL": 0.006269363521386394,
+              "soft_cross_entropy": 0.217917499356288,
+              "mean_model_regret_m": 3.0318980748234026e-07,
+              "margin_weighted_model_regret_m": 9.293176954278824e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1811,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                40,
+                238,
+                528,
+                1242
+              ],
+              "teacher_action_counts": [
+                24,
+                255,
+                522,
+                1247
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  688,
+                  0,
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  322
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9931640625,
+              "teacher_entropy": 0.1162002299032318,
+              "teacher_student_KL": 0.0023554845433490564,
+              "soft_cross_entropy": 0.11855571444658086,
+              "mean_model_regret_m": 3.4961672668032406e-08,
+              "margin_weighted_model_regret_m": 4.622182399534827e-09,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1955,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                699,
+                512,
+                512,
+                325
+              ],
+              "teacher_action_counts": [
+                691,
+                512,
+                512,
+                333
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  457,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  513,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  505,
+                  0
+                ],
+                [
+                  2,
+                  1,
+                  0,
+                  569
+                ]
+              ],
+              "teacher_argmax_agreement": 0.998046875,
+              "teacher_entropy": 0.10071930711825335,
+              "teacher_student_KL": 0.0019825878586698744,
+              "soft_cross_entropy": 0.10270189497692322,
+              "mean_model_regret_m": 2.7666885671351338e-08,
+              "margin_weighted_model_regret_m": 9.47449907390716e-09,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1953,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                460,
+                514,
+                505,
+                569
+              ],
+              "teacher_action_counts": [
+                457,
+                513,
+                506,
+                572
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  4140,
+                  24,
+                  14,
+                  9
+                ],
+                [
+                  8,
+                  135,
+                  0,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  152,
+                  0
+                ],
+                [
+                  46,
+                  0,
+                  19,
+                  889
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9772058823529411,
+              "teacher_entropy": 0.23709854551975315,
+              "teacher_student_KL": 0.009007035989585284,
+              "soft_cross_entropy": 0.24610558150933842,
+              "mean_model_regret_m": 4.607940755864975e-07,
+              "margin_weighted_model_regret_m": 2.5653872951583686e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4750,
+              "high_margin_error_rate": 0.0004210526315789474,
+              "selected_action_counts": [
+                4198,
+                159,
+                185,
+                898
+              ],
+              "teacher_action_counts": [
+                4187,
+                143,
+                156,
+                954
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  98,
+                  8,
+                  0,
+                  0
+                ],
+                [
+                  9,
+                  4981,
+                  0,
+                  24
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  5,
+                  0,
+                  314
+                ]
+              ],
+              "teacher_argmax_agreement": 0.991360294117647,
+              "teacher_entropy": 0.10797839431149332,
+              "teacher_student_KL": 0.002588637685178534,
+              "soft_cross_entropy": 0.11056703199667185,
+              "mean_model_regret_m": 1.102282059197451e-07,
+              "margin_weighted_model_regret_m": 3.5119825440894843e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5165,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                108,
+                4994,
+                0,
+                338
+              ],
+              "teacher_action_counts": [
+                106,
+                5014,
+                0,
+                320
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  187,
+                  0,
+                  10,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  39,
+                  0,
+                  5204,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9909926470588235,
+              "teacher_entropy": 0.07940446905602672,
+              "teacher_student_KL": 0.0030955352308889277,
+              "soft_cross_entropy": 0.08250000428691566,
+              "mean_model_regret_m": 1.758413204430219e-07,
+              "margin_weighted_model_regret_m": 7.662092712181289e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5226,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                226,
+                0,
+                5214,
+                0
+              ],
+              "teacher_action_counts": [
+                197,
+                0,
+                5243,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  553,
+                  9,
+                  0,
+                  16
+                ],
+                [
+                  0,
+                  113,
+                  0,
+                  2
+                ],
+                [
+                  0,
+                  0,
+                  14,
+                  0
+                ],
+                [
+                  41,
+                  20,
+                  3,
+                  4669
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9832720588235294,
+              "teacher_entropy": 0.17657144503197686,
+              "teacher_student_KL": 0.004992077775464888,
+              "soft_cross_entropy": 0.18156352280744176,
+              "mean_model_regret_m": 2.6860968104943716e-07,
+              "margin_weighted_model_regret_m": 1.0297987483369285e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4955,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                594,
+                142,
+                17,
+                4687
+              ],
+              "teacher_action_counts": [
+                578,
+                115,
+                14,
+                4733
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5358457700673644,
+              "0.95": 1.8193284725397245,
+              "0.99": 2.3129835982058133,
+              "1.0": 9.004720940278057
+            },
+            "fraction_absolute_z_above_5": 0.0001444327731092437,
+            "fraction_absolute_z_above_10": 0.0
+          },
+          "sample_draws_by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": 60231,
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": 60234,
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": 60243,
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": 60245,
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": 48192,
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": 120492,
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": 120462,
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": 108417,
+            "PILOT2_B0_T01_ROOT_XY_V1": 96393,
+            "PILOT2_B0_T02_ROOT_XY_V1": 96366,
+            "PILOT2_B0_T03_ROOT_XY_V1": 96363,
+            "PILOT2_B0_T04_ROOT_XY_V1": 96362
+          },
+          "effective_label_epochs": 47.05882352941177
+        },
+        "DEV": {
+          "examples": 2048,
+          "teacher_argmax_agreement": 0.97900390625,
+          "mean_model_regret_m": 8.06175457057634e-07,
+          "selected_action_counts": [
+            560,
+            512,
+            512,
+            464
+          ],
+          "soft_cross_entropy": 0.11375990206512555,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              517,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              512,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              512,
+              0
+            ],
+            [
+              43,
+              0,
+              0,
+              464
+            ]
+          ],
+          "teacher_entropy": 0.09521167158935204,
+          "teacher_student_KL": 0.018548230475773517,
+          "margin_weighted_model_regret_m": 7.500176662761382e-07,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 1947,
+          "high_margin_error_rate": 0.004108885464817668,
+          "teacher_action_counts": [
+            517,
+            512,
+            512,
+            507
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  267,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  28,
+                  0,
+                  0,
+                  217
+                ]
+              ],
+              "teacher_argmax_agreement": 0.97265625,
+              "teacher_entropy": 0.10132707246863039,
+              "teacher_student_KL": 0.02239410615985711,
+              "soft_cross_entropy": 0.12372117862848753,
+              "mean_model_regret_m": 1.175502930550465e-06,
+              "margin_weighted_model_regret_m": 1.2454142621607942e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.0071794871794871795,
+              "selected_action_counts": [
+                295,
+                256,
+                256,
+                217
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  250,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  15,
+                  0,
+                  0,
+                  247
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9853515625,
+              "teacher_entropy": 0.08909627071007367,
+              "teacher_student_KL": 0.014702354791689916,
+              "soft_cross_entropy": 0.1037986255017636,
+              "mean_model_regret_m": 4.3684798356480314e-07,
+              "margin_weighted_model_regret_m": 2.546210703914823e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.00102880658436214,
+              "selected_action_counts": [
+                265,
+                256,
+                256,
+                247
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  484,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  23,
+                  0,
+                  0,
+                  5
+                ]
+              ],
+              "teacher_argmax_agreement": 0.955078125,
+              "teacher_entropy": 0.16946283686576463,
+              "teacher_student_KL": 0.02616532144874003,
+              "soft_cross_entropy": 0.19562815831450464,
+              "mean_model_regret_m": 1.2358127037259692e-06,
+              "margin_weighted_model_regret_m": 6.83680837937709e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 457,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                507,
+                0,
+                0,
+                5
+              ],
+              "teacher_action_counts": [
+                484,
+                0,
+                0,
+                28
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 1.0,
+              "teacher_entropy": 0.027799293099740757,
+              "teacher_student_KL": 0.007639374063293356,
+              "soft_cross_entropy": 0.03543866716303411,
+              "mean_model_regret_m": 0.0,
+              "margin_weighted_model_regret_m": 0.0,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 509,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 1.0,
+              "teacher_entropy": 0.027366850871211497,
+              "teacher_student_KL": 0.008857391016173062,
+              "soft_cross_entropy": 0.03622424188738456,
+              "mean_model_regret_m": 0.0,
+              "margin_weighted_model_regret_m": 0.0,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 511,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                0,
+                0,
+                512,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                0,
+                512,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  33,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  20,
+                  0,
+                  0,
+                  459
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9609375,
+              "teacher_entropy": 0.15621770552069125,
+              "teacher_student_KL": 0.031530835374887614,
+              "soft_cross_entropy": 0.18774854089557885,
+              "mean_model_regret_m": 1.988889124504567e-06,
+              "margin_weighted_model_regret_m": 2.316389827166844e-06,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 470,
+              "high_margin_error_rate": 0.01702127659574468,
+              "selected_action_counts": [
+                53,
+                0,
+                0,
+                459
+              ],
+              "teacher_action_counts": [
+                33,
+                0,
+                0,
+                479
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5483370669052238,
+              "0.95": 1.923353245616505,
+              "0.99": 2.4750594227245193,
+              "1.0": 5.133486612423597
+            },
+            "fraction_absolute_z_above_5": 0.00013950892857142856,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        },
+        "GPU_peak": {
+          "peak_allocated_bytes": 314695680,
+          "peak_reserved_bytes": 497025024
+        },
+        "CUDA_elapsed_ms": 10432.892578125
+      }
+    },
+    {
+      "seed": 36003,
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "worker_wall_s": 14.303591489326209,
+      "worker_child_CPU_s": 13.919310000000001,
+      "result": {
+        "source_sha": "1506dc223ba8b5851c18c442d4eb5b648bba2b14",
+        "checkpoint_sha256": "aae694ac2213d209dbd8673c9db492b19902f34082f078cc5bd11e03aa4e00d1",
+        "portable_actor_sha256": "b2233bdd4425f2e41a13522620fcca28985a5dfd3036bb2347f7810f27c90a7c",
+        "replay_sha256": "89aa357c5bf90746ac4869fe720bdcfc21375061e3c0affa17193319df11ffa0",
+        "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+        "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+        "main_Actor_updates": 8000,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "sampler_restore_error": 0.0,
+        "TRAIN": {
+          "examples": 21760,
+          "teacher_argmax_agreement": 0.985202205882353,
+          "mean_model_regret_m": 2.8554779472709494e-07,
+          "selected_action_counts": [
+            5063,
+            5234,
+            5423,
+            6040
+          ],
+          "soft_cross_entropy": 0.15571493386117513,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              4934,
+              7,
+              44,
+              83
+            ],
+            [
+              30,
+              5212,
+              0,
+              30
+            ],
+            [
+              20,
+              0,
+              5379,
+              14
+            ],
+            [
+              79,
+              15,
+              0,
+              5913
+            ]
+          ],
+          "teacher_entropy": 0.1502632134798125,
+          "teacher_student_KL": 0.0054517203813626266,
+          "margin_weighted_model_regret_m": 1.547744198295212e-07,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 20096,
+          "high_margin_error_rate": 0.0005971337579617834,
+          "teacher_action_counts": [
+            5068,
+            5272,
+            5413,
+            6007
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  309,
+                  0,
+                  0,
+                  8
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  320,
+                  0
+                ],
+                [
+                  10,
+                  0,
+                  0,
+                  313
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9859375,
+              "teacher_entropy": 0.10225720644319405,
+              "teacher_student_KL": 0.00721848682002951,
+              "soft_cross_entropy": 0.10947569326322357,
+              "mean_model_regret_m": 3.333541371830506e-07,
+              "margin_weighted_model_regret_m": 2.281723355554031e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1225,
+              "high_margin_error_rate": 0.0016326530612244899,
+              "selected_action_counts": [
+                319,
+                320,
+                320,
+                321
+              ],
+              "teacher_action_counts": [
+                317,
+                320,
+                320,
+                323
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  307,
+                  0,
+                  1,
+                  5
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  319,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0,
+                  324
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9921875,
+              "teacher_entropy": 0.09644903941563854,
+              "teacher_student_KL": 0.003857176888234594,
+              "soft_cross_entropy": 0.10030621630387312,
+              "mean_model_regret_m": 1.4928976952433004e-07,
+              "margin_weighted_model_regret_m": 9.580443254052664e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1226,
+              "high_margin_error_rate": 0.0008156606851549756,
+              "selected_action_counts": [
+                311,
+                320,
+                320,
+                329
+              ],
+              "teacher_action_counts": [
+                313,
+                320,
+                319,
+                328
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  307,
+                  0,
+                  0,
+                  4
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  320,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0,
+                  325
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99375,
+              "teacher_entropy": 0.08544943610109869,
+              "teacher_student_KL": 0.0033959230017802716,
+              "soft_cross_entropy": 0.08884535910287895,
+              "mean_model_regret_m": 7.361982170550619e-08,
+              "margin_weighted_model_regret_m": 2.3436100581135535e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1235,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                311,
+                320,
+                320,
+                329
+              ],
+              "teacher_action_counts": [
+                311,
+                320,
+                320,
+                329
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": {
+              "examples": 1280,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  322,
+                  0,
+                  0,
+                  8
+                ],
+                [
+                  0,
+                  320,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  320,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  310
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99375,
+              "teacher_entropy": 0.08738790277802935,
+              "teacher_student_KL": 0.0037414052676285497,
+              "soft_cross_entropy": 0.09112930804565791,
+              "mean_model_regret_m": 1.2592105349540362e-07,
+              "margin_weighted_model_regret_m": 6.257823651783514e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1229,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                322,
+                320,
+                320,
+                318
+              ],
+              "teacher_action_counts": [
+                330,
+                320,
+                320,
+                310
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  243,
+                  0,
+                  1,
+                  5
+                ],
+                [
+                  1,
+                  185,
+                  0,
+                  0
+                ],
+                [
+                  5,
+                  0,
+                  361,
+                  3
+                ],
+                [
+                  2,
+                  0,
+                  0,
+                  218
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9833984375,
+              "teacher_entropy": 0.2289887180767169,
+              "teacher_student_KL": 0.007903563359274739,
+              "soft_cross_entropy": 0.23689228143599167,
+              "mean_model_regret_m": 3.5261210484804906e-07,
+              "margin_weighted_model_regret_m": 1.7019282740449254e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 905,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                251,
+                185,
+                362,
+                226
+              ],
+              "teacher_action_counts": [
+                249,
+                186,
+                369,
+                220
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  541,
+                  0,
+                  16,
+                  15
+                ],
+                [
+                  5,
+                  674,
+                  0,
+                  8
+                ],
+                [
+                  1,
+                  0,
+                  585,
+                  0
+                ],
+                [
+                  3,
+                  0,
+                  0,
+                  712
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98125,
+              "teacher_entropy": 0.14669567088107924,
+              "teacher_student_KL": 0.006906681809121178,
+              "soft_cross_entropy": 0.15360235269020042,
+              "mean_model_regret_m": 4.202882053050416e-07,
+              "margin_weighted_model_regret_m": 2.6180137474499654e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2358,
+              "high_margin_error_rate": 0.001272264631043257,
+              "selected_action_counts": [
+                550,
+                674,
+                601,
+                735
+              ],
+              "teacher_action_counts": [
+                572,
+                687,
+                586,
+                715
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": {
+              "examples": 2560,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  913,
+                  1,
+                  4,
+                  8
+                ],
+                [
+                  5,
+                  683,
+                  0,
+                  2
+                ],
+                [
+                  5,
+                  0,
+                  607,
+                  0
+                ],
+                [
+                  18,
+                  0,
+                  0,
+                  314
+                ]
+              ],
+              "teacher_argmax_agreement": 0.983203125,
+              "teacher_entropy": 0.1397198472768096,
+              "teacher_student_KL": 0.008099593955641167,
+              "soft_cross_entropy": 0.14781944123245078,
+              "mean_model_regret_m": 4.784978898442205e-07,
+              "margin_weighted_model_regret_m": 3.463616707401441e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2400,
+              "high_margin_error_rate": 0.0016666666666666668,
+              "selected_action_counts": [
+                941,
+                684,
+                611,
+                324
+              ],
+              "teacher_action_counts": [
+                926,
+                690,
+                612,
+                332
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": {
+              "examples": 2304,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  270,
+                  6,
+                  0,
+                  14
+                ],
+                [
+                  1,
+                  476,
+                  0,
+                  0
+                ],
+                [
+                  8,
+                  0,
+                  610,
+                  5
+                ],
+                [
+                  11,
+                  6,
+                  0,
+                  897
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9778645833333334,
+              "teacher_entropy": 0.20107513207825728,
+              "teacher_student_KL": 0.007492516399593539,
+              "soft_cross_entropy": 0.2085676484778508,
+              "mean_model_regret_m": 4.544918207708785e-07,
+              "margin_weighted_model_regret_m": 2.1602743994929802e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 2072,
+              "high_margin_error_rate": 0.00048262548262548264,
+              "selected_action_counts": [
+                290,
+                488,
+                610,
+                916
+              ],
+              "teacher_action_counts": [
+                290,
+                477,
+                623,
+                914
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T01_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  568,
+                  0,
+                  16,
+                  4
+                ],
+                [
+                  18,
+                  647,
+                  0,
+                  7
+                ],
+                [
+                  1,
+                  0,
+                  403,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0,
+                  380
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9755859375,
+              "teacher_entropy": 0.2370409495816368,
+              "teacher_student_KL": 0.004497615781004221,
+              "soft_cross_entropy": 0.241538565362641,
+              "mean_model_regret_m": 3.1302511160902213e-07,
+              "margin_weighted_model_regret_m": 9.957333662196519e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1727,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                591,
+                647,
+                419,
+                391
+              ],
+              "teacher_action_counts": [
+                588,
+                672,
+                404,
+                384
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T02_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  23,
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  243,
+                  0,
+                  12
+                ],
+                [
+                  0,
+                  0,
+                  516,
+                  6
+                ],
+                [
+                  3,
+                  9,
+                  0,
+                  1235
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98486328125,
+              "teacher_entropy": 0.2116481358349016,
+              "teacher_student_KL": 0.003914472454952229,
+              "soft_cross_entropy": 0.21556260828985385,
+              "mean_model_regret_m": 1.576086390286946e-07,
+              "margin_weighted_model_regret_m": 4.2286342255018653e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1811,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                26,
+                252,
+                516,
+                1254
+              ],
+              "teacher_action_counts": [
+                24,
+                255,
+                522,
+                1247
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T03_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  685,
+                  0,
+                  0,
+                  6
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  15,
+                  0,
+                  0,
+                  318
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98974609375,
+              "teacher_entropy": 0.1162002299032318,
+              "teacher_student_KL": 0.0038390842144858566,
+              "soft_cross_entropy": 0.12003931411771768,
+              "mean_model_regret_m": 1.37587015558438e-07,
+              "margin_weighted_model_regret_m": 5.0110814961821845e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1955,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                700,
+                512,
+                512,
+                324
+              ],
+              "teacher_action_counts": [
+                691,
+                512,
+                512,
+                333
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "PILOT2_B0_T04_ROOT_XY_V1": {
+              "examples": 2048,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  446,
+                  0,
+                  6,
+                  5
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  506,
+                  0
+                ],
+                [
+                  5,
+                  0,
+                  0,
+                  567
+                ]
+              ],
+              "teacher_argmax_agreement": 0.99169921875,
+              "teacher_entropy": 0.10071930711825335,
+              "teacher_student_KL": 0.0031515292803569787,
+              "soft_cross_entropy": 0.10387083639861033,
+              "mean_model_regret_m": 1.8826709435870725e-07,
+              "margin_weighted_model_regret_m": 1.0793218560141209e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 1953,
+              "high_margin_error_rate": 0.0005120327700972862,
+              "selected_action_counts": [
+                451,
+                512,
+                512,
+                573
+              ],
+              "teacher_action_counts": [
+                457,
+                513,
+                506,
+                572
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  4150,
+                  1,
+                  1,
+                  35
+                ],
+                [
+                  23,
+                  117,
+                  0,
+                  3
+                ],
+                [
+                  12,
+                  0,
+                  137,
+                  7
+                ],
+                [
+                  38,
+                  0,
+                  0,
+                  916
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9779411764705882,
+              "teacher_entropy": 0.23709854551975315,
+              "teacher_student_KL": 0.007789091838998795,
+              "soft_cross_entropy": 0.24488763735875194,
+              "mean_model_regret_m": 3.729108731717775e-07,
+              "margin_weighted_model_regret_m": 1.602057214327497e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4750,
+              "high_margin_error_rate": 0.0004210526315789474,
+              "selected_action_counts": [
+                4223,
+                118,
+                138,
+                961
+              ],
+              "teacher_action_counts": [
+                4187,
+                143,
+                156,
+                954
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  100,
+                  6,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  5000,
+                  0,
+                  12
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  15,
+                  0,
+                  303
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9931985294117647,
+              "teacher_entropy": 0.10797839431149332,
+              "teacher_student_KL": 0.001896448166996944,
+              "soft_cross_entropy": 0.10987484247849026,
+              "mean_model_regret_m": 7.939254775170839e-08,
+              "margin_weighted_model_regret_m": 2.3389409224671965e-08,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5165,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                104,
+                5021,
+                0,
+                315
+              ],
+              "teacher_action_counts": [
+                106,
+                5014,
+                0,
+                320
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  154,
+                  0,
+                  43,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  7,
+                  0,
+                  5232,
+                  4
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9900735294117647,
+              "teacher_entropy": 0.07940446905602672,
+              "teacher_student_KL": 0.0033036228142642792,
+              "soft_cross_entropy": 0.082708091870291,
+              "mean_model_regret_m": 2.0230765906436478e-07,
+              "margin_weighted_model_regret_m": 1.060349044320827e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 5226,
+              "high_margin_error_rate": 0.0003827018752391887,
+              "selected_action_counts": [
+                161,
+                0,
+                5275,
+                4
+              ],
+              "teacher_action_counts": [
+                197,
+                0,
+                5243,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 5440,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  530,
+                  0,
+                  0,
+                  48
+                ],
+                [
+                  5,
+                  95,
+                  0,
+                  15
+                ],
+                [
+                  1,
+                  0,
+                  10,
+                  3
+                ],
+                [
+                  39,
+                  0,
+                  0,
+                  4694
+                ]
+              ],
+              "teacher_argmax_agreement": 0.9795955882352941,
+              "teacher_entropy": 0.17657144503197686,
+              "teacher_student_KL": 0.008817718705190486,
+              "soft_cross_entropy": 0.18538916373716738,
+              "mean_model_regret_m": 4.875800989205292e-07,
+              "margin_weighted_model_regret_m": 3.294676442285805e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 4955,
+              "high_margin_error_rate": 0.0016145307769929364,
+              "selected_action_counts": [
+                575,
+                95,
+                10,
+                4760
+              ],
+              "teacher_action_counts": [
+                578,
+                115,
+                14,
+                4733
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5358457700673644,
+              "0.95": 1.8193284725397245,
+              "0.99": 2.3129835982058133,
+              "1.0": 9.004720940278057
+            },
+            "fraction_absolute_z_above_5": 0.0001444327731092437,
+            "fraction_absolute_z_above_10": 0.0
+          },
+          "sample_draws_by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_01_ROOTSAFE_V3": 60219,
+            "NIGHT1_PHYSICAL_PARENT_02_ROOTSAFE_V3": 60245,
+            "NIGHT1_PHYSICAL_PARENT_03_ROOTSAFE_V3": 60231,
+            "NIGHT1_PHYSICAL_PARENT_04_ROOTSAFE_V3": 60243,
+            "PILOT1_PHYSICAL_PARENT_17_ROOT_VARIATION_V1": 48207,
+            "PILOT1_PHYSICAL_PARENT_18_ROOT_VARIATION_V1": 120453,
+            "PILOT1_PHYSICAL_PARENT_19_ROOT_VARIATION_V1": 120476,
+            "PILOT1_PHYSICAL_PARENT_20_ROOT_VARIATION_V1": 108419,
+            "PILOT2_B0_T01_ROOT_XY_V1": 96383,
+            "PILOT2_B0_T02_ROOT_XY_V1": 96372,
+            "PILOT2_B0_T03_ROOT_XY_V1": 96378,
+            "PILOT2_B0_T04_ROOT_XY_V1": 96374
+          },
+          "effective_label_epochs": 47.05882352941177
+        },
+        "DEV": {
+          "examples": 2048,
+          "teacher_argmax_agreement": 0.9814453125,
+          "mean_model_regret_m": 4.5387115932271627e-07,
+          "selected_action_counts": [
+            529,
+            512,
+            512,
+            495
+          ],
+          "soft_cross_entropy": 0.10289964107136636,
+          "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION",
+          "confusion_teacher_rows_student_columns": [
+            [
+              504,
+              0,
+              0,
+              13
+            ],
+            [
+              0,
+              512,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              512,
+              0
+            ],
+            [
+              25,
+              0,
+              0,
+              482
+            ]
+          ],
+          "teacher_entropy": 0.09521167158935204,
+          "teacher_student_KL": 0.007687969482014322,
+          "margin_weighted_model_regret_m": 2.484247067465089e-07,
+          "high_margin_threshold_m": 6.194818880687539e-05,
+          "high_margin_examples": 1947,
+          "high_margin_error_rate": 0.0005136106831022085,
+          "teacher_action_counts": [
+            517,
+            512,
+            512,
+            507
+          ],
+          "by_parent": {
+            "NIGHT1_PHYSICAL_PARENT_07_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  260,
+                  0,
+                  0,
+                  7
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  11,
+                  0,
+                  0,
+                  234
+                ]
+              ],
+              "teacher_argmax_agreement": 0.982421875,
+              "teacher_entropy": 0.10132707246863039,
+              "teacher_student_KL": 0.007022767900825316,
+              "soft_cross_entropy": 0.10834984036945572,
+              "mean_model_regret_m": 3.1260597666005197e-07,
+              "margin_weighted_model_regret_m": 1.3806198322558737e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 975,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                271,
+                256,
+                256,
+                241
+              ],
+              "teacher_action_counts": [
+                267,
+                256,
+                256,
+                245
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "NIGHT1_PHYSICAL_PARENT_08_ROOTSAFE_V3": {
+              "examples": 1024,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  244,
+                  0,
+                  0,
+                  6
+                ],
+                [
+                  0,
+                  256,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  256,
+                  0
+                ],
+                [
+                  14,
+                  0,
+                  0,
+                  248
+                ]
+              ],
+              "teacher_argmax_agreement": 0.98046875,
+              "teacher_entropy": 0.08909627071007367,
+              "teacher_student_KL": 0.008353171063203326,
+              "soft_cross_entropy": 0.097449441773277,
+              "mean_model_regret_m": 5.951363419853806e-07,
+              "margin_weighted_model_regret_m": 3.587874302674304e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 972,
+              "high_margin_error_rate": 0.00102880658436214,
+              "selected_action_counts": [
+                258,
+                256,
+                256,
+                254
+              ],
+              "teacher_action_counts": [
+                250,
+                256,
+                256,
+                262
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "by_goal_region": {
+            "0": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  484,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  21,
+                  0,
+                  0,
+                  7
+                ]
+              ],
+              "teacher_argmax_agreement": 0.958984375,
+              "teacher_entropy": 0.16946283686576463,
+              "teacher_student_KL": 0.012378720795370144,
+              "soft_cross_entropy": 0.18184155766113477,
+              "mean_model_regret_m": 1.2660303241318616e-06,
+              "margin_weighted_model_regret_m": 7.838088441046375e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 457,
+              "high_margin_error_rate": 0.002188183807439825,
+              "selected_action_counts": [
+                505,
+                0,
+                0,
+                7
+              ],
+              "teacher_action_counts": [
+                484,
+                0,
+                0,
+                28
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "1": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  512,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 1.0,
+              "teacher_entropy": 0.027799293099740757,
+              "teacher_student_KL": 0.0017064312686366483,
+              "soft_cross_entropy": 0.029505724368377402,
+              "mean_model_regret_m": 0.0,
+              "margin_weighted_model_regret_m": 0.0,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 509,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                512,
+                0,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "2": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  512,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "teacher_argmax_agreement": 1.0,
+              "teacher_entropy": 0.027366850871211497,
+              "teacher_student_KL": 0.004096508638359784,
+              "soft_cross_entropy": 0.031463359509571284,
+              "mean_model_regret_m": 0.0,
+              "margin_weighted_model_regret_m": 0.0,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 511,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                0,
+                0,
+                512,
+                0
+              ],
+              "teacher_action_counts": [
+                0,
+                0,
+                512,
+                0
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            },
+            "3": {
+              "examples": 512,
+              "confusion_teacher_rows_student_columns": [
+                [
+                  20,
+                  0,
+                  0,
+                  13
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0,
+                  475
+                ]
+              ],
+              "teacher_argmax_agreement": 0.966796875,
+              "teacher_entropy": 0.15621770552069125,
+              "teacher_student_KL": 0.012570217225690709,
+              "soft_cross_entropy": 0.168787922746382,
+              "mean_model_regret_m": 5.494543131590035e-07,
+              "margin_weighted_model_regret_m": 2.098899828813981e-07,
+              "high_margin_threshold_m": 6.194818880687539e-05,
+              "high_margin_examples": 470,
+              "high_margin_error_rate": 0.0,
+              "selected_action_counts": [
+                24,
+                0,
+                0,
+                488
+              ],
+              "teacher_action_counts": [
+                33,
+                0,
+                0,
+                479
+              ],
+              "physical_control_benefit": "NOT_ESTABLISHED_BY_DISTILLATION"
+            }
+          },
+          "normalizer": {
+            "absolute_z_quantiles": {
+              "0.5": 0.5483370669052238,
+              "0.95": 1.923353245616505,
+              "0.99": 2.4750594227245193,
+              "1.0": 5.133486612423597
+            },
+            "fraction_absolute_z_above_5": 0.00013950892857142856,
+            "fraction_absolute_z_above_10": 0.0
+          }
+        },
+        "GPU_peak": {
+          "peak_allocated_bytes": 314695680,
+          "peak_reserved_bytes": 497025024
+        },
+        "CUDA_elapsed_ms": 10653.3203125
+      }
+    }
+  ],
+  "new_Actor_main_updates": 24000,
+  "new_restore_probes": 3,
+  "new_WM_updates": 0,
+  "native_policy_control_gain_evaluated": false,
+  "TEST_read": false
+}

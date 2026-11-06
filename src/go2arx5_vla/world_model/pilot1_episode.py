@@ -12,13 +12,17 @@ METHODS = ('GEOMETRIC_DIRECTION_RULE', 'TRAIN_MEAN_RESPONSE_RULE', 'FROZEN_ARX_S
 def episode_config(spec):
     path = Path(spec['episode_manifest'])
     episode = json.loads(path.read_text())
-    if (digest(path) != spec['episode_manifest_sha256'] or episode.get('schema') != 'WM02_PILOT1_EPISODE_V1'
+    pilot2=episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1'
+    if pilot2:
+        from .pilot2_coverage import coverage_contract
+        coverage_contract(spec,episode)
+    if (digest(path) != spec['episode_manifest_sha256'] or episode.get('schema') != ('WM02_PILOT2_COVERAGE_EPISODE_V1'if pilot2 else'WM02_PILOT1_EPISODE_V1')
             or episode.get('run') != spec['registered_root'] or episode.get('phase') != 'collect-target-pilot1'
-            or episode.get('purpose') not in ('SCENE_QUALIFICATION', 'EVALUATION', 'TRAIN_FEEDBACK')
+            or episode.get('purpose') not in (('SCENE_QUALIFICATION','ACTION_COVERAGE')if pilot2 else('SCENE_QUALIFICATION', 'EVALUATION', 'TRAIN_FEEDBACK'))
             or episode.get('reference_rule') != RULE or episode.get('task_atoms') != 64
             or episode.get('prehold_atoms') != 40 or episode.get('screen_atom') != 48
             or episode.get('screen') != dict(window_s=.4, relative_TCP_diameter_m=.002, max_relative_TCP_speed_m_s=.025)
-            or episode.get('split') not in ('TRAIN','DEV','TEST') or episode.get('method') not in METHODS
+            or episode.get('split') not in (('TRAIN','DEV')if pilot2 else('TRAIN','DEV','TEST')) or episode.get('method') not in (('PREDECLARED_ACTION',)if pilot2 else METHODS)
             or tuple(episode['offset_xyz_m']) != (0,0,0) or not spec.get('pilot1_binding')):
         raise PermissionError('EXACT_PILOT1_TASK_AND_PREDECLARED_NATIVE_METHOD_REQUIRED')
     assets = json.loads(Path(spec['scene_allowlist']).read_text())
@@ -36,6 +40,11 @@ def episode_config(spec):
             raise PermissionError('FROZEN_PILOT1_ACTOR_TEACHER_OR_TASK_CHANGED')
     from .pilot1_numpy import goal_offsets
     task=json.loads(Path(spec['task']).read_text())
+    if spec.get('train_mean_response_model'):
+        from .pilot2_coverage import PLAN
+        from .pilot2_mean_rule import responses
+        if spec.get('pilot2_plan_sha')!=PLAN:raise PermissionError('PILOT2_TRAIN_MEAN_RULE_SCOPE_REQUIRED')
+        responses(spec,task)
     goals=goal_offsets(task)
     if (type(episode.get('goal_index'))is not int or not 0<=episode['goal_index']<len(goals)
             or not np.array_equal(np.asarray(episode.get('task_goal_offset_xy_m')),goals[episode['goal_index']])
@@ -63,6 +72,9 @@ def episode_limit(spec, previous):
 
 
 def choose(adapter, episode):
+    if episode.get('schema')=='WM02_PILOT2_COVERAGE_EPISODE_V1':
+        from .pilot2_coverage import choose_predeclared
+        return choose_predeclared(adapter,episode)
     from .target_arx import CausalARX
     from .next2_episode import state_vector
     from .target_reference import require_install_clock
@@ -100,8 +112,10 @@ def choose(adapter, episode):
     predictions = np.asarray(predictions)
     xy = predictions[:,-1,model.layout['tcp_position_m']][:,:2]
     cost = task['nonhold_action_cost_m'] * np.asarray([0,1,1,1])
+    from .pilot2_mean_rule import responses
+    mean_response,mean_sha=responses(spec,task)
     errors = dict(GEOMETRIC_DIRECTION_RULE=np.linalg.norm(initial[None,:2]+OFFSETS[:,:2]-task_goal,axis=1)+cost,
-                  TRAIN_MEAN_RESPONSE_RULE=np.linalg.norm(np.asarray(task['mean_response_xy_m'])-target_delta,axis=1)+cost,
+                  TRAIN_MEAN_RESPONSE_RULE=np.linalg.norm(mean_response-target_delta,axis=1)+cost,
                   FROZEN_ARX_SELECTOR=np.linalg.norm(xy-task_goal,axis=1)+cost)
     from .pilot1_numpy import actor_features, logits
     inputs = actor_features(data,meta,np.asarray([0]),target_delta[None])
@@ -116,6 +130,7 @@ def choose(adapter, episode):
                  actor_logits=scores.tolist(), proposed_actions=choices, selected_action=selected,
                  selected_offset_xyz_m=OFFSETS[selected].tolist(), future_response_observed=False,
                  Actor_sha256=spec['actor_numpy_sha256'], teacher_sha256=spec['ARX_sha256'], task_sha256=spec['task_sha256'])
+    value['train_mean_response_model_sha256']=mean_sha
     write(adapter.output/'PILOT1_DECISION.private.json',value)
     if adapter.observe()['step'] != packet['step']:
         raise RuntimeError('PHYSICS_ADVANCED_DURING_ACTION_CHOICE')

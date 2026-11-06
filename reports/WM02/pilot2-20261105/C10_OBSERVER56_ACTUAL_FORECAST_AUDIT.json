@@ -1,0 +1,3276 @@
+{
+  "schema": "WM02_PILOT2_C10_ACTUAL_PAUSED_FORECAST_AUDIT_V1",
+  "source_sha": "8563ba85485e78f1d683a9b6c614a8c3d55213e8",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "bundle_sha256": "8f23bf722fa17281c1444674f0c79cf3cdee02b542cdf5f07f79990c4a9525a0",
+  "bundle_result": {
+    "status": "ACTUAL_SUPPORTED_MULTI_HORIZON_CONTACT_BUNDLE_SEALED",
+    "bundle_sha256": "8f23bf722fa17281c1444674f0c79cf3cdee02b542cdf5f07f79990c4a9525a0",
+    "episodes": 2,
+    "raw_atoms": 336,
+    "raw_native_ticks": 13406,
+    "forecast_anchors": 318,
+    "valid_forecasts": 1670,
+    "forecast_horizons_atoms": [
+      1,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "TRAIN_parents": [
+      "PILOT2_C0_T01_LAYOUT_V1"
+    ],
+    "DEV_parents": [],
+    "native_integrations_by_builder": 0,
+    "model_updates": 0,
+    "TEST_read": false
+  },
+  "exit_code": 0,
+  "lease": "CLOSED",
+  "native_attempts": 3,
+  "native_ticks": 17509,
+  "episodes": 2,
+  "raw_atoms": 336,
+  "coordinator_wall_s": 216.76085682818666,
+  "coordinator_CPU_s": 0.393918084,
+  "native_worker_subtree_CPU_s": 386.756941237,
+  "rows": [
+    {
+      "run": "pilot2-c10-observer56-p2ct01-q-01",
+      "native_result_sha256": "a3a55cbcdaf9f21bea981c491db6eb3bab7d96b6903eb0543cc1179752e3b943",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "ticks": 4103,
+      "shutdown_clean": true,
+      "score": {}
+    },
+    {
+      "run": "pilot2-c10-observer56-p2ct01-close_keep-56-01",
+      "native_result_sha256": "a73b29863d0e71df9e38d6d03b341cda75c8ca18d4b22cbbdd1200605394c3b5",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "score": {
+        "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+        "task_goal": "SUPPORTED_GRASP_HOLD",
+        "command_program": "CLOSE_KEEP",
+        "close_start_atom": 56,
+        "qualified_supported_grasp_hold": true,
+        "longest_continuous_supported_grasp_native_ticks": 2000,
+        "longest_continuous_supported_grasp_s": 4.0,
+        "terminal_supported_grasp_native_ticks": 2000,
+        "terminal_released_native_ticks": 0,
+        "terminal_released_s": 0.0,
+        "qualified_release": false,
+        "qualified_supported_close_hold_release": false,
+        "goal_success": true,
+        "full_manipulation_success": false,
+        "original_native_grasp_predicate": true,
+        "source_sha": "8563ba85485e78f1d683a9b6c614a8c3d55213e8",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "actual_task_atoms": 168,
+        "first_blocker": null,
+        "contact_positive_native_ticks": 2525,
+        "bilateral_native_grasp_ticks": 2511
+      }
+    },
+    {
+      "run": "pilot2-c10-observer56-p2ct01-close_release-56-01",
+      "native_result_sha256": "66cfd895217c52e15abd2a3963ab08d77666b4f00e493e6118fcd984127e9518",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "ticks": 6703,
+      "shutdown_clean": true,
+      "score": {
+        "schema": "WM02_PILOT2_SUPPORTED_GOAL_SCORE_V1",
+        "task_goal": "RELEASE_FROM_SUPPORTED_GRASP",
+        "command_program": "CLOSE_RELEASE",
+        "close_start_atom": 56,
+        "qualified_supported_grasp_hold": true,
+        "longest_continuous_supported_grasp_native_ticks": 600,
+        "longest_continuous_supported_grasp_s": 1.2,
+        "terminal_supported_grasp_native_ticks": 0,
+        "terminal_released_native_ticks": 1118,
+        "terminal_released_s": 2.236,
+        "qualified_release": true,
+        "qualified_supported_close_hold_release": true,
+        "goal_success": true,
+        "full_manipulation_success": false,
+        "original_native_grasp_predicate": true,
+        "source_sha": "8563ba85485e78f1d683a9b6c614a8c3d55213e8",
+        "same_native_process": true,
+        "physics_resets": 0,
+        "state_teleports": 0,
+        "actual_task_atoms": 168,
+        "first_blocker": null,
+        "contact_positive_native_ticks": 1145,
+        "bilateral_native_grasp_ticks": 1134
+      }
+    }
+  ],
+  "forecast_points": 18,
+  "input_hash_mismatches": 0,
+  "prediction_max_error": 0.0,
+  "models": {
+    "FULL36_AC": {
+      "1": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.08483118896916404,
+          "object_delta_RMSE_mm": 0.015325240748329725,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.002875844938921677,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.008426893662884932,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.2488508748773877e-05,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0006019987762254055,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 1,
+          "TCP_delta_RMSE_mm": 0.17114327201971796,
+          "object_delta_RMSE_mm": 0.022528426055430595,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 1,
+              "Brier": 0.0487808267135371,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 0,
+              "Brier": 0.1503949334953681,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 1,
+              "Brier": 4.1745647814214967e-07,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 0.00019349027552831524,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 17,
+          "TCP_delta_RMSE_mm": 0.07678998542127022,
+          "object_delta_RMSE_mm": 0.014792693131411357,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 0.0001755518933560641,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 7.583249626827436e-05,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 17,
+              "Brier": 1.3198570647046331e-05,
+              "TP": 17,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0006260286880311167,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "4": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.08306151218288889,
+          "object_delta_RMSE_mm": 0.020906663978611576,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.0033243135530697733,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.0031182544861917245,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 5.484217614843558e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.005936327440591036,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 4,
+          "TCP_delta_RMSE_mm": 0.11578231967029202,
+          "object_delta_RMSE_mm": 0.02949177919615189,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.014871227085978055,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.013700542830662054,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 4,
+              "Brier": 5.016713597502438e-06,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.007638178458900867,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 14,
+          "TCP_delta_RMSE_mm": 0.07099481083502453,
+          "object_delta_RMSE_mm": 0.01770499246831654,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 2.5195400810264114e-05,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 9.474353062877232e-05,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 14,
+              "Brier": 5.617790191226734e-06,
+              "TP": 14,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0054500842925025135,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "8": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.07191589578187713,
+          "object_delta_RMSE_mm": 0.028416440582564685,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.004072443746124013,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 11,
+              "Brier": 0.010095351862298875,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 4.874802385345339e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.000537648807886593,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.10851887210992939,
+          "object_delta_RMSE_mm": 0.03859542775063022,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 3,
+              "Brier": 0.010468636086931842,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.02591722958309482,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 9.55324367525712e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.0013824182978716096,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 11,
+          "TCP_delta_RMSE_mm": 0.031129801509016095,
+          "object_delta_RMSE_mm": 0.019324135671850425,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 9,
+              "Brier": 2.1395292463024865e-06,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 9,
+              "Brier": 2.688422179236103e-05,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 11,
+              "Brier": 1.8976124735832973e-06,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 6.822335067306923e-08,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "16": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.08377705505557173,
+          "object_delta_RMSE_mm": 0.026094904010901393,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 13,
+              "Brier": 0.010650983172211434,
+              "TP": 13,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.0070300163130024695,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.466921059141614e-05,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.00035580943547821117,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.12167950866013667,
+          "object_delta_RMSE_mm": 0.034681079803081945,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.023964313753160063,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.015816381508763227,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 3.123260112853238e-05,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.0008005677112464692,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 10,
+          "TCP_delta_RMSE_mm": 0.028084669387299442,
+          "object_delta_RMSE_mm": 0.016231986648666662,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 8,
+              "Brier": 3.1870745252958125e-07,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 8,
+              "Brier": 9.241563938625896e-07,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 10,
+              "Brier": 1.4184981617231527e-06,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 2.814863604771926e-09,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "32": {
+        "NATURAL": {
+          "valid_forecasts": 16,
+          "TCP_delta_RMSE_mm": 0.10685752669025073,
+          "object_delta_RMSE_mm": 0.03941353975947922,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.026218912216887942,
+              "TP": 10,
+              "FP": 0,
+              "FN": 1,
+              "precision": 1.0,
+              "recall": 0.9090909090909091
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.001437724395999109,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 16,
+              "Brier": 9.319160836125658e-06,
+              "TP": 16,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 4.863787458852578e-05,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 9,
+          "TCP_delta_RMSE_mm": 0.1383042628565642,
+          "object_delta_RMSE_mm": 0.04604397880200157,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.04661139112681226,
+              "TP": 4,
+              "FP": 0,
+              "FN": 1,
+              "precision": 1.0,
+              "recall": 0.8
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.0025558026191026873,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 9,
+              "Brier": 1.5506952039273168e-05,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 8.637368212353399e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.0388106650420509,
+          "object_delta_RMSE_mm": 0.0287213260902573,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 6,
+              "Brier": 1.0761270953991185e-08,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 6,
+              "Brier": 1.9525200879394768e-07,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 1.36342928922172e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 1.2040775780093323e-07,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "64": {
+        "NATURAL": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.14119269431378528,
+          "object_delta_RMSE_mm": 0.06775088475938323,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 4,
+              "Brier": 0.0003246589779248771,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 8.127859530370222e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 1.3378058398264565e-05,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 3.891076828501653e-05,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 6,
+          "TCP_delta_RMSE_mm": 0.16185559115716933,
+          "object_delta_RMSE_mm": 0.0710248399945624,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.0004306227670654867,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.00010723258065054024,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 6,
+              "Brier": 1.734264485716293e-05,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 5.0689773182159846e-05,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 2,
+          "TCP_delta_RMSE_mm": 0.03390885642179318,
+          "object_delta_RMSE_mm": 0.05680797350687082,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 6.767610503048751e-06,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 3.4166392631881636e-06,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 2,
+              "Brier": 1.4842990215694713e-06,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 3.5737535935866212e-06,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        }
+      }
+    },
+    "FULL36_NO_FUTURE": {
+      "1": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.05858815431890767,
+          "object_delta_RMSE_mm": 0.014875433365388106,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.00031219925887695165,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.05419916278481398,
+              "TP": 10,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.9090909090909091,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 3.3409633557337e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 8.491140845513095e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 1,
+          "TCP_delta_RMSE_mm": 0.02160542406691888,
+          "object_delta_RMSE_mm": 0.015140124955249844,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 1,
+              "Brier": 3.646700494436707e-05,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 0,
+              "Brier": 0.9583402703810365,
+              "TP": 0,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.0,
+              "recall": null
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 1,
+              "Brier": 7.52325785179374e-08,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 1.9179684355032977e-07,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 17,
+          "TCP_delta_RMSE_mm": 0.06005854914303067,
+          "object_delta_RMSE_mm": 0.014859716442717068,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 0.00032841880322592715,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.0010143917497420596,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 17,
+              "Brier": 3.533065166158156e-06,
+              "TP": 17,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 8.989491502051804e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "4": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.08888402178637865,
+          "object_delta_RMSE_mm": 0.02355502086701814,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.07035674088635067,
+              "TP": 12,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.9230769230769231,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.07570843676766324,
+              "TP": 12,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.9230769230769231,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 2.1531975963466683e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.015543432648547477,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 4,
+          "TCP_delta_RMSE_mm": 0.13071280371983385,
+          "object_delta_RMSE_mm": 0.03860928336923707,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.26408572528388635,
+              "TP": 2,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.6666666666666666,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.24935686478007843,
+              "TP": 2,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.6666666666666666,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 4,
+              "Brier": 2.521876647473668e-06,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.029129957144767887,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 14,
+          "TCP_delta_RMSE_mm": 0.0726357348571755,
+          "object_delta_RMSE_mm": 0.01695455079170212,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 0.015005602487054787,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.02609460019268748,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 14,
+              "Brier": 2.0478607245960975e-06,
+              "TP": 14,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.011661568506770215,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "8": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.0894929168308565,
+          "object_delta_RMSE_mm": 0.026528602191893496,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.10891655695971188,
+              "TP": 10,
+              "FP": 1,
+              "FN": 2,
+              "precision": 0.9090909090909091,
+              "recall": 0.8333333333333334
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 11,
+              "Brier": 0.16042002417833381,
+              "TP": 9,
+              "FP": 2,
+              "FN": 2,
+              "precision": 0.8181818181818182,
+              "recall": 0.8181818181818182
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.8798009852463664e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.05248936520352291,
+              "TP": 3,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.75,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.12376422194479078,
+          "object_delta_RMSE_mm": 0.03048934037692297,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 3,
+              "Brier": 0.11443017806805944,
+              "TP": 3,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.75,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.1985962404129217,
+              "TP": 2,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 1.800205817791952e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.1349546368893057,
+              "TP": 1,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 11,
+          "TCP_delta_RMSE_mm": 0.057948723804997514,
+          "object_delta_RMSE_mm": 0.023665475582997957,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 9,
+              "Brier": 0.10540788898167253,
+              "TP": 7,
+              "FP": 0,
+              "FN": 2,
+              "precision": 1.0,
+              "recall": 0.7777777777777778
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 9,
+              "Brier": 0.13612606839268696,
+              "TP": 7,
+              "FP": 0,
+              "FN": 2,
+              "precision": 1.0,
+              "recall": 0.7777777777777778
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 11,
+              "Brier": 1.9304524554446296e-06,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 1.14650398429491e-05,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "16": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.14064098651722445,
+          "object_delta_RMSE_mm": 0.032646940773644766,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 13,
+              "Brier": 0.2800773360721563,
+              "TP": 9,
+              "FP": 2,
+              "FN": 4,
+              "precision": 0.8181818181818182,
+              "recall": 0.6923076923076923
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.34271754437413526,
+              "TP": 7,
+              "FP": 3,
+              "FN": 5,
+              "precision": 0.7,
+              "recall": 0.5833333333333334
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 3.1219212387085955e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.15148260529715038,
+              "TP": 3,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.75
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.1739986475128644,
+          "object_delta_RMSE_mm": 0.034953579034833517,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.2643033339841532,
+              "TP": 4,
+              "FP": 2,
+              "FN": 1,
+              "precision": 0.6666666666666666,
+              "recall": 0.8
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.38004298951493404,
+              "TP": 3,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.75
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 1.8930520060204744e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.2422486686931391,
+              "TP": 1,
+              "FP": 1,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.5
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 10,
+          "TCP_delta_RMSE_mm": 0.10669289240771274,
+          "object_delta_RMSE_mm": 0.030677007440503088,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 8,
+              "Brier": 0.29269653774255877,
+              "TP": 5,
+              "FP": 0,
+              "FN": 3,
+              "precision": 1.0,
+              "recall": 0.625
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 8,
+              "Brier": 0.3128571882614962,
+              "TP": 4,
+              "FP": 0,
+              "FN": 4,
+              "precision": 1.0,
+              "recall": 0.5
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 10,
+              "Brier": 4.105016624859093e-06,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.07886975458035941,
+              "TP": 2,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "32": {
+        "NATURAL": {
+          "valid_forecasts": 16,
+          "TCP_delta_RMSE_mm": 0.26102733110566145,
+          "object_delta_RMSE_mm": 0.05825070067355941,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.5287534403667401,
+              "TP": 4,
+              "FP": 3,
+              "FN": 7,
+              "precision": 0.5714285714285714,
+              "recall": 0.36363636363636365
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.5957500148719084,
+              "TP": 3,
+              "FP": 4,
+              "FN": 7,
+              "precision": 0.42857142857142855,
+              "recall": 0.3
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 16,
+              "Brier": 3.338906731993629e-06,
+              "TP": 16,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.4817773637509952,
+              "TP": 2,
+              "FP": 5,
+              "FN": 3,
+              "precision": 0.2857142857142857,
+              "recall": 0.4
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 9,
+          "TCP_delta_RMSE_mm": 0.2665983901666767,
+          "object_delta_RMSE_mm": 0.04114684700715963,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.41067646581270095,
+              "TP": 4,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5714285714285714,
+              "recall": 0.8
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.5161371606234675,
+              "TP": 3,
+              "FP": 4,
+              "FN": 1,
+              "precision": 0.42857142857142855,
+              "recall": 0.75
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 9,
+              "Brier": 4.99762302973889e-06,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.43003127793739165,
+              "TP": 1,
+              "FP": 1,
+              "FN": 3,
+              "precision": 0.5,
+              "recall": 0.25
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.25368483444484013,
+          "object_delta_RMSE_mm": 0.07469245409935944,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 6,
+              "Brier": 0.6805666933647904,
+              "TP": 0,
+              "FP": 0,
+              "FN": 6,
+              "precision": null,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 6,
+              "Brier": 0.6981093989056176,
+              "TP": 0,
+              "FP": 0,
+              "FN": 6,
+              "precision": null,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 1.2062714920354351e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.5483080455113427,
+              "TP": 1,
+              "FP": 4,
+              "FN": 0,
+              "precision": 0.2,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "64": {
+        "NATURAL": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.4571806897826954,
+          "object_delta_RMSE_mm": 0.10845826556734717,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 4,
+              "Brier": 0.9208599762219438,
+              "TP": 0,
+              "FP": 4,
+              "FN": 4,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.9074251572125445,
+              "TP": 0,
+              "FP": 4,
+              "FN": 4,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 4.147178098814478e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.8310867207661808,
+              "TP": 0,
+              "FP": 4,
+              "FN": 3,
+              "precision": 0.0,
+              "recall": 0.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 6,
+          "TCP_delta_RMSE_mm": 0.44318367803414604,
+          "object_delta_RMSE_mm": 0.09425429467284363,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.9067589592305327,
+              "TP": 0,
+              "FP": 4,
+              "FN": 2,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.8930684142354876,
+              "TP": 0,
+              "FP": 4,
+              "FN": 2,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 6,
+              "Brier": 4.52538493458417e-06,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.788338910176559,
+              "TP": 0,
+              "FP": 2,
+              "FN": 3,
+              "precision": 0.0,
+              "recall": 0.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 2,
+          "TCP_delta_RMSE_mm": 0.4968112468665576,
+          "object_delta_RMSE_mm": 0.14283264783194038,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.9631630271961769,
+              "TP": 0,
+              "FP": 0,
+              "FN": 2,
+              "precision": null,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.9504953861437155,
+              "TP": 0,
+              "FP": 0,
+              "FN": 2,
+              "precision": null,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 2,
+              "Brier": 3.0125575915054027e-06,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 0.959330152535046,
+              "TP": 0,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.0,
+              "recall": null
+            }
+          }
+        }
+      }
+    },
+    "PREFIX36_AC": {
+      "1": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.05506082169457185,
+          "object_delta_RMSE_mm": 0.022798501255198694,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.00017850980735311433,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.03364569972967271,
+              "TP": 10,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.9090909090909091,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.7689958638773913e-07,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 2.3061693450723278e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 1,
+          "TCP_delta_RMSE_mm": 0.05372946796018804,
+          "object_delta_RMSE_mm": 0.03277991218146387,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 1,
+              "Brier": 0.002076769476158745,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 0,
+              "Brier": 0.5861362763813784,
+              "TP": 0,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.0,
+              "recall": null
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 1,
+              "Brier": 1.3137315029882182e-08,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 8.35208355387663e-06,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 17,
+          "TCP_delta_RMSE_mm": 0.05513813552448547,
+          "object_delta_RMSE_mm": 0.022071231245906636,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 6.684747389395962e-05,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.001146254044278253,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 17,
+              "Brier": 1.8653266117349546e-07,
+              "TP": 17,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 2.3926964621126022e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "4": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.06487242158212804,
+          "object_delta_RMSE_mm": 0.022216300788119092,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.0031067362424874057,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.0038506863004761755,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.2389308647656626e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.0049924239606839275,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 4,
+          "TCP_delta_RMSE_mm": 0.07490294437107928,
+          "object_delta_RMSE_mm": 0.03563168690454961,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.013847956433744158,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.01593751279809894,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 4,
+              "Brier": 4.302333769838646e-06,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.018477281489757177,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 14,
+          "TCP_delta_RMSE_mm": 0.0617078110203356,
+          "object_delta_RMSE_mm": 0.016487406289329376,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 3.78161878426194e-05,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.0003973073011553858,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 14,
+              "Brier": 3.636728918876678e-07,
+              "TP": 14,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0011396075238058552,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "8": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.056452299349940775,
+          "object_delta_RMSE_mm": 0.021198229258102545,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.0013879955994542134,
+              "TP": 12,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 11,
+              "Brier": 0.012405896948658998,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 2.656980153768988e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.00025045097001808874,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.07156070601083511,
+          "object_delta_RMSE_mm": 0.02411256712921759,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 3,
+              "Brier": 0.0035659733230915687,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.03182795253586698,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 5.357390108136413e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.0006439397994212408,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 11,
+          "TCP_delta_RMSE_mm": 0.04422769116199776,
+          "object_delta_RMSE_mm": 0.019113672810311795,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 9,
+              "Brier": 2.0097753213506652e-06,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 9,
+              "Brier": 4.640702952664263e-05,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 11,
+              "Brier": 9.385374555351715e-07,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 4.8987670628304485e-08,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "16": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.06751228771293784,
+          "object_delta_RMSE_mm": 0.032266308582193426,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 13,
+              "Brier": 1.0136434754453986e-05,
+              "TP": 13,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.049750079843038225,
+              "TP": 12,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.9230769230769231,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 2.5219777802436397e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 2.8496450292174675e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.09171205868128376,
+          "object_delta_RMSE_mm": 0.043165418632123274,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 2.219722037557932e-05,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.11192972994257858,
+              "TP": 4,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.8,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 3.372591829328328e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 6.410821013777594e-05,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 10,
+          "TCP_delta_RMSE_mm": 0.03841034782418284,
+          "object_delta_RMSE_mm": 0.019580697448998804,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 8,
+              "Brier": 4.878062575537182e-07,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 8,
+              "Brier": 6.359763405952108e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 10,
+              "Brier": 1.8414865409758882e-06,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 7.042415693668774e-09,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "32": {
+        "NATURAL": {
+          "valid_forecasts": 16,
+          "TCP_delta_RMSE_mm": 0.0854434231384606,
+          "object_delta_RMSE_mm": 0.04632276078902012,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.0005464451331255174,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.014414638502855794,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 16,
+              "Brier": 2.846339100102527e-06,
+              "TP": 16,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 6.824890182539631e-06,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 9,
+          "TCP_delta_RMSE_mm": 0.10353434295041453,
+          "object_delta_RMSE_mm": 0.051619476212505636,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.0009712869175000372,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.02561683247747588,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 9,
+              "Brier": 3.6339189103701473e-06,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 1.211877156647683e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.05389807230891854,
+          "object_delta_RMSE_mm": 0.03845523882903632,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 6,
+              "Brier": 2.1998178684930592e-07,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 6,
+              "Brier": 1.181767834425424e-05,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 1.8337364869013012e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 1.8471260334662973e-08,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "64": {
+        "NATURAL": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.13304316977185204,
+          "object_delta_RMSE_mm": 0.05871338877239413,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 4,
+              "Brier": 6.30997127879648e-05,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 1.659448711671288e-06,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 4.669700592722655e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 1.8709442749647674e-05,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 6,
+          "TCP_delta_RMSE_mm": 0.14689931541693008,
+          "object_delta_RMSE_mm": 0.06321673397776283,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 8.400627274853508e-05,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 1.9536987982838154e-06,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 6,
+              "Brier": 5.959211466542704e-06,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 2.4944548732559324e-05,
+              "TP": 3,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 2,
+          "TCP_delta_RMSE_mm": 0.07786984963308492,
+          "object_delta_RMSE_mm": 0.042426191440046654,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 3.800329062539962e-07,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 7.766984518337056e-07,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 2,
+              "Brier": 8.011679712625092e-07,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 4.1248009127395144e-09,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        }
+      }
+    },
+    "PREFIX36_NO_FUTURE": {
+      "1": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.08284184874157802,
+          "object_delta_RMSE_mm": 0.01900047974528538,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.00339610293725551,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.08597473084250055,
+              "TP": 9,
+              "FP": 1,
+              "FN": 1,
+              "precision": 0.9,
+              "recall": 0.9
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.4816834547394124e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0005587902275119899,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 1,
+          "TCP_delta_RMSE_mm": 0.08863430271698408,
+          "object_delta_RMSE_mm": 0.03678494972825655,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 1,
+              "Brier": 0.00033842111889162006,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 0,
+              "Brier": 0.8787366736496062,
+              "TP": 0,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.0,
+              "recall": null
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 1,
+              "Brier": 3.449446055237597e-08,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 9.977012171883633e-09,
+              "TP": 0,
+              "FP": 0,
+              "FN": 0,
+              "precision": null,
+              "recall": null
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 17,
+          "TCP_delta_RMSE_mm": 0.08248845004158742,
+          "object_delta_RMSE_mm": 0.017397084988089305,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 0.0035759665736298566,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.03934167538325902,
+              "TP": 9,
+              "FP": 0,
+              "FN": 1,
+              "precision": 1.0,
+              "recall": 0.9
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 17,
+              "Brier": 1.5668122191033557e-06,
+              "TP": 17,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.0005916596540119793,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "4": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.0944518101139423,
+          "object_delta_RMSE_mm": 0.02551221753906547,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.15764970028939362,
+              "TP": 8,
+              "FP": 1,
+              "FN": 4,
+              "precision": 0.8888888888888888,
+              "recall": 0.6666666666666666
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.17995340232628465,
+              "TP": 8,
+              "FP": 1,
+              "FN": 4,
+              "precision": 0.8888888888888888,
+              "recall": 0.6666666666666666
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.1100978959751298e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.006980395847972274,
+              "TP": 5,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 4,
+          "TCP_delta_RMSE_mm": 0.12341860040789736,
+          "object_delta_RMSE_mm": 0.04243203252178069,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.19667755126952696,
+              "TP": 2,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.6666666666666666,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.1730881983802547,
+              "TP": 2,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.6666666666666666,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 4,
+              "Brier": 4.660746518020298e-07,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.005573929112415791,
+              "TP": 1,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 14,
+          "TCP_delta_RMSE_mm": 0.08436823881982519,
+          "object_delta_RMSE_mm": 0.017955915960988184,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 10,
+              "Brier": 0.1464988857236412,
+              "TP": 6,
+              "FP": 0,
+              "FN": 4,
+              "precision": 1.0,
+              "recall": 0.6
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.1819148891680075,
+              "TP": 6,
+              "FP": 0,
+              "FN": 4,
+              "precision": 1.0,
+              "recall": 0.6
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 14,
+              "Brier": 1.2941045371674439e-06,
+              "TP": 14,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.007382243486702698,
+              "TP": 4,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "8": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.13446905951213078,
+          "object_delta_RMSE_mm": 0.02892812306112952,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 12,
+              "Brier": 0.23271663511940155,
+              "TP": 8,
+              "FP": 1,
+              "FN": 4,
+              "precision": 0.8888888888888888,
+              "recall": 0.6666666666666666
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 11,
+              "Brier": 0.29601144346705816,
+              "TP": 7,
+              "FP": 2,
+              "FN": 4,
+              "precision": 0.7777777777777778,
+              "recall": 0.6363636363636364
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 1.4252032101565005e-06,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.05491195192822294,
+              "TP": 3,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.75,
+              "recall": 1.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.11872693889540269,
+          "object_delta_RMSE_mm": 0.028360448341932312,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 3,
+              "Brier": 0.10808903724922338,
+              "TP": 3,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.75,
+              "recall": 1.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.2181393720725555,
+              "TP": 2,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 2.5905573995759997e-06,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.14093730781565797,
+              "TP": 1,
+              "FP": 1,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 11,
+          "TCP_delta_RMSE_mm": 0.1435909915043029,
+          "object_delta_RMSE_mm": 0.029283641505469606,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 9,
+              "Brier": 0.3120251064913331,
+              "TP": 5,
+              "FP": 0,
+              "FN": 4,
+              "precision": 1.0,
+              "recall": 0.5555555555555556
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 9,
+              "Brier": 0.3455663979908326,
+              "TP": 5,
+              "FP": 0,
+              "FN": 4,
+              "precision": 1.0,
+              "recall": 0.5555555555555556
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 11,
+              "Brier": 6.836141805259101e-07,
+              "TP": 11,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.0001685436362188607,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "16": {
+        "NATURAL": {
+          "valid_forecasts": 18,
+          "TCP_delta_RMSE_mm": 0.17977917023044013,
+          "object_delta_RMSE_mm": 0.035483812883380664,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 13,
+              "Brier": 0.39090030571537104,
+              "TP": 7,
+              "FP": 2,
+              "FN": 6,
+              "precision": 0.7777777777777778,
+              "recall": 0.5384615384615384
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 12,
+              "Brier": 0.4450503324206486,
+              "TP": 6,
+              "FP": 3,
+              "FN": 6,
+              "precision": 0.6666666666666666,
+              "recall": 0.5
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 18,
+              "Brier": 9.812172121912848e-07,
+              "TP": 18,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.1721203726183445,
+              "TP": 3,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.75
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.17134105114619957,
+          "object_delta_RMSE_mm": 0.04156372519792196,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.31536920747289277,
+              "TP": 4,
+              "FP": 2,
+              "FN": 1,
+              "precision": 0.6666666666666666,
+              "recall": 0.8
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.4138483394159074,
+              "TP": 3,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.75
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 1.1487676655612701e-06,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.2446366563423607,
+              "TP": 1,
+              "FP": 1,
+              "FN": 1,
+              "precision": 0.5,
+              "recall": 0.5
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 10,
+          "TCP_delta_RMSE_mm": 0.18625462528870082,
+          "object_delta_RMSE_mm": 0.029737974986106395,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 8,
+              "Brier": 0.45132518430935364,
+              "TP": 3,
+              "FP": 0,
+              "FN": 5,
+              "precision": 1.0,
+              "recall": 0.375
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 8,
+              "Brier": 0.47001192682444143,
+              "TP": 3,
+              "FP": 0,
+              "FN": 5,
+              "precision": 1.0,
+              "recall": 0.375
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 10,
+              "Brier": 8.471768494952964e-07,
+              "TP": 10,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 2,
+              "Brier": 0.11410734563913154,
+              "TP": 2,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.5,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "32": {
+        "NATURAL": {
+          "valid_forecasts": 16,
+          "TCP_delta_RMSE_mm": 0.26047896063296005,
+          "object_delta_RMSE_mm": 0.06446776863290855,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 11,
+              "Brier": 0.536987604935818,
+              "TP": 5,
+              "FP": 3,
+              "FN": 6,
+              "precision": 0.625,
+              "recall": 0.45454545454545453
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 10,
+              "Brier": 0.6022302741194903,
+              "TP": 3,
+              "FP": 4,
+              "FN": 7,
+              "precision": 0.42857142857142855,
+              "recall": 0.3
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 16,
+              "Brier": 1.1187020366655732e-06,
+              "TP": 16,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 5,
+              "Brier": 0.4922751819090708,
+              "TP": 2,
+              "FP": 6,
+              "FN": 3,
+              "precision": 0.25,
+              "recall": 0.4
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 9,
+          "TCP_delta_RMSE_mm": 0.2412202280519114,
+          "object_delta_RMSE_mm": 0.04872325914483349,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 5,
+              "Brier": 0.3942752847902805,
+              "TP": 4,
+              "FP": 3,
+              "FN": 1,
+              "precision": 0.5714285714285714,
+              "recall": 0.8
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.49627560720320957,
+              "TP": 3,
+              "FP": 4,
+              "FN": 1,
+              "precision": 0.42857142857142855,
+              "recall": 0.75
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 9,
+              "Brier": 1.3938283584746119e-06,
+              "TP": 9,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 4,
+              "Brier": 0.4310206663898255,
+              "TP": 1,
+              "FP": 1,
+              "FN": 3,
+              "precision": 0.5,
+              "recall": 0.25
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 7,
+          "TCP_delta_RMSE_mm": 0.28332309600930605,
+          "object_delta_RMSE_mm": 0.08029578110679134,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 6,
+              "Brier": 0.720474873694366,
+              "TP": 1,
+              "FP": 0,
+              "FN": 5,
+              "precision": 1.0,
+              "recall": 0.16666666666666666
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 6,
+              "Brier": 0.7384577030118512,
+              "TP": 0,
+              "FP": 0,
+              "FN": 6,
+              "precision": null,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 7,
+              "Brier": 7.649681943396667e-07,
+              "TP": 7,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 1,
+              "Brier": 0.571030987576672,
+              "TP": 1,
+              "FP": 5,
+              "FN": 0,
+              "precision": 0.16666666666666666,
+              "recall": 1.0
+            }
+          }
+        }
+      },
+      "64": {
+        "NATURAL": {
+          "valid_forecasts": 8,
+          "TCP_delta_RMSE_mm": 0.45685304391767534,
+          "object_delta_RMSE_mm": 0.10320905479296422,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 4,
+              "Brier": 0.9599487077393056,
+              "TP": 0,
+              "FP": 4,
+              "FN": 4,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 4,
+              "Brier": 0.9580240678527208,
+              "TP": 0,
+              "FP": 4,
+              "FN": 4,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 8,
+              "Brier": 1.3504704400119869e-05,
+              "TP": 8,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.8579145933442452,
+              "TP": 0,
+              "FP": 4,
+              "FN": 3,
+              "precision": 0.0,
+              "recall": 0.0
+            }
+          }
+        },
+        "EVENT_TRANSITION": {
+          "valid_forecasts": 6,
+          "TCP_delta_RMSE_mm": 0.41057256702645933,
+          "object_delta_RMSE_mm": 0.08191909355960994,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.9477454963181174,
+              "TP": 0,
+              "FP": 4,
+              "FN": 2,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.9454488454200743,
+              "TP": 0,
+              "FP": 4,
+              "FN": 2,
+              "precision": 0.0,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 6,
+              "Brier": 1.7982963659244058e-05,
+              "TP": 6,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 3,
+              "Brier": 0.8115839784117082,
+              "TP": 0,
+              "FP": 2,
+              "FN": 3,
+              "precision": 0.0,
+              "recall": 0.0
+            }
+          }
+        },
+        "STEADY": {
+          "valid_forecasts": 2,
+          "TCP_delta_RMSE_mm": 0.5737153619725482,
+          "object_delta_RMSE_mm": 0.14992072003610432,
+          "events": {
+            "PAD_CONTACT_ANY": {
+              "positive_labels": 2,
+              "Brier": 0.9965583420028703,
+              "TP": 0,
+              "FP": 0,
+              "FN": 2,
+              "precision": null,
+              "recall": 0.0
+            },
+            "NATIVE_GRASP_END": {
+              "positive_labels": 2,
+              "Brier": 0.9957497351506603,
+              "TP": 0,
+              "FP": 0,
+              "FN": 2,
+              "precision": null,
+              "recall": 0.0
+            },
+            "TABLE_SUPPORT_END": {
+              "positive_labels": 2,
+              "Brier": 6.992662274729318e-08,
+              "TP": 2,
+              "FP": 0,
+              "FN": 0,
+              "precision": 1.0,
+              "recall": 1.0
+            },
+            "OPEN_SUPPORTED_END": {
+              "positive_labels": 0,
+              "Brier": 0.9969064381418564,
+              "TP": 0,
+              "FP": 2,
+              "FN": 0,
+              "precision": 0.0,
+              "recall": null
+            }
+          }
+        }
+      }
+    }
+  },
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "exact_state_fork": false,
+  "unseen_parent_evaluation": false,
+  "audit_CPU_s": 0.11977504000000001,
+  "audit_wall_s": 0.12259404314681888
+}

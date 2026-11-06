@@ -1,0 +1,509 @@
+{
+  "schema": "WM02_PILOT2_CONTACT_THREE_SEED_AND_MATCHED_WM_TEACHER_ACTUAL_V1",
+  "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+  "cohort": {
+    "status": "PILOT2_COVERAGE27_NEURAL_COHORT_COMPLETE",
+    "exit_code": 0,
+    "failure": null,
+    "CPU_s": 0.052247418000000004,
+    "wall_s": 71.8127933749929
+  },
+  "models": [
+    {
+      "name": "pilot2-c1-policy-norm27-prior-train-normalizer-seed-363202-01",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-prior-train-normalizer-seed-363202-01",
+        "spec_sha256": "72edd8cb7681eb380887c7dbcc79c3b52b4b6c07f20e753617e4b173057e4a60",
+        "closed_epoch": 1793909575.9353962,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 13.001781350001693,
+        "child_CPU_s": 11.393072
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "PINNED_PRIOR_TRAIN_INPUTS_FRESH_MODEL_CONTROL",
+        "normalizer_reference_sha256": "4caea9fe3643555e9ce1b172a4b65fa9d88dd22c2700957438ad03443a877d09",
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "5378a58009297d4a5aeca9857e769217bdb102c654e37cbffc33e9367dbcf078",
+        "portable_policy_sha256": "23e5927bfcb359bb540b51b584758bbbc9cb56fcd9499c4f98ea54db80ff2b36",
+        "portable_max_logit_error": 9.5367431640625e-07,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 0.875,
+            "action_counts": [
+              5,
+              3
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                1,
+                3
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 9.8348937,
+        "wall_s": 10.413356005214155
+      },
+      "stderr": ""
+    },
+    {
+      "name": "pilot2-c1-policy-norm27-current-train-normalizer-seed-363202-01",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-current-train-normalizer-seed-363202-01",
+        "spec_sha256": "ac1db5a67dad2e4cf9565e70ca8e43e779eb5d5a45742e373ee112fd4a63374f",
+        "closed_epoch": 1793909590.9689496,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 14.591977907344699,
+        "child_CPU_s": 10.996478
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "CURRENT_TRAIN_INPUTS",
+        "normalizer_reference_sha256": null,
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "a7d692abcfb5bf45686cfe2ba4b1512eb21147691a0332877814d0abb07a92cd",
+        "portable_policy_sha256": "41e5036e3134218a4527632964464e0857509da5f3c3888044cc91e5a1d2b934",
+        "portable_max_logit_error": 9.5367431640625e-07,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              4,
+              4
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 9.513191425,
+        "wall_s": 12.749445234425366
+      },
+      "stderr": ""
+    },
+    {
+      "name": "pilot2-c1-policy-norm27-prior-train-normalizer-seed-363203-01",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-prior-train-normalizer-seed-363203-01",
+        "spec_sha256": "ee2e534f5d628120b20ea89ab83eebbeb5485ad2b79f2653b48a53a9446ef610",
+        "closed_epoch": 1793909604.3578978,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 12.99090136680752,
+        "child_CPU_s": 10.488249999999999
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "PINNED_PRIOR_TRAIN_INPUTS_FRESH_MODEL_CONTROL",
+        "normalizer_reference_sha256": "4caea9fe3643555e9ce1b172a4b65fa9d88dd22c2700957438ad03443a877d09",
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "e488b2e2c00d4de07b05ad3c4be77b13e938c0e02825f29d6a9b26b2c8cde49c",
+        "portable_policy_sha256": "e0ff71fb3f8575346e68cb6e9e888acb15ef58245f1328437ce84b481d67ac37",
+        "portable_max_logit_error": 1.6689300537109375e-06,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              4,
+              4
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 8.973117443,
+        "wall_s": 10.648100699763745
+      },
+      "stderr": ""
+    },
+    {
+      "name": "pilot2-c1-policy-norm27-current-train-normalizer-seed-363203-01",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-norm27-current-train-normalizer-seed-363203-01",
+        "spec_sha256": "a7edacad5459ebbff6f12550005711c4d66349ded86045db1601e9f291b3b5fb",
+        "closed_epoch": 1793909618.2496994,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 13.366988725960255,
+        "child_CPU_s": 11.533278
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": null,
+        "decision_atom": 112,
+        "teacher_method": "GOAL_FSM",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "CURRENT_TRAIN_INPUTS",
+        "normalizer_reference_sha256": null,
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "fd69850dc0b3f336c98f5a87bb7c71e43db654f284397dedf33436dfe0f32e32",
+        "portable_policy_sha256": "f1a12cc840ab25b88402100a441c32aa2790a2d644b73ba8476bb7d4694d3ec4",
+        "portable_max_logit_error": 4.76837158203125e-07,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              4,
+              4
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 10.005469187000001,
+        "wall_s": 11.579489733092487
+      },
+      "stderr": ""
+    },
+    {
+      "name": "pilot2-c1-policy-wmteacher27-fresh-01",
+      "control/LEASE.json": {
+        "status": "CLOSED",
+        "run_uuid": "pilot2-c1-policy-wmteacher27-fresh-01",
+        "spec_sha256": "999b69890081199cab3b37d0c01c0ea5e89e5b5a503a3a6291016e90d4efb8cc",
+        "closed_epoch": 1793909634.4622216,
+        "worker_exit_code": 0
+      },
+      "WORKER_EXIT.private.json": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 15.868852382991463,
+        "child_CPU_s": 12.152169
+      },
+      "fit-01/RESULT.json": {
+        "status": "SUPPORTED_GOAL_POLICY_TRAINED_NATIVE_EVALUATION_PENDING",
+        "source_sha": "3a2d5ec0b9996e4e4e7b5d5d243a198f6502464b",
+        "bundles": [
+          {
+            "sha256": "5109d718446530a9eb9a652de2caa568e5089f15693ad40a56f3dcaebed42336"
+          }
+        ],
+        "wm_numpy_sha256": "c4bf80a226d1ddbc034b3a524a0e0669f68e7d8908f20139cd966b59c6fe77bf",
+        "decision_atom": 112,
+        "teacher_method": "PARTIAL_WM_EXPECTED_EVENT",
+        "main_Actor_updates": 2000,
+        "prior_Actor_updates": 0,
+        "normalization_origin": "CURRENT_TRAIN_INPUTS",
+        "normalizer_reference_sha256": null,
+        "WM_updates": 0,
+        "restore_probe_optimizer_calls": 1,
+        "complete_restore_error": 0.0,
+        "endpoint_reload_error": 0.0,
+        "checkpoint_sha256": "58d6c0f004bebbe1c442dd7cbc255c4839bc8d908a90f3ab78e09fffcb3bd63a",
+        "portable_policy_sha256": "c12fd9ef6669cf24877d6c2c3c93b1fd1515a04d839364617321da78af44ac97",
+        "portable_max_logit_error": 9.5367431640625e-07,
+        "TRAIN_parents": [
+          "PILOT2_C0_T01_LAYOUT_V1",
+          "PILOT2_C0_T02_LAYOUT_V1",
+          "PILOT2_C0_T03_LAYOUT_V1"
+        ],
+        "DEV_parents": [
+          "PILOT2_C0_V01_LAYOUT_V1",
+          "PILOT2_C0_V02_LAYOUT_V1"
+        ],
+        "metrics": {
+          "TRAIN": {
+            "examples": 20,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              10,
+              10
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                10
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                10,
+                0
+              ]
+            }
+          },
+          "DEV": {
+            "examples": 8,
+            "teacher_agreement": 1.0,
+            "action_counts": [
+              4,
+              4
+            ],
+            "by_goal": {
+              "RELEASE_FROM_SUPPORTED_GRASP": [
+                0,
+                4
+              ],
+              "SUPPORTED_GRASP_HOLD": [
+                4,
+                0
+              ]
+            }
+          }
+        },
+        "goal_conditioning": true,
+        "constant_action_gain_NOT_ESTABLISHED": true,
+        "native_policy_evaluated": false,
+        "native_integrations": 0,
+        "TEST_read": false,
+        "GPU_memory": {
+          "peak_allocated_bytes": 69485056,
+          "peak_reserved_bytes": 71303168
+        },
+        "CPU_s": 10.586296324,
+        "wall_s": 13.983079701196402
+      },
+      "stderr": ""
+    }
+  ],
+  "new_Policy_main_updates": 10000,
+  "new_restore_probes": 5,
+  "extra_WM_updates": 0,
+  "native_evaluated": false,
+  "CONTACT_CONTROL_GAIN": false,
+  "primary_seed363201_results": "C1_EXPANDED_COVERAGE_AND_INPUT_CONTROL.json"
+}

@@ -75,7 +75,7 @@ class SupportedClosePilot(unittest.TestCase):
     def test_full_same_process_schedule_and_safe_early_release_record_actual_actions(self):
         for grasp in (True,False):
             with self.subTest(grasp=grasp),tempfile.TemporaryDirectory()as tmp:
-                root=Path(tmp);e=root/'episode';e.write_text(json.dumps(dict(reference_rule=RULE,screen_atom=48,close_logical_opening=.4)));a=SimpleNamespace(output=root,spec=dict(episode_manifest=str(e),source_sha='fixture'),step=2503,actual_state=SimpleNamespace(model=None,cube_geom=9),prepare_dynamic=lambda:None,capture_loaded_identity=lambda:None,command_event=lambda x:None,cancel_reference=lambda:{},seal_trace=lambda n:None)
+                root=Path(tmp);e=root/'episode';e.write_text(json.dumps(dict(reference_rule=RULE,screen_atom=48,close_logical_opening=.4,task_atoms=168)));a=SimpleNamespace(output=root,spec=dict(phase=PHASE,max_ticks=6703,episode_manifest=str(e),source_sha='fixture'),step=2503,actual_state=SimpleNamespace(model=None,cube_geom=9),prepare_dynamic=lambda:None,capture_loaded_identity=lambda:None,command_event=lambda x:None,cancel_reference=lambda:{},seal_trace=lambda n:None)
                 a.observe=lambda:dict(step=a.step,contacts=[dict(geom0=1,geom1=9,wrench=[1.])])
                 a.measured_task_state=lambda:dict(native_step=a.step,time_s=a.step*.002,tcp=np.eye(4),object_pose=np.eye(4),qpos=np.zeros(34),qvel=np.zeros(32),ctrl=np.zeros(20),finger_q=np.array([.042,.042]),native_grasp=grasp)
                 a.install_reference=lambda action:setattr(a,'active_reference',dict(sequence=0,action_EEF10=action.tolist()))
