@@ -1,0 +1,179 @@
+{
+  "schema": "WM02_PILOT2_C09_FUTURE_PREFIX_INVARIANCE_DIAGNOSTIC_V1",
+  "data_sha256": "5e227e7e83705130f893f309f2cca7cf6433ac9569fc67eec90235bb6a810f88",
+  "histories": 120,
+  "model_updates": 0,
+  "native_integrations": 0,
+  "exact_native_state_fork": false,
+  "definition": "Same recorded history and identical first-h published gripper command prefix; only commands AFTER h differ between two already qualified programs. Necessary nonanticipating dynamics condition is zero prediction difference.",
+  "action_range_unchanged": true,
+  "models": {
+    "FROZEN12": {
+      "portable_sha256": "a9ce33544f3771dd3ba9e51874c4f7f32982382da2dd3f5bf4fbd9d1da622ec9",
+      "horizons": {
+        "1": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.270745654893125,
+          "mean_event_probability_difference": 0.009858672638405907,
+          "max_grasp_probability_difference": 0.270745654893125,
+          "max_TCP_difference_mm": 0.6055390760991484,
+          "mean_TCP_difference_mm": 0.17519186465573325,
+          "max_object_difference_mm": 0.16999768135339868,
+          "mean_object_difference_mm": 0.06260649250146105
+        },
+        "4": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.24387044738324737,
+          "mean_event_probability_difference": 0.009740087405075787,
+          "max_grasp_probability_difference": 0.07955713419390065,
+          "max_TCP_difference_mm": 0.6487606692603368,
+          "mean_TCP_difference_mm": 0.19452620989814992,
+          "max_object_difference_mm": 0.15319034743649168,
+          "mean_object_difference_mm": 0.04325214186199506
+        },
+        "8": {
+          "same_prefix_histories": 96,
+          "max_event_probability_difference": 0.034322465467203744,
+          "mean_event_probability_difference": 0.002568492577730994,
+          "max_grasp_probability_difference": 0.017619220226328003,
+          "max_TCP_difference_mm": 0.8719034951538753,
+          "mean_TCP_difference_mm": 0.23177452221233716,
+          "max_object_difference_mm": 0.16327506871599123,
+          "mean_object_difference_mm": 0.05081092388844238
+        },
+        "16": {
+          "same_prefix_histories": 72,
+          "max_event_probability_difference": 0.09819040054513006,
+          "mean_event_probability_difference": 0.0033944702255842884,
+          "max_grasp_probability_difference": 0.09773743962456571,
+          "max_TCP_difference_mm": 0.735414702989506,
+          "mean_TCP_difference_mm": 0.20279039563359882,
+          "max_object_difference_mm": 0.09665197218841816,
+          "mean_object_difference_mm": 0.04993110888945069
+        },
+        "32": {
+          "same_prefix_histories": 48,
+          "max_event_probability_difference": 0.008195521220010327,
+          "mean_event_probability_difference": 0.001575202928477657,
+          "max_grasp_probability_difference": 0.008195521220010327,
+          "max_TCP_difference_mm": 0.6699972810006928,
+          "mean_TCP_difference_mm": 0.2453604803053385,
+          "max_object_difference_mm": 0.09995838671577757,
+          "mean_object_difference_mm": 0.05178621828172201
+        }
+      }
+    },
+    "PREFIX36_SEED363901": {
+      "portable_sha256": "e7b21c1ff2c320dde9261dd6a4e9451aca8d1559005900d3173c7f9111e2c771",
+      "horizons": {
+        "1": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.0,
+          "mean_event_probability_difference": 0.0,
+          "max_grasp_probability_difference": 0.0,
+          "max_TCP_difference_mm": 0.0,
+          "mean_TCP_difference_mm": 0.0,
+          "max_object_difference_mm": 0.0,
+          "mean_object_difference_mm": 0.0
+        },
+        "4": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.0,
+          "mean_event_probability_difference": 0.0,
+          "max_grasp_probability_difference": 0.0,
+          "max_TCP_difference_mm": 0.0,
+          "mean_TCP_difference_mm": 0.0,
+          "max_object_difference_mm": 0.0,
+          "mean_object_difference_mm": 0.0
+        },
+        "8": {
+          "same_prefix_histories": 96,
+          "max_event_probability_difference": 0.0,
+          "mean_event_probability_difference": 0.0,
+          "max_grasp_probability_difference": 0.0,
+          "max_TCP_difference_mm": 0.0,
+          "mean_TCP_difference_mm": 0.0,
+          "max_object_difference_mm": 0.0,
+          "mean_object_difference_mm": 0.0
+        },
+        "16": {
+          "same_prefix_histories": 72,
+          "max_event_probability_difference": 0.0,
+          "mean_event_probability_difference": 0.0,
+          "max_grasp_probability_difference": 0.0,
+          "max_TCP_difference_mm": 0.0,
+          "mean_TCP_difference_mm": 0.0,
+          "max_object_difference_mm": 0.0,
+          "mean_object_difference_mm": 0.0
+        },
+        "32": {
+          "same_prefix_histories": 48,
+          "max_event_probability_difference": 0.0,
+          "mean_event_probability_difference": 0.0,
+          "max_grasp_probability_difference": 0.0,
+          "max_TCP_difference_mm": 0.0,
+          "mean_TCP_difference_mm": 0.0,
+          "max_object_difference_mm": 0.0,
+          "mean_object_difference_mm": 0.0
+        }
+      }
+    },
+    "FRESH36_SEED363901": {
+      "portable_sha256": "9c637218c2b3dbd856a0c337979a092ad0d3e738798069bdff929b0646090da7",
+      "horizons": {
+        "1": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.026875815976813898,
+          "mean_event_probability_difference": 0.0023026621288314954,
+          "max_grasp_probability_difference": 0.022331400972782762,
+          "max_TCP_difference_mm": 0.24342308759362377,
+          "mean_TCP_difference_mm": 0.11496147953455642,
+          "max_object_difference_mm": 0.07337355184837684,
+          "mean_object_difference_mm": 0.034765095146753036
+        },
+        "4": {
+          "same_prefix_histories": 120,
+          "max_event_probability_difference": 0.1661875527103993,
+          "mean_event_probability_difference": 0.0096454810073933,
+          "max_grasp_probability_difference": 0.10377361018855968,
+          "max_TCP_difference_mm": 0.3017486123000921,
+          "mean_TCP_difference_mm": 0.1413357631243043,
+          "max_object_difference_mm": 0.07348039549307471,
+          "mean_object_difference_mm": 0.03717753436153406
+        },
+        "8": {
+          "same_prefix_histories": 96,
+          "max_event_probability_difference": 0.05825363338574584,
+          "mean_event_probability_difference": 0.005477039517049413,
+          "max_grasp_probability_difference": 0.02720702340836144,
+          "max_TCP_difference_mm": 0.2769607476714403,
+          "mean_TCP_difference_mm": 0.12454427523655089,
+          "max_object_difference_mm": 0.12028284980268732,
+          "mean_object_difference_mm": 0.06005798556422251
+        },
+        "16": {
+          "same_prefix_histories": 72,
+          "max_event_probability_difference": 0.06510668586951085,
+          "mean_event_probability_difference": 0.007446484177658825,
+          "max_grasp_probability_difference": 0.06108985708091341,
+          "max_TCP_difference_mm": 0.18671426814216938,
+          "mean_TCP_difference_mm": 0.11187090953182796,
+          "max_object_difference_mm": 0.07914537592034616,
+          "mean_object_difference_mm": 0.040480516094142466
+        },
+        "32": {
+          "same_prefix_histories": 48,
+          "max_event_probability_difference": 0.0057234097601341904,
+          "mean_event_probability_difference": 0.0022546888129033435,
+          "max_grasp_probability_difference": 0.0057234097601341904,
+          "max_TCP_difference_mm": 0.24844361762676218,
+          "mean_TCP_difference_mm": 0.14547612056081197,
+          "max_object_difference_mm": 0.1177112867496815,
+          "mean_object_difference_mm": 0.07554378995061173
+        }
+      }
+    }
+  },
+  "wall_s": 1.9054470579139888,
+  "CPU_s": 1.868785706
+}
