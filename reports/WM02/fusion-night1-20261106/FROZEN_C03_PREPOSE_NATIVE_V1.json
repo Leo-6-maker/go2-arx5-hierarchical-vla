@@ -1,0 +1,75 @@
+{
+  "schema": "WM02_C03_PREPOSED_INITIAL_CONDITION_NATIVE_PANEL_V1",
+  "parent_scene_sha256": "f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf",
+  "static_proof_sha256": "eaee45e6e7ad5fec2e9fc80333ea868038e63c93d347e1f8edd8320ea77fe03f",
+  "actual_static_qualified": true,
+  "declared_change": "SIX_ARM_HOME_KEYFRAME_INITIAL_ANGLES_ONLY",
+  "arm_q": [
+    -0.3293926800965341,
+    2.231056607419994,
+    2.04627830740731,
+    -1.386063837296728,
+    1.3915754402751834e-05,
+    -0.329243869298605
+  ],
+  "all_other_initial_fields_and_model_dynamics_unchanged": true,
+  "original_ResetHome_and_raw_safety_unchanged": true,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "fresh_initial_condition_not_midpoint_restore": true,
+  "not_controlled_reaching": true,
+  "not_C02_or_old_task_reclassified": true,
+  "max_worlds": 1,
+  "cutoff": "2026-11-07T23:14:00+08:00",
+  "GR00T_queries": 0,
+  "updates": 0,
+  "stages": [
+    {
+      "phase": "cold-1",
+      "max_ticks": 50,
+      "native_run": "fusion-night1-c03-bootstrap-01-01"
+    },
+    {
+      "phase": "cold-2",
+      "max_ticks": 50,
+      "native_run": "fusion-night1-c03-bootstrap-02-01"
+    },
+    {
+      "phase": "hold-2s-1",
+      "max_ticks": 1000,
+      "native_run": "fusion-night1-c03-bootstrap-03-01"
+    },
+    {
+      "phase": "hold-2s-2",
+      "max_ticks": 1000,
+      "native_run": "fusion-night1-c03-bootstrap-04-01"
+    },
+    {
+      "phase": "hold-5s-1",
+      "max_ticks": 2500,
+      "native_run": "fusion-night1-c03-bootstrap-05-01"
+    },
+    {
+      "phase": "hold-5s-2",
+      "max_ticks": 2500,
+      "native_run": "fusion-night1-c03-bootstrap-06-01"
+    },
+    {
+      "phase": "g2-reference-qualification",
+      "max_ticks": 2503,
+      "native_run": "fusion-night1-c03-bootstrap-07-01"
+    },
+    {
+      "phase": "g2-standing-hold-short-v2",
+      "max_ticks": 2528,
+      "native_run": "fusion-night1-c03-bootstrap-08-01"
+    },
+    {
+      "phase": "g2-standing-hold-renew-v2",
+      "max_ticks": 2903,
+      "native_run": "fusion-night1-c03-bootstrap-09-01"
+    }
+  ],
+  "stop_after_first_failed_stage": true,
+  "final_source_state_range_and_noncontact_and_hold_still_require_actual_measured_acceptance": true
+}
