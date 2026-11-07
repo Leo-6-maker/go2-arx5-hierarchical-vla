@@ -125,9 +125,12 @@ def validate_pair_spec(spec):
          and not any(producer.get(key) for key in ('camera_override','paused_camera_override',
              'posture_camera_override','source_camera_rig')),
          'EXACT_EXPLICIT_SOURCE_SENSOR_NO_SILENT_OVERRIDE')
+    # Only the new exploratory condition has the preregistered1800s window.
+    # This is wall time, never a change to B/E, native quota or physics dt.
+    wall_limit=1800 if pair['task_condition']==TRACKING_TASK_CONDITION else 1200
     need(type(spec.get('wall_limit_s')) in (int, float)
-         and 0 < spec['wall_limit_s'] <= 1200,
-         'FINITE_ONE_QUERY_WALL_AT_MOST_1200_SECONDS')
+         and 0 < spec['wall_limit_s'] <= wall_limit,
+         f'FINITE_ONE_QUERY_WALL_AT_MOST_{wall_limit}_SECONDS')
     # The manifest retains its real V9 slow-feedback phase. The actual spec is LIVE V9.
     episode = json.loads(_bytes(producer['episode_manifest'], producer['episode_manifest_sha256']))
     initialization.episode_contract(episode)

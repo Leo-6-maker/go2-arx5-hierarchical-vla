@@ -371,11 +371,20 @@ def test_tracking_task_and_capture_keep_distinct_identity_and_strict_score(short
         paused_score_contract_file_sha256=digest(a.spec['paused_score_contract']))
     p.update(task_condition=contract.TRACKING_TASK_CONDITION,task_sha256=document_hash(task))
     g['paused_task_sha256']=document_hash(task);bind(g,a,p);f['task']=task;a.fixture_task=task
+    g['wall_limit_s']=1800;bind(g,a,p)
     assert bridge.validate_pair_spec(g)==(p,a.spec)
     assert task['task_id']==short.TRACKING_TASK_ID and task['task_id']!=short.TASK_ID
     assert score['actual_short_skill_score_contract']==short.score_contract()
     capture_source_archive(f);payload,identity,_=inference.read_payload(g)
     assert payload['language']==short.LANGUAGE and identity['task_condition']==contract.TRACKING_TASK_CONDITION
+    g['wall_limit_s']=1801;bind(g,a,p)
+    with pytest.raises(ValueError,match='AT_MOST_1800_SECONDS'):bridge.validate_pair_spec(g)
+
+
+def test_existing_strict_short_condition_cannot_use_tracking_wall_window(short_pair):
+    f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    g['wall_limit_s']=1800;bind(g,a,p)
+    with pytest.raises(ValueError):bridge.validate_pair_spec(g)
 
 
 def test_tracking_diagnostic_consumes_complete_path_but_does_not_erase_strict_failure(real_clock_composition):
