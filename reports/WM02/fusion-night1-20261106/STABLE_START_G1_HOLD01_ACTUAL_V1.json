@@ -1,0 +1,96 @@
+{
+  "schema": "WM02_STABLE_START_G1_HOLD01_ACTUAL_V1",
+  "snapshot_epoch": 1794071863.1052544,
+  "status": "COMPLETE_HOLD_STABILITY_PASS_NOT_APPROACH_TASK_SUCCESS",
+  "source_sha": "0245f6c4f0271c30724d40414ee8c80bcd6bcc87",
+  "spec_sha256": "c84ac4a27cad1d4dbb6146d7a83bfdad125049e15683ec64c0eda866b039f668",
+  "native_result_sha256": "9c59edcf275f926ca3f4648abcfdddab3c1576214979c961c24d3ea5026dc2ba",
+  "worker_sha256": "3d7bf20789e2671f97634913bcc52965700be9ecb85e2cf5a44625e50678bb2d",
+  "lease_sha256": "6167a9673caaa88f3e286f8b3dbcd5810ef5857492a7c93f604d8b7996c6c940",
+  "worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 525.396535650827,
+    "CPU_s": 210.92051460300002,
+    "child_CPU_s": 777.111846
+  },
+  "unit": {
+    "MainPID": "0",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "5154299904",
+    "CPUUsageNSec": "994245858000",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "native_integrations": 38703,
+  "complete_atomic_transitions": 1548,
+  "complete_task_atoms": 1448,
+  "complete_HOLD_suffix_atoms": 176,
+  "new_GR00T_queries": 0,
+  "new_WM_updates": 0,
+  "new_GR00T_updates": 0,
+  "new_Actor_updates": 0,
+  "HOLD_score": {
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "metrics": {
+      "signed_progress_m": -0.0006152707892115224,
+      "precontact_distance_reduction_m": -0.0006225282177770575,
+      "maximum_lateral_drift_m": 0.0012039568403227488,
+      "maximum_TCP_excursion_m": 0.0013519101214761148,
+      "minimum_finger_opening_m": 0.04192578999778188,
+      "maximum_object_displacement_m": 0.0,
+      "maximum_base_displacement_m": 0.0012716851149977778,
+      "maximum_base_rotation_rad": 0.005919727495987452,
+      "final_hold_TCP_diameter_m": 0.00021052119097942813,
+      "final_hold_TCP_max_speed_m_s": 0.0022717381659380464
+    },
+    "predicates": {
+      "signed_progress": false,
+      "distance_reduction": false,
+      "lateral": true,
+      "excursion": true,
+      "open": true,
+      "object_still": true,
+      "base_still": true,
+      "base_orientation": true,
+      "hold": true,
+      "original_native_safety": true,
+      "no_robot_object_contact": true
+    },
+    "approach_step_success": false,
+    "full_task_success": false,
+    "precontact_arrival_claim": false,
+    "pick_place_success_claim": false,
+    "scorer_only_privileged_geometry": true,
+    "thresholds_are_native_safety": false
+  },
+  "qualification": {
+    "hold_stability_pass": true,
+    "short_teacher_success": false,
+    "complete_task_atoms": 1448,
+    "capability_reference_all40_consumed": true
+  },
+  "original_startup_joint2_joint3_rad": 0.9,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+  "CPU_and_wall_not_added_twice": true,
+  "systemd_CPU_s": 994.245858,
+  "host_peak_bytes": 5154299904,
+  "shared_source_staging_cost": {
+    "wall_s": 130.50175709137693,
+    "CPU_s": 1.303190325,
+    "bytes_written": 49028578,
+    "reused": false
+  },
+  "commands": [
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/dispatch_stable_start_g1_hold01.py 900",
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g1_actual01.py 180"
+  ],
+  "dispatch_exit_code": 0,
+  "first_confirmed_block": "No G1 task success yet; second independent HOLD and4mm Teacher remain",
+  "next": "dispatch_stable_start_g1_hold02.py (already implemented; requires real prior CLOSED0 and HOLD qualification)"
+}
