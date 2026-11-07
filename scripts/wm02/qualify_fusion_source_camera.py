@@ -28,6 +28,7 @@ KIND = 'FUSION_SOURCE_CAMERA_QUALIFICATION'
 SITE = 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
 RECIPE = 'WM02_FUSION_ONE_SEALED_TARGET_SOURCE_CAMERA_CPU_V1'
 C02_RECIPE = 'WM02_FUSION_C02_SEALED_SOURCE_CAMERA_CPU_V1'
+STABLE_RECIPE = 'WM02_STABLE_START_SEALED_DECISION_CAMERA_CPU_V1'
 C02_SCENE = 'f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf'
 C02_PHASE = 'collect-target-fusion-c02-source-state-feedback-v2'
 ENTRY = 'scripts/wm02/qualify_fusion_source_camera.py'
@@ -77,6 +78,19 @@ def _read(spec, descriptor):
 def endpoint_contract(spec, saved, native_spec, episode, native):
     """C02 is a distinct diagnostic course; original T06 rules are unchanged."""
     ticks = saved['expected_native_ticks']
+    if spec.get('recipe') == STABLE_RECIPE:
+        from go2arx5_vla.world_model.stable_start_short_task_v1 import PHASE, B, E, validate
+        validate(native_spec)
+        q = native.get('reference_qualification') or {}
+        need(type(ticks) is int and saved['native_step'] == B
+             and native_spec.get('max_ticks') == ticks == E
+             and native_spec.get('phase') == PHASE
+             and saved['scene']['sha256'] == SCENE
+             and episode.get('scene_sha256') == SCENE
+             and q.get('hold_stability_pass') is True
+             and q.get('capability_reference_all40_consumed') is True,
+             'EXACT_NEW_STABLE_START_DECISION_WITH_COMPLETE_NATIVE_LIFECYCLE')
+        return
     need(type(ticks) is int and type(saved['native_step']) is int
          and saved['native_step'] == native_spec.get('max_ticks') == ticks,
          'EXACT_SAVED_ENDPOINT_CLOCK')
@@ -190,6 +204,9 @@ def run(spec, output):
             calibration_path = output/'images/000000-calibration.json'
             images = {name: output/'images'/f'000000-{name}.png' for name in ('body_rgb', 'wrist_rgb')}
             language = 'Source camera geometry qualification on a sealed actual target packet.'
+            if spec.get('recipe') == STABLE_RECIPE:
+                from go2arx5_vla.world_model.fusion_short_skill import LANGUAGE
+                language = LANGUAGE
             if spec.get('recipe') == C02_RECIPE:
                 from scripts.pi0292.relay_protocol import unseal
                 _, source_raw = _read(spec, spec['source_observation'])

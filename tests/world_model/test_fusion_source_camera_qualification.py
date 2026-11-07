@@ -137,6 +137,23 @@ def test_misspelled_cpu_site_cannot_fall_through_generic_runtime(tmp_path):
     assert not (root/'fit-01').exists()
 
 
+def test_stable_start_selects_real_decision_inside_completed_lifecycle(monkeypatch):
+    from go2arx5_vla.world_model import stable_start_short_task_v1 as stable
+    checked=[]
+    monkeypatch.setattr(stable,'validate',lambda spec:checked.append(spec))
+    saved=dict(expected_native_ticks=stable.E,native_step=stable.B,scene=dict(sha256=q.SCENE))
+    spec=dict(phase=stable.PHASE,max_ticks=stable.E)
+    native=dict(reference_qualification=dict(hold_stability_pass=True,capability_reference_all40_consumed=True))
+    q.endpoint_contract(dict(recipe=q.STABLE_RECIPE),saved,spec,dict(scene_sha256=q.SCENE),native)
+    assert checked==[spec]
+    with pytest.raises(ValueError,match='STABLE_START_DECISION'):
+        q.endpoint_contract(dict(recipe=q.STABLE_RECIPE),dict(saved,native_step=stable.E),
+                            spec,dict(scene_sha256=q.SCENE),native)
+    native['reference_qualification']['hold_stability_pass']=False
+    with pytest.raises(ValueError,match='STABLE_START_DECISION'):
+        q.endpoint_contract(dict(recipe=q.STABLE_RECIPE),saved,spec,dict(scene_sha256=q.SCENE),native)
+
+
 def test_c02_endpoint_is_separate_and_requires_measured_qualification():
     saved=dict(expected_native_ticks=44703,native_step=44703,scene=dict(sha256=q.C02_SCENE))
     spec=dict(recipe=q.C02_RECIPE)
