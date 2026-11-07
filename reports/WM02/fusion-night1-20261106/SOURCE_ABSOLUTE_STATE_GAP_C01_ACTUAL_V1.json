@@ -1,0 +1,44 @@
+{
+  "schema": "WM02_SOURCE_AND_C01_ABSOLUTE_STATE_GAP_ACTUAL_V1",
+  "status": "SEALED_OBSERVATIONS_ONLY",
+  "private_audit_sha256": "6bf9ac330325b75158d6b74d55e5db10ff5b0c06f4f3e109b87c296da1f227b3",
+  "metrics": {
+    "schema": "WM02_ARCHIVED_SOURCE_ABSOLUTE_STATE_GAP_V1",
+    "original_source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "old_target_capture_sha256": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+    "C01_capture_sha256": "67fbdadffeaf23e7a911beccbaaf9550fcc7afc2fbe569fa4dbbc8f03c1ba5b8",
+    "original_full_language_utf8_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+    "full_language_verbatim_equal": true,
+    "source_to_old_target_policy_state": {
+      "absolute_translation_L2_m": 0.1935714047622458,
+      "absolute_orientation_geodesic_rad": 0.7397528316620786
+    },
+    "source_to_C01_target_policy_state": {
+      "absolute_translation_L2_m": 0.19386938238216672,
+      "absolute_orientation_geodesic_rad": 0.7390949340810232
+    },
+    "old_target_to_C01_target_policy_state": {
+      "absolute_translation_L2_m": 0.00034278165342206663,
+      "absolute_orientation_geodesic_rad": 0.0016496155860247668
+    },
+    "same_source_from_target_transform": true,
+    "same_source_camera_identity": true,
+    "source_gripper_fraction": 1.0,
+    "old_target_gripper_fraction": 0.9545461242262911,
+    "C01_gripper_fraction": 0.9545469086292864,
+    "no_new_inference": true,
+    "phase_gap_is_causal_root_cause_established": false
+  },
+  "new_queries": 0,
+  "new_integrations": 0,
+  "new_updates": 0,
+  "cost": {
+    "wall_s": 2.3426576876081526,
+    "child_CPU_s": 0.693183,
+    "child_exit_code": 0
+  },
+  "source_import_inventory_members_verified": 51,
+  "old_prefix_audit_not_repeated": true,
+  "C01_and_old_capture_joins_verified": true,
+  "causal_root_cause_established": false
+}
