@@ -1,0 +1,42 @@
+{
+  "schema": "WM02_FROZEN_DEV_DY02_LAUNCH_ACTUAL_V1",
+  "case": "DY02",
+  "epoch": 1794037384.8003752,
+  "source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "native_spec_sha256": "ed9c635ee11f0b3181b4a7ee5c9159c89aadb913975042c9d7cf6570e86ad8f5",
+  "GPU_spec_sha256": "9f0d699b2084e197a1a5e5f8cba93a99e98c4255ae97f5391dcf1d66f1e58ff3",
+  "pair_sha256": "e5a28bbeb16c6cad8eb0d0c74a0a60013710b46ae802cbe9a8dede84ce45349c",
+  "panel_sha256": "5072e09f4458c8d540e17ced09d80057d774f0b13450fa9e97e01d71710ac2d0",
+  "actual_reference_intervention": {
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+    "candidate": "Y_MINUS_025",
+    "offset_target_xy_m": [
+      0.0,
+      -0.00025
+    ],
+    "ramp_atoms": 16
+  },
+  "native_dispatch_exit": 0,
+  "GPU_dispatch_exit": 0,
+  "source_staging": {
+    "wall_s": 0.5684294570237398,
+    "CPU_s": 0.32773995000000156,
+    "source_reused": true,
+    "reused_source_members": 3489,
+    "copied_parent_members": 0,
+    "copied_parent_bytes": 0,
+    "overlay_members": 0,
+    "overlay_written_bytes": 0,
+    "actual_source_bytes_written": 0,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "precheck_exit_code": 0,
+  "precheck_effects": 0,
+  "completed_counts_not_advanced": true,
+  "command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_dev_dy02_01.py\" 900",
+  "read_command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_dev_dy02_actual01.py\" 180",
+  "original_cutoff_epoch": 1794051261.7397933,
+  "new_WM_updates": 0,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002
+}
