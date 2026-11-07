@@ -28,7 +28,8 @@ SHORT_TASK_CONDITION='GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
 TRACKING_TASK_CONDITION='GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
 MECHANICAL_TASK_CONDITION='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
 from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as TEACHER_DIAGNOSTIC_TASK_CONDITION
-SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION,TEACHER_DIAGNOSTIC_TASK_CONDITION)
+from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION as SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION
+SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION,TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION)
 TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
@@ -72,7 +73,7 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
     value=dict(schema=('WM02_GRADED_FULL_TASK_PROPOSAL_DIAGNOSTIC_SCORE_V9'
         +('_TIME1' if time_stretch_factor==1 else '')),
         purpose='FULL_GENERATED_H40_NATIVE_TRACKING_AND_INTENT_DIAGNOSIS_NOT_FULL_TASK_SCORE',
-        task_condition=task_condition,capture_boundary_step=B,registered_final_step=E,
+        task_condition=task_condition,capture_boundary_step=B,registered_final_step=terminal_step(task_condition),
         initialization_scale=.5,source_task_phase_equivalence=False,
         prefix_full_grade_required=False,old_prefix_query_ready_reclassified=False,
         initialization_recipe='12_SLOTS_MOVE28_SETTLE8_SAME_B34303',
@@ -90,11 +91,11 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
             purpose='FULL_GENERATED_SHORT_INTENT_AND_MEASURED_APPROACH_STEP_AT34303_NOT_PICK_PLACE',
             actual_short_skill_score_contract=actual,
             actual_short_skill_score_contract_sha256=document_hash(actual))
-        if task_condition==TEACHER_DIAGNOSTIC_TASK_CONDITION:
-            from .fusion_task_reference_diagnostic_v1 import CONFIG
+        if task_condition in(TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION):
+            from .fusion_task_reference_diagnostic_v1 import CONFIG,SHORT_CONFIG
             value.update(schema=value['schema']+'_PRIVILEGED_GEOMETRY',
                 purpose='PRIVILEGED_GEOMETRIC_TASK_INTENT_DIAGNOSTIC_NOT_GR00T_OR_WM_TRANSFER',
-                task_reference_diagnostic=CONFIG,GR00T_proposal_saved_but_not_executed=True)
+                task_reference_diagnostic=SHORT_CONFIG if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION else CONFIG,GR00T_proposal_saved_but_not_executed=True)
         if task_condition==TRACKING_TASK_CONDITION:
             value.update(schema=value['schema']+'_TRACKING_DIAGNOSTIC',
                 purpose='EXPLORATORY_FULL_H40_TRACKING_WITH_UNCHANGED_STRICT_SHORT_SCORE_REPORTED_SEPARATELY',
@@ -122,8 +123,8 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
     if task_condition==MECHANICAL_TASK_CONDITION:
         from .fusion_bounded_reference_tracking_v1 import TASK_ID as mechanical_task
         task_id=mechanical_task
-    if task_condition==TEACHER_DIAGNOSTIC_TASK_CONDITION:
-        task_id='FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1'
+    if task_condition in(TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION):
+        task_id=('FUSION_PRIVILEGED_GEOMETRIC_SHORT_DURATION_DIAGNOSTIC_AT34303_V2'if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION else'FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1')
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
         scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),
@@ -147,7 +148,7 @@ def recipe_config(spec):
          and spec.get('experiment_role')==ROLE and spec.get('task_condition') in TASK_CONDITIONS
          and episode['geometry_scale']==.5 and prefix.endpoint(episode)==B
          and type(spec.get('live_skill_start_step'))is int and spec['live_skill_start_step']==B
-         and type(spec.get('max_ticks'))is int and spec['max_ticks']==E
+         and type(spec.get('max_ticks'))is int and spec['max_ticks']==terminal_step(spec['task_condition'])
          and spec.get('snapshot_binding_mode')==PAIR_MODE
          and type(spec.get('live_skill_geometry_scale'))in(int,float) and spec['live_skill_geometry_scale']==1.
          and type(spec.get('live_skill_time_stretch_factor'))is int and spec['live_skill_time_stretch_factor'] in(1,2),
@@ -201,4 +202,11 @@ def episode_limit(spec,previous):
          and checked['readiness']['query_ready']is False
          and checked['readiness']['predicates']['full_grade']is False,
          'KEEP_OLD_HALF_QUERY_READY_FALSE_AND_MEASURED_NINE_PREDICATES')
+    return terminal_step(spec['task_condition'])
+
+
+def terminal_step(task_condition):
+    if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION:
+        from .fusion_task_reference_diagnostic_v1 import endpoint
+        return endpoint(task_condition)
     return E

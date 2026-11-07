@@ -267,6 +267,65 @@ def test_old_full_task_score_and_document_remain_identical():
     assert document_hash(contract.task_document('a'*64,'original full task'))=='3b1aa63cba0bd25ca0824d0b1bae01e9420791130815210b092c9e5e45442ad9'
 
 
+def test_short_teacher_pair_and_preload_bind_its_separate_endpoint(slow_pair,tmp_path):
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    from test_fusion_task_reference_diagnostic_v1 import registered_short
+    f=slow_pair;g,a,p=f['gpu'],f['adapter'],f['pair'];registration=registered_short(tmp_path)
+    root=Path(a.spec['registered_root']);panel=Path(registration['response_learning_panel'])
+    row=json.loads(panel.read_text());row['assignments'][0]['native_run']=root.name;write_json(panel,row)
+    registration.update(registered_root=str(root),response_learning_panel_sha256=digest(panel))
+    registration['response_learning_assignment']['panel_sha256']=digest(panel)
+    a.spec.update(registration,frozen_model_load_schedule=inference.PRELOAD_BEFORE_SNAPSHOT)
+    task=contract.task_document(digest(a.spec['model_path']),short.LANGUAGE,time_stretch_factor=2,task_condition=teacher.SHORT_TASK_CONDITION)
+    score=contract.score_contract(time_stretch_factor=2,task_condition=teacher.SHORT_TASK_CONDITION)
+    score_path=root/'SHORT_TEACHER_SCORE.json';write_json(score_path,score);write_json(a.spec['paused_target_task'],task)
+    a.spec.update(paused_target_task_file_sha256=digest(a.spec['paused_target_task']),paused_target_task_sha256=document_hash(task),paused_score_contract=str(score_path),paused_score_contract_file_sha256=digest(score_path))
+    p.update(task_condition=teacher.SHORT_TASK_CONDITION,native_endpoint_step=38703,task_sha256=document_hash(task))
+    g.update(task_condition=teacher.SHORT_TASK_CONDITION,paused_task_sha256=document_hash(task),frozen_model_load_schedule=inference.PRELOAD_BEFORE_SNAPSHOT)
+    for leaf in ('fusion_task_reference_diagnostic_v1.py','fusion_graded_short_skill_v1.py','fusion_short_skill.py'):
+        name='src/go2arx5_vla/world_model/'+leaf;dest=Path(g['source_root'])/name;dest.write_bytes((PROJECT/name).read_bytes());g['source_files'][name]=digest(dest)
+    a.spec['source_files']=g['source_files'].copy();bind(g,a,p)
+    inference.validate_spec(g)
+    assert bridge.validate_pair_spec(g)==(p,a.spec)
+    assert pair9.validate_native_pause(a)is None
+    bad=copy.deepcopy(g);bad['task_condition']=contract.MECHANICAL_TASK_CONDITION
+    with pytest.raises(ValueError):bridge.validate_pair_spec(bad)
+
+
+@pytest.mark.parametrize('abort',[False,True])
+def test_short_teacher_complete_native_composition_and_standing_stop(real_clock_composition,monkeypatch,tmp_path,abort):
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    from go2arx5_vla.world_model.fusion_trajectory_qualification_native import complete_reference_consumption
+    from test_fusion_task_reference_diagnostic_v1 import registered_short
+    a,samples,windows,report,raw,action,calls=real_clock_composition
+    a.spec.update(registered_short(tmp_path),registered_root=str(tmp_path))
+    panel=Path(a.spec['response_learning_panel']);value=json.loads(panel.read_text());value['assignments'][0]['native_run']=tmp_path.name;write_json(panel,value)
+    a.spec['response_learning_panel_sha256']=digest(panel);a.spec['response_learning_assignment']['panel_sha256']=digest(panel)
+    original=teacher.build
+    def build(**kwargs):
+        program,evidence=original(**kwargs);a.program=program;return program,evidence
+    monkeypatch.setattr(teacher,'build',build)
+    if abort:
+        measured=a.measured_task_state
+        def state():
+            sample=measured();sample['qpos']=np.array(sample['qpos']).copy()
+            if a.step>34303:sample['qpos'][0]+=.003
+            return sample
+        monkeypatch.setattr(a,'measured_task_state',state)
+        with pytest.raises(ValueError,match='ORIGINAL_STANDING_BOUND_EXCEEDED'):
+            live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+        assert a.step==34328 and len(calls)==1
+    else:
+        result=live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+        assert a.step==38703 and result['generated_segment']['complete_suffix_atoms']==176
+        assert result['Teacher_reference_all40_consumed'] and not result['GR00T_raw_H40_consumed']
+        assert complete_reference_consumption(a.spec,result)
+        assert result['actual_VLA_commands']==0 and len(calls)==1
+        json.dumps(result,allow_nan=False)
+
+
 def test_new_short_language_and34303_score_are_explicit_in_pair_and_payload(short_pair):
     from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
     f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']

@@ -59,6 +59,39 @@ def registered(tmp_path):
         response_learning_assignment=dict(schema='WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1',split='DIAGNOSTIC',parent='EXPLICIT_GEOMETRY_DIAGNOSTIC',panel_sha256=pin))
 
 
+def registered_short(tmp_path):
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    s=registered(tmp_path);path=__import__('pathlib').Path(s['response_learning_panel']);p=json.loads(path.read_text())
+    p['assignments'][0]['task_reference_diagnostic']=teacher.SHORT_CONFIG;path.write_text(json.dumps(p));pin=digest(path)
+    s.update(task_condition=teacher.SHORT_TASK_CONDITION,task_reference_diagnostic=copy.deepcopy(teacher.SHORT_CONFIG),live_skill_start_step=teacher.SHORT_BEGIN,max_ticks=teacher.endpoint(teacher.SHORT_TASK_CONDITION),response_learning_panel_sha256=pin)
+    s['response_learning_assignment']['panel_sha256']=pin
+    return s
+
+
+def test_short_teacher_has_its_own_complete_horizon_and_unchanged_task_limits(tmp_path):
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    from go2arx5_vla.world_model import fusion_task_phase_live_skill_contract_v9 as c
+    from go2arx5_vla.world_model.fusion_graded_short_skill_v1 import score_contract
+    s=registered_short(tmp_path);assert teacher.validate_registration(s)==teacher.SHORT_CONFIG
+    assert c.terminal_step(teacher.SHORT_TASK_CONDITION)==38703
+    assert c.terminal_step(c.MECHANICAL_TASK_CONDITION)==66503
+    score=c.score_contract(task_condition=teacher.SHORT_TASK_CONDITION)
+    assert score['registered_final_step']==38703 and score['actual_short_skill_score_contract']==score_contract()
+    s['max_ticks']+=25
+    with pytest.raises(ValueError,match='EXACT_PREREGISTERED'):teacher.validate_registration(s)
+
+
+@pytest.mark.parametrize('fault',['translation','rotation','nonfinite'])
+def test_short_diagnostic_stops_at_original_standing_bounds(fault):
+    from go2arx5_vla.world_model.fusion_task_reference_diagnostic_v1 import require_standing
+    initial=dict(qpos=np.r_[0.,0.,.33,1.,0.,0.,0.],native_step=34303);sample=copy.deepcopy(initial);sample['native_step']+=25
+    require_standing(sample,initial)
+    if fault=='translation':sample['qpos'][0]=.0021
+    elif fault=='rotation':sample['qpos'][3:]=[np.cos(.1/2),0,0,np.sin(.1/2)]
+    else:sample['qpos'][0]=np.nan
+    with pytest.raises(ValueError):require_standing(sample,initial)
+
+
 @pytest.mark.parametrize('fault',['TRAIN','old_task','larger_step','WM_extrapolation','changed_panel','wrong_row'])
 def test_explicit_geometric_diagnostic_cannot_be_a_hidden_vla_or_training_arm(tmp_path,fault):
     spec=registered(tmp_path);assert validate_registration(spec)==CONFIG

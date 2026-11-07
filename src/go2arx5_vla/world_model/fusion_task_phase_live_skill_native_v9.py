@@ -19,7 +19,9 @@ def validate_adapter_install(adapter,action):
         return prefix.validate_install_preview(action,initial_tcp=adapter.trajectory_initial_tcp,
             program=adapter.trajectory_program,step=step,base=adapter.base_pose_hold,
             frozen_base=adapter.trajectory_initial_base,end_step=B)
-    need(type(program)is TrajectoryAdaptation and B<=step<E and (step-B)%25==0
+    from .fusion_task_phase_live_skill_contract_v9 import terminal_step
+    end=terminal_step(adapter.spec.get('task_condition'))
+    need(type(program)is TrajectoryAdaptation and B<=step<end and (step-B)%25==0
          and program.geometry_scale==1.
          and type(adapter.spec.get('live_skill_time_stretch_factor'))is int
          and program.time_stretch_factor==adapter.spec['live_skill_time_stretch_factor']

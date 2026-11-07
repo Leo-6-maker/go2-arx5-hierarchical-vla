@@ -79,8 +79,9 @@ def validate_spec(spec):
     schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
     need(schedule in(LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT),'EXPLICIT_FROZEN_MODEL_LOAD_SCHEDULE')
     if schedule==PRELOAD_BEFORE_SNAPSHOT:
+        from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as teacher,SHORT_TASK_CONDITION as short_teacher
         need(spec.get('snapshot_binding_mode')==SLOW_LIVE_SKILL_PAIR_BINDING_MODE
-             and spec.get('task_condition')=='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',
+             and spec.get('task_condition')in('BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',teacher,short_teacher),
              'PREREGISTERED_MECHANICAL_PAIR_ONLY_FOR_EARLY_WEIGHT_LOAD')
     if spec.get('snapshot_binding_mode') == BINDING_MODE:
         need(_hash(spec.get('recorded_observation_sha256')), 'PREEXISTING_EXACT_SNAPSHOT_SHA')

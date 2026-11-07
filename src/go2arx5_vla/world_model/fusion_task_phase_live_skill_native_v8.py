@@ -66,6 +66,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9')),
         'EXACT_VERSIONED_GENERATED_SKILL_CONSUMER')
     version='V9' if identity[0].endswith('-v9') else 'V8'
+    end_step=E
+    from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION,endpoint,require_standing
+    if spec.get('task_condition')==SHORT_TASK_CONDITION:
+        end_step=endpoint(SHORT_TASK_CONDITION)
+        need(spec['max_ticks']==end_step,'EXACT_SEPARATE_SHORT_TEACHER_ENDPOINT')
     factor=spec.get('live_skill_time_stretch_factor') if version=='V9' else 2
     need(type(factor)is int and factor in(1,2),
          'EXPLICIT_PREREGISTERED_FULL_H40_TIME_MAPPING')
@@ -132,8 +137,11 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             unused_GR00T_intent=screen_proposal(program,cube)
             program,teacher_reference=build(actual_TCP=actual,initial_reference_TCP=anchor,
                 base_pose_hold=adapter.base_pose_hold,actual_object_pose=cube)
+            if spec.get('task_condition')==SHORT_TASK_CONDITION:
+                from .fusion_task_reference_diagnostic_v1 import SHORT_CONFIG
+                teacher_reference.update(schema=SHORT_CONFIG['schema'],declared_suffix_atoms=SHORT_CONFIG['suffix_atoms'],standing_guard=SHORT_CONFIG['standing_guard'])
             write_json(adapter.output/'GEOMETRIC_TASK_REFERENCE_PROPOSAL.private.json',teacher_reference)
-        need((E-B)//25>=program.end_atom+8,
+        need((end_step-B)//25>=program.end_atom+8,
              'WHOLE_H40_AND_TAIL_MUST_FIT_PREREGISTERED_E_NO_PREFIX_SELECTION')
         clearance=np.linalg.norm(program.desired_path[:,:3]-cube[:3,3],axis=1)
         reference_clearance=np.linalg.norm(program.reference_path[:,:3]-cube[:3,3],axis=1)
@@ -159,8 +167,13 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             else:
                 need(short_intent['qualified'],'WHOLE_GENERATED_SHORT_INTENT_REJECT_KEEP_ALL40_NO_INSTALL')
         adapter.live_skill_program=program
-        suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=E,
-            past_samples=samples,past_windows=windows,sample_observer=lambda s:_noncontact(s,cube))
+        standing_initial=dict(qpos=np.asarray(samples[-1]['qpos'],float).copy())
+        def observe_suffix(sample):
+            _noncontact(sample,cube)
+            if spec.get('task_condition')==SHORT_TASK_CONDITION:
+                require_standing(sample,standing_initial)
+        suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=end_step,
+            past_samples=samples,past_windows=windows,sample_observer=observe_suffix)
         if spec.get('program_reference_selection') is not None:
             selected=adapter.live_skill_program
             need(type(selected)is type(program)
@@ -170,7 +183,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
                  and selected.end_atom==program.end_atom,
                  'ACTUAL_SELECTED_REFERENCE_REPORT_MUST_PRESERVE_FULL_INTENT_AND_CLOCK')
             program=selected
-        total=(E-2503)//25
+        total=(end_step-2503)//25
         rows=all_windows[len(windows):]
         tracking=[float(np.linalg.norm(np.asarray(r['actual_TCP'])[:3,3]
                    -matrix10(np.asarray(r['desired_interval_end_EEF10']))[:3,3]))for r in rows]
@@ -178,7 +191,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         desired_final=matrix10(program.desired_at(program.end_atom))
         reference_final=matrix10(program.preview(program.end_atom)[0])
         complete=dict(copy.deepcopy(report),schema='WM02_NATIVE_GENERATED_GRADED_LIVE_SKILL_'+version,
-            actual_spec_phase=spec['phase'],experiment_role=ROLE,native_endpoint_step=E,
+            actual_spec_phase=spec['phase'],experiment_role=ROLE,native_endpoint_step=end_step,
             desired_outcome_provenance='ACTUAL_FROZEN_VLA_PROPOSAL_NOT_EXPERT_LABEL',
             episode_role=('SLOW_V9_INITIALIZATION_PREFIX_ONLY' if version=='V9'
                           else 'UNCHANGED_V7_INITIALIZATION_PREFIX_ONLY'),
@@ -189,7 +202,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             actual_endpoint_TCP=final.tolist(),
             actual_minus_desired_xyz_m=(final[:3,3]-desired_final[:3,3]).tolist(),
             actual_minus_reference_xyz_m=(final[:3,3]-reference_final[:3,3]).tolist(),
-            task_native_ticks=E-2503,post_decision_atoms=(E-3703)//25,
+            task_native_ticks=end_step-2503,post_decision_atoms=(end_step-3703)//25,
             tail_hold_atoms=8+suffix['extra_final_hold_atoms'],minimum_tail_hold_atoms=8,
             complete_task_atoms=total,solver_target_confirmed_atoms=total,gripper_confirmed_atoms=total,
             windows=all_windows,initialization_all40_knots_consumed=report['all_40_knots_consumed'],
