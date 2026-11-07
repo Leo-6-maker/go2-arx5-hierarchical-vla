@@ -1,0 +1,46 @@
+{
+  "schema": "WM02_QY05_OFFSET_LAUNCH_ACTUAL_V1",
+  "epoch": 1794030907.5341384,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "native_spec_sha256": "85a5eb5fa68fadcaaa498ac370b4e848819e3dfc274a96f67ca9f7de73c706f2",
+  "GPU_spec_sha256": "6b099165e1b11cae7126bac4493a2ea0783329388dab79bb7ddae017c84d7ee9",
+  "native": {
+    "status": "ACTIVE",
+    "MainPID": 3323998,
+    "last_observed_native_step": 45613
+  },
+  "GPU": {
+    "status": "CLOSED",
+    "exit_code": 0,
+    "MainPID": 0,
+    "actual_queries": 1,
+    "result_sha256": "4e850c93f8e1ea813aee4585c723b15c9cfbdccadf3bfad3d57675fb197ffe6e"
+  },
+  "reference_intervention": {
+    "candidate": "Y_PLUS_050",
+    "offset_target_xy_m": [
+      0.0,
+      0.0005
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "source_staging": {
+    "wall_s": 8.163938438985497,
+    "CPU_s": 0.4059351520000014,
+    "source_reused": true,
+    "reused_source_members": 3476,
+    "copied_parent_members": 0,
+    "copied_parent_bytes": 0,
+    "overlay_members": 0,
+    "overlay_written_bytes": 0,
+    "actual_source_bytes_written": 0,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "actual_source_copy_bytes": 0,
+  "dispatch_exit_code": 0,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "model_updates": 0,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002
+}

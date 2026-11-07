@@ -141,14 +141,43 @@ def test_all_frozen_seeds_and_matched_ridge_controls_are_saved_before_effect(tmp
         mode='SHADOW_NO_REFERENCE_CHANGE',training_run=str(root),training_spec_sha256=training_pin,
         training_result_sha256=digest(folder/'RESULT.private.json'),seeds=[1,2],primary_seed=1,
         time_stretch_factor=2,models=models)
-    model=forecast.ShadowForecaster(spec,output)
+    from dataclasses import replace
+    from test_fusion_trajectory_adapter import fixture as program_fixture
+    program=replace(program_fixture(),time_stretch_factor=2)
+    spec['program_response_counterfactual']=copy.deepcopy(forecast.COUNTERFACTUAL_CONFIG)
+    model=forecast.ShadowForecaster(spec,output,program=program)
     assert len(model.models)==8
     _,prefix,decision,_=artifacts()
-    model.save(decision['actual_history'],prefix['windows'][-8:],decision['nominal_reference_path'],install_atom=0)
+    model.save(decision['actual_history'],prefix['windows'][-8:],program.reference_path,install_atom=0)
     saved=json.loads((output/'PROGRAM_FORECASTS/atom-000000.private.json').read_text())
     assert len(saved['predictions'])==11 and '2-SCALED'in saved['predictions']
     assert all(name in saved['predictions']for name in forecast.RIDGE_ARMS)
     assert saved['native_effects_since_anchor']==0 and saved['reference_changes']==0
+    choices=json.loads((output/'PROGRAM_FORECASTS/candidate-choices-at-B.private.json').read_text())
+    assert list(choices['candidates'])==forecast.COUNTERFACTUAL_CONFIG['candidates']
+    assert len(choices['models'])==8 and len(choices['model_selected_candidate'])==11
+    assert choices['actual_reference_changes']==0 and choices['future_observations_read']is False
+    assert choices['unexecuted_estimates_are_actual_labels']is False
+    assert len(set(choices['candidates'][c]['feature_sha256']for c in choices['candidates']))==5
+    for seed in (1,2):
+        values=[choices['candidates'][c]['predictions'][str(seed)+'-NO_FUTURE_ACTION']for c in choices['candidates']]
+        assert all(np.array_equal(v,values[0])for v in values)
+    assert model.counterfactual_record['sha256']==digest(output/'PROGRAM_FORECASTS/candidate-choices-at-B.private.json')
+    before=(output/'PROGRAM_FORECASTS/candidate-choices-at-B.private.json').read_bytes()
+    different_path=program.reference_path.copy();different_path[:,0]+=.001
+    with pytest.raises(ValueError,match='MUST_EQUAL_ACTUAL_PRE_EFFECT_PROGRAM'):
+        model.save(decision['actual_history'],prefix['windows'][-8:],different_path,install_atom=0)
+    assert (output/'PROGRAM_FORECASTS/candidate-choices-at-B.private.json').read_bytes()==before
     spec['program_response_forecast']['models']=models[:-1]
     with pytest.raises(ValueError,match='EXPLICIT_NEW_DEV_SCOPE'):
         forecast.validate_registration(spec)
+
+
+def test_old_v1_registration_does_not_enable_new_candidate_choice_shadow(tmp_path,monkeypatch):
+    from dataclasses import replace
+    from test_fusion_trajectory_adapter import fixture as program_fixture
+    spec,output,_=shadow_files(tmp_path,monkeypatch)
+    spec['program_response_counterfactual']=copy.deepcopy(forecast.COUNTERFACTUAL_CONFIG)
+    with pytest.raises(ValueError,match='SHADOW_ONLY'):
+        forecast.ShadowForecaster(spec,output,program=replace(program_fixture(),time_stretch_factor=2))
+    assert not(output/'PROGRAM_FORECASTS').exists()

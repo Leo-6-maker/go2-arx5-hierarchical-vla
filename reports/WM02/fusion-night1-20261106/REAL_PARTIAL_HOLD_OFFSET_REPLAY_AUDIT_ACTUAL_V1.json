@@ -1,0 +1,91 @@
+{
+  "results": [
+    {
+      "run": "fusion-night1-live-program-train-t02-01",
+      "original_native_exit_code": 1,
+      "anchors": 42,
+      "actual_valid_label_atoms": 661,
+      "first_anchor": {
+        "valid_labels": 16,
+        "feature_dimensions": 1614,
+        "model_input_names": [
+          "measured_EEF_history",
+          "past_consumed_reference_error",
+          "past_reference_age_at_atom_start_s",
+          "planned_install_offsets_s",
+          "planned_install_source_ages_s",
+          "planned_published_H40",
+          "prospective_install_clock",
+          "robot_history"
+        ],
+        "actual_H16_TCP_displacement_L2_m": 0.007521280824220073
+      },
+      "post_query_HOLD_control": false,
+      "actual_window_count": 294,
+      "label_mismatches": []
+    },
+    {
+      "run": "fusion-night1-program-response-qh02-01",
+      "original_native_exit_code": 1,
+      "anchors": 184,
+      "actual_valid_label_atoms": 2933,
+      "first_anchor": {
+        "valid_labels": 16,
+        "feature_dimensions": 1614,
+        "model_input_names": [
+          "measured_EEF_history",
+          "past_consumed_reference_error",
+          "past_reference_age_at_atom_start_s",
+          "planned_install_offsets_s",
+          "planned_install_source_ages_s",
+          "planned_published_H40",
+          "prospective_install_clock",
+          "robot_history"
+        ],
+        "actual_H16_TCP_displacement_L2_m": 8.779719808134114e-05
+      },
+      "post_query_HOLD_control": true,
+      "actual_window_count": 1288,
+      "label_mismatches": []
+    },
+    {
+      "run": "fusion-night1-program-response-qx05-01",
+      "original_native_exit_code": 0,
+      "anchors": 184,
+      "actual_valid_label_atoms": 2933,
+      "first_anchor": {
+        "valid_labels": 16,
+        "feature_dimensions": 1614,
+        "model_input_names": [
+          "measured_EEF_history",
+          "past_consumed_reference_error",
+          "past_reference_age_at_atom_start_s",
+          "planned_install_offsets_s",
+          "planned_install_source_ages_s",
+          "planned_published_H40",
+          "prospective_install_clock",
+          "robot_history"
+        ],
+        "actual_H16_TCP_displacement_L2_m": 0.006655559570592832
+      },
+      "post_query_HOLD_control": false,
+      "actual_window_count": 1288,
+      "label_mismatches": []
+    }
+  ],
+  "wall_s": 10.991292517632246,
+  "CPU_s": 4.015471863999999,
+  "new_physics": 0,
+  "new_queries": 0,
+  "new_updates": 0,
+  "schema": "WM02_REAL_PARTIAL_HOLD_OFFSET_CAUSAL_REPLAY_AUDIT_V1",
+  "actual_extractor_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "roles": "Original TRAIN only; native failures remain failures.",
+  "independent_layouts": 1,
+  "overlapping_anchors_are_independent": false,
+  "checkpoint_updates": 0,
+  "complete_WBC_hidden_state_restored": false,
+  "command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/audit_actual_partial_hold_offset_replay01.py\" 180",
+  "exit_code": 0,
+  "reader_sha256": "521d5a72436bdb2aa0e17183d716bb4733c397586dbae8474e862eb37bffb83e"
+}

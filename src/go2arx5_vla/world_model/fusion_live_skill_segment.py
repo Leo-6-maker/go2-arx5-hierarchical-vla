@@ -218,7 +218,9 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
     try:
         if adapter.spec.get('program_response_forecast') is not None:
             from .fusion_program_forecast_v1 import ShadowForecaster
-            forecaster=ShadowForecaster(adapter.spec,adapter.output)
+            forecaster=(ShadowForecaster(adapter.spec,adapter.output,program=program)
+                if adapter.spec.get('program_response_counterfactual')is not None
+                else ShadowForecaster(adapter.spec,adapter.output))
             report.update(learned_models_loaded=len(forecaster.models),
                 shadow_forecast_records=forecaster.records,model_reference_changes=0)
         # A previous cancel/query leaves no usable live reference: always install.
@@ -299,7 +301,10 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         if program.reference_intervention is not None:
             report.update(all_declared_reference_knot_times_consumed=True,post_query_HOLD_control=hold,
                 reference_intervention=program.reference_intervention.document())
-        if forecaster is not None:report['shadow_forecast_wall_s']=forecaster.wall_s
+        if forecaster is not None:
+            report['shadow_forecast_wall_s']=forecaster.wall_s
+            if getattr(forecaster,'counterfactual_record',None)is not None:
+                report['shadow_counterfactual_program_choices']=forecaster.counterfactual_record
         write_json(result_path, report)
         return report, samples, windows
     except Exception as error:

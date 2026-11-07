@@ -11,6 +11,9 @@ from .fusion_live_program_replay_v1 import SCHEMA, B, flatten_features
 from .fusion_program_response_numpy_v1 import predict
 
 RIDGE_ARMS=('TRAIN_RIDGE_FULL_PROGRAM','TRAIN_RIDGE_NO_FUTURE_ACTION')
+COUNTERFACTUAL_CONFIG=dict(schema='WM02_PROGRAM_COUNTERFACTUAL_SHADOW_V1',
+    candidates=['NOMINAL','X_PLUS_050','X_MINUS_050','Y_PLUS_050','Y_MINUS_050'],
+    objective='H16_GENERATED_DESIRED_TCP_TRANSLATION',actual_reference_changes=0)
 
 
 def causal_record(history, past_windows, reference_path, *, install_atom):
@@ -53,6 +56,40 @@ def forecasts(record, models):
     return result
 
 
+def counterfactual_program_choices(history,past_windows,program,models):
+    """Score a fixed TRAIN-covered reference family before the first effect.
+
+    These unexecuted alternatives are model estimates, never dynamics labels.
+    Their ranking changes no reference and is not native action qualification.
+    """
+    from dataclasses import replace
+    from .fusion_program_reference_intervention_v1 import SCHEMA,OFFSETS
+    from .fusion_live_causal_features_v1 import _rotation6
+    state=np.asarray(history['actual_state_history'][-1],float)
+    rotation=_rotation6(state[89:95],columns=True)
+    goal=rotation.T@(program.desired_at(16)[:3]-state[86:89])
+    result={};raw=np.asarray(program.decoded_H40).copy();desired=np.asarray(program.desired_path).copy()
+    for candidate in COUNTERFACTUAL_CONFIG['candidates']:
+        intervention=dict(schema=SCHEMA,candidate=candidate,offset_target_xy_m=list(OFFSETS[candidate]),ramp_atoms=16)
+        alternative=replace(program,reference_intervention=intervention)
+        if (not np.array_equal(raw,alternative.decoded_H40)
+                or not np.array_equal(desired,alternative.desired_path)):
+            raise ValueError('COUNTERFACTUAL_SHARED_FULL_RAW_INTENT_AND_DESIRED_REQUIRED')
+        record=causal_record(history,past_windows,alternative.reference_path,install_atom=0)
+        predictions=forecasts(record,models)
+        result[candidate]=dict(reference_intervention=intervention,
+            reference_path_sha256=alternative.evidence()['reference_path']['sha256'],
+            feature_sha256=record['feature_sha256'],predictions=predictions,
+            predicted_H16_TCP_error_m={name:float(np.linalg.norm(y[15,:3]-goal))for name,y in predictions.items()})
+    names=list(next(iter(result.values()))['predictions'])
+    selected={name:min(result,key=lambda candidate:result[candidate]['predicted_H16_TCP_error_m'][name])for name in names}
+    return dict(schema='WM02_PROGRAM_COUNTERFACTUAL_PRE_EFFECT_ESTIMATES_V1',native_step=B,
+        goal_H16_TCP_displacement_in_current_TCP_frame_m=goal,candidates=result,
+        model_selected_candidate=selected,actual_reference_changes=0,
+        future_observations_read=False,unexecuted_estimates_are_actual_labels=False,
+        candidate_scores_are_native_qualification=False)
+
+
 def validate_registration(spec):
     config=spec.get('program_response_forecast')
     if config is None:return None
@@ -86,13 +123,21 @@ def validate_registration(spec):
 
 class ShadowForecaster:
     """Authenticate one CLOSED training result; save forecasts before effects."""
-    def __init__(self,spec,output):
+    def __init__(self,spec,output,*,program=None):
         import json,subprocess,time
         from pathlib import Path
         from .storage import digest
         from .pilot1_storage import local_path
         config=validate_registration(spec)
         if config is None:raise ValueError('SHADOW_FORECAST_NOT_REGISTERED')
+        self.counterfactual_program=None;self.counterfactual_record=None
+        if spec.get('program_response_counterfactual') is not None:
+            if (spec['program_response_counterfactual']!=COUNTERFACTUAL_CONFIG
+                    or config['schema']!='WM02_PROGRAM_RESPONSE_SHADOW_FORECAST_V2'
+                    or program is None or program.geometry_scale!=1.
+                    or program.time_stretch_factor!=2):
+                raise ValueError('DECLARED_SHARED_TIME2_PROGRAM_COUNTERFACTUAL_SHADOW_ONLY')
+            self.counterfactual_program=program
         root=Path(config['training_run']);self.output=Path(output)/'PROGRAM_FORECASTS'
         self.records=[];self.models={};self.identities=[];self.wall_s=0.
         def pinned(path,pin,*,json_file=True):
@@ -166,6 +211,14 @@ class ShadowForecaster:
         start=time.monotonic()
         record=causal_record(history,past_windows,reference_path,install_atom=install_atom)
         prediction=forecasts(record,self.models)
+        if install_atom==0 and self.counterfactual_program is not None:
+            if not np.array_equal(reference_path,self.counterfactual_program.reference_path):
+                raise ValueError('COUNTERFACTUAL_PROGRAM_MUST_EQUAL_ACTUAL_PRE_EFFECT_PROGRAM')
+            cf=counterfactual_program_choices(history,past_windows,self.counterfactual_program,self.models)
+            cfpath=self.output/'candidate-choices-at-B.private.json'
+            write_json(cfpath,dict(cf,models=self.identities))
+            self.counterfactual_record=dict(filename=cfpath.name,sha256=digest(cfpath),
+                actual_reference_changes=0,unexecuted_estimates_are_actual_labels=False)
         path=self.output/('atom-%06d.private.json'%install_atom)
         write_json(path,dict(schema='WM02_LIVE_PROGRAM_PRE_EFFECT_FORECAST_V1',**record,
             predictions=prediction,models=self.identities,reference_changes=0,
