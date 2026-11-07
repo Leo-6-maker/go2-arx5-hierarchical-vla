@@ -1,0 +1,168 @@
+{
+  "schema": "WM02_REFERENCE_DIRECT_REPORT_FAILURE_AND_RECOVERY_ACTUAL_V1",
+  "epoch": 1794040252.3846056,
+  "original_execution_source_sha": "93ad6aab3a251c55f11c372bf9e86f1c64c453aa",
+  "repair_code_source_sha": "c4c8b583c7034cf48bba28b58177924d9edea7b2",
+  "original_native_exit_code": 1,
+  "GPU_exit_code": 0,
+  "both_MainPID": 0,
+  "original_failure": "TypeError: Object of type ndarray is not JSON serializable",
+  "mechanism": "The in-memory selector report carried NumPy preview/prediction arrays into the unchanged outer strict durable JSON writer after the full physical suffix. Normalize that report to JSON values at the selector boundary; no action/model/WBC changes.",
+  "actual_native_integrations": 66503,
+  "actual_confirmed_suffix_atoms": 1288,
+  "actual_full_raw40_consumed": true,
+  "actual_VLA_queries": 1,
+  "actual_reference_changes": 0,
+  "original_native_result_sha256": "4f12790974f16a4e5fead86ee7b5ecb6b0748011388220e9775f04ff90fd01d9",
+  "original_segment_sha256": "2c9cef5e4fa3934c3604ce871dbdf7aef480d88e47c75e44d8760acd192ed46a",
+  "source_native_spec_sha256": "41041652840a8c7da17ac1a1c061f8b9044cf57e4f2184addb64f4a10390e8f5",
+  "original_trace": {
+    "PD_callbacks_recorded": 47951,
+    "STOP_observed": false,
+    "errors": [],
+    "full_payload_records": 6651,
+    "full_payloads_not_retained": 0,
+    "input_files_sha256": {
+      "init.trace": "3e68cad3e9238e8221ea57344c9c7a86c3118b9b95a28ad51ba67af58ea218fd",
+      "init.trace.snapshots": "b505c97fa7ffea42841e6cc182187ecdc811fb2a2f45568c583ad9458fc124f1",
+      "init.trace.summary": "014b0a4cec5f81d07e3077caffe47692851ee013f2d986a39065a0680e71bf77"
+    },
+    "integrations_after_first_STOP": null,
+    "missing": [],
+    "native_step_records": 66503,
+    "records": 490884,
+    "status": "RECORDED_TRACE_CHECKS_PASS",
+    "writer": {
+      "dropped": 0,
+      "events": 490884,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 490884
+    }
+  },
+  "original_cleanup": {
+    "all_four_children_exit_zero": true,
+    "owned_process_exits": [
+      {
+        "exit_code": 0,
+        "label": null,
+        "name": "planner",
+        "returncode": null
+      },
+      {
+        "exit_code": 0,
+        "label": null,
+        "name": "controller",
+        "returncode": null
+      },
+      {
+        "exit_code": 0,
+        "label": null,
+        "name": "solver",
+        "returncode": null
+      },
+      {
+        "exit_code": 0,
+        "label": null,
+        "name": "sim",
+        "returncode": null
+      }
+    ],
+    "physics_stop_count": 0,
+    "physics_stop_summaries": []
+  },
+  "saved_forecasts": 184,
+  "scored_forecasts": 184,
+  "valid_H16_labels": 2933,
+  "recovered_observed_outcome": {
+    "schema": "WM02_ORIGINAL_DIRECT_OBSERVED_OUTCOME_RECOVERY_V1",
+    "original_native_exit_code": 1,
+    "original_failure_unchanged": true,
+    "confirmed_suffix_atoms": 1288,
+    "all40_actual_consumption": true,
+    "H16_actual_minus_desired_L2_m": 0.0035964217421753973,
+    "final_actual_minus_desired_L2_m": 0.0027235176170191298,
+    "observed_task_geometry": {
+      "schema": "WM02_RECOVERED_ORIGINAL_SHORT_GEOMETRY_ONLY_V1",
+      "metrics": {
+        "signed_progress_m": 0.0024985809868291447,
+        "precontact_distance_reduction_m": 0.002451039083048376,
+        "maximum_lateral_drift_m": 0.006141391720527582,
+        "maximum_TCP_excursion_m": 0.00855667420699055,
+        "minimum_finger_opening_m": 0.04161437330455649,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0018414236725223347,
+        "maximum_base_rotation_rad": 0.005008911137162007,
+        "final_hold_TCP_diameter_m": 4.9349826795311304e-05,
+        "final_hold_TCP_max_speed_m_s": 0.0008163619958096327
+      },
+      "predicates": {
+        "signed_progress": true,
+        "distance_reduction": true,
+        "lateral": false,
+        "excursion": true,
+        "open": true,
+        "object_still": true,
+        "base_still": true,
+        "base_orientation": true,
+        "hold": true
+      },
+      "approach_step_success": false,
+      "geometry_failure_proves_task_failure": true,
+      "original_complete_strict_score_recovered": false,
+      "unavailable_sample_flags": [
+        "safety_valid",
+        "native_abort",
+        "robot_object_contact"
+      ],
+      "unavailable_flags_not_fabricated": true,
+      "full_task_success": false,
+      "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+    },
+    "new_model_evaluations": 0,
+    "new_physics": 0,
+    "new_updates": 0,
+    "native_safety_evidence_is_separate_from_missing_sample_flags": true
+  },
+  "recovery_module_sha256": "d14a07ab49733a4a0973a9119dc282bd14862d70500a283f9fc4d79d5579651c",
+  "readonly_scoring_cost": {
+    "wall_s": 2.696598599664867,
+    "own_CPU_s": 0.003990575999999999,
+    "child_CPU_s": 2.623755,
+    "child_peak_RSS_KiB": 431896
+  },
+  "repeated_physics": 0,
+  "new_model_evaluations_by_scorer": 0,
+  "new_updates": 0,
+  "repair_validation": [
+    {
+      "test": "selector/consumer/common native regression",
+      "mode": "normal",
+      "passed": 140,
+      "wall_s": 7.21
+    },
+    {
+      "test": "selector/consumer/common native regression",
+      "mode": "optimized",
+      "passed": 140,
+      "wall_s": 7.52
+    },
+    {
+      "test": "outcome recovery and real JSON forecast report",
+      "mode": "normal",
+      "passed": 18,
+      "wall_s": 0.96
+    },
+    {
+      "test": "outcome recovery and real JSON forecast report",
+      "mode": "optimized",
+      "passed": 18,
+      "wall_s": 1.1
+    }
+  ],
+  "native_public_report": "REFERENCE_COMPARE_B1_DIRECT_NATIVE_ACTUAL_V1.json",
+  "prediction_public_report": "REFERENCE_COMPARE_B1_DIRECT_PREDICTION_ACTUAL_V2.json",
+  "scientific_limit": "Original native pipeline FAIL remains in J_safe/denominator. Recovered observed tracking/geometry does not upgrade the episode. Missing sample safety booleans remain unavailable, and no complete original strict task score is invented.",
+  "next": "Continue the original B1 LINEAR row through a fresh finite owner scope using the serialization repair; do not repeat DIRECT.",
+  "original_cutoff_epoch": 1794051261.7397933
+}
