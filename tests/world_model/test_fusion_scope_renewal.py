@@ -147,7 +147,30 @@ def test_data_volume_writer_cannot_write_other_lease_or_device(tmp_path):
     with actual_context(), pytest.raises(PermissionError, match='EXACT_QUALIFIED'):
         close_data_volume_window(path, dict(fusion, status='CLOSED'), request['old_fusion_lease_sha256'],
                                  dict(request, qualified_storage_device=-1))
+    other=tmp_path/'unregistered/LEASE.json';other.parent.mkdir();other.write_text('{}')
     with actual_context(), pytest.raises(PermissionError, match='EXACT_QUALIFIED'):
-        close_data_volume_window(Path(request['old_pilot_binding']).parent/'LEASE.json',
-                                 dict(pilot, status='CLOSED'), request['old_pilot_lease_sha256'], request)
+        close_data_volume_window(other,dict(pilot,status='CLOSED'),request['old_pilot_lease_sha256'],request)
     assert path.read_bytes() == before
+
+
+def test_expired_pilot_on_same_qualified_volume_uses_original_writer(tmp_path):
+    request,parent,pilot,fusion=fixtures(tmp_path)
+    path=Path(request['old_pilot_binding']).parent/'LEASE.json'
+    with actual_context():
+        close_data_volume_window(path,dict(pilot,status='CLOSED'),request['old_pilot_lease_sha256'],request)
+    assert json.loads(path.read_bytes())==dict(pilot,status='CLOSED')
+
+
+@pytest.mark.parametrize('exit_code',[0,1])
+def test_terminal_failure_is_not_relabelled_as_success_or_a_renewal_block(tmp_path,exit_code):
+    request,*_=fixtures(tmp_path);root=tmp_path/'last-run';(root/'control').mkdir(parents=True)
+    def put(path,value):
+        path.write_text(json.dumps(value));return hashlib.sha256(path.read_bytes()).hexdigest()
+    spec=put(root/'EXECUTION_SPEC.json',dict(campaign_root=request['campaign_root']))
+    lease=put(root/'control/LEASE.json',dict(status='CLOSED',spec_sha256=spec,worker_exit_code=exit_code))
+    worker=put(root/'WORKER_EXIT.private.json',dict(exit_code=exit_code))
+    request['latest_terminal_runs']=[dict(root=str(root),spec_sha256=spec,lease_sha256=lease,worker_sha256=worker)]
+    terminal=SimpleNamespace(returncode=0,stdout='0\n')
+    with actual_context(),patch('scripts.wm02.renew_fusion_scope.subprocess.run',return_value=terminal):
+        preflight(request)
+    assert json.loads((root/'WORKER_EXIT.private.json').read_bytes())['exit_code']==exit_code

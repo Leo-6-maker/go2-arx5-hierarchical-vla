@@ -68,7 +68,8 @@ def close_data_volume_window(path, value, pin, request):
     """
     from scripts.pi0292.durable import write
     path = Path(path)
-    need(path == Path(request['old_fusion_binding']).parent/'LEASE.json'
+    need(path in {Path(request[name]).parent/'LEASE.json'
+                  for name in ('old_fusion_binding','old_pilot_binding')}
          and path.stat().st_dev == request['qualified_storage_device'],
          'EXACT_QUALIFIED_DATA_VOLUME_SUPPLEMENT_ONLY')
     before, _ = load(path, pin)
@@ -115,7 +116,9 @@ def preflight(request):
         spec, _ = load(root/'EXECUTION_SPEC.json', row['spec_sha256'])
         lease, _ = load(root/'control/LEASE.json', row['lease_sha256'])
         worker, _ = load(root/'WORKER_EXIT.private.json', row['worker_sha256'])
-        need(lease.get('status') == 'CLOSED' and worker.get('exit_code') == 0
+        need(lease.get('status') == 'CLOSED'
+             and type(worker.get('exit_code')) is int and worker['exit_code'] >= 0
+             and lease.get('worker_exit_code') == worker['exit_code']
              and lease.get('spec_sha256') == row['spec_sha256']
              and spec['campaign_root'] == str(campaign), 'LATEST_PAIR_CLOSED_AND_BOUND')
         unit = subprocess.run(['systemctl', '--user', 'show', 'wm02-'+root.name,
@@ -176,7 +179,7 @@ def renew(path, *, execute=False):
             journal.once(key+'-'+label, dict(request_sha256=request_sha, before_sha256=pin),
                          lambda target=target, value=value, pin=pin, label=label:
                          close_data_volume_window(target, value, pin, request)
-                         if label == 'OLD-FUSION-CLOSE' else
+                         if target.stat().st_dev == request['qualified_storage_device'] else
                          once(target, value, key+'-'+label, expected_before_sha256=pin))
         updated = dict(parent, deadline_epoch=request['parent_deadline_epoch'],
                        previous_deadline_epoch=parent['deadline_epoch'],
