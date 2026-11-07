@@ -19,6 +19,19 @@ ROBOT='1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed'
 CALIBRATION_SCENE='40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2'
 WRAPPER='WM02_C01_ACTUAL_SCENE_AND_NOMINAL_CALIBRATION_PREFIX_V1'
 CAPTURE_DISTANCE_M=(.07,.09)
+NOMINAL_REFERENCE_SHA='f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85'
+
+
+def nominal_reference(reference):
+    from scripts.pi0292.relay_protocol import unseal
+    from . import fusion_task_phase_initialization as original
+    need(set(reference)=={'path','sha256'}and reference['sha256']==NOMINAL_REFERENCE_SHA,'DECLARED_NOMINAL_CALIBRATION_EVIDENCE')
+    path=Path(reference['path']);need(path.is_absolute()and path.resolve()==path and not path.is_symlink()and digest(path)==NOMINAL_REFERENCE_SHA,'EXACT_PRIOR_CALIBRATION_BINDING')
+    saved=json.loads(path.read_bytes());body=unseal(saved['frozen_input'])
+    inputs=dict(frozen=saved['frozen_input'],raw=np.repeat(original.pose10(np.asarray(body['full_goal_TCP_target']),original.OPEN)[None],40,axis=0),provenance=original._provenance(body))
+    original._inputs(inputs)
+    need(body['scene_sha256']==CALIBRATION_SCENE and saved['actual_VLA_commands']==0,'CALIBRATION_INTENT_NOT_ACHIEVED_EXPERT_ACTION')
+    return np.asarray(body['frozen_cube_pose_target'],float)
 
 
 def need(ok,why):
@@ -34,10 +47,11 @@ def scene(spec):
          and all(spec.get(k)is None for k in ('task_reference_diagnostic','program_response_forecast','program_response_counterfactual','program_reference_intervention','program_reference_selection')),
          'DISTINCT_DIAGNOSTIC_QUERY_ONLY_SCOPE')
     binding=spec.get('source_phase_scene_binding')or{}
-    need(set(binding)=={'scene_id','parent','model_sha256','static_result','static_result_sha256'}
+    need(set(binding)=={'scene_id','parent','model_sha256','static_result','static_result_sha256','nominal_calibration_goal_binding','nominal_calibration_goal_binding_sha256'}
          and binding['scene_id']==SCENE_ID and binding['parent']==PARENT
          and binding['model_sha256']==SCENE and binding['static_result_sha256']==STATIC,
          'EXACT_COMPILED_STATIC_SCENE_BINDING_NOT_PERMISSION')
+    nominal_reference(dict(path=binding['nominal_calibration_goal_binding'],sha256=binding['nominal_calibration_goal_binding_sha256']))
     proof=Path(binding['static_result']);model=Path(spec['model_path'])
     need(all(p.is_absolute()and p.resolve()==p and not p.is_symlink()for p in (proof,model))
          and digest(proof)==STATIC and digest(model)==SCENE,'EXACT_PRIVATE_STATIC_AND_MODEL_BYTES')
@@ -61,6 +75,7 @@ def scene(spec):
 def episode(run):
     from .fusion_task_phase_pose_slow_feedback_v9 import make_episode
     return dict(schema=WRAPPER,run=str(run),actual_scene_id=SCENE_ID,actual_scene_sha256=SCENE,
+        nominal_calibration_goal_binding_sha256=NOMINAL_REFERENCE_SHA,
         role='NOMINAL_T06_REFERENCE_RECIPE_WITH_SEPARATELY_DECLARED_C01_PHYSICAL_SCENE',
         calibration_prefix_recipe=make_episode(run=str(run),geometry_scale=.5))
 

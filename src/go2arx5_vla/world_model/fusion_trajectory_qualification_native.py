@@ -160,7 +160,8 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
                  ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'))
              and adapter.spec.get('live_skill_start_step') == end_step
              and type(adapter.spec.get('max_ticks')) is int
-             and end_step < adapter.spec['max_ticks'] <= 66503
+             and (end_step < adapter.spec['max_ticks'] <= 66503 or
+                 (adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'and adapter.spec['max_ticks']==end_step==34303))
              and (adapter.spec['max_ticks']-end_step) % 25 == 0
              and not getattr(adapter, 'trace_sealed', False),
              'EXPLICIT_V8_PREREGISTERED_QUERY_BOUNDARY_AND_FINAL_ENDPOINT')

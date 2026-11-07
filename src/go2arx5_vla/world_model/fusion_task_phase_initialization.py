@@ -78,7 +78,7 @@ def _full_goal(cube, source_state, frame):
 
 
 def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_decision_state,
-                T_source_from_target, scene_sha256):
+                T_source_from_target, scene_sha256,nominal_calibration_reference=None):
     """Bind a caller's measured ActualState witness to the exact 3703 packet.
 
     This validates source bytes, packet ABI/clock and identical qpos/qvel/ctrl.
@@ -109,8 +109,14 @@ def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_dec
     for k in ('qpos','qvel','ctrl'):
         need(np.array_equal(np.asarray(state[k]),packet[k]), 'SAME_MEASURED_PACKET_'+k)
     tcp, cube, frame = rigid(state['tcp']), rigid(state['object_pose']), rigid(T_source_from_target)
-    need(scene_sha256==SCENE and transform_hash(frame)==FRAME_MAP, 'UNCHANGED_T06_SCENE_AND_FC347_FRAME')
-    goal = _full_goal(cube, source['state_eef10'], frame)
+    nominal=None
+    if nominal_calibration_reference is not None:
+        from .fusion_source_phase_c01 import SCENE as actual_scene,nominal_reference
+        need(scene_sha256==actual_scene,'EXACT_DECLARED_C01_SCENE')
+        nominal=nominal_reference(nominal_calibration_reference)
+    else:need(scene_sha256==SCENE,'UNCHANGED_T06_SCENE')
+    need(transform_hash(frame)==FRAME_MAP, 'UNCHANGED_T06_SCENE_AND_FC347_FRAME')
+    goal = _full_goal(cube if nominal is None else nominal, source['state_eef10'], frame)
     body = dict(schema=INPUT_SCHEMA,decision_packet_sha256=_sha(decision_packet_bytes),
         decision_step=DECISION_STEP,decision_time_s=packet['time_s'],scene_sha256=scene_sha256,
         frame_map_sha256=FRAME_MAP,T_source_from_target=frame.tolist(),
@@ -121,26 +127,42 @@ def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_dec
         full_goal_TCP_target=goal.tolist(),full_goal_TCP_sha256=_matrix_sha(goal),
         actual_state_vector_sha256=_sha(np.concatenate([packet[k] for k in ('qpos','qvel','ctrl')]).astype('<f8').tobytes()),
         actual_cube_binding=FK_BINDING)
+    if nominal is not None:
+        body.update(schema=INPUT_SCHEMA+'_C01_NOMINAL_CALIBRATION',
+            nominal_calibration_reference=copy.deepcopy(nominal_calibration_reference),
+            nominal_calibration_cube_pose_target=nominal.tolist(),nominal_calibration_cube_pose_sha256=_matrix_sha(nominal))
     raw = np.repeat(pose10(goal,OPEN)[None],40,axis=0)
     return dict(frozen=sealed(body),raw=_immutable(raw),provenance=_provenance(body))
 
 
 def _provenance(body):
-    return dict(purpose=PURPOSE,experiment_role='NON_VLA_CALIBRATION',desired_outcome_provenance='CALIBRATION_INTENT',
+    value=dict(purpose=PURPOSE,experiment_role='NON_VLA_CALIBRATION',desired_outcome_provenance='CALIBRATION_INTENT',
         source_observation_sha256=body['source_observation_sha256'],decision_packet_sha256=body['decision_packet_sha256'],
         frozen_cube_pose_sha256=body['frozen_cube_pose_sha256'],full_goal_TCP_sha256=body['full_goal_TCP_sha256'],
         frame_map_sha256=body['frame_map_sha256'],source_pose_is_expert_action_label=False,
         raw_generated_H40=True,raw_is_VLA_action=False,object_and_goal_are_policy_inputs=False,
         original_source_observation_unmodified=True,actual_cube_FK_verified_by_this_module=False,
         native_execution_authorized=False,GR00T_updates=0,WM_updates=0,Actor_updates=0)
+    if body['schema']==INPUT_SCHEMA+'_C01_NOMINAL_CALIBRATION':
+        value.update(purpose='FIXED_T06_CALIBRATION_REFERENCE_IN_DISTINCT_C01_ACTUAL_SCENE',
+            actual_cube_is_not_replaced_by_nominal_calibration_cube=True,
+            nominal_calibration_goal_binding_sha256=body['nominal_calibration_reference']['sha256'])
+    return value
 
 
 def _inputs(inputs):
     need(isinstance(inputs,dict) and set(inputs)=={'frozen','raw','provenance'}, 'EXACT_CALIBRATION_INPUT_FIELDS')
     body = unseal(inputs['frozen'])
-    need(set(body)==INPUT_KEYS and body['schema']==INPUT_SCHEMA
+    c01=body.get('schema')==INPUT_SCHEMA+'_C01_NOMINAL_CALIBRATION'
+    expected_keys=INPUT_KEYS;actual_scene=SCENE;nominal=None
+    if c01:
+        from .fusion_source_phase_c01 import SCENE as actual_scene,nominal_reference
+        expected_keys=INPUT_KEYS|{'nominal_calibration_reference','nominal_calibration_cube_pose_target','nominal_calibration_cube_pose_sha256'}
+        nominal=nominal_reference(body['nominal_calibration_reference'])
+        need(np.array_equal(nominal,np.asarray(body['nominal_calibration_cube_pose_target']))and _matrix_sha(nominal)==body['nominal_calibration_cube_pose_sha256'],'DECLARED_NOMINAL_REFERENCE_NOT_ACTUAL_OBJECT_SUBSTITUTION')
+    need(set(body)==expected_keys and body['schema']==INPUT_SCHEMA+('_C01_NOMINAL_CALIBRATION'if c01 else'')
          and body['actual_cube_binding']==FK_BINDING
-         and body['scene_sha256']==SCENE and body['frame_map_sha256']==FRAME_MAP
+         and body['scene_sha256']==actual_scene and body['frame_map_sha256']==FRAME_MAP
          and transform_hash(body['T_source_from_target'])==FRAME_MAP
          and body['source_observation_sha256']==SOURCE_OBSERVATION
          and body['source_payload_sha256']==SOURCE_PAYLOAD
@@ -154,7 +176,7 @@ def _inputs(inputs):
          'FROZEN_ACTUAL_3703_PACKET_IDENTITY')
     need(_matrix_sha(body['decision_TCP_target'])==body['decision_TCP_sha256']
          and _matrix_sha(body['frozen_cube_pose_target'])==body['frozen_cube_pose_sha256'], 'FROZEN_MEASURED_POSES')
-    goal = _full_goal(body['frozen_cube_pose_target'],body['source_state_eef10'],body['T_source_from_target'])
+    goal = _full_goal(body['frozen_cube_pose_target']if nominal is None else nominal,body['source_state_eef10'],body['T_source_from_target'])
     need(np.array_equal(goal,np.asarray(body['full_goal_TCP_target']))
          and _matrix_sha(goal)==body['full_goal_TCP_sha256']
          and np.array_equal(inputs['raw'],np.repeat(pose10(goal,OPEN)[None],40,axis=0))

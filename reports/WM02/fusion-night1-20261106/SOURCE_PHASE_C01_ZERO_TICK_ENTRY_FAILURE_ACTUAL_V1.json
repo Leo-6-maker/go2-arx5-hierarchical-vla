@@ -1,0 +1,102 @@
+{
+  "schema": "WM02_C01_ZERO_TICK_ENTRY_FAILURE_ACTUAL_V1",
+  "epoch": 1794047775.9316876,
+  "source_sha": "cd6eda2b0e0f923f5b2af4c65c1707464a8fc1e3",
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "native_spec_sha256": "59d7a2dd46207d12a7747b91e616389c196520c7e9b61445c00622703187dcdc",
+  "GPU_spec_sha256": "e3be53aed3b70ab083166cec53ec068175ea97cab37c2c39777d50a4617ea076",
+  "native_result_sha256": "d15cc479ff9779ef8748509c25b9c31e9cb03e18628662e3689cb67974d130c5",
+  "GPU_failure_sha256": "2c31a84ceb576f43d9e0808f4e05d101cf093fd095066c5c594d93ac1f32b96e",
+  "native_exit_code": 1,
+  "GPU_exit_code": 1,
+  "actual_native_worker_attempts": 1,
+  "actual_native_integrations": 0,
+  "actual_atomic_transitions": 0,
+  "actual_physical_restarts": 0,
+  "actual_generation_invocations": 0,
+  "actual_queries": 0,
+  "actual_raw_H40_consumptions": 0,
+  "actual_updates": 0,
+  "native_failure": "last):\n  File \"<PRIVATE_PATH>\", line 15, in run\n    elif adapter.dynamic_phase():adapter.dynamic_diagnostic();reached=True\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 483, in dynamic_diagnostic\n    return run(self)\n           ^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 46, in run\n    return run_feedback_program(adapter,episode,source,recipe_module=prefix,actual_phase=PHASE,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 181, in run_feedback_program\n    return run_initialization_program(adapter, episode, source, recipe_module=recipe,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 212, in run_initialization_program\n    return run_program(adapter, episode, inputs, program_factory=factory,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 157, in run_program\n    need(callable(continuation)\n  File \"<PRIVATE_PATH>\", line 64, in need\n    raise ValueError('TRAJECTORY_QUALIFICATION_' + reason)\nValueError: TRAJECTORY_QUALIFICATION_EXPLICIT_V8_PREREGISTERED_QUERY_BOUNDARY_AND_FINAL_ENDPOINT\n",
+  "GPU_failure": "ValueError: FUSION_PAUSED_QUERY_BRIDGE_EXACT_REGISTERED_SCOPE_LEASE_STATE",
+  "GPU_stage": "SNAPSHOT_WAIT",
+  "GPU_cancel_signals_sent": 0,
+  "GPU_wrapper_self_closed_after_failed_producer": true,
+  "shutdown_clean": true,
+  "original_safety_warning_samples": 0,
+  "physics_STOP_count": 0,
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-source-phase-c01-query-gpu-01",
+      "spec_sha256": "e3be53aed3b70ab083166cec53ec068175ea97cab37c2c39777d50a4617ea076",
+      "lease_sha256": "5aa9c6c01e2244faf80656c8a18d21b95fcebe520c0ae2604fa5bb8df6b57b0a",
+      "worker_sha256": "51a973104b6221dadec31eb1a8aff3d36a74ae97eaefdb45838c562ef4830a7e",
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-source-phase-c01-query-01",
+      "spec_sha256": "59d7a2dd46207d12a7747b91e616389c196520c7e9b61445c00622703187dcdc",
+      "lease_sha256": "20de85a6927acaeeb34d56f50485570ccaf9bac97dcd826a705993332a90a0d0",
+      "worker_sha256": "a7e8c4a1b8dc83269243d2f38f60305c161be7a2f67d929f82848489d3df9cfa",
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 21.091897,
+        "exit_code": 1,
+        "wall_s": 130.05379707505926
+      },
+      "systemd_CPU_s": 21.263987,
+      "host_peak_bytes": 2595880960
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 3.3278234310000006,
+        "child_CPU_s": 16.234796,
+        "exit_code": 1,
+        "wall_s": 36.599949860945344
+      },
+      "systemd_CPU_s": 21.574464,
+      "host_peak_bytes": null
+    },
+    "source_staging": {
+      "wall_s": 114.12718034069985,
+      "CPU_s": 1.354421725,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 188,
+      "overlay_written_bytes": 3139344,
+      "actual_source_bytes_written": 48762930,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "worker_and_systemd_CPU_overlap": true,
+    "GPU_wait_stage_wall_s": 128.28133476898074,
+    "GPU_wait_stage_CPU_s": 19.886124143
+  },
+  "counts_after": {
+    "FUSION_attempts": 308,
+    "FUSION_passes": 294,
+    "FUSION_failures": 14,
+    "FUSION_native_ticks": 2580646,
+    "with_PILOT2_attempts": 962,
+    "with_PILOT2_passes": 943,
+    "with_PILOT2_failures": 19,
+    "with_PILOT2_native_ticks": 5567939,
+    "VLA_queries": 29,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_source_phase_c01_query01.py\" 900",
+  "dispatch_exit_code": 0,
+  "native_CLI_preflight_exit_code": 0,
+  "readback_exit_code": 0,
+  "not_a_WM_or_GR00T_algorithm_failure": true,
+  "original_cutoff_epoch": 1794051261.7397933
+}

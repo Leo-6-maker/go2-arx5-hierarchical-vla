@@ -169,6 +169,9 @@ def recipe_config(spec):
          'EXPLICIT_HALF_PREFIX_B_DISTINCT_FULL_H40_SUFFIX_E_NO_SCALE_CLIP')
     episode,source=operational.recipe_config(spec,episode,actual_phase=PHASE,actual_kind=KIND,
                                             source_members=SOURCE_MEMBERS)
+    if spec['task_condition']==C01_QUERY_CONDITION:
+        binding=spec['source_phase_scene_binding']
+        source=dict(source,nominal_calibration_reference=dict(path=binding['nominal_calibration_goal_binding'],sha256=binding['nominal_calibration_goal_binding_sha256']))
     language=unseal(json.loads(source['source_observation_bytes']))['payload']['language']
     condition=spec['task_condition']
     if condition in SHORT_LANGUAGE_TASK_CONDITIONS:

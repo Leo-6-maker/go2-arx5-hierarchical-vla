@@ -13,17 +13,20 @@ from test_fusion_task_phase_live_skill_pair_v8 import bind,write_json,PROJECT,ca
 
 
 def registration(spec,tmp_path,monkeypatch):
+    import numpy as np
     model=digest(spec['model_path']);monkeypatch.setattr(c01,'SCENE',model)
     proof=tmp_path/'STATIC.json';write_json(proof,dict(status='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED',scene_sha256=model,
         robot_contract=dict(sha256=c01.ROBOT,controller_or_safety_changes=False,original_dt_s=.002),
         dense_prefix_geometry=dict(saved_pose_FK_calls=34303,contact_free_at_saved_poses=True),new_native_admission=False))
     monkeypatch.setattr(c01,'STATIC',digest(proof));root=Path(spec['registered_root'])
     panel=tmp_path/'PANEL.json';write_json(panel,dict(assignments=[dict(native_run=root.name,parent='C01_FROZEN_QUERY',split='DIAGNOSTIC',scene_sha256=model,task_condition=c01.CONDITION)]));pin=digest(panel)
+    reference=tmp_path/'NOMINAL_REFERENCE.json';write_json(reference,{'synthetic_separately_tested_reference':True})
+    monkeypatch.setattr(c01,'nominal_reference',lambda value:np.eye(4))
     spec.update(task_condition=c01.CONDITION,live_skill_start_step=34303,max_ticks=34303,
         phase=pair.PHASE,kind=pair.KIND,live_skill_geometry_scale=1.,live_skill_time_stretch_factor=2,
         response_learning_panel=str(panel),response_learning_panel_sha256=pin,
         response_learning_assignment=dict(schema='WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1',parent='C01_FROZEN_QUERY',split='DIAGNOSTIC',panel_sha256=pin),
-        source_phase_scene_binding=dict(scene_id=c01.SCENE_ID,parent=c01.PARENT,model_sha256=model,static_result=str(proof),static_result_sha256=digest(proof)))
+        source_phase_scene_binding=dict(scene_id=c01.SCENE_ID,parent=c01.PARENT,model_sha256=model,static_result=str(proof),static_result_sha256=digest(proof),nominal_calibration_goal_binding=str(reference),nominal_calibration_goal_binding_sha256=c01.NOMINAL_REFERENCE_SHA))
     return spec
 
 
@@ -89,3 +92,35 @@ def test_query_only_saves_full_draw_without_an_install_or_native_step(real_clock
     assert result['task_phase_initialization']['readiness']['predicates']['actual_cube_distance']is False
     assert not result['strict_short_desired_intent']['qualified']
     assert result['strict_short_desired_intent']['status']=='OUTSIDE_ORIGINAL_SHORT_TASK_START_DOMAIN'
+
+
+def test_c01_actual_cube_and_preserved_nominal_reference_remain_distinct(tmp_path,monkeypatch):
+    import numpy as np
+    from scripts.pi0292.relay_protocol import unseal,sealed
+    from go2arx5_vla.world_model import fusion_task_phase_initialization as original
+    from test_fusion_task_phase_initialization import setup as original_setup
+    fixture=original_setup.__wrapped__(monkeypatch);old=fixture['inputs']
+    artifact=tmp_path/'ORIGINAL_GOAL.json';write_json(artifact,dict(frozen_input=old['frozen'],actual_VLA_commands=0))
+    monkeypatch.setattr(c01,'NOMINAL_REFERENCE_SHA',digest(artifact));monkeypatch.setattr(c01,'CALIBRATION_SCENE',original.SCENE)
+    reference=dict(path=str(artifact),sha256=digest(artifact));args=copy.deepcopy(fixture['args']);actual_cube=np.array(args['measured_decision_state']['object_pose']).copy();actual_cube[:3,3]+=[.10,.05,.11]
+    args['measured_decision_state']['object_pose']=actual_cube;args['scene_sha256']=c01.SCENE
+    with pytest.raises(ValueError):original.load_inputs(**args)
+    new=original.load_inputs(**args,nominal_calibration_reference=reference);body=original._inputs(new)
+    np.testing.assert_array_equal(body['frozen_cube_pose_target'],actual_cube)
+    np.testing.assert_array_equal(body['full_goal_TCP_target'],unseal(old['frozen'])['full_goal_TCP_target'])
+    assert not np.array_equal(body['frozen_cube_pose_target'],body['nominal_calibration_cube_pose_target'])
+    assert new['provenance']['actual_cube_is_not_replaced_by_nominal_calibration_cube']is True
+    body['nominal_calibration_cube_pose_target'][0][3]+=.001;bad=dict(new,frozen=sealed(body))
+    with pytest.raises(ValueError,match='NOMINAL_REFERENCE'):original._inputs(bad)
+
+
+def test_same_endpoint_continuation_reaches_runtime_prepare_only_for_c01(monkeypatch):
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model import fusion_trajectory_qualification_native as native
+    class Prepared(Exception):pass
+    def prepare():raise Prepared()
+    spec=dict(phase='collect-target-fusion-task-phase-live-skill-v9',kind='FUSION_TASK_PHASE_LIVE_SKILL_V9',task_condition=c01.CONDITION,live_skill_start_step=34303,max_ticks=34303)
+    a=SimpleNamespace(spec=spec,prepare_dynamic=prepare,trace_sealed=False);monkeypatch.setattr(native,'endpoint',lambda episode:34303)
+    with pytest.raises(Prepared):native.run_program(a,{}, {},continuation=lambda *args:None)
+    spec['task_condition']=contract.MECHANICAL_TASK_CONDITION
+    with pytest.raises(ValueError,match='PREREGISTERED_QUERY_BOUNDARY'):native.run_program(a,{}, {},continuation=lambda *args:None)

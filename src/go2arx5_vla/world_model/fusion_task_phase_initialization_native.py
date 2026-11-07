@@ -103,7 +103,9 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
     need(adapter.spec.get('phase') == actual_phase
          and ((continuation is None and registered_end == boundary) or continuation_bound),
          'ACTUAL_NEW_PHASE_AND_STATIC_ENDPOINT')
-    need(set(source) == {'source_observation_bytes', 'T_source_from_target', 'scene_sha256'},
+    c01=adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'
+    expected_source={'source_observation_bytes', 'T_source_from_target', 'scene_sha256'}|({'nominal_calibration_reference'}if c01 else set())
+    need(set(source) == expected_source,
          'EXACT_FROZEN_SOURCE_CONFIGURATION')
     paths = {name: adapter.output / name for name in (
         'TASK_PHASE_GOAL_BINDING.private.json', 'TASK_PHASE_DECISION_STATE.bin',
@@ -209,6 +211,10 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
             query_readiness_is_permission=False)
     if report_context is not None:
         context.update(report_context)
+    if c01:
+        context.update(calibration_goal='EXPLICIT_FROZEN_T06_REFERENCE_IN_DISTINCT_C01_SCENE',
+            actual_cube_observation_and_nominal_calibration_cube_are_separate=True,
+            nominal_calibration_goal_binding_sha256=source['nominal_calibration_reference']['sha256'])
     return run_program(adapter, episode, inputs, program_factory=factory,
         report_context=context, report_finalizer=finalizer,
         sample_observer=record_sample, before_preview=before_preview, continuation=continuation)
