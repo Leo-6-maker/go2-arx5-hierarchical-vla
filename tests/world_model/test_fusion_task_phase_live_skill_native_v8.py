@@ -120,6 +120,38 @@ def test_selected_reference_is_used_in_outer_endpoint_and_full_adaptation_report
         final-adapter.program.preview(adapter.program.end_atom)[0,:3],rtol=0,atol=1e-15)
 
 
+def test_explicit_teacher_diagnostic_preserves_unused_frozen_draw_and_never_counts_vla_consumption(composition,monkeypatch,tmp_path):
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    from go2arx5_vla.world_model.fusion_trajectory_qualification_native import complete_reference_consumption
+    from test_fusion_task_reference_diagnostic_v1 import registered
+    adapter,samples,windows,report,raw,action,calls=composition
+    # This existing composition fixture uses its own shorter synthetic B.
+    actual_score=short.score_contract();actual_score['decision_native_step']=B
+    monkeypatch.setattr(short,'score_contract',lambda:copy.deepcopy(actual_score))
+    adapter.spec.update(registered(tmp_path),registered_root=str(tmp_path),live_skill_start_step=B)
+    # Match the fixture root to its original predeclared diagnostic row.
+    panel=Path(adapter.spec['response_learning_panel']);value=json.loads(panel.read_text());value['assignments'][0]['native_run']=tmp_path.name
+    panel.write_text(json.dumps(value));pin=digest(panel);adapter.spec['response_learning_panel_sha256']=pin;adapter.spec['response_learning_assignment']['panel_sha256']=pin
+    original_build=teacher.build
+    program,_=original_build(actual_TCP=samples[-1]['tcp'],initial_reference_TCP=adapter.reference_history[-1]['pose'],base_pose_hold=adapter.base_pose_hold,actual_object_pose=samples[-1]['object_pose'])
+    end=B+25*(program.end_atom+8);adapter.spec['max_ticks']=end;monkeypatch.setattr(live,'E',end)
+    def build(**kwargs):
+        program,evidence=original_build(**kwargs);adapter.program=program;return program,evidence
+    monkeypatch.setattr(teacher,'build',build)
+    result=live._continue(adapter,report,samples,windows,task={},camera=object())
+    assert len(calls)==1 and result['actual_VLA_inferences']==1
+    assert result['actual_VLA_commands']==result['VLA_action_installations']==0
+    assert result['Teacher_reference_all40_consumed']is True
+    assert result['all_40_knots_consumed']is result['GR00T_raw_H40_consumed']is False
+    assert result['raw_knot_consumed']==[False]*40
+    assert result['generated_segment']['original_raw_H40_label']=='EXPLICIT_PRIVILEGED_TEACHER_REFERENCE_NOT_GR00T'
+    saved=json.loads((adapter.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json').read_text())
+    np.testing.assert_array_equal(saved['original_decoded_physical_H40'],raw)
+    assert result['unused_GR00T_proposal_retained']is True
+    assert complete_reference_consumption(adapter.spec,result)
+
+
 def test_full_proposal_outside_noncontact_domain_is_saved_rejected_without_install(composition):
     adapter,samples,windows,report,raw,action,calls=composition
     cube=np.asarray(samples[-1]['tcp']).copy();cube[2,3]-=.13

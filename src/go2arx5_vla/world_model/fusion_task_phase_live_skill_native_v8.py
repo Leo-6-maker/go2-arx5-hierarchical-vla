@@ -91,6 +91,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         T_source_from_target=spec['paused_source_from_target'],
         expected_transform_sha256=spec['paused_frame_map_sha256'])
     query=None;proposal=None
+    teacher_reference=None;unused_GR00T_program=None;unused_GR00T_intent=None
     try:
         query=capture_and_wait_query(adapter,binding=binding,task=task,task_sha256=document_hash(task),
             gpu_spec_path=Path(spec['paused_query_gpu_spec']),capture_index=0,camera_recipe=camera)
@@ -123,6 +124,15 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             cube_ground_truth_use='DIAGNOSTIC_SAFETY_ENVELOPE_NOT_MODEL_OR_GR00T_INPUT',
             policy_input_distribution_equivalence=False)
         write_json(adapter.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json',proposal)
+        if spec.get('task_reference_diagnostic') is not None:
+            from .fusion_task_reference_diagnostic_v1 import build,validate_registration
+            from .fusion_graded_short_skill_v1 import screen_proposal
+            validate_registration(spec)
+            unused_GR00T_program=program
+            unused_GR00T_intent=screen_proposal(program,cube)
+            program,teacher_reference=build(actual_TCP=actual,initial_reference_TCP=anchor,
+                base_pose_hold=adapter.base_pose_hold,actual_object_pose=cube)
+            write_json(adapter.output/'GEOMETRIC_TASK_REFERENCE_PROPOSAL.private.json',teacher_reference)
         need((E-B)//25>=program.end_atom+8,
              'WHOLE_H40_AND_TAIL_MUST_FIT_PREREGISTERED_E_NO_PREFIX_SELECTION')
         clearance=np.linalg.norm(program.desired_path[:,:3]-cube[:3,3],axis=1)
@@ -205,6 +215,19 @@ def _continue(adapter,report,samples,windows,*,task,camera):
                 VLA_action_installations=0 if hold else len(suffix['install_attempts']),
                 actual_reference_installations=len(suffix['install_attempts']),
                 full_H40_intent_is_an_executed_skill=not hold)
+        if teacher_reference is not None:
+            complete.update(desired_outcome_provenance=teacher_reference['producer'],
+                task_reference_diagnostic=spec['task_reference_diagnostic'],
+                task_reference_producer=teacher_reference['producer'],
+                executed_reference_proposal_sha256=digest(adapter.output/'GEOMETRIC_TASK_REFERENCE_PROPOSAL.private.json'),
+                unused_GR00T_proposal_retained=True,unused_GR00T_adaptation=unused_GR00T_program.evidence(),
+                unused_GR00T_short_intent_screen=unused_GR00T_intent,
+                all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
+                GR00T_raw_H40_consumed=False,Teacher_reference_all40_consumed=suffix['all_40_knots_consumed'],
+                Teacher_reference_commands=1,actual_VLA_commands=0,VLA_commands=0,VLA_action_installations=0,
+                actual_reference_installations=len(suffix['install_attempts']),
+                full_H40_intent_is_an_executed_skill=False,
+                privileged_diagnostic_not_deployable_VLA=True,GR00T_or_WM_task_transfer=False)
         for k in ('original_Processor_decodes','Processor_decodes'):complete.pop(k,None)
         if is_short:
             from . import fusion_graded_short_skill_v1 as short

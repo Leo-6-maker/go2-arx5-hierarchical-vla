@@ -84,6 +84,23 @@ def complete_reference_consumption(spec,complete):
     Both still pass the caller's unchanged same-world, prefix, complete-window,
     solver/gripper and final-trace checks. HOLD never becomes raw H40 execution.
     """
+    if spec.get('task_reference_diagnostic') is not None:
+        from .fusion_task_reference_diagnostic_v1 import validate_registration,PRODUCER
+        validate_registration(spec)
+        suffix=complete.get('generated_segment')or{}
+        atoms=(spec['max_ticks']-spec['live_skill_start_step'])//25
+        return (complete.get('task_reference_producer')==suffix.get('task_reference_producer')==PRODUCER
+            and complete.get('unused_GR00T_proposal_retained')is True
+            and complete.get('all_40_knots_consumed')is False
+            and complete.get('raw_knot_consumed')==[False]*40
+            and complete.get('GR00T_raw_H40_consumed')is False
+            and complete.get('Teacher_reference_all40_consumed')is True
+            and complete.get('VLA_action_installations')==complete.get('actual_VLA_commands')==0
+            and complete.get('full_H40_intent_is_an_executed_skill')is False
+            and suffix.get('all_40_knots_consumed')is True and suffix.get('raw_knot_consumed')==[True]*40
+            and suffix.get('complete_suffix_atoms')==len(suffix.get('windows',[]))==atoms
+            and suffix.get('solver_target_confirmed_atoms')==suffix.get('gripper_confirmed_atoms')==atoms
+            and complete.get('actual_reference_installations')==len(suffix.get('install_attempts',[]))>0)
     if complete.get('all_40_knots_consumed')is True:
         return complete.get('post_query_HOLD_control')is not True
     if complete.get('post_query_HOLD_control')is not True:

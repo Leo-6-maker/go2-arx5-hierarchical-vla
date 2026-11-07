@@ -91,6 +91,9 @@ def _history(samples, windows):
 
 def _preflight(adapter, program, start_step, end_step, samples, windows):
     spec = adapter.spec
+    if spec.get('task_reference_diagnostic') is not None:
+        from .fusion_task_reference_diagnostic_v1 import validate_registration
+        validate_registration(spec)
     _need(spec.get('phase') in (PHASE,'collect-target-fusion-task-phase-live-skill-v9'),
           'EXACT_FUTURE_V8_OR_V9_TYPED_PHASE_REQUIRED')
     _need(type(program) is TrajectoryAdaptation, 'EXACT_TRAJECTORY_ADAPTATION_NO_WM_OR_DUCK_TYPE')
@@ -196,6 +199,12 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         desired_path=program.desired_path, nominal_reference_path=program.reference_path,
         actual_history=history, first_gripper_sequence=len(windows),
         future_response_observed=False, Processor_decodes=0)
+    if adapter.spec.get('task_reference_diagnostic') is not None:
+        from .fusion_task_reference_diagnostic_v1 import PRODUCER
+        report.update(task_reference_producer=PRODUCER,
+            original_raw_H40_label='EXPLICIT_PRIVILEGED_TEACHER_REFERENCE_NOT_GR00T',
+            GR00T_raw_H40_consumed=False,expert_training_eligible=False)
+        decision.update(task_reference_producer=PRODUCER,GR00T_raw_H40_consumed=False)
     if selection is not None:
         decision['reference_selection'] = selection
         report['reference_selection'] = selection

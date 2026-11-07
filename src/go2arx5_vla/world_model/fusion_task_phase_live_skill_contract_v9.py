@@ -27,7 +27,8 @@ TASK_CONDITION='SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
 SHORT_TASK_CONDITION='GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
 TRACKING_TASK_CONDITION='GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
 MECHANICAL_TASK_CONDITION='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
-SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION)
+from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as TEACHER_DIAGNOSTIC_TASK_CONDITION
+SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION,TEACHER_DIAGNOSTIC_TASK_CONDITION)
 TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
@@ -55,6 +56,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py',
  'src/go2arx5_vla/world_model/fusion_program_reference_intervention_v1.py',
  'src/go2arx5_vla/world_model/fusion_program_reference_selection_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -88,6 +90,11 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
             purpose='FULL_GENERATED_SHORT_INTENT_AND_MEASURED_APPROACH_STEP_AT34303_NOT_PICK_PLACE',
             actual_short_skill_score_contract=actual,
             actual_short_skill_score_contract_sha256=document_hash(actual))
+        if task_condition==TEACHER_DIAGNOSTIC_TASK_CONDITION:
+            from .fusion_task_reference_diagnostic_v1 import CONFIG
+            value.update(schema=value['schema']+'_PRIVILEGED_GEOMETRY',
+                purpose='PRIVILEGED_GEOMETRIC_TASK_INTENT_DIAGNOSTIC_NOT_GR00T_OR_WM_TRANSFER',
+                task_reference_diagnostic=CONFIG,GR00T_proposal_saved_but_not_executed=True)
         if task_condition==TRACKING_TASK_CONDITION:
             value.update(schema=value['schema']+'_TRACKING_DIAGNOSTIC',
                 purpose='EXPLORATORY_FULL_H40_TRACKING_WITH_UNCHANGED_STRICT_SHORT_SCORE_REPORTED_SEPARATELY',
@@ -115,12 +122,16 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
     if task_condition==MECHANICAL_TASK_CONDITION:
         from .fusion_bounded_reference_tracking_v1 import TASK_ID as mechanical_task
         task_id=mechanical_task
+    if task_condition==TEACHER_DIAGNOSTIC_TASK_CONDITION:
+        task_id='FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1'
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
         scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),
         language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT'if is_short else'EXACT_SOURCE_TASK_PROMPT')
 
 def recipe_config(spec):
+    from .fusion_task_reference_diagnostic_v1 import validate_registration as validate_task_reference
+    validate_task_reference(spec)
     from .fusion_program_forecast_v1 import validate_registration
     validate_registration(spec)
     from .fusion_program_reference_intervention_v1 import validate_scope
