@@ -119,13 +119,15 @@ def load_sources(spec,*,required_role='TRAIN'):
         for atom in (range(0,len(segment.get('windows',[])),7)if segment.get('windows')else [0]):
             row=replay.extract(n,prefix,decision,segment,install_atom=atom);x,names=replay.flatten_features(row)
             _need(tuple(names)==FEATURE_NAMES,'FIXED_FEATURE_WHITELIST')
+            phase=('POST_QUERY_HOLD_CONTROL'if decision['adaptation'].get('post_query_HOLD_control')is True
+                   else'PROGRAM'if atom<=decision['adaptation']['clock']['end_atom']else'POST_PROGRAM_HOLD')
             records.append(dict(X=x,Y=row['labels']['TCP_SE3_and_finger_displacement'],valid=row['labels']['observed_horizon_mask'],
-                split=a['split'],parent=a['parent'],run_id=root.name,program_atom=atom))
+                split=a['split'],parent=a['parent'],run_id=root.name,program_atom=atom,record_phase=phase))
             attempt['anchors']+=1;attempt['valid_label_atoms']+=int(row['labels']['observed_horizon_mask'].sum())
         del native,complete,segment,prefix
     if records:data={k:np.stack([r[k]for r in records])for k in records[0]}
     else:data=dict(X=np.empty((0,FEATURE_DIM)),Y=np.empty((0,16,8)),valid=np.empty((0,16),bool),
-                   split=np.array([],dtype='U10'),parent=np.array([],dtype='U1'),run_id=np.array([],dtype='U1'),program_atom=np.array([],dtype=int))
+                   split=np.array([],dtype='U10'),parent=np.array([],dtype='U1'),run_id=np.array([],dtype='U1'),program_atom=np.array([],dtype=int),record_phase=np.array([],dtype='U24'))
     validate(data)
     metadata=dict(schema=SCHEMA,source_manifest_sha256=spec['source_manifest_sha256'],attempts=attempts,
         summary=summarize(data),IO=io,feature_names=list(FEATURE_NAMES),required_role=required_role,

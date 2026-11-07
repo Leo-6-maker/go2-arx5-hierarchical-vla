@@ -24,6 +24,9 @@ def validate(data):
         raise ValueError('FINITE_PROGRAM_FEATURES_AND_OBSERVED_PREFIX_MASKS_REQUIRED')
     for key in ('split','parent','run_id','program_atom'):
         if data[key].shape!=(n,):raise ValueError('ONE_PROVENANCE_ROW_PER_ANCHOR_REQUIRED')
+    if 'record_phase'in data and (data['record_phase'].shape!=(n,)or not set(data['record_phase']).issubset(
+            {'PROGRAM','POST_PROGRAM_HOLD','POST_QUERY_HOLD_CONTROL'})):
+        raise ValueError('DECLARED_PROGRAM_PHASE_IS_METADATA_ONLY')
     parents={};runs={}
     for p,r,s in zip(data['parent'],data['run_id'],data['split']):
         if s not in ('TRAIN','DEV','TEST','DIAGNOSTIC'):raise ValueError('EXPLICIT_ORIGINAL_DATA_ROLE_REQUIRED')
@@ -66,4 +69,13 @@ def metrics(prediction,data,ids):
 def summarize(data):
     return dict(anchors=len(data['X']),physical_runs=len(set(data['run_id'])),
         roles=dict(Counter(data['split'].tolist())),observed_label_atoms=int(data['valid'].sum()),
-        features=FEATURE_DIM,output=list(OUTPUT_SHAPE),anchors_are_independent_parents=False)
+        features=FEATURE_DIM,output=list(OUTPUT_SHAPE),anchors_are_independent_parents=False,
+        declared_program_phases=(dict(Counter(data['record_phase'].tolist()))if 'record_phase'in data else None))
+
+
+def metrics_by_phase(prediction,data,ids):
+    out=dict(ALL=metrics(prediction,data,ids))
+    for phase in ('PROGRAM','POST_PROGRAM_HOLD','POST_QUERY_HOLD_CONTROL'):
+        if 'record_phase'in data:
+            out[phase]=metrics(prediction,data,ids[data['record_phase'][ids]==phase])
+    return out

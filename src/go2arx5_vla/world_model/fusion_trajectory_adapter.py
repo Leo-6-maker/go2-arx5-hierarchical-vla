@@ -397,6 +397,11 @@ class TrajectoryAdaptation:
                 post_query_HOLD_control=hold,
                 reference_intervention_is_native_qualification=False,
                 raw_intent_is_executed_expert_label=False)
+            value['reference_translation']=('FIXED_INITIAL_REFERENCE_HOLD_RAW_INTENT_UNEXECUTED'if hold
+                else'INIT_p_PLUS_DESIRED_WORLD_DISPLACEMENT_PLUS_DECLARED_16_ATOM_QUINTIC_XY_OFFSET')
+            if hold:
+                value['reference_rotation']='FIXED_INITIAL_REFERENCE_ROTATION_RAW_INTENT_UNEXECUTED'
+                value['gripper']['execution_rule']='FIXED_WORKING_OPEN_FRACTION_RAW_GRIPPER_INTENT_UNEXECUTED'
         return value
 
 

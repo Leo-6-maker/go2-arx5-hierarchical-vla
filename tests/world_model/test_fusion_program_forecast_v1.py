@@ -106,3 +106,49 @@ def test_unsealed_or_wrong_role_shadow_inputs_fail_before_native_effect(tmp_path
     elif fault=='TRAIN_forecast':spec['response_learning_assignment']['split']='TRAIN'
     with pytest.raises(ValueError):forecast.ShadowForecaster(spec,output)
     assert not(output/'PROGRAM_FORECASTS').exists()
+
+
+def test_all_frozen_seeds_and_matched_ridge_controls_are_saved_before_effect(tmp_path,monkeypatch):
+    import json,shutil,copy
+    from go2arx5_vla.world_model.storage import digest
+    from go2arx5_vla.world_model.fusion_program_response_data_v1 import FEATURE_DIM
+    spec,output,root=shadow_files(tmp_path,monkeypatch);folder=root/'fit-01'
+    training=json.loads((root/'EXECUTION_SPEC.json').read_text())
+    training.update(seeds=[1,2],primary_seed=1)
+    (root/'EXECUTION_SPEC.json').write_text(json.dumps(training));training_pin=digest(root/'EXECUTION_SPEC.json')
+    lease=json.loads((root/'control/LEASE.json').read_text());lease['spec_sha256']=training_pin
+    (root/'control/LEASE.json').write_text(json.dumps(lease))
+    result=json.loads((folder/'RESULT.private.json').read_text());original=copy.deepcopy(result['results'])
+    models=[]
+    for seed in (1,2):
+        for row in original:
+            arm=row['arm']
+            if seed==2:
+                shutil.copytree(folder/('1-'+arm),folder/('2-'+arm))
+                clone=copy.deepcopy(row);clone['seed']=2;result['results'].append(clone)
+            models.append(dict(arm=arm,seed=seed,sha256=row['numpy_sha256']))
+    result['closed_form_ridge_fits']=[]
+    for arm in forecast.RIDGE_ARMS:
+        arrays=dict(x_mean=np.zeros(FEATURE_DIM),x_scale=np.ones(FEATURE_DIM),
+            y_mean=np.zeros((16,8)),y_scale=np.ones((16,8)),centers=np.zeros((16,FEATURE_DIM)),
+            weights=np.zeros((16,FEATURE_DIM,8)),mask_future=np.array(arm.endswith('NO_FUTURE_ACTION')),ridge=np.array(1.))
+        path=folder/(arm+'_NUMPY.npz');np.savez_compressed(path,**arrays);pin=digest(path)
+        models.append(dict(arm=arm,sha256=pin))
+        result['closed_form_ridge_fits'].append(dict(name=arm,numpy_sha256=pin,ridge=1.,normalizers_fit_only_TRAIN=True))
+    (folder/'RESULT.private.json').write_text(json.dumps(result))
+    spec['live_skill_time_stretch_factor']=2
+    spec['program_response_forecast']=dict(schema='WM02_PROGRAM_RESPONSE_SHADOW_FORECAST_V2',
+        mode='SHADOW_NO_REFERENCE_CHANGE',training_run=str(root),training_spec_sha256=training_pin,
+        training_result_sha256=digest(folder/'RESULT.private.json'),seeds=[1,2],primary_seed=1,
+        time_stretch_factor=2,models=models)
+    model=forecast.ShadowForecaster(spec,output)
+    assert len(model.models)==8
+    _,prefix,decision,_=artifacts()
+    model.save(decision['actual_history'],prefix['windows'][-8:],decision['nominal_reference_path'],install_atom=0)
+    saved=json.loads((output/'PROGRAM_FORECASTS/atom-000000.private.json').read_text())
+    assert len(saved['predictions'])==11 and '2-SCALED'in saved['predictions']
+    assert all(name in saved['predictions']for name in forecast.RIDGE_ARMS)
+    assert saved['native_effects_since_anchor']==0 and saved['reference_changes']==0
+    spec['program_response_forecast']['models']=models[:-1]
+    with pytest.raises(ValueError,match='EXPLICIT_NEW_DEV_SCOPE'):
+        forecast.validate_registration(spec)

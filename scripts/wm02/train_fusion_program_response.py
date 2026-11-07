@@ -71,6 +71,8 @@ def run(spec,output):
         ridge_results.append(dict(name=name,numpy_sha256=digest(path),ridge=1.,normalizers_fit_only_TRAIN=True))
     ridge_wall_s=time.monotonic()-ridge_start
     write_json(output/'BASELINES.private.json',{name:contract.metrics(pred,data,train)for name,pred in baselines.items()})
+    write_json(output/'BASELINES_BY_PHASE.private.json',
+               {name:contract.metrics_by_phase(pred,data,train)for name,pred in baselines.items()})
     # CUDA is initialized only after source role, original worker/lease, proposal
     # and complete preview/clock joins have supplied actual TRAIN observations.
     os.environ['CUBLAS_WORKSPACE_CONFIG']=':4096:8'
@@ -131,6 +133,7 @@ def run(spec,output):
                     endpoint_reload_error=reload_error,numpy_max_absolute_error=error,initial_training_loss=initial,
                     final_training_loss=float(model.loss(x[train],y[train],valid[train]).detach()),
                     TRAIN_metrics=contract.metrics(prediction,data,train),normalizers_fit_only_TRAIN=True,
+                    TRAIN_metrics_by_phase=contract.metrics_by_phase(prediction,data,train),
                     future_H40_removed=arm=='NO_FUTURE_ACTION',same_capacity_and_sampler=True,
                     TRAIN_exposures_min=int(sampler.exposure_counts().min()),TRAIN_exposures_max=int(sampler.exposure_counts().max()))
                 results.append(result);write_json(folder/'RESULT.private.json',result);record_status(output,completed=results)

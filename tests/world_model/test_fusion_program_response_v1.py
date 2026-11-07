@@ -44,6 +44,18 @@ def test_unobserved_targets_are_masked_in_loss_and_normalization():
     with pytest.raises(ValueError,match='PREFIX_MASKS'):data_contract.validate(d)
 
 
+def test_tail_hold_cannot_hide_program_error_in_phase_metrics_or_change_inputs():
+    d=fixture();before=d['X'].copy();d['Y'][:]=0.
+    d['record_phase']=np.array(['PROGRAM']*4+['POST_PROGRAM_HOLD']*20+['POST_QUERY_HOLD_CONTROL']*8)
+    d['Y'][:4,:,0]=.01
+    ids=data_contract.validate(d)['TRAIN']
+    result=data_contract.metrics_by_phase(np.zeros_like(d['Y']),d,ids)
+    assert result['PROGRAM']['16']['XYZ_vector_RMSE_mm']==pytest.approx(10.)
+    assert result['POST_PROGRAM_HOLD']['16']['XYZ_vector_RMSE_mm']==0.
+    assert result['POST_QUERY_HOLD_CONTROL']['16']['anchors']==0
+    np.testing.assert_array_equal(before,d['X'])
+
+
 @pytest.mark.parametrize('arm',data_contract.ARMS)
 def test_optimization_exact_checkpoint_restore_and_portable_forecast(tmp_path,arm):
     torch.set_num_threads(1);torch.manual_seed(367401);np.random.seed(367401)

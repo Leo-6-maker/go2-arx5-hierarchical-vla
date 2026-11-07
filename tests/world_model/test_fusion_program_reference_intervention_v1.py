@@ -39,6 +39,8 @@ def test_hold_is_a_control_with_unexecuted_raw_intent_never_a_clipped_skill():
     evidence=hold.evidence()
     assert evidence['post_query_HOLD_control'] is True
     assert evidence['raw_H40_installed_as_skill'] is False
+    assert evidence['reference_translation']=='FIXED_INITIAL_REFERENCE_HOLD_RAW_INTENT_UNEXECUTED'
+    assert evidence['gripper']['execution_rule'].endswith('RAW_GRIPPER_INTENT_UNEXECUTED')
     assert evidence['command_clips']==0
 
 

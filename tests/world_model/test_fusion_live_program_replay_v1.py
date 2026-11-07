@@ -38,7 +38,7 @@ def artifacts():
         states_by_end[row['native_end_step']]=state
     spec=dict(phase=replay.PHASE,live_skill_start_step=34303,max_ticks=66503,physics_dt_s=.002,WBC_changes=False)
     prefix=dict(native_endpoint_step=34303,windows=past)
-    adapt=dict(reference_path=_identity(path))
+    adapt=dict(reference_path=_identity(path),clock=dict(end_atom=len(path)-1))
     decision=dict(start_step=34303,end_step=66503,future_response_observed=False,Processor_decodes=0,
         adaptation=adapt,nominal_reference_path=path,raw_H40=path,actual_history=h)
     segment=dict(start_step=34303,native_endpoint_step=66503,phase=replay.PHASE,
