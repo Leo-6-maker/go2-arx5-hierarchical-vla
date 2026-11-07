@@ -12,6 +12,7 @@ from ..trajectory.relative_se3 import compose_poses, invert_pose
 from ..trajectory.so3 import quat_to_matrix, rot6d_to_matrix, rot6d_rows_to_matrix
 
 PLAN = 'f965a2c568ec26e9cecb8301fac0785f96a575a8'
+FROZEN_GR00T_CHECKPOINT_SHA256 = '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
 PROVENANCE = ('INTENT_POSE', 'SOURCE_OUTCOME', 'CALIBRATION_INTENT', 'SEMANTICS_UNRESOLVED')
 OFFSETS = np.array([[0., 0., 0.], [.001, 0., 0.], [-.001, 0., 0.], [0., .001, 0.]])
 

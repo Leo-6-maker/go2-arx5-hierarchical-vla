@@ -7,6 +7,21 @@ from go2arx5_vla.world_model import fusion_program_source_records_v1 as sources
 from test_fusion_live_program_replay_v1 import artifacts
 
 
+def test_numeric_dataset_reader_import_does_not_require_rendering_or_model_runtime():
+    import subprocess,sys
+    code="""import importlib.abc,sys
+class NumericOnly(importlib.abc.MetaPathFinder):
+    def find_spec(self,fullname,path=None,target=None):
+        if fullname.split('.')[0] in {'PIL','torch','mujoco','rclpy','gr00t'}:
+            raise ImportError('NUMERIC_READER_MUST_NOT_IMPORT_'+fullname)
+sys.meta_path.insert(0,NumericOnly())
+from go2arx5_vla.world_model.fusion_program_source_records_v1 import CHECKPOINT
+assert CHECKPOINT=='94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
+"""
+    result=subprocess.run([sys.executable,'-B','-c',code],capture_output=True,text=True)
+    assert result.returncode==0,result.stderr
+
+
 def fixture(tmp_path,monkeypatch,role='TRAIN'):
     monkeypatch.setattr(sources,'local_path',lambda spec,path:Path(path))
     checked=[];monkeypatch.setattr(sources,'_pid0',lambda root:checked.append(root.name))

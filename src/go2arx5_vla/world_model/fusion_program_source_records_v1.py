@@ -5,7 +5,7 @@ import numpy as np
 from .pilot1_storage import local_path
 from . import fusion_live_program_replay_v1 as replay
 from .fusion_program_response_data_v1 import FEATURE_DIM,SCHEMA,FEATURE_NAMES,validate,summarize
-from .fusion_paused_inference import CHECKPOINT
+from .fusion_contract import FROZEN_GR00T_CHECKPOINT_SHA256 as CHECKPOINT
 
 MANIFEST_SCHEMA='WM02_PROGRAM_RESPONSE_SOURCE_MANIFEST_V1'
 NATIVE_SHA='f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea'
