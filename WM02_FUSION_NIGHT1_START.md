@@ -29,3 +29,9 @@ H200排队/作业、GPU物理多世界构造/试跑、分布式或替代WBC批�
 实际启动后的首个当地09:00在安全批次边界写晨报；这是报告检查点，不是总时限或自动续期。真实site deadline优先，提前至少20分钟收尾；有合法后继可继续。未运行项目标NOT_RUN，独立重启不叫exact fork。
 
 **最低返回：** 实际EEF校正组与负结果、真实VLA推理或具体资产阻断、nominal/desired/installed/achieved证据、模型/数据/source SHA、真实更新和原生分母、成本、活动/终态worker与下一条已实现命令。只有原生闭环支持时才声称控制收益或任务无示范迁移。
+
+## 2026-11-07 有限续期窗口实际接续
+
+原 owner 已实际登记新有限窗口，站点／P1 截止 23:34 SGT，FUSION 工作截止 23:14，保留20分钟收尾。当前11个原生 worker 已封存：100,174步、4,006个完整原子转移；7 PASS／4 FAIL，不是7个技能成功。本轮 GR00T／WM／Actor 更新均为0。详见 [续期实际回执](reports/WM02/fusion-night1-20261106/FINITE_RENEWAL_WINDOW_RESEARCH_ACTUAL_V1.json)。
+
+C02完整Teacher初始化未进入源状态范围；有限反馈运行发生实际触碰。C03 home-only 静态候选在原生启动审计被拒绝：冻结 `PI0289ResetStartup` 将关节2、3覆盖为0.9 rad。没有 C03 物理 worker，不修改启动保护、WBC或旧失败。下一步需要原生支持且控制器状态一致的受控初始化入口；不能把home文件修改、静态FK或输入裁剪当作资格。见 [C03启动拒绝证据](reports/WM02/fusion-night1-20261106/C03_NATIVE_STARTUP_REJECTION_ACTUAL_V1.json)。
