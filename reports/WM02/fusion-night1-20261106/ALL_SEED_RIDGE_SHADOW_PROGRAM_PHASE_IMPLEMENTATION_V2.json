@@ -1,0 +1,147 @@
+{
+  "schema": "WM02_ALL_SEED_RIDGE_SHADOW_AND_PROGRAM_PHASE_IMPLEMENTATION_V2",
+  "epoch": 1794025816.5821962,
+  "source_commit": "CONTAINING_IMPLEMENTATION_COMMIT",
+  "actual_new_physical_forecasts": 0,
+  "actual_new_model_updates_from_this_code": 0,
+  "active_QT02_capsule_unchanged": true,
+  "shadow_schema": "WM02_PROGRAM_RESPONSE_SHADOW_FORECAST_V2",
+  "model_set": {
+    "neural_arms": [
+      "RAW",
+      "SCALED",
+      "NO_FUTURE_ACTION"
+    ],
+    "all_registered_training_seeds_required": true,
+    "primary_seed_separately_recorded": true,
+    "strong_linear_controls": [
+      "TRAIN_RIDGE_FULL_PROGRAM",
+      "TRAIN_RIDGE_NO_FUTURE_ACTION"
+    ],
+    "simple_controls": [
+      "ZERO_DISPLACEMENT",
+      "PAST_CONSTANT_VELOCITY",
+      "TRAIN_MEAN_RESPONSE"
+    ],
+    "every_prediction_saved_before_effect": true,
+    "reference_changes": 0,
+    "Torch_in_native_prediction": false,
+    "model_result_checkpoint_and_array_hashes_rechecked": true
+  },
+  "data": {
+    "feature_dimensions": 1614,
+    "label_shape": [
+      16,
+      8
+    ],
+    "provenance_only_phase_field": "record_phase",
+    "phases": [
+      "PROGRAM",
+      "POST_PROGRAM_HOLD",
+      "POST_QUERY_HOLD_CONTROL"
+    ],
+    "phase_is_model_input": false,
+    "normalizers_and_updates_only_TRAIN": true,
+    "moving_and_HOLD_metrics_reported_separately": true,
+    "old_arrays_without_phase_field_still_readable": true,
+    "held_control_raw_intent_never_labelled_executed_expert": true
+  },
+  "validation": [
+    {
+      "mode": "NORMAL",
+      "command": [
+        "$WM02_TEST_PYTHON",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/world_model/test_fusion_task_phase_live_skill_v9.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py",
+        "tests/world_model/test_fusion_live_skill_segment.py",
+        "tests/world_model/test_fusion_graded_short_skill_v1.py",
+        "tests/world_model/test_fusion_short_skill.py",
+        "tests/world_model/test_fusion_paused_inference.py",
+        "tests/world_model/test_fusion_paused_query_bridge.py",
+        "tests/world_model/test_fusion_bounded_reference_tracking_v1.py",
+        "tests/world_model/test_fusion_live_causal_features_v1.py",
+        "tests/world_model/test_fusion_live_causal_features_v2.py",
+        "tests/world_model/test_fusion_live_program_replay_v1.py",
+        "tests/world_model/test_fusion_program_response_v1.py",
+        "tests/world_model/test_fusion_program_source_records_v1.py",
+        "tests/world_model/test_train_fusion_program_response_scope.py",
+        "tests/world_model/test_fusion_program_forecast_v1.py",
+        "tests/world_model/test_fusion_program_ridge_v1.py",
+        "tests/world_model/test_fusion_program_reference_intervention_v1.py",
+        "tests/world_model/test_fusion_trajectory_adapter.py",
+        "tests/world_model/test_fusion_contract.py"
+      ],
+      "exit_code": 0,
+      "passed": 391,
+      "subtests": 43,
+      "wall_s": 13.474723597988486,
+      "receipt_sha256": "f50e09349dc9356ac0ac4aacecde477a294cdb8856933e122e626cd5338ed0e3",
+      "log_sha256": "dcd4ab775eb19610b605b32481035d37d9435d631b1fad66ae4925c333af1baf"
+    },
+    {
+      "mode": "OPTIMIZED",
+      "command": [
+        "$WM02_TEST_PYTHON",
+        "-B",
+        "-O",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/world_model/test_fusion_task_phase_live_skill_v9.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py",
+        "tests/world_model/test_fusion_live_skill_segment.py",
+        "tests/world_model/test_fusion_graded_short_skill_v1.py",
+        "tests/world_model/test_fusion_short_skill.py",
+        "tests/world_model/test_fusion_paused_inference.py",
+        "tests/world_model/test_fusion_paused_query_bridge.py",
+        "tests/world_model/test_fusion_bounded_reference_tracking_v1.py",
+        "tests/world_model/test_fusion_live_causal_features_v1.py",
+        "tests/world_model/test_fusion_live_causal_features_v2.py",
+        "tests/world_model/test_fusion_live_program_replay_v1.py",
+        "tests/world_model/test_fusion_program_response_v1.py",
+        "tests/world_model/test_fusion_program_source_records_v1.py",
+        "tests/world_model/test_train_fusion_program_response_scope.py",
+        "tests/world_model/test_fusion_program_forecast_v1.py",
+        "tests/world_model/test_fusion_program_ridge_v1.py",
+        "tests/world_model/test_fusion_program_reference_intervention_v1.py",
+        "tests/world_model/test_fusion_trajectory_adapter.py",
+        "tests/world_model/test_fusion_contract.py"
+      ],
+      "exit_code": 0,
+      "passed": 391,
+      "subtests": 43,
+      "wall_s": 13.529673891986022,
+      "receipt_sha256": "d39f3a626425a88bd05913e1cd4e195a533b3fe18106f5c0d8a9013b08625674",
+      "log_sha256": "463a34c6e2f400a0f4d11e94418d77d2f21f74d416f06f2f1171a98448ff79c3"
+    }
+  ],
+  "hold_semantics_after_regression": {
+    "passed_each_mode": 63,
+    "normal_log_sha256": "02d0d356b976edfc7446b0a2edd96331b256153f0758ea1beff64e760896809d",
+    "optimized_log_sha256": "abde051349382640e5636aaf424a86f2fdf64228de7ecb491f3c5d0d9fbbc17f",
+    "change": "Metadata explicitly describes fixed held position, rotation and working-open grip; raw intent remains retained and unexecuted."
+  },
+  "source_pins": {
+    "src/go2arx5_vla/world_model/fusion_program_forecast_v1.py": "e5ac8c7acc5aa14dee2bd1c0a27e5deb046cbfa130534eeed995785027a9e674",
+    "src/go2arx5_vla/world_model/fusion_program_response_data_v1.py": "74844d18dfb06893150e0cc4c342ac2cf69763d822bc83f07a5972f53c23e905",
+    "src/go2arx5_vla/world_model/fusion_program_source_records_v1.py": "96766f2f35d9e60939bbc38674d88bdb0e61ce904bef566932634b957404cadc",
+    "src/go2arx5_vla/world_model/fusion_trajectory_adapter.py": "27db43d18c7b1a80764b930cce1f57247bb3c87af77dd2007c4656489ea2ca26",
+    "scripts/wm02/train_fusion_program_response.py": "0092d1b8eacd011238396d722efe5dfb9328c9cbb1d3871e56e37e53f1da02e7",
+    "tests/world_model/test_fusion_program_forecast_v1.py": "e31d17c17feb6df33c2aaddea30e18b3e79898f6c2c585f4ecfb4d5366cc9e9c",
+    "tests/world_model/test_fusion_program_response_v1.py": "4ac8dc09ed090fd120c8948e67e9f5aee07232bfe82c4a5a354061a2a9665cc8",
+    "tests/world_model/test_fusion_live_program_replay_v1.py": "1d97ef9f5ba771b6270b99f3ddb84d823aca8693935e8e456c15dc98971d6a0b",
+    "tests/world_model/test_fusion_program_reference_intervention_v1.py": "1dd8d8197480db81b3eac6b567e1c2449cc2b2d05eec91e75f62cae225adfd0e"
+  },
+  "scientific_status": "IMPLEMENTED_TESTED_NOT_A_NEW_NATIVE_OR_DEV_PASS",
+  "no_formal_Actor_Critic_WBC_or_GR00T_training": true
+}

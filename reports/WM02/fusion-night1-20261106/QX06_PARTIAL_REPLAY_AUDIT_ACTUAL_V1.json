@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "run": "fusion-night1-program-response-qx06-01",
+      "original_native_exit_code": 1,
+      "anchors": 106,
+      "actual_valid_label_atoms": 1685,
+      "first_anchor": {
+        "valid_labels": 16,
+        "feature_dimensions": 1614,
+        "model_input_names": [
+          "measured_EEF_history",
+          "past_consumed_reference_error",
+          "past_reference_age_at_atom_start_s",
+          "planned_install_offsets_s",
+          "planned_install_source_ages_s",
+          "planned_published_H40",
+          "prospective_install_clock",
+          "robot_history"
+        ],
+        "actual_H16_TCP_displacement_L2_m": 0.0062040110936722155
+      },
+      "post_query_HOLD_control": false,
+      "actual_window_count": 742,
+      "label_mismatches": []
+    }
+  ],
+  "wall_s": 1.0391746489331126,
+  "CPU_s": 1.02949054,
+  "new_physics": 0,
+  "new_queries": 0,
+  "new_updates": 0,
+  "schema": "WM02_ACTUAL_QX06_PARTIAL_REPLAY_V1",
+  "source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "old_failed_native_result_not_relabelled": true,
+  "original_role": "TRAIN",
+  "unobserved_suffix_not_labels": true,
+  "source_command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/audit_actual_qx06_partial_replay01.py\" 180",
+  "exit_code": 0
+}

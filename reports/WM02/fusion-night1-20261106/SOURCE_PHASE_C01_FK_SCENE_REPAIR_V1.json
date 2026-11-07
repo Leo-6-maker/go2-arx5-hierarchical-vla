@@ -1,0 +1,20 @@
+{
+  "schema": "WM02_C01_FK_SCENE_REPAIR_V1",
+  "problem": "C01 R2 integrated 3703 actual ticks then the actual-state FK witness rejected its distinct compiled scene against the historical T06-only scene pin. Both workers CLOSED exit 1; no generated query.",
+  "change": "Only for the separately registered C01 query-only condition, validate its exact scene binding and compare the actual-state FK witness against that compiled model. Preserve type, ABI, time, state and pose witnesses and all legacy conditions.",
+  "tests": {
+    "C01_FK_SCENE_REPAIR_TEST01.txt": {
+      "sha256": "97940845012041fd9cf7d2b7921dcdff62861f96e5ed6f2f7409246f9aec62ec",
+      "passed": 273,
+      "exit_code": 0
+    },
+    "C01_FK_SCENE_REPAIR_TEST_OPT01.txt": {
+      "sha256": "a2fd8df005394b3ce0aebf4aacf5361f00649ea414a2239bf095ea38be89239f",
+      "passed": 273,
+      "exit_code": 0
+    }
+  },
+  "new_R3_physics_ticks_at_commit": 0,
+  "new_R3_queries_at_commit": 0,
+  "old_failures_retained": true
+}

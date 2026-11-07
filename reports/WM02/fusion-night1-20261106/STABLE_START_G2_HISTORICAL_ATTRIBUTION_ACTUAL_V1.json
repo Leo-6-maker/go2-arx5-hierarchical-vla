@@ -1,0 +1,248 @@
+{
+  "schema": "WM02_STABLE_START_G2_HISTORICAL_MATCHED_ATTRIBUTION_ACTUAL_V1",
+  "status": "TWO_PRIOR_MATCHED_INPUT_PAIRS_REAUDITED_NOT_NEW_INFERENCE",
+  "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+  "audit_epoch": 1794071754.391551,
+  "audit_reader_sha256": "a7623140be484a681b36f3a876e5954aa321fce43197af12d00e80c77ad8fc72",
+  "private_audit_sha256": "d1e322b9cb17693e657245dd3e48757f2018e026b47a1181d42d0aad7dd7be60",
+  "rows": [
+    {
+      "case": "TASK_GEOMETRY_SHORT_T01R1",
+      "historical_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+      "matched_observation_sha256": "6df6ae7f68e75bc20e343a2a965c6351e0c5c00888cf13c43846a7a096d5cb18",
+      "mapped_payload_sha256": "4088128d0f6faa9afef7a2d030b08cd8b6bc9edfa2aa0178c40ca56c406342df",
+      "raw_H40_shape": [
+        40,
+        10
+      ],
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "same_TCP_reference_BASE": true,
+      "native_return_revalidated": true,
+      "measured_packet_sha256": "f2fc58699131b1a7557c6221fd4136a0830120ad08b62decf392b2a8cfa6596e",
+      "native_physical_clock_unchanged": true,
+      "ACK_sequence_may_advance_without_integration": true,
+      "original_Processor_extra_decodes": 0,
+      "clips": 0,
+      "GR00T_proposal_short_screen": {
+        "actual_task_success_established": false,
+        "cube_use": "SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT",
+        "desired_points_checked": 801,
+        "metrics": {
+          "final_cube_distance_reduction_m": 0.001806353464246846,
+          "final_signed_progress_m": 0.0018485027683857553,
+          "maximum_TCP_excursion_m": 0.01064999431338579,
+          "maximum_lateral_drift_m": 0.009437259811097809,
+          "minimum_desired_or_reference_cube_distance_m": 0.20853174878294373,
+          "minimum_finger_opening_m": 0.041421501159667966
+        },
+        "native_execution_authorized": false,
+        "native_safety_established": false,
+        "predicates": {
+          "distance_reduction": false,
+          "excursion": true,
+          "lateral": false,
+          "noncontact_geometry": true,
+          "open": true,
+          "signed_progress": false
+        },
+        "qualified": false,
+        "raw_knots": 40,
+        "schema": "WM02_GRADED_SHORT_FULL_H40_DESIRED_INTENT_SCREEN_V1",
+        "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+      },
+      "Teacher_actual_short_score": {
+        "approach_step_success": true,
+        "decision_native_step": 34303,
+        "full_task_success": false,
+        "metrics": {
+          "final_hold_TCP_diameter_m": 6.669890555618435e-05,
+          "final_hold_TCP_max_speed_m_s": 0.0006928733673867403,
+          "maximum_TCP_excursion_m": 0.0036010745611212295,
+          "maximum_base_displacement_m": 0.0010967143594638306,
+          "maximum_base_rotation_rad": 0.0008350997816067124,
+          "maximum_lateral_drift_m": 0.0007843214164631454,
+          "maximum_object_displacement_m": 0.0,
+          "minimum_finger_opening_m": 0.04193212768911606,
+          "precontact_distance_reduction_m": 0.0034839412749746446,
+          "signed_progress_m": 0.003486939130533578
+        },
+        "native_execution_authorized": false,
+        "old_3703_score_relabelled": false,
+        "pick_place_success_claim": false,
+        "precontact_arrival_claim": false,
+        "predicates": {
+          "base_orientation": true,
+          "base_still": true,
+          "distance_reduction": true,
+          "excursion": true,
+          "hold": true,
+          "lateral": true,
+          "no_robot_object_contact": true,
+          "object_still": true,
+          "open": true,
+          "original_native_safety": true,
+          "signed_progress": true
+        },
+        "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+        "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+        "scorer_only_privileged_geometry": true,
+        "source_task_phase_equivalence": false,
+        "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+        "thresholds_are_native_safety": false
+      },
+      "Teacher_all40_actual_consumption": true,
+      "GR00T_H40_actual_consumption": false,
+      "original_data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+      "identities": {
+        "gpu": {
+          "run": "fusion-night1-task-intent-geometry-short-t01r1-gpu-01",
+          "spec_sha256": "21cbbd2facbca0d4115056257f43b87eea452a524e16befd70be52202a392fcf",
+          "lease_sha256": "2aec29f2b02e6ba04d02fe80117787b3b62592f195dfcc6bed70fcb4232d2ada",
+          "worker_sha256": "78df7e43fd97f000d9fc7ac411f3787c23529739e29610793102a2ba31e86135",
+          "worker_exit_code": 0,
+          "MainPID": 0
+        },
+        "native": {
+          "run": "fusion-night1-task-intent-geometry-short-t01r1-01",
+          "spec_sha256": "52a6b5f15dfea62fe5fb70dd86f037a1ffdec05efab9f742bdaf3b1a1754e845",
+          "lease_sha256": "861529455a82bbcc636a70d76a8ee2d6a9bb7943f7fdd19e00c47830747b8b4f",
+          "worker_sha256": "67f89744358cd8a2544057c170e037df9940222b47fd1cf6722333f2bd588b80",
+          "worker_exit_code": 0,
+          "MainPID": 0
+        }
+      },
+      "Teacher_proposal_sha256": "9bf18802fd6f0ae11ebc1bca38430b956e23ac0d65f8a64e01afac5cc51df4d0",
+      "GR00T_action_npz_sha256": "a91ec25d340191177df10ba01ff83c8c4f90e3c1f5e531285b05b393769ee91f"
+    },
+    {
+      "case": "TASK_GEOMETRY_SHORT_T02",
+      "historical_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+      "matched_observation_sha256": "e909c49aefbb0095138c88cb9fbbb72e53e566c8883c34071ccc4a7d9a584150",
+      "mapped_payload_sha256": "2071eae756701606f9ef1185570321a6ccf0c41910e63140080d0b1ed478a103",
+      "raw_H40_shape": [
+        40,
+        10
+      ],
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "same_TCP_reference_BASE": true,
+      "native_return_revalidated": true,
+      "measured_packet_sha256": "ebdce843c923cd799e77f206d3faec7f872ad32d2f12a1c8cf0cbafb2cb1e6f6",
+      "native_physical_clock_unchanged": true,
+      "ACK_sequence_may_advance_without_integration": true,
+      "original_Processor_extra_decodes": 0,
+      "clips": 0,
+      "GR00T_proposal_short_screen": {
+        "actual_task_success_established": false,
+        "cube_use": "SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT",
+        "desired_points_checked": 879,
+        "metrics": {
+          "final_cube_distance_reduction_m": 0.0008685352116072909,
+          "final_signed_progress_m": 0.0009405408170169826,
+          "maximum_TCP_excursion_m": 0.010766747689674555,
+          "maximum_lateral_drift_m": 0.009470976125678378,
+          "minimum_desired_or_reference_cube_distance_m": 0.2082944638509043,
+          "minimum_finger_opening_m": 0.041499626159667964
+        },
+        "native_execution_authorized": false,
+        "native_safety_established": false,
+        "predicates": {
+          "distance_reduction": false,
+          "excursion": true,
+          "lateral": false,
+          "noncontact_geometry": true,
+          "open": true,
+          "signed_progress": false
+        },
+        "qualified": false,
+        "raw_knots": 40,
+        "schema": "WM02_GRADED_SHORT_FULL_H40_DESIRED_INTENT_SCREEN_V1",
+        "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+      },
+      "Teacher_actual_short_score": {
+        "approach_step_success": true,
+        "decision_native_step": 34303,
+        "full_task_success": false,
+        "metrics": {
+          "final_hold_TCP_diameter_m": 2.81060417450137e-05,
+          "final_hold_TCP_max_speed_m_s": 0.0003052666094502122,
+          "maximum_TCP_excursion_m": 0.0036550305440386723,
+          "maximum_base_displacement_m": 0.0008953692957365043,
+          "maximum_base_rotation_rad": 0.0007786498930915332,
+          "maximum_lateral_drift_m": 0.00058449425299926,
+          "maximum_object_displacement_m": 0.0,
+          "minimum_finger_opening_m": 0.04193321559933735,
+          "precontact_distance_reduction_m": 0.003576687267785497,
+          "signed_progress_m": 0.0035783095575942655
+        },
+        "native_execution_authorized": false,
+        "old_3703_score_relabelled": false,
+        "pick_place_success_claim": false,
+        "precontact_arrival_claim": false,
+        "predicates": {
+          "base_orientation": true,
+          "base_still": true,
+          "distance_reduction": true,
+          "excursion": true,
+          "hold": true,
+          "lateral": true,
+          "no_robot_object_contact": true,
+          "object_still": true,
+          "open": true,
+          "original_native_safety": true,
+          "signed_progress": true
+        },
+        "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+        "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+        "scorer_only_privileged_geometry": true,
+        "source_task_phase_equivalence": false,
+        "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+        "thresholds_are_native_safety": false
+      },
+      "Teacher_all40_actual_consumption": true,
+      "GR00T_H40_actual_consumption": false,
+      "original_data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+      "identities": {
+        "gpu": {
+          "run": "fusion-night1-task-intent-geometry-short-t02-gpu-01",
+          "spec_sha256": "5b74f527977e927d3178d6745fc12e59a1565b597e4b2616613c19c1a45ec53f",
+          "lease_sha256": "44d0338c8abe96c95d2faa299f88a13d7259b5b54cc6975216f14cca2f3db5bb",
+          "worker_sha256": "2b58711936b35407c66b2faa50658d308ea3b4057c14df09a5f53dd00240e1ab",
+          "worker_exit_code": 0,
+          "MainPID": 0
+        },
+        "native": {
+          "run": "fusion-night1-task-intent-geometry-short-t02-01",
+          "spec_sha256": "601b580180b4c66ecefa8546d1663b8336caccd59b052f269e7c6c7c03e1bb62",
+          "lease_sha256": "4e0f4f08a7233d726c4e969eca07ab74093e9f578a071e7e33f41b7277256566",
+          "worker_sha256": "5222d0b634fb5776ae868fc0a25a192aa6b9fcb360b886a2e35bf2bfffd666a0",
+          "worker_exit_code": 0,
+          "MainPID": 0
+        }
+      },
+      "Teacher_proposal_sha256": "3a030cb245555c89ff9d7da9fc0a9f5fa633b010976d2c7e63406aded93476ec",
+      "GR00T_action_npz_sha256": "a3c1b8ab1270d856caa8181a2a6d36ed183d821d838e869d8928097448c9f9af"
+    }
+  ],
+  "new_native_integrations": 0,
+  "new_GR00T_queries": 0,
+  "new_model_updates": 0,
+  "new_G1_observation_GR00T_inference": "NOT_RUN_INSUFFICIENT_CURRENT_GPU_HEADROOM",
+  "independent_layouts": 1,
+  "original_physics_and_query_counts_not_incremented": true,
+  "source_state_normalizer_changed": false,
+  "matched_observation_does_not_prove_source_distribution_equivalence": true,
+  "scientific_result": "Task intent fails before physics while matched privileged Teacher executes a safe strict short task. This supports new target TASK_ADAPTER supervision, not blaming all error on WBC or assuming a local WM fixes intent.",
+  "negative": "No GR00T desired H40 was executed in these two cases. Privileged Teacher success does not prove a deployable visual policy or isolate input distribution versus frozen weight capability.",
+  "commands": [
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_g2_existing_pair_join02.py 180"
+  ],
+  "exit_code": 0,
+  "cost": {
+    "new_GPU_s": 0,
+    "new_physics_ticks": 0,
+    "new_optimizer_updates": 0,
+    "remote_CPU_s": null,
+    "CPU_cost_reason": "Not instrumented in read-only audit; not claimed zero"
+  },
+  "next": "Finish new G1; preserve newly saved decision packets for same-input inference when actual GPU headroom permits; collect genuinely new TRAIN/DEV parents for learning, never relabel these diagnostics."
+}

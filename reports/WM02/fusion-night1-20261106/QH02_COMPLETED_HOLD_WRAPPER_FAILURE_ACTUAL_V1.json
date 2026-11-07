@@ -1,0 +1,194 @@
+{
+  "schema": "WM02_QH02_COMPLETED_HOLD_OUTER_WRAPPER_FAILURE_ACTUAL_V1",
+  "epoch": 1794028020.6674957,
+  "actual_source_sha": "5d2d167da03443e97b1c5a1096e92222ac42eee8",
+  "status": "ORIGINAL_NATIVE_CLOSED1_RETAINED_GPU_CLOSED0_ALL_PID0",
+  "failure": "l<PRIVATE_PATH>\", line 15, in run\n    elif adapter.dynamic_phase():adapter.dynamic_diagnostic();reached=True\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 483, in dynamic_diagnostic\n    return run(self)\n           ^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 41, in run\n    return run_feedback_program(adapter,episode,source,recipe_module=prefix,actual_phase=PHASE,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 181, in run_feedback_program\n    return run_initialization_program(adapter, episode, source, recipe_module=recipe,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 211, in run_initialization_program\n    return run_program(adapter, episode, inputs, program_factory=factory,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 293, in run_program\n    need(adapter.spec == spec_before_continuation\n  File \"<PRIVATE_PATH>\", line 64, in need\n    raise ValueError('TRAJECTORY_QUALIFICATION_' + reason)\nValueError: TRAJECTORY_QUALIFICATION_SAME_WORLD_COMPLETE_SUFFIX_AND_UNCHANGED_PREFIX_BEFORE_FINAL_SEAL\n",
+  "actual": {
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_prefix_atoms": 1272,
+    "actual_confirmed_HOLD_atoms": 1288,
+    "actual_reference_installations": 184,
+    "actual_GR00T_queries": 1,
+    "raw_H40_points_retained": 40,
+    "raw_H40_points_consumed": 0,
+    "VLA_action_installations": 0,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "full_tasks": 0,
+    "strict_short_success": false
+  },
+  "first16_HOLD_gate": {
+    "schema": "WM02_POST_QUERY_HOLD_ACTUAL_GATE_V1",
+    "initial_native_step": 34303,
+    "final_native_step": 34703,
+    "confirmed_atoms": 16,
+    "initial_actual_TCP_xyz_m": [
+      0.354577308313731,
+      -0.044087250791572184,
+      0.6508639444108196
+    ],
+    "actual_TCP_displacement_from_B_m": [
+      5.85564928080286e-06,
+      2.107270565940888e-05,
+      2.4436179360852892e-05,
+      3.7189675329438014e-05,
+      3.9855779066662606e-05,
+      3.0655902629113445e-05,
+      4.903714869754218e-05,
+      4.4442184620989936e-05,
+      5.892246866679578e-05,
+      5.251859342995596e-05,
+      6.866338802341576e-05,
+      7.059816064399492e-05,
+      9.985002841035205e-05,
+      0.0001147407513865934,
+      0.00010401376886614753,
+      8.779719808134096e-05
+    ],
+    "maximum_m": 0.0001147407513865934,
+    "threshold_m": 0.0002,
+    "natural_motion_gate_passed": true,
+    "unchanged_consumed_EEF10_BASE7": true,
+    "all40_generated_skill_consumption": false,
+    "VLA_action_installations": 0,
+    "full_MPC_hidden_state_restored": false,
+    "physics_integrations_by_reader": 0
+  },
+  "readonly_actual_predicate_repair": {
+    "old_raw_H40_predicate": false,
+    "new_typed_HOLD_consumption_predicate": true,
+    "old_native_exit_code": 1,
+    "old_failed_result_upgraded": false,
+    "actual_prefix_atoms": 1272,
+    "actual_complete_confirmed_HOLD_atoms": 1288,
+    "actual_declared_reference_installations": 184,
+    "raw_H40_consumption_count": 0,
+    "physics_integrations": 0,
+    "model_updates": 0,
+    "wall_s": 0.8920847848057747,
+    "CPU_s": 0.8659589,
+    "CPU_peak_RSS_KiB": 373172
+  },
+  "old_failed_stage_upgraded": false,
+  "original_safety": {
+    "shutdown_clean": true,
+    "native_warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 488033,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 488033
+    },
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "physics_dt_s": 0.002,
+    "WBC_changed": false
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-program-response-qh02-gpu-01",
+      "spec_sha256": "d50cac21b78e077269235caf9c6f326e506034a87bb9290aeed54a6fdb61e3f5",
+      "lease_sha256": "665807e068dba7598a31e606472220804a16c475b3b86782d12b79f03f1972f1",
+      "worker_sha256": "0107ed3a3c257956748d3e577d0200964dc86c02f2534e0c99e25068eeba5131",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-program-response-qh02-01",
+      "spec_sha256": "90c5167d8db6a9c5d3b9d4842d567aa8937572e1e6e54af61271cd593a05f7bc",
+      "lease_sha256": "33cf3d649740fe4c45142175e36a86e6e10c83f60207a43e7f7180d7662c28a8",
+      "worker_sha256": "dd3cf8ccfee7980b89244d3afdb08ea4cd1b82b62113c3592921e426440f5298",
+      "worker_exit_code": 1,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 114.521576,
+        "exit_code": 0,
+        "wall_s": 437.2993104639463
+      },
+      "systemd_CPU_s": 114.870766,
+      "host_peak_bytes": 4912558080
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 368.143558922,
+        "child_CPU_s": 1357.303571,
+        "exit_code": 1,
+        "wall_s": 854.5220736619085
+      },
+      "systemd_CPU_s": 1733.918122,
+      "host_peak_bytes": 9254084608
+    },
+    "source_staging": {
+      "wall_s": 84.90486655430868,
+      "CPU_s": 1.125034866,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 112,
+      "overlay_written_bytes": 1298360,
+      "actual_source_bytes_written": 46921946,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "actual_query_wall_s": 1.185860391240567
+  },
+  "counts_after": {
+    "FUSION_attempts": 295,
+    "FUSION_passes": 284,
+    "FUSION_failures": 11,
+    "FUSION_native_ticks": 1851860,
+    "with_PILOT2_attempts": 949,
+    "with_PILOT2_passes": 933,
+    "with_PILOT2_failures": 16,
+    "with_PILOT2_native_ticks": 4839153,
+    "VLA_queries": 17,
+    "WM_main_updates": 12800,
+    "restore_probe_optimizer_calls": 9,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "native_result_sha256": "01b1833e97f23b656d3b84d92b4b397a4fc6cca72aaa2a528c2fb55d8fcb1915",
+  "GPU_result_sha256": "d8c7b8d10f398a3d0778f2cfb6a6643f37b1f5fdee441cdc56fe04188d78c1ce",
+  "real_action_npz_sha256": "8510e814a596618362c07655b9aee6805d3ae0878bebf868a54f290bfd4f322a",
+  "artifact_sha256": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "44d08171106e886969c15ad7695d6a0ab67193cb75e6555fee271e64eb98f1f5",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "19351aa0f3227e5c3096d1f2ce1f4a412f33ef8b3c0659d002777113f1125398",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "fa30630d6926d107d37bf465df3cf9234ab87ed319d012aec04db19a95967390",
+    "LIVE_SKILL_SEGMENT.private.json": "79ab4a5a699d513b51c9bf973f24141c88031ca9fc8fd92274e490436689bb1f",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "0bc8600bcae3e5776f9d1a49dc46c80ed086d5a8ef8e586f59823e146732b52c",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "bdc023d6b436163fc7b92463c5d232c1c39f80b999119ad65b383d7d960bd3a7"
+  },
+  "tests": {
+    "normal_passed": 182,
+    "optimized_passed": 182,
+    "normal_wall_s": 11.19,
+    "optimized_wall_s": 11.14
+  },
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_response_qh02_v3_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "read": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_response_qh02_v3_01.py\" 180",
+    "read_exit_code": 0,
+    "actual_HOLD_audit": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/audit_qh02_final_hold_predicate_repair01.py\" 180",
+    "audit_exit_code": 0
+  },
+  "next_decision": "Publish the typed HOLD final-seal fix; reuse actual sealed HOLD evidence without relabelling native FAIL. The still-unstarted four small-offset conditions receive fresh V4 identities and original-owner scopes. No safety threshold, physics or WBC change; no HOLD data recollection.",
+  "original_cutoff_epoch": 1794051261.7397933,
+  "WM_control_gain": false,
+  "independent_layouts": 1,
+  "hidden_controller_exact_fork": false
+}

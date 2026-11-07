@@ -1,0 +1,27 @@
+{
+  "schema": "WM02_C01_CPU_V1_PRELAUNCH_FAILURE_ACTUAL",
+  "status": "UNSTARTED_C01_CPU_REGISTRATION_CLOSED_NO_NATIVE_PROCESS",
+  "source_sha": "370201f3b254c5603e17d8a315e73f1d293a8bbb",
+  "preflight_exit_code": 0,
+  "registration_exit_code": 1,
+  "closeout_exit_code": 0,
+  "actual_native_integrations": 0,
+  "physical_attempts": 0,
+  "WM_updates": 0,
+  "GR00T_queries": 0,
+  "failure": "TASK_PHASE_INITIALIZATION_NATIVE_EXPLICIT_LIVE_PAIR_CHECKED_BY_ITS_SEPARATE_CONTRACT",
+  "old_failed_Journal_intent_preserved": true,
+  "lease_CLOSED": true,
+  "old_capsule_modified": false,
+  "repair": "Explicit C01 CPU branch in shared operational contract; every other LIVE condition still requires its real GPU pair",
+  "closeout": {
+    "status": "UNSTARTED_C01_CPU_REGISTRATION_CLOSED_NO_NATIVE_PROCESS",
+    "spec_sha256": "4b4fd4506fd700e312fd11c7fa406d15fe01bea1e735016ff1520d385eb5d7df",
+    "lease_before_sha256": "e2d8859f3b1bd56ce80e996c62d3ddbad8172e77f6bb8d3759bf6d36c7e871e5",
+    "native_integrations": 0,
+    "worker_started": false,
+    "original_failed_Journal_intent_preserved": true,
+    "reason": "OLD_SHARED_INITIALIZATION_REQUIRED_GPU_PAIR_FOR_EXPLICIT_NEW_CPU_COURSE",
+    "lease_after_sha256": "2755766456a1ef2154d44e8f4833d5988a3d87fa604c9358ee95e54dd8fe6465"
+  }
+}

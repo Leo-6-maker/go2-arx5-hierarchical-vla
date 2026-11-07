@@ -1,0 +1,47 @@
+{
+  "schema": "WM02_FROZEN_PROGRAM_DEV_LAUNCH_ACTUAL_V1",
+  "epoch": 1794033435.5751617,
+  "case": "DX01",
+  "split": "DEV",
+  "source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "native_spec_sha256": "8e1e542dc2b965b13d4ef4f845ebc0b4019eebff6d63c0c80e6d4f50b3757a6d",
+  "GPU_spec_sha256": "a9f7b67849f7358a9fdfae75a269e836ceb294eb1cf742eea53c5292d19c1061",
+  "pair_sha256": "38ad3f1defe53af4a76f413bd34b897765cc2ff4b030224441521dfc8f93926b",
+  "training_spec_sha256": "1bdd0a8f999d1ecfb71d4ea256c3afc651b21647959ae3862f19bd2c80b2a932",
+  "training_result_sha256": "699cac53c50fc6b422b0b5f942fc106452eb83d6c40c55b76e75ed7914a6303a",
+  "frozen_model_panel": "FROZEN_PROGRAM_RESPONSE_DEV_PANEL_V1.json",
+  "actual_native_dispatch_exit_code": 0,
+  "actual_GPU_dispatch_exit_code": 0,
+  "source_staging_cost": {
+    "wall_s": 155.48485355917364,
+    "CPU_s": 1.2307757330000006,
+    "copied_parent_members": 3376,
+    "generated_bytecode_members_excluded": 20,
+    "copied_parent_bytes": 45623586,
+    "overlay_members": 131,
+    "overlay_written_bytes": 1485386,
+    "actual_source_bytes_written": 47108972,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "source_cost_shared_not_double_counted": true,
+  "native_deadline_epoch": 1794034573.6194015,
+  "GPU_deadline_epoch": 1794034573.6194015,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0,
+  "new_GR00T_updates": 0,
+  "completed_native_attempts_added_at_launch": 0,
+  "terminal_result": "PENDING",
+  "actual_reference_intervention": {
+    "candidate": "X_PLUS_025",
+    "offset_target_xy_m": [
+      0.00025,
+      0.0
+    ],
+    "ramp_atoms": 16
+  },
+  "counterfactual_mode": "SHADOW_NO_REFERENCE_CHANGE",
+  "models_and_baselines_frozen_before_DEV": true,
+  "future_predictions_are_not_labels": true,
+  "original_owner_WBC_safety_dt_and_cutoff_retained": true,
+  "next": "Read exact worker status; on CLOSED/PID0 authenticate saved pre-effect predictions and actual exposure-matched responses."
+}

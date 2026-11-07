@@ -1,0 +1,211 @@
+{
+  "schema": "WM02_QT02_TIME2_NOMINAL_NATIVE_ACTUAL_V1",
+  "epoch": 1794026584.2185636,
+  "source_sha": "12fb8148e5c7908b7a96d4541fed2a35b7d362fa",
+  "protocol_sha256": "ad4000c2f1e2886926edc754c8679cfd26d7aaa9a6ac87ea4293bcee4676a6b7",
+  "assignment": {
+    "candidate": "NOMINAL",
+    "panel_sha256": "ad4000c2f1e2886926edc754c8679cfd26d7aaa9a6ac87ea4293bcee4676a6b7",
+    "parent": "T06_TIME2_POST_QUERY_RESPONSE_QT02",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-program-response-qt02-gpu-01",
+      "spec_sha256": "7983e9e7976fe1be4187254c2b80d4118f6c9733e46f200e34e84968decbfba0",
+      "lease_sha256": "7aa621db5739936e1ba9e7a7785cb2bd01e8cf06b274a5742957be9cb3896f7a",
+      "worker_sha256": "0c6df935fef82745465c06a5504bf1a701b0382537ee1377b5e1dbd4900c2825",
+      "result_sha256": "bfab5011fc2a1a7fd97a09f9b3a38c7d3ad4566f915eec88622bc837c3fcbc64",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-program-response-qt02-01",
+      "spec_sha256": "6fae4790469e8b4386d1d3da7872637da61f48d23ed3c9f6e7b2e88e9a3492e1",
+      "lease_sha256": "ec215a0518ab896acc0fbe6cc84339d9265b1a071542cef00d1527e25a6b1c46",
+      "worker_sha256": "73c97262c748d03abb7f3e7f3247f25e47318b3239691fa35472713d97066c8b",
+      "result_sha256": "40b785a35a616b0319435e7d0be5f7e90e0fcd5e2876fa6f2b5106b0d77645a2",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "actual": {
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_prefix_atoms": 1272,
+    "complete_generated_suffix_atoms": 1288,
+    "all40_adapted_raw_knots_consumed": true,
+    "reference_installations": 184,
+    "solver_confirmations": 1288,
+    "gripper_confirmations": 1288,
+    "whole_raw_motion_atoms": 800,
+    "extra_final_HOLD_atoms": 480,
+    "time_stretch_factor": 2,
+    "geometry_scale": 1.0,
+    "raw_H40_points": 40,
+    "raw_clips": 0,
+    "extra_Processor_decodes": 0,
+    "full_MPC_hidden_state_restored": false,
+    "new_WM_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "full_tasks": 0
+  },
+  "physical": {
+    "actual_minus_desired_L2_m": 0.002031832192424698,
+    "actual_minus_reference_L2_m": 0.10551990330806828,
+    "strict_short_score": {
+      "approach_step_success": false,
+      "decision_native_step": 34303,
+      "full_task_success": false,
+      "metrics": {
+        "final_hold_TCP_diameter_m": 0.0001407897492925857,
+        "final_hold_TCP_max_speed_m_s": 0.0013388513501347205,
+        "maximum_TCP_excursion_m": 0.00844214869811549,
+        "maximum_base_displacement_m": 0.0017909733323515158,
+        "maximum_base_rotation_rad": 0.0051429766753128174,
+        "maximum_lateral_drift_m": 0.006393700238984276,
+        "maximum_object_displacement_m": 0.0,
+        "minimum_finger_opening_m": 0.04145464895631771,
+        "precontact_distance_reduction_m": 0.0031080416869978533,
+        "signed_progress_m": 0.0031208542066538704
+      },
+      "native_execution_authorized": false,
+      "old_3703_score_relabelled": false,
+      "pick_place_success_claim": false,
+      "precontact_arrival_claim": false,
+      "predicates": {
+        "base_orientation": true,
+        "base_still": true,
+        "distance_reduction": true,
+        "excursion": true,
+        "hold": true,
+        "lateral": false,
+        "no_robot_object_contact": true,
+        "object_still": true,
+        "open": true,
+        "original_native_safety": true,
+        "signed_progress": true
+      },
+      "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+      "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+      "scorer_only_privileged_geometry": true,
+      "source_task_phase_equivalence": false,
+      "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+      "thresholds_are_native_safety": false
+    },
+    "strict_short_success": false,
+    "WM_control_gain": false,
+    "tracking_error_is_model_prediction_innovation": false,
+    "paired_same_raw_proposal_time1_vs_time2": false
+  },
+  "safety": {
+    "original_native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "shutdown_clean": true,
+    "native_warnings": 0,
+    "outer_rejections": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 487486,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 487486
+    },
+    "all_four_children_exit_zero": true,
+    "WBC_changed": false,
+    "physics_dt_s": 0.002,
+    "original_joint_acceleration_limit_rad_s2": 1.0
+  },
+  "data": {
+    "native_result_sha256": "40b785a35a616b0319435e7d0be5f7e90e0fcd5e2876fa6f2b5106b0d77645a2",
+    "native_result_bytes": 258233151,
+    "initialization_sha256": "ccfea1dae032669d84af3141a47a054b1fa4964043e61af2394ae87b54bfd780",
+    "decision_sha256": "25388b7b19ca76048aee8a353c7ba3eb1d0b6e9683efd1ae4466b1511b626574",
+    "segment_sha256": "138011074ec73b802e306f121d10e9d43e3d64a5bbcdad0fb72979c8563717c9",
+    "action_npz_sha256": "bb48a41193f3bca6bd84ccda2aefdfe5bbeddd6430573349f43bf855498cc283",
+    "recorded_observation_sha256": "481e71215dd5a9928b4f77476e7286f473926c34991c31026afd3483daf026d1",
+    "actual_TRAIN_role": true
+  },
+  "GPU": {
+    "actual_VLA_inferences": 1,
+    "actual_model_loads": 1,
+    "query_wall_s": 0.8185179950669408,
+    "model_cold_load_wall_s": 10.22011399967596,
+    "snapshot_wait_wall_s": 422.46278606401756,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "wall_s": 437.52032446395606,
+    "CPU_s": 114.533821495
+  },
+  "cost": {
+    "source_staging": {
+      "CPU_s": 1.2698394479999995,
+      "actual_source_bytes_written": 46899009,
+      "copied_parent_bytes": 45623586,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "overlay_members": 110,
+      "overlay_written_bytes": 1275423,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 201.5555145512335
+    },
+    "source_copy_shared_not_per_worker": true,
+    "workers": {
+      "gpu": {
+        "worker": {
+          "exit_code": 0,
+          "wall_s": 438.8305802093819,
+          "CPU_s": null,
+          "child_CPU_s": 115.702684
+        },
+        "systemd_CPU_s": 116.049258,
+        "host_peak_bytes": 3941564416
+      },
+      "native": {
+        "worker": {
+          "exit_code": 0,
+          "wall_s": 870.0826679789461,
+          "CPU_s": 378.643469468,
+          "child_CPU_s": 1369.24403
+        },
+        "systemd_CPU_s": 1756.697635,
+        "host_peak_bytes": 9262964736
+      }
+    },
+    "systemd_CPU_overlaps_worker_CPU": true
+  },
+  "counts_after": {
+    "FUSION_attempts": 294,
+    "FUSION_passes": 284,
+    "FUSION_failures": 10,
+    "FUSION_native_ticks": 1785357,
+    "with_PILOT2_attempts": 948,
+    "with_PILOT2_passes": 933,
+    "with_PILOT2_failures": 15,
+    "with_PILOT2_native_ticks": 4772650,
+    "VLA_queries": 16,
+    "WM_main_updates": 12800,
+    "restore_probe_optimizer_calls": 9,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "next": "QH02 is now READY under the preregistered post-query HOLD control. It must get a fresh original-owner scope and pass the actual \u22640.2mm first-H16 natural-motion gate before the four small-offset cases.",
+  "actual_reader_sha256": "5a6b91ba07874787f3d62d3a1dc637af768756ac56a1bbb4fc0dcb8888e9277a",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_response_qt02_v3_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "readback": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_response_qt02_v3_01.py\" 360",
+    "readback_exit_code": 0
+  },
+  "HOLD_reporting_repair_validation": {
+    "normal_passed": 124,
+    "optimized_passed": 124,
+    "normal_seconds": 7.36,
+    "optimized_seconds": 7.24,
+    "scope": "Full-H40 consumption is not asserted for explicit HOLD controls."
+  }
+}

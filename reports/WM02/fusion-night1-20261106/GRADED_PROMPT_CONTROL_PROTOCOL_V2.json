@@ -1,0 +1,84 @@
+{
+  "schema": "WM02_GRADED_PROMPT_CONTROL_PROTOCOL_V2",
+  "status": "PREREGISTERED_SUCCESSOR_SHORT_QUERY_NOT_SITE_REGISTERED_OR_EXECUTED",
+  "study": "SAME_SAVED_GRADED_V9_INPUT_ORIGINAL_REUSE_SHORT_LANGUAGE_V2",
+  "QUESTION": "At the sealed50%V9 observation, does explicit short noncontact language change the full frozen-GR00T proposal relative to its already completed original long-task query?",
+  "base": {
+    "archived_source_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
+    "native_step": 34303,
+    "native_exit_code": 1,
+    "GPU_exit_code": 0,
+    "observation_sha256": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+    "mapped_payload_sha256": "fa00ddac6228eaada215ab1bbaa3c777fbbdee3ed12eab3b7d9bf6c05f09592a",
+    "native_duration_failure_preserved": true
+  },
+  "conditions": [
+    {
+      "name": "ORIGINAL_REUSE",
+      "language_sha256": "7acec5b96a8d7a338065bba99f9418b7d0b05c6bdb210ef7fb14a6c07aaa1af0",
+      "GPU_result_sha256": "552088fb15cca56f8f515a3a6f319c07d4f384d63e1a9fcec70ff55b3a8a80e7",
+      "action_npz_sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+      "new_queries": 0
+    },
+    {
+      "name": "CURRENT_SHORT",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "language_sha256": "3b4699f03e00438f01ca4593d28537ed640c13b876de0640124cb1ebcb2e16b5",
+      "new_query_limit": 1,
+      "actual_new_queries": 0
+    }
+  ],
+  "fairness": {
+    "only_language_field_may_differ": true,
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "expected_noise_sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+    "numeric_mode": "ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST",
+    "state_image_frame_TCP_and_all_other_policy_ABI_fields_identical": true,
+    "original_task_score_observation_and_proposal_immutable": true,
+    "actual_new_noise_match_required_after_inference": true,
+    "Processor_decode_once_inside_original_generate": true
+  },
+  "measurement": {
+    "all40_knots_required": true,
+    "raw_metrics": [
+      "XYZ vectorRMS/max/endpoint difference",
+      "SO3 geodesicRMS/max/endpoint",
+      "gripper-fractionRMS/max/endpoint",
+      "whole desired motion toward frozen cube and complete closure timing"
+    ],
+    "same_declared_geometry_adapter": {
+      "geometry_scale": 1.0,
+      "time_stretch_factor": 1,
+      "all_raw_mapped_desired_reference_knots_retained": 40
+    },
+    "SHORT_desired_geometry_screen_only": {
+      "minimum_signed_progress_m": 0.002,
+      "minimum_cube_distance_reduction_m": 0.002,
+      "maximum_lateral_drift_m": 0.003,
+      "maximum_TCP_excursion_m": 0.025,
+      "minimum_finger_opening_m": 0.038,
+      "minimum_TCP_cube_distance_m": 0.14,
+      "screen_is_actual_task_or_native_safety_PASS": false
+    },
+    "full_original_task_scored_as_short_approach": false,
+    "forty_knots_are_independent_samples": false,
+    "population_effect_or_CI_established_by_one_saved_input_seed": false
+  },
+  "next_gate": "Validate actual closed archive with new reader, then fresh finite original-owner GPU scope. Only if SHORT intent/domain are suitable, implement and preregister its actualB34303 native task/score under a fresh scope; no old3703 score relabel or lease reuse.",
+  "effects": {
+    "new_native_integrations": 0,
+    "new_queries": 0,
+    "WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "new_scopes_registered": 0
+  },
+  "boundaries": {
+    "original_FUSION_deadline": "2026-11-07T19:34:21.739793+08:00",
+    "WBC_safety_and_dt_frozen": true,
+    "formal_Actor_Critic": false,
+    "H200_or_GPU_physics_multiworld_or_distributed": false
+  }
+}

@@ -15,6 +15,66 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-stable-start-short-v1':
+        from .stable_start_short_task_v1 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-c02-source-state-feedback-v2':
+        from .fusion_c02_source_state_feedback_v2 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-c02-source-state-initialization-v1':
+        from .fusion_c02_source_state_initialization_v1 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-live-skill-v9':
+        from .fusion_task_phase_live_skill_contract_v9 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-live-skill-v8':
+        from .fusion_task_phase_live_skill_contract_v8 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-bias-fade-v8':
+        from .fusion_task_phase_bias_fade_contract_v8 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-pose-continuation-v7':
+        from .fusion_task_phase_pose_continuation_contract_v7 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-pose-feedback-v6':
+        from .fusion_task_phase_pose_feedback_contract_v6 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-xyz-feedback-continuation-v5':
+        from .fusion_task_phase_xyz_feedback_continuation_contract_v5 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-xyz-feedback-v4':
+        from .fusion_task_phase_xyz_feedback_contract_v4 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-bias-continuation-v3':
+        from .fusion_task_phase_bias_continuation_contract_v3 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-bias-calibration-v2':
+        from .fusion_task_phase_bias_calibration_contract_v2 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-task-phase-initialization-v1':
+        from .fusion_task_phase_initialization_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-source-posture-query-v3':
+        from .fusion_source_posture_paused_query_v3 import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-source-posture-qualification-v1':
+        from .fusion_source_posture_qualification_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-live-proposal-qualification-v3':
+        from .fusion_live_proposal_qualification_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-paused-query-v2':
+        from .fusion_paused_query_native import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-trajectory-response-v1':
+        from .fusion_trajectory_response_native_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2'):
+        from .fusion_trajectory_qualification_contract import episode_limit
+        return episode_limit(spec,previous)
+    if phase=='collect-target-fusion-reference-qualification-v1':
+        from .fusion_reference_qualification_contract import episode_limit
+        return episode_limit(spec,previous)
     if phase=='collect-target-pilot2-supported':
         from .pilot2_supported import validate
         return validate(spec,previous)
@@ -55,13 +115,14 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     root=Path(spec['campaign_root']);binding=Path(spec['campaign_binding'])
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
+    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1')else 600
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
             or lease.get('status')!='ACTIVE'or lease.get('scope')!='WM02_AUTO1_SIM_ONLY'
             or lease.get('owner')!=spec['owner']or lease.get('run_uuid')!=root.name
             or lease.get('binding_sha256')!=digest(binding)or now>=lease['deadline_epoch']
-            or (root/'STOP.json').exists()or not 0<spec['wall_limit_s']<=600):raise PermissionError('AUTO1_REGISTERED_SCOPE_HOST_LEASE_OR_TIME_INVALID')
+            or (root/'STOP.json').exists()or not 0<spec['wall_limit_s']<=wall_bound):raise PermissionError('AUTO1_REGISTERED_SCOPE_HOST_LEASE_OR_TIME_INVALID')
     if not any(e.get('scope')=='WM02_AUTO1_SIM_ONLY'and e.get('owner')==spec['owner']and e.get('path')==str(root)and e.get('local_lease')==str(root/'control/LEASE.json')for e in registry['entries']):raise PermissionError('AUTO1_ACTUAL_REGISTRY_BINDING_REQUIRED')
 
 @contextmanager

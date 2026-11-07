@@ -1,0 +1,82 @@
+{
+  "schema": "WM02_STABLE_START_G2_SAVED_INPUT_CAMERA_ACTUAL_V1",
+  "status": "SINGLE_SEALED_TARGET_SOURCE_RIG_CPU_RENDER_PASS",
+  "source_sha": "afb9a8f63f373d63d0f2a915cad3c65671df8c72",
+  "spec_sha256": "d9c7fd579d44536e1a4028999788d96deeb24536d4c7dffc82cddf5ccfabb840",
+  "result_sha256": "a823051dea07e92c36fd2f750e0d905b143e88f8fa6abdd2a80d713fa589924f",
+  "lease_sha256": "8d81137057df5532a5d6d3261b7583db4057e39db6403c28bc63b8ed75cf4504",
+  "worker_sha256": "3fd4ba134df39228b42030b441da5ae0e1985621b688e5bdf8434775069aabe2",
+  "worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 10.315740004181862,
+    "child_CPU_s": 9.846877
+  },
+  "unit": {
+    "MainPID": "0",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "[not set]",
+    "CPUUsageNSec": "9952775000",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "saved_decision_native_step": 34303,
+  "parent_native_endpoint": 38703,
+  "result": {
+    "status": "SINGLE_SEALED_TARGET_SOURCE_RIG_CPU_RENDER_PASS",
+    "failure": null,
+    "wall_s": 9.678612027317286,
+    "CPU_s": 9.382222959,
+    "source_sha": "afb9a8f63f373d63d0f2a915cad3c65671df8c72",
+    "actual_snapshot_render_saves": 1,
+    "bound_observations": 1,
+    "native_integrations": 0,
+    "prohibited_integration_calls": 0,
+    "retained_files": {
+      "STATE.private.bin": "a34cb3df3ef4a7cf7551e50b8995001283344dcbad5a54502ea91eb0874e7147",
+      "images/000000-calibration.json": "931e25043d1d5b3d0976d68e76e26147af038c820db9f1e430151616dac9a661",
+      "images/000000-body_rgb.png": "8c40bf1acc56a63b141c5f8dc9a3d8249b1d86c756f2d347b074658d524edb18",
+      "images/000000-wrist_rgb.png": "3575ce182744892b4382ec6cdf4b07c521dc17768b6982de5ce7edb2f85742d0",
+      "BOUND_OBSERVATION.private.json": "c2b86ecf99c8f753db55cc47ddf4e9457a5d77e112412bf3d645a396eb9348a1",
+      "native-camera/images/000000-body_rgb.png": "097f58b18f268c2033a1928c464b86be5ed5ab862cdb84ed0f630ca0c3df70d5",
+      "native-camera/images/000000-wrist_rgb.png": "3575ce182744892b4382ec6cdf4b07c521dc17768b6982de5ce7edb2f85742d0",
+      "native-camera/images/000000-calibration.json": "4481ff1ea121f9a91d4e56ddfe03329083b2a8c09ca9320caa30ffc31d9dacd2"
+    },
+    "renderer": {
+      "GL_VENDOR": "Mesa",
+      "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+      "backend": "egl_mesa_cpu"
+    },
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0
+  },
+  "native_original_controller_restored": false,
+  "saved_packet_reconstruction_not_live_capture": true,
+  "new_physics_ticks": 0,
+  "new_GR00T_queries": 0,
+  "new_model_updates": 0,
+  "new_target_TRAIN_episodes": 0,
+  "new_target_DEV_episodes": 0,
+  "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+  "first_actual_full_GR00T_query_block": "GPU headroom750/3201MiB at prior actual check, below frozen baseline14GiB qualification; do not change frozen weights/precision.",
+  "commands": [
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/dispatch_stable_start_g2_camera01.py 900",
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g2_camera01.py 180"
+  ],
+  "actual_exit_code": 0,
+  "source_staging": {
+    "wall_s": 60.0565736037679,
+    "CPU_s": 1.134845219,
+    "bytes_written": 48886615
+  },
+  "preflight_failure_preserved": {
+    "exit_code": 1,
+    "reason": "Private template multi-assignment replacement omitted ROOT/CPUS; restored and readonly preflight passed before any stage/registration.",
+    "new_workers": 0,
+    "new_integrations": 0
+  },
+  "renderer_warnings": "Device probe permissions warned; actual GL renderer verified Mesa llvmpipe, CPU-only, successful output.",
+  "next": "New target TRAIN/DEV static layouts, collector and admitted nonzero TASK_ADAPTER trainer; frozen GR00T query when actual headroom permits."
+}

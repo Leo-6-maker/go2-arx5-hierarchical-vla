@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 from types import SimpleNamespace
 import tempfile
 import unittest
@@ -109,6 +110,70 @@ class AssetTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError,'REUSED_LOCAL_FROZEN_BYTES'):
             assets.consume(consumer,dict(transfer=transfer,frozen_local_member=str(self.ck/assets.FIRST)),download=self.hub.download)
         self.assertFalse((consumer/'inference').exists())
+
+    def test_uid_mapped_hdd_default_rejects_but_explicit_qualified_private_copy_succeeds(self):
+        transfer=self.publish();consumer=self.root/'mapped-consumer';consumer.mkdir()
+        (consumer/'frozen-base').mkdir();frozen=consumer/'frozen-base'/assets.FIRST
+        shutil.copyfile(self.ck/assets.FIRST,frozen)
+        proof=dict(registered_root=str(consumer),output_storage_proof='/SYNTHETIC_ONLY/PINNED_VOLUME_PROOF',
+                   output_storage_proof_sha256='a'*64,expected_uid=2009)
+        actual_stat=Path.stat
+        def mapped(path,*args,**kwargs):
+            value=actual_stat(path,*args,**kwargs)
+            if Path(path).is_relative_to(consumer):
+                attributes={name:getattr(value,name)for name in dir(value)if name.startswith('st_')}
+                attributes.update(st_uid=0,st_dev=2050,st_mode=stat.S_IFMT(value.st_mode)|0o777)
+                return SimpleNamespace(**attributes)
+            return value
+        with patch.object(os,'getuid',return_value=2009),patch.object(Path,'stat',mapped):
+            with self.assertRaisesRegex(PermissionError,'REUSED_LOCAL_FROZEN_BYTES'):
+                assets.consume(consumer,dict(transfer=transfer,frozen_local_member=str(frozen)),download=self.hub.download)
+            with patch('go2arx5_vla.world_model.pilot1_storage.qualified_block_path',
+                       side_effect=lambda path,*_:Path(path))as check:
+                result=assets.consume(consumer,dict(transfer=transfer,frozen_local_member=str(frozen)),
+                    download=self.hub.download,frozen_member_storage=proof)
+                self.assertEqual([call.args[0]for call in check.call_args_list],[consumer,frozen])
+            self.assertEqual(len(result['inference_files_sha256']),9)
+            self.assertNotIn('registered_root',result)
+            self.assertNotIn('frozen_member_storage',result)
+
+    def test_explicit_storage_binding_rejects_unqualified_wrong_uid_root_and_device(self):
+        consumer=self.root/'proof-consumer';consumer.mkdir();(consumer/'frozen-base').mkdir()
+        frozen=consumer/'frozen-base'/assets.FIRST;frozen.write_bytes(self.first)
+        proof=dict(registered_root=str(consumer),output_storage_proof='/SYNTHETIC_ONLY/PINNED_VOLUME_PROOF',
+                   output_storage_proof_sha256='a'*64,expected_uid=os.getuid())
+        with patch('go2arx5_vla.world_model.pilot1_storage.qualified_block_path',
+                   side_effect=PermissionError('UNQUALIFIED_VOLUME')):
+            with self.assertRaisesRegex(PermissionError,'UNQUALIFIED_VOLUME'):
+                assets._frozen_member_storage(consumer,frozen,proof)
+        for invalid in [True,{},dict(proof,expected_uid=os.getuid()+1),
+                        dict(proof,expected_uid=True),dict(proof,allow_mapped_uid=True),
+                        dict(proof,registered_root=str(self.root)),
+                        dict(proof,output_storage_proof='relative'),
+                        dict(proof,output_storage_proof_sha256='wrong-pin')]:
+            with self.subTest(binding=invalid),self.assertRaises(PermissionError):
+                assets._frozen_member_storage(consumer,frozen,invalid)
+        with self.assertRaisesRegex(PermissionError,'EXACT_PRIVATE_REGISTERED_ROOT'):
+            assets._frozen_member_storage(consumer,self.ck/assets.FIRST,proof)
+        actual_stat=Path.stat
+        def crossed(path,*args,**kwargs):
+            value=actual_stat(path,*args,**kwargs)
+            if Path(path)==frozen:
+                attributes={name:getattr(value,name)for name in dir(value)if name.startswith('st_')}
+                return SimpleNamespace(**dict(attributes,st_dev=value.st_dev+1))
+            return value
+        with patch('go2arx5_vla.world_model.pilot1_storage.qualified_block_path',side_effect=lambda p,*_:Path(p)), \
+                patch.object(Path,'stat',crossed):
+            with self.assertRaisesRegex(PermissionError,'QUALIFIED_ROOT_DEVICE'):
+                assets._frozen_member_storage(consumer,frozen,proof)
+
+    def test_explicit_storage_binding_rejects_frozen_base_parent_symlink(self):
+        consumer=self.root/'symlink-consumer';consumer.mkdir()
+        (consumer/'frozen-base').symlink_to(self.ck,target_is_directory=True)
+        proof=dict(registered_root=str(consumer),output_storage_proof='/SYNTHETIC_ONLY/PINNED_VOLUME_PROOF',
+                   output_storage_proof_sha256='a'*64,expected_uid=os.getuid())
+        with self.assertRaisesRegex(PermissionError,'EXACT_PRIVATE_REGISTERED_ROOT'):
+            assets._frozen_member_storage(consumer,consumer/'frozen-base'/assets.FIRST,proof)
 
     def test_unknown_upload_has_no_consume_or_ready_admission(self):
         transfer=self.publish();transfer['status']='UPLOAD_INTENT_UNKNOWN_NO_RETRY'

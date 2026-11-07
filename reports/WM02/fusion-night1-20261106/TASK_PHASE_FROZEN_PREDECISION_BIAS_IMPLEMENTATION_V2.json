@@ -1,0 +1,139 @@
+{
+  "schema": "WM02_TASK_PHASE_FROZEN_PREDECISION_BIAS_IMPLEMENTATION_V2",
+  "status": "IMPLEMENTED_RELATED_TESTS_PASS_ACTUAL_NATIVE_NOT_RUN",
+  "implementation_base_source_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+  "scientific_scope": {
+    "condition": "INIT_FROZEN_PREDECISION_BIAS_V2",
+    "comparison_condition": "INIT_ABSOLUTE_V1",
+    "purpose": "RESTORE_A_KNOWN_STRONG_SIMPLE_REFERENCE_ANCHOR_BASELINE_TO_THE_NEW_WORLD_GOAL_AND_FIXED_CLOCK",
+    "novel_WM_improvement_claim": false,
+    "VLA_task_transfer_improvement_claim": false,
+    "formal_GR00T_B0_B1_condition": false,
+    "rationale": "The older trajectory adapter distinguished the INIT reference anchor from the DEC measured state. The absolute-world-endpoint initialization recipe did not carry that simple compensation. This condition connects a fixed predecision correction to the new desired intent without tuning against future errors or weakening the baseline for a learned-model comparison.",
+    "original_TrajectoryAdaptation_byte_equivalence_claim": false,
+    "unbounded_bias_parameter_search": false,
+    "future_empirical_tracking_error_used_for_control_or_labels": false,
+    "learned_adapter_Actor_Critic_or_WM_training": false
+  },
+  "entry": {
+    "phase": "collect-target-fusion-task-phase-bias-calibration-v2",
+    "kind": "FUSION_TASK_PHASE_BIAS_CALIBRATION_V2",
+    "profile": "wm02-auto1-target",
+    "CLI_module": "scripts.wm02.fusion_task_phase_bias_calibration_check_v2",
+    "read_only_check": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m scripts.wm02.fusion_task_phase_bias_calibration_check_v2 --spec \"$SPEC\" --check-only",
+    "execution_route": "The same CLI with --execute delegates to scripts.wm02.pilot1_native_worker and the original AUTO1/P1 admission, owner locks and native lifecycle.",
+    "new_scope_and_lease_required": true,
+    "CLOSED_lease_reuse": false,
+    "only_geometry_scale": 0.03,
+    "ramp_atoms": 128,
+    "endpoint_native_step": 7103,
+    "complete_task_atoms_if_successful": 184,
+    "full_generated_waypoints": 40,
+    "raw_VLA_knots": 0,
+    "finite_native_wall_limit_s": 1200,
+    "new_platform_or_scheduler": false
+  },
+  "first_predecessor": {
+    "condition": "INIT_ABSOLUTE_V1",
+    "source_sha": "abc116e90d9eea5ca1a602de8aa848439996cbae",
+    "spec_sha256": "fd15364dbe76753a677865842adb6c5d65bf62998249cbb19a5a661b241a97ec",
+    "result_sha256": "9c71b1d4d69d6c27c7d49d211794237f3f12f5acc3b54d48e86af2629b6cd8b4",
+    "required_evidence": "Exact CLOSED0 worker/spec join, 7103 integrations, all184 pose/gripper atoms, all40 knots, original safety, four clean child exits and zero dropped trace records; retain separate goal/readiness/hold-sample artifact hashes.",
+    "historical_absolute_condition_or_failure_relabelled": false,
+    "historical_terminal_error_installed_as_new_control_label": false
+  },
+  "measurement_and_installation_chronology": [
+    "Freeze the actual V2 static episode and its exact128-ramp/7103 endpoint before physics. It contains the correction rule and measurement step identities, not future measured bias values.",
+    "Obtain the original shared-loop ActualState TCP at INIT2503. Complete the unchanged prehold and stable decision-prefix checks.",
+    "At the actual3703 pause, join original ActualState FK, qpos/qvel/ctrl and TCP/cube poses to the exact original packet. Use only the current independent restart's INIT and DEC measurements.",
+    "Construct the same V1 desired goal and desired path algorithm at the same grade and clock: the frozen actual3703 cube plus the fixed world-Z140mm standoff, original source rotation and unchanged frame mapping. Equality of algorithms does not claim byte-identical restart observations or paths.",
+    "Freeze b=p_DEC-p_INIT in actual target-world components and C_R=R_INIT*transpose(R_DEC). Set reference_xyz=desired_xyz-b and reference_R=C_R*desired_R. The first reference remains exactly INIT; reference and desired endpoints generally differ.",
+    "Save and read back the packet, measured decision state and separate V2 goal binding, including b, C_R, source step/pose identities and both full-path hashes, before installing any generated reference.",
+    "Save both complete desired/reference paths in the original decision artifact. Validate each new typed full40 suffix, then retain the original native full-preview certifier, install ACK, source-relative TTL and actual pose/gripper consumption.",
+    "At the exact endpoint, retain original cancel/HOLD, trace seal and outer native shutdown audit. Save nine distinct actual complete samples from B-200 through B, read them back, then compute readiness from those samples. Readiness is not a native/GPU grant and a .03 grade cannot qualify full-grade query readiness."
+  ],
+  "fixed_math_and_limits": {
+    "translation": "TARGET_WORLD_REFERENCE_XYZ_EQUALS_DESIRED_XYZ_MINUS_FROZEN_DEC_MINUS_INIT",
+    "orientation": "TARGET_WORLD_REFERENCE_R_EQUALS_R_INIT_TIMES_R_DEC_TRANSPOSE_TIMES_DESIRED_R",
+    "translation_and_rotation_coupled_as_one_SE3_translation": false,
+    "desired_goal_or_ramp_changed_to_fit_tracking": false,
+    "future_actual_response_or_terminal_error_input": false,
+    "clipping_or_adaptive_retime": false,
+    "out_of_original_rate_or_native_certified_domain": "REJECT_WITH_EVIDENCE_NO_SILENT_CLIP",
+    "same_alpha_independent_restart_is_complete_MPC_same_state_fork": false,
+    "all_shared_original_source_checks_retained": true,
+    "generic_operational_caller": "Only the known V1/V2 phase-kind pairs with the original SOURCE_MEMBERS superset are accepted.",
+    "old_V1_default_behavior": "Retained; the optional helper seams select the explicit V2 recipe without rewriting its spec or on-disk episode as V1."
+  },
+  "invariants": {
+    "original_owner_P1_and_finite_site_admission_required": true,
+    "single_world": true,
+    "GPU_or_model_query": false,
+    "WBC_or_leg_controller_changes": false,
+    "physics_dt_s": 0.002,
+    "source_relative_TTL_s": 0.4,
+    "reference_renewal_cadence_s": 0.35,
+    "native_ticks_per_atom": 25,
+    "original_full40_certificate_and_ACK_required": true,
+    "contiguous_original_gripper_wrapper_sequence_required": true,
+    "actual_trace_capacity": 524288,
+    "privileged_object_geometry_is_policy_input_or_expert_label": false,
+    "source_images_replayed_as_target": false,
+    "old_active_capsules_or_episodes_modified": false
+  },
+  "frozen_source_and_test_sha256": {
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_v2.py": "c9f9dee98090fb9f703c44a0393b8e83b3f10f5b439b22c24fab74064aadb67a",
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_contract_v2.py": "0ef128ef906edaa2cbac32891e1da304cb8e6583a5b20f836023292358178b3f",
+    "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_native_v2.py": "43a0ecd537bdda9e5d1bc37f3d6bbc11c40e643674f5b1712112409aed63a667",
+    "scripts/wm02/fusion_task_phase_bias_calibration_check_v2.py": "1bf51433e8bafa76d3fed536dd0d82a32d04f4c7175997144c57d6f8ec71cadf",
+    "tests/world_model/test_fusion_task_phase_bias_calibration_v2.py": "a7b7dfc85f02f192e75d59c1ac77d66f3b769226d957fdef714f304642e5b967",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "fba4742554829403c75f147103367db8963b7b860f6eef6146b885a30b8db318",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py": "b48ba4db70b1eebb99d01ef24e82c71290ec30cbb0419ecfe02137df911e112d",
+    "src/go2arx5_vla/world_model/auto1_native.py": "663f87e13effdb45b57421a3e272486aa7c1265cfe5ea448e19dadd636b4400c",
+    "src/go2arx5_vla/world_model/target_sequential.py": "fc86ddcd6fb641136333f524d9a63cc34041cd3cd303daea6b274cb71bd59c9b",
+    "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "35f2ab51febc8eb18b2e908897a5180466dcad4d500323320d48a837d16004f5"
+  },
+  "related_validation": {
+    "normal": {
+      "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -m pytest -x -q tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+      "passed": 273,
+      "pytest_wall_s": 18.34,
+      "exit_code": 0
+    },
+    "optimized": {
+      "command": "PYTHONPATH=src:. \"$WM02_NATIVE_PYTHON\" -O -m pytest -x -q tests/world_model/test_fusion_task_phase_bias_calibration_v2.py tests/world_model/test_fusion_task_phase_initialization_native.py tests/world_model/test_fusion_task_phase_initialization.py tests/world_model/test_fusion_live_and_posture_native.py tests/world_model/test_fusion_trajectory_qualification.py tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+      "passed": 273,
+      "pytest_wall_s": 18.76,
+      "exit_code": 0,
+      "warnings": "One expected pytest optimization-mode assertion warning; contract checks use explicit exceptions."
+    },
+    "coverage": "Same-input desired/goal/clock invariance; exact target-world XYZ and noncommuting SO3 correction; immutable frozen metadata and full suffixes; explicit V2 manifest versus pure ancestor math view; known operational caller and source-check retention; exact complete predecessor and failure injections; shared native lifecycle with durable preinstall calibration and nine real distinct synthetic samples; V1/older-route regression.",
+    "synthetic_consumption_is_actual_native_evidence": false,
+    "independent_read_only_review": "No confirmed first-use blocker in the frozen V2 implementation and narrow shared hooks.",
+    "broad_regression": {
+      "command": "\"$WM02_NATIVE_PYTHON\" -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py --ignore=tests/world_model/test_fusion_physics_feedback.py",
+      "passed": 1373,
+      "subtests_passed": 302,
+      "pytest_wall_s": 140.68,
+      "driver_wall_s": 141.789649204,
+      "child_CPU_s": 136.703029,
+      "exit_code": 0,
+      "source_members_checked_before_and_after": 14,
+      "all_source_pins_unchanged": true,
+      "log_sha256": "5f2d048f260a66dd900247c3eb876e7e166e2a5423494a46ff5c8d2f207f8b53",
+      "exclusion": "One unfinished independent physics-feedback prototype; it is not connected to this native route.",
+      "CI_or_native_qualification_asserted": false
+    }
+  },
+  "actual_experiment_effects_at_implementation_delivery": {
+    "native_execution_status": "NOT_RUN",
+    "actual_native_integrations": 0,
+    "actual_new_task_atoms": 0,
+    "actual_model_queries": 0,
+    "actual_model_updates": 0,
+    "actual_physical_correction_benefit": "NOT_MEASURED",
+    "actual_model_or_checkpoint_created": false
+  },
+  "next": "After the broad regression and immutable-source publication, register one fresh finite .03 initialization-calibration scope through the original mechanism. Measure actual desired/reference tracking, hold, safety, consumption and resource costs before considering a larger grade or a learned correction.",
+  "host_paths_raw_arrays_or_private_assets_published": false
+}

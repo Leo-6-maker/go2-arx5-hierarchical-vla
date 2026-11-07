@@ -1,0 +1,40 @@
+{
+  "schema": "WM02_FUSION_MATCHED_PROMPT_CONTROL_IMPLEMENTATION_V1",
+  "status": "LOCAL_IMPLEMENTED_TESTED_NOT_DEPLOYED_NEW_MODE",
+  "new_source_files": [
+    "src/go2arx5_vla/world_model/fusion_source_posture_query_archive_v3.py",
+    "src/go2arx5_vla/world_model/fusion_prompt_control.py"
+  ],
+  "changed_entry": "scripts/wm02/infer_fusion_vla.py;4line_explicit_mode_branch_only",
+  "old_observation_modes_changed": false,
+  "new_mode": "FROZEN_PROMPT_CONTROL_VIEW_V1",
+  "new_runtime_or_scheduler": false,
+  "tests": {
+    "archive_affected": {
+      "normal_passed": 197,
+      "normal_wall_s": 27.24,
+      "optimized_passed": 197,
+      "optimized_wall_s": 29.7,
+      "exit_code": 0
+    },
+    "prompt_affected": {
+      "normal_passed": 135,
+      "normal_subtests": 12,
+      "normal_wall_s": 13.36,
+      "optimized_passed": 135,
+      "optimized_subtests": 12,
+      "optimized_wall_s": 13.24,
+      "exit_code": 0
+    },
+    "environment_failure_retained": "First combined invocation lacked PYTHONPATH for archive subprocess test;96 tests ran with1failure. Source unchanged; rerun with PYTHONPATH=src:. passed. Not a model or native failure.",
+    "independent_review": "ROOT_AND_INDEPENDENT_READER_REVIEW_NO_CONFIRMED_BLOCK",
+    "full_suite_latest_source9459": "1120 tests/302 subtests/161.44s already recorded; no new whole-suite claim"
+  },
+  "site_effects_of_new_code": {
+    "queries": 0,
+    "integrations": 0,
+    "model_updates": 0
+  },
+  "actual_SO_and_TS": "Old qualified source9459 modes, separately reported, not actual new-mode qualification",
+  "next": "Commit and stage immutable successor source; actual closedV3 archive read; then fresh SS and TO scopes one at a time under original mechanism"
+}

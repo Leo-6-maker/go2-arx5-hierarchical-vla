@@ -1,0 +1,123 @@
+"""Explicit graded diagnostic composition; old half-grade readiness stays false.
+
+The on-disk V7 episode describes only the unchanged initialization prefix.
+The actual LIVE V8 scope separately preregisters capture B and terminal E.
+No source80mm equivalence, task success, motion or GPU grant is supplied here.
+"""
+from pathlib import Path
+import hashlib
+import json
+import numpy as np
+
+from scripts.pi0292.relay_protocol import digest as document_hash, unseal
+from scripts.pi0294.dec1.target_observation import transform_hash
+from . import fusion_task_phase_pose_continuation_v7 as prefix
+from . import fusion_task_phase_pose_continuation_contract_v7 as predecessor
+from . import fusion_task_phase_initialization_contract as operational
+from . import fusion_live_proposal_qualification_contract as common
+from .fusion_task_phase_xyz_feedback_evidence import audit_completed_feedback
+from .storage import digest
+
+PHASE='collect-target-fusion-task-phase-live-skill-v8'
+KIND='FUSION_TASK_PHASE_LIVE_SKILL_V8'
+B,E=34303,66503
+ROLE='GRADED_NONCONTACT_DIAGNOSTIC'
+TASK_CONDITION='SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
+PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
+PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
+PREDECESSOR_RESULT='1e1b0c75626cefeaf89f417cb0c1d276ec14fbc4eb473cf2b64fc238581581ae'
+SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
+ 'src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v8.py',
+ 'src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py',
+ 'src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v8.py',
+ 'src/go2arx5_vla/world_model/fusion_live_skill_segment.py',
+ 'src/go2arx5_vla/world_model/fusion_paused_query_bridge.py',
+ 'src/go2arx5_vla/world_model/fusion_paused_inference.py',
+ 'src/go2arx5_vla/world_model/fusion_paused_observation.py',
+ 'src/go2arx5_vla/world_model/fusion_source_camera_capture.py',
+ 'src/go2arx5_vla/world_model/fusion_source_camera_rig.py',
+ 'src/go2arx5_vla/world_model/fusion_trajectory_adapter.py',
+ 'scripts/wm02/fusion_task_phase_live_skill_check_v8.py')))
+
+def need(ok,why):
+    if not ok:raise ValueError('TASK_PHASE_LIVE_SKILL_V8_'+why)
+
+def score_contract():
+    return dict(schema='WM02_GRADED_FULL_TASK_PROPOSAL_DIAGNOSTIC_SCORE_V8',
+        purpose='FULL_GENERATED_H40_NATIVE_TRACKING_AND_INTENT_DIAGNOSIS_NOT_FULL_TASK_SCORE',
+        task_condition=TASK_CONDITION,capture_boundary_step=B,registered_final_step=E,
+        initialization_scale=.5,source_task_phase_equivalence=False,
+        prefix_full_grade_required=False,old_prefix_query_ready_reclassified=False,
+        geometry_scale=1.,time_stretch_factor=2,raw_knots_required=40,
+        minimum_tail_atoms=8,extra_budget='FINAL_HOLD_ONLY_NO_TRAJECTORY_CLIP',
+        candidate_minimum_TCP_cube_distance_m=.14,
+        candidate_gripper_rule='ORIGINAL_MECHANICAL_TO_WORKING_MAPPING_ALL40_UNCHANGED',
+        actual_contact_allowed=False,object_motion_allowed=False,
+        measured_tracking_error_is_prediction_innovation=False,
+        full_task_success_claim=False,native_safety_thresholds_changed=False)
+
+def task_document(scene_sha256,language):
+    from .fusion_paused_observation import TASK_SCHEMA
+    return dict(schema=TASK_SCHEMA,
+        task_id='ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V8',language=language,
+        scene_sha256=scene_sha256,score_contract_sha256=document_hash(score_contract()),
+        language_provenance='EXACT_SOURCE_TASK_PROMPT')
+
+def recipe_config(spec):
+    from .fusion_task_phase_live_skill_pair_v8 import PAIR_MODE
+    from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_IDENTITY,SOURCE_CAMERA_RECIPE
+    from .fusion_source_camera_capture import SourceCameraCapture
+    episode=prefix.episode_contract(common._json(spec['episode_manifest'],spec['episode_manifest_sha256']))
+    need(spec.get('phase')==PHASE and spec.get('kind')==KIND
+         and spec.get('experiment_role')==ROLE and spec.get('task_condition')==TASK_CONDITION
+         and episode['geometry_scale']==.5 and prefix.endpoint(episode)==B
+         and type(spec.get('live_skill_start_step'))is int and spec['live_skill_start_step']==B
+         and type(spec.get('max_ticks'))is int and spec['max_ticks']==E
+         and spec.get('snapshot_binding_mode')==PAIR_MODE
+         and type(spec.get('live_skill_geometry_scale'))in(int,float) and spec['live_skill_geometry_scale']==1.
+         and type(spec.get('live_skill_time_stretch_factor'))is int and spec['live_skill_time_stretch_factor']==2,
+         'EXPLICIT_HALF_PREFIX_B_DISTINCT_FULL_H40_SUFFIX_E_NO_SCALE_CLIP')
+    episode,source=operational.recipe_config(spec,episode,actual_phase=PHASE,actual_kind=KIND,
+                                            source_members=SOURCE_MEMBERS)
+    language=unseal(json.loads(source['source_observation_bytes']))['payload']['language']
+    task=common._json(spec['paused_target_task'],spec['paused_target_task_file_sha256'])
+    score=common._json(spec['paused_score_contract'],spec['paused_score_contract_file_sha256'])
+    need(task==task_document(digest(spec['model_path']),language) and score==score_contract()
+         and document_hash(task)==spec.get('paused_target_task_sha256'),
+         'EXACT_SOURCE_FULL_LANGUAGE_AND_DISTINCT_VERSIONED_DIAGNOSTIC_SCORE')
+    need(transform_hash(spec['paused_source_from_target'])==spec.get('paused_frame_map_sha256')
+         ==prefix.original.FRAME_MAP
+         and np.array_equal(np.asarray(spec['paused_source_from_target']),source['T_source_from_target']),
+         'UNCHANGED_FC347_TASK_AND_CAPTURE_FRAME')
+    path=Path(spec['source_camera_identity']);raw=path.read_bytes()
+    need(spec.get('capture_camera_recipe')==SOURCE_CAMERA_RECIPE
+         and spec.get('source_camera_identity_sha256')==SOURCE_CAMERA_IDENTITY
+         and not path.is_symlink() and path.is_absolute() and path.resolve()==path
+         and hashlib.sha256(raw).hexdigest()==SOURCE_CAMERA_IDENTITY,
+         'EXACT_DECLARED_SOURCE_CAMERA_RIG_NOT_EQUIVALENCE')
+    camera=SourceCameraCapture(raw,source['T_source_from_target'])
+    return episode,source,task,camera
+
+def episode_config(spec):
+    config=recipe_config(spec)
+    from .fusion_paused_query_bridge import preflight_pair
+    preflight_pair(Path(spec['paused_query_gpu_spec']),spec)
+    return config
+
+def episode_limit(spec,previous):
+    episode_config(spec)
+    path=Path(spec['previous_stage'])
+    actual=common._json(path,spec['previous_stage_sha256'])
+    prior,pin=common._closed(path.parent.parent)
+    need(actual==previous and spec['previous_stage_sha256']==PREDECESSOR_RESULT
+         and pin==PREDECESSOR_SPEC and prior['source_sha']==PREDECESSOR_SOURCE
+         and prior['phase']==actual['phase']==prefix.PHASE,
+         'EXACT_CLOSED_QUALIFIED_HALF_EVIDENCE_NOT_REOPENED_PERMISSION')
+    p=prefix.episode_contract(common._json(prior['episode_manifest'],prior['episode_manifest_sha256']))
+    need(p['geometry_scale']==.5 and prefix.endpoint(p)==B,'EXACT_REAL_HALF_PREFIX_NOT_FULL1')
+    checked=audit_completed_feedback(prior,actual,recipe=prefix)
+    need(checked['all_nine_non_full_grade_predicates_passed']is True
+         and checked['readiness']['query_ready']is False
+         and checked['readiness']['predicates']['full_grade']is False,
+         'KEEP_OLD_HALF_QUERY_READY_FALSE_AND_MEASURED_NINE_PREDICATES')
+    return E

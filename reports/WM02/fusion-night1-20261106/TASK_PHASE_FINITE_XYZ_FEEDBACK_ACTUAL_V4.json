@@ -1,0 +1,1170 @@
+{
+  "schema": "WM02_TASK_PHASE_FINITE_XYZ_FEEDBACK_ACTUAL_V4",
+  "status": "ACTUAL_CLOSED0_NATIVE_PASS_POINT1_GOAL_AND_HOLD_DIAGNOSTICS_PASS_FULL_GRADE_NOT_ESTABLISHED",
+  "condition": "INIT_FROZEN_BIAS_ORDINARY_XYZ_FEEDBACK_V4",
+  "baseline_condition": "INIT_FROZEN_PREDECISION_BIAS_GRADED_V3",
+  "experiment_role": "NON_VLA_CALIBRATION",
+  "purpose": "FINITE_ORDINARY_CAUSAL_XYZ_REFERENCE_FEEDBACK_COMMISSIONING_AT_THE_SAME_POINT1_INTENT_NOT_A_LEARNED_MODEL_OR_VLA_COMPARISON",
+  "run": "fusion-night1-task-phase-xyz-feedback-s010-01",
+  "source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+  "parent_source_sha": "94b6b789cc4789fb1c9202d1147b1bee56c79895",
+  "phase": "collect-target-fusion-task-phase-xyz-feedback-v4",
+  "kind": "FUSION_TASK_PHASE_XYZ_FEEDBACK_V4",
+  "profile": "wm02-auto1-target",
+  "spec_sha256": "1688fa86537129306fdd74051f69a5ca095b4ba0189472abf8d79410d264f2dc",
+  "native_result_sha256": "01b6e25762b86c809bdb4cd679bc38de31549212f3ea76e52cfa598207b98a61",
+  "lease_status": "CLOSED",
+  "worker_exit_code": 0,
+  "MainPID": 0,
+  "scope": {
+    "mechanism": "ORIGINAL_AUTO1_P1_SIM_ONLY_OWNER_AND_FINITE_WORKER_LIFECYCLE",
+    "fresh_scope": true,
+    "CLOSED_lease_reused": false,
+    "automatic_retry": false,
+    "cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "ROS_DOMAIN_ID": 220,
+    "wall_limit_s": 1200,
+    "GPU_used": false,
+    "new_scheduler_or_permission_platform": false
+  },
+  "recipe": {
+    "name": "FROZEN_PREDECISION_BIAS_PLUS_FINITE_CAUSAL_XYZ_FEEDBACK_V4",
+    "geometry_scale": 0.1,
+    "initial_measurement_native_step": 2503,
+    "decision_measurement_native_step": 3703,
+    "largest_calibration_measurement_native_step": 3703,
+    "ramp_atoms": 256,
+    "tail_atoms": 8,
+    "planned_end_atom": 368,
+    "native_endpoint_step": 13103,
+    "native_ticks_per_atom": 25,
+    "atom_duration_s": 0.05,
+    "physics_dt_s": 0.002,
+    "desired_intent": "UNCHANGED_V1_ALGORITHM: FROZEN_ACTUAL_CUBE_PLUS_WORLD_Z_140MM_STANDOFF_AND_PINNED_SOURCE_ROTATION_AT_THE_DECLARED_GRADE",
+    "translation_rule": "Initial frozen bias reference p_desired-(p_DEC-p_INIT); thereafter add only each explicitly committed bounded ordinary XYZ feedback increment to the previous reference endpoint",
+    "orientation_rule": "R_INIT @ R_DEC.T @ R_desired during the unchanged initial ramp; feedback segments retain that static reference endpoint rotation",
+    "translation_and_rotation_coupled_as_one_SE3_translation": false,
+    "first_reference_equals_measured_INIT": true,
+    "frozen_before_generated_reference_install": true,
+    "future_tracking_error_used": false,
+    "historical_terminal_error_used": false,
+    "learned_model_used": false,
+    "source_observation_role": "RETAINED_SOURCE_CONFIRM_V1_OBSERVATION_USED_AS_KNOWN_CALIBRATION_ORIENTATION_REFERENCE_NOT_NEW_TRAINING_OR_EXPERT_ACTION_LABEL",
+    "object_truth_use": "CALIBRATION_GOAL_AND_DIAGNOSTIC_ONLY_NOT_POLICY_INPUT_OR_EXPERT_LABEL",
+    "full_H40_original_native_certification_and_install_ACK_retained": true,
+    "source_relative_TTL_s": 0.4,
+    "reference_renewal_cadence_s": 0.35,
+    "WBC_changes": false,
+    "cube_or_scene_changes": false,
+    "feedback_decision_native_steps": [
+      10303,
+      11003,
+      11703,
+      12403
+    ],
+    "feedback_gain": 0.5,
+    "feedback_step_norm_cap_m": 0.004,
+    "feedback_deadband_m": 0.005,
+    "feedback_cumulative_path_length_cap_m": 0.016,
+    "feedback_move_atoms": 20,
+    "feedback_settle_atoms": 8,
+    "feedback_reference_starts_at_previous_committed_reference_not_achieved_TCP": true,
+    "feedback_uses_only_completed_actual_measurements": true,
+    "feedback_does_not_change_desired_goal_or_initial_ramp": true,
+    "silent_path_clipping_or_adaptive_retime": false
+  },
+  "physics": {
+    "actual_target_integrations": 13103,
+    "native_time_s": 26.205999999996354,
+    "complete_atomic_transitions": 524,
+    "complete_task_atoms": 424,
+    "postdecision_program_and_tail_atoms": 376,
+    "pose_confirmed_atoms": 424,
+    "gripper_confirmed_atoms": 424,
+    "generated_calibration_knots": 40,
+    "all40_generated_calibration_knots_consumed": true,
+    "raw_VLA_knots": 0
+  },
+  "native_audit": {
+    "status": "NATIVE_STAGE_PASSED",
+    "failure": null,
+    "shutdown_clean": true,
+    "reached_exact_pause": true,
+    "physics_stops": [],
+    "trace_stop_latched": false,
+    "original_joint_or_warning_samples": 0,
+    "native_outer_guard_rejections": 0,
+    "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+    "trace_events": 102773,
+    "trace_written": 102773,
+    "trace_dropped": 0,
+    "trace_native_step_records": 13103,
+    "trace_sealed_at_explicit_pause": true,
+    "trace_capacity": 524288,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    },
+    "endpoint_operator_cancel_mode": "HOLD",
+    "mode_ACK_alone_proves_physics_stop": false
+  },
+  "actual_readiness": {
+    "schema": "WM02_FUSION_TASK_PHASE_XYZ_FEEDBACK_READINESS_V4",
+    "query_ready": false,
+    "predicates": {
+      "full_grade": false,
+      "position": true,
+      "lateral": true,
+      "orientation": true,
+      "actual_cube_distance": true,
+      "continuous_relative_hold": true,
+      "actual_open": true,
+      "cube_still": true,
+      "no_contact": true,
+      "original_safety": true
+    },
+    "metrics": {
+      "maximum_position_error_m": 0.003998839529145638,
+      "maximum_lateral_error_m": 0.003322700215183379,
+      "maximum_orientation_error_rad": 0.024345532455061065,
+      "minimum_actual_cube_distance_m": 0.3020057835448366,
+      "minimum_actual_finger_opening_m": 0.04194624297889148,
+      "maximum_cube_displacement_m": 0.0,
+      "maximum_cube_rotation_from_frozen_rad": 0.0,
+      "relative_hold": {
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.00024563893391702543,
+        "relative_TCP_max_speed_m_s": 0.0014991505162958905,
+        "window_s": 0.3999999999997783,
+        "diameter_threshold_m": 0.002,
+        "speed_threshold_m_s": 0.025,
+        "screen_is_native_safety": false
+      }
+    },
+    "sample_count": 9,
+    "exact_actual_sample_native_steps": [
+      12903,
+      12928,
+      12953,
+      12978,
+      13003,
+      13028,
+      13053,
+      13078,
+      13103
+    ],
+    "sample_identity_verified": true,
+    "all_finite_complete_vectors": true,
+    "actual_2ms_clock": true,
+    "non_full_grade_predicates_true": 9,
+    "non_full_grade_predicates_false": [],
+    "full_grade_false_expected_for_geometry_scale_point1": true,
+    "query_ready_false_is_native_failure": false,
+    "query_ready_false_is_due_only_to_small_grade": true,
+    "graded_point1_goal_diagnostics_passed": true,
+    "readiness_thresholds_are_native_safety": false,
+    "readiness_grants_GPU_or_native_execution": false,
+    "full_task_success": false,
+    "position_diagnostic_threshold_m": 0.01,
+    "lateral_diagnostic_threshold_m": 0.01,
+    "orientation_diagnostic_threshold_rad": 0.05
+  },
+  "endpoint_error_definitions": {
+    "frame": "ACTUAL_TARGET_WORLD_XYZ",
+    "desired": "DECLARED_GRADED_GEOMETRIC_INTENT",
+    "reference": "INSTALLED_PREDECISION_CALIBRATED_CONTROLLER_REFERENCE",
+    "actual_minus_desired_xyz_m": [
+      -0.002479243808283904,
+      0.0019334960343061515,
+      -0.0021530935510403193
+    ],
+    "actual_minus_desired_L2_m": 0.0038106257511231804,
+    "actual_minus_reference_xyz_m": [
+      -0.02566496201523988,
+      0.0048842880331392904,
+      -0.034065973258391224
+    ],
+    "actual_minus_reference_L2_m": 0.04293060771612486,
+    "reference_minus_desired_L2_m": 0.03955649875063005,
+    "reference_vs_desired_rotation_rad": 0.0483322422400569,
+    "interpretation": "Terminal actual-minus-desired distance is 3.810626mm; the installed-reference residual is 42.930608mm. The reference deliberately includes frozen bias compensation and ordinary feedback. Desired-goal arrival and controller-reference tracking are different metrics; neither tracking residual is innovation without a matching pre-effect prediction.",
+    "pre_effect_response_prediction_saved": false,
+    "post_effect_tracking_residual_is_innovation": false,
+    "innovation_requirement": "A matching response prediction must be durably saved before the corresponding effect with exact clock and installed-command identity; frozen anchor calibration alone is not that prediction.",
+    "initial_frozen_reference_minus_desired_L2_m": 0.027269066883851473
+  },
+  "cost": {
+    "source_staging": {
+      "wall_s": 154.0874136290513,
+      "CPU_s": 1.383349485,
+      "copied_parent_members": 3359,
+      "copied_parent_bytes": 45227988,
+      "overlay_members": 20,
+      "overlay_written_bytes": 293066,
+      "actual_source_bytes_written": 45521054,
+      "unlisted_assets_or_cache_copied": 0,
+      "CPU_scope": "DISPATCHER_PROCESS_CPU_ONLY_EXCLUDES_READ_ONLY_CHILD_CPU",
+      "measurement_source": "ACTUAL_EXECUTION_SPEC_SOURCE_STAGING_COST",
+      "source_stage_separate_from_worker": true
+    },
+    "worker_wall_s": 210.2292930847034,
+    "worker_own_CPU_s": 104.928946858,
+    "worker_child_CPU_s": 309.719092,
+    "native_function_wall_s": 207.90759150404483,
+    "native_function_own_CPU_s": 103.138786606,
+    "systemd_CPU_s": 417.114009,
+    "systemd_peak_memory_bytes": 2552397824,
+    "timing_fields_overlap_do_not_sum": true,
+    "CPU_fields_measure_different_scopes_do_not_sum_with_systemd": true,
+    "GPU_queries": 0,
+    "optimizer_updates": 0,
+    "read_only_gate_audit": {
+      "successful_audit_wall_s": 0.4290015040896833,
+      "successful_audit_CPU_s": 0.387229033,
+      "successful_audit_scope": "INNER_UNCHANGED_AUDIT02_PROGRAM_UNDER_ORIGINAL_NATIVE_PYTHON_ENVIRONMENT",
+      "failed_attempt_count": 2,
+      "failed_attempt_wall_and_CPU": "NOT_RECORDED_IN_FAILURE_RECEIPTS_NOT_ASSUMED_ZERO",
+      "effects": {
+        "FK": 0,
+        "integrations": 0,
+        "model_loads": 0,
+        "permission_changes": 0,
+        "queries": 0,
+        "registrations": 0,
+        "writes": 0
+      },
+      "included_in_native_worker_or_physics_counts": false
+    }
+  },
+  "artifact_sha256": {
+    "execution_spec": "1688fa86537129306fdd74051f69a5ca095b4ba0189472abf8d79410d264f2dc",
+    "episode": "9737d496ee54685dcdc9edee8673897cb9576196b97761495363cf50de2ec954",
+    "native_result": "01b6e25762b86c809bdb4cd679bc38de31549212f3ea76e52cfa598207b98a61",
+    "lease": "43aa693f0a7f02989ddca21bea95040f9e02b3885354167fa6184a513f01334e",
+    "worker_exit": "bf3d5cb625b1a98e73f0f88c6d552df036fbb0ce9f17907cb0309dbff2a0ad53",
+    "supervisor": "b22c9ab88fe290512c6e36055b7c7858bb951c911fa2e8946ff385ff495040ef",
+    "terminal_state_header": "819ddfeda901b308d22b910bd2c9c10ea8684cbc45ee6e2e9a76a20ec897400c",
+    "terminal_pause_ACK": "a4dfa21ab657601fb264f902ae2f304b98dc3a47f4955e490bb32d1e0dfd959a",
+    "decision_prefix_screen": "c4515b1cf0dd0da56ffa0999e6a7314b9a7c7d165eb87ccaac56e8c30213d621",
+    "goal_binding": "63f38ddb48fb1595b5c26a8c45af7c16fc67030a33de121739b1bbc794881024",
+    "frozen_input_body": "5c8505a05fbfe7a4a14f12b66d5ec7d53a0294c5d1d4c4b3c9e7308aa92caf6a",
+    "decision_packet": "07605f492cc867fe76b9fca2e70b1bb7dc5b4e8c1a5f7910836168a1c8a5752a",
+    "decision_measured_state": "54d897a85522c6cc24fc10a2893aca99e6c0d48beeddc76d4371ab5d7e3b2507",
+    "readiness": "82be4adf7a6fb33b566068c9a4591f6a427951e4537f19b6dd0734b5b902ca32",
+    "complete_nine_actual_hold_samples": "d88c5b131239e9cf4659b0b98db76a591c47953074964e1edbca14e31ac4b8d5",
+    "initial_TCP": "ddd8926cb8af9109ce464de7c9f9e94e40c6658bfb58413fad9f921d19c2d87c",
+    "decision_TCP": "d6ed353e5495f5bca5dc45b9635a26efdbfacce56629ffed92ca9279a4aafcac",
+    "translation_bias": "7c4c2d885b8f6688aac0120c417786297462af2d7d984e9aac9e50e7edaca93d",
+    "left_rotation": "7a7886ac859163f93218200591f1437e072cdafb433541bb5c6e12679673a0f7",
+    "unchanged_desired_path": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+    "initial_frozen_reference_path": "938d6a9de5066cd4361c280d8fcb9347ceedc4a7b4f69cb3d7e8b36fcd63fd73",
+    "final_feedback_reference_path": "7f44a087169b50956786e749f621f55214162c06db4538aea236c4c84b4b3189",
+    "actual_state_vector": "8528b7024c347707e4c6359cef12d9f3ad56f9148f706d9193fe3e06c9a4dc7c",
+    "frozen_cube_pose": "138bea771be9c314573e5f30f9b8ac0ce18f8c9d64a69a065c556390685bf3b5",
+    "full_goal_TCP": "2791c32a4db713903121fbab4978724641f04115c751059d16ad773562bdc223"
+  },
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+    "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+    "original_ActualState_reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+    "actual_FK_witness_status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+    "same_packet_qpos_qvel_ctrl_exact": true,
+    "wrapper_mj_forward_calls": 0,
+    "wrapper_mj_step_calls": 0,
+    "wrapper_model_loads": 0,
+    "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "loaded_native_member_sha256": {
+      "libwm02_init_trace.so": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+      "observer.so": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+      "rl_sim_mujoco": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+      "task_actuation_r1.so": "acb7627e986301dad5ffea933ff320ae474c0faeef09750b7ea22be5709dc187",
+      "libmujoco.so.3.2.7": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6"
+    },
+    "GR00T_checkpoint_used": null,
+    "WM_checkpoint_used": null,
+    "Actor_checkpoint_used": null
+  },
+  "entry_and_provenance": {
+    "CLI_module": "scripts.wm02.fusion_task_phase_xyz_feedback_check_v4",
+    "actual_command_with_private_paths_redacted": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_xyz_feedback_check_v4 --spec REGISTERED_EXECUTION_SPEC --execute",
+    "path_redaction": "Only the absolute native Python executable and registered spec locations are symbolized; module, flags and worker delegation are unchanged.",
+    "delegated_worker": "scripts.wm02.pilot1_native_worker",
+    "CLI_sha256": "0e5f203a072013abc8e37f5cf270ebc53bea5c71ace040b143dcbf23857c5d34",
+    "executed_dispatcher_sha256": "f449b1976ff950d88ff622a9ceb7895aadf2063d95249df579f66b0e99c50bff",
+    "readonly_precheck_sha256": "3515c823f04aad3edc352ee2813c858a1ec40f05a6a58830c086c6d8e20b6970",
+    "readonly_actual_reader_sha256": "9e6d98cbd105084a05e050b22b264fcbb793f20f9826e9c778e8c8db87710f67",
+    "readonly_terminal_receipt_sha256": "5251e55894f75871c60106e806a9f5df40995ddc2c2d55112a4a5892290255b2",
+    "readonly_terminal_receipt_bytes": 48265,
+    "dispatch_receipt_sha256": "07d9109d12bfd95c09432f0590e05bad2ba767a301670a91ac6162ae19a2f2c7",
+    "source_delta_manifest_sha256": "f81b11bc27d790cb974f16ce4d66907393b2c45ea9a05567ccdb98c11af636cc",
+    "complete_committed_source_delta_sha256": "4000c948dbaf692cd873406853908255f5b01d76d59e9f662db74ead62ec2dd8",
+    "committed_delta_members": 20,
+    "committed_source_and_test_member_sha256": {
+      "scripts/wm02/fusion_task_phase_xyz_feedback_check_v4.py": "0e5f203a072013abc8e37f5cf270ebc53bea5c71ace040b143dcbf23857c5d34",
+      "src/go2arx5_vla/world_model/auto1_native.py": "464c4a87e7bcf7b6f44a9fd89d34fe13f2c86c9a2c4d5a80aee62b12f306f713",
+      "src/go2arx5_vla/world_model/fusion_physics_feedback_v2.py": "5a4e867604090c8e69f1644814d24e7bd1651e5450896fdd872d96443fc56076",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization.py": "c18e81733521747ccefb96abf828258eb7d7539e8d7747f1702e31a28680c6bb",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "6d5e93bec57410f7711dc4704f29d50ccd1aad46e12121d0bf59b69ba01226de",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py": "40d23be3831da6351ab1064721822216ac0599179636c102e5497204edf80710",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_contract_v4.py": "c59d448664c833e4bc8ce8e7b7312760b9630277e081d952651d910d613e6124",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py": "ebcb1ece60bbf08e183c897ed796b39c6e07d704140b1334bdaa40652d74f64d",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_v4.py": "bc0de800ed9a8a9ffc9b4c66f9f9bfc734a93a922fd4fba5b3aded72ca3f7ac0",
+      "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "c3b34a46b41926782e2b824580ad6073ae8e8023119c9498d2504b84d9de4a0a",
+      "src/go2arx5_vla/world_model/target_sequential.py": "17376000ed2b45c3111529ea65529a6e1c5babbee96cd7297dc528b1a0961dcd",
+      "tests/world_model/test_fusion_physics_feedback_v2.py": "246111fa6c20e8c893c1bf23b66ae6489694215da0b4f89ce1a47dab95578486",
+      "tests/world_model/test_fusion_task_phase_initialization_native.py": "c92413a6f7477896cb4c90af14898c5d24fd5e9df35a2db7d026a5bffd8d8a9d",
+      "tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py": "d26c0fb59cd1a2cf54a546a19a4729e8425188061daf41102b958c365512ad54"
+    },
+    "source_member_hash_validation": "EXACT_59DB_COMMITTED_GIT_BYTES_AGAINST_PINNED_ACTUAL_DELTA_MANIFEST; CURRENT_WORKING_TREE_IS_NOT_SUBSTITUTED_FOR_EXECUTED_CAPSULE",
+    "terminal_reader_effects": {
+      "integrations": 0,
+      "models": 0,
+      "queries": 0,
+      "source_writes": 0,
+      "scope_granted": false
+    },
+    "terminal_readiness_recomputed_by_reader": false,
+    "report_metrics_derived_from_saved_receipt_not_new_physics": true,
+    "actual_source_inventory_gate_audit": {
+      "members": 3371,
+      "canonical_sha256": "bbf67f67a187c827bf52433201b5e4060e32d7f79fa7b545aafbdae3989990bb",
+      "verification": "ACTUAL_ORIGINAL_REGISTERED_SPEC_DICTIONARY_READ_BY_TERMINAL_GATE_AUDIT03_NOT_A_PLACEHOLDER_OR_OLD3359_DERIVATION"
+    }
+  },
+  "actual_run_effects": {
+    "VLA_queries": 0,
+    "VLA_inferences": 0,
+    "VLA_action_installations": 0,
+    "actual_VLA_commands": 0,
+    "original_Processor_decodes": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "optimizer_updates": 0,
+    "new_model_or_checkpoint_created": false,
+    "frozen_VLA_plus_minus_WM_skill_comparisons": 0,
+    "task_success": false,
+    "task_transfer_gain_established": false
+  },
+  "limits": [
+    "This is ordinary bounded XYZ feedback at one .1 calibration intent, not a learned model, Actor, WM advantage or target VLA task-transfer result.",
+    "All nine non-full-grade terminal predicates pass in this run. Geometry scale remains .1; full_grade and query_ready are false, and full-scale initialization/task success are not established.",
+    "Reference increments and actual TCP movements are separately reported. Their discrepancy is tracking behavior, not innovation without a matching pre-effect forecast.",
+    "The checkpoint desired errors decrease from 13.642226mm to 3.810626mm during this run. That observation is not a same-state HOLD counterfactual, a proof of pointwise monotonicity or a unique causal/model improvement.",
+    "The V3 frozen-bias .1 goal failure and the earlier frozen192 negative results remain unchanged. This independent restart and its longer feedback clock do not erase or relabel those results.",
+    "The separate terminal aggregate gate audit passed after two preserved read-only rejections. It verified four decisions,424 task windows,62 rolling references and49 imported recorded source members. Raw ROS/policy logs were not independently reread; source/code and saved-record chronology is not an independent wallclock ledger.",
+    "The nine endpoint samples span one 0.4-second hold, not nine independent trials. Four feedback decisions in one episode are not four independent episodes or a Jacobian estimate.",
+    "Original safety thresholds, WBC, controller, physics dt, scene, cube and gripper contract are unchanged. Goal/readiness diagnostics are not native safety thresholds or a new deployment grant.",
+    "The historical source-confirm observation retains its original role. Its calibration geometry and the measured outcomes are not expert action labels; no new GR00T query or model update occurred."
+  ],
+  "next": {
+    "status": "FURTHER_REVIEW_AND_QUALIFICATION_REQUIRED_NO_NEW_RUN_AUTHORIZED_BY_THIS_REPORT",
+    "full_scale_initialization_and_GR00T_plus_minus_WM_comparison": "NOT_COMPLETED",
+    "deep_causal_audit": "ACTUAL_AGGREGATE_GATE_AUDIT03_PASS; RAW_ROS_POLICY_LOG_AND_INDEPENDENT_WALLCLOCK_LIMITS_RETAINED",
+    "decision_rule": "Retain this ordinary-feedback result, both read-only audit rejections and all prior negative gates. Any larger grade still requires its separately versioned implementation and a fresh original-owner native qualification; this audit grants no execution permission."
+  },
+  "publication": {
+    "private_host_paths_included": false,
+    "raw_pose_state_or_action_arrays_included": false,
+    "raw_images_or_payloads_included": false,
+    "metric_error_vectors_are_derived_aggregates": true,
+    "new_source_status_or_prior_reports_modified_by_this_artifact": false
+  },
+  "outcome_separation": {
+    "native_execution": "PASS_COMPLETE_SAFE_TRACE_AND_SHUTDOWN_CLOSED0",
+    "graded_point1_goal_diagnostics": "PASS_ALL_NINE_NON_FULL_GRADE_PREDICATES",
+    "relative_hold": "PASS",
+    "full_grade": false,
+    "query_ready": false,
+    "full_scale_initialization_completed": false,
+    "full_task_success": false,
+    "frozen_GR00T_plus_minus_WM_skill_comparisons": 0,
+    "ordinary_feedback_is_WM_gain": false
+  },
+  "retained_frozen_bias_point1_negative_predecessor": {
+    "run": "fusion-night1-task-phase-bias-s010-01",
+    "source_sha": "94b6b789cc4789fb1c9202d1147b1bee56c79895",
+    "spec_sha256": "550e4f4bec3de66c12a24fd911cc5691c49db901461ec88bedfcbcd9c7030e33",
+    "native_result_sha256": "cab1653ee05fa261c520bc01dc05ea17a861466e5c4570995fa2882d02494339",
+    "readonly_receipt_sha256": "a4b83fc6a33826a4e4185b125a850d95a06aaec81a7e7f019b50984f6c0fedc5",
+    "native_execution_status": "NATIVE_STAGE_PASSED_CLOSED0",
+    "condition": "INIT_FROZEN_PREDECISION_BIAS_GRADED_V3",
+    "position_predicate": false,
+    "lateral_predicate": false,
+    "other_seven_non_full_grade_predicates_passed": true,
+    "query_ready": false,
+    "negative_goal_qualification_result_preserved": true,
+    "old_native_result_relabelled_as_failure": false,
+    "strict_same_state_or_HOLD_counterfactual": false,
+    "interpretation": "This fresh ordinary-feedback restart follows the exact retained V3 .1 goal failure. It does not erase that failure, establish a same-state counterfactual gain, or demonstrate unique WM benefit."
+  },
+  "finite_xyz_feedback": {
+    "reported": {
+      "schema": "WM02_NATIVE_FINITE_XYZ_FEEDBACK_REPORT_V4",
+      "actual_feedback_reference_updates": 4,
+      "committed_feedback_decisions": 4,
+      "nonzero_XYZ_corrections": 4,
+      "deadband_HOLD_count": 0,
+      "sum_applied_XYZ_delta_norms_m": 0.01489001773105572,
+      "final_reference_path_sha256": "7f44a087169b50956786e749f621f55214162c06db4538aea236c4c84b4b3189",
+      "unchanged_desired_path_sha256": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+      "causal_completed_window_feedback": true,
+      "ordinary_feedback_not_model_benefit": true,
+      "original_windows_retain_ACK_solver_pose_and_gripper_consumption": true,
+      "WM_updates": 0,
+      "VLA_queries": 0,
+      "Actor_updates": 0
+    },
+    "expected_decision_steps": [
+      10303,
+      11003,
+      11703,
+      12403
+    ],
+    "decisions": [
+      {
+        "receipt": {
+          "native_step": 10303,
+          "decision_sha256": "2716228fb2d2b2e3ac0554622756f6337b3b2d915e5b7d137f00adbc2de9afed"
+        },
+        "decision_sha256": "2716228fb2d2b2e3ac0554622756f6337b3b2d915e5b7d137f00adbc2de9afed",
+        "saved_before_program_commit_and_reference_install": true,
+        "metrics": {
+          "native_step": 10303,
+          "decision_index": 0,
+          "error_world_xyz_m": [
+            0.009762695871574467,
+            -0.0059493735541622,
+            0.007443457168661127
+          ],
+          "error_norm_m": 0.013642226027650854,
+          "raw_gain_delta_world_m": [
+            0.004881347935787234,
+            -0.0029746867770811,
+            0.0037217285843305636
+          ],
+          "applied_delta_world_m": [
+            0.002862493511480273,
+            -0.0017443996433144165,
+            0.002182475837469427
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.004,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "938d6a9de5066cd4361c280d8fcb9347ceedc4a7b4f69cb3d7e8b36fcd63fd73",
+          "reference_path_after_sha256": "c2a929c49e8e2c7e503ecef2e9f660b07d5a47bfb7556a3111f72acc1a60a733",
+          "new_H40_sha256": "d281ca42e4d4da54b40330f4a3a8a20f9f76ba7ce7ac0018e7301e23972fca1b",
+          "unchanged_desired_path_sha256": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "actual_fk_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 10303,
+          "native_time_s": 20.605999999999458,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "artifact_files": {
+          "STATE.bin": {
+            "sha256": "8744473c6c762c474cf58e974d5da1907337a9f1d74ac35531ed935d04da0fe5",
+            "expected_sha256": "8744473c6c762c474cf58e974d5da1907337a9f1d74ac35531ed935d04da0fe5",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "9ac185b7bb86a1c59a8d0939d04a0926131c3a972a57d71168a0b5f3c1c1e5b4",
+            "expected_sha256": "9ac185b7bb86a1c59a8d0939d04a0926131c3a972a57d71168a0b5f3c1c1e5b4",
+            "bytes": 3912,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "746c01add08b7d21a5db6b2763f45af0c527f5b2243d801d6a91fc1cd40fe197",
+            "expected_sha256": "746c01add08b7d21a5db6b2763f45af0c527f5b2243d801d6a91fc1cd40fe197",
+            "bytes": 95384,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "88406d584b11be31cadcba68aabd2a4d4379378096108402ee19d954227cd488",
+            "expected_sha256": "88406d584b11be31cadcba68aabd2a4d4379378096108402ee19d954227cd488",
+            "bytes": 27092,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "a6fe4a0f89fcb053f020d2f21654d55ad24a415acaa6025298c4b1789648ed25",
+            "expected_sha256": "a6fe4a0f89fcb053f020d2f21654d55ad24a415acaa6025298c4b1789648ed25",
+            "bytes": 10322,
+            "file_sha256_matches": true
+          }
+        },
+        "all_saved_member_sha256_match": true,
+        "measured_state_native_step": 10303,
+        "measured_state_time_s": 20.605999999999458,
+        "state_packet_sha256": "8744473c6c762c474cf58e974d5da1907337a9f1d74ac35531ed935d04da0fe5",
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 10303,
+          "native_end_step": 10328,
+          "actual_ticks": 25,
+          "reference_sha256": "3166e4283b903aac757c758f63fefecf53189c8cfc8809c4dc11589d96072312",
+          "target_trajectory_sha256": "f9bdd50051a7de7953d6d9b208db4a5a3bb030317dbf5d974fc962ab1b50cbfe",
+          "actual_installed_source_age_s": -5.435651928564766e-13
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 9,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+        "actual_measured_delta_over_move_plus_settle_xyz_m": [
+          0.0018722250439060506,
+          -0.0009126459355380569,
+          0.0012812548145406666
+        ],
+        "actual_measured_delta_over_move_plus_settle_L2_m": 0.0024453554176165856,
+        "actual_measurement_interval_native_steps": [
+          10303,
+          11003
+        ]
+      },
+      {
+        "receipt": {
+          "native_step": 11003,
+          "decision_sha256": "9d63536c04b1e6bd4e0aec7b5ad39e635b8ba3dbf944d9d72366d7480594d5bf"
+        },
+        "decision_sha256": "9d63536c04b1e6bd4e0aec7b5ad39e635b8ba3dbf944d9d72366d7480594d5bf",
+        "saved_before_program_commit_and_reference_install": true,
+        "metrics": {
+          "native_step": 11003,
+          "decision_index": 1,
+          "error_world_xyz_m": [
+            0.007890470827668417,
+            -0.005036727618624143,
+            0.006162202354120461
+          ],
+          "error_norm_m": 0.01120718041434264,
+          "raw_gain_delta_world_m": [
+            0.003945235413834208,
+            -0.0025183638093120714,
+            0.0030811011770602303
+          ],
+          "applied_delta_world_m": [
+            0.0028162197933640507,
+            -0.0017976787853538174,
+            0.0021993765162321268
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.008,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "c2a929c49e8e2c7e503ecef2e9f660b07d5a47bfb7556a3111f72acc1a60a733",
+          "reference_path_after_sha256": "e421adc322983ff2e0ba9f5aadbe121151ad35940a755b24f6faf182897aa154",
+          "new_H40_sha256": "15a1261369c03b19a62786c78e2a59edb6d1cf7c03663f963b4507628f9ad3c7",
+          "unchanged_desired_path_sha256": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "actual_fk_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 11003,
+          "native_time_s": 22.005999999998682,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "artifact_files": {
+          "STATE.bin": {
+            "sha256": "c91af3ac1e277c8471975327fd5ea711043e934ea0fa45d2160e15805b5a6127",
+            "expected_sha256": "c91af3ac1e277c8471975327fd5ea711043e934ea0fa45d2160e15805b5a6127",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "e95da95a868434078ddb030d051a1b3494a0aebcec1bdeca9e24c4d68a4724a1",
+            "expected_sha256": "e95da95a868434078ddb030d051a1b3494a0aebcec1bdeca9e24c4d68a4724a1",
+            "bytes": 3917,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "12246a43ef0c1b10750dae6464308f227ef8c686245b2aad334ec4dac20d67c8",
+            "expected_sha256": "12246a43ef0c1b10750dae6464308f227ef8c686245b2aad334ec4dac20d67c8",
+            "bytes": 95383,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "150f248eeb2c70e7b76969fd574a8cdac93cd13a3fb5bc1f746b5ec096e3b2c3",
+            "expected_sha256": "150f248eeb2c70e7b76969fd574a8cdac93cd13a3fb5bc1f746b5ec096e3b2c3",
+            "bytes": 19868,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "ee375e148267399307b07aed2062f049b8e3942794e733a00321d08e014b5b6f",
+            "expected_sha256": "ee375e148267399307b07aed2062f049b8e3942794e733a00321d08e014b5b6f",
+            "bytes": 10322,
+            "file_sha256_matches": true
+          }
+        },
+        "all_saved_member_sha256_match": true,
+        "measured_state_native_step": 11003,
+        "measured_state_time_s": 22.005999999998682,
+        "state_packet_sha256": "c91af3ac1e277c8471975327fd5ea711043e934ea0fa45d2160e15805b5a6127",
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 11003,
+          "native_end_step": 11028,
+          "actual_ticks": 25,
+          "reference_sha256": "dbfeb6bad7b555c9814acf374afe4af8c4f75e9c71b9d170060f7fd0cfc02aec",
+          "target_trajectory_sha256": "47f2a5fd4b564c9dfa07966c1f3cc54f515b5d11c02fd0ca66f001662199a0a0",
+          "actual_installed_source_age_s": -1.3180567748349858e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+        "actual_measured_delta_over_move_plus_settle_xyz_m": [
+          0.001994850896988254,
+          -0.0010088161092156323,
+          0.001408167137609384
+        ],
+        "actual_measured_delta_over_move_plus_settle_L2_m": 0.0026419831057126033,
+        "actual_measurement_interval_native_steps": [
+          11003,
+          11703
+        ]
+      },
+      {
+        "receipt": {
+          "native_step": 11703,
+          "decision_sha256": "9ca36029aa834221f68108eae339cd3e7566d13994d238c42d754831f360a7c2"
+        },
+        "decision_sha256": "9ca36029aa834221f68108eae339cd3e7566d13994d238c42d754831f360a7c2",
+        "saved_before_program_commit_and_reference_install": true,
+        "metrics": {
+          "native_step": 11703,
+          "decision_index": 2,
+          "error_world_xyz_m": [
+            0.005895619930680163,
+            -0.0040279115094085105,
+            0.004754035216511077
+          ],
+          "error_norm_m": 0.008578068333516948,
+          "raw_gain_delta_world_m": [
+            0.0029478099653400813,
+            -0.0020139557547042553,
+            0.0023770176082555383
+          ],
+          "applied_delta_world_m": [
+            0.0027491596949137382,
+            -0.0018782370821973135,
+            0.0022168325229752306
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.012,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "e421adc322983ff2e0ba9f5aadbe121151ad35940a755b24f6faf182897aa154",
+          "reference_path_after_sha256": "433c893bf6f87e4bef19769a7bf996e50e3ae3392130006f59bcd036b3e42b77",
+          "new_H40_sha256": "ae13ac581931e6acd501490bd2e4cd7921bf24025f9f3878513170323577f649",
+          "unchanged_desired_path_sha256": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "actual_fk_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 11703,
+          "native_time_s": 23.405999999997906,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "artifact_files": {
+          "STATE.bin": {
+            "sha256": "bed847a4268f106113c97bd864543f074946b9fc0ff84e4d088f9ebdd06fd1d3",
+            "expected_sha256": "bed847a4268f106113c97bd864543f074946b9fc0ff84e4d088f9ebdd06fd1d3",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "dfda5852ea0bea739e40abcd6e8153df7e76b28c49d70059b2af546da7203867",
+            "expected_sha256": "dfda5852ea0bea739e40abcd6e8153df7e76b28c49d70059b2af546da7203867",
+            "bytes": 3914,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "4124d661d5fee8c2a43b2c6d97219a3e7edc7ba76f660e1776576a1bb66d4a57",
+            "expected_sha256": "4124d661d5fee8c2a43b2c6d97219a3e7edc7ba76f660e1776576a1bb66d4a57",
+            "bytes": 95352,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "5b5888f2c32493fe41dc463fc6382121060e3f1b816bcd8aa0bc91c6438dda53",
+            "expected_sha256": "5b5888f2c32493fe41dc463fc6382121060e3f1b816bcd8aa0bc91c6438dda53",
+            "bytes": 12614,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "dfb5d6540384f58b9e50a76743e7d5a1788e25bfe1b423032afb5d18a803f4fb",
+            "expected_sha256": "dfb5d6540384f58b9e50a76743e7d5a1788e25bfe1b423032afb5d18a803f4fb",
+            "bytes": 10301,
+            "file_sha256_matches": true
+          }
+        },
+        "all_saved_member_sha256_match": true,
+        "measured_state_native_step": 11703,
+        "measured_state_time_s": 23.405999999997906,
+        "state_packet_sha256": "bed847a4268f106113c97bd864543f074946b9fc0ff84e4d088f9ebdd06fd1d3",
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 11703,
+          "native_end_step": 11728,
+          "actual_ticks": 25,
+          "reference_sha256": "e47f7b34262b2bd1b4f72a57f2725a74c50d4b8439906d7f324272abd86d40e9",
+          "target_trajectory_sha256": "8570674a195f9e67102ec386e86643c1b75d41f1e629e54b12cabf2e31ce502f",
+          "actual_installed_source_age_s": -2.092548356813495e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 8,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+        "actual_measured_delta_over_move_plus_settle_xyz_m": [
+          0.001970260264785084,
+          -0.0011389955534517535,
+          0.0016468618972306226
+        ],
+        "actual_measured_delta_over_move_plus_settle_L2_m": 0.0028091618839653763,
+        "actual_measurement_interval_native_steps": [
+          11703,
+          12403
+        ]
+      },
+      {
+        "receipt": {
+          "native_step": 12403,
+          "decision_sha256": "0262be4d48fc586c0ff11b3c0dc249c4825b139eedcfc37d23ce763e5816145b"
+        },
+        "decision_sha256": "0262be4d48fc586c0ff11b3c0dc249c4825b139eedcfc37d23ce763e5816145b",
+        "saved_before_program_commit_and_reference_install": true,
+        "metrics": {
+          "native_step": 12403,
+          "decision_index": 3,
+          "error_world_xyz_m": [
+            0.0039253596658950785,
+            -0.002888915955956757,
+            0.003107173319280454
+          ],
+          "error_norm_m": 0.005780035462111438,
+          "raw_gain_delta_world_m": [
+            0.0019626798329475392,
+            -0.0014444579779783785,
+            0.001553586659640227
+          ],
+          "applied_delta_world_m": [
+            0.0019626798329475392,
+            -0.0014444579779783785,
+            0.001553586659640227
+          ],
+          "applied_delta_norm_m": 0.002890017731055719,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.01489001773105572,
+          "cumulative_reference_path_length_cap_m": 0.016,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "433c893bf6f87e4bef19769a7bf996e50e3ae3392130006f59bcd036b3e42b77",
+          "reference_path_after_sha256": "7f44a087169b50956786e749f621f55214162c06db4538aea236c4c84b4b3189",
+          "new_H40_sha256": "6f419b76978c17f70f0450363fb21b1b778e40283b3c782bfa50837be6bbfbdf",
+          "unchanged_desired_path_sha256": "589fe02a242cefc9f02afaca010aa984201a4cf8a88626d792738552af826622",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0
+        },
+        "actual_fk_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 12403,
+          "native_time_s": 24.80599999999713,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "artifact_files": {
+          "STATE.bin": {
+            "sha256": "48765bc393f2ddacd0500cd34caaaaa4606867f43152854c0f7d317d4cfd8373",
+            "expected_sha256": "48765bc393f2ddacd0500cd34caaaaa4606867f43152854c0f7d317d4cfd8373",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "00d273d63d51e3472b031c85f9ff9a49674350adeb673f38897d01e943734595",
+            "expected_sha256": "00d273d63d51e3472b031c85f9ff9a49674350adeb673f38897d01e943734595",
+            "bytes": 3923,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "2641a1576b557e5f6e17d41b8deb309ba43b8d0a2254a26da7e3c4be1e990158",
+            "expected_sha256": "2641a1576b557e5f6e17d41b8deb309ba43b8d0a2254a26da7e3c4be1e990158",
+            "bytes": 95370,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "cecc755cecd4d75d7b3402968f11caa454961da4171ad6bfb97d7704f94e130c",
+            "expected_sha256": "cecc755cecd4d75d7b3402968f11caa454961da4171ad6bfb97d7704f94e130c",
+            "bytes": 5418,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "cc8835ea33abbbb943a6a1a81058d0ec82bac3c32cb8a2d875ab83bbf474a20d",
+            "expected_sha256": "cc8835ea33abbbb943a6a1a81058d0ec82bac3c32cb8a2d875ab83bbf474a20d",
+            "bytes": 10320,
+            "file_sha256_matches": true
+          }
+        },
+        "all_saved_member_sha256_match": true,
+        "measured_state_native_step": 12403,
+        "measured_state_time_s": 24.80599999999713,
+        "state_packet_sha256": "48765bc393f2ddacd0500cd34caaaaa4606867f43152854c0f7d317d4cfd8373",
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 12403,
+          "native_end_step": 12428,
+          "actual_ticks": 25,
+          "reference_sha256": "8ef9eb3c3ee979a734d694078e5252864fddf97d966afda3b4bcb220ce80ac42",
+          "target_trajectory_sha256": "6731902df6b5c183989ee2b24a96bb9518059f30cd1f6f9b360477b84f804be2",
+          "actual_installed_source_age_s": -2.8705926524708048e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+        "actual_measured_delta_over_move_plus_settle_xyz_m": [
+          0.0014461158576111743,
+          -0.0009554199216506055,
+          0.0009540797682401347
+        ],
+        "actual_measured_delta_over_move_plus_settle_L2_m": 0.001978470748959029,
+        "actual_measurement_interval_native_steps": [
+          12403,
+          13103
+        ]
+      }
+    ],
+    "read_errors": [],
+    "raw_command_or_policy_ledger_reread": false,
+    "evidence_source": "SEALED_ORIGINAL_REPORT_WINDOWS_ACK_SUMMARIES_AND_PINNED_DECISION_ARTIFACTS",
+    "native_or_GPU_permission": false,
+    "pre_effect_prediction_present": false,
+    "measured_tracking_residual_is_innovation": false,
+    "reported_four_decision_steps_match": true,
+    "actual_delta_source": "NEXT_SAVED_DECISION_MEASURED_STATE_OR_FINAL_ACTUAL_READINESS_SAMPLE; NOT_EQUAL_TO_REFERENCE_DELTA_BY_ASSUMPTION",
+    "all_four_saved_and_first_consumption_joins": true,
+    "audit_scope": {
+      "status": "ACTUAL_SEPARATE_READ_ONLY_AGGREGATE_GATE_AUDIT_PASS",
+      "thin_reader_first_installed_H40_and_first_actual25tick_window_joins_retained": true,
+      "all424_original_task_window_and62_rolling_reference_joins_verified": true,
+      "all_four_saved_decisions_and_reference_revisions_recomputed": true,
+      "imported_recorded_source_members_verified": 49,
+      "raw_ROS_or_policy_logs_independently_reread": false,
+      "saved_original_FK_witness_rejoined_not_independently_recomputed": true,
+      "write_before_install_chronology": "PINNED_PRODUCER_CODE_AND_SAVED_RECORDS_NOT_AN_INDEPENDENT_WALLCLOCK_LEDGER",
+      "independent_wallclock_ledger_available": false,
+      "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+      "audit_receipt_sha256": "882f8533b2ac851cf82195147d126532eea804fcca8d95789aac96a50863425e",
+      "native_or_GPU_permission": false
+    },
+    "observed_checkpoint_desired_error_mm": {
+      "native_steps": [
+        10303,
+        11003,
+        11703,
+        12403,
+        13103
+      ],
+      "values": [
+        13.642226027650855,
+        11.207180414342641,
+        8.578068333516947,
+        5.780035462111438,
+        3.8106257511231805
+      ],
+      "full_path_pointwise_monotonicity_claim": false,
+      "same_state_HOLD_counterfactual": false,
+      "task_success_claim": false
+    },
+    "reference_and_actual_motion_distinction": "The 14.890017731mm value is the sum of four commanded reference-increment L2 norms. Each measured TCP delta is separately derived over that segment move-plus-settle interval; commanded increment and actual movement are not assumed equal.",
+    "sum_measured_move_plus_settle_delta_L2_m": 0.009874971156253593
+  },
+  "retained_prior_scientific_conclusions": {
+    "frozen_native_192_negative_conclusion_changed": false,
+    "frozen_native_192_panel_rerun": false,
+    "old_V3_point1_goal_failure_changed": false,
+    "new_training_fit_or_ARCH_comparison": false,
+    "full_scale_initialization_completed": false,
+    "frozen_GR00T_plus_minus_WM_skill_comparisons": 0
+  },
+  "gate_audit": {
+    "status": "ACTUAL_READ_ONLY_AGGREGATE_GATE_AUDIT_PASS_AFTER_TWO_RETAINED_REJECTIONS",
+    "prior_public_report_sha256_before_gate_audit": "e558d7c04df2d36d2a671761b92ee71052f8070be648fec6e0f9b4a71d3125a0",
+    "failed_attempts": [
+      {
+        "attempt": 1,
+        "exit_code": 1,
+        "status": "AUDIT_REJECTED_NO_PERMISSION_OR_EXECUTION_EFFECT",
+        "error_type": "ValueError",
+        "reason_public": "BOUNDED_EXISTING_NON_SYMLINK_FILE:RESULT.json",
+        "private_host_path_redacted": true,
+        "receipt_sha256": "28b23d8ec782b6a5a76274cd19387c1b037c862c2e8ce177397b008c085eb071",
+        "helper_sha256": "b59c8b2eb333d9506fd079635e54573f13cd2c914929732f6095795a14bcbb65",
+        "stdout_or_error_artifacts_overwritten": false,
+        "wall_s": null,
+        "CPU_s": null,
+        "cost_measurement": "NOT_RECORDED_IN_FAILURE_RECEIPT",
+        "effects": {
+          "integrations": 0,
+          "FK": 0,
+          "model_loads": 0,
+          "queries": 0,
+          "writes": 0
+        },
+        "native_execution_authorized": false,
+        "explanation": "The exact RESULT exceeded the original20,000,000-byte reader ceiling; the bounded read rejected before qualification.",
+        "counted_as_new_physical_failure": false,
+        "counted_as_model_update": false
+      },
+      {
+        "attempt": 2,
+        "exit_code": 1,
+        "status": "AUDIT_REJECTED_NO_PERMISSION_OR_EXECUTION_EFFECT",
+        "error_type": "ValueError",
+        "reason_public": "EXACT_CURRENT_RESTART_3703_GOAL_AND_PACKET_BYTES",
+        "private_host_path_redacted": false,
+        "receipt_sha256": "0b01432bb0a6cd9cca937e51f90a9df4a1193ee25f5a2469711dbafd1a2a1e6b",
+        "helper_sha256": "27985039912a1a148eafb65cbbd058bc6a2ad5967e1585f305957e66edcff60a",
+        "stdout_or_error_artifacts_overwritten": false,
+        "wall_s": null,
+        "CPU_s": null,
+        "cost_measurement": "NOT_RECORDED_IN_FAILURE_RECEIPT",
+        "effects": {
+          "integrations": 0,
+          "FK": 0,
+          "model_loads": 0,
+          "queries": 0,
+          "writes": 0
+        },
+        "native_execution_authorized": false,
+        "explanation": "The 128,000,000-byte exact-SHA reader reached frozen-input reconstruction but rejected under the default Python environment. The original native Python/environment later passed the same audit02 program.",
+        "counted_as_new_physical_failure": false,
+        "counted_as_model_update": false
+      }
+    ],
+    "successful_attempt": {
+      "attempt": 3,
+      "exit_code": 0,
+      "receipt_sha256": "882f8533b2ac851cf82195147d126532eea804fcca8d95789aac96a50863425e",
+      "native_environment_wrapper_sha256": "21ffd375d1b80db007e5854120b7d15e5e6908cf5eec67a80a9680e21396baf8",
+      "unchanged_audit02_helper_sha256": "27985039912a1a148eafb65cbbd058bc6a2ad5967e1585f305957e66edcff60a",
+      "invocation": "ORIGINAL_SPEC_PYTHON_WITH_ORIGINAL_NATIVE_ENVIRONMENT_AND_BLAS_THREADS1",
+      "program_bytes_identical_to_audit02": true,
+      "reader_limit_bytes": 128000000,
+      "CPU_s": 0.387229033,
+      "actual_reference_renewals": 62,
+      "complete_native_25tick_physics_transitions": 524,
+      "complete_task_atoms": 424,
+      "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+      "deadband_HOLD_count": 0,
+      "effects": {
+        "FK": 0,
+        "integrations": 0,
+        "model_loads": 0,
+        "permission_changes": 0,
+        "queries": 0,
+        "registrations": 0,
+        "writes": 0
+      },
+      "feedback_decisions": [
+        {
+          "applied_delta_norm_mm": 4.0,
+          "deadband_HOLD": false,
+          "decision_sha256": "2716228fb2d2b2e3ac0554622756f6337b3b2d915e5b7d137f00adbc2de9afed",
+          "error_before_mm": 13.642226027650855,
+          "native_step": 10303
+        },
+        {
+          "applied_delta_norm_mm": 4.0,
+          "deadband_HOLD": false,
+          "decision_sha256": "9d63536c04b1e6bd4e0aec7b5ad39e635b8ba3dbf944d9d72366d7480594d5bf",
+          "error_before_mm": 11.207180414342641,
+          "native_step": 11003
+        },
+        {
+          "applied_delta_norm_mm": 4.0,
+          "deadband_HOLD": false,
+          "decision_sha256": "9ca36029aa834221f68108eae339cd3e7566d13994d238c42d754831f360a7c2",
+          "error_before_mm": 8.578068333516947,
+          "native_step": 11703
+        },
+        {
+          "applied_delta_norm_mm": 2.890017731055719,
+          "deadband_HOLD": false,
+          "decision_sha256": "0262be4d48fc586c0ff11b3c0dc249c4825b139eedcfc37d23ce763e5816145b",
+          "error_before_mm": 5.780035462111438,
+          "native_step": 12403
+        }
+      ],
+      "goal_binding_sha256": "63f38ddb48fb1595b5c26a8c45af7c16fc67030a33de121739b1bbc794881024",
+      "hold_samples_sha256": "d88c5b131239e9cf4659b0b98db76a591c47953074964e1edbca14e31ac4b8d5",
+      "imported_recorded_source_members_verified": 49,
+      "lease_sha256": "43aa693f0a7f02989ddca21bea95040f9e02b3885354167fa6184a513f01334e",
+      "measurement_predicates": {
+        "actual_cube_distance": true,
+        "actual_open": true,
+        "continuous_relative_hold": true,
+        "cube_still": true,
+        "full_grade": false,
+        "lateral": true,
+        "no_contact": true,
+        "orientation": true,
+        "original_safety": true,
+        "position": true
+      },
+      "native_ticks": 13103,
+      "next_grade_authorized_by_this_reader": false,
+      "nine_non_full_grade_initialization_gate": true,
+      "nonzero_XYZ_corrections": 4,
+      "raw_ROS_or_policy_logs_independently_reread": false,
+      "readiness_sha256": "82be4adf7a6fb33b566068c9a4591f6a427951e4537f19b6dd0734b5b902ca32",
+      "record_source": "AGGREGATE_ORIGINAL_RESULT_WINDOWS_AND_SAVED_DECISION_ARTIFACTS",
+      "result_sha256": "01b6e25762b86c809bdb4cd679bc38de31549212f3ea76e52cfa598207b98a61",
+      "saved_original_FK_witness_rejoined_not_independently_recomputed": true,
+      "scalar_metrics": {
+        "maximum_cube_displacement_m": 0.0,
+        "maximum_cube_rotation_from_frozen_rad": 0.0,
+        "maximum_lateral_error_m": 0.003322700215183379,
+        "maximum_orientation_error_rad": 0.024345532455061065,
+        "maximum_position_error_m": 0.003998839529145638,
+        "minimum_actual_cube_distance_m": 0.3020057835448366,
+        "minimum_actual_finger_opening_m": 0.04194624297889148
+      },
+      "schema": "WM02_TERMINAL_V4_POINT1_DEEP_GATE_READ_ONLY_AUDIT_V1",
+      "sealed_data_identities": [
+        {
+          "basename": "state.bin.journal",
+          "bytes": 26344676,
+          "sha256": "ae07014897cebb90dc6deb8e77b64c8603e2f8a66cf378450950aabbb1e9ba1d"
+        },
+        {
+          "basename": "init.trace",
+          "bytes": 86329336,
+          "sha256": "eb908bbf966465593fed234a966f77cdf3aaf5a6fac620f04a1b7eaf3c3fc99c"
+        },
+        {
+          "basename": "TRAJECTORY_QUALIFICATION.private.json",
+          "bytes": 22481510,
+          "sha256": "34624df962ef57af2c6d5ee6d7d8dc0523573b88847c0fdadbbf9a1a093dd53e"
+        },
+        {
+          "basename": "state.bin",
+          "bytes": 2008,
+          "sha256": "6b4054ec6113370827f9403a62dc0b28cdda59b2bfc773997a7b9fb674005bf9"
+        }
+      ],
+      "source_files_canonical_sha256": "bbf67f67a187c827bf52433201b5e4060e32d7f79fa7b545aafbdae3989990bb",
+      "source_files_members": 3371,
+      "source_sha": "59db1a50e006417eab16ae2e828116b5d7775448",
+      "spec_sha256": "1688fa86537129306fdd74051f69a5ca095b4ba0189472abf8d79410d264f2dc",
+      "status": "ALL_AGGREGATE_EXECUTION_AND_CAUSAL_REFERENCE_JOINS_VERIFIED",
+      "sum_applied_delta_norms_mm": 14.89001773105572,
+      "terminal_heavy_read": true,
+      "those_transitions_are_VLA_expert_or_WM_training_samples": false,
+      "unit": {
+        "ExecMainStatus": "0",
+        "LoadState": "loaded",
+        "MainPID": "0"
+      },
+      "wall_s": 0.4290015040896833,
+      "worker_sha256": "bf3d5cb625b1a98e73f0f88c6d552df036fbb0ce9f17907cb0309dbff2a0ad53",
+      "write_before_install_chronology": "PINNED_PRODUCER_CODE_AND_SAVED_RECORDS_NOT_AN_INDEPENDENT_WALLCLOCK_LEDGER"
+    },
+    "scope": "Reconstruct the frozen goal/readiness and all four feedback revisions, then join every original aggregate task window and rolling reference to its full H40, consumed row, unchanged desired path, BASE and original source-relative TTL. Saved original FK witnesses are rejoined; no new FK or raw ROS/policy-log replay occurs.",
+    "independent_wallclock_before_install_ledger_available": false,
+    "controller_selected_WBC_policy_identity_known": false,
+    "failed_read_only_attempts_change_native_physics_or_model_denominators": false,
+    "new_execution_or_next_grade_permission": false
+  },
+  "sealed_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 26344676,
+      "sha256": "ae07014897cebb90dc6deb8e77b64c8603e2f8a66cf378450950aabbb1e9ba1d"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 86329336,
+      "sha256": "eb908bbf966465593fed234a966f77cdf3aaf5a6fac620f04a1b7eaf3c3fc99c"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "bytes": 22481510,
+      "sha256": "34624df962ef57af2c6d5ee6d7d8dc0523573b88847c0fdadbbf9a1a093dd53e"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "6b4054ec6113370827f9403a62dc0b28cdda59b2bfc773997a7b9fb674005bf9"
+    }
+  ]
+}

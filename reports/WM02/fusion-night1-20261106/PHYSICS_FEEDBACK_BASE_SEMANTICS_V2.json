@@ -1,0 +1,167 @@
+{
+  "API": {
+    "BASE_innovation_and_forecast_applicability": false,
+    "BASE_innovation_and_forecast_value": null,
+    "BASE_reference_or_WBC_modified": false,
+    "arguments": "Exactly the V1 keyword arguments; no positive BASE-binding or transform argument",
+    "entry": "fusion_physics_feedback_v2.make_packet",
+    "measured_field": "freejoint_root_pose",
+    "measured_point": "NATIVE_QPOS0_FREEJOINT_ROOT",
+    "measured_root_validity": "Preserves actual measurement availability; simulator-privileged",
+    "model_domain_hash_or_boolean_enables_point_binding": false,
+    "raw_comparison_label": "UNQUALIFIED_ROOT_VS_MPC_POINT_NOT_TRACKING_OR_INNOVATION_OR_CONTROL_LABEL",
+    "schema": "WM02_FUSION_PHYSICS_FEEDBACK_PACKET_V2",
+    "tracking_BASE_applicability": false,
+    "tracking_BASE_value": null
+  },
+  "actual_local_check": {
+    "assembly_CPU_s": 0.010882490999999994,
+    "assembly_wall_s": 0.010884533010539599,
+    "child_CPU_s": 0.097606281,
+    "child_wall_s": 0.09762787399813533,
+    "cost_components_overlap_do_not_sum": true,
+    "dependencies_unchanged_before_after": true,
+    "diff_checks": {
+      "BASE_innovation_null_and_false": true,
+      "BASE_tracking_null_and_false": true,
+      "TCP_and_gripper_tracking_exact": true,
+      "TCP_gripper_object_velocity_events_reference_age_exact": true,
+      "all_nonsection_metadata_and_consumed_commands_unchanged": true,
+      "freejoint_root_measured_pose_exact": true,
+      "no_forecast_invented": true,
+      "no_positive_binding_or_transform": true,
+      "no_prediction_still_masked": true,
+      "original_input_and_V1packet_unchanged": true,
+      "unqualified_numeric_BASE_diagnostic_preserved": true,
+      "working_V1_module_unchanged": true,
+      "working_V2_module_unchanged": true
+    },
+    "exit_code": 0,
+    "forecast_count": 0,
+    "import_CPU_s": 0.08236808600000001,
+    "import_wall_s": 0.08238813000207301,
+    "innovation_mask": {
+      "base_pose": false,
+      "finger_q": false,
+      "object_pose": false,
+      "tcp": false
+    },
+    "innovation_reason": "NO_SAVED_PREDICTION",
+    "innovation_valid": false,
+    "input_sha256": "56a13ca75c8d136aa3b1671ebe1b80394403cab9353cc6a4e41eebc589de865c",
+    "isolated_dependency_files": 37,
+    "measured_mask": {
+      "events": {
+        "left_object_contact": true,
+        "native_abort": true,
+        "native_grasp": true,
+        "reset": true,
+        "right_object_contact": true,
+        "robot_object_contact": true,
+        "safety_valid": true,
+        "takeover": true
+      },
+      "finger_q": true,
+      "freejoint_root_pose": true,
+      "object_pose": true,
+      "reference_age_s": true,
+      "tcp": true,
+      "tracking_base_pose": false,
+      "tracking_gripper": true,
+      "tracking_tcp": true,
+      "velocity": true
+    },
+    "native_interval": [
+      6903,
+      6928
+    ],
+    "new_packet_sha256": "67a888aa15a88880647e8c3291ffc14a39d1483dd4b4bd0739f990ea8115742f",
+    "new_private_receipt_sha256": "949374223a8bd0b96a8716fd9334f40d61f145e3e326c031590c7deb4c47bc36",
+    "original_native_source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
+    "status": "ACTUAL_ARCHIVED_ATOM_ASSEMBLED_BASE_SEMANTICS_MASKED"
+  },
+  "effects": {
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "WBC_or_reference_transform_changes": 0,
+    "WM_updates": 0,
+    "active_capsule_changes": 0,
+    "future_state_injected_into_proprioception_padding_prompt_or_head": false,
+    "new_FK": 0,
+    "new_action_installations": 0,
+    "new_integrations": 0,
+    "new_model_loads": 0,
+    "new_model_queries": 0,
+    "new_renders": 0,
+    "raw_states_or_host_paths_published": false
+  },
+  "original_V1": {
+    "code_unchanged": true,
+    "historical_evidence_rewritten": false,
+    "module_sha256": "9d1cc7229a16d02763dd405454465a11c44f75e20c0da4021667f76fb17c2d6d",
+    "original_BASE_native_semantic_applicability": "UNRESOLVED",
+    "original_tracking_BASE_record_consistency_mask": true,
+    "packet_and_receipt_unchanged": true,
+    "packet_sha256": "e973d3606870cccf75c35a11741a3e6ecbff644626c2a1a45c47c79535431f44",
+    "source_sha": "b55da2d831121a9971803f013ad4c6b921bd2984"
+  },
+  "point_evidence": {
+    "BASE_point_mapping_qualified_by_this_change": false,
+    "actual_readonly_audit_sha256": "0b95a24f815733139653521224b9b5c906a9def10b2e7fd719c9ca54b2939358",
+    "finding": "The reviewed bridge uses an arm-mount BASE representation and supports commanded/measured observation blending; the native qpos pose is the freejoint root.",
+    "frozen_parser_model_config_checks": "Existing read-only checks provide supporting identities; complete controller-source/build/binary equivalence still requires explicit qualification.",
+    "independent_Core_audit_CPU_s": 0.022305336999999998,
+    "independent_Core_audit_exit_code": 0,
+    "independent_Core_audit_wall_s": 0.026494603138417006,
+    "numeric_difference_classified_as_controller_error": false,
+    "positive_model_output_point_semantics_qualified": false
+  },
+  "problem": "V1 compared a native freejoint-root pose with the installed MPC BASE representation without an explicit physical-point/frame binding. Its BASE validity flag established record consistency, not same-point tracking semantics.",
+  "qualification": {
+    "future_positive_BASE_binding": "Requires a separately qualified physical-point/frame and model-output semantic contract",
+    "model_qualification_or_feedback_benefit_established": false,
+    "native_execution_authorized": false,
+    "runtime_integration": false,
+    "selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+  },
+  "remedy": "A new pure wrapper retains the privileged freejoint-root measurement, separates the raw root-versus-MPC comparison as an unqualified diagnostic, and masks BASE tracking, innovation and forecast applicability. It supplies no positive binding, guessed transform or authorization.",
+  "schema": "WM02_PHYSICS_FEEDBACK_BASE_SEMANTICS_REPAIR_V2",
+  "source_files": {
+    "src/go2arx5_vla/world_model/fusion_physics_feedback_v2.py": "5a4e867604090c8e69f1644814d24e7bd1651e5450896fdd872d96443fc56076",
+    "tests/world_model/test_fusion_physics_feedback_v2.py": "246111fa6c20e8c893c1bf23b66ae6489694215da0b4f89ce1a47dab95578486"
+  },
+  "status": "OFFLINE_IMPLEMENTED_ACTUAL_ARCHIVED_ATOM_ACCEPTED_BASE_APPLICABILITY_MASKED",
+  "validation": {
+    "coverage": [
+      "Coincident numeric poses do not prove physical-point equivalence",
+      "Different root and MPC points remain an unqualified diagnostic",
+      "Unknown model-point semantics mask BASE-only innovation and BASE forecasts",
+      "No boolean, receipt hash or guessed transform can enable positive binding",
+      "TCP, gripper, complete command/clock identity and V1 inputs remain unchanged",
+      "No prediction or forecast is invented; no forecast fills missing state"
+    ],
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONPATH": "src:."
+    },
+    "interpreter": "Project native CI Python; machine-specific path retained privately",
+    "normal": {
+      "exit_code": 0,
+      "new_tests": 11,
+      "original_V1_tests": 86,
+      "passed": 97,
+      "pytest_wall_s": 1.71
+    },
+    "normal_command": "PYTHON -B -m pytest -q tests/world_model/test_fusion_physics_feedback_v2.py tests/world_model/test_fusion_physics_feedback.py",
+    "optimized": {
+      "exit_code": 0,
+      "passed": 97,
+      "pytest_wall_s": 1.73,
+      "warning": "One expected pytest Python -O assertion notice"
+    },
+    "optimized_command": "PYTHON -B -O -m pytest -q tests/world_model/test_fusion_physics_feedback_v2.py tests/world_model/test_fusion_physics_feedback.py"
+  }
+}

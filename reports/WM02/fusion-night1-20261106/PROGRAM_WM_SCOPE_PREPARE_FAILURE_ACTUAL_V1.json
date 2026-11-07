@@ -1,0 +1,21 @@
+{
+  "schema": "WM02_PROGRAM_WM_SCOPE_PREPARE_FAILURE_ACTUAL_V1",
+  "epoch": 1794021906.950909,
+  "script_sha256": "191a5e2eb06565a3dc96511771e9dcb2dfe06426c3cfafdbc82fdd04fd90e0ec",
+  "exit_code": 1,
+  "first_failure": "KeyError: 'fusion_binding'",
+  "mechanism": "Native carrier has P1 physical permission; the model-only FUSION scope must inherit its separate exact GPU carrier binding.",
+  "root_created": false,
+  "registry_rows": 0,
+  "lease_created": false,
+  "worker_started": false,
+  "model_loads": 0,
+  "optimizer_updates": 0,
+  "queries": 0,
+  "native_integrations": 0,
+  "original_Journal_INTENT_preserved": "5ff21b78ac2de57e4d05c17c349b32e321c34bfea95e1eaa74a81d8b8822b1ef",
+  "old_INTENT_replayed": false,
+  "independent_readback_sha256": "2b841c8cc043312092f707f1d9280e404758aed0d9026e776bc40167c52c16b5",
+  "repair": "New smoke02 identity uses the exact CLOSED GPU carrier; no permission is synthesized.",
+  "cost": "Remote process CPU and wall were not instrumented; no compute cost claimed zero beyond verified model/physics/update counts."
+}

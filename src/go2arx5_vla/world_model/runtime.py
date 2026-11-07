@@ -50,6 +50,41 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
         raise PermissionError('Exact WM01 host/profile/run and finite endpoint required')
     if physics and spec.get('physics') is not True:
         raise PermissionError('Profile does not admit native source physics')
+    trajectory_response_scope = None
+    source_camera_scope = None
+    # Any part of this new identity must take the dedicated route: misspelling
+    # the site may not turn a response fit into an unchecked generic CPU run.
+    if (spec.get('execution_site') == 'CORE_FUSION_TRAJECTORY_RESPONSE_CPU'
+            or spec.get('profile') == 'wm02-fusion-trajectory-response-offline-cpu'
+            or spec.get('kind') == 'FUSION_TRAJECTORY_RESPONSE_OFFLINE'):
+        from scripts.wm02.fit_fusion_trajectory_response import (
+            PROFILE, KIND, SITE, _scope as trajectory_response_scope,
+        )
+        from .fusion_scope import validate as validate_fusion_scope
+        from .pilot1_storage import local_path
+        if (gpu or physics or spec.get('physics') is not False
+                or profile != PROFILE or spec.get('kind') != KIND
+                or spec.get('execution_site') != SITE
+                or os.environ.get('CUDA_VISIBLE_DEVICES') != ''):
+            raise PermissionError('EXACT_TRAJECTORY_RESPONSE_CPU_SITE_NO_CUDA_OR_PHYSICS_REQUIRED')
+        validate_fusion_scope(spec)
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp',
+                    'panel', 'source_manifest', 'raw_action'):
+            local_path(spec, spec[key])
+    if (spec.get('execution_site') == 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
+            or spec.get('profile') == 'wm02-fusion-source-camera-qualification-cpu'
+            or spec.get('kind') == 'FUSION_SOURCE_CAMERA_QUALIFICATION'):
+        from scripts.wm02.qualify_fusion_source_camera import PROFILE, KIND, SITE, _scope as source_camera_scope
+        from .fusion_scope import validate_source_camera_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics or profile != PROFILE or spec.get('kind') != KIND or spec.get('execution_site') != SITE:
+            raise PermissionError('EXACT_SOURCE_CAMERA_CPU_SITE_NO_CUDA_OR_PHYSICS_REQUIRED')
+        validate_source_camera_cpu(spec)
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'source_camera_identity'):
+            local_path(spec, spec[key])
+        for descriptor in spec['saved_native'].values():
+            if isinstance(descriptor, dict):
+                local_path(spec, descriptor['path'])
     if spec.get('execution_site') == 'LOCAL_PC_PILOT1_CPU':
         from .pilot1_scope import PLAN_SHA
         if (gpu or physics or spec.get('physics') is not False
@@ -59,7 +94,67 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
                 or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or type(spec.get('endpoint')) is not int
                 or spec['endpoint'] < 1):
             raise PermissionError('FRESH_LOCAL_PC_PILOT1_CPU_MODEL_ONLY_REQUIRED')
-    if gpu and spec.get('execution_site') == 'CORE_PILOT1_NEURAL':
+    if spec.get('execution_site') == 'CORE_FUSION_OFFLINE_CPU':
+        from .fusion_scope import validate_structured_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('STRUCTURED_OFFLINE_CPU_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp', 'replay'):
+            local_path(spec, spec[key])
+        validate_structured_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_TARGET_OBSERVATION_REPLAY_CPU':
+        from .fusion_scope import validate_target_capture_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('SAVED_TARGET_CPU_CAPTURE_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
+            local_path(spec, spec[key])
+        validate_target_capture_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_ASSET_CPU':
+        from .fusion_scope import validate_corr_asset_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('SOURCE_CORR_ASSET_STAGING_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp'):
+            local_path(spec, spec[key])
+        validate_corr_asset_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_CONTACT_TIMING_CPU':
+        from .fusion_scope import validate_contact_timing_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('CONTACT_TIMING_OFFLINE_EVENT_DIAGNOSTIC_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp',
+                    'training_manifest'):
+            local_path(spec, spec[key])
+        for item in spec['evaluation_bundles']:
+            local_path(spec, item['path'])
+        validate_contact_timing_cpu(spec)
+    if spec.get('execution_site') == 'CORE_FUSION_CONTACT_FULL_HISTORY_CPU':
+        from .fusion_scope import validate_contact_full_history_cpu
+        from .pilot1_storage import local_path
+        if gpu or physics:
+            raise PermissionError('FULL927_CONTACT_DIAGNOSTIC_NO_CUDA_OR_PHYSICS')
+        for key in ('source_root', 'registered_root', 'python', 'data', 'cache', 'logs', 'tmp',
+                    'training_manifest'):
+            local_path(spec, spec[key])
+        for item in spec['evaluation_bundles'] + [spec['matched_training_package'],
+                spec['frozen_fir']['freeze']] + spec['frozen_fir']['models']:
+            local_path(spec, item['path'])
+        for item in spec.get('frozen_models', []):
+            local_path(spec, item['path'])
+            local_path(spec, item['checkpoint'])
+        validate_contact_full_history_cpu(spec)
+    if gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
+        import subprocess
+        from .fusion_scope import validate_gpu
+        from .pilot1_storage import local_path
+        for key in ('source_root', 'registered_root', 'data', 'cache', 'logs', 'tmp'):
+            local_path(spec,spec[key])
+        reply = subprocess.run(['nvidia-smi', '--id='+spec['GPU_uuid'], '--query-gpu=uuid,memory.free',
+            '--format=csv,noheader,nounits'],capture_output=True,text=True,check=True,timeout=10)
+        uuid,free=[v.strip()for v in reply.stdout.strip().split(',')]
+        validate_gpu(spec,dict(uuid=uuid,free_bytes=int(free)*1024**2));gpu_baseline=reply.stdout
+    elif gpu and spec.get('execution_site') == 'CORE_PILOT1_NEURAL':
         import subprocess
         from .pilot1_scope import validate_gpu
         from .pilot1_storage import local_path
@@ -211,16 +306,22 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     night_campaign_owner = None
     night_physical_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         if gpu and(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')):
             night_campaign_owner=OwnerLock(Path(spec['campaign_root'])/'OWNER.lock')
             night_physical_owner=OwnerLock(spec['physical_owner_lock'])
         os.sched_setaffinity(0, cpus)
         output.mkdir(exist_ok=False)
+        if trajectory_response_scope is not None:
+            # The unchanged CLI validator also validates the exact existing
+            # fit-01 directory, so invoke it before STARTED or caller compute.
+            trajectory_response_scope(spec, output)
+        if source_camera_scope is not None:
+            source_camera_scope(spec, output)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL') else None))
         yield spec
     finally:
         if night_physical_owner is not None:

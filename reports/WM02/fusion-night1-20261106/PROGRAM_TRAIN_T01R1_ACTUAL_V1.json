@@ -1,0 +1,228 @@
+{
+  "schema": "WM02_PROGRAM_TRAIN_T01R1_ACTUAL_V1",
+  "epoch": 1794021906.9505434,
+  "source_sha": "033e2b8cfb9be4e6ef57b571d2a34b49c081f5a4",
+  "protocol_sha256": "1ac2cde104927d6dc5a53c7efef8b715d606d6c5d0930ffa9231f31389d19536",
+  "assignment": {
+    "candidate": "UNMODIFIED_NOMINAL_H40",
+    "panel_sha256": "1ac2cde104927d6dc5a53c7efef8b715d606d6c5d0930ffa9231f31389d19536",
+    "parent": "T06_NEW_TRAIN_RESTART_T01R1",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-live-program-train-t01-repair-gpu-01",
+      "spec_sha256": "e903b7111c4fa4d2d25574029b131ffcb937369e7c219e3704ec9f995cdc0236",
+      "lease_sha256": "b069aacf460b4540a0f3b17cfe67c35d26b11a9c114b6539b620a26f4c24322e",
+      "worker_sha256": "1352d226aab1bcfbff975faa9cea24d5eb8463bf3e13a1fb37f4222333f36c7f",
+      "result_sha256": "aaa17d8996cb3d7a9909ae5a0994ba1611bdeede8c109c8e8c76f4666eef8e83",
+      "exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-live-program-train-t01-repair-01",
+      "spec_sha256": "bf1a97d2f2de93fd122d16cfbd7bcebe206c4a694b18b8fa6b7ed98e5c675595",
+      "lease_sha256": "2a9f420f0c89d849b24dc4cdc60c0fdbb8361e13a94a46c9e09267c62785781e",
+      "worker_sha256": "b976b81b316a733fc0ef075564deabae3efa7b127e74892b146d945bc7910276",
+      "result_sha256": "f50afebca86a20fa7c6167a473a0c8d9af0f2e90a1811178278101b6869efbe4",
+      "exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "native": {
+    "integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "partial_native_ticks": 3,
+    "complete_initialization_atoms": 1272,
+    "complete_generated_suffix_atoms": 1288,
+    "all_40_raw_knots_consumed": true,
+    "complete_H40_installs": 184,
+    "solver_confirmations": 1288,
+    "gripper_confirmations": 1288,
+    "new_WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "raw_action_clips": 0,
+    "extra_Processor_decodes": 0,
+    "full_MPC_hidden_state_restored": false,
+    "WBC_changes": false,
+    "physics_dt_s": 0.002
+  },
+  "physical": {
+    "actual_minus_desired_L2_m": 0.0027735232142384646,
+    "actual_minus_reference_L2_m": 0.10822900291216508,
+    "strict_short_skill": {
+      "approach_step_success": false,
+      "decision_native_step": 34303,
+      "full_task_success": false,
+      "metrics": {
+        "final_hold_TCP_diameter_m": 3.3620536432849814e-05,
+        "final_hold_TCP_max_speed_m_s": 0.000379750118190107,
+        "maximum_TCP_excursion_m": 0.008185157215302859,
+        "maximum_base_displacement_m": 0.001572623083025321,
+        "maximum_base_rotation_rad": 0.004796064418164192,
+        "maximum_lateral_drift_m": 0.005550020215360456,
+        "maximum_object_displacement_m": 0.0,
+        "minimum_finger_opening_m": 0.04159833762875158,
+        "precontact_distance_reduction_m": 0.0020353481650864508,
+        "signed_progress_m": 0.0020864809096431394
+      },
+      "native_execution_authorized": false,
+      "old_3703_score_relabelled": false,
+      "pick_place_success_claim": false,
+      "precontact_arrival_claim": false,
+      "predicates": {
+        "base_orientation": true,
+        "base_still": true,
+        "distance_reduction": true,
+        "excursion": true,
+        "hold": true,
+        "lateral": false,
+        "no_robot_object_contact": true,
+        "object_still": true,
+        "open": true,
+        "original_native_safety": true,
+        "signed_progress": true
+      },
+      "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+      "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+      "scorer_only_privileged_geometry": true,
+      "source_task_phase_equivalence": false,
+      "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+      "thresholds_are_native_safety": false
+    },
+    "mechanical_PASS_is_task_success": false,
+    "physical_control_gain": false
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "outer_guard_rejections": 0,
+    "warnings": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 488116,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 488116
+    },
+    "all_four_children_exit_zero": true
+  },
+  "data": {
+    "native_result_sha256": "f50afebca86a20fa7c6167a473a0c8d9af0f2e90a1811178278101b6869efbe4",
+    "native_result_bytes": 258096562,
+    "retained_data": [
+      {
+        "basename": "state.bin.journal",
+        "bytes": 133489316,
+        "sha256": "c8e9b7d8431583504cd01bb09786a44acc5a0c5a13ddca049bb30c212dedc790"
+      },
+      {
+        "basename": "init.trace",
+        "bytes": 410017456,
+        "sha256": "b2f20c552cef7772f531aa822e29e4d8cf8ba40684738dedda0a9faef0075695"
+      },
+      {
+        "basename": "state.bin",
+        "bytes": 2008,
+        "sha256": "c978b3b7b207c307b432ff721c576ecc568c594ac0ac445ca5066dcb98af6e40"
+      },
+      {
+        "basename": "TRAJECTORY_QUALIFICATION.private.json",
+        "bytes": 242854817,
+        "sha256": "c7447fb714b6a24a4a867640393d70a93b92676fed6668dd544b81f03dc0ee70"
+      }
+    ],
+    "decision_sha256": "bb01175075befaafc88ff7d57238222d9a266a099746902fe700e6d4d9101c04",
+    "initialization_sha256": "df840303175241942dfdc02f6b40313eea0fa2b73f7c7f8b80499818ce3ea737",
+    "segment_sha256": "34d920fae92cf83b3fc8f0e6f133629f9d23c2140db68f5c5b5523598c35c428",
+    "action_npz_sha256": "655ff018db0fd64f7eb844aa462e1c920c26e9f0187db82efc8d5c71759f08b3",
+    "recorded_observation_sha256": "aefd650cb556a2ef0c247e410164e64b78a10062fcbe619868404a5f340f0524",
+    "raw_suffix_transitions": 1288,
+    "extracted_program_anchors": "PENDING_ACTUAL_TRAINER_AUDIT",
+    "physical_groups": 1,
+    "scene_layouts": 1,
+    "old_DIAGNOSTIC_relabelled": false
+  },
+  "GPU": {
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_file_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "noise": {
+      "device": null,
+      "dtype": "torch.float32",
+      "seed": null,
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "actual_model_loads": 1,
+    "actual_VLA_inferences": 1,
+    "query_wall_s": 1.195221786852926,
+    "model_cold_load_wall_s": 10.50657364120707,
+    "snapshot_wait_wall_s": 421.1557534849271,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "wall_s": 437.2861812519841,
+    "CPU_s": 111.81027122500001
+  },
+  "cost": {
+    "source_staging": {
+      "CPU_s": 1.0711716519999999,
+      "actual_source_bytes_written": 46751096,
+      "copied_parent_bytes": 45623586,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "overlay_members": 90,
+      "overlay_written_bytes": 1127510,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 72.40425750194117
+    },
+    "source_staging_shared_not_double_counted": true,
+    "workers": {
+      "gpu": {
+        "worker": {
+          "CPU_s": null,
+          "child_CPU_s": 113.001819,
+          "exit_code": 0,
+          "wall_s": 438.72448005806655
+        },
+        "systemd_CPU_s": 113.35082,
+        "host_peak_bytes": 2662850560
+      },
+      "native": {
+        "worker": {
+          "CPU_s": 377.052338226,
+          "child_CPU_s": 1367.702123,
+          "exit_code": 0,
+          "wall_s": 868.9012466552667
+        },
+        "systemd_CPU_s": 1753.638784,
+        "host_peak_bytes": 10268545024
+      }
+    },
+    "systemd_and_worker_CPU_overlap": true,
+    "controlled_speed_benchmark": false
+  },
+  "counts_after": {
+    "FUSION_attempts": 292,
+    "FUSION_passes": 283,
+    "FUSION_failures": 9,
+    "FUSION_native_ticks": 1677201,
+    "with_PILOT2_attempts": 946,
+    "with_PILOT2_passes": 932,
+    "with_PILOT2_failures": 14,
+    "with_PILOT2_native_ticks": 4664494,
+    "VLA_queries": 14,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "retained_prior_T01_failure": true,
+  "next": "Authenticate original TRAIN-only sources, real finite GPU optimization and complete reload; continue second TRAIN and independent pre-effect DEV.",
+  "actual_reader_sha256": "f71fe9b12ee8b1c70faa5bc52482df6bcd45507328b5784b5a3b224e81fb756c"
+}

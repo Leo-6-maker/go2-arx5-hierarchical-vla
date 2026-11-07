@@ -1,0 +1,70 @@
+{
+  "schema": "WM02_TRACKING_DIAGNOSTIC_FINITE_WALL_WINDOW_IMPLEMENTATION_V1",
+  "status": "COLD_ONLY_IMPLEMENTED_TESTED_NOT_REGISTERED_OR_EXECUTED",
+  "parent_sha": "8a3ae38ad64a122e8740165c8f9e8490f0de40fc",
+  "reason": "Before effects, static deployment audit found the new1800s pair template conflicted with the oldV9 GPU1200s ABI and a1260s systemd literal. Parent site scope readonlyprecheck accepts1800s. Only the new tracking condition now supports1800s; planned unit hardstop1860s. OldFULL and strictSHORT remain1200s. No active capsule changed.",
+  "new_condition": "GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1",
+  "new_finite_wall_s": 1800,
+  "planned_hardstop_s": 1860,
+  "planned_snapshot_wait_s": 1440,
+  "old_full_and_strict_short_wall_s": 1200,
+  "unchanged": {
+    "B": 34303,
+    "E": 66503,
+    "original_task_quota_bucket_s": 128,
+    "native_dt_s": 0.002,
+    "WBC": true,
+    "native_safety": true,
+    "strict_short_score_SHA": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "original_deadline": "2026-11-07T19:34:21.739793+08:00"
+  },
+  "tests": {
+    "GRADED_TRACKING_DIAG_V1_NORMAL": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 7.559653289994458,
+      "child_CPU_s": 7.005692,
+      "log_sha256": "66e4566f8491882fcc5642794712e458cc794b371648f0bd68ce617e5d37f22d",
+      "receipt_sha256": "2fc1f7a44b83e533e85be27965214bdfdbc78c2c0b0cc446c7a1215ba0e48b97"
+    },
+    "TRACKING_WALL_REASON_NORMAL": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 0.5409906540007796,
+      "child_CPU_s": 0.52201,
+      "log_sha256": "96930e0475760ea3818d98efd9c208416bb41c820336d7ab9d9949a8ae04a4ad",
+      "receipt_sha256": "bb36641e1ce6f3537052f27badf26c340331ea40dbb90635d8f7a7e46898b86b"
+    },
+    "GRADED_TRACKING_DIAG_V1_OPTIMIZED": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 7.822643221996259,
+      "child_CPU_s": 7.279039999999999,
+      "log_sha256": "633d37cfd6d900f0fa0cf6f2fdfcfe121d52d565939becca5ec60e37e10e2eef",
+      "receipt_sha256": "ff990f1b87c4d82d63e4190b7adc82eef019ba6565e318ac0c0eaf73bebb87dd"
+    },
+    "TRACKING_WALL_REASON_OPTIMIZED": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 0.8735638249781914,
+      "child_CPU_s": 0.8462220000000001,
+      "log_sha256": "9c4ac70affeda9f3cd31530c622cac53a81596378219ace22d0b3902240a029a",
+      "receipt_sha256": "7102f141c5c6bb9295e101c4b2108907f450ccc745000f42d8cc3820e1be1334"
+    }
+  },
+  "full_related_tests_passed_per_mode": 222,
+  "final_exception_text_checks_passed_per_mode": 2,
+  "source_members": {
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py": "b0531f173e359a429287e3273ce3a17dfa8621ee2a2163700a84581ecc4629e9",
+    "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "98b7c3261339810c4640efdf8f2833e462f8c6540bce7cd35a1b7d0b23e0953b"
+  },
+  "local_harness_failure": "A local inline runner initially had an or99 lexical typo and exited before any test or file write; corrected. Finalfocused checks pass.",
+  "effects": {
+    "new_scopes": 0,
+    "new_processes": 0,
+    "new_integrations": 0,
+    "new_queries": 0,
+    "updates": 0
+  },
+  "native_or_task_qualification": false
+}

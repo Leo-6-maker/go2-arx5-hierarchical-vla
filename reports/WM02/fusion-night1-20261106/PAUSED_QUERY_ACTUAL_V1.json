@@ -1,0 +1,157 @@
+{
+  "schema": "WM02_FUSION_PAUSED_QUERY_ACTUAL_V1",
+  "QUESTION": "Can an actual target HOLD boundary supply current dual RGB/state to one frozen CORR2048 query on the actual 16GB GPU1 and remain the same paused world afterwards?",
+  "CHANGE": "New A9 paired scopes: HOLD to3703, actual Mesa capture, original Processor once and unchanged FP32/BF16 inference; no VLA action installation.",
+  "ACTUAL_RESULT": {
+    "source_sha": "a9e0742c8898aa759e6f27157f99a628036cec34",
+    "pair_pass": false,
+    "native": {
+      "worker_exit_code": 1,
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "spec_sha256": "2c0748a2da5239254043707c7af0c7538ffcb257ef67fe5c62fcedcdc3ca3f20",
+      "result_sha256": "fd3c0084f79126073dd2e743270a7773a15a6b9f97fbe0c159f834335ea73855",
+      "actual_integrations": 3703,
+      "failure": "FileNotFoundError reading frequently replaced pause_ack.json during bridge._waiting_pause after actual capture readiness was published",
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "errors": [],
+        "missing": [],
+        "writer": {
+          "events": 25741,
+          "written": 25741,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "native_step_records": 3703
+      },
+      "safety_stops": [],
+      "joint_or_warning_samples": 0,
+      "outer_rejections": 0,
+      "all_four_children_exit0": true,
+      "shutdown_clean": true,
+      "post_query_same_native_world_verified": false,
+      "prefix": {
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.00048174997117983795,
+        "relative_TCP_max_speed_m_s": 0.0021527822180172442,
+        "window_s": 0.39999999999995595,
+        "diameter_threshold_m": 0.002,
+        "speed_threshold_m_s": 0.025,
+        "screen_is_native_safety": false
+      },
+      "cost": {
+        "exit_code": 1,
+        "failure": null,
+        "wall_s": 49.15788474306464,
+        "CPU_s": 13.866006133,
+        "child_CPU_s": 54.504157
+      },
+      "systemd_CPU_s": 69.984171,
+      "systemd_memory_peak_bytes": 1305780224
+    },
+    "GPU": {
+      "worker_exit_code": 0,
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "spec_sha256": "daf9710276c44029200e5810e1695c0209b9b277e7a7f12c47a963ac4d43921a",
+      "result_sha256": "0227a43829709e3da820935d84e32d0b511222091907da2b3ba9ef2f066522ea",
+      "observation_sha256": "b56ea16d040590bde3e664a7de5ff0165fae3dbed9ef0f268865500c1f8c94db",
+      "action_sha256": "3b4090d96c60fb61f95d1b813f1ac4096e4c8523335ce12f71ee8b605d962288",
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "actual_model_loads": 1,
+      "actual_queries": 1,
+      "seed": 366103,
+      "physical_shape": [
+        40,
+        10
+      ],
+      "normalized_shape": [
+        1,
+        40,
+        132
+      ],
+      "reported_device": "GPU1 RTX4080SUPER",
+      "reported_total_MiB": 16376,
+      "actual_16GB_frozen_inference_pass": true,
+      "input": "ACTUAL_NEW_TARGET_CAPTURE_RETAINED_BEFORE_PRODUCER_FAILURE; NO_POST_QUERY_WORLD_REVALIDATION",
+      "numeric_mode": "ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST",
+      "parameter_bytes": 12576064000,
+      "peak_allocated_bytes": 13318658048,
+      "peak_reserved_bytes": 13524533248,
+      "query_wall_s": 1.209734397009015,
+      "GPU_event_s": 1.2095869140625,
+      "model_cold_load_wall_s": 24.208331602159888,
+      "snapshot_wait_wall_s": 41.147460342850536,
+      "inference_total_wall_s": 184.6288988366723,
+      "inference_CPU_s": 31.44874034,
+      "worker_wall_s": 186.27845083829015,
+      "child_CPU_s": 32.555052,
+      "systemd_CPU_s": 32.757388,
+      "systemd_memory_peak_bytes": 8146857984,
+      "latency_distribution": "N1_NOT_P50_P95",
+      "native_integrations": 0
+    },
+    "VLA_action_installations": 0,
+    "WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "full_task_success": false,
+    "short_skill_executed": false,
+    "online_closed_loop": false,
+    "new_response_fit": 0
+  },
+  "FAILURE_INTERPRETATION": {
+    "direct_observation": "A single ACK read raised ENOENT; the final file remained present at step3703/ack2576 and all original children shut down cleanly.",
+    "writer_source": "scripts/pi0294/task_pause_build.py: close pending file then std::rename; repeat publication while paused",
+    "filesystem_mechanism": "NOT_PROVEN; no claim of explicit unlink or changed writer behavior",
+    "existing_repair_pattern": "target_sequential.observe and seal_trace already bound read retries for transient local publication gaps",
+    "predicted_repair_observation": "Same paused raw state/quota and fresh ACK remain required; transient read recovers, persistent absence or changed/unsafe state still fails."
+  },
+  "NEXT_DECISION": "Repair new reader only, test transient and persistent faults, retain this failed pair and complete query. Then fresh finite pair identity, same owner/frozen inference, no replay of either CLOSED lease. Inspect both full proposals before action-domain qualification.",
+  "counts_after_this_native_attempt": {
+    "FUSION_attempts": 271,
+    "PASS": 268,
+    "FAIL": 3,
+    "native_ticks": 1199888,
+    "with_PILOT2_attempts": 925,
+    "with_PILOT2_PASS": 917,
+    "with_PILOT2_FAIL": 8,
+    "with_PILOT2_native_ticks": 4187181,
+    "cumulative_VLA_queries": 4
+  },
+  "commands": {
+    "original_native_worker_entry": "NATIVE_PYTHON -B -m scripts.wm02.fusion_paused_query_check --spec NEW_NATIVE_SPEC --execute",
+    "actual_GPU_child": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_paused_vla --spec NEW_GPU_SPEC --output NEW_GPU_ROOT/fit-01",
+    "dispatcher_sha256": "2ad9fc1b55d4c9d2c08e82d595e593c76d2a5d1d901ad3e211484072841d317c",
+    "dispatcher_exit_code": 0,
+    "automatic_retry": false
+  },
+  "cost_note": "Worker child/native own CPU and systemd measurements overlap; do not add them.",
+  "snapshot_read_repair": {
+    "implementation": "Bounded .25s live raw-state/ACK read; guard each read, 2ms between transient ENOENT/partial JSON; never cache old data or mutate quota. Existing strict same-packet, pause, frozen-history and fresh-ACK checks stay effective.",
+    "actual_repaired_site_run": "NOT_RUN",
+    "tests": {
+      "new_fault_cases": 25,
+      "affected_normal": {
+        "passed": 109,
+        "wall_s": 18.63,
+        "exit_code": 0
+      },
+      "affected_optimized": {
+        "passed": 109,
+        "wall_s": 18.58,
+        "exit_code": 0
+      },
+      "initial_environment_failure_retained": {
+        "passed": 108,
+        "failed": 1,
+        "wall_s": 16.79,
+        "reason": "Old import-subprocess test inherited no PYTHONPATH; ModuleNotFoundError. Re-run added PYTHONPATH=src:.; no old test or code changed to pass."
+      },
+      "tests_are_native_qualification": false,
+      "CI": "NOT_RUN"
+    }
+  }
+}

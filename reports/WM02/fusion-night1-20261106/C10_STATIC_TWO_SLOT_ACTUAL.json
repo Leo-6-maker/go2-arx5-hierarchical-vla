@@ -1,0 +1,144 @@
+{
+  "schema": "WM02_PILOT2_C10_STATIC_TWO_SLOT_ACTUAL_QUALIFICATION_V1",
+  "batches": [
+    {
+      "run": "pilot2-c10-dual-duration-01",
+      "source_sha": "ca4eb16bc15f440cf2e5ccd6cc2e49d650204f36",
+      "spec_sha256": "8f6d1d0d6c800abafd30f7bbccf73bc542e0ab258abc7966f2f8a84bd668a525",
+      "batch_sha256": "f9c95d7ab264eea5afdcc529fa0ee10db47992f02717e741e2ce2e8c9223ea52",
+      "native_status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "batch_wall_s": 45.075508817099035,
+      "worker_wall_s": 45.444094624836,
+      "worker_CPU_s": 0.277534139,
+      "worker_child_CPU_s": 142.024186,
+      "slots": [
+        {
+          "run": "pilot2-c10-dual-duration-01-slot-0",
+          "cpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "ROS_DOMAIN_ID": 220,
+          "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+          "native_result_sha256": "7797d4ba604e24eed9d67700e8b624ed7887cda34185066a8ecb1c1edd465cb7",
+          "native_status": "NATIVE_STAGE_PASSED",
+          "ticks": 4103,
+          "shutdown_clean": true,
+          "requested_ENTER": 165,
+          "received_ENTER": 165,
+          "applied_ENTER": 165,
+          "completed_not_applied_steps": 0,
+          "max_receive_to_apply_ms": 8.503595,
+          "forecast_points": 0,
+          "all_forecasts_same_physical_pause": true,
+          "score": null,
+          "score_files": [
+            "PILOT1_SCORE.private.json"
+          ],
+          "owned_processes_alive": []
+        },
+        {
+          "run": "pilot2-c10-dual-duration-01-slot-1",
+          "cpus": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "ROS_DOMAIN_ID": 221,
+          "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+          "native_result_sha256": "e60aba1f9ffca7e0ec7c169a2e17a70cabac584bae75227f5798c87a9e677aa4",
+          "native_status": "NATIVE_STAGE_PASSED",
+          "ticks": 4103,
+          "shutdown_clean": true,
+          "requested_ENTER": 165,
+          "received_ENTER": 165,
+          "applied_ENTER": 165,
+          "completed_not_applied_steps": 0,
+          "max_receive_to_apply_ms": 8.964966,
+          "forecast_points": 0,
+          "all_forecasts_same_physical_pause": true,
+          "score": null,
+          "score_files": [
+            "PILOT1_SCORE.private.json"
+          ],
+          "owned_processes_alive": []
+        }
+      ]
+    },
+    {
+      "run": "pilot2-c10-static-contact-dual-commission-01",
+      "source_sha": "ca4eb16bc15f440cf2e5ccd6cc2e49d650204f36",
+      "spec_sha256": "523af86d954d4cb1347818ea76df18e412683b11668eae16601151c1762f56ad",
+      "batch_sha256": "5d3812f2ac4409ff349dcec99f9f2c287b5980cf921d6e01b1b2c0833230ba81",
+      "native_status": "TWO_ENVIRONMENT_NATIVE_PILOT_PASSED",
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "batch_wall_s": 89.05245516076684,
+      "worker_wall_s": 89.51061420096084,
+      "worker_CPU_s": 0.5158419000000001,
+      "worker_child_CPU_s": 312.812094,
+      "slots": [
+        {
+          "run": "pilot2-c10-static-contact-dual-commission-01-slot-0",
+          "cpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "ROS_DOMAIN_ID": 220,
+          "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+          "native_result_sha256": "fa77d714a3c5b9f407ea813abc17482238b3634b86bf64e4259434c3f86d74f1",
+          "native_status": "NATIVE_STAGE_PASSED",
+          "ticks": 6703,
+          "shutdown_clean": true,
+          "requested_ENTER": 269,
+          "received_ENTER": 269,
+          "applied_ENTER": 269,
+          "completed_not_applied_steps": 0,
+          "max_receive_to_apply_ms": 24.916575,
+          "forecast_points": 9,
+          "all_forecasts_same_physical_pause": true,
+          "score": null,
+          "score_files": [],
+          "owned_processes_alive": []
+        },
+        {
+          "run": "pilot2-c10-static-contact-dual-commission-01-slot-1",
+          "cpus": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "ROS_DOMAIN_ID": 221,
+          "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+          "native_result_sha256": "3b7304168acc066b807fa1d616139c6a6d966a3cadb5eefd278e3d8cca9e19e5",
+          "native_status": "NATIVE_STAGE_PASSED",
+          "ticks": 6703,
+          "shutdown_clean": true,
+          "requested_ENTER": 269,
+          "received_ENTER": 269,
+          "applied_ENTER": 269,
+          "completed_not_applied_steps": 0,
+          "max_receive_to_apply_ms": 10.063755,
+          "forecast_points": 9,
+          "all_forecasts_same_physical_pause": true,
+          "score": null,
+          "score_files": [],
+          "owned_processes_alive": []
+        }
+      ]
+    }
+  ],
+  "new_native_integrations_by_audit": 0,
+  "new_model_updates": 0,
+  "learning_atoms_from_qualification": 0,
+  "audit_CPU_s": 0.926744745,
+  "audit_wall_s": 0.9314795210957527
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "WM02_C01_RUNTIME_AND_NOMINAL_REFERENCE_REPAIR_V2",
+  "epoch": 1794047866.7141914,
+  "status": "IMPLEMENTED_OFFLINE_NOT_NEW_NATIVE_ADMITTED",
+  "original_source_sha": "cd6eda2b0e0f923f5b2af4c65c1707464a8fc1e3",
+  "original_zero_tick_failure_preserved": true,
+  "changes": [
+    "Inner shared program now admits equal B/E only for explicit C01 query-only condition.",
+    "C01 calibration input binds prior T06 intended goal separately from actual C01 cube FK/state; no actual pose or scene identity substitution.",
+    "Unchanged native safety, WBC, dt and full reference certificates; actual C01 images/EEF observation feed frozen original-language query only."
+  ],
+  "nominal_reference_evidence_sha256": "f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85",
+  "nominal_reference_is_achieved_action_label": false,
+  "actual_cube_FK_and_qpos_remain_real": true,
+  "legacy_T06_inputs_and_goals_unchanged": true,
+  "new_input_schema": "WM02_FUSION_TASK_PHASE_INITIALIZATION_INPUT_V1_C01_NOMINAL_CALIBRATION",
+  "tests": [
+    {
+      "passed": 271,
+      "exit_code": 0,
+      "optimized": false,
+      "log_sha256": "ef96cbb628a4a8700f353d84357efc82dae25f22816a29a8a0b1b129e3aa6b70"
+    },
+    {
+      "passed": 271,
+      "exit_code": 0,
+      "optimized": true,
+      "log_sha256": "222bf76ab337d9cda5aed7d42fde5b5cfcc3b5581535d07e1d07c4333a08f296"
+    }
+  ],
+  "new_native_scope": "C01_R1_QUERY_ONLY",
+  "actual_new_physics": 0,
+  "actual_new_queries": 0,
+  "no_generated_action_execution": true,
+  "no_WM_Actor_or_GR00T_updates": true,
+  "original_cutoff_epoch": 1794051261.7397933
+}

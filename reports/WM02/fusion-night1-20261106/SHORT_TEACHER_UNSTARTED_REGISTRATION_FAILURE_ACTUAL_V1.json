@@ -1,0 +1,58 @@
+{
+  "schema": "WM02_SHORT_TEACHER_UNSTARTED_REGISTRATION_FAILURE_ACTUAL_V1",
+  "source_sha": "0ca02cc4eccae9748097282f91d368c18c5e7cdd",
+  "source_staging_cost": {
+    "wall_s": 149.22245659306645,
+    "CPU_s": 1.3742170289999986,
+    "copied_parent_members": 3376,
+    "generated_bytecode_members_excluded": 20,
+    "copied_parent_bytes": 45623586,
+    "overlay_members": 169,
+    "overlay_written_bytes": 2995685,
+    "actual_source_bytes_written": 48619271,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "source_staging_not_double_counted": true,
+  "first_failure": "SHARED_INITIALIZATION_ADMISSION_STILL_REQUIRES_OLD_66503_NOT_NEW_SHORT_38703",
+  "dispatch_exit_code": 1,
+  "actual_cli_preflight_exit_code": 1,
+  "closeout_exit_code": 0,
+  "scopes_registered": 2,
+  "scopes_closed": 2,
+  "native_workers": 0,
+  "GPU_workers": 0,
+  "native_ticks": 0,
+  "model_loads": 0,
+  "queries": 0,
+  "updates": 0,
+  "no_native_denominator_increment": true,
+  "original_intent_preserved": true,
+  "original_register_intent_sha256": "d8c19101ef68d16500c7ebdbf68c6c018bdbdd3a52ad2309477c5c66e90f51e7",
+  "closeout_sha256": "2c3aa0235a4577a94413963cfc4eb4b74161a864b5b8f32da05f435a56f75595",
+  "identities": {
+    "native": {
+      "spec_sha256": "47c718b499c4fb0d2e14524e24973610486f4b57054901cfda2d166d105c02bf",
+      "lease_before_sha256": "2923389a293d8fa1574789c8943906510977dc5f1d3f425b2e034c0171d5f2b1",
+      "lease_after_sha256": "ede7e8751d4c6f8538909f5f083a343c81a10057d43dea81ba5324ede7ca09c0",
+      "unit": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    },
+    "gpu": {
+      "spec_sha256": "45c8abaa9fdc1cdd32b64426b59514035f8b372edfd49a7e81041a8b133c5c7b",
+      "lease_before_sha256": "9f7902e103c94560140e00cb4fa76d40e5cf6d14e1d0ac99b20eff50b71ab31a",
+      "lease_after_sha256": "dc534486576bc76b849a23331950ec35c5b0314da2f1bd3faa5b767863e7f6c2",
+      "unit": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    }
+  },
+  "repair": "Explicit V9 short Teacher path also binds the shared initialization recipe to its declared endpoint; all legacy endpoints unchanged.",
+  "new_source_not_hotpatched": true
+}

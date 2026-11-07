@@ -1,0 +1,152 @@
+{
+  "schema": "WM02_FUSION_TASK_PHASE_INITIALIZATION_IMPLEMENTATION_V1",
+  "status": "IMPLEMENTED_TESTED_NOT_YET_NATIVE_EXECUTED",
+  "purpose": "DECLARED_TEACHER_ASSISTED_CALIBRATION_TO_REACHED_AND_HELD_TASK_PHASE_PREFIX",
+  "phase": "collect-target-fusion-task-phase-initialization-v1",
+  "kind": "FUSION_TASK_PHASE_INITIALIZATION",
+  "source_member_sha256": {
+    "src/go2arx5_vla/world_model/auto1_native.py": "ec63f1f81a082035f892fd582bad606c1ad923e333389a3229da867b0f960e75",
+    "src/go2arx5_vla/world_model/target_sequential.py": "9e0a23d1f67b084d7c647956fcd844b0ba31dec7ee474405a3ef7e28d395dec5",
+    "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "3e7065d20dee32d41ca25584bfc44a0a69098bc51ef5ca4584c8f8b8edfe24f7",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization.py": "9b7b965d5c8cb2409337a1d2e1688ddf2ad26bf70981cf705f00fa113fa69ab9",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "2f5a31d7c02213c5f304db5bdaba3dd83df748e267539e62911bec0b7078e3b1",
+    "src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py": "486f67a656c5bb59f33f7edacac3c22cfa7429be69b30be7a9901f47023acbf8",
+    "scripts/wm02/fusion_task_phase_initialization_check.py": "49aba12b72a630f2bedf870f4cad998de76ba6dbb707f6180362b70518e8b8f1",
+    "tests/world_model/test_fusion_task_phase_initialization.py": "ba21e2f146213375f2d80a904be0e7248de71bf8cb960b2db06c56948245d079",
+    "tests/world_model/test_fusion_task_phase_initialization_native.py": "2e1ae3a27a51370f3abac34ce31c3f5c220df6c6640ea7049a6b02cc518be1df"
+  },
+  "static_recipe": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "goal_rule": "FROZEN_ACTUAL_3703_CUBE_CENTER_PLUS_WORLD_Z_0P14M",
+    "orientation": "SOURCE71558_ROTATION_MAPPED_BY_UNCHANGED_FC347",
+    "source_observation_role": "ORIGINAL_FIXED_DIAGNOSTIC_ROLE_RETAINED_NOT_RECLASSIFIED_AS_TRAIN_EXPERT",
+    "grades": [
+      0.03,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "ramp_atoms": [
+      128,
+      256,
+      512,
+      768,
+      1024
+    ],
+    "native_endpoints": [
+      7103,
+      10303,
+      16703,
+      23103,
+      29503
+    ],
+    "native_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "tail_hold_atoms": 8,
+    "time_law": "10u3-15u4+6u5",
+    "reference_start": "ACTUAL_MEASURED_INIT_TCP_2503",
+    "desired_start": "ACTUAL_MEASURED_DECISION_TCP_3703",
+    "shared_endpoint": "SAME_ABSOLUTE_GRADED_WORLD_GOAL",
+    "achieved_state_reanchoring": false,
+    "future_actual_goal_in_static_episode": false
+  },
+  "runtime_evidence": {
+    "static_episode_before_physics": true,
+    "actual_3703_packet_and_original_ActualState_FK_join_required": true,
+    "runtime_goal_binding_separate_from_static_episode_and_spec": true,
+    "goal_binding_saved_and_read_back_before_generated_reference_install": true,
+    "entire_H40_persistent_suffix_checked": true,
+    "original_certifier_ACK_TTL_gripper_trace_safety_and_shutdown_retained": true,
+    "nine_distinct_complete_actual_samples_saved_at_B_minus_200_to_B": true,
+    "readiness_evaluated_from_same_saved_sample_bytes": true,
+    "readiness_is_not_execution_permission_or_native_PASS": true,
+    "small_grade_query_ready": false,
+    "object_truth_is_policy_input_or_expert_label": false,
+    "generated_reference_is_VLA_action": false
+  },
+  "readiness_diagnostics": {
+    "full_grade_only": true,
+    "maximum_position_error_m": 0.01,
+    "maximum_lateral_error_m": 0.01,
+    "maximum_rotation_error_rad": 0.05,
+    "minimum_actual_cube_distance_strictly_greater_than_m": 0.12,
+    "hold_duration_s": 0.4,
+    "relative_TCP_diameter_m": 0.002,
+    "relative_TCP_max_speed_m_s": 0.025,
+    "minimum_finger_opening_m": 0.038,
+    "maximum_cube_displacement_m": 0.0005,
+    "these_are_new_diagnostic_gates_not_changed_native_safety": true
+  },
+  "offline_validation": {
+    "related_normal": {
+      "passed": 302,
+      "wall_s": 19.28,
+      "exit_code": 0
+    },
+    "related_optimized": {
+      "passed": 302,
+      "wall_s": 19.49,
+      "exit_code": 0
+    },
+    "full_normal": {
+      "passed": 1357,
+      "subtests": 302,
+      "pytest_wall_s": 143.56,
+      "driver_wall_s": 145.3027028980141,
+      "driver_child_CPU_s": 140.528919,
+      "exit_code": 0,
+      "source_bytes_unchanged_before_after": true,
+      "stdout_sha256": "ad80a5e5a06378c0d16234f149ab6858b87f7f6b32c97062ab92ebebc3b9d6e0",
+      "command": "CI_PYTHON -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py",
+      "environment": "CUDA_VISIBLE_DEVICES empty; PYTHONPATH private test deps plus src and repository; BLAS threads1"
+    },
+    "independent_read_only_review": "NO_DEFINITE_FIRST_USE_BLOCK_FOUND; NOT_NATIVE_QUALIFICATION",
+    "tiny_MuJoCo_FK_test": "SYNTHETIC_MODEL_ORIGINAL_ACTUALSTATE_ONE_PACKET; NO_NATIVE_TARGET_EXECUTION",
+    "initial_fixture_failure": "CLOCK_NEGATIVE_FIXTURE_CALLED_STRICT_ENDPOINT_TOO_EARLY; FIXED_TEST_ONLY_AND_ALL_RELATED_TESTS_RERUN; NOT_NATIVE_FAILURE",
+    "GitHub_CI": "NOT_RUN"
+  },
+  "site_readonly_preflight": {
+    "original_parent_lease": "ACTIVE",
+    "STOP": false,
+    "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c",
+    "last_full1_and_three_prompt_workers": "CLOSED0_MAINPID0",
+    "immutable_fe707_source_members_verified": 3332,
+    "source_path71558": "ACTUAL_CANONICAL_AND_BYTES_PIN_CONFIRMED",
+    "this_is_not_fresh_scope_admission": true
+  },
+  "native_execution": {
+    "new_scope_registered": false,
+    "new_native_attempts": 0,
+    "new_target_integrations": 0,
+    "actual_consumed_action_windows": 0,
+    "actual_VLA_queries": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "full_task_success": false
+  },
+  "planned_actual_entry": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_initialization_check --spec FRESH_ORIGINAL_OWNER_SPEC --execute",
+  "first_predecessor": {
+    "native_source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+    "spec_sha256": "c1a0878ae26ef1ea895cd2eb65d2ba938ecd792b04c314304c5787572f84033f",
+    "result_sha256": "82c5590d660202162802589916cb6361d691d21fcf74c2cce03ca63bbdacae46",
+    "native_ticks": 16403,
+    "complete_consumed_pose_and_gripper_windows": 556,
+    "historical_result_not_new_goal_qualification": true
+  },
+  "successor_guidance": {
+    "user_attachment_sha256": "b50ff48d1ca2d2d5b856072b4fbbef82e2ff7cb645f0e8bff94ca1a44b9cd504",
+    "priorities_only_no_code_downgrade": true,
+    "actual_VLA_query_count_now": 9,
+    "measured_innovation_forecast_must_be_separate": true,
+    "old_weak_WM_not_promoted_online": true,
+    "GR00T_projection_or_action_head_training": "NOT_STARTED_CONDITIONAL_SUCCESSOR_ONLY",
+    "physical_feedback_before_distillation": true
+  },
+  "original_deadlines_unchanged": true,
+  "WBC_and_safety_unchanged": true,
+  "GPU_physics_multiworld_or_H200_or_distributed": "NOT_STARTED_REQUIRE_REVIEW"
+}

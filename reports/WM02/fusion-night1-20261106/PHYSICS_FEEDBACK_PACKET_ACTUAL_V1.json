@@ -1,0 +1,165 @@
+{
+  "BASE_semantic_boundary": {
+    "BASE_as_same_point_controller_tracking_error_qualified": false,
+    "actual_side": "Native freejoint qpos[:3] and WXYZ quaternion, converted to XYZW",
+    "immutable_original_packet_tracking_BASE_record_consistency_mask": true,
+    "interpretation": "The numeric difference is an unqualified cross-representation diagnostic, not an established controller tracking error or WBC failure. The original packet and masks remain immutable; semantic qualification needs a future explicit binding/version.",
+    "missing_proof": "A pinned controller observation/Pose parser and explicit BASE physical-point/frame mapping to the native freejoint root. The packet identity presently carries only TCP semantics.",
+    "reference_side": "Initial MPC observation.state[:6] converted by external Pose.from_base_state and retained as installed world BASE pose7",
+    "reported_raw_SE3_comparison_position_mm": 95.24667460001564,
+    "reported_raw_SE3_comparison_rotation_rad": 0.057621689890596614,
+    "status": "UNRESOLVED_PHYSICAL_POINT_AND_CONTROLLER_FRAME_EQUIVALENCE"
+  },
+  "actual_input": {
+    "actual_ticks": 25,
+    "externally_pinned_files": 19,
+    "file_pins": 24,
+    "global_program_atom_index": 128,
+    "interval_s": 0.05,
+    "local_consumed_index": 2,
+    "native_dt_s": 0.002,
+    "native_interval": [
+      6903,
+      6928
+    ],
+    "native_run_id": "native-01",
+    "native_states_source": "Two original saved ActualState hold samples, with qpos/qvel/ctrl joined exactly to original binary journal packets; no reconstructed state or fresh FK.",
+    "original_run_terminal_native_step": 7103,
+    "original_source_age_at_observation_s": 0.15000000000000036,
+    "other_file_pins": "Fresh read-only hashes of exact closed-run logs/registry/qualification; not presented as pre-existing external pins",
+    "producer_run": "fusion-night1-task-phase-bias-s003-01",
+    "reference_subatom_phase_s": 0.0,
+    "reference_wire_sha256": "7e2819156b4e73d55f826de2bd48c55c1d047ca4b6104ba296f5a23dede72f29",
+    "role": "NON_VLA_CALIBRATION"
+  },
+  "cost": {
+    "Core_extractor_exit_code": 0,
+    "Core_read_only_extractor_CPU_s": 0.410877231,
+    "Core_read_only_extractor_wall_s": 0.4878113609738648,
+    "cost_components_overlap_do_not_sum": true,
+    "latency_distribution_claim": false,
+    "local_assembly_CPU_s": 0.011696933999999992,
+    "local_assembly_exit_code": 0,
+    "local_assembly_wall_s": 0.011696200002916157,
+    "local_child_CPU_s": 0.099907416,
+    "local_child_wall_s": 0.09996180201414973,
+    "local_import_CPU_s": 0.083577499,
+    "local_import_wall_s": 0.08363181100867223,
+    "observations": 1
+  },
+  "effects": {
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "active_capsule_changes": 0,
+    "local_outputs": "Private immutable packet/receipt and isolated frozen Python source dependencies; this public summary contains no raw state",
+    "new_FK": 0,
+    "new_action_installations": 0,
+    "new_model_loads": 0,
+    "new_model_queries": 0,
+    "new_physics_integrations": 0,
+    "new_renders": 0,
+    "scope_or_grant_changes": 0
+  },
+  "forecast": {
+    "candidate_estimates_supplied": false,
+    "count": 0
+  },
+  "identities": {
+    "dependencies_unchanged_before_after": true,
+    "dependency_manifest_sha256": "68698a7753690f8f91490a0bd84c4079c333db87b044b68df6425bc1bcff952e",
+    "extraction_sha256": "56a13ca75c8d136aa3b1671ebe1b80394403cab9353cc6a4e41eebc589de865c",
+    "feedback_module_sha256": "9d1cc7229a16d02763dd405454465a11c44f75e20c0da4021667f76fb17c2d6d",
+    "feedback_source_sha": "b55da2d831121a9971803f013ad4c6b921bd2984",
+    "frozen_dependency_files": 36,
+    "local_receipt_sha256": "d910acc12cd6ac21538f22c11ab154bd7f93d2f7c7b140ebb1f1ab8a89bbbe3e",
+    "native_producer_source_sha": "efead413525c17bd290c2514bbaf82ea75ba37c3",
+    "native_result_sha256": "5c9d9cbfed522e9deaed2d957e04f8141785b696d91a022d901808af1292e262",
+    "native_spec_sha256": "d244df6e81cc57ef4c6feefa3914c016de8593a47789b630989ce0d711466628",
+    "original_input_identity_unchanged": true,
+    "original_input_kwargs_unchanged": true,
+    "packet_sha256": "e973d3606870cccf75c35a11741a3e6ecbff644626c2a1a45c47c79535431f44"
+  },
+  "information_boundary": {
+    "GR00T_head_modified": false,
+    "Processor_padding_modified": false,
+    "actual_raw_states_or_wire_or_host_paths_published": false,
+    "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+    "future_state_added_to_proprioception": false,
+    "producer_and_raw_file_authentication": "External pinned original read-only audit, not performed by make_packet itself",
+    "prompt_or_language_modified": false,
+    "simulator_state": "PRIVILEGED_NOT_QUALIFIED_DEPLOYABLE_RGB_FEEDBACK"
+  },
+  "innovation": {
+    "invalid_reasons": [
+      "NO_SAVED_PREDICTION"
+    ],
+    "missing_prediction_reconstructed": false,
+    "old_prediction_promoted": false,
+    "saved_prediction_supplied": false,
+    "valid": false,
+    "validity_mask": {
+      "base_pose": false,
+      "finger_q": false,
+      "object_pose": false,
+      "tcp": false
+    }
+  },
+  "measured_record_consistency": {
+    "TCP_measured_angular_speed_rad_s": 0.0012206273300600758,
+    "TCP_measured_speed_m_s": 0.0008052776872450655,
+    "TCP_reference_orientation_residual_rad": 0.04296156389815318,
+    "TCP_reference_position_residual_mm": 30.887977848438847,
+    "command_domain_evidence": {
+      "CONTROLLER_SELECTED_POLICY": false,
+      "SOLVER_TARGET_CONFIRMED": true,
+      "UPSTREAM_INSTALLED_REFERENCE": true
+    },
+    "events": {
+      "left_object_contact": false,
+      "native_abort": false,
+      "native_grasp": false,
+      "reset": false,
+      "right_object_contact": false,
+      "robot_object_contact": false,
+      "safety_valid": true,
+      "takeover": false
+    },
+    "finger_measured_minus_issued_mm": [
+      -0.053450648374649135,
+      0.05397359997585949
+    ],
+    "tracking_reference": "Original installed wire evaluated at actual native observation time; gripper uses the issued first-row hold during the atom",
+    "validity_mask": {
+      "base_pose": true,
+      "events": {
+        "left_object_contact": true,
+        "native_abort": true,
+        "native_grasp": true,
+        "reset": true,
+        "right_object_contact": true,
+        "robot_object_contact": true,
+        "safety_valid": true,
+        "takeover": true
+      },
+      "finger_q": true,
+      "object_pose": true,
+      "reference_age_s": true,
+      "tcp": true,
+      "tracking_base_pose": true,
+      "tracking_gripper": true,
+      "tracking_tcp": true,
+      "velocity": true
+    }
+  },
+  "qualification": {
+    "frozen_GR00T_plus_minus_WM_skill_comparisons": 0,
+    "native_execution_authorized": false,
+    "native_or_model_qualification_established_by_this_packet": false,
+    "prediction_or_feedback_benefit_established": false,
+    "runtime_integration": false
+  },
+  "schema": "WM02_FUSION_PHYSICS_FEEDBACK_PACKET_ACTUAL_V1",
+  "scientific_result": "The offline contract accepted one original consumed native interval. This establishes record/API compatibility for that interval, not prediction accuracy, feedback benefit, model qualification or native policy control.",
+  "status": "ONE_ACTUAL_ARCHIVED_ATOM_ASSEMBLED_OFFLINE_NO_INNOVATION_OR_FORECAST"
+}

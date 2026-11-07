@@ -1,0 +1,30 @@
+{
+  "schema": "WM02_NOMINAL_REFERENCE_CROSS_ENV_METADATA_ACTUAL_V1",
+  "rows": [
+    {
+      "environment": "native",
+      "python": "3.12.3",
+      "numpy": "2.5.4",
+      "goal_rederivation_max_abs": 0.0,
+      "goal_bit_exact": true,
+      "new_exact_byte_metadata_checker_passed": true,
+      "new_physics": 0,
+      "new_queries": 0,
+      "new_updates": 0
+    },
+    {
+      "environment": "GR00T",
+      "python": "3.12.3",
+      "numpy": "1.26.4",
+      "goal_rederivation_max_abs": 6.938893903907228e-18,
+      "goal_bit_exact": false,
+      "new_exact_byte_metadata_checker_passed": true,
+      "new_physics": 0,
+      "new_queries": 0,
+      "new_updates": 0
+    }
+  ],
+  "command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/audit_nominal_reference_cross_environment02.py\" 180",
+  "exit_code": 0,
+  "reference_file_sha256": "f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85"
+}

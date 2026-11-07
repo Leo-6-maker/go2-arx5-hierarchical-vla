@@ -1,0 +1,93 @@
+{
+  "schema": "WM02_PRELOAD_AND_LIVE_PROGRAM_REPLAY_V1_IMPLEMENTATION",
+  "status": "LOCAL_TESTED_FUTURE_CODE_NOT_IN_PRECEDING_CE2_ACTUAL_RUN",
+  "tests": {
+    "NORMAL": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "c7a6735ed7583e894e3fbb9931c2899a3fc40e9ee8738876dd9e2058608ab0c2",
+        "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py": "c47c0d3d4b86775a8615c461973e62ef0749d091c14e53367ec8898e918cdee7",
+        "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py": "67dab333b6dccb9bbaf192c56f3bb221f52a9694e5d8413b90d14b3eeb1544d4",
+        "tests/world_model/test_fusion_live_skill_segment.py": "fa01cc2e0c02007b0a4cc46d81375419294b8f91e85f5a271c66d2232355969c",
+        "tests/world_model/test_fusion_graded_short_skill_v1.py": "2964f149fd9b68e08dde24f6d03e8af074a1705b7f562503c1f0ea3885d512f1",
+        "tests/world_model/test_fusion_short_skill.py": "2a3825561c0db3ddd59861dcefa41e9e3e2d6320c8892f07e15171b69520b264",
+        "tests/world_model/test_fusion_paused_inference.py": "ebffcf16d9e9428cf660833de16606a8b9956ebc6ca91d0730203780d959af64",
+        "tests/world_model/test_fusion_paused_query_bridge.py": "eb9b7d7b251a7e3794686128a068a4fb89d25f345f45a5947f8954c8dedc8c23",
+        "src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py": "3892c064342724ba8bef166a6eb9673ac19ca7b80a7aba657d80030543ff4efe",
+        "src/go2arx5_vla/world_model/fusion_short_skill.py": "aa5fd0a7d7ff3282530c73a44b1c10145cc192561f35b89d9a94e17544b8916e",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "238cf0deb108071644e9f48be39389d8f5dc47052c5046bbb2a2dbecf9d70257",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py": "f82e0e663c20b9a400ed2dafe771bdf6e34e68c16833b9f8bcb5db0069452ef7",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "cba1f41731a40920de494fd2a1d18c9d747ffc88c5fb6e465e2cdf17b2ad4705",
+        "src/go2arx5_vla/world_model/fusion_paused_inference.py": "12f4c08863c18351ab99270c836d32aa4610616bd071b46d9e9735a12bed426a",
+        "tests/world_model/test_fusion_bounded_reference_tracking_v1.py": "bb5484f1ade7e41a65c7db8967aed6b597181a00a2716fac202c3d260d5e4469",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py": "01cc9b704f6ee05a207f4aabd545f0c09793b401e36ae59b62621891dfab088f",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "86f7c6026c36e5e711ba9d93d95272a6768ecd218098e6d9dbaebedfe8c1b783",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "8d794d946a26acd170b815acb51da45cff655a4b2f90b2a1147485e10df591e7",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "afe5f4ad30e5c61dd65672bc3e4aba78e741503034f55d470db8f47911f803cb",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "7facbe063ca1be7ec1af1fd8b85e98dca12a57c6b52b264109801d44a12a870e",
+        "scripts/wm02/infer_fusion_paused_vla.py": "ec53ee71914580072b5974bafb452dcfda46caabe644259d95a3424e6aa41656"
+      },
+      "wall_s": 8.219903273013188,
+      "child_CPU_s": 7.614974,
+      "log_sha256": "7de6ee3656c2a1cf96e7c94a66c56a3db1a66dced92ebd4ff051fee5eb09e602",
+      "passed": 266
+    },
+    "OPTIMIZED": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "c7a6735ed7583e894e3fbb9931c2899a3fc40e9ee8738876dd9e2058608ab0c2",
+        "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py": "c47c0d3d4b86775a8615c461973e62ef0749d091c14e53367ec8898e918cdee7",
+        "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py": "67dab333b6dccb9bbaf192c56f3bb221f52a9694e5d8413b90d14b3eeb1544d4",
+        "tests/world_model/test_fusion_live_skill_segment.py": "fa01cc2e0c02007b0a4cc46d81375419294b8f91e85f5a271c66d2232355969c",
+        "tests/world_model/test_fusion_graded_short_skill_v1.py": "2964f149fd9b68e08dde24f6d03e8af074a1705b7f562503c1f0ea3885d512f1",
+        "tests/world_model/test_fusion_short_skill.py": "2a3825561c0db3ddd59861dcefa41e9e3e2d6320c8892f07e15171b69520b264",
+        "tests/world_model/test_fusion_paused_inference.py": "ebffcf16d9e9428cf660833de16606a8b9956ebc6ca91d0730203780d959af64",
+        "tests/world_model/test_fusion_paused_query_bridge.py": "eb9b7d7b251a7e3794686128a068a4fb89d25f345f45a5947f8954c8dedc8c23",
+        "src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py": "3892c064342724ba8bef166a6eb9673ac19ca7b80a7aba657d80030543ff4efe",
+        "src/go2arx5_vla/world_model/fusion_short_skill.py": "aa5fd0a7d7ff3282530c73a44b1c10145cc192561f35b89d9a94e17544b8916e",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "238cf0deb108071644e9f48be39389d8f5dc47052c5046bbb2a2dbecf9d70257",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py": "f82e0e663c20b9a400ed2dafe771bdf6e34e68c16833b9f8bcb5db0069452ef7",
+        "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "cba1f41731a40920de494fd2a1d18c9d747ffc88c5fb6e465e2cdf17b2ad4705",
+        "src/go2arx5_vla/world_model/fusion_paused_inference.py": "12f4c08863c18351ab99270c836d32aa4610616bd071b46d9e9735a12bed426a",
+        "tests/world_model/test_fusion_bounded_reference_tracking_v1.py": "bb5484f1ade7e41a65c7db8967aed6b597181a00a2716fac202c3d260d5e4469",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py": "01cc9b704f6ee05a207f4aabd545f0c09793b401e36ae59b62621891dfab088f",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "86f7c6026c36e5e711ba9d93d95272a6768ecd218098e6d9dbaebedfe8c1b783",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "8d794d946a26acd170b815acb51da45cff655a4b2f90b2a1147485e10df591e7",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "afe5f4ad30e5c61dd65672bc3e4aba78e741503034f55d470db8f47911f803cb",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "7facbe063ca1be7ec1af1fd8b85e98dca12a57c6b52b264109801d44a12a870e",
+        "scripts/wm02/infer_fusion_paused_vla.py": "ec53ee71914580072b5974bafb452dcfda46caabe644259d95a3424e6aa41656"
+      },
+      "wall_s": 8.609247454005526,
+      "child_CPU_s": 8.004678,
+      "log_sha256": "6063b385a574ddd4d45455af37c54466af56250a5e721965a9b7373587e0bbfb",
+      "passed": 266
+    }
+  },
+  "implementation": [
+    "Explicit two-scope mechanical-only frozen weight preload, with unchanged full input checks before one generate",
+    "Checkpoint integrity and model load timings separately measured; failed preloaded query retains load and no-generation counters",
+    "Actual prefix ABI join uses before-atom histories plus endpoint TCP/fingers, without inventing missing prefix state_vector fields",
+    "Every7-atom anchored response record retains actual full-publication exposure masks and physical-run grouping"
+  ],
+  "historical_test_negatives": [
+    {
+      "passed": 79,
+      "failed": 2,
+      "reason": "New mechanical GPU fixture omitted actual task_condition metadata; fixed fixture, runtime gate retained."
+    }
+  ],
+  "new_site_registrations": 0,
+  "new_model_updates": 0,
+  "new_queries": 0,
+  "new_integrations": 0,
+  "limitations": [
+    "No new trained predictor or new TRAIN dataset yet.",
+    "No callback added to the live native consumer; no pre-effect forecasts saved yet.",
+    "Old diagnostic records remain DIAGNOSTIC."
+  ],
+  "expected_preload_observation": "Model load completes during native initialization; one fresh query still follows the sealed actual capture. Measure actual timing before claiming speedup."
+}

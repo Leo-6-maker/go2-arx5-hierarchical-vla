@@ -1,0 +1,72 @@
+{
+  "schema": "WM02_LIVE_PROGRAM_CAUSAL_FEATURES_V2_IMPLEMENTATION",
+  "status": "LOCAL_PURE_CODE_TESTED_NOT_DEPLOYED_TO_ACTIVE_PAIR",
+  "question": "Do planned and actually visible complete MPC previews agree throughout a forecast horizon?",
+  "contract": {
+    "observed_history_states": 9,
+    "past_consumed_references": 8,
+    "native_ticks_per_atom": 25,
+    "atomic_dt_s": 0.05,
+    "forecast_horizon_atoms": 16,
+    "planned_install_atoms": [
+      0,
+      7,
+      14
+    ],
+    "planned_preview_shape": [
+      3,
+      40,
+      10
+    ],
+    "initial_install_clock": "ORIGINAL_REQUIRE_INSTALL_CLOCK",
+    "subsequent_source_age_s": 0.0,
+    "source_clock_match_tolerance_s": 1e-08,
+    "all_preview_suffixes_checked": true,
+    "same_consumed_first_points_alone_are_insufficient": true,
+    "future_state_features": false,
+    "object_ground_truth_features": false,
+    "unqualified_BASE_physical_point_features": false,
+    "partial_failure_labels_masked_from_first_exposure_mismatch": true,
+    "unobserved_or_cancelled_suffix_is_not_training_label": true,
+    "expert_labels": false
+  },
+  "tests": {
+    "NORMAL": {
+      "exit_code": 0,
+      "pins_before": {
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "86f7c6026c36e5e711ba9d93d95272a6768ecd218098e6d9dbaebedfe8c1b783",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "afe5f4ad30e5c61dd65672bc3e4aba78e741503034f55d470db8f47911f803cb"
+      },
+      "wall_s": 0.30821808200562373,
+      "child_CPU_s": 0.30711999999999995,
+      "log_sha256": "e95c548ac93a43f6893d2db9c5b7a9a4f4c53bf7e36fbe9f2070b1bc56611df4",
+      "passed": 20
+    },
+    "OPTIMIZED": {
+      "exit_code": 0,
+      "pins_before": {
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "86f7c6026c36e5e711ba9d93d95272a6768ecd218098e6d9dbaebedfe8c1b783",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "afe5f4ad30e5c61dd65672bc3e4aba78e741503034f55d470db8f47911f803cb"
+      },
+      "wall_s": 0.5078513079788536,
+      "child_CPU_s": 0.5065239999999999,
+      "log_sha256": "030e6a1d4e9d5b576bc9161df38c9f1242d1256043f36953d4ee0c5ac1826218",
+      "passed": 20
+    }
+  },
+  "new_WM_updates": 0,
+  "new_model_loads": 0,
+  "new_registrations": 0,
+  "new_integrations": 0,
+  "limits": [
+    "Caller must authenticate the original sealed pre-effect plan and original collector records.",
+    "Data roles and physical-parent splits still need a fresh declared collection manifest.",
+    "This is a deterministic feature/label API, not a trained predictor or a new training dataset.",
+    "Existing diagnostic records must not be relabelled TRAIN."
+  ],
+  "next": "At terminal cold boundary audit the first actual suffix against this pure schedule contract, then register fresh TRAIN collection if qualified."
+}

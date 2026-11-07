@@ -1,0 +1,32 @@
+{
+  "schema": "WM02_FUSION_PAIRED_QUERY_AND_RESPONSE_IMPLEMENTATION_V2",
+  "parent_sha": "67faba025f906c6cb8e1c5c5a176a0cc3322bcec",
+  "status": "TESTED_CODE_NOT_SITE_EXECUTED",
+  "tests": {
+    "passed": 804,
+    "subtests": 270,
+    "wall_s": 99.69,
+    "exit_code": 0,
+    "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=PRIVATE_TEST_DEPS:src CI_PYTHON -B -m pytest -q tests/world_model scripts/pi0294/dec1/test_inference_assets.py"
+  },
+  "actual_effects": {
+    "target_integrations": 0,
+    "renderer_calls": 0,
+    "GPU_model_loads": 0,
+    "VLA_queries": 0,
+    "WM_fits": 0,
+    "optimizer_updates": 0,
+    "Actor_updates": 0
+  },
+  "frozen_checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "short_skill_task": "FUSION_TARGET_RED_CUBE_APPROACH_STEP_V1",
+  "site_scene_audit": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "actual_red_cube_side_m": 0.04,
+    "actual_blue_goal": true,
+    "actual_body_and_wrist_fovy_degrees": 75,
+    "physics": 0,
+    "queries": 0
+  },
+  "remaining": "Original-owner source staging, two finite preregistered scopes, native HOLD+actual capture/GPU query/actual pause return. No VLA action installation or online control gain is established."
+}

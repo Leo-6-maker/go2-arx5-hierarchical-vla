@@ -1,0 +1,126 @@
+{
+  "schema": "WM02_TASK_INTENT_GEOMETRY_SHORT_DURATION_DIAGNOSTIC_PANEL_V2",
+  "epoch": 1794043567.6021428,
+  "status": "PREREGISTERED_NOT_SITE_ADMISSION_NOT_EXECUTED",
+  "assignments": [
+    {
+      "native_run": "fusion-night1-task-intent-geometry-short-t01-01",
+      "GPU_run": "fusion-night1-task-intent-geometry-short-t01-gpu-01",
+      "parent": "T06_TASK_INTENT_GEOMETRY_SHORT_DIAGNOSTIC_T01",
+      "split": "DIAGNOSTIC",
+      "task_reference_diagnostic": {
+        "schema": "WM02_PRIVILEGED_TASK_REFERENCE_DIAGNOSTIC_V2",
+        "producer": "PRIVILEGED_CURRENT_SCENE_GEOMETRY_NOT_GR00T_NOT_WM",
+        "step_m": 0.005,
+        "policy": "ALWAYS_GEOMETRIC_REFERENCE_NOT_REJECTION_FALLBACK",
+        "data_role": "DIAGNOSTIC_ONLY_NO_AUTO_TRAIN",
+        "GR00T_proposal": "GENERATE_SAVE_BUT_DO_NOT_EXECUTE",
+        "suffix_atoms": 176,
+        "standing_guard": "UNCHANGED_ORIGINAL_SHORT_TASK_BASE_POSE_BOUNDS"
+      },
+      "initialization_grade": 0.5,
+      "initialization_B": 34303,
+      "native_E": 38703,
+      "complete_suffix_atoms": 176,
+      "task_atoms": 1448,
+      "complete_atomic_transitions": 1548
+    },
+    {
+      "native_run": "fusion-night1-task-intent-geometry-short-t02-01",
+      "GPU_run": "fusion-night1-task-intent-geometry-short-t02-gpu-01",
+      "parent": "T06_TASK_INTENT_GEOMETRY_SHORT_DIAGNOSTIC_T02",
+      "split": "DIAGNOSTIC",
+      "task_reference_diagnostic": {
+        "schema": "WM02_PRIVILEGED_TASK_REFERENCE_DIAGNOSTIC_V2",
+        "producer": "PRIVILEGED_CURRENT_SCENE_GEOMETRY_NOT_GR00T_NOT_WM",
+        "step_m": 0.005,
+        "policy": "ALWAYS_GEOMETRIC_REFERENCE_NOT_REJECTION_FALLBACK",
+        "data_role": "DIAGNOSTIC_ONLY_NO_AUTO_TRAIN",
+        "GR00T_proposal": "GENERATE_SAVE_BUT_DO_NOT_EXECUTE",
+        "suffix_atoms": 176,
+        "standing_guard": "UNCHANGED_ORIGINAL_SHORT_TASK_BASE_POSE_BOUNDS"
+      },
+      "initialization_grade": 0.5,
+      "initialization_B": 34303,
+      "native_E": 38703,
+      "complete_suffix_atoms": 176,
+      "task_atoms": 1448,
+      "complete_atomic_transitions": 1548
+    }
+  ],
+  "motivation": "Separate whole-body ability to execute one complete explicitly declared 5mm geometric task reference from mapped-GR00T intent and unstable long suffix. This is not a prefix selected from a failed GR00T path.",
+  "activation": [
+    "Original six-comparison panel sealed PARTIAL for actual BASE instability: first two terminal, remaining four proven not started. Do not resume the affected long-trajectory family.",
+    "One existing actual owner, each fresh finite scope, original WBC/safety/2ms/deadline, no CLOSED lease reuse.",
+    "Second independent restart only after first complete original-safe reference execution; no repeated draws to select success."
+  ],
+  "domain": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "physics_dt_s": 0.002,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "desired_step_m": 0.005,
+    "minimum_object_clearance_m": 0.14,
+    "contact_allowed": false,
+    "orientation": "KEEP_ACTUAL_B_ORIENTATION",
+    "gripper": "UNCHANGED_WORKING_OPEN_MAPPING",
+    "base": "SAME_MEASURED_BASE_HOLD_FREE_FLOATING_DYNAMICS",
+    "all40_reference_knots_retained": true,
+    "suffix_s": 8.8,
+    "minimum_complete_teacher_tail_hold_s": 0.4,
+    "standing_guard_cadence_s": 0.05,
+    "standing_guard": "STOP_AT_ORIGINAL_SHORT_TASK_2MM_BASE_OR_ORIGINAL_ROTATION_BOUND",
+    "complete_40_teacher_knots_required": true,
+    "original_GR00T_H40_is_not_cropped_or_executed": true
+  },
+  "producer": {
+    "source": "ACTUAL_CURRENT_TCP_TO_ACTUAL_CURRENT_CUBE_CENTRE_UNIT_VECTOR",
+    "future_achieved_labels": false,
+    "privileged_use": "EXPLICIT_DIAGNOSTIC_ONLY_NOT_DEPLOYABLE_POLICY_INPUT",
+    "WM_used": false,
+    "local_XY_model_extrapolation": false
+  },
+  "GR00T": {
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "actual_query_per_attempt": 1,
+    "original_Processor_decodes": 1,
+    "complete_raw_proposal_saved": true,
+    "GR00T_proposal_actually_executed": false,
+    "Teacher_is_not_an_automatic_fallback": true
+  },
+  "scoring": {
+    "actual_task_score": "UNCHANGED_FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_SCORE_V1",
+    "minimum_signed_progress_m": 0.002,
+    "minimum_distance_reduction_m": 0.002,
+    "maximum_lateral_m": 0.003,
+    "final_hold_s": 0.4,
+    "task_outcome_separate_from_native_exit": true,
+    "Teacher_success_is_not_GR00T_WM_or_full_pick_place_success": true,
+    "DIAGNOSTIC_data_never_automatically_reclassified_TRAIN": true
+  },
+  "identities_and_costs": "Preserve raw GR00T hash, explicit Teacher proposal, actual consumed references/responses, source/spec/checkpoint IDs, all failures and nonoverlapping stage timing.",
+  "planned_native_attempts": 2,
+  "actual_new_site_scopes": 0,
+  "actual_native_integrations": 0,
+  "actual_model_updates": 0,
+  "no_Actor_or_Critic": true,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "supersedes_unexecuted_V1": true,
+  "V1_native_and_GPU_scopes_created": 0,
+  "original_reference_panel_partial_seal": {
+    "status": "HALTED_REMAINDER_BASE_INSTABILITY",
+    "sealed_epoch": 1794043567.5978708,
+    "actual_completed": 2,
+    "original_planned": 6,
+    "remaining_not_run": 4,
+    "trigger_run": "fusion-night1-reference-compare-b1-linear-01",
+    "trigger_base_displacement_m": 0.04366664508207024,
+    "original_task_standing_bound_m": 0.002,
+    "original_native_joint_safety_pass_preserved": true,
+    "remaining_root_audit_sha256": "6b3d3014b4710812b5c78e437059ed7dae2215e9baa51ce65f32d2c4b96d37ac",
+    "no_failed_condition_retry": true,
+    "no_WBC_or_original_safety_change": true
+  }
+}

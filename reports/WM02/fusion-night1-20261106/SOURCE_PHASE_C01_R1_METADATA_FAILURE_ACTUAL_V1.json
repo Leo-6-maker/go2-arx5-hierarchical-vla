@@ -1,0 +1,41 @@
+{
+  "schema": "WM02_C01_R1_GPU_METADATA_FAILURE_UNSTARTED_NATIVE_ACTUAL_V1",
+  "source_sha": "8362c5499513a437fef842dae5e1902163d6d34a",
+  "native_workers_started": 0,
+  "GPU_workers_started": 1,
+  "native_integrations": 0,
+  "generation_calls": 0,
+  "model_loads": 0,
+  "queries": 0,
+  "updates": 0,
+  "native_lease_status": "CLOSED",
+  "GPU_lease_status": "CLOSED",
+  "native_exit_code": null,
+  "GPU_exit_code": 1,
+  "original_register_intent_preserved": true,
+  "original_native_launch_intent_preserved": true,
+  "native_closeout_sha256": "fb3cfd69b3a8ed8262304c42bdeb8773d0c46923f10883a8c5fd71e707773f69",
+  "native_spec_sha256": "c8a9683ae8a7fe0a0510cd43cc4406b18d2394099249d81f8a829de9040b309c",
+  "GPU_spec_sha256": "a7b19490f687accf1ab064cbfc72b1ae3dee4ec167f14bd5befb454c0f463519",
+  "GPU_worker_sha256": "2ec46bf3fe10ab04ac189a2ae26decba537abaaa8e7542fef231ff0a7d41ddbb",
+  "failure": "Historical nominal goal recomputation differed across NumPy environments and failed exact runtime-input equality during GPU admission.",
+  "no_native_denominator_increment": true,
+  "not_a_model_or_physics_failure": true,
+  "source_staging_cost": {
+    "wall_s": 188.54818026116118,
+    "CPU_s": 1.5366780559999995,
+    "copied_parent_members": 3376,
+    "generated_bytecode_members_excluded": 20,
+    "copied_parent_bytes": 45623586,
+    "overlay_members": 192,
+    "overlay_written_bytes": 3182475,
+    "actual_source_bytes_written": 48806061,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "GPU_worker_cost": {
+    "exit_code": 1,
+    "wall_s": 0.2647127346135676,
+    "child_CPU_s": 0.227786
+  },
+  "original_cutoff_epoch": 1794051261.7397933
+}

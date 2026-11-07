@@ -1,0 +1,503 @@
+{
+  "schema": "WM02_FUSION_FIRST_GROUP_AND_REAL_VLA_ACTUAL_AUDIT_V1",
+  "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+  "first_group": {
+    "schema": "WM02_FUSION_FIRST_ACTUAL_CALIBRATION_GROUP_V1",
+    "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+    "exit_code": 0,
+    "failure": null,
+    "planned_method_evaluations": 4,
+    "actual_method_evaluations": 4,
+    "actual_native_ticks": 20515,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "VLA_updates": 0,
+    "VLA_inferences": 0,
+    "exact_fork": false,
+    "physical_parents": 1,
+    "split": "TRAIN",
+    "TEST_read": false,
+    "CALIBRATION_CORRECTION_GAIN": "NOT_ESTABLISHED_SINGLE_PARENT_ONE_RESTART",
+    "REAL_VLA_INFERENCE_DONE": false,
+    "FROZEN_VLA_NATIVE_COMPARISON": false,
+    "TASK_TRANSFER_GAIN": false,
+    "wall_s": 208.74418313009664,
+    "CPU_s": 0.30895228500000005,
+    "child_CPU_s": 356.82762399999996
+  },
+  "first_group_result_sha256": "bb26e269bb9c12fe22eba455ee25ba6a10b9db0490960ca74da09688535a5d6d",
+  "input_sha256": "8777a5bcd1607d5e2205a915096ca9ad3cbcb7ac08b16dc51473b78c248cad66",
+  "scene_allowlist_sha256": "d167486583d58e6fc152abfa16448186e02b354ef96761cfc49848be9eab4655",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "task_sha256": "5e0653617bc735dd39ec75cac1598d4b76488d1c6d72ecc50e30ae6d6d6c7b24",
+  "ARX_sha256": "c69ae25164b023cb005e17aaa0c6a45b9d75f756963a1887c782597e7acf55d1",
+  "static_model_sha256": "68e6ab05ebcedd265acf7fa53d42696d58488fb1c4a56eedba8a3e675fdb246f",
+  "runs": [
+    {
+      "run": "fusion-night1-f2-t01-prefix-01",
+      "method": "B0_DIRECT",
+      "purpose": "SCENE_QUALIFICATION",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_result_sha256": "82c026fc0b5222127148564431b02e15aae445412138390309bafa8805529176",
+      "native_ticks": 4103,
+      "shutdown_clean": true,
+      "scene_sha256": "04e12499cdaa310f28772d11cf48e4905daf8ec0aab9fe1c6f43b06893e2ea57",
+      "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+      "score": {
+        "schema": "WM02_FUSION_ACTUAL_LOCAL_XY_SCORE_V1",
+        "inference_mode": "CALIBRATION_NO_VLA",
+        "method": "B0_DIRECT",
+        "purpose": "SCENE_QUALIFICATION",
+        "parent": "FUSION_F2_T01_ROOT_XY_V1",
+        "split": "TRAIN",
+        "desired_outcome_provenance": "CALIBRATION_INTENT",
+        "desired_xy_m": [
+          0.26411305252225487,
+          -0.021870323978435253
+        ],
+        "actual_endpoint_TCP_m": [
+          0.26448619499602977,
+          -0.022032632697400963,
+          0.7085386036909175
+        ],
+        "actual_XY_error_m": 0.000406914519263128,
+        "local_XY_success": false,
+        "success_tolerance_m": 0.00018584456642062617,
+        "selected_action": 0,
+        "nominal_action": 0,
+        "objective_m": 0.000406914519263128,
+        "actual_world_displacement_m": [
+          0.0003731424737749012,
+          -0.00016230871896570978,
+          -0.0003492423706339398
+        ],
+        "actual_BASE_relative_displacement_m": [
+          -0.00040091295290595186,
+          9.904952240251397e-05,
+          0.0007572304299561239
+        ],
+        "actual_BASE_displacement_m": [
+          8.758832977961983e-06,
+          0.00043919411254908524,
+          -0.0003527196371109209
+        ],
+        "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "exact_counterfactual_fork": false,
+        "full_task_success": false,
+        "VLA_inferences": 0,
+        "CALIBRATION_CORRECTION_GAIN": "NOT_DECIDED_BY_SINGLE_EPISODE",
+        "TASK_TRANSFER_GAIN": false
+      },
+      "decision_sha256": "da454208dffedad523a9de9c26ab3154cf70d611cd40be48a62c94f541b5a8b3",
+      "all_arm_choices": {
+        "B1_TRAIN_STATIC_CALIBRATION": 2,
+        "B2_MATCHED_FEEDBACK_ONLY": 0,
+        "B3_HISTORY_CONDITIONAL_WM_CORRECTION": 2,
+        "B0_DIRECT": 0
+      },
+      "selected_action": 0,
+      "desired_outcome_provenance": "CALIBRATION_INTENT",
+      "future_response_observed": false,
+      "decision_native_step": 3703,
+      "source_age_s": -5.933031843596837e-13,
+      "all_preview_envelope_checks": 11,
+      "solver_target_confirmed_atoms": 64,
+      "complete_task_atoms": 64,
+      "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+      "worker_wall_s": 39.24386761570349,
+      "worker_CPU_s": 13.371586089000001,
+      "worker_child_CPU_s": 54.895538
+    },
+    {
+      "run": "fusion-night1-f2-t01-b1-01",
+      "method": "B1_TRAIN_STATIC_CALIBRATION",
+      "purpose": "TRAIN_FEEDBACK",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_result_sha256": "f440afa7c7a334782342be762a9ff2945061885ec7a81c006cb3ca3d6efa4253",
+      "native_ticks": 4103,
+      "shutdown_clean": true,
+      "scene_sha256": "04e12499cdaa310f28772d11cf48e4905daf8ec0aab9fe1c6f43b06893e2ea57",
+      "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+      "score": {
+        "schema": "WM02_FUSION_ACTUAL_LOCAL_XY_SCORE_V1",
+        "inference_mode": "CALIBRATION_NO_VLA",
+        "method": "B1_TRAIN_STATIC_CALIBRATION",
+        "purpose": "TRAIN_FEEDBACK",
+        "parent": "FUSION_F2_T01_ROOT_XY_V1",
+        "split": "TRAIN",
+        "desired_outcome_provenance": "CALIBRATION_INTENT",
+        "desired_xy_m": [
+          0.2650573255231176,
+          -0.02226509021638581
+        ],
+        "actual_endpoint_TCP_m": [
+          0.2651694779974316,
+          -0.022517382423393812,
+          0.7087334603657718
+        ],
+        "actual_XY_error_m": 0.0002760969670454985,
+        "local_XY_success": false,
+        "success_tolerance_m": 0.00018584456642062617,
+        "selected_action": 1,
+        "nominal_action": 1,
+        "objective_m": 0.0002960969670454985,
+        "actual_world_displacement_m": [
+          0.0011121524743140099,
+          -0.0002522922070080022,
+          -0.00030742568682629035
+        ],
+        "actual_BASE_relative_displacement_m": [
+          5.660516140998384e-05,
+          0.00015566008120684004,
+          0.0007408433459743513
+        ],
+        "actual_BASE_displacement_m": [
+          0.0001738895461310258,
+          0.00038603725265061277,
+          -0.0001667624544851587
+        ],
+        "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "exact_counterfactual_fork": false,
+        "full_task_success": false,
+        "VLA_inferences": 0,
+        "CALIBRATION_CORRECTION_GAIN": "NOT_DECIDED_BY_SINGLE_EPISODE",
+        "TASK_TRANSFER_GAIN": false
+      },
+      "decision_sha256": "ec11265bbba8060c05200514f47256fe4e2d5f2dabc158a42d44663fbbcd0a5f",
+      "all_arm_choices": {
+        "B1_TRAIN_STATIC_CALIBRATION": 1,
+        "B2_MATCHED_FEEDBACK_ONLY": 1,
+        "B3_HISTORY_CONDITIONAL_WM_CORRECTION": 3,
+        "B0_DIRECT": 1
+      },
+      "selected_action": 1,
+      "desired_outcome_provenance": "CALIBRATION_INTENT",
+      "future_response_observed": false,
+      "decision_native_step": 3703,
+      "source_age_s": -5.933031843596837e-13,
+      "all_preview_envelope_checks": 11,
+      "solver_target_confirmed_atoms": 64,
+      "complete_task_atoms": 64,
+      "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+      "worker_wall_s": 42.556723329704255,
+      "worker_CPU_s": 13.613098195,
+      "worker_child_CPU_s": 60.476489
+    },
+    {
+      "run": "fusion-night1-f2-t01-b0-01",
+      "method": "B0_DIRECT",
+      "purpose": "TRAIN_FEEDBACK",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_result_sha256": "627a121631e4bc10886e45c5ed385608eb8b1ee73d4c956c0642d8a208d98cce",
+      "native_ticks": 4103,
+      "shutdown_clean": true,
+      "scene_sha256": "04e12499cdaa310f28772d11cf48e4905daf8ec0aab9fe1c6f43b06893e2ea57",
+      "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+      "score": {
+        "schema": "WM02_FUSION_ACTUAL_LOCAL_XY_SCORE_V1",
+        "inference_mode": "CALIBRATION_NO_VLA",
+        "method": "B0_DIRECT",
+        "purpose": "TRAIN_FEEDBACK",
+        "parent": "FUSION_F2_T01_ROOT_XY_V1",
+        "split": "TRAIN",
+        "desired_outcome_provenance": "CALIBRATION_INTENT",
+        "desired_xy_m": [
+          0.2651198288025985,
+          -0.021871019165388174
+        ],
+        "actual_endpoint_TCP_m": [
+          0.26510411890578345,
+          -0.022007961148132416,
+          0.7085262088365841
+        ],
+        "actual_XY_error_m": 0.00013784015197272325,
+        "local_XY_success": true,
+        "success_tolerance_m": 0.00018584456642062617,
+        "selected_action": 1,
+        "nominal_action": 1,
+        "objective_m": 0.00015784015197272324,
+        "actual_world_displacement_m": [
+          0.0009842901031849594,
+          -0.00013694198274424169,
+          -0.0003902983738686139
+        ],
+        "actual_BASE_relative_displacement_m": [
+          6.775813488141269e-05,
+          0.0001085647647548274,
+          0.0008414957643101406
+        ],
+        "actual_BASE_displacement_m": [
+          6.030243086281584e-05,
+          0.0004418490321166685,
+          -0.00037449414586360197
+        ],
+        "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "exact_counterfactual_fork": false,
+        "full_task_success": false,
+        "VLA_inferences": 0,
+        "CALIBRATION_CORRECTION_GAIN": "NOT_DECIDED_BY_SINGLE_EPISODE",
+        "TASK_TRANSFER_GAIN": false
+      },
+      "decision_sha256": "13a8738bd60fd0e29ef944e4b066dc133e2c29564e694e0bc2af4281f2352c7e",
+      "all_arm_choices": {
+        "B1_TRAIN_STATIC_CALIBRATION": 1,
+        "B2_MATCHED_FEEDBACK_ONLY": 1,
+        "B3_HISTORY_CONDITIONAL_WM_CORRECTION": 1,
+        "B0_DIRECT": 1
+      },
+      "selected_action": 1,
+      "desired_outcome_provenance": "CALIBRATION_INTENT",
+      "future_response_observed": false,
+      "decision_native_step": 3703,
+      "source_age_s": -5.933031843596837e-13,
+      "all_preview_envelope_checks": 11,
+      "solver_target_confirmed_atoms": 64,
+      "complete_task_atoms": 64,
+      "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+      "worker_wall_s": 37.745353205129504,
+      "worker_CPU_s": 13.296505344,
+      "worker_child_CPU_s": 54.721421
+    },
+    {
+      "run": "fusion-night1-f2-t01-b3-01",
+      "method": "B3_HISTORY_CONDITIONAL_WM_CORRECTION",
+      "purpose": "TRAIN_FEEDBACK",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_result_sha256": "21bc264b8570c52c7833e23cb7808fbee1c8cb6c3583fddcfa1454de1d6a7f92",
+      "native_ticks": 4103,
+      "shutdown_clean": true,
+      "scene_sha256": "04e12499cdaa310f28772d11cf48e4905daf8ec0aab9fe1c6f43b06893e2ea57",
+      "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+      "score": {
+        "schema": "WM02_FUSION_ACTUAL_LOCAL_XY_SCORE_V1",
+        "inference_mode": "CALIBRATION_NO_VLA",
+        "method": "B3_HISTORY_CONDITIONAL_WM_CORRECTION",
+        "purpose": "TRAIN_FEEDBACK",
+        "parent": "FUSION_F2_T01_ROOT_XY_V1",
+        "split": "TRAIN",
+        "desired_outcome_provenance": "CALIBRATION_INTENT",
+        "desired_xy_m": [
+          0.2647876103412607,
+          -0.021524348298617463
+        ],
+        "actual_endpoint_TCP_m": [
+          0.26423103310750007,
+          -0.02126418377794326,
+          0.7087461964036982
+        ],
+        "actual_XY_error_m": 0.0006143808224206434,
+        "local_XY_success": false,
+        "success_tolerance_m": 0.00018584456642062617,
+        "selected_action": 3,
+        "nominal_action": 1,
+        "objective_m": 0.0006343808224206434,
+        "actual_world_displacement_m": [
+          0.0004434227662393764,
+          0.0002601645206742019,
+          -0.0002441488107054468
+        ],
+        "actual_BASE_relative_displacement_m": [
+          -0.00041577414963889225,
+          0.00048374742653709,
+          0.0007463054723801377
+        ],
+        "actual_BASE_displacement_m": [
+          8.050077498912567e-05,
+          0.00045925960658600956,
+          -0.0002492055433902518
+        ],
+        "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "exact_counterfactual_fork": false,
+        "full_task_success": false,
+        "VLA_inferences": 0,
+        "CALIBRATION_CORRECTION_GAIN": "NOT_DECIDED_BY_SINGLE_EPISODE",
+        "TASK_TRANSFER_GAIN": false
+      },
+      "decision_sha256": "c14d3288c24d0269c940a3db987432caaf84cbd14111ba71c0d612dfb10e8dc5",
+      "all_arm_choices": {
+        "B1_TRAIN_STATIC_CALIBRATION": 1,
+        "B2_MATCHED_FEEDBACK_ONLY": 1,
+        "B3_HISTORY_CONDITIONAL_WM_CORRECTION": 3,
+        "B0_DIRECT": 1
+      },
+      "selected_action": 3,
+      "desired_outcome_provenance": "CALIBRATION_INTENT",
+      "future_response_observed": false,
+      "decision_native_step": 3703,
+      "source_age_s": -5.933031843596837e-13,
+      "all_preview_envelope_checks": 11,
+      "solver_target_confirmed_atoms": 64,
+      "complete_task_atoms": 64,
+      "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+      "worker_wall_s": 42.96688623307273,
+      "worker_CPU_s": 13.661843557000001,
+      "worker_child_CPU_s": 60.200797
+    },
+    {
+      "run": "fusion-night1-f2-t01-b2-01",
+      "method": "B2_MATCHED_FEEDBACK_ONLY",
+      "purpose": "TRAIN_FEEDBACK",
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_result_sha256": "c04817aa24e6a20479d430a5d9d3a54ee76c9cd4025f1fcb704c29c0a0079e4e",
+      "native_ticks": 4103,
+      "shutdown_clean": true,
+      "scene_sha256": "04e12499cdaa310f28772d11cf48e4905daf8ec0aab9fe1c6f43b06893e2ea57",
+      "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+      "score": {
+        "schema": "WM02_FUSION_ACTUAL_LOCAL_XY_SCORE_V1",
+        "inference_mode": "CALIBRATION_NO_VLA",
+        "method": "B2_MATCHED_FEEDBACK_ONLY",
+        "purpose": "TRAIN_FEEDBACK",
+        "parent": "FUSION_F2_T01_ROOT_XY_V1",
+        "split": "TRAIN",
+        "desired_outcome_provenance": "CALIBRATION_INTENT",
+        "desired_xy_m": [
+          0.2648816050984878,
+          -0.021474616063594958
+        ],
+        "actual_endpoint_TCP_m": [
+          0.2649450517517881,
+          -0.02166486060214805,
+          0.7086152973505386
+        ],
+        "actual_XY_error_m": 0.00020054541197517134,
+        "local_XY_success": false,
+        "success_tolerance_m": 0.00018584456642062617,
+        "selected_action": 1,
+        "nominal_action": 1,
+        "objective_m": 0.00022054541197517134,
+        "actual_world_displacement_m": [
+          0.0010634466533003262,
+          -0.00019024453855309362,
+          -0.0003583209044323299
+        ],
+        "actual_BASE_relative_displacement_m": [
+          0.00010343871948242933,
+          0.0001333803366662719,
+          0.0007469637129923767
+        ],
+        "actual_BASE_displacement_m": [
+          0.00012652423376517674,
+          0.00042308754075616657,
+          -0.00026625395077151115
+        ],
+        "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "exact_counterfactual_fork": false,
+        "full_task_success": false,
+        "VLA_inferences": 0,
+        "CALIBRATION_CORRECTION_GAIN": "NOT_DECIDED_BY_SINGLE_EPISODE",
+        "TASK_TRANSFER_GAIN": false
+      },
+      "decision_sha256": "6d0be238510b84326bcf29c5e3efc2db95a3725da62e382b452ab60e73c7ef71",
+      "all_arm_choices": {
+        "B1_TRAIN_STATIC_CALIBRATION": 1,
+        "B2_MATCHED_FEEDBACK_ONLY": 1,
+        "B3_HISTORY_CONDITIONAL_WM_CORRECTION": 3,
+        "B0_DIRECT": 1
+      },
+      "selected_action": 1,
+      "desired_outcome_provenance": "CALIBRATION_INTENT",
+      "future_response_observed": false,
+      "decision_native_step": 3703,
+      "source_age_s": -5.933031843596837e-13,
+      "all_preview_envelope_checks": 11,
+      "solver_target_confirmed_atoms": 64,
+      "complete_task_atoms": 64,
+      "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+      "worker_wall_s": 39.682534457184374,
+      "worker_CPU_s": 13.50194668,
+      "worker_child_CPU_s": 57.64405
+    }
+  ],
+  "real_VLA": {
+    "status": "REAL_FROZEN_VLA_OFFLINE_INFERENCE_DONE",
+    "source_sha": "8c62efdc581b57266dd30121062c8a06e5f6dc61",
+    "checkpoint_manifest_sha256": "383ad9b8fc3b81efffde132d4f06de92fb96fbdf9ec0b6c92c097e0f58eb2a8d",
+    "recorded_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "action_sha256": "0eb9040757d8fc4dc3922dc51ff2c839f043a69b754c159fa60301f2fe133a4e",
+    "actual_model_loads": 1,
+    "actual_VLA_inferences": 1,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "native_integrations": 0,
+    "inference_mode": "OFFLINE_REAL_VLA_INFERENCE",
+    "numeric_mode": "ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST",
+    "precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "d33cc03b71497f5408796cfb434e60db574c65d4026d0cf1d0bcd833bcf53b3c"
+    },
+    "physical_H40_shape": [
+      40,
+      10
+    ],
+    "normalized_outside_unit_components": 136,
+    "source_frame": "PI0291_MUJOCO_WORLD",
+    "source_TCP": "ARX5_NATIVE_SITE_x5_ee",
+    "desired_outcome_provenance": "SEMANTICS_UNRESOLVED",
+    "REAL_VLA_INFERENCE_DONE": true,
+    "FROZEN_VLA_NATIVE_COMPARISON": false,
+    "TASK_TRANSFER_GAIN": false,
+    "target_online_images": false,
+    "source_task_success": "NOT_ESTABLISHED_BY_THIS_QUERY",
+    "query_wall_s": 1.147890537045896,
+    "GPU_event_s": 1.1477508544921875,
+    "peak_allocated_bytes": 13320805376,
+    "peak_reserved_bytes": 13524533248,
+    "wall_s": 21.181969691067934,
+    "CPU_s": 17.694092304,
+    "worker_exit": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 35.446287129074335,
+      "child_CPU_s": 18.803784
+    },
+    "lease_status": "CLOSED",
+    "result_sha256": "1878db40605628b9dc4853165eb492bf8a5854ea517ea5533deed507ea0fb030",
+    "observation_body_sha256": "2d052b104e2a780e6f0cadba7797f64396c5c2d883d3da2c8775003ee9b58af2"
+  },
+  "source_proposal_scope": {
+    "mode": "REAL_VLA_SOURCE_PROPOSAL_DIAGNOSTIC_NOT_TARGET_MAPPING",
+    "max_translation_from_actual_source_observation_mm": 150.64569620085146,
+    "max_rotation_from_source_observation_deg": 22.16880715199413,
+    "mechanical_open_fraction_min": 0.0,
+    "mechanical_open_fraction_max": 1.0,
+    "full_H40_inside_fixed_local_XY4_domain": false,
+    "reason": "SOURCE_OUTCOME_AND_TARGET_CAMERA_MAPPING_UNRESOLVED; COMPLETE_PROPOSAL_NOT_A_QUALIFIED_XY1MM_FIXED_GOAL_PROGRAM",
+    "projection_applied": false,
+    "submitted_to_native": false
+  },
+  "response_replay": {
+    "schema": "WM02_FUSION_REAL_RESPONSE_REPLAY_V1",
+    "manifest_sha256": "d3000ffad4dbc790e31397f849c79dc17392656b0d66c00b470487c86054df52",
+    "replay_sha256": "44defac5da40dd898700c4806d0b5a5d156b8e9f7f817b827f107412f4d796a7",
+    "eligible_windows": 4,
+    "real_post_choice_transitions": 64,
+    "physical_parents": {
+      "FUSION_F2_T01_ROOT_XY_V1": "TRAIN"
+    },
+    "excluded": [],
+    "negative_task_outcomes": 3,
+    "actual_native_integrations_by_builder": 0,
+    "optimizer_updates": 0,
+    "TEST_read": false,
+    "expert_action_labels": false,
+    "source_age_only_anchor8_valid": true,
+    "exact_full_controller_restore": false,
+    "wall_s": 1.7184252557344735,
+    "CPU_s": 1.128807696
+  },
+  "GPU_inventory": "0, NVIDIA GeForce RTX 4080 SUPER, 32760 MiB, 580.173.02\n1, NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 580.173.02\n",
+  "VLA_unit_cost": "MainPID=0\nExecMainStatus=0\nMemoryPeak=[not set]\nCPUUsageNSec=18920361000\n"
+}

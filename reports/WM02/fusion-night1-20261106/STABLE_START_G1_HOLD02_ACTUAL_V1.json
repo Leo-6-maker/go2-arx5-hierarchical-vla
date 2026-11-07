@@ -1,0 +1,102 @@
+{
+  "schema": "WM02_STABLE_START_G1_HOLD02_ACTUAL_V1",
+  "snapshot_epoch": 1794072540.0392575,
+  "status": "COMPLETE_HOLD_STABILITY_PASS_NOT_APPROACH_TASK_SUCCESS",
+  "source_sha": "0245f6c4f0271c30724d40414ee8c80bcd6bcc87",
+  "spec_sha256": "185b861503e8dc021d57606ccdbdbea3751e90ea9f4fbca4228082f0d26bd677",
+  "native_result_sha256": "81de4def31f7b07649ddbe6ae46810c5cbdb8f383ace836369738faa11d2b576",
+  "worker_sha256": "49164499855b4f51621bdf3623e6cab69d7346cacbd59311efcb06b12c65c5e5",
+  "lease_sha256": "f993eccdee2dda1a924769d52408e50048a85bbf135170771679c5906fa08db2",
+  "worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 526.1338946749456,
+    "CPU_s": 213.48490348500002,
+    "child_CPU_s": 781.150923
+  },
+  "unit": {
+    "MainPID": "0",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "5442220032",
+    "CPUUsageNSec": "1001089129000",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "native_integrations": 38703,
+  "complete_atomic_transitions": 1548,
+  "complete_task_atoms": 1448,
+  "complete_HOLD_suffix_atoms": 176,
+  "new_GR00T_queries": 0,
+  "new_WM_updates": 0,
+  "new_GR00T_updates": 0,
+  "new_Actor_updates": 0,
+  "HOLD_score": {
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "metrics": {
+      "signed_progress_m": 2.2070060007614875e-05,
+      "precontact_distance_reduction_m": 2.1352466227780864e-05,
+      "maximum_lateral_drift_m": 0.0004526502650084867,
+      "maximum_TCP_excursion_m": 0.00045635400516732177,
+      "minimum_finger_opening_m": 0.04193290817660251,
+      "maximum_object_displacement_m": 0.0,
+      "maximum_base_displacement_m": 0.0007166012435453434,
+      "maximum_base_rotation_rad": 0.0009443625199505489,
+      "final_hold_TCP_diameter_m": 0.0001669661636034398,
+      "final_hold_TCP_max_speed_m_s": 0.0024594521679283986
+    },
+    "predicates": {
+      "signed_progress": false,
+      "distance_reduction": false,
+      "lateral": true,
+      "excursion": true,
+      "open": true,
+      "object_still": true,
+      "base_still": true,
+      "base_orientation": true,
+      "hold": true,
+      "original_native_safety": true,
+      "no_robot_object_contact": true
+    },
+    "approach_step_success": false,
+    "full_task_success": false,
+    "precontact_arrival_claim": false,
+    "pick_place_success_claim": false,
+    "scorer_only_privileged_geometry": true,
+    "thresholds_are_native_safety": false
+  },
+  "qualification": {
+    "hold_stability_pass": true,
+    "short_teacher_success": false,
+    "complete_task_atoms": 1448,
+    "capability_reference_all40_consumed": true
+  },
+  "original_startup_joint2_joint3_rad": 0.9,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+  "CPU_and_wall_not_added_twice": true,
+  "systemd_CPU_s": 1001.089129,
+  "host_peak_bytes": 5442220032,
+  "shared_source_staging_cost": {
+    "wall_s": 0.2439813045784831,
+    "CPU_s": 0.13217901100000007,
+    "bytes_written": 0,
+    "reused": true
+  },
+  "commands": [
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/dispatch_stable_start_g1_hold02.py 900",
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g1_actual01.py 180"
+  ],
+  "dispatch_exit_code": 0,
+  "first_confirmed_block": "Task action qualification still pending4mm Teacher",
+  "next": "dispatch_stable_start_g1_teacher04.py (implemented and bound to both CLOSED0 HOLD result pins)",
+  "preflight_failure_preserved": {
+    "exit_code": 1,
+    "reason": "First complete native RESULT exceeds generic16MiB metadata cap; repair uses exact result pin and384MiB full-result-only reader",
+    "new_native_ticks": 0,
+    "new_workers": 0
+  }
+}

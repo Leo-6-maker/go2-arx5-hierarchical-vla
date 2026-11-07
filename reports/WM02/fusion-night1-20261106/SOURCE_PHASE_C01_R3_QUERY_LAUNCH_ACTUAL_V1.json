@@ -1,0 +1,62 @@
+{
+  "schema": "WM02_C01_R3_QUERY_ONLY_LAUNCH_ACTUAL_V1",
+  "epoch": 1794049980.2036598,
+  "status": "BOTH_DISPATCH_EXIT0_ACTUAL_COMPLETION_NOT_YET_KNOWN",
+  "source_sha": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+  "registered": {
+    "native_spec_sha256": "5369da7902f730138c96718920a3ac3392f8cc55524b64df71afaf66d1fc092a",
+    "GPU_spec_sha256": "fed445c120457536793da4736712f52aa15b1234c7fd3c8d87c0224af2b83a1d",
+    "pair_sha256": "62560fc116b42eb13b776d08ece607172c7d68e5c1b492316c0f32ef29075597",
+    "task_sha256": "95e041d4236edb13a0790c1fb92125a3a0db6213204a0060dfecf72c91bde75d",
+    "source_sha": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+    "native_deadline_epoch": 1794051121.6965454,
+    "GPU_deadline_epoch": 1794051121.6965454,
+    "source_staging_cost": {
+      "wall_s": 169.71638317080215,
+      "CPU_s": 1.4235241810000012,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 200,
+      "overlay_written_bytes": 3205861,
+      "actual_source_bytes_written": 48829447,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_staging_shared_not_double_counted": true
+  },
+  "native_run": "fusion-night1-source-phase-c01-r3-query-01",
+  "GPU_run": "fusion-night1-source-phase-c01-r3-query-gpu-01",
+  "native_dispatch_exit": 0,
+  "GPU_dispatch_exit": 0,
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "panel_sha256": "a6fdbd099d78283ee165490f71af8d8cdbb59b5fe4f863a5296420d581a1afa3",
+  "nominal_reference_sha256": "f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85",
+  "fixed_endpoint": 34303,
+  "generated_action_execution_allowed": false,
+  "new_training_updates": 0,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "counts_not_prepaid": true,
+  "frozen_GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "real_commands": [
+    {
+      "command": "python3 prepare_source_phase_c01_r3_first01.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 CORE_CONTROL precheck_source_phase_c01_r3_query01.py 180",
+      "exit_code": 0,
+      "effects": 0
+    },
+    {
+      "command": "python3 CORE_CONTROL dispatch_source_phase_c01_r3_query01.py 900",
+      "exit_code": 0,
+      "Journal_once": true
+    },
+    {
+      "command": "python3 bind_source_phase_c01_r3_reader01.py SOURCE_PHASE_C01_R3_QUERY_DISPATCH01.private.json",
+      "exit_code": 0
+    }
+  ],
+  "CORE_CONTROL": "private existing authenticated transport; host-bound paths and credentials unpublished"
+}

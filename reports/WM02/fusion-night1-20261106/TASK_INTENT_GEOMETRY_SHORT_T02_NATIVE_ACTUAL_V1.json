@@ -1,0 +1,249 @@
+{
+  "schema": "WM02_PRIVILEGED_SHORT_TASK_REFERENCE_DIAGNOSTIC_NATIVE_ACTUAL_V2",
+  "case": "TASK_GEOMETRY_SHORT_T02",
+  "epoch": 1794045694.5506132,
+  "actual_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+  "panel_sha256": "ff95e7bb4bcfea10edfb0f1caed0d20583ee085d3a7bd9ecf4b56c679765b94d",
+  "original_assignment": {
+    "candidate": "EXPLICIT_PRIVILEGED_GEOMETRIC_5MM",
+    "panel_sha256": "ff95e7bb4bcfea10edfb0f1caed0d20583ee085d3a7bd9ecf4b56c679765b94d",
+    "parent": "T06_TASK_INTENT_GEOMETRY_SHORT_DIAGNOSTIC_T02",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "DIAGNOSTIC"
+  },
+  "actual_reference_intervention": null,
+  "actual": {
+    "native_exit_code": 0,
+    "GPU_exit_code": 0,
+    "native_integrations": 38703,
+    "complete_atomic_transitions": 1548,
+    "complete_generated_suffix_atoms": 176,
+    "actual_queries": 1,
+    "raw_H40_consumed": false,
+    "reference_install_attempts": 26,
+    "reference_installations": 26,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": true,
+    "full_tasks": 0
+  },
+  "first16_actual_response": {
+    "H16_actual_minus_desired_L2_m": 9.155626198595596e-05,
+    "H16_actual_minus_desired_xyz_m": [
+      5.345937997680572e-05,
+      -3.7179448260281356e-05,
+      6.43609542222423e-05
+    ],
+    "actual_endpoint_step": 34703,
+    "independent_restart_not_exact_fork": true,
+    "initial_native_step": 34303,
+    "maximum_actual_displacement_m": 0.00018993226945062853,
+    "reference_error_is_model_innovation": false,
+    "schema": "WM02_FIRST16_ACTUAL_PROGRAM_RESPONSE_V1",
+    "H16_actual_TCP_displacement_m": [
+      6.877178000419537e-05,
+      -4.197612286555713e-05,
+      3.541048341959563e-05
+    ],
+    "H16_desired_TCP_displacement_m": [
+      1.531240002738965e-05,
+      -4.796674605275775e-06,
+      -2.8950470802646677e-05
+    ]
+  },
+  "strict_short_score": {
+    "approach_step_success": true,
+    "decision_native_step": 34303,
+    "full_task_success": false,
+    "metrics": {
+      "final_hold_TCP_diameter_m": 2.81060417450137e-05,
+      "final_hold_TCP_max_speed_m_s": 0.0003052666094502122,
+      "maximum_TCP_excursion_m": 0.0036550305440386723,
+      "maximum_base_displacement_m": 0.0008953692957365043,
+      "maximum_base_rotation_rad": 0.0007786498930915332,
+      "maximum_lateral_drift_m": 0.00058449425299926,
+      "maximum_object_displacement_m": 0.0,
+      "minimum_finger_opening_m": 0.04193321559933735,
+      "precontact_distance_reduction_m": 0.003576687267785497,
+      "signed_progress_m": 0.0035783095575942655
+    },
+    "native_execution_authorized": false,
+    "old_3703_score_relabelled": false,
+    "pick_place_success_claim": false,
+    "precontact_arrival_claim": false,
+    "predicates": {
+      "base_orientation": true,
+      "base_still": true,
+      "distance_reduction": true,
+      "excursion": true,
+      "hold": true,
+      "lateral": true,
+      "no_robot_object_contact": true,
+      "object_still": true,
+      "open": true,
+      "original_native_safety": true,
+      "signed_progress": true
+    },
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "scorer_only_privileged_geometry": true,
+    "source_task_phase_equivalence": false,
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "thresholds_are_native_safety": false
+  },
+  "Teacher_reference_all40_consumed": true,
+  "Teacher_proposal_sha256": "3a030cb245555c89ff9d7da9fc0a9f5fa633b010976d2c7e63406aded93476ec",
+  "privileged_Teacher_not_VLA_or_WM": true,
+  "unused_GR00T_proposal_retained": true,
+  "unused_GR00T_short_intent_screen": {
+    "actual_task_success_established": false,
+    "cube_use": "SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT",
+    "desired_points_checked": 879,
+    "metrics": {
+      "final_cube_distance_reduction_m": 0.0008685352116072909,
+      "final_signed_progress_m": 0.0009405408170169826,
+      "maximum_TCP_excursion_m": 0.010766747689674555,
+      "maximum_lateral_drift_m": 0.009470976125678378,
+      "minimum_desired_or_reference_cube_distance_m": 0.2082944638509043,
+      "minimum_finger_opening_m": 0.041499626159667964
+    },
+    "native_execution_authorized": false,
+    "native_safety_established": false,
+    "predicates": {
+      "distance_reduction": false,
+      "excursion": true,
+      "lateral": false,
+      "noncontact_geometry": true,
+      "open": true,
+      "signed_progress": false
+    },
+    "qualified": false,
+    "raw_knots": 40,
+    "schema": "WM02_GRADED_SHORT_FULL_H40_DESIRED_INTENT_SCREEN_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+  },
+  "actual_minus_desired_L2_m": 0.0015257968940646726,
+  "actual_minus_reference_L2_m": 0.10774587266190244,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": null,
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "4dca6bbb7a65917630db57a58582d6d4c3a77628d8345a793618e647159376b9",
+  "GPU_result_sha256": "cfeb32e223209f10a29297d2871c94089df47c72767892c70069703d05c04e4c",
+  "action_npz_sha256": "a3c1b8ab1270d856caa8181a2a6d36ed183d821d838e869d8928097448c9f9af",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "da4928c3da07b60d90b87c6f06b23061c837bfcc9c7ab3b95e45aac6a64a4a4e",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "3bc84fa95c3bf8683023ef4ff2a3864e3247f23ff90a90a2fcf04ce8052f6d0d",
+    "LIVE_SKILL_SEGMENT.private.json": "81eb90458ca8dcd950c482ac0cbfeef154dfe71048d33dc78da49f567a06db8f",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "e4473af19a596f223688f8e2a070c24b8ec4ba354ed9d3f61ec1ac9e037b3eb4",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "80d8ad3402ef1084af01ac38a292002d25767c30a0bb772ec81b136386115700"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 301787,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 301787
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-task-intent-geometry-short-t02-gpu-01",
+      "spec_sha256": "5b74f527977e927d3178d6745fc12e59a1565b597e4b2616613c19c1a45ec53f",
+      "lease_sha256": "44d0338c8abe96c95d2faa299f88a13d7259b5b54cc6975216f14cca2f3db5bb",
+      "worker_sha256": "2b58711936b35407c66b2faa50658d308ea3b4057c14df09a5f53dd00240e1ab",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-task-intent-geometry-short-t02-01",
+      "spec_sha256": "601b580180b4c66ecefa8546d1663b8336caccd59b052f269e7c6c7c03e1bb62",
+      "lease_sha256": "4e0f4f08a7233d726c4e969eca07ab74093e9f578a071e7e33f41b7277256566",
+      "worker_sha256": "5222d0b634fb5776ae868fc0a25a192aa6b9fcb360b886a2e35bf2bfffd666a0",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 116.15444,
+        "exit_code": 0,
+        "wall_s": 615.1136276531033
+      },
+      "systemd_CPU_s": 116.602671,
+      "host_peak_bytes": 14665801728
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 215.999962677,
+        "child_CPU_s": 940.640751,
+        "exit_code": 0,
+        "wall_s": 682.1093743368983
+      },
+      "systemd_CPU_s": 1163.455679,
+      "host_peak_bytes": 4634030080
+    },
+    "source_staging": {
+      "wall_s": 14.255195403005928,
+      "CPU_s": 0.4646693259999992,
+      "source_reused": true,
+      "reused_source_members": 3530,
+      "copied_parent_members": 0,
+      "copied_parent_bytes": 0,
+      "overlay_members": 0,
+      "overlay_written_bytes": 0,
+      "actual_source_bytes_written": 0,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 1.2288540839217603,
+    "GPU_model_cold_load_wall_s": 83.77647038782015,
+    "GPU_snapshot_wait_wall_s": 404.95752821397036,
+    "GPU_GPU_event_s": 1.2163753662109376,
+    "GPU_peak_allocated_bytes": 13318658048,
+    "GPU_peak_reserved_bytes": 13524533248
+  },
+  "counts_after": {
+    "FUSION_attempts": 307,
+    "FUSION_passes": 294,
+    "FUSION_failures": 13,
+    "FUSION_native_ticks": 2580646,
+    "with_PILOT2_attempts": 961,
+    "with_PILOT2_passes": 943,
+    "with_PILOT2_failures": 18,
+    "with_PILOT2_native_ticks": 5567939,
+    "VLA_queries": 29,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "63a3d77de6877fe32a092171c1e34d101959eec7bfd6e6758aa47f6c89d5af8f",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_task_intent_geometry_short_t02_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "GPU_dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "complete_relative_response_curves": "Retained in the hash-pinned private actual reader and original native dataset; public report keeps aggregate endpoint metrics."
+}

@@ -1,6 +1,14 @@
 """Sequential native process adapter; no midpoint restore or alternative controller."""
 from pathlib import Path
 import json,os,signal,subprocess,time
+C02_PHASE='collect-target-fusion-c02-source-state-initialization-v1'
+C02_FEEDBACK_PHASE='collect-target-fusion-c02-source-state-feedback-v2'
+
+def native_task_bucket(phase,dynamic):
+    """Select only existing quota ABI buckets for the exact finite phase."""
+    if phase in('collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1'):return '128'
+    if phase in(C02_FEEDBACK_PHASE,'collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1'):return '96'
+    return '64'if phase in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5')else('32'if dynamic else'0')
 
 def native_startup_readiness(output,reference):
     """Actual owned startup logs, after controller's simulation-time origin is set."""
@@ -37,7 +45,8 @@ def native_display_command(spec,output,environment):
         prefix += [path,'-f','-qq','-e','trace=none','-e','signal=SIGINT,SIGTERM','-o',str(Path(output)/'NATIVE_SIGNALS.private.log')]
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
-    order=('trace_library','outer_library','observer_library')if spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact'else('outer_library','observer_library','trace_library')
+    trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1'))
+    order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
@@ -131,7 +140,8 @@ class TargetSequentialAdapter:
         warmup=min(5,(s['max_ticks']+499)//500)
         # Existing C++ admits task allocation buckets; the exact bound below
         # still restricts this diagnostic to its declared few task ticks.
-        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),'32'if self.dynamic_phase()else'0'))+'\n')
+        task_bucket=native_task_bucket(s.get('phase'),self.dynamic_phase())
+        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
@@ -299,6 +309,11 @@ class TargetSequentialAdapter:
         write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
         return self.reference_qualification
     def reference_events(self):
+        if self.spec.get('phase') in (C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1'):
+            from .planner_event_log import PlannerEventLog
+            if not hasattr(self,'_planner_event_log'):
+                self._planner_event_log=PlannerEventLog(self.output/'planner.jsonl')
+            return self._planner_event_log.read()
         path=self.output/'planner.jsonl'
         if not path.exists():return[]
         raw=path.read_bytes()
@@ -331,6 +346,79 @@ class TargetSequentialAdapter:
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
     def install_reference(self,action):
         import hashlib
+        if self.spec.get('phase')=='collect-target-stable-start-short-v1':
+            from .stable_start_short_task_v1 import validate_adapter_install
+            self.command_event(dict(phase='stable-start-short-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')==C02_FEEDBACK_PHASE:
+            from .fusion_c02_source_state_feedback_v2 import validate_install
+            self.command_event(dict(phase='c02-feedback-full-H40-envelope',**validate_install(self,action)))
+        if self.spec.get('phase')==C02_PHASE:
+            from .fusion_c02_source_state_initialization_v1 import validate_install
+            self.command_event(dict(phase='c02-source-state-full-H40-envelope',**validate_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-live-skill-v9':
+            from .fusion_task_phase_live_skill_native_v9 import validate_adapter_install
+            self.command_event(dict(phase='graded-live-skill-v9-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-live-skill-v8':
+            from .fusion_task_phase_live_skill_native_v8 import validate_adapter_install
+            self.command_event(dict(phase='graded-live-skill-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-bias-fade-v8':
+            from .fusion_task_phase_bias_fade_native_v8 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-bias-fade-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-pose-continuation-v7':
+            from .fusion_task_phase_pose_continuation_native_v7 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-finite-pose-continuation-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-pose-feedback-v6':
+            from .fusion_task_phase_pose_feedback_native_v6 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-finite-xyz-so3-feedback-full-H40-envelope',
+                **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-xyz-feedback-continuation-v5':
+            from .fusion_task_phase_xyz_feedback_continuation_native_v5 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-graded-finite-xyz-feedback-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-xyz-feedback-v4':
+            from .fusion_task_phase_xyz_feedback_native_v4 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-finite-xyz-feedback-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-bias-continuation-v3':
+            from .fusion_task_phase_bias_continuation_native_v3 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-graded-frozen-bias-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-bias-calibration-v2':
+            from .fusion_task_phase_bias_calibration_native_v2 import validate_adapter_install
+            self.command_event(dict(phase='task-phase-frozen-bias-calibration-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-task-phase-initialization-v1':
+            from .fusion_task_phase_initialization_native import validate_adapter_install
+            self.command_event(dict(phase='task-phase-calibration-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-paused-query-v2':
+            from .fusion_paused_query_native import validate_adapter_install
+            self.command_event(dict(phase='paused-query-hold-only-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-trajectory-response-v1':
+            from .fusion_trajectory_response_native import validate_adapter_install
+            self.command_event(dict(phase='trajectory-response-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3'):
+            from .fusion_trajectory_qualification_native import validate_adapter_install
+            self.command_event(dict(phase='trajectory-qualification-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if self.spec.get('phase')=='collect-target-fusion-reference-qualification-v1':
+            from .fusion_reference_qualification_native import validate_adapter_install
+            self.command_event(dict(phase='new-reference-qualification-full-H40-envelope',
+                                    **validate_adapter_install(self,action)))
+        if hasattr(self,'fusion_initial_tcp'):
+            from .fusion_contract import validate_local_preview
+            envelope=validate_local_preview(action,initial_tcp=self.fusion_initial_tcp,
+                chosen_action=self.fusion_selected_action,renewed=self.fusion_install_action_count>0,
+                base_pose=self.base_pose_hold,frozen_base_pose=self.fusion_base_pose_hold)
+            self.command_event(dict(phase='fusion-full-final-reference-envelope',**envelope))
+            self.fusion_install_action_count+=1
         from .target_reference import deadline,require_install_clock
         from scripts.pi0294.base_intent import eef_document
         from scripts.pi0294.task_state import write_gripper
@@ -364,7 +452,9 @@ class TargetSequentialAdapter:
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
-        write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]));self.publish(self.refs,wire)
+        if self.spec.get('phase')not in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1'):
+            write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]))
+        self.publish(self.refs,wire)
         def installed():
             rows=self.reference_events()
             if any(r['kind']=='reject'and r.get('wire_sha256')==ref for r in rows):raise RuntimeError('ORIGINAL_REFERENCE_RECEIVER_REJECTED')
@@ -400,6 +490,66 @@ class TargetSequentialAdapter:
         self.loaded_identity_snapshots=index+1
         return value
     def dynamic_diagnostic(self):
+        if self.spec.get('phase')=='collect-target-stable-start-short-v1':
+            from .stable_start_short_task_v1 import run
+            return run(self)
+        if self.spec.get('phase')==C02_FEEDBACK_PHASE:
+            from .fusion_c02_source_state_feedback_v2 import run
+            return run(self)
+        if self.spec.get('phase')==C02_PHASE:
+            from .fusion_c02_source_state_initialization_v1 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-live-skill-v9':
+            from .fusion_task_phase_live_skill_native_v9 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-live-skill-v8':
+            from .fusion_task_phase_live_skill_native_v8 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-bias-fade-v8':
+            from .fusion_task_phase_bias_fade_native_v8 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-pose-continuation-v7':
+            from .fusion_task_phase_pose_continuation_native_v7 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-pose-feedback-v6':
+            from .fusion_task_phase_pose_feedback_native_v6 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-xyz-feedback-continuation-v5':
+            from .fusion_task_phase_xyz_feedback_continuation_native_v5 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-xyz-feedback-v4':
+            from .fusion_task_phase_xyz_feedback_native_v4 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-bias-continuation-v3':
+            from .fusion_task_phase_bias_continuation_native_v3 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-bias-calibration-v2':
+            from .fusion_task_phase_bias_calibration_native_v2 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-task-phase-initialization-v1':
+            from .fusion_task_phase_initialization_native import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-source-posture-query-v3':
+            from .fusion_source_posture_paused_query_v3 import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-source-posture-qualification-v1':
+            from .fusion_source_posture_qualification_native import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-live-proposal-qualification-v3':
+            from .fusion_live_proposal_qualification_native import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-paused-query-v2':
+            from .fusion_paused_query_native import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-trajectory-response-v1':
+            from .fusion_trajectory_response_native import run
+            return run(self)
+        if self.spec['phase']in('collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2'):
+            from .fusion_trajectory_qualification_native import run
+            return run(self)
+        if self.spec['phase']=='collect-target-fusion-reference-qualification-v1':
+            from .fusion_reference_qualification_native import run
+            return run(self)
         if self.spec['phase']in('collect-target-pilot1-supported-close','collect-target-pilot2-supported'):
             from .pilot1_supported_close import run
             return run(self)
@@ -426,6 +576,9 @@ class TargetSequentialAdapter:
             if pilot1:
                 from .pilot1_episode import episode_config
             episode=episode_config(self.spec);self.next1_samples=[initial];contact=episode['purpose']=='CONTACT_GRADED'
+            if episode.get('schema')=='WM02_FUSION_LOCAL_CALIBRATION_EPISODE_V1':
+                self.fusion_initial_tcp=initial['tcp'].copy();self.fusion_base_pose_hold=list(self.base_pose_hold)
+                self.fusion_selected_action=0;self.fusion_install_action_count=0
             if contact:self.contact_geometry_samples=[]
             late_decision=not episode['purpose'].startswith('STEADY_');decision_atom=episode['screen_atom']
             decision_goal=goal.copy();decision_goal[:3,3]+=np.asarray(episode['offset_xyz_m'])

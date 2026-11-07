@@ -1,0 +1,482 @@
+{
+  "schema": "WM02_FULL_H40_GEOMETRY_QUALIFICATION_COLD_ACTUAL_V1",
+  "snapshot_epoch": 1793954384.883337,
+  "goal": "ACTIVE",
+  "actual_source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+  "adopted_priority_plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
+  "query": {
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "archived_target_action_sha256": "e447e92a9b63371a560efe01d7c5a6e6a1337c5adf22657012f591c7211fc090",
+    "observation_sha256": "389753cd96756719d83eaf55a440f8de504612840ef893e80b12ca36423f59dc",
+    "source_kind": "ONE_PREDECLARED_ARCHIVED_TARGET_QUERY_GEOMETRY; NON_VLA_CALIBRATION",
+    "raw_waypoint_path_mm": 281.62358739037495,
+    "max_query_distance_mm": 17.179319403324254,
+    "Processor_redecodes": 0
+  },
+  "rows": [
+    {
+      "run": "fusion-night1-trajectory-s003-01",
+      "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+      "spec_sha256": "6a53bbbe934e4f4370c920450a98b0bbf6f073ea4231672c45f52160fa78ea07",
+      "result_sha256": "e86099cbcdc18e0b231beeec2d582f5d4c02294009127c1e8fd4fb2b8c636a8d",
+      "lease_sha256": "c3ee6c95cdb6ae2d039708d5bf41cfab71f0cabecf10c496079e9be701456c85",
+      "status": "NATIVE_STAGE_PASSED",
+      "worker_exit_code": 0,
+      "native_ticks": 6878,
+      "shutdown_clean": true,
+      "trace_records": 48424,
+      "trace_dropped": 0,
+      "geometry_scale": 0.03,
+      "physical_parent": "FUSION_F2_T06_ROOT_XY_V1",
+      "split": "TRAIN",
+      "qualification_sha256": "7fd6872f01cb5e9e8d1a1cc1a9af81d4b1f0263412b963ca395b4a0bf19c2010",
+      "decision_sha256": "72b8d6329405400f79d58cfb1f1236d0c7a26bbc76ceb5b840657ec60962f714",
+      "all_40_knots_consumed": true,
+      "actual_task_atoms": 175,
+      "post_decision_atoms": 127,
+      "solver_confirmed_atoms": 175,
+      "gripper_confirmed_atoms": 175,
+      "decision_history_shape": [
+        9,
+        106
+      ],
+      "desired_error": {
+        "endpoint_xyz_mm": [
+          0.16338910132479567,
+          1.489376079956554,
+          -0.5578258174244732
+        ],
+        "endpoint_l2_mm": 1.5987828960067587,
+        "post_decision_trajectory_l2_RMSE_mm": 0.883830615500314,
+        "post_decision_l2_p95_mm": 1.479508352900202,
+        "post_decision_l2_max_mm": 1.5987828960067587,
+        "trajectory_axis_bias_mm": [
+          0.24703375768286895,
+          0.38345767658150554,
+          -0.4051458092452456
+        ],
+        "rotation_endpoint_deg": 0.0262172221043094,
+        "rotation_max_deg": 0.06481136789340886
+      },
+      "actual_motion_from_decision": {
+        "endpoint_xyz_mm": [
+          -0.3181388874852753,
+          1.3373191741011017,
+          -0.5689222944255112
+        ],
+        "max_l2_mm": 1.487718892211566
+      },
+      "minimum_remaining_TTL_s": 0.09400000000036268,
+      "full_task_success": false,
+      "online_VLA": false,
+      "VLA_inferences": 0,
+      "Processor_decodes": 0,
+      "WM_updates": 0,
+      "unit_terminal": {
+        "MainPID": "0",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "CPUUsageNSec": "157327063000",
+        "MemoryPeak": "1697611776"
+      },
+      "worker_cost": {
+        "wall_s": 81.99037372367457,
+        "CPU_s": 34.57324002,
+        "child_CPU_s": 121.750735
+      },
+      "command": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/dispatch_trajectory_s003_01.py\" 60",
+      "original_safety_changes": false,
+      "WBC_changes": false,
+      "physics_dt_s": 0.002
+    },
+    {
+      "run": "fusion-night1-trajectory-s010-01",
+      "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+      "spec_sha256": "9628ee7a0b594d982a0018f282edfe0c36ae753f5094fa933a4d1b58f545b0e4",
+      "result_sha256": "4c21019d36409554c9a0409bc69d0a5e11654a74b303b1a5fa8cdaa964c05c52",
+      "lease_sha256": "261b10821a709118b06d21e42ae27e1ff279f5020143e4479ea9e7ab9a0294c1",
+      "status": "NATIVE_STAGE_PASSED",
+      "worker_exit_code": 0,
+      "native_ticks": 7878,
+      "shutdown_clean": true,
+      "trace_records": 59135,
+      "trace_dropped": 0,
+      "geometry_scale": 0.1,
+      "physical_parent": "FUSION_F2_T06_ROOT_XY_V1",
+      "split": "TRAIN",
+      "qualification_sha256": "f006ba78b30806db082bdd83a0972dfb0ab5c318d0b7adb37d5c751301f14abe",
+      "decision_sha256": "1ed3245abd4d679fb1c898267853a500e87060c6836281f0e034e7b64173aa26",
+      "all_40_knots_consumed": true,
+      "actual_task_atoms": 215,
+      "post_decision_atoms": 167,
+      "solver_confirmed_atoms": 215,
+      "gripper_confirmed_atoms": 215,
+      "decision_history_shape": [
+        9,
+        106
+      ],
+      "desired_error": {
+        "endpoint_xyz_mm": [
+          0.33549558335227436,
+          1.9756871815758623,
+          -0.3536755209018194
+        ],
+        "endpoint_l2_mm": 2.034940662519974,
+        "post_decision_trajectory_l2_RMSE_mm": 1.1857167882518616,
+        "post_decision_l2_p95_mm": 2.076786631804716,
+        "post_decision_l2_max_mm": 2.2316561097494003,
+        "trajectory_axis_bias_mm": [
+          0.14768254905493686,
+          0.6695677322344439,
+          -0.42447213531189154
+        ],
+        "rotation_endpoint_deg": 0.06193923066644463,
+        "rotation_max_deg": 0.11422946650083608
+      },
+      "actual_motion_from_decision": {
+        "endpoint_xyz_mm": [
+          -1.2696223955612207,
+          1.4689145798032366,
+          -0.39074014541873314
+        ],
+        "max_l2_mm": 2.0387684350064275
+      },
+      "minimum_remaining_TTL_s": 0.09400000000036268,
+      "full_task_success": false,
+      "online_VLA": false,
+      "VLA_inferences": 0,
+      "Processor_decodes": 0,
+      "WM_updates": 0,
+      "unit_terminal": {
+        "MainPID": "0",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "CPUUsageNSec": "200583692000",
+        "MemoryPeak": "992862208"
+      },
+      "worker_cost": {
+        "wall_s": 105.69564028922468,
+        "CPU_s": 43.72551652,
+        "child_CPU_s": 155.598098
+      },
+      "command": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/dispatch_trajectory_s010_01.py\" 60",
+      "original_safety_changes": false,
+      "WBC_changes": false,
+      "physics_dt_s": 0.002
+    },
+    {
+      "run": "fusion-night1-trajectory-s025-01",
+      "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+      "spec_sha256": "ef836c17367ee4c5c44be026bd9a1a8a9e73b7452e6cb2a30fb6625967d3c812",
+      "result_sha256": "2732f75836d8d89f5789d53bb0b9de4f28716728bf44819a5fc46513b76be9c0",
+      "lease_sha256": "7c7fc670799473ef672dcbc6592ddfc2789111e66a28a1acf961e3384a6042b1",
+      "status": "NATIVE_STAGE_PASSED",
+      "worker_exit_code": 0,
+      "native_ticks": 10853,
+      "shutdown_clean": true,
+      "trace_records": 82677,
+      "trace_dropped": 0,
+      "geometry_scale": 0.25,
+      "physical_parent": "FUSION_F2_T06_ROOT_XY_V1",
+      "split": "TRAIN",
+      "qualification_sha256": "6178b99c503b1eab65421dc4f375f9d9dde9d4b588e330caf3d964836d8dfc47",
+      "decision_sha256": "6f268a7511cc0c6ebd2fdf1726bb8a80e985e13a57290d5f8a3ae205b1922a19",
+      "all_40_knots_consumed": true,
+      "actual_task_atoms": 334,
+      "post_decision_atoms": 286,
+      "solver_confirmed_atoms": 334,
+      "gripper_confirmed_atoms": 334,
+      "decision_history_shape": [
+        9,
+        106
+      ],
+      "desired_error": {
+        "endpoint_xyz_mm": [
+          0.5585619587554214,
+          2.802420798662334,
+          -0.4895963988338359
+        ],
+        "endpoint_l2_mm": 2.899182372375872,
+        "post_decision_trajectory_l2_RMSE_mm": 1.9362109322765746,
+        "post_decision_l2_p95_mm": 3.1214800423156794,
+        "post_decision_l2_max_mm": 3.3918999412715967,
+        "trajectory_axis_bias_mm": [
+          -0.186555064999875,
+          1.3558633224584922,
+          -0.5207006565524754
+        ],
+        "rotation_endpoint_deg": 0.06823663788436471,
+        "rotation_max_deg": 0.20027300537835904
+      },
+      "actual_motion_from_decision": {
+        "endpoint_xyz_mm": [
+          -3.456398427624796,
+          1.5423140720093529,
+          -0.5815149717643964
+        ],
+        "max_l2_mm": 3.8934757840587455
+      },
+      "minimum_remaining_TTL_s": 0.09400000000036268,
+      "full_task_success": false,
+      "online_VLA": false,
+      "VLA_inferences": 0,
+      "Processor_decodes": 0,
+      "WM_updates": 0,
+      "unit_terminal": {
+        "MainPID": "0",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "CPUUsageNSec": "313643542000",
+        "MemoryPeak": "1698697216"
+      },
+      "worker_cost": {
+        "wall_s": 158.4137324350886,
+        "CPU_s": 74.848883981,
+        "child_CPU_s": 237.122388
+      },
+      "command": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/dispatch_trajectory_s025_01.py\" 60",
+      "original_safety_changes": false,
+      "WBC_changes": false,
+      "physics_dt_s": 0.002
+    },
+    {
+      "run": "fusion-night1-trajectory-s050-01",
+      "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+      "spec_sha256": "62cc0bb15f8020d5a75a15accfef65a84c0ecfaf161d60231803778b7accc5ce",
+      "result_sha256": "77bea49654a7d33007312d20d416f3796896a508d3e93dbce134a7d2ca5e1a8d",
+      "lease_sha256": "9d644b774b2f461b0e0125a29fb9907dd0b2285023b5abbced39eb4a56a0db88",
+      "status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "worker_exit_code": 1,
+      "native_ticks": 10178,
+      "shutdown_clean": true,
+      "trace_records": 76172,
+      "trace_dropped": 0,
+      "unit_terminal": {
+        "MainPID": "0",
+        "Result": "exit-code",
+        "ExecMainStatus": "1",
+        "CPUUsageNSec": "281248613000",
+        "MemoryPeak": "1805672448"
+      },
+      "worker_cost": {
+        "wall_s": 141.14334646705538,
+        "CPU_s": 66.297922406,
+        "child_CPU_s": 213.263614
+      },
+      "command": "python3 \"$WM02_CORE_ROUTE\" \"$FUSION_PRIVATE/dispatch_trajectory_s050_01.py\" 60",
+      "original_safety_changes": false,
+      "WBC_changes": false,
+      "physics_dt_s": 0.002,
+      "geometry_scale": 0.5,
+      "actual_task_atoms": 307,
+      "post_decision_atoms": 259,
+      "consumed_raw_knots": 28,
+      "guard_rejection": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "rejected_future_preview_installed": false,
+      "full_task_success": false,
+      "online_VLA": false,
+      "VLA_inferences": 0,
+      "Processor_decodes": 0,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "planned_endpoint_not_reached": true,
+      "command_log_sha256": "aef1e69581750ad6b326f3acc87b2f1dca64bd77247c1358c5507521e11747f2"
+    }
+  ],
+  "actual_new_effects": {
+    "native_attempts": 4,
+    "native_PASS": 3,
+    "native_FAIL": 1,
+    "native_integrations": 35787,
+    "task_50ms_transitions": 1031,
+    "post_decision_50ms_transitions": 839,
+    "unique_physical_parents": 1,
+    "full_tasks": 0,
+    "new_VLA_queries": 0,
+    "optimizer_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "new_GR00T_or_response_model_loads": 0,
+    "frozen_native_WBC_loading_and_inference": "REAL_NATIVE_EXECUTOR_TRACE; NOT_INCLUDED_IN_GR00T_OR_RESPONSE_MODEL_LOAD_COUNTER"
+  },
+  "failure_reproduction": {
+    "status": "EXACT_ORIGINAL_REJECT_REPRODUCED_IN_CLONED_MJDATA_ONLY",
+    "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+    "failed_result_sha256": "77bea49654a7d33007312d20d416f3796896a508d3e93dbce134a7d2ca5e1a8d",
+    "failed_spec_sha256": "62cc0bb15f8020d5a75a15accfef65a84c0ecfaf161d60231803778b7accc5ce",
+    "command_log_sha256": "aef1e69581750ad6b326f3acc87b2f1dca64bd77247c1358c5507521e11747f2",
+    "native_sample_sha256": "2410e7901f98a9d1f4a1a5e8ed1579f3ae97e591e596edc2f8a5dccc94db8eda",
+    "actual_native_step": 10178,
+    "actual_completed_task_atoms": 307,
+    "actual_history_end_steps": [
+      10153,
+      10178
+    ],
+    "rejected_preview_sha256": "fbbe5f15c6598853059dd01068d46a5c2aaf1ce57c43fb22bc520f3abf6f2811",
+    "guard_error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+    "max_joint_acceleration_rad_s2": 1.0860116774361717,
+    "max_joint_speed_rad_s": 0.1202671339631145,
+    "largest_acceleration_joint_1based": 1,
+    "largest_acceleration_middle_preview_index": 38,
+    "largest_acceleration_is_join": false,
+    "top_accelerations": [
+      {
+        "joint_1based": 1,
+        "acceleration_rad_s2": -1.0860116774361717,
+        "middle_full_index": 40,
+        "middle_preview_index": 38,
+        "relative_time_s": 1.9000000000000001
+      },
+      {
+        "joint_1based": 5,
+        "acceleration_rad_s2": -1.0653548144195446,
+        "middle_full_index": 40,
+        "middle_preview_index": 38,
+        "relative_time_s": 1.9000000000000001
+      },
+      {
+        "joint_1based": 1,
+        "acceleration_rad_s2": -0.8312363178228449,
+        "middle_full_index": 39,
+        "middle_preview_index": 37,
+        "relative_time_s": 1.85
+      },
+      {
+        "joint_1based": 5,
+        "acceleration_rad_s2": -0.8152286351685079,
+        "middle_full_index": 39,
+        "middle_preview_index": 37,
+        "relative_time_s": 1.85
+      },
+      {
+        "joint_1based": 2,
+        "acceleration_rad_s2": -0.7985265423773757,
+        "middle_full_index": 13,
+        "middle_preview_index": 11,
+        "relative_time_s": 0.55
+      },
+      {
+        "joint_1based": 2,
+        "acceleration_rad_s2": 0.7982626043224972,
+        "middle_full_index": 18,
+        "middle_preview_index": 16,
+        "relative_time_s": 0.8
+      },
+      {
+        "joint_1based": 2,
+        "acceleration_rad_s2": -0.7606422313638728,
+        "middle_full_index": 40,
+        "middle_preview_index": 38,
+        "relative_time_s": 1.9000000000000001
+      },
+      {
+        "joint_1based": 1,
+        "acceleration_rad_s2": 0.7222763725716216,
+        "middle_full_index": 22,
+        "middle_preview_index": 20,
+        "relative_time_s": 1.0
+      },
+      {
+        "joint_1based": 5,
+        "acceleration_rad_s2": 0.720213771999717,
+        "middle_full_index": 22,
+        "middle_preview_index": 20,
+        "relative_time_s": 1.0
+      },
+      {
+        "joint_1based": 1,
+        "acceleration_rad_s2": -0.7058305530125847,
+        "middle_full_index": 27,
+        "middle_preview_index": 25,
+        "relative_time_s": 1.25
+      },
+      {
+        "joint_1based": 5,
+        "acceleration_rad_s2": -0.7038525454415467,
+        "middle_full_index": 27,
+        "middle_preview_index": 25,
+        "relative_time_s": 1.25
+      },
+      {
+        "joint_1based": 2,
+        "acceleration_rad_s2": 0.6211805014623373,
+        "middle_full_index": 17,
+        "middle_preview_index": 15,
+        "relative_time_s": 0.75
+      }
+    ],
+    "join_acceleration_max_rad_s2": 0.37984478569882685,
+    "interior_acceleration_max_rad_s2": 1.0860116774361717,
+    "certifier_bytes_sha256": "fc49fe2cb3054858e6719bc7366486495100e9a55cf80c1b19179b320800591b",
+    "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "mujoco_version": "3.2.7",
+    "new_native_integrations": 0,
+    "cloned_integration_attempts": 0,
+    "leg_policy_queries": 0,
+    "GPU_queries": 0,
+    "optimizer_updates": 0,
+    "site_writes": 0,
+    "wall_s": 1.3182436400093138,
+    "CPU_s": 1.0815826709999998
+  },
+  "source_diagnostic_script_sha256": "a2f5c50109654e97af726574edaf7595611685c81717eb327bb8459dea2a260c",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "original_observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "aggregate_counts": {
+    "FUSION_attempts": 267,
+    "FUSION_PASS": 266,
+    "FUSION_FAIL": 1,
+    "FUSION_native_ticks": 1114876,
+    "inherited_PILOT2_attempts": 921,
+    "inherited_PILOT2_PASS": 915,
+    "inherited_PILOT2_FAIL": 6,
+    "inherited_PILOT2_ticks": 4102169,
+    "VLA_queries": 3
+  },
+  "costs": {
+    "worker_wall_s": 487.24309291504323,
+    "worker_own_CPU_s": 219.445562927,
+    "worker_child_CPU_s": 727.734835,
+    "unit_CPU_s": 952.80291,
+    "CPU_scope_warning": "WORKER_AND_SYSTEMD_COSTS_OVERLAP_DO_NOT_ADD",
+    "reader_wall_s": 0.451894239988178,
+    "reader_CPU_s": 0.424572792,
+    "GPU_work_in_this_cohort": 0
+  },
+  "next": {
+    "status": "IMPLEMENTED_PENDING_COMMIT_DEPLOY_AND_NATIVE_QUALIFICATION",
+    "recipe": "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2",
+    "time_stretch_factor": 2,
+    "geometry_clips": 0,
+    "knots_retained": 40,
+    "trace_capacity": 262144,
+    "new_trace_CPP_change": "ONLY_CAPACITY_ASSERT_AND_MESSAGE; NORMALIZED_SOURCE_MUST_MATCH_ORIGINAL_C10_SHA",
+    "new_slow_native_attempts": 0,
+    "response_pilot_attempts": 0,
+    "response_model_fits": 0,
+    "live_paused_captures": 0,
+    "formal_Actor_started": false,
+    "scale_review_crossed": false
+  },
+  "unchanged_negative": {
+    "frozen_192_rerun": false,
+    "WM_vs_static_gain_mm": -0.06658793009705134,
+    "frozen_VLA_native_comparison": false,
+    "task_transfer_gain": false
+  },
+  "trace_131072_actual_build": {
+    "source_sha": "d699145e847d20bc1c9261112e74f1c3c2605786",
+    "result_sha256": "861069c004e753d3e61630f541980162e84b6f268a41a1ebbad7bbf765432966",
+    "trace_library_sha256": "47cd6cdf146dead207817fff43a8f8669d8eb8e935362687eb9abfa15343270f",
+    "status": "CLOSED0_ACTUAL_LOADER_VERIFIED; LATER_NATIVE_MAPPING_AND_HEADER_VERIFIED",
+    "synthetic_records": 70000,
+    "trace_capacity": 131072,
+    "drops": 0,
+    "physics_integrations": 0,
+    "worker_wall_s": 3.3081172523088753,
+    "build_wall_s": 3.0235583032481372,
+    "build_own_CPU_s": 0.07251530099999992,
+    "build_child_CPU_s": 0.722621,
+    "cost_scopes_overlap": true
+  }
+}

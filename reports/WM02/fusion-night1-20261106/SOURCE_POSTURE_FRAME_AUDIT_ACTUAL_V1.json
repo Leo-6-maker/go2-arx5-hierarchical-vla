@@ -1,0 +1,342 @@
+{
+  "schema": "WM02_FUSION_SOURCE_POSTURE_FRAME_AUDIT_ACTUAL_V1",
+  "status": "ACTUAL_READ_ONLY_AUDIT_INTERPRETED_NO_CONFIRMED_ROS_TCP_FRAME_DEFECT",
+  "scope": "THREE_ALREADY_SEALED_CALIBRATION_GRADES_ONLY",
+  "provenance": {
+    "receipt": {
+      "name": "SOURCE_POSTURE_TCP_FRAMES_AUDIT01.private.json",
+      "sha256": "7c484641f7c6d30c56a13f23cd4c37777aa24c52f51716c260f9a726cc11ab74",
+      "bytes": 2034661
+    },
+    "receipt_status": "RAW_SAME_TIME_EEF_AND_ACTUAL_TCP_RETAINED_NOT_YET_INTERPRETED",
+    "helper": {
+      "name": "audit_source_posture_tcp_frames01.py",
+      "sha256": "5e2674ccb84094e6fd893b3791fdb0a1ac616ef5d4a40c9b072791e718e40c62",
+      "bytes": 12170
+    },
+    "metadata_receipt": {
+      "name": "REFERENCE_FRAME_METADATA02.private.json",
+      "sha256": "f722535074c3734a87f8db93ce649eb25f7bf927f2be056de0465dd9c787b8ac",
+      "bytes": 3793
+    },
+    "collector_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+    "verified_collector_source_members": {
+      "scripts/pi0294/task_state.py": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+      "src/go2arx5_vla/world_model/target_sequential.py": "4bdbee77bdb21bfde0f3085f59fd866e67486d04ecb34780440b2fc6307b9bb2",
+      "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "57c127fe4e2b15aee329629d0d8b9ce470533edb17e9a1b51ed46285d3d73a8e"
+    },
+    "publisher_header": {
+      "name": "ee_observation_publisher.hpp",
+      "sha256": "bee1d1ff9d9af05f0f2336a9359d55162132208f5687583d43a409669db17303",
+      "compiled_binary_uses_this_exact_header": "NOT_PROVED_BY_SOURCE_TEXT_ALONE"
+    },
+    "task_info": {
+      "name": "task_floating.info",
+      "sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "pin_verified": true,
+      "base_frame": "body",
+      "end_effector_frame": "gripper_center",
+      "manipulator_model_type": 3
+    },
+    "URDF": {
+      "name": "arx5_ac1_floating.urdf",
+      "sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+      "pin_verified": true,
+      "end_effector_fixed_joint": "gripper_center_fixed",
+      "parent_link": "link6",
+      "child_link": "gripper_center"
+    }
+  },
+  "method": {
+    "ROS_EEF_encoding": "WORLD_XYZ_METERS_THEN_QUATERNION_XYZW",
+    "EEF_encoding_basis": "Eigen normalized quaternion coeffs in pinned publisher source",
+    "publisher_feedback": "Original Pinocchio FK at configured eeFrame; publisher replaces possibly blended MPC base feedback with measured physical base and mount offset",
+    "ROS_quaternion_processing": "Normalize transported quaternion before rotation comparison; no Euler or WXYZ reinterpretation",
+    "actual_TCP_basis": "Previously sealed ActualState.x5_ee MuJoCo forward TCP at saved native window end",
+    "actual_TCP_recomputed_by_audit": false,
+    "reference_comparison": "Endpoint uses final held installed reference; earlier saved installed rows denote interval start and are not relabelled as interval-end achieved poses",
+    "position_metric": "Euclidean norm of ROS minus actual TCP translation; millimeters",
+    "rotation_metric": "SO3 geodesic acos(clipped((trace(R_actual.T @ R_ROS)-1)/2)); radians",
+    "native_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "exact_time_tolerance_s": 1e-08,
+    "maximum_observed_absolute_time_difference_s": 1.7763568394002505e-15,
+    "nearest_time_pairing": false,
+    "time_interpolation": false,
+    "saved_window_endpoints": 572,
+    "strictly_matched_window_endpoints": 572,
+    "post_decision_window_endpoints": 428,
+    "EE_samples_per_matched_endpoint": {
+      "minimum": 1,
+      "maximum": 1
+    },
+    "reference_transport": {
+      "translation": "p_reference = p_INIT + p_desired - p_decision",
+      "rotation": "R_reference = R_INIT @ R_decision.T @ R_desired",
+      "anchor": "Fixed INIT and measured decision; no per-step actual reanchoring"
+    }
+  },
+  "stages": [
+    {
+      "run": "fusion-night1-source-posture-s003-01",
+      "geometry_scale": 0.03,
+      "collector_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "spec_sha256": "761fb2c0088767db23e5632f6021b6136659519d6b0a1db1b797c83d8fea59c1",
+      "result_sha256": "d39ed197e52ee5b3d91c03e0d991c64d8b9028473f7421602a383c43afb6ece0",
+      "qualification_report_sha256": "372089826363a677f06eda1876bb2fc7eda216625f892636767b77c8f1599acc",
+      "native_endpoint": 6353,
+      "input_identities": {
+        "ROS_consumption_sha256": "7c3c27eadc328da9c36675a61cef12ac665da8cfa890047e3574b732f827557a",
+        "ROS_bytes": 74313213,
+        "native_journal_sha256": "e0830fdff2ee77f0d56436634d2dd8f3e15fe6e3d763d254c2c7b50779b63d7d",
+        "native_journal_bytes": 12763836
+      },
+      "ROS_rows": 13980,
+      "EE_ROS_rows": 2708,
+      "saved_window_endpoints": 154,
+      "strictly_matched_window_endpoints": 154,
+      "EE_samples_per_matched_endpoint": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "whole_record": {
+        "window_endpoints": 154,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 154,
+          "median": 2.662391312154028e-05,
+          "p95": 0.02171871385134955,
+          "maximum": 0.5839673666905801
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 154,
+          "median": 5.7679842313929965e-08,
+          "p95": 6.589091950866805e-05,
+          "maximum": 0.00095793438190446
+        }
+      },
+      "post_decision_native_step_gt_3703": {
+        "window_endpoints": 106,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 106,
+          "median": 2.1582427579362095e-05,
+          "p95": 0.008124266131387023,
+          "maximum": 0.025278941537180143
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 106,
+          "median": 5.575503985246929e-08,
+          "p95": 3.106139724686499e-05,
+          "maximum": 8.914215142288852e-05
+        }
+      },
+      "endpoint_comparisons": {
+        "ROS_minus_actual_TCP_position_l2_mm": 2.3022984994818207e-05,
+        "ROS_vs_actual_TCP_rotation_rad": 0.0,
+        "actual_minus_desired_xyz_mm": [
+          -2.144897360314202,
+          2.5768368817419374,
+          -1.4259995355120347
+        ],
+        "actual_minus_desired_position_l2_mm": 3.643370373249044,
+        "actual_vs_desired_rotation_rad": 0.003028824431440398,
+        "actual_minus_reference_xyz_mm": [
+          -14.849066845391778,
+          -1.4259624187888276,
+          -25.18882223060148
+        ],
+        "actual_minus_reference_position_l2_mm": 29.274646374696907,
+        "actual_vs_reference_rotation_rad": 0.045505580244798005,
+        "INIT_minus_decision_position_l2_mm": 27.241330125090514,
+        "INIT_vs_decision_rotation_rad": 0.04834346560307791,
+        "reference_transport_xyz_identity_max_abs_error_m": 1.734723475976807e-18
+      }
+    },
+    {
+      "run": "fusion-night1-source-posture-s010-01",
+      "geometry_scale": 0.1,
+      "collector_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "spec_sha256": "ba6c82e4e16136936d34a230d688d8a53024479409109e6f6cd86f4534de4aeb",
+      "result_sha256": "5419eaab21ca5d6c2019ec48305e4e43c27e2b8cad40e5c13c4c4972f5c8a0f2",
+      "qualification_report_sha256": "bc0681822213c21e3a69e7a5c845f79eac26984f6a569691bd3c5b2734c37f13",
+      "native_endpoint": 6953,
+      "input_identities": {
+        "ROS_consumption_sha256": "ce598abd8eb572715f37696599290964b1a2285a4adbe1ee45af786f73f75059",
+        "ROS_bytes": 85941856,
+        "native_journal_sha256": "80369e407fb8a3218ec08689f01a38901d609d5592fc0305efee1b21be999fb8",
+        "native_journal_bytes": 13966716
+      },
+      "ROS_rows": 15452,
+      "EE_ROS_rows": 2810,
+      "saved_window_endpoints": 178,
+      "strictly_matched_window_endpoints": 178,
+      "EE_samples_per_matched_endpoint": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "whole_record": {
+        "window_endpoints": 178,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 178,
+          "median": 2.743811325323278e-05,
+          "p95": 0.010868180253874246,
+          "maximum": 0.3243491922266576
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 178,
+          "median": 5.575503985246929e-08,
+          "p95": 3.3431812676754124e-05,
+          "maximum": 0.0005638018712652634
+        }
+      },
+      "post_decision_native_step_gt_3703": {
+        "window_endpoints": 130,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 130,
+          "median": 2.8225915640339986e-05,
+          "p95": 0.005314167653194201,
+          "maximum": 0.04028895784409184
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 130,
+          "median": 5.960464477539064e-08,
+          "p95": 2.608309585405192e-05,
+          "maximum": 0.00016437782365595014
+        }
+      },
+      "endpoint_comparisons": {
+        "ROS_minus_actual_TCP_position_l2_mm": 8.139727960512807e-06,
+        "ROS_vs_actual_TCP_rotation_rad": 4.2146848510894035e-08,
+        "actual_minus_desired_xyz_mm": [
+          -6.778365323920954,
+          5.000467366330814,
+          -2.7696829649533905
+        ],
+        "actual_minus_desired_position_l2_mm": 8.86690780783394,
+        "actual_vs_desired_rotation_rad": 0.010636192287049763,
+        "actual_minus_reference_xyz_mm": [
+          -19.417223865220713,
+          0.6766227187874723,
+          -26.462606488931286
+        ],
+        "actual_minus_reference_position_l2_mm": 32.82919345831853,
+        "actual_vs_reference_rotation_rad": 0.03800311155241907,
+        "INIT_minus_decision_position_l2_mm": 27.19909930266329,
+        "INIT_vs_decision_rotation_rad": 0.04828596742231683,
+        "reference_transport_xyz_identity_max_abs_error_m": 5.551115123125783e-17
+      }
+    },
+    {
+      "run": "fusion-night1-source-posture-s025-01",
+      "geometry_scale": 0.25,
+      "collector_source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "spec_sha256": "05b5f77072226aa1260381d866aa08a3e1700340ed9e859ba252f80052ce168d",
+      "result_sha256": "79ebd44fe4ae2ff6fc2eea7eaf8a5280de39a7e0c226a6c623c68a44c7cbe436",
+      "qualification_report_sha256": "bf4bb77f0327414ccaa46fb24c7e0e02c1e162fa611a468f5a2ea85dab74c937",
+      "native_endpoint": 8503,
+      "input_identities": {
+        "ROS_consumption_sha256": "30ae2c96bf5ed9c4445ce88fd0f819c02e5dfbc6cea40f77cbd28743b9012725",
+        "ROS_bytes": 115694094,
+        "native_journal_sha256": "f78d80e03af50fd008d0b81b9e73406aea4df9256a2b84d752e68511662ac373",
+        "native_journal_bytes": 17089476
+      },
+      "ROS_rows": 19925,
+      "EE_ROS_rows": 3538,
+      "saved_window_endpoints": 240,
+      "strictly_matched_window_endpoints": 240,
+      "EE_samples_per_matched_endpoint": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "whole_record": {
+        "window_endpoints": 240,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 240,
+          "median": 2.4952659827515367e-05,
+          "p95": 0.03968307164525768,
+          "maximum": 0.44639896053518957
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 240,
+          "median": 4.2146848510894035e-08,
+          "p95": 0.00018108702701506344,
+          "maximum": 0.0009381203276909155
+        }
+      },
+      "post_decision_native_step_gt_3703": {
+        "window_endpoints": 192,
+        "ROS_minus_actual_TCP_position_l2_mm": {
+          "count": 192,
+          "median": 2.4012496426211648e-05,
+          "p95": 0.03806392555340029,
+          "maximum": 0.06560285413440296
+        },
+        "ROS_vs_actual_TCP_rotation_rad": {
+          "count": 192,
+          "median": 4.2146848510894035e-08,
+          "p95": 0.00018887680507283426,
+          "maximum": 0.00027831320464197294
+        }
+      },
+      "endpoint_comparisons": {
+        "ROS_minus_actual_TCP_position_l2_mm": 0.0009339662147599308,
+        "ROS_vs_actual_TCP_rotation_rad": 5.291486056025451e-06,
+        "actual_minus_desired_xyz_mm": [
+          -17.82581460357946,
+          11.331038299480962,
+          -5.52192343819935
+        ],
+        "actual_minus_desired_position_l2_mm": 21.832171987294956,
+        "actual_vs_desired_rotation_rad": 0.028274428277793633,
+        "actual_minus_reference_xyz_mm": [
+          -30.630457983117697,
+          7.407951284023353,
+          -29.24513023744324
+        ],
+        "actual_minus_reference_position_l2_mm": 42.992794060016834,
+        "actual_vs_reference_rotation_rad": 0.021159073544162965,
+        "INIT_minus_decision_position_l2_mm": 27.242247422848507,
+        "INIT_vs_decision_rotation_rad": 0.048247849732343764,
+        "reference_transport_xyz_identity_max_abs_error_m": 3.469446951953614e-18
+      }
+    }
+  ],
+  "findings": [
+    "No confirmed ROS-versus-MuJoCo TCP coordinate defect was found in these 572 exact-time endpoint comparisons.",
+    "After decision step 3703, maximum ROS-versus-actual TCP position differences are 0.025279, 0.040289 and 0.065603 mm for scales 0.03, 0.1 and 0.25.",
+    "Actual-minus-desired endpoint errors of 3.643370, 8.866908 and 21.832172 mm remain real measured residuals; the observed ROS/MuJoCo difference does not explain them.",
+    "Actual-minus-reference and actual-minus-desired errors are different quantities. Fixed INIT-to-decision reference transport contributes about 27.2 mm and 0.0483 rad.",
+    "The largest full-record ROS-versus-actual TCP difference is 0.583967 mm during the early hold prefix. This does not establish a persistent coordinate offset or its cause."
+  ],
+  "cost": {
+    "read_only_extractor_wall_s": 0.6806838596239686,
+    "read_only_extractor_CPU_s": 0.671165045,
+    "wall_s_rounded_6dp": 0.680684,
+    "CPU_s_rounded_6dp": 0.671165,
+    "cost_scope": "Actual Core read-only evidence extractor; local aggregation time and original physical grade costs are excluded"
+  },
+  "audit_effects": {
+    "writes": 0,
+    "remote_calls": 0,
+    "model_imports": 0,
+    "FK_calls": 0,
+    "integrations": 0,
+    "queries": 0,
+    "fits": 0,
+    "total_side_effects": 0,
+    "optimizer_updates": 0,
+    "WBC_changes": 0,
+    "robot_dynamics_changes": 0,
+    "physics_dt_changes": 0,
+    "safety_threshold_changes": 0
+  },
+  "errors": [],
+  "limitations": [
+    "Only the three specified CLOSED0 calibration grades are audited; no claim is made for unobserved larger scales, contact, task success or future execution safety.",
+    "Matching message timestamps is not a proof that every publisher callback consumed an identical raw state packet. Small transient differences remain and their mechanism was not inferred.",
+    "Pinned source text establishes the documented EEF layout but does not independently prove the runtime binary was compiled from that exact header. Actual pose agreement is separate empirical evidence.",
+    "The audit identifies no remaining WBC, IK, reference-execution or dynamical root cause for the actual-minus-desired residual.",
+    "No correction, normalizer, predictor, coefficient or hyperparameter was fitted or selected; no achieved future pose was relabelled as a command or expert target.",
+    "All original WBC, leg policy, gains, costs, solver, dynamics, 2 ms physics step and safety checks remain unchanged. This report grants no native or GPU execution authority.",
+    "Publication contains aggregate errors and content identities only; private host-bound paths, raw robot states, images, camera calibration matrices and pose transforms are omitted."
+  ]
+}
