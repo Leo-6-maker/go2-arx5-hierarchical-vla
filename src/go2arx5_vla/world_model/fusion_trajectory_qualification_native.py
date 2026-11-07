@@ -78,6 +78,35 @@ def run(adapter):
     return run_program(adapter, episode, inputs)
 
 
+def complete_reference_consumption(spec,complete):
+    """Distinguish an executed raw program from a declared HOLD control.
+
+    Both still pass the caller's unchanged same-world, prefix, complete-window,
+    solver/gripper and final-trace checks. HOLD never becomes raw H40 execution.
+    """
+    if complete.get('all_40_knots_consumed')is True:
+        return complete.get('post_query_HOLD_control')is not True
+    if complete.get('post_query_HOLD_control')is not True:
+        return False
+    from .fusion_program_reference_intervention_v1 import validate_scope
+    control=validate_scope(spec)
+    suffix=complete.get('generated_segment')or{}
+    atoms=(spec['max_ticks']-spec['live_skill_start_step'])//25
+    return (control is not None and control.candidate=='HOLD'
+        and complete.get('reference_intervention')==control.document()
+        and complete.get('all_40_knots_consumed')is False
+        and complete.get('raw_knot_consumed')==[False]*40
+        and complete.get('VLA_action_installations')==0
+        and complete.get('actual_VLA_commands')==0
+        and complete.get('full_H40_intent_is_an_executed_skill')is False
+        and suffix.get('post_query_HOLD_control')is True
+        and suffix.get('reference_intervention')==control.document()
+        and suffix.get('all_declared_reference_knot_times_consumed')is True
+        and suffix.get('complete_suffix_atoms')==len(suffix.get('windows',[]))==atoms
+        and suffix.get('solver_target_confirmed_atoms')==suffix.get('gripper_confirmed_atoms')==atoms
+        and complete.get('actual_reference_installations')==len(suffix.get('install_attempts',[]))>0)
+
+
 def run_program(adapter, episode, inputs, *, program_factory=None,
                 report_context=None, task_score_contract=None, report_finalizer=None,
                 sample_observer=None, before_preview=None, continuation=None):
@@ -298,7 +327,7 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
              and complete.get('complete_task_atoms') == total
              and complete.get('solver_target_confirmed_atoms') == total
              and complete.get('gripper_confirmed_atoms') == total
-             and complete.get('all_40_knots_consumed') is True
+             and complete_reference_consumption(adapter.spec,complete)
              and isinstance(complete.get('windows'), list)
              and len(complete['windows']) == total
              and complete['windows'][:len(windows)] == prefix['windows']

@@ -141,3 +141,44 @@ def test_continuation_cannot_rewrite_initialization_evidence(recipe, tmp_path, m
     with pytest.raises(ValueError, match='UNCHANGED_PREFIX'):
         native.run_program(a, e, inputs, continuation=altered)
     assert not a.trace_sealed
+
+
+@pytest.mark.parametrize('fault',[None,'raw_claim','missing_consumption','wrong_panel'])
+def test_declared_hold_control_reaches_original_final_seal_without_a_raw_skill_claim(
+        recipe,tmp_path,monkeypatch,fault):
+    from go2arx5_vla.world_model import fusion_program_reference_intervention_v1 as intervention
+    from go2arx5_vla.world_model.storage import digest
+    a,e,inputs,boundary=prepare(recipe,tmp_path,monkeypatch)
+    phase='collect-target-fusion-task-phase-live-skill-v9'
+    config=dict(schema=intervention.SCHEMA,candidate='HOLD',offset_target_xy_m=[0.,0.],ramp_atoms=16)
+    panel=tmp_path/'HOLD_PANEL.json'
+    panel.write_text(json.dumps(dict(domain=dict(time_stretch_factor=2),assignments=[dict(
+        native_run=tmp_path.name,parent='SYNTHETIC_HOLD',split='TRAIN',reference_intervention=config)])))
+    pin=digest(panel)
+    a.spec.update(phase=phase,kind='FUSION_TASK_PHASE_LIVE_SKILL_V9',live_skill_geometry_scale=1.,
+        live_skill_time_stretch_factor=2,task_condition='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',
+        registered_root=str(tmp_path),program_reference_intervention=config,response_learning_panel=str(panel),
+        response_learning_panel_sha256=pin,response_learning_assignment=dict(schema='WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1',
+        parent='SYNTHETIC_HOLD',split='TRAIN',panel_sha256=pin))
+    if fault=='wrong_panel':panel.write_text('{}')
+    def continuation(adapter,report,samples,windows):
+        out=synthetic_suffix(adapter,report,samples,windows)
+        suffix=dict(post_query_HOLD_control=True,reference_intervention=config,
+            all_declared_reference_knot_times_consumed=True,complete_suffix_atoms=2,
+            windows=out['windows'][-2:],solver_target_confirmed_atoms=2,gripper_confirmed_atoms=2,
+            install_attempts=[{'fixture_only':True}])
+        out.update(actual_spec_phase=phase,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
+            post_query_HOLD_control=True,reference_intervention=config,VLA_action_installations=0,
+            actual_VLA_commands=0,full_H40_intent_is_an_executed_skill=False,
+            actual_reference_installations=1,generated_segment=suffix)
+        if fault=='raw_claim':out['all_40_knots_consumed']=True
+        elif fault=='missing_consumption':suffix['gripper_confirmed_atoms']=1
+        return out
+    if fault is not None:
+        with pytest.raises(ValueError):native.run_program(a,e,inputs,continuation=continuation)
+        assert not a.trace_sealed
+    else:
+        out=native.run_program(a,e,inputs,continuation=continuation)
+        assert a.sealed==boundary+50 and a.trace_sealed
+        assert out['all_40_knots_consumed']is False and out['VLA_action_installations']==0
+        assert out['raw_knot_consumed']==[False]*40 and a.reference_qualification is out
