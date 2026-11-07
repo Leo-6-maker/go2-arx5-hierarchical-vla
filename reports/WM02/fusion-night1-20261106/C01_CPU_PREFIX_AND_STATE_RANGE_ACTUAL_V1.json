@@ -1,0 +1,141 @@
+{
+  "schema": "WM02_C01_CPU_PREFIX_AND_STATE_RANGE_ACTUAL_V1",
+  "status": "HALTED_ORIGINAL_PREFIX_SAFETY_FAILURE_NOT_HOLD_OR_TEACHER_OUTCOME",
+  "source_sha": "e3a8d96e5d4a5dd64883e1671e2d4a47a72cea89",
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "spec_sha256": "7f574e52d6c24c44977bde7bebe78051b221c6933ff699bdbd2bf9863c8fa355",
+  "native_result_sha256": "8881b86d6a32811da5148868c6e1da866e0832ff4c9d63c3aa6599d65cdc4da0",
+  "worker_sha256": "60ca85c3e7291e906c9050520e87771a3b9f4d76e76a59d00ada5c137ff8086f",
+  "worker_exit_code": 1,
+  "lease": "CLOSED",
+  "MainPID": 0,
+  "actual_native_ticks": 23915,
+  "complete_atomic_transitions": 956,
+  "partial_native_ticks": 15,
+  "physics_stops": [
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 23915
+    }
+  ],
+  "integrations_after_STOP": 0,
+  "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+  "trace_dropped": 0,
+  "safety_failure": {
+    "joint": "task_right_slide",
+    "actual_q_m": 0.04414049255188095,
+    "original_upper_limit_m": 0.044,
+    "first_positive_bound_step": 23914,
+    "STOP_step": 23915,
+    "original_bounds_unchanged": true,
+    "MuJoCo_crash_established": false
+  },
+  "HOLD_suffix": "NOT_RUN_PREFIX_FAILED_BEFORE_DECISION",
+  "Teacher": "NOT_RUN_DEPENDENCY_FAILED",
+  "unstarted_first_registration": {
+    "worker_started": false,
+    "new_ticks": 0,
+    "exit_code": 1,
+    "reason": "CPU condition was missing from old shared operational admission; fixed before fresh run",
+    "closed_without_reopening": true
+  },
+  "frozen_normalizer": {
+    "statistics_sha256": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+    "processor_config_sha256": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14",
+    "state_processor_module_sha256": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145",
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "source_inside_unit_range": true,
+    "actual_C01_outside_components": [
+      2,
+      3
+    ],
+    "actual_normalized_values_at_outside_components": [
+      2.8335598217444953,
+      26.982318106481415
+    ],
+    "clip_outliers": false,
+    "normalizer_refit": false,
+    "policy_inputs_changed": false,
+    "actual_original_apply_state_called": true,
+    "full_Processor_or_model_loads": 0,
+    "action_decodes": 0,
+    "causal_task_failure_explanation_established": false
+  },
+  "restart_divergence": {
+    "journal_sha256": [
+      "b79eece43a7fa97587698e7d93e3e0e7255738f990a7ae34fa2f131663ec268b",
+      "256794fac9c23bf15d48ed8d1021e37795304585599cc88531c1350bc3acce57"
+    ],
+    "first_difference": {
+      "qpos_exact": {
+        "step": 3,
+        "max_abs": 0.00010748901675583511
+      },
+      "qvel_exact": {
+        "step": 3,
+        "max_abs": 0.053744508377902234
+      },
+      "ctrl_exact": {
+        "step": 3,
+        "max_abs": 0.5999292391490528
+      },
+      "qpos_gt1um_or_urad": {
+        "step": 3,
+        "max_abs": 0.00010748901675583511
+      },
+      "ctrl_gt1e-6": {
+        "step": 3,
+        "max_abs": 0.5999292391490528
+      }
+    },
+    "exact_fork_equivalence": false,
+    "unique_causal_explanation_established": false
+  },
+  "cost": {
+    "worker_wall_s": 307.56377433706075,
+    "worker_CPU_s": 120.68315189,
+    "worker_child_CPU_s": 458.865763,
+    "normalization_wall_s": 0.23452055919915438,
+    "normalization_CPU_s": 0.12130553800000002,
+    "restart_audit_wall_s": 0.9046308607794344,
+    "restart_audit_CPU_s": 0.892990309,
+    "nested_native_result_and_systemd_costs_not_added_again": true
+  },
+  "commands": [
+    {
+      "control_entry": "core_control.py",
+      "script": "dispatch_c01_cpu_hold02.py",
+      "external_control_timeout_s": 900,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    },
+    {
+      "control_entry": "core_control.py",
+      "script": "read_c01_prefix_safety02.py",
+      "external_control_timeout_s": 180,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    },
+    {
+      "control_entry": "core_control.py",
+      "script": "audit_actual_state_normalization01.py",
+      "external_control_timeout_s": 180,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    },
+    {
+      "control_entry": "core_control.py",
+      "script": "audit_c01_prefix_restart01.py",
+      "external_control_timeout_s": 180,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    }
+  ],
+  "queries": 0,
+  "WM_updates": 0,
+  "GR00T_updates": 0,
+  "Actor_updates": 0,
+  "full_tasks": 0,
+  "old_failure_denominators_unchanged": true
+}

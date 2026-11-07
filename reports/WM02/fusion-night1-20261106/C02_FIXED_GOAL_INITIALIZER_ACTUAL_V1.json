@@ -1,0 +1,83 @@
+{
+  "schema": "WM02_C02_FIXED_GOAL_INITIALIZER_ACTUAL_V1",
+  "status": "FULL_TEACHER_REFERENCE_CONSUMED_ACTUAL_INITIALIZATION_FAILED",
+  "source_sha": "51f328975374880b883ac9a255da943a158429cd",
+  "scene_sha256": "f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf",
+  "spec_sha256": "9a514b7911cc66906602498fc0d2b76de7a691c02bb645d5b81c376e1db99cb5",
+  "native_result_sha256": "2a5c05f78145ab3ce551a4d7695f32540778d207b1ac666565ee2e69da218a55",
+  "measured_qualification_sha256": "9d76c45387d56da0081307801b20e15c523c4ebba35f006a1ff6ba69cca964c3",
+  "worker_exit_code": 1,
+  "lease": "CLOSED",
+  "MainPID": 0,
+  "native_ticks": 29503,
+  "complete_atomic_transitions": 1180,
+  "partial_native_ticks": 3,
+  "complete_task_atoms": 1080,
+  "all_40_Teacher_waypoints_consumed": true,
+  "GR00T_raw_H40_consumed": false,
+  "qualification_predicates": {
+    "actual_source_state_inside_training_range": false,
+    "actual_70_to_90mm_course_distance": false,
+    "TCP_hold": true,
+    "BASE_hold": true
+  },
+  "metrics": {
+    "outside_training_range_components": [
+      0,
+      3,
+      6
+    ],
+    "actual_cube_distance_m": 0.09338608651738266,
+    "hold_TCP_diameter_m": 0.00020019656397334476,
+    "hold_TCP_max_speed_m_s": 0.002271539942806857,
+    "hold_BASE_diameter_m": 2.733026963852883e-05,
+    "hold_BASE_rotation_rad": 5.7806511575184946e-05
+  },
+  "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+  "physics_stops": [],
+  "original_joint_or_warning_samples": 0,
+  "shutdown_clean": true,
+  "first_failure": "MEASURED_INITIALIZATION_GATE_FAILED_KEEP_ALL_EVIDENCE",
+  "old_SHORT_T1_scores_reclassified": false,
+  "marginal_range_is_not_full_source_distribution_equivalence": true,
+  "cost": {
+    "worker_wall_s": 383.7118671410717,
+    "worker_CPU_s": 153.101681613,
+    "worker_child_CPU_s": 577.040055,
+    "source_staging": {
+      "wall_s": 96.70653093513101,
+      "CPU_s": 1.1328035990000003,
+      "bytes_written": 48730625
+    },
+    "nested_native_result_and_systemd_costs_not_added_again": true
+  },
+  "commands": [
+    {
+      "control_entry": "core_control.py",
+      "script": "precheck_c02_initializer01.py",
+      "external_control_timeout_s": 180,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    },
+    {
+      "control_entry": "core_control.py",
+      "script": "dispatch_c02_initializer01.py",
+      "external_control_timeout_s": 900,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    },
+    {
+      "control_entry": "core_control.py",
+      "script": "read_c02_initializer01.py",
+      "external_control_timeout_s": 180,
+      "exit_code": 0,
+      "expanded_command_in_private_execution_receipt": true
+    }
+  ],
+  "model_queries": 0,
+  "WM_updates": 0,
+  "GR00T_updates": 0,
+  "Actor_updates": 0,
+  "full_tasks": 0,
+  "next": "Distinct finite actual-pose feedback commissioning at unchanged goal and final qualification; preserve this physical outcome."
+}

@@ -50,15 +50,19 @@ def read(path,pin):
 
 
 def config(spec):
+    return configured_inputs(spec, PHASE, KIND, E, episode, SOURCE_MEMBERS, 900)
+
+
+def configured_inputs(spec, phase, kind, end, episode_factory, members, wall_bound):
     from scripts.pi0292.relay_protocol import unseal
     from .fusion_observation import transform_hash
-    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('profile')=='wm02-auto1-target'
-         and spec.get('scope')=='WM02_PILOT1_SIM_ONLY'and spec.get('max_ticks')==E
+    need(spec.get('phase')==phase and spec.get('kind')==kind and spec.get('profile')=='wm02-auto1-target'
+         and spec.get('scope')=='WM02_PILOT1_SIM_ONLY'and spec.get('max_ticks')==end
          and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False
-         and type(spec.get('wall_limit_s'))in(int,float)and 0<spec['wall_limit_s']<=900
+         and type(spec.get('wall_limit_s'))in(int,float)and 0<spec['wall_limit_s']<=wall_bound
          and all(spec.get(k)is None for k in('paused_query_gpu_spec','program_response_forecast','program_reference_selection','program_reference_intervention','program_response_counterfactual')),
          'EXACT_FINITE_C02_TEACHER_SCOPE_NO_LEARNED_SELECTOR_OR_QUERY')
-    doc=read(spec['episode_manifest'],spec['episode_manifest_sha256']);need(doc==episode(spec['registered_root']),'EXACT_PREDECLARED_GOAL_AND_ENDPOINT')
+    doc=read(spec['episode_manifest'],spec['episode_manifest_sha256']);need(doc==episode_factory(spec['registered_root']),'EXACT_PREDECLARED_GOAL_AND_ENDPOINT')
     need(digest(spec['model_path'])==SCENE and spec['course_static_result_sha256']==STATIC,'COMPILED_C02_SCENE')
     proof=read(spec['course_static_result'],STATIC)
     need(proof['status']=='COURSE_STATIC_PASSED_NATIVE_STILL_REQUIRED'and proof['scene_sha256']==SCENE
@@ -68,7 +72,7 @@ def config(spec):
     need(transform_hash(frame)==spec['task_phase_frame_map_sha256']==FRAME,'UNCHANGED_VERIFIED_FRAME')
     statistics=read(spec['course_state_statistics'],STATS)['new_embodiment']['state']
     files=spec['source_files'];root=Path(spec['source_root'])
-    need(all(name in files and digest(root/name)==files[name]for name in SOURCE_MEMBERS),'SEALED_NEW_AND_ORIGINAL_EXECUTION_CODE')
+    need(all(name in files and digest(root/name)==files[name]for name in members),'SEALED_NEW_AND_ORIGINAL_EXECUTION_CODE')
     return doc,dict(raw=None,source_payload=source,frame=frame,statistics=statistics,
         provenance=dict(role='PRIVILEGED_FIXED_SOURCE_STATE_GOAL_NOT_GR00T',source_observation_sha256=SOURCE,
             frame_map_sha256=FRAME,source_statistics_sha256=STATS,future_achieved_state_labels=False))
@@ -138,10 +142,10 @@ def validate_install(adapter,action):
     return dict(native_step=step,points_checked=40,original_certify_chunk_required=True,physics_advance_authorized=False)
 
 
-def qualification(samples,inputs):
+def qualification(samples,inputs,*,end_step=E):
     from ..task_data.codec import pose10
     from .fusion_short_skill import score_contract
-    tail=list(samples);need(len(tail)==9 and [s['native_step']for s in tail]==list(range(E-200,E+1,25)),'ACTUAL_FINAL_HOLD_CLOCK')
+    tail=list(samples);need(len(tail)==9 and [s['native_step']for s in tail]==list(range(end_step-200,end_step+1,25)),'ACTUAL_FINAL_HOLD_CLOCK')
     last=tail[-1];mapped=inputs['frame']@np.asarray(last['tcp']);vector=pose10(mapped,float(np.asarray(last['finger_q']).mean()/.044))
     st=inputs['statistics'];low=np.r_[st['eef_9d']['min'],st['gripper_position']['min']];high=np.r_[st['eef_9d']['max'],st['gripper_position']['max']]
     outside=np.flatnonzero((vector<low)|(vector>high));points=np.asarray([s['tcp'][:3,3]for s in tail]);base=np.asarray([s['qpos'][:7]for s in tail]);bounds=score_contract()

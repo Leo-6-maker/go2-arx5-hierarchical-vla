@@ -22,7 +22,7 @@ def actual_trace_binding(adapter):
          'ACTUAL_OWNED_SIM_MUST_LOAD_PINNED_NEW_TRACE_LIBRARY')
     with (adapter.output/'init.trace').open('rb') as stream:
         header = stream.read(16)
-    capacity = (adapter.spec.get('trajectory_trace_capacity',262144) if adapter.spec.get('phase') in ('collect-target-fusion-c02-source-state-initialization-v1',
+    capacity = (adapter.spec.get('trajectory_trace_capacity',262144) if adapter.spec.get('phase') in ('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1',
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
         'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
         'collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2',
