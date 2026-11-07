@@ -329,7 +329,7 @@ def test_short_desired_intent_does_not_fake_actual_skill_success(real_clock_comp
     assert not complete['full_task_success'] and not measured['native_execution_authorized']
 
 
-@pytest.mark.parametrize('condition',[contract.SHORT_TASK_CONDITION,contract.TRACKING_TASK_CONDITION])
+@pytest.mark.parametrize('condition',[contract.SHORT_TASK_CONDITION,contract.TRACKING_TASK_CONDITION,contract.MECHANICAL_TASK_CONDITION])
 def test_late_short_closure_preserves_complete_proposal_without_install_or_integration(real_clock_composition,condition):
     from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
     a,samples,windows,report,raw,action,calls=real_clock_composition
@@ -345,8 +345,9 @@ def test_late_short_closure_preserves_complete_proposal_without_install_or_integ
     a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
         task_condition=condition)
     Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
-    reason=('WHOLE_GENERATED_TRACKING_DIAGNOSTIC_REJECT'if condition==contract.TRACKING_TASK_CONDITION
-            else'WHOLE_GENERATED_SHORT_INTENT_REJECT')
+    reason={contract.TRACKING_TASK_CONDITION:'WHOLE_GENERATED_TRACKING_DIAGNOSTIC_REJECT',
+            contract.MECHANICAL_TASK_CONDITION:'WHOLE_GENERATED_MECHANICAL_DOMAIN_REJECT',
+            contract.SHORT_TASK_CONDITION:'WHOLE_GENERATED_SHORT_INTENT_REJECT'}[condition]
     with pytest.raises(ValueError,match=reason):
         live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
     assert len(calls)==1 and not a.installs and not a.advances
@@ -411,3 +412,62 @@ def test_tracking_diagnostic_consumes_complete_path_but_does_not_erase_strict_fa
     assert not complete['graded_short_skill_score']['approach_step_success']
     assert complete['tracking_diagnostic_screen']['eligible_for_original_native_certificate']
     assert not complete['full_task_success'] and not complete['target_task_success']
+
+
+def test_mechanical_condition_is_explicit_and_cannot_change_old_task_contracts(short_pair):
+    from go2arx5_vla.world_model import fusion_bounded_reference_tracking_v1 as mechanical
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    task=contract.task_document(digest(a.spec['model_path']),short.LANGUAGE,
+        time_stretch_factor=1,task_condition=mechanical.TASK_CONDITION)
+    score=contract.score_contract(time_stretch_factor=1,task_condition=mechanical.TASK_CONDITION)
+    write_json(a.spec['paused_target_task'],task);write_json(a.spec['paused_score_contract'],score)
+    a.spec.update(task_condition=mechanical.TASK_CONDITION,
+        paused_target_task_file_sha256=digest(a.spec['paused_target_task']),
+        paused_target_task_sha256=document_hash(task),
+        paused_score_contract_file_sha256=digest(a.spec['paused_score_contract']))
+    p.update(task_condition=mechanical.TASK_CONDITION,task_sha256=document_hash(task))
+    g['paused_task_sha256']=document_hash(task)
+    name='src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py'
+    dest=Path(g['source_root'])/name;dest.write_bytes((PROJECT/name).read_bytes())
+    g['source_files'][name]=digest(dest);a.spec['source_files']=g['source_files'].copy()
+    bind(g,a,p);f['task']=task;a.fixture_task=task
+    assert bridge.validate_pair_spec(g)==(p,a.spec)
+    assert task['task_id']==mechanical.TASK_ID and score['mechanical_domain']==mechanical.domain_contract()
+    assert score['actual_short_skill_score_contract']==short.score_contract()
+    assert document_hash(short.score_contract())=='755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a'
+    capture_source_archive(f);_,identity,_=inference.read_payload(g)
+    assert identity['task_condition']==mechanical.TASK_CONDITION
+    g['wall_limit_s']=1201;bind(g,a,p)
+    with pytest.raises(ValueError,match='AT_MOST_1200_SECONDS'):bridge.validate_pair_spec(g)
+
+
+@pytest.mark.parametrize('install_failure',[False,True])
+def test_mechanical_consumption_preserves_semantic_failure_and_install_checks(real_clock_composition,monkeypatch,install_failure):
+    from go2arx5_vla.world_model import fusion_bounded_reference_tracking_v1 as mechanical
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    a,samples,windows,report,raw,action,calls=real_clock_composition
+    actual=samples[-1]['tcp'];direction=samples[-1]['object_pose'][:3,3]-actual[:3,3]
+    direction/=np.linalg.norm(direction)
+    raw[:,:3]=actual[:3,3]-.003*(np.arange(40)/39)[:,None]*direction
+    raw[:,9]=1.
+    with action.open('wb')as f:np.savez(f,physical_H40=raw)
+    path=action.parent/'RESULT.private.json';value=json.loads(path.read_bytes())
+    value['action_sha256']=digest(action);path.write_text(json.dumps(value))
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
+        task_condition=mechanical.TASK_CONDITION)
+    Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
+    if install_failure:
+        def reject(_):raise ValueError('ORIGINAL_NATIVE_CERTIFICATE_REFUSED_SYNTHETIC')
+        monkeypatch.setattr(a,'install_reference',reject)
+        with pytest.raises(ValueError,match='ORIGINAL_NATIVE_CERTIFICATE_REFUSED'):
+            live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+        assert not a.advances
+    else:
+        complete=live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+        assert complete['engineering_full_H40_consumption_only'] and complete['all_40_knots_consumed']
+        assert complete['strict_short_proposal_failure_retained']
+        assert not complete['short_intent_screen']['qualified']
+        assert not complete['graded_short_skill_score']['approach_step_success']
+        assert not complete['full_task_success'] and not complete['target_task_success']
+    assert len(calls)==1

@@ -21,7 +21,8 @@ EXPERIMENT_ROLE = 'GRADED_NONCONTACT_DIAGNOSTIC'
 TASK_CONDITION = 'SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
 SHORT_TASK_CONDITION = 'GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
 TRACKING_TASK_CONDITION = 'GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
-SHORT_LANGUAGE_TASK_CONDITIONS = (SHORT_TASK_CONDITION, TRACKING_TASK_CONDITION)
+MECHANICAL_TASK_CONDITION = 'BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
+SHORT_LANGUAGE_TASK_CONDITIONS = (SHORT_TASK_CONDITION, TRACKING_TASK_CONDITION, MECHANICAL_TASK_CONDITION)
 TASK_CONDITIONS = (TASK_CONDITION, *SHORT_LANGUAGE_TASK_CONDITIONS)
 SOURCE_CAMERA_RECIPE = 'SIM_EXTERNAL_WORLD_SOURCE_RIG'
 SOURCE_CAMERA_IDENTITY = '0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858'
@@ -79,12 +80,17 @@ def _task(producer):
         from . import fusion_graded_short_skill_v1 as short
         language=short.LANGUAGE
         score=json.loads(_bytes(producer['paused_score_contract'],producer['paused_score_contract_file_sha256']))
+        task_id=short.TRACKING_TASK_ID if condition==TRACKING_TASK_CONDITION else short.TASK_ID
+        if condition==MECHANICAL_TASK_CONDITION:
+            from .fusion_bounded_reference_tracking_v1 import TASK_ID,domain_contract
+            task_id=TASK_ID
+            need(score.get('mechanical_domain')==domain_contract(), 'EXACT_MECHANICAL_DOMAIN_NOT_A_RELAXED_SHORT_SCORE')
         need(score.get('task_condition')==condition
              and score.get('actual_short_skill_score_contract')==short.score_contract()
              and score.get('actual_short_skill_score_contract_sha256')==document_hash(short.score_contract())
              and task.get('score_contract_sha256')==document_hash(score)
              and task.get('language_provenance')=='NEW_TARGET_SHORT_SKILL_PROMPT'
-             and task.get('task_id')==(short.TRACKING_TASK_ID if condition==TRACKING_TASK_CONDITION else short.TASK_ID),
+             and task.get('task_id')==task_id,
              'DISTINCT_SHORT_TASK_AND_ACTUAL34303_SCORE_NOT_OLD_FULL_TASK')
     need(document_hash(task) == producer['paused_target_task_sha256']
          and task.get('scene_sha256') == digest(producer['model_path'])
@@ -144,6 +150,8 @@ def validate_pair_spec(spec):
     if pair['task_condition'] in SHORT_LANGUAGE_TASK_CONDITIONS:
         members=(*members,'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
                  'src/go2arx5_vla/world_model/fusion_short_skill.py')
+    if pair['task_condition']==MECHANICAL_TASK_CONDITION:
+        members=(*members,'src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py')
     for member in members:
         pin = producer.get('source_files', {}).get(member)
         need(pin is not None and spec.get('source_files', {}).get(member) == pin

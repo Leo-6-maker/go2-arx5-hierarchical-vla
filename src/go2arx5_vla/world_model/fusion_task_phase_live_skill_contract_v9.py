@@ -26,7 +26,8 @@ ROLE='GRADED_NONCONTACT_DIAGNOSTIC'
 TASK_CONDITION='SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
 SHORT_TASK_CONDITION='GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
 TRACKING_TASK_CONDITION='GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
-SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION)
+MECHANICAL_TASK_CONDITION='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
+SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION)
 TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
@@ -45,6 +46,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_source_camera_rig.py',
  'src/go2arx5_vla/world_model/fusion_trajectory_adapter.py',
  'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -85,6 +87,12 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
                 tracking_admission='OPEN_TOWARD_BOUNDED_NONCONTACT_THEN_ORIGINAL_NATIVE_CERTIFICATES',
                 strict_short_task_success_required_for_native_engineering_result=False,
                 strict_short_thresholds_changed=False)
+        if task_condition==MECHANICAL_TASK_CONDITION:
+            from .fusion_bounded_reference_tracking_v1 import domain_contract
+            value.update(schema=value['schema']+'_MECHANICAL_ONLY',
+                purpose='BOUNDED_FULL_H40_MECHANICAL_CONSUMPTION_ONLY_ALL_SEMANTIC_FAILURES_RETAINED',
+                mechanical_domain=domain_contract(),strict_short_thresholds_changed=False,
+                task_intent_is_reported_not_used_to_claim_mechanical_qualification=True)
     return value
 
 def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=TASK_CONDITION):
@@ -96,6 +104,9 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
         need(language==LANGUAGE,'EXACT_DISTINCT_SHORT_TASK_LANGUAGE')
     task_id=((TRACKING_TASK_ID if task_condition==TRACKING_TASK_CONDITION else TASK_ID) if is_short else 'ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9'
         +('_TIME1' if time_stretch_factor==1 else ''))
+    if task_condition==MECHANICAL_TASK_CONDITION:
+        from .fusion_bounded_reference_tracking_v1 import TASK_ID as mechanical_task
+        task_id=mechanical_task
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
         scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),

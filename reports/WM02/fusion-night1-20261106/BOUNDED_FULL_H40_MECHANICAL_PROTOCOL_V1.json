@@ -1,0 +1,74 @@
+{
+  "schema": "WM02_BOUNDED_FULL_H40_MECHANICAL_QUALIFICATION_PROTOCOL_V1",
+  "registered_epoch": 1794015420.5537863,
+  "status": "IMPLEMENTED_241_NORMAL_AND_OPTIMIZED_TESTS_PASS_NO_SITE_SCOPE_YET",
+  "question": "Can an actually generated full H40 be safely installed and consumed in the stable half-grade target world, independently of whether its semantic task direction is correct?",
+  "rationale": "Tracking03 was rejected by semantic progress/distance admission before any generated install. Its true first preview passes the original cloned-state certificate. Mechanical feasibility and strict short-task success must be measured separately.",
+  "prior_failure_retained": "GRADED_SHORT_TRACKING03_ACTUAL_V1.json",
+  "prior_native_result_sha256": "6629a1beea3ac0d15ceec4597613b1b24c6af6d90c400c2171307afa26d1dfee",
+  "new_condition": "BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1",
+  "new_task_id": "FUSION_BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1",
+  "conditions": {
+    "independent_native_attempts": 1,
+    "query_limit": 1,
+    "seed": 366104,
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "precision": "ORIGINAL_FP32_WEIGHTS_BF16_AUTOCAST",
+    "camera": "SIM_EXTERNAL_WORLD_SOURCE_RIG",
+    "task_language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+    "time_stretch_factor": 1,
+    "geometry_scale": 1.0,
+    "retained_raw_knots": 40,
+    "Processor_decodes": 1,
+    "B": 34303,
+    "E": 66503,
+    "physics_dt_s": 0.002,
+    "native_wall_s": 1200,
+    "GPU_wall_s": 1200,
+    "hardstop_s": 1260,
+    "desired_and_reference_minimum_cube_distance_m": 0.14,
+    "maximum_excursion_m": 0.025,
+    "maximum_rotation_rad": 0.1,
+    "minimum_finger_opening_m": 0.038,
+    "observed_actual_noncontact_and_unchanged_cube_required": true,
+    "BASE_hold": "UNCHANGED_ORIGINAL_REFERENCE",
+    "original_native_certificates_ACK_solver_grip_TTL_all_required": true
+  },
+  "semantic_outcomes": {
+    "strict_short_score_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "strict_proposal_and_actual_scores_always_saved": true,
+    "semantic_progress_distance_and_lateral_are_reported_outcomes": true,
+    "strict_short_failure_never_relabelled_as_success": true,
+    "not_a_formal_short_skill_evaluation": true,
+    "not_evidence_of_WM_or_transfer_gain": true
+  },
+  "selection": {
+    "no_prompt_search": true,
+    "no_seed_search": true,
+    "do_not_select_favourable_prefix": true,
+    "do_not_crop_scale_clip_or_drop_raw_knots": true,
+    "all_failures_in_denominator": true
+  },
+  "endpoints": {
+    "primary": "ORIGINAL_INSTALL_ACK_AND_SOLVER_GRIP_CONFIRMED_ENTIRE_H40_OR_PRESERVED_FIRST_FAILURE",
+    "secondary": [
+      "actual_minus_desired_TCP_SE3",
+      "actual_minus_reference_TCP_SE3",
+      "strict_short_task_outcomes",
+      "runtime_safety_trace_and_cleanup",
+      "actual_commands_and_observed_partial_response"
+    ],
+    "model_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "next_decision": {
+    "if_consumed": "Use measured response to design fresh TRAIN action-conditioned identification and strong ordinary-feedback baseline; do not train on this diagnostic as TRAIN.",
+    "if_original_native_rejects": "Inspect exact certificate/contact/receiver/solver mechanism; repair relevant application seam, never native safety.",
+    "if_semantic_failure": "Keep semantic failure independently; bounded consumption does not establish task transfer."
+  },
+  "site_admission": "FRESH_FINITE_ORIGINAL_OWNER_SCOPE_REQUIRED_NEVER_REOPEN_CLOSED",
+  "WBC_changes": false,
+  "original_cutoff_unchanged": true
+}
