@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": 1794112746.6684496,
   "goal": "ACTIVE_RESEARCH_PARTIAL_NATIVE_INITIALIZATION_BLOCKED_CURRENT_WORKERS_SEALED",
-  "snapshot_epoch": 1794074336.2363763,
-  "implementation_sha": "afb9a8f63f373d63d0f2a915cad3c65671df8c72",
-  "implementation_deployed": true,
-  "actual_last_native_source_sha": "0245f6c4f0271c30724d40414ee8c80bcd6bcc87",
-  "current_native_job": null,
+  "snapshot_epoch": 1794078386.5486238,
+  "implementation_sha": "100b3b451812b390fe3e147c19d347ed871a77bb",
+  "implementation_deployed": false,
+  "actual_last_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
+  "current_native_job": "stable-task-train01-hold-r1-01",
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "G1_THREE_NATIVE_AND_G2_CAMERA_CLOSED0_PID0;STATIC_GEOMETRY_COMPLETED_NO_ACTIVE_WORKERS",
+  "live_process_state": "LAST_OBSERVED_ACTIVE_PID101010_STEP15428_NOW_SSH_UNREACHABLE_OUTCOME_UNKNOWN",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 324,
   "FUSION_native_passes": 305,
@@ -284,8 +284,8 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Implement new-layout native TRAIN/DEV collection and admitted nonzero TASK_ADAPTER training; all ten static layouts ready, G1 passed. No repeat of completed G1/camera/static work.",
-  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/inspect_stable_task_data_inputs01.py 180",
+  "next": "Reconnect and read the existing new TRAIN01 HOLD capsule, verify its actual CLOSED/result/trace/camera/command joins, then continue remaining predeclared cases at cold boundaries.",
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -424,7 +424,7 @@
   "actual_last_GPU_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
   "last_source_posture_query_actual_report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
   "source_posture_frame_audit_report": "SOURCE_POSTURE_FRAME_AUDIT_ACTUAL_V1.json",
-  "first_current_scientific_block": "New scene-aware native TRAIN/DEV collection route and actual admitted TASK_ADAPTER training CLI remain unimplemented. Existing adapter core is synthetic-tested only. Full frozen GR00T new query additionally needs actual GPU headroom.",
+  "first_current_scientific_block": "Real new-layout TRAIN/DEV dataset and admitted nonzero candidate learning remain uncompleted; collector/trainer/checkpoint and separate native DEV code now exist. Full frozen GR00T additionally lacks GPU headroom.",
   "full1_query_intent_report": "SOURCE_POSTURE_QUERY_INTENT_ACTUAL_V1.json",
   "prompt_control_protocol": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
   "prompt_control_implementation": "MATCHED_PROMPT_CONTROL_IMPLEMENTATION_V1.json",
@@ -491,7 +491,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "IMPLEMENTED_READONLY_ADAPTER_INPUT_AUDIT_NOT_YET_EXECUTED;TRAINING_CLI_NOT_IMPLEMENTED",
+  "next_command_status": "IMPLEMENTED_READONLY_SAME_WORKER_RECONCILIATION_REQUIRES_NETWORK",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
@@ -728,7 +728,7 @@
     "remote_readonly_archive_check": "SSH_CONNECTION_TIMEOUT_EXIT255",
     "new_native_integrations": 0
   },
-  "current_operational_block": "New scene-aware native TRAIN/DEV collection route and actual admitted TASK_ADAPTER training CLI remain unimplemented. Existing adapter core is synthetic-tested only. Full frozen GR00T new query additionally needs actual GPU headroom.",
+  "current_operational_block": "Both original SSH endpoints timeout; no unverified dispatch replay. Current worker outcome remains unknown.",
   "bounded_mechanical_pair_v1": "BOUNDED_FULL_H40_CONSUMPTION_ACTUAL_V1.json",
   "future_full_preview_features": "LIVE_PROGRAM_CAUSAL_FEATURES_V2_IMPLEMENTATION.json",
   "full_generated_H40_mechanical_consumption": 11,
@@ -792,7 +792,7 @@
     "no_failed_condition_retry": true,
     "no_WBC_or_original_safety_change": true
   },
-  "next_qualified_work": "Read-only sealed evidence and fresh owner/admission audit; further dynamics require a newly valid finite scope and separately declared task-state alignment/recovery condition.",
+  "next_qualified_work": "Read-only reconcile the existing TRAIN01 HOLD worker after SSH recovery; continue frozen new-layout panel only after terminal proof and current original owner/resource checks.",
   "short_Teacher_T01_unstarted_registration_failure": {
     "dispatch_exit_code": 1,
     "scopes_closed": 2,
@@ -833,7 +833,7 @@
     "fixed_compensation": "STATIC_FAILED_NO_WORKER",
     "C03_preposed_home": "ZERO_INTEGRATION_REJECTED_FROZEN_STARTUP_OVERRIDE_POINT9_NO_WORKER"
   },
-  "current_block": "New scene-aware native TRAIN/DEV collection route and actual admitted TASK_ADAPTER training CLI remain unimplemented. Existing adapter core is synthetic-tested only. Full frozen GR00T new query additionally needs actual GPU headroom.",
+  "current_block": "Network prevents current worker reconciliation and further original-owner registration.",
   "previous_top_level_next_before_PR368": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
   "stable_start_autonomy": {
     "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
@@ -845,8 +845,8 @@
     "G0": "PASSED_REAL_ORIGINAL_OWNER_REGISTRATION",
     "G1": "PASSED_TWO_INDEPENDENT_HOLD_AND_STRICT4MM_TEACHER",
     "G2": "ACTUAL_G1_DECISION_DUAL_RGB_BOUND_CPU_RENDER_PASS;NEW_GR00T_QUERY_NOT_RUN",
-    "G3": "TEN_REAL_STATIC_LAYOUT_QUALIFICATIONS_PASS;NATIVE_COLLECTOR_AND_TRAINING_CLI_NOT_YET_IMPLEMENTED",
-    "G4": "PENDING_G1_G3",
+    "G3": "COLLECTOR_AND_NONZERO_TRAINER_IMPLEMENTED_FIRST_NEW_TRAIN_NATIVE_STARTED_TERMINAL_UNVERIFIED",
+    "G4": "PENDING_REAL_LEARNED_CANDIDATE_DEV;NO_CLOSED_LOOP_EXECUTED",
     "G5": "OPTIONAL_NO_GAIN_CLAIM",
     "normal_tests": 203,
     "optimized_tests": 203,
@@ -868,11 +868,31 @@
     "new_target_TRAIN_episodes": 0,
     "new_target_DEV_episodes": 0,
     "new_candidate_updates": 0,
-    "adapter_core": "stable_task_adapter_v1.py;TESTED_SYNTHETIC_ONLY_NO_ADMITTED_TRAINER_YET",
+    "adapter_core": "REAL_COLLECTOR_TRAINER_AND_NATIVE_DEV_IMPLEMENTED;NO_REAL_CANDIDATE_UPDATES_OR_CHECKPOINT",
     "G2_saved_input_report": "STABLE_START_G2_SAVED_INPUT_CAMERA_ACTUAL_V1.json",
     "G3_static_report": "STABLE_TASK_LAYOUT_STATIC_ACTUAL_V1.json",
     "new_static_layouts_passed": 10,
-    "new_static_saved_pose_FK": 387030
+    "new_static_saved_pose_FK": 387030,
+    "native_data_panel": "FROZEN_STABLE_TASK_DATA_PANEL_V1.json",
+    "learning_protocol": "FROZEN_STABLE_TASK_LEARNING_PROTOCOL_V1.json",
+    "first_new_collection_report": "STABLE_TASK_FIRST_NEW_COLLECTION_STARTED_ACTUAL_V1.json",
+    "first_data_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
+    "first_data_spec_sha256": "1feb1f5db13c41bc328b1ec88e866ebca543db8547f75079406ed9cfde6ccdde",
+    "pending_native_integrations_confirmed_minimum": 15428,
+    "tests_current": {
+      "normal": {
+        "passed": 1787,
+        "subtests_passed": 179,
+        "wall_s": 333.81
+      },
+      "optimized": {
+        "passed": 24,
+        "subtests_passed": 5,
+        "wall_s": 1.87
+      },
+      "tests_are_scientific_training": false
+    },
+    "current_worker_terminal": "UNVERIFIED_NETWORK_TIMEOUT"
   },
   "previous_last_sealed_native_panel_before_PR368": {
     "run": "fusion-night1-four-arm-dev-panel-01",
@@ -895,5 +915,7 @@
     "practical_gain_threshold_mm": 0.08124448952310875
   },
   "archived_before_stable_start_first_current_scientific_block": "One new native run shows actual action-conditioned forecasting; four-row DEV and model-selected physical increment remain unproven.",
-  "archived_before_stable_start_current_operational_block": "NO_NEW_FULL_1200S_PLUS60S_SCOPE_FITS_ORIGINAL_19:34:21_CUTOFF; GENERATED_C01_TASK_INTENT_NOT_QUALIFIED"
+  "archived_before_stable_start_current_operational_block": "NO_NEW_FULL_1200S_PLUS60S_SCOPE_FITS_ORIGINAL_19:34:21_CUTOFF; GENERATED_C01_TASK_INTENT_NOT_QUALIFIED",
+  "FUSION_TASK_ADAPTER_updates": 0,
+  "archived_before_stable_task_next_qualified_work": "Read-only sealed evidence and fresh owner/admission audit; further dynamics require a newly valid finite scope and separately declared task-state alignment/recovery condition."
 }
