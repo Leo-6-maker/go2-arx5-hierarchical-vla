@@ -1,0 +1,454 @@
+{
+  "schema": "WM02_PROGRAM_OFFSET_NATIVE_ACTUAL_V1",
+  "case": "QX05",
+  "epoch": 1794029287.4894736,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+  "original_assignment": {
+    "candidate": "X_PLUS_050",
+    "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+    "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX05",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "actual_reference_intervention": {
+    "candidate": "X_PLUS_050",
+    "offset_target_xy_m": [
+      0.0005,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual": {
+    "native_exit_code": 0,
+    "GPU_exit_code": 0,
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_generated_suffix_atoms": 1288,
+    "actual_queries": 1,
+    "raw_H40_consumed": true,
+    "reference_installations": 184,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": false,
+    "full_tasks": 0
+  },
+  "first16_actual_response": {
+    "H16_actual_minus_desired_L2_m": 0.003304508619161417,
+    "H16_actual_minus_desired_xyz_m": [
+      -0.0020705019548268866,
+      -0.0017644082618162651,
+      0.0018760763190245333
+    ],
+    "actual_TCP_displacement_m": [
+      [
+        6.420107341020831e-05,
+        1.4141947795767718e-05,
+        -7.252020311487861e-06
+      ],
+      [
+        9.889056141554331e-05,
+        4.132331997628441e-05,
+        -7.543624035633023e-05
+      ],
+      [
+        0.00015667146639053442,
+        9.560310522642446e-05,
+        -0.00023180796693322847
+      ],
+      [
+        0.00022509340176202208,
+        0.00019274018367836793,
+        -0.00045690700502409864
+      ],
+      [
+        0.000325367334755966,
+        0.00033473434976488,
+        -0.0007630668174917199
+      ],
+      [
+        0.00043370536087977696,
+        0.0005174434469635975,
+        -0.0011534961534187538
+      ],
+      [
+        0.0005762327823284341,
+        0.0007212645781107113,
+        -0.0016108538145503948
+      ],
+      [
+        0.0007485194383258231,
+        0.0009378173512960622,
+        -0.0020377651311723755
+      ],
+      [
+        0.0009217795989728272,
+        0.0011813712348241329,
+        -0.0025363315496793604
+      ],
+      [
+        0.0010894869116698236,
+        0.0014323634474906338,
+        -0.0030776519124735557
+      ],
+      [
+        0.00127043965671636,
+        0.0016754153970724647,
+        -0.0036253387672107174
+      ],
+      [
+        0.0014460693091472576,
+        0.001901051477307944,
+        -0.004151119729281172
+      ],
+      [
+        0.001631815659641489,
+        0.00210658460734256,
+        -0.004641097703009356
+      ],
+      [
+        0.0018044095267269467,
+        0.002287156536549692,
+        -0.005085536784277256
+      ],
+      [
+        0.0019684395601520244,
+        0.0024386796063793764,
+        -0.005462532797095743
+      ],
+      [
+        0.002102647795785173,
+        0.0025615831331314634,
+        -0.005771796713038846
+      ]
+    ],
+    "actual_endpoint_step": 34703,
+    "consumed_reference_displacement_from_previous_reference_m": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        6.239291639176248e-06,
+        5.318060869854979e-06,
+        -9.401741842718359e-06
+      ],
+      [
+        4.594451836920088e-05,
+        3.93071568664527e-05,
+        -6.949069416017917e-05
+      ],
+      [
+        0.0001422676290305791,
+        0.0001222006010672405,
+        -0.00021603711059048347
+      ],
+      [
+        0.00030832714159667596,
+        0.00026596618290949947,
+        -0.00047019871562603566
+      ],
+      [
+        0.0005485481527213176,
+        0.00047533935864538246,
+        -0.0008403472707568804
+      ],
+      [
+        0.0008600023472846163,
+        0.0007488564417969523,
+        -0.0013238951406132626
+      ],
+      [
+        0.001233748007940183,
+        0.0010798877936112061,
+        -0.0019091218591092973
+      ],
+      [
+        0.0016561700246626732,
+        0.0014576710135149884,
+        -0.00257700069558664
+      ],
+      [
+        0.0021103199042937226,
+        0.0018683441295701958,
+        -0.0033030252209566013
+      ],
+      [
+        0.0025772557800888274,
+        0.002295978788928607,
+        -0.004059035873844707
+      ],
+      [
+        0.003037382421264778,
+        0.0027236134482870322,
+        -0.0048150465267328135
+      ],
+      [
+        0.003471791242545985,
+        0.0031342865643422257,
+        -0.005541071052102997
+      ],
+      [
+        0.003863600313711857,
+        0.003512069784246022,
+        -0.0062089498885801175
+      ],
+      [
+        0.004199294369143014,
+        0.003843101136060262,
+        -0.006794176607076152
+      ],
+      [
+        0.0044700648173683355,
+        0.0041166182192118456,
+        -0.0072777244769327565
+      ]
+    ],
+    "desired_TCP_displacement_m": [
+      [
+        5.130168409195335e-06,
+        5.318060869854979e-06,
+        -9.401741842829381e-06
+      ],
+      [
+        3.791839532230057e-05,
+        3.9307156866459636e-05,
+        -6.949069416017917e-05
+      ],
+      [
+        0.00011788313043431531,
+        0.0001222006010672405,
+        -0.0002160371105905945
+      ],
+      [
+        0.00025656932909673413,
+        0.00026596618290949253,
+        -0.0004701987156261467
+      ],
+      [
+        0.0004585451391104778,
+        0.0004753393586453755,
+        -0.0008403472707568804
+      ],
+      [
+        0.0007223985875189354,
+        0.0007488564417969523,
+        -0.0013238951406132626
+      ],
+      [
+        0.0010417342674006735,
+        0.0010798877936111992,
+        -0.0019091218591092973
+      ],
+      [
+        0.0014061700246627562,
+        0.0014576710135149953,
+        -0.0025770006955865288
+      ],
+      [
+        0.0018023336448332317,
+        0.0018683441295701958,
+        -0.0033030252209566013
+      ],
+      [
+        0.002214859539854397,
+        0.002295978788928607,
+        -0.004059035873844707
+      ],
+      [
+        0.002627385434875562,
+        0.0027236134482870253,
+        -0.0048150465267329245
+      ],
+      [
+        0.0030235490550460375,
+        0.0031342865643422257,
+        -0.005541071052102997
+      ],
+      [
+        0.00338798481230812,
+        0.003512069784246022,
+        -0.0062089498885802286
+      ],
+      [
+        0.0037073204921898584,
+        0.003843101136060262,
+        -0.006794176607076263
+      ],
+      [
+        0.003971173940598316,
+        0.0041166182192118456,
+        -0.0072777244769326455
+      ],
+      [
+        0.00417314975061206,
+        0.0043259913949477286,
+        -0.007647873032063379
+      ]
+    ],
+    "independent_restart_not_exact_fork": true,
+    "initial_native_step": 34303,
+    "maximum_actual_displacement_m": 0.006655559570592834,
+    "reference_error_is_model_innovation": false,
+    "schema": "WM02_FIRST16_ACTUAL_PROGRAM_RESPONSE_V1"
+  },
+  "strict_short_score": {
+    "approach_step_success": false,
+    "decision_native_step": 34303,
+    "full_task_success": false,
+    "metrics": {
+      "final_hold_TCP_diameter_m": 2.579536617899583e-05,
+      "final_hold_TCP_max_speed_m_s": 0.0003775677776647283,
+      "maximum_TCP_excursion_m": 0.00857414976954274,
+      "maximum_base_displacement_m": 0.002068079969494058,
+      "maximum_base_rotation_rad": 0.004766076141301481,
+      "maximum_lateral_drift_m": 0.006184373996182127,
+      "maximum_object_displacement_m": 0.0,
+      "minimum_finger_opening_m": 0.041459165402081395,
+      "precontact_distance_reduction_m": 0.0028728934108547127,
+      "signed_progress_m": 0.0029118907800507994
+    },
+    "native_execution_authorized": false,
+    "old_3703_score_relabelled": false,
+    "pick_place_success_claim": false,
+    "precontact_arrival_claim": false,
+    "predicates": {
+      "base_orientation": true,
+      "base_still": false,
+      "distance_reduction": true,
+      "excursion": true,
+      "hold": true,
+      "lateral": false,
+      "no_robot_object_contact": true,
+      "object_still": true,
+      "open": true,
+      "original_native_safety": true,
+      "signed_progress": true
+    },
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "scorer_only_privileged_geometry": true,
+    "source_task_phase_equivalence": false,
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "thresholds_are_native_safety": false
+  },
+  "actual_minus_desired_L2_m": 0.002447491607623319,
+  "actual_minus_reference_L2_m": 0.10761482667975396,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": null,
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "86a41119e505df5617dcaea013ee0bced21b439bdc96bb87569eec91c7ac4274",
+  "GPU_result_sha256": "962e597f3dc22af0e8c62ee26d1664e905ffa5f925641413f791ceb3a2a61102",
+  "action_npz_sha256": "3a96a410e388f04514dbc85656a026361fd15afc42fbff4db9c7ee5c7d24ebcc",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "d31d4f9c5662925f1483228a0b20d72cc3eba21720c39a7e2f0f0f56e7006d50",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "e741ed658b1e96dda334814cb7ad5b59a8462645c2145789e6a8ba24e372be47",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "df044488317972941d7a9d3a66f1aada97032e3faf97a0b81e7115f0a6d0e32d",
+    "LIVE_SKILL_SEGMENT.private.json": "357f3e8e53bf79d1ad6511be7e80acabdac48ad6ee6cc957999f87f07bce2e30",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "df5d47f49bda4c15b518bc2bc4db8aee110933d9031695cfbc77152601ff5eb3",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "3c7ad2803d2e11b3b95a58f9bb86a722644ea5e4783825ae973d81ab591b1498"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 494824,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 494824
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-program-response-qx05-gpu-01",
+      "spec_sha256": "1b3b81ab82e0d755f9d2c5ac4de5940cc18d3aac1958d406663590b41719af77",
+      "lease_sha256": "f62c9d71f4f90894b492622d9668edf1997034cc7886b6e3299a352dda769ce9",
+      "worker_sha256": "e6cb45bcf4e4620154d06ccb85ec8292f820e7404d5c75b97edc01558636003a",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-program-response-qx05-01",
+      "spec_sha256": "5accf15bd3b887e811282663813b12dc09dfbbd24d2cf2f56b0fb47386e94017",
+      "lease_sha256": "765ea1c521368731a49b15b66d29e04e92d45b9004494ca482fc90849fe506a6",
+      "worker_sha256": "45ad9d40523634eeb929a4405fef51b9b067cd183b19f641d5738abc1a8ac1b7",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 116.939954,
+        "exit_code": 0,
+        "wall_s": 542.4337895507924
+      },
+      "systemd_CPU_s": 117.362939,
+      "host_peak_bytes": 12585267200
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 376.64866456,
+        "child_CPU_s": 1444.902708,
+        "exit_code": 0,
+        "wall_s": 969.909484168049
+      },
+      "systemd_CPU_s": 1830.477884,
+      "host_peak_bytes": 9975275520
+    },
+    "source_staging": {
+      "wall_s": 90.58716828702018,
+      "CPU_s": 1.1693300079999993,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 118,
+      "overlay_written_bytes": 1333945,
+      "actual_source_bytes_written": 46957531,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 1.2072079251520336
+  },
+  "counts_after": {
+    "FUSION_attempts": 296,
+    "FUSION_passes": 285,
+    "FUSION_failures": 11,
+    "FUSION_native_ticks": 1918363,
+    "with_PILOT2_attempts": 950,
+    "with_PILOT2_passes": 934,
+    "with_PILOT2_failures": 16,
+    "with_PILOT2_native_ticks": 4905656,
+    "VLA_queries": 18,
+    "WM_main_updates": 12800,
+    "restore_probe_optimizer_calls": 9,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "2ee59d43b5ab8ea85beb6974947ffa1ff9b728b9e0212ad8aeae6ccabcb36a52",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_response_qx05_v4_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933
+}
