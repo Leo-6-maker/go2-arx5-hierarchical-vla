@@ -128,8 +128,14 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
         from .fusion_task_phase_xyz_feedback_v4 import endpoint as actual_endpoint
     else:
         actual_endpoint = recipe.endpoint
+    live_end = 66503
+    if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
+        from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
+        if spec.get('task_condition') == SHORT_TASK_CONDITION:
+            validate_registration(spec)
+            live_end = endpoint(SHORT_TASK_CONDITION)
     clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
-             and episode['geometry_scale'] == .5 and spec.get('max_ticks') == 66503) if live_skill else (
+             and episode['geometry_scale'] == .5 and spec.get('max_ticks') == live_end) if live_skill else (
              spec.get('max_ticks') == actual_endpoint(episode))
     need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int and clock
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',

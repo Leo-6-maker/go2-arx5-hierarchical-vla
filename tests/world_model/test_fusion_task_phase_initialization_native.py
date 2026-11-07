@@ -79,6 +79,29 @@ def test_exact_source_static_episode_and_closed_full1_bootstrap_are_read_only(re
     assert not checked['native_execution_authorized'] and not checked['native_qualification_claim']
 
 
+@pytest.mark.parametrize('short_teacher',[False,True])
+def test_operational_live_v9_entry_checks_the_actual_declared_horizon(recipe,tmp_path,short_teacher):
+    from go2arx5_vla.world_model import fusion_task_phase_live_skill_contract_v9 as live
+    from go2arx5_vla.world_model import fusion_task_phase_pose_slow_feedback_v9 as slow
+    from go2arx5_vla.world_model import fusion_task_reference_diagnostic_v1 as teacher
+    from test_fusion_task_reference_diagnostic_v1 import registered_short
+    spec,_,_,_=recipe;root=Path(spec['registered_root'])
+    if short_teacher:
+        reg=registered_short(tmp_path);panel=Path(reg['response_learning_panel']);value=json.loads(panel.read_text())
+        value['assignments'][0]['native_run']=root.name;put(panel,value)
+        reg.update(registered_root=str(root),response_learning_panel_sha256=digest(panel));reg['response_learning_assignment']['panel_sha256']=digest(panel);spec.update(reg)
+    else:spec.update(task_condition=live.MECHANICAL_TASK_CONDITION,max_ticks=66503,live_skill_start_step=34303)
+    spec.update(phase=live.PHASE,kind=live.KIND,snapshot_binding_mode='PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9',paused_query_gpu_spec='/synthetic/gpu/spec',paused_query_pair='/synthetic/pair')
+    episode=slow.make_episode(run=str(root),geometry_scale=.5);spec['episode_manifest_sha256']=put(spec['episode_manifest'],episode)
+    project=Path(__file__).resolve().parents[2]
+    for name in live.SOURCE_MEMBERS:
+        path=Path(spec['source_root'])/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((project/name).read_bytes());spec['source_files'][name]=digest(path)
+    actual,_=contract.recipe_config(spec,episode,actual_phase=live.PHASE,actual_kind=live.KIND,source_members=live.SOURCE_MEMBERS)
+    assert actual==episode
+    spec['max_ticks']=66503 if short_teacher else 38703
+    with pytest.raises(ValueError):contract.recipe_config(spec,episode,actual_phase=live.PHASE,actual_kind=live.KIND,source_members=live.SOURCE_MEMBERS)
+
+
 @pytest.mark.parametrize('key,value', [
     ('phase', v3.PHASE), ('kind', 'FUSION_SOURCE_POSTURE_PAUSED_QUERY'),
     ('profile', 'wm02-fusion-vla-shadow'), ('physics', False),
