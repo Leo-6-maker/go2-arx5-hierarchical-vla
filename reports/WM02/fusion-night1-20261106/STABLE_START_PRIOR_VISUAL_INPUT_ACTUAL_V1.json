@@ -1,0 +1,67 @@
+{
+  "rows": [
+    {
+      "run": "fusion-night1-task-intent-geometry-short-t01r1-01",
+      "snapshot_uuid": "8a4dee54-970e-4595-a14f-639add23cedc",
+      "image_quality": {
+        "body_rgb": {
+          "red_dominant_pixels": 137,
+          "fraction": 0.0020904541015625,
+          "centroid_uv": [
+            143.65693430656935,
+            137.06569343065692
+          ],
+          "all_red_pixels_are_cube": "NOT_ASSUMED_NO_SEGMENTATION_TRUTH_USED"
+        },
+        "wrist_rgb": {
+          "red_dominant_pixels": 991,
+          "fraction": 0.0151214599609375,
+          "centroid_uv": [
+            114.77093844601413,
+            46.976791120080726
+          ],
+          "all_red_pixels_are_cube": "NOT_ASSUMED_NO_SEGMENTATION_TRUTH_USED"
+        }
+      }
+    },
+    {
+      "run": "fusion-night1-task-intent-geometry-short-t02-01",
+      "snapshot_uuid": "324cabe3-8ef8-4e0e-acbb-6113f340e6f5",
+      "image_quality": {
+        "body_rgb": {
+          "red_dominant_pixels": 137,
+          "fraction": 0.0020904541015625,
+          "centroid_uv": [
+            143.65693430656935,
+            137.06569343065692
+          ],
+          "all_red_pixels_are_cube": "NOT_ASSUMED_NO_SEGMENTATION_TRUTH_USED"
+        },
+        "wrist_rgb": {
+          "red_dominant_pixels": 998,
+          "fraction": 0.015228271484375,
+          "centroid_uv": [
+            114.34168336673346,
+            46.79058116232465
+          ],
+          "all_red_pixels_are_cube": "NOT_ASSUMED_NO_SEGMENTATION_TRUTH_USED"
+        }
+      }
+    }
+  ],
+  "CPU_s": 0.02053649199999999,
+  "wall_s": 0.08784616272896528,
+  "new_physics": 0,
+  "new_queries": 0,
+  "new_updates": 0,
+  "Student_training_examples": 0,
+  "schema": "WM02_STABLE_START_PRIOR_INPUT_VISIBILITY_DIAGNOSTIC_V1",
+  "status": "PRIOR_MATCHED_IMAGES_REAUDITED_NOT_NEW_DATA",
+  "reader_sha256": "9cbf4a89f5979a56b94eecc1afb6619b403b881736a94f887a8cd8efca8dbbbf",
+  "actual_exit_code": 0,
+  "observation_teacher_aliases_changed": false,
+  "additional_Processor_action_decodes": 0,
+  "cube_segmentation_ground_truth_used": false,
+  "inference": "Both RGB streams retain red-dominant pixels. This is an input-quality diagnostic, not proven cube segmentation, semantic understanding, or visual-policy success.",
+  "next": "Use only actual deployable visual/state/task features for new TRAIN; exclude object truth and metadata identifiers; old diagnostics remain ineligible for training."
+}
