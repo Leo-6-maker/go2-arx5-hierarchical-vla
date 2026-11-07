@@ -92,3 +92,19 @@ def test_screen_never_selects_a_favourable_prefix_or_crops_geometry(change):
     if change=='scaled':
         with pytest.raises(ValueError,match='FULL_UNCLIPPED'):new.screen_proposal(program,cube)
     else:assert not new.screen_proposal(program,cube)['qualified']
+
+
+def test_tracking_diagnostic_retains_lateral_failure_and_unchanged_strict_score():
+    program,cube=proposal('late-lateral');before=program.evidence()
+    value=new.tracking_diagnostic_screen(program,cube)
+    assert value['eligible_for_original_native_certificate']
+    assert value['lateral_task_failure_retained'] and not value['strict_short_proposal_screen']['qualified']
+    assert not value['strict_short_task_success'] and not value['native_execution_authorized']
+    assert program.evidence()==before
+    assert old.document_hash(new.score_contract())=='755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a'
+
+
+@pytest.mark.parametrize('change',['late-close','large-middle','away','near-cube'])
+def test_tracking_diagnostic_still_refuses_closed_away_unbounded_or_contact_domain(change):
+    program,cube=proposal(change)
+    assert not new.tracking_diagnostic_screen(program,cube)['eligible_for_original_native_certificate']

@@ -69,11 +69,12 @@ def _continue(adapter,report,samples,windows,*,task,camera):
     factor=spec.get('live_skill_time_stretch_factor') if version=='V9' else 2
     need(type(factor)is int and factor in(1,2),
          'EXPLICIT_PREREGISTERED_FULL_H40_TIME_MAPPING')
-    is_short=False
+    is_short=False;is_tracking=False
     if version=='V9':
-        from .fusion_task_phase_live_skill_contract_v9 import TASK_CONDITIONS,SHORT_TASK_CONDITION
+        from .fusion_task_phase_live_skill_contract_v9 import TASK_CONDITIONS,SHORT_LANGUAGE_TASK_CONDITIONS,TRACKING_TASK_CONDITION
         need(spec.get('task_condition')in TASK_CONDITIONS,'EXPLICIT_V9_FULL_OR_DISTINCT_SHORT_TASK')
-        is_short=spec['task_condition']==SHORT_TASK_CONDITION
+        is_short=spec['task_condition']in SHORT_LANGUAGE_TASK_CONDITIONS
+        is_tracking=spec['task_condition']==TRACKING_TASK_CONDITION
     frozen_spec=document_hash(spec)
     ready=report['task_phase_initialization']['readiness']
     need(adapter.observe()['step']==B and not adapter.trace_sealed
@@ -123,12 +124,19 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         reference_clearance=np.linalg.norm(program.reference_path[:,:3]-cube[:3,3],axis=1)
         need(float(min(clearance.min(),reference_clearance.min()))>=.14,
              'FULL_PROPOSAL_OUTSIDE_PREDECLARED_NONCONTACT_ENVELOPE_KEEP_ALL40_REJECT_NO_CLIP')
-        short_intent=None
+        short_intent=None;tracking_intent=None
         if is_short:
             from .fusion_graded_short_skill_v1 import screen_proposal
             short_intent=screen_proposal(program,cube)
             write_json(adapter.output/'LIVE_SKILL_SHORT_INTENT_SCREEN.private.json',short_intent)
-            need(short_intent['qualified'],'WHOLE_GENERATED_SHORT_INTENT_REJECT_KEEP_ALL40_NO_INSTALL')
+            if is_tracking:
+                from .fusion_graded_short_skill_v1 import tracking_diagnostic_screen
+                tracking_intent=tracking_diagnostic_screen(program,cube)
+                write_json(adapter.output/'LIVE_SKILL_TRACKING_DIAGNOSTIC_SCREEN.private.json',tracking_intent)
+                need(tracking_intent['eligible_for_original_native_certificate'],
+                     'WHOLE_GENERATED_TRACKING_DIAGNOSTIC_REJECT_KEEP_ALL40_NO_INSTALL')
+            else:
+                need(short_intent['qualified'],'WHOLE_GENERATED_SHORT_INTENT_REJECT_KEEP_ALL40_NO_INSTALL')
         adapter.live_skill_program=program
         suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=E,
             past_samples=samples,past_windows=windows,sample_observer=lambda s:_noncontact(s,cube))
@@ -176,6 +184,10 @@ def _continue(adapter,report,samples,windows,*,task,camera):
                 short_intent_screen=short_intent,
                 graded_short_skill_score=short.score(
                     [sample for sample in all_samples if sample['native_step']>=B],short.score_contract()))
+            if is_tracking:
+                complete.update(tracking_diagnostic_screen=tracking_intent,
+                    exploratory_tracking_diagnostic=True,strict_short_proposal_failure_retained=not short_intent['qualified'],
+                    strict_short_score_is_diagnostic_not_formal_task_evaluation=True)
         return complete
     except BaseException as error:
         write_json(adapter.output/'LIVE_SKILL_FAILED.private.json',dict(

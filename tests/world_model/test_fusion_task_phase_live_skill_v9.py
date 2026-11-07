@@ -329,7 +329,8 @@ def test_short_desired_intent_does_not_fake_actual_skill_success(real_clock_comp
     assert not complete['full_task_success'] and not measured['native_execution_authorized']
 
 
-def test_late_short_closure_preserves_complete_proposal_without_install_or_integration(real_clock_composition):
+@pytest.mark.parametrize('condition',[contract.SHORT_TASK_CONDITION,contract.TRACKING_TASK_CONDITION])
+def test_late_short_closure_preserves_complete_proposal_without_install_or_integration(real_clock_composition,condition):
     from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
     a,samples,windows,report,raw,action,calls=real_clock_composition
     actual=samples[-1]['tcp'];cube=samples[-1]['object_pose']
@@ -342,9 +343,11 @@ def test_late_short_closure_preserves_complete_proposal_without_install_or_integ
     result_path=action.parent/'RESULT.private.json';gpu_result=json.loads(result_path.read_bytes())
     gpu_result['action_sha256']=digest(action);result_path.write_text(json.dumps(gpu_result))
     a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
-        task_condition=contract.SHORT_TASK_CONDITION)
+        task_condition=condition)
     Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
-    with pytest.raises(ValueError,match='WHOLE_GENERATED_SHORT_INTENT_REJECT'):
+    reason=('WHOLE_GENERATED_TRACKING_DIAGNOSTIC_REJECT'if condition==contract.TRACKING_TASK_CONDITION
+            else'WHOLE_GENERATED_SHORT_INTENT_REJECT')
+    with pytest.raises(ValueError,match=reason):
         live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
     assert len(calls)==1 and not a.installs and not a.advances
     saved=json.loads((a.output/'LIVE_SKILL_GENERATED_PROPOSAL.private.json').read_bytes())
@@ -353,3 +356,49 @@ def test_late_short_closure_preserves_complete_proposal_without_install_or_integ
     assert screen['raw_knots']==40 and not screen['qualified'] and not screen['predicates']['open']
     failed=json.loads((a.output/'LIVE_SKILL_FAILED.private.json').read_bytes())
     assert failed['proposal_saved'] and not failed['automatic_retry']
+
+
+def test_tracking_task_and_capture_keep_distinct_identity_and_strict_score(short_pair):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    task=contract.task_document(digest(a.spec['model_path']),short.LANGUAGE,
+        time_stretch_factor=1,task_condition=contract.TRACKING_TASK_CONDITION)
+    score=contract.score_contract(time_stretch_factor=1,task_condition=contract.TRACKING_TASK_CONDITION)
+    write_json(a.spec['paused_target_task'],task);write_json(a.spec['paused_score_contract'],score)
+    a.spec.update(task_condition=contract.TRACKING_TASK_CONDITION,
+        paused_target_task_file_sha256=digest(a.spec['paused_target_task']),
+        paused_target_task_sha256=document_hash(task),
+        paused_score_contract_file_sha256=digest(a.spec['paused_score_contract']))
+    p.update(task_condition=contract.TRACKING_TASK_CONDITION,task_sha256=document_hash(task))
+    g['paused_task_sha256']=document_hash(task);bind(g,a,p);f['task']=task;a.fixture_task=task
+    assert bridge.validate_pair_spec(g)==(p,a.spec)
+    assert task['task_id']==short.TRACKING_TASK_ID and task['task_id']!=short.TASK_ID
+    assert score['actual_short_skill_score_contract']==short.score_contract()
+    capture_source_archive(f);payload,identity,_=inference.read_payload(g)
+    assert payload['language']==short.LANGUAGE and identity['task_condition']==contract.TRACKING_TASK_CONDITION
+
+
+def test_tracking_diagnostic_consumes_complete_path_but_does_not_erase_strict_failure(real_clock_composition):
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    a,samples,windows,report,raw,action,calls=real_clock_composition
+    actual=samples[-1]['tcp'];direction=samples[-1]['object_pose'][:3,3]-actual[:3,3]
+    direction/=np.linalg.norm(direction)
+    lateral=np.cross(direction,[0.,0.,1.]);lateral/=np.linalg.norm(lateral)
+    # The proposal must fit the existing fixture budget to examine tracking
+    # admission, rather than the independent earlier duration rejection.
+    progress=np.arange(40)/39
+    raw[:,:3]=actual[:3,3]+progress[:,None]*(.003*direction+.004*lateral)
+    raw[:,9]=1.
+    with action.open('wb')as f:np.savez(f,physical_H40=raw)
+    rp=action.parent/'RESULT.private.json';value=json.loads(rp.read_bytes())
+    value['action_sha256']=digest(action);rp.write_text(json.dumps(value))
+    a.spec.update(phase=pair9.PHASE,kind=pair9.KIND,live_skill_time_stretch_factor=1,
+        task_condition=contract.TRACKING_TASK_CONDITION)
+    Path(a.spec['registered_root'],'EXECUTION_SPEC.json').write_text(json.dumps(a.spec))
+    complete=live9._continue(a,report,samples,windows,task={'language':short.LANGUAGE},camera=object())
+    assert complete['exploratory_tracking_diagnostic'] and complete['all_40_knots_consumed']
+    assert complete['strict_short_proposal_failure_retained']
+    assert not complete['short_intent_screen']['qualified']
+    assert not complete['graded_short_skill_score']['approach_step_success']
+    assert complete['tracking_diagnostic_screen']['eligible_for_original_native_certificate']
+    assert not complete['full_task_success'] and not complete['target_task_success']

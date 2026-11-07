@@ -25,7 +25,9 @@ B,E=34303,66503
 ROLE='GRADED_NONCONTACT_DIAGNOSTIC'
 TASK_CONDITION='SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
 SHORT_TASK_CONDITION='GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
-TASK_CONDITIONS=(TASK_CONDITION,SHORT_TASK_CONDITION)
+TRACKING_TASK_CONDITION='GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
+SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION)
+TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
 PREDECESSOR_RESULT='1e1b0c75626cefeaf89f417cb0c1d276ec14fbc4eb473cf2b64fc238581581ae'
@@ -69,23 +71,30 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
         actual_contact_allowed=False,object_motion_allowed=False,
         measured_tracking_error_is_prediction_innovation=False,
         full_task_success_claim=False,native_safety_thresholds_changed=False)
-    if task_condition==SHORT_TASK_CONDITION:
+    if task_condition in SHORT_LANGUAGE_TASK_CONDITIONS:
         from . import fusion_graded_short_skill_v1 as short
         actual=short.score_contract()
         value.update(schema=value['schema']+'_SHORT',
             purpose='FULL_GENERATED_SHORT_INTENT_AND_MEASURED_APPROACH_STEP_AT34303_NOT_PICK_PLACE',
             actual_short_skill_score_contract=actual,
             actual_short_skill_score_contract_sha256=document_hash(actual))
+        if task_condition==TRACKING_TASK_CONDITION:
+            value.update(schema=value['schema']+'_TRACKING_DIAGNOSTIC',
+                purpose='EXPLORATORY_FULL_H40_TRACKING_WITH_UNCHANGED_STRICT_SHORT_SCORE_REPORTED_SEPARATELY',
+                strict_short_lateral_proposal_failure_is_not_tracking_admission_rejection=True,
+                tracking_admission='OPEN_TOWARD_BOUNDED_NONCONTACT_THEN_ORIGINAL_NATIVE_CERTIFICATES',
+                strict_short_task_success_required_for_native_engineering_result=False,
+                strict_short_thresholds_changed=False)
     return value
 
 def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=TASK_CONDITION):
     from .fusion_paused_observation import TASK_SCHEMA
     score=score_contract(time_stretch_factor=time_stretch_factor,task_condition=task_condition)
-    is_short=task_condition==SHORT_TASK_CONDITION
+    is_short=task_condition in SHORT_LANGUAGE_TASK_CONDITIONS
     if is_short:
-        from .fusion_graded_short_skill_v1 import LANGUAGE,TASK_ID
+        from .fusion_graded_short_skill_v1 import LANGUAGE,TASK_ID,TRACKING_TASK_ID
         need(language==LANGUAGE,'EXACT_DISTINCT_SHORT_TASK_LANGUAGE')
-    task_id=(TASK_ID if is_short else 'ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9'
+    task_id=((TRACKING_TASK_ID if task_condition==TRACKING_TASK_CONDITION else TASK_ID) if is_short else 'ORIGINAL71558_FULL_TASK_AT_GRADED_TARGET_STATE_V9'
         +('_TIME1' if time_stretch_factor==1 else ''))
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
@@ -110,7 +119,7 @@ def recipe_config(spec):
                                             source_members=SOURCE_MEMBERS)
     language=unseal(json.loads(source['source_observation_bytes']))['payload']['language']
     condition=spec['task_condition']
-    if condition==SHORT_TASK_CONDITION:
+    if condition in SHORT_LANGUAGE_TASK_CONDITIONS:
         from .fusion_graded_short_skill_v1 import LANGUAGE
         language=LANGUAGE
     task=common._json(spec['paused_target_task'],spec['paused_target_task_file_sha256'])

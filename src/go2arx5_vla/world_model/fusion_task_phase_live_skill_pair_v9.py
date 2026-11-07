@@ -20,7 +20,9 @@ BOUNDARY_STEP, ENDPOINT_STEP = 34303, 66503
 EXPERIMENT_ROLE = 'GRADED_NONCONTACT_DIAGNOSTIC'
 TASK_CONDITION = 'SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
 SHORT_TASK_CONDITION = 'GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
-TASK_CONDITIONS = (TASK_CONDITION, SHORT_TASK_CONDITION)
+TRACKING_TASK_CONDITION = 'GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
+SHORT_LANGUAGE_TASK_CONDITIONS = (SHORT_TASK_CONDITION, TRACKING_TASK_CONDITION)
+TASK_CONDITIONS = (TASK_CONDITION, *SHORT_LANGUAGE_TASK_CONDITIONS)
 SOURCE_CAMERA_RECIPE = 'SIM_EXTERNAL_WORLD_SOURCE_RIG'
 SOURCE_CAMERA_IDENTITY = '0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858'
 FRAME_MAP = 'fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1'
@@ -73,7 +75,7 @@ def _task(producer):
     condition=producer.get('task_condition')
     need(condition in TASK_CONDITIONS,'EXPLICIT_ORIGINAL_FULL_OR_NEW_SHORT_TASK')
     language=source['language']
-    if condition==SHORT_TASK_CONDITION:
+    if condition in SHORT_LANGUAGE_TASK_CONDITIONS:
         from . import fusion_graded_short_skill_v1 as short
         language=short.LANGUAGE
         score=json.loads(_bytes(producer['paused_score_contract'],producer['paused_score_contract_file_sha256']))
@@ -82,7 +84,7 @@ def _task(producer):
              and score.get('actual_short_skill_score_contract_sha256')==document_hash(short.score_contract())
              and task.get('score_contract_sha256')==document_hash(score)
              and task.get('language_provenance')=='NEW_TARGET_SHORT_SKILL_PROMPT'
-             and task.get('task_id')==short.TASK_ID,
+             and task.get('task_id')==(short.TRACKING_TASK_ID if condition==TRACKING_TASK_CONDITION else short.TASK_ID),
              'DISTINCT_SHORT_TASK_AND_ACTUAL34303_SCORE_NOT_OLD_FULL_TASK')
     need(document_hash(task) == producer['paused_target_task_sha256']
          and task.get('scene_sha256') == digest(producer['model_path'])
@@ -136,7 +138,7 @@ def validate_pair_spec(spec):
          and episode['source_observation_sha256'] == SOURCE_OBSERVATION,
          'EXACT_V9_SLOW_HALF_INITIALIZATION_MANIFEST_NOT_FULL_GRADE')
     members=SOURCE_MEMBERS
-    if pair['task_condition']==SHORT_TASK_CONDITION:
+    if pair['task_condition'] in SHORT_LANGUAGE_TASK_CONDITIONS:
         members=(*members,'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
                  'src/go2arx5_vla/world_model/fusion_short_skill.py')
     for member in members:

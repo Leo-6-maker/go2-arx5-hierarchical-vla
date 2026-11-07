@@ -8,6 +8,7 @@ from . import fusion_short_skill as original
 
 LANGUAGE = original.LANGUAGE
 TASK_ID = 'FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1'
+TRACKING_TASK_ID = 'FUSION_GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_AT34303_DIAGNOSTIC_V1'
 DECISION_STEP = 34303
 
 
@@ -66,3 +67,21 @@ def screen_proposal(program, frozen_cube_pose):
         raw_knots=40,desired_points_checked=len(path),metrics=metrics,predicates=predicates,
         actual_task_success_established=False,native_safety_established=False,
         native_execution_authorized=False,cube_use='SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT')
+
+
+def tracking_diagnostic_screen(program, frozen_cube_pose):
+    """Separate tracking examination; the strict short-task screen is retained.
+
+    A lateral task failure is observable here, not reclassified as a short
+    success. Open/toward/bounded/noncontact requirements and every original
+    native certificate remain required. This supplies no execution grant.
+    """
+    strict=screen_proposal(program,frozen_cube_pose)
+    return dict(schema='WM02_GRADED_SHORT_FULL_H40_TRACKING_DIAGNOSTIC_SCREEN_V1',
+        task_id=TRACKING_TASK_ID,strict_short_proposal_screen=strict,
+        eligible_for_original_native_certificate=all(
+            value for key,value in strict['predicates'].items() if key!='lateral'),
+        lateral_task_failure_retained=not strict['predicates']['lateral'],
+        strict_short_thresholds_changed=False,strict_short_task_success=False,
+        native_safety_established=False,native_execution_authorized=False,
+        role='EXPLORATORY_FULL_PROPOSAL_TRACKING_NOT_SHORT_TASK_QUALIFICATION')
