@@ -4,6 +4,8 @@ No model, dataset split, native admission or artifact authentication is supplied
 here. Callers must authenticate sealed collector records and join actual command
 consumption. Object/freejoint XYZ, parent IDs and future outcomes never enter
 the feature dictionary. The old four-action replay contracts are unchanged.
+For replanned MPC, V2 additionally verifies the complete preview exposure and
+its publication clock; matching V1's consumed first points alone is insufficient.
 """
 import numpy as np
 

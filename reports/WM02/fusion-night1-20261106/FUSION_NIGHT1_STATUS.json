@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1794015215.017367,
+  "snapshot_epoch": 1794016275.5845318,
   "implementation_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
   "implementation_deployed": true,
-  "actual_last_native_source_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
-  "current_native_job": null,
-  "current_neural_job": null,
+  "actual_last_native_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+  "current_native_job": "fusion-night1-bounded-h40-mechanical-s050-02",
+  "current_neural_job": "fusion-night1-bounded-h40-mechanical-s050-gpu-02",
   "current_CPU_job": null,
-  "live_process_state": "BOTH_NEW_TRACKING03_LEASES_CLOSED_PID0_NATIVE1_GPU0",
+  "live_process_state": "ACTUAL_BOTH_ACTIVE_BOUNDED_MECHANICAL_PAIR02",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 289,
   "FUSION_native_passes": 281,
@@ -281,7 +281,7 @@
     "GRADED_PROMPT_CONTROL_PROTOCOL_V2.json",
     "GRADED_PROMPT_CONTROL_IMPLEMENTATION_V2.json"
   ],
-  "next": "Keep semantic failure; separate bounded full-proposal mechanical consumption qualification from task-success claims. No prompt/seed search, no reuse of CLOSED leases or task-threshold edits.",
+  "next": "Poll the same exact specs and reconcile original CLOSED/worker/PID0 terminal records; never replay launch or patch the active ce2 source.",
   "next_executable": "python3 CORE_CONTROL_HELPER read_graded_v9_view_readonly_preflight01.py 360",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
@@ -418,7 +418,7 @@
   "new_source_rig_query_implementation_report": "SOURCE_RIG_QUERY_IMPLEMENTATION_V3.json",
   "actual_last_CPU_source_sha": "94b6b789cc4789fb1c9202d1147b1bee56c79895",
   "source_camera_CPU_actual_report": "SOURCE_CAMERA_CPU_ACTUAL_V1.json",
-  "actual_last_GPU_source_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
+  "actual_last_GPU_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
   "last_source_posture_query_actual_report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
   "source_posture_frame_audit_report": "SOURCE_POSTURE_FRAME_AUDIT_ACTUAL_V1.json",
   "first_current_scientific_block": "ValueError: TASK_PHASE_LIVE_SKILL_V8_WHOLE_GENERATED_TRACKING_DIAGNOSTIC_REJECT_KEEP_ALL40_NO_INSTALL",
@@ -725,5 +725,7 @@
     "remote_readonly_archive_check": "SSH_CONNECTION_TIMEOUT_EXIT255",
     "new_native_integrations": 0
   },
-  "current_operational_block": null
+  "current_operational_block": null,
+  "bounded_mechanical_pair_v1": "BOUNDED_MECHANICAL_PAIR_LAUNCH_ACTUAL_V1.json",
+  "future_full_preview_features": "LIVE_PROGRAM_CAUSAL_FEATURES_V2_IMPLEMENTATION.json"
 }
