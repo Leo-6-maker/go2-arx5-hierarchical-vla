@@ -135,3 +135,19 @@ def test_misspelled_cpu_site_cannot_fall_through_generic_runtime(tmp_path):
         with runtime.admitted_run(path, 'fit-01', q.PROFILE, root/'fit-01'):
             raise AssertionError('must reject before workload')
     assert not (root/'fit-01').exists()
+
+
+def test_c02_endpoint_is_separate_and_requires_measured_qualification():
+    saved=dict(expected_native_ticks=44703,native_step=44703,scene=dict(sha256=q.C02_SCENE))
+    spec=dict(recipe=q.C02_RECIPE)
+    native_spec=dict(phase=q.C02_PHASE,max_ticks=44703)
+    episode=dict(scene_id='FUSION_SOURCE_STATE_C02_V1',parent='FUSION_SOURCE_STATE_C02_PRIVILEGED_STATIC_DESIGN',split='DIAGNOSTIC')
+    native=dict(reference_qualification=dict(all_40_knots_consumed=True,actual_initialization_feedback_decisions=16,
+        C02_initialization_qualification=dict(qualified=True)))
+    q.endpoint_contract(spec,saved,native_spec,episode,native)
+    native['reference_qualification']['C02_initialization_qualification']['qualified']=False
+    with pytest.raises(ValueError,match='ACTUAL_C02_SOURCE_STATE_QUALIFIED'):
+        q.endpoint_contract(spec,saved,native_spec,episode,native)
+    spec['recipe']=q.RECIPE
+    with pytest.raises(ValueError,match='ONE_ALLOWED_ACTUAL_T06'):
+        q.endpoint_contract(spec,saved,native_spec,episode,native)

@@ -176,7 +176,8 @@ def validate_source_camera_cpu(spec):
     if (spec.get('execution_site') != 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
             or spec.get('profile') != 'wm02-fusion-source-camera-qualification-cpu'
             or spec.get('kind') != 'FUSION_SOURCE_CAMERA_QUALIFICATION'
-            or spec.get('recipe') != 'WM02_FUSION_ONE_SEALED_TARGET_SOURCE_CAMERA_CPU_V1'
+            or spec.get('recipe') not in ('WM02_FUSION_ONE_SEALED_TARGET_SOURCE_CAMERA_CPU_V1',
+                                        'WM02_FUSION_C02_SEALED_SOURCE_CAMERA_CPU_V1')
             or spec.get('physics') is not False or spec.get('device') != 'cpu'
             or spec.get('camera_recipe') != RIG or type(spec.get('capture_count')) is not int or spec['capture_count'] != 1
             or spec.get('source_camera_identity_sha256') != SOURCE_IDENTITY_SHA256

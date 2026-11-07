@@ -27,6 +27,9 @@ PROFILE = 'wm02-fusion-source-camera-qualification-cpu'
 KIND = 'FUSION_SOURCE_CAMERA_QUALIFICATION'
 SITE = 'CORE_FUSION_SOURCE_CAMERA_QUALIFICATION_CPU'
 RECIPE = 'WM02_FUSION_ONE_SEALED_TARGET_SOURCE_CAMERA_CPU_V1'
+C02_RECIPE = 'WM02_FUSION_C02_SEALED_SOURCE_CAMERA_CPU_V1'
+C02_SCENE = 'f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf'
+C02_PHASE = 'collect-target-fusion-c02-source-state-feedback-v2'
 ENTRY = 'scripts/wm02/qualify_fusion_source_camera.py'
 SCENE = '40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2'
 DESCRIPTORS = ('execution_spec', 'episode_manifest', 'native_result', 'worker_exit', 'lease', 'journal', 'scene')
@@ -71,6 +74,30 @@ def _read(spec, descriptor):
     return path, raw
 
 
+def endpoint_contract(spec, saved, native_spec, episode, native):
+    """C02 is a distinct diagnostic course; original T06 rules are unchanged."""
+    ticks = saved['expected_native_ticks']
+    need(type(ticks) is int and type(saved['native_step']) is int
+         and saved['native_step'] == native_spec.get('max_ticks') == ticks,
+         'EXACT_SAVED_ENDPOINT_CLOCK')
+    if spec.get('recipe') == C02_RECIPE:
+        need((native_spec['phase'], ticks) == (C02_PHASE, 44703)
+             and saved['scene']['sha256'] == C02_SCENE
+             and episode.get('scene_id') == 'FUSION_SOURCE_STATE_C02_V1'
+             and episode.get('parent') == 'FUSION_SOURCE_STATE_C02_PRIVILEGED_STATIC_DESIGN'
+             and episode.get('split') == 'DIAGNOSTIC', 'EXACT_SEPARATE_C02_ENDPOINT')
+        q = native.get('reference_qualification') or {}
+        need(q.get('all_40_knots_consumed') is True
+             and q.get('actual_initialization_feedback_decisions') == 16
+             and q.get('C02_initialization_qualification', {}).get('qualified') is True,
+             'ACTUAL_C02_SOURCE_STATE_QUALIFIED_NOT_STATIC_OR_FAILED_INITIALIZATION')
+        return
+    need(spec.get('recipe') == RECIPE and (native_spec['phase'], ticks) in _ALLOWED
+         and saved['scene']['sha256'] == SCENE
+         and episode.get('scene_id') == 'F2T06' and episode.get('split') == 'TRAIN'
+         and episode.get('parent') == 'FUSION_F2_T06_ROOT_XY_V1', 'ONE_ALLOWED_ACTUAL_T06_SEALED_ENDPOINT')
+
+
 def validate_inputs(spec):
     saved = spec['saved_native']
     need(type(saved) is dict and set(saved) == set(DESCRIPTORS) | {
@@ -91,12 +118,7 @@ def validate_inputs(spec):
          and native_spec['episode_manifest_sha256'] == saved['episode_manifest']['sha256'],
          'EXACT_SEALED_RUN_MEMBER_PATH_JOINS')
     ticks = saved['expected_native_ticks']
-    need(type(ticks) is int and type(saved['native_step']) is int and saved['native_step'] == ticks
-         and (native_spec['phase'], ticks) in _ALLOWED
-         and native_spec.get('max_ticks') == ticks
-         and saved['scene']['sha256'] == SCENE
-         and episode.get('scene_id') == 'F2T06' and episode.get('split') == 'TRAIN'
-         and episode.get('parent') == 'FUSION_F2_T06_ROOT_XY_V1', 'ONE_ALLOWED_ACTUAL_T06_SEALED_ENDPOINT')
+    endpoint_contract(spec, saved, native_spec, episode, native)
     need(lease.get('status') == 'CLOSED' and lease.get('worker_exit_code') == 0
          and lease.get('run_uuid') == root.name
          and lease.get('spec_sha256') == saved['execution_spec']['sha256']
@@ -167,12 +189,19 @@ def run(spec, output):
             state_path = output/'STATE.private.bin'; write_bytes(state_path, raw)
             calibration_path = output/'images/000000-calibration.json'
             images = {name: output/'images'/f'000000-{name}.png' for name in ('body_rgb', 'wrist_rgb')}
+            language = 'Source camera geometry qualification on a sealed actual target packet.'
+            if spec.get('recipe') == C02_RECIPE:
+                from scripts.pi0292.relay_protocol import unseal
+                _, source_raw = _read(spec, spec['source_observation'])
+                need(spec['source_observation']['sha256'] == '71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594',
+                     'UNCHANGED_SOURCE_INSTRUCTION_DOCUMENT')
+                language = unseal(json.loads(source_raw))['payload']['language']
             bound = binding.bind(actual_state=state, native_state_bytes=state_path.read_bytes(),
                 expected_state_sha256=digest(state_path), capture=saved,
                 calibration_bytes=calibration_path.read_bytes(), expected_calibration_sha256=digest(calibration_path),
                 image_bytes={k: p.read_bytes() for k, p in images.items()},
                 expected_image_sha256={k: digest(p) for k, p in images.items()},
-                language='Source camera geometry qualification on a sealed actual target packet.',
+                language=language,
                 snapshot_uuid=str(uuid.uuid4()), camera_adapter=recorder.camera_adapter)
             shadow_inference_payload(bound)
             bound_path = output/'BOUND_OBSERVATION.private.json'; write_json(bound_path, bound)
@@ -205,6 +234,8 @@ def run(spec, output):
             online_closed_loop=False, exact_controller_restore=False, source_images_supplied=False,
             native_camera_equivalence=False, image_domain_equivalence=False,
             target_task_success=False, native_execution_authorized=False,
+            capture_recipe=spec['recipe'],
+            initialization_qualification_is_not_GR00T_task_success=True,
             wall_s=time.monotonic()-start, CPU_s=time.process_time()-cpu)
         write_json(output/'RESULT.private.json', result)
         if close_failure is not None:
