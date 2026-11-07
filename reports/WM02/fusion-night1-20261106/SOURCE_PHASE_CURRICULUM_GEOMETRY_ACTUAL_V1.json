@@ -1,0 +1,88 @@
+{
+  "schema": "WM02_SOURCE_PHASE_CURRICULUM_SAVED_POSE_GEOMETRY_ACTUAL_V1",
+  "source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+  "pins": {
+    "spec_sha256": "52a6b5f15dfea62fe5fb70dd86f037a1ffdec05efab9f742bdaf3b1a1754e845",
+    "result_sha256": "e7bdf2561b22d515d222718a1f13871d85fa70be5360634779d43f3a706affdf",
+    "teacher_sha256": "9bf18802fd6f0ae11ebc1bca38430b956e23ac0d65f8a64e01afac5cc51df4d0",
+    "journal_sha256": "5b1829e5cf7402079da8480448aacffae5e74d75a2ff2f1cf1c85c9c34dc2eca"
+  },
+  "original_scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "rows": [
+    {
+      "name": "ORIGINAL_T06",
+      "saved_pose_FK_calls": 34303,
+      "direct_narrow_phase_calls": 95073,
+      "robot_task_interpenetration_pose_count": 0,
+      "first_interpenetration_native_step": null,
+      "deepest_interpenetration_m": 0.0,
+      "new_integrations": 0,
+      "contact_free_at_saved_poses": true,
+      "new_world_dynamics_or_native_qualification": false
+    },
+    {
+      "name": "TRANSLATED_ORIGINAL_TABLE",
+      "saved_pose_FK_calls": 34303,
+      "direct_narrow_phase_calls": 233638,
+      "robot_task_interpenetration_pose_count": 0,
+      "first_interpenetration_native_step": null,
+      "deepest_interpenetration_m": 0.0,
+      "new_integrations": 0,
+      "contact_free_at_saved_poses": true,
+      "new_world_dynamics_or_native_qualification": false
+    },
+    {
+      "name": "SEPARATE_120MM_PEDESTAL",
+      "saved_pose_FK_calls": 34303,
+      "direct_narrow_phase_calls": 25113,
+      "robot_task_interpenetration_pose_count": 0,
+      "first_interpenetration_native_step": null,
+      "deepest_interpenetration_m": 0.0,
+      "new_integrations": 0,
+      "contact_free_at_saved_poses": true,
+      "new_world_dynamics_or_native_qualification": false
+    }
+  ],
+  "source_relative_cube_vector_m": [
+    5.118904796153068e-07,
+    -4.4582175856566764e-07,
+    -0.0799996963193938
+  ],
+  "candidate_cube_target_world_m": [
+    0.3518029678155171,
+    -0.04019268373083118,
+    0.5709067579761146
+  ],
+  "original_pose_data_are_not_new_world_trajectories": true,
+  "no_training_labels_generated": true,
+  "old_140mm_noncontact_domain_not_reclassified": true,
+  "new_scene_dynamic_admission": false,
+  "files_written": 0,
+  "MuJoCo_models_loaded": 4,
+  "WBC_executors_started": 0,
+  "neural_models_loaded": 0,
+  "new_queries": 0,
+  "new_updates": 0,
+  "wall_s": 10.236610891763121,
+  "CPU_s": 8.727768732,
+  "audit_source_sha": "5aa220d52b7ffe83c219f1c41e22b9d872fc53d1",
+  "audit_module_sha256": "b388a9c3b555f29dcdef9ceac41d0c00bc4618a58bde67f8de52245efcb44436",
+  "command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/audit_source_phase_curriculum_geometry01.py\" 180",
+  "exit_code": 0,
+  "original_native_transitions_added": 0,
+  "task_or_layout_successes_added": 0,
+  "tests": [
+    {
+      "passed": 3,
+      "exit_code": 0,
+      "optimized": false,
+      "log_sha256": "35a1d58c48b74e0e3e7b158b5545a9552f2371583edfef1ea0d022c59f5a0a1c"
+    },
+    {
+      "passed": 3,
+      "exit_code": 0,
+      "optimized": true,
+      "log_sha256": "df02b7148d9ce61815c43df6acda84461fad8072e240c0407f042c5960d3fad2"
+    }
+  ]
+}
