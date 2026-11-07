@@ -133,7 +133,7 @@ class Sampler:
         self.cursor,self.epoch = value['cursor'],value['epoch']
 
 
-def save_checkpoint(path,model,optimizer,sampler,*,step,provenance):
+def save_checkpoint(path,model,optimizer,sampler,*,step,provenance,training_state=None):
     import torch
     from .neural_training import rng_state
     need(type(step) is int and step > 0 and isinstance(provenance,dict) and provenance,
@@ -142,7 +142,8 @@ def save_checkpoint(path,model,optimizer,sampler,*,step,provenance):
     with Path(path).open('xb') as stream:
         torch.save(dict(schema=SCHEMA,model=model.state_dict(),optimizer=optimizer.state_dict(),
             sampler=sampler.state(),rng=rng_state(),step=step,provenance=provenance,
-            export_schema=SCHEMA,export_weights=exported,GR00T_updates=0),stream)
+            export_schema=SCHEMA,export_weights=exported,GR00T_updates=0,
+            training_state=copy.deepcopy(training_state)),stream)
         stream.flush();os.fsync(stream.fileno())
 
 

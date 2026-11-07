@@ -62,3 +62,29 @@ def test_cannot_substitute_an_unrelated_or_incomplete_failure(failure,monkeypatc
 def test_changed_native_failure_bytes_are_rejected(failure):
     spec,value,path=failure;value['failure']='changed';put(path,value)
     with pytest.raises(ValueError,match='EXACT_RETAINED_FULL1'):c.validate_trace_capacity_failure(spec)
+
+
+def test_new_task_scene_keeps_historical_overflow_failed(failure,monkeypatch):
+    from go2arx5_vla.world_model import stable_task_scene_v1 as current
+    from go2arx5_vla.world_model import stable_task_layout_static_v1 as layouts
+    spec,value,path=failure
+    historical=spec['model_path'];pin=digest(historical)
+    previous=path.parent.parent/'EXECUTION_SPEC.json'
+    put(previous,dict(max_ticks=29753,model_path=historical))
+    lease=path.parent.parent/'control/LEASE.json'
+    put(lease,dict(status='CLOSED',worker_exit_code=1,spec_sha256=digest(previous)))
+    spec=dict(spec,phase=current.PHASE,model_path='new-scene-not-historical')
+    seen=[]
+    monkeypatch.setattr(current,'scene',lambda s:seen.append(s))
+    monkeypatch.setattr(layouts,'BASE_SCENE',pin)
+    assert c.validate_trace_capacity_failure(spec,historical_scene_sha256=pin)==value
+    assert seen==[spec]
+    assert value['status']=='NATIVE_STAGE_FAILED_PRESERVED'
+    with pytest.raises(ValueError,match='EXACT_HISTORICAL_T06'):
+        c.validate_trace_capacity_failure(spec,historical_scene_sha256='0'*64)
+
+
+def test_unregistered_scene_cannot_use_new_task_route(failure):
+    spec,_,_=failure
+    with pytest.raises(ValueError,match='DISTINCT_DIAGNOSTIC_QUERY_ONLY_SCOPE'):
+        c.validate_trace_capacity_failure(dict(spec,phase='unknown'),historical_scene_sha256='0'*64)
