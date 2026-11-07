@@ -219,6 +219,20 @@ def test_shadow_failure_preserves_attempt_without_any_new_native_effect(flow,mon
     assert result['complete_suffix_atoms']==0 and result['status']=='FAILED_RETAINED_NO_RETRY'
 
 
+def test_post_query_hold_preserves_raw_proposal_without_claiming_its_execution(flow):
+    from dataclasses import replace
+    from test_fusion_program_reference_intervention_v1 import document
+    adapter,program,samples,windows=flow
+    hold=replace(program,reference_intervention=document('HOLD'));adapter.program=hold
+    report,_,_=run((adapter,hold,samples,windows))
+    assert report['post_query_HOLD_control'] is True
+    assert report['complete_suffix_atoms']==(adapter.spec['max_ticks']-B)//25
+    assert report['all_40_knots_consumed'] is False
+    assert report['raw_knot_consumed']==[False]*40
+    np.testing.assert_array_equal(report['original_raw_H40'],program.decoded_H40)
+    assert report['command_clips']==0 and report['VLA_inferences']==0
+
+
 def test_measurement_observer_rejects_before_any_new_install(flow):
     adapter,program,samples,windows=flow
     def reject(sample):

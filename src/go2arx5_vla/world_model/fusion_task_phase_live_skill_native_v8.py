@@ -107,9 +107,13 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             raw=saved['physical_H40'].copy()
         actual=np.asarray(samples[-1]['tcp'],float)
         anchor=np.asarray(adapter.reference_history[-1]['pose'],float)
+        if spec.get('program_reference_intervention') is not None:
+            from .fusion_program_reference_intervention_v1 import validate_scope
+            validate_scope(spec)
         program=TrajectoryAdaptation(raw,matrix10(payload['state_eef10']),
             spec['paused_source_from_target'],actual,anchor,adapter.base_pose_hold,
-            1.,time_stretch_factor=factor)
+            1.,time_stretch_factor=factor,
+            reference_intervention=spec.get('program_reference_intervention'))
         proposal=dict(schema='WM02_ACTUAL_GENERATED_LIVE_PROPOSAL_'+version,
             query=query,action_npz_sha256=digest(action),observation_identity=identity,
             original_decoded_physical_H40=raw.tolist(),adaptation=program.evidence(),
@@ -184,6 +188,14 @@ def _continue(adapter,report,samples,windows,*,task,camera):
             paused_assisted=True,online_VLA=False,online_closed_loop=False,
             feedback_state106_contains_privileged_simulator_fields_not_deployable_policy_input=True,
             query_and_suffix_wall_s=time.monotonic()-start,query_and_suffix_CPU_s=time.process_time()-cpu)
+        if program.reference_intervention is not None:
+            hold=program.reference_intervention.candidate=='HOLD'
+            complete.update(reference_intervention=program.reference_intervention.document(),
+                generated_raw_H40_intent_retained=True,post_query_HOLD_control=hold,
+                actual_VLA_commands=0 if hold else 1,VLA_commands=0 if hold else 1,
+                VLA_action_installations=0 if hold else len(suffix['install_attempts']),
+                actual_reference_installations=len(suffix['install_attempts']),
+                full_H40_intent_is_an_executed_skill=not hold)
         for k in ('original_Processor_decodes','Processor_decodes'):complete.pop(k,None)
         if is_short:
             from . import fusion_graded_short_skill_v1 as short

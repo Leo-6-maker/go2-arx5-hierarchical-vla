@@ -1,0 +1,23 @@
+{
+  "schema": "WM02_T02_SOURCE_REUSE_HELPER_FAILURE_ACTUAL_V1",
+  "epoch": 1794024103.8822834,
+  "exit_code": 1,
+  "first_failure": "FRESH_COMMITTED_LIVE_SOURCE_BEFORE_COPY",
+  "mechanism": "The local AST preparation helper only visited direct function children. Its nested source-stage function retained the copy branch, which correctly refused an existing immutable source. The new helper replaces and structurally verifies the actual nested function.",
+  "SOURCE_INTENT_sha256": "8849024345cb5fe3188d9cb987014ebc60a4caaca4a47532136befcea0825acc",
+  "registered": false,
+  "roots_created": false,
+  "workers_started": false,
+  "source_changed": false,
+  "integrations": 0,
+  "queries": 0,
+  "model_updates": 0,
+  "unknown_cost": "Controller wrapper CPU/wall was not instrumented; no zero cost is inferred.",
+  "old_key_replayed": false,
+  "repaired_helper": "dispatch_live_program_train_t02_v2_03.py",
+  "repair_native_and_GPU_launch_exit_codes": [
+    0,
+    0
+  ],
+  "source_reuse_bytes_written": 0
+}

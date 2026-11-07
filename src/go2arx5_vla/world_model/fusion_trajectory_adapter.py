@@ -187,6 +187,7 @@ class TrajectoryAdaptation:
     base_pose_hold: object
     geometry_scale: float
     time_stretch_factor: int = field(default=1, kw_only=True)
+    reference_intervention: object = field(default=None, kw_only=True)
     mapped_H40: np.ndarray = field(init=False, repr=False)
     desired_knots: np.ndarray = field(init=False, repr=False)
     reference_knots: np.ndarray = field(init=False, repr=False)
@@ -264,6 +265,16 @@ class TrajectoryAdaptation:
         # Preserve the declared reference knots exactly, including initial pose.
         reference_path[0] = _rows(initial[None], [WORKING_OPEN_FRACTION])[0]
         reference_path[list(indices)] = reference_knots
+        if self.reference_intervention is not None:
+            from .fusion_program_reference_intervention_v1 import parse,apply
+            intervention=parse(self.reference_intervention)
+            object.__setattr__(self,'reference_intervention',intervention)
+            reference_path=apply(reference_path,intervention)
+            reference_knots=reference_path[list(indices)].copy()
+            limits=_geometry(reference_path,initial)
+            _need(limits['maximum_translation_speed_m_s']<=MAX_TRANSLATION_SPEED_M_S+1e-12
+                  and limits['maximum_discrete_translation_acceleration_m_s2']<=MAX_TRANSLATION_ACCELERATION_M_S2+1e-12,
+                  'DECLARED_REFERENCE_INTERVENTION_EXCEEDS_UNCHANGED_ADAPTER_RATES')
         for name, value in dict(mapped_H40=_rows(mapped_poses, grip),
                                 mapped_query_TCP=mapped_query, query_to_decision=relocation,
                                 desired_knots=desired_knots, reference_knots=reference_knots,
@@ -377,6 +388,15 @@ class TrajectoryAdaptation:
                 value["clock"].pop(key)
             for key in ("time_stretch_factor", "stretched_from", "geometry_changed_by_time_stretch"):
                 value["retiming"].pop(key)
+        if self.reference_intervention is not None:
+            hold=self.reference_intervention.candidate=='HOLD'
+            value.update(schema='WM02_FULL_H40_INTENT_DECLARED_REFERENCE_INTERVENTION_V1',
+                recipe='FULL_H40_INTENT_UNCHANGED_WITH_EXPLICIT_POST_QUERY_REFERENCE_INTERVENTION_V1',
+                reference_intervention=self.reference_intervention.document(),
+                raw_desired_path_unchanged=True,raw_H40_installed_as_skill=not hold,
+                post_query_HOLD_control=hold,
+                reference_intervention_is_native_qualification=False,
+                raw_intent_is_executed_expert_label=False)
         return value
 
 

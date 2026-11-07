@@ -1,0 +1,176 @@
+{
+  "schema": "WM02_POST_QUERY_REFERENCE_RESPONSE_PANEL_V1",
+  "registered_epoch": 1794023625.477389,
+  "status": "PRE_REGISTERED_BEFORE_ANY_NEW_PANEL_SCOPE",
+  "purpose": "Separate actual post-query HOLD motion from full generated-program response, then identify small explicit XY reference effects. This is not a replay of the old C10 HOLD contract.",
+  "assignments": [
+    {
+      "parent": "T06_POST_QUERY_RESPONSE_QH01",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qh01-01",
+      "GPU_run": "fusion-night1-program-response-qh01-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "HOLD",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_POST_QUERY_RESPONSE_QX01",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qx01-01",
+      "GPU_run": "fusion-night1-program-response-qx01-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_PLUS_050",
+        "offset_target_xy_m": [
+          0.0005,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_POST_QUERY_RESPONSE_QX02",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qx02-01",
+      "GPU_run": "fusion-night1-program-response-qx02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_MINUS_050",
+        "offset_target_xy_m": [
+          -0.0005,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_POST_QUERY_RESPONSE_QY01",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qy01-01",
+      "GPU_run": "fusion-night1-program-response-qy01-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_PLUS_050",
+        "offset_target_xy_m": [
+          0.0,
+          0.0005
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_POST_QUERY_RESPONSE_QY02",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qy02-01",
+      "GPU_run": "fusion-night1-program-response-qy02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_MINUS_050",
+        "offset_target_xy_m": [
+          0.0,
+          -0.0005
+        ],
+        "ramp_atoms": 16
+      }
+    }
+  ],
+  "reused_original_TRAIN": [
+    {
+      "run": "fusion-night1-live-program-train-t01-repair-01",
+      "native_result_sha256": "f50afebca86a20fa7c6167a473a0c8d9af0f2e90a1811178278101b6869efbe4",
+      "role": "ORIGINAL_TRAIN_NOMINAL_NO_RELABELLING"
+    },
+    {
+      "run": "fusion-night1-live-program-train-t02-01",
+      "status": "ACTIVE_AT_PREREGISTRATION_ROLE_STAYS_TRAIN"
+    }
+  ],
+  "domain": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "initialization_grade": 0.5,
+    "B": 34303,
+    "E": 66503,
+    "qualified_native_slots": 1,
+    "sequence": "HOLD_GATE_THEN_PREDECLARED_XPLUS_XMINUS_YPLUS_YMINUS",
+    "same_frozen_GR00T_checkpoint": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "query_seed": 366104,
+    "raw_H40_retained": true,
+    "raw_H40_geometry_scale": 1.0,
+    "time_stretch_factor": 1,
+    "original_Processor_decode_count": 1,
+    "reference_variant": "HOLD_EXPLICITLY_NOT_VLA_EXECUTION_OR_FIXED_16_ATOM_QUINTIC_XY_RAMP",
+    "maximum_reference_offset_m": 0.0005,
+    "reference_offset_is_WBC_change": false,
+    "physics_dt_s": 0.002,
+    "hidden_controller_exact_fork": false,
+    "independent_restarts_in_one_layout": true
+  },
+  "hold_gate": {
+    "actual_query_and_closed_worker_required": true,
+    "metric": "MAX_ACTUAL_TCP_DISPLACEMENT_FROM_B_DURING_FIRST16_CONFIRMED_HOLD_ATOMS",
+    "maximum_m": 0.0002,
+    "all_original_safety_checks_required": true,
+    "failed_gate": "Do not launch the four small-offset cases. Diagnose actual query/WBC/reference continuity, or continue independent lawful code/forecast work; preserve the result.",
+    "all40_generated_skill_consumption_claim": false,
+    "HOLD_transitions_are_executed_reference_labels_not_expert_actions": true
+  },
+  "world_model_followup": {
+    "real_smoke_already_completed": true,
+    "smoke_actual_updates": 600,
+    "smoke_actual_restore_probes": 3,
+    "endpoint_updates_per_neural_arm": 2000,
+    "seeds": [
+      366104,
+      366105,
+      366106
+    ],
+    "arms": [
+      "RAW",
+      "SCALED",
+      "NO_FUTURE_ACTION"
+    ],
+    "same_capacity_and_sampler": true,
+    "normalizers_and_fits_only_TRAIN": true,
+    "strong_controls": [
+      "ZERO_DISPLACEMENT",
+      "PAST_CONSTANT_VELOCITY",
+      "TRAIN_MEAN_RESPONSE",
+      "TRAIN_RIDGE_FULL_PROGRAM",
+      "TRAIN_RIDGE_NO_FUTURE_ACTION"
+    ],
+    "neural_model_must_win": false,
+    "moving_and_HOLD_metrics_separate": true,
+    "overlapping_anchors_are_independent": false
+  },
+  "prospective_DEV": {
+    "status": "REGISTER_SEPARATE_FRESH_SCOPE_AFTER_MODEL_FREEZE",
+    "suggested_interpolating_cases": [
+      "X_PLUS_025",
+      "X_MINUS_025",
+      "Y_PLUS_025",
+      "Y_MINUS_025"
+    ],
+    "prediction_saved_before_effect": true,
+    "DEV_not_used_for_fitting": true,
+    "physical_reference_selection_requires_further_pre_effect_typed_gate": true,
+    "task_and_WM_control_gain_not_yet_established": true
+  },
+  "preservation": {
+    "old_DIAGNOSTIC_not_TRAIN": true,
+    "old_failed_and_unstarted_Journal_records_retained": true,
+    "completed_C10_sampler_not_repeated": true,
+    "no_CLOSED_lease_reuse": true,
+    "active_capsules_immutable": true,
+    "WBC_and_original_native_safety_frozen": true,
+    "no_official_Actor_or_Critic": true,
+    "no_H200_GPU_physics_or_distributed": true,
+    "original_cutoff_epoch": 1794051261.7397933,
+    "deadline_extension": false
+  }
+}

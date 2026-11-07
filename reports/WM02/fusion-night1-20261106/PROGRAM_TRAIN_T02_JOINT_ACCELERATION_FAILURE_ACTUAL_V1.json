@@ -1,0 +1,182 @@
+{
+  "schema": "WM02_PROGRAM_TRAIN_T02_JOINT_ACCELERATION_FAILURE_ACTUAL_V1",
+  "epoch": 1794024103.8817837,
+  "source_sha": "e0fff8775760c93c32f02e182e912462c67d51ea",
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-live-program-train-t02-gpu-01",
+      "spec_sha256": "bf64b16f82de4d7267a1a72e68da75b42d94548a09acaf88aa69ee1a8f4cf1a0",
+      "lease_sha256": "89803119da540362e4f34d40d6d6efc9320bb286701ea07d161611f7194e28c1",
+      "worker_sha256": "5fbcc03fde7abae292fd3e01bd49df39204ce7e0ce41c2bfff20724e548bedaf",
+      "result_sha256": "6fcb5025fd26494d456f2cf97985642b2a6e6e16b6a009a6b537af2d1c5f9487",
+      "exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-live-program-train-t02-01",
+      "spec_sha256": "86ecb33302ecf0544cf041e7d7fdb64c16b71d670acbbb8d3c7b73584e07b5ad",
+      "lease_sha256": "2db48c66522baac39519d4f7fb61fa499316a837936879c177c6475b957e547b",
+      "worker_sha256": "7b519632043380de6161fd95650ad1456bad6d6b15acdde8cd338af1a8086dd5",
+      "result_sha256": "66aeeceddcbf1f4ebe1df1477d13b7466aac3d49c0e2ca759601ca16995a968a",
+      "exit_code": 1,
+      "MainPID": 0
+    }
+  },
+  "assignment": {
+    "candidate": "UNMODIFIED_NOMINAL_H40",
+    "panel_sha256": "1ac2cde104927d6dc5a53c7efef8b715d606d6c5d0930ffa9231f31389d19536",
+    "parent": "T06_NEW_TRAIN_RESTART_T02",
+    "restart_index": 1,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "actual": {
+    "native_integrations": 41653,
+    "complete_atomic_transitions": 1666,
+    "partial_native_ticks": 3,
+    "complete_prefix_atoms": 1272,
+    "generated_suffix_transitions": 294,
+    "completed_queries": 1,
+    "all40_generated_knots_consumed": false,
+    "new_WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "full_tasks": 0
+  },
+  "first_failure": "ORIGINAL_JOINT_ACCELERATION_REJECT_BEFORE_NEXT_INSTALL",
+  "rejected_complete_preview": {
+    "elapsed_atom": 294,
+    "native_step": 41653,
+    "installed_or_executed": false,
+    "actual_previous_reference_history_used": true
+  },
+  "original_static_certificate_diagnosis": {
+    "audit": {
+      "schema": "WM02_T02_REJECTED_ORIGINAL_CERTIFICATE_DIAGNOSIS_V1",
+      "source_sha": "e0fff8775760c93c32f02e182e912462c67d51ea",
+      "native_step": 41653,
+      "rejection": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "original_certifier_locals": {
+        "max_joint_acceleration_rad_s2": 1.0131112362513406,
+        "signed_worst_rad_s2": -1.0131112362513406,
+        "max_joint_speed_rad_s": 0.16352352147402271,
+        "worst_joint": "x5_joint3",
+        "middle_preview_index": 34,
+        "involves_true_executed_history": false,
+        "points": 1051,
+        "IK_iterations": 2105
+      },
+      "history_end_steps": [
+        41628,
+        41653
+      ],
+      "history_is_actual_executed_commands": true,
+      "full_rejected_H40_points": 40,
+      "cloned_MuJoCo_FK_calls": 3157,
+      "model_loads": 1,
+      "physics_integrations": 0,
+      "integrations_attempted": 0,
+      "action_installations": 0,
+      "registrations": 0,
+      "site_writes": 0,
+      "original_threshold_rad_s2": 1.0,
+      "dt_s": 0.002,
+      "source_imports": 30,
+      "original_desired_H16_displacement_mm": 10.701456280716112,
+      "whole_raw_motion_end_atom": 400,
+      "uniform_time2_required_atoms_with_tail": 808,
+      "registered_suffix_atoms": 1288,
+      "uniform_time2_native_qualification": "NOT_RUN_NOT_A_PASS",
+      "wall_s": 1.0895895981229842,
+      "CPU_s": 1.020699094
+    },
+    "child_exit_code": 0,
+    "wall_s": 1.2116307723335922,
+    "child_CPU_s": 1.117514,
+    "site_writes": 0,
+    "new_physics_integrations": 0
+  },
+  "static_audit_receipt_sha256": "0268b6ec13606465473d867978f5de4899bb7d88ecbf08a0766c6c67f80eba1f",
+  "safety": {
+    "shutdown_clean": true,
+    "outer_guard_rejections": 0,
+    "original_warning_samples": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 305437,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 305437
+    },
+    "all_four_children_exit_zero": true,
+    "WBC_changed": false,
+    "original_threshold_rad_s2": 1.0,
+    "physics_dt_s": 0.002
+  },
+  "data": {
+    "native_result_sha256": "66aeeceddcbf1f4ebe1df1477d13b7466aac3d49c0e2ca759601ca16995a968a",
+    "segment_sha256": "9cb4ca31edc19a36e024a89488921c18b61e4f397290163a8072d3f0c6f0b310",
+    "segment_bytes": 20404223,
+    "initialization_sha256": "9f1efa6fdb6d35f3e50c989096c416d7de13942866ef98c10b8a4f0fe1ccc071",
+    "decision_sha256": "e9cdb051a45acd32316972a2983420ab4aece03973b40f4e0afc4daa714f38fb",
+    "action_npz_sha256": "745035ec0ffe670799fbde31739f2e91eb5df0ae8e9d0d54bc21b2ba537795f2",
+    "partial_confirmed_transitions_are_retained": true,
+    "unexecuted_suffix_is_not_labels": true
+  },
+  "cost": {
+    "source_staging": {
+      "CPU_s": 0.26168639199999966,
+      "actual_source_bytes_written": 0,
+      "copied_parent_bytes": 0,
+      "copied_parent_members": 0,
+      "overlay_members": 0,
+      "overlay_written_bytes": 0,
+      "reused_source_members": 3458,
+      "source_reused": true,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 0.5088266157545149
+    },
+    "workers": {
+      "gpu": {
+        "worker": {
+          "CPU_s": null,
+          "child_CPU_s": 113.85073399999999,
+          "exit_code": 0,
+          "wall_s": 435.9038438280113
+        },
+        "systemd_CPU_s": 114.200364,
+        "host_peak_bytes": 4543766528
+      },
+      "native": {
+        "worker": {
+          "CPU_s": 229.07298850299998,
+          "child_CPU_s": 849.355118,
+          "exit_code": 1,
+          "wall_s": 533.2946412931196
+        },
+        "systemd_CPU_s": 1084.338754,
+        "host_peak_bytes": 2119131136
+      }
+    },
+    "systemd_CPU_overlaps_workers": true
+  },
+  "counts_after": {
+    "FUSION_attempts": 293,
+    "FUSION_passes": 283,
+    "FUSION_failures": 10,
+    "FUSION_native_ticks": 1718854,
+    "with_PILOT2_attempts": 947,
+    "with_PILOT2_passes": 932,
+    "with_PILOT2_failures": 15,
+    "with_PILOT2_native_ticks": 4706147,
+    "VLA_queries": 15,
+    "WM_main_updates": 12800,
+    "completed_WM_main_updates": 12600,
+    "failed_uncheckpointed_updates": 200,
+    "restore_probe_optimizer_calls": 9,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "next": "New preregistered whole-proposal time2 nominal qualification, then actual post-query HOLD and explicit small-reference contrasts. No threshold, WBC or dt change; no assumed time2 PASS.",
+  "retained_unstarted_source_prepare_failure": "T02_SOURCE_REUSE_HELPER_FAILURE_ACTUAL_V1.json"
+}

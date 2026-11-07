@@ -288,12 +288,17 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         knots = [index in consumed_atoms for index in program.knot_indices]
         _need(len(suffix) == atoms and len(knots) == 40 and all(knots),
               'EVERY_ADAPTED_RAW_KNOT_AND_FIXED_SUFFIX_MUST_ACTUALLY_CONSUME')
+        hold=(program.reference_intervention is not None
+              and program.reference_intervention.candidate=='HOLD')
         report.update(status='SUFFIX_CONSUMED_REQUIRES_OUTER_TRACE_AND_SHUTDOWN_AUDIT',
             complete_suffix_atoms=len(suffix), gripper_confirmed_atoms=len(suffix),
-            solver_target_confirmed_atoms=len(suffix), all_40_knots_consumed=True,
-            raw_knot_consumed=knots, final_gripper_sequence=len(windows)-1,
+            solver_target_confirmed_atoms=len(suffix), all_40_knots_consumed=not hold,
+            raw_knot_consumed=[False]*40 if hold else knots,final_gripper_sequence=len(windows)-1,
             actual_endpoint_TCP=np.asarray(samples[-1]['tcp']).tolist(),
             trace_sealed_by_segment=False)
+        if program.reference_intervention is not None:
+            report.update(all_declared_reference_knot_times_consumed=True,post_query_HOLD_control=hold,
+                reference_intervention=program.reference_intervention.document())
         if forecaster is not None:report['shadow_forecast_wall_s']=forecaster.wall_s
         write_json(result_path, report)
         return report, samples, windows
