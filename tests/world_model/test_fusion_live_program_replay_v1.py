@@ -91,6 +91,15 @@ def test_zero_confirmed_post_decision_response_stays_masked_not_a_zero_motion_la
     assert not record['first_install_clock_observed_before_effect']
 
 
+def test_raw_mjdata_roundoff_uses_original_ros_nanoseconds_without_refreshing_age():
+    raw=artifacts();expected=replay.extract(*raw)
+    for row in raw[1]['windows']+raw[3]['windows']:
+        row['clock']['native_start_s']-=8e-12
+    actual=replay.extract(*raw)
+    np.testing.assert_array_equal(replay.flatten_features(actual)[0],replay.flatten_features(expected)[0])
+    np.testing.assert_array_equal(actual['labels']['observed_horizon_mask'],expected['labels']['observed_horizon_mask'])
+
+
 def test_later_install_uses_only_its_actual_past_and_keeps_parent_grouping():
     raw=artifacts();past=(raw[1]['windows']+raw[3]['windows'][:7])[-9:]
     # Original future rows already carry their correctly rolled actual history.

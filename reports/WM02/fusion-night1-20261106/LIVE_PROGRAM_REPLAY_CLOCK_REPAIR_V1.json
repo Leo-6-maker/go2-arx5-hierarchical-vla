@@ -1,0 +1,70 @@
+{
+  "schema": "WM02_LIVE_PROGRAM_REPLAY_CLOCK_REPAIR_V1",
+  "actual_archive_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+  "initial_readonly_audit": {
+    "exit_code": 2,
+    "reason": "INSTALL_REQUIRES_FRESH_MEASURED_SOURCE",
+    "wall_s": 1.7193737509660423,
+    "child_CPU_s": 1.396263,
+    "receipt_sha256": "40f9b6832fee1392f468231764e048881845ffb946d4d8969425ee01b4b4365d",
+    "new_integrations": 0,
+    "new_queries": 0,
+    "site_writes": 0
+  },
+  "defect": "Subtracting raw accumulated mjData seconds before reconstructing a nominal step clock can produce a negative picosecond age; original receiver compares ROS integer nanoseconds.",
+  "repair": "Use unchanged scripts.pi0294.task_clock.actual_source_age for both past and prospective recorded-source ages. Retain original raw timestamps; do not clamp ages, renew TTL, change native checks or alter old records.",
+  "tests": {
+    "NORMAL": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "source_pins_after": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "source_unchanged": true,
+      "wall_s": 0.48936485400190577,
+      "child_CPU_s": 0.48827899999999996,
+      "log_sha256": "a2e0ed943d6e1d07705b9bb29e0f6780f030c7b414d6e214eaca35a75c9a6f39",
+      "passed": 31
+    },
+    "OPTIMIZED": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "source_pins_after": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "33c090bc6537a4d9d7758a7ed2aecbaa28149d9bc34eabe459e700b40af0b48b",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "source_unchanged": true,
+      "wall_s": 0.6606627789733466,
+      "child_CPU_s": 0.6597280000000001,
+      "log_sha256": "a5ab89894fab660dab570dd3e7f68a9d98f28e74525c4ac0f9a36b00b2f46aae",
+      "passed": 31
+    }
+  },
+  "new_native_attempts": 0,
+  "new_models_trained": 0,
+  "old_native_CLOSED0_PASS_unchanged": true,
+  "next": "Repeat only the repaired pure archive join against the same frozen artifacts, then register fresh TRAIN."
+}

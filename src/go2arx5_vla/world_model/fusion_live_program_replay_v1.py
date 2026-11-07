@@ -7,6 +7,7 @@ has no registered learning assignment and stays DIAGNOSTIC, never TRAIN.
 import numpy as np
 from . import fusion_live_causal_features_v2 as feature
 from .fusion_trajectory_adapter import _identity
+from scripts.pi0294.task_clock import actual_source_age
 
 SCHEMA='WM02_LIVE_PROGRAM_RESPONSE_RECORD_V1'
 PHASE='collect-target-fusion-task-phase-live-skill-v9'
@@ -79,10 +80,13 @@ def extract(spec,prefix,decision,segment,*,install_atom=0):
           'ACTUAL_ENDPOINT_TCP_AND_FINGERS_JOIN_CURRENT_HISTORY')
     if 'actual_state_vector'in past[-1]:
         _need(np.array_equal(current,past[-1]['actual_state_vector']),'FULL_OBSERVED_SUFFIX_ENDPOINT_JOIN')
-    age=[float(w['clock']['native_start_s']-w['clock']['source_mpc_s'])for w in past]
+    # Use the original ROS integer-nanosecond domain. Subtracting raw accumulated
+    # mjData time can make a fresh source appear a few picoseconds in the future.
+    # Raw timestamps remain in the source evidence; no TTL or time is renewed.
+    age=[actual_source_age(w['clock']['native_start_s'],w['clock']['source_mpc_s'])for w in past]
     plan=feature.plan_from_complete_reference_path(path[min(install_atom,len(path)-1):])
     rows=observed[install_atom:install_atom+16]
-    first_age=(float(rows[0]['clock']['native_start_s']-rows[0]['clock']['source_mpc_s'])if rows else 0.)
+    first_age=(actual_source_age(rows[0]['clock']['native_start_s'],rows[0]['clock']['source_mpc_s'])if rows else 0.)
     x=feature.causal_inputs(history,past_source_age_s=age,planned_H40=plan,
                             first_install_source_age_s=first_age)
     if rows:
