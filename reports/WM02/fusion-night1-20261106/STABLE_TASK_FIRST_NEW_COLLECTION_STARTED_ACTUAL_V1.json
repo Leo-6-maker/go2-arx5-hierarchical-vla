@@ -3,7 +3,7 @@
   "snapshot_epoch": 1794078386.5486238,
   "status": "REGISTERED_AND_OBSERVED_RUNNING_LATER_SSH_UNREACHABLE_FINAL_OUTCOME_UNKNOWN",
   "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
-  "latest_implementation_sha": "100b3b451812b390fe3e147c19d347ed871a77bb",
+  "latest_implementation_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
   "deployed_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
   "execution_spec_sha256": "1feb1f5db13c41bc328b1ec88e866ebca543db8547f75079406ed9cfde6ccdde",
   "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
@@ -132,14 +132,23 @@
     "normal": {
       "passed": 1787,
       "subtests_passed": 179,
-      "wall_s": 333.81
+      "wall_s": 333.81,
+      "source_sha": "100b3b451812b390fe3e147c19d347ed871a77bb"
     },
     "optimized": {
       "passed": 24,
       "subtests_passed": 5,
-      "wall_s": 1.87
+      "wall_s": 1.87,
+      "source_sha": "100b3b451812b390fe3e147c19d347ed871a77bb"
     },
-    "tests_are_scientific_training": false
+    "tests_are_scientific_training": false,
+    "followup_export_admission_and_training_checks": {
+      "source_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
+      "normal_passed": 17,
+      "normal_wall_s": 1.88,
+      "optimized_passed": 17,
+      "optimized_wall_s": 2.9
+    }
   },
   "native_reference_and_safety": {
     "startup_joint2_joint3_rad": 0.9,
@@ -182,5 +191,11 @@
     }
   ],
   "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180",
-  "next_gate": "Reconcile actual same worker lease/PID/result and real observation/consumed-command evidence. Only CLOSED0 + original trace proof permits export or cold next case. Never redispatch this capsule."
+  "next_gate": "Reconcile actual same worker lease/PID/result and real observation/consumed-command evidence. Only CLOSED0 + original trace proof permits export or cold next case. Never redispatch this capsule.",
+  "native_candidate_import_check": {
+    "exit_code": 0,
+    "torch_imported": false,
+    "gr00t_imported": false,
+    "mujoco_imported": false
+  }
 }

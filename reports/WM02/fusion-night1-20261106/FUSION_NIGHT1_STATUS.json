@@ -22,7 +22,7 @@
   "fusion_scope_deadline": 1794112746.6684496,
   "goal": "ACTIVE_RESEARCH_PARTIAL_NATIVE_INITIALIZATION_BLOCKED_CURRENT_WORKERS_SEALED",
   "snapshot_epoch": 1794078386.5486238,
-  "implementation_sha": "100b3b451812b390fe3e147c19d347ed871a77bb",
+  "implementation_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
   "current_native_job": "stable-task-train01-hold-r1-01",
@@ -890,7 +890,12 @@
         "subtests_passed": 5,
         "wall_s": 1.87
       },
-      "tests_are_scientific_training": false
+      "tests_are_scientific_training": false,
+      "followup_export_admission_and_training_checks": {
+        "source_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
+        "normal_passed": 17,
+        "optimized_passed": 17
+      }
     },
     "current_worker_terminal": "UNVERIFIED_NETWORK_TIMEOUT"
   },
