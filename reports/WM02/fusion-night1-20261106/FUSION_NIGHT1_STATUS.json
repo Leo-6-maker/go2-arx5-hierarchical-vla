@@ -21,8 +21,8 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": 1794112746.6684496,
   "goal": "ACTIVE_RESEARCH_PARTIAL_NATIVE_INITIALIZATION_BLOCKED_CURRENT_WORKERS_SEALED",
-  "snapshot_epoch": 1794078386.5486238,
-  "implementation_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
+  "snapshot_epoch": 1794080246.0766706,
+  "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
   "current_native_job": "stable-task-train01-hold-r1-01",
@@ -846,7 +846,7 @@
     "G1": "PASSED_TWO_INDEPENDENT_HOLD_AND_STRICT4MM_TEACHER",
     "G2": "ACTUAL_G1_DECISION_DUAL_RGB_BOUND_CPU_RENDER_PASS;NEW_GR00T_QUERY_NOT_RUN",
     "G3": "COLLECTOR_AND_NONZERO_TRAINER_IMPLEMENTED_FIRST_NEW_TRAIN_NATIVE_STARTED_TERMINAL_UNVERIFIED",
-    "G4": "PENDING_REAL_LEARNED_CANDIDATE_DEV;NO_CLOSED_LOOP_EXECUTED",
+    "G4": "PAUSED_PREFIX_ENTRY_IMPLEMENTED;REAL_TRAIN_DEV_QUALIFICATION_NOT_RUN;NO_NATIVE_EXECUTION",
     "G5": "OPTIONAL_NO_GAIN_CLAIM",
     "normal_tests": 203,
     "optimized_tests": 203,
@@ -897,7 +897,24 @@
         "optimized_passed": 17
       }
     },
-    "current_worker_terminal": "UNVERIFIED_NETWORK_TIMEOUT"
+    "current_worker_terminal": "UNVERIFIED_NETWORK_TIMEOUT",
+    "closed_loop_implementation_report": "STABLE_TASK_CLOSED_LOOP_IMPLEMENTATION_ACTUAL_V1.json",
+    "closed_loop_implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
+    "closed_loop_real_runs": 0,
+    "tests_current_closed_loop": {
+      "normal": {
+        "passed": 357,
+        "wall_s": 52.03,
+        "exit_code": 0
+      },
+      "optimized": {
+        "passed": 357,
+        "wall_s": 51.97,
+        "exit_code": 0
+      },
+      "scope": "Stable-task code, original AUTO1 admission, original initialization/feedback, old full-H40 consumer, trace failure lineage",
+      "synthetic_results_are_not_scientific_updates": true
+    }
   },
   "previous_last_sealed_native_panel_before_PR368": {
     "run": "fusion-night1-four-arm-dev-panel-01",

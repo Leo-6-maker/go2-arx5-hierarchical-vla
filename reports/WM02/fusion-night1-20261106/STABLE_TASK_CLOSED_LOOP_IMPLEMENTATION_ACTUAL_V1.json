@@ -1,0 +1,145 @@
+{
+  "schema": "WM02_STABLE_TASK_CLOSED_LOOP_IMPLEMENTATION_ACTUAL_V1",
+  "snapshot_epoch": 1794080246.0766706,
+  "status": "CODE_AND_SYNTHETIC_CHECKS_COMPLETE_NOT_REGISTERED_NOT_NATIVE_EXECUTED",
+  "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+  "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
+  "actual_last_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
+  "actual_last_native_spec_sha256": "1feb1f5db13c41bc328b1ec88e866ebca543db8547f75079406ed9cfde6ccdde",
+  "actual_worker_root": "stable-task-train01-hold-r1-01",
+  "actual_worker_terminal": "UNKNOWN_NETWORK_UNREACHABLE",
+  "last_confirmed_native_step": 15428,
+  "last_confirmed_PID": 101010,
+  "actual_new_remote_registrations": 0,
+  "actual_new_native_integrations_this_turn": 0,
+  "new_sealed_TRAIN_episodes": 0,
+  "new_sealed_DEV_episodes": 0,
+  "actual_new_candidate_optimizer_updates": 0,
+  "actual_new_candidate_checkpoints": 0,
+  "actual_new_GR00T_queries": 0,
+  "actual_new_WM_updates": 0,
+  "actual_new_Actor_updates": 0,
+  "actual_new_GR00T_updates": 0,
+  "actual_closed_loop_native_runs": 0,
+  "sealed_FUSION_denominator": {
+    "attempts": 324,
+    "PASS": 305,
+    "FAIL": 19,
+    "native_ticks": 2834935
+  },
+  "pending_native_runs_not_in_sealed_denominator": 1,
+  "implemented": {
+    "prefix_executor": "stable_task_prefix_v1.py",
+    "qualification": "stable_task_prefix_qualification_v1.py",
+    "native_entry": "stable_task_closed_loop_v1.py",
+    "read_only_qualification_CLI": "scripts.wm02.qualify_stable_task_prefix_v1",
+    "check_and_original_worker_CLI": "scripts.wm02.stable_task_closed_loop_check_v1",
+    "original_full_H40_consumer_unchanged": true
+  },
+  "proposed_protocol": {
+    "schema": "WM02_STABLE_TASK_PAUSED_PREFIX_PROTOCOL_V1",
+    "prefix_atoms": 120,
+    "policy_queries": 3,
+    "final_hold_atoms": 8,
+    "assistance": "NATIVE_QUOTA_PAUSED_REAL_OBSERVATION",
+    "cancelled_suffix": "SUPERSEDED_ONLY_AFTER_ORIGINAL_NEW_REFERENCE_ACK",
+    "full_controller_preview_retained": true,
+    "observation_timestamp_rebased": false,
+    "original_per_install_MPC_clock": true,
+    "fresh_query_per_cycle": true,
+    "teacher_fallback": false,
+    "physics_dt_s": 0.002,
+    "WBC_changes": false
+  },
+  "proposed_first_policy_step": 34303,
+  "proposed_native_endpoint": 43503,
+  "proposed_protocol_status": "REQUIRES_REAL_NEW_TRAIN_TIMING_AND_SEALED_CANDIDATE_DEV_BEFORE_ACTUAL_REGISTRATION",
+  "current_real_gates": {
+    "new_dataset": "INCOMPLETE",
+    "candidate_training": "NOT_RUN",
+    "candidate_native_DEV": "NOT_RUN",
+    "real_TRAIN_prefix_qualification": "NOT_RUN",
+    "new_closed_loop_panel": "NOT_REGISTERED"
+  },
+  "evidence_semantics": {
+    "initialization": "Explicit unchanged privileged half calibration before policy, separately reported",
+    "policy": "Independent learned candidate; actual RGB, actual EEF, declared instruction; no Teacher fallback",
+    "preview": "Each installed full H40 and every actually consumed 25-tick command retained",
+    "cancelled_future": "Retained; superseded only by actual original install ACK; future can affect prior MPC",
+    "failure": "Observed native ticks and measured failed feedback retained separately from confirmed command atoms",
+    "clock": "Native quota paused during real capture/inference; original per-install MPC clock; observation timestamp not rebased",
+    "scoring": "Original strict approach or HOLD predicates; actual native scoring still NOT_RUN"
+  },
+  "tests": {
+    "normal": {
+      "passed": 357,
+      "wall_s": 52.03,
+      "exit_code": 0
+    },
+    "optimized": {
+      "passed": 357,
+      "wall_s": 51.97,
+      "exit_code": 0
+    },
+    "scope": "Stable-task code, original AUTO1 admission, original initialization/feedback, old full-H40 consumer, trace failure lineage",
+    "synthetic_results_are_not_scientific_updates": true
+  },
+  "import_check": {
+    "exit_code": 0,
+    "torch_imported": false,
+    "gr00t_imported": false,
+    "mujoco_imported": false
+  },
+  "CLI_help_checks": {
+    "closed_loop": {
+      "exit_code": 0
+    },
+    "qualification": {
+      "exit_code": 0
+    },
+    "actual_execute_invocations": 0
+  },
+  "external_block": {
+    "status": "BOTH_ORIGINAL_TCP_ENDPOINTS_TIMEOUT",
+    "epoch": 1794080173.332151,
+    "private_artifact": "STABLE_CLOSED_LOOP_TCP_AUDIT01.private.json",
+    "sha256": "cc62bb654b15a03c0da182d0eef511d8564d9b75f75104adf56973d44a5371db",
+    "endpoint_results": [
+      {
+        "endpoint": "ORIGINAL_DIRECT",
+        "status": "TimeoutError: timed out",
+        "wall_s": 4.015535938000539
+      },
+      {
+        "endpoint": "ORIGINAL_GATEWAY",
+        "status": "TimeoutError: timed out",
+        "wall_s": 4.015088654996362
+      }
+    ],
+    "confirmed_live_handle": false,
+    "unverified_worker_not_replayed": true
+  },
+  "cost": {
+    "remote_GPU_training_s": 0,
+    "remote_source_transfer_bytes": 0,
+    "local_test_wall_s": 104.0,
+    "worker_final_cost": "UNAVAILABLE_UNTIL_RECONNECTED",
+    "prior_observed_worker_CPU_s_lower_bound": 418.227844,
+    "prior_observed_memory_peak_bytes": 3018502144
+  },
+  "invariants": {
+    "WBC_changes": false,
+    "physics_dt_s": 0.002,
+    "startup_joint2_joint3_rad": 0.9,
+    "old_CLOSED_reopened": false,
+    "active_capsule_hot_changes": false,
+    "H200_used": false,
+    "GPU_physical_multiworld_used": false
+  },
+  "actual_scope": {
+    "parent_deadline_epoch": 1794113946.6684496,
+    "physical_dispatch_cutoff_epoch": 1794112746.6684496
+  },
+  "next": "Reconnect and reconcile the same TRAIN01 HOLD worker; continue original G3 panel and actual nonzero learning before new closed-loop qualification.",
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180"
+}
