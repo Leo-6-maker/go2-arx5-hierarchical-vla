@@ -27,8 +27,8 @@
       "VLA_inferences": 0
     },
     "bindings": {
-      "pilot_binding": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/fusion-night1-pilot1-renewal-20261107-01/control/BINDING.private.json",
-      "fusion_binding": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/fusion-night1-scope-renewal-20261107-01/control/BINDING.private.json"
+      "pilot_binding_role": "fusion-night1-pilot1-renewal-20261107-01",
+      "fusion_binding_role": "fusion-night1-scope-renewal-20261107-01"
     },
     "native_integrations": 0,
     "queries": 0,
@@ -38,20 +38,32 @@
   },
   "attempts": [
     {
-      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/preflight_fusion_renewal01.py 180",
-      "exit_code": 0
+      "exit_code": 0,
+      "control_entry": "core_control.py",
+      "script": "preflight_fusion_renewal01.py",
+      "external_control_timeout_s": 180,
+      "expanded_command_retained_in_private_receipt": true
     },
     {
-      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/register_fusion_renewal01.py 900",
-      "exit_code": 1
+      "exit_code": 1,
+      "control_entry": "core_control.py",
+      "script": "register_fusion_renewal01.py",
+      "external_control_timeout_s": 900,
+      "expanded_command_retained_in_private_receipt": true
     },
     {
-      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/audit_renewal_failure01.py 180",
-      "exit_code": 0
+      "exit_code": 0,
+      "control_entry": "core_control.py",
+      "script": "audit_renewal_failure01.py",
+      "external_control_timeout_s": 180,
+      "expanded_command_retained_in_private_receipt": true
     },
     {
-      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/register_fusion_renewal02.py 900",
-      "exit_code": 0
+      "exit_code": 0,
+      "control_entry": "core_control.py",
+      "script": "register_fusion_renewal02.py",
+      "external_control_timeout_s": 900,
+      "expanded_command_retained_in_private_receipt": true
     }
   ],
   "first_failure": "SOURCE_ONCE_OWNED_LOCK: existing qualified NTFS device2050 exposes uid0, original source-owned CAS refused before inner intent",
@@ -65,5 +77,6 @@
   "WM_updates": 0,
   "Actor_updates": 0,
   "GR00T_updates": 0,
-  "next": "Single-environment predeclared C01 CPU HOLD, then 5mm Teacher only after HOLD standing/contact/hold checks; frozen GR00T queries wait for measured GPU headroom"
+  "next": "Single-environment predeclared C01 CPU HOLD, then 5mm Teacher only after HOLD standing/contact/hold checks; frozen GR00T queries wait for measured GPU headroom",
+  "public_host_bound_paths_redacted": true
 }
