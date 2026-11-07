@@ -28,9 +28,18 @@ def nominal_reference(reference):
     need(set(reference)=={'path','sha256'}and reference['sha256']==NOMINAL_REFERENCE_SHA,'DECLARED_NOMINAL_CALIBRATION_EVIDENCE')
     path=Path(reference['path']);need(path.is_absolute()and path.resolve()==path and not path.is_symlink()and digest(path)==NOMINAL_REFERENCE_SHA,'EXACT_PRIOR_CALIBRATION_BINDING')
     saved=json.loads(path.read_bytes());body=unseal(saved['frozen_input'])
-    inputs=dict(frozen=saved['frozen_input'],raw=np.repeat(original.pose10(np.asarray(body['full_goal_TCP_target']),original.OPEN)[None],40,axis=0),provenance=original._provenance(body))
-    original._inputs(inputs)
-    need(body['scene_sha256']==CALIBRATION_SCENE and saved['actual_VLA_commands']==0,'CALIBRATION_INTENT_NOT_ACHIEVED_EXPERT_ACTION')
+    # Exact frozen bytes were validated by their original native producer. GPU
+    # metadata admission must not demand bit-identical BLAS rederivation in a
+    # different NumPy environment. The native input constructor still derives
+    # and verifies its actual reference using the unchanged native math.
+    need(body['schema']==original.INPUT_SCHEMA and body['scene_sha256']==CALIBRATION_SCENE
+         and body['source_observation_sha256']==original.SOURCE_OBSERVATION
+         and body['frame_map_sha256']==original.FRAME_MAP
+         and body['actual_cube_binding']==original.FK_BINDING
+         and saved['actual_VLA_commands']==0,'CALIBRATION_INTENT_NOT_ACHIEVED_EXPERT_ACTION')
+    need(original._matrix_sha(body['frozen_cube_pose_target'])==body['frozen_cube_pose_sha256']
+         and original._matrix_sha(body['full_goal_TCP_target'])==body['full_goal_TCP_sha256'],
+         'SERIALIZED_PRIOR_POSE_AND_GOAL_IDENTITIES')
     return np.asarray(body['frozen_cube_pose_target'],float)
 
 

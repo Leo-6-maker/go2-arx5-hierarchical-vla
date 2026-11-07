@@ -110,8 +110,17 @@ def test_c01_actual_cube_and_preserved_nominal_reference_remain_distinct(tmp_pat
     np.testing.assert_array_equal(body['full_goal_TCP_target'],unseal(old['frozen'])['full_goal_TCP_target'])
     assert not np.array_equal(body['frozen_cube_pose_target'],body['nominal_calibration_cube_pose_target'])
     assert new['provenance']['actual_cube_is_not_replaced_by_nominal_calibration_cube']is True
+    from go2arx5_vla.world_model import fusion_task_phase_pose_slow_feedback_v9 as slow
+    episode=slow.make_episode(run='/fixture/distinct-c01',geometry_scale=.5)
+    before=slow.make_program(old,episode,fixture['initial'],fixture['decision'],fixture['base'])
+    after=slow.make_program(new,episode,fixture['initial'],fixture['decision'],fixture['base'])
+    np.testing.assert_array_equal(after.desired_path,before.desired_path)
+    np.testing.assert_array_equal(after.reference_path,before.reference_path)
     body['nominal_calibration_cube_pose_target'][0][3]+=.001;bad=dict(new,frozen=sealed(body))
     with pytest.raises(ValueError,match='NOMINAL_REFERENCE'):original._inputs(bad)
+    def forbidden_rederivation(*args,**kwargs):raise AssertionError('Metadata reader cannot rederive runtime arithmetic')
+    monkeypatch.setattr(original,'_inputs',forbidden_rederivation)
+    np.testing.assert_array_equal(c01.nominal_reference(reference),unseal(old['frozen'])['frozen_cube_pose_target'])
 
 
 def test_same_endpoint_continuation_reaches_runtime_prepare_only_for_c01(monkeypatch):
