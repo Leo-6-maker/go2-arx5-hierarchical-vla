@@ -1,0 +1,115 @@
+{
+  "schema": "WM02_FROZEN_SOURCE_PHASE_C01_QUERY_ONLY_PANEL_V4",
+  "epoch": 1794049412.4141953,
+  "status": "PREREGISTERED_NOT_SITE_ADMISSION_NOT_EXECUTED",
+  "assignments": [
+    {
+      "native_run": "fusion-night1-source-phase-c01-r3-query-01",
+      "GPU_run": "fusion-night1-source-phase-c01-r3-query-gpu-01",
+      "parent": "C01_R3_SOURCE_PHASE_FROZEN_FULL_LANGUAGE_QUERY_01",
+      "split": "DIAGNOSTIC",
+      "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+      "task_condition": "SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1"
+    }
+  ],
+  "native": {
+    "B": 34303,
+    "E": 34303,
+    "physics_dt_s": 0.002,
+    "initialization_reference": "UNCHANGED_V9_SLOW_HALF_CALIBRATION_RECIPE",
+    "actual_scene": "DISTINCT_C01_SUPPORT_AND_CUBE_SCENE",
+    "new_generated_reference_installs": 0,
+    "new_generated_action_integrations": 0,
+    "original_WBC_native_safety_unchanged": true,
+    "capture_distance_bounds_m": [
+      0.07,
+      0.09
+    ],
+    "old_initialization_distance_predicate_preserved": true,
+    "old_140mm_action_domain_not_reclassified": true,
+    "nominal_calibration_reference": {
+      "prior_goal_binding_sha256": "f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85",
+      "source": "PRIOR_T06_INTENDED_CALIBRATION_GOAL_NOT_ACHIEVED_EXPERT_ACTION",
+      "actual_C01_cube_FK_and_state_unchanged": true,
+      "goal_independent_of_new_cube": true
+    }
+  },
+  "frozen_GR00T": {
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "num_inference_timesteps": 4,
+    "queries": 1,
+    "original_Processor_decodes": 1,
+    "language": "EXACT_SOURCE71558_FULL_TASK_PROMPT",
+    "full_H40_saved": true,
+    "updates": 0
+  },
+  "baseline_reused": {
+    "public_report": "SLOW_GRADED_QUERY_H40_DURATION_REJECTION_ACTUAL_V9.json",
+    "native": {
+      "run": "fusion-night1-slow-graded-live-s050-01",
+      "spec_sha256": "9b66c648281a5babd467aa5de3b2eacf18be4f871e2d0ed4aebb1ff771c2f7cb",
+      "result_sha256": "895c37994f8d81b28f39d947f4e11e33c73573d73f4add4f9c5b766bb495b866",
+      "lease_sha256": "f4dac0d8ed88da57332f6b19063a65b30e650e98ec4d6c114123425b0ae36e29",
+      "worker_sha256": "c44ee503f50ed180816c478885542b666b4eb5d8ec2a5e3b84c680e4fd5ede71",
+      "exit_code": 1,
+      "MainPID": 0
+    },
+    "GPU": {
+      "run": "fusion-night1-slow-graded-live-s050-gpu-01",
+      "spec_sha256": "4684b786ead1442440e7caf663185279cd2f82726eeb9c6aec186da63faa4c5c",
+      "result_sha256": "552088fb15cca56f8f515a3a6f319c07d4f384d63e1a9fcec70ff55b3a8a80e7",
+      "lease_sha256": "6356edbf206a515cc3e1f9269c0865c356ac64e2a973aad367e3f1f2a57ce1be",
+      "worker_sha256": "da813dfad102a9e662ab82c4f9cc903fa59122778e2ad3a6aa85360882a8c034",
+      "exit_code": 0,
+      "MainPID": 0
+    },
+    "native_failure_unchanged": true,
+    "actual_new_baseline_restarts": 0,
+    "raw_action_npz_sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+    "same_prompt_checkpoint_seed_and_adapter": true,
+    "not_exact_fork_or_isolated_causal_test": true
+  },
+  "analysis": {
+    "raw_knot_horizons": [
+      1,
+      4,
+      8,
+      16,
+      40
+    ],
+    "adapted_proposed_atom_horizons": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "report_full_proposed_duration": true,
+    "no_unexecuted_action_labels": true,
+    "neither_old_SHORT_nor_full_pick_place_success_established": true,
+    "Teacher_UNUSED_SHORT_prompt_queries_not_matched_baseline": true,
+    "source_phase_equivalence_not_assumed": true
+  },
+  "prohibitions": [
+    "No GR00T/Teacher reference installation after query.",
+    "No WM use or local XY model extrapolation into80mm/contact domain.",
+    "No Actor/Critic, H200, GPU physics or distributed scaling.",
+    "No repetition to select a preferred seed/proposal."
+  ],
+  "planned_new_native_restarts": 1,
+  "actual_native_restarts": 0,
+  "actual_new_queries": 0,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "original_V1_panel_unchanged": true,
+  "original_failed_native_worker": "fusion-night1-source-phase-c01-query-01",
+  "original_failure_report": "SOURCE_PHASE_C01_ZERO_TICK_ENTRY_FAILURE_ACTUAL_V1.json",
+  "original_native_integrations": 0,
+  "original_queries": 0,
+  "repair_is_not_valid_scientific_condition_retry": true,
+  "V2_unstarted_native_and_zero_query_GPU_failure_retained": true,
+  "V2_failure_report": "SOURCE_PHASE_C01_R1_METADATA_FAILURE_ACTUAL_V1.json",
+  "metadata_validation": "EXACT_PRIOR_BYTES_AND_SEAL_NO_CROSS_ENV_BLAS_REDERIVATION; NATIVE_CONTROL_MATH_UNCHANGED",
+  "R2_3703_tick_FK_identity_rejection_retained": true,
+  "R2_report": "SOURCE_PHASE_C01_R2_FK_ENTRY_FAILURE_ACTUAL_V1.json"
+}

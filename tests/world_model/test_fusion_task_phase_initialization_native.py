@@ -364,7 +364,8 @@ def test_new_phase_route_uses_existing_quota_and_exact_typed_wrapper(tmp_path, m
 
 
 @pytest.mark.parametrize('native_step', [3703, 10303])
-def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_reload(tmp_path, monkeypatch, native_step):
+@pytest.mark.parametrize('c01_mode',[False,True])
+def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_reload(tmp_path, monkeypatch, native_step,c01_mode):
     mujoco = pytest.importorskip('mujoco')
     from scripts.pi0294.task_state import ActualState, parse_state
     from go2arx5_vla.world_model.native_replay import forbid_integration
@@ -394,6 +395,11 @@ def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_relo
         measured = reader.update(packet)
     adapter = SimpleNamespace(actual_state=reader, spec=dict(model_path=str(path),
         source_files={'scripts/pi0294/task_state.py': digest(Path(__file__).resolve().parents[2] / 'scripts/pi0294/task_state.py')}))
+    if c01_mode:
+        from test_fusion_source_phase_c01 import registration
+        adapter.spec['registered_root']=str(tmp_path)
+        registration(adapter.spec,tmp_path,monkeypatch)
+        monkeypatch.setattr(phase,'SCENE','f'*64)
     def forbidden(*args, **kwargs):
         raise AssertionError('Witness verification cannot forward/step/load a model')
     monkeypatch.setattr(mujoco, 'mj_step', forbidden)
@@ -401,6 +407,7 @@ def test_actualstate_fk_witness_uses_one_real_mujoco_packet_without_step_or_relo
     kwargs = {} if native_step == 3703 else dict(expected_step=native_step)
     proof = native._verify_actual_fk(adapter, packet, measured, **kwargs)
     assert proof['status'] == 'ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET'
+    assert proof['model_sha256']==digest(path)
     assert proof['wrapper_mj_step_calls'] == proof['wrapper_mj_forward_calls'] == proof['wrapper_model_loads'] == 0
     assert np.array_equal(reader.data.qpos, packet['qpos']) and reader.data.time == native_step*.002
     assert np.array_equal(model.qpos0, model_qpos0) and np.array_equal(model.body_pos, body_pos)

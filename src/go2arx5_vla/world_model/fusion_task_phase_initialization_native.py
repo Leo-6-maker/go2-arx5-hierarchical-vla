@@ -44,8 +44,12 @@ def _verify_actual_fk(adapter, packet, measured, *, expected_step=recipe.DECISIO
     from scripts.pi0294.task_state import ActualState
     state = getattr(adapter, 'actual_state', None)
     need(type(state) is ActualState, 'ORIGINAL_ACTUALSTATE_READER_REQUIRED')
+    expected_scene=recipe.SCENE
+    if adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
+        from .fusion_source_phase_c01 import scene,SCENE
+        scene(adapter.spec);expected_scene=SCENE
     need((state.model.nq, state.model.nv, state.model.nu) == (34, 32, 20)
-         and digest(adapter.spec['model_path']) == recipe.SCENE,
+         and digest(adapter.spec['model_path']) == expected_scene,
          'ORIGINAL_SCENE_AND_NATIVE_STATE_ABI')
     need(type(expected_step) is int and measured['native_step'] == packet['step'] == expected_step
          and measured['time_s'] == state.data.time == packet['time_s'],
@@ -59,7 +63,7 @@ def _verify_actual_fk(adapter, packet, measured, *, expected_step=recipe.DECISIO
         status='ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET',
         reader='scripts.pi0294.task_state.ActualState.update',
         reader_sha256=adapter.spec['source_files']['scripts/pi0294/task_state.py'],
-        model_path=adapter.spec['model_path'], model_sha256=recipe.SCENE,
+        model_path=adapter.spec['model_path'], model_sha256=expected_scene,
         native_step=packet['step'], native_time_s=packet['time_s'],
         packet_qpos_qvel_ctrl_exact=True, original_reader_instance_retained=True,
         original_forward_only_reader=True, wrapper_mj_forward_calls=0,
