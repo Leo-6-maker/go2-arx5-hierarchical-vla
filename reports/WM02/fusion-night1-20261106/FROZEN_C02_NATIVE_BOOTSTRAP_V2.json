@@ -1,0 +1,64 @@
+{
+  "schema": "WM02_C02_FROZEN_NATIVE_BOOTSTRAP_V2",
+  "scene_sha256": "f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf",
+  "compiled_static_result_sha256": "817e44d23f34dfa7c49591dfc2fbb7007bb1443d4e70ec527c423eab942eb033",
+  "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "runtime_source_sha": "e3a8d96e5d4a5dd64883e1671e2d4a47a72cea89",
+  "same_original_owner": true,
+  "max_concurrent_native_environments": 1,
+  "work_cutoff": "2026-11-07T23:14:00+08:00",
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "GR00T_queries": 0,
+  "WM_updates": 0,
+  "GR00T_updates": 0,
+  "Actor_updates": 0,
+  "stop_at_first_failure": true,
+  "stage_requires_predecessor_PASS_and_CLOSED_worker": true,
+  "C01_HOLD_and_Teacher_branch_halted": true,
+  "C01_prefix_failure_preserved": true,
+  "in_training_range_native_pose_not_yet_achieved": true,
+  "real_target_capture_not_yet_available": true,
+  "formal_Actor": false,
+  "stages": [
+    {
+      "phase": "cold-1",
+      "max_ticks": 50,
+      "native_run": "fusion-night1-c02-bootstrap-01-02"
+    },
+    {
+      "phase": "cold-2",
+      "max_ticks": 50,
+      "native_run": "fusion-night1-c02-bootstrap-02-02"
+    },
+    {
+      "phase": "hold-2s-1",
+      "max_ticks": 1000,
+      "native_run": "fusion-night1-c02-bootstrap-03-02"
+    },
+    {
+      "phase": "hold-2s-2",
+      "max_ticks": 1000,
+      "native_run": "fusion-night1-c02-bootstrap-04-02"
+    },
+    {
+      "phase": "hold-5s-1",
+      "max_ticks": 2500,
+      "native_run": "fusion-night1-c02-bootstrap-05-02"
+    },
+    {
+      "phase": "hold-5s-2",
+      "max_ticks": 2500,
+      "native_run": "fusion-night1-c02-bootstrap-06-02"
+    },
+    {
+      "phase": "g2-reference-qualification",
+      "max_ticks": 2503,
+      "native_run": "fusion-night1-c02-bootstrap-07-02"
+    }
+  ],
+  "predecessor": "V1_COLD1_ENVIRONMENT_FAILURE_BEFORE_ANY_NATIVE_CHILD_OR_INTEGRATION",
+  "repair": "PRESERVE_ORIGINAL_ROS_PYTHONPATH_SUFFIX_IN_NATIVE_PARENT_AND_CHILD",
+  "old_FAILED_worker_and_CLOSED_lease_preserved": true
+}
