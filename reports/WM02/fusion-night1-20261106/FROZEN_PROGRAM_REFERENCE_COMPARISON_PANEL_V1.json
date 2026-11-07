@@ -1,0 +1,320 @@
+{
+  "schema": "WM02_FROZEN_LIVE_PROGRAM_REFERENCE_COMPARISON_PANEL_V1",
+  "epoch": 1794034218.0351093,
+  "status": "FUTURE_PRE_REGISTERED_NO_SITE_SCOPE_OR_PHYSICS",
+  "assignments": [
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B1_DIRECT",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b1-direct-01",
+      "GPU_run": "fusion-night1-reference-compare-b1-direct-gpu-01",
+      "restart_block": 1,
+      "method": "DIRECT",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "DIRECT",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    },
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B1_LINEAR",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b1-linear-01",
+      "GPU_run": "fusion-night1-reference-compare-b1-linear-gpu-01",
+      "restart_block": 1,
+      "method": "TRAIN_LINEAR",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "TRAIN_LINEAR",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    },
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B1_WM",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b1-wm-01",
+      "GPU_run": "fusion-night1-reference-compare-b1-wm-gpu-01",
+      "restart_block": 1,
+      "method": "WM_PRIMARY_SCALED",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "WM_PRIMARY_SCALED",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    },
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B2_WM",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b2-wm-01",
+      "GPU_run": "fusion-night1-reference-compare-b2-wm-gpu-01",
+      "restart_block": 2,
+      "method": "WM_PRIMARY_SCALED",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "WM_PRIMARY_SCALED",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    },
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B2_LINEAR",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b2-linear-01",
+      "GPU_run": "fusion-night1-reference-compare-b2-linear-gpu-01",
+      "restart_block": 2,
+      "method": "TRAIN_LINEAR",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "TRAIN_LINEAR",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    },
+    {
+      "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B2_DIRECT",
+      "split": "DEV",
+      "native_run": "fusion-night1-reference-compare-b2-direct-01",
+      "GPU_run": "fusion-night1-reference-compare-b2-direct-gpu-01",
+      "restart_block": 2,
+      "method": "DIRECT",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      },
+      "reference_selection": {
+        "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+        "method": "DIRECT",
+        "candidates": [
+          "NOMINAL",
+          "X_PLUS_050",
+          "Y_PLUS_050",
+          "Y_MINUS_050"
+        ],
+        "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+        "cadence": "FIRST_INSTALL_ONLY",
+        "excluded_minus_X": "TRAIN_QX06_ORIGINAL_LATE_JOINT_LIMIT_FAILURE_RETAINED"
+      }
+    }
+  ],
+  "domain": {
+    "time_stretch_factor": 2,
+    "geometry_scale": 1.0,
+    "initialization_grade": 0.5,
+    "B": 34303,
+    "E": 66503,
+    "physics_dt_s": 0.002,
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "qualified_native_slots": 1,
+    "independent_layouts": 1,
+    "maximum_actual_reference_offset_m": 0.0005
+  },
+  "frozen_training": {
+    "schema": "WM02_PROGRAM_RESPONSE_SHADOW_FORECAST_V2",
+    "mode": "SHADOW_NO_REFERENCE_CHANGE",
+    "training_spec_sha256": "1bdd0a8f999d1ecfb71d4ea256c3afc651b21647959ae3862f19bd2c80b2a932",
+    "training_result_sha256": "699cac53c50fc6b422b0b5f942fc106452eb83d6c40c55b76e75ed7914a6303a",
+    "seeds": [
+      366104,
+      366105,
+      366106
+    ],
+    "primary_seed": 366104,
+    "time_stretch_factor": 2,
+    "models": [
+      {
+        "arm": "RAW",
+        "seed": 366104,
+        "sha256": "e02f8d1e5e69e633a37ca2e380d179c78b98dfd88bb394c3c99ae543d4d09657"
+      },
+      {
+        "arm": "SCALED",
+        "seed": 366104,
+        "sha256": "86d90245b2fe800053419a9fef566df2d671486b6a7b13742a255ba871587630"
+      },
+      {
+        "arm": "NO_FUTURE_ACTION",
+        "seed": 366104,
+        "sha256": "d960471d20520d208fc32f5ca9bf16070301e8fc37ba3100b1dba44089833afa"
+      },
+      {
+        "arm": "RAW",
+        "seed": 366105,
+        "sha256": "0e5babc1c7989d873fa9f50f19ef906f28b2c73f6310cc195a7efec46303a5c9"
+      },
+      {
+        "arm": "SCALED",
+        "seed": 366105,
+        "sha256": "f74b56b2e2b17c99cbdd472fe271f536e194a39f475f7cb17e37c4ae94566301"
+      },
+      {
+        "arm": "NO_FUTURE_ACTION",
+        "seed": 366105,
+        "sha256": "2f453ef2e466ef2bba398addb830df5b281dcccef95f63c50b28517af4cb8ea9"
+      },
+      {
+        "arm": "RAW",
+        "seed": 366106,
+        "sha256": "33049e97d39fb8217e3633bf696d269d48e018fa0e906b19524a385a3d367ffd"
+      },
+      {
+        "arm": "SCALED",
+        "seed": 366106,
+        "sha256": "92b0289d5ca730bca5e970278322789d08f7efe6d86da2badc0191bee007f92c"
+      },
+      {
+        "arm": "NO_FUTURE_ACTION",
+        "seed": 366106,
+        "sha256": "5743bc7b9cbae1461fd2bc4ab8dbd31920cf8127a9ab6074865f2fd21fea946a"
+      },
+      {
+        "arm": "TRAIN_RIDGE_FULL_PROGRAM",
+        "sha256": "f6124c141c212b31ce527b40fd44fdbd59e35a21060bbcabc4edb74b50100e50"
+      },
+      {
+        "arm": "TRAIN_RIDGE_NO_FUTURE_ACTION",
+        "sha256": "6c4fb985de027de11a626b4584d5a8a84ea0200198373388cd9081e197c782ab"
+      }
+    ]
+  },
+  "freeze_time": "After TRAIN models complete; before DX01 observed response score or any physical selector run.",
+  "admission_dependencies": [
+    "Finish all four original frozen prediction DEV rows; retain every failure and exact exposure join.",
+    "Seal the current worker, retain one owner, obtain each fresh finite actual scope and resource check.",
+    "Actual proposal must pass unchanged whole-program domain and each original native certificate; no command clipping."
+  ],
+  "methods_share": {
+    "frozen_GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "original_Processor_decodes": 1,
+    "full_raw_H40_retained": true,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "observed_past_features": true,
+    "candidate_set": [
+      "NOMINAL",
+      "X_PLUS_050",
+      "Y_PLUS_050",
+      "Y_MINUS_050"
+    ],
+    "reference_opportunities": "One B decision only; identical native publication cadence.",
+    "WBC_safety_and_native_2ms_unchanged": true
+  },
+  "primary_model": "366104-SCALED",
+  "strong_feedback_model": "TRAIN_RIDGE_FULL_PROGRAM",
+  "no_DEV_best_seed_or_method_tuning": true,
+  "science": {
+    "primary_metric": "Actual H16 TCP distance to the same generated desired_at(16) target, measured in the B TCP frame; saved prediction must precede the effect.",
+    "minimum_practical_improvement_m": 0.0002,
+    "threshold_basis": "The pre-existing post-query TRAIN HOLD maximum natural movement was 0.114740751mm; 0.2mm is also the unchanged original hold gate.",
+    "secondary": [
+      "Entire generated moving-program tracking",
+      "Final desired error",
+      "BASE movement",
+      "Native admission/rejection and raw H40 coverage",
+      "Original strict short-task score and failures"
+    ],
+    "parent_restart_not_anchor_is_denominator": true,
+    "uncertainty": "Two small independent restart blocks are diagnostic, not powered confirmation.",
+    "live_each_run_has_own_actual_images_and_draw": true,
+    "same_noise_and_policy_do_not_imply_identical_raw_proposals": true,
+    "not_exact_MPC_hidden_state_fork": true,
+    "paused_assisted_single_generated_chunk_not_nonpaused_online_closed_loop": true,
+    "if_choices_identical": "Report equality; do not attribute independent restart noise to WM.",
+    "if_WM_loses": "Retain the negative; prefer the stronger simple/linear result, no neural win requirement.",
+    "physical_GAIN_not_defined_by_model_self_score": true
+  },
+  "no_formal_Actor_or_Critic": true,
+  "new_site_scopes": 0,
+  "new_native_integrations": 0,
+  "new_updates": 0,
+  "original_cutoff_epoch": 1794051261.7397933
+}
