@@ -79,7 +79,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-fusion-task-phase-pose-continuation-v7', 'FUSION_TASK_PHASE_POSE_CONTINUATION_V7'),
          ('collect-target-fusion-task-phase-bias-fade-v8', 'FUSION_TASK_PHASE_BIAS_FADE_V8'),
          ('collect-target-fusion-task-phase-live-skill-v8', 'FUSION_TASK_PHASE_LIVE_SKILL_V8'),
-         ('collect-target-fusion-task-phase-live-skill-v9', 'FUSION_TASK_PHASE_LIVE_SKILL_V9'))
+         ('collect-target-fusion-task-phase-live-skill-v9', 'FUSION_TASK_PHASE_LIVE_SKILL_V9'),
+         ('collect-target-stable-start-short-v1', 'STABLE_START_SHORT_TASK_V1'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -89,11 +90,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and spec.get('scope') == 'WM02_PILOT1_SIM_ONLY' and bool(spec.get('pilot1_binding')),
          'ORIGINAL_AUTO1_P1_NATIVE_BACKEND_REQUIRED_NOT_A_GRANT')
     live_skill = actual_phase in ('collect-target-fusion-task-phase-live-skill-v8',
-                                 'collect-target-fusion-task-phase-live-skill-v9')
+                                 'collect-target-fusion-task-phase-live-skill-v9',
+                                 'collect-target-stable-start-short-v1')
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
-    if (actual_phase == 'collect-target-fusion-task-phase-live-skill-v9'
+    if actual_phase == 'collect-target-stable-start-short-v1':
+        from .stable_start_short_task_v1 import validate
+        validate(spec)
+    elif (actual_phase == 'collect-target-fusion-task-phase-live-skill-v9'
             and spec.get('task_condition') == 'SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1'):
         from .fusion_source_phase_c01_capability_v1 import validate
         validate(spec)
@@ -126,7 +131,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
-    elif actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
+    elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9',
+                          'collect-target-stable-start-short-v1'):
         from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
                           'collect-target-fusion-task-phase-live-skill-v8'):
@@ -140,6 +146,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
+    if actual_phase == 'collect-target-stable-start-short-v1': live_end = 38703
     if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration

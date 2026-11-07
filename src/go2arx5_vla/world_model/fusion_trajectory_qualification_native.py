@@ -26,7 +26,7 @@ def actual_trace_binding(adapter):
         'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2',
         'collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3',
         'collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2',
-        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9') else 131072)
+        'collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1') else 131072)
     need(len(header) == 16 and header[:8] == b'WM02IT01'
          and struct.unpack('<II', header[8:]) == (RECORD.size, capacity),
          'ACTUAL_NEW_TRACE_HEADER_CAPACITY_'+str(capacity))
@@ -84,6 +84,9 @@ def complete_reference_consumption(spec,complete):
     Both still pass the caller's unchanged same-world, prefix, complete-window,
     solver/gripper and final-trace checks. HOLD never becomes raw H40 execution.
     """
+    if spec.get('phase')=='collect-target-stable-start-short-v1':
+        from .stable_start_short_task_v1 import complete_consumption
+        return complete_consumption(spec,complete)
     if spec.get('task_condition')=='SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1':
         from .fusion_source_phase_c01_capability_v1 import complete_consumption
         return complete_consumption(spec,complete)
@@ -160,7 +163,8 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
         need(callable(continuation)
              and (adapter.spec.get('phase'),adapter.spec.get('kind')) in (
                  ('collect-target-fusion-task-phase-live-skill-v8','FUSION_TASK_PHASE_LIVE_SKILL_V8'),
-                 ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'))
+                 ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'),
+                 ('collect-target-stable-start-short-v1','STABLE_START_SHORT_TASK_V1'))
              and adapter.spec.get('live_skill_start_step') == end_step
              and type(adapter.spec.get('max_ticks')) is int
              and (end_step < adapter.spec['max_ticks'] <= 66503 or

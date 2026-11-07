@@ -94,7 +94,8 @@ def _preflight(adapter, program, start_step, end_step, samples, windows):
     if spec.get('task_reference_diagnostic') is not None:
         from .fusion_task_reference_diagnostic_v1 import validate_registration
         validate_registration(spec)
-    _need(spec.get('phase') in (PHASE,'collect-target-fusion-task-phase-live-skill-v9'),
+    _need(spec.get('phase') in (PHASE,'collect-target-fusion-task-phase-live-skill-v9',
+                              'collect-target-stable-start-short-v1'),
           'EXACT_FUTURE_V8_OR_V9_TYPED_PHASE_REQUIRED')
     _need(type(program) is TrajectoryAdaptation, 'EXACT_TRAJECTORY_ADAPTATION_NO_WM_OR_DUCK_TYPE')
     _need(type(start_step) is int and type(end_step) is int
@@ -204,6 +205,10 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         report.update(task_reference_producer=PRODUCER,
             original_raw_H40_label='EXPLICIT_PRIVILEGED_TEACHER_REFERENCE_NOT_GR00T',
             GR00T_raw_H40_consumed=False,expert_training_eligible=False)
+        decision.update(task_reference_producer=PRODUCER,GR00T_raw_H40_consumed=False)
+    if adapter.spec.get('phase')=='collect-target-stable-start-short-v1':
+        from .stable_start_short_task_v1 import PRODUCER
+        report.update(task_reference_producer=PRODUCER,original_raw_H40_label='PRIVILEGED_STABLE_START_REFERENCE_NOT_GR00T',GR00T_raw_H40_consumed=False,expert_training_eligible=False)
         decision.update(task_reference_producer=PRODUCER,GR00T_raw_H40_consumed=False)
     if adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1':
         from .fusion_source_phase_c01_capability_v1 import PRODUCER

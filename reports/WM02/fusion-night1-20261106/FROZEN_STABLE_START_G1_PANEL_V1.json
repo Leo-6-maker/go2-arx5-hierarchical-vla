@@ -1,0 +1,29 @@
+{
+  "schema": "WM02_STABLE_START_G1_PANEL_V1",
+  "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "original_startup_joint2_joint3_rad": 0.9,
+  "physics_dt_s": 0.002,
+  "WBC_changes": false,
+  "source_state_range_is_physical_admission": false,
+  "initialization_boundary": 34303,
+  "native_endpoint": 38703,
+  "minimum_full_path_clearance_m": 0.14,
+  "Teacher_reference_step_m": 0.004,
+  "maximum_BASE_displacement_m": 0.002,
+  "score": "UNCHANGED_fusion_graded_short_skill_v1.score_contract",
+  "HOLD_qualification": "All original score predicates except signed_progress and distance_reduction; no task progress claim",
+  "Teacher_qualification": "All original strict short score predicates",
+  "assignments": [
+    {"native_run": "stable-start-g1-hold01", "method": "HOLD", "split": "DIAGNOSTIC", "restart": 1},
+    {"native_run": "stable-start-g1-hold02", "method": "HOLD", "split": "DIAGNOSTIC", "restart": 2},
+    {"native_run": "stable-start-g1-teacher04-01", "method": "GEOMETRIC_TEACHER_4MM", "split": "DIAGNOSTIC", "restart": 3}
+  ],
+  "data_relabelling_allowed": false,
+  "GR00T_queries": 0,
+  "model_updates": 0,
+  "GPU_physical_worlds": 0,
+  "native_worlds_simultaneous": 1,
+  "failure_action": "Preserve first failure; diagnose before any new condition"
+}
