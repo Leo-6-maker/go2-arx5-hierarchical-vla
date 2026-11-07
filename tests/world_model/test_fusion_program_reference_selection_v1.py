@@ -62,6 +62,9 @@ def test_real_counterfactual_with_action_blind_models_keeps_direct_tie_nominal()
         {'366104-SCALED': arrays}, method='WM_PRIMARY_SCALED', primary_seed=366104)
     assert report['selected_candidate'] == 'NOMINAL'
     np.testing.assert_array_equal(chosen.reference_path, program.reference_path)
+    # Real candidate forecasts and the original full path contain ndarrays;
+    # the original outer durable writer deliberately supplies no JSON default.
+    assert json.loads(json.dumps(report,allow_nan=False))==report
 
 
 def registered(tmp_path):

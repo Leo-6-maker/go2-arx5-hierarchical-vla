@@ -75,7 +75,10 @@ def choose(program, history, past_windows, models, *, method, primary_seed):
                   actual_reference_installations=0, native_qualification=False,
                   original_native_certificates_and_ACKs_still_required=True,
                   full_MPC_hidden_state_restored=False)
-    return selected, report
+    # The outer native wrapper uses the original strict JSON writer. Preserve
+    # this same pre-effect report as JSON values before it enters that wrapper.
+    from .storage import jsonable
+    return selected, jsonable(report)
 
 
 def prepare(adapter, program, history, past_windows):
