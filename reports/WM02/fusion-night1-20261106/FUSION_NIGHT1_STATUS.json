@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1794035676.5206711,
+  "snapshot_epoch": 1794036478.226637,
   "implementation_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
-  "current_native_job": null,
-  "current_neural_job": null,
+  "current_native_job": "fusion-night1-program-dev-dy01-01",
+  "current_neural_job": "fusion-night1-program-dev-dy01-gpu-01",
   "current_CPU_job": null,
-  "live_process_state": "DX02_BOTH_CLOSED_PID0",
+  "live_process_state": "DY01_PAIR_ACTIVE_NOT_YET_SEALED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 301,
   "FUSION_native_passes": 289,
@@ -286,7 +286,8 @@
     "PROGRAM_DEV_DX01_FIRST_FORECAST_ACTUAL_V1.json",
     "PROGRAM_REFERENCE_SELECTION_IMPLEMENTATION_V1.json",
     "PROGRAM_DEV_DX01_PREDICTION_ACTUAL_V1.json",
-    "PROGRAM_DEV_DX02_LAUNCH_ACTUAL_V1.json"
+    "PROGRAM_DEV_DX02_LAUNCH_ACTUAL_V1.json",
+    "PROGRAM_DEV_DX02_PREDICTION_ACTUAL_V2.json"
   ],
   "next": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
   "next_executable": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_dev_dx02_actual01.py\" 180",
@@ -750,7 +751,7 @@
   "program_T02_failure": "PROGRAM_TRAIN_T02_JOINT_ACCELERATION_FAILURE_ACTUAL_V1.json",
   "QT02_time2_actual": "QT02_TIME2_NOMINAL_NATIVE_ACTUAL_V1.json",
   "QH02_new_actual_query_pending_pair_reconciliation": 0,
-  "pending_native_task_integrations_not_in_sealed_denominator": false,
+  "pending_native_task_integrations_not_in_sealed_denominator": true,
   "QH02_physical_HOLD_gate_passed": true,
   "QH02_native_stage_passed": false,
   "QH02_actual": "QH02_COMPLETED_HOLD_WRAPPER_FAILURE_ACTUAL_V1.json",
@@ -766,5 +767,6 @@
   "DX01_query_already_completed_pending_pair_reconciliation": 0,
   "program_DEV_DX01_score": "PROGRAM_DEV_DX01_PREDICTION_ACTUAL_V1.json",
   "program_DEV_DX02_launch": "PROGRAM_DEV_DX02_LAUNCH_ACTUAL_V1.json",
-  "DX02_query_already_completed_pending_pair_reconciliation": 0
+  "DX02_query_already_completed_pending_pair_reconciliation": 0,
+  "program_DEV_DX02_score": "PROGRAM_DEV_DX02_PREDICTION_ACTUAL_V2.json"
 }
