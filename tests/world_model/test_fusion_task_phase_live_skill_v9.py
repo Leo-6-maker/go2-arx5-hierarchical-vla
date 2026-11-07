@@ -26,6 +26,11 @@ from test_fusion_task_phase_live_skill_pair_v8 import (
 from test_fusion_task_phase_live_skill_native_v8 import composition,flow
 
 
+def test_reference_selection_is_typed_before_initialization_assets_or_physics():
+    with pytest.raises(ValueError,match='EXPLICIT_FROZEN_SINGLE_CHOICE_DEV_POLICY_REQUIRED'):
+        contract.recipe_config(dict(program_reference_selection=dict(method='DEV_BEST_SEED')))
+
+
 @pytest.fixture
 def slow_pair(tmp_path,monkeypatch):
     f=original_pair_fixture.__wrapped__(tmp_path,monkeypatch)

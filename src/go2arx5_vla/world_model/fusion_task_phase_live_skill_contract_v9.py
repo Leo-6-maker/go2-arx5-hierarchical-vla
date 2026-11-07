@@ -54,6 +54,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py',
  'src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py',
  'src/go2arx5_vla/world_model/fusion_program_reference_intervention_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_program_reference_selection_v1.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -124,6 +125,9 @@ def recipe_config(spec):
     validate_registration(spec)
     from .fusion_program_reference_intervention_v1 import validate_scope
     validate_scope(spec)
+    if spec.get('program_reference_selection') is not None:
+        from .fusion_program_reference_selection_v1 import validate_registration as validate_selection
+        validate_selection(spec)
     from .fusion_task_phase_live_skill_pair_v9 import PAIR_MODE
     from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_IDENTITY,SOURCE_CAMERA_RECIPE
     from .fusion_source_camera_capture import SourceCameraCapture
