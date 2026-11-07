@@ -71,7 +71,7 @@ def response_targets(history,*,planned_H40,first_install_source_age_s,observed_w
     _need(type(first_install_source_age_s)in(int,float) and np.isfinite(first_install_source_age_s),
           'FINITE_PRE_EFFECT_FIRST_INSTALL_AGE')
     end=history['actual_history_native_steps'][-1]
-    original.require_install_clock(end*.002-first_install_source_age_s,end*.002)
+    original._require_install_age(end,first_install_source_age_s)
     _need(1<=len(observed_windows)<=HORIZON,'OBSERVED_PARTIAL_HORIZON_ONLY')
     base=np.asarray(history['past_consumed_EEF10_BASE7'],float)[-1,10:]
     _need(base.shape==(7,)and np.isfinite(base).all(),'FROZEN_BASE_REFERENCE_REQUIRED_FOR_LABEL_JOIN')

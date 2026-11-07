@@ -20,6 +20,15 @@ def _need(ok,why):
     if not ok:raise ValueError('LIVE_CAUSAL_FEATURES_'+why)
 
 
+def _require_install_age(native_step,age_s):
+    # Encode both endpoints in the original ROS nanosecond domain. A binary
+    # float product such as40428*.002 is one ULP above80856000000/1e9; using
+    # that product as a source timestamp falsely rejects an observed fresh age0.
+    now_ns=int(native_step)*2_000_000
+    source_ns=now_ns-int(round(float(age_s)*1e9))
+    require_install_clock(source_ns/1e9,now_ns/1e9)
+
+
 def _state(value,n):
     state=np.asarray(value,dtype=np.float64)
     _need(state.shape==(n,106),'ORIGINAL_106_STATE_LAYOUT')
@@ -78,8 +87,7 @@ def causal_inputs(history,*,past_source_age_s,candidate_H40,proposal_source_age_
     _need(age.shape==(8,)and np.isfinite(age).all()and np.all(age>=-1e-8)
           and np.all(age+.05<.4-1e-9),'PAST_ATOMS_WITHIN_ORIGINAL_TTL')
     _need(type(proposal_source_age_s)in(int,float)and np.isfinite(proposal_source_age_s),'ACTUAL_PRE_EFFECT_INSTALL_AGE')
-    now=float(steps[-1])*.002
-    require_install_clock(now-proposal_source_age_s,now)
+    _require_install_age(steps[-1],proposal_source_age_s)
     anchor=state[-1,86:89];rotation=_rotation6(state[-1,89:95],columns=True)
     actual_rotation=_rotation6(state[:8,89:95],columns=True)
     errors=np.column_stack(((command[:,:3]-state[:8,86:89])@rotation,

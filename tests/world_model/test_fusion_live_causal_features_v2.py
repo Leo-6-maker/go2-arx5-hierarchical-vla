@@ -62,3 +62,20 @@ def test_complete_short_program_preserves_terminal_hold_in_all_future_previews()
     h,path=fixture();plan=feature.plan_from_complete_reference_path(path[:2])
     np.testing.assert_array_equal(plan[0,2:],np.tile(path[1],(38,1)))
     np.testing.assert_array_equal(plan[2],np.tile(path[1],(40,1)))
+
+
+@pytest.mark.parametrize('step',[34303,40428,66503])
+def test_zero_measured_age_does_not_become_future_source_after_float_step_product(step):
+    h,p,r=rows();shift=step-34303
+    for key in ['actual_history_native_steps','past_reference_native_end_steps']:
+        h[key]=[v+shift for v in h[key]]
+    for i,row in enumerate(r):
+        row['native_start_step']+=shift;row['native_end_step']+=shift
+        row['clock']=dict(native_start_s=(step+25*i)*.002,
+            source_mpc_s=((step+25*(7*(i//7)))*2_000_000)/1e9)
+    value=feature.causal_inputs(h,past_source_age_s=np.zeros(8),planned_H40=p,first_install_source_age_s=0.)
+    assert value['prospective_install_clock'][0]==0.
+    result=feature.response_targets(h,planned_H40=p,first_install_source_age_s=0.,observed_windows=r)
+    assert result['observed_horizon_mask'].all()
+    with pytest.raises(ValueError,match='FRESH_MEASURED_SOURCE'):
+        feature.causal_inputs(h,past_source_age_s=np.zeros(8),planned_H40=p,first_install_source_age_s=-1e-9)

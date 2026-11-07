@@ -1,0 +1,131 @@
+{
+  "schema": "WM02_LIVE_PROGRAM_RECORD_JOIN_ACTUAL_V1",
+  "snapshot_epoch": 1794018585.1756723,
+  "actual_archive_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+  "actual_audit": {
+    "schema": "WM02_SEALED_LIVE_PROGRAM_RECORD_AUDIT_V1",
+    "actual_execution_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+    "future_pure_code_base_sha": "76f36d264ee1bf523214553d1dc68e4ef63934a8",
+    "future_RAM_code_contains_uncommitted_clock_repair": true,
+    "future_modules": {
+      "go2arx5_vla.world_model.fusion_live_causal_features_v1": "408e260e7fb5dee3f64d1c89a5764cedc232ded8394c4f8995c1cd5df65df932",
+      "go2arx5_vla.world_model.fusion_live_causal_features_v2": "65c7d1ddc6a115b8b91419f3408c53b1f87861304ae6c4b73211ee91974ea7a7",
+      "go2arx5_vla.world_model.fusion_live_program_replay_v1": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768"
+    },
+    "new_integrations": 0,
+    "new_queries": 0,
+    "neural_model_loads": 0,
+    "optimizer_updates": 0,
+    "site_writes": 0,
+    "registrations": 0,
+    "native_execution_authorized": false,
+    "status": "REAL_PROGRAM_RECORD_JOIN_AND_CAUSAL_FEATURE_EXTRACTION_PASS",
+    "physical_runs": 1,
+    "scene_layouts": 1,
+    "assignment": "DIAGNOSTIC",
+    "training_eligible_runs": 0,
+    "anchors": 184,
+    "feature_dimensions": 1614,
+    "features_sha256": "ba8f20e008f7ed1f63e82f3d57d7c47648d07d4cd1880012199cee5c6e9ee117",
+    "labels_sha256": "65462cc659236c31ce78c464a51739d4b1aa7958cf4e8f282ebb02712e7931fc",
+    "mask_sha256": "a7529c3994be0981ba454b73a2aa52b124dadda8d8b6c3cde8b2ebf522b0a845",
+    "feature_names": [
+      "measured_EEF_history",
+      "past_consumed_reference_error",
+      "past_reference_age_at_atom_start_s",
+      "planned_install_offsets_s",
+      "planned_install_source_ages_s",
+      "planned_published_H40",
+      "prospective_install_clock",
+      "robot_history"
+    ],
+    "valid_label_atoms": 2933,
+    "horizon_anchor_counts": {
+      "1": 184,
+      "4": 184,
+      "8": 183,
+      "16": 182
+    },
+    "exposure_mismatches": [],
+    "all40_consumed": true,
+    "maximum_observed_H16_TCP_displacement_m": 0.007546106808585801,
+    "masks_preserve_unobserved_tail": true,
+    "pre_effect_model_forecasts_saved": false,
+    "model_innovation_established": false,
+    "raw_arrays_returned": false,
+    "wall_s": 8.368894821032882,
+    "CPU_s": 1.881010804,
+    "actual_source_imports_verified": 49
+  },
+  "cost": {
+    "wall_s": 12.174221171997488,
+    "child_CPU_s": 2.099047
+  },
+  "helper_sha256": "deda1243efbb92dfcf36d6a90cca051d044bbd77dd0ee139efa39adfa9b4b982",
+  "receipt_sha256": "0ce1180cec8efb06211a469b971c736918922e551d9345a45cd07479323e42dd",
+  "diagnosis": {
+    "failed_audits_preserved": [
+      "CLOSED_MECHANICAL_PROGRAM_REPLAY_AUDIT02",
+      "CLOSED_MECHANICAL_PROGRAM_REPLAY_AUDIT03",
+      "CLOSED_MECHANICAL_PROGRAM_REPLAY_AUDIT04"
+    ],
+    "exact_failure_anchor_atom": 245,
+    "exact_native_step": 40428,
+    "recorded_native_time_s": 80.85599999999296,
+    "original_source_mpc_s": 80.856,
+    "canonical_measured_age_s": 0.0,
+    "wrong_nominal_float_s": 80.85600000000001,
+    "reconstructed_wrong_age_s": -1.4210854715202004e-14,
+    "repair": "Retain original actual_source_age and encode reconstructed clock endpoints as integer nanoseconds before calling the unchanged freshness validator.",
+    "native_TTL_or_safety_changed": false,
+    "negative_one_nanosecond_age_still_rejected": true
+  },
+  "tests": {
+    "NORMAL": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "71e6d0752fa19da83eb449c01b18fb3f98f425945cd79a06bc5f0c1e8b9d8c54",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "408e260e7fb5dee3f64d1c89a5764cedc232ded8394c4f8995c1cd5df65df932",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "65c7d1ddc6a115b8b91419f3408c53b1f87861304ae6c4b73211ee91974ea7a7",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "wall_s": 0.7195035989861935,
+      "child_CPU_s": 0.718305,
+      "log_sha256": "942692e9a927d3a51881b0263373f6e0da31458a9d60ad76b8ae26db40ec4dc2",
+      "passed": 34
+    },
+    "OPTIMIZED": {
+      "exit_code": 0,
+      "source_pins_before": {
+        "tests/world_model/test_fusion_live_program_replay_v1.py": "0553ed79adb41c246f12d4213fd02c38d50e9cd83cc83fcd8cb711ea37226cbc",
+        "tests/world_model/test_fusion_live_causal_features_v1.py": "5a009621d5027b93683072070b3cbabc564e5cb816101c7ba4bdab77a5dd863c",
+        "tests/world_model/test_fusion_live_causal_features_v2.py": "71e6d0752fa19da83eb449c01b18fb3f98f425945cd79a06bc5f0c1e8b9d8c54",
+        "src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py": "a17c16df0f618de6e1363d9c90a6a0d7d66dab8e22928ccb87cd31a522fda768",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py": "408e260e7fb5dee3f64d1c89a5764cedc232ded8394c4f8995c1cd5df65df932",
+        "src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py": "65c7d1ddc6a115b8b91419f3408c53b1f87861304ae6c4b73211ee91974ea7a7",
+        "src/go2arx5_vla/world_model/target_reference.py": "93111f13988a7952237099e637daa3c844dfaa7b252115b42f794eba6200be52",
+        "scripts/pi0294/task_clock.py": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7"
+      },
+      "wall_s": 0.6957890229823533,
+      "child_CPU_s": 0.6947679999999998,
+      "log_sha256": "c44978cf12a861747497ca38b445921520b4ce013efff0aea5f1dfa93499925e",
+      "passed": 34
+    }
+  },
+  "interpretation": {
+    "training_eligible_runs": 0,
+    "old_DIAGNOSTIC_never_relabelled": true,
+    "independent_physical_runs": 1,
+    "scene_layouts": 1,
+    "overlapping_anchors_are_not_independent_parents": true,
+    "model_training_started": false,
+    "pre_effect_forecasts_saved": false,
+    "model_innovation_established": false,
+    "WM_control_gain": false
+  },
+  "next": "Fresh TRAIN T01 is already dispatched under separate immutable source76; build the new program-response trainer while its original raw collector runs. Derive/fit only after corrected causal audit, never patch its capsule."
+}
