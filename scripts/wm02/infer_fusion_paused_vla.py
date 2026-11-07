@@ -13,12 +13,17 @@ from types import SimpleNamespace
 import numpy as np
 
 from go2arx5_vla.world_model.fusion_paused_inference import (
-    CHECKPOINT_INVENTORY, MODE, PROFILE, RESULT_SCHEMA, need, read_payload, validate_spec)
+    CHECKPOINT_INVENTORY, MODE, PROFILE, RESULT_SCHEMA, need, read_payload, validate_spec,
+    LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT)
 from go2arx5_vla.world_model.storage import digest, write_json
 
 
 def _load_frozen(spec, output):
-    """Original loader/precision ABI; import CUDA only after all input checks."""
+    """Original loader/precision ABI, after admission and checkpoint checks.
+
+    An explicitly paired preload may precede snapshot creation. Generation still
+    requires all original input, capture, task and actual-pause checks.
+    """
     from scripts.pi0292.train_adapter import official_import
     bindings = spec['neural_bindings']
     official_import(bindings['source'])
@@ -102,21 +107,35 @@ def infer(spec, output):
         query_uuid=spec.get('query_uuid'), retry_authorized=False, started_epoch=time.time()))
     start, cpu = time.monotonic(), time.process_time()
     stage, queries, completed = 'INPUT_VALIDATION', 0, 0
+    load_calls,loads_completed=0,0
+    check_wall=load_wall=wait_wall=None
+
+    def load_verified():
+        nonlocal stage,load_calls,loads_completed,check_wall,load_wall
+        stage='CHECKPOINT_INTEGRITY';_deadline(spec);tick=time.monotonic()
+        checkpoint=Path(spec['checkpoint'])
+        try:
+            for name,pin in spec['checkpoint_files'].items():
+                need(digest(checkpoint/name)==pin,'FROZEN_WEIGHT_OR_PROCESSOR_BYTES_CHANGED:'+name)
+        finally:check_wall=time.monotonic()-tick
+        _deadline(spec);stage='MODEL_LOAD';tick=time.monotonic();load_calls+=1
+        instance,torch=_load_frozen(spec,output)
+        load_wall=time.monotonic()-tick;loads_completed+=1;_deadline(spec)
+        return instance,torch
+
     try:
         validate_spec(spec)
+        schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+        if schedule==PRELOAD_BEFORE_SNAPSHOT:
+            instance,torch=load_verified()
         from go2arx5_vla.world_model.fusion_paused_query_bridge import wait_for_snapshot
-        tick = time.monotonic()
-        wait_for_snapshot(spec)
-        wait_wall = time.monotonic()-tick
+        stage='SNAPSHOT_WAIT';tick=time.monotonic()
+        try:wait_for_snapshot(spec)
+        finally:wait_wall=time.monotonic()-tick
+        stage='ACTUAL_INPUT_VALIDATION'
         payload, identity, _ = read_payload(spec)
-        checkpoint = Path(spec['checkpoint'])
-        for name, pin in spec['checkpoint_files'].items():
-            need(digest(checkpoint/name) == pin, 'FROZEN_WEIGHT_OR_PROCESSOR_BYTES_CHANGED:'+name)
-        _deadline(spec)
-        stage = 'MODEL_LOAD'
-        tick = time.monotonic()
-        instance, torch = _load_frozen(spec, output)
-        load_wall = time.monotonic()-tick
+        if schedule==LOAD_AFTER_SNAPSHOT:
+            instance,torch=load_verified()
         _deadline(spec)
         stage = 'ONE_GENERATION'
         write_json(output/'GENERATION_INTENT.private.json', dict(
@@ -159,6 +178,7 @@ def infer(spec, output):
             native_execution_authorized=False, native_caller_must_verify_still_paused=True,
             online_closed_loop=False, target_embodiment_qualified=False, target_task_qualified=False,
             snapshot_wait_wall_s=wait_wall, model_cold_load_wall_s=load_wall,
+            frozen_model_load_schedule=schedule,checkpoint_integrity_check_wall_s=check_wall,
             wall_s=time.monotonic()-start, CPU_s=time.process_time()-cpu,
             simulated_time_advanced_s=0., reference_TTL_rebased=False,
             returned_action_is_live_reference=False,
@@ -179,6 +199,11 @@ def infer(spec, output):
         write_json(output/'FAILED.private.json', dict(schema=RESULT_SCHEMA,
             query_uuid=spec.get('query_uuid'), stage=stage, failure=type(error).__name__+': '+str(error),
             generation_invocations=queries, completed_queries=completed,
+            model_load_calls=load_calls,completed_model_loads=loads_completed,
+            model_load_completion_unknown=load_calls>loads_completed,
+            frozen_model_load_schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT),
+            checkpoint_integrity_check_wall_s=check_wall,model_cold_load_wall_s=load_wall,
+            snapshot_wait_wall_s=wait_wall,
             completed_query_unknown_after_intent=queries == 1 and completed == 0,
             retry_authorized=False, native_integrations=0, native_execution_authorized=False,
             retained_raw_action=(output/'REAL_VLA_ACTION.npz').exists(),

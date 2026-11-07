@@ -137,6 +137,12 @@ def validate_pair_spec(spec):
     need(type(spec.get('wall_limit_s')) in (int, float)
          and 0 < spec['wall_limit_s'] <= wall_limit,
          f'FINITE_ONE_QUERY_WALL_AT_MOST_{wall_limit}_SECONDS')
+    from .fusion_paused_inference import LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT
+    schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+    need(schedule==producer.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+         and schedule in(LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT)
+         and (schedule==LOAD_AFTER_SNAPSHOT or pair['task_condition']==MECHANICAL_TASK_CONDITION),
+         'BOTH_REGISTERED_SCOPES_AGREE_ON_MECHANICAL_ONLY_PRELOAD')
     # The manifest retains its real V9 slow-feedback phase. The actual spec is LIVE V9.
     episode = json.loads(_bytes(producer['episode_manifest'], producer['episode_manifest_sha256']))
     initialization.episode_contract(episode)

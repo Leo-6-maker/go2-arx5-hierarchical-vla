@@ -414,7 +414,8 @@ def test_tracking_diagnostic_consumes_complete_path_but_does_not_erase_strict_fa
     assert not complete['full_task_success'] and not complete['target_task_success']
 
 
-def test_mechanical_condition_is_explicit_and_cannot_change_old_task_contracts(short_pair):
+@pytest.fixture
+def mechanical_pair(short_pair):
     from go2arx5_vla.world_model import fusion_bounded_reference_tracking_v1 as mechanical
     from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
     f=short_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
@@ -427,11 +428,19 @@ def test_mechanical_condition_is_explicit_and_cannot_change_old_task_contracts(s
         paused_target_task_sha256=document_hash(task),
         paused_score_contract_file_sha256=digest(a.spec['paused_score_contract']))
     p.update(task_condition=mechanical.TASK_CONDITION,task_sha256=document_hash(task))
-    g['paused_task_sha256']=document_hash(task)
+    g.update(paused_task_sha256=document_hash(task),task_condition=mechanical.TASK_CONDITION)
     name='src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py'
     dest=Path(g['source_root'])/name;dest.write_bytes((PROJECT/name).read_bytes())
     g['source_files'][name]=digest(dest);a.spec['source_files']=g['source_files'].copy()
     bind(g,a,p);f['task']=task;a.fixture_task=task
+    return f
+
+
+def test_mechanical_condition_is_explicit_and_cannot_change_old_task_contracts(mechanical_pair):
+    from go2arx5_vla.world_model import fusion_bounded_reference_tracking_v1 as mechanical
+    from go2arx5_vla.world_model import fusion_graded_short_skill_v1 as short
+    f=mechanical_pair;g,a,p=f['gpu'],f['adapter'],f['pair'];task=f['task']
+    score=json.loads(Path(a.spec['paused_score_contract']).read_bytes())
     assert bridge.validate_pair_spec(g)==(p,a.spec)
     assert task['task_id']==mechanical.TASK_ID and score['mechanical_domain']==mechanical.domain_contract()
     assert score['actual_short_skill_score_contract']==short.score_contract()
@@ -440,6 +449,45 @@ def test_mechanical_condition_is_explicit_and_cannot_change_old_task_contracts(s
     assert identity['task_condition']==mechanical.TASK_CONDITION
     g['wall_limit_s']=1201;bind(g,a,p)
     with pytest.raises(ValueError,match='AT_MOST_1200_SECONDS'):bridge.validate_pair_spec(g)
+
+
+@pytest.mark.parametrize('capture_failure',[False,True])
+def test_preloaded_model_still_needs_fresh_capture_before_one_original_generate(mechanical_pair,monkeypatch,capture_failure):
+    f=mechanical_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    g['frozen_model_load_schedule']=a.spec['frozen_model_load_schedule']=inference.PRELOAD_BEFORE_SNAPSHOT
+    bind(g,a,p);events=install_fake_draw(monkeypatch)
+    def wait(spec):
+        assert spec is g and events.loads==1 and events.queries==0
+        assert not Path(g['recorded_observation']).exists()
+        if capture_failure:raise RuntimeError('SNAPSHOT_MISSING_NO_DRAW')
+        capture_source_archive(f)
+    monkeypatch.setattr(bridge,'wait_for_snapshot',wait)
+    out=Path(g['registered_root'])/'fit-01';out.mkdir()
+    if capture_failure:
+        with pytest.raises(RuntimeError,match='SNAPSHOT_MISSING'):infer.infer(g,out)
+        failure=json.loads((out/'FAILED.private.json').read_bytes())
+        assert failure['completed_model_loads']==1 and failure['generation_invocations']==0
+        assert failure['stage']=='SNAPSHOT_WAIT' and not failure['retry_authorized']
+        assert events.loads==1 and events.queries==0
+    else:
+        result=infer.infer(g,out)
+        assert events.loads==events.queries==1
+        assert result['frozen_model_load_schedule']==inference.PRELOAD_BEFORE_SNAPSHOT
+        assert result['checkpoint_integrity_check_wall_s']>=0
+        assert result['physical_H40_shape']==[40,10] and not result['native_execution_authorized']
+
+
+@pytest.mark.parametrize('fault',['one-sided','strict-task','unknown-schedule'])
+def test_early_load_cannot_be_silently_enabled_on_old_or_mismatched_scopes(mechanical_pair,monkeypatch,fault):
+    f=mechanical_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    g['frozen_model_load_schedule']=inference.PRELOAD_BEFORE_SNAPSHOT
+    if fault!='one-sided':a.spec['frozen_model_load_schedule']=inference.PRELOAD_BEFORE_SNAPSHOT
+    if fault=='strict-task':p['task_condition']=a.spec['task_condition']=contract.SHORT_TASK_CONDITION
+    elif fault=='unknown-schedule':g['frozen_model_load_schedule']=a.spec['frozen_model_load_schedule']='UNDECLARED_PRELOAD'
+    bind(g,a,p);events=install_fake_draw(monkeypatch)
+    out=Path(g['registered_root'])/'fit-01';out.mkdir()
+    with pytest.raises(ValueError):infer.infer(g,out)
+    assert events.loads==events.queries==0
 
 
 @pytest.mark.parametrize('install_failure',[False,True])

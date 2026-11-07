@@ -1,0 +1,364 @@
+{
+  "schema": "WM02_BOUNDED_FULL_H40_CONSUMPTION_ACTUAL_V1",
+  "snapshot_epoch": 1794017567.5967746,
+  "actual_execution_source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+  "question": "Can a bounded real frozen GR00T full H40 be installed and fully consumed through the original target WBC?",
+  "actual_result": "YES_MECHANICAL_QUALIFICATION_BOTH_CLOSED0_NOT_STRICT_SHORT_TASK_SUCCESS",
+  "source_terminal_receipt_sha256": "d2989d1797e245ffc71f29f5e2973706de22d9941d3348b19aba15b7121b8ce3",
+  "native": {
+    "run": "fusion-night1-bounded-h40-mechanical-s050-02",
+    "execution_spec_sha256": "cccd6eabe14738f524e33e51fbae1aa87a38df5766abd90d5f6f4de1a01c3a6e",
+    "result_sha256": "99dfe07e6a7ac9f47d91c7e73c3c9dbf77e7aab0654e1858d510167c6b620269",
+    "lease_sha256": "d48b39878c23c4db7f9591470577ed74e8229a0b7a265839d1833823469125aa",
+    "worker_sha256": "8a9ea70f3676fecac9c091325ee25cc58aab4d94c9c137ba536be21b977719d7",
+    "exit_code": 0,
+    "status": "NATIVE_STAGE_PASSED",
+    "actual_target_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_task_transitions": 2560,
+    "prefix_task_transitions": 1272,
+    "generated_suffix_transitions": 1288,
+    "partial_native_ticks": 3,
+    "unique_generated_H40": 1,
+    "raw_knots_consumed": 40,
+    "generated_reference_installations": 184,
+    "solver_confirmed_suffix_atoms": 1288,
+    "gripper_confirmed_suffix_atoms": 1288,
+    "movement_atoms": 439,
+    "minimum_tail_hold_atoms": 8,
+    "extra_final_hold_atoms": 841,
+    "generated_suffix_simulated_s": 64.4,
+    "actual_endpoint_minus_desired_m": 0.0025754912265254907,
+    "actual_endpoint_minus_reference_m": 0.1086899901796599,
+    "maximum_generated_position_tracking_error_m": 0.005381841556043843,
+    "final_original_install_ACKs_all_accept": true,
+    "original_install_ACK_count": 377,
+    "original_warnings": 0,
+    "trace": {
+      "PD_callbacks_recorded": 49468,
+      "STOP_observed": false,
+      "errors": [],
+      "full_payload_records": 6651,
+      "full_payloads_not_retained": 0,
+      "input_files_sha256": {
+        "init.trace": "a3ed32a7a53400cf2a03f2692e82afd5d4cfcda6de7b038b2716c55981414d1c",
+        "init.trace.snapshots": "761d8bf0070da64d3d6c361672957fff3765789ce1985279f584bdadd0220ca9",
+        "init.trace.summary": "8332091ae83630319eaa4ce2dc97391758b43a013395df2878a100c6219f89f5"
+      },
+      "integrations_after_first_STOP": null,
+      "missing": [],
+      "native_step_records": 66503,
+      "records": 508874,
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "writer": {
+        "dropped": 0,
+        "events": 508874,
+        "sealed_at_explicit_pause": true,
+        "stop_latched": false,
+        "written": 508874
+      }
+    },
+    "cleanup": {
+      "all_four_children_exit_zero": true,
+      "owned_process_exits": [
+        {
+          "exit_code": 0,
+          "label": null,
+          "name": "planner",
+          "returncode": null
+        },
+        {
+          "exit_code": 0,
+          "label": null,
+          "name": "controller",
+          "returncode": null
+        },
+        {
+          "exit_code": 0,
+          "label": null,
+          "name": "solver",
+          "returncode": null
+        },
+        {
+          "exit_code": 0,
+          "label": null,
+          "name": "sim",
+          "returncode": null
+        }
+      ],
+      "physics_stop_count": 0,
+      "physics_stop_summaries": []
+    },
+    "cost": {
+      "CPU_s": 390.224194886,
+      "child_CPU_s": 1614.6734119999999,
+      "exit_code": 0,
+      "wall_s": 1137.8503145617433
+    },
+    "systemd_CPU_s": 2014.56751,
+    "host_peak_bytes": 9788567552,
+    "closed_before_registered_deadline_s": 52.74914908409119
+  },
+  "gpu": {
+    "run": "fusion-night1-bounded-h40-mechanical-s050-gpu-02",
+    "execution_spec_sha256": "3e0ead001820ffb596f666990d369de35351dbc295601c177842900c31f45283",
+    "result_sha256": "c399e1fe5d0b6dc7d17f581ab42d7d5b10f590cebc22935e53501828ef783bfc",
+    "lease_sha256": "c89894fc7440350d6c905e18973ded741750dd97d0c27ce7941fc75f6b7ee6b8",
+    "worker_sha256": "b8f2aacbac59f63d677ab4cda26ed98ac07d5dd65db298fcfed14c88255da487",
+    "exit_code": 0,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 1,
+    "Processor_decodes": 1,
+    "seed": 366104,
+    "noise": {
+      "device": null,
+      "dtype": "torch.float32",
+      "seed": null,
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "action_sha256": "6aded24f8b2dd43a563e79ea25c5e10ecd76e7806d040211146238e487dfc03b",
+    "observation_sha256": "5bfc491aa1add861fe33b38f16fc0c7c2b7ba40f35c24096e2032538ebf787b6",
+    "mapped_payload_sha256": "32064607df9da51c75d04b0525dab4cab4561797b654f71301121d4ec46635c6",
+    "query_uuid": "1dc71564-a253-46b0-b923-9a2f60b35022",
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "query_wall_s": 1.2895535859279335,
+    "snapshot_wait_wall_s": 467.2846263651736,
+    "model_load_wall_s": 90.6471254080534,
+    "function_wall_s": 679.9154703728855,
+    "function_CPU_s": 147.882690637,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "cost": {
+      "CPU_s": null,
+      "child_CPU_s": 149.196606,
+      "exit_code": 0,
+      "wall_s": 681.7819224502891
+    },
+    "systemd_CPU_s": 149.699039,
+    "host_peak_bytes": 12366045184
+  },
+  "artifacts": {
+    "LIVE_SKILL_FAILED.private.json": {
+      "bytes": null,
+      "sha256": null
+    },
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": {
+      "bytes": 32945,
+      "sha256": "f6a7760ff8a288515279da3521674e7221410dd3bf121701f42b6bf4bd52391b"
+    },
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": {
+      "bytes": 70853424,
+      "sha256": "937701b7ac0f676ceb0e8db54a1a2269e889e238b6220debe6bcc9563332c49a"
+    },
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": {
+      "bytes": 2415,
+      "sha256": "9a5a6ff233780883bc05f2f0746beaa27cc239dd8e20d1f0e67fe0f3831897b0"
+    },
+    "LIVE_SKILL_SEGMENT.private.json": {
+      "bytes": 89094684,
+      "sha256": "686757f3006d5cb5c48e78c2bad9d6aab90acea211a04b1c3621ef833326326e"
+    },
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": {
+      "bytes": 301785,
+      "sha256": "353701915d63f5f74b342f3ca24312f5629449400cb2851c0b746cbb7a88b48d"
+    },
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": {
+      "bytes": 974,
+      "sha256": "b0cc9776d4cfb7886274bf391d05df5da4380165b4324ff733508d74598908e1"
+    },
+    "LIVE_SKILL_TRACKING_DIAGNOSTIC_SCREEN.private.json": {
+      "bytes": null,
+      "sha256": null
+    }
+  },
+  "sealed_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 133506756,
+      "sha256": "bca47b2f46be47b5cd2a83cbc1f96683ae0629c494811fcf2962ea96d40f1b16"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 427454176,
+      "sha256": "a3ed32a7a53400cf2a03f2692e82afd5d4cfcda6de7b038b2716c55981414d1c"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "a4fcf08d86bc1e93aa7b6d335369517060a535f11f81f7e6ad61b835a92ce870"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "bytes": 243031698,
+      "sha256": "d5e55afc650bc351d8e1d543dc1cbd278488395fed53bba612896970e449e28c"
+    }
+  ],
+  "strict_short_task_outcome": {
+    "approach_step_success": false,
+    "decision_native_step": 34303,
+    "full_task_success": false,
+    "metrics": {
+      "final_hold_TCP_diameter_m": 3.731154770423992e-05,
+      "final_hold_TCP_max_speed_m_s": 0.00043011098445640343,
+      "maximum_TCP_excursion_m": 0.00840773581814806,
+      "maximum_base_displacement_m": 0.0015866912015813622,
+      "maximum_base_rotation_rad": 0.004829149783223732,
+      "maximum_lateral_drift_m": 0.005217962642723023,
+      "maximum_object_displacement_m": 0.0,
+      "minimum_finger_opening_m": 0.041610441371898586,
+      "precontact_distance_reduction_m": 0.0030280120614209483,
+      "signed_progress_m": 0.0030924664171515094
+    },
+    "native_execution_authorized": false,
+    "old_3703_score_relabelled": false,
+    "pick_place_success_claim": false,
+    "precontact_arrival_claim": false,
+    "predicates": {
+      "base_orientation": true,
+      "base_still": true,
+      "distance_reduction": true,
+      "excursion": true,
+      "hold": true,
+      "lateral": false,
+      "no_robot_object_contact": true,
+      "object_still": true,
+      "open": true,
+      "original_native_safety": true,
+      "signed_progress": true
+    },
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "scorer_only_privileged_geometry": true,
+    "source_task_phase_equivalence": false,
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "thresholds_are_native_safety": false
+  },
+  "strict_short_proposal_screen": {
+    "actual_task_success_established": false,
+    "cube_use": "SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT",
+    "desired_points_checked": 440,
+    "metrics": {
+      "final_cube_distance_reduction_m": 0.003458419030610116,
+      "final_signed_progress_m": 0.0035382685909788663,
+      "maximum_TCP_excursion_m": 0.0116979913632961,
+      "maximum_lateral_drift_m": 0.009750292755343207,
+      "minimum_desired_or_reference_cube_distance_m": 0.20773925573127372,
+      "minimum_finger_opening_m": 0.0416681261062622
+    },
+    "native_execution_authorized": false,
+    "native_safety_established": false,
+    "predicates": {
+      "distance_reduction": true,
+      "excursion": true,
+      "lateral": false,
+      "noncontact_geometry": true,
+      "open": true,
+      "signed_progress": true
+    },
+    "qualified": false,
+    "raw_knots": 40,
+    "schema": "WM02_GRADED_SHORT_FULL_H40_DESIRED_INTENT_SCREEN_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+  },
+  "mechanical_screen": {
+    "domain_contract": {
+      "geometry_scale": 1.0,
+      "maximum_TCP_excursion_m": 0.025,
+      "maximum_TCP_rotation_rad": 0.1,
+      "minimum_TCP_cube_distance_m": 0.14,
+      "minimum_finger_opening_m": 0.038,
+      "native_safety_thresholds_changed": false,
+      "raw_knots": 40,
+      "schema": "WM02_BOUNDED_FULL_H40_MECHANICAL_DOMAIN_V1",
+      "task_direction_is_an_outcome_not_an_admission_gate": true,
+      "task_success_claim": false
+    },
+    "eligible_for_original_native_certificate": true,
+    "metrics": {
+      "final_cube_distance_reduction_m": 0.003458419030610116,
+      "final_signed_progress_m": 0.0035382685909788663,
+      "maximum_TCP_excursion_m": 0.0116979913632961,
+      "maximum_TCP_rotation_rad": 0.08114000020056747,
+      "maximum_lateral_drift_m": 0.009750292755343207,
+      "minimum_desired_or_reference_cube_distance_m": 0.20773925573127372,
+      "minimum_finger_opening_m": 0.0416681261062622
+    },
+    "native_execution_authorized": false,
+    "native_safety_established": false,
+    "predicates": {
+      "excursion": true,
+      "noncontact_geometry": true,
+      "open": true,
+      "orientation": true
+    },
+    "role": "MECHANICAL_CONSUMPTION_QUALIFICATION_NOT_SEMANTIC_SKILL_OR_WM_BENEFIT",
+    "schema": "WM02_BOUNDED_FULL_H40_MECHANICAL_SCREEN_V1",
+    "strict_short_proposal_screen": {
+      "actual_task_success_established": false,
+      "cube_use": "SCORER_ONLY_FROZEN_ACTUAL_B_GEOMETRY_NOT_POLICY_INPUT",
+      "desired_points_checked": 440,
+      "metrics": {
+        "final_cube_distance_reduction_m": 0.003458419030610116,
+        "final_signed_progress_m": 0.0035382685909788663,
+        "maximum_TCP_excursion_m": 0.0116979913632961,
+        "maximum_lateral_drift_m": 0.009750292755343207,
+        "minimum_desired_or_reference_cube_distance_m": 0.20773925573127372,
+        "minimum_finger_opening_m": 0.0416681261062622
+      },
+      "native_execution_authorized": false,
+      "native_safety_established": false,
+      "predicates": {
+        "distance_reduction": true,
+        "excursion": true,
+        "lateral": false,
+        "noncontact_geometry": true,
+        "open": true,
+        "signed_progress": true
+      },
+      "qualified": false,
+      "raw_knots": 40,
+      "schema": "WM02_GRADED_SHORT_FULL_H40_DESIRED_INTENT_SCREEN_V1",
+      "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+    },
+    "strict_short_task_success": false,
+    "task_id": "FUSION_BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1"
+  },
+  "positive": "First full generated H40 mechanically consumed with original certificate/ACK/solver/gripper/TTL and clean shutdown.",
+  "negative": "Actual lateral5.217963mm exceeds unchanged3mm; desired proposal lateral9.750293mm also fails. Tracking improvement must not be relabelled semantic task repair.",
+  "strict_task_success": false,
+  "full_tasks": 0,
+  "WM_control_gain": false,
+  "paused_assisted": true,
+  "online_closed_loop": false,
+  "exact_hidden_state_forks": false,
+  "selected_policy_id": "DERIVED_ONLY_NOT_EXPORTED",
+  "source_phase_equivalence": false,
+  "zero_shot_transfer_established": false,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0,
+  "new_GR00T_updates": 0,
+  "counts_after_reconciliation": {
+    "FUSION_attempts": 290,
+    "FUSION_passes": 282,
+    "FUSION_failures": 8,
+    "FUSION_native_ticks": 1576395,
+    "with_PILOT2_attempts": 944,
+    "with_PILOT2_passes": 931,
+    "with_PILOT2_failures": 13,
+    "with_PILOT2_native_ticks": 4563688,
+    "VLA_queries": 13,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "original_site_cutoff_unchanged": true,
+  "next": "Audit full-preview causal record extraction on this DIAGNOSTIC without fitting it; register fresh TRAIN data with preloaded frozen weights under original finite owner scope."
+}

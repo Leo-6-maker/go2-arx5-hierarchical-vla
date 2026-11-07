@@ -24,6 +24,8 @@ LIVE_SKILL_PAIR_BINDING_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8'
 SLOW_LIVE_SKILL_PAIR_BINDING_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9'
 LIVE_SKILL_PAIR_BINDING_MODES = (LIVE_SKILL_PAIR_BINDING_MODE,SLOW_LIVE_SKILL_PAIR_BINDING_MODE)
 PAIR_BINDING_MODES = (PAIR_BINDING_MODE, POSTURE_PAIR_BINDING_MODE, *LIVE_SKILL_PAIR_BINDING_MODES)
+LOAD_AFTER_SNAPSHOT='AFTER_VALIDATED_SNAPSHOT'
+PRELOAD_BEFORE_SNAPSHOT='PRELOAD_FROZEN_WEIGHTS_BEFORE_SNAPSHOT_V1'
 RESULT_SCHEMA = 'WM02_FUSION_LIVE_PAUSED_INFERENCE_RESULT_V1'
 CHECKPOINT = '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
 # Exact full-file inventory of the actually delivered CORR source/target draws.
@@ -74,6 +76,12 @@ def validate_spec(spec):
          and isinstance(spec.get('source_sha'), str) and re.fullmatch('[0-9a-f]{40}',spec['source_sha'])
          and isinstance(spec.get('query_uuid'), str), 'PREDECLARED_SEED_QUERY_AND_INPUT_IDENTITY')
     uuid_string(spec['query_uuid'])
+    schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+    need(schedule in(LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT),'EXPLICIT_FROZEN_MODEL_LOAD_SCHEDULE')
+    if schedule==PRELOAD_BEFORE_SNAPSHOT:
+        need(spec.get('snapshot_binding_mode')==SLOW_LIVE_SKILL_PAIR_BINDING_MODE
+             and spec.get('task_condition')=='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',
+             'PREREGISTERED_MECHANICAL_PAIR_ONLY_FOR_EARLY_WEIGHT_LOAD')
     if spec.get('snapshot_binding_mode') == BINDING_MODE:
         need(_hash(spec.get('recorded_observation_sha256')), 'PREEXISTING_EXACT_SNAPSHOT_SHA')
     elif spec.get('snapshot_binding_mode') in PAIR_BINDING_MODES:
