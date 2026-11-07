@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import pytest
 
-from scripts.wm02.renew_fusion_scope import preflight, request_contract
+from scripts.wm02.renew_fusion_scope import preflight, request_contract, close_data_volume_window
 from go2arx5_vla.world_model.pilot1_scope import C08, PLAN_SHA
 from go2arx5_vla.world_model.fusion_contract import PLAN
 
@@ -126,3 +126,28 @@ def test_changed_parent_bytes_fail_the_pinned_preflight(tmp_path):
     Path(request['campaign_root'], 'control/LEASE.json').write_text('{}')
     with actual_context(), pytest.raises(PermissionError, match='PINNED_METADATA_BYTES'):
         preflight(request)
+
+
+def test_qualified_volume_close_preserves_expired_deadline_and_refuses_replay(tmp_path):
+    request, parent, pilot, fusion = fixtures(tmp_path)
+    path = Path(request['old_fusion_binding']).parent/'LEASE.json'
+    value = dict(fusion, status='CLOSED')
+    with actual_context():
+        receipt = close_data_volume_window(path, value, request['old_fusion_lease_sha256'], request)
+        assert json.loads(path.read_bytes()) == value
+        assert receipt['before_sha256'] == request['old_fusion_lease_sha256']
+        with pytest.raises(PermissionError, match='PINNED_METADATA_BYTES'):
+            close_data_volume_window(path, value, request['old_fusion_lease_sha256'], request)
+
+
+def test_data_volume_writer_cannot_write_other_lease_or_device(tmp_path):
+    request, parent, pilot, fusion = fixtures(tmp_path)
+    path = Path(request['old_fusion_binding']).parent/'LEASE.json'
+    before = path.read_bytes()
+    with actual_context(), pytest.raises(PermissionError, match='EXACT_QUALIFIED'):
+        close_data_volume_window(path, dict(fusion, status='CLOSED'), request['old_fusion_lease_sha256'],
+                                 dict(request, qualified_storage_device=-1))
+    with actual_context(), pytest.raises(PermissionError, match='EXACT_QUALIFIED'):
+        close_data_volume_window(Path(request['old_pilot_binding']).parent/'LEASE.json',
+                                 dict(pilot, status='CLOSED'), request['old_pilot_lease_sha256'], request)
+    assert path.read_bytes() == before

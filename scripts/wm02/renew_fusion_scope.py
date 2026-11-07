@@ -59,6 +59,30 @@ def load(path, pin=None):
     return json.loads(raw), digest
 
 
+def close_data_volume_window(path, value, pin, request):
+    """Original durable writer for the qualified NTFS supplement metadata.
+
+    Called only while all three original owner locks are held. NTFS presents
+    uid=0, so the source-owned-ledger CAS is inapplicable; its ownership guard
+    remains unchanged. The original Journal retains intent/result custody.
+    """
+    from scripts.pi0292.durable import write
+    path = Path(path)
+    need(path == Path(request['old_fusion_binding']).parent/'LEASE.json'
+         and path.stat().st_dev == request['qualified_storage_device'],
+         'EXACT_QUALIFIED_DATA_VOLUME_SUPPLEMENT_ONLY')
+    before, _ = load(path, pin)
+    need(before['status'] == 'ACTIVE' and before['deadline_epoch'] <= time.time()
+         and before['owner'] == request['owner'] and value['status'] == 'CLOSED'
+         and value['deadline_epoch'] == before['deadline_epoch'],
+         'EXPIRED_SUPPLEMENT_CLOSE_ONLY')
+    write(path, value)
+    actual, after = load(path)
+    need(actual == value, 'DURABLE_CLOSE_READBACK')
+    return dict(status='CONFIRMED_EXPIRED_SUPPLEMENT_CLOSE', before_sha256=pin,
+                after_sha256=after, writer='ORIGINAL_DURABLE_WRITE_UNDER_CANONICAL_OWNER_LOCKS')
+
+
 def preflight(request):
     from go2arx5_vla.world_model.pilot1_scope import binding_contract as pilot_contract
     from go2arx5_vla.world_model.fusion_scope import binding_contract as fusion_contract
@@ -151,6 +175,8 @@ def renew(path, *, execute=False):
                          renewal_request_sha256=request_sha)
             journal.once(key+'-'+label, dict(request_sha256=request_sha, before_sha256=pin),
                          lambda target=target, value=value, pin=pin, label=label:
+                         close_data_volume_window(target, value, pin, request)
+                         if label == 'OLD-FUSION-CLOSE' else
                          once(target, value, key+'-'+label, expected_before_sha256=pin))
         updated = dict(parent, deadline_epoch=request['parent_deadline_epoch'],
                        previous_deadline_epoch=parent['deadline_epoch'],
