@@ -285,7 +285,7 @@
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
   "next": "Implement new-layout native TRAIN/DEV collection and admitted nonzero TASK_ADAPTER training; all ten static layouts ready, G1 passed. No repeat of completed G1/camera/static work.",
-  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g2_camera01.py 180 (read-only; static executor completed, do not replay)",
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/inspect_stable_task_data_inputs01.py 180",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -491,7 +491,7 @@
       "physics": 0
     }
   },
-  "next_command_status": "IMPLEMENTED_PINNED_READONLY_WORKER_READER",
+  "next_command_status": "IMPLEMENTED_READONLY_ADAPTER_INPUT_AUDIT_NOT_YET_EXECUTED;TRAINING_CLI_NOT_IMPLEMENTED",
   "task_phase_bias_continuation": {
     "report": "TASK_PHASE_FROZEN_BIAS_CONTINUATION_ACTUAL_V3.json",
     "run": "fusion-night1-task-phase-bias-s010-01",
