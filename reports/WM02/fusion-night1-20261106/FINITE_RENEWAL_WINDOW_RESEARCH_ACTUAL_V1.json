@@ -26,7 +26,8 @@
     "controller_frame": "NO_PRE_INSTABILITY_FRAME_MISMATCH_FOUND",
     "actual_C02_source_camera": "NOT_RUN_NATIVE_QUALIFICATION_DEPENDENCY_FAILED",
     "new_frozen_GR00T_query": "NOT_RUN",
-    "WM_vs_GR00T_task_gain": "NOT_ESTABLISHED"
+    "WM_vs_GR00T_task_gain": "NOT_ESTABLISHED",
+    "C03_preposed_home": "STATIC_NOMINAL_PASS_BUT_FROZEN_STARTUP_OVERRIDES_JOINTS2_3_TO_POINT9_ZERO_NATIVE_WORKERS"
   },
   "workers": [
     {
@@ -242,7 +243,8 @@
     "WM_updates": 0,
     "GR00T_updates": 0,
     "Actor_updates": 0,
-    "full_task_successes": 0
+    "full_task_successes": 0,
+    "additional_C03_zero_integration_compiler_failures": 1
   },
   "cumulative_sealed": {
     "FUSION_native_attempts": 321,
@@ -328,7 +330,10 @@
     "native_physics_time_s": 200.348,
     "new_GPU_compute_s": 0,
     "nested_RESULT_or_systemd_costs_not_added_again": true,
-    "currency_cost": "NOT_METERED_NO_CURRENCY_ESTIMATE"
+    "currency_cost": "NOT_METERED_NO_CURRENCY_ESTIMATE",
+    "bounded_owned_output_apparent_bytes": 3319541286,
+    "bounded_output_measurement_scope": "11 workers, first unstarted registration, C02/C03 compiled assets and four new immutable source capsules; not all project storage",
+    "C03_failed_compiler_cost_unmeasured": true
   },
   "current_state": {
     "running_project_units": [],
@@ -352,10 +357,11 @@
     ],
     "other_user_processes_untouched": true,
     "GPU_occupied_by_other_owners": true,
-    "owner_UID_evidence_retained_privately": true
+    "owner_UID_evidence_retained_privately": true,
+    "last_readonly_snapshot_epoch": 1794063869.4046085
   },
-  "first_determined_block": "No actually qualified source-range noncontact initialization for frozen GR00T target execution; C02 feedback contact and fixed compensation static rejection retained.",
-  "next_native": "NOT_READY_NO_QUALIFIED_SUCCESSOR",
+  "first_determined_block": "Current pipeline has no qualified source-range noncontact initialization. A home-only alternative is independently rejected: the frozen native startup overwrites joints2/3 to .9 rad. Keep original startup/WBC/safety unchanged.",
+  "next_native": "NOT_READY_CONTROLLER_CONSISTENT_INITIALIZATION_ENTRY_NOT_IMPLEMENTED",
   "next_existing_readonly_entry": "read_renewal_closed_proofs01.py",
   "repeated_completed_training_or_DEV": false,
   "formal_Actor_started": false,

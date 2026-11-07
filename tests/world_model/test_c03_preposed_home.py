@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from scripts.wm02.prepare_c03_preposed_home import replace_arm_home
+from scripts.wm02.prepare_c03_preposed_home import replace_arm_home,require_reset_matches_home
 
 
 def test_only_declared_arm_initial_angles_change():
@@ -14,3 +14,10 @@ def test_only_declared_arm_initial_angles_change():
 def test_base_changes_duplicates_and_unqualified_angles_reject(indices,values):
     with pytest.raises(ValueError,match='SIX_ARM_INITIAL'):
         replace_arm_home(np.zeros(34),indices,values,np.tile([-2.,2.],(6,1)))
+
+
+def test_frozen_startup_overriding_home_angles_rejects_before_physics():
+    expected=np.zeros(34);expected[20:22]=[2.23,2.04];actual=expected.copy();actual[20:22]=.9
+    with pytest.raises(ValueError,match=r'indices=\[20, 21\]'):
+        require_reset_matches_home(expected,actual,0)
+    require_reset_matches_home(expected,expected.copy(),0)

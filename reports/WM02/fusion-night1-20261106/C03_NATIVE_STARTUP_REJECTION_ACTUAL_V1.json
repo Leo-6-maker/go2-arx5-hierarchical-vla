@@ -1,0 +1,115 @@
+{
+  "schema": "WM02_C03_PREPOSE_STARTUP_REJECTION_ACTUAL_V1",
+  "status": "ZERO_INTEGRATION_NATIVE_STARTUP_REJECTED_NEW_HOME_NO_PHYSICAL_WORKER",
+  "compiler_source_sha": "bbbf2fef8e0d908a16a66f00a3b0e23a2dbad169",
+  "compiler_exit_code": 1,
+  "static_nominal_pose": {
+    "position_error_m": 6.419943745112341e-06,
+    "rotation_error_rad": 3.270504745517498e-05,
+    "minimum_joint_margin_rad": 0.28493616270327204,
+    "FK_calls": 25,
+    "hypothetical_joint_pose_checks": 401,
+    "new_integrations": 0
+  },
+  "compiled_unaccepted_model_sha256": "cc0a8ea60958c8282a9354b7fb1c22b8f68b318835b4f25dcf45faa912d8c86f",
+  "compiled_unaccepted_xml_sha256": "327b07538a8784060576ced5109994e59740b29e6c94b254cc57234bba10bd84",
+  "exact_first_failure": "ORIGINAL_NATIVE_RESETHOME_MUST_CONSUME_NEW_KEY_EXACTLY",
+  "actual_original_reset_return_code": 0,
+  "actual_reset_differences": [
+    {
+      "index": 20,
+      "key": 2.231056607419994,
+      "actual": 0.9,
+      "delta": -1.331056607419994
+    },
+    {
+      "index": 21,
+      "key": 2.04627830740731,
+      "actual": 0.9,
+      "delta": -1.14627830740731
+    }
+  ],
+  "source_and_runtime_proof": {
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "native_source_header_sha256": "bda08e2efe568c2467a05ff4f85b02e0b76b7a2428dbb966933cde7dd7bebfb1",
+    "header_matches_frozen_source_inventory": true,
+    "binary_has_named_startup_guard": true,
+    "source_explicit_joint2_joint3_override_to_point9": true,
+    "actual_prior_native_startup_trace": [
+      {
+        "kind": "actual_startup_V1",
+        "time": 0,
+        "joint2_q": 0.9,
+        "joint3_q": 0.9
+      }
+    ]
+  },
+  "reconciliation": {
+    "status": "FAILED_NATIVE_STARTUP_CONTRACT_NO_WORKER_OR_ADMISSION",
+    "original_INTENT_sha256": "f738e867a3c2f89cfa9079e7fc235d053e87d4ce0090fbfd0b944f1fb6b7730e",
+    "original_INTENT_preserved_not_replayed": true,
+    "compiler_exit_sha256": "00c5dd2b40ab7da2356c041002f3e5ba98190b1a1a037d3e6dde1c49327c3fca",
+    "no_native_role_or_worker_created": true
+  },
+  "interpretation": {
+    "home_key_edit_alone_does_not_set_native_startup_arm": true,
+    "not_a_floating_point_readback_error": true,
+    "not_a_WM_training_failure": true,
+    "native_startup_or_WBC_patched": false,
+    "old_C02_failures_reclassified": false,
+    "preposed_reset_is_not_controlled_reaching": true,
+    "no_task_success_claim": true
+  },
+  "commands": [
+    {
+      "entry": "core_control.py",
+      "script": "audit_c03_nominal_prepose_static01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0
+    },
+    {
+      "entry": "core_control.py",
+      "script": "compile_c03_preposed_home01.py",
+      "external_timeout_s": 900,
+      "exit_code": 1
+    },
+    {
+      "entry": "core_control.py",
+      "script": "audit_c03_failed_reset01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0
+    },
+    {
+      "entry": "core_control.py",
+      "script": "audit_c03_native_startup_binding05.py",
+      "external_timeout_s": 180,
+      "exit_code": 0
+    },
+    {
+      "entry": "core_control.py",
+      "script": "reconcile_c03_reset_failure01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0
+    }
+  ],
+  "tests": {
+    "initial_pure_keyframe_tests_normal": 5,
+    "initial_pure_keyframe_tests_optimized": 5,
+    "after_exact_startup_override_rejection_tests_normal": 6,
+    "after_exact_startup_override_rejection_tests_optimized": 6,
+    "synthetic_tests_not_native_qualification": true
+  },
+  "native_worker_count": 0,
+  "native_integrations": 0,
+  "GR00T_queries": 0,
+  "model_updates": 0,
+  "new_training_labels": 0,
+  "cost": {
+    "static_wall_s": 0.1700772736221552,
+    "static_CPU_s": 0.16508746500000002,
+    "failed_compiler_CPU_s": null,
+    "failed_compiler_wall_s": null,
+    "failed_compiler_cost_not_measured_and_not_reported_as_zero": true
+  },
+  "next": "Implement a controller-consistent, originally admitted initialization entry; retain the point9 frozen startup and old failures while validating a separate candidate. No keyframe-only bypass or current C03 bootstrap."
+}

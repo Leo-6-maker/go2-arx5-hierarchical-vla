@@ -1,7 +1,8 @@
 """Compile an explicit new ARM-home initial condition, with zero integration.
 
-The original native ResetHome consumes this keyframe. This is not a reached
-pose, complete controller restore, C02 repair, or dynamic qualification.
+The supplied frozen native startup entry must consume the declared keyframe;
+any startup override rejects this candidate. This is not a reached pose,
+complete controller restore, C02 repair, or dynamic qualification.
 """
 import argparse,ctypes,json,time
 from pathlib import Path
@@ -16,6 +17,13 @@ def replace_arm_home(original,indices,values,bounds):
        or not np.isfinite(v).all()or np.any(v<b[:,0]+.03)or np.any(v>b[:,1]-.03)):
         raise ValueError('EXACT_SIX_ARM_INITIAL_JOINTS_WITH_RAW_LIMIT_MARGIN')
     out=q.copy();out[i]=v;return out
+
+
+def require_reset_matches_home(expected,actual,return_code):
+    expected=np.asarray(expected);actual=np.asarray(actual)
+    if return_code!=0 or expected.shape!=actual.shape or not np.array_equal(expected,actual):
+        changed=np.flatnonzero(expected!=actual).tolist()if expected.shape==actual.shape else []
+        raise ValueError('ORIGINAL_NATIVE_STARTUP_DID_NOT_CONSUME_DECLARED_HOME:indices='+str(changed))
 
 
 def run(spec,output):
@@ -48,7 +56,8 @@ def run(spec,output):
     model=mujoco.MjModel.from_binary_path(str(output/'SCENE.private.mjb'));data=mujoco.MjData(model)
     library=ctypes.CDLL(spec['reset_library']);reset=library.WM02ResetAudit;reset.argtypes=[ctypes.c_void_p,ctypes.c_void_p];reset.restype=ctypes.c_int
     with forbid_integration(mujoco)as calls:
-        if reset(model._address,data._address)!=0 or not np.array_equal(data.qpos,home):raise ValueError('ORIGINAL_NATIVE_RESETHOME_MUST_CONSUME_NEW_KEY_EXACTLY')
+        result=reset(model._address,data._address)
+        require_reset_matches_home(home,data.qpos,result)
         unsafe=[]
         for c in data.contact:
             names=[mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_GEOM,int(i))for i in(c.geom1,c.geom2)]
