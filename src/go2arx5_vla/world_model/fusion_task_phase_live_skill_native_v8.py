@@ -209,7 +209,7 @@ def _continue(adapter,report,samples,windows,*,task,camera):
                     strict_short_score_is_diagnostic_not_formal_task_evaluation=True)
             if is_mechanical:
                 complete.update(mechanical_screen=mechanical_screen,
-                    engineering_full_H40_consumption_only=True,
+                    engineering_full_H40_consumption_only=not complete.get('post_query_HOLD_control',False),
                     strict_short_proposal_failure_retained=not short_intent['qualified'],
                     strict_short_score_is_diagnostic_not_formal_task_evaluation=True)
         return complete
