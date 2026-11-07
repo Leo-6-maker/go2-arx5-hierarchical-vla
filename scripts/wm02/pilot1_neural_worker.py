@@ -33,6 +33,7 @@ def main(argv=None):
               'FROZEN_VLA_LIVE_PAUSED_QUERY': 'scripts.wm02.infer_fusion_paused_vla',
               'FUSION_TRAJECTORY_RESPONSE_OFFLINE': 'scripts.wm02.fit_fusion_trajectory_response',
               'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',
+              'FUSION_LIVE_PROGRAM_RESPONSE_WM': 'scripts.wm02.train_fusion_program_response',
               'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
               'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation',
               'FUSION_SOURCE_CAMERA_QUALIFICATION': 'scripts.wm02.qualify_fusion_source_camera',

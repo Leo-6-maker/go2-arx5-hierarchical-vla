@@ -456,9 +456,23 @@ def test_preloaded_model_still_needs_fresh_capture_before_one_original_generate(
     f=mechanical_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
     g['frozen_model_load_schedule']=a.spec['frozen_model_load_schedule']=inference.PRELOAD_BEFORE_SNAPSHOT
     bind(g,a,p);events=install_fake_draw(monkeypatch)
+    original_loader=infer._load_frozen
+    def loader(spec,output):
+        write_json(output/'MODEL_LOAD_INTENT.private.json',dict(checkpoint_manifest_sha256=spec['checkpoint_manifest_sha256'],
+            numeric_mode=spec['numeric_mode'],model_loads_requested=1))
+        value=original_loader(spec,output)
+        write_json(output/'MODEL_LOADED.private.json',dict(checkpoint_manifest_sha256=spec['checkpoint_manifest_sha256'],
+            parameter_bytes=spec['checkpoint_parameter_bytes'],all_parameters_frozen=True,
+            all_parameter_dtypes='torch.float32',num_inference_timesteps=4))
+        return value
+    monkeypatch.setattr(infer,'_load_frozen',loader)
     def wait(spec):
         assert spec is g and events.loads==1 and events.queries==0
         assert not Path(g['recorded_observation']).exists()
+        # The native side performs this exact check AFTER a real early load has
+        # written both markers. A marker-free fake missed the site failure.
+        proof=bridge.preflight_pair(Path(g['registered_root'])/'EXECUTION_SPEC.json',a.spec)
+        assert proof['weights_may_be_preloaded_but_no_generated_query_or_action']
         if capture_failure:raise RuntimeError('SNAPSHOT_MISSING_NO_DRAW')
         capture_source_archive(f)
     monkeypatch.setattr(bridge,'wait_for_snapshot',wait)
@@ -488,6 +502,24 @@ def test_early_load_cannot_be_silently_enabled_on_old_or_mismatched_scopes(mecha
     out=Path(g['registered_root'])/'fit-01';out.mkdir()
     with pytest.raises(ValueError):infer.infer(g,out)
     assert events.loads==events.queries==0
+
+
+@pytest.mark.parametrize('fault',['old-mode','wrong-load-identity','unfrozen','generated','old-action','old-result'])
+def test_preload_does_not_admit_old_or_mismatched_model_query_or_capture(mechanical_pair,fault):
+    f=mechanical_pair;g,a,p=f['gpu'],f['adapter'],f['pair']
+    if fault!='old-mode':g['frozen_model_load_schedule']=a.spec['frozen_model_load_schedule']=inference.PRELOAD_BEFORE_SNAPSHOT
+    bind(g,a,p);out=Path(g['registered_root'])/'fit-01';out.mkdir()
+    write_json(out/'MODEL_LOAD_INTENT.private.json',dict(checkpoint_manifest_sha256=g['checkpoint_manifest_sha256'],numeric_mode=g['numeric_mode'],model_loads_requested=1))
+    loaded=dict(checkpoint_manifest_sha256=g['checkpoint_manifest_sha256'],parameter_bytes=g['checkpoint_parameter_bytes'],
+        all_parameters_frozen=True,all_parameter_dtypes='torch.float32',num_inference_timesteps=4)
+    if fault=='wrong-load-identity':loaded['checkpoint_manifest_sha256']='a'*64
+    if fault=='unfrozen':loaded['all_parameters_frozen']=False
+    write_json(out/'MODEL_LOADED.private.json',loaded)
+    if fault=='generated':write_json(out/'GENERATION_INTENT.private.json',{'old':True})
+    if fault=='old-action':(out/'REAL_VLA_ACTION.npz').write_bytes(b'OLD_ACTION')
+    if fault=='old-result':write_json(out/'RESULT.private.json',{'old':True})
+    with pytest.raises(ValueError):bridge.preflight_pair(Path(g['registered_root'])/'EXECUTION_SPEC.json',a.spec)
+    assert not Path(g['recorded_observation']).exists() and f['events'].saves==[]
 
 
 @pytest.mark.parametrize('install_failure',[False,True])

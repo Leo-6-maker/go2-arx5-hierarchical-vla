@@ -212,10 +212,30 @@ def preflight_pair(gpu_spec_path, native_spec):
     _registered(producer, spec['producer_native_spec'])
     _registered(spec, gpu_spec_path)
     folder = _snapshot(pair).parent
+    from .fusion_paused_inference import PRELOAD_BEFORE_SNAPSHOT,LOAD_AFTER_SNAPSHOT
+    preload=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)==PRELOAD_BEFORE_SNAPSHOT
+    output=Path(pair['gpu_root'])/'fit-01'
+    forbidden=['GENERATION_INTENT.private.json','REAL_VLA_ACTION.npz','RESULT.private.json','FAILED.private.json']
+    if not preload:
+        forbidden+=['MODEL_LOAD_INTENT.private.json','MODEL_LOADED.private.json']
+    else:
+        # validate_pair_spec already binds this mechanical-only schedule in
+        # BOTH real scopes. Loading weights is independent of future pixels;
+        # generation and any old capture/action/result remain forbidden.
+        intent=output/'MODEL_LOAD_INTENT.private.json';loaded=output/'MODEL_LOADED.private.json'
+        if intent.exists():
+            value=_json(intent)
+            need(value.get('checkpoint_manifest_sha256')==spec['checkpoint_manifest_sha256']
+                 and value.get('numeric_mode')==spec['numeric_mode']
+                 and value.get('model_loads_requested')==1,'EXACT_PREREGISTERED_PRELOAD_INTENT')
+        if loaded.exists():
+            value=_json(loaded)
+            need(intent.exists()and value.get('checkpoint_manifest_sha256')==spec['checkpoint_manifest_sha256']
+                 and value.get('parameter_bytes')==spec['checkpoint_parameter_bytes']
+                 and value.get('all_parameters_frozen')is True and value.get('all_parameter_dtypes')=='torch.float32'
+                 and value.get('num_inference_timesteps')==4,'EXACT_FROZEN_PRELOADED_MODEL_NOT_A_QUERY_GRANT')
     need(not folder.exists() and not folder.is_symlink()
-         and not any((Path(pair['gpu_root'])/'fit-01'/name).exists() for name in (
-             'MODEL_LOAD_INTENT.private.json','GENERATION_INTENT.private.json',
-             'RESULT.private.json','FAILED.private.json')),
+         and not any((output/name).exists() for name in forbidden),
          'FRESH_PAIR_WITHOUT_PREVIOUS_CAPTURE_LOAD_OR_QUERY')
     proof = dict(schema=pair['schema'],status='PRE_REGISTERED_PAIR_READ_ONLY_PREFLIGHT_PASSED',
         pair_sha256=spec['paused_query_pair_sha256'],gpu_spec_sha256=digest(gpu_spec_path),
@@ -225,6 +245,8 @@ def preflight_pair(gpu_spec_path, native_spec):
         source_sha=pair['source_sha'],seed=pair['seed'],
         registered_scope_leases='BOTH_ACTIVE_EXACT_SPEC_SHA',
         native_execution_authorized=False,GPU_execution_authorized=False)
+    if preload:proof.update(frozen_model_load_schedule=PRELOAD_BEFORE_SNAPSHOT,
+        weights_may_be_preloaded_but_no_generated_query_or_action=True)
     if spec['snapshot_binding_mode'] in LIVE_SKILL_MODES:
         proof['native_endpoint_step'] = pair['native_endpoint_step']
     return proof

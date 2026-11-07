@@ -1,0 +1,117 @@
+{
+  "schema": "WM02_LIVE_PROGRAM_TRAIN_RECOVERY_V2",
+  "registered_epoch": 1794020523.135013,
+  "status": "PRE_REGISTERED_BEFORE_NEW_SCOPE",
+  "purpose": "Obtain fresh TRAIN program-response records, validate extraction and real optimization/reload; no task-transfer or WM-control-gain claim.",
+  "prerequisite": {
+    "source_sha": "ce2f00d1e3cf01c29776e0d676e5bb332a431a67",
+    "native_result_sha256": "99dfe07e6a7ac9f47d91c7e73c3c9dbf77e7aab0654e1858d510167c6b620269",
+    "actual_all40_consumed": true,
+    "strict_short_skill_failed": true,
+    "old_DIAGNOSTIC_not_TRAIN": true
+  },
+  "source_domain": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "physical_group_unit": "INDEPENDENT_NATIVE_INITIALIZATION_IN_THE_SAME_FROZEN_T06_SCENE",
+    "new_scene_generalization": false,
+    "full_MPC_hidden_state_restored": false,
+    "initialization_scale": 0.5,
+    "capture_B": 34303,
+    "registered_E": 66503,
+    "raw_proposal_knots": 40,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 1,
+    "task_condition": "BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1",
+    "reference_renewal_atoms": 7,
+    "physics_dt_s": 0.002,
+    "original_native_safety_and_WBC_unchanged": true,
+    "model_load_schedule": "PRELOAD_FROZEN_WEIGHTS_BEFORE_SNAPSHOT_V1",
+    "model_load_is_not_a_query_or_motion_grant": true
+  },
+  "frozen_VLA": {
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "queries_per_attempt": 1,
+    "Processor_decodes_per_query": 1,
+    "GR00T_updates": 0
+  },
+  "assignments": [
+    {
+      "parent": "T06_NEW_TRAIN_RESTART_T01R1",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-live-program-train-t01-repair-01",
+      "GPU_run": "fusion-night1-live-program-train-t01-repair-gpu-01"
+    },
+    {
+      "parent": "T06_NEW_TRAIN_RESTART_T02",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-live-program-train-t02-01",
+      "GPU_run": "fusion-night1-live-program-train-t02-gpu-01"
+    }
+  ],
+  "sampling": {
+    "qualified_native_slots": 1,
+    "sequential_original_owner": true,
+    "no_CLOSED_lease_reuse": true,
+    "all_proposal_and_native_failures_retained": true,
+    "no_redraw_or_seed_search": true,
+    "all_real_7_atom_publications_may_supply_correlated_training_windows": true,
+    "overlapping_windows_are_independent_samples": false
+  },
+  "replay": {
+    "input_schema": "WM02_LIVE_PROGRAM_CONDITIONAL_FEATURES_V2",
+    "feature_dimensions": 1614,
+    "history_states": 9,
+    "past_references": 8,
+    "planned_preview_shape": [
+      3,
+      40,
+      10
+    ],
+    "output": "TCP_SE3_AND_TWO_FINGER_DISPLACEMENTS_H1_TO_H16",
+    "object_truth_as_features": false,
+    "unqualified_BASE_point_as_features": false,
+    "future_states_as_features": false,
+    "unconsumed_suffix_as_labels": false,
+    "partial_failure_masks": true
+  },
+  "model_followup": {
+    "status": "IMPLEMENTED_TESTED_NOT_YET_RESEARCH_TRAINED",
+    "primary_baselines": [
+      "ZERO_DISPLACEMENT",
+      "PAST_CONSTANT_VELOCITY",
+      "TRAIN_MEAN_RESPONSE"
+    ],
+    "matched_models": [
+      "RAW",
+      "SCALED",
+      "NO_FUTURE_ACTION"
+    ],
+    "same_capacity_history_data_and_optimizer_schedule": true,
+    "TRAIN_only_normalizers": true,
+    "real_optimizer_and_full_checkpoint_reload_required": true,
+    "smoke_is_not_goal_completion": true,
+    "later_fresh_DEV_and_pre_effect_forecast_required": true,
+    "no_DEV_or_TEST_fitting": true,
+    "no_official_Actor": true,
+    "initial_endpoint_updates_per_arm": 200,
+    "initial_seeds": [
+      366104
+    ],
+    "continue_after_smoke": true
+  },
+  "stop_and_continue": {
+    "safety_or_resource_failure": "Preserve exact failure and scope closure; fix ordinary application issue or continue another ready authorized task.",
+    "semantic_failure": "Retain task failure; dynamics learning cannot pretend to correct a wrong task direction.",
+    "pipeline_complete": "Extend qualified fresh TRAIN/DEV and same-condition comparisons; do not exit after200 updates."
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "cutoff_extension": false,
+  "H200_or_GPU_physics_scale": "AWAITING_H200_SCALE_REVIEW_BEFORE_ANY_EXPANSION",
+  "supersedes_only_unstarted_assignments": true,
+  "original_protocol_sha256": "30d5f6d9f4dbb4b24164f85212d52550a5bf3be850a3602bef4a77181e3169dc",
+  "old_T01_failed_preserved": "PROGRAM_TRAIN_T01_PRELOAD_FENCE_FAILURE_ACTUAL_V1.json",
+  "old_T02_unstarted": true,
+  "engineering_repair": "Paired preloaded model markers admitted before actual capture; previous generation/capture/action/result remain rejected."
+}
