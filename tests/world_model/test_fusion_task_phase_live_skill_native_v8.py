@@ -97,6 +97,29 @@ def test_one_query_preserves_entire_draw_and_consumes_same_world_without_finaliz
     assert len(result['original_install_ACKs'])==1+len(result['generated_segment']['original_install_ACKs'])
 
 
+def test_selected_reference_is_used_in_outer_endpoint_and_full_adaptation_report(composition,monkeypatch):
+    from dataclasses import replace
+    from go2arx5_vla.world_model import fusion_program_reference_selection_v1 as selection
+    from test_fusion_program_reference_intervention_v1 import document
+    adapter,samples,windows,report,raw,action,calls=composition
+    adapter.spec['program_reference_selection']={'synthetic_fixture_only':True}
+    class Recorder:
+        models={'FIXTURE':None};records=[];wall_s=0.
+        def save(self,*args,**kwargs):pass
+    def prepare(current,program,*args):
+        chosen=replace(program,reference_intervention=document('Y_PLUS_050'))
+        adapter.program=chosen
+        return chosen,Recorder(),dict(proposed_reference_changes=1)
+    monkeypatch.setattr(selection,'prepare',prepare)
+    result=live._continue(adapter,report,samples,windows,task={},camera=object())
+    assert result['adaptation']==adapter.program.evidence()==result['generated_segment']['adaptation']
+    assert result['reference_intervention']['candidate']=='Y_PLUS_050'
+    assert result['generated_segment']['model_reference_changes']==1
+    final=np.asarray(result['actual_endpoint_TCP'])[:3,3]
+    np.testing.assert_allclose(result['actual_minus_reference_xyz_m'],
+        final-adapter.program.preview(adapter.program.end_atom)[0,:3],rtol=0,atol=1e-15)
+
+
 def test_full_proposal_outside_noncontact_domain_is_saved_rejected_without_install(composition):
     adapter,samples,windows,report,raw,action,calls=composition
     cube=np.asarray(samples[-1]['tcp']).copy();cube[2,3]-=.13

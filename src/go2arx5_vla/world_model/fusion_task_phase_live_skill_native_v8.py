@@ -151,6 +151,15 @@ def _continue(adapter,report,samples,windows,*,task,camera):
         adapter.live_skill_program=program
         suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=E,
             past_samples=samples,past_windows=windows,sample_observer=lambda s:_noncontact(s,cube))
+        if spec.get('program_reference_selection') is not None:
+            selected=adapter.live_skill_program
+            need(type(selected)is type(program)
+                 and selected.evidence()==suffix['adaptation']
+                 and np.array_equal(selected.decoded_H40,program.decoded_H40)
+                 and np.array_equal(selected.desired_path,program.desired_path)
+                 and selected.end_atom==program.end_atom,
+                 'ACTUAL_SELECTED_REFERENCE_REPORT_MUST_PRESERVE_FULL_INTENT_AND_CLOCK')
+            program=selected
         total=(E-2503)//25
         rows=all_windows[len(windows):]
         tracking=[float(np.linalg.norm(np.asarray(r['actual_TCP'])[:3,3]

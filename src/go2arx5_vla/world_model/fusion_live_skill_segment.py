@@ -164,6 +164,14 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
     result_path = adapter.output/'LIVE_SKILL_SEGMENT.private.json'
     _need(not decision_path.exists() and not result_path.exists(),
           'EXISTING_ATTEMPT_MUST_NOT_BE_REPLAYED')
+    forecaster = None
+    selection = None
+    if adapter.spec.get('program_reference_selection') is not None:
+        from .fusion_program_reference_selection_v1 import prepare
+        program, forecaster, selection = prepare(adapter, program, history, past_windows[-8:])
+        adapter.live_skill_program = program
+        atoms, history = _preflight(adapter, program, start_step, end_step,
+                                    past_samples, past_windows)
     samples, windows = list(past_samples), list(past_windows)
     suffix, acks, installs = [], [], []
     report = dict(schema=SCHEMA, phase=adapter.spec['phase'], status='STARTED_NOT_NATIVE_QUALIFIED',
@@ -183,13 +191,16 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         WBC_changes=False, physics_dt_s=NATIVE_DT_S,
         final_trace_seal_owned_by_caller=True, target_task_success=False,
         native_stage_RESULT_json_required=True, automatic_retries=0)
-    write_json(decision_path, dict(schema=SCHEMA+'_DECISION', start_step=start_step,
+    decision = dict(schema=SCHEMA+'_DECISION', start_step=start_step,
         end_step=end_step, adaptation=program.evidence(), raw_H40=program.decoded_H40,
         desired_path=program.desired_path, nominal_reference_path=program.reference_path,
         actual_history=history, first_gripper_sequence=len(windows),
-        future_response_observed=False, Processor_decodes=0))
+        future_response_observed=False, Processor_decodes=0)
+    if selection is not None:
+        decision['reference_selection'] = selection
+        report['reference_selection'] = selection
+    write_json(decision_path, decision)
     attempt = None
-    forecaster = None
 
     def install(elapsed):
         if forecaster is not None:
@@ -213,16 +224,21 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
               'FRESH_FULL_H40_INSTALL_ACK_WITHOUT_INTEGRATION_REQUIRED')
         acks.append(dict(ack, native_step=packet['step'], elapsed_atom=elapsed))
         installation['stage'] = 'ORIGINAL_ACK_AND_FULL_SUFFIX_CONFIRMED'
+        if elapsed == 0 and selection is not None:
+            report['model_reference_changes'] = selection['proposed_reference_changes']
         return packet['step']
 
     try:
-        if adapter.spec.get('program_response_forecast') is not None:
+        if forecaster is None and adapter.spec.get('program_response_forecast') is not None:
             from .fusion_program_forecast_v1 import ShadowForecaster
             forecaster=(ShadowForecaster(adapter.spec,adapter.output,program=program)
                 if adapter.spec.get('program_response_counterfactual')is not None
                 else ShadowForecaster(adapter.spec,adapter.output))
+        if forecaster is not None:
             report.update(learned_models_loaded=len(forecaster.models),
-                shadow_forecast_records=forecaster.records,model_reference_changes=0)
+                shadow_forecast_records=forecaster.records,
+                model_reference_changes=0,
+                proposed_model_reference_changes=(0 if selection is None else selection['proposed_reference_changes']))
         # A previous cancel/query leaves no usable live reference: always install.
         installed_step = install(0)
         for elapsed in range(atoms):

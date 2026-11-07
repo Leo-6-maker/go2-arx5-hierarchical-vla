@@ -205,6 +205,45 @@ def test_registered_shadow_forecasts_precede_each_original_install(flow,monkeypa
     assert result['all_40_knots_consumed'] is True
 
 
+@pytest.mark.parametrize('install_fault', [None, 'missing-ack'])
+def test_registered_selection_uses_chosen_whole_program_and_preserves_original_ack(flow,monkeypatch,install_fault):
+    from dataclasses import replace
+    from go2arx5_vla.world_model import fusion_program_reference_selection_v1 as selection
+    from test_fusion_program_reference_intervention_v1 import document
+    adapter, program, samples, windows = flow
+    chosen = replace(program, reference_intervention=document('X_PLUS_050'))
+    adapter.spec['program_reference_selection'] = {'synthetic_fixture_only': True}
+    adapter.install_fault = install_fault
+    calls = []
+    class Recorder:
+        models = {'SYNTHETIC_MODEL': None}
+        records = calls
+        wall_s = 0.
+        def save(self, history, past, path, *, install_atom):
+            assert len(adapter.installs) == len(calls)
+            np.testing.assert_array_equal(path, chosen.reference_path)
+            calls.append(install_atom)
+    def prepare(actual, original, history, past):
+        assert actual is adapter and original is program
+        assert adapter.advances == [] and adapter.installs == []
+        assert history['actual_history_native_steps'][-1] == B and len(past) == 8
+        adapter.program = chosen  # The fake install assertion follows the actual chosen program.
+        return chosen, Recorder(), dict(proposed_reference_changes=1, future_observations_read=False)
+    monkeypatch.setattr(selection, 'prepare', prepare)
+    if install_fault:
+        with pytest.raises(ValueError): run(flow)
+        result = json.loads((adapter.output/'LIVE_SKILL_SEGMENT.private.json').read_text())
+        assert adapter.advances == [] and result['model_reference_changes'] == 0
+    else:
+        result, _, _ = run(flow)
+        assert result['model_reference_changes'] == 1 and result['all_40_knots_consumed'] is True
+        np.testing.assert_array_equal(adapter.live_skill_program.reference_path, chosen.reference_path)
+    decision = json.loads((adapter.output/'LIVE_SKILL_SEGMENT_DECISION.private.json').read_text())
+    np.testing.assert_array_equal(decision['desired_path'], program.desired_path)
+    np.testing.assert_array_equal(decision['nominal_reference_path'], chosen.reference_path)
+    assert decision['future_response_observed'] is False
+
+
 def test_shadow_failure_preserves_attempt_without_any_new_native_effect(flow,monkeypatch):
     from go2arx5_vla.world_model import fusion_program_forecast_v1
     adapter,program,samples,windows=flow
