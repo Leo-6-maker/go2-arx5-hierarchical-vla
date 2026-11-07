@@ -76,6 +76,11 @@ def episode_config(spec):
 
 def episode_limit(spec, previous):
     episode_config(spec)
+    audit_prefix_predecessor(spec,previous)
+    return E
+
+
+def audit_prefix_predecessor(spec,previous):
     # Reuse the exact original closed V7 qualification; this supplies evidence,
     # not permission. The new worker still passes actual current scope checks.
     path = Path(spec['previous_stage'])
@@ -89,13 +94,20 @@ def episode_limit(spec, previous):
     need(checked['all_nine_non_full_grade_predicates_passed'] is True
          and checked['readiness']['query_ready'] is False,
          'OLD_SOURCE_EQUIVALENCE_NOT_RELABELLED')
-    return E
+    return checked
 
 
 def build(actual, reference, base, cube, method):
+    return build_for_config(actual,reference,base,cube,config(method))
+
+
+def build_for_config(actual, reference, base, cube, c):
     from ..trajectory.so3 import rotation_matrix_to_rot6d_rows
     from .fusion_trajectory_adapter import TrajectoryAdaptation
-    c = config(method)
+    need(c['method'] in ('HOLD','GEOMETRIC_TEACHER_4MM')
+         and c['step_m'] == (0. if c['method'] == 'HOLD' else .004)
+         and c['suffix_atoms'] == 176 and c['minimum_course_clearance_m'] == .14,
+         'UNCHANGED_BOUNDED_REFERENCE_GEOMETRY')
     actual, cube = np.asarray(actual, float), np.asarray(cube, float)
     need(actual.shape == cube.shape == (4,4) and np.isfinite(actual).all()
          and np.isfinite(cube).all(), 'FINITE_ACTUAL_GEOMETRY')

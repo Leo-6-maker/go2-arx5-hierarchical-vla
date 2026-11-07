@@ -78,7 +78,8 @@ def _full_goal(cube, source_state, frame):
 
 
 def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_decision_state,
-                T_source_from_target, scene_sha256,nominal_calibration_reference=None):
+                T_source_from_target, scene_sha256,nominal_calibration_reference=None,
+                stable_task_scene_reference=None):
     """Bind a caller's measured ActualState witness to the exact 3703 packet.
 
     This validates source bytes, packet ABI/clock and identical qpos/qvel/ctrl.
@@ -110,7 +111,11 @@ def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_dec
         need(np.array_equal(np.asarray(state[k]),packet[k]), 'SAME_MEASURED_PACKET_'+k)
     tcp, cube, frame = rigid(state['tcp']), rigid(state['object_pose']), rigid(T_source_from_target)
     nominal=None
-    if nominal_calibration_reference is not None:
+    if stable_task_scene_reference is not None:
+        from .stable_task_scene_v1 import reference_geometry
+        need(nominal_calibration_reference is None,'ONE_EXPLICIT_CALIBRATION_SCENE_RECIPE')
+        _,nominal=reference_geometry(stable_task_scene_reference,scene_sha256)
+    elif nominal_calibration_reference is not None:
         from .fusion_source_phase_c01 import SCENE as actual_scene,nominal_reference
         need(scene_sha256==actual_scene,'EXACT_DECLARED_C01_SCENE')
         nominal=nominal_reference(nominal_calibration_reference)
@@ -127,7 +132,11 @@ def load_inputs(*, source_observation_bytes, decision_packet_bytes, measured_dec
         full_goal_TCP_target=goal.tolist(),full_goal_TCP_sha256=_matrix_sha(goal),
         actual_state_vector_sha256=_sha(np.concatenate([packet[k] for k in ('qpos','qvel','ctrl')]).astype('<f8').tobytes()),
         actual_cube_binding=FK_BINDING)
-    if nominal is not None:
+    if stable_task_scene_reference is not None:
+        body.update(schema=INPUT_SCHEMA+'_STABLE_TASK_NOMINAL_CALIBRATION',
+            stable_task_scene_reference=copy.deepcopy(stable_task_scene_reference),
+            nominal_calibration_cube_pose_target=nominal.tolist(),nominal_calibration_cube_pose_sha256=_matrix_sha(nominal))
+    elif nominal is not None:
         body.update(schema=INPUT_SCHEMA+'_C01_NOMINAL_CALIBRATION',
             nominal_calibration_reference=copy.deepcopy(nominal_calibration_reference),
             nominal_calibration_cube_pose_target=nominal.tolist(),nominal_calibration_cube_pose_sha256=_matrix_sha(nominal))
@@ -147,6 +156,11 @@ def _provenance(body):
         value.update(purpose='FIXED_T06_CALIBRATION_REFERENCE_IN_DISTINCT_C01_ACTUAL_SCENE',
             actual_cube_is_not_replaced_by_nominal_calibration_cube=True,
             nominal_calibration_goal_binding_sha256=body['nominal_calibration_reference']['sha256'])
+    if body['schema']==INPUT_SCHEMA+'_STABLE_TASK_NOMINAL_CALIBRATION':
+        value.update(purpose='UNCHANGED_T06_CALIBRATION_REFERENCE_IN_NEW_STABLE_TASK_LAYOUT',
+            actual_cube_is_not_replaced_by_nominal_calibration_cube=True,
+            static_layout_is_not_dynamic_permission=True,
+            actual_layout_static_sha256=body['stable_task_scene_reference']['static_result']['sha256'])
     return value
 
 
@@ -154,13 +168,20 @@ def _inputs(inputs):
     need(isinstance(inputs,dict) and set(inputs)=={'frozen','raw','provenance'}, 'EXACT_CALIBRATION_INPUT_FIELDS')
     body = unseal(inputs['frozen'])
     c01=body.get('schema')==INPUT_SCHEMA+'_C01_NOMINAL_CALIBRATION'
+    stable=body.get('schema')==INPUT_SCHEMA+'_STABLE_TASK_NOMINAL_CALIBRATION'
     expected_keys=INPUT_KEYS;actual_scene=SCENE;nominal=None
     if c01:
         from .fusion_source_phase_c01 import SCENE as actual_scene,nominal_reference
         expected_keys=INPUT_KEYS|{'nominal_calibration_reference','nominal_calibration_cube_pose_target','nominal_calibration_cube_pose_sha256'}
         nominal=nominal_reference(body['nominal_calibration_reference'])
         need(np.array_equal(nominal,np.asarray(body['nominal_calibration_cube_pose_target']))and _matrix_sha(nominal)==body['nominal_calibration_cube_pose_sha256'],'DECLARED_NOMINAL_REFERENCE_NOT_ACTUAL_OBJECT_SUBSTITUTION')
-    need(set(body)==expected_keys and body['schema']==INPUT_SCHEMA+('_C01_NOMINAL_CALIBRATION'if c01 else'')
+    if stable:
+        from .stable_task_scene_v1 import reference_geometry
+        expected_keys=INPUT_KEYS|{'stable_task_scene_reference','nominal_calibration_cube_pose_target','nominal_calibration_cube_pose_sha256'}
+        actual_scene=body['scene_sha256'];_,nominal=reference_geometry(body['stable_task_scene_reference'],actual_scene)
+        need(np.array_equal(nominal,np.asarray(body['nominal_calibration_cube_pose_target']))and _matrix_sha(nominal)==body['nominal_calibration_cube_pose_sha256'],'NEW_LAYOUT_ACTUAL_CUBE_RETAINED_WITH_SEPARATE_CALIBRATION_REFERENCE')
+    suffix='_STABLE_TASK_NOMINAL_CALIBRATION'if stable else'_C01_NOMINAL_CALIBRATION'if c01 else''
+    need(set(body)==expected_keys and body['schema']==INPUT_SCHEMA+suffix
          and body['actual_cube_binding']==FK_BINDING
          and body['scene_sha256']==actual_scene and body['frame_map_sha256']==FRAME_MAP
          and transform_hash(body['T_source_from_target'])==FRAME_MAP

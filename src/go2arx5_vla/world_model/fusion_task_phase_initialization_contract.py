@@ -80,7 +80,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-fusion-task-phase-bias-fade-v8', 'FUSION_TASK_PHASE_BIAS_FADE_V8'),
          ('collect-target-fusion-task-phase-live-skill-v8', 'FUSION_TASK_PHASE_LIVE_SKILL_V8'),
          ('collect-target-fusion-task-phase-live-skill-v9', 'FUSION_TASK_PHASE_LIVE_SKILL_V9'),
-         ('collect-target-stable-start-short-v1', 'STABLE_START_SHORT_TASK_V1'))
+         ('collect-target-stable-start-short-v1', 'STABLE_START_SHORT_TASK_V1'),
+         ('collect-target-stable-task-data-v1', 'STABLE_TASK_DATA_V1'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -91,11 +92,16 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          'ORIGINAL_AUTO1_P1_NATIVE_BACKEND_REQUIRED_NOT_A_GRANT')
     live_skill = actual_phase in ('collect-target-fusion-task-phase-live-skill-v8',
                                  'collect-target-fusion-task-phase-live-skill-v9',
-                                 'collect-target-stable-start-short-v1')
+                                 'collect-target-stable-start-short-v1',
+                                 'collect-target-stable-task-data-v1')
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
-    if actual_phase == 'collect-target-stable-start-short-v1':
+    new_data = actual_phase == 'collect-target-stable-task-data-v1'
+    if new_data:
+        from .stable_task_data_v1 import validate
+        validate(spec)
+    elif actual_phase == 'collect-target-stable-start-short-v1':
         from .stable_start_short_task_v1 import validate
         validate(spec)
     elif (actual_phase == 'collect-target-fusion-task-phase-live-skill-v9'
@@ -120,7 +126,11 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          'EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES')
     from .fusion_source_phase_c01 import CONDITIONS as c01_conditions,CPU_CONDITION
     c01=actual_phase=='collect-target-fusion-task-phase-live-skill-v9'and spec.get('task_condition')in c01_conditions
-    if c01:
+    if new_data:
+        from .stable_task_scene_v1 import scene,prefix_episode
+        scene(spec);view=prefix_episode(_json(spec['episode_manifest'],spec['episode_manifest_sha256']),spec)
+        need(episode is None or episode==view,'EXPLICIT_NEW_SCENE_CALIBRATION_PREFIX_VIEW');episode=view
+    elif c01:
         from .fusion_source_phase_c01 import scene,prefix_episode
         scene(spec);view=prefix_episode(_json(spec['episode_manifest'],spec['episode_manifest_sha256']),spec)
         need(episode is None or episode==view,'DECLARED_C01_CALIBRATION_PREFIX_VIEW');episode=view
@@ -132,7 +142,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9',
-                          'collect-target-stable-start-short-v1'):
+                          'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1'):
         from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
                           'collect-target-fusion-task-phase-live-skill-v8'):
@@ -146,7 +156,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
-    if actual_phase == 'collect-target-stable-start-short-v1': live_end = 38703
+    if actual_phase in ('collect-target-stable-start-short-v1','collect-target-stable-task-data-v1'): live_end = 38703
     if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
@@ -160,11 +170,14 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')
     catalog = _json(spec['scene_allowlist'], spec['scene_allowlist_sha256'])
-    if c01:
+    if new_data:
+        from .stable_task_scene_v1 import scene
+        proof=scene(spec);scene_id=spec['scene_id'];parent=proof['parent'];model_pin=proof['compiled']['scene_sha256']
+    elif c01:
         from .fusion_source_phase_c01 import SCENE_ID as scene_id,PARENT as parent,SCENE as model_pin
     else:scene_id,parent,model_pin=common.SCENE_ID,common.PARENT,recipe.SCENE
     matches = [s for s in catalog['scenes'] if s['scene_id'] == scene_id]
-    need(len(matches) == 1 and matches[0]['parent'] == parent and matches[0]['split'] == ('DIAGNOSTIC'if c01 else'TRAIN')
+    need(len(matches) == 1 and matches[0]['parent'] == parent and matches[0]['split'] == (spec['data_role']if new_data else'DIAGNOSTIC'if c01 else'TRAIN')
          and matches[0]['model_path'] == spec['model_path']
          and matches[0]['model_sha256'] == digest(spec['model_path']) == model_pin
          and matches[0].get('static_check') == 'PASSED_NO_INTEGRATION'
@@ -174,7 +187,9 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and type(spec.get('trajectory_trace_capacity')) is int
          and spec.get('trajectory_trace_capacity_build_sha256') == TRACE_BUILD,
          'EXACT_BUILD03_TRACE524_RECEIPT_PIN')
-    if c01:
+    if new_data:
+        geometry.validate_trace_capacity_failure(spec,historical_scene_sha256=recipe.SCENE)
+    elif c01:
         from .fusion_source_phase_c01 import CALIBRATION_SCENE
         geometry.validate_trace_capacity_failure(spec,historical_scene_sha256=CALIBRATION_SCENE)
     else:geometry.validate_trace_capacity_failure(spec)
