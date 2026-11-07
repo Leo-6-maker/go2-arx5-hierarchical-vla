@@ -150,6 +150,7 @@ def test_explicit_teacher_diagnostic_preserves_unused_frozen_draw_and_never_coun
     np.testing.assert_array_equal(saved['original_decoded_physical_H40'],raw)
     assert result['unused_GR00T_proposal_retained']is True
     assert complete_reference_consumption(adapter.spec,result)
+    assert json.loads(json.dumps(result,allow_nan=False))['GR00T_raw_H40_consumed']is False
 
 
 def test_full_proposal_outside_noncontact_domain_is_saved_rejected_without_install(composition):
