@@ -1,0 +1,70 @@
+{
+  "schema": "WM02_STABLE_TASK_LEARNING_PROTOCOL_V1",
+  "status": "FROZEN_BEFORE_REAL_CANDIDATE_TRAINING_OR_NEW_DEV_READOUT",
+  "source_data_panel": "FROZEN_STABLE_TASK_DATA_PANEL_V1.json",
+  "data_panel_sha256": "4f4c79b9ddb7455aaf2c2fc23eac8c940d1065c95a050d85809da1aecf81b697",
+  "candidate_kind": "TASK_ADAPTER",
+  "admission_profile": "wm02-pilot1-neural",
+  "GR00T_updates": 0,
+  "Actor_updates": 0,
+  "WM_updates": 0,
+  "seeds": [
+    110801,
+    110802,
+    110803
+  ],
+  "initial_endpoint": 2000,
+  "observations": [
+    0,
+    250,
+    500,
+    750,
+    1000,
+    1250,
+    1500,
+    1750,
+    2000
+  ],
+  "successor_endpoint_policy": "Only declare a separate finite 8000 endpoint when TRAIN evidence still improves; keep all prior endpoints and selection state",
+  "optimizer": {
+    "kind": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.001,
+    "batch_size": 16,
+    "gradient_norm_limit": 1.0
+  },
+  "model": {
+    "feature_dim": 116,
+    "hidden_dim": 32,
+    "activation": "tanh",
+    "output": "Bounded 3D delta, norm <= .004m; candidate parameterization, never GR00T clipping"
+  },
+  "features": "Two real 256x256 RGB images: 4x4 RGB averages and visible-red pixel moments; actual EEF10; declared 2-way task instruction",
+  "excluded_inputs": [
+    "object pose truth",
+    "teacher phase",
+    "run ID",
+    "layout ID",
+    "task scores",
+    "future achieved state"
+  ],
+  "labels": "Only real submitted and solver/gripper-consumed full-reference delta; full safe trace and CLOSED0 required",
+  "feature_normalization": "TRAIN rows only, minimum std .001",
+  "selection": "For each seed earliest minimum grouped DEV command MSE checkpoint; then smallest DEV error seed, ties lower seed. All seeds retained; model seeds are not independent physical repetitions.",
+  "baseline": "Conditional TRAIN mean consumed delta using the same task instruction, no DEV fit",
+  "evaluation": "Independent native candidate DEV panel must be frozen before dispatch. Command MSE is not native success; original strict approach or HOLD nonprogress predicates plus <=2mm TCP excursion.",
+  "recovery": [
+    "model",
+    "optimizer",
+    "sampler permutation/cursor/RNG",
+    "global Python/NumPy/Torch/CUDA RNG",
+    "model-selection history",
+    "NumPy export"
+  ],
+  "deployment": "Actual new target RGB + EEF + instruction; NumPy-only native inference; no teacher fallback",
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "original_startup_joint2_joint3_rad": 0.9,
+  "new_tasks_started_by_this_record": 0,
+  "new_optimizer_updates": 0
+}

@@ -349,7 +349,7 @@ def validate_trace_capacity_failure(spec,*,historical_scene_sha256=None):
          'EXACT_RETAINED_FULL1_TRACE_OVERFLOW_FAILURE')
     failed=json.loads(path.read_text());ps=json.loads((root/'EXECUTION_SPEC.json').read_text())
     if historical_scene_sha256 is not None:
-        if spec.get('phase')=='collect-target-stable-task-data-v1':
+        if spec.get('phase')in('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1'):
             from .stable_task_scene_v1 import scene
             from .stable_task_layout_static_v1 import BASE_SCENE as CALIBRATION_SCENE
         else:

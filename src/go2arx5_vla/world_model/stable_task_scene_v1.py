@@ -57,7 +57,10 @@ def reference_geometry(reference, scene_sha256):
 
 
 def scene(spec):
-    need(spec.get('phase') == PHASE and spec.get('kind') == KIND
+    evaluated=spec.get('phase')=='collect-target-stable-task-eval-v1'
+    expected_kind='STABLE_TASK_EVAL_V1'if evaluated else KIND
+    need(spec.get('phase')in(PHASE,'collect-target-stable-task-eval-v1')and spec.get('kind')==expected_kind
+         and (not evaluated or spec.get('data_role')=='DEV')
          and spec.get('data_role') in ('TRAIN','DEV')
          and spec.get('live_skill_start_step') == B and spec.get('max_ticks') == E,
          'NEW_REAL_SCENE_TYPED_PHASE_AND_ROLE')
@@ -67,7 +70,7 @@ def scene(spec):
     need(proof['split'] == spec['data_role'] and proof['parent'] == spec['data_parent']
          and spec['scene_id'] == 'STABLE_TASK_' + proof['layout'], 'REAL_PHYSICAL_PARENT_AND_SPLIT')
     panel = pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
-    need(panel.get('schema') == 'WM02_STABLE_TASK_DATA_PANEL_V1', 'PREDECLARED_NEW_DATA_PANEL')
+    need(panel.get('schema') == ('WM02_STABLE_TASK_ADAPTER_NATIVE_PANEL_V1'if evaluated else 'WM02_STABLE_TASK_DATA_PANEL_V1'), 'PREDECLARED_NEW_DATA_PANEL')
     rows = panel['assignments']; need(len({r['native_run'] for r in rows}) == len(rows), 'UNIQUE_NEW_RUNS')
     roles = {}
     for row in rows:
