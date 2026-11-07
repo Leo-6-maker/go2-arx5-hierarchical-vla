@@ -108,8 +108,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     source, files = Path(spec['source_root']), spec.get('source_files', {})
     need(all(name in files and digest(source / name) == files[name] for name in source_members),
          'EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES')
-    from .fusion_source_phase_c01 import CONDITION as c01_condition
-    c01=actual_phase=='collect-target-fusion-task-phase-live-skill-v9'and spec.get('task_condition')==c01_condition
+    from .fusion_source_phase_c01 import CONDITIONS as c01_conditions,CPU_CONDITION
+    c01=actual_phase=='collect-target-fusion-task-phase-live-skill-v9'and spec.get('task_condition')in c01_conditions
     if c01:
         from .fusion_source_phase_c01 import scene,prefix_episode
         scene(spec);view=prefix_episode(_json(spec['episode_manifest'],spec['episode_manifest_sha256']),spec)
@@ -135,7 +135,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
-    if c01:live_end=34303
+    if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
         if spec.get('task_condition') == SHORT_TASK_CONDITION:

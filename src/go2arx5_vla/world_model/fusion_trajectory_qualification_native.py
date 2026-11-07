@@ -84,6 +84,9 @@ def complete_reference_consumption(spec,complete):
     Both still pass the caller's unchanged same-world, prefix, complete-window,
     solver/gripper and final-trace checks. HOLD never becomes raw H40 execution.
     """
+    if spec.get('task_condition')=='SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1':
+        from .fusion_source_phase_c01_capability_v1 import complete_consumption
+        return complete_consumption(spec,complete)
     if spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
         from .fusion_source_phase_c01 import scene,B
         scene(spec)

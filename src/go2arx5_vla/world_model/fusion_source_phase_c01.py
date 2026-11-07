@@ -11,6 +11,8 @@ from .storage import digest,write_json
 
 CONDITION='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'
 B=34303
+CPU_CONDITION='SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1'
+CONDITIONS=(CONDITION,CPU_CONDITION)
 SCENE_ID='FUSION_SOURCE_PHASE_C01_V1'
 PARENT='FUSION_SOURCE_PHASE_C01_PRIVILEGED_DIAGNOSTIC'
 SCENE='24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f'
@@ -49,9 +51,10 @@ def need(ok,why):
 
 def scene(spec):
     from .fusion_live_program_replay_v1 import assignment
-    need(spec.get('task_condition')==CONDITION and spec.get('phase')=='collect-target-fusion-task-phase-live-skill-v9'
+    need(spec.get('task_condition')in CONDITIONS and spec.get('phase')=='collect-target-fusion-task-phase-live-skill-v9'
          and spec.get('kind')=='FUSION_TASK_PHASE_LIVE_SKILL_V9'
-         and spec.get('live_skill_start_step')==spec.get('max_ticks')==B
+         and spec.get('live_skill_start_step')==B
+         and spec.get('max_ticks')==(B if spec.get('task_condition')==CONDITION else 38703)
          and assignment(spec)['split']=='DIAGNOSTIC'
          and all(spec.get(k)is None for k in ('task_reference_diagnostic','program_response_forecast','program_response_counterfactual','program_reference_intervention','program_reference_selection')),
          'DISTINCT_DIAGNOSTIC_QUERY_ONLY_SCOPE')
@@ -77,7 +80,7 @@ def scene(spec):
     need(not panel.is_symlink()and digest(panel)==a['panel_sha256']==spec['response_learning_panel_sha256'],'FROZEN_QUERY_PANEL')
     rows=[r for r in json.loads(panel.read_bytes())['assignments']if r['native_run']==Path(spec['registered_root']).name]
     need(len(rows)==1 and rows[0]['parent']==a['parent']and rows[0]['split']=='DIAGNOSTIC'
-         and rows[0]['scene_sha256']==SCENE and rows[0]['task_condition']==CONDITION,'EXACT_NEW_SCENE_PANEL_ROW')
+         and rows[0]['scene_sha256']==SCENE and rows[0]['task_condition']==spec['task_condition'],'EXACT_NEW_SCENE_PANEL_ROW')
     return binding
 
 

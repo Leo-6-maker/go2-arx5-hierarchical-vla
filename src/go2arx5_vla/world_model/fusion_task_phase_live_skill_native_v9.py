@@ -39,7 +39,10 @@ def run(adapter):
     from .fusion_task_phase_xyz_feedback_native_v4 import run_feedback_program
     episode,source,task,camera=episode_config(adapter.spec)
     def continuation(current,report,samples,windows):
-        from .fusion_source_phase_c01 import CONDITION,query_only
+        from .fusion_source_phase_c01 import CONDITION,CPU_CONDITION,query_only
+        if current.spec.get('task_condition')==CPU_CONDITION:
+            from .fusion_source_phase_c01_capability_v1 import continue_native
+            return continue_native(current,report,samples,windows)
         if current.spec.get('task_condition')==CONDITION:
             return query_only(current,report,samples,windows,task=task,camera=camera)
         return _continue(current,report,samples,windows,task=task,camera=camera)

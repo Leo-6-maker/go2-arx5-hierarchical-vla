@@ -1,0 +1,69 @@
+{
+  "schema": "WM02_FINITE_FUSION_RENEWAL_ACTUAL_V1",
+  "status": "NEW_FINITE_FUSION_WINDOW_REGISTERED_NO_WORKERS",
+  "user_authorized_deadline": "2026-11-07T23:34:00+08:00",
+  "FUSION_work_cutoff": "2026-11-07T23:14:00+08:00",
+  "original_closeout_reserve_seconds": 1200,
+  "registration_source_sha": "40cf0ba196d62837ef5734b26f5331baf314ca21",
+  "original_runtime_source_sha": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+  "new_campaign": false,
+  "old_CLOSED_leases_reopened": false,
+  "old_expired_supplements_closed": true,
+  "receipt": {
+    "status": "NEW_FINITE_FUSION_WINDOW_REGISTERED_NO_WORKERS",
+    "request_sha256": "cd91ca04edbc74ac5a7b7b0f952fd1abe5f3efa5bcba474be5269dfb09da310e",
+    "pilot": {
+      "status": "PILOT1_REGISTERED",
+      "binding_sha256": "4b7fde500d651776db6f2dd5a1203f20b1516637cbfe6e45588e6fc539aef2b1",
+      "old_closed_leases_reopened": false,
+      "engineering_budget_caps": null,
+      "new_integrations": 0,
+      "Actor_updates": 0
+    },
+    "fusion": {
+      "status": "FUSION_SUPPLEMENT_REGISTERED_NOT_NATIVE_QUALIFIED",
+      "binding_sha256": "763df7e0fedea83577be0c1e6a95ec55ba7cb4cb6efcf57a97433bee7d40f83b",
+      "native_integrations": 0,
+      "VLA_inferences": 0
+    },
+    "bindings": {
+      "pilot_binding": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/fusion-night1-pilot1-renewal-20261107-01/control/BINDING.private.json",
+      "fusion_binding": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/fusion-night1-scope-renewal-20261107-01/control/BINDING.private.json"
+    },
+    "native_integrations": 0,
+    "queries": 0,
+    "updates": 0,
+    "new_campaign": false,
+    "closed_lease_reopened": false
+  },
+  "attempts": [
+    {
+      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/preflight_fusion_renewal01.py 180",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/register_fusion_renewal01.py 900",
+      "exit_code": 1
+    },
+    {
+      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/audit_renewal_failure01.py 180",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 /home/liuyu/ISSAC-GR00T/work/private/wm01-20261103/core_control.py /home/liuyu/ISSAC-GR00T/work/private/wm02-fusion-night1-20261106/register_fusion_renewal02.py 900",
+      "exit_code": 0
+    }
+  ],
+  "first_failure": "SOURCE_ONCE_OWNED_LOCK: existing qualified NTFS device2050 exposes uid0, original source-owned CAS refused before inner intent",
+  "first_failure_all_three_lease_hashes_unchanged": true,
+  "failed_original_Journal_intent_preserved": true,
+  "repair": "Original durable writer only for exact qualified data-volume expired supplement, inside original canonical owner locks and Journal; source-owned CAS ownership guard unchanged",
+  "metadata_tests_normal": 21,
+  "metadata_tests_optimized": 21,
+  "native_integrations": 0,
+  "model_queries": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "GR00T_updates": 0,
+  "next": "Single-environment predeclared C01 CPU HOLD, then 5mm Teacher only after HOLD standing/contact/hold checks; frozen GR00T queries wait for measured GPU headroom"
+}

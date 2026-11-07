@@ -205,6 +205,10 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
             original_raw_H40_label='EXPLICIT_PRIVILEGED_TEACHER_REFERENCE_NOT_GR00T',
             GR00T_raw_H40_consumed=False,expert_training_eligible=False)
         decision.update(task_reference_producer=PRODUCER,GR00T_raw_H40_consumed=False)
+    if adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1':
+        from .fusion_source_phase_c01_capability_v1 import PRODUCER
+        report.update(task_reference_producer=PRODUCER,original_raw_H40_label='EXPLICIT_C01_CAPABILITY_REFERENCE_NOT_GR00T',GR00T_raw_H40_consumed=False,expert_training_eligible=False)
+        decision.update(task_reference_producer=PRODUCER,GR00T_raw_H40_consumed=False)
     if selection is not None:
         decision['reference_selection'] = selection
         report['reference_selection'] = selection

@@ -30,8 +30,8 @@ MECHANICAL_TASK_CONDITION='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
 from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as TEACHER_DIAGNOSTIC_TASK_CONDITION
 from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION as SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION
 SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION,TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION)
-from .fusion_source_phase_c01 import CONDITION as C01_QUERY_CONDITION
-TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS,C01_QUERY_CONDITION)
+from .fusion_source_phase_c01 import CONDITION as C01_QUERY_CONDITION,CPU_CONDITION as C01_CPU_CONDITION,CONDITIONS as C01_CONDITIONS
+TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS,C01_QUERY_CONDITION,C01_CPU_CONDITION)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
 PREDECESSOR_RESULT='1e1b0c75626cefeaf89f417cb0c1d276ec14fbc4eb473cf2b64fc238581581ae'
@@ -60,6 +60,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_program_reference_selection_v1.py',
  'src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py',
  'src/go2arx5_vla/world_model/fusion_source_phase_c01.py',
+ 'src/go2arx5_vla/world_model/fusion_source_phase_c01_capability_v1.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -72,6 +73,10 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
     need(type(time_stretch_factor)is int and time_stretch_factor in(1,2),
          'EXPLICIT_ORIGINAL_ADAPTER_TIME1_OR_TIME2')
     need(task_condition in TASK_CONDITIONS,'EXPLICIT_FULL_OR_NEW_SHORT_TASK')
+    if task_condition==C01_CPU_CONDITION:
+        from .fusion_source_phase_c01_capability_v1 import score_contract as c01_score
+        need(time_stretch_factor==2,'C01_CPU_SAME_TIME2_ADAPTER')
+        return c01_score()
     if task_condition==C01_QUERY_CONDITION:
         need(time_stretch_factor==2,'C01_SAME_TIME2_ADAPTER')
         return dict(schema='WM02_SOURCE_PHASE_C01_INITIALIZATION_AND_QUERY_ONLY_SCORE_V1',
@@ -134,11 +139,15 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
         task_id=mechanical_task
     if task_condition in(TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION):
         task_id=('FUSION_PRIVILEGED_GEOMETRIC_SHORT_DURATION_DIAGNOSTIC_AT34303_V2'if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION else'FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1')
+    if task_condition==C01_CPU_CONDITION:
+        from .fusion_short_skill import LANGUAGE
+        need(language==LANGUAGE,'EXPLICIT_C01_CAPABILITY_LANGUAGE')
+        task_id='C01_CPU_SMALL_APPROACH_CAPABILITY_V1'
     if task_condition==C01_QUERY_CONDITION:task_id='FUSION_SOURCE_PHASE_C01_ORIGINAL_LANGUAGE_QUERY_ONLY_V1'
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
         scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),
-        language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT'if is_short else'EXACT_SOURCE_TASK_PROMPT')
+        language_provenance='EXPLICIT_PRIVILEGED_C01_CAPABILITY_DIAGNOSTIC'if task_condition==C01_CPU_CONDITION else'NEW_TARGET_SHORT_SKILL_PROMPT'if is_short else'EXACT_SOURCE_TASK_PROMPT')
 
 def recipe_config(spec):
     from .fusion_task_reference_diagnostic_v1 import validate_registration as validate_task_reference
@@ -154,7 +163,7 @@ def recipe_config(spec):
     from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_IDENTITY,SOURCE_CAMERA_RECIPE
     from .fusion_source_camera_capture import SourceCameraCapture
     document=common._json(spec['episode_manifest'],spec['episode_manifest_sha256'])
-    if spec.get('task_condition')==C01_QUERY_CONDITION:
+    if spec.get('task_condition')in C01_CONDITIONS:
         from .fusion_source_phase_c01 import scene,prefix_episode
         scene(spec);episode=prefix_episode(document,spec)
     else:episode=prefix.episode_contract(document)
@@ -163,18 +172,18 @@ def recipe_config(spec):
          and episode['geometry_scale']==.5 and prefix.endpoint(episode)==B
          and type(spec.get('live_skill_start_step'))is int and spec['live_skill_start_step']==B
          and type(spec.get('max_ticks'))is int and spec['max_ticks']==terminal_step(spec['task_condition'])
-         and spec.get('snapshot_binding_mode')==PAIR_MODE
+         and spec.get('snapshot_binding_mode')==('PRE_REGISTERED_C01_CPU_CAPABILITY_V1'if spec.get('task_condition')==C01_CPU_CONDITION else PAIR_MODE)
          and type(spec.get('live_skill_geometry_scale'))in(int,float) and spec['live_skill_geometry_scale']==1.
          and type(spec.get('live_skill_time_stretch_factor'))is int and spec['live_skill_time_stretch_factor'] in(1,2),
          'EXPLICIT_HALF_PREFIX_B_DISTINCT_FULL_H40_SUFFIX_E_NO_SCALE_CLIP')
     episode,source=operational.recipe_config(spec,episode,actual_phase=PHASE,actual_kind=KIND,
                                             source_members=SOURCE_MEMBERS)
-    if spec['task_condition']==C01_QUERY_CONDITION:
+    if spec['task_condition']in C01_CONDITIONS:
         binding=spec['source_phase_scene_binding']
         source=dict(source,nominal_calibration_reference=dict(path=binding['nominal_calibration_goal_binding'],sha256=binding['nominal_calibration_goal_binding_sha256']))
     language=unseal(json.loads(source['source_observation_bytes']))['payload']['language']
     condition=spec['task_condition']
-    if condition in SHORT_LANGUAGE_TASK_CONDITIONS:
+    if condition in SHORT_LANGUAGE_TASK_CONDITIONS or condition==C01_CPU_CONDITION:
         from .fusion_graded_short_skill_v1 import LANGUAGE
         language=LANGUAGE
     task=common._json(spec['paused_target_task'],spec['paused_target_task_file_sha256'])
@@ -200,7 +209,10 @@ def recipe_config(spec):
 def episode_config(spec):
     config=recipe_config(spec)
     from .fusion_paused_query_bridge import preflight_pair
-    preflight_pair(Path(spec['paused_query_gpu_spec']),spec)
+    if spec.get('task_condition')==C01_CPU_CONDITION:
+        from .fusion_source_phase_c01_capability_v1 import validate
+        validate(spec)
+    else:preflight_pair(Path(spec['paused_query_gpu_spec']),spec)
     return config
 
 def episode_limit(spec,previous):
@@ -223,6 +235,7 @@ def episode_limit(spec,previous):
 
 
 def terminal_step(task_condition):
+    if task_condition==C01_CPU_CONDITION:return 38703
     if task_condition==C01_QUERY_CONDITION:return B
     if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION:
         from .fusion_task_reference_diagnostic_v1 import endpoint

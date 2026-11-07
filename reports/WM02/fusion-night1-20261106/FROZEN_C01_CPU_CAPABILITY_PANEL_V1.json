@@ -1,0 +1,87 @@
+{
+  "schema": "WM02_FROZEN_C01_CPU_CAPABILITY_PANEL_V1",
+  "purpose": "DISTINCT_SOURCE_PHASE_C01_NATIVE_CAPABILITY_NOT_GR00T_OR_WM_GAIN",
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "methods": [
+    "HOLD",
+    "GEOMETRIC_TEACHER_5MM"
+  ],
+  "same_native_process_prefix_and_suffix": true,
+  "independent_restarts": true,
+  "exact_fork_claim": false,
+  "decision_step": 34303,
+  "final_step": 38703,
+  "maximum_new_physics_environments": 1,
+  "minimum_course_clearance_m": 0.07,
+  "original_T06_140mm_screen_unchanged": true,
+  "score_contract": {
+    "schema": "WM02_C01_DISTINCT_COURSE_CAPABILITY_SCORE_V1",
+    "task_id": "C01_CPU_SMALL_APPROACH_CAPABILITY_V1",
+    "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+    "score_role": "NEW_C01_70MM_COURSE_NOT_OLD_SHORT_OR_PICK_PLACE",
+    "physical_frame": "ACTUAL_TARGET_WORLD",
+    "decision_native_step": 34303,
+    "atom_ticks": 25,
+    "native_dt_s": 0.002,
+    "precontact_offset_from_cube_m": 0.07,
+    "minimum_signed_progress_m": 0.002,
+    "minimum_distance_reduction_m": 0.002,
+    "maximum_lateral_drift_m": 0.003,
+    "maximum_TCP_excursion_m": 0.025,
+    "minimum_finger_opening_m": 0.038,
+    "maximum_object_displacement_m": 0.0005,
+    "maximum_base_displacement_m": 0.002,
+    "maximum_base_rotation_rad": 0.008726646259971648,
+    "final_hold_duration_s": 0.4,
+    "final_hold_TCP_diameter_m": 0.002,
+    "final_hold_TCP_max_speed_m_s": 0.025,
+    "original_native_safety_required": true,
+    "robot_object_contact_allowed": false,
+    "full_task_success_claim": false,
+    "thresholds_are_native_safety": false,
+    "privileged_geometry_is_policy_input": false,
+    "old_short_task_reclassified": false
+  },
+  "Teacher_requires_HOLD_nonprogress_predicates_pass": true,
+  "model_queries": 0,
+  "model_updates": 0,
+  "formal_Actor": false,
+  "assignments": [
+    {
+      "native_run": "fusion-night1-c01-cpu-hold-01",
+      "parent": "C01_CPU_CAPABILITY_HOLD",
+      "split": "DIAGNOSTIC",
+      "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+      "task_condition": "SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1",
+      "c01_capability_diagnostic": {
+        "schema": "WM02_C01_CPU_CAPABILITY_CONFIG_V1",
+        "method": "HOLD",
+        "producer": "C01_PRIVILEGED_CAPABILITY_NOT_GR00T_NOT_WM",
+        "step_m": 0.0,
+        "suffix_atoms": 176,
+        "minimum_course_clearance_m": 0.07,
+        "GR00T_queries": 0,
+        "model_updates": 0,
+        "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN"
+      }
+    },
+    {
+      "native_run": "fusion-night1-c01-cpu-teacher-01",
+      "parent": "C01_CPU_CAPABILITY_GEOMETRIC_TEACHER_5MM",
+      "split": "DIAGNOSTIC",
+      "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+      "task_condition": "SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1",
+      "c01_capability_diagnostic": {
+        "schema": "WM02_C01_CPU_CAPABILITY_CONFIG_V1",
+        "method": "GEOMETRIC_TEACHER_5MM",
+        "producer": "C01_PRIVILEGED_CAPABILITY_NOT_GR00T_NOT_WM",
+        "step_m": 0.005,
+        "suffix_atoms": 176,
+        "minimum_course_clearance_m": 0.07,
+        "GR00T_queries": 0,
+        "model_updates": 0,
+        "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN"
+      }
+    }
+  ]
+}

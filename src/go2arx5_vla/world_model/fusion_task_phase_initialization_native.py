@@ -45,7 +45,7 @@ def _verify_actual_fk(adapter, packet, measured, *, expected_step=recipe.DECISIO
     state = getattr(adapter, 'actual_state', None)
     need(type(state) is ActualState, 'ORIGINAL_ACTUALSTATE_READER_REQUIRED')
     expected_scene=recipe.SCENE
-    if adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
+    if adapter.spec.get('task_condition')in ('SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1','SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1'):
         from .fusion_source_phase_c01 import scene,SCENE
         scene(adapter.spec);expected_scene=SCENE
     need((state.model.nq, state.model.nv, state.model.nu) == (34, 32, 20)
@@ -107,7 +107,7 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
     need(adapter.spec.get('phase') == actual_phase
          and ((continuation is None and registered_end == boundary) or continuation_bound),
          'ACTUAL_NEW_PHASE_AND_STATIC_ENDPOINT')
-    c01=adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'
+    c01=adapter.spec.get('task_condition')in ('SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1','SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1')
     expected_source={'source_observation_bytes', 'T_source_from_target', 'scene_sha256'}|({'nominal_calibration_reference'}if c01 else set())
     need(set(source) == expected_source,
          'EXACT_FROZEN_SOURCE_CONFIGURATION')
