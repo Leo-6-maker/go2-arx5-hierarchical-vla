@@ -41,3 +41,22 @@ def test_cpu_course_task_is_explicit_and_cannot_relabel_full_source_language():
     assert value['language_provenance']=='EXPLICIT_PRIVILEGED_C01_CAPABILITY_DIAGNOSTIC'
     with pytest.raises(ValueError,match='CAPABILITY_LANGUAGE'):
         task_document('a'*64,'Pick and place the cube',task_condition=c.CONDITION)
+
+
+def test_operational_entry_accepts_only_explicit_cpu_course_without_pair(monkeypatch):
+    from go2arx5_vla.world_model import fusion_task_phase_initialization_contract as operational
+    calls=[]
+    monkeypatch.setattr(c,'validate',lambda spec:calls.append(spec['task_condition']))
+    spec=dict(phase='collect-target-fusion-task-phase-live-skill-v9',kind='FUSION_TASK_PHASE_LIVE_SKILL_V9',
+        profile='wm02-auto1-target',domain='WM02_AUTO1_TARGET_COMMISSION_V1',site_profile='4080-simulation',
+        physics=True,scope='WM02_PILOT1_SIM_ONLY',pilot1_binding='/actual/new/window',
+        task_condition=c.CONDITION,snapshot_binding_mode=c.MODE,paused_query_gpu_spec=None,WBC_changes=True)
+    with pytest.raises(ValueError,match='FROZEN_WBC_2MS_FINITE_NATIVE_WALL'):
+        operational.recipe_config(spec,actual_phase=spec['phase'],actual_kind=spec['kind'])
+    assert calls==[c.CONDITION]
+    with pytest.raises(ValueError,match='EXPLICIT_LIVE_PAIR'):
+        operational.recipe_config(dict(spec,task_condition='SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'),
+                                  actual_phase=spec['phase'],actual_kind=spec['kind'])
+    with pytest.raises(ValueError,match='CPU_CAPABILITY_HAS_NO_GPU_PAIR'):
+        operational.recipe_config(dict(spec,paused_query_pair='/old/reused/pair'),
+                                  actual_phase=spec['phase'],actual_kind=spec['kind'])

@@ -93,7 +93,12 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
-    if live_skill:
+    if (actual_phase == 'collect-target-fusion-task-phase-live-skill-v9'
+            and spec.get('task_condition') == 'SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1'):
+        from .fusion_source_phase_c01_capability_v1 import validate
+        validate(spec)
+        need(not spec.get('paused_query_pair'), 'CPU_CAPABILITY_HAS_NO_GPU_PAIR')
+    elif live_skill:
         mode = ('PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9' if actual_phase.endswith('-v9')
                 else 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V8')
         need(spec.get('snapshot_binding_mode') == mode
