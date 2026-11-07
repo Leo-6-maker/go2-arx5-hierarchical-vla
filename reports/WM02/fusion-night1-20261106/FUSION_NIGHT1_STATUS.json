@@ -21,14 +21,20 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE",
-  "snapshot_epoch": 1794026584.2213154,
+  "snapshot_epoch": 1794027247.1868489,
   "implementation_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "033e2b8cfb9be4e6ef57b571d2a34b49c081f5a4",
-  "current_native_job": null,
+  "current_native_job": {
+    "run": "fusion-night1-program-response-qh02-01",
+    "spec_sha256": "90c5167d8db6a9c5d3b9d4842d567aa8937572e1e6e54af61271cd593a05f7bc",
+    "status": "ACTIVE",
+    "MainPID": 3271470,
+    "last_observed_native_step": 35703
+  },
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "QT02_BOTH_CLOSED0_PID0",
+  "live_process_state": "QH02_NATIVE_ACTIVE_GPU_CLOSED0_PID0",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 294,
   "FUSION_native_passes": 284,
@@ -741,5 +747,7 @@
   "new_program_WM_restore_probe_optimizer_calls": 3,
   "program_WM_physical_control_gain": false,
   "program_T02_failure": "PROGRAM_TRAIN_T02_JOINT_ACCELERATION_FAILURE_ACTUAL_V1.json",
-  "QT02_time2_actual": "QT02_TIME2_NOMINAL_NATIVE_ACTUAL_V1.json"
+  "QT02_time2_actual": "QT02_TIME2_NOMINAL_NATIVE_ACTUAL_V1.json",
+  "QH02_new_actual_query_pending_pair_reconciliation": 1,
+  "pending_native_task_integrations_not_in_sealed_denominator": true
 }
