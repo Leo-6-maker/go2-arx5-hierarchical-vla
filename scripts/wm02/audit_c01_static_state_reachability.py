@@ -22,7 +22,7 @@ def pinned(path, pin):
     return raw
 
 
-def audit(native_path,gpu_path,scope_path,scope_sha):
+def audit(native_path,gpu_path,scope_path,scope_sha,*,source_targets=None):
     import numpy as np
     import mujoco
     from scripts.pi0292.relay_protocol import unseal
@@ -71,8 +71,14 @@ def audit(native_path,gpu_path,scope_path,scope_sha):
     with forbid_integration(mujoco)as prohibited:
         actual=current(qinitial);mapped=frame@actual
         source_R=rot6d_rows_to_matrix(np.asarray(source['state_eef10'])[3:9])
-        for z in (.50,.54,.58):
-            goal=np.eye(4);goal[:3,:3]=source_R;goal[:3,3]=[float(mapped[0,3]),float(mapped[1,3]),z];target=inverse@goal
+        targets=([[float(mapped[0,3]),float(mapped[1,3]),z]for z in (.50,.54,.58)]
+                 if source_targets is None else np.asarray(source_targets,float))
+        if (np.asarray(targets).ndim!=2 or np.asarray(targets).shape[1]!=3 or not 1<=len(targets)<=30
+                or not np.isfinite(targets).all() or np.any(np.asarray(targets)<np.asarray(stats['min'])[:3])
+                or np.any(np.asarray(targets)>np.asarray(stats['max'])[:3])):
+            raise ValueError('FINITE_PREDECLARED_SOURCE_POSITION_DESIGN_WITHIN_TRAIN_RANGE')
+        for xyz in targets:
+            goal=np.eye(4);goal[:3,:3]=source_R;goal[:3,3]=xyz;target=inverse@goal
             best=None
             for seed_index,seed in enumerate(seeds):
                 q=seed.copy()
