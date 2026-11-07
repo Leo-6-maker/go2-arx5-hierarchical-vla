@@ -21,14 +21,14 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": "2026-11-07T19:34:21.739793+08:00",
   "goal": "ACTIVE_RESEARCH_PARTIAL_NATIVE_INITIALIZATION_BLOCKED_CURRENT_WORKERS_SEALED",
-  "snapshot_epoch": 1794062398.170302,
-  "implementation_sha": "c880187ee033e2daf7c2eafb49ac88d412cef086",
+  "snapshot_epoch": 1794071254.4402328,
+  "implementation_sha": "0245f6c4f0271c30724d40414ee8c80bcd6bcc87",
   "implementation_deployed": true,
   "actual_last_native_source_sha": "fda255e9209141833aff212d74183ca5ff10807f",
-  "current_native_job": null,
+  "current_native_job": "STABLE_START_G1_HOLD01_SOURCE_STAGING_WORKER_NOT_YET_CONFIRMED",
   "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "ALL11_RENEWAL_WORKERS_CLOSED_PID0_NO_RUNNING_PROJECT_UNITS",
+  "live_process_state": "READONLY_COLD_PREFLIGHT_PASSED;_DISPATCH_IN_PROGRESS_NO_NATIVE_RESULT_YET",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 321,
   "FUSION_native_passes": 302,
@@ -303,8 +303,8 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
-  "next_executable": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_dev_dx02_actual01.py\" 180",
+  "next": "Finish original-owner source staging and first stable T06 HOLD; qualify two independent HOLD restarts and new4mm Teacher, then same-observation frozen GR00T attribution and new TRAIN-only adapter work.",
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g1_actual01.py 180",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -852,5 +852,25 @@
     "fixed_compensation": "STATIC_FAILED_NO_WORKER",
     "C03_preposed_home": "ZERO_INTEGRATION_REJECTED_FROZEN_STARTUP_OVERRIDE_POINT9_NO_WORKER"
   },
-  "current_block": "UNQUALIFIED_TARGET_INITIALIZATION_AND_EXACT_POINT9_STARTUP_BINDING"
+  "current_block": "G1 actual stable task qualification pending; old C03 startup-change family stopped by PR368; source range is diagnostic only.",
+  "previous_top_level_next_before_PR368": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
+  "stable_start_autonomy": {
+    "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+    "scope_actual_report": "STABLE_START_SCOPE_ACTUAL_V1.json",
+    "panel": "FROZEN_STABLE_START_G1_PANEL_V1.json",
+    "registration_status": "NEW_FINITE_FUSION_WINDOW_REGISTERED_NO_WORKERS",
+    "deadline_epoch": 1794113946.6684496,
+    "closeout_start_epoch": 1794112746.6684496,
+    "G0": "PASSED_REAL_ORIGINAL_OWNER_REGISTRATION",
+    "G1": "IMPLEMENTED_TESTED_PENDING_NATIVE",
+    "G2": "PENDING_G1_AND_ACTUAL_GPU_HEADROOM",
+    "G3": "NEW_TRAIN_AND_NONZERO_LEARNING_PROFILE_REQUIRED_NOT_STARTED",
+    "G4": "PENDING_G1_G3",
+    "G5": "OPTIONAL_NO_GAIN_CLAIM",
+    "normal_tests": 203,
+    "optimized_tests": 203,
+    "frozen_GR00T_updates": 0,
+    "active_capsules_changed": false,
+    "old_CLOSED_reopened": false
+  }
 }
