@@ -1,0 +1,233 @@
+{
+  "schema": "WM02_C02_FINITE_FEEDBACK_AND_CONTACT_FAILURE_ACTUAL_V1",
+  "status": "CLOSED1_NONCONTACT_INITIALIZATION_FAILED_CONTACT_EVIDENCE_PRESERVED",
+  "run": "fusion-night1-c02-source-state-feedback-01",
+  "source_sha": "fda255e9209141833aff212d74183ca5ff10807f",
+  "spec_sha256": "b93d3de65ebb80c0d028b0791c9f234ceadbbf7f478c1bdaa41711f81a71f695",
+  "native_result_sha256": "cc0a1ca266d186f201904806c3f38f5d4593c2d6a5ff1c803e4bfce1e8b330b5",
+  "journal_sha256": "78916b25190dbd442701d13fd5395dee830ec61ac202c5ef02da655de4fe395f",
+  "scene_sha256": "f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf",
+  "worker_exit_code": 1,
+  "lease": "CLOSED",
+  "MainPID": 0,
+  "actual_native_ticks": 37153,
+  "complete_atomic_transitions": 1486,
+  "partial_native_ticks": 3,
+  "planned_endpoint": 44703,
+  "actual_saved_feedback_decisions": 9,
+  "remaining_decisions": "NOT_RUN_AFTER_FAILURE",
+  "actual_generated_GR00T_actions": 0,
+  "first_native_failure": "ACTUAL_OBJECT_UNMOVED_DIAGNOSTIC_NOT_CONTACT_SCOPE",
+  "native_physics_stops": [],
+  "original_joint_or_warning_samples": 0,
+  "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+  "shutdown_clean": true,
+  "actual_observations": {
+    "pre_feedback_goal_error_m": 0.08281740156791507,
+    "last_pre_feedback_goal_error_m": 0.03707692228488045,
+    "contact_observed_native_step": 37146,
+    "contact_observed_TCP_cube_distance_m": 0.04601043988446361,
+    "actual_endpoint_TCP_cube_distance_m": 0.047418164079180834,
+    "endpoint_object_translation_delta_norm_m": 5.132526495721677e-05,
+    "endpoint_object_rotation_matrix_max_abs": 0.000686518152164439,
+    "BASE_endpoint_displacement_from_feedback_start_m": 0.06363845245028303,
+    "BASE_height_loss_before_observed_contact_m": 0.028446253399675103,
+    "last_pre_feedback_remaining_reference_clearance_m": 0.12122795306995256
+  },
+  "interpretation": {
+    "actual_object_contact_not_just_floating_point_noise": true,
+    "reference_clearance_is_not_actual_clearance": true,
+    "ordinary_feedback_reduced_error_but_did_not_qualify_initialization": true,
+    "unique_cause_of_instability_established": false,
+    "independent_restart_not_exact_fork": true,
+    "old_SHORT_or_T1_scores_unchanged": true,
+    "no_threshold_relaxation": true
+  },
+  "decisions": [
+    {
+      "index": 0,
+      "native_step": 29503,
+      "decision_sha256": "6d1082e1fd94e2799436b1abb04b0e3df9a2e37bb1025910f3f98411974675dd",
+      "xyz_error_norm_m": 0.08281740156791507,
+      "xyz_error_m": [
+        0.07176004128931351,
+        -0.033058274872535404,
+        0.024826778668792626
+      ],
+      "angular_error_norm_rad": 0.09856286168937087,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.08010728013782446
+    },
+    {
+      "index": 1,
+      "native_step": 30403,
+      "decision_sha256": "545a641ee2cbab055591e796af6673490f541d3e8e2bb938c93fcd482ead1432",
+      "xyz_error_norm_m": 0.07835542149725078,
+      "xyz_error_m": [
+        0.06751632583386835,
+        -0.031520835819507806,
+        0.024239528319387416
+      ],
+      "angular_error_norm_rad": 0.09298677092012582,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.08319374968046789
+    },
+    {
+      "index": 2,
+      "native_step": 31303,
+      "decision_sha256": "f63776e81bacc2e70c97668f99727a5760bf6a7f8f096e7ef2fcc117c4e077b1",
+      "xyz_error_norm_m": 0.07380638247509798,
+      "xyz_error_m": [
+        0.06319321229236785,
+        -0.02992586788202696,
+        0.023631386877194627
+      ],
+      "angular_error_norm_rad": 0.08730574122298211,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.08697959918613818
+    },
+    {
+      "index": 3,
+      "native_step": 32203,
+      "decision_sha256": "fa11c1423691893fafceeeb002702e679a51e953e3e6f6bde7610f299d3caf12",
+      "xyz_error_norm_m": 0.06925668292074078,
+      "xyz_error_m": [
+        0.058946510998585944,
+        -0.028210707418751535,
+        0.022933664277895283
+      ],
+      "angular_error_norm_rad": 0.08125003468246297,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.09138642040426115
+    },
+    {
+      "index": 4,
+      "native_step": 33103,
+      "decision_sha256": "c16be57672b6a7e2ef39fb31269b25eff280488bed6305a0c6db9468e58d2d54",
+      "xyz_error_norm_m": 0.06500092148307993,
+      "xyz_error_m": [
+        0.05467950928988258,
+        -0.02651180469658289,
+        0.02307369214489552
+      ],
+      "angular_error_norm_rad": 0.0762904294649313,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.09632936946617772
+    },
+    {
+      "index": 5,
+      "native_step": 34003,
+      "decision_sha256": "a7c4021e656b52e65f9d2d50b4d9d302c509958791cd222bec5d8820accfc806",
+      "xyz_error_norm_m": 0.047193210463705705,
+      "xyz_error_m": [
+        0.034757539780332136,
+        -0.02119314313002682,
+        0.023873902625261068
+      ],
+      "angular_error_norm_rad": 0.07866731742495982,
+      "applied_delta_norm_m": 0.007999999999999998,
+      "applied_rotation_norm_rad": 0.010000000000000002,
+      "remaining_reference_clearance_m": 0.1018084045761939
+    },
+    {
+      "index": 6,
+      "native_step": 34903,
+      "decision_sha256": "d930c743550658180ba90ce0ab595c29b334cf5c9df5013a7916fb4e6925f3d7",
+      "xyz_error_norm_m": 0.045146243681655776,
+      "xyz_error_m": [
+        0.03573808260024014,
+        -0.02003118115798022,
+        0.01896640588087356
+      ],
+      "angular_error_norm_rad": 0.060476302812548975,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.10841735405876003
+    },
+    {
+      "index": 7,
+      "native_step": 35803,
+      "decision_sha256": "a26aa96801f47065a898b424eb019019a1213a80ac535e80984f764974d737f9",
+      "xyz_error_norm_m": 0.04141518372376079,
+      "xyz_error_m": [
+        0.032848422492679274,
+        -0.01906203961539446,
+        0.016517785212201874
+      ],
+      "angular_error_norm_rad": 0.05388250449018818,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.1147789107145699
+    },
+    {
+      "index": 8,
+      "native_step": 36703,
+      "decision_sha256": "372f6d342f4e6c04a85a1c55db45007dcdda0a3bb8a64303367a5e75a8450049",
+      "xyz_error_norm_m": 0.03707692228488045,
+      "xyz_error_m": [
+        0.028910286553219977,
+        -0.017209759887301307,
+        0.015579398645365228
+      ],
+      "angular_error_norm_rad": 0.048432724357166654,
+      "applied_delta_norm_m": 0.008,
+      "applied_rotation_norm_rad": 0.01,
+      "remaining_reference_clearance_m": 0.12122795306995256
+    }
+  ],
+  "cost": {
+    "worker_wall_s": 485.90824702288955,
+    "worker_CPU_s": 195.71380036899998,
+    "worker_child_CPU_s": 732.280554,
+    "forensic_wall_s": 0.7433072640560567,
+    "forensic_CPU_s": 0.740260428,
+    "source_staging": {
+      "wall_s": 163.2138176211156,
+      "CPU_s": 1.2845186779999997,
+      "bytes_written": 48779271
+    },
+    "nested_RESULT_and_systemd_costs_not_added_again": true
+  },
+  "commands": [
+    {
+      "entry": "core_control.py",
+      "script": "precheck_c02_feedback01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    },
+    {
+      "entry": "core_control.py",
+      "script": "dispatch_c02_feedback01.py",
+      "external_timeout_s": 900,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    },
+    {
+      "entry": "core_control.py",
+      "script": "read_c02_feedback01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    },
+    {
+      "entry": "core_control.py",
+      "script": "audit_c02_feedback_failure02.py",
+      "external_timeout_s": 180,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    }
+  ],
+  "GR00T_queries": 0,
+  "WM_updates": 0,
+  "GR00T_updates": 0,
+  "Actor_updates": 0,
+  "full_tasks": 0,
+  "CPU_capture": "NOT_RUN_FAILED_NATIVE_DEPENDENCY",
+  "new_GPU_job": "NOT_RUN_NO_QUALIFIED_INPUT_AND_OTHERS_OCCUPY_HEADROOM"
+}

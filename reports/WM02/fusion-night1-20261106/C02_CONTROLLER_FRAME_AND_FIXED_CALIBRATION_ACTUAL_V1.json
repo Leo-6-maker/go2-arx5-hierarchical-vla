@@ -1,0 +1,96 @@
+{
+  "schema": "WM02_C02_CONTROLLER_FRAME_AND_FIXED_CALIBRATION_ACTUAL_V1",
+  "status": "NO_PRE_INSTABILITY_WORLD_ORIGIN_ERROR_FOUND_FIXED_COMPENSATION_STATIC_GATE_FAILED",
+  "executed_native_source_sha": "fda255e9209141833aff212d74183ca5ff10807f",
+  "controller_frame_audit": [
+    {
+      "step": 2503,
+      "observation_time_s": 5.006,
+      "native_time_s": 5.005999999999671,
+      "floating_base_to_actual_x5_mount_position_error_m": 1.3531030738909925e-08,
+      "floating_base_to_actual_x5_mount_rotation_error_rad": 5.16191365590357e-08,
+      "published_EEF_to_actual_TCP_position_error_m": 1.5927778030133608e-08
+    },
+    {
+      "step": 29503,
+      "observation_time_s": 59.006,
+      "native_time_s": 59.00600000002615,
+      "floating_base_to_actual_x5_mount_position_error_m": 3.783105040622473e-09,
+      "floating_base_to_actual_x5_mount_rotation_error_rad": 2.9802322387695312e-08,
+      "published_EEF_to_actual_TCP_position_error_m": 1.5427910034457342e-08
+    },
+    {
+      "step": 36703,
+      "observation_time_s": 73.406,
+      "native_time_s": 73.40600000001032,
+      "floating_base_to_actual_x5_mount_position_error_m": 2.214329550968029e-08,
+      "floating_base_to_actual_x5_mount_rotation_error_rad": 0.0,
+      "published_EEF_to_actual_TCP_position_error_m": 1.6383172718870632e-08
+    },
+    {
+      "step": 37153,
+      "observation_time_s": 74.306,
+      "native_time_s": 74.30600000000823,
+      "floating_base_to_actual_x5_mount_position_error_m": 0.0014085988701468355,
+      "floating_base_to_actual_x5_mount_rotation_error_rad": 0.003379997889090435,
+      "published_EEF_to_actual_TCP_position_error_m": 0.001425335081991325
+    }
+  ],
+  "reference_BASE_origin": "ACTUAL_ARX5_MOUNT_NOT_GO2_TRUNK",
+  "reference_quaternion": "XYZW_CORRECT",
+  "target_frame_adapter_changed": false,
+  "frozen_WBC_changed": false,
+  "fixed_calibration_attempt": {
+    "status": "STATIC_FAILED_NOT_REGISTERED_OR_DEPLOYED",
+    "source_desired_goal_unchanged": true,
+    "calibration_sha256": "9d76c45387d56da0081307801b20e15c523c4ebba35f006a1ff6ba69cca964c3",
+    "requested_translation_compensation_m": 0.0814294985384139,
+    "requested_rotation_compensation_rad": 0.09699951729361105,
+    "static_position_error_m": 0.018717373862501472,
+    "static_rotation_error_rad": 0.2689334045003643,
+    "minimum_joint_margin_rad": 0.030000000000000027,
+    "FK_calls": 677,
+    "hypothetical_geometry": {
+      "saved_pose_FK_calls": 401,
+      "direct_narrow_phase_calls": 0,
+      "robot_task_interpenetration_pose_count": 0,
+      "first_interpenetration_native_step": null,
+      "deepest_interpenetration_m": 0.0,
+      "new_integrations": 0,
+      "contact_free_at_saved_poses": true,
+      "new_world_dynamics_or_native_qualification": false
+    },
+    "static_search_did_not_prove_global_impossibility": true,
+    "native_workers": 0,
+    "native_integrations": 0,
+    "prototype_manifest_sha256": "c882a1429c70ba774f90f000dfa017c2f6885bd3ece223b7b777b3744e433918",
+    "prototype_preserved_privately": true,
+    "prototype_not_a_published_runtime_entry": true
+  },
+  "commands": [
+    {
+      "entry": "core_control.py",
+      "script": "audit_c02_frame_join01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    },
+    {
+      "entry": "core_control.py",
+      "script": "audit_c02_feedforward_static01.py",
+      "external_timeout_s": 180,
+      "exit_code": 0,
+      "exact_expanded_command_retained_privately": true
+    }
+  ],
+  "cost": {
+    "frame_join_wall_s": 4.711111299227923,
+    "frame_join_CPU_s": 4.708267341,
+    "static_wall_s": 0.23561869701370597,
+    "static_CPU_s": 0.22915426399999997
+  },
+  "new_integrations": 0,
+  "new_queries": 0,
+  "new_model_updates": 0,
+  "next": "Audit original HOME/HOLD initial-pose capabilities and actual WBC/base response before proposing a fresh bounded initialization; no retry of the failed conditions."
+}
