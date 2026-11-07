@@ -2,7 +2,8 @@
 
 This is a loop seam, not a phase route, admission check, query entry or native
 qualification. The future wrapper owns preregistration, query/pause identity,
-shutdown and the one final trace seal. No predictor is accepted here.
+shutdown and the one final trace seal. An explicitly registered shadow forecast
+may observe the causal inputs before publication; it cannot change references.
 """
 from __future__ import annotations
 
@@ -188,8 +189,12 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         actual_history=history, first_gripper_sequence=len(windows),
         future_response_observed=False, Processor_decodes=0))
     attempt = None
+    forecaster = None
 
     def install(elapsed):
+        if forecaster is not None:
+            forecaster.save(_history(samples,windows),windows[-8:],program.reference_path,
+                            install_atom=elapsed)
         action = program.preview(elapsed)
         installation = dict(elapsed_atom=elapsed, native_step=start_step+25*elapsed,
             full_proposed_H40=action.tolist(), stage='BEFORE_ORIGINAL_INSTALL')
@@ -211,6 +216,11 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
         return packet['step']
 
     try:
+        if adapter.spec.get('program_response_forecast') is not None:
+            from .fusion_program_forecast_v1 import ShadowForecaster
+            forecaster=ShadowForecaster(adapter.spec,adapter.output)
+            report.update(learned_models_loaded=len(forecaster.models),
+                shadow_forecast_records=forecaster.records,model_reference_changes=0)
         # A previous cancel/query leaves no usable live reference: always install.
         installed_step = install(0)
         for elapsed in range(atoms):
@@ -284,6 +294,7 @@ def run_consumed_segment(adapter, program, *, start_step, end_step,
             raw_knot_consumed=knots, final_gripper_sequence=len(windows)-1,
             actual_endpoint_TCP=np.asarray(samples[-1]['tcp']).tolist(),
             trace_sealed_by_segment=False)
+        if forecaster is not None:report['shadow_forecast_wall_s']=forecaster.wall_s
         write_json(result_path, report)
         return report, samples, windows
     except Exception as error:

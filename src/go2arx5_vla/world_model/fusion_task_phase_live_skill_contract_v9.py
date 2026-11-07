@@ -47,6 +47,12 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_trajectory_adapter.py',
  'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
  'src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_program_forecast_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_program_response_numpy_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_program_response_data_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_live_program_replay_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_live_causal_features_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_live_causal_features_v2.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -113,6 +119,8 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
         language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT'if is_short else'EXACT_SOURCE_TASK_PROMPT')
 
 def recipe_config(spec):
+    from .fusion_program_forecast_v1 import validate_registration
+    validate_registration(spec)
     from .fusion_task_phase_live_skill_pair_v9 import PAIR_MODE
     from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_IDENTITY,SOURCE_CAMERA_RECIPE
     from .fusion_source_camera_capture import SourceCameraCapture

@@ -61,6 +61,15 @@ def run(spec,output):
     replay_sha=digest(replay);write_json(output/'REPLAY_MANIFEST.private.json',dict(meta,replay_sha256=replay_sha))
     stats=contract.normalizers(data,train)
     baselines=contract.baseline_predictions(data,stats)
+    from go2arx5_vla.world_model import fusion_program_ridge_v1 as ridge
+    ridge_results=[];ridge_start=time.monotonic()
+    for name,no_future in [('TRAIN_RIDGE_FULL_PROGRAM',False),('TRAIN_RIDGE_NO_FUTURE_ACTION',True)]:
+        _finite(spec);arrays=ridge.fit(data,train,no_future=no_future)
+        path=output/(name+'_NUMPY.npz')
+        with path.open('xb')as stream:np.savez_compressed(stream,**arrays);stream.flush();os.fsync(stream.fileno())
+        baselines[name]=ridge.predict(arrays,data['X'])
+        ridge_results.append(dict(name=name,numpy_sha256=digest(path),ridge=1.,normalizers_fit_only_TRAIN=True))
+    ridge_wall_s=time.monotonic()-ridge_start
     write_json(output/'BASELINES.private.json',{name:contract.metrics(pred,data,train)for name,pred in baselines.items()})
     # CUDA is initialized only after source role, original worker/lease, proposal
     # and complete preview/clock joins have supplied actual TRAIN observations.
@@ -130,6 +139,7 @@ def run(spec,output):
         result=dict(schema='WM02_PROGRAM_RESPONSE_TRAINING_RESULT_V1',status='REAL_TRAIN_OPTIMIZED_FULLY_RESTORED_AND_PORTABLE',
             source_sha=spec['source_sha'],source_manifest_sha256=spec['source_manifest_sha256'],replay_sha256=replay_sha,
             data=meta['summary'],results=results,primary_seed=spec['primary_seed'],main_WM_updates=main_updates,
+            closed_form_ridge_fits=ridge_results,ridge_wall_s=ridge_wall_s,
             restore_probe_optimizer_calls=probes,Actor_updates=0,GR00T_updates=0,native_integrations=0,DEV_read=False,TEST_read=False,
             output='LOCAL_TCP_TRANSLATION_ROTATION_VECTOR_AND_TWO_FINGER_DISPLACEMENTS_H16_NOT_COMPLETE_RECURRENT_STATE',
             supported_horizons=stats['supported_horizons'].tolist(),GPU_peak_allocated_bytes=torch.cuda.max_memory_allocated(),

@@ -5,7 +5,7 @@
   "tests": [
     {
       "command": [
-        "/home/liuyu/ISSAC-GR00T/work/private/wm02-decision-20261104/model-native-env/bin/python",
+        "$WM02_TEST_PYTHON",
         "-B",
         "-m",
         "pytest",
@@ -37,7 +37,7 @@
     },
     {
       "command": [
-        "/home/liuyu/ISSAC-GR00T/work/private/wm02-decision-20261104/model-native-env/bin/python",
+        "$WM02_TEST_PYTHON",
         "-B",
         "-O",
         "-m",
@@ -144,5 +144,6 @@
     "prior_generation_capture_action_result_or_failure_forbidden": true
   },
   "WBC_changed": false,
-  "physics_dt_changed": false
+  "physics_dt_changed": false,
+  "actual_interpreter_binding": "PINNED_PRIVATE_TEST_RECEIPTS; public commands use the explicit private interpreter variable."
 }

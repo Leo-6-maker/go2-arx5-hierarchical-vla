@@ -182,6 +182,43 @@ def run(flow):
         end_step=adapter.spec['max_ticks'], past_samples=samples, past_windows=windows)
 
 
+def test_registered_shadow_forecasts_precede_each_original_install(flow,monkeypatch):
+    from go2arx5_vla.world_model import fusion_program_forecast_v1
+    adapter,program,samples,windows=flow
+    adapter.spec['program_response_forecast']={'fixture_only':True}
+    calls=[]
+    class Shadow:
+        def __init__(self,spec,output):
+            self.models={'RAW':None,'SCALED':None,'NO_FUTURE_ACTION':None}
+            self.records=calls;self.wall_s=0.
+        def save(self,history,past,path,*,install_atom):
+            assert history['actual_history_native_steps'][-1]==adapter.step==B+25*install_atom
+            assert len(adapter.installs)==len(calls)
+            assert len(past)==8 and past[-1]['native_end_step']==adapter.step
+            np.testing.assert_array_equal(path,program.reference_path)
+            calls.append(install_atom)
+    monkeypatch.setattr(fusion_program_forecast_v1,'ShadowForecaster',Shadow)
+    result,_,_=run(flow)
+    assert calls==list(range(0,result['complete_suffix_atoms'],7))
+    assert len(adapter.installs)==len(calls)
+    assert result['model_reference_changes']==0 and result['learned_models_loaded']==3
+    assert result['all_40_knots_consumed'] is True
+
+
+def test_shadow_failure_preserves_attempt_without_any_new_native_effect(flow,monkeypatch):
+    from go2arx5_vla.world_model import fusion_program_forecast_v1
+    adapter,program,samples,windows=flow
+    adapter.spec['program_response_forecast']={'fixture_only':True}
+    class Shadow:
+        def __init__(self,spec,output):self.models={};self.records=[]
+        def save(self,*args,**kwargs):raise ValueError('FORECAST_SAVE_FAILED')
+    monkeypatch.setattr(fusion_program_forecast_v1,'ShadowForecaster',Shadow)
+    with pytest.raises(ValueError,match='FORECAST_SAVE_FAILED'):run(flow)
+    assert adapter.installs==[] and adapter.advances==[]
+    result=json.loads((adapter.output/'LIVE_SKILL_SEGMENT.private.json').read_text())
+    assert result['complete_suffix_atoms']==0 and result['status']=='FAILED_RETAINED_NO_RETRY'
+
+
 def test_measurement_observer_rejects_before_any_new_install(flow):
     adapter,program,samples,windows=flow
     def reject(sample):
