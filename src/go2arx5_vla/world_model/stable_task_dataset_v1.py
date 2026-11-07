@@ -48,11 +48,14 @@ def consumed_label(qualification):
     return value
 
 
-def actual_features(root,spec,spec_pin,qualification):
+def actual_features(root,spec,spec_pin,qualification,*,expected_step=data.B):
+    if expected_step!=data.B:
+        from .stable_task_prefix_v1 import observation_steps
+        need(expected_step in observation_steps(spec),'PREREGISTERED_REAL_REPLAN_OBSERVATION_CLOCK')
     identity=qualification['student_observation'];path=Path(identity['path'])
     need(path.is_relative_to(root/'native-01/PAUSED_OBSERVATIONS'),'ACTUAL_OWNED_CAPTURE')
     record,descriptor=load(path,identity['sha256'],maximum=16*1024**2);body=unseal(record)
-    need(body['native_step']==identity['native_step']==data.B
+    need(body['native_step']==identity['native_step']==expected_step
          and body['world']['execution_spec_sha256']==spec_pin
          and body['world']['scene_sha256']==digest(spec['model_path'])
          and body['world']['native_output']==str(root/'native-01'),'SAME_REAL_WORLD_SPEC_AND_DECISION')
@@ -60,7 +63,7 @@ def actual_features(root,spec,spec_pin,qualification):
         member=path.parent/name
         need(member.resolve().is_relative_to(path.parent)and digest(member)==pin,'EXACT_RETAINED_OBSERVATION_MEMBER')
     shadow=unseal(body['original_shadow_ABI'])
-    need(shadow['native_step']==data.B
+    need(shadow['native_step']==expected_step
          and shadow['target_observation']['target_runtime_sha256']==spec_pin
          and shadow['target_observation']['native_state_sha256']==body['files']['STATE.private.bin'],
          'REAL_TARGET_STATE_NOT_REPLACED_SOURCE_STATE')

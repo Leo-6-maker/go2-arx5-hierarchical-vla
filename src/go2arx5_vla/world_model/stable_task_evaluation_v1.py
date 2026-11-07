@@ -41,6 +41,11 @@ def validate(spec):
          and not spec.get('paused_query_pair')and not spec.get('paused_query_gpu_spec')
          and spec.get('live_skill_geometry_scale')==1.
          and spec.get('live_skill_time_stretch_factor')==2,'EXPLICIT_REAL_DEV_CANDIDATE')
+    validate_trained_candidate(c)
+    return c
+
+
+def validate_trained_candidate(c):
     trained=scene_contract.pinned(c['training_result']);root=Path(c['training_result']['path']).parent
     job=root.parent
     train_spec=json.loads((job/'EXECUTION_SPEC.json').read_bytes())
@@ -61,7 +66,7 @@ def validate(spec):
          'REAL_SEALED_NONZERO_TRAINING_AND_COMPLETE_RECOVERY')
     # Reject corrupt or substituted exports before starting the native prefix.
     policy.load_export(c['export'])
-    return c
+    return dict(result=trained,spec=train_spec,root=str(job))
 
 
 def episode_config(spec):

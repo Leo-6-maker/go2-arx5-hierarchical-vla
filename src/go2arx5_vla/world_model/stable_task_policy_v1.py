@@ -35,11 +35,11 @@ def load_export(descriptor):
     return arrays
 
 
-def predict_from_observation(spec,observation,arrays):
+def predict_from_observation(spec,observation,arrays,*,expected_step=34303):
     from .stable_task_dataset_v1 import actual_features
     root=Path(spec['registered_root'])
     x,descriptor=actual_features(root,spec,digest(root/'EXECUTION_SPEC.json'),
-        dict(student_observation=observation))
+        dict(student_observation=observation),expected_step=expected_step)
     delta=np.asarray(adapter.numpy_predict(arrays,x),float)
     need(delta.shape==(3,)and np.isfinite(delta).all()
          and np.linalg.norm(delta)<=adapter.STEP_M+1e-10,'UNALTERED_BOUNDED_CANDIDATE_OUTPUT')
