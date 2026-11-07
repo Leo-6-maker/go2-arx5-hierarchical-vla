@@ -97,7 +97,8 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
             ('collect-target-fusion-task-phase-live-skill-v8','FUSION_TASK_PHASE_LIVE_SKILL_V8'),
             ('collect-target-fusion-task-phase-live-skill-v9','FUSION_TASK_PHASE_LIVE_SKILL_V9'))
         and adapter.spec.get('live_skill_start_step') == boundary
-        and type(registered_end) is int and boundary < registered_end <= 66503
+        and type(registered_end) is int and (boundary < registered_end <= 66503 or
+            (adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'and registered_end==boundary==34303))
         and (registered_end-boundary) % 25 == 0)
     need(adapter.spec.get('phase') == actual_phase
          and ((continuation is None and registered_end == boundary) or continuation_bound),

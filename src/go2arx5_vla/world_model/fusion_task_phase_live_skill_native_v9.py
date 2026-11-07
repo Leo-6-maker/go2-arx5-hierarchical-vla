@@ -39,6 +39,9 @@ def run(adapter):
     from .fusion_task_phase_xyz_feedback_native_v4 import run_feedback_program
     episode,source,task,camera=episode_config(adapter.spec)
     def continuation(current,report,samples,windows):
+        from .fusion_source_phase_c01 import CONDITION,query_only
+        if current.spec.get('task_condition')==CONDITION:
+            return query_only(current,report,samples,windows,task=task,camera=camera)
         return _continue(current,report,samples,windows,task=task,camera=camera)
     return run_feedback_program(adapter,episode,source,recipe_module=prefix,actual_phase=PHASE,
         report_schema='WM02_NATIVE_GRADED_INITIALIZATION_PREFIX_LIVE_V9',

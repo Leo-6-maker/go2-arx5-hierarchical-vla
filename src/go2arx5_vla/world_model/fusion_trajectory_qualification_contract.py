@@ -341,13 +341,18 @@ def validate_install_preview(action, *, initial_tcp, program, step, base, frozen
                 original_install_ACK_required=True, physics_advance_authorized=False)
 
 
-def validate_trace_capacity_failure(spec):
+def validate_trace_capacity_failure(spec,*,historical_scene_sha256=None):
     """Keep the complete but trace-unqualified overflowing run FAILED."""
     pin=TRACE_CAPACITY_FAILED_RESULT
     path=Path(spec['trace_capacity_failed_result']);root=path.parent.parent
     need(spec.get('trace_capacity_failed_result_sha256')==pin and digest(path)==pin,
          'EXACT_RETAINED_FULL1_TRACE_OVERFLOW_FAILURE')
     failed=json.loads(path.read_text());ps=json.loads((root/'EXECUTION_SPEC.json').read_text())
+    if historical_scene_sha256 is not None:
+        from .fusion_source_phase_c01 import scene,CALIBRATION_SCENE
+        scene(spec)
+        need(historical_scene_sha256==CALIBRATION_SCENE==digest(ps['model_path']),
+             'EXACT_HISTORICAL_T06_TRACE_FAILURE_NOT_NEW_SCENE_QUALIFICATION')
     lease=json.loads((root/'control/LEASE.json').read_text());worker=json.loads((root/'WORKER_EXIT.private.json').read_text())
     trace=failed.get('trace_audit')or{};writer=trace.get('writer')or{};report=failed.get('reference_qualification')or{}
     need(lease.get('status')=='CLOSED' and lease.get('worker_exit_code')==worker.get('exit_code')==1
@@ -367,7 +372,7 @@ def validate_trace_capacity_failure(spec):
          and report.get('complete_task_atoms')==report.get('solver_target_confirmed_atoms')==report.get('gripper_confirmed_atoms')==1090
          and failed.get('native_binary_sha256')==digest(spec['native_binary'])
          and failed.get('observer_sha256')==digest(spec['observer_library'])
-         and failed.get('scene_sha256')==digest(spec['model_path'])
+         and failed.get('scene_sha256')==(digest(spec['model_path'])if historical_scene_sha256 is None else historical_scene_sha256)
          and {p.get('name')for p in failed.get('owned_process_exits',[])}=={'sim','controller','solver','planner'}
          and all(p.get('exit_code')==0 for p in failed['owned_process_exits']),
          'ACTUAL_FAILED_TRACE_EVIDENCE_NOT_A_PHYSICAL_OR_TASK_PASS')

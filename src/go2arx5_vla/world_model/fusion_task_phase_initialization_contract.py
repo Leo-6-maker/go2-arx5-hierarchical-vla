@@ -108,7 +108,13 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     source, files = Path(spec['source_root']), spec.get('source_files', {})
     need(all(name in files and digest(source / name) == files[name] for name in source_members),
          'EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES')
-    if episode is None:
+    from .fusion_source_phase_c01 import CONDITION as c01_condition
+    c01=actual_phase=='collect-target-fusion-task-phase-live-skill-v9'and spec.get('task_condition')==c01_condition
+    if c01:
+        from .fusion_source_phase_c01 import scene,prefix_episode
+        scene(spec);view=prefix_episode(_json(spec['episode_manifest'],spec['episode_manifest_sha256']),spec)
+        need(episode is None or episode==view,'DECLARED_C01_CALIBRATION_PREFIX_VIEW');episode=view
+    elif episode is None:
         episode = recipe.episode_contract(_json(spec['episode_manifest'], spec['episode_manifest_sha256']))
     else:
         need(_json(spec['episode_manifest'], spec['episode_manifest_sha256']) == episode,
@@ -129,6 +135,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
+    if c01:live_end=34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
         if spec.get('task_condition') == SHORT_TASK_CONDITION:
@@ -141,10 +148,13 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')
     catalog = _json(spec['scene_allowlist'], spec['scene_allowlist_sha256'])
-    matches = [s for s in catalog['scenes'] if s['scene_id'] == common.SCENE_ID]
-    need(len(matches) == 1 and matches[0]['parent'] == common.PARENT and matches[0]['split'] == 'TRAIN'
+    if c01:
+        from .fusion_source_phase_c01 import SCENE_ID as scene_id,PARENT as parent,SCENE as model_pin
+    else:scene_id,parent,model_pin=common.SCENE_ID,common.PARENT,recipe.SCENE
+    matches = [s for s in catalog['scenes'] if s['scene_id'] == scene_id]
+    need(len(matches) == 1 and matches[0]['parent'] == parent and matches[0]['split'] == ('DIAGNOSTIC'if c01 else'TRAIN')
          and matches[0]['model_path'] == spec['model_path']
-         and matches[0]['model_sha256'] == digest(spec['model_path']) == recipe.SCENE
+         and matches[0]['model_sha256'] == digest(spec['model_path']) == model_pin
          and matches[0].get('static_check') == 'PASSED_NO_INTEGRATION'
          and catalog['native_binary_sha256'] == digest(spec['native_binary']),
          'EXACT_STATIC_T06_AND_FROZEN_BINARY')
@@ -152,7 +162,10 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          and type(spec.get('trajectory_trace_capacity')) is int
          and spec.get('trajectory_trace_capacity_build_sha256') == TRACE_BUILD,
          'EXACT_BUILD03_TRACE524_RECEIPT_PIN')
-    geometry.validate_trace_capacity_failure(spec)
+    if c01:
+        from .fusion_source_phase_c01 import CALIBRATION_SCENE
+        geometry.validate_trace_capacity_failure(spec,historical_scene_sha256=CALIBRATION_SCENE)
+    else:geometry.validate_trace_capacity_failure(spec)
     path = Path(spec['trajectory_trace_capacity_build'])
     build = _json(path, TRACE_BUILD)
     need(build.get('status') == 'TRACE_ONLY_524288_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'

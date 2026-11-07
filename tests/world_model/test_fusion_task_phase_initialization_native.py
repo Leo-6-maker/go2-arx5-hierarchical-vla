@@ -102,6 +102,32 @@ def test_operational_live_v9_entry_checks_the_actual_declared_horizon(recipe,tmp
     with pytest.raises(ValueError):contract.recipe_config(spec,episode,actual_phase=live.PHASE,actual_kind=live.KIND,source_members=live.SOURCE_MEMBERS)
 
 
+def test_operational_c01_scene_is_distinct_and_does_not_borrow_t06_catalog(recipe,tmp_path,monkeypatch):
+    from go2arx5_vla.world_model import fusion_task_phase_live_skill_contract_v9 as live
+    from go2arx5_vla.world_model import fusion_source_phase_c01 as c01
+    from test_fusion_source_phase_c01 import registration
+    spec,_,_,_=recipe;monkeypatch.setattr(c01,'CALIBRATION_SCENE',digest(spec['model_path']))
+    # This fixture's old failure originally retained a minimal spec. A new-scene
+    # caller also needs its separately preserved historical scene identity.
+    historical=Path(spec['trace_capacity_failed_result']).parent.parent
+    previous=json.loads((historical/'EXECUTION_SPEC.json').read_bytes());previous['model_path']=spec['model_path'];put(historical/'EXECUTION_SPEC.json',previous)
+    lease=json.loads((historical/'control/LEASE.json').read_bytes());lease['spec_sha256']=digest(historical/'EXECUTION_SPEC.json');put(historical/'control/LEASE.json',lease)
+    new_model=tmp_path/'C01_MODEL.mjb';new_model.write_bytes(b'DISTINCT_C01_STATIC_FIXTURE_MODEL');spec['model_path']=str(new_model)
+    registration(spec,tmp_path,monkeypatch)
+    spec.update(snapshot_binding_mode='PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9',paused_query_gpu_spec='/synthetic/gpu/spec',paused_query_pair='/synthetic/pair')
+    wrapper=c01.episode(spec['registered_root']);spec['episode_manifest_sha256']=put(spec['episode_manifest'],wrapper);episode=c01.prefix_episode(wrapper,spec)
+    catalog=json.loads(Path(spec['scene_allowlist']).read_bytes())
+    catalog['scenes']=[dict(scene_id=c01.SCENE_ID,parent=c01.PARENT,split='DIAGNOSTIC',model_path=spec['model_path'],model_sha256=digest(spec['model_path']),static_check='PASSED_NO_INTEGRATION')]
+    spec['scene_allowlist_sha256']=put(spec['scene_allowlist'],catalog)
+    project=Path(__file__).resolve().parents[2]
+    for name in live.SOURCE_MEMBERS:
+        path=Path(spec['source_root'])/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((project/name).read_bytes());spec['source_files'][name]=digest(path)
+    actual,source=contract.recipe_config(spec,episode,actual_phase=live.PHASE,actual_kind=live.KIND,source_members=live.SOURCE_MEMBERS)
+    assert actual==episode and source['scene_sha256']==c01.SCENE
+    catalog['scenes'][0]['scene_id']='F2T06';spec['scene_allowlist_sha256']=put(spec['scene_allowlist'],catalog)
+    with pytest.raises(ValueError,match='EXACT_STATIC_T06'):contract.recipe_config(spec,episode,actual_phase=live.PHASE,actual_kind=live.KIND,source_members=live.SOURCE_MEMBERS)
+
+
 @pytest.mark.parametrize('key,value', [
     ('phase', v3.PHASE), ('kind', 'FUSION_SOURCE_POSTURE_PAUSED_QUERY'),
     ('profile', 'wm02-fusion-vla-shadow'), ('physics', False),

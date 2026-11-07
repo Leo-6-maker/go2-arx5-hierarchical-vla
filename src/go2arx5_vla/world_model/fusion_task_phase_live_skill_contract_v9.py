@@ -30,7 +30,8 @@ MECHANICAL_TASK_CONDITION='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
 from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as TEACHER_DIAGNOSTIC_TASK_CONDITION
 from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION as SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION
 SHORT_LANGUAGE_TASK_CONDITIONS=(SHORT_TASK_CONDITION,TRACKING_TASK_CONDITION,MECHANICAL_TASK_CONDITION,TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION)
-TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS)
+from .fusion_source_phase_c01 import CONDITION as C01_QUERY_CONDITION
+TASK_CONDITIONS=(TASK_CONDITION,*SHORT_LANGUAGE_TASK_CONDITIONS,C01_QUERY_CONDITION)
 PREDECESSOR_SOURCE='cdced494d46bd4df1930142317244b2da1ba9229'
 PREDECESSOR_SPEC='79e5159de909c1d128bb14adc02ba61a2e0a83a142c1fb42d4b7e90c32d9ddad'
 PREDECESSOR_RESULT='1e1b0c75626cefeaf89f417cb0c1d276ec14fbc4eb473cf2b64fc238581581ae'
@@ -58,6 +59,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys((*predecessor.SOURCE_MEMBERS,
  'src/go2arx5_vla/world_model/fusion_program_reference_intervention_v1.py',
  'src/go2arx5_vla/world_model/fusion_program_reference_selection_v1.py',
  'src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py',
+ 'src/go2arx5_vla/world_model/fusion_source_phase_c01.py',
  'src/go2arx5_vla/world_model/fusion_short_skill.py',
  'scripts/wm02/fusion_task_phase_live_skill_check_v9.py')))
 
@@ -70,6 +72,13 @@ def score_contract(*,time_stretch_factor=2,task_condition=TASK_CONDITION):
     need(type(time_stretch_factor)is int and time_stretch_factor in(1,2),
          'EXPLICIT_ORIGINAL_ADAPTER_TIME1_OR_TIME2')
     need(task_condition in TASK_CONDITIONS,'EXPLICIT_FULL_OR_NEW_SHORT_TASK')
+    if task_condition==C01_QUERY_CONDITION:
+        need(time_stretch_factor==2,'C01_SAME_TIME2_ADAPTER')
+        return dict(schema='WM02_SOURCE_PHASE_C01_INITIALIZATION_AND_QUERY_ONLY_SCORE_V1',
+            task_condition=task_condition,capture_boundary_step=B,registered_final_step=B,
+            generated_action_execution_allowed=False,task_success_established=False,
+            full_H40_saved=True,source_task_phase_equivalence=False,old_140mm_domain_reclassified=False,
+            new_capture_phase_distance_bounds_m=[.07,.09],old_initialization_distance_predicate_not_relabelled=True)
     value=dict(schema=('WM02_GRADED_FULL_TASK_PROPOSAL_DIAGNOSTIC_SCORE_V9'
         +('_TIME1' if time_stretch_factor==1 else '')),
         purpose='FULL_GENERATED_H40_NATIVE_TRACKING_AND_INTENT_DIAGNOSIS_NOT_FULL_TASK_SCORE',
@@ -125,6 +134,7 @@ def task_document(scene_sha256,language,*,time_stretch_factor=2,task_condition=T
         task_id=mechanical_task
     if task_condition in(TEACHER_DIAGNOSTIC_TASK_CONDITION,SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION):
         task_id=('FUSION_PRIVILEGED_GEOMETRIC_SHORT_DURATION_DIAGNOSTIC_AT34303_V2'if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION else'FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1')
+    if task_condition==C01_QUERY_CONDITION:task_id='FUSION_SOURCE_PHASE_C01_ORIGINAL_LANGUAGE_QUERY_ONLY_V1'
     return dict(schema=TASK_SCHEMA,
         task_id=task_id,language=language,
         scene_sha256=scene_sha256,score_contract_sha256=document_hash(score),
@@ -143,7 +153,11 @@ def recipe_config(spec):
     from .fusion_task_phase_live_skill_pair_v9 import PAIR_MODE
     from .fusion_source_posture_paused_query_v3 import SOURCE_CAMERA_IDENTITY,SOURCE_CAMERA_RECIPE
     from .fusion_source_camera_capture import SourceCameraCapture
-    episode=prefix.episode_contract(common._json(spec['episode_manifest'],spec['episode_manifest_sha256']))
+    document=common._json(spec['episode_manifest'],spec['episode_manifest_sha256'])
+    if spec.get('task_condition')==C01_QUERY_CONDITION:
+        from .fusion_source_phase_c01 import scene,prefix_episode
+        scene(spec);episode=prefix_episode(document,spec)
+    else:episode=prefix.episode_contract(document)
     need(spec.get('phase')==PHASE and spec.get('kind')==KIND
          and spec.get('experiment_role')==ROLE and spec.get('task_condition') in TASK_CONDITIONS
          and episode['geometry_scale']==.5 and prefix.endpoint(episode)==B
@@ -206,6 +220,7 @@ def episode_limit(spec,previous):
 
 
 def terminal_step(task_condition):
+    if task_condition==C01_QUERY_CONDITION:return B
     if task_condition==SHORT_TEACHER_DIAGNOSTIC_TASK_CONDITION:
         from .fusion_task_reference_diagnostic_v1 import endpoint
         return endpoint(task_condition)

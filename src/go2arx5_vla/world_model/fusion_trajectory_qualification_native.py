@@ -84,6 +84,19 @@ def complete_reference_consumption(spec,complete):
     Both still pass the caller's unchanged same-world, prefix, complete-window,
     solver/gripper and final-trace checks. HOLD never becomes raw H40 execution.
     """
+    if spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
+        from .fusion_source_phase_c01 import scene,B
+        scene(spec)
+        return (complete.get('query_only_no_generated_actions')is True
+            and complete.get('initialization_all40_knots_consumed')is True
+            and complete.get('all_40_knots_consumed')is False
+            and complete.get('raw_knot_consumed')==[False]*40
+            and complete.get('GR00T_raw_H40_consumed')is False
+            and complete.get('actual_VLA_commands')==complete.get('VLA_action_installations')==0
+            and complete.get('actual_VLA_inferences')==1
+            and complete.get('native_endpoint_step')==B
+            and isinstance(complete.get('query_only_proposal_sha256'),str)
+            and len(complete['query_only_proposal_sha256'])==64)
     if spec.get('task_reference_diagnostic') is not None:
         from .fusion_task_reference_diagnostic_v1 import validate_registration,PRODUCER
         validate_registration(spec)

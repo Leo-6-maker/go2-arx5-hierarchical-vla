@@ -80,8 +80,9 @@ def validate_spec(spec):
     need(schedule in(LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT),'EXPLICIT_FROZEN_MODEL_LOAD_SCHEDULE')
     if schedule==PRELOAD_BEFORE_SNAPSHOT:
         from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as teacher,SHORT_TASK_CONDITION as short_teacher
+        from .fusion_source_phase_c01 import CONDITION as c01_query
         need(spec.get('snapshot_binding_mode')==SLOW_LIVE_SKILL_PAIR_BINDING_MODE
-             and spec.get('task_condition')in('BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',teacher,short_teacher),
+             and spec.get('task_condition')in('BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',teacher,short_teacher,c01_query),
              'PREREGISTERED_MECHANICAL_PAIR_ONLY_FOR_EARLY_WEIGHT_LOAD')
     if spec.get('snapshot_binding_mode') == BINDING_MODE:
         need(_hash(spec.get('recorded_observation_sha256')), 'PREEXISTING_EXACT_SNAPSHOT_SHA')
@@ -173,6 +174,11 @@ def read_payload(spec):
             returned_VLA_action_installations=0, camera_equivalence=False,
             old_initialization_readiness_relabelled=False, source_task_phase_equivalence=False,
             native_trace_seal_checked_by_GPU=False)
+        from .fusion_source_phase_c01 import CONDITION,SCENE_ID,CALIBRATION_SCENE
+        if pair['task_condition']==CONDITION:
+            identity.update(actual_scene_id=SCENE_ID,actual_scene_sha256=pair['scene_sha256'],
+                nominal_calibration_recipe_scene_sha256=CALIBRATION_SCENE,
+                generated_action_execution_allowed=False)
     return payload, identity, record
 
 
