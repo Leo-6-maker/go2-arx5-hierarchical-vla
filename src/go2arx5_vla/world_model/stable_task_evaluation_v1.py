@@ -59,6 +59,8 @@ def validate(spec):
          and trained.get('export_sha256')==c['export']['sha256']
          and Path(c['export']['path'])==root/'TASK_ADAPTER_EXPORT.npz',
          'REAL_SEALED_NONZERO_TRAINING_AND_COMPLETE_RECOVERY')
+    # Reject corrupt or substituted exports before starting the native prefix.
+    policy.load_export(c['export'])
     return c
 
 

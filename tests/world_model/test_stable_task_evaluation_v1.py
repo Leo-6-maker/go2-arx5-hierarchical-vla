@@ -25,13 +25,19 @@ def configuration(tmp_path,monkeypatch):
     put(job/'EXECUTION_SPEC.json',dict(kind='TASK_ADAPTER',profile='wm02-pilot1-neural',TASK_ADAPTER_updates=2000))
     put(job/'control/LEASE.json',dict(status='CLOSED',worker_exit_code=0,spec_sha256=digest(job/'EXECUTION_SPEC.json')))
     put(job/'WORKER_EXIT.private.json',dict(exit_code=0))
+    from go2arx5_vla.world_model import stable_task_adapter_v1 as candidate
+    export=output/'TASK_ADAPTER_EXPORT.npz'
+    np.savez(export,schema=np.array(candidate.SCHEMA),mean=np.zeros(116,np.float32),
+        scale=np.ones(116,np.float32),**{'hidden.weight':np.zeros((32,116),np.float32),
+        'hidden.bias':np.zeros(32,np.float32),'output.weight':np.zeros((3,32),np.float32),
+        'output.bias':np.zeros(3,np.float32)})
     trained=dict(schema='WM02_STABLE_TASK_ADAPTER_TRAIN_ACTUAL_V1',status='CANDIDATE_TRAINED_RELOADED_NOT_NATIVE_EVALUATED',
         TASK_ADAPTER_updates=2000,GR00T_updates=0,Actor_updates=0,WM_updates=0,optimizer_restored=True,sampler_restored=True,
-        RNG_restored=True,export_sha256='b'*64)
+        RNG_restored=True,export_sha256=digest(export))
     result=put(output/'RESULT.private.json',trained)
     spec['stable_task_evaluation']=dict(method='LEARNED_TASK_ADAPTER',step_m=.004,suffix_atoms=176,
         minimum_course_clearance_m=.14,producer='INDEPENDENT_TASK_ADAPTER_NOT_TEACHER',training_result=result,
-        export=dict(path=str(output/'TASK_ADAPTER_EXPORT.npz'),sha256='b'*64))
+        export=dict(path=str(export),sha256=digest(export)))
     return spec,trained,output
 
 
@@ -62,3 +68,10 @@ def test_candidate_dispatch_does_not_enter_teacher_route(monkeypatch):
     spec=dict(phase=evaluation.PHASE,kind=evaluation.KIND)
     assert phase_limit(evaluation.PHASE,None,spec)==evaluation.E
     assert seen==[spec]
+
+
+def test_bad_export_fails_before_native_prefix(tmp_path,monkeypatch):
+    spec,_,output=configuration(tmp_path,monkeypatch)
+    (output/'TASK_ADAPTER_EXPORT.npz').write_bytes(b'changed')
+    with pytest.raises(ValueError,match='PINNED_CANONICAL_SMALL_EXPORT'):
+        evaluation.validate(spec)
