@@ -3,6 +3,13 @@ import pytest
 from go2arx5_vla.world_model import task_learning_features_v1 as features
 
 
+def test_free_generation_excludes_expert_action_and_rtc_without_mutating_training_input():
+    inputs = dict(state=[1, 2], input_ids=[3, 4], pixel_values=[5], action=[999], action_mask=[1])
+    inference = features.inference_inputs(inputs)
+    assert inference == dict(state=[1, 2], input_ids=[3, 4], pixel_values=[5])
+    assert inputs['action'] == [999] and inputs['action_mask'] == [1]
+
+
 def test_cyclic_sample_is_deterministic_and_balanced_at_optimizer_boundary():
     sequence = [features.sample_index(i, 4, 20261109) for i in range(128)]
     assert sequence == [features.sample_index(i, 4, 20261109) for i in range(64)] + [

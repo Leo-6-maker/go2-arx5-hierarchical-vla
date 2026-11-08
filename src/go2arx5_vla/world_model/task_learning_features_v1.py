@@ -43,10 +43,18 @@ def feature_packet(row):
     return BatchFeature(data=tensor_tree(row['features'], 'cuda'))
 
 
-def action_packet(model, row, input_dtype):
+def inference_inputs(inputs):
+    """Free generation has no training action/RTC prefix or expert label."""
+    values = copy.deepcopy(inputs)
+    values.pop('action', None)
+    values.pop('action_mask', None)
+    return values
+
+
+def action_packet(model, row, input_dtype, *, generation=False):
     import torch
     from transformers.feature_extraction_utils import BatchFeature
-    values = model.action_head.prepare_input(copy.deepcopy(row['inputs']))
+    values = model.action_head.prepare_input(inference_inputs(row['inputs']) if generation else copy.deepcopy(row['inputs']))
     return BatchFeature(data={k: v.to('cuda', dtype=input_dtype if torch.is_floating_point(v) else v.dtype)
                               for k, v in values.items()})
 
@@ -118,9 +126,9 @@ def qualify_cache(model, contract, data, root, guard):
         seed = 2026110900 + index
         with torch.random.fork_rng(devices=[0]), torch.no_grad(), torch.autocast('cuda', dtype=torch.bfloat16):
             torch.manual_seed(seed)
-            original = model.get_action(copy.deepcopy(inputs))['action_pred'].detach().cpu()
+            original = model.get_action(inference_inputs(inputs))['action_pred'].detach().cpu()
             torch.manual_seed(seed)
-            cached = model.action_head.get_action(feature_packet(row), action_packet(model, row, input_dtype))['action_pred'].detach().cpu()
+            cached = model.action_head.get_action(feature_packet(row), action_packet(model, row, input_dtype, generation=True))['action_pred'].detach().cpu()
         need(torch.equal(original, cached), 'FULL_H40_ORIGINAL_AND_CACHE_EXACT')
         row['original_normalized_H40'] = original
         generation_proofs.append(dict(index=index, seed=seed, exact=True, output=tree_identity(original)))
@@ -158,7 +166,7 @@ def qualify_cache(model, contract, data, root, guard):
         # Inference with a live training audit must remain outside that audit.
         stream_before = rng_identity()
         with torch.random.fork_rng(devices=[0]), torch.no_grad(), torch.autocast('cuda', dtype=torch.bfloat16):
-            model.action_head.get_action(feature_packet(rows[0]), action_packet(model, rows[0], input_dtype))
+            model.action_head.get_action(feature_packet(rows[0]), action_packet(model, rows[0], input_dtype, generation=True))
         need(not audit.active and audit.pending is None and rng_identity() == stream_before, 'TRAIN_GENERATE_AUDIT_SCOPE')
         proof = dict(status='PASS_REAL_GR00T_FROZEN_FEATURE_OUTPUT_LOSS_GRADIENT_EQUIVALENCE',
                      generations=generation_proofs, gradient_tensors=len(reference_gradients),
@@ -295,7 +303,7 @@ def train_cached(model, contract, root, cache, recipe, endpoint, guard, resume=N
         from scripts.pi0294.native_train import rng_identity
         before_probe = rng_identity()
         with torch.random.fork_rng(devices=[0]), torch.no_grad(), torch.autocast('cuda', dtype=torch.bfloat16):
-            generated = model.action_head.get_action(feature_packet(rows[0]), action_packet(model, rows[0], input_dtype))
+            generated = model.action_head.get_action(feature_packet(rows[0]), action_packet(model, rows[0], input_dtype, generation=True))
         need(not audit.active and audit.pending is None and rng_identity() == before_probe, 'POST_TRAIN_GENERATION_SCOPE_AND_RNG')
         write(root / 'RESULT.json', dict(status='REAL_GR00T_CACHED_ACTION_DIAGNOSTIC_COMPLETE',
             global_step=step, cursor=step * 32, optimizer_calls=step - start_step,
