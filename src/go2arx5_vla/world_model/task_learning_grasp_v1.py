@@ -13,7 +13,9 @@ from ..trajectory.so3 import rotation_matrix_to_rot6d_rows, rot6d_rows_to_matrix
 
 PHASE='collect-target-task-learning-grasp-v1'
 KIND='TASK_LEARNING_GRASP_LIFT_HOLD_V1'
-B=34303
+CALIBRATION_B=34303
+PREACTION_HOLD_ATOMS=40
+B=CALIBRATION_B+25*PREACTION_HOLD_ATOMS
 PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,28,20
 E=B+25*(PREFIX_ATOMS*QUERIES+FINAL_HOLD)
 COMMAND='GRASP_RED_LIFT20MM_HOLD1S'
@@ -25,7 +27,8 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD_BEFORE_UNCHANGED_VELOCITY_GATE',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+        calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         prefix_atoms=PREFIX_ATOMS,policy_queries=QUERIES,final_hold_atoms=FINAL_HOLD,
         task_command=COMMAND,language=LANGUAGE,action_period_s=.05,physics_dt_s=.002,
         expert_commands='ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT',
@@ -40,9 +43,33 @@ def protocol():
 
 def declared(spec):
     need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==protocol()
-        and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==B
+        and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==CALIBRATION_B
         and spec.get('max_ticks')==E and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
         'EXACT_NEW_TASK_AND_NATIVE_CLOCK')
+
+
+def start_readiness_contract():
+    from .target_gr00t_collection_v1 import start_readiness_contract as original
+    return dict(original(),decision_step=B,extra_settling_integrations=25*PREACTION_HOLD_ATOMS,
+        reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD',native_clock_rebased=False)
+
+
+def require_start_readiness(adapter,sample):
+    from .storage import write_json
+    c=start_readiness_contract()
+    need(adapter.spec.get('task_learning_start_readiness')==c,'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
+    v=np.asarray(sample['qvel'],float)
+    need(v.shape==(32,)and np.isfinite(v).all()and sample['native_step']==B
+        and abs(sample['time_s']-B*.002)<=1e-8,'REAL_POST_HOLD_NATIVE_CLOCK_AND_VELOCITIES')
+    linear,angular=float(np.linalg.norm(v[:3])),float(np.linalg.norm(v[3:6]))
+    result=dict(contract=c,native_step=B,BASE_qvel6=v[:6].tolist(),BASE_linear_speed_m_s=linear,
+        BASE_angular_speed_rad_s=angular,passes=linear<=c['maximum_BASE_linear_speed_m_s']
+            and angular<=c['maximum_BASE_angular_speed_rad_s'],new_task_teacher_proposals_before_check=0,
+        original_thresholds_changed=False,native_clock_rebased=False)
+    path=adapter.output/'TASK_LEARNING_START_READINESS.private.json'
+    write_json(path,result)
+    need(result['passes'],'POST_HOLD_START_READINESS_REJECTED:'+repr(result))
+    return dict(path=str(path),sha256=digest(path))
 
 
 def score_contract():

@@ -64,13 +64,17 @@ def _configuration(spec):
 
 def observation_steps(spec):
     c=_configuration(spec)
-    return tuple(B+25*c['prefix_atoms']*i for i in range(c['policy_queries']))
+    begin=c.get('start_step',B)
+    return tuple(begin+25*c['prefix_atoms']*i for i in range(c['policy_queries']))
 
 
 def cycle(spec,index):
     c=_configuration(spec);queries=c['policy_queries']
+    if index==-1 and spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':
+        return dict(index=-1,kind='PREACTION_REFERENCE_HOLD_NOT_TEACHER_DATA',start_step=c['calibration_boundary'],
+            end_step=c['start_step'],atoms=c['preaction_hold_atoms'])
     need(type(index)is int and 0<=index<=queries,'FINITE_CYCLE_INDEX')
-    start=B+25*c['prefix_atoms']*index
+    start=c.get('start_step',B)+25*c['prefix_atoms']*index
     atoms=c['prefix_atoms']if index<queries else c['final_hold_atoms']
     return dict(index=index,kind='POLICY_PREFIX'if index<queries else'DETERMINISTIC_TERMINATION_HOLD',
         start_step=start,end_step=start+25*atoms,atoms=atoms)

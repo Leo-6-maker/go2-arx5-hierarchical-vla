@@ -47,9 +47,12 @@ def test_score_rejects_missing_native_interval():
 def test_new_prefix_configuration_has_exact_endpoint_without_weakening_legacy():
     from go2arx5_vla.world_model import stable_task_prefix_v1 as prefix
     spec=dict(phase=task.PHASE,kind=task.KIND,task_learning_grasp=task.protocol(),task_command=task.COMMAND,
-        live_skill_start_step=task.B,max_ticks=task.E,physics_dt_s=.002,WBC_changes=False)
+        live_skill_start_step=task.CALIBRATION_B,max_ticks=task.E,physics_dt_s=.002,WBC_changes=False)
     assert len(prefix.observation_steps(spec))==28
-    assert prefix.cycle(spec,28)['end_step']==task.E==62803
+    assert prefix.cycle(spec,28)['end_step']==task.E==63803
+    assert prefix.cycle(spec,-1)['start_step']==34303
+    assert prefix.cycle(spec,-1)['end_step']==prefix.observation_steps(spec)[0]==35303
+    assert task.start_readiness_contract()['maximum_BASE_linear_speed_m_s']==.001
     broken=copy.deepcopy(spec);broken['max_ticks']-=25
     with pytest.raises(ValueError):prefix.observation_steps(broken)
 
@@ -60,3 +63,14 @@ def test_start_readiness_omission_is_rejected_before_scene_or_native_startup(mon
     monkeypatch.setattr(native,'scene_admission',scene_must_not_run)
     with pytest.raises(ValueError,match='DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP'):
         native.validate({})
+
+
+@pytest.mark.parametrize('speed,passes',[(.0008,True),(.001673157058461498,False)])
+def test_explicit_post_hold_clock_keeps_original_velocity_threshold(tmp_path,speed,passes):
+    from types import SimpleNamespace
+    adapter=SimpleNamespace(spec=dict(task_learning_start_readiness=task.start_readiness_contract()),output=tmp_path)
+    actual=dict(native_step=task.B,time_s=task.B*.002,qvel=np.r_[speed,np.zeros(31)])
+    if passes:task.require_start_readiness(adapter,actual)
+    else:
+        with pytest.raises(ValueError,match='POST_HOLD_START_READINESS_REJECTED'):
+            task.require_start_readiness(adapter,actual)

@@ -30,8 +30,7 @@ def scene_admission(spec):
 
 
 def validate(spec):
-    from .target_gr00t_collection_v1 import start_readiness_contract
-    task.need(spec.get('target_gr00t_start_readiness')==start_readiness_contract(),
+    task.need(spec.get('task_learning_start_readiness')==task.start_readiness_contract(),
               'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
     task.need(spec.get('experiment_role')=='TASK_LEARNING_TASK_CONSTRUCTION_NO_BC'
@@ -61,10 +60,10 @@ def validate_adapter_install(adapter,action):
     validate(adapter.spec);step=adapter.observe()['step']
     active=getattr(adapter,'stable_task_active_cycle',None)
     if active is None:
-        task.need(step<task.B,'ORIGINAL_CALIBRATION_PRECEDES_NEW_TASK')
+        task.need(step<task.CALIBRATION_B,'ORIGINAL_CALIBRATION_PRECEDES_NEW_TASK')
         return common.prefix.validate_install_preview(action,initial_tcp=adapter.trajectory_initial_tcp,
             program=adapter.trajectory_program,step=step,base=adapter.base_pose_hold,
-            frozen_base=adapter.trajectory_initial_base,end_step=task.B)
+            frozen_base=adapter.trajectory_initial_base,end_step=task.CALIBRATION_B)
     c=consumer.cycle(adapter.spec,active['index']);program=active['program']
     task.need(type(program)is task.FiftyMsProgram and all(active[k]==v for k,v in c.items())
         and c['start_step']<=step<c['end_step'] and (step-c['start_step'])%25==0
@@ -81,15 +80,27 @@ def continue_native(adapter,report,samples,windows):
     from .fusion_task_reference_diagnostic_v1 import require_standing
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
-    from .target_gr00t_collection_v1 import require_start_readiness
     validate(adapter.spec);ready=report['task_phase_initialization']['readiness']
-    task.need(adapter.observe()['step']==task.B and not adapter.trace_sealed
+    task.need(adapter.observe()['step']==task.CALIBRATION_B and not adapter.trace_sealed
         and all(v is True for k,v in ready['predicates'].items()if k!='full_grade')
         and report['all_40_knots_consumed']is True,'ORIGINAL_STABLE_PREFIX_BEFORE_CONTACT_TASK')
-    start_ready=require_start_readiness(adapter,samples[-1])
     samples,windows=list(samples),list(windows)
+    # New task reset intervention, after the unchanged original initialization.
+    # Preserve native time and every consumption receipt; keep the old velocity gate.
+    actual=np.asarray(samples[-1]['tcp']);raw=np.empty((40,10))
+    raw[:,:3]=actual[:3,3];raw[:,3:9]=task.rotation_matrix_to_rot6d_rows(actual[:3,:3]);raw[:,9]=1.
+    settling=task.FiftyMsProgram(raw,actual,adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+    adapter.task_learning_stage='PREACTION_HOLD'
+    reset_samples=[]
+    def observe_reset(s):
+        task.need(s.get('safety_valid')is True and not s.get('native_abort')and not s.get('illegal_contact'),
+                  'ORIGINAL_NATIVE_SAFETY_DURING_DECLARED_PREACTION_HOLD')
+        reset_samples.append(copy.deepcopy(s))
+    reset_cycle,samples,windows=consumer.run_prefix(adapter,settling,index=-1,
+        past_samples=samples,past_windows=windows,sample_observer=observe_reset)
+    start_ready=task.require_start_readiness(adapter,samples[-1])
     initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy())
-    teacher=task.Teacher(samples[-1]);cycles=[];decisions=[];captures=[];confirmed=[]
+    teacher=task.Teacher(samples[-1]);cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     task_samples=[samples[-1]]
     def observe(s):
         require_standing(s,initial)
@@ -153,9 +164,10 @@ def continue_native(adapter,report,samples,windows):
 def complete_consumption(spec,result):
     task.declared(spec);cycles=result.get('generated_cycles')or[]
     if not(result.get('schema')=='TASK_LEARNING_GRASP_CONSTRUCTION_NATIVE_ACTUAL_V1'
-        and len(cycles)==task.QUERIES+1 and len(result.get('teacher_decisions',[]))==task.QUERIES
+        and len(cycles)==task.QUERIES+2 and len(result.get('teacher_decisions',[]))==task.QUERIES
         and result.get('expert_training_eligible')is False):return False
-    for index,row in enumerate(cycles):
+    for position,row in enumerate(cycles):
+        index=position-1
         c=consumer.cycle(spec,index);rows=row.get('windows')or[];offset=(c['start_step']-2503)//25
         if not(row['cycle']==c and len(rows)==row.get('complete_suffix_atoms')==c['atoms']
             and row.get('solver_target_confirmed_atoms')==row.get('gripper_confirmed_atoms')==c['atoms']
