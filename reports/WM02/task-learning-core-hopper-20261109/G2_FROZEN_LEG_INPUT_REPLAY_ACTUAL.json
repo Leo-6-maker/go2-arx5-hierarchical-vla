@@ -1,0 +1,50 @@
+{
+  "schema": "TASK_LEARNING_FROZEN_LEG_POLICY_INPUT_ABLATION_ACTUAL_V1",
+  "status": "ACTUAL_RECORDED_INPUT_OUTPUT_CPU_REPLAY_AND_SINGLE_TERM_ABLATION",
+  "policy_sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+  "torch_version": "2.9.0+cu128",
+  "CPU_replay_output_preregistered_absolute_tolerance": 2e-05,
+  "replays": [
+    {
+      "policy": 1154,
+      "maximum_abs_replay_error": 2.384185791015625e-07
+    },
+    {
+      "policy": 1155,
+      "maximum_abs_replay_error": 1.430511474609375e-06
+    }
+  ],
+  "ablated_policy": 1155,
+  "changed_flat_history_indices": [
+    2618,
+    2619,
+    2620
+  ],
+  "replaced_current_frame_zero_based_features": [
+    66,
+    67,
+    68
+  ],
+  "original_current_body_lin_vel_scaled": [
+    -7.885060314096327e-22,
+    8.804638511045691e-41,
+    100.0
+  ],
+  "substitute": "PREVIOUS_RECORDED_POLICY1154_BODY_LIN_VEL_SCALED_ONLY; NOT_CLAIMED_CURRENT_PHYSICAL_TRUTH",
+  "substitute_values": [
+    -0.0008989778580144048,
+    -0.000343890831572935,
+    -1.3610596397484187e-05
+  ],
+  "ablation_max_abs_output": 1.3356364965438843,
+  "ablation_max_abs_difference_from_prior_recorded_output": 0.00021886825561523438,
+  "ablation_is_executed_control": false,
+  "new_leg_policy_CPU_forwards": 3,
+  "GR00T_queries": 0,
+  "new_native_integrations": 0,
+  "new_optimizer_updates": 0,
+  "wall_s": 0.7180235511623323,
+  "max_RSS_KiB": 886352,
+  "interpretation": "Recorded abnormal velocity is sufficient to reproduce the leg-output jump in the frozen policy. Replacing three latest-frame velocity entries with the previous recorded values removes that jump in CPU replay; these substitutes are not current physical truth, executed controls, or expert labels. No native repair qualification is claimed.",
+  "EVIDENCE_ASOF": "2026-11-08T23:00:21.903169+00:00"
+}

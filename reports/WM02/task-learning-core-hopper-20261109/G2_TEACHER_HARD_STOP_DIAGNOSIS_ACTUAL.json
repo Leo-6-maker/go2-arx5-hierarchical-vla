@@ -1,7 +1,7 @@
 {
   "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_HARD_STOP_DIAGNOSIS_V1",
-  "EVIDENCE_ASOF": "2026-11-09T06:35:31.688074+08:00",
-  "status": "READONLY_CAUSAL_LOCALIZATION_NOT_REPAIRED_OR_REQUALIFIED",
+  "EVIDENCE_ASOF": "2026-11-08T23:00:21.903169+00:00",
+  "status": "READONLY_CAUSAL_REPLAY_PASS_SENSOR_HANDOFF_REPAIR_NOT_NATIVE_QUALIFIED",
   "source_sha": "dd9865c20e4415ede7281e921759cfe189a64f54",
   "condition": "tl-teacher-qual-20261109-01-qual10-r1",
   "actual_native_integrations": 11552,
@@ -50,7 +50,7 @@
   "recorded_policy_output_max_abs_after": 5.843644618988037,
   "leg_policy_sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
   "leg_policy_config_sha256": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
-  "inference": "A recorded body-velocity input spike precedes the leg command discontinuity, fast actual leg motion and right-slide hard stop. The candidate source copies robot_state vectors without the producer mutex on the active non-native_mrt path. A sensor-vector handoff race is under investigation; no causal replay, code repair or native requalification is claimed.",
+  "inference": "Recorded abnormal velocity is sufficient to reproduce the leg-output jump in the frozen policy. Replacing three latest-frame velocity entries with the previous recorded values removes that jump in CPU replay; these substitutes are not current physical truth, executed controls, or expert labels. No native repair qualification is claimed.",
   "native_process_terminal": {
     "planner": 0,
     "controller": 0,
@@ -58,8 +58,9 @@
     "sim": 0
   },
   "new_native_integrations": 0,
-  "new_leg_policy_inferences": 0,
+  "new_leg_policy_inferences": 3,
   "GR00T_queries": 0,
   "model_updates": 0,
-  "original_WBC_leg_weights_safety_startup_dynamics_and_2ms_changed": false
+  "original_WBC_leg_weights_safety_startup_dynamics_and_2ms_changed": false,
+  "frozen_policy_CPU_replay": "G2_FROZEN_LEG_INPUT_REPLAY_ACTUAL.json"
 }

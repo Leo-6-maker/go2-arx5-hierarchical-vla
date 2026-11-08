@@ -213,6 +213,24 @@ def standing_repair_ancestor(spec):
         if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('COLD_HISTORY_BUILD_PROOF_CHANGED')
     receipt=json.loads(Path(spec['cold_history_build_receipt']).read_text());build=json.loads(Path(spec['cold_history_build_spec']).read_text())
     pair=build.get('command_pair_coherence')
+    handoff=build.get('robot_state_handoff')
+    if handoff is not None:
+        from .native_state_snapshot import VERSION,patch as sensor_patch
+        root=Path(spec['cold_history_build_receipt']).parent
+        old=Path(build['robot_state_handoff_predecessor_cpp'])
+        old_sdk=Path(build['robot_state_handoff_predecessor_sdk'])
+        header=Path(spec['source_root'])/'src/go2arx5_vla/target_mujoco/state_snapshot.hpp'
+        if (handoff!=VERSION or receipt.get('robot_state_handoff')!=VERSION
+                or digest(old)!=build.get('robot_state_handoff_predecessor_cpp_sha256')
+                or digest(old_sdk)!=build.get('robot_state_handoff_predecessor_sdk_sha256')
+                or digest(root/'state_snapshot.hpp')!=digest(header)
+                or digest(header)!=receipt.get('state_snapshot_header_sha256')
+                or (root/'rl_sim_mujoco.cpp').read_text()!=sensor_patch(old.read_text())
+                or (root/'rl_sdk.cpp').read_text()!=old_sdk.read_text()
+                or receipt.get('robot_state_handoff_inverse_text_identical')is not True
+                or receipt.get('robot_state_handoff_PD_waits')is not False
+                or receipt.get('robot_state_handoff_sensor_filters')is not False):
+            raise PermissionError('EXACT_LOCKFREE_SENSOR_SNAPSHOT_MATH_PRESERVING_PROOF_REQUIRED')
     clock=build.get('physical_callback_clock')
     if clock is not None:
         header=Path(spec['cold_history_build_receipt']).parent/'control_clock.hpp'

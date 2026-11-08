@@ -17,6 +17,8 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_teacher_panel_v1.py',
     'src/go2arx5_vla/world_model/task_learning_collection_v1.py',
     'src/go2arx5_vla/world_model/task_learning_recovery_v1.py',
+    'src/go2arx5_vla/world_model/native_state_snapshot.py',
+    'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
     'src/go2arx5_vla/world_model/task_learning_grasp_native_v1.py')))
 
 
