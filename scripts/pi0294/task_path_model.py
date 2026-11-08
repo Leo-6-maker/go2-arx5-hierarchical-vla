@@ -99,7 +99,19 @@ def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_mo
             change = np.linalg.lstsq(np.vstack([jp[:, va], jr[:, va]]), np.r_[ep, er], rcond=1e-10)[0]
             if not np.isfinite(change).all(): raise ValueError('ORIGINAL_NONFINITE_LOCAL_IK_REJECT')
             data.qpos[qa] += change
-        else: raise ValueError('ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT')
+        else:
+            # The fifth update has already happened. Check its actual FK at
+            # the SAME original tolerances before declaring nonconvergence.
+            # This adds no Newton update and leaves all subsequent joint,
+            # contact, velocity and acceleration checks in their original order.
+            mujoco.mj_forward(model, data)
+            ep = target[:3, 3]-data.site_xpos[site]
+            delta = matrix_to_quat(target[:3, :3] @ data.site_xmat[site].reshape(3, 3).T)
+            if delta[3] < 0: delta = -delta
+            length = np.linalg.norm(delta[:3])
+            er = delta[:3]*(2*np.arctan2(length, delta[3])/max(length, 1e-15))
+            if not (np.linalg.norm(ep) <= 1e-5 and np.linalg.norm(er) <= 1e-4):
+                raise ValueError('ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT')
         if np.any(data.qpos[qa] < model.jnt_range[joints, 0]) or np.any(data.qpos[qa] > model.jnt_range[joints, 1]):
             raise ValueError('ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP')
         if planning_object_motion is not None: planning_object_motion(model, data)
@@ -119,6 +131,8 @@ def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_mo
     if np.max(np.abs(velocity)) > .7*(1+1e-10): raise ValueError('ORIGINAL_JOINT_SPEED_REJECT')
     if np.max(np.abs(acceleration)) > 1.*(1+1e-10): raise ValueError('ORIGINAL_JOINT_ACCELERATION_REJECT')
     return dict(status='PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF',
+        certifier_revision='FIVE_UPDATE_FINAL_FK_CHECK_V1',
+        maximum_IK_updates_per_point=5,position_tolerance_m=1e-5,rotation_tolerance_rad=1e-4,
         points=points, local_IK_iterations=iterations, physics_integrations=0,
         actual_state_modified=False, max_joint_speed_rad_s=float(np.abs(velocity).max()),
         max_joint_acceleration_rad_s2=float(np.abs(acceleration).max()),
