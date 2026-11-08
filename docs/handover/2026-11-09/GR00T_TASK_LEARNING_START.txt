@@ -1,0 +1,23 @@
+执行长程Goal：GR00T_TASK_LEARNING_CORE_HOPPER_V1。
+
+【最新授权｜2026-11-09 02:51 SGT】用户批准更多科学GPU作业并行／接续，不设项目内部累计工程预算，科学问题和实际任务成果优先；不再把“同一Goal只能有一项GPU作业”作为限制。不同独立run可以各拥有唯一writer/单卡PBS，但必须有不同科学问题、预登记数据/配方/身份，并取得真实站点额度和有限scope。单作业多GPU/分布式与GPU物理多世界、WBC/启动/安全/2ms变更、视觉语言骨干解冻仍须审核；不能通过更多GPU名义绕过站点配额或安全。
+
+读取长程Goal和第18节最新授权：
+docs/handover/2026-11-09/GR00T_TASK_LEARNING_CORE_HOPPER_GOAL_V1.md
+计划授权更新提交：bbed664c13ed285cfd51ae9567880d1bc5223e41
+相关PR：#370（计划）、#371（现役执行）、#366（历史现役FUSION）。
+
+【第一动作】先只读核PR #371及后继最新真实回执、当前owner/Journal/lease/PBS；用最新执行代码，不按计划SHA回退、不打断健康作业。
+已知2026-11-09 02:49:49 SGT的真实快照：Core完成非零更新、原H40/loss/梯度等价和4-vs-2+2全恢复；Core FIT4 200步运行中（step103）；Hopper单卡H200 PBS 707196.hopper-m-02已一次提交为Q，尚无原Trainer恢复；抓持-抬升20mm-保持1s新任务在真实构建前缀中，尚无合格Teacher/任务数据。以上随现场更新，不要重启或重提交。
+
+【并发主线】
+A. 让健康Core FIT4与Hopper 707196自然完成，核实际终态、模型权重/optimizer/scheduler/RNG/sampler恢复与生成；新Hopper不同实验必须独立身份/新数据/新PBS，不占用同一run。
+B. Core优先完成稳定初态、接触Teacher、可观测性和多次真实Teacher决策数据，建立新接触任务；旧21起点窗口仅用于FIT诊断，不能自动作为8000步复杂任务SFT。
+C. G2/G3数据足够后，可在有效合法单卡GPU上并行运行正式SFT主臂及一个明确单因素对照（例如同数据同父较窄动作侧）；同一数据/父/评价条件必须固定，保留全部失败和DEV/TEST隔离。若不具备比较条件，不提前提交空GPU作业。
+D. Core真实闭环评价后按首失败机制选择：任务/恢复监督不足→成批DAgger；已有可用SFT动作但物理结果不稳→冻结GR00T的DSRL小Actor。可以为独立seed和已资格RL learner安排更多单卡GPU作业，但科学门不过不无条件扩参/多seed/长训。WM仍非前置。
+
+【执行规则】
+用户取消项目内部总工程预算，不取消每个job的真实账户权限/配额、资源上限、固定端点、合法walltime与收尾。qsub一次；UNKNOWN先读PBS和原Journal；不取消他人作业、不改凭据/驱动/NFS/SSH、不复活CLOSED。不重复同一个确定性失败。允许并发独立GPU科学实验，但一run一writer，唯一Core物理owner与原生安全始终不变。
+每个冷边界记录QUESTION / CHANGED / ACTUAL / NEGATIVE / DECISION / NEXT_GATE；GPU调用/optimizer call/非零参数变化/真实恢复/物理样本/任务成功分别统计。
+
+最终交付应包含实际任务成功率（按合格初态和全部请求两个分母）、跟踪与接触失败解释、完整模型包、已完成独立实验的增量收益或负结果、实际GPU/物理成本、所有worker终态。尽量推进真实科研工作，不用不断生成新计划代替训练或原生评价。
