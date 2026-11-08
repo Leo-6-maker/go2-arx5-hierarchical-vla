@@ -94,6 +94,23 @@ def test_teacher_policy_boundary_undoes_no_grip_or_time_mapping_twice(tmp_path):
     assert ds.actual_commands(q)[-1,9]==pytest.approx(.042/.044)
     assert proof['policy_decisions']==1 and proof['renewed_previews_as_additional_expert_decisions']==0
     assert proof['raw_policy_grip_preserved_in_label']is True
+    assert 'start_readiness'not in proof  # Historical sealed episodes stay valid.
+    initial=np.zeros(106);initial[34]=.0002
+    decision=json.loads((n/'LIVE_SKILL_SEGMENT_DECISION.private.json').read_bytes())
+    decision['start_step']=collect.B
+    decision['actual_history']=dict(actual_state_history=[initial.tolist()],actual_history_native_steps=[collect.B])
+    put('LIVE_SKILL_SEGMENT_DECISION.private.json',decision)
+    ready=collect.start_readiness(dict(qvel=initial[34:66],native_step=collect.B,time_s=collect.B*.002))
+    pin=put('TARGET_GR00T_START_READINESS.private.json',ready)
+    q['decision_start_readiness']=dict(path=str(n/'TARGET_GR00T_START_READINESS.private.json'),sha256=pin)
+    after,with_ready=ds.policy_commands(tmp_path,q,start_readiness=collect.start_readiness_contract())
+    np.testing.assert_array_equal(after,policy)
+    assert with_ready['start_readiness']['sha256']==pin
+    wrong=copy.deepcopy(ready);wrong['BASE_qvel6'][0]=.0001
+    q['decision_start_readiness']['sha256']=put('TARGET_GR00T_START_READINESS.private.json',wrong)
+    with pytest.raises(ValueError,match='ACTUAL_START_READINESS'):
+        ds.policy_commands(tmp_path,q,start_readiness=collect.start_readiness_contract())
+    q['decision_start_readiness']['sha256']=put('TARGET_GR00T_START_READINESS.private.json',ready)
     # Altering achieved TCP has no effect on the expert policy command.
     for row in q['generated_segment']['windows']:row['actual_TCP'][0][3]=999
     np.testing.assert_array_equal(ds.policy_commands(tmp_path,q)[0],policy)

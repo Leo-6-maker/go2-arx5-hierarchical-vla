@@ -84,6 +84,42 @@ def test_capture_grid_covers_whole_task_without_claiming_all_future_previews_are
     assert c['rejected_or_unexecuted_suffix_is_demonstration'] is False
 
 
+def test_start_velocity_admission_is_readonly_and_preserves_original_standing_contract(tmp_path):
+    from types import SimpleNamespace
+    state=dict(native_step=vla.B,time_s=vla.B*.002,qvel=np.zeros(32))
+    state['qvel'][:6]=[.0002,0.,0.,.001,0.,0.]
+    before=state['qvel'].copy();c=vla.start_readiness_contract()
+    adapter=SimpleNamespace(spec=dict(target_gr00t_start_readiness=c),output=tmp_path)
+    descriptor=vla.require_start_readiness(adapter,state)
+    actual=json.loads(Path(descriptor['path']).read_bytes())
+    assert actual['passes'] and actual['physics_integrations_added']==0
+    np.testing.assert_array_equal(state['qvel'],before)
+    assert c['WBC_or_startup_changed'] is False
+    assert c['original_standing_limits_changed'] is False
+
+
+@pytest.mark.parametrize('linear,angular',[(.00318408849,.00939069236),
+    (.03785497119,.19026044155),(.03807625260,.18632133126)])
+def test_actual_failed_start_velocities_are_rejected_before_teacher_build(tmp_path,linear,angular):
+    from types import SimpleNamespace
+    state=dict(native_step=vla.B,time_s=vla.B*.002,qvel=np.zeros(32))
+    state['qvel'][0]=linear;state['qvel'][3]=angular
+    adapter=SimpleNamespace(spec=dict(target_gr00t_start_readiness=vla.start_readiness_contract()),output=tmp_path)
+    with pytest.raises(ValueError,match='START_READINESS_REJECTED'):
+        vla.require_start_readiness(adapter,state)
+    proof=json.loads((tmp_path/'TARGET_GR00T_START_READINESS.private.json').read_bytes())
+    assert proof['passes']is False and proof['new_task_teacher_proposals_before_check']==0
+
+
+def test_new_start_rule_cannot_be_disabled_by_omitting_flag_or_using_nonfinite_velocity(tmp_path):
+    from types import SimpleNamespace
+    state=dict(native_step=vla.B,time_s=vla.B*.002,qvel=np.zeros(32))
+    with pytest.raises(ValueError,match='DECLARED_START_READINESS'):
+        vla.require_start_readiness(SimpleNamespace(spec={},output=tmp_path),state)
+    state['qvel'][3]=np.nan
+    with pytest.raises(ValueError,match='ACTUAL_DECISION_QVEL'):vla.start_readiness(state)
+
+
 def test_live_capture_index_can_progress_and_seal_without_overwriting_observations(tmp_path):
     path=tmp_path/'index.json';captures=[]
     immutable=tmp_path/'capture-0.json';immutable.write_bytes(b'ACTUAL_IMMUTABLE_OBSERVATION')

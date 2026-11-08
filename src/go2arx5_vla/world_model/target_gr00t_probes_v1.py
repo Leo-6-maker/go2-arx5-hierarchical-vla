@@ -1,5 +1,5 @@
 """Matched real-input/free-generation probes using the original decode once."""
-import json,random
+import json,random,time
 from pathlib import Path
 import numpy as np
 
@@ -26,10 +26,13 @@ def measure(root,label,instance,data):
                 state,expert,images,text=data.raw(i);seed=2026110800+len(records)
                 file=folder/(row['id']+'.npz')
                 def generate():
+                    started=time.monotonic()
                     result=instance.generate(payload(state,images,text),seed)
+                    inference_wall_s=time.monotonic()-started
                     atomic_npz(file,physical_H40=result['physical_H40'],normalized=result['normalized'],
                         expert_policy_H40=expert,actual_state10=state,noise_seed=np.asarray(seed,dtype=np.int64))
                     return dict(noise=result['noise'],sha256=digest(file),
+                        input_encode_infer_single_decode_wall_s=inference_wall_s,
                         errors=error_metrics(result['physical_H40'],expert,state))
                 actual=journal.once('Q'+str(len(records)).zfill(4),
                     dict(dataset_sha256=data.manifest_sha,episode=row['id'],anchor=anchor,

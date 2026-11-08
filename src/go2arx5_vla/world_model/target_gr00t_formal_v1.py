@@ -26,6 +26,9 @@ def validate_request(c,manifest):
          and isinstance(generation,str)and bool(generation),'FIRST_FORMAL_2000_FINITE_SCIENCE_IDENTITY')
     recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode='FORMAL',
         variant=c['variant'],endpoint=endpoint,microbatch=c.get('microbatch',1))
+    # The currently executable capacity/FIT4 chain measures microbatch1 only.
+    # Larger execution batches need their own actual capacity/restore evidence.
+    need(recipe['microbatch']==1,'SAME_ACTUALLY_QUALIFIED_MICROBATCH1_EXECUTION')
     q=c['qualification'];path=Path(q['path'])
     need(digest(path)==q['sha256'],'ACTUAL_FIT4_QUALIFICATION_RECEIPT')
     result=json.loads(path.read_bytes())

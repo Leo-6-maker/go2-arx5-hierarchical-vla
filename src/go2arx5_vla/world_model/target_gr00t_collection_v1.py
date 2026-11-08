@@ -22,6 +22,42 @@ LANGUAGES = {
 }
 
 
+def start_readiness_contract():
+    """Additional pre-action readiness for fresh jobs, not relaxed safety."""
+    return dict(schema='WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1',
+        decision_step=B,maximum_BASE_linear_speed_m_s=.001,
+        maximum_BASE_angular_speed_rad_s=.005,physics_dt_s=.002,
+        initial_state_reset=False,extra_settling_integrations=0,
+        WBC_or_startup_changed=False,original_standing_limits_changed=False,
+        rejected_condition_retried=False,old_outcomes_relabelled=False)
+
+
+def start_readiness(sample):
+    """Use the actual native floating-base qvel, before any Teacher proposal."""
+    v=np.asarray(sample['qvel'],float)
+    need(v.shape==(32,)and np.isfinite(v).all()
+         and sample['native_step']==B and abs(sample['time_s']-B*.002)<=1e-8,
+         'ACTUAL_DECISION_QVEL_AND_CLOCK')
+    linear,angular=float(np.linalg.norm(v[:3])),float(np.linalg.norm(v[3:6]))
+    c=start_readiness_contract()
+    return dict(schema=c['schema']+'_ACTUAL',contract=c,native_step=B,
+        BASE_qvel6=v[:6].tolist(),BASE_linear_speed_m_s=linear,
+        BASE_angular_speed_rad_s=angular,
+        passes=linear<=c['maximum_BASE_linear_speed_m_s']
+            and angular<=c['maximum_BASE_angular_speed_rad_s'],
+        new_task_teacher_proposals_before_check=0,physics_integrations_added=0,
+        rejected_is_not_expert=True,original_native_safety_still_required=True)
+
+
+def require_start_readiness(adapter,sample):
+    need(adapter.spec.get('target_gr00t_start_readiness')==start_readiness_contract(),
+         'FRESH_EXECUTION_REQUIRES_DECLARED_START_READINESS')
+    proof=start_readiness(sample);path=adapter.output/'TARGET_GR00T_START_READINESS.private.json'
+    write_json(path,proof)
+    need(proof['passes'],'START_READINESS_REJECTED:'+repr(proof))
+    return dict(path=str(path),sha256=digest(path))
+
+
 def need(ok, reason):
     if not ok:
         raise ValueError('TARGET_GR00T_COLLECTION_' + reason)
@@ -73,6 +109,11 @@ def validate(spec):
     matches = [r for r in rows if r['native_run'] == Path(spec['registered_root']).name]
     need(len(matches) == 1 and matches[0]['purpose'] == spec['target_gr00t_attempt_role'],
          'QUALIFICATION_NOT_AUTO_DEMONSTRATION')
+    # Historical sealed specs retain their original contract. New execution
+    # requires this field at require_start_readiness(), before making a proposal.
+    if spec.get('target_gr00t_start_readiness')is not None:
+        need(spec['target_gr00t_start_readiness']==start_readiness_contract(),
+             'DECLARED_START_READINESS_NOT_AN_UNCHECKED_BOOLEAN')
     return c
 
 
@@ -141,6 +182,7 @@ def continue_native(adapter, report, samples, windows):
          and all(v is True for k,v in ready['predicates'].items() if k != 'full_grade')
          and report['all_40_knots_consumed'] is True and len(windows) == (B-2503)//25,
          'REAL_STABLE_PREFIX_BEFORE_EXPERT_TASK')
+    readiness=require_start_readiness(adapter,samples[-1])
     cube = np.asarray(samples[-1]['object_pose']).copy()
     program, proposal = build(samples[-1]['tcp'],adapter.reference_history[-1]['pose'],
         adapter.base_pose_hold,cube,c)
@@ -174,6 +216,7 @@ def continue_native(adapter, report, samples, windows):
     total = (E-2503)//25
     return jsonable(dict(copy.deepcopy(report), schema='WM02_TARGET_GR00T_EXPERT_NATIVE_ACTUAL_V1',
         actual_spec_phase=adapter.spec['phase'], native_endpoint_step=E, stable_task_data=c,
+        decision_start_readiness=readiness,
         target_gr00t_collection=contract(), data_role=adapter.spec['data_role'], data_parent=adapter.spec['data_parent'],
         target_gr00t_attempt_role=adapter.spec['target_gr00t_attempt_role'],
         actual_scene_sha256=digest(adapter.spec['model_path']), student_observation=captures[0],

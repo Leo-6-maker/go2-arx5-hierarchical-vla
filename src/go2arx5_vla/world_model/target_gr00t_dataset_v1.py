@@ -35,11 +35,25 @@ def actual_commands(q):
     return np.asarray([r['actual_installed_consumed_EEF10_BASE7'][:10] for r in rows],float)
 
 
-def policy_commands(root,q):
+def policy_commands(root,q,*,start_readiness=None):
     """One actual Teacher proposal before deterministic compilation, not renewals."""
     proposal,pp=load(root/'native-01/STABLE_TASK_EXPERT_PROPOSAL.private.json',
                      q['executed_reference_proposal_sha256'],maximum=16*1024**2)
     decision,dp=load(root/'native-01/LIVE_SKILL_SEGMENT_DECISION.private.json',maximum=16*1024**2)
+    readiness_proof=None
+    if start_readiness is not None:
+        descriptor=q['decision_start_readiness'];path=Path(descriptor['path'])
+        need(path==root/'native-01/TARGET_GR00T_START_READINESS.private.json',
+             'OWN_DECLARED_START_READINESS')
+        checked,readiness_proof=load(path,descriptor['sha256'])
+        need(decision['start_step']==collection.B
+             and decision['actual_history']['actual_history_native_steps'][-1]==collection.B,
+             'READINESS_AT_ACTUAL_FIRST_COMMAND_CLOCK')
+        initial=np.asarray(decision['actual_history']['actual_state_history'][-1],float)
+        rebuilt=collection.start_readiness(dict(qvel=initial[34:66],native_step=collection.B,
+                                               time_s=collection.B*.002))
+        need(start_readiness==collection.start_readiness_contract()and checked==rebuilt
+             and checked['passes']is True,'ACTUAL_START_READINESS_AND_FIRST_COMMAND_STATE')
     raw=np.asarray(proposal['original_physical_H40'],float)
     need(raw.shape==(40,10)and np.isfinite(raw).all()
          and np.array_equal(raw,np.asarray(decision['raw_H40']))
@@ -55,12 +69,14 @@ def policy_commands(root,q):
     consumed=actual_commands(q)
     need(all(np.array_equal(consumed[k],reference[k])for k in knots),
          'EVERY_RAW_TEACHER_KNOT_ACTUALLY_COMPILED_INSTALLED_AND_CONSUMED')
-    return raw,dict(proposal=pp,compiler_decision=dp,raw_knot_to_consumed_atom=knots,
+    proof=dict(proposal=pp,compiler_decision=dp,raw_knot_to_consumed_atom=knots,
         raw_policy_nominal_period_s=.05,installed_controller_period_s=.05,
         actual_compiler_clock=q['adaptation']['clock'],
         policy_decisions=1,renewed_previews_as_additional_expert_decisions=0,
         working_gripper_affine_applied_once_by_compiler=True,
         raw_policy_grip_preserved_in_label=True)
+    if readiness_proof is not None:proof['start_readiness']=readiness_proof
+    return raw,proof
 
 
 def capture(root, spec, spec_pin, identity):
@@ -128,7 +144,8 @@ def episode(root, row, panel_pin, *, qualification_only=False):
          and q.get('raw_reference_is_GR00T') is False
          and q.get('GR00T_updates') == q.get('GR00T_queries',0) == 0, 'SUCCESSFUL_REAL_EXPERT_NOT_WM_OR_FAILURE')
     commands = actual_commands(q)
-    teacher,policy_proof=policy_commands(root,q)
+    teacher,policy_proof=policy_commands(root,q,
+        start_readiness=spec.get('target_gr00t_start_readiness'))
     descriptor = q['demonstration_capture_index']
     index, ip = load(descriptor['path'],descriptor['sha256'],maximum=16*1024**2)
     identities = index.get('captures') or []

@@ -69,3 +69,8 @@ def test_diagnostic_checkpoint_cannot_resume_production(tmp_path):
     (cp/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(saved));c.update(start_step=250,
         resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')))
     with pytest.raises(PermissionError,match='SAME_FORMAL_GENERATION'):formal.validate_request(c,m)
+
+
+def test_unmeasured_larger_batch_cannot_be_smuggled_into_production(tmp_path):
+    c,m=fixture(tmp_path);c['microbatch']=2
+    with pytest.raises(PermissionError,match='ACTUALLY_QUALIFIED_MICROBATCH1'):formal.validate_request(c,m)
