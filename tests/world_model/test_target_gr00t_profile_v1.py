@@ -61,3 +61,22 @@ def test_site_rejection_closes_actual_worker_envelope_without_missing_result(tmp
     assert result['GR00T_updates']==0 and result['status']=='QUALIFICATION_FAILED'
     assert closed['status']=='CLOSED'and closed['worker_exit_code']==1
     assert (root/'WORKER_EXIT.private.json').exists()
+
+
+def test_child_model_generation_uses_actual_parent_pbs_request_for_site_admission():
+    from scripts.pi0294.multitask.shared_site import validate_vanda
+    now=1794116000.;uid=22182;user='test-user';jid='1234.test'
+    project=dict(observed_epoch=now-60,cpu_hrs=100,gpu_hrs=100,
+        project=dict(name='CFP04-CF-007',active=True,users=[user],start_date='2026-01-01',end_date='2027-01-01'))
+    quota=dict(user=user,scope='/scratch/projects/CFP04/CFP04-CF-007',observed_epoch=now,
+        report_epoch=now-100,hard_bytes=1000*1024**3,used_bytes=0)
+    s=dict(generation_id='unique-capacity-child-model',allocation_request_id='one-actual-pbs-request',
+        submission_epoch=now-30,submission_nonce='unique-nonce',project_receipt=project,
+        predicted_new_peak_bytes=100*1024**3,deadline_epoch=now+3600)
+    job=dict(exec_host='GN-A40-001/0',job_state='R',Job_Owner=user+'@login',project='CFP04-CF-007',
+        Resource_List=dict(ngpus=1),Variable_List=dict(PV1_SUBMISSION_NONCE='unique-nonce',PV1_REQUEST_ID='one-actual-pbs-request'))
+    context=training.site_context(s,jid,quota,uid=uid,user=user)
+    validate_vanda(context,job,now=now,uid=uid,user=user,hostname='GN-A40-001',job_id=jid)
+    assert context['science_run_id']==s['allocation_request_id']!=s['generation_id']
+    with pytest.raises(PermissionError,match='EXACT_ONCE_SUBMITTED'):
+        validate_vanda(dict(context,science_run_id=s['generation_id']),job,now=now,uid=uid,user=user,hostname='GN-A40-001',job_id=jid)

@@ -10,6 +10,16 @@ from . import target_gr00t_profile_v1 as profile
 from .storage import digest,write_json
 
 
+def site_context(spec, job_id, quota, *, uid, user):
+    """PBS binds the allocation request; each child keeps its model generation."""
+    return dict(schema='SHARED_RAW_VANDA_A40_EXECUTION_V1',job_id=job_id,owner_uid=uid,
+        owner_user=user,science_run_id=spec['allocation_request_id'],
+        submission_epoch=spec['submission_epoch'],submission_nonce=spec['submission_nonce'],
+        authorization_mode='SAME_PBS_ALLOCATION_AFTER_FRESH_SUBMISSION',project_receipt=spec['project_receipt'],
+        quota_receipt=quota,predicted_new_peak_bytes=spec['predicted_new_peak_bytes'],
+        allocation_deadline_epoch=spec['deadline_epoch'])
+
+
 def site(spec):
     """Validate the actual own single-A40 allocation BEFORE importing Torch."""
     import subprocess
@@ -27,12 +37,7 @@ def site(spec):
     quota_path=Path('/home/svu/vanda/quotas/CFP04-CF-007.proj_scratch.txt')
     quota=project_quota(quota_path.read_text(),user=os.environ['USER'],
         report_epoch=quota_path.stat().st_mtime,observed_epoch=now)
-    context=dict(schema='SHARED_RAW_VANDA_A40_EXECUTION_V1',job_id=jid,owner_uid=os.getuid(),
-        owner_user=os.environ['USER'],science_run_id=spec['generation_id'],
-        submission_epoch=spec['submission_epoch'],submission_nonce=spec['submission_nonce'],
-        authorization_mode='SAME_PBS_ALLOCATION_AFTER_FRESH_SUBMISSION',project_receipt=spec['project_receipt'],
-        quota_receipt=quota,predicted_new_peak_bytes=spec['predicted_new_peak_bytes'],
-        allocation_deadline_epoch=spec['deadline_epoch'])
+    context=site_context(spec,jid,quota,uid=os.getuid(),user=os.environ['USER'])
     validate_vanda(context,job,now=now,uid=os.getuid(),user=os.environ['USER'],
         hostname=os.uname().nodename,job_id=jid)
     # Existing site validator is the PBS/entitlement kernel, not the old M32
