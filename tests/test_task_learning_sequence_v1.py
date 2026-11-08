@@ -66,3 +66,18 @@ def test_rigid_policy_frame_conversion_does_not_reapply_gripper_mapping():
     assert np.allclose(mapped['policy_absolute10'][:,:3],checked['policy_absolute10'][:,:3]+frame[:3,3])
     assert np.array_equal(mapped['policy_absolute10'][:,9],checked['policy_absolute10'][:,9])
     assert np.array_equal(mapped['installed_audit_only'][:,9],checked['installed_audit_only'][:,9])
+
+
+def test_recorded_intervention_is_audited_but_never_expert_supervision():
+    d,c,obs=records();d[8]['label_role']='INTERVENTION_NOT_EXPERT'
+    v=sequence(d,c,obs)
+    assert v['confirmed_intervals']==600
+    assert v['actual_high_level_decisions']==15
+    assert v['supervised_policy_decisions']==14 and v['excluded_intervention_decisions']==1
+    assert not v['valid_window'][8] and v['valid_window'].sum()==14
+    assert v['expert_training_eligible']is False
+
+
+def test_unknown_label_producer_is_rejected():
+    d,c,obs=records();d[8]['label_role']='UNEXECUTED_MODEL_PREDICTION'
+    with pytest.raises(ValueError):sequence(d,c,obs)

@@ -1,0 +1,32 @@
+{
+  "schema": "TASK_LEARNING_CURRENT_RGB_INFORMATION_PROBE_V1",
+  "population": "ALL_RESET_READY_FIRST_DECISIONS_FROM_TWENTY_REQUESTS; LATER_TASK_FAILURES_INCLUDED",
+  "minimum_observed_requests": 18,
+  "minimum_distinct_layouts": 9,
+  "anchor": "FIRST_REAL_DECISION_AT_NATIVE_STEP_5703",
+  "features": "LARGEST_4_CONNECTED_RED_COMPONENT_XY_CENTROID_IN_EACH_UNCHANGED_RGB",
+  "red_threshold": {
+    "min_R": 120,
+    "min_R_to_G_ratio": 1.5,
+    "min_R_to_B_ratio": 1.5
+  },
+  "minimum_component_pixels_per_camera": 32,
+  "labels": "ACTUAL_TEACHER_FIRST_CHUNK_XY_DISPLACEMENT_ONLY",
+  "learner": "RIDGE_1E_MINUS_3_WITH_TRAIN_FOLD_ONLY_STANDARDIZATION",
+  "split": "LEAVE_ONE_WHOLE_LAYOUT_OUT; BOTH_RESTARTS_HELD_OUT_TOGETHER",
+  "baseline": "TRAIN_FOLD_MEAN_DISPLACEMENT",
+  "information_probe_gate": {
+    "maximum_XY_RMSE_m": 0.001,
+    "maximum_fraction_of_baseline_RMSE": 0.5
+  },
+  "current_RGB_only": true,
+  "privileged_scene_features": false,
+  "GR00T_updates": 0,
+  "interpretation": "Image information for local XY disambiguation only; not policy competence, recovery observability, broad generalization or task success.",
+  "EVIDENCE_ASOF": "2026-11-09T05:25:59.111675+08:00",
+  "status": "PREREGISTERED_IMPLEMENTED_CPU_CHECKED_NOT_NATIVE_QUALIFIED",
+  "module_sha256": "bfa9329c420e8ba61adafa129a43d53a6394a8fcc2a1558f393bac8509860c81",
+  "active_qualification_source_changed": false,
+  "new_physics_dispatches": 0,
+  "new_training_updates": 0
+}

@@ -19,7 +19,7 @@ def sequence(decisions,confirmed,captures):
         'COMPLETE_CONFIRMED_COMMAND_SEQUENCE_NOT_PREDICTED_SUFFIX')
     rows=confirmed.get('records')or[]
     task.need(len(rows)==task.QUERIES*40,'EXACTLY_SIX_HUNDRED_TEACHER_COMMANDS_EXCLUDES_TERMINATION_HOLD')
-    policy=[];installed=[];anchors=[];stages=[]
+    policy=[];installed=[];anchors=[];stages=[];valid=[]
     for index,(decision,capture)in enumerate(zip(decisions,captures)):
         step=task.B+1000*index
         raw=np.asarray(decision['submitted_policy_H40'],float)
@@ -54,11 +54,16 @@ def sequence(decisions,confirmed,captures):
         # differ at FP64 reduction roundoff. Raw nominal commands above are exact.
         task.need(np.allclose(consumed,expected,rtol=0,atol=2e-15),
             'ORIGINAL_REFERENCE_TRANSPORT_AND_ONE_WORKING_GRIPPER_AFFINE')
+        label_role=decision.get('label_role','EXECUTED_TEACHER_INTENT')
+        task.need(label_role in('EXECUTED_TEACHER_INTENT','INTERVENTION_NOT_EXPERT'),
+            'EXPLICIT_EXPERT_OR_EXCLUDED_INTERVENTION_LABEL_ROLE')
         policy.extend(raw);installed.extend(consumed);anchors.append(index*40);stages.append(decision['stage'])
+        valid.append(label_role=='EXECUTED_TEACHER_INTENT')
     return dict(policy_absolute10=np.asarray(policy),installed_audit_only=np.asarray(installed),
         native_command_anchor=np.asarray(anchors,dtype=np.int64),stages=np.asarray(stages),
-        valid_window=np.ones(task.QUERIES,dtype=bool),policy_period_s=.05,
-        supervised_policy_decisions=task.QUERIES,confirmed_intervals=len(rows),
+        valid_window=np.asarray(valid,dtype=bool),policy_period_s=.05,
+        actual_high_level_decisions=task.QUERIES,supervised_policy_decisions=sum(valid),confirmed_intervals=len(rows),
+        excluded_intervention_decisions=len(valid)-sum(valid),
         termination_hold_used_as_new_Teacher_decision=False,expert_training_eligible=False)
 
 
