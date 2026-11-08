@@ -36,6 +36,9 @@ def protocol():
 
 
 def declared(spec):
+    if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
+        from .target_gr00t_prefix_v1 import declared as target_declared
+        return target_declared(spec)
     need(spec.get('phase')==PHASE and spec.get('kind')==KIND
          and spec.get('stable_task_closed_loop')==protocol()
          and spec.get('live_skill_start_step')==B and spec.get('max_ticks')==E
@@ -43,17 +46,24 @@ def declared(spec):
          'EXACT_NEW_TYPED_FINITE_PAUSED_PROTOCOL')
 
 
-def observation_steps(spec):
+def _configuration(spec):
     declared(spec)
-    return tuple(B+25*PREFIX_ATOMS*i for i in range(POLICY_QUERIES))
+    if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
+        return spec['target_gr00t_prefix_protocol']
+    return protocol()
+
+
+def observation_steps(spec):
+    c=_configuration(spec)
+    return tuple(B+25*c['prefix_atoms']*i for i in range(c['policy_queries']))
 
 
 def cycle(spec,index):
-    declared(spec)
-    need(type(index)is int and 0<=index<=POLICY_QUERIES,'FINITE_CYCLE_INDEX')
-    start=B+25*PREFIX_ATOMS*index
-    atoms=PREFIX_ATOMS if index<POLICY_QUERIES else FINAL_HOLD_ATOMS
-    return dict(index=index,kind='POLICY_PREFIX'if index<POLICY_QUERIES else'DETERMINISTIC_TERMINATION_HOLD',
+    c=_configuration(spec);queries=c['policy_queries']
+    need(type(index)is int and 0<=index<=queries,'FINITE_CYCLE_INDEX')
+    start=B+25*c['prefix_atoms']*index
+    atoms=c['prefix_atoms']if index<queries else c['final_hold_atoms']
+    return dict(index=index,kind='POLICY_PREFIX'if index<queries else'DETERMINISTIC_TERMINATION_HOLD',
         start_step=start,end_step=start+25*atoms,atoms=atoms)
 
 
@@ -126,7 +136,7 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
             need(submitted['native_start_step']==step and submitted['sequence']==len(windows),
                  'ORIGINAL_CONTIGUOUS_GRIPPER_SUBMISSION')
             attempt.update(gripper_submitted=submitted,stage='SUBMITTED_BEFORE_EFFECT')
-            adapter.command_event(dict(phase='live-skill-before-atom',protocol=PHASE,**attempt))
+            adapter.command_event(dict(phase='live-skill-before-atom',protocol=adapter.spec['phase'],**attempt))
             event_start=len(adapter.ros_evidence)
             after=adapter.advance_to(step+25);adapter.spin(.15)
             actual=adapter.measured_task_state();samples.append(actual)
@@ -149,7 +159,7 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
                 actual_state_vector=state_vector(actual).tolist(),stage='ACTUAL_CONSUMPTION_CONFIRMED')
             rows.append(attempt);windows.append(attempt)
             adapter.reference_history.append(dict(end_native_step=step+25,pose=matrix10(actual_row)))
-            adapter.command_event(dict(phase='live-skill-controller-consumed',protocol=PHASE,**attempt))
+            adapter.command_event(dict(phase='live-skill-controller-consumed',protocol=adapter.spec['phase'],**attempt))
             attempt=None
         mask=[int(k)<atoms for k in program.knot_indices]
         report.update(status='REGISTERED_PREFIX_CONSUMED_REQUIRES_OUTER_TRACE_AND_REPLACEMENT',
