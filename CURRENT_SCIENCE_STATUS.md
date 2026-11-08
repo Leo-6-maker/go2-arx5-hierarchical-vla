@@ -1,6 +1,15 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
-## WM02 TARGET_GR00T actual continuation · 2026-11-08 21:38 SGT sealed boundary
+## WM02 TARGET_GR00T / Hopper actual closeout · 2026-11-09 00:15 SGT
+
+**Hopper scratch environment and frozen model assets are prepared and CPU-validated**:19 files,17,465,171,194 downloaded bytes,32 DiT blocks,H40; Python3.12.3,PyTorch2.9.0+cu128,Transformers4.57.3,Accelerate1.13.0,NumPy1.26.4 and native GR00T/Trainer/Cosmos Processor imports pass. New logical storage25.95GiB; all preparation workers absent and lease/registry CLOSED. This is0 neural weight loads/updates/physics/PBS submissions. Actual project token is expired; PBS queries had connection failures. Target data/Processor and a qualified Hopper target GPU profile remain absent; H200 review and real site admission are still required.
+
+**Real target optimization now totals3 optimizer calls, with complete recovery still unqualified**. Core07 saved checkpoint1 after32 microbatches; its first warmup learning rate was0,then second-step Qwen projection OOM. Vanda1532527 actually ran one A40,FULL_ACTION_SIDE1,304,913,028 trainable parameters,completed2 calls/cursor64 and saved checkpoints1/2,then post-training inference failed a training-only noise audit hook. PBS F/exit1 and canonical owner CLOSED are independently reconciled; no duplicate qsub or other-project cancellation. Source `0aa0ab5e7963be5a5e770b4d0c1ddf8fb68f3779` repairs that hook; CPU regressions pass,actual GPU recovery remains unqualified. No FIT4/FORMAL2000/candidate native DEV yet.
+
+Original21 TRAIN/7 DEV/0 TEST,40 native invocations31 PASS/9 FAIL/1,481,867ticks and older FUSION denominators remain unchanged. No new samples,online WM,Actor,WBC/safety/startup/2ms changes. [Actual source/data/model identities, every failed Core attempt,Hopper preparation negatives,costs,exits and next executable](reports/WM02/fusion-night1-20261106/HOPPER_SCRATCH_AND_FIRST_TARGET_OPTIMIZATION_ACTUAL_V1.json).
+
+
+## WM02 TARGET_GR00T historical sealed snapshot · 2026-11-08 21:38 SGT
 
 PR #369 now has **40 sealed native invocations:31 PASS /9 FAIL /1,481,867 ticks**, including one preserved entry-routing failure with0 integration. The original36-attempt Teacher collection remains unchanged:30 PASS/6 FAIL, with sealed **21 TRAIN decision windows /7 DEV episodes /0 TEST**. Dataset `cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3`, statistics `08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420`; all21 processed TRAIN batches match across Core/Vanda. [Sealed original data and one-ULP offline proof repair](reports/WM02/fusion-night1-20261106/TARGET_GR00T_FORMAL_DATA_AND_BASELINE_INTERFACE_ACTUAL_V1.json).
 

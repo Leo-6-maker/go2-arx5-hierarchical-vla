@@ -20,15 +20,15 @@
   "active_capsules_changed": false,
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": 1794150840.0,
-  "goal": "PR369_TARGET_GR00T_ACTUAL_TRAINING_WAIT_A40",
-  "snapshot_epoch": 1794145245.242195,
+  "goal": "PR369_TARGET_GR00T_TRAINING_RECOVERY_AND_HOPPER_PREPARATION",
+  "snapshot_epoch": 1794154531.318939,
   "implementation_sha": "fa33c75011a74aacd10dde1f96eefb085b2e38f3",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
   "current_native_job": null,
-  "current_neural_job": "Only Vanda1532527 queued; no new Core neural worker",
+  "current_neural_job": null,
   "current_CPU_job": null,
-  "live_process_state": "ALL_PR369_CORE_NATIVE_WORKERS_CLOSED; A40_Q_ACCOUNT_RUNNING_JOB_LIMIT",
+  "live_process_state": "ALL_OWNED_CORE_TRAINING_VANDA_TARGET_AND_HOPPER_PREP_WORKERS_CLOSED; OTHER_PROJECT_JOBS_PRESERVED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 324,
   "FUSION_native_passes": 305,
@@ -284,8 +284,8 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Keep sole1532527 identity; on real allocation verify actual capacity/backward/complete next-update restore/FIT4 before freshFORMAL2000. Do not rerun the failed retreat or relabel diagnostic actions. Localize saved-trace pre-task divergence without changing frozen control. After trained model delivery, actual Core reconstruction/TRAIN interface and frozen32 B0/B1 DEV still required.",
-  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "next": "Hopper CPU environment/models are sealed; use the prepared read-only CPU entry. Before Hopper GPU work obtain required H200 review/site admission and implement the actual target profile. For Core/A40 recovery use fresh finite scopes and repaired source; verify full next-update restore before FIT4/FORMAL2000. Preserve all old failures and CLOSED leases.",
+  "next_executable": "source \"$WM02_HOPPER_ROOT/runtime/environment-cpu.sh\"; \"$WM02_HOPPER_PYTHON\" -B \"$WM02_HOPPER_ROOT/verify_prepared_environment.py\"",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -424,7 +424,7 @@
   "actual_last_GPU_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
   "last_source_posture_query_actual_report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
   "source_posture_frame_audit_report": "SOURCE_POSTURE_FRAME_AUDIT_ACTUAL_V1.json",
-  "first_current_scientific_block": "No actual target action-side learning yet; original B0 two-query prefix hit unchanged2mm standing bound before fullqualification",
+  "first_current_scientific_block": "Actual optimization exists (Core1 warmup call,Vanda2 calls), but full restore and FIT4 gates are not qualified; original B0 native failure remains.",
   "full1_query_intent_report": "SOURCE_POSTURE_QUERY_INTENT_ACTUAL_V1.json",
   "prompt_control_protocol": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
   "prompt_control_implementation": "MATCHED_PROMPT_CONTROL_IMPLEMENTATION_V1.json",
@@ -833,7 +833,7 @@
     "fixed_compensation": "STATIC_FAILED_NO_WORKER",
     "C03_preposed_home": "ZERO_INTEGRATION_REJECTED_FROZEN_STARTUP_OVERRIDE_POINT9_NO_WORKER"
   },
-  "current_block": "ACTUAL_TARGET_GR00T_TRAINING_AND_STUDENT_DEV_NOT_YET_ESTABLISHED",
+  "current_block": "TARGET_FULL_RESTORE_FIT4_AND_CANDIDATE_NATIVE_DEV_NOT_QUALIFIED",
   "previous_top_level_next_before_PR368": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
   "stable_start_autonomy": {
     "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
@@ -945,7 +945,7 @@
   "archived_before_stable_start_current_operational_block": "NO_NEW_FULL_1200S_PLUS60S_SCOPE_FITS_ORIGINAL_19:34:21_CUTOFF; GENERATED_C01_TASK_INTENT_NOT_QUALIFIED",
   "FUSION_TASK_ADAPTER_updates": 0,
   "archived_before_stable_task_next_qualified_work": "Read-only sealed evidence and fresh owner/admission audit; further dynamics require a newly valid finite scope and separately declared task-state alignment/recovery condition.",
-  "goal_status": "ACTIVE_TARGET_GR00T_WAIT_ORIGINAL_FINITE_SCOPE_BOUNDARY",
+  "goal_status": "PREPARATION_SEALED_PARENT_SCIENCE_INCOMPLETE",
   "target_GR00T_preparation_report": "TARGET_GR00T_PREPARATION_ACTUAL_V1.json",
   "target_GR00T_qualification": {
     "sealed_attempts": 4,
@@ -1034,7 +1034,7 @@
       "BASE_displacement_m": 0.0020130402433105312
     }
   },
-  "latest_target_progress_report": "TARGET_GR00T_TEACHER_TWO_PREFIX_AND_START_DIVERGENCE_ACTUAL_V1.json",
+  "latest_target_progress_report": "HOPPER_SCRATCH_AND_FIRST_TARGET_OPTIMIZATION_ACTUAL_V1.json",
   "PR369_latest_native_readiness_snapshot": {
     "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
     "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
@@ -1192,5 +1192,21 @@
       "additional_expert_windows": 0
     },
     "actual_target_model_updates": 0
+  },
+  "PR369_neural_and_Hopper_actual": {
+    "report": "HOPPER_SCRATCH_AND_FIRST_TARGET_OPTIMIZATION_ACTUAL_V1.json",
+    "execution_source_sha": "0aa0ab5e7963be5a5e770b4d0c1ddf8fb68f3779",
+    "actual_target_optimizer_calls": 3,
+    "Core_optimizer_calls": 1,
+    "Vanda_optimizer_calls": 2,
+    "Hopper_optimizer_calls": 0,
+    "full_target_restores": 0,
+    "FORMAL2000": 0,
+    "candidate_native_DEV": 0,
+    "Hopper_CPU_env_and_models": "PASS",
+    "Hopper_lease": "CLOSED",
+    "Vanda_job": "1532527 F/exit1 ownerCLOSED",
+    "Core": "all registered jobs CLOSED; one checkpoint1 warmup call",
+    "H200": "NOT_SUBMITTED; AWAITING_SCALE_REVIEW_AND_SITE_ADMISSION"
   }
 }
