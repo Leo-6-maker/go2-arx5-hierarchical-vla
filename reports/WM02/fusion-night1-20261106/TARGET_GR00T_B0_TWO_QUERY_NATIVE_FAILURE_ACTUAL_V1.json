@@ -1,0 +1,334 @@
+{
+  "schema": "WM02_TARGET_GR00T_B0_TWO_QUERY_NATIVE_FAILURE_ACTUAL_V1",
+  "created_epoch": 1794140138.515625,
+  "status": "B0_TRAIN_INTERFACE_FAILED_AT_ORIGINAL_STANDING_BOUND; BOTH_WORKERS_CLOSED",
+  "execution_source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+  "prior_data_publication_sha": "601b4604a52731dbe250a8f9a8e15478d71b506b",
+  "plan_sha": "dfbdb49020a0086421312649a8e52f07b89b5817",
+  "ACTUAL": "Original B0 loaded once, generated two full real-observation H40 chunks in one native process. Both passed unchanged mechanical-domain screens; cycle00 consumed120 acknowledged50ms intervals. Cycle01 consumed29 confirmed intervals and one further observed interval before original2mm standing bound rejected at38053. GPU closed0, native closed1, all4 native children closed0 and no residual GPU worker.",
+  "NEGATIVE": "Not complete two-query native qualification; not task success, not student DEV, not expert data, not target model learning. Full-H40 requested direction and actual executed prefix are distinct: full endpoints predicted retreat12.35/14.39mm for approach; actual partial achieved approach9.018mm plus lateral8.152mm and BASE2.013mm bound failure. No seed retry, shrinking/clipping of the old proposal, WBC tuning or safety relaxation.",
+  "registered_identity": {
+    "native_run": "target-gr00t-b0-prefix-train01-interface-02",
+    "GPU_run": "target-gr00t-b0-prefix-train01-interface-gpu-02",
+    "native_spec_sha256": "909de5978ddeceec3a4733dab5ac43306933de6bc214e2e48f2538003c371be6",
+    "GPU_spec_sha256": "69b445900548137781f06d853d7e13cdc9f337b5b6250053351b69e88cbce9c1",
+    "native_worker_receipt_sha256": "0859e3eaefad52d7b30ebcbe46cd9db464e183e4edf1c70274f64a2f5824794c",
+    "GPU_worker_receipt_sha256": "91d28b98b1b9a0c5107e70464f7aaa18d7a50c4d0b7c0049d67376c5176bab2e",
+    "native_result_sha256": "ead5970162bb28275cadfde5ed6769983d8ab6e3477f34640d3991e85abf7a9b",
+    "GPU_result_sha256": "61d6dd2e7ab48e7274fda691cd5080c8774c3b82df6a6fef25910b22c0a6e7fd",
+    "failed_loop_receipt_sha256": "9c68e70f1f72a6e08eee88c0356b8f3c998091069920bb29d0ca6114beb55c41",
+    "data_role": "TRAIN_INTERFACE_DIAGNOSTIC_NOT_BC_NOT_DEV",
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "original_Processor": true,
+    "baseline_weights_frozen": true
+  },
+  "native": {
+    "exit_code": 1,
+    "status": "NATIVE_STAGE_FAILED_PRESERVED",
+    "actual_integrations": 38053,
+    "task_integrations": 3750,
+    "original_calibration_integrations": 34303,
+    "confirmed_policy_intervals": 149,
+    "observed_policy_intervals": 150,
+    "failure_interval_confirmation": false,
+    "cycle00": {
+      "confirmed_intervals": 120,
+      "actual_integrations": 3000,
+      "consumed_raw_knots": 5,
+      "unexecuted_raw_knots": 35,
+      "result_sha256": "9a4b343ab6d496ac1bda071469a756b82906586c35d2856b7184e26b961e10e1"
+    },
+    "cycle01": {
+      "confirmed_intervals": 29,
+      "actual_integrations": 750,
+      "observed_unconfirmed_intervals": 1,
+      "result_sha256": "23565112ab7e4960e2d291ec0ff772f1598e44aed3bd90b2b6a3afdf62675672"
+    },
+    "native_endpoint_requested": 40503,
+    "native_endpoint_reached": false,
+    "all40_consumed": false,
+    "qualification_passed": false,
+    "task_success": false,
+    "full_tasks": 0,
+    "expert_training_eligible": false,
+    "formal_student_DEV": false,
+    "first_failure": "TASK_REFERENCE_ORIGINAL_STANDING_BOUND_EXCEEDED",
+    "failure_step": 38053,
+    "BASE_displacement_m": 0.0020130402433105312,
+    "BASE_rotation_rad": 0.006129268880698217,
+    "unchanged_BASE_displacement_bound_m": 0.002,
+    "unchanged_BASE_rotation_bound_rad": 0.008726646259971648,
+    "physics_stops": [],
+    "original_safety_STOP_tested": false,
+    "shutdown_clean": true,
+    "owned_process_exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "records": 299383,
+      "native_step_records": 38053,
+      "dropped": 0,
+      "legacy_unknown": 0,
+      "unmatched_apply_versions": 0
+    }
+  },
+  "queries": [
+    {
+      "index": 0,
+      "native_observation_step": 34303,
+      "observation_sha256": "302c45f943b7731c6311867f6ab51a6ac8beaf949c462b0bee9d35def1dbc9a2",
+      "request_sha256": "2654ee528ba2c217401cc2fb51655139028b3ef7c455a79777ca9ca72107edc7",
+      "result_sha256": "c2a1d99c0bd34cd06eacc7dba31890f7f1bbd0ce8c89867a8e0cee9d82b06b97",
+      "action_sha256": "fc05b11a0995f0e9367149c59029b9cb33fef0ffb18f37a47164b821471ea918",
+      "seed": 202611088100,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "823fb7cc62de700c3792942326297ffc333c62d062d6611047e30abacd335340"
+      },
+      "proposal_sha256": "4aa39d77671284594ad79f97d573872b0469349b2466de7782ba16b7da836aef",
+      "full40_mechanical_metrics": {
+        "final_signed_progress_m": -0.012348484909562144,
+        "final_cube_distance_reduction_m": -0.012360213906577766,
+        "maximum_lateral_drift_m": 0.01241723765773237,
+        "maximum_TCP_excursion_m": 0.01498652323487077,
+        "minimum_finger_opening_m": 0.041999999999999996,
+        "minimum_desired_or_reference_cube_distance_m": 0.2020989549938849,
+        "maximum_TCP_rotation_rad": 0.037519773493157715
+      },
+      "full40_mechanical_predicates": {
+        "excursion": true,
+        "orientation": true,
+        "open": true,
+        "noncontact_geometry": true
+      },
+      "full40_short_task_proposal_qualified": false,
+      "Processor_decode_calls": 1,
+      "query_wall_s": 1.4241022639907897,
+      "GPU_event_s": 1.4134412841796875,
+      "native_query_wait_wall_s": 2.0126291676424444,
+      "geometry_scale": 1,
+      "time_stretch_factor": 2,
+      "command_clips": 0,
+      "Teacher_fallback": false
+    },
+    {
+      "index": 1,
+      "native_observation_step": 37303,
+      "observation_sha256": "dfe7612833d276632b3523e321db06315a7eb962378d2ba2eb92cfb7b22c4822",
+      "request_sha256": "85d67c907eec02c57d4b2d0d895be7241eff5a46e1622c88e0aa466304a7d8ec",
+      "result_sha256": "b5b94c545d4afae59a23696ca33bfac6d5e4aeaa224f6d54f7f211109a3c10c2",
+      "action_sha256": "69e139b2fc6d4b1fff339a51f2948a8a544dec8318774fab49bde03706a02cbc",
+      "seed": 202611088101,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "e8b2621e0d90537e872d924c4be07b2042ed6f23b7327d9fba6da60c2c582306"
+      },
+      "proposal_sha256": "0c7307e9ab557e69918b02b6b8a40de99ed2f9c83be6f1b6c43fbeb90b4272e9",
+      "full40_mechanical_metrics": {
+        "final_signed_progress_m": -0.01438616474702601,
+        "final_cube_distance_reduction_m": -0.01446837117702196,
+        "maximum_lateral_drift_m": 0.011745152894617299,
+        "maximum_TCP_excursion_m": 0.015593687257330992,
+        "minimum_finger_opening_m": 0.04165081691741943,
+        "minimum_desired_or_reference_cube_distance_m": 0.1988338341333745,
+        "maximum_TCP_rotation_rad": 0.038438524917064024
+      },
+      "full40_mechanical_predicates": {
+        "excursion": true,
+        "orientation": true,
+        "open": true,
+        "noncontact_geometry": true
+      },
+      "full40_short_task_proposal_qualified": false,
+      "Processor_decode_calls": 1,
+      "query_wall_s": 0.1976170209236443,
+      "GPU_event_s": 0.18594461059570314,
+      "native_query_wait_wall_s": 0.5911328722722828,
+      "geometry_scale": 1,
+      "time_stretch_factor": 2,
+      "command_clips": 0,
+      "Teacher_fallback": false
+    }
+  ],
+  "actual_partial_physical_response": [
+    {
+      "name": "cycle00_confirmed120",
+      "step": 37303,
+      "actual_progress_toward_cube_m": 0.004474768187163132,
+      "actual_distance_reduction_m": 0.004435983640512842,
+      "actual_lateral_m": 0.003994869700350698,
+      "actual_TCP_displacement_m": 0.005998544344391171,
+      "BASE_displacement_m": 0.0015070106118361835,
+      "BASE_rotation_rad": 0.0038616863890133823,
+      "not_full_endpoint_task_score": true
+    },
+    {
+      "name": "cycle01_confirmed29",
+      "step": 38028,
+      "actual_progress_toward_cube_m": 0.008911199429656949,
+      "actual_distance_reduction_m": 0.008748525834981369,
+      "actual_lateral_m": 0.008094032532968998,
+      "actual_TCP_displacement_m": 0.012038390171442313,
+      "BASE_displacement_m": 0.0019885450135074738,
+      "BASE_rotation_rad": 0.0060149206829852465,
+      "not_full_endpoint_task_score": true
+    },
+    {
+      "name": "cycle01_observed_unconfirmed_failure30",
+      "step": 38053,
+      "actual_progress_toward_cube_m": 0.009018392418563458,
+      "actual_distance_reduction_m": 0.008853286688003503,
+      "actual_lateral_m": 0.008152168995549547,
+      "actual_TCP_displacement_m": 0.012156860661667643,
+      "BASE_displacement_m": 0.0020130402433105312,
+      "BASE_rotation_rad": 0.006129268880698217,
+      "not_full_endpoint_task_score": true
+    }
+  ],
+  "command_alignment": {
+    "original_reference_transport_unchanged": true,
+    "reference_and_achieved_pose_not_identical": true,
+    "not_a_new_WBC_tracking_contract": true,
+    "observed_reference_delta_from_first_command_m": [
+      0.006977635893788692,
+      0.007406641718248348,
+      -0.01163657011428565
+    ]
+  },
+  "effect_counts": {
+    "new_native_attempts": 1,
+    "new_native_PASS": 0,
+    "new_native_FAIL": 1,
+    "new_integrations": 38053,
+    "new_model_loads": 1,
+    "new_GR00T_queries": 2,
+    "new_Processor_decodes": 2,
+    "new_GR00T_optimizer_updates": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "new_checkpoints": 0,
+    "new_trained_packages": 0,
+    "new_student_DEV_conditions": 0
+  },
+  "current_PR369_denominator": {
+    "all_native_attempts": 37,
+    "PASS": 30,
+    "FAIL": 7,
+    "native_ticks": 1407061,
+    "Teacher_collection": {
+      "attempts": 36,
+      "PASS": 30,
+      "FAIL": 6,
+      "ticks": 1369008
+    },
+    "B0_TRAIN_interface": {
+      "attempts": 1,
+      "PASS": 0,
+      "FAIL": 1,
+      "ticks": 38053
+    },
+    "older_FUSION_324_and_failures_unchanged": true,
+    "core_new_cohort_model_loads": 3,
+    "core_new_cohort_queries": 7,
+    "target_GR00T_optimizer_updates": 0
+  },
+  "data": {
+    "FORMAL_TRAIN": 21,
+    "FORMAL_DEV": 7,
+    "TEST": 0,
+    "dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "Core_Processor_admission_sha256": "e74977e186dcdb58220dc6d766a5258334cd74cc652247e9389ae23b3ef89c97",
+    "Vanda_Processor_admission_sha256": "1b3d69aeba8a9de96fb8547ae5862cf470c135d3eaf22731e50e212d6ec5d79a",
+    "unchanged_after_this_B0_failure": true,
+    "baseline_failed_partial_added_to_BC": false
+  },
+  "costs": {
+    "native_worker_wall_s": 756.5514758578502,
+    "native_worker_CPU_s": 212.372030917,
+    "native_child_CPU_s": 1163.072793,
+    "native_worker_plus_child_CPU_s": 1375.4448239170001,
+    "native_unit_CPU_s": 1382.693884,
+    "GPU_worker_wall_s": 741.69262291817,
+    "GPU_process_CPU_s": 82.29313400000001,
+    "GPU_unit_CPU_s": 82.834181,
+    "model_code_CPU_s": 81.060769118,
+    "sum_query_wall_s": 1.621719284914434,
+    "peak_GPU_allocated_bytes": 13343692800,
+    "peak_GPU_reserved_bytes": 13560184832,
+    "GPU_worker_host_MemoryPeak_bytes": 19729571840,
+    "native_host_MemoryPeak_bytes": 6057136128,
+    "GPU1_free_after_exit_MiB": 14719,
+    "live_task_required_paused_inference": true,
+    "unpaused_real_time_deployment": false
+  },
+  "terminal": {
+    "independent_epoch1": 1794139830.3527496,
+    "independent_epoch2": 1794140029.0072942,
+    "native_MainPID": 0,
+    "GPU_MainPID": 0,
+    "native_lease": "CLOSED",
+    "GPU_lease": "CLOSED",
+    "native_step_unchanged_after_exit": 38053,
+    "all4_owned_native_children_exit0": true,
+    "no_worker_restart": true,
+    "old_failed_registration01_closed_not_reopened": true
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "read_epoch": 1794140029.0249088,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "exec_host": null,
+    "resources_used": null,
+    "actual_target_updates": 0,
+    "submissions_total": 1,
+    "new_duplicate_submission": false,
+    "queried_exit_code": 0
+  },
+  "actual_commands": [
+    {
+      "command": "python3 \"$CORE_CONTROL\" \"$B0_PAIR_OWNER04\" 1200",
+      "owner_exit_code": 0,
+      "native_worker_exit_code": 1,
+      "GPU_worker_exit_code": 0
+    },
+    {
+      "command": "\"$NATIVE_PYTHON\" -B -m scripts.wm02.target_gr00t_native_loop_check_v1 --spec \"$B0_NATIVE_SPEC\" --execute",
+      "exit_code": 1
+    },
+    {
+      "command": "\"$NEURAL_PYTHON\" -B -m scripts.wm02.pilot1_neural_worker --spec \"$B0_GPU_SPEC\"",
+      "exit_code": 0
+    },
+    {
+      "command": "\"$NEURAL_PYTHON\" -B -m scripts.wm02.infer_target_gr00t_live_v1 --spec \"$B0_GPU_SPEC\" --output \"$B0_GPU_OUTPUT\"",
+      "exit_code": 0
+    },
+    {
+      "command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+      "exit_code": 0,
+      "state": "Q"
+    }
+  ],
+  "next": "Retain this failed B0 condition and closed leases; no replay or qualified-interface claim. Keep sole A40 job queued. Actual legal A40 capacity/nonzero backward/full next-update restore and FIT4 must precede FORMAL2000 on sealed21TRAIN/7DEV. Then qualify the real candidate on a new TRAIN interface before fixed32 B0/B1 DEV. Core future work still needs fresh valid finite scope at actual dispatch; current scope is not extended by this report.",
+  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "first_current_block": "PBS account batch_gpu running-job limit; no actual A40 allocation/backward yet",
+  "WBC_startup_gains_solver_safety_physics_dt_changed": false,
+  "goal_status": "ACTIVE_NOT_COMPLETE"
+}

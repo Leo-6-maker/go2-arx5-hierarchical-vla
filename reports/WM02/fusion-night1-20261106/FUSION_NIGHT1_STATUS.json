@@ -21,12 +21,12 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": 1794112746.6684496,
   "goal": "PR369_TARGET_GR00T_CANDIDATE_PREPARATION",
-  "snapshot_epoch": 1794139526.395987,
+  "snapshot_epoch": 1794140138.515625,
   "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
-  "current_native_job": "B0 TRAIN interface02, actual native ACTIVE; not student DEV",
-  "current_neural_job": "Core frozen B0 GPU1 ACTIVE; Vanda1532527 Q at20:03SGT",
+  "current_native_job": null,
+  "current_neural_job": "Only Vanda1532527 queued at20:13SGT; Core B0 pair terminal, bothMainPID0",
   "current_CPU_job": null,
   "live_process_state": "ORIGINAL_TEACHER_DEV_ACTIVE; A40_Q; NEW_GR00T_PAIR_NOT_LAUNCHED",
   "FUSION_completed_physical_cohorts": 5,
@@ -284,7 +284,7 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Let original active B0 pair reach sealed native/GPU terminal; inspect full proposal, admission, ACK, actual consumed prefix and safety. Retain sole A40 job; actual allocation gates capacity/backward/full restore/FIT4 before fresh FORMAL2000 on data cf80dd4c. Do not duplicate qsub or train the same candidate on Core.",
+  "next": "Retain this failed B0 condition and closed leases; no replay or qualified-interface claim. Keep sole A40 job queued. Actual legal A40 capacity/nonzero backward/full next-update restore and FIT4 must precede FORMAL2000 on sealed21TRAIN/7DEV. Then qualify the real candidate on a new TRAIN interface before fixed32 B0/B1 DEV. Core future work still needs fresh valid finite scope at actual dispatch; current scope is not extended by this report.",
   "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
@@ -424,7 +424,7 @@
   "actual_last_GPU_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
   "last_source_posture_query_actual_report": "SOURCE_POSTURE_QUERY_ACTUAL_V3.json",
   "source_posture_frame_audit_report": "SOURCE_POSTURE_FRAME_AUDIT_ACTUAL_V1.json",
-  "first_current_scientific_block": "Single A40 waits on actual account running-job limit; nonzero target action-side learning not yet started",
+  "first_current_scientific_block": "No actual target action-side learning yet; original B0 two-query prefix hit unchanged2mm standing bound before fullqualification",
   "full1_query_intent_report": "SOURCE_POSTURE_QUERY_INTENT_ACTUAL_V1.json",
   "prompt_control_protocol": "MATCHED_PROMPT_CONTROL_PROTOCOL_V1.json",
   "prompt_control_implementation": "MATCHED_PROMPT_CONTROL_IMPLEMENTATION_V1.json",
@@ -728,7 +728,7 @@
     "remote_readonly_archive_check": "SSH_CONNECTION_TIMEOUT_EXIT255",
     "new_native_integrations": 0
   },
-  "current_operational_block": "WAIT_LEGAL_ALLOCATION; active B0 interface pending actual consumption",
+  "current_operational_block": "WAIT_LEGAL_A40_ALLOCATION; B0_NATIVE_INTERFACE_QUALIFICATION_FAILED",
   "bounded_mechanical_pair_v1": "BOUNDED_FULL_H40_CONSUMPTION_ACTUAL_V1.json",
   "future_full_preview_features": "LIVE_PROGRAM_CAUSAL_FEATURES_V2_IMPLEMENTATION.json",
   "full_generated_H40_mechanical_consumption": 11,
@@ -978,7 +978,7 @@
   },
   "target_gr00t_current_execution": {
     "report": "TARGET_GR00T_SEALED_DATA_A40_SUBMISSION_ACTUAL_V1.json",
-    "status": "FORMAL_DATA_CROSS_SITE_READY; ONE_A40_QUEUED; B0_TRAIN_NATIVE_GPU_INTERFACE_ACTIVE",
+    "status": "B0_TRAIN_INTERFACE_FAILED_AT_ORIGINAL_STANDING_BOUND; BOTH_WORKERS_CLOSED",
     "neural_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
     "native_source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
     "PBS_job_id": "1532527.stdct-mgmt-02",
@@ -986,13 +986,13 @@
     "eligible_TRAIN_episodes": 21,
     "eligible_DEV_episodes": 7,
     "FIT4_admitted_TRAIN": 4,
-    "new_collection_sealed_attempts": 36,
-    "new_collection_integrations": 1369008,
+    "new_collection_sealed_attempts": 37,
+    "new_collection_integrations": 1407061,
     "GR00T_updates": 0,
     "new_PBS_submissions": 1,
     "new_GPU_model_loads": 3,
-    "first_blocker": "A40 account batch_gpu running-job limit; new Core B0 native pair active",
-    "next": "Let original active B0 pair reach sealed native/GPU terminal; inspect full proposal, admission, ACK, actual consumed prefix and safety. Retain sole A40 job; actual allocation gates capacity/backward/full restore/FIT4 before fresh FORMAL2000 on data cf80dd4c. Do not duplicate qsub or train the same candidate on Core.",
+    "first_blocker": "PBS account batch_gpu running-job limit; no actual A40 allocation/backward yet",
+    "next": "Retain this failed B0 condition and closed leases; no replay or qualified-interface claim. Keep sole A40 job queued. Actual legal A40 capacity/nonzero backward/full next-update restore and FIT4 must precede FORMAL2000 on sealed21TRAIN/7DEV. Then qualify the real candidate on a new TRAIN interface before fixed32 B0/B1 DEV. Core future work still needs fresh valid finite scope at actual dispatch; current scope is not extended by this report.",
     "finite_Core_collection": {
       "status": "ALL_32_PREREGISTERED_DEMONSTRATION_ATTEMPTS_TERMINAL; original chain06 exited; no restart",
       "planned_conditions": 32,
@@ -1005,21 +1005,36 @@
       "original_scope_unchanged": true
     },
     "same_observation_baseline_report": "TARGET_GR00T_ORIGINAL_BASELINE_G1_ACTUAL_V1.json",
-    "new_GR00T_queries": 5,
+    "new_GR00T_queries": 7,
     "original_baseline_weight_updates": 0,
     "baseline_proposal_signed_progress_m": -0.01029206650935515,
     "baseline_native_execution": false,
     "new_collection_PASS": 30,
-    "new_collection_FAIL": 6,
+    "new_collection_FAIL": 7,
     "confirmed_DEMO_native_PASS": 28,
     "confirmed_DEMO_native_FAIL": 4,
     "formal_bundle": "FORMAL2_SEALED_TRANSFERRED_CROSS_SITE_PROCESSOR_PASS",
     "eligible_TRAIN_count_scope": "ALL21_NATIVE_SUCCESSFUL_TRAIN_EPISODES_ADMITTED; one decision window each",
     "A40_model_loads": 0,
     "standing_failure_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
-    "target_Processor_parent_shadow_report": "TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1.json"
+    "target_Processor_parent_shadow_report": "TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1.json",
+    "B0_interface_terminal": {
+      "report": "TARGET_GR00T_B0_TWO_QUERY_NATIVE_FAILURE_ACTUAL_V1.json",
+      "source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+      "native_exit_code": 1,
+      "GPU_exit_code": 0,
+      "actual_integrations": 38053,
+      "confirmed_policy_intervals": 149,
+      "observed_policy_intervals": 150,
+      "native_qualification": false,
+      "new_model_loads": 1,
+      "new_queries": 2,
+      "both_leases": "CLOSED",
+      "failure_step": 38053,
+      "BASE_displacement_m": 0.0020130402433105312
+    }
   },
-  "latest_target_progress_report": "TARGET_GR00T_FORMAL_DATA_AND_BASELINE_INTERFACE_ACTUAL_V1.json",
+  "latest_target_progress_report": "TARGET_GR00T_B0_TWO_QUERY_NATIVE_FAILURE_ACTUAL_V1.json",
   "PR369_latest_native_readiness_snapshot": {
     "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
     "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
@@ -1039,22 +1054,26 @@
   },
   "PR369_full_proposal_compiler_audit": "TARGET_GR00T_ACTUAL_FULL_PROPOSAL_COMPILER_AUDIT_V1.json",
   "PR369_latest_execution_snapshot": {
-    "total_attempts": 36,
+    "all_native_attempts": 37,
     "PASS": 30,
-    "FAIL": 6,
-    "ticks": 1369008,
-    "TRAIN": {
-      "PASS": 21,
-      "FAIL": 3
+    "FAIL": 7,
+    "native_ticks": 1407061,
+    "Teacher_collection": {
+      "attempts": 36,
+      "PASS": 30,
+      "FAIL": 6,
+      "ticks": 1369008
     },
-    "Teacher_DEV": {
-      "PASS": 7,
-      "FAIL": 1
+    "B0_TRAIN_interface": {
+      "attempts": 1,
+      "PASS": 0,
+      "FAIL": 1,
+      "ticks": 38053
     },
-    "all_native_leases": "CLOSED",
-    "controller06": "ALL_32_TERMINAL; PID2741028_MISSING; DO_NOT_RESTART",
-    "all36_native_worker_wall_s": 20343.928744141478,
-    "all36_native_worker_plus_child_CPU_s": 44990.898298313
+    "older_FUSION_324_and_failures_unchanged": true,
+    "core_new_cohort_model_loads": 3,
+    "core_new_cohort_queries": 7,
+    "target_GR00T_optimizer_updates": 0
   },
   "PR369_prefix_components_source_sha": "31722d3bcebdf4934c643d8bb0bfcdf02d1b66d4",
   "PR369_paired_GR00T_entry": "IMPLEMENTED_510b5cce_NOT_REGISTERED_OR_NATIVE_QUALIFIED",
@@ -1107,6 +1126,22 @@
     "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
     "Vanda_Processor_admission_sha256": "1b3d69aeba8a9de96fb8547ae5862cf470c135d3eaf22731e50e212d6ec5d79a",
     "actual_cross_site_processed_TRAIN_windows": 21,
-    "active_B0_pair_source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5"
+    "active_B0_pair_source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "B0_status": "BOTH_WORKERS_CLOSED; NATIVE1_GPU0; NO_QUALIFICATION"
+  },
+  "PR369_B0_native_two_query_terminal": {
+    "report": "TARGET_GR00T_B0_TWO_QUERY_NATIVE_FAILURE_ACTUAL_V1.json",
+    "source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "native_exit_code": 1,
+    "GPU_exit_code": 0,
+    "actual_integrations": 38053,
+    "confirmed_policy_intervals": 149,
+    "observed_policy_intervals": 150,
+    "native_qualification": false,
+    "new_model_loads": 1,
+    "new_queries": 2,
+    "both_leases": "CLOSED",
+    "failure_step": 38053,
+    "BASE_displacement_m": 0.0020130402433105312
   }
 }
