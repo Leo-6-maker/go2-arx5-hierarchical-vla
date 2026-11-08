@@ -1,0 +1,244 @@
+{
+  "schema": "WM02_TARGET_GR00T_DEV_PREFIX_NEGATIVE_AND_CONTINUATION_ACTUAL_V1",
+  "created_epoch": 1794133737.7346685,
+  "data_snapshot": {
+    "epoch": 1794133715.2266514,
+    "sealed_native_attempts": 31,
+    "PASS": 25,
+    "FAIL": 6,
+    "native_ticks": 1175493,
+    "QUAL": {
+      "attempts": 4,
+      "PASS": 2,
+      "FAIL": 2,
+      "BC_eligible": false
+    },
+    "TRAIN": {
+      "attempts": 24,
+      "PASS": 21,
+      "FAIL": 3,
+      "layouts": 6,
+      "both_commands": true,
+      "formal_export_admitted": false
+    },
+    "DEV": {
+      "attempts": 3,
+      "PASS": 2,
+      "FAIL": 1,
+      "remaining": 5
+    },
+    "TEST_opened": false,
+    "old_FUSION_counts_unchanged": true
+  },
+  "actual_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+  "future_pair_code_sha": "510b5cce0d040caa0a5722a69a4fb0f1db8e8401",
+  "future_pair_deployed": false,
+  "new_sealed_native": [
+    {
+      "run": "target-gr00t-demo-dev01-approach-r1-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "15c8a9db56efa8861939eb7b619bebe587fb64d86654a675540a304a7a87e55b",
+      "result_sha256": "3599b3889f46e713c389758d8b9e5ac1f4b2221ec5a49754332202d8d31a8374",
+      "worker_sha256": "5aa9adefc6386147e3584252256f96dac9324b6ff098c62752ab713d6d030733",
+      "worker_exit_code": 0,
+      "lease": "CLOSED",
+      "native_integrations": 38703,
+      "shutdown_clean": true,
+      "all4_children_exit0": true,
+      "physics_stops": [],
+      "task_condition_success": true,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "dual_RGB_pairs": 27,
+      "metrics": {
+        "signed_progress_m": 0.0028369738643167657,
+        "precontact_distance_reduction_m": 0.002834952642097585,
+        "maximum_lateral_drift_m": 0.0006685282665700337,
+        "maximum_TCP_excursion_m": 0.003089600221906173,
+        "minimum_finger_opening_m": 0.04193021105419104,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0009463428950632527,
+        "maximum_base_rotation_rad": 0.0016167174949614452,
+        "final_hold_TCP_diameter_m": 0.00038369162784518277,
+        "final_hold_TCP_max_speed_m_s": 0.004025196844898811
+      },
+      "trace_dropped": 0,
+      "worker_wall_s": 571.2818183451891,
+      "worker_plus_child_CPU_s": 1276.811221846
+    },
+    {
+      "run": "target-gr00t-demo-dev01-retreat-r1-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "0da2a15a391c8f3a15f8955c3ac280684b260dd6c3991de884603aa67d1e378c",
+      "result_sha256": "3d80f681ef75c5dab0f2e1b32cd2de47b03bad55f8a2302fb13eb0bf211f16c1",
+      "worker_sha256": "31668e1e03936ac90bc4fa3b0e6206e28e690fa09d21bc29cc71cb9c026c65fc",
+      "worker_exit_code": 1,
+      "lease": "CLOSED",
+      "native_integrations": 34303,
+      "shutdown_clean": true,
+      "all4_children_exit0": true,
+      "physics_stops": [],
+      "task_condition_success": null,
+      "full40_consumed": null,
+      "confirmed_task_intervals": null,
+      "dual_RGB_pairs": 0,
+      "metrics": {},
+      "trace_dropped": 0,
+      "worker_wall_s": 458.9063599980436,
+      "worker_plus_child_CPU_s": 1026.115771441
+    },
+    {
+      "run": "target-gr00t-demo-dev02-approach-r1-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "cf2e13b4fcf4299f56e8d4a5bc7d06842af21afb7568d4f85fe6592cab24c44c",
+      "result_sha256": "4af4d4ab05f45fea7e6dedfc5e7aa06bab3bd3bd3eecbb9de495e4d013799ec7",
+      "worker_sha256": "3f44c8997c4e5e32c679e5611d9244263e8dec5a72dfefb35cd6527ec2cd1b00",
+      "worker_exit_code": 0,
+      "lease": "CLOSED",
+      "native_integrations": 38703,
+      "shutdown_clean": true,
+      "all4_children_exit0": true,
+      "physics_stops": [],
+      "task_condition_success": true,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "dual_RGB_pairs": 27,
+      "metrics": {
+        "signed_progress_m": 0.0028285647603970084,
+        "precontact_distance_reduction_m": 0.00282698519462711,
+        "maximum_lateral_drift_m": 0.0006484209281909254,
+        "maximum_TCP_excursion_m": 0.0029429620857509727,
+        "minimum_finger_opening_m": 0.04193332973842652,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0010084287804244252,
+        "maximum_base_rotation_rad": 0.0009180806830955082,
+        "final_hold_TCP_diameter_m": 0.00013598553439573633,
+        "final_hold_TCP_max_speed_m_s": 0.0011532757675451325
+      },
+      "trace_dropped": 0,
+      "worker_wall_s": 567.124376330059,
+      "worker_plus_child_CPU_s": 1276.973153941
+    }
+  ],
+  "negative": {
+    "condition": "DEV01_RETREAT_R1",
+    "first_failure": "TARGET_GR00T_COLLECTION_REAL_STABLE_PREFIX_BEFORE_EXPERT_TASK",
+    "step": 34303,
+    "failed_readiness_predicates": [
+      "position",
+      "lateral",
+      "orientation",
+      "continuous_relative_hold"
+    ],
+    "readiness_sha256": "a8c9c8d6227b2a9a390bb90fb3d406ccb30930279e56158783e79b9ce7367573",
+    "actual_position_error_m": 0.04513180476303814,
+    "actual_lateral_error_m": 0.02696597222905862,
+    "actual_orientation_error_rad": 0.06847021243005218,
+    "actual_hold_diameter_m": 0.01949750691122353,
+    "actual_hold_max_speed_m_s": 0.20813136905465812,
+    "actual_BASE_linear_speed_m_s": 0.0892960472,
+    "actual_BASE_angular_speed_rad_s": 0.1726264117,
+    "Teacher_proposals": 0,
+    "task_captures": 0,
+    "task_suffix_integrations": 0,
+    "GR00T_queries": 0,
+    "new_velocity_guard_executed": false,
+    "original_safety_passed": true,
+    "contact": false,
+    "interpretation": "ORIGINAL_CALIBRATION_PREFIX_READINESS_FAILURE_BEFORE_TASK; NOT_LEARNING_FAILURE; ROOT_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+    "retry": false,
+    "as_expert_data": false
+  },
+  "controller": {
+    "previous05": "TERMINAL_ON_NEW_FAILURE; NOT_RESTARTED",
+    "successor06": "ORIGINAL32_FINITE_PANEL_CONTINUATION; SKIPS_ALL_CLOSED_FAILURES_AND_PASSES",
+    "native_parallelism": 1,
+    "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+    "script_sha256": "7c7fa170307959663b8c92380459f7a2b20381ec358822dec51b98e0ab4fcce3",
+    "last_dispatch_epoch": 1794149580,
+    "scope_parent_deadline_epoch": 1794152040,
+    "old_capsules_changed": false,
+    "unknown_or_failed_launch_replayed": false
+  },
+  "data": {
+    "full_TRAIN_status": "24ACTUAL_NATIVE_ATTEMPTS_CLOSED;21NATIVE_SUCCESSES_NOT_YET_FULL_FORMAL_EXPORT",
+    "successful_TRAIN_policy_decisions": 21,
+    "successful_TRAIN_layouts": 6,
+    "successful_TRAIN_both_commands": true,
+    "formal_data_status": "WAIT_ALL32_TRAIN_DEV_ATTEMPTS_TERMINAL",
+    "FIT4_dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "FIT4_statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "failed_QUAL_or_WM_as_BC": false
+  },
+  "model": {
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "new_cohort_actual_Core_model_loads": 2,
+    "new_cohort_actual_Core_VLA_queries": 5,
+    "target_GR00T_updates": 0,
+    "target_WM_updates": 0,
+    "target_Actor_updates": 0,
+    "new_actual_optimizer_recoveries": 0,
+    "new_candidate_checkpoints": 0,
+    "new_trained_model_packages": 0
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "observed_epoch": 1794133345.1830337,
+    "query_exit_code": 0,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "exec_host": null,
+    "resources_used": null,
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3",
+    "source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "project": "CFP04-CF-007",
+    "duplicate_qsub": false,
+    "other_project_jobs_touched": false,
+    "actual_model_loads": 0,
+    "actual_updates": 0,
+    "actual_recoveries": 0
+  },
+  "actual_commands": [
+    {
+      "command": "PYTHONPATH=src \"$NATIVE_PYTHON\" -B -m scripts.wm02.stable_task_data_check_v1 --spec \"$REGISTERED_SPEC\" --execute",
+      "completed_workers": 3,
+      "exit_codes": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+      "exit_code": 0
+    }
+  ],
+  "cost": {
+    "new3_native_worker_wall_s": 1597.3125546732917,
+    "new3_native_worker_plus_child_CPU_s": 3579.900147228,
+    "all31_native_worker_wall_s": 17495.36758578196,
+    "all31_native_worker_plus_child_CPU_s": 38598.125324937,
+    "active_native_excluded": true,
+    "new_A40_allocated_GPU_wall_s": 0
+  },
+  "worker_state": {
+    "new3_leases": "CLOSED",
+    "new3_MainPID": 0,
+    "current_native": [
+      {
+        "run": "target-gr00t-demo-dev02-retreat-r1-01",
+        "split": "DEV",
+        "command": "RETREAT_RED_4MM_OPEN",
+        "parent": "STABLE_TASK_LAYOUT_DEV02",
+        "restart": 1,
+        "status": "ACTIVE"
+      }
+    ],
+    "A40": "QUEUED_NO_EXEC_HOST",
+    "new_GR00T_pair": "NOT_REGISTERED_OR_LAUNCHED"
+  },
+  "first_current_block": "ONE_A40_JOB_Q_ACCOUNT_RUNNING_LIMIT; FORMAL_DATA_EXPORT_WAITS_ALL32_TERMINAL",
+  "next": "Continue the five unused Teacher DEV conditions once, retain the prefix failure; then original CPU02 formal export/Processor and private SSH02 transfer. At a cold boundary stage committed live-pair source and register one B0 TRAIN native/GPU interface pair; no student DEV before actual qualification. Keep the original sole A40 submission.",
+  "next_executable_command": "qstat -xf -F json 1532527.stdct-mgmt-02"
+}

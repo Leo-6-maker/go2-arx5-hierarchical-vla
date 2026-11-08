@@ -25,8 +25,8 @@
   "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
-  "current_native_job": "Teacher DEV01 approach (actual live process/25078ticks verified17:54; original chain05)",
-  "current_neural_job": "1532527.stdct-mgmt-02 (PBS Q); Core TRAIN4 shadow CLOSED0",
+  "current_native_job": "Teacher DEV02 retreat (original chain06; previous closed failure retained)",
+  "current_neural_job": "1532527.stdct-mgmt-02 (PBS Q; account running-job limit)",
   "current_CPU_job": null,
   "live_process_state": "ORIGINAL_TEACHER_DEV_ACTIVE; A40_Q; NEW_GR00T_PAIR_NOT_LAUNCHED",
   "FUSION_completed_physical_cohorts": 5,
@@ -1019,7 +1019,7 @@
     "standing_failure_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
     "target_Processor_parent_shadow_report": "TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1.json"
   },
-  "latest_target_progress_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
+  "latest_target_progress_report": "TARGET_GR00T_DEV_PREFIX_NEGATIVE_AND_CONTINUATION_ACTUAL_V1.json",
   "PR369_latest_native_readiness_snapshot": {
     "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
     "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
@@ -1039,23 +1039,64 @@
   },
   "PR369_full_proposal_compiler_audit": "TARGET_GR00T_ACTUAL_FULL_PROPOSAL_COMPILER_AUDIT_V1.json",
   "PR369_latest_execution_snapshot": {
-    "report": "TARGET_GR00T_LIVE_PAIR_ENTRY_AND_TRAIN_PANEL_ACTUAL_V1.json",
-    "sealed_attempts": 28,
-    "PASS": 23,
-    "FAIL": 5,
-    "native_ticks": 1063784,
-    "QUALIFICATION_attempts": 4,
-    "QUALIFICATION_PASS": 2,
-    "QUALIFICATION_FAIL": 2,
-    "DEMO_TRAIN_closed": 24,
-    "DEMO_TRAIN_PASS": 21,
-    "DEMO_TRAIN_FAIL": 3,
-    "planned_DEMO_DEV": 8,
-    "DEMO_DEV_unclosed_at_snapshot": 8,
-    "TEST_results_opened": false,
-    "old_FUSION_denominator_changed": false
+    "epoch": 1794133715.2266514,
+    "sealed_native_attempts": 31,
+    "PASS": 25,
+    "FAIL": 6,
+    "native_ticks": 1175493,
+    "QUAL": {
+      "attempts": 4,
+      "PASS": 2,
+      "FAIL": 2,
+      "BC_eligible": false
+    },
+    "TRAIN": {
+      "attempts": 24,
+      "PASS": 21,
+      "FAIL": 3,
+      "layouts": 6,
+      "both_commands": true,
+      "formal_export_admitted": false
+    },
+    "DEV": {
+      "attempts": 3,
+      "PASS": 2,
+      "FAIL": 1,
+      "remaining": 5
+    },
+    "TEST_opened": false,
+    "old_FUSION_counts_unchanged": true
   },
   "PR369_prefix_components_source_sha": "31722d3bcebdf4934c643d8bb0bfcdf02d1b66d4",
   "PR369_paired_GR00T_entry": "IMPLEMENTED_510b5cce_NOT_REGISTERED_OR_NATIVE_QUALIFIED",
-  "PR369_paired_GR00T_code_sha": "510b5cce0d040caa0a5722a69a4fb0f1db8e8401"
+  "PR369_paired_GR00T_code_sha": "510b5cce0d040caa0a5722a69a4fb0f1db8e8401",
+  "PR369_latest_DEV_prefix_negative": {
+    "condition": "DEV01_RETREAT_R1",
+    "first_failure": "TARGET_GR00T_COLLECTION_REAL_STABLE_PREFIX_BEFORE_EXPERT_TASK",
+    "step": 34303,
+    "failed_readiness_predicates": [
+      "position",
+      "lateral",
+      "orientation",
+      "continuous_relative_hold"
+    ],
+    "readiness_sha256": "a8c9c8d6227b2a9a390bb90fb3d406ccb30930279e56158783e79b9ce7367573",
+    "actual_position_error_m": 0.04513180476303814,
+    "actual_lateral_error_m": 0.02696597222905862,
+    "actual_orientation_error_rad": 0.06847021243005218,
+    "actual_hold_diameter_m": 0.01949750691122353,
+    "actual_hold_max_speed_m_s": 0.20813136905465812,
+    "actual_BASE_linear_speed_m_s": 0.0892960472,
+    "actual_BASE_angular_speed_rad_s": 0.1726264117,
+    "Teacher_proposals": 0,
+    "task_captures": 0,
+    "task_suffix_integrations": 0,
+    "GR00T_queries": 0,
+    "new_velocity_guard_executed": false,
+    "original_safety_passed": true,
+    "contact": false,
+    "interpretation": "ORIGINAL_CALIBRATION_PREFIX_READINESS_FAILURE_BEFORE_TASK; NOT_LEARNING_FAILURE; ROOT_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+    "retry": false,
+    "as_expert_data": false
+  }
 }
