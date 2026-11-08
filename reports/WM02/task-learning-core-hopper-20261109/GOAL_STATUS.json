@@ -4,29 +4,38 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T01:35:00+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T02:12:00+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
     "old_physics_scopes": "EXPIRED; no reuse or CLOSED reopening",
     "other_users_GPU_jobs": "PRESERVED",
     "Hopper_SSH": "AVAILABLE",
-    "Hopper_PBS_queries": "TIMEOUT; current allocation not established",
-    "Hopper_project_login": "USER_AUTHORIZED_LOGIN_PERFORMED; independent entitlement readback pending",
+    "Hopper_PBS_queries": "PASS_DIRECT_OFFICIAL_SERVER_ADDRESS; hostname-alias queries time out",
+    "Hopper_project_login": "OFFICIAL_PROJECT_MEMBERSHIP_AND_CREDITS_READ_BACK_AFTER_LOGIN",
     "PBS_submissions": 0
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
     "implementation": "Explicit cached-feature diagnostic retaining original GR00T head, masked loss, inputs, dtypes, masks and native noise audit",
     "required_qualification": "Original H40 outputs, native loss, action gradients and RNG must match exactly before optimization",
-    "new_native_updates": 0,
-    "new_full_restore": "NOT_RUN"
+    "new_native_updates": 8,
+    "new_full_restore": "PASS_MODEL_OPTIMIZER_SCHEDULER_RNG_CURSOR_EXACT",
+    "status": "PASS_REAL_NONZERO_FOUR_VS_FRESH_TWO_PLUS_TWO_EXACT",
+    "qualification": "CORE_QUALIFICATION_ACTUAL.json",
+    "finite_FIT4_200": {
+      "run_id": "task-learning-core-20261109-04",
+      "source_sha": "8a9db7728884c47f5e344c1b38b3e7ad80c2b680",
+      "status": "RUNNING_FROM_FRESH_PARENT_OPTIMIZER",
+      "endpoint": 200,
+      "formal_model": false
+    }
   },
-  "G1H": "WAIT_CURRENT_SITE_ADMISSION_AND_CORE_QUALIFICATION",
+  "G1H": "SOURCE_PREPARATION_FOR_ORIGINAL_TRAINER_FULL_ACTION_SIDE_RESTORE4_THEN_FINITE_FIT4",
   "G2": "NEW_CONTACT_TASK_AND_TEACHER_QUALIFICATION_REQUIRED",
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "REAL_CORE_FEATURE_EQUIVALENCE_THEN_NONZERO_4_VS_2_PLUS_2",
+  "next_gate": "CORE_FINITE_FIT4_AND_HOPPER_ORIGINAL_TRAINER_RESTORE; NEW_CONTACT_TEACHER_IN_PARALLEL",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,

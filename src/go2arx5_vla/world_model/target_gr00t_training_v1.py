@@ -25,6 +25,9 @@ def site(spec):
     if spec.get('execution_site')=='CORELAB_4080S':
         from .target_gr00t_core_v1 import site as core_site
         return core_site(spec)
+    if spec.get('execution_site')=='HOPPER_SINGLE_GPU':
+        from .task_learning_hopper_v1 import site as hopper_site
+        return hopper_site(spec)
     import subprocess
     from scripts.pi0294.multitask.shared_site import validate_vanda,project_quota,mount_type,PROJECT_SCRATCH
     p=profile.validate(spec);now=time.time();root=Path(spec['registered_root'])
@@ -95,10 +98,13 @@ def semantic_recipe(p):
 def gpu_identity(torch,spec):
     from .runtime import cuda_uuid
     core=spec.get('execution_site')=='CORELAB_4080S'
-    name='NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
+    hopper=spec.get('execution_site')=='HOPPER_SINGLE_GPU'
+    name=spec['GPU_name']if hopper else'NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
     profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==name,
         'ACTUAL_SINGLE_DECLARED_GPU')
     properties=torch.cuda.get_device_properties(0)
+    if hopper:profile.need('H200'in name and properties.major==9 and properties.total_memory>=130*1024**3,
+                           'ACTUAL_HOPPER_H200_CAPACITY')
     actual=cuda_uuid(properties.uuid)
     profile.need(actual==cuda_uuid(spec['GPU_uuid']),'ALLOCATED_EXACT_GPU_UUID')
     if core:torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/properties.total_memory)
@@ -319,8 +325,8 @@ def run(spec):
             self.state.save_to_json(str(cp/'trainer_state.json'))
             data.processor.save_pretrained(cp/'processor')
             import shutil
-            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json'):
-                if file!='PROCESSOR_VANDA_RECONSTRUCTION.json'or(data.root/file).exists():
+            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json','PROCESSOR_HOPPER_RECONSTRUCTION.json'):
+                if 'RECONSTRUCTION'not in file or(data.root/file).exists():
                     shutil.copyfile(data.root/file,cp/file)
             write(cp/'PARAMETER_CONTRACT.json',contract.describe());write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(cursor=self.consumed,sampler=self.sampler.state_dict(self.consumed),
@@ -362,7 +368,7 @@ def run(spec):
                 handle.write(json.dumps(timing,sort_keys=True)+'\n');handle.flush();os.fsync(handle.fileno())
             if step in (1,2,10,p['endpoint']) or step%250==0:measured('UPDATE_'+str(step))
             stopping=bool(stop_requested)or time.time()+spec['closeout_reserve_s']>=spec['deadline_epoch']
-            control.should_save=step%250==0 or step==p['endpoint'] or p['mode']=='CAPACITY' or stopping
+            control.should_save=step%250==0 or step==p['endpoint'] or p['mode']=='CAPACITY' or (p['mode']=='RESTORE4'and step==2) or stopping
             control.should_training_stop=stopping
     args=TrainingArguments(output_dir=str(root/'training'),max_steps=p['endpoint'],
         per_device_train_batch_size=p['microbatch'],gradient_accumulation_steps=p['accumulation'],
@@ -372,7 +378,7 @@ def run(spec):
         gradient_checkpointing=False,report_to=[],disable_tqdm=True,ignore_data_skip=True,
         logging_strategy='steps',logging_steps=1)
     trainer=TargetTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),
-        callbacks=[Audit()],evidence_dir=root/'evidence',recipe=p,smoke=p['mode']=='CAPACITY')
+        callbacks=[Audit()],evidence_dir=root/'evidence',recipe=p,smoke=p['mode']in('CAPACITY','RESTORE4'))
     holder['trainer']=trainer
     trainer.train(resume_from_checkpoint=spec['resume']['path']if spec.get('resume')else None)
     step=trainer.state.global_step

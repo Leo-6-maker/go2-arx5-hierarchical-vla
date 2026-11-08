@@ -1,0 +1,175 @@
+{
+  "schema": "GR00T_TASK_LEARNING_CORE_QUALIFICATION_ACTUAL_V1",
+  "run_id": "task-learning-core-20261109-03",
+  "source_sha": "354ec8cc1e237c714b9db78fea6b7d0180fc8c40",
+  "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+  "statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+  "feature_cache_qualification": {
+    "status": "PASS_REAL_GR00T_FROZEN_FEATURE_OUTPUT_LOSS_GRADIENT_EQUIVALENCE",
+    "generations": [
+      {
+        "index": 0,
+        "seed": 2026110900,
+        "exact": true,
+        "output": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e68115eef98541ba7941796c22276feee1234bd72f1e7d9fe02c1665033d8ffd"
+        }
+      },
+      {
+        "index": 1,
+        "seed": 2026110901,
+        "exact": true,
+        "output": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "torch.float32",
+          "sha256": "e21c4b9a66740d5c2994219a2cad16d2cf2b5734ec7e6df0802850170abe60d7"
+        }
+      },
+      {
+        "index": 2,
+        "seed": 2026110902,
+        "exact": true,
+        "output": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "torch.float32",
+          "sha256": "8e04912410ec71f3259312158820d2a68325d4ba93ca54678e3b2d7602a6afce"
+        }
+      },
+      {
+        "index": 3,
+        "seed": 2026110903,
+        "exact": true,
+        "output": {
+          "shape": [
+            1,
+            40,
+            132
+          ],
+          "dtype": "torch.float32",
+          "sha256": "d020659aa0be64b40eb18757680b5e54afbc4e7a2e9f94152bfd4ef37b1c0a3e"
+        }
+      }
+    ],
+    "gradient_tensors": 42,
+    "original_loss": 0.42967453598976135,
+    "gradient_exact": true,
+    "noise_and_RNG_exact": true,
+    "training_generation_hook_scoped": true,
+    "precision_changed": false,
+    "original_input_dtype": "torch.float32",
+    "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "reference_memory_route": "CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2",
+    "cache_sha256": "398c5d5fef1b2cfb57b689380a21589e4f8bc18e082e358a03fac9a54f965758"
+  },
+  "complete_restore": {
+    "status": "PASS_REAL_FOUR_VERSUS_TWO_PLUS_TWO_EXACT",
+    "model": true,
+    "optimizer": true,
+    "scheduler": true,
+    "RNG": true,
+    "sampler_cursor": 128,
+    "precision_relaxed": false
+  },
+  "stages": [
+    {
+      "phase": "prepare",
+      "exit_code": 0
+    },
+    {
+      "phase": "continuous4",
+      "exit_code": 0
+    },
+    {
+      "phase": "split2",
+      "exit_code": 0
+    },
+    {
+      "phase": "resume4",
+      "exit_code": 0
+    }
+  ],
+  "continuous4": {
+    "step": 4,
+    "cursor": 128,
+    "optimizer_calls": 4,
+    "learning_rate_used": 3.7500000000000003e-05,
+    "next_learning_rate": 5e-05,
+    "native_loss": 1.237349459901452,
+    "action_parameters_changed": true,
+    "wall_s": 22.66666978271678,
+    "epoch": 1794160534.0418735,
+    "peak_allocated_bytes": 6537933824,
+    "peak_reserved_bytes": 6725566464
+  },
+  "split2": {
+    "step": 2,
+    "cursor": 64,
+    "optimizer_calls": 2,
+    "learning_rate_used": 1.25e-05,
+    "next_learning_rate": 2.5e-05,
+    "native_loss": 1.2180239083245397,
+    "action_parameters_changed": true,
+    "wall_s": 22.635403893887997,
+    "epoch": 1794160670.6143434,
+    "peak_allocated_bytes": 6537933824,
+    "peak_reserved_bytes": 6725566464
+  },
+  "fresh_process_resume4": {
+    "step": 4,
+    "cursor": 128,
+    "optimizer_calls": 2,
+    "learning_rate_used": 3.7500000000000003e-05,
+    "next_learning_rate": 5e-05,
+    "native_loss": 1.237349459901452,
+    "action_parameters_changed": true,
+    "wall_s": 23.157005848828703,
+    "epoch": 1794160778.2982228,
+    "peak_allocated_bytes": 6539252736,
+    "peak_reserved_bytes": 6708789248
+  },
+  "costs": {
+    "total_wall_s": 432.81373305618763,
+    "child_CPU_s": 676.7819340000001,
+    "peak_RSS_KiB": 15846228,
+    "cgroup_peak_bytes": 18947874816
+  },
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "all_owned_children_terminal": true,
+  "actual_optimizer_calls": 8,
+  "distinct_continuous_training_endpoint": 4,
+  "nonzero_LR_optimizer_calls": 6,
+  "physics_integrations": 0,
+  "task_successes": 0,
+  "original_Trainer_execution": false,
+  "route": "EXACT_QUALIFIED_FROZEN_FEATURES_ORIGINAL_ACTION_HEAD_AND_MASKED_LOSS",
+  "formal_model": false,
+  "preserved_predecessors": [
+    {
+      "run_id": "task-learning-core-20261109-01",
+      "reason": "MISSING_PINNED_ARCHITECTURE_REGISTRATION_BEFORE_MODEL_LOAD",
+      "optimizer_calls": 0
+    },
+    {
+      "run_id": "task-learning-core-20261109-02",
+      "reason": "EXPERT_ACTION_LABEL_ACCIDENTALLY_TRIGGERED_RTC_GENERATION",
+      "optimizer_calls": 0
+    }
+  ]
+}

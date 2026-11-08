@@ -7,15 +7,17 @@ import numpy as np
 FP32_COMPONENT_ATOL = 1e-6
 
 
-def qualify(root,source,cosmos,*,verify_transfer=False):
+def qualify(root,source,cosmos,*,verify_transfer=False,transfer_site='VANDA_A40'):
     from go2arx5_vla.world_model.target_gr00t_dataset_v1 import TargetNativeDataset,need
     from go2arx5_vla.world_model.storage import digest,write_json
     from scripts.pi0292.train_adapter import OFFICIAL_SHA
     from scripts.pi0292.eval_contract import expert_decode
     from scripts.pi0294.native_train import tree_identity
     root=Path(root);original=root/'PROCESSOR_TRAINING_ADMISSION.json'
+    need(transfer_site in('VANDA_A40','HOPPER_SINGLE_GPU'),'EXPLICIT_ACTUAL_TRANSFER_SITE')
+    transferred='hopper'if transfer_site=='HOPPER_SINGLE_GPU'else'vanda'
     expected=json.loads(original.read_bytes()) if verify_transfer else None
-    path=root/('PROCESSOR_VANDA_RECONSTRUCTION.json' if verify_transfer else original.name)
+    path=root/('PROCESSOR_'+transferred.upper()+'_RECONSTRUCTION.json' if verify_transfer else original.name)
     need(not path.exists(),'PRESERVE_EXISTING_PROCESSOR_ADMISSION')
     start=time.monotonic();cpu=time.process_time()
     data=TargetNativeDataset(root,source,cosmos)
@@ -43,7 +45,7 @@ def qualify(root,source,cosmos,*,verify_transfer=False):
             need(a['episode']==b['episode'] and a['anchor']==b['anchor']
                  and a['actual_collated_batch_identity']==b['actual_collated_batch_identity'],
                  'ACTUAL_CROSS_SITE_IMAGE_TEXT_STATE_ACTION_MASK_BATCH_IDENTITY')
-    processor=root/('target-processor-vanda-v1'if verify_transfer else'target-processor-v1')
+    processor=root/('target-processor-'+transferred+'-v1'if verify_transfer else'target-processor-v1')
     data.processor.save_pretrained(processor)
     files={str(p.relative_to(processor)):digest(p)for p in processor.rglob('*')if p.is_file()}
     result=dict(schema='WM02_TARGET_GR00T_PROCESSOR_ADMISSION_V1',
@@ -55,6 +57,7 @@ def qualify(root,source,cosmos,*,verify_transfer=False):
         train_and_deploy_processor='SAME_SAVED_TARGET_PROCESSOR_V1',
         original_Core_admission_sha256=digest(original)if verify_transfer else None,
         actual_cross_site_processed_batch_identity=verify_transfer,
+        transfer_site=transfer_site if verify_transfer else None,
         new_policy_models=0,new_optimizer_updates=0,new_physics=0,new_PBS=0,
         wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu)
     write_json(path,result);return result
@@ -64,7 +67,8 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('dataset','source','cosmos'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--verify-transfer',action='store_true')
-    a=p.parse_args(argv);r=qualify(a.dataset,a.source,a.cosmos,verify_transfer=a.verify_transfer)
+    p.add_argument('--transfer-site',choices=('VANDA_A40','HOPPER_SINGLE_GPU'),default='VANDA_A40')
+    a=p.parse_args(argv);r=qualify(a.dataset,a.source,a.cosmos,verify_transfer=a.verify_transfer,transfer_site=a.transfer_site)
     print(json.dumps({k:v for k,v in r.items()if k!='records'}));return 0
 
 if __name__=='__main__':raise SystemExit(main())

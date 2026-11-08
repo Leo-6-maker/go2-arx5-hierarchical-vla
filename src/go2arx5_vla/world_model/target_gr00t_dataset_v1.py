@@ -344,18 +344,20 @@ class TargetNativeDataset(OriginalDataset):
                  and admission.get('manifest_sha256')==self.manifest_sha
                  and admission.get('statistics_sha256')==self.statistics_sha
                  and admission.get('TRAIN_only_statistics')is True,'ACTUAL_TARGET_PROCESSOR_QUALIFICATION_REQUIRED')
-            need(optimization_site in('VANDA_A40','CORELAB_4080S'),'DECLARED_OPTIMIZATION_SITE')
+            need(optimization_site in('VANDA_A40','CORELAB_4080S','HOPPER_SINGLE_GPU'),'DECLARED_OPTIMIZATION_SITE')
             if optimization_site=='CORELAB_4080S':
                 checked=admission;directory=self.root/'target-processor-v1'
             else:
-                checked=json.loads((self.root/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
+                transferred='hopper'if optimization_site=='HOPPER_SINGLE_GPU'else'vanda'
+                checked=json.loads((self.root/('PROCESSOR_'+transferred.upper()+'_RECONSTRUCTION.json')).read_bytes())
                 need(checked.get('status')=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
                      and checked.get('manifest_sha256')==self.manifest_sha
                      and checked.get('statistics_sha256')==self.statistics_sha
                      and checked.get('original_Core_admission_sha256')==digest(self.root/'PROCESSOR_TRAINING_ADMISSION.json')
                      and checked.get('actual_cross_site_processed_batch_identity')is True,
-                     'ACTUAL_VANDA_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
-                directory=self.root/'target-processor-vanda-v1'
+                     'ACTUAL_'+transferred.upper()+'_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
+                if transferred=='hopper':need(checked.get('transfer_site')=='HOPPER_SINGLE_GPU','REAL_HOPPER_PROCESSOR_SITE')
+                directory=self.root/('target-processor-'+transferred+'-v1')
             need(bool(checked['processor_files'])and all(digest(directory/name)==pin
                 for name,pin in checked['processor_files'].items()),'SAVED_QUALIFIED_TARGET_PROCESSOR_FILES')
         self.rows=[(r,a)for r in self.manifest['episodes']if r['split']==split for a in range(r['windows'])]
