@@ -1,0 +1,94 @@
+{
+  "schema": "WM02_C01_R2_FK_SCENE_ADMISSION_FAILURE_ACTUAL_V1",
+  "source_sha": "8a4dd15753747c667e4fcb76f410cc10a23722ab",
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "native_spec_sha256": "54aa0c0da4cc0899cd4df8894fd31a384f6ff3c3ff127122868533660b997196",
+  "GPU_spec_sha256": "66fea4407fce0e05ec29ef2f9cf38ab034f782e2ae024fea5c1b636a0b575ee6",
+  "native_result_sha256": "1c37a1f5141693ebd45325a4742f25c51b2b76d41ede4dec0b6482f77c4ac008",
+  "GPU_failure_sha256": "3189a7601b31588bd40d7d77210ef1642fb9df5c66e73aca6e550db9d9be2d80",
+  "native_exit_code": 1,
+  "GPU_exit_code": 1,
+  "actual_native_integrations": 3703,
+  "actual_atomic_transitions": 148,
+  "partial_ticks": 3,
+  "actual_queries": 0,
+  "actual_generation_invocations": 0,
+  "generated_reference_installs": 0,
+  "updates": 0,
+  "native_failure": "_v9.py\", line 46, in run\n    return run_feedback_program(adapter,episode,source,recipe_module=prefix,actual_phase=PHASE,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 181, in run_feedback_program\n    return run_initialization_program(adapter, episode, source, recipe_module=recipe,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 218, in run_initialization_program\n    return run_program(adapter, episode, inputs, program_factory=factory,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 222, in run_program\n    program = program_factory(inputs, episode, initial['tcp'], decision['tcp'],\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 136, in factory\n    witness = _verify_actual_fk(adapter, packet, measured)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 47, in _verify_actual_fk\n    need((state.model.nq, state.model.nv, state.model.nu) == (34, 32, 20)\n  File \"<PRIVATE_PATH>\", line 36, in need\n    raise ValueError('TASK_PHASE_INITIALIZATION_NATIVE_' + reason)\nValueError: TASK_PHASE_INITIALIZATION_NATIVE_ORIGINAL_SCENE_AND_NATIVE_STATE_ABI\n",
+  "GPU_failure": "ValueError: FUSION_PAUSED_QUERY_BRIDGE_EXACT_REGISTERED_SCOPE_LEASE_STATE",
+  "original_safety_warnings": 0,
+  "STOP_count": 0,
+  "shutdown_clean": true,
+  "both_PID_zero": true,
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-source-phase-c01-r2-query-gpu-01",
+      "lease_sha256": "2e0af6ed4c81adfaa1593bfb45e905875b36110a8cda711794982bc10eff1393",
+      "worker_sha256": "23b6edae377f1014a0f7f1dfe85b0eb2962f22f01b260243e401e2ef85f88ba2"
+    },
+    "native": {
+      "run": "fusion-night1-source-phase-c01-r2-query-01",
+      "lease_sha256": "4853512e99e627d4ac3ab609dc56c0e6e540746d77b04a6ffd87e84dd9d8193b",
+      "worker_sha256": "2d3fbe97346c9050b0fcc95fcdd1b490272bb4347c76446af666516175f2a666"
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 23.593534,
+        "exit_code": 1,
+        "wall_s": 145.74158235639334
+      },
+      "systemd_CPU_s": 23.779668,
+      "host_peak_bytes": 3693289472
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 13.641624699000001,
+        "child_CPU_s": 131.090692,
+        "exit_code": 1,
+        "wall_s": 131.5185445402749
+      },
+      "systemd_CPU_s": 147.084253,
+      "host_peak_bytes": 1937862656
+    },
+    "source_staging": {
+      "wall_s": 162.42652072384953,
+      "CPU_s": 1.4272024870000006,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 196,
+      "overlay_written_bytes": 3192632,
+      "actual_source_bytes_written": 48816218,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "worker_and_systemd_CPU_overlap": true
+  },
+  "data": {
+    "state.bin.journal": "14e00ae5f71b200cf92df66313092e334fdeba0889c3d8bc90e4c10ba05fad43",
+    "init.trace": "95f2f523267beed4afba7cccab9c416dcd28a7946f20016c30d775a4c0efbfbb",
+    "state.bin": "ef443ac0ab63a05ce870ffd6bd449541e02a01032de392cdbf3ca853a01b444d",
+    "TRAJECTORY_QUALIFICATION.private.json": null
+  },
+  "not_model_or_physical_safety_failure": true,
+  "counts_after": {
+    "FUSION_attempts": 309,
+    "FUSION_passes": 294,
+    "FUSION_failures": 15,
+    "FUSION_native_ticks": 2584349,
+    "with_PILOT2_attempts": 963,
+    "with_PILOT2_passes": 943,
+    "with_PILOT2_failures": 20,
+    "with_PILOT2_native_ticks": 5571642,
+    "VLA_queries": 29,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933
+}

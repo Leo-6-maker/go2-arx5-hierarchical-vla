@@ -1,0 +1,56 @@
+{
+  "schema": "WM02_SHORT_TASK_REFERENCE_DIAGNOSTIC_IMPLEMENTATION_V2",
+  "epoch": 1794043658.7680326,
+  "status": "IMPLEMENTED_OFFLINE_NOT_NATIVE_QUALIFIED",
+  "reason": "Long original GR00T reference comparison sealed PARTIAL after actual BASE instability; separate complete short geometric Teacher diagnosis.",
+  "tests": [
+    {
+      "log_sha256": "aed3240534e783e6565bb84e7246883d0655ada5721bfd5d4852ad0039091907",
+      "exit_code": 0,
+      "passed": 88,
+      "optimized": false
+    },
+    {
+      "log_sha256": "2c2124903d758116b011b2c3f97123987b692778b74bfcf5042d6fb3c47e377a",
+      "exit_code": 0,
+      "passed": 88,
+      "optimized": true
+    },
+    {
+      "log_sha256": "19a35fb34da9e8aebc1b2a55a5c6a64af396efd2949c8ac6a8c12cbc27fa11e9",
+      "exit_code": 0,
+      "passed": 89,
+      "optimized": false
+    },
+    {
+      "log_sha256": "fa6aa0c420ff65f78177271d588d76d7d9d3efbea8932c56c4cc11d74bae2e8e",
+      "exit_code": 0,
+      "passed": 89,
+      "optimized": true
+    }
+  ],
+  "original_legacy_full_task_and_score_hashes_unchanged": true,
+  "new_condition": "PRIVILEGED_GEOMETRIC_SHORT_DURATION_DIAGNOSTIC_AT34303_V2",
+  "boundary_step": 34303,
+  "finite_endpoint_step": 38703,
+  "suffix_atoms": 176,
+  "suffix_s": 8.8,
+  "complete_40_teacher_knots_required": true,
+  "minimum_final_hold_atoms": 8,
+  "standing_monitor": {
+    "cadence_s": 0.05,
+    "base_displacement_limit_m": 0.002,
+    "rotation_limit": "UNCHANGED_ORIGINAL_SHORT_TASK_BOUND",
+    "abort_action": "RAISE_THROUGH_EXISTING_NATIVE_WORKER_CLEAN_SHUTDOWN"
+  },
+  "actual_site_scopes": 0,
+  "actual_native_ticks": 0,
+  "actual_model_updates": 0,
+  "raw_GR00T_saved_not_executed": true,
+  "Teacher_is_not_VLA_or_WM_transfer": true,
+  "does_not_crop_a_GR00T_successful_prefix": true,
+  "no_forecast_or_local_XY_extrapolation": true,
+  "no_formal_Actor_or_Critic": true,
+  "WBC_or_physics_or_original_safety_changes": false,
+  "original_cutoff_epoch": 1794051261.7397933
+}

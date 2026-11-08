@@ -1,0 +1,403 @@
+{
+  "schema": "WM02_HOPPER_PREPARATION_AND_FIRST_TARGET_OPTIMIZATION_ACTUAL_V1",
+  "observed_epoch": 1794154531.318939,
+  "execution_code_sha": "0aa0ab5e7963be5a5e770b4d0c1ddf8fb68f3779",
+  "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "Cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+  "status": "HOPPER_CPU_ENV_AND_MODEL_ASSETS_PREPARED; TARGET_LEARNING_RECOVERY_INCOMPLETE",
+  "Hopper": {
+    "result_sha256": "fb1f99b187d56a1f04094dcf4c5f162c685a3829bf709fc92a318b43e0af809f",
+    "CPU_validation_sha256": "6607a73fe22d7d049f468aa21d0a5ee00638ee1d5199729d4f33a534f22f3c47",
+    "asset_proof_sha256": "e74ad084f8eaac9ebe92e29da1da29a0de7460b5f5a7fdcdb47e02438a63b0d5",
+    "source_archive_proof": {
+      "sha256": "2b36acda17dbd64c72b31868a8c547bd6c61c8f0475a71b4abdf5b511ee32827",
+      "value": {
+        "status": "PASS_PINNED_IMMUTABLE_SOURCE_ARCHIVE",
+        "source_sha": "0aa0ab5e7963be5a5e770b4d0c1ddf8fb68f3779",
+        "archive_sha256": "7a7ffbd1939734161c7c9d7eb31ae8525cce04dcadc3e5a31eebb097a05bcb30",
+        "archive_bytes": 8469621,
+        "files": 3697,
+        "wall_s": 22.10352631501155,
+        "model_loads": 0,
+        "training_updates": 0,
+        "PBS_submissions": 0
+      }
+    },
+    "packages": {
+      "torch": "2.9.0+cu128",
+      "torchvision": "0.24.0+cu128",
+      "transformers": "4.57.3",
+      "accelerate": "1.13.0",
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "scipy": "1.15.3",
+      "opencv-python-headless": "4.11.0.86",
+      "einops": "0.8.1",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "0.36.2",
+      "tokenizers": "0.22.2",
+      "albumentations": "1.4.18",
+      "datasets": "3.6.0",
+      "peft": "0.17.1",
+      "omegaconf": "2.3.0",
+      "wandb": "0.23.0",
+      "msgpack": "1.1.0",
+      "Pillow": "12.2.0",
+      "pydantic": "2.12.5",
+      "imageio": "2.37.3",
+      "setuptools": "80.9.0",
+      "wheel": "0.45.1",
+      "rich": "14.0.0",
+      "tyro": "0.9.17",
+      "numpydantic": "1.6.11",
+      "dm-tree": "0.1.8",
+      "termcolor": "3.2.0",
+      "PyYAML": "6.0.2",
+      "diffusers": "0.35.1",
+      "lmdb": "1.7.5",
+      "msgpack-numpy": "0.4.8",
+      "click": "8.1.8",
+      "gitpython": "3.1.50",
+      "jsonlines": "4.0.0",
+      "gymnasium": "1.2.2",
+      "matplotlib": "3.10.1",
+      "pyzmq": "27.0.1",
+      "torchcodec": "0.8.0",
+      "pyarrow": "23.0.1",
+      "scikit-image": "0.25.2",
+      "fsspec": "2025.3.0",
+      "protobuf": "6.33.5",
+      "cryptography": "48.0.0",
+      "python-dateutil": "2.9.0.post0"
+    },
+    "python": "3.12.3 (main, May 27 2024, 12:31:57) [GCC 11.4.1 20231218 (Red Hat 11.4.1-3)]",
+    "asset_files": 19,
+    "downloaded_verified_bytes": 17465171194,
+    "scratch_logical_bytes_at_close": 27868388197,
+    "capacity_interpretation": "Raw statvfs/df filesystem free space is not a verified personal/project quota; quota command timed out.",
+    "model_tensor_headers": 1030,
+    "DiT_blocks": 32,
+    "action_horizon": 40,
+    "action_dimensions": 132,
+    "actual_Processor_class": "Qwen3VLProcessor",
+    "CPU_imports": [
+      "GR00T model registration",
+      "native Gr00tTrainer",
+      "target dataset and training audit",
+      "original Cosmos Qwen3VLProcessor and tokenizer"
+    ],
+    "CPU_tensor_check": true,
+    "CUDA_initialized": false,
+    "model_weight_loads": 0,
+    "GR00T_updates": 0,
+    "physics_integrations": 0,
+    "GPU_allocations": 0,
+    "PBS_submissions": 0,
+    "lease": "CLOSED",
+    "registry_lifecycle": "CLOSED_PREPARED_ASSETS_CPU_VALIDATED_NOT_GPU_ADMITTED",
+    "live_owned_preparation_workers": 0,
+    "foreground_exit_codes": {
+      "ASSET02": 1,
+      "ASSET03": 0,
+      "ENVIRONMENT02": 1,
+      "ENVIRONMENT03": 1,
+      "ENVIRONMENT04": 1,
+      "ENVIRONMENT05": 0
+    },
+    "initial_detached_dispatches": "PIDs absent, empty logs and no work artifacts; exact exits unknown, preserved; not counted as successful workers.",
+    "engineering_negatives": [
+      "Detached SSH dispatches did not persist; replaced with foreground connections after independent PID/artifact audit",
+      "Git LFS executable absent; fixed command-scoped source checkout filter, no system install",
+      "Anonymous Cosmos request 401; reused existing authorized token in process, no credential copied or published",
+      "antlr4 4.9.3 has only a small pure-Python source distribution; allowed this dependency only",
+      "Unconstrained pyarrow26 requires NumPy2 at import; pinned actual Vanda pyarrow23.0.1 and ABI dependencies, kept NumPy1.26.4"
+    ],
+    "phase_costs": {
+      "ASSET_FOREGROUND02_EXIT.json": {
+        "sha256": "ccdc9568c96e88cf60a17e7cc30e06d17d2fa9452d5bec2939352424a76fa594",
+        "value": {
+          "exit_code": 1,
+          "wall_s": 206.95375764000346
+        }
+      },
+      "ASSET_FOREGROUND03_EXIT.json": {
+        "sha256": "6f9d94c85434d737bb416b995c36e83e3797407d308a8886f150543d380bf9f3",
+        "value": {
+          "exit_code": 0,
+          "wall_s": 31.92602729902137
+        }
+      },
+      "ENVIRONMENT_FOREGROUND02_EXIT.json": {
+        "sha256": "d0997ae2c9b1be91b56593d0fab7cddb0482a2891bca16199475245ecc4e77a9",
+        "value": {
+          "exit_code": 1,
+          "wall_s": 7.110054056014633
+        }
+      },
+      "ENVIRONMENT_FOREGROUND03_EXIT.json": {
+        "sha256": "934ef956cdd82faf451ea8f21c92801636464b43da94db6fe5c8004b7b597aa4",
+        "value": {
+          "exit_code": 1,
+          "wall_s": 345.55346848699264
+        }
+      },
+      "ENVIRONMENT_FOREGROUND04_EXIT.json": {
+        "sha256": "08eda74653aa0f6402cc5bcdc9646edb00a4ccbfaa73de331bac33d7dec6a750",
+        "value": {
+          "exit_code": 1,
+          "wall_s": 324.4690836450027
+        }
+      },
+      "ENVIRONMENT_FOREGROUND05_EXIT.json": {
+        "sha256": "ae4a0292f7c0ff37eb918d563223253a68bbee0905421985e62f08307c68326c",
+        "value": {
+          "exit_code": 0,
+          "wall_s": 77.5971862860024
+        }
+      },
+      "ASSETS_ACTUAL.json": {
+        "sha256": "e74ad084f8eaac9ebe92e29da1da29a0de7460b5f5a7fdcdb47e02438a63b0d5",
+        "value": {
+          "wall_s": 31.73387137800455,
+          "CPU_s": 9.459463
+        }
+      },
+      "ENVIRONMENT05_ACTUAL.json": {
+        "sha256": "83912c0f402b44678d1845902fa87c098fb6e2caab222dfb2043e442be2af534",
+        "value": {
+          "wall_s": 77.44929475500248,
+          "CPU_s": 0.059034,
+          "child_CPU_s": 18.522157
+        }
+      }
+    },
+    "target_TRAIN_data_staged": false,
+    "target_Processor_staged": false,
+    "GPU_driver_or_training_capacity_qualified": false,
+    "site_project": "Actual amgr15006 token expired",
+    "scheduler": "One same-account 705946 observed Q in initial read; later exact/secondary read connection failed; preserved, never canceled",
+    "training_profile": "TARGET_GR00T execution currently admits Core4080S/A40, not a fabricated Hopper identity",
+    "next_GPU_gate": "AWAITING_H200_SCALE_REVIEW plus valid finite site/owner scope and actual Hopper target runtime admission"
+  },
+  "data": {
+    "FORMAL_TRAIN": 21,
+    "FORMAL_DEV": 7,
+    "FORMAL_TEST": 0,
+    "FORMAL_dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "FORMAL_statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "FIT4_TRAIN_windows": 4,
+    "FIT4_dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "FIT4_statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "new_transitions": 0,
+    "new_demonstrations": 0,
+    "diagnostics_relabelled": false,
+    "TEST_opened": false
+  },
+  "Core": {
+    "attempts": [
+      {
+        "attempt": 1,
+        "readback_sha256": "9cc00ae9922b9295c14dcf643264d2aeefbe57266f62b01efff80a45c645ff84",
+        "source_sha": "e0ce9fec70fb53494649da963f4991a8177e5ee8",
+        "registered": true,
+        "model_constructed": false,
+        "worker_exit_code": 1,
+        "worker_wall_s": 168.47357012191787,
+        "worker_CPU_s": 0.272592,
+        "reaped_child_CPU_s": 6.9506630000000005,
+        "result_sha256": "cdf2e11f0f02fa5178fd76052fb2f545f19c7ea3ce218a69057624e23041ac85",
+        "optimizer_calls": 0,
+        "first_failure": "Core-original Processor evidence incorrectly required Vanda reconstruction receipt; repaired 85b876eb400b40981d301712c75585ad89fb4691",
+        "MainPID": 0
+      },
+      {
+        "attempt": 2,
+        "readback_sha256": "186cc45bde420249e0111b4764d1e4194238d67a9333d7fd6a4df590afc5878a",
+        "source_sha": "85b876eb400b40981d301712c75585ad89fb4691",
+        "registered": true,
+        "model_constructed": false,
+        "worker_exit_code": 1,
+        "worker_wall_s": 0.23463257309049368,
+        "worker_CPU_s": 0.161379,
+        "reaped_child_CPU_s": 0.011118,
+        "result_sha256": "22b980fb59084a1609df3d4ef4c0be6ad0c5a4d05f415be5f164616979b2004b",
+        "optimizer_calls": 0,
+        "first_failure": "Global request key reused across distinct child roots; no child registry/lease/PID; repaired 3a694c7913ff366fe35fbdd620a455fcfd27b81c",
+        "MainPID": 0
+      },
+      {
+        "attempt": 3,
+        "readback_sha256": "8e7a49d45dceebae572abb375cec6d65d4f931fca2d72ce580fa391ea6adeff0",
+        "source_sha": "3a694c7913ff366fe35fbdd620a455fcfd27b81c",
+        "registered": true,
+        "model_constructed": false,
+        "worker_exit_code": 1,
+        "worker_wall_s": 12.845022348687053,
+        "worker_CPU_s": 0.17784099999999997,
+        "reaped_child_CPU_s": 8.95877,
+        "result_sha256": "303bf9f50b9571db47f7a78ecb7d929fef7003c6444e0c9265e40fec2016dcbb",
+        "optimizer_calls": 0,
+        "first_failure": "Same GPU UUID formatting mismatch; repaired 6104e6a8893a347317c450e0ce82d8bdee8d0c14",
+        "MainPID": 0
+      },
+      {
+        "attempt": 4,
+        "readback_sha256": "2c98bb23d327b683791c8b619977c64bbdf57457c8d504502a828e778a32e85e",
+        "source_sha": "6104e6a8893a347317c450e0ce82d8bdee8d0c14",
+        "registered": true,
+        "model_constructed": true,
+        "worker_exit_code": 1,
+        "worker_wall_s": 34.04731385689229,
+        "worker_CPU_s": 0.17923699999999998,
+        "reaped_child_CPU_s": 44.46815,
+        "result_sha256": "80bd0d61e5cf57fdce80daaf962924bfea9b25b0b52b1752740337a7e40eae22",
+        "optimizer_calls": 0,
+        "first_failure": "GPU1 first training forward OOM under 12GiB allocator cap",
+        "MainPID": 0
+      },
+      {
+        "attempt": 5,
+        "readback_sha256": "b0d7aee2f119549a8259e2a1c11a6a55a39b6e4520af63c06d4c67a57d181457",
+        "source_sha": "caca406ec2bd7050d747a45f490e67ae038747b4",
+        "registered": true,
+        "model_constructed": true,
+        "worker_exit_code": 1,
+        "worker_wall_s": 90.80082879401743,
+        "worker_CPU_s": 0.2142,
+        "reaped_child_CPU_s": 48.331148999999996,
+        "result_sha256": "998dcc08b447a564062828cd89d54839474c39c64179129257589c8d9cd0dbb6",
+        "optimizer_calls": 0,
+        "first_failure": "CPU activation offload did not remove unused Qwen language-projection allocation; pre-optimization generation OOM",
+        "MainPID": 0
+      },
+      {
+        "attempt": 6,
+        "readback_sha256": "268d3edf8cecab28673b9f6ec579b943a0f6485381f45c614de3259fcfc1190e",
+        "source_sha": null,
+        "registered": false,
+        "model_constructed": false,
+        "worker_exit_code": null,
+        "worker_wall_s": null,
+        "worker_CPU_s": null,
+        "reaped_child_CPU_s": null,
+        "result_sha256": null,
+        "optimizer_calls": 0,
+        "first_failure": "GPU0 resource preflight rejected before registration; root/lease/PID/model absent",
+        "MainPID": 0
+      },
+      {
+        "attempt": 7,
+        "readback_sha256": "860ada9ac101e7fb42b7fcb8a31df5a1a6e2a8cd3ef355e33d8cbbc82f93d9a1",
+        "source_sha": "c35b9a89dc12211187d38ab4e574d09cee29b876",
+        "registered": true,
+        "model_constructed": true,
+        "worker_exit_code": 1,
+        "worker_wall_s": 114.90230403700843,
+        "worker_CPU_s": 0.23703999999999997,
+        "reaped_child_CPU_s": 123.446977,
+        "result_sha256": "75febe4aefc197a08605b4695e3ebf36ce8191db4330cfc32ef00e23b11d5411",
+        "optimizer_calls": 1,
+        "first_failure": "Four parent H40 predictions bit-exact; one warmup optimizer call saved checkpoint1, second-step Qwen projection OOM",
+        "MainPID": 0
+      }
+    ],
+    "registered_master_failures": 6,
+    "unstarted_resource_checks": 1,
+    "optimizer_calls": 1,
+    "optimizer_cursor": 32,
+    "checkpoint1_complete_header_sha256": "053e0eea8c3678d7a273e95cc046ad64b8256d0c7cea315735bff0e67ab90aea",
+    "warmup_learning_rate": 0.0,
+    "nonzero_learned_delta_verified": false,
+    "full_restore_qualified": false,
+    "FIT4_updates": 0,
+    "formal_updates": 0,
+    "memory_execution_reference": {
+      "sha256": "7e2b906e699ebb769d84e7c97050548e7ae413b77adff56d99a43704c92440de",
+      "value": {
+        "status": "PASS_ACTUAL_FOUR_MATCHED_FULL_H40_BIT_EXACT",
+        "observations": 4,
+        "reference_sha256": "e39e0ca2c672c56d0d52e14469447bb25fb4bf5444fad00374dba08524b4b7a9",
+        "tolerances_relaxed": false,
+        "weights_or_dtype_changed": false
+      }
+    },
+    "all_registered_workers": "CLOSED; MainPID0",
+    "next_engineering_point": "Unused frozen language projection still allocates a594MiB autocast operand on16GiB GPU1; V3 feature-only route not implemented or natively qualified."
+  },
+  "Vanda": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3",
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_parameters": 1304913028,
+    "external_adapter_trainables": 0,
+    "visual_language_backbone_frozen": true,
+    "optimizer_calls": 2,
+    "actual_consumed_cursor": 64,
+    "saved_checkpoint_steps": [
+      1,
+      2
+    ],
+    "checkpoint_inventory_sha256": "dee26131026030fd3d6c64858d5af74fdb37eb894f0740895706b14dbb89d40f",
+    "child_result_sha256": "875c9e4b869b4f508397987a8abadea046e3188a584635d9bee2a2a6a2c5ab24",
+    "PBS_state": "F",
+    "PBS_exit": 1,
+    "native_exit": 1,
+    "owner": "CLOSED",
+    "lease": "CLOSED",
+    "terminal_proof_sha256": "c45f16162b2918b52780d3b0d92f947e82323e7dccf9004afb3737cf245343ce",
+    "terminal_settlement_Journal": "COMPLETE after independent reconciliation of transport timeout; no blind replay",
+    "PBS_wall_s": 845,
+    "PBS_CPU_s": 191,
+    "scheduler_max_GPU_memory_MB": 33006,
+    "GPU_energy_J": 7096,
+    "first_failure": "NativeNoiseAudit training hooks incorrectly intercepted post-training inference (OBSERVED_NATIVE_NOISE_OR_TIME_DIFFERS)",
+    "repair_sha": "0aa0ab5e7963be5a5e770b4d0c1ddf8fb68f3779",
+    "repair_actual_GPU_qualified": false,
+    "independent_restore": false,
+    "FIT4_updates": 0,
+    "formal_updates": 0,
+    "other_CF009_jobs": "Preserved per user; no cancellation"
+  },
+  "current_counts": {
+    "actual_target_optimizer_calls": 3,
+    "Core_calls": 1,
+    "Vanda_calls": 2,
+    "Hopper_calls": 0,
+    "qualified_full_target_restores": 0,
+    "FIT4_200_completed": 0,
+    "FORMAL2000_completed": 0,
+    "trained_candidate_native_DEV": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "new_physics_integrations": 0,
+    "prior_PR369_native_invocations": 40,
+    "prior_PR369_PASS": 31,
+    "prior_PR369_FAIL": 9,
+    "prior_PR369_ticks": 1481867,
+    "older_FUSION_324_denominator_unchanged": true
+  },
+  "tests": {
+    "normal_noise_and_core_checks": 18,
+    "optimized_noise_and_core_checks": 18,
+    "additional_profile_and_allocation_checks": 23,
+    "sets_overlap_not_additive": true,
+    "synthetic_checks_are_not_GPU_qualification": true
+  },
+  "commands": {
+    "actual_preparation": "Exact host-bound argv, source/env/model paths and commands retained in private preparation receipts; none starts PBS or loads neural weights.",
+    "CPU_entry_after_binding_registered_scratch_root": "source \"$WM02_HOPPER_ROOT/runtime/environment-cpu.sh\"; \"$WM02_HOPPER_PYTHON\" -B \"$WM02_HOPPER_ROOT/verify_prepared_environment.py\"",
+    "CPU_entry_exit": 0,
+    "training_probe": "Vanda actual train_target_gr00t_v1 --spec <registered capacity-full-action-side EXECUTION_SPEC.json>",
+    "training_probe_exit": 1,
+    "local_repair_regression": "CUDA_VISIBLE_DEVICES=\"\" PYTHONPATH=src:.:tests/world_model python -m pytest -q tests/world_model/test_native_noise_audit_scope.py tests/world_model/test_target_gr00t_core_v1.py",
+    "local_repair_regression_exit": 0
+  },
+  "next": {
+    "Hopper": "Prepared CPU entry and models only. Bind sealed target data/Processor and implement/test actual Hopper profile after required H200 review and site authorization; no qsub in this preparation.",
+    "A40": "At a fresh cold registered finite scope, use repaired source to verify actual generation and exact complete next-update restore, then FIT4. Existing1532527 remains CLOSED.",
+    "Core": "If continuing16GiB repair, implement lossless frozen-feature-only memory route and require four real bit-exact H40 comparisons before any optimization.",
+    "science": "Not POLICY_READY; no validated candidate closed-loop benefit. Preserve all failed attempts and all original denominators."
+  }
+}

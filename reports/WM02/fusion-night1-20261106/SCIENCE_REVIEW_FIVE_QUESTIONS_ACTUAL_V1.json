@@ -1,0 +1,61 @@
+{
+  "schema": "WM02_SCIENCE_REVIEW_FIVE_QUESTIONS_ACTUAL_V1",
+  "epoch": 1794050079.9631062,
+  "reviewed_user_plan_date": "2026-11-07",
+  "status": "COMPLETED_COMPONENTS_AND_C01_R3_SEALED_PARTIAL_CONTROL_STUDY",
+  "questions": [
+    {
+      "question": "Does the frozen predictor use the whole action plan at first installation?",
+      "answer": "Yes, in this one-layout restart/interpolation domain. The linear full-program model improves over its future-action-blind ablation in all four restarts. Primary neural seed improves in three of four; seed366105 improves in one, seed366106 in three. Retain all seeds.",
+      "primary_SCALED_first_install_H16_restart_RMSE_mm": 0.9744516077230669,
+      "primary_NO_FUTURE_ACTION_first_install_H16_restart_RMSE_mm": 1.7229794631843705,
+      "linear_FULL_first_install_H16_restart_RMSE_mm": 0.6656691794733647,
+      "linear_blind_first_install_H16_restart_RMSE_mm": 1.9033350193627356,
+      "restart_count": 4,
+      "layout_count": 1,
+      "actual_model_reference_changes": 0
+    },
+    {
+      "question": "Did model selection change the physical action and improve its cost?",
+      "answer": "TRAIN_LINEAR selected and installed +X0.5mm exactly once. Observed H16 execution error was3.225069mm versus DIRECT3.596422mm, a0.371352mm difference across independent live restarts. BASE then drifted43.666645mm. This is not a matched exact-state causal gain or safe overall improvement. Remaining four planned conditions are NOT_RUN after concrete instability.",
+      "executed_panel_cases": 2,
+      "original_planned_cases": 6,
+      "not_run_cases": 4,
+      "overall_control_gain_established": false
+    },
+    {
+      "question": "Did the strict task improve; is proposal or execution implicated?",
+      "answer": "The four frozen GR00T DEV and the reference comparison do not establish strict task success. Two separately declared privileged 5mm Teacher short references passed all original short predicates under frozen WBC. Actual progress3.486939/3.578310mm and BASE maxima1.096714/0.895369mm show correct-intent small-motion capability. GR00T actions were saved but not executed in these Teacher cases. Phase/input/coordinate/checkpoint causes remain unseparated.",
+      "privileged_short_Teacher_successes": 2,
+      "GR00T_strict_short_successes": 0,
+      "full_pick_place_successes": 0,
+      "WM_task_gain_established": false
+    },
+    {
+      "question": "Were all failures, seeds, masks and physical denominators retained?",
+      "answer": "Yes. QX06 preview rejection preserves742 confirmed suffix atoms and masks unexecuted tail. DX02 score V2 excludes one actual6ms-vs50ms exposure without changing its original prediction or original score failure. DIRECT wrapper failure retains full physical consumption separately. C01 entry and metadata failures remain named, with unstarted scopes distinguished from native-worker attempts. No exposed DEV/TEST labels entered TRAIN.",
+      "best_seed_selected_after_evaluation": false,
+      "failed_conditions_retried_for_success": false
+    },
+    {
+      "question": "What is the next scientific decision?",
+      "answer": "Retain linear dynamics as a valid WM baseline and stop adding same-data optimization. Resolve relative task-phase/observation alignment through the separately declared reachable C01 query-only curriculum, preserving full H40 and fixed horizons. Its result cannot qualify generated contact/action execution. Later closed-loop chunks, task recovery supervision and new-layout confirmation require separately frozen conditions and valid new finite site scope.",
+      "formal_Actor_or_Critic_started": false,
+      "H200_or_GPU_physics_scaling_started": false,
+      "C01_outcome": "Native exit0/GPU0,34303 ticks, one actual full-language query; complete proposal ends away from cube with32.854mm maximum lateral drift. Relative-distance alignment is insufficient in this one diagnostic. Absolute policy state still differs193.869mm/42.347deg from source."
+    }
+  ],
+  "identities": {
+    "training_spec_sha256": "1bdd0a8f999d1ecfb71d4ea256c3afc651b21647959ae3862f19bd2c80b2a932",
+    "training_result_sha256": "699cac53c50fc6b422b0b5f942fc106452eb83d6c40c55b76e75ed7914a6303a",
+    "TRAIN_replay_sha256": "c73d64ca88ed0cd5ec1566fe25ec7790040e4e811f555d8d9fa03674e02f1019",
+    "SCALED_checkpoint_sha256": "ae8f4565e7af739c4710a0cc785ad5601e1c0a4b87326af543880ad0203fed8a",
+    "full_program_ridge_sha256": "f6124c141c212b31ce527b40fd44fdbd59e35a21060bbcabc4edb74b50100e50",
+    "GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38"
+  },
+  "repeated_training_updates_for_this_review": 0,
+  "actual_R3_completion_precounted": false,
+  "cost_accounting": "Reuse sealed model/data/physical results; source staging, model load, wait, query and native costs remain separate and overlapping CPU aggregates are not summed.",
+  "C01_R3_actual_report": "SOURCE_PHASE_C01_R3_QUERY_ACTUAL_V1.json",
+  "C01_negative_proposal_report": "SOURCE_PHASE_C01_FROZEN_PROPOSAL_COMPARISON_ACTUAL_V1.json"
+}

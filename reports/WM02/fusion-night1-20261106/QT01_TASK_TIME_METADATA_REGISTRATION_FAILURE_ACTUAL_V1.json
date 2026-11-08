@@ -1,0 +1,61 @@
+{
+  "schema": "WM02_QT01_TASK_TIME_METADATA_REGISTRATION_FAILURE_ACTUAL_V1",
+  "epoch": 1794024870.5050428,
+  "source_sha": "d4af50183c1bc6e338f5535bfed765a0f95d3a2d",
+  "status": "REGISTRATION_FAILED_BEFORE_LAUNCH_BOTH_OWN_LEASES_CLOSED",
+  "original_register_INTENT_sha256": "48fe6874593578ed9d89286c6aa2a5124a766f1db3e9d5e4c2ac137e98a2c1c0",
+  "original_register_INTENT_preserved": true,
+  "native_spec_time_stretch_factor": 2,
+  "embedded_PREPARE_READER_task_and_score_time_stretch_factor": 1,
+  "first_failure": "TASK_PHASE_LIVE_SKILL_V9_EXACT_SOURCE_FULL_LANGUAGE_AND_DISTINCT_VERSIONED_DIAGNOSTIC_SCORE",
+  "first_failure_stage": "ORIGINAL_PAIRED_CLI_CHECK_BEFORE_EITHER_WORKER_LAUNCH",
+  "actual": {
+    "workers_started": 0,
+    "native_integrations": 0,
+    "queries": 0,
+    "model_loads": 0,
+    "optimizer_updates": 0
+  },
+  "unstarted_closed_leases": {
+    "native": {
+      "spec_sha256": "18548f840ff9128883eaaa813d5e17629c4a36a172989e567f53ef2c4002e3c7",
+      "lease_before_sha256": "9b461e65af778fe570b6279d4ffb6aa7f3ca95c5c63fbaf8600613f12ed3c3fc",
+      "lease_after_sha256": "871e5b088d9636b5ee6f017cd50e2a05404e1f893a448194c0dea99ea615a1f6",
+      "worker_started": false,
+      "unit": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    },
+    "gpu": {
+      "spec_sha256": "7684076b231705a7e1bd3933e03d56975a675003f2a66904872866e473e97f4b",
+      "lease_before_sha256": "315c329cd224a63202f9ba26ebd80c0295ec5929772a5f6a865c51ea6af008bb",
+      "lease_after_sha256": "cd237d0d7666bb40f7429668151ea1651cf3cca5a56daa2313d796c123a0d5dd",
+      "worker_started": false,
+      "unit": {
+        "MainPID": "0",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    }
+  },
+  "closeout_sha256": "eb29386213a7a3c36993859b3451c4b8cfef2adadc355e495e557772b96deb64",
+  "source_staging": {
+    "wall_s": 91.35445922613144,
+    "CPU_s": 1.1125488889999997,
+    "copied_parent_members": 3376,
+    "generated_bytecode_members_excluded": 20,
+    "copied_parent_bytes": 45623586,
+    "overlay_members": 108,
+    "overlay_written_bytes": 1264506,
+    "actual_source_bytes_written": 46888092,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "wrapper_wall_and_CPU": "NOT_INSTRUMENTED_NOT_ASSUMED_ZERO",
+  "engineering_repair": "Update and structurally verify time2 in the embedded PREPARE_READER as well as actual spec. New QT02 identity and panel; old roles/INTENT remain CLOSED/preserved.",
+  "not_a_physics_or_learning_algorithm_failure": true,
+  "physical_and_query_denominators_unchanged": true
+}

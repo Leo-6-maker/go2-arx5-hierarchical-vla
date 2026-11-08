@@ -1,0 +1,158 @@
+{
+  "schema": "WM02_STABLE_START_G1_TEACHER04_ACTUAL_V1",
+  "snapshot_epoch": 1794073201.3086772,
+  "status": "COMPLETE_ORIGINAL_STRICT_SHORT_TASK_SUCCESS",
+  "source_sha": "0245f6c4f0271c30724d40414ee8c80bcd6bcc87",
+  "spec_sha256": "1535e146eb508cb451c8d05b84740c890ad43c4f16498cdd83a4078ed1d213a8",
+  "native_result_sha256": "2250273bc0737c50053a24dd7623c9c9cd0c974793d19f4795b39c12ac2e4d58",
+  "worker_sha256": "234dcd45f6792d0006c244e2d4fc74437d4e2c2feef7f2229bacd54cc312d651",
+  "lease_sha256": "8fc8a069f67de0b6c8cb0105c5a2d1545dbcabdddfc84fb6ae7a1fc059bdf63e",
+  "worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 526.9450564272702,
+    "CPU_s": 213.306566962,
+    "child_CPU_s": 776.799101
+  },
+  "unit": {
+    "MainPID": "0",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "5844135936",
+    "CPUUsageNSec": "996535500000",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "native_integrations": 38703,
+  "complete_atomic_transitions": 1548,
+  "complete_task_atoms": 1448,
+  "new_GR00T_queries": 0,
+  "new_WM_updates": 0,
+  "new_GR00T_updates": 0,
+  "new_Actor_updates": 0,
+  "qualification": {
+    "hold_stability_pass": true,
+    "short_teacher_success": true,
+    "complete_task_atoms": 1448,
+    "capability_reference_all40_consumed": true
+  },
+  "original_startup_joint2_joint3_rad": 0.9,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "data_role": "DIAGNOSTIC_NOT_AUTO_TRAIN",
+  "CPU_and_wall_not_added_twice": true,
+  "systemd_CPU_s": 996.5355,
+  "host_peak_bytes": 5844135936,
+  "shared_source_staging_cost": {
+    "wall_s": 0.21415287582203746,
+    "CPU_s": 0.1217789210000002,
+    "bytes_written": 0,
+    "reused": true
+  },
+  "commands": [
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/dispatch_stable_start_g1_teacher04.py 900",
+    "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_start_g1_actual02.py 180"
+  ],
+  "dispatch_exit_code": 0,
+  "first_confirmed_block": "G1 passed. New target TRAIN/DEV collector and admitted nonzero TASK_ADAPTER trainer still require implementation; full frozen GR00T new-query GPU headroom unavailable.",
+  "next": "Seal new transition dataset hashes; render genuine G1 decision packets via implemented source-camera CPU route; implement and collect new target TRAIN/DEV without relabelling G1 diagnostics.",
+  "strict_short_score": {
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "metrics": {
+      "signed_progress_m": 0.00273217067927512,
+      "precontact_distance_reduction_m": 0.0027293756481438086,
+      "maximum_lateral_drift_m": 0.0007374619482757924,
+      "maximum_TCP_excursion_m": 0.002997613112631115,
+      "minimum_finger_opening_m": 0.04193057208196746,
+      "maximum_object_displacement_m": 0.0,
+      "maximum_base_displacement_m": 0.0010454697540723432,
+      "maximum_base_rotation_rad": 0.0009794777551585167,
+      "final_hold_TCP_diameter_m": 0.00019579590983388552,
+      "final_hold_TCP_max_speed_m_s": 0.0018034717571314112
+    },
+    "predicates": {
+      "signed_progress": true,
+      "distance_reduction": true,
+      "lateral": true,
+      "excursion": true,
+      "open": true,
+      "object_still": true,
+      "base_still": true,
+      "base_orientation": true,
+      "hold": true,
+      "original_native_safety": true,
+      "no_robot_object_contact": true
+    },
+    "approach_step_success": true,
+    "full_task_success": false,
+    "precontact_arrival_claim": false,
+    "pick_place_success_claim": false,
+    "scorer_only_privileged_geometry": true,
+    "thresholds_are_native_safety": false
+  },
+  "original_native_result": {
+    "status": "NATIVE_STAGE_PASSED",
+    "failure": null,
+    "phase": "collect-target-stable-start-short-v1",
+    "actual_target_integrations": 38703,
+    "original_joint_or_warning_samples": 0,
+    "native_outer_guard_rejection_count": 0,
+    "physics_stops": [],
+    "trace_audit_error": null,
+    "owned_process_exits": [
+      {
+        "name": "planner",
+        "pid": 2608,
+        "exit_code": 0,
+        "signals": [
+          "SIGINT"
+        ],
+        "display_child_lookup_error": null
+      },
+      {
+        "name": "controller",
+        "pid": 2602,
+        "exit_code": 0,
+        "signals": [
+          "SIGINT"
+        ],
+        "display_child_lookup_error": null
+      },
+      {
+        "name": "solver",
+        "pid": 2582,
+        "exit_code": 0,
+        "signals": [
+          "SIGINT"
+        ],
+        "display_child_lookup_error": null
+      },
+      {
+        "name": "sim",
+        "pid": 2568,
+        "exit_code": 0,
+        "signals": [
+          "SIGINT"
+        ],
+        "display_child_lookup_error": null
+      }
+    ]
+  },
+  "original_trace": {
+    "status": "RECORDED_TRACE_CHECKS_PASS",
+    "native_step_records": 38703,
+    "writer": {
+      "events": 285876,
+      "written": 285876,
+      "dropped": 0,
+      "stop_latched": false,
+      "sealed_at_explicit_pause": true
+    }
+  },
+  "complete_Teacher_suffix_atoms": 176,
+  "actual_Teacher_reference_step_m": 0.004,
+  "GR00T_task_transfer_established": false,
+  "WM_gain_established": false
+}

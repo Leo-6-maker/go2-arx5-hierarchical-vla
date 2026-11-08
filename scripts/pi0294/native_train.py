@@ -89,15 +89,21 @@ class NativeNoiseAudit:
     def __init__(self,model):
         self.head=model.action_head
         if self.head.state_dropout_prob!=0:raise ValueError('STATE_DROPOUT_MUST_BE_ZERO')
-        self.pending=None;self.record=None
+        self.pending=None;self.record=None;self.active=False;self.verified=False
         self.handles=[self.head.register_forward_pre_hook(self.before_head),
             self.head.state_encoder.register_forward_hook(self.after_state),
-            self.head.action_encoder.register_forward_pre_hook(self.before_action)]
+            self.head.action_encoder.register_forward_pre_hook(self.before_action),
+            self.head.register_forward_hook(self.after_head,always_call=True)]
 
     def before_head(self,module,args):
+        if self.active:raise ValueError('NESTED_NATIVE_NOISE_AUDIT')
+        self.active=True;self.verified=False;self.record=None
         self.actions=args[1]['action']
 
     def after_state(self,module,args,output):
+        # get_action() also uses these encoders, but bypasses head.forward().
+        # A training audit must never compare that inference draw to old labels.
+        if not self.active:return
         import torch
         actions=self.actions
         before=rng_identity()
@@ -110,12 +116,18 @@ class NativeNoiseAudit:
         if rng_identity()!=before:raise ValueError('AUDIT_CHANGED_NATIVE_RNG')
 
     def before_action(self,module,args):
+        if not self.active:return
         import torch
         if self.pending is None:raise ValueError('MISSING_NATIVE_NOISE_AUDIT')
         if not torch.equal(args[0],self.pending[0]) or not torch.equal(args[1],self.pending[1]):
             raise ValueError('OBSERVED_NATIVE_NOISE_OR_TIME_DIFFERS')
         self.record.update(noisy_trajectory=tensor_identity(args[0]),time_bucket=tensor_identity(args[1]),exact=True)
-        self.pending=None
+        self.pending=None;self.verified=True
+
+    def after_head(self,module,args,output):
+        verified=self.verified
+        self.active=False;self.pending=None;self.actions=None
+        if output is not None and not verified:raise ValueError('MISSING_COMPLETED_NATIVE_NOISE_AUDIT')
 
     def close(self):
         for handle in self.handles:handle.remove()

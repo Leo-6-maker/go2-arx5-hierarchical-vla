@@ -25,10 +25,24 @@ def main(argv=None):
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
     write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
     module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
+              'TASK_ADAPTER': 'scripts.wm02.train_stable_task_adapter_v1',
               'ACTOR_STUDY': 'scripts.wm02.train_pilot2_matrix',
               'ARX_RESIDUAL': 'scripts.wm02.train_pilot1_residual',
               'CONTACT_WM': 'scripts.wm02.train_pilot1_contact_wm',
-              'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy'}[spec['kind']]
+              'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy',
+              'FROZEN_VLA_SHADOW': 'scripts.wm02.infer_fusion_vla',
+              'TARGET_GR00T_SEALED_INFERENCE_V1': 'scripts.wm02.infer_target_gr00t_v1',
+              'TARGET_GR00T_LIVE_PREFIX_QUERY_V1': 'scripts.wm02.infer_target_gr00t_live_v1',
+              'FROZEN_VLA_LIVE_PAUSED_QUERY': 'scripts.wm02.infer_fusion_paused_vla',
+              'FUSION_TRAJECTORY_RESPONSE_OFFLINE': 'scripts.wm02.fit_fusion_trajectory_response',
+              'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',
+              'FUSION_LIVE_PROGRAM_RESPONSE_WM': 'scripts.wm02.train_fusion_program_response',
+              'FUSION_STRUCTURED_RESPONSE': 'scripts.wm02.train_fusion_structured',
+              'FUSION_TARGET_OBSERVATION_REPLAY': 'scripts.wm02.capture_fusion_observation',
+              'FUSION_SOURCE_CAMERA_QUALIFICATION': 'scripts.wm02.qualify_fusion_source_camera',
+              'FUSION_CORR_ASSET': 'scripts.wm02.stage_fusion_corr_asset',
+              'FUSION_CONTACT_TIMING_BASELINE': 'scripts.wm02.fit_contact_timing_baseline',
+              'FUSION_CONTACT_TIMING_FULL_HISTORY_BASELINE': 'scripts.wm02.fit_contact_timing_full_history'}[spec['kind']]
     if spec['kind'] == 'CONTACT_WM' and spec.get('contact_recipe') in (
             'WM02_PILOT2_DIRECT_CONTACT_V1', 'WM02_PILOT2_PREFIX_CONTACT_V1'):
         module = 'scripts.wm02.train_pilot2_contact_wm'

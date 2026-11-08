@@ -1,0 +1,56 @@
+{
+  "schema": "WM02_QX06_OFFSET_LAUNCH_ACTUAL_V1",
+  "epoch": 1794029355.4162364,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "native_spec_sha256": "0e7e72cebb04c706b605e0e448e220e53e3c8ee78d5ea170d7466fdc1e95ae75",
+  "GPU_spec_sha256": "3738094317db25054f5dbf27af04a1e871e3efae91d578bba73278c304be3b35",
+  "native": {
+    "status": "ACTIVE",
+    "MainPID": 3309479
+  },
+  "GPU": {
+    "status": "ACTIVE",
+    "MainPID": 3309460
+  },
+  "source_staging": {
+    "wall_s": 8.901827424298972,
+    "CPU_s": 0.4385847500000004,
+    "source_reused": true,
+    "reused_source_members": 3476,
+    "copied_parent_members": 0,
+    "copied_parent_bytes": 0,
+    "overlay_members": 0,
+    "overlay_written_bytes": 0,
+    "actual_source_bytes_written": 0,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "actual_source_copy_bytes": 0,
+  "reused_source_is_not_CLOSED_lease_reuse": true,
+  "reference_intervention": {
+    "candidate": "X_MINUS_050",
+    "offset_target_xy_m": [
+      -0.0005,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "preregistered_assignment": {
+    "candidate": "X_MINUS_050",
+    "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+    "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX06",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "dispatch_exit_code": 0,
+  "new_integrations_precounted": 0,
+  "new_queries_precounted": 0,
+  "new_model_updates": 0,
+  "Actor_updates": 0,
+  "GR00T_updates": 0,
+  "physics_dt_s": 0.002,
+  "WBC_changed": false,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "next": "Wait for original finite workers to seal, then complete predeclared +Y/-Y and matched TRAIN-only models."
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "WM02_STABLE_TASK_FIRST_NEW_COLLECTION_STARTED_ACTUAL_V1",
+  "snapshot_epoch": 1794078386.5486238,
+  "status": "REGISTERED_AND_OBSERVED_RUNNING_LATER_SSH_UNREACHABLE_FINAL_OUTCOME_UNKNOWN",
+  "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+  "latest_implementation_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
+  "deployed_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
+  "execution_spec_sha256": "1feb1f5db13c41bc328b1ec88e866ebca543db8547f75079406ed9cfde6ccdde",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "root_name": "stable-task-train01-hold-r1-01",
+  "data_panel_sha256": "4f4c79b9ddb7455aaf2c2fc23eac8c940d1065c95a050d85809da1aecf81b697",
+  "frozen_learning_protocol_sha256": "ddd991b75f2bff843bea4849183756c99c74b4b2c3eaaf5f03628a508f6484d5",
+  "new_scene_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+  "role": "TRAIN",
+  "physical_parent": "STABLE_TASK_LAYOUT_TRAIN01",
+  "task_command": "HOLD_OPEN",
+  "dispatch": {
+    "exit_code": 0,
+    "systemd_invocation": "f18fde9382304b2ebb3ca30296804c40",
+    "worker_pid_last_observed": 101010
+  },
+  "last_authoritative_read": {
+    "epoch": 1794077573.000297,
+    "native_step": 15428,
+    "native_time_s": 30.855999999993777,
+    "lease_status": "ACTIVE",
+    "unit": {
+      "MainPID": "101010",
+      "ExecMainStatus": "0",
+      "MemoryCurrent": "3018153984",
+      "MemoryPeak": "3018502144",
+      "CPUUsageNSec": "418227844000",
+      "LoadState": "loaded",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "stderr": "Only retained ROS localhost deprecation warnings at last successful read"
+  },
+  "actual_new_integrations_confirmed_lower_bound": 15428,
+  "new_sealed_native_runs": 0,
+  "new_sealed_atomic_transitions": 0,
+  "new_eligible_TRAIN_episodes": 0,
+  "new_eligible_DEV_episodes": 0,
+  "new_GR00T_queries": 0,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0,
+  "new_GR00T_updates": 0,
+  "new_TASK_ADAPTER_updates": 0,
+  "checkpoint": "NONE_NO_REAL_CANDIDATE_TRAINING_YET",
+  "native_candidate_DEV_runs": 0,
+  "closed_loop_runs": 0,
+  "remaining_prepared_native_cases": 31,
+  "remaining_dispatched_native_cases": 0,
+  "finite_original_worker_wall_limit_s": 1200,
+  "worker_deadline_epoch": 1794078572.8797338,
+  "actual_window": {
+    "parent_deadline_epoch": 1794113946.6684496,
+    "physical_dispatch_cutoff_epoch": 1794112746.6684496,
+    "old_CLOSED_lease_reopened": false
+  },
+  "current_operational_block": {
+    "status": "BOTH_ORIGINAL_SSH_ENDPOINTS_TIMEOUT",
+    "evidence": {
+      "private_artifact": "STABLE_RECONNECT_TCP01.private.json",
+      "sha256": "07a308add9b94c1d5ef86b921c84e2930146e6bfc2bc9f772db967ff0151b092",
+      "epoch": 1794078307.1402435,
+      "site_mutations": 0,
+      "endpoint_results": [
+        {
+          "endpoint": "ORIGINAL_DIRECT",
+          "status": "TimeoutError: timed out",
+          "wall_s": 4.005573103990173
+        },
+        {
+          "endpoint": "ORIGINAL_GATEWAY",
+          "status": "TimeoutError: timed out",
+          "wall_s": 4.005083883996122
+        }
+      ]
+    },
+    "unverified_worker_not_replayed": true
+  },
+  "engineering_failures_preserved": [
+    {
+      "identity": "WM02-STABLE-TASK-DATA-TRAIN01-HOLD-R1-01-REGISTER",
+      "reason": "PLAN child missing layout input",
+      "native_integrations": 0,
+      "original_INTENT_preserved": true,
+      "reconciled": true
+    },
+    {
+      "identity": "WM02-STABLE-TASK-DATA-TRAIN01-HOLD-R1-02-REGISTER",
+      "reason": "Old dispatch template accessed removed paused_source_from_target field",
+      "prepared_documents": 3,
+      "execution_spec_created": false,
+      "native_integrations": 0,
+      "original_INTENT_preserved": true,
+      "reconciled": true
+    },
+    {
+      "identity": "STABLE_TASK_FULL_SPEC_PREFLIGHT01",
+      "reason": "Historical trace-overflow validator routed new scene into C01-only validation",
+      "native_integrations": 0,
+      "repaired_in": "a0f725b9c1ae77723f5f971791b6f3dba617e965"
+    },
+    {
+      "identity": "STABLE_TASK_REGISTER_RECONCILED02",
+      "reason": "Original nonblocking owner lock busy during source staging; no reconciliation Journal write",
+      "native_integrations": 0,
+      "reconciled_after_source_staging": true
+    }
+  ],
+  "cost": {
+    "source_staging": {
+      "wall_s": 174.20497836964205,
+      "CPU_s": 1.4382899660000001,
+      "bytes_written": 49212133,
+      "reused": false
+    },
+    "source_reuse": {
+      "wall_s": 0.1869170442223549,
+      "CPU_s": 0.09404407400000003,
+      "bytes_written": 0,
+      "reused": true
+    },
+    "observed_worker_CPU_s_lower_bound": 418.227844,
+    "observed_memory_peak_bytes_lower_bound": 3018502144,
+    "actual_new_GPU_training_s": 0,
+    "final_worker_and_disk_cost": "UNKNOWN_UNTIL_RECONNECTED"
+  },
+  "tests": {
+    "normal": {
+      "passed": 1787,
+      "subtests_passed": 179,
+      "wall_s": 333.81,
+      "source_sha": "100b3b451812b390fe3e147c19d347ed871a77bb"
+    },
+    "optimized": {
+      "passed": 24,
+      "subtests_passed": 5,
+      "wall_s": 1.87,
+      "source_sha": "100b3b451812b390fe3e147c19d347ed871a77bb"
+    },
+    "tests_are_scientific_training": false,
+    "followup_export_admission_and_training_checks": {
+      "source_sha": "9b63d5fcc33b4a2953d1881c693cee106ddef661",
+      "normal_passed": 17,
+      "normal_wall_s": 1.88,
+      "optimized_passed": 17,
+      "optimized_wall_s": 2.9
+    }
+  },
+  "native_reference_and_safety": {
+    "startup_joint2_joint3_rad": 0.9,
+    "physics_dt_s": 0.002,
+    "WBC_changed": false,
+    "first_new_condition_worlds": 1,
+    "active_capsule_hot_changes": false
+  },
+  "model_identity": {
+    "candidate_kind": "TASK_ADAPTER",
+    "feature_dim": 116,
+    "hidden_dim": 32,
+    "seeds": [
+      110801,
+      110802,
+      110803
+    ],
+    "frozen_GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38"
+  },
+  "actual_commands": [
+    {
+      "helper": "dispatch_stable_task_train01_hold_r1_v4.py",
+      "transport": "core_control.py",
+      "timeout_s": 900,
+      "exit_code": 0
+    },
+    {
+      "helper": "preflight_full_stable_task_spec02.py",
+      "transport": "core_control.py",
+      "timeout_s": 180,
+      "exit_code": 0
+    },
+    {
+      "helper": "read_stable_task_data_live01.py",
+      "transport": "core_control.py",
+      "timeout_s": 180,
+      "last_success_artifact": "STABLE_TASK_DATA_LIVE03.private.json",
+      "last_success_exit_code": 0,
+      "later_transport_exit_code": 255
+    }
+  ],
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180",
+  "next_gate": "Reconcile actual same worker lease/PID/result and real observation/consumed-command evidence. Only CLOSED0 + original trace proof permits export or cold next case. Never redispatch this capsule.",
+  "native_candidate_import_check": {
+    "exit_code": 0,
+    "torch_imported": false,
+    "gr00t_imported": false,
+    "mujoco_imported": false
+  }
+}

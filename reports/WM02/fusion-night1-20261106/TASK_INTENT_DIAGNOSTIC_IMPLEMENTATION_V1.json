@@ -1,0 +1,45 @@
+{
+  "schema": "WM02_TASK_INTENT_GEOMETRY_DIAGNOSTIC_IMPLEMENTATION_V1",
+  "status": "IMPLEMENTED_OFFLINE_ONLY_NO_NATIVE_QUALIFICATION",
+  "source_files": {
+    "src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py": "23ba84ee6b1fb9a30350a527357a5bec653bb436ccf27e80f83be948b397613f",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "3e4f1d66bb92eaa9ac4344d7180076b0c5d68d3affb8e504bf5debb96f4bdacf",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "b21de0f8eee47b8364a5098d7a5df349b08ce43d74a4311fca3a3dad6b6a88d0",
+    "src/go2arx5_vla/world_model/fusion_live_skill_segment.py": "28d054c91b5d21eddf0078351e86ba5c7b357ad3271417b498778a0c91774be7",
+    "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "648d35c3028e330d66070fbdf568ee8a94acce22584ea51e49a4f21745777d1f",
+    "tests/world_model/test_fusion_task_reference_diagnostic_v1.py": "0576b2e1b110d439a0619b2b69d404c90b99609eb26a8d25a83989924d2bd6ee",
+    "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py": "672af0bf4f4daf5d84e4046386d9a3a378c4c1ebf2bc252cd485711942c1365c"
+  },
+  "validation": [
+    {
+      "mode": "normal",
+      "exit_code": 0,
+      "passed": 153,
+      "wall_s": 7.83,
+      "log_sha256": "1a64e92677b76fd49c59c35988934e745faf568feddf587865da3c844488bf5f"
+    },
+    {
+      "mode": "optimized",
+      "exit_code": 0,
+      "passed": 153,
+      "wall_s": 7.93,
+      "log_sha256": "917cfcb36186f03e8df12197974537b86fec475107d183fe830522190e4958c3"
+    }
+  ],
+  "retained_failed_validation": "First integration fixture used a synthetic B4103 with the frozen B34303 task clock; it was correctly rejected. Fixed only the fixture clock binding; no runtime threshold changed. Original failed log retained privately.",
+  "entry": "Existing scripts.wm02.fusion_task_phase_live_skill_check_v9 and the native V9 path support the separately bound PRIVILEGED_GEOMETRIC_SHORT_REFERENCE_DIAGNOSTIC_AT34303_V1 condition; a new registered finite spec is still required.",
+  "behavior": [
+    "One actual frozen GR00T query and complete unchanged raw H40 are saved but never executed in this explicit diagnostic.",
+    "A fixed 5mm quintic reference toward the current actual object is marked privileged Teacher and saved separately before effects.",
+    "Original 40-knot/full-preview certificates, exact ACK/solver/gripper consumption, same prefix/base/dt/safety and original task score remain.",
+    "GR00T action installations/raw H40 consumption remain zero even if the Teacher reference is fully consumed.",
+    "No local XY WM extrapolation, Actor/Critic, weight update or automatic DIAGNOSTIC-to-TRAIN conversion."
+  ],
+  "current_six_comparison_capsule_source_sha": "93ad6aab3a251c55f11c372bf9e86f1c64c453aa",
+  "active_capsule_modified": false,
+  "planned_panel": "FROZEN_TASK_INTENT_DIAGNOSTIC_PANEL_V1.json",
+  "new_Teacher_site_scopes": 0,
+  "new_Teacher_native_integrations": 0,
+  "new_model_updates": 0,
+  "original_cutoff_epoch": 1794051261.7397933
+}

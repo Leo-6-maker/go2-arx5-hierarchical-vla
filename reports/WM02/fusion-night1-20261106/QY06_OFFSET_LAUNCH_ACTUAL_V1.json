@@ -1,0 +1,43 @@
+{
+  "schema": "WM02_QY06_OFFSET_LAUNCH_ACTUAL_V1",
+  "epoch": 1794031864.5243704,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "native_spec_sha256": "7cbc065ed30de646549e6866637c3920f6bb9d4f359dbad9af7ff5384232c2df",
+  "GPU_spec_sha256": "8949f3a5142e8e8c4f83f1ed33f473f040096afff34cdafe3964ba51429d7898",
+  "native": {
+    "status": "ACTIVE",
+    "MainPID": 3343473,
+    "last_observed_native_step": 20828
+  },
+  "GPU": {
+    "status": "ACTIVE",
+    "MainPID": 3343454
+  },
+  "reference_intervention": {
+    "candidate": "Y_MINUS_050",
+    "offset_target_xy_m": [
+      0.0,
+      -0.0005
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "source_staging": {
+    "wall_s": 0.7942950571887195,
+    "CPU_s": 0.31672901499999995,
+    "source_reused": true,
+    "reused_source_members": 3476,
+    "copied_parent_members": 0,
+    "copied_parent_bytes": 0,
+    "overlay_members": 0,
+    "overlay_written_bytes": 0,
+    "actual_source_bytes_written": 0,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "actual_source_copy_bytes": 0,
+  "dispatch_exit_code": 0,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "model_updates": 0
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "WM02_PROGRAM_TRAIN_T01_PRELOAD_FENCE_FAILURE_ACTUAL_V1",
+  "epoch": 1794020523.1340394,
+  "source_sha": "76f36d264ee1bf523214553d1dc68e4ef63934a8",
+  "run_identity": {
+    "gpu": {
+      "run": "fusion-night1-live-program-train-t01-gpu-01",
+      "spec_sha256": "3437127471fb5933334a1d0d80995ee1ea4009d6b21fa98b647e94e5905507d1",
+      "lease_sha256": "6576179956bed65836519cc666141a3b0771e8d4dec3597de166f1f5a6d34bd5",
+      "worker_sha256": "cf79ceef102b3bc37079749f60cc3c9a561aad7dc1d22292027a70c7680345b2",
+      "worker_exit_code": 1,
+      "MainPID": 0,
+      "result_sha256": "21d29601525d948e688587bbf4d5914881ae12c29dcdccb5a1adf34fd4ceb8db"
+    },
+    "native": {
+      "run": "fusion-night1-live-program-train-t01-01",
+      "spec_sha256": "06a2a08dae3a56990edc70d1c21bd6eb565d82930545c54449f7028bb5942b69",
+      "lease_sha256": "e1d9f609dae6d0bbd5d480a82160fe4a36538d739458edb46de445903b285126",
+      "worker_sha256": "aa08e565d51cb31d6841f65471db7480ed4df5564209856930e662e86439637b",
+      "worker_exit_code": 1,
+      "MainPID": 0,
+      "result_sha256": "842321042b6e7dc3abae391bd0cd5b993b9a1b5c7e9c297fd4faeb71ff785b15"
+    }
+  },
+  "actual": {
+    "native_integrations": 34303,
+    "complete_atomic_transitions": 1372,
+    "partial_native_ticks": 3,
+    "completed_initialization_atoms": 1272,
+    "generated_suffix_transitions": 0,
+    "preloaded_frozen_models": 1,
+    "generation_invocations": 0,
+    "completed_queries": 0,
+    "new_WM_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "full_tasks": 0,
+    "eligible_program_response_labels": 0
+  },
+  "first_failure": "FUSION_PAUSED_QUERY_BRIDGE_FRESH_PAIR_WITHOUT_PREVIOUS_CAPTURE_LOAD_OR_QUERY",
+  "mechanism": "The paired scope explicitly registered frozen weight preload, but native capture preflight still rejected its MODEL_LOAD_INTENT marker. GPU lease rejection occurred second after native closure.",
+  "native_safety": {
+    "shutdown_clean": true,
+    "all_four_children_exit_zero": true,
+    "STOP_observed": false,
+    "trace_dropped": 0,
+    "outer_rejections": 0,
+    "original_warning_samples": 0,
+    "WBC_changed": false,
+    "physics_dt_s": 0.002
+  },
+  "GPU_failed_result": {
+    "schema": "WM02_FUSION_LIVE_PAUSED_INFERENCE_RESULT_V1",
+    "query_uuid": "30f0ddfe-1866-4b26-b4dc-ca8d4752bf35",
+    "stage": "SNAPSHOT_WAIT",
+    "failure": "ValueError: FUSION_PAUSED_QUERY_BRIDGE_EXACT_REGISTERED_SCOPE_LEASE_STATE",
+    "generation_invocations": 0,
+    "completed_queries": 0,
+    "model_load_calls": 1,
+    "completed_model_loads": 1,
+    "model_load_completion_unknown": false,
+    "frozen_model_load_schedule": "PRELOAD_FROZEN_WEIGHTS_BEFORE_SNAPSHOT_V1",
+    "checkpoint_integrity_check_wall_s": 149.9932754500769,
+    "model_cold_load_wall_s": 14.552003185264766,
+    "snapshot_wait_wall_s": 403.90557195805013,
+    "completed_query_unknown_after_intent": false,
+    "retry_authorized": false,
+    "native_integrations": 0,
+    "native_execution_authorized": false,
+    "retained_raw_action": false,
+    "wall_s": 568.5190966250375,
+    "CPU_s": 109.819263221
+  },
+  "retained_data": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 68696836,
+      "sha256": "249672ae9db8619dd627efaabd48d7ef1f9e17b7c4e673181ff30526f0e91ff7"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 222439576,
+      "sha256": "b5faf0ad8a2a5903172e96c27a75f47713ed5a130af0938e62627f26b6fbcb4c"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "0f057b165c153a87681130480705bdb9e721210c046112288fdf661f0414c73e"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "read_error": "[Errno 2] No such file or directory: '<PRIVATE_PATH>'"
+    }
+  ],
+  "retained_prefix": "a00a8cfbbbe0dce5a2de3f246d2c3e54f0776e08e064e170901ec5ce62b062f9",
+  "cost": {
+    "source_staging": {
+      "CPU_s": 1.3285780629999997,
+      "actual_source_bytes_written": 46655396,
+      "copied_parent_bytes": 45623586,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "overlay_members": 76,
+      "overlay_written_bytes": 1031810,
+      "unlisted_assets_or_cache_copied": 0,
+      "wall_s": 198.35255376435816
+    },
+    "source_staging_shared_not_double_counted": true,
+    "workers": {
+      "gpu": {
+        "worker": {
+          "CPU_s": null,
+          "child_CPU_s": 111.022156,
+          "exit_code": 1,
+          "wall_s": 570.3376794168726
+        },
+        "systemd_CPU_s": 111.466981,
+        "host_peak_bytes": 18872446976
+      },
+      "native": {
+        "worker": {
+          "CPU_s": 183.478690637,
+          "child_CPU_s": 809.632571,
+          "exit_code": 1,
+          "wall_s": 559.0106431129389
+        },
+        "systemd_CPU_s": 998.573938,
+        "host_peak_bytes": 5210439680
+      }
+    },
+    "systemd_CPU_overlaps_worker_CPU": true
+  },
+  "counts_after": {
+    "FUSION_attempts": 291,
+    "FUSION_passes": 282,
+    "FUSION_failures": 9,
+    "FUSION_native_ticks": 1610698,
+    "with_PILOT2_attempts": 945,
+    "with_PILOT2_passes": 931,
+    "with_PILOT2_failures": 14,
+    "with_PILOT2_native_ticks": 4597991,
+    "VLA_queries": 13,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "old_DIAGNOSTIC_unchanged": true,
+  "old_T01_failure_in_denominator": true,
+  "retry_old_lease": false,
+  "repair": "Only explicit paired mechanical preload may have matching frozen load markers before capture; old capture, generation, action, result or failure markers remain forbidden.",
+  "evidence": {
+    "actual_reader_sha256": "18eac5f95b506b39d797e557289ca9578fe00825cc852d80fbefe06b382889ca",
+    "GPU_failed_detail_sha256": "52a94c728700c67ded05f7452e5c98e7c683aa24fa24fe3c46d11044e1241c27"
+  }
+}

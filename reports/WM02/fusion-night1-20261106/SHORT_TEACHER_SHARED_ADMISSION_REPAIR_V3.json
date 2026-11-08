@@ -1,0 +1,29 @@
+{
+  "schema": "WM02_SHORT_TEACHER_SHARED_OPERATIONAL_ADMISSION_REPAIR_V3",
+  "epoch": 1794044110.1052914,
+  "previous_execution_source_sha": "0ca02cc4eccae9748097282f91d368c18c5e7cdd",
+  "first_actual_failure": "Shared initialization recipe still required66503 after the higher V9 and native/GPU pair had accepted38703.",
+  "actual_failed_registration_report": "SHORT_TEACHER_UNSTARTED_REGISTRATION_FAILURE_ACTUAL_V1.json",
+  "repair": "Bind shared operational clock only for explicitly preregistered V9 short Teacher; validate same panel and endpoint; legacy V8/V9 endpoints remain66503.",
+  "regression_tests": [
+    {
+      "exit_code": 0,
+      "passed": 107,
+      "optimized": false,
+      "log_sha256": "c4ab9f1dd6fae6aeda2f5aa0b9ec372f41596f20ca81f0fe4899c7e2ab862a6b"
+    },
+    {
+      "exit_code": 0,
+      "passed": 107,
+      "optimized": true,
+      "log_sha256": "465b56dfc662be18d1e949f0119923fd15fab1af99919f69072b5122a75a99d9"
+    }
+  ],
+  "offline_is_not_native_qualification": true,
+  "new_scope_identity": "T01R1",
+  "original_unstarted_scope_CLOSED": true,
+  "no_hotpatch": true,
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "model_or_optimizer_updates": 0
+}

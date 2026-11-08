@@ -1,0 +1,219 @@
+{
+  "schema": "WM02_POST_QUERY_REFERENCE_RESPONSE_PANEL_V3",
+  "registered_epoch": 1794024870.505354,
+  "status": "PRE_REGISTERED_BEFORE_ANY_NEW_PANEL_SCOPE",
+  "purpose": "Separate actual post-query HOLD motion from full generated-program response, then identify small explicit XY reference effects. This is not a replay of the old C10 HOLD contract.",
+  "assignments": [
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QT02",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qt02-01",
+      "GPU_run": "fusion-night1-program-response-qt02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "NOMINAL",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QH02",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qh02-01",
+      "GPU_run": "fusion-night1-program-response-qh02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "HOLD",
+        "offset_target_xy_m": [
+          0.0,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX03",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qx03-01",
+      "GPU_run": "fusion-night1-program-response-qx03-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_PLUS_050",
+        "offset_target_xy_m": [
+          0.0005,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX04",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qx04-01",
+      "GPU_run": "fusion-night1-program-response-qx04-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_MINUS_050",
+        "offset_target_xy_m": [
+          -0.0005,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QY03",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qy03-01",
+      "GPU_run": "fusion-night1-program-response-qy03-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_PLUS_050",
+        "offset_target_xy_m": [
+          0.0,
+          0.0005
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_TIME2_POST_QUERY_RESPONSE_QY04",
+      "split": "TRAIN",
+      "native_run": "fusion-night1-program-response-qy04-01",
+      "GPU_run": "fusion-night1-program-response-qy04-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_MINUS_050",
+        "offset_target_xy_m": [
+          0.0,
+          -0.0005
+        ],
+        "ramp_atoms": 16
+      }
+    }
+  ],
+  "reused_original_TRAIN": [
+    {
+      "run": "fusion-night1-live-program-train-t01-repair-01",
+      "native_result_sha256": "f50afebca86a20fa7c6167a473a0c8d9af0f2e90a1811178278101b6869efbe4",
+      "role": "ORIGINAL_TRAIN_NOMINAL_NO_RELABELLING"
+    },
+    {
+      "run": "fusion-night1-live-program-train-t02-01",
+      "status": "CLOSED1_PID0_PARTIAL294_SOURCE_SUFFIX_RETAINED_NOT_RETRIED",
+      "native_result_sha256": "66aeeceddcbf1f4ebe1df1477d13b7466aac3d49c0e2ca759601ca16995a968a"
+    }
+  ],
+  "domain": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "initialization_grade": 0.5,
+    "B": 34303,
+    "E": 66503,
+    "qualified_native_slots": 1,
+    "sequence": "FULL_NOMINAL_TIME2_NATIVE_GATE_THEN_POST_QUERY_HOLD_GATE_THEN_FOUR_PREDECLARED_OFFSETS",
+    "same_frozen_GR00T_checkpoint": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "query_seed": 366104,
+    "raw_H40_retained": true,
+    "raw_H40_geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "original_Processor_decode_count": 1,
+    "reference_variant": "HOLD_EXPLICITLY_NOT_VLA_EXECUTION_OR_FIXED_16_ATOM_QUINTIC_XY_RAMP",
+    "maximum_reference_offset_m": 0.0005,
+    "reference_offset_is_WBC_change": false,
+    "physics_dt_s": 0.002,
+    "hidden_controller_exact_fork": false,
+    "independent_restarts_in_one_layout": true
+  },
+  "hold_gate": {
+    "actual_query_and_closed_worker_required": true,
+    "metric": "MAX_ACTUAL_TCP_DISPLACEMENT_FROM_B_DURING_FIRST16_CONFIRMED_HOLD_ATOMS",
+    "maximum_m": 0.0002,
+    "all_original_safety_checks_required": true,
+    "failed_gate": "Do not launch the four small-offset cases. Diagnose actual query/WBC/reference continuity, or continue independent lawful code/forecast work; preserve the result.",
+    "all40_generated_skill_consumption_claim": false,
+    "HOLD_transitions_are_executed_reference_labels_not_expert_actions": true
+  },
+  "world_model_followup": {
+    "real_smoke_already_completed": true,
+    "smoke_actual_updates": 600,
+    "smoke_actual_restore_probes": 3,
+    "endpoint_updates_per_neural_arm": 2000,
+    "seeds": [
+      366104,
+      366105,
+      366106
+    ],
+    "arms": [
+      "RAW",
+      "SCALED",
+      "NO_FUTURE_ACTION"
+    ],
+    "same_capacity_and_sampler": true,
+    "normalizers_and_fits_only_TRAIN": true,
+    "strong_controls": [
+      "ZERO_DISPLACEMENT",
+      "PAST_CONSTANT_VELOCITY",
+      "TRAIN_MEAN_RESPONSE",
+      "TRAIN_RIDGE_FULL_PROGRAM",
+      "TRAIN_RIDGE_NO_FUTURE_ACTION"
+    ],
+    "neural_model_must_win": false,
+    "moving_and_HOLD_metrics_separate": true,
+    "overlapping_anchors_are_independent": false
+  },
+  "prospective_DEV": {
+    "status": "REGISTER_SEPARATE_FRESH_SCOPE_AFTER_MODEL_FREEZE",
+    "suggested_interpolating_cases": [
+      "X_PLUS_025",
+      "X_MINUS_025",
+      "Y_PLUS_025",
+      "Y_MINUS_025"
+    ],
+    "prediction_saved_before_effect": true,
+    "DEV_not_used_for_fitting": true,
+    "physical_reference_selection_requires_further_pre_effect_typed_gate": true,
+    "task_and_WM_control_gain_not_yet_established": true
+  },
+  "preservation": {
+    "old_DIAGNOSTIC_not_TRAIN": true,
+    "old_failed_and_unstarted_Journal_records_retained": true,
+    "completed_C10_sampler_not_repeated": true,
+    "no_CLOSED_lease_reuse": true,
+    "active_capsules_immutable": true,
+    "WBC_and_original_native_safety_frozen": true,
+    "no_official_Actor_or_Critic": true,
+    "no_H200_GPU_physics_or_distributed": true,
+    "original_cutoff_epoch": 1794051261.7397933,
+    "deadline_extension": false
+  },
+  "supersedes_only_unstarted_V1_sha256": "6acbeccc40a440caf468a31b4eb0b69ad8e1cff56dc82223097a4fd74ce879a1",
+  "V1_scopes_registered": 0,
+  "engineering_evidence": {
+    "failed_native_run": "fusion-night1-live-program-train-t02-01",
+    "native_result_sha256": "66aeeceddcbf1f4ebe1df1477d13b7466aac3d49c0e2ca759601ca16995a968a",
+    "retained_real_generated_suffix_atoms": 294,
+    "original_rejection": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+    "reproduced_worst_joint": "x5_joint3",
+    "reproduced_max_joint_acceleration_rad_s2": 1.0131112362513406,
+    "original_limit_rad_s2": 1.0,
+    "worst_preview_middle_index": 34,
+    "history_join_is_worst": false,
+    "uniform_time2_static_duration_atoms": 808,
+    "registered_suffix_atoms": 1288,
+    "time2_dynamic_PASS": false
+  },
+  "nominal_time2_gate": {
+    "require_CLOSED0_PID0": true,
+    "all40_adapted_intent_knots_actually_consumed": true,
+    "all_original_certificates_and_safety_required": true,
+    "if_failed": "Retain rejection. No assumed qualification, clipping, WBC edits or threshold relaxation; diagnose a ready lawful successor."
+  },
+  "reused_original_TRAIN_note": "Old time1 nominal and partial data retain their real conditions. They are not time2 matched control runs. New qt01 is the necessary time2 nominal qualification.",
+  "supersedes_only_unstarted_V2_sha256": "e270b1a097890115ea302fc362d685a1534aa4bae20fb9d191ccde1c9bb6423d",
+  "old_QT01_registration_failure": "QT01_TASK_TIME_METADATA_REGISTRATION_FAILURE_ACTUAL_V1.json",
+  "old_QT01_CLOSED_unstarted": true,
+  "old_QT01_physical_or_GPU_workers": 0
+}

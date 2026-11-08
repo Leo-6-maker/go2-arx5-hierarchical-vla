@@ -1,0 +1,320 @@
+{
+  "schema": "WM02_FUSION_NIGHT1_WINDOW_CLOSEOUT_ACTUAL_V1",
+  "epoch": 1794051028.817166,
+  "timezone": "Asia/Singapore",
+  "status": "SEALED_PARTIAL_RESEARCH_OBJECTIVE_NOT_COMPLETE",
+  "actual_C01_execution_source_sha": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+  "current_delivery_source": "CONTAINING_REPORT_COMMIT",
+  "prior_R2_execution_source_sha": "8a4dd15753747c667e4fcb76f410cc10a23722ab",
+  "Teacher_execution_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+  "frozen_four_DEV_execution_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "user_plan_adopted_at_cold_boundary": true,
+  "same_owner_original_Journal_and_fresh_finite_scopes": true,
+  "active_capsules_modified": false,
+  "original_scope_cutoff": "2026-11-07T19:34:21.739793+08:00",
+  "parent_site_deadline": "2026-11-07T19:54:21.739793+08:00",
+  "original_full_worker_plus_grace_s": 1260,
+  "new_dynamic_job_fits_remaining_original_window": false,
+  "current_C01_native_and_GPU_workers": "BOTH_CLOSED_EXIT0_PID0",
+  "current_C01_original_children_exit_zero": 4,
+  "counts": {
+    "FUSION_attempts": 310,
+    "FUSION_passes": 295,
+    "FUSION_failures": 15,
+    "FUSION_native_ticks": 2618652,
+    "with_PILOT2_attempts": 964,
+    "with_PILOT2_passes": 944,
+    "with_PILOT2_failures": 20,
+    "with_PILOT2_native_ticks": 5605945,
+    "VLA_queries": 30,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "counts_interpretation": {
+    "native_PASS": "Original worker/physical stage acceptance, not task success.",
+    "WM_main_updates": {
+      "actually_executed": 30800,
+      "saved_main_updates": 30600,
+      "failed_uncheckpointed_updates": 200,
+      "additional_restore_probe_optimizer_calls": 18
+    },
+    "full_GR00T_H40_mechanical_passes": 11,
+    "additional_full_GR00T_H40_with_retained_failed_wrapper": 1,
+    "privileged_Teacher_full40_consumptions": 2,
+    "privileged_Teacher_strict_short_successes": 2,
+    "GR00T_strict_short_successes": 0,
+    "full_pick_place_tasks": 0,
+    "FUSION_GR00T_updates": 0,
+    "FUSION_Actor_updates": 0,
+    "new_main_updates_this_repair_and_C01": 0,
+    "C01_generated_action_installations": 0,
+    "C01_generated_action_integrations": 0
+  },
+  "actual_work": [
+    {
+      "goal": "Frozen four-condition prediction DEV",
+      "state": "COMPLETE",
+      "actual_restarts": 4,
+      "layouts": 1,
+      "ticks": 266012,
+      "suffix_atoms": 5152,
+      "saved_forecasts": 736,
+      "scoreable_forecasts": 735,
+      "valid_multi_horizon_labels": 11705,
+      "models_retrained": 0,
+      "result": "Action information helps linear model4/4; primary neural3/4, other seeds1/4 and3/4. No controller changes or task gain."
+    },
+    {
+      "goal": "Six-reference decision mechanism pilot",
+      "state": "PARTIAL_HALTED_CONCRETE_BASE_INSTABILITY",
+      "actual_cases": 2,
+      "planned_cases": 6,
+      "not_run_cases": 4,
+      "result": "LINEAR selected actual+X0.5mm. H16 error difference+0.371352mm relative to independent DIRECT restart, but BASE43.666645mm and strict task failure prevent overall gain claim. DIRECT serialization failure retained."
+    },
+    {
+      "goal": "Correct-intent privileged short Teacher",
+      "state": "TWO_REAL_STRICT_SHORT_SUCCESSES",
+      "ticks": 77406,
+      "atomic_transitions": 3096,
+      "Teacher_suffix_atoms": 352,
+      "GR00T_queries": 2,
+      "GR00T_action_integrations": 0,
+      "actual_progress_mm": [
+        3.486939130533578,
+        3.5783095575942654
+      ],
+      "actual_BASE_max_mm": [
+        1.0967143594638307,
+        0.8953692957365043
+      ],
+      "full_tasks": 0
+    },
+    {
+      "goal": "C01 curriculum scene and native query path",
+      "state": "NATIVE_INIT_AND_QUERY_PASS_PROPOSAL_NEGATIVE",
+      "R2_ticks": 3703,
+      "R2_native_exit": 1,
+      "R2_GPU_exit": 1,
+      "R3_ticks": 34303,
+      "R3_complete_atomic_transitions": 1372,
+      "R3_complete_task_atoms": 1272,
+      "R3_native_exit": 0,
+      "R3_GPU_exit": 0,
+      "R3_queries": 1,
+      "R3_generated_actions_executed": 0,
+      "R3_actual_capture_distance_mm": 80.39655111298654,
+      "R3_proposed_final_signed_progress_mm": -32.60639370497801,
+      "R3_proposed_maximum_lateral_drift_mm": 32.85430414419113,
+      "R3_proposed_minimum_finger_opening_mm": 41.34337615966797,
+      "original_full_grade": false,
+      "original_cube_distance_predicate": false,
+      "new_query_only_course_does_not_relax_old_task_or_safety": true
+    }
+  ],
+  "scientific_answers": [
+    {
+      "question": "Does the frozen predictor use the whole action plan at first installation?",
+      "answer": "Yes, in this one-layout restart/interpolation domain. The linear full-program model improves over its future-action-blind ablation in all four restarts. Primary neural seed improves in three of four; seed366105 improves in one, seed366106 in three. Retain all seeds.",
+      "primary_SCALED_first_install_H16_restart_RMSE_mm": 0.9744516077230669,
+      "primary_NO_FUTURE_ACTION_first_install_H16_restart_RMSE_mm": 1.7229794631843705,
+      "linear_FULL_first_install_H16_restart_RMSE_mm": 0.6656691794733647,
+      "linear_blind_first_install_H16_restart_RMSE_mm": 1.9033350193627356,
+      "restart_count": 4,
+      "layout_count": 1,
+      "actual_model_reference_changes": 0
+    },
+    {
+      "question": "Did model selection change the physical action and improve its cost?",
+      "answer": "TRAIN_LINEAR selected and installed +X0.5mm exactly once. Observed H16 execution error was3.225069mm versus DIRECT3.596422mm, a0.371352mm difference across independent live restarts. BASE then drifted43.666645mm. This is not a matched exact-state causal gain or safe overall improvement. Remaining four planned conditions are NOT_RUN after concrete instability.",
+      "executed_panel_cases": 2,
+      "original_planned_cases": 6,
+      "not_run_cases": 4,
+      "overall_control_gain_established": false
+    },
+    {
+      "question": "Did the strict task improve; is proposal or execution implicated?",
+      "answer": "The four frozen GR00T DEV and the reference comparison do not establish strict task success. Two separately declared privileged 5mm Teacher short references passed all original short predicates under frozen WBC. Actual progress3.486939/3.578310mm and BASE maxima1.096714/0.895369mm show correct-intent small-motion capability. GR00T actions were saved but not executed in these Teacher cases. Phase/input/coordinate/checkpoint causes remain unseparated.",
+      "privileged_short_Teacher_successes": 2,
+      "GR00T_strict_short_successes": 0,
+      "full_pick_place_successes": 0,
+      "WM_task_gain_established": false
+    },
+    {
+      "question": "Were all failures, seeds, masks and physical denominators retained?",
+      "answer": "Yes. QX06 preview rejection preserves742 confirmed suffix atoms and masks unexecuted tail. DX02 score V2 excludes one actual6ms-vs50ms exposure without changing its original prediction or original score failure. DIRECT wrapper failure retains full physical consumption separately. C01 entry and metadata failures remain named, with unstarted scopes distinguished from native-worker attempts. No exposed DEV/TEST labels entered TRAIN.",
+      "best_seed_selected_after_evaluation": false,
+      "failed_conditions_retried_for_success": false
+    },
+    {
+      "question": "What is the next scientific decision?",
+      "answer": "Retain linear dynamics as a valid WM baseline and stop adding same-data optimization. Resolve relative task-phase/observation alignment through the separately declared reachable C01 query-only curriculum, preserving full H40 and fixed horizons. Its result cannot qualify generated contact/action execution. Later closed-loop chunks, task recovery supervision and new-layout confirmation require separately frozen conditions and valid new finite site scope.",
+      "formal_Actor_or_Critic_started": false,
+      "H200_or_GPU_physics_scaling_started": false,
+      "C01_outcome": "Native exit0/GPU0,34303 ticks, one actual full-language query; complete proposal ends away from cube with32.854mm maximum lateral drift. Relative-distance alignment is insufficient in this one diagnostic. Absolute policy state still differs193.869mm/42.347deg from source."
+    }
+  ],
+  "first_determined_remaining_scientific_block": "Complete frozen GR00T proposal is not goal-directed in the separately initialized80mm curriculum. Relative distance alignment alone is insufficient. Causal contribution of absolute policy-state, camera/phase and checkpoint-task distribution remains unresolved.",
+  "first_determined_new_dynamic_admission_block": "No original1200s worker plus60s grace fits the remaining original window. No new scope registered and no CLOSED lease reused.",
+  "identity": {
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "native_observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "native_outer_wrapper_sha256": "acb7627e986301dad5ffea933ff320ae474c0faeef09750b7ea22be5709dc187",
+    "native_dt_s": 0.002,
+    "GR00T_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "GR00T_Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "noise_sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+    "original_source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "C01_model_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+    "C01_native_spec_sha256": "5369da7902f730138c96718920a3ac3392f8cc55524b64df71afaf66d1fc092a",
+    "C01_GPU_spec_sha256": "fed445c120457536793da4736712f52aa15b1234c7fd3c8d87c0224af2b83a1d",
+    "C01_native_result_sha256": "70b46e0b752bcb0fd89601c7ea98d730938dca15540d8d26e4f2d09b092ad58c",
+    "C01_GPU_result_sha256": "0d69bcfabf8f0ea87f9e9282542e937ef2fa572ad3bc310fe20ac06781af1aef",
+    "C01_capture_sha256": "67fbdadffeaf23e7a911beccbaaf9550fcc7afc2fbe569fa4dbbc8f03c1ba5b8",
+    "C01_mapped_payload_sha256": "af2e99fa14f0caed39e7aa1e26bcbe582864be7762499a6d36dca8b8a4097ce5",
+    "C01_action_npz_sha256": "6b8a40825b89c641c6f5f73ac582ff8014498d508e7fae58ef7d01ff0d90f5bf",
+    "C01_proposal_sha256": "2fd78003c375c868ddd327bdf7552a4cd441c2134f868e88dcfe0ed55864085e",
+    "C01_native_data": {
+      "state.bin.journal": "b79eece43a7fa97587698e7d93e3e0e7255738f990a7ae34fa2f131663ec268b",
+      "init.trace": "dba4acedbebaacee784accfe8e4d56edf7274e6216bacbdc712ad48c35187b90",
+      "state.bin": "3fc79e99e8f82f2b94943487a31c031ad6c3210823d5550a2d3cda6d8624c638",
+      "TRAJECTORY_QUALIFICATION.private.json": "9fac31579849ad4dbd7b16ae3306271a88d346cb4cd58ccb0f5e58181a0b4515"
+    },
+    "training_spec_sha256": "1bdd0a8f999d1ecfb71d4ea256c3afc651b21647959ae3862f19bd2c80b2a932",
+    "training_result_sha256": "699cac53c50fc6b422b0b5f942fc106452eb83d6c40c55b76e75ed7914a6303a",
+    "TRAIN_replay_sha256": "c73d64ca88ed0cd5ec1566fe25ec7790040e4e811f555d8d9fa03674e02f1019",
+    "SCALED_checkpoint_sha256": "ae8f4565e7af739c4710a0cc785ad5601e1c0a4b87326af543880ad0203fed8a",
+    "full_program_ridge_sha256": "f6124c141c212b31ce527b40fd44fdbd59e35a21060bbcabc4edb74b50100e50"
+  },
+  "C01_cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 121.03532,
+        "exit_code": 0,
+        "wall_s": 665.5651033082977
+      },
+      "systemd_CPU_s": 121.525961,
+      "host_peak_bytes": 14632538112
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 192.558306563,
+        "child_CPU_s": 877.56478,
+        "exit_code": 0,
+        "wall_s": 667.986997990869
+      },
+      "systemd_CPU_s": 1076.438612,
+      "host_peak_bytes": 5073629184
+    },
+    "source_staging": {
+      "wall_s": 169.71638317080215,
+      "CPU_s": 1.4235241810000012,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 200,
+      "overlay_written_bytes": 3205861,
+      "actual_source_bytes_written": 48829447,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "worker_and_systemd_CPU_overlap": true,
+    "GPU_query": {
+      "model_cold_load_wall_s": 130.48387474427,
+      "snapshot_wait_wall_s": 410.00573474215344,
+      "query_wall_s": 1.2677113059908152,
+      "GPU_event_s": 1.2536590576171875,
+      "peak_allocated_bytes": 13320805376,
+      "peak_reserved_bytes": 13524533248
+    }
+  },
+  "retained_R2_failure_cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 23.593534,
+        "exit_code": 1,
+        "wall_s": 145.74158235639334
+      },
+      "systemd_CPU_s": 23.779668,
+      "host_peak_bytes": 3693289472
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 13.641624699000001,
+        "child_CPU_s": 131.090692,
+        "exit_code": 1,
+        "wall_s": 131.5185445402749
+      },
+      "systemd_CPU_s": 147.084253,
+      "host_peak_bytes": 1937862656
+    },
+    "source_staging": {
+      "wall_s": 162.42652072384953,
+      "CPU_s": 1.4272024870000006,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 196,
+      "overlay_written_bytes": 3192632,
+      "actual_source_bytes_written": 48816218,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "worker_and_systemd_CPU_overlap": true
+  },
+  "test_validation": {
+    "normal_passed": 273,
+    "optimized_passed": 273,
+    "exit_codes": [
+      0,
+      0
+    ],
+    "native_qualification_is_separate": true
+  },
+  "command_evidence": {
+    "public_launch_report": "SOURCE_PHASE_C01_R3_QUERY_LAUNCH_ACTUAL_V1.json",
+    "private_exact_command_receipt_sha256": "e1afff909fe63641953cf92efaa03632523f4252cceff27eb7b6b86f43eaba09",
+    "actual_native_entry": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_live_skill_check_v9 --spec NATIVE_EXECUTION_SPEC --execute",
+    "actual_GPU_entry": "GR00T_PYTHON -B -m scripts.wm02.pilot1_neural_worker --spec GPU_EXECUTION_SPEC",
+    "host_bound_paths_unpublished": true,
+    "entry_exit_codes": {
+      "local_preparation": 0,
+      "read_only_preflight": 0,
+      "original_Journal_dispatch": 0,
+      "native_worker": 0,
+      "GPU_worker": 0,
+      "terminal_read": 0,
+      "read_only_state_gap_audit": 0
+    }
+  },
+  "resources": "FUSION_WORKER_CLOSEOUT_RESOURCES_ACTUAL_V1.json",
+  "detailed_evidence": [
+    "FROZEN_PROGRAM_DEV_FOUR_CASES_ACTUAL_V1.json",
+    "FROZEN_REFERENCE_SIX_CASES_ACTUAL_V1.json",
+    "REFERENCE_BODY_DRIFT_AND_REMAINDER_ACTUAL_V1.json",
+    "TWO_SHORT_TEACHER_SUCCESSES_ACTUAL_V1.json",
+    "SOURCE_PHASE_C01_ZERO_TICK_ENTRY_FAILURE_ACTUAL_V1.json",
+    "SOURCE_PHASE_C01_R1_METADATA_FAILURE_ACTUAL_V1.json",
+    "SOURCE_PHASE_C01_R2_FK_ENTRY_FAILURE_ACTUAL_V1.json",
+    "SOURCE_PHASE_C01_R3_QUERY_ACTUAL_V1.json",
+    "SOURCE_PHASE_C01_FROZEN_PROPOSAL_COMPARISON_ACTUAL_V1.json",
+    "SOURCE_ABSOLUTE_STATE_GAP_C01_ACTUAL_V1.json"
+  ],
+  "next_executable_command_kind": "Existing strict read-only C01 terminal/owner evidence query via private authorized transport; full command in local private receipt.",
+  "next_scientific_step": "With a new valid finite scope, separately preregister actual task-state/observation alignment or real TRAIN correction/recovery examples. Retain linear WM and frozen current GR00T baseline. Do not force an infeasible source pose, reinterpret DIAGNOSTIC examples as TRAIN, crop a positive prefix after observing this result, extrapolate1mm WM to80mm/contact, or restart unsafe remaining panel conditions.",
+  "unfinished": [
+    "Four original reference-selection cases remain NOT_RUN, mechanical risk seal retained.",
+    "Generated C01 action/contact qualification has not run.",
+    "Matched frozen-GR00T with/without-WM control gain remains unestablished.",
+    "Nonpaused repeated real-observation VLA closed loop and full pick/place remain unestablished.",
+    "No exact MPC/WBC hidden-state fork."
+  ],
+  "frozen_WBC_safety_and_physics_unchanged": true,
+  "formal_Actor_or_Critic_started": false,
+  "H200_GPUphysics_or_distributed_started": false,
+  "main_merged": false
+}

@@ -1,0 +1,209 @@
+{
+  "schema": "WM02_FROZEN_PROGRAM_RESPONSE_DEV_PANEL_V1",
+  "epoch": 1794033021.2095852,
+  "status": "PRE_REGISTERED_AFTER_ACTUAL_MODEL_FREEZE_BEFORE_ANY_NEW_DEV_SCOPE",
+  "assignments": [
+    {
+      "parent": "T06_FROZEN_PROGRAM_DEV_DX01",
+      "split": "DEV",
+      "native_run": "fusion-night1-program-dev-dx01-01",
+      "GPU_run": "fusion-night1-program-dev-dx01-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_PLUS_025",
+        "offset_target_xy_m": [
+          0.00025,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_FROZEN_PROGRAM_DEV_DX02",
+      "split": "DEV",
+      "native_run": "fusion-night1-program-dev-dx02-01",
+      "GPU_run": "fusion-night1-program-dev-dx02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "X_MINUS_025",
+        "offset_target_xy_m": [
+          -0.00025,
+          0.0
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_FROZEN_PROGRAM_DEV_DY01",
+      "split": "DEV",
+      "native_run": "fusion-night1-program-dev-dy01-01",
+      "GPU_run": "fusion-night1-program-dev-dy01-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_PLUS_025",
+        "offset_target_xy_m": [
+          0.0,
+          0.00025
+        ],
+        "ramp_atoms": 16
+      }
+    },
+    {
+      "parent": "T06_FROZEN_PROGRAM_DEV_DY02",
+      "split": "DEV",
+      "native_run": "fusion-night1-program-dev-dy02-01",
+      "GPU_run": "fusion-night1-program-dev-dy02-gpu-01",
+      "reference_intervention": {
+        "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1",
+        "candidate": "Y_MINUS_025",
+        "offset_target_xy_m": [
+          0.0,
+          -0.00025
+        ],
+        "ramp_atoms": 16
+      }
+    }
+  ],
+  "domain": {
+    "time_stretch_factor": 2,
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "geometry_scale": 1.0,
+    "initialization_grade": 0.5,
+    "B": 34303,
+    "E": 66503,
+    "physics_dt_s": 0.002,
+    "qualified_native_slots": 1,
+    "independent_restarts": true,
+    "hidden_controller_exact_fork": false,
+    "independent_layouts": 1,
+    "same_T06_layout_is_not_new_scene_generalization": true,
+    "maximum_actual_reference_offset_m": 0.00025
+  },
+  "frozen_models": [
+    {
+      "seed": 366104,
+      "arm": "RAW",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "a1a68f38d5dc4afdb8f8d590ceec049e838a5846b21f8dc0d610298bd3a7c7ec",
+      "numpy_sha256": "e02f8d1e5e69e633a37ca2e380d179c78b98dfd88bb394c3c99ae543d4d09657",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366104,
+      "arm": "SCALED",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "ae8f4565e7af739c4710a0cc785ad5601e1c0a4b87326af543880ad0203fed8a",
+      "numpy_sha256": "86d90245b2fe800053419a9fef566df2d671486b6a7b13742a255ba871587630",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366104,
+      "arm": "NO_FUTURE_ACTION",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "634f614f8fd08424d69b2ae8b2d696a82781488cc4cffe63698a9606496486fe",
+      "numpy_sha256": "d960471d20520d208fc32f5ca9bf16070301e8fc37ba3100b1dba44089833afa",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366105,
+      "arm": "RAW",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "1be6838f5d298bde6bb349b51dc6fb7c0acab9eace6b23351a6b48c1c836c8a8",
+      "numpy_sha256": "0e5babc1c7989d873fa9f50f19ef906f28b2c73f6310cc195a7efec46303a5c9",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366105,
+      "arm": "SCALED",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "bf755c23dd417c8e3097cde0baa11c1a05706dee8241a50dd0f73b7a3fef1abc",
+      "numpy_sha256": "f74b56b2e2b17c99cbdd472fe271f536e194a39f475f7cb17e37c4ae94566301",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366105,
+      "arm": "NO_FUTURE_ACTION",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "120e41427574bf894598e22de15ec80cdfa1c7120f367147ec6c9358dd16da06",
+      "numpy_sha256": "2f453ef2e466ef2bba398addb830df5b281dcccef95f63c50b28517af4cb8ea9",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366106,
+      "arm": "RAW",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "34c7e6780f71af70b406606ba85cb32288907b67a8e9230018fedf4ddd63876f",
+      "numpy_sha256": "33049e97d39fb8217e3633bf696d269d48e018fa0e906b19524a385a3d367ffd",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366106,
+      "arm": "SCALED",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "d57fd71eacef5212cac7af3543459db1ef56d46047b28617af82ceb9ebdabe27",
+      "numpy_sha256": "92b0289d5ca730bca5e970278322789d08f7efe6d86da2badc0191bee007f92c",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "seed": 366106,
+      "arm": "NO_FUTURE_ACTION",
+      "main_WM_updates": 2000,
+      "checkpoint_sha256": "ad83553c657372556837f7aa90f4d3ffba58b1e0725b131cb1f4dd70d5ead9b4",
+      "numpy_sha256": "5743bc7b9cbae1461fd2bc4ab8dbd31920cf8127a9ab6074865f2fd21fea946a",
+      "full_restore_error": 0.0,
+      "endpoint_reload_error": 0.0
+    },
+    {
+      "name": "TRAIN_RIDGE_FULL_PROGRAM",
+      "numpy_sha256": "f6124c141c212b31ce527b40fd44fdbd59e35a21060bbcabc4edb74b50100e50",
+      "ridge": 1.0,
+      "normalizers_fit_only_TRAIN": true
+    },
+    {
+      "name": "TRAIN_RIDGE_NO_FUTURE_ACTION",
+      "numpy_sha256": "6c4fb985de027de11a626b4584d5a8a84ea0200198373388cd9081e197c782ab",
+      "ridge": 1.0,
+      "normalizers_fit_only_TRAIN": true
+    }
+  ],
+  "training_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "training_spec_sha256": "1bdd0a8f999d1ecfb71d4ea256c3afc651b21647959ae3862f19bd2c80b2a932",
+  "training_result_sha256": "699cac53c50fc6b422b0b5f942fc106452eb83d6c40c55b76e75ed7914a6303a",
+  "training_replay_sha256": "c73d64ca88ed0cd5ec1566fe25ec7790040e4e811f555d8d9fa03674e02f1019",
+  "training_source_manifest_sha256": "504e25949d7b826c4f258ba3e734c135066a578592c86e818757b9d45f2e9182",
+  "models_normalizers_and_choices_frozen_before_DEV": true,
+  "objective": "Validate pre-effect actual-reference predictions at FIRST_INSTALL H1/H4/H8/H16; report PROGRAM and HOLD separately.",
+  "all_seeds_and_strong_ridge_baselines": true,
+  "physical_runs_not_correlated_anchors_are_denominator": true,
+  "no_neural_winner_required": true,
+  "DEV_not_fit": true,
+  "counterfactual": {
+    "schema": "WM02_PROGRAM_COUNTERFACTUAL_SHADOW_V1",
+    "candidates": [
+      "NOMINAL",
+      "X_PLUS_050",
+      "X_MINUS_050",
+      "Y_PLUS_050",
+      "Y_MINUS_050"
+    ],
+    "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+    "actual_reference_changes": 0
+  },
+  "counterfactual_scores_are_not_actual_outcomes_or_native_qualification": true,
+  "original_minus_X_late_joint_limit_failure": "QX06_PROGRAM_OFFSET_NATIVE_ACTUAL_V1.json",
+  "original_safety_WBC_and_physics_dt_unchanged": true,
+  "formal_Actor_or_Critic": false,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "new_site_scopes": 0,
+  "new_physics_integrations": 0,
+  "new_updates": 0,
+  "next": "Fresh original-owner DEV scopes; every actual reference still passes all original certificates. Physical correction needs a separate pre-effect typed gate after validation."
+}

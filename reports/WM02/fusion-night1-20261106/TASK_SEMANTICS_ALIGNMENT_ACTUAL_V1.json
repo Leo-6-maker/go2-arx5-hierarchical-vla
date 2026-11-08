@@ -1,0 +1,359 @@
+{
+  "schema": "WM02_FUSION_TASK_SEMANTICS_ALIGNMENT_ACTUAL_V1",
+  "status": "ACTUAL_SCENE_OBJECTS_PRESENT_TASK_AND_INPUT_PHASE_EQUIVALENCE_NOT_ESTABLISHED",
+  "actual_readonly_exit_code": 0,
+  "identities": {
+    "target_native_spec_sha256": "c1a0878ae26ef1ea895cd2eb65d2ba938ecd792b04c314304c5787572f84033f",
+    "target_scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "target_scene_id": "F2T06",
+    "target_task_document_sha256": "83fb721af5ce7fcbb3efcaaa2f560496912eb34cdff2abe4eda5939ab36b8c90",
+    "target_score_contract_sha256": "b4f5fe077de25403dcca240ddfd007bd2039f4f53b4d3148de46a9e7f074c74b",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_XML_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+    "source_card_sha256": "9494434d910b1aea9d642bd3cf2a8be31849d7a5d5d99388d57accbe7898da2f",
+    "unchanged_frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "actual_semantics_receipt_sha256": "90a8592ee1db72d84f9955ed4d8a608b9933e88cb3f31e59a85de5187db87e79",
+    "actual_semantics_helper_sha256": "d94e4325f0eee544cf195fd5eefdb114b90e83d9db4e46bad8a7fa0a9777bf23",
+    "retained_source_prefix_audit_sha256": "c261bd6ca993f14b541577a57c64e7619ff2860ca42c3b95374eaef9b6a8de14",
+    "source_final_outcome_readback_sha256": "2a0fcdead62d00831b8c46558136e9fb460ccda40d5a0a3f56c1bb4b80ee2e63",
+    "source_chain_inventory_readback_sha256": "238e8eab4cb65e15293ab96d440b691d6f95c80ead6a3f0c68fe9b9e67d97e94",
+    "source_episode_RESULT_sha256": "23cbbf2519739c5e5fb9aa08de62aa47255a2ed61e1078974e71e71211b36963",
+    "source_episode_FILE_MANIFEST_sha256": "eb5fb12f1120c8cde7a761f63a303029844da91971c718a95f51c72d0bb05b13",
+    "source_episode_S1_RESULT_sha256": "95b3dc60fa7479730c1f60ff0e5b4fe3a52cea1f79ab833d3d00560ecd6910da",
+    "source_POLICY_FROZEN_seal_sha256": "6abd70eee5a0f53b8eff149751647d0cb13996490f51695a32d475dccde1980f"
+  },
+  "actual_scene_semantics": {
+    "target_red_cube_present": true,
+    "target_blue_square_present": true,
+    "source_red_cube_present": true,
+    "source_blue_square_present": true,
+    "target_blue_square_evidence": "FOUR_WORLD_FIXED_BLUE_BOX_BORDER_GEOMS_IN_EXACT_COMPILED_T06_MJB",
+    "source_blue_square_evidence": "FOUR_BLUE_GOAL_MARKERS_IN_EXACT_SAVED_SOURCE_XML",
+    "blue_border_collision_role": "VISUAL_MARKERS_WITH_ZERO_CONTACT_MASKS",
+    "missing_blue_target_is_supported_explanation": false,
+    "policy_PNG_visibility_or_occlusion_verified_by_this_audit": false,
+    "blue_square_presence_proves_reachability_or_placement_success": false,
+    "task_or_visual_domain_equivalence_established": false
+  },
+  "registered_task_scope": {
+    "target_task_id": "FUSION_TARGET_RED_CUBE_APPROACH_STEP_V1",
+    "target_instruction_scope": "SMALL_OPEN_GRIPPER_APPROACH_TOWARD_RED_CUBE_THEN_NONCONTACT_HOLD",
+    "source_task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+    "source_instruction_scope": "PICK_RED_CUBE_PLACE_INSIDE_BLUE_SQUARE_RELEASE_AND_WITHDRAW",
+    "source_role": "SOURCE_CONFIRM_V1_RETAINED_NOT_NEW_TRAIN_OR_TEST",
+    "source_CARD_qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+    "CARD_qualification_is_a_final_execution_score": false,
+    "target_short_score": {
+      "minimum_signed_progress_m": 0.002,
+      "minimum_distance_reduction_m": 0.002,
+      "maximum_lateral_drift_m": 0.003,
+      "maximum_TCP_excursion_m": 0.025,
+      "minimum_finger_opening_m": 0.038,
+      "final_hold_duration_s": 0.4,
+      "robot_object_contact_allowed": false,
+      "original_native_safety_required": true,
+      "full_pick_place_or_blue_zone_success_assessed": false,
+      "precontact_arrival_assessed": false
+    },
+    "legacy_full_task_prompt_on_calibration_HOLD_is_a_qualified_full_task_test": false,
+    "poor_proposal_under_mismatched_phase_or_prompt_proves_general_model_inability": false
+  },
+  "retained_input_phase_gap": {
+    "source71558_observed_TCP_cube_distance_m": 0.07999969632227374,
+    "source_condition": "ACTUAL_HAND_DIRECTLY_ABOVE_CUBE_NEAR_PREGRASP",
+    "prior_target_query6_actual_TCP_cube_distance_m": 0.16370975098652796,
+    "prior_target_query6_condition": "CUBE_MAINLY_HORIZONTAL_FORWARD_OF_HAND",
+    "new_initialization_declared_vertical_standoff_m": 0.14,
+    "new_initialization_condition": "DECLARED_CONSERVATIVE_PRECONTACT_CALIBRATION_NOT_EXACT_SOURCE80MM_REPRODUCTION",
+    "new_initialization_standoff_is_already_measured_or_qualified": false,
+    "absolute_TCP_or_camera_alignment_proves_object_relative_phase_alignment": false,
+    "causal_explanation_identified": false
+  },
+  "exact_source_execution_evidence": {
+    "currently_verified_scope": "EXACT_FINAL_32S_SOURCE_EPISODE_SCORE_AND_FIRST_QUERY0_PREFIX8_MECHANISTIC_COMMAND_OUTCOME_CHAIN; NOT_ALL80_GPU_DRAWS_INDIVIDUALLY_READ_BACK",
+    "full_final_episode_RESULT_sha256_known_from_manifest": "23cbbf2519739c5e5fb9aa08de62aa47255a2ed61e1078974e71e71211b36963",
+    "full_final_episode_RESULT_body_read_in_this_report": true,
+    "exact_full_episode_success": "EXACT_ORIGINAL_SOURCE_CONFIRMATION_T1_PERSISTENT_SUCCESS_TRUE",
+    "actual_final_result_readback": {
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "static_qualification_status": "STATIC_PASS_PENDING_LIVE_CONTACT",
+      "complete_32s": true,
+      "clock_valid": true,
+      "raw_sample_count": 641,
+      "safety_valid": true,
+      "sustained_grasp": true,
+      "sustained_lift": true,
+      "horizontal_carry": true,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "physics_sha256": "f347fa154d60dd3823761f05cd15c70cced7cb75318f48d38755164a02b6eccc",
+      "Core_local_model_calls_zero_does_not_imply_absent_remote_VLA": true,
+      "actual_RO_wall_s": 0.0021559037268161774,
+      "actual_RO_CPU_s": 0.0012172950000000002,
+      "fixture": false,
+      "physics_starts": 1,
+      "physics_steps": 16000,
+      "paired_samples": 641,
+      "rgb_pairs": 641,
+      "cpu_s": 446.580211007,
+      "wall_s": 619.5781518178992,
+      "memory_bytes": 756711424,
+      "model_calls": 0,
+      "GPU_service_s": 0.0,
+      "maximum_actual_lift_m": 0.08373631890753436,
+      "maximum_actual_carry_xy_m": 0.1655457283663142,
+      "model_calls_counter_scope": "CORE_EPISODE_LOCAL_LITERAL_ZERO_NOT_REMOTE_GENERATION_ACCOUNTING",
+      "GPU_service_s_counter_scope": "CORE_EPISODE_LOCAL_LITERAL_ZERO_NOT_TOTAL_REMOTE_GPU_COST",
+      "full_episode_RESULT_bytes": 1728,
+      "readonly_final_score_recomputed": false
+    },
+    "other_source_conditions_substituted_for_this_episode": false,
+    "historical_prefix_is_current_seed366104_proposal_outcome": false,
+    "unexecuted_suffix_or_future_achieved_poses_used_as_expert_labels": false,
+    "source_sha": "887e65629291f16f73863e2b111123007542d268",
+    "source_episode_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-001-T1",
+    "original_role": "SOURCE_CONFIRM_V1_RETAINED_NOT_RECLASSIFIED",
+    "actual_original_S1_readback": {
+      "version": "PI0294_R3_D0_S1_COPYDATA_V1",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "shadow_invocations": 80,
+      "shadow_integrations": 16000,
+      "pre_execution_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 3.1002977962657496e-14,
+      "actions_modified": false,
+      "privileged_simulation_state": true,
+      "not_formal_training_data": true,
+      "stages_are_audit_only": true,
+      "shadow_invocations_independently_establish_80_actual_GPU_generations": false,
+      "S1_stage_names_are_Teacher_command_attribution": false
+    },
+    "registered_frozen_generator": {
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "global_step": 2048,
+      "registered_checkpoint_file_count": 9,
+      "registered_checkpoint_files": {
+        "config.json": "94f461c5930cc0724fd729a1867599a8e8b75b073334618f6bbae60295e5436a",
+        "model-00001-of-00003.safetensors": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+        "model-00002-of-00003.safetensors": "6420dd8b76193732a9bb5e40487d1900c0af9ee44869814a4eddb0856d4751fc",
+        "model-00003-of-00003.safetensors": "fc1b1b6e003809e0a4f3c439e00db51bdfb640d369e2aea60020b1505d9f3005",
+        "model.safetensors.index.json": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+        "processor/embodiment_id.json": "3ccbf5ade2c95c92b76571e4f7ffd4fa2734e615ffe4dde8c0c63fc087b7c044",
+        "processor/processor_config.json": "cc5836fbc0be4baa69f772b5cff9c436f262305307ba905edac277e90392ebcc",
+        "processor/statistics.json": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+        "statistics.json": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+      },
+      "registered_relay_identity": {
+        "config_sha256": "94f461c5930cc0724fd729a1867599a8e8b75b073334618f6bbae60295e5436a",
+        "model_revision": "477f0483002a4f9561a86ceebd2e8316dbc6fe4b",
+        "processor_sha256": "0b3610ba07e4505db931a89a2743a94e2d504b463b7bfe94964d1212214477de",
+        "profile": "B1",
+        "source_sha": "887e65629291f16f73863e2b111123007542d268",
+        "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+      },
+      "actual_relay_profile": "B1",
+      "historical_B0_label_suffix_is_relay_profile": false,
+      "checkpoint_bulk_weights_revalidated_by_this_review": false,
+      "READY_queries_zero_is_startup_snapshot": true
+    },
+    "policy_and_Teacher_attribution": {
+      "exact_original_full_task_outcome": "PERSISTENT_SUCCESS_TRUE_ON_FIXED_BASE_SOURCE_T1_SIMULATION",
+      "B1_actions_read_from_hash_bound_wire": true,
+      "source_plan_provenance": "ACTUAL_FRESH_MODEL_OBSERVATION",
+      "Teacher_stage_and_observe_used_for_audit": true,
+      "B1_branch_calls_Teacher_plan": false,
+      "timeout_or_rejection_silently_falls_back_to_Teacher": false,
+      "mp1_confirmation_allows_intervention_collection": false,
+      "model_generation_implementation": "FROZEN_E1_RESIDENT_GENERATE_ORIGINAL_PROCESSOR_NOT_TEACHER_TRAJECTORY",
+      "code_path_is_record_level_proof_of_all80_GPU_draws": false,
+      "all80_command_action_observation_ACK_bundles_individually_revalidated": false,
+      "all80_Hopper_draw_receipts_and_noise_individually_read_back": false,
+      "actual_verified_mechanistic_model_to_source_outcome_prefixes": 1,
+      "actual_verified_prefix_points": 8,
+      "task_success_supports_target_transfer_or_current_seed366104_success": false,
+      "first_query0_unexecuted_suffix_points_retained_as_unexecuted": 32
+    },
+    "source_outcome_reuse_boundary": "ONLY_EXACT_ARCHIVED_QUERY0_OBSERVATION_CHECKPOINT_PREFIX8_MAY_USE_THE8_MEASURED_SOURCE_OUTCOMES; FINAL_SCORE_DOES_NOT_TURN_OTHER_QUERIES_OR_SUFFIXES_INTO_SOURCE_OUTCOME_LABELS",
+    "new_SO_seed366104_trajectory_executed": false
+  },
+  "policy_input_protection": {
+    "privileged_geometry_use": "DIAGNOSTIC_AND_SCORER_ONLY",
+    "object_or_goal_metadata_added_to_policy": false,
+    "source_images_substituted_for_target": false,
+    "source_observed_pose_or_achieved_target_state_used_as_expert_label": false,
+    "original_task_score_or_failure_history_rewritten": false,
+    "WBC_changes": false,
+    "physics_dt_s": 0.002
+  },
+  "actual_readonly_effects": {
+    "model_binary_loads": 1,
+    "MjData_constructions": 0,
+    "physics_integrations": 0,
+    "FK_calls": 0,
+    "renders": 0,
+    "GR00T_loads": 0,
+    "model_queries": 0,
+    "executor_constructions": 0,
+    "source_or_model_writes": 0
+  },
+  "actual_readonly_cost": {
+    "Core_function_wall_s": 0.1720234458334744,
+    "Core_function_CPU_s": 0.151149395
+  },
+  "interpretation": "The exact saved source confirmation episode completed 32 s and its original T1 score records persistent_success=true. This is stronger than a reasonable-looking proposal, but the currently reviewed mechanistic action/outcome chain still covers only query0 prefix8, not 80 independently hash-joined remote GPU draws. Original B1 code takes model wire actions and does not fall back to the Teacher; Teacher stage names are audit metadata. Neither this historical fixed-base source result nor the presence of the named target cube and square establishes target phase equivalence, current seed366104 success, or target transfer. Use the frozen short-skill task with actual matched input phase; preserve the source confirmation role and every failure.",
+  "private_assets_or_host_paths_published": false,
+  "source_attribution_code_review": {
+    "fixed_source_sha": "887e65629291f16f73863e2b111123007542d268",
+    "retrieval": "READ_ONLY_LOCAL_FIXED_REF_GIT_AND_EXACT_REF_GITHUB_CONNECTOR_BYTES",
+    "all_listed_file_SHA256_match_previously_pinned_original_SOURCE_SEAL": true,
+    "code_files": {
+      "scripts/pi0294/mp1/core.py": {
+        "sha256": "fbe63d87cb5a477a0b37f81325ac3c5061f4fbb1ffdb420dd95337df013797a6",
+        "evidence_lines": [
+          33,
+          40,
+          53,
+          58,
+          62,
+          69
+        ]
+      },
+      "scripts/pi0294/episode.py": {
+        "sha256": "ec8205fdb01cc238425e3bcfca5539711640f8aa2a6d7883c0c2ad4bc7ae8728",
+        "evidence_lines": [
+          110,
+          113,
+          154,
+          167,
+          192,
+          198,
+          226,
+          230
+        ]
+      },
+      "scripts/pi0294/relay_teacher.py": {
+        "sha256": "2b362069fc883724889994cb3c28bffb8dfa5459d2d866d81187c02ce1836554",
+        "evidence_lines": [
+          58,
+          72,
+          84,
+          88,
+          99,
+          102,
+          108,
+          129
+        ]
+      },
+      "scripts/pi0294/e1/core.py": {
+        "sha256": "abfa66ee0ac0301365834777f3cf35743b0dcbb9cacb685f22b221289eab17a8",
+        "evidence_lines": [
+          19,
+          34
+        ]
+      },
+      "scripts/pi0294/e1/model.py": {
+        "sha256": "ba298ec7223c229b8a3fccaa97115edc8ef483a6b83dcf1991d283527080102d",
+        "evidence_lines": [
+          29,
+          35,
+          38,
+          43,
+          61
+        ]
+      },
+      "scripts/pi0294/mp1/confirmation_neural.py": {
+        "sha256": "4060802a0e0d890b65ea308d934ec7797be08daf549925b8a5ab2193ecbb5ab8",
+        "evidence_lines": [
+          61,
+          73
+        ]
+      },
+      "scripts/pi0294/mp1/confirmation_plan.py": {
+        "sha256": "2bea46a10ab663038efd644c4649a5ba725d5b35c9174fe61eaf5c5c1a368575",
+        "evidence_lines": [
+          114,
+          118
+        ]
+      },
+      "scripts/pi0294/e1/neural.py": {
+        "sha256": "d7d58f9586effd4c7c695071bb09e9c1afe485e0402ba1bbdb889a067ac49e77",
+        "evidence_lines": [
+          37,
+          86,
+          87,
+          98,
+          100
+        ]
+      },
+      "scripts/pi0294/mp1/confirmation_evidence.py": {
+        "sha256": "0f4f36c8741cdfa56853070324e88e1a14b3d40293c8bc62a51eef29aa720166",
+        "evidence_lines": [
+          90,
+          105
+        ]
+      }
+    },
+    "exact_ref_connector_files": [
+      {
+        "path": "scripts/pi0294/e1/neural.py",
+        "bytes": 10710,
+        "sha256": "d7d58f9586effd4c7c695071bb09e9c1afe485e0402ba1bbdb889a067ac49e77",
+        "git_blob_sha": "84040f508e4381b7f836920f7960f4c3cd6237db",
+        "URL": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/887e65629291f16f73863e2b111123007542d268/scripts/pi0294/e1/neural.py"
+      },
+      {
+        "path": "scripts/pi0294/mp1/confirmation_evidence.py",
+        "bytes": 10798,
+        "sha256": "0f4f36c8741cdfa56853070324e88e1a14b3d40293c8bc62a51eef29aa720166",
+        "git_blob_sha": "77df86b34ecc11afb60bee1ccc37276cc39a0322",
+        "URL": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/887e65629291f16f73863e2b111123007542d268/scripts/pi0294/mp1/confirmation_evidence.py"
+      }
+    ],
+    "models_loaded": 0,
+    "new_queries": 0,
+    "FK_calls": 0,
+    "physics_integrations": 0,
+    "source_or_receipt_changes": 0
+  },
+  "historical_seed_route_correction": {
+    "status": "CODE_DERIVATION_CORRECTED_ACTUAL_HOPPER_DRAW_NOT_READ_BACK",
+    "retained_original_prefix_audit_sha256": "c261bd6ca993f14b541577a57c64e7619ff2860ca42c3b95374eaef9b6a8de14",
+    "original_audit_left_unchanged": true,
+    "scope": "HISTORICAL_SOURCE_CONFIRM_QUERY0_ONLY",
+    "incorrect_prior_default_namespace": "PI0294",
+    "incorrect_prior_derived_seed": 2905439172280596819,
+    "reason": "ORIGINAL_CONFIRMATION_CALLS_E1_NEURAL_SERVE_WITH_ITS_PANEL_NOISE_NAMESPACE; RESIDENT_DEFAULT_NAMESPACE_IS_NOT_THIS_ROUTE",
+    "original_confirmation_noise_bank": 29201,
+    "confirmation_noise_bank_is_itself_the_draw_seed": false,
+    "original_layout_id": "PI0294/SOURCE_CONFIRM_V1/F0/001",
+    "sequence": 0,
+    "correct_code_namespace": "PI0294/SOURCE_CONFIRM_V1/N29201",
+    "exact_seed_formula": "int.from_bytes(sha256((namespace+'/'+layout_id+'/'+str(sequence)).encode()).digest()[:8],'big') % (2**63)",
+    "corrected_code_derived_seed": 7849981878097698161,
+    "actual_saved_Hopper_draw_receipt_verified": false,
+    "actual_saved_noise_fingerprint_verified": false,
+    "corrected_derived_seed_is_an_executed_draw_receipt": false,
+    "current_matched_four_condition_query_seed": 366104,
+    "current_matched_four_condition_noise_sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69",
+    "current_four_conditions_depend_on_this_historical_seed_derivation": false,
+    "current_actual_query_total_remains": 9,
+    "queries_repeated_or_added_by_this_review": 0,
+    "existing_denominators_changed": false
+  },
+  "source_final_outcome_read_only_cost": {
+    "actual_exit_code": 0,
+    "wall_s": 0.0021559037268161774,
+    "CPU_s": 0.0012172950000000002,
+    "effects": {
+      "model_loads": 0,
+      "queries": 0,
+      "FK": 0,
+      "renders": 0,
+      "physics": 0,
+      "writes": 0
+    },
+    "source": "EXACT_PINNED1728_BYTE_FINAL_RESULT_AND_RETAINED_CARD_MANIFEST_S1_READBACK"
+  }
+}

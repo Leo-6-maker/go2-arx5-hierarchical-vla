@@ -1,0 +1,420 @@
+{
+  "schema": "WM02_SLOW_GRADED_SAME_WORLD_IMPLEMENTATION_V9",
+  "status": "IMPLEMENTED_TESTED_STATIC_REPLAY_PASS_NOT_DEPLOYED_OR_NATIVE_QUALIFIED",
+  "goal": "ACTIVE",
+  "parent_commit": "00fba10740cb53ce380ed599794a64de00137577",
+  "QUESTION": "Can slower ordinary feedback reach the same qualified half-grade query boundary under the original finite task clock?",
+  "CHANGED": "Versioned12-slot ordinary pose feedback,28atom movement and8atom settle; same original half ramp/desired goal/bias and same B34303/E66503. Complete generated H40 adapter is unchanged.",
+  "NATIVE_RESULT": "No new native integrations or query in this implementation delivery; previous actual30103 acceleration rejection remains a failure.",
+  "VALID_FAILURES": "Original prefix failure and failed readonly helper attempts remain sealed; static candidates are not physical attempts or task passes.",
+  "SCIENCE_DECISION": "Advance to fresh original-owner finite-scope native validation only after cold resources and original admission pass. No safety/WBC/dt changes.",
+  "NEXT_GATE": "Fresh V9 same-world half-prefix/capture/fullH40 native diagnosis, followed by nominal and strong-feedback baseline before any new-domain WM gain claim.",
+  "clocks": {
+    "physics_dt_s": 0.002,
+    "atom_dt_s": 0.05,
+    "original_half_ramp_atoms": 768,
+    "old_feedback_slots": 16,
+    "new_feedback_slots": 12,
+    "old_move_atoms": 20,
+    "new_move_atoms": 28,
+    "settle_atoms": 8,
+    "decision_steps": [
+      23103,
+      24003,
+      24903,
+      25803,
+      26703,
+      27603,
+      28503,
+      29403,
+      30303,
+      31203,
+      32103,
+      33003
+    ],
+    "last_motion_end_native_step": 33703,
+    "final_continuous_hold_atoms": 24,
+    "initial_settle_atoms": 8,
+    "planned_path_end_atom": 1216,
+    "B": 34303,
+    "E": 66503,
+    "original_task_quota_bucket_s": 128,
+    "expected_complete_task_atoms": 2560,
+    "expected_complete_atomic_transitions": 2660,
+    "expected_native_ticks": 66503
+  },
+  "ordinary_feedback": {
+    "XYZ_gain": 0.5,
+    "XYZ_step_cap_m": 0.008,
+    "XYZ_deadband_m": 0.005,
+    "XYZ_cumulative_cap_m": 0.096,
+    "SO3_gain": 0.5,
+    "SO3_step_cap_rad": 0.01,
+    "SO3_deadband_rad": 0.005,
+    "SO3_cumulative_cap_rad": 0.12,
+    "original_desired_intent_and_static_ramp_retained": true,
+    "past_reference_and_gripper_values_unchanged": true,
+    "achieved_TCP_not_used_as_reference_anchor": true,
+    "old20atom_internal_math_candidate_never_installed": true,
+    "original_reference_rate_checks_and_full_native_certificate_still_required": true
+  },
+  "static_replay": {
+    "actual_original_source_sha": "bfafbeed6722175ffad76e465b549b9a48adb9ab",
+    "actual_spec_sha256": "bb4b2fc4e998241e0875c575780d7efcd62a1e36643d734d54a2848554ef35ff",
+    "actual_result_sha256": "a32a70570b4bda1e1d35d217c62e1804c942f5a78d0248a677f2dbd0db75388e",
+    "exact_native_state": 30103,
+    "history_native_end_steps": [
+      30078,
+      30103
+    ],
+    "original_rejection": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+    "original_extrema": {
+      "IK_iterations": 2105,
+      "acceleration_index": 17,
+      "full_pose_indices": [
+        17,
+        18,
+        19
+      ],
+      "involves_reference_history": false,
+      "max_acceleration_by_joint": [
+        0.001727592889566587,
+        0.5690717292107905,
+        1.1003852724245533,
+        0.5885610945552955,
+        0.0006093448939092916,
+        0.0038800222309454124
+      ],
+      "max_joint_acceleration_rad_s2": 1.1003852724245533,
+      "max_joint_speed_rad_s": 0.3190969018941292,
+      "points": 1051,
+      "prefix_history_points": 2,
+      "q_triplet_rad": [
+        2.5275534517353226,
+        2.5367457343626665,
+        2.543187053808949
+      ],
+      "velocity_pair_rad_s": [
+        0.1838456525468768,
+        0.12882638892564913
+      ],
+      "worst_acceleration": -1.1003852724245533,
+      "worst_joint_name": "x5_joint3"
+    },
+    "move28_hypothesis": {
+      "candidate_full_H40_matrices_sha256": "bd8f266b2039208fa41b85f3d332271d947eff5a96ba455fa7f95383a98e9b5f",
+      "certificate": {
+        "Cartesian_reference_values_changed": false,
+        "actual_state_modified": false,
+        "executed_reference_history_points": 2,
+        "local_IK_iterations": 2105,
+        "max_joint_acceleration_rad_s2": 0.5669780092500076,
+        "max_joint_speed_rad_s": 0.228547026412107,
+        "physics_integrations": 0,
+        "points": 1051,
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF"
+      },
+      "endpoint_scale": 1.0,
+      "extrema": {
+        "IK_iterations": 2105,
+        "acceleration_index": 24,
+        "full_pose_indices": [
+          24,
+          25,
+          26
+        ],
+        "involves_reference_history": false,
+        "max_acceleration_by_joint": [
+          0.0008861715257213465,
+          0.29279864601736705,
+          0.5669780092500076,
+          0.30296927851560795,
+          0.00031274512851675595,
+          0.001991725421740531
+        ],
+        "max_joint_acceleration_rad_s2": 0.5669780092500076,
+        "max_joint_speed_rad_s": 0.228547026412107,
+        "points": 1051,
+        "prefix_history_points": 2,
+        "q_triplet_rad": [
+          2.534394628563917,
+          2.5398472252538737,
+          2.5438823769207053
+        ],
+        "velocity_pair_rad_s": [
+          0.10905193379913136,
+          0.08070303333663098
+        ],
+        "worst_acceleration": -0.5669780092500076,
+        "worst_joint_name": "x5_joint3"
+      },
+      "future_WBC_response_known": false,
+      "history_or_actual_root_modified": false,
+      "move_atoms": 28,
+      "move_duration_s": 1.4000000000000001,
+      "name": "SAME_ENDPOINT_MOVE28",
+      "native_execution_authorized": false,
+      "outcome": "PASS_STATIC_ORIGINAL_CERTIFICATE_ONLY",
+      "reason": null,
+      "source_is_ordinary_feedback_not_generated_GR00T_action": true
+    },
+    "original_native_MuJoCo_model_loads": 1,
+    "all_FK_calls": 6313,
+    "physics_integrations": 0,
+    "queries": 0,
+    "learned_models": 0,
+    "writes": 0,
+    "wall_s": 3.5128884948790073,
+    "CPU_s": 3.471409,
+    "actual_data_identities": [
+      {
+        "basename": "state.bin.journal",
+        "bytes": 60081636,
+        "sha256": "041e634b64bafe817815e2a051e1ecccbbf1b2232abe77eb7994dde9bb609329"
+      },
+      {
+        "basename": "state.bin",
+        "bytes": 1688,
+        "sha256": "a6638d35034e6789a4c19a48ce3540963c685e4c880bb4f12bcdf01089c74359"
+      },
+      {
+        "basename": "init.trace",
+        "bytes": 188344816,
+        "sha256": "d91f0df45c32b335da95aa4cd16ff68f999befbbe39f0d4eae76e9eb742c7d65"
+      },
+      {
+        "basename": "COMMANDS.private.jsonl",
+        "bytes": 49576181,
+        "sha256": "c86596433961081b47eca7918dc6575d2961452afec7a979e4a01646448ea554"
+      }
+    ],
+    "old_state_is_not_a_new_world_or_full_MPC_restore": true
+  },
+  "other_static_diagnostics": {
+    "receipt": "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT05.private.json",
+    "SAME_ENDPOINT_MOVE30_max_acceleration_rad_s2": 0.49173714030210647,
+    "SAME_ENDPOINT_MOVE40_max_acceleration_rad_s2": 0.27821803167373815,
+    "HALF_DELTA_MOVE20_max_acceleration_rad_s2": 0.46738196643811847,
+    "all_original_certificates_passed": true,
+    "FK_counter_covers_only_original_replay_not_these_alternatives": true,
+    "candidates_are_ordinary_feedback_hypotheses_not_GR00T_action_clipping": true,
+    "diagnostic04_failure": "Quaternion interpolation shortcut did not reconstruct the exact original SO3 exponential curve; guard rejected before candidate checks. Corrected05 uses original exponential math."
+  },
+  "tests": {
+    "full_normal": {
+      "passed": 1801,
+      "exit_code": 0,
+      "source_members": 68,
+      "source_pins_unchanged": true,
+      "command": [
+        "LOCAL_CI_PYTHON",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/world_model",
+        "scripts/pi0294/dec1/test_inference_assets.py"
+      ],
+      "wall_s": 391.3977664529957,
+      "CPU_s": 381.161813,
+      "log_sha256": "2287725fd281b96c412c7893fa9bae4e67d10160103ac35b5ec749e28c21df57",
+      "test_qualification_is_native_qualification": false
+    },
+    "related_optimized": {
+      "passed": 638,
+      "exit_code": 0,
+      "source_members": 68,
+      "source_pins_unchanged": true,
+      "command": [
+        "LOCAL_CI_PYTHON",
+        "-B",
+        "-O",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py",
+        "tests/world_model/test_fusion_task_phase_bias_fade_v8.py",
+        "tests/world_model/test_fusion_live_skill_segment.py",
+        "tests/world_model/test_fusion_preseal_continuation.py",
+        "tests/world_model/test_planner_event_log.py",
+        "tests/world_model/test_fusion_task_phase_pose_continuation_v7.py",
+        "tests/world_model/test_fusion_task_phase_pose_feedback_v6.py",
+        "tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py",
+        "tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py",
+        "tests/world_model/test_fusion_task_phase_bias_continuation_v3.py",
+        "tests/world_model/test_fusion_task_phase_bias_calibration_v2.py",
+        "tests/world_model/test_fusion_task_phase_initialization.py",
+        "tests/world_model/test_fusion_task_phase_initialization_native.py",
+        "tests/world_model/test_auto1_native.py",
+        "tests/world_model/test_fusion_trajectory_qualification.py",
+        "tests/world_model/test_fusion_source_posture_qualification_contract.py",
+        "tests/world_model/test_fusion_source_posture_paused_query_v3.py",
+        "tests/world_model/test_fusion_task_phase_pose_slow_feedback_v9.py",
+        "tests/world_model/test_fusion_task_phase_live_skill_v9.py"
+      ],
+      "wall_s": 257.4566954750044,
+      "CPU_s": 251.20567400000002,
+      "log_sha256": "9f95d0a8c0190d8bb5077575ab6abec915a2aa4581046ac82753da9ee2e4137d",
+      "test_qualification_is_native_qualification": false
+    },
+    "full_normal_subtests": 302,
+    "CI": "NOT_RUN",
+    "source_file_pins": {
+      "scripts/pi0294/task_path_model.py": "fc49fe2cb3054858e6719bc7366486495100e9a55cf80c1b19179b320800591b",
+      "scripts/pi0294/task_quota_r1.hpp": "9f96f3c308550df2081de3269735006302bc5a239fab9085231299b2d8438e75",
+      "scripts/wm02/fusion_task_phase_bias_calibration_check_v2.py": "1bf51433e8bafa76d3fed536dd0d82a32d04f4c7175997144c57d6f8ec71cadf",
+      "scripts/wm02/fusion_task_phase_bias_continuation_check_v3.py": "a1c560fe1f3895165242944fb5463871f9e33e34b3ea6d0181eaae5654aacb72",
+      "scripts/wm02/fusion_task_phase_initialization_check.py": "49aba12b72a630f2bedf870f4cad998de76ba6dbb707f6180362b70518e8b8f1",
+      "scripts/wm02/fusion_task_phase_live_skill_check_v8.py": "0668fe1ce7425a461b54a04793f7320f7a10b74a4203aca3327c7817e7aa2d1f",
+      "scripts/wm02/fusion_task_phase_live_skill_check_v9.py": "6b25cb759f0a8e3c6cbb50c084c1ff4a17b7fd45ef69c8036488f72bcf2ef17d",
+      "scripts/wm02/fusion_task_phase_pose_continuation_check_v7.py": "c7c25553fb3ec4d542e6e645214b22fea6a2d0e4ce29c7d1b40cfce3dcc8b00a",
+      "scripts/wm02/fusion_task_phase_pose_feedback_check_v6.py": "09a29f6bd53eb96b24646e2b98a1358ab47122733ec8261c4ca7d2541f77e12c",
+      "scripts/wm02/fusion_task_phase_xyz_feedback_check_v4.py": "0e5f203a072013abc8e37f5cf270ebc53bea5c71ace040b143dcbf23857c5d34",
+      "scripts/wm02/fusion_task_phase_xyz_feedback_continuation_check_v5.py": "3cd123a193d38381cfdf0c1258461053dbeff2f10c3f3ebd64c848cc63070a64",
+      "src/go2arx5_vla/target_mujoco/init_trace.cpp": "6f656cd2ab59c48e7db0178747f27dd9d560e41b0a38523d91b22e791af05caf",
+      "src/go2arx5_vla/target_mujoco/init_trace.hpp": "0c196146a73052787fe2f10586eea48e004b8201e0198a48cd6b967c0c349ef0",
+      "src/go2arx5_vla/world_model/auto1_native.py": "7035f7902a98c77ca78443811d5c51d32315cd04c1fb77a57eca601b08c5b217",
+      "src/go2arx5_vla/world_model/fusion_live_skill_segment.py": "93fc26feebb608e8fa0176003f23aa0ee8f9676a44160653a9b17fb46985eb51",
+      "src/go2arx5_vla/world_model/fusion_paused_inference.py": "2c82efd3405d75ce7b38b3c037807ce2f0483a8f50f8ef8d898d28c211270ca5",
+      "src/go2arx5_vla/world_model/fusion_paused_query_bridge.py": "de126179aaea7ad52782e14b80e5e3130652d2de75e986e62d51a7608e0a8396",
+      "src/go2arx5_vla/world_model/fusion_physics_feedback.py": "9d1cc7229a16d02763dd405454465a11c44f75e20c0da4021667f76fb17c2d6d",
+      "src/go2arx5_vla/world_model/fusion_physics_feedback_v2.py": "5a4e867604090c8e69f1644814d24e7bd1651e5450896fdd872d96443fc56076",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_contract_v2.py": "0ef128ef906edaa2cbac32891e1da304cb8e6583a5b20f836023292358178b3f",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_native_v2.py": "43a0ecd537bdda9e5d1bc37f3d6bbc11c40e643674f5b1712112409aed63a667",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_calibration_v2.py": "8d67153e4427f8fa5c81e734698c51d31b4a8b2d3a5803b0b1e2e460b7b6937d",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_contract_v3.py": "f29ca5659c8ad7659e45e159f1212e10f2f61c70b27211e1b2c0ba496ead8623",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_native_v3.py": "930f2a412305cb078240bf574763b2bb3e16d206103d2133da403dc993e650d4",
+      "src/go2arx5_vla/world_model/fusion_task_phase_bias_continuation_v3.py": "28755816b9bc2f9e5f046f7e0dfd499693556f1715bf355f3e9d65fd4f604cda",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization.py": "0f491bf4bf43d881a6fa2f92178ea31d212af9f6f212cc73a92cc571c28b4d2e",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization_contract.py": "9694d4d4b5f4d83c3093ef7f823af202f73308901448ec453fe86e7c7c3028c6",
+      "src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py": "062c7fd7d71e63aaa5edcc5a0d77e23ea2a1a3e329175d3587b3d279bd751e47",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v8.py": "d8aef5434300707fd1a4a481e8c32430bc88df1cbffec0804c9683c7ceb2d38d",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "c73fa916e710714e82d28ab519b4bce1a7b0f0f88449e591e8c4aeaec80cec9b",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "d1a2472e1a84dff6b3ca1eba55550f1b147e7377fe16cd181912336840fbe48e",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v9.py": "973d6b74e3a7f6f388c69fa11aa30c064063b11317190b435e1ec35c55b54a43",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v8.py": "858089d27ea4bb646d890977a25e809d3f1f61d4decd6463b4b43d94f95318d7",
+      "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py": "96ceb8684b025d842f6e613b94cc1c9f186104b183e84bfaf44217bd7e44e6f8",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_continuation_contract_v7.py": "9ec65b725bfe1b7c9d89944b6c85c9f75d8861871c27f293a2fd909f2e9895fc",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_continuation_native_v7.py": "29bdf87c969d1c47551401b7fdabf29b044e2d31bc5ac2375e16679046aa705d",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_continuation_v7.py": "16837c60c8624aac1ca2065e236b1e41307dd2853cf668e366d51282d321aace",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_contract_v6.py": "80ca75f80089ffc03d01a5db787cb939a872f8a0d24739c5bbaec08b38b1981c",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_native_v6.py": "eff500ede1531a78efcf5db0da70896287ac971cf839f3e7af121e5be55c09fd",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_feedback_v6.py": "ccda53633aad8a764ef81698b7c98d99d4c11ed64ecee2fcfc1e0be64f3d06c3",
+      "src/go2arx5_vla/world_model/fusion_task_phase_pose_slow_feedback_v9.py": "3d93ac25371ffcb59b25412405c342c02f37f221aaaeda8d48284f9161f78ee5",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_contract_v5.py": "fa8d8f18a323a9ecbda44fc5dba875598968fbf28c934838c4e5a4c79cb32a08",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_native_v5.py": "bcebde448c8d031cb462411ce882b1f37a033d618c14dc5961a40c474b46297b",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_continuation_v5.py": "98f8902581430f13f8153d332a9dc8241096b55b5175819c608e4b58e0f22cb3",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_contract_v4.py": "c59d448664c833e4bc8ce8e7b7312760b9630277e081d952651d910d613e6124",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_evidence.py": "f9ee0793c9652f60cc257fa4eda3882c4223442668ab75f56758158c85bc0882",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py": "2bf9a097994433e884ad1e6d3eef8c30ed5d6320c5207707d728f2585f453a92",
+      "src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_v4.py": "3752683e78e055eac0f81c65866d5d2f315962f55474cbcc6f2fb9be2e98d5b1",
+      "src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py": "8221d79b5c3714f7f347ba4ea0d837d450bc4b79d9057e551eb94101d9a12ccc",
+      "src/go2arx5_vla/world_model/planner_event_log.py": "bab135cb5c1d6c09fc8602850cab371bbe7ba10433d2bbb34cf1370f4be0b87e",
+      "src/go2arx5_vla/world_model/target_sequential.py": "b6f44ea3a6e7ef5e669761b7164c6b3e39269af23445b4f6be5037fac2008c1d",
+      "tests/world_model/test_fusion_live_skill_segment.py": "fa01cc2e0c02007b0a4cc46d81375419294b8f91e85f5a271c66d2232355969c",
+      "tests/world_model/test_fusion_physics_feedback.py": "fc56e8b81ea6c0465193e5567eb8e2db5b8558dc92fb6e5fd6be87c27ac211db",
+      "tests/world_model/test_fusion_physics_feedback_v2.py": "246111fa6c20e8c893c1bf23b66ae6489694215da0b4f89ce1a47dab95578486",
+      "tests/world_model/test_fusion_preseal_continuation.py": "d02ed1aa8c8d7552f145c4802956322c1f4abc91bb9e5b067f77dfbff0854c34",
+      "tests/world_model/test_fusion_task_phase_bias_calibration_v2.py": "a7b7dfc85f02f192e75d59c1ac77d66f3b769226d957fdef714f304642e5b967",
+      "tests/world_model/test_fusion_task_phase_bias_continuation_v3.py": "1d943f1594070746586d7a5154fa729bf8310655aa2998f4178d3ce5eab5b857",
+      "tests/world_model/test_fusion_task_phase_initialization.py": "ba21e2f146213375f2d80a904be0e7248de71bf8cb960b2db06c56948245d079",
+      "tests/world_model/test_fusion_task_phase_initialization_native.py": "c92413a6f7477896cb4c90af14898c5d24fd5e9df35a2db7d026a5bffd8d8a9d",
+      "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py": "c47c0d3d4b86775a8615c461973e62ef0749d091c14e53367ec8898e918cdee7",
+      "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py": "67dab333b6dccb9bbaf192c56f3bb221f52a9694e5d8413b90d14b3eeb1544d4",
+      "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "9a580df39cfa9ff0be580e26fceb666bb0b7ec3b01e754ebaeed67a9c776b858",
+      "tests/world_model/test_fusion_task_phase_pose_continuation_v7.py": "a74d42c96d38beae5e775ab9292cc473c0c9c04081e32ab694347f1cf7e20661",
+      "tests/world_model/test_fusion_task_phase_pose_feedback_v6.py": "be1603d13f465f0d6029841f912ac40308ddf54cd45496729089f224bfeb8960",
+      "tests/world_model/test_fusion_task_phase_pose_slow_feedback_v9.py": "e53ae0c3b0a4266639d0b880dc255a39ed1386ac123275f4652c3b078444e7db",
+      "tests/world_model/test_fusion_task_phase_xyz_feedback_continuation_v5.py": "d1c05de339fb740c73ebc060d30e50b2b7e4de9009317081be91c6028037bf7a",
+      "tests/world_model/test_fusion_task_phase_xyz_feedback_v4.py": "d26c0fb59cd1a2cf54a546a19a4729e8425188061daf41102b958c365512ad54",
+      "tests/world_model/test_planner_event_log.py": "2e8670299d37c7456335b8318c48b7a3d4c5aff90ba61b77acad99f66db00ed7"
+    },
+    "root_new_transport_tests": 16,
+    "pure_new_recipe_tests": 29,
+    "native_qualification": false,
+    "model_loads": 0,
+    "physics_integrations": 0
+  },
+  "invariants": {
+    "original_GR00T_checkpoint_and_Processor_frozen": true,
+    "GR00T_action_geometry_scale": 1.0,
+    "GR00T_action_time_stretch": 2,
+    "all40_raw_knots_preserved": true,
+    "additional_Processor_decodes": 0,
+    "source_full_language_unchanged": true,
+    "original_certificate_ACK_TTL_grip_and_global_clock_retained": true,
+    "no_contact_diagnostic_domain_and_cube_still_guard_unchanged": true,
+    "old_readiness_or_full_grade_relabelled": false,
+    "source80mm_phase_equivalence": false,
+    "WM_gain": false,
+    "full_task_success": false,
+    "original_WBC_weights_control_solver_safety_dt_unchanged": true,
+    "active_capsules_changed": false,
+    "old_leases_reopened": false
+  },
+  "new_effects": {
+    "native_integrations": 0,
+    "scopes": 0,
+    "model_queries": 0,
+    "model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0
+  },
+  "provenance": {
+    "SLOW_LIVE_V9_FULL_NORMAL01.private.json": {
+      "basename": "SLOW_LIVE_V9_FULL_NORMAL01.private.json",
+      "bytes": 19464,
+      "sha256": "6ce3ab15616445dbc4c2b33790daeee76b6edcc49381382054fff1ebe24632c8"
+    },
+    "SLOW_LIVE_V9_RELATED_OPTIMIZED01.private.json": {
+      "basename": "SLOW_LIVE_V9_RELATED_OPTIMIZED01.private.json",
+      "bytes": 20754,
+      "sha256": "1952e18c73d79df5d1792d73a270e5a17fa769d338e2f229e25b96e384cca1d9"
+    },
+    "SLOW_LIVE_V9_ROOT_NORMAL01.private.json": {
+      "basename": "SLOW_LIVE_V9_ROOT_NORMAL01.private.json",
+      "bytes": 420,
+      "sha256": "19889ed98cae8f9b39b7943708e3be2f4c07c350f6feccab74c61377bf24b214"
+    },
+    "audit_graded_live_prefix_geometry04.py": {
+      "basename": "audit_graded_live_prefix_geometry04.py",
+      "bytes": 11272,
+      "sha256": "f4c4cfa70cc1d382d9c0f2affb794a396a64ddd577ded26305e4cadcd56f5cdf"
+    },
+    "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT04.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT04.private.json",
+      "bytes": 244,
+      "sha256": "ba8fff30843aad7eb0678c864d4d0057a58c663fcaaab2652f41de15921001d6"
+    },
+    "audit_graded_live_prefix_geometry05.py": {
+      "basename": "audit_graded_live_prefix_geometry05.py",
+      "bytes": 11285,
+      "sha256": "95ed631aa752e578e36fec94c77c09cfd6471c671beed31e18cea689346b16f8"
+    },
+    "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT05.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT05.private.json",
+      "bytes": 11725,
+      "sha256": "a5431ee580bd1bf664e6f060ec4a6ac4a634ea5e13d3e633a930f3b02a0dd8c8"
+    },
+    "audit_graded_live_prefix_geometry06.py": {
+      "basename": "audit_graded_live_prefix_geometry06.py",
+      "bytes": 11288,
+      "sha256": "a142c9b5a6e4ddae7f92b72fe5bad84446c5c7a6b5e4345c588897f5a993661a"
+    },
+    "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT06.private.json": {
+      "basename": "GRADED_LIVE_PREFIX_GEOMETRY_AUDIT06.private.json",
+      "bytes": 8753,
+      "sha256": "ef692a3fbc417e2f30973e899535f0a6195bde7a8ba64d55593c61ef6c7f8967"
+    },
+    "dispatch_graded_live_skill_s050_v9_01.template.py": {
+      "basename": "dispatch_graded_live_skill_s050_v9_01.template.py",
+      "bytes": 49071,
+      "sha256": "6a8ed90e601a1388774e5e44cb356dc23b448181cfde2c29631245207a2b7f45"
+    }
+  }
+}

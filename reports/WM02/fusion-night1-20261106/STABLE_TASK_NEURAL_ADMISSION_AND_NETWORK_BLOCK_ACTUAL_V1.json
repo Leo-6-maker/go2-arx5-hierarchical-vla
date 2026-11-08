@@ -1,0 +1,172 @@
+{
+  "schema": "WM02_STABLE_TASK_NEURAL_ADMISSION_AND_NETWORK_BLOCK_ACTUAL_V1",
+  "snapshot_epoch": 1794081675.48534,
+  "goal_status": "blocked",
+  "goal_complete": false,
+  "blocking_condition": "CORE_SSH_TRANSPORT_UNAVAILABLE",
+  "consecutive_goal_turns_with_same_external_block": 3,
+  "execution_code_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
+  "prepared_neural_source_sha": "f66582cd572652998975e4fdb5ac5bc9d2548adf",
+  "execution_code_equal_to_prepared_source": true,
+  "code_equality_check_exit_code": 0,
+  "actual_last_native_source_sha": "a0f725b9c1ae77723f5f971791b6f3dba617e965",
+  "actual_native_spec_sha256": "1feb1f5db13c41bc328b1ec88e866ebca543db8547f75079406ed9cfde6ccdde",
+  "native_worker_root": "stable-task-train01-hold-r1-01",
+  "worker_terminal": "UNKNOWN_NOT_ASSUMED_STOPPED",
+  "last_confirmed_native_step": 15428,
+  "last_confirmed_PID": 101010,
+  "worker_not_restarted": true,
+  "last_worker_read": {
+    "private_stdout": "STABLE_TASK_DATA_LIVE10.private.json",
+    "private_stderr": "STABLE_TASK_DATA_LIVE10.stderr",
+    "exit_code": 255,
+    "error": "SSH connection timed out before remote reconciliation"
+  },
+  "last_network_evidence": {
+    "epoch": 1794081387.1503026,
+    "private_artifact": "STABLE_TASK_NETWORK_BLOCK_AUDIT03.private.json",
+    "sha256": "b95b8e8a999ff3084363d92fe11145c67781c3095c1aae982b15209ce63074dc",
+    "endpoints": [
+      {
+        "alias": "ORIGINAL_DIRECT",
+        "status": "TimeoutError: timed out",
+        "wall_s": 4.007286025007488
+      },
+      {
+        "alias": "ORIGINAL_GATEWAY",
+        "status": "TimeoutError: timed out",
+        "wall_s": 4.006475404981757
+      }
+    ]
+  },
+  "prepared_helpers": [
+    {
+      "seed": 110801,
+      "name": "dispatch_stable_task_adapter_s110801_u2000_01.py",
+      "sha256": "79b688ab77fdc9bafd689d6ea86ea621369f00ebbbfa3d8c47347ffa4743c325",
+      "executed": false
+    },
+    {
+      "seed": 110802,
+      "name": "dispatch_stable_task_adapter_s110802_u2000_01.py",
+      "sha256": "6f58f5c40336f4ad472778db374fe76a728bc93fd453c25d17642570571c3711",
+      "executed": false
+    },
+    {
+      "seed": 110803,
+      "name": "dispatch_stable_task_adapter_s110803_u2000_01.py",
+      "sha256": "6514bc22981fa17bc4e89789971befe2a02010e2750f193b36da0b1c0df1c2b0",
+      "executed": false
+    }
+  ],
+  "source_staging_helper": {
+    "name": "stage_stable_task_neural_source_f66582cd_01.py",
+    "sha256": "cd70993ea06e6cc5e58deb68ee46d015acfa8c15e8dc135ff2f67e64d8fff86f",
+    "executed": false
+  },
+  "planned_training": {
+    "kind": "TASK_ADAPTER",
+    "profile": "wm02-pilot1-neural",
+    "updates_per_seed": 2000,
+    "seeds": [
+      110801,
+      110802,
+      110803
+    ],
+    "allocator_limit_bytes": 536870912,
+    "extra_free_memory_required_bytes": 1073741824,
+    "physics": false,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "WM_updates": 0,
+    "original_owner_Journal_registry_worker_reused": true
+  },
+  "actual_this_turn": {
+    "remote_source_transfers": 0,
+    "remote_GPU_jobs_registered": 0,
+    "remote_native_jobs_started": 0,
+    "new_sealed_TRAIN_episodes": 0,
+    "new_sealed_DEV_episodes": 0,
+    "new_candidate_optimizer_updates": 0,
+    "new_checkpoints": 0,
+    "new_GR00T_queries": 0,
+    "new_GR00T_updates": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "new_native_closed_loop_runs": 0
+  },
+  "local_metadata_checks": {
+    "normal": {
+      "exit_code": 0,
+      "passed": 18,
+      "wall_s": 0.27
+    },
+    "optimized": {
+      "exit_code": 0,
+      "passed": 18,
+      "wall_s": 0.28
+    },
+    "initial_negative": {
+      "failed": 1,
+      "passed": 17,
+      "reason": "Old binding inheritance rejection was absent from the unexecuted metadata helper",
+      "fixed_before_any_remote_execution": true
+    },
+    "source_staging_delta_members": 46,
+    "source_staging_delta_audited": true,
+    "synthetic_checks_are_not_experiment_training": true
+  },
+  "sealed_FUSION_denominator": {
+    "attempts": 324,
+    "PASS": 305,
+    "FAIL": 19,
+    "native_ticks": 2834935
+  },
+  "pending_native_runs": 1,
+  "requirement_audit": {
+    "G0": "New finite scopes registered earlier; current owner/resources/leases cannot be revalidated remotely",
+    "G1": {
+      "status": "SEALED_PASS",
+      "native_passes": 3,
+      "native_ticks": 116109,
+      "Teacher_strict_successes": 1,
+      "HOLD_passes": 2
+    },
+    "G2": "Historical matched attribution and saved dual-RGB binding audited; fresh frozen-GR query still uncompleted",
+    "G3": "Collector/trainer/checkpoint/native-DEV code and finite original-PILOT1 launch wiring exist; real dataset/updates/checkpoint/DEV uncompleted",
+    "G4": "Finite prefix implementation exists; real TRAIN/candidate-DEV qualification and actual closed loop uncompleted",
+    "G5": "Optional; no independent physical WM increment demonstrated; not deployed"
+  },
+  "reason_no_further_independent_science": "The required actual data and running-worker evidence are on Core. Local synthetic work cannot replace real collection, admitted CUDA learning or native DEV. Available execution wiring is prepared; network/system changes are outside the frozen infrastructure conditions.",
+  "costs": {
+    "new_remote_GPU_s": 0,
+    "new_remote_physics_started": 0,
+    "local_metadata_test_wall_s": 0.55,
+    "original_worker_final_cost": "UNKNOWN_UNTIL_RECONNECTED",
+    "prior_confirmed_worker_CPU_s_lower_bound": 418.227844
+  },
+  "invariants": {
+    "WBC_changes": false,
+    "physics_dt_s": 0.002,
+    "startup_joint2_joint3_rad": 0.9,
+    "old_CLOSED_reopened": false,
+    "active_capsules_hot_changed": false,
+    "formal_Actor_started": false,
+    "H200_used": false,
+    "GPU_physical_multiworld_used": false,
+    "other_users_jobs_modified": false
+  },
+  "actual_registered_window": {
+    "parent_deadline_epoch": 1794113946.6684496,
+    "physical_dispatch_cutoff_epoch": 1794112746.6684496
+  },
+  "resume_order": [
+    "Restore authorized Core SSH reachability",
+    "Read same worker lease/PID/result; preserve actual outcome and failed/partial trace",
+    "Revalidate actual owner/resources and finite scope; obtain a fresh original scope if necessary; never reopen a CLOSED role",
+    "Complete remaining predeclared new-data cases at cold boundaries",
+    "Stage immutable current execution source and export actual closed data",
+    "Use original PILOT1 nonzero TASK_ADAPTER profile, full checkpoint recovery, then real DEV and preregistered prefix qualification"
+  ],
+  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180"
+}

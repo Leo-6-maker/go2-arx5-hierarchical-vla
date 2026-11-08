@@ -1,0 +1,536 @@
+{
+  "schema": "WM02_FUSION_SOURCE_POSTURE_QUALIFICATION_ACTUAL_V1",
+  "goal": "ACTIVE",
+  "calibration_source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+  "frozen_checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "checkpoint_loaded_by_these_jobs": false,
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "generated_reference_is_VLA_or_expert_action": false,
+  "desired_outcome_provenance": "CALIBRATION_INTENT",
+  "actual_stages": [
+    {
+      "run": "fusion-night1-source-posture-s003-01",
+      "source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "geometry_scale": 0.03,
+      "spec_sha256": "761fb2c0088767db23e5632f6021b6136659519d6b0a1db1b797c83d8fea59c1",
+      "result_sha256": "d39ed197e52ee5b3d91c03e0d991c64d8b9028473f7421602a383c43afb6ece0",
+      "qualification_sha256": "372089826363a677f06eda1876bb2fc7eda216625f892636767b77c8f1599acc",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "MainPID": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_integrations": 6353,
+      "consumed_atoms": 154,
+      "solver_confirmed_atoms": 154,
+      "gripper_confirmed_atoms": 154,
+      "all_40_calibration_knots_consumed": true,
+      "trace_events": 47188,
+      "trace_dropped": 0,
+      "shutdown_clean": true,
+      "owned_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "native_outer_guard_rejection_count": 0,
+      "actual_endpoint_minus_scaled_desired_xyz_m": [
+        -0.002144897360314202,
+        0.002576836881741937,
+        -0.0014259995355120347
+      ],
+      "actual_endpoint_error_to_scaled_desired_m": 0.003643370373249044,
+      "source_posture_diagnostic": {
+        "goal_TCP_source": [
+          [
+            3.9569266972871716e-08,
+            -3.397732183497526e-09,
+            0.9999999999999992,
+            0.45637514139395713
+          ],
+          [
+            -2.293514045670594e-10,
+            1.0,
+            3.3977321925727952e-09,
+            -0.07874079909537139
+          ],
+          [
+            -0.9999999999999992,
+            -2.2935153901283144e-10,
+            3.956926697209244e-08,
+            0.5399996963193938
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_endpoint_TCP_source": [
+          [
+            0.9787457482682934,
+            0.004012190756120751,
+            0.20503819783658223,
+            0.35562300106027106
+          ],
+          [
+            -0.007594210325270632,
+            0.9998319371610301,
+            0.0166860840929202,
+            0.0022043900584275723
+          ],
+          [
+            -0.2049367907826032,
+            -0.01788853706027832,
+            0.9786117268996776,
+            0.7722538690139562
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_minus_source_goal_xyz_m": [
+          -0.10075214033368607,
+          0.08094518915379896,
+          0.2322541726945624
+        ],
+        "actual_source_goal_position_error_m": 0.2657914937747231,
+        "actual_source_goal_rotation_error_rad": 1.3644312107811354,
+        "diagnostic_position_tolerance_m": 0.01,
+        "diagnostic_rotation_tolerance_rad": 0.05,
+        "full_scale_source_pose_close": false,
+        "thresholds_are_native_safety": false,
+        "native_execution_authorized": false,
+        "full_policy_input_distribution_qualified": false,
+        "camera_equivalence": false,
+        "task_success": false,
+        "source_observation_used_as_expert_action_label": false,
+        "residual_basis": "ACTUAL_MEASURED_ENDPOINT_NOT_REFERENCE_OR_MODEL_PREDICTION"
+      },
+      "VLA_queries": 0,
+      "VLA_action_installations": 0,
+      "model_updates": 0,
+      "task_success": false,
+      "cost": {
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 82.3798578470014,
+          "CPU_s": 32.187241406,
+          "child_CPU_s": 116.80642300000001
+        },
+        "systemd_CPU_s": 151.089209,
+        "systemd_peak_memory_bytes": 1571831808,
+        "timing_definitions_overlap_do_not_sum": true
+      },
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_qualification --spec FRESH_S003_EXECUTION_SPEC --execute",
+      "dispatcher_sha256": "785c8af7a6355d549cb7a24146a16b92aa507e6de7ddb9c37b8a168f3e17699f"
+    },
+    {
+      "run": "fusion-night1-source-posture-s010-01",
+      "source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "geometry_scale": 0.1,
+      "spec_sha256": "ba6c82e4e16136936d34a230d688d8a53024479409109e6f6cd86f4534de4aeb",
+      "result_sha256": "5419eaab21ca5d6c2019ec48305e4e43c27e2b8cad40e5c13c4c4972f5c8a0f2",
+      "qualification_sha256": "bc0681822213c21e3a69e7a5c845f79eac26984f6a569691bd3c5b2734c37f13",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "MainPID": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_integrations": 6953,
+      "consumed_atoms": 178,
+      "solver_confirmed_atoms": 178,
+      "gripper_confirmed_atoms": 178,
+      "all_40_calibration_knots_consumed": true,
+      "trace_events": 50492,
+      "trace_dropped": 0,
+      "shutdown_clean": true,
+      "owned_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "native_outer_guard_rejection_count": 0,
+      "actual_endpoint_minus_scaled_desired_xyz_m": [
+        -0.006778365323920954,
+        0.005000467366330814,
+        -0.0027696829649533905
+      ],
+      "actual_endpoint_error_to_scaled_desired_m": 0.008866907807833939,
+      "source_posture_diagnostic": {
+        "goal_TCP_source": [
+          [
+            3.9569266972871716e-08,
+            -3.397732183497526e-09,
+            0.9999999999999992,
+            0.45637514139395713
+          ],
+          [
+            -2.293514045670594e-10,
+            1.0,
+            3.3977321925727952e-09,
+            -0.07874079909537139
+          ],
+          [
+            -0.9999999999999992,
+            -2.2935153901283144e-10,
+            3.956926697209244e-08,
+            0.5399996963193938
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_endpoint_TCP_source": [
+          [
+            0.9561076466969514,
+            0.0038981071990613803,
+            0.2929897143038956,
+            0.3581346123341393
+          ],
+          [
+            -0.008954125488768009,
+            0.9998332152119507,
+            0.015917455690541874,
+            -0.0014553168039763368
+          ],
+          [
+            -0.29287880012787737,
+            -0.0178422677704824,
+            0.9559830866267756,
+            0.7538712946288122
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_minus_source_goal_xyz_m": [
+          -0.09824052905981784,
+          0.07728548229139505,
+          0.21387159830941838
+        ],
+        "actual_source_goal_position_error_m": 0.2477202209880971,
+        "actual_source_goal_rotation_error_rad": 1.2735892221965563,
+        "diagnostic_position_tolerance_m": 0.01,
+        "diagnostic_rotation_tolerance_rad": 0.05,
+        "full_scale_source_pose_close": false,
+        "thresholds_are_native_safety": false,
+        "native_execution_authorized": false,
+        "full_policy_input_distribution_qualified": false,
+        "camera_equivalence": false,
+        "task_success": false,
+        "source_observation_used_as_expert_action_label": false,
+        "residual_basis": "ACTUAL_MEASURED_ENDPOINT_NOT_REFERENCE_OR_MODEL_PREDICTION"
+      },
+      "VLA_queries": 0,
+      "VLA_action_installations": 0,
+      "model_updates": 0,
+      "task_success": false,
+      "data_identity": {
+        "qualification_sha256": "bc0681822213c21e3a69e7a5c845f79eac26984f6a569691bd3c5b2734c37f13",
+        "trace_files_sha256": {
+          "init.trace": "f4909a2e2e4148400858451d9290c7693431a319c87cc49e231e396d8394b567",
+          "init.trace.snapshots": "dab7be046aaee166e5006a958e92ae496ce0a643c579d1273a37447e6a7bb5a9",
+          "init.trace.summary": "5b6bc0e7911c5d118faa915bec2136b5de18758e4ef9d61a36cd1ab686dd41c9"
+        }
+      },
+      "cost": {
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 88.53919496200979,
+          "CPU_s": 35.822725535000004,
+          "child_CPU_s": 128.74676300000002
+        },
+        "systemd_CPU_s": 166.135692,
+        "systemd_peak_memory_bytes": null,
+        "timing_definitions_overlap_do_not_sum": true
+      },
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_qualification --spec FRESH_fusion-night1-source-posture-s010-01_EXECUTION_SPEC --execute",
+      "dispatcher_sha256": "e8b3ae3dbb2a7b07e1c8edfd749458a2c25ade2e3f2c95acc57ddf9baed44dee"
+    },
+    {
+      "run": "fusion-night1-source-posture-s025-01",
+      "source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "geometry_scale": 0.25,
+      "spec_sha256": "05b5f77072226aa1260381d866aa08a3e1700340ed9e859ba252f80052ce168d",
+      "result_sha256": "79ebd44fe4ae2ff6fc2eea7eaf8a5280de39a7e0c226a6c623c68a44c7cbe436",
+      "qualification_sha256": "bf4bb77f0327414ccaa46fb24c7e0e02c1e162fa611a468f5a2ea85dab74c937",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "MainPID": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_integrations": 8503,
+      "consumed_atoms": 240,
+      "solver_confirmed_atoms": 240,
+      "gripper_confirmed_atoms": 240,
+      "all_40_calibration_knots_consumed": true,
+      "trace_events": 63669,
+      "trace_dropped": 0,
+      "shutdown_clean": true,
+      "owned_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "native_outer_guard_rejection_count": 0,
+      "actual_endpoint_minus_scaled_desired_xyz_m": [
+        -0.01782581460357946,
+        0.011331038299480962,
+        -0.00552192343819935
+      ],
+      "actual_endpoint_error_to_scaled_desired_m": 0.021832171987294955,
+      "source_posture_diagnostic": {
+        "goal_TCP_source": [
+          [
+            3.9569266972871716e-08,
+            -3.397732183497526e-09,
+            0.9999999999999992,
+            0.45637514139395713
+          ],
+          [
+            -2.293514045670594e-10,
+            1.0,
+            3.3977321925727952e-09,
+            -0.07874079909537139
+          ],
+          [
+            -0.9999999999999992,
+            -2.2935153901283144e-10,
+            3.956926697209244e-08,
+            0.5399996963193938
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_endpoint_TCP_source": [
+          [
+            0.8819390269170819,
+            0.007171952895305035,
+            0.4713089389054882,
+            0.3622810842979821
+          ],
+          [
+            -0.01412602991762335,
+            0.9998372838916504,
+            0.011218779743470969,
+            -0.006940381458642942
+          ],
+          [
+            -0.47115178878925634,
+            -0.0165520038615761,
+            0.8818968324519876,
+            0.7142621672114164
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_minus_source_goal_xyz_m": [
+          -0.09409405709597501,
+          0.07180041763672845,
+          0.17426247089202263
+        ],
+        "actual_source_goal_position_error_m": 0.21065706803946138,
+        "actual_source_goal_rotation_error_rad": 1.0802033132783186,
+        "diagnostic_position_tolerance_m": 0.01,
+        "diagnostic_rotation_tolerance_rad": 0.05,
+        "full_scale_source_pose_close": false,
+        "thresholds_are_native_safety": false,
+        "native_execution_authorized": false,
+        "full_policy_input_distribution_qualified": false,
+        "camera_equivalence": false,
+        "task_success": false,
+        "source_observation_used_as_expert_action_label": false,
+        "residual_basis": "ACTUAL_MEASURED_ENDPOINT_NOT_REFERENCE_OR_MODEL_PREDICTION"
+      },
+      "VLA_queries": 0,
+      "VLA_action_installations": 0,
+      "model_updates": 0,
+      "task_success": false,
+      "data_identity": {
+        "qualification_sha256": "bf4bb77f0327414ccaa46fb24c7e0e02c1e162fa611a468f5a2ea85dab74c937",
+        "trace_files_sha256": {
+          "init.trace": "03e86311c56ef300fef8d9860ddab00c02b88c0a7bebdf6ce103db8f1dc41b20",
+          "init.trace.snapshots": "39ac2c5a7295e10391f99bdf49bf3917979c596503f6325542551f4ad4858757",
+          "init.trace.summary": "8a124ecc77abbfee7d167afb118e2bcc99bc029f5733bef96a56e8ea8aa688a0"
+        }
+      },
+      "cost": {
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 113.97010986879468,
+          "CPU_s": 50.747839295,
+          "child_CPU_s": 168.939155
+        },
+        "systemd_CPU_s": 221.44169,
+        "systemd_peak_memory_bytes": 1848991744,
+        "timing_definitions_overlap_do_not_sum": true
+      },
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_qualification --spec FRESH_fusion-night1-source-posture-s025-01_EXECUTION_SPEC --execute",
+      "dispatcher_sha256": "0ae037814971bb9c9067488f73dc1b19d1794c3dad6d6c5b065ff0aa963a24cb"
+    },
+    {
+      "run": "fusion-night1-source-posture-s050-01",
+      "source_sha": "719217356ccba0d5be0347aee5fece1946de904e",
+      "geometry_scale": 0.5,
+      "spec_sha256": "ae95ab60d34ba9a9dc2f838ab0d7eef50c0e0d98bed714cb4769d11240c7cdc7",
+      "result_sha256": "f79fb3a07a9882de91264fee61f601e29b7455e37418ffeeebce450c28fb4f14",
+      "qualification_sha256": "b554a087395f4e9b748fece2e0f5059223dad9488f9850be16bae172fac1e306",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "MainPID": 0,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_integrations": 11153,
+      "consumed_atoms": 346,
+      "solver_confirmed_atoms": 346,
+      "gripper_confirmed_atoms": 346,
+      "all_40_calibration_knots_consumed": true,
+      "trace_events": 86358,
+      "trace_dropped": 0,
+      "shutdown_clean": true,
+      "owned_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "native_outer_guard_rejection_count": 0,
+      "actual_endpoint_minus_scaled_desired_xyz_m": [
+        -0.028255366569562623,
+        0.012666213331673115,
+        -0.005581278911070742
+      ],
+      "actual_endpoint_error_to_scaled_desired_m": 0.031463460941653795,
+      "source_posture_diagnostic": {
+        "goal_TCP_source": [
+          [
+            3.9569266972871716e-08,
+            -3.397732183497526e-09,
+            0.9999999999999992,
+            0.45637514139395713
+          ],
+          [
+            -2.293514045670594e-10,
+            1.0,
+            3.3977321925727952e-09,
+            -0.07874079909537139
+          ],
+          [
+            -0.9999999999999992,
+            -2.2935153901283144e-10,
+            3.956926697209244e-08,
+            0.5399996963193938
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_endpoint_TCP_source": [
+          [
+            0.6913432497179027,
+            0.008224729694101119,
+            0.7224796639981947,
+            0.37734111086944705
+          ],
+          [
+            -0.017596057200936623,
+            0.9998302930378917,
+            0.005455629637371924,
+            -0.026235723313087767
+          ],
+          [
+            -0.7223121830901558,
+            -0.016484506216983753,
+            0.6913706467693803,
+            0.6534366327991312
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "actual_minus_source_goal_xyz_m": [
+          -0.07903403052451008,
+          0.052505075782283625,
+          0.1134369364797374
+        ],
+        "actual_source_goal_position_error_m": 0.14788880796652773,
+        "actual_source_goal_rotation_error_rad": 0.7636579924796595,
+        "diagnostic_position_tolerance_m": 0.01,
+        "diagnostic_rotation_tolerance_rad": 0.05,
+        "full_scale_source_pose_close": false,
+        "thresholds_are_native_safety": false,
+        "native_execution_authorized": false,
+        "full_policy_input_distribution_qualified": false,
+        "camera_equivalence": false,
+        "task_success": false,
+        "source_observation_used_as_expert_action_label": false,
+        "residual_basis": "ACTUAL_MEASURED_ENDPOINT_NOT_REFERENCE_OR_MODEL_PREDICTION"
+      },
+      "VLA_queries": 0,
+      "VLA_action_installations": 0,
+      "model_updates": 0,
+      "task_success": false,
+      "data_identity": {
+        "qualification_sha256": "b554a087395f4e9b748fece2e0f5059223dad9488f9850be16bae172fac1e306",
+        "trace_files_sha256": {
+          "init.trace": "5203ad0e559c689b958e448bc55c4a323b1f03cc51688c021b6d26890a1de3b8",
+          "init.trace.snapshots": "0168eb767ef00c78f8ad53a4c1e9dfc87f521ea573ccafe1e330631951504405",
+          "init.trace.summary": "15d6e5670aafce88af56e48350642278fb2e922808b2d8899b7f5ab62e70a793"
+        }
+      },
+      "cost": {
+        "worker": {
+          "exit_code": 0,
+          "failure": null,
+          "wall_s": 168.18818430881947,
+          "CPU_s": 80.278656309,
+          "child_CPU_s": 249.487191
+        },
+        "systemd_CPU_s": 332.014404,
+        "systemd_peak_memory_bytes": null,
+        "timing_definitions_overlap_do_not_sum": true
+      },
+      "command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_qualification --spec FRESH_fusion-night1-source-posture-s050-01_EXECUTION_SPEC --execute",
+      "dispatcher_sha256": "31d4d83b2795a6491b4f636d5cf1e715365d22f02da70ddb4b3cf2d36e1f6b6e"
+    }
+  ],
+  "full_scale_source_posture_qualified": false,
+  "camera_equivalence": false,
+  "short_skill_comparisons": 0,
+  "next": "FRESH_ORIGINAL_OWNER_IMMEDIATE_SAME_FAMILY_SCALE010_IF_ACTUAL_CAPACITY_AND_SCOPE_VALID",
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "native_safety_changes": false
+}

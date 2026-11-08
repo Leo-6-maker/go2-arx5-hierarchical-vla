@@ -1,0 +1,179 @@
+{
+  "schema": "WM02_OLD_FULL_LANGUAGE_H40_FIXED_HORIZONS_ACTUAL_V1",
+  "status": "ARCHIVED_REAL_ACTION_PURE_GEOMETRY_NOT_NATIVE_TASK_SCORE",
+  "archive_source_sha": "96ecdd1f80c655d71b81043de6b2a8211505f147",
+  "descriptor_implementation_sha": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+  "actual_new_queries": 0,
+  "actual_new_integrations": 0,
+  "actual_updates": 0,
+  "old_native_failure_preserved": true,
+  "old_action_sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+  "old_capture_sha256": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+  "private_audit_sha256": "e7ee034db527cd405e1df0179a4948ffd859c653fcf3c48b554e7f3b68ee4b4c",
+  "descriptor": {
+    "schema": "WM02_C01_FULL_PROPOSAL_GEOMETRY_NOT_TASK_SCORE_V1",
+    "initial_cube_distance_m": 0.21800433955258894,
+    "final_signed_progress_m": 0.038728464243431654,
+    "final_cube_distance_reduction_m": 0.03853291931796893,
+    "maximum_lateral_drift_m": 0.014712919041028321,
+    "maximum_TCP_excursion_m": 0.04187382400763451,
+    "minimum_desired_or_reference_cube_distance_m": 0.17723206754831936,
+    "minimum_finger_opening_m": 0.0036633665561676024,
+    "fixed_desired_horizons_not_executed": {
+      "RAW_KNOT": {
+        "1": {
+          "proposed_atom": 26,
+          "proposed_elapsed_s": 1.3,
+          "signed_progress_m": 0.013737184929085197,
+          "lateral_m": 0.007460804549404597,
+          "cube_distance_reduction_m": 0.013600978370570171,
+          "finger_opening_m": 0.041896802902221676
+        },
+        "4": {
+          "proposed_atom": 218,
+          "proposed_elapsed_s": 10.9,
+          "signed_progress_m": 0.014164979383813146,
+          "lateral_m": 0.006109628199812743,
+          "cube_distance_reduction_m": 0.014073438728913229,
+          "finger_opening_m": 0.041999999999999996
+        },
+        "8": {
+          "proposed_atom": 474,
+          "proposed_elapsed_s": 23.700000000000003,
+          "signed_progress_m": 0.014025321709128673,
+          "lateral_m": 0.012271262170871863,
+          "cube_distance_reduction_m": 0.013656538987843553,
+          "finger_opening_m": 0.04169363212585449
+        },
+        "16": {
+          "proposed_atom": 986,
+          "proposed_elapsed_s": 49.300000000000004,
+          "signed_progress_m": 0.019192677300041792,
+          "lateral_m": 0.008655522375922615,
+          "cube_distance_reduction_m": 0.01900435182590343,
+          "finger_opening_m": 0.041999999999999996
+        },
+        "40": {
+          "proposed_atom": 2522,
+          "proposed_elapsed_s": 126.10000000000001,
+          "signed_progress_m": 0.038728464243431654,
+          "lateral_m": 0.008375632105522316,
+          "cube_distance_reduction_m": 0.03853291931796893,
+          "finger_opening_m": 0.0036633665561676024
+        }
+      },
+      "ADAPTED_ATOM": {
+        "1": {
+          "proposed_atom": 1,
+          "proposed_elapsed_s": 0.05,
+          "signed_progress_m": 7.371897927262444e-06,
+          "lateral_m": 4.003752579413074e-06,
+          "cube_distance_reduction_m": 7.371861160593296e-06,
+          "finger_opening_m": 0.04199994462049719
+        },
+        "4": {
+          "proposed_atom": 4,
+          "proposed_elapsed_s": 0.2,
+          "signed_progress_m": 0.0003918852840448122,
+          "lateral_m": 0.00021283687488665633,
+          "cube_distance_reduction_m": 0.0003917812010210686,
+          "finger_opening_m": 0.04199705606176343
+        },
+        "8": {
+          "proposed_atom": 8,
+          "proposed_elapsed_s": 0.4,
+          "signed_progress_m": 0.002382094234133747,
+          "lateral_m": 0.0012937395536917367,
+          "cube_distance_reduction_m": 0.002378213032158044,
+          "finger_opening_m": 0.041982105124676844
+        },
+        "16": {
+          "proposed_atom": 16,
+          "proposed_elapsed_s": 0.8,
+          "signed_progress_m": 0.009736750984848866,
+          "lateral_m": 0.0052881282751296365,
+          "cube_distance_reduction_m": 0.00966962629415069,
+          "finger_opening_m": 0.04192685514182027
+        }
+      }
+    },
+    "native_execution_authorized": false,
+    "actual_task_success_established": false,
+    "action_npz_sha256": "5b14f3a77373a28655efb521d63e400845177a016d6d471af9b6ad15ce880d12",
+    "capture_sha256": "8a03afb42f68fc98a9c4d313b2560deb11aed1675fbc86c8458e27062a987946",
+    "payload_sha256": "fa00ddac6228eaada215ab1bbaa3c777fbbdee3ed12eab3b7d9bf6c05f09592a",
+    "no_new_query": true,
+    "geometry_descriptor_source": "d0e8b14214e93ec7d360cb384cdee2b99f3c6bda",
+    "adapter_identity": {
+      "schema": "WM02_FULL_H40_TRAJECTORY_ADAPTATION_V2",
+      "recipe": "FULL_H40_RIGID_RELOCATE_SCALE_WORKING_GRIP_INTEGER_RETIME_2X_V2",
+      "geometry_scale": 1.0,
+      "full_raw_geometry": true,
+      "time_stretch_factor": 2,
+      "Processor_decodes": 0,
+      "command_clips": 0,
+      "decoded_H40": {
+        "shape": [
+          40,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "02242ed9fd1aa628d982fb55ee478bddfeee40485d62599473bdcb5addb65388"
+      },
+      "mapped_H40": {
+        "shape": [
+          40,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "19647656dab4c533cd3591c4a084531529506a913f21308732f2938a225a6e07"
+      },
+      "desired_knots": {
+        "shape": [
+          40,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "677b239322d96114bba6c3a77dc046f2edabb72ed7650b13561912f5701bd477"
+      },
+      "reference_knots": {
+        "shape": [
+          40,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "e4068133426629242c6ebe98cc89ba658e8db92996e524cdcefc77f0f6c20b6e"
+      },
+      "desired_path": {
+        "shape": [
+          2523,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "3f9cc36d815de69499003e082ca9e4a3ba5bf5896a64364ffa80c9b8c8d5e664"
+      },
+      "reference_path": {
+        "shape": [
+          2523,
+          10
+        ],
+        "dtype": "<f8",
+        "byte_order": "C",
+        "sha256": "a0c324ab11a56d3159919b2d1f3d5461eb0e768fd439dc4296668bc4dfd5d17f"
+      }
+    }
+  },
+  "cost": {
+    "wall_s": 22.824931474402547,
+    "child_CPU_s": 0.813661,
+    "child_exit_code": 0
+  },
+  "original_Processor_decodes": 0,
+  "physical_prefix_audit_not_repeated": true,
+  "not_an_execution_qualification": true
+}

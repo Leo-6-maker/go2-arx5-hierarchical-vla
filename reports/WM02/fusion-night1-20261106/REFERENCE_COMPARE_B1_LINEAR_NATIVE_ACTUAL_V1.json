@@ -1,0 +1,255 @@
+{
+  "schema": "WM02_FROZEN_REFERENCE_COMPARISON_NATIVE_ACTUAL_V1",
+  "case": "REFERENCE_B1_LINEAR",
+  "epoch": 1794041590.32083,
+  "actual_source_sha": "1a0b941f749f1ac56f9e9142ada5395ea169ddbe",
+  "panel_sha256": "e7b91f105f6f52118dc9ad28198237de87f17299687e50f73c52fbc35e7e823a",
+  "original_assignment": {
+    "candidate": "POLICY_TRAIN_LINEAR",
+    "panel_sha256": "e7b91f105f6f52118dc9ad28198237de87f17299687e50f73c52fbc35e7e823a",
+    "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B1_LINEAR",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "DEV"
+  },
+  "actual_reference_intervention": {
+    "candidate": "X_PLUS_050",
+    "offset_target_xy_m": [
+      0.0005,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual": {
+    "native_exit_code": 0,
+    "GPU_exit_code": 0,
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_generated_suffix_atoms": 1288,
+    "actual_queries": 1,
+    "raw_H40_consumed": true,
+    "reference_install_attempts": 184,
+    "reference_installations": 184,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": false,
+    "full_tasks": 0,
+    "ACK_confirmed_model_reference_changes": 1,
+    "proposed_model_reference_changes": 1
+  },
+  "first16_actual_response": {
+    "H16_actual_minus_desired_L2_m": 0.003225069249823189,
+    "H16_actual_minus_desired_xyz_m": [
+      -0.002059274049522053,
+      -0.0017944011618942213,
+      0.0017148138456732909
+    ],
+    "actual_endpoint_step": 34703,
+    "independent_restart_not_exact_fork": true,
+    "initial_native_step": 34303,
+    "maximum_actual_displacement_m": 0.00656680356619268,
+    "reference_error_is_model_innovation": false,
+    "schema": "WM02_FIRST16_ACTUAL_PROGRAM_RESPONSE_V1",
+    "H16_actual_TCP_displacement_m": [
+      0.002043955544891618,
+      0.0026150348889046396,
+      -0.005666281614716939
+    ],
+    "H16_desired_TCP_displacement_m": [
+      0.004103229594413671,
+      0.004409436050798861,
+      -0.00738109546039023
+    ]
+  },
+  "strict_short_score": {
+    "approach_step_success": false,
+    "decision_native_step": 34303,
+    "full_task_success": false,
+    "metrics": {
+      "final_hold_TCP_diameter_m": 0.025037905002348634,
+      "final_hold_TCP_max_speed_m_s": 0.1314149554420687,
+      "maximum_TCP_excursion_m": 0.0395979582774268,
+      "maximum_base_displacement_m": 0.04366664508207024,
+      "maximum_base_rotation_rad": 0.07901883154187803,
+      "maximum_lateral_drift_m": 0.029359732984855797,
+      "maximum_object_displacement_m": 3.091971123581061e-14,
+      "minimum_finger_opening_m": 0.041146366411256,
+      "precontact_distance_reduction_m": 0.006242825966081514,
+      "signed_progress_m": 0.007066485651337149
+    },
+    "native_execution_authorized": false,
+    "old_3703_score_relabelled": false,
+    "pick_place_success_claim": false,
+    "precontact_arrival_claim": false,
+    "predicates": {
+      "base_orientation": false,
+      "base_still": false,
+      "distance_reduction": true,
+      "excursion": false,
+      "hold": false,
+      "lateral": false,
+      "no_robot_object_contact": true,
+      "object_still": true,
+      "open": true,
+      "original_native_safety": true,
+      "signed_progress": true
+    },
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "scorer_only_privileged_geometry": true,
+    "source_task_phase_equivalence": false,
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "thresholds_are_native_safety": false
+  },
+  "actual_minus_desired_L2_m": 0.011486065566571948,
+  "actual_minus_reference_L2_m": 0.12115205363371256,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": null,
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "f79118889e315b6d435bad330292ba671220453697553b790aeb2a35343385f4",
+  "GPU_result_sha256": "411a35e4c4cdeede1a2f96d200644a0206ce6342aaa9d03547c98807beb2e0da",
+  "action_npz_sha256": "1904d2913eafa2313571476fc15c313af892ae3294b6c046daf1992cad89c191",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "574ebec12ec6f54c5984f36aca2ffcf5cf83e8a1be5406d36f57c6b9823cdf09",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "b9dfc4d0475f481f7df2b224ed466778f5c3ad23586b52995f28e525e69d293f",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "563ec204a6e0e8d0d6c882104373580a75476fa716380bef9213f391ab8201f8",
+    "LIVE_SKILL_SEGMENT.private.json": "7a8b68d4bb79502e55e73002f2ab759262aebcb9d01b0933c91ba02c9031583b",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "a5fdf970b4d726dda57efae5238d0670900d6b9d7994757f339f8422164726d7",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "970d53fdf99ad0bd0e9c58dfa70260a22297ca7d3ef159587c2f9778eb33e58d"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 488465,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 488465
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-reference-compare-b1-linear-gpu-01",
+      "spec_sha256": "df012914b6242a5f685ef66b2a086fd4abd1a8c34bd9de4b8b0724cb877ed7d8",
+      "lease_sha256": "d73b9822312f2cb16274b8486fe8f3e688e05e0874b66dea5e811340fac16c59",
+      "worker_sha256": "3e71d41dbd3ab7055452f62d2d0640ba1364a5db1f68c50de8f6ada5b89ec732",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-reference-compare-b1-linear-01",
+      "spec_sha256": "1295e939c20e538484be6092eefc2587a025021c1b3ecbff654cadb7423bbd80",
+      "lease_sha256": "496a4bbce93a0538805c569ba1073a83e7d23abd853142f72c96533306b81200",
+      "worker_sha256": "f0fc29359549510b8fc377a3e8d7570ba06eb67955c236fadf7772132b96d06c",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 115.153479,
+        "exit_code": 0,
+        "wall_s": 443.3325277157128
+      },
+      "systemd_CPU_s": 115.505695,
+      "host_peak_bytes": 3938148352
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 378.04116989399995,
+        "child_CPU_s": 1388.299062,
+        "exit_code": 0,
+        "wall_s": 892.544718046207
+      },
+      "systemd_CPU_s": 1775.206666,
+      "host_peak_bytes": 8908288000
+    },
+    "source_staging": {
+      "wall_s": 155.44886725302786,
+      "CPU_s": 1.3040326600000007,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 162,
+      "overlay_written_bytes": 2608609,
+      "actual_source_bytes_written": 48232195,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 1.1870299149304628,
+    "GPU_model_cold_load_wall_s": 13.823771290946752,
+    "GPU_snapshot_wait_wall_s": 415.573601921089,
+    "GPU_GPU_event_s": 1.1746826171875,
+    "GPU_peak_allocated_bytes": 13318658048,
+    "GPU_peak_reserved_bytes": 13524533248
+  },
+  "counts_after": {
+    "FUSION_attempts": 305,
+    "FUSION_passes": 292,
+    "FUSION_failures": 13,
+    "FUSION_native_ticks": 2503240,
+    "with_PILOT2_attempts": 959,
+    "with_PILOT2_passes": 941,
+    "with_PILOT2_failures": 18,
+    "with_PILOT2_native_ticks": 5490533,
+    "VLA_queries": 27,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "2ff7d87fd72e85e0ed895839d2a6dae9e84af6ced3d28a8b75c38ea89f5a0f04",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_reference_compare_b1_linear_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "GPU_dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "complete_relative_response_curves": "Retained in the hash-pinned private actual reader and original native dataset; public report keeps aggregate endpoint metrics.",
+  "reference_selection": {
+    "allowed_candidates": [
+      "NOMINAL",
+      "X_PLUS_050",
+      "Y_PLUS_050",
+      "Y_MINUS_050"
+    ],
+    "future_observations_read": false,
+    "method": "TRAIN_LINEAR",
+    "native_step": 34303,
+    "original_native_certificates_and_ACKs_still_required": true,
+    "proposed_reference_changes": 1,
+    "schema": "WM02_FIRST_PROGRAM_REFERENCE_SELECTION_V1",
+    "selected_candidate": "X_PLUS_050",
+    "selected_model": "TRAIN_RIDGE_FULL_PROGRAM",
+    "selected_reference_path_sha256": "2df29046a23131ebf1362692557333fef75e0691d7cf327d40af274c1d62fb16"
+  },
+  "declared_initial_reference_intervention": {
+    "candidate": "NOMINAL",
+    "offset_target_xy_m": [
+      0.0,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual_selected_candidate": "X_PLUS_050"
+}

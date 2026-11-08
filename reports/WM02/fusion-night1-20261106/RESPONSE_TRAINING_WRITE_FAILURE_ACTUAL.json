@@ -1,0 +1,39 @@
+{
+  "schema": "WM02_FUSION_RESPONSE_STUDY_FAILED_WRITE_AUDIT_V1",
+  "source_sha": "0c8f06d77aae51cc2fe12386c9cde67bd75f4a2c",
+  "spec_sha256": "e711574a8059b83e8cad4794edcef02697624fcc48dc4681f18f0c4d7358a55b",
+  "replay_sha256": "e5139d792d8d2f28e49ea28d7f57fbabbd5e79378e5358b747b2896c851ed795",
+  "lease": {
+    "status": "CLOSED",
+    "run_uuid": "fusion-night1-response-study-01",
+    "spec_sha256": "e711574a8059b83e8cad4794edcef02697624fcc48dc4681f18f0c4d7358a55b",
+    "deadline_epoch": 1793942877.8511465,
+    "closed_epoch": 1793939282.686365,
+    "worker_exit_code": 1
+  },
+  "worker_exit": {
+    "exit_code": 1,
+    "failure": null,
+    "wall_s": 4.024006955791265,
+    "child_CPU_s": 2.65231
+  },
+  "models": [
+    {
+      "model": "366301-ACTION_CONDITIONED",
+      "actual_optimizer_updates": 200,
+      "last_update": {
+        "update": 200,
+        "loss": 0.004599465988576412,
+        "gradient_norm": 0.0126439044252038
+      },
+      "log_sha256": "d4227da0119c82865321e278e36d77a56cf4870552c2f8a0bf3437998cf02c5e"
+    }
+  ],
+  "checkpoints": [],
+  "main_WM_updates": 200,
+  "completed_model_conditions": 0,
+  "restore_probe_calls": 0,
+  "native_integrations": 0,
+  "failure": "MUTABLE_PROGRESS_USED_CREATE_EXCLUSIVE_WRITE_ON_SECOND_UPDATE",
+  "unit": "MainPID=0\nExecMainStatus=1\nMemoryPeak=[not set]\nCPUUsageNSec=2741720000\n"
+}

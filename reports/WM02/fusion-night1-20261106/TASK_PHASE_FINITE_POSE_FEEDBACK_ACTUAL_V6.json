@@ -1,0 +1,1611 @@
+{
+  "schema": "WM02_TASK_PHASE_FINITE_POSE_FEEDBACK_ACTUAL_V6",
+  "status": "ACTUAL_CLOSED0_NATIVE_SAFE_POINT25_NINE_NONFULL_GOAL_PASS_TRANSIENT_REVIEW_BEFORE_NEXT_GRADE",
+  "experiment_role": "NON_VLA_CALIBRATION",
+  "purpose": "FINITE_ORDINARY_XYZ_SO3_REFERENCE_COMMISSIONING_NOT_WM_OR_GR00T_SKILL_GAIN",
+  "run": "fusion-night1-task-phase-pose-feedback-s025-01",
+  "source_sha": "da177fe856fb184c50c9d7763132ec626ecfc172",
+  "parent_source_sha": "e5272f8fb90de2d910bb52c0575771b7a2125ee7",
+  "phase": "collect-target-fusion-task-phase-pose-feedback-v6",
+  "kind": "FUSION_TASK_PHASE_POSE_FEEDBACK_V6",
+  "spec_sha256": "3dc59acc133d2d6dc4de15e07b1ee7bea13abba49348327a628db300b48d2857",
+  "native_result_sha256": "c0a113d1426f0f460fcd4d4b9e9c3859f52f9b28a1a856567124ed1bfb4679ba",
+  "lease_sha256": "f4314a592b7327d150b7fb96b7e160b574c3d791dc4e3dd280fc05b817e2fe1a",
+  "worker_sha256": "3dcccf9f2e311dbaed2be718e297459b8edff815509ac4755e6333dfa26f6055",
+  "lease_status": "CLOSED",
+  "worker_exit_code": 0,
+  "MainPID": 0,
+  "outcome_separation": {
+    "native_execution": "SAFE_COMPLETE_PASS",
+    "graded_point25_goal": "PASS_ALL_NINE_NON_FULL_GRADE_PREDICATES",
+    "full_grade": false,
+    "query_ready": false,
+    "full_task_success": false,
+    "WM_or_VLA_benefit_established": false,
+    "matched_HOLD_counterfactual": false,
+    "independent_restart_not_complete_MPC_state_fork": true
+  },
+  "scope": {
+    "mechanism": "ORIGINAL_AUTO1_P1_SIM_ONLY_OWNER_AND_FINITE_WORKER",
+    "fresh_scope": true,
+    "CLOSED_lease_reused": false,
+    "automatic_retry": false,
+    "cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "ROS_DOMAIN_ID": 220,
+    "wall_limit_s": 1200,
+    "memory_max_bytes": 8589934592,
+    "GPU_used": false,
+    "original_deadline_unchanged": true
+  },
+  "recipe": {
+    "geometry_scales": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "first_execution_if_admitted": "POINT25_SAME_GRADE_REPAIR_ONLY",
+    "initial_measurement_step": 2503,
+    "decision_measurement_step": 3703,
+    "original_ramp_atoms": [
+      512,
+      768,
+      1024
+    ],
+    "planned_end_atom_rule": "ramp_atoms + 8*(20+8)",
+    "feedback_decisions": 8,
+    "native_endpoint_steps": [
+      22303,
+      28703,
+      35103
+    ],
+    "maximum_native_endpoint": 35103,
+    "complete_task_atom_counts_if_complete": [
+      792,
+      1048,
+      1304
+    ],
+    "physics_dt_s": 0.002,
+    "native_ticks_per_atom": 25,
+    "atom_dt_s": 0.05,
+    "wall_limit_s": 1200,
+    "feedback_steps_rule": "3703 + 25*(ramp_atoms+8) + 700*i for i in 0..7",
+    "translation": {
+      "error": "p_unchanged_desired_goal - p_fresh_actual_TCP",
+      "gain": 0.5,
+      "deadband_m": 0.005,
+      "step_norm_cap_m": 0.004,
+      "cumulative_sum_of_step_norms_cap_m": 0.032,
+      "frame": "ACTUAL_TARGET_WORLD_COMPONENT_XYZ"
+    },
+    "rotation": {
+      "error": "Log(R_unchanged_desired_goal @ R_fresh_actual_TCP.T)",
+      "frame": "ACTUAL_TARGET_WORLD_LEFT_ROTATION_VECTOR",
+      "gain": 0.5,
+      "deadband_rad": 0.005,
+      "step_angle_cap_rad": 0.01,
+      "cumulative_sum_of_step_angle_norms_cap_rad": 0.08,
+      "reference_update": "Exp(quintic_weight * applied_world_rotvec) @ previous_committed_reference_R",
+      "rotation_vector_is_body_local": false,
+      "XYZ_rotation_coupled_as_SE3_translation": false
+    },
+    "move_atoms": 20,
+    "move_time_s": 1.0,
+    "settle_atoms": 8,
+    "settle_time_s": 0.4,
+    "reference_start": "PREVIOUS_COMMITTED_REFERENCE_ENDPOINT_NOT_ACHIEVED_STATE",
+    "desired_goal_and_path": "UNCHANGED_ORIGINAL_ALGORITHM_FROM_THIS_RESTART_3703_GOAL",
+    "independent_restart_desired_path_bytes_claimed_equal_to_old_V5": false,
+    "BASE_reference_unchanged": true,
+    "physical_gripper_reference_unchanged": true,
+    "original_full_H40_certification_ACK_TTL_and_safety_required": true,
+    "fixed_dose_sufficiency": "FINITE_ENGINEERING_HYPOTHESIS_NOT_PROVEN_FOR_POINT25_OR_HIGHER_GRADES"
+  },
+  "actual_geometry_scale": 0.25,
+  "physics": {
+    "actual_target_integrations": 22303,
+    "complete_25tick_physics_transitions": 892,
+    "complete_task_pose_and_gripper_windows": 792,
+    "calibration_knots": 40,
+    "all_40_knots_consumed": true,
+    "solver_target_confirmed_atoms": 792,
+    "gripper_confirmed_atoms": 792,
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "errors": [],
+      "missing": [],
+      "writer": {
+        "events": 190127,
+        "written": 190127,
+        "dropped": 0,
+        "stop_latched": false,
+        "sealed_at_explicit_pause": true
+      },
+      "native_step_records": 22303
+    },
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    },
+    "original_safety_stops": [],
+    "original_joint_or_warning_samples": 0,
+    "native_outer_guard_rejection_count": 0,
+    "physics_dt_s": 0.002
+  },
+  "actual_readiness": {
+    "predicates": {
+      "full_grade": false,
+      "position": true,
+      "lateral": true,
+      "orientation": true,
+      "actual_cube_distance": true,
+      "continuous_relative_hold": true,
+      "actual_open": true,
+      "cube_still": true,
+      "no_contact": true,
+      "original_safety": true
+    },
+    "metrics": {
+      "maximum_cube_displacement_m": 1.27675647831893e-15,
+      "maximum_cube_rotation_from_frozen_rad": 0.0,
+      "maximum_lateral_error_m": 0.004228256228510587,
+      "maximum_orientation_error_rad": 0.004240119814554167,
+      "maximum_position_error_m": 0.006888023739480423,
+      "minimum_actual_cube_distance_m": 0.26741844112282653,
+      "minimum_actual_finger_opening_m": 0.04193312940680326,
+      "relative_hold": {
+        "diameter_threshold_m": 0.002,
+        "qualified": true,
+        "relative_TCP_diameter_m": 0.00010405270157466722,
+        "relative_TCP_max_speed_m_s": 0.0017007721410900794,
+        "screen_is_native_safety": false,
+        "speed_threshold_m_s": 0.025,
+        "window_s": 0.40000000000048885
+      }
+    },
+    "exact_nine_native_steps": [
+      22103,
+      22128,
+      22153,
+      22178,
+      22203,
+      22228,
+      22253,
+      22278,
+      22303
+    ],
+    "original_native_environment_exact_recompute": true,
+    "sample_identity_verified": true,
+    "readiness_thresholds_are_native_safety": false,
+    "readiness_grants_execution": false
+  },
+  "ordinary_feedback": {
+    "reported": {
+      "schema": "WM02_NATIVE_FINITE_POSE_FEEDBACK_REPORT_V6",
+      "actual_feedback_reference_updates": 8,
+      "committed_feedback_decisions": 8,
+      "nonzero_XYZ_corrections": 8,
+      "deadband_HOLD_count": 0,
+      "sum_applied_XYZ_delta_norms_m": 0.032,
+      "final_reference_path_sha256": "adc137b8ec6cd2238aff2fb5b54e7fb192718bbdcc1d670ecbffb8478abdf88a",
+      "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+      "causal_completed_window_feedback": true,
+      "ordinary_feedback_not_model_benefit": true,
+      "original_windows_retain_ACK_solver_pose_and_gripper_consumption": true,
+      "WM_updates": 0,
+      "VLA_queries": 0,
+      "Actor_updates": 0,
+      "nonzero_SO3_corrections": 8,
+      "angular_deadband_HOLD_count": 0,
+      "sum_applied_SO3_delta_norms_rad": 0.07301906766589027,
+      "rotation_error_frame": "ACTUAL_TARGET_WORLD_LEFT_LOG_R_GOAL_R_ACTUAL_TRANSPOSE",
+      "reference_rotation_from_previous_committed_endpoint": true
+    },
+    "decisions": [
+      {
+        "native_step": 16703,
+        "decision_sha256": "96236e0b84f9d9f6724dd227350225c7661f08c927455c6a692953a33ac82f7f",
+        "reference_law_scalars": {
+          "native_step": 16703,
+          "decision_index": 0,
+          "error_world_xyz_m": [
+            0.024065589628343376,
+            -0.011057824014370728,
+            0.017498723043176567
+          ],
+          "error_norm_m": 0.03174324155209138,
+          "raw_gain_delta_world_m": [
+            0.012032794814171688,
+            -0.005528912007185364,
+            0.008749361521588284
+          ],
+          "applied_delta_world_m": [
+            0.003032530825668979,
+            -0.0013934082940111315,
+            0.0022050329062280253
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.004,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "83d9aa6bfdebfb740328358690b562392f5e0e0716915fa86f72540db4d28f5c",
+          "reference_path_after_sha256": "5717770a6ca37dbbb83f1df5acba9f0ddf2f38a8000626cfa1827763a692ff95",
+          "new_H40_sha256": "d4587a217748abe3b6d892ac9f111fff8be7141967f768ad6aeee0d24cd5923f",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.003004234237972596,
+            0.04710272398348946,
+            0.007994850948818919
+          ],
+          "angular_error_norm_rad": 0.04787076009126271,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.001502117118986298,
+            0.02355136199174473,
+            0.003997425474409459
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0006275718689749663,
+            0.009839560494483682,
+            0.0016700906636070159
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.01,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.04094780123112086,
+          "angular_error_before_rad": 0.04787076009126271,
+          "cumulative_reference_path_length_mm": 4.0,
+          "cumulative_reference_rotation_path_rad": 0.01,
+          "deadband_HOLD": false,
+          "decision_sha256": "96236e0b84f9d9f6724dd227350225c7661f08c927455c6a692953a33ac82f7f",
+          "error_at_next_boundary_mm": 29.95903095683235,
+          "error_before_mm": 31.743241552091376,
+          "native_step": 16703,
+          "next_boundary_native_step": 17403,
+          "observed_actual_TCP_change_norm_mm": 1.8259922991630886,
+          "observed_actual_change_projected_on_reference_correction_mm": 1.786586540830323,
+          "observed_actual_rotation_norm_rad": 0.006927269205271324,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.006923582304502513,
+          "observed_angular_error_reduction_rad": 0.0069229588601418535,
+          "observed_goal_error_reduction_mm": 1.784210595259026,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "74cb12c6272e8d3ffd5f9e9aa86cdca2e09ac65b1135856a120cc6bf6324f077",
+            "expected_sha256": "74cb12c6272e8d3ffd5f9e9aa86cdca2e09ac65b1135856a120cc6bf6324f077",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "946c0d38f58d3388ffe0cdd4319c63e8b074b71637628b716738e62685169606",
+            "expected_sha256": "946c0d38f58d3388ffe0cdd4319c63e8b074b71637628b716738e62685169606",
+            "bytes": 3915,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "9afc9a1789c7c35b755ed64eeed88885b94de39840c424aefbc2befb3437453e",
+            "expected_sha256": "9afc9a1789c7c35b755ed64eeed88885b94de39840c424aefbc2befb3437453e",
+            "bytes": 190682,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "2f3ee7299d3e7b2b1e5a1ce34e4de4138b0c2a5f918ad869fc7574187c294625",
+            "expected_sha256": "2f3ee7299d3e7b2b1e5a1ce34e4de4138b0c2a5f918ad869fc7574187c294625",
+            "bytes": 56193,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "2cacca8b2d6e9c573711ecb719576511ae743d3aefaa93b842354638ad27d5f5",
+            "expected_sha256": "2cacca8b2d6e9c573711ecb719576511ae743d3aefaa93b842354638ad27d5f5",
+            "bytes": 10350,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 16703,
+          "native_time_s": 33.40599999999486,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 16703,
+          "native_end_step": 16728,
+          "actual_ticks": 25,
+          "reference_sha256": "830855bdaf860aeb2b51a7daf7814065a60103eab07f7163c0b568541c83b2b6",
+          "target_trajectory_sha256": "524b171902cb8b8ab1d820e34bd216b9d73eb7f977860c08476fe2c6cb77a17e",
+          "actual_installed_source_age_s": -5.137223979545524e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 9,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 17403,
+        "decision_sha256": "aba6840ef0669f0ed0e715da262cc08313bc72e76a3532bad880952453faf998",
+        "reference_law_scalars": {
+          "native_step": 17403,
+          "decision_index": 1,
+          "error_world_xyz_m": [
+            0.02247090103046301,
+            -0.010515692890880505,
+            0.016793520946372764
+          ],
+          "error_norm_m": 0.02995903095683235,
+          "raw_gain_delta_world_m": [
+            0.011235450515231504,
+            -0.0052578464454402524,
+            0.008396760473186382
+          ],
+          "applied_delta_world_m": [
+            0.0030002173385168685,
+            -0.0014040097499858997,
+            0.002242198149942883
+          ],
+          "applied_delta_norm_m": 0.003999999999999999,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.008,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "5717770a6ca37dbbb83f1df5acba9f0ddf2f38a8000626cfa1827763a692ff95",
+          "reference_path_after_sha256": "d9514e34b4c3558aaf44a9afdcd76eae3e7e0c2900b60209b7e459d14fdc564d",
+          "new_H40_sha256": "7fe167c6e4154b9b1e2a33aae216dc89a1b0ab3b6d3878fa5e4dc6b64c802015",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.002715028110617421,
+            0.04025229017377891,
+            0.007007437747696495
+          ],
+          "angular_error_norm_rad": 0.04094780123112086,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0013575140553087105,
+            0.020126145086889455,
+            0.0035037188738482475
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0006630461292153496,
+            0.009830146909863051,
+            0.0017113098962614755
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.02,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.034228986253445295,
+          "angular_error_before_rad": 0.04094780123112086,
+          "cumulative_reference_path_length_mm": 8.0,
+          "cumulative_reference_rotation_path_rad": 0.02,
+          "deadband_HOLD": false,
+          "decision_sha256": "aba6840ef0669f0ed0e715da262cc08313bc72e76a3532bad880952453faf998",
+          "error_at_next_boundary_mm": 27.97004864692032,
+          "error_before_mm": 29.95903095683235,
+          "native_step": 17403,
+          "next_boundary_native_step": 18103,
+          "observed_actual_TCP_change_norm_mm": 2.0570948747232043,
+          "observed_actual_change_projected_on_reference_correction_mm": 1.9935817359559944,
+          "observed_actual_rotation_norm_rad": 0.006721796482333037,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.006719304241613784,
+          "observed_angular_error_reduction_rad": 0.006718814977675562,
+          "observed_goal_error_reduction_mm": 1.988982309912032,
+          "reference_delta_norm_mm": 3.999999999999999,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "29957598a74ed15ab065bdc061d2f85b41b3d40e0d5104febb75f9757bf7d586",
+            "expected_sha256": "29957598a74ed15ab065bdc061d2f85b41b3d40e0d5104febb75f9757bf7d586",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "9d1790cd552828227659a9d6fb7d619ef3c2f5189cd9675ef60b76f958d542c5",
+            "expected_sha256": "9d1790cd552828227659a9d6fb7d619ef3c2f5189cd9675ef60b76f958d542c5",
+            "bytes": 3917,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "0c78c644bc2c9270d81695bd20810a1d8b2a0e9d01df230ecd2dbdf1e2cbaf2d",
+            "expected_sha256": "0c78c644bc2c9270d81695bd20810a1d8b2a0e9d01df230ecd2dbdf1e2cbaf2d",
+            "bytes": 189985,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "29e631acf899edaf5e5540b783ab631cece164c1f423220eb129ec25e5ad13e4",
+            "expected_sha256": "29e631acf899edaf5e5540b783ab631cece164c1f423220eb129ec25e5ad13e4",
+            "bytes": 48257,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "f3f870478b23f198fd4f77dd94d25907ef6a8dc4a6c36a1887681af2c7083231",
+            "expected_sha256": "f3f870478b23f198fd4f77dd94d25907ef6a8dc4a6c36a1887681af2c7083231",
+            "bytes": 10262,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 17403,
+          "native_time_s": 34.80599999999657,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 17403,
+          "native_end_step": 17428,
+          "actual_ticks": 25,
+          "reference_sha256": "7f23b6e8f7b3a02335d6ffc1db38586f0f50111682db06170c7b7685abb37dda",
+          "target_trajectory_sha256": "f8eb43643e36e5ce0cda975a86c397fe74029400f1aee90ada0f09a89c300b12",
+          "actual_installed_source_age_s": -3.424815986363683e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 18103,
+        "decision_sha256": "d3290efbe935e07568b0f174a5716a1eb15ab5e2409f338fc33aac409c2b9c0d",
+        "reference_law_scalars": {
+          "native_step": 18103,
+          "decision_index": 2,
+          "error_world_xyz_m": [
+            0.02064285914270836,
+            -0.00996162608007578,
+            0.01603003410994952
+          ],
+          "error_norm_m": 0.027970048646920317,
+          "raw_gain_delta_world_m": [
+            0.01032142957135418,
+            -0.00498081304003789,
+            0.00801501705497476
+          ],
+          "applied_delta_world_m": [
+            0.002952137753250747,
+            -0.0014246133363336314,
+            0.002292457093987147
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.012,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "d9514e34b4c3558aaf44a9afdcd76eae3e7e0c2900b60209b7e459d14fdc564d",
+          "reference_path_after_sha256": "11801a8736bed5d5972c0d116bdeed1f7b916ca216de9f360142e662ee70b423",
+          "new_H40_sha256": "a55fc5a6337a8e508df452ce1361a5960d888fc32693ae5952453d8fe2c8f74e",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.0023842435584403216,
+            0.033615180352207424,
+            0.005996543377742783
+          ],
+          "angular_error_norm_rad": 0.034228986253445295,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0011921217792201608,
+            0.016807590176103712,
+            0.0029982716888713916
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0006965568716486124,
+            0.00982067657607707,
+            0.0017518904396823043
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.03,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.028173344667252465,
+          "angular_error_before_rad": 0.034228986253445295,
+          "cumulative_reference_path_length_mm": 12.0,
+          "cumulative_reference_rotation_path_rad": 0.03,
+          "deadband_HOLD": false,
+          "decision_sha256": "d3290efbe935e07568b0f174a5716a1eb15ab5e2409f338fc33aac409c2b9c0d",
+          "error_at_next_boundary_mm": 25.559342507970626,
+          "error_before_mm": 27.97004864692032,
+          "native_step": 18103,
+          "next_boundary_native_step": 18803,
+          "observed_actual_TCP_change_norm_mm": 3.4038031852235324,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.513930343316672,
+          "observed_actual_rotation_norm_rad": 0.0060573346979280514,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.006055941141867627,
+          "observed_angular_error_reduction_rad": 0.006055641586192831,
+          "observed_goal_error_reduction_mm": 2.410706138949692,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "0b3ce91c5e771fbc7b4c5e2442671e6adce035c923d1d635334f996dcb9b943f",
+            "expected_sha256": "0b3ce91c5e771fbc7b4c5e2442671e6adce035c923d1d635334f996dcb9b943f",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "b142497d6770d4dbba13c912f56c6c409839bfde0bc0f90fcdb10fffc02204b7",
+            "expected_sha256": "b142497d6770d4dbba13c912f56c6c409839bfde0bc0f90fcdb10fffc02204b7",
+            "bytes": 3910,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "e4c0fa16c784225cabb7d71fbed92b68d0b0dcc272b32d12b415c7a45d9c8c1b",
+            "expected_sha256": "e4c0fa16c784225cabb7d71fbed92b68d0b0dcc272b32d12b415c7a45d9c8c1b",
+            "bytes": 190298,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "c6ffac4dc39a682928101f6d23b0010bc014154c77ad44b2db7396146524e7af",
+            "expected_sha256": "c6ffac4dc39a682928101f6d23b0010bc014154c77ad44b2db7396146524e7af",
+            "bytes": 41371,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "6a79a650b4f15a60c9ed7dc5870ab9fafc1f381a697dbedc6c8468f8f896a809",
+            "expected_sha256": "6a79a650b4f15a60c9ed7dc5870ab9fafc1f381a697dbedc6c8468f8f896a809",
+            "bytes": 10274,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 18103,
+          "native_time_s": 36.205999999998284,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 18103,
+          "native_end_step": 18128,
+          "actual_ticks": 25,
+          "reference_sha256": "346fc646d0862dffa0c125828b2e382c232e370a1ae537c0b4a670b9100b24b5",
+          "target_trajectory_sha256": "60d064f24450977b31e23342c2b8448c46b67b8bb97afdc3455d3c27d75920f2",
+          "actual_installed_source_age_s": -1.7195134205394424e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 18803,
+        "decision_sha256": "43c5d3c038813af8e87c8f89b41ed424348f1f450e48397a0bdf51d5aa5fec60",
+        "reference_law_scalars": {
+          "native_step": 18803,
+          "decision_index": 3,
+          "error_world_xyz_m": [
+            0.017248125077529985,
+            -0.010165607595289894,
+            0.015888442118981327
+          ],
+          "error_norm_m": 0.025559342507970626,
+          "raw_gain_delta_world_m": [
+            0.008624062538764993,
+            -0.005082803797644947,
+            0.007944221059490664
+          ],
+          "applied_delta_world_m": [
+            0.002699306536879999,
+            -0.0015909028320458198,
+            0.0024865181276124844
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.016,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "11801a8736bed5d5972c0d116bdeed1f7b916ca216de9f360142e662ee70b423",
+          "reference_path_after_sha256": "8584dd6f29a4f267b647a633643e27ccd234392f1e841e6086cf903abc661498",
+          "new_H40_sha256": "ee7146b985ba216d27199bcbd69bc396743b269e0d4eb146096b8f6bc0acb461",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.002063939477623619,
+            0.02767504176146541,
+            0.004854849850783774
+          ],
+          "angular_error_norm_rad": 0.028173344667252465,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0010319697388118095,
+            0.013837520880732705,
+            0.002427424925391887
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0007325858899609663,
+            0.009823129659728948,
+            0.001723206778649484
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.04,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.021580395268487863,
+          "angular_error_before_rad": 0.028173344667252465,
+          "cumulative_reference_path_length_mm": 16.0,
+          "cumulative_reference_rotation_path_rad": 0.04,
+          "deadband_HOLD": false,
+          "decision_sha256": "43c5d3c038813af8e87c8f89b41ed424348f1f450e48397a0bdf51d5aa5fec60",
+          "error_at_next_boundary_mm": 22.882835090618094,
+          "error_before_mm": 25.559342507970626,
+          "native_step": 18803,
+          "next_boundary_native_step": 19503,
+          "observed_actual_TCP_change_norm_mm": 2.7946308212617166,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.6891499466312334,
+          "observed_actual_rotation_norm_rad": 0.00665290463503048,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.006607042828088506,
+          "observed_angular_error_reduction_rad": 0.006592949398764602,
+          "observed_goal_error_reduction_mm": 2.676507417352532,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "120446680fddd48420250cc7479e7d9ab2030a8c7135fe3cd503a8a8f4a083e2",
+            "expected_sha256": "120446680fddd48420250cc7479e7d9ab2030a8c7135fe3cd503a8a8f4a083e2",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "2d60e78306152aee4bbc6fdcd4b477e53c9899565f5fd5e946f595c2a6d4f7c6",
+            "expected_sha256": "2d60e78306152aee4bbc6fdcd4b477e53c9899565f5fd5e946f595c2a6d4f7c6",
+            "bytes": 3903,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "8a515021150f8fb46004ccbd69e3b7c4b602ae71cd1f8c28d77281d9dd18e26c",
+            "expected_sha256": "8a515021150f8fb46004ccbd69e3b7c4b602ae71cd1f8c28d77281d9dd18e26c",
+            "bytes": 190525,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "c8748d6cbda46ad502b75fe7f2c9f43be43ac56846e67602c9dd9fab56774b8c",
+            "expected_sha256": "c8748d6cbda46ad502b75fe7f2c9f43be43ac56846e67602c9dd9fab56774b8c",
+            "bytes": 34411,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "2dd729386ea3995ecc8abda1ef4a9defedc552fb4c4be1e3faef2ae29013e61b",
+            "expected_sha256": "2dd729386ea3995ecc8abda1ef4a9defedc552fb4c4be1e3faef2ae29013e61b",
+            "bytes": 10324,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 18803,
+          "native_time_s": 37.605999999999995,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 18803,
+          "native_end_step": 18828,
+          "actual_ticks": 25,
+          "reference_sha256": "83dd58db82add70a3e03dfa8d4e30d707b307f375f75479183e016aba83fb743",
+          "target_trajectory_sha256": "d23dbed8c5a8116fc43a8a356a4e1e40e4f0ec8005beb498bcec6b330b5b51df",
+          "actual_installed_source_age_s": -7.105427357601002e-15
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 19503,
+        "decision_sha256": "d235db156fecfb3576390fe08e1cc3662909d20d1964446b566569c3439674eb",
+        "reference_law_scalars": {
+          "native_step": 19503,
+          "decision_index": 4,
+          "error_world_xyz_m": [
+            0.014914045184566405,
+            -0.009109149019157457,
+            0.014772230778183681
+          ],
+          "error_norm_m": 0.022882835090618094,
+          "raw_gain_delta_world_m": [
+            0.007457022592283202,
+            -0.004554574509578729,
+            0.007386115389091841
+          ],
+          "applied_delta_world_m": [
+            0.0026070275165652225,
+            -0.001592311264418837,
+            0.0025822378598952993
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.02,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "8584dd6f29a4f267b647a633643e27ccd234392f1e841e6086cf903abc661498",
+          "reference_path_after_sha256": "aa55b9958b4b2ef3895547d8f94bcad631b1092e791023d4b505701b6b651e5c",
+          "new_H40_sha256": "a1a566435f7ac872c2f3b54857ee6e0d79fe41c7a59e332f30542eb86703e4a3",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.0012331658231004672,
+            0.02133055537266758,
+            0.0030331781171689495
+          ],
+          "angular_error_norm_rad": 0.021580395268487863,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0006165829115502336,
+            0.01066527768633379,
+            0.0015165890585844748
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0005714287471375287,
+            0.009884228304110303,
+            0.0014055248198340737
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.05,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.029028073592080945,
+          "angular_error_before_rad": 0.021580395268487863,
+          "cumulative_reference_path_length_mm": 20.0,
+          "cumulative_reference_rotation_path_rad": 0.05,
+          "deadband_HOLD": false,
+          "decision_sha256": "d235db156fecfb3576390fe08e1cc3662909d20d1964446b566569c3439674eb",
+          "error_at_next_boundary_mm": 27.036973563684743,
+          "error_before_mm": 22.882835090618094,
+          "native_step": 19503,
+          "next_boundary_native_step": 20203,
+          "observed_actual_TCP_change_norm_mm": 20.58513424115298,
+          "observed_actual_change_projected_on_reference_correction_mm": 4.727865956522948,
+          "observed_actual_rotation_norm_rad": 0.01073351333425655,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": -0.006063613040336748,
+          "observed_angular_error_reduction_rad": -0.007447678323593082,
+          "observed_goal_error_reduction_mm": -4.154138473066649,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "ac3dc4c20342da93573ecc86d64a18949113695700be65630ad22accbd4ad596",
+            "expected_sha256": "ac3dc4c20342da93573ecc86d64a18949113695700be65630ad22accbd4ad596",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "f786aa61bdc22b089743d35eb8463d7fa94e00a3c13db5f88d987d8544f932b3",
+            "expected_sha256": "f786aa61bdc22b089743d35eb8463d7fa94e00a3c13db5f88d987d8544f932b3",
+            "bytes": 3912,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "93f2545358e24c7335f82396187b8718d3c03396704983b90119727426572f18",
+            "expected_sha256": "93f2545358e24c7335f82396187b8718d3c03396704983b90119727426572f18",
+            "bytes": 190239,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "3db76880e732292cbec802c6b08e472da2e693faede39fce21b3b30c7e1675e9",
+            "expected_sha256": "3db76880e732292cbec802c6b08e472da2e693faede39fce21b3b30c7e1675e9",
+            "bytes": 26912,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "f8d0671b92413026504172d5ef9d2a6ed007390248d9cc9668296299fc4f9324",
+            "expected_sha256": "f8d0671b92413026504172d5ef9d2a6ed007390248d9cc9668296299fc4f9324",
+            "bytes": 10272,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 19503,
+          "native_time_s": 39.006000000001706,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 19503,
+          "native_end_step": 19528,
+          "actual_ticks": 25,
+          "reference_sha256": "5658a8179dae33cd9d9795030d0e589a199ac6d2682bb9db7f1773d4639cda9c",
+          "target_trajectory_sha256": "3cfed8b8411882796cad800c2c0ac2ff400d8aee04037a3220956dcda5219559",
+          "actual_installed_source_age_s": 1.7053025658242404e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 12,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 20203,
+        "decision_sha256": "a1bcf216bb4a5d3f1aaa0b5c7b8921f8b1e89e5d556a0a22abfc3f295f97c79b",
+        "reference_law_scalars": {
+          "native_step": 20203,
+          "decision_index": 5,
+          "error_world_xyz_m": [
+            -0.0033030103296702307,
+            -0.015559801414973758,
+            0.02186276840137269
+          ],
+          "error_norm_m": 0.027036973563684744,
+          "raw_gain_delta_world_m": [
+            -0.0016515051648351153,
+            -0.007779900707486879,
+            0.010931384200686345
+          ],
+          "applied_delta_world_m": [
+            -0.0004886656891371504,
+            -0.002302003421843519,
+            0.0032344993569454993
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.024,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "aa55b9958b4b2ef3895547d8f94bcad631b1092e791023d4b505701b6b651e5c",
+          "reference_path_after_sha256": "5849df1e3951eee67ad11bb13fce1ab3da17d1a127359e1e9d6551d61b0e1ea1",
+          "new_H40_sha256": "8e68df3f676124e308c5a816fb981b75e208cbc806c18b35ecabca42e149d8fc",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.010410374158271011,
+            0.026759140148628364,
+            0.00426633154573526
+          ],
+          "angular_error_norm_rad": 0.029028073592080945,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0052051870791355054,
+            0.013379570074314182,
+            0.00213316577286763
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0035863124451741197,
+            0.009218365822225433,
+            0.0014697260333869154
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.060000000000000005,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.020727776033466448,
+          "angular_error_before_rad": 0.029028073592080945,
+          "cumulative_reference_path_length_mm": 24.0,
+          "cumulative_reference_rotation_path_rad": 0.060000000000000005,
+          "deadband_HOLD": false,
+          "decision_sha256": "a1bcf216bb4a5d3f1aaa0b5c7b8921f8b1e89e5d556a0a22abfc3f295f97c79b",
+          "error_at_next_boundary_mm": 14.272042312315103,
+          "error_before_mm": 27.036973563684743,
+          "native_step": 20203,
+          "next_boundary_native_step": 20903,
+          "observed_actual_TCP_change_norm_mm": 18.203576964961403,
+          "observed_actual_change_projected_on_reference_correction_mm": 15.879679728494054,
+          "observed_actual_rotation_norm_rad": 0.01121170857603974,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.009278741551192135,
+          "observed_angular_error_reduction_rad": 0.008300297558614497,
+          "observed_goal_error_reduction_mm": 12.76493125136964,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "5d4058e7171d631c6e2b021ce6ca9c89a82a074c0d3331625e4cbcdcff9d7669",
+            "expected_sha256": "5d4058e7171d631c6e2b021ce6ca9c89a82a074c0d3331625e4cbcdcff9d7669",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "a31a6450f9b0d06c73dd65a3cef3e1f9f06161950c2354ad39598063f1b39073",
+            "expected_sha256": "a31a6450f9b0d06c73dd65a3cef3e1f9f06161950c2354ad39598063f1b39073",
+            "bytes": 3872,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "0c7c1db9bfdf175afa9d78bea8a65490261a6c117b9397a189bb23ed0f9d6af3",
+            "expected_sha256": "0c7c1db9bfdf175afa9d78bea8a65490261a6c117b9397a189bb23ed0f9d6af3",
+            "bytes": 190262,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "f15d32a2a83d03c891e87afd438e49f043a4380e5228ca86b18298a61363766c",
+            "expected_sha256": "f15d32a2a83d03c891e87afd438e49f043a4380e5228ca86b18298a61363766c",
+            "bytes": 19738,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "d83a00b8e56820644d20b4c4591ccc5ea16364bc5fa3f812bdd26c5984c90702",
+            "expected_sha256": "d83a00b8e56820644d20b4c4591ccc5ea16364bc5fa3f812bdd26c5984c90702",
+            "bytes": 10266,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 20203,
+          "native_time_s": 40.40600000000342,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 20203,
+          "native_end_step": 20228,
+          "actual_ticks": 25,
+          "reference_sha256": "97c3f158fca9df3d477b60bc4c01f37a00b55b39c91e584c0f353249fd7cffcd",
+          "target_trajectory_sha256": "7de14fd078b4096841af95cf465f46c043bffb864a2506ee079a96b591ee91a9",
+          "actual_installed_source_age_s": 3.417710559006082e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 9,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 20903,
+        "decision_sha256": "b2b5de53e620a7cfbdb53b977b7a83f9e9ea6727cb22e8346153e19749f6bca7",
+        "reference_law_scalars": {
+          "native_step": 20903,
+          "decision_index": 6,
+          "error_world_xyz_m": [
+            0.004686819198977565,
+            -0.0015696080732670106,
+            0.013388847898790357
+          ],
+          "error_norm_m": 0.014272042312315103,
+          "raw_gain_delta_world_m": [
+            0.0023434095994887827,
+            -0.0007848040366335053,
+            0.0066944239493951785
+          ],
+          "applied_delta_world_m": [
+            0.001313566508959517,
+            -0.00043991127237974134,
+            0.0037524686672873297
+          ],
+          "applied_delta_norm_m": 0.004000000000000001,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.028,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "5849df1e3951eee67ad11bb13fce1ab3da17d1a127359e1e9d6551d61b0e1ea1",
+          "reference_path_after_sha256": "c107499e6d4a6f67c36312a8d3fd70d2c4471507dd5e09288906781272b56276",
+          "new_H40_sha256": "7d951eb0bb42418589d27e67ebd2df6b9e68e4ae75eaeb563a66398382e76584",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            0.004289476730154555,
+            0.020137030166861608,
+            -0.0023960602525634213
+          ],
+          "angular_error_norm_rad": 0.020727776033466448,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            0.0021447383650772776,
+            0.010068515083430804,
+            -0.0011980301262817107
+          ],
+          "applied_rotation_target_world_rad": [
+            0.0020694341367008665,
+            0.009714997949779543,
+            -0.0011559659119699162
+          ],
+          "applied_rotation_norm_rad": 0.01,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.07,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.006038135331780543,
+          "angular_error_before_rad": 0.020727776033466448,
+          "cumulative_reference_path_length_mm": 28.0,
+          "cumulative_reference_rotation_path_rad": 0.07,
+          "deadband_HOLD": false,
+          "decision_sha256": "b2b5de53e620a7cfbdb53b977b7a83f9e9ea6727cb22e8346153e19749f6bca7",
+          "error_at_next_boundary_mm": 9.526058557450195,
+          "error_before_mm": 14.272042312315103,
+          "native_step": 20903,
+          "next_boundary_native_step": 21603,
+          "observed_actual_TCP_change_norm_mm": 6.5348961646749,
+          "observed_actual_change_projected_on_reference_correction_mm": 5.452978088262716,
+          "observed_actual_rotation_norm_rad": 0.021072648734071126,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.020196012564562802,
+          "observed_angular_error_reduction_rad": 0.014689640701685904,
+          "observed_goal_error_reduction_mm": 4.745983754864907,
+          "reference_delta_norm_mm": 4.000000000000001,
+          "reference_rotation_norm_rad": 0.01
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "9cb37147ea72ea77f403de0331fde884e7f7802bc472e2c4b6ce8304edf1342a",
+            "expected_sha256": "9cb37147ea72ea77f403de0331fde884e7f7802bc472e2c4b6ce8304edf1342a",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "3f3aeaccc02e90ab86f879dfb55fa22c9e89d9fc5e48b3591e5bbd656362eb52",
+            "expected_sha256": "3f3aeaccc02e90ab86f879dfb55fa22c9e89d9fc5e48b3591e5bbd656362eb52",
+            "bytes": 3884,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "006ff10dc39b262177343b2d97f402e6d365eb941d883f677b1619cb7967e893",
+            "expected_sha256": "006ff10dc39b262177343b2d97f402e6d365eb941d883f677b1619cb7967e893",
+            "bytes": 190256,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "c59fd805024fc033794d341becf051bc3e686d11759bac8af27506c6d132a216",
+            "expected_sha256": "c59fd805024fc033794d341becf051bc3e686d11759bac8af27506c6d132a216",
+            "bytes": 12541,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "cabf8e6457f5062081ad7fee2a8c21f811a775a79e1e0aa5bf5c752227f34010",
+            "expected_sha256": "cabf8e6457f5062081ad7fee2a8c21f811a775a79e1e0aa5bf5c752227f34010",
+            "bytes": 10246,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 20903,
+          "native_time_s": 41.80600000000513,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 20903,
+          "native_end_step": 20928,
+          "actual_ticks": 25,
+          "reference_sha256": "1691055d33fcb0b11534ced7f3b57dff345b77d6d71bd1c2349545946dffd257",
+          "target_trajectory_sha256": "4f296ca396199a73adfde7f00e3be0e1072bb65edb6073d738164ef439ffdf11",
+          "actual_installed_source_age_s": 5.130118552187923e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 10,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      },
+      {
+        "native_step": 21603,
+        "decision_sha256": "ae0a5255d168aef92140f814d2853b2d70f44905120273b0beae3e5d252b7ef2",
+        "reference_law_scalars": {
+          "native_step": 21603,
+          "decision_index": 7,
+          "error_world_xyz_m": [
+            0.004822842768665236,
+            0.0020558797531440645,
+            0.00795357389538287
+          ],
+          "error_norm_m": 0.009526058557450196,
+          "raw_gain_delta_world_m": [
+            0.002411421384332618,
+            0.0010279398765720323,
+            0.003976786947691435
+          ],
+          "applied_delta_world_m": [
+            0.0020251157347309645,
+            0.0008632656374072738,
+            0.0033397123678869235
+          ],
+          "applied_delta_norm_m": 0.004,
+          "deadband_hold": false,
+          "gain": 0.5,
+          "step_norm_cap_m": 0.004,
+          "deadband_m": 0.005,
+          "cumulative_reference_path_length_m": 0.032,
+          "cumulative_reference_path_length_cap_m": 0.032,
+          "move_atoms": 20,
+          "settle_atoms": 8,
+          "reference_path_before_sha256": "c107499e6d4a6f67c36312a8d3fd70d2c4471507dd5e09288906781272b56276",
+          "reference_path_after_sha256": "adc137b8ec6cd2238aff2fb5b54e7fb192718bbdcc1d670ecbffb8478abdf88a",
+          "new_H40_sha256": "93026da9d9c1ab7e8ee076588b0c45ef49038545c271e3d419c51ea2cd22b939",
+          "unchanged_desired_path_sha256": "c814928896f734e949f300248887ee7e7797e424a0c1ade3d2aa8f8ab1ec5615",
+          "future_response_used": false,
+          "achieved_state_is_expert_label": false,
+          "ordinary_reference_feedback_not_GR00T_clipping": true,
+          "native_execution_authorized": false,
+          "WM_updates": 0,
+          "VLA_queries": 0,
+          "angular_error_target_world_rotvec_rad": [
+            -0.005504829716479482,
+            0.0019085459141374014,
+            0.0015853644915571929
+          ],
+          "angular_error_norm_rad": 0.006038135331780543,
+          "angular_error_convention": "LOG_R_GOAL_R_ACTUAL_TRANSPOSE_TARGET_WORLD_LEFT",
+          "raw_gain_rotation_target_world_rad": [
+            -0.002752414858239741,
+            0.0009542729570687007,
+            0.0007926822457785964
+          ],
+          "applied_rotation_target_world_rad": [
+            -0.002752414858239741,
+            0.0009542729570687007,
+            0.0007926822457785964
+          ],
+          "applied_rotation_norm_rad": 0.0030190676658902716,
+          "angular_deadband_hold": false,
+          "angular_gain": 0.5,
+          "angular_step_cap_rad": 0.01,
+          "angular_deadband_rad": 0.005,
+          "cumulative_reference_rotation_path_rad": 0.07301906766589028,
+          "cumulative_reference_rotation_path_cap_rad": 0.08,
+          "reference_rotation_update": "EXP_WORLD_DELTA_LEFT_TIMES_PREVIOUS_COMMITTED_REFERENCE_R"
+        },
+        "observed_response_scalars": {
+          "angular_deadband_HOLD": false,
+          "angular_error_at_next_boundary_rad": 0.0039435457883804535,
+          "angular_error_before_rad": 0.006038135331780543,
+          "cumulative_reference_path_length_mm": 32.0,
+          "cumulative_reference_rotation_path_rad": 0.07301906766589028,
+          "deadband_HOLD": false,
+          "decision_sha256": "ae0a5255d168aef92140f814d2853b2d70f44905120273b0beae3e5d252b7ef2",
+          "error_at_next_boundary_mm": 6.775121512560344,
+          "error_before_mm": 9.526058557450195,
+          "native_step": 21603,
+          "next_boundary_native_step": 22303,
+          "observed_actual_TCP_change_norm_mm": 2.789505925090886,
+          "observed_actual_change_projected_on_reference_correction_mm": 2.7621530520076507,
+          "observed_actual_rotation_norm_rad": 0.00285167172329625,
+          "observed_actual_rotation_projected_on_reference_rotation_rad": 0.002404678578989861,
+          "observed_angular_error_reduction_rad": 0.0020945895434000897,
+          "observed_goal_error_reduction_mm": 2.7509370448898514,
+          "reference_delta_norm_mm": 4.0,
+          "reference_rotation_norm_rad": 0.0030190676658902716
+        },
+        "artifact_sha256": {
+          "STATE.bin": {
+            "sha256": "0ef5eb6f2b3cdfa6e98689a19f47f73b50e5b6c9ec3fe66de17548d52ee1c475",
+            "expected_sha256": "0ef5eb6f2b3cdfa6e98689a19f47f73b50e5b6c9ec3fe66de17548d52ee1c475",
+            "bytes": 2008,
+            "file_sha256_matches": true
+          },
+          "MEASURED.private.json": {
+            "sha256": "b1d8de33e80d61abdea98ca15ce1a7e0d9405edd68b3473af9045bf02f56970a",
+            "expected_sha256": "b1d8de33e80d61abdea98ca15ce1a7e0d9405edd68b3473af9045bf02f56970a",
+            "bytes": 3906,
+            "file_sha256_matches": true
+          },
+          "REFERENCE_PATH.private.json": {
+            "sha256": "2d47f737b819690355054109952a570cc1fba2d46070c624d4fb4e1bc2164431",
+            "expected_sha256": "2d47f737b819690355054109952a570cc1fba2d46070c624d4fb4e1bc2164431",
+            "bytes": 190288,
+            "file_sha256_matches": true
+          },
+          "REMAINING_PATH.private.json": {
+            "sha256": "e4b9aff4a7638f9f93877ef5af054ae26cb5d99f571ce76ace14919abf51a02b",
+            "expected_sha256": "e4b9aff4a7638f9f93877ef5af054ae26cb5d99f571ce76ace14919abf51a02b",
+            "bytes": 5390,
+            "file_sha256_matches": true
+          },
+          "H40.private.json": {
+            "sha256": "cbb10d8521745e4e93078cb85dc010d3700a78bafb70c99957930eeaba9a281f",
+            "expected_sha256": "cbb10d8521745e4e93078cb85dc010d3700a78bafb70c99957930eeaba9a281f",
+            "bytes": 10292,
+            "file_sha256_matches": true
+          }
+        },
+        "original_FK_witness": {
+          "schema": "WM02_ORIGINAL_ACTUALSTATE_SAME_PACKET_FK_WITNESS_V1",
+          "status": "ORIGINAL_ACTUALSTATE_DATA_AND_FK_MATCH_SAVED_PACKET",
+          "reader_sha256": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef",
+          "model_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+          "native_step": 21603,
+          "native_time_s": 43.20600000000684,
+          "packet_qpos_qvel_ctrl_exact": true,
+          "wrapper_mj_forward_calls": 0,
+          "wrapper_mj_step_calls": 0,
+          "wrapper_model_loads": 0
+        },
+        "first_actual_install_and_pose_gripper_window_join": true,
+        "first_actual_window": {
+          "native_start_step": 21603,
+          "native_end_step": 21628,
+          "actual_ticks": 25,
+          "reference_sha256": "dd9fa1c51f85e4b146859b59e239822b681c5426cd1017cccaf02a9d71e78244",
+          "target_trajectory_sha256": "7f0492601b8a1d92e958d259dfe3b3860a33a4fcfdc2b3af2ccdee840dc41db6",
+          "actual_installed_source_age_s": 6.835421118012164e-12
+        },
+        "original_ACK_summary_matches": 1,
+        "solver_match_count": 9,
+        "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED"
+      }
+    ],
+    "first_error_mm": 31.743241552091376,
+    "final_desired_error_mm": 6.775121512560344,
+    "same_process_observation_not_isolated_causal_effect": true
+  },
+  "retained_nonmonotonic_motion": {
+    "slots": [
+      5,
+      6
+    ],
+    "native_intervals": [
+      [
+        19503,
+        20203
+      ],
+      [
+        20203,
+        20903
+      ]
+    ],
+    "actual_TCP_motion_norm_mm": [
+      20.58513424115298,
+      18.203576964961403
+    ],
+    "reference_delta_norm_mm": [
+      4.0,
+      4.0
+    ],
+    "goal_error_mm": [
+      22.882835090618094,
+      27.036973563684743,
+      14.272042312315103
+    ],
+    "fifth_slot_angular_error_increased": true,
+    "cause": "NOT_YET_ESTABLISHED",
+    "interpretation": "DO_NOT_FIT_A_UNIVERSAL_GAIN_OR_RAISE_REFERENCE_DOSE_FROM_THIS_COUPLED_TRANSIENT",
+    "next": "READ_ORIGINAL_NATIVE_STATE_AND_CONSUMED_REFERENCES_AT_TRANSIENT_BEFORE_NEXT_GRADE"
+  },
+  "artifact_sha256": {
+    "goal_binding": {
+      "sha256": "62bce94446747aae85fb0b9e4d345dbd00482b9107ae73e5580b892432b5ba70",
+      "expected_sha256": "62bce94446747aae85fb0b9e4d345dbd00482b9107ae73e5580b892432b5ba70",
+      "file_sha256_matches": true
+    },
+    "readiness": {
+      "sha256": "bb9e68610589f6ea785dbaa6a3849e0183a2b14f116089a51d150d3be6b5cf1d",
+      "expected_sha256": "bb9e68610589f6ea785dbaa6a3849e0183a2b14f116089a51d150d3be6b5cf1d",
+      "file_sha256_matches": true
+    },
+    "hold_samples": {
+      "sha256": "12556e48f93ebd792d68682d2e3ee357fbccebb7c636ea37f1ee83497f57d046",
+      "expected_sha256": "12556e48f93ebd792d68682d2e3ee357fbccebb7c636ea37f1ee83497f57d046",
+      "file_sha256_matches": true
+    }
+  },
+  "gate_audit": {
+    "status": "VERIFIED_AGGREGATE_EXECUTION_MEASUREMENT_GATE_PASS",
+    "child_exit_code": 0,
+    "complete_task_atoms": 792,
+    "actual_reference_renewals": 115,
+    "actual_feedback_decisions": 8,
+    "imported_recorded_source_members_verified": 52,
+    "source_inventory_members": 3386,
+    "source_inventory_canonical_sha256": "713ccd4dd03451e19570572d4e4ca66f4fb903069706c5b5c4946f2688c93596",
+    "result_sha256_externally_pinned": true,
+    "original_native_environment": {
+      "python": "3.12.3",
+      "numpy": "2.5.4"
+    },
+    "raw_ROS_or_policy_logs_independently_reread": false,
+    "saved_original_FK_witness_rejoined_not_new_FK": true,
+    "controller_selected_WBC_policy_id": "UNKNOWN_DERIVED_NOT_EXPORTED",
+    "chronology": "PINNED_PRODUCER_CODE_AND_SAVED_READBACK_RECORDS_NOT_INDEPENDENT_WALLCLOCK_LEDGER",
+    "next_grade_authorized_by_reader": false,
+    "effects": {
+      "FK": 0,
+      "integrations": 0,
+      "model_loads": 0,
+      "permission_changes": 0,
+      "queries": 0,
+      "registrations": 0,
+      "writes": 0
+    }
+  },
+  "sealed_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 44725476,
+      "sha256": "b3f34af6252a72d05287f329576e3cc7d47718bb07cb1380b61b144f141681d4"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 159706696,
+      "sha256": "6557808a05c26529f08b76419a2f484f4df7dd5ca72bce75656d45b2bef66669"
+    },
+    {
+      "basename": "TRAJECTORY_QUALIFICATION.private.json",
+      "bytes": 43484107,
+      "sha256": "1655d924e1716ff8a35c6ba5915624f77dfba686313327f226d9350ca3945d73"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 2008,
+      "sha256": "741276fb1cc341dd3a705730e10bf6dddb47fbc1f087dd90606554d098df34d7"
+    }
+  ],
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+    "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+    "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c"
+  },
+  "entry_and_provenance": {
+    "actual_CLI": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_pose_feedback_check_v6 --spec FRESH_REGISTERED_POSE025_SPEC --execute",
+    "original_worker": "scripts.wm02.pilot1_native_worker",
+    "dispatch_exit_code": 0,
+    "dispatcher": {
+      "basename": "dispatch_task_phase_pose_feedback_s025_v6_01.py",
+      "bytes": 140469,
+      "sha256": "73189727a758617bbf55c042221c25784b70c920d0106f8969a3b9d6e1a845f6"
+    },
+    "precheck_receipt": {
+      "basename": "TASK_PHASE_POSE_FEEDBACK_S025_V6_PRECHECK01.private.json",
+      "bytes": 1299,
+      "sha256": "839b4bfba91505a470fbdd179a7e0cb9c1557fc006c673cbfddceb9f4b2c827b"
+    },
+    "dispatch_receipt": {
+      "basename": "TASK_PHASE_POSE_FEEDBACK_S025_V6_DISPATCH01.private.json",
+      "bytes": 885,
+      "sha256": "b65cd72ef1fe5705e1a9b8cc9d7dd84b8587b7cec2cbe6d8c50080465f172276"
+    },
+    "status_reader": {
+      "basename": "read_task_phase_pose_feedback_s025_v6_initialization01.py",
+      "bytes": 26970,
+      "sha256": "026326545186294733b2628a79795f24517e13c9c222fb790f3b9c9393361cde"
+    },
+    "terminal_receipt": {
+      "basename": "TASK_PHASE_POSE_FEEDBACK_S025_V6_ACTUAL05.private.json",
+      "bytes": 72369,
+      "sha256": "ec6d208186dedb7ed803b3368353b21ecb04e39c5673c8e6bbe45c88ff90d52a"
+    },
+    "deep_audit_helper": {
+      "basename": "audit_task_phase_pose_feedback_s025_v6_gate01.py",
+      "bytes": 14547,
+      "sha256": "61d888451da390283ee978221896ffe989ec7fad70d47b822df5a92349ff146e"
+    },
+    "deep_audit_receipt": {
+      "basename": "TASK_PHASE_POSE_FEEDBACK_S025_V6_GATE_AUDIT01.private.json",
+      "bytes": 12560,
+      "sha256": "f537e1cd75a4fd8acc4542dfa92e964ed8446b4ce2981865cfc7e03f1320153f"
+    },
+    "source_delta": {
+      "basename": "TASK_PHASE_POSE_FEEDBACK_V6_SOURCE_DELTA01.private.json",
+      "bytes": 2437,
+      "sha256": "a4d878f2eff46fc871711da9a0ead32106668554a1e955459f212559dbcbaa4d"
+    }
+  },
+  "original_quota_ABI": {
+    "unchanged_header_sha256": "9f96f3c308550df2081de3269735006302bc5a239fab9085231299b2d8438e75",
+    "task_duration_bucket_s": 96,
+    "exact_bound_ticks": 22303,
+    "actual_binding_sha256": "06e63bf06b6ca5fd63e1286e22ad467426467d0dc51b93c0cb8018302a903ca0",
+    "actual_binding_exact": true,
+    "bucket_is_not_task_count_or_extra_tick_grant": true,
+    "native_binary_changed": false
+  },
+  "cost": {
+    "source_staging": {
+      "wall_s": 58.88304663868621,
+      "CPU_s": 1.064793554,
+      "copied_parent_members": 3379,
+      "copied_parent_bytes": 45470048,
+      "overlay_members": 15,
+      "overlay_written_bytes": 284321,
+      "actual_source_bytes_written": 45754369,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "worker": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 442.87478971481323,
+      "CPU_s": 261.443951112,
+      "child_CPU_s": 659.222869
+    },
+    "native_function": {
+      "wall_s": 439.94262287719175,
+      "own_CPU_s": 259.370890899
+    },
+    "systemd_CPU_s": 924.954804,
+    "systemd_peak_memory_bytes": 3556884480,
+    "readonly_gate_audit": {
+      "inner_wall_s": 0.5895816474221647,
+      "inner_CPU_s": 0.5611203180000001,
+      "wrapper_wall_s": 0.6745553398504853,
+      "wrapper_own_CPU_s": 0.002306355999999999,
+      "wrapper_child_CPU_s": 0.6390979999999999
+    },
+    "timing_scopes_overlap_do_not_sum": true,
+    "GPU_s": 0
+  },
+  "actual_run_effects": {
+    "VLA_queries": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "optimizer_updates": 0,
+    "learned_model_loads": 0,
+    "checkpoint_sha256": null,
+    "full_tasks": 0,
+    "WBC_changes": false,
+    "scene_changes": false,
+    "physics_dt_s": 0.002
+  },
+  "limits": [
+    "Point25 engineering initialization success is not full1, source80mm task-phase equivalence, complete T1 scoring, GR00T short-skill execution or WM benefit.",
+    "Reference XYZ and SO3 changed jointly; independent restarts and no matched HOLD branch do not isolate either contribution.",
+    "Old1mm fixed-Z/rotation WM action domain does not cover this commissioning path.",
+    "The nonlinear fifth/sixth-slot motion and temporary error increase are retained despite terminal qualification.",
+    "Original 192 DEV negative WM gain and all older native/goal failures remain unchanged."
+  ],
+  "next": {
+    "status": "TRANSIENT_AND_DOSE_REVIEW_BEFORE_NEW_FINITE_SCOPE",
+    "point5_started": false,
+    "point5_design_template_only": true,
+    "point5_template_sha256": "679498ba393050db6667369080b4ea4bdff7159d2308b6793c5be572598dc254",
+    "automatic_grade_chain": false,
+    "goal": "ACTIVE",
+    "available_next_execution_command": null
+  },
+  "publication": {
+    "private_host_paths_included": false,
+    "raw_pose_state_policy_actions_pixels_included": false,
+    "aggregate_scalar_and_XYZ_SO3_diagnostics_only": true
+  }
+}

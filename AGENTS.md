@@ -1,5 +1,15 @@
 # GR00T + WBC agent entry · Goal V7
 
+## WM02 FUSION-NIGHT1 current scoped mandate · 2026-11-06
+
+For the user's overnight GR00T–WM integration work, read `WM02_FUSION_NIGHT1_START.md`, `docs/handover/2026-11-06/WM02_FUSION_NIGHT1_EXECUTION_V1.md` and `experiments/wm02/fusion_night1_v1.json` first. Adopt only at a sealed cold batch boundary; let healthy PILOT2 workers finish. Use the same owner and qualified local resources, not a second campaign. Existing active capsules and historical panels retain their original contracts.
+
+The new main experiment is **the same frozen GR00T with versus without target-embodiment WM reference correction**, first tested on known-intent calibration, then actual VLA inference and qualified native closed-loop trials. No project-internal accumulated engineering budget or per-small-fix GO is imposed; real site capacity, valid leases, finite worker endpoints and original safety still apply. Existing contact learning continues independently; do not repeat the completed PILOT2 sampler matrix or require an independent Actor to beat all rules first.
+
+For NEW FUSION jobs only, permit versioned **upper-level reference adaptation** inside the verified model/action domain. This narrowly supersedes the older prohibition on a bias-compensation project; it never permits changing WBC/leg weights, gains, costs, solver, robot dynamics, physics dt or native safety. Freeze GR00T weights and processors in each comparison. Distinguish VLA commands, intended outcomes, installed/consumed references and actual motion. Do not relabel future achieved poses as expert actions, fake embodiment tags, silently clip OOD commands, or extrapolate a local XY model into Z/rotation/contact/large-motion compensation.
+
+Preserve original TRAIN/DEV/TEST roles and every failure. Do not modify active code, reopen CLOSED leases, alter other users/system infrastructure, delete evidence, or merge main. A morning report checkpoint is not site permission or an automatic lease extension. H200 allocation/queue/jobs, GPU-physics multiworld construction/trials, distributed execution or batched WBC replacement require `AWAITING_H200_SCALE_REVIEW` before execution. Local single-GPU neural work and qualified one/two CPU-native worlds remain allowed under actual site admission. This publication starts no Codex process or remote worker.
+
 ## WM02 PILOT1 current scoped mandate · 2026-11-05
 
 The current user requests long-horizon autonomous progress **without project-internal engineering budgets**, prioritizing a real small-scale learning loop, and stopping for human review before H200 or GPU multi-environment scaling. WBC remains frozen. Read `WM02_PILOT1_START.md`, `docs/handover/2026-11-05/WM02_PILOT1_SCIENCE_FIRST_AUTONOMY_V1.md` and `experiments/wm02/pilot1_science_first_v1.json` first for this work.

@@ -1,0 +1,72 @@
+{
+  "schema": "WM02_GRADED_TRACKING_DIAGNOSTIC_IMPLEMENTATION_V1",
+  "status": "IMPLEMENTED_LOCAL_TESTED_NOT_DEPLOYED",
+  "implementation_parent_sha": "ab20ae8a14831cc2336f8859040c9e9ea80fd04c",
+  "source_members": {
+    "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "52a0c3b0a3bbe43040136db387ddb021f57ecc35650269133e532b08bd5582aa",
+    "tests/world_model/test_fusion_task_phase_live_skill_native_v8.py": "c47c0d3d4b86775a8615c461973e62ef0749d091c14e53367ec8898e918cdee7",
+    "tests/world_model/test_fusion_task_phase_live_skill_pair_v8.py": "67dab333b6dccb9bbaf192c56f3bb221f52a9694e5d8413b90d14b3eeb1544d4",
+    "tests/world_model/test_fusion_live_skill_segment.py": "fa01cc2e0c02007b0a4cc46d81375419294b8f91e85f5a271c66d2232355969c",
+    "tests/world_model/test_fusion_graded_short_skill_v1.py": "2964f149fd9b68e08dde24f6d03e8af074a1705b7f562503c1f0ea3885d512f1",
+    "tests/world_model/test_fusion_short_skill.py": "2a3825561c0db3ddd59861dcefa41e9e3e2d6320c8892f07e15171b69520b264",
+    "tests/world_model/test_fusion_paused_inference.py": "ebffcf16d9e9428cf660833de16606a8b9956ebc6ca91d0730203780d959af64",
+    "tests/world_model/test_fusion_paused_query_bridge.py": "eb9b7d7b251a7e3794686128a068a4fb89d25f345f45a5947f8954c8dedc8c23",
+    "src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py": "3892c064342724ba8bef166a6eb9673ac19ca7b80a7aba657d80030543ff4efe",
+    "src/go2arx5_vla/world_model/fusion_short_skill.py": "aa5fd0a7d7ff3282530c73a44b1c10145cc192561f35b89d9a94e17544b8916e",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "47058b6cb339062979162c59d89c20b96f5a616c80e35adeae75ecaf6de4e387",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py": "472b868c7d10318de9667e4c97e579a2f9d6b78110d2ee1291541ae9c448ee3b",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "aa741dbdff76f751cbd4799b0d915b1964c8b25b304e83bb11c30f4ddfbb2353",
+    "src/go2arx5_vla/world_model/fusion_paused_inference.py": "e63486d3e10dd279dc12004039cdd46cf955e796491de0c88812ee7447b20e57"
+  },
+  "tests": {
+    "NORMAL_01": {
+      "exit_code": 1,
+      "source_unchanged": true,
+      "wall_s": 7.005667785007972,
+      "child_CPU_s": 6.456693,
+      "log_sha256": "d22f87445670c6da7670ae87244c2ee2e89693e28222db7a1b436c7b693be980",
+      "receipt_sha256": "616fcad0c637ae9c92cda57e0d5b8dca9e4e8c799fbed6c0903e70b6261c8bc7"
+    },
+    "NORMAL_02": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 7.802050129015697,
+      "child_CPU_s": 7.211676,
+      "log_sha256": "887d72dc3b79c4626a75684f9caff99b5ae298447ece3ee044493047b17ca009",
+      "receipt_sha256": "3253ea490069355fbbb08990e9b8d5b140432b98b9aeabe483d4fa5e241a69c8"
+    },
+    "OPTIMIZED_01": {
+      "exit_code": 1,
+      "source_unchanged": true,
+      "wall_s": 7.355016181012616,
+      "child_CPU_s": 6.8227910000000005,
+      "log_sha256": "13d585c3d2295cddee0fdbd186198c6997c2541c74329b2cc560662ce3d1eee3",
+      "receipt_sha256": "466ea71703c0b41c5bf15275fd895842d41c42beb92c87ca2e744b00b6bc208c"
+    },
+    "OPTIMIZED_02": {
+      "exit_code": 0,
+      "source_unchanged": true,
+      "wall_s": 8.18091359900427,
+      "child_CPU_s": 7.601291000000001,
+      "log_sha256": "4bac261a5942a2e514079220341950902a96d92be0b3a9a89f5574c081820c5b",
+      "receipt_sha256": "875c97eb39498e6ad3db5450fe07db4ab7f11ee02927a7408f9d4b41d259d0da"
+    }
+  },
+  "final_passed_per_mode": 221,
+  "retained_test_failure": "01 normal/-O220PASS+1FAIL: synthetic5mm diagonal transition exceeded smallfixture duration. Spreadfixture acrossall40points; durationguard unchanged.02 all221PASS.",
+  "meaningful_tests": [
+    "Oldfull, old3703 and strict34303 canonicalcontracts unchanged",
+    "Distinct tracking task/score/capture identity",
+    "Wholeproposal lateral failure preserved while tracking eligibility separately recorded",
+    "Closed/away/large/contact-domain proposals still rejected before installation",
+    "Completepath consumed by syntheticloop but actualshortfailure and fulltaskfalse retained"
+  ],
+  "new_implementation_effects": {
+    "site_registrations": 0,
+    "physics": 0,
+    "queries": 0,
+    "updates": 0
+  },
+  "native_qualification": false,
+  "task_success": false
+}

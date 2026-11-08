@@ -1,0 +1,218 @@
+{
+  "schema": "WM02_PROGRAM_OFFSET_NATIVE_ACTUAL_V1",
+  "case": "QX06",
+  "epoch": 1794030229.5688462,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+  "original_assignment": {
+    "candidate": "X_MINUS_050",
+    "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+    "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX06",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "actual_reference_intervention": {
+    "candidate": "X_MINUS_050",
+    "offset_target_xy_m": [
+      -0.0005,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual": {
+    "native_exit_code": 1,
+    "GPU_exit_code": 0,
+    "native_integrations": 52853,
+    "complete_atomic_transitions": 2114,
+    "complete_generated_suffix_atoms": 742,
+    "actual_queries": 1,
+    "raw_H40_consumed": false,
+    "reference_install_attempts": 107,
+    "reference_installations": null,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": false,
+    "full_tasks": 0,
+    "confirmed_reference_installations_derived_from_publish_grid": 106,
+    "last_reference_install_attempt_rejected_before_effect": true
+  },
+  "first16_actual_response": {
+    "status": "PRESENT_IN_HASH_PINNED_PARTIAL_SEGMENT_FINAL_QUALIFICATION_NOT_RETURNED",
+    "actual_partial_suffix_atoms": 742
+  },
+  "strict_short_score": null,
+  "actual_minus_desired_L2_m": null,
+  "actual_minus_reference_L2_m": null,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": " tuple(windows))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 40, in continuation\n    return _continue(current,report,samples,windows,task=task,camera=camera)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 152, in _continue\n    suffix,all_samples,all_windows=run_consumed_segment(adapter,program,start_step=B,end_step=E,\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 239, in run_consumed_segment\n    installed_step = install(elapsed)\n                     ^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 202, in install\n    reference = adapter.install_reference(action)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 433, in install_reference\n    certificate=certify_chunk(self.actual_state.model,sample,matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else(),planning_object_motion=motion)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 104, in certify_chunk\n    raise ValueError('ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP')\nValueError: ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP\n",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "163e60ae0a7413b646c94fdc8a7c790dba19a6761cc2c80fdf38641f3fbe385c",
+  "GPU_result_sha256": "3c7fc03faad7938c440f9033ac145b68bdff0f77a78b4c6e52e27c12126dc147",
+  "action_npz_sha256": "20af4d1f3753b548c3f0b97057d7aabe7bf1499cb75a9134b278840332f62225",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_FAILED.private.json": "9a8fe6b809a14f916eb9424f8fbbbab6e10cf485c9a53b9a75b2a30dfcf7774f",
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "3f589b5136d7aafe9a9af6181f86c66732c4547b526244b15893ba28bb1a703c",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "d631c14c0445f3557c57e8351da5e5a5ebcfb960eb9a108ba7436e8623876db0",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "0c3c83d035e49a9340609248b254b7662ec5fcf3e423abaa1e4dcc081d9291c3",
+    "LIVE_SKILL_SEGMENT.private.json": "49828c2e685f06dd833c9183c7ff260af18040dfcf5682ba235e30f1ca213959",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "1fa821c6a5f3593fe8e8190992f2b0e104bfacf6c2d0fdab3aee534544aa2a2d",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "2ddf0cd0f909d547dbf644b9204eeef93fe90b8cb73b394c9af5004221cdbcda"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 395295,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 395295
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-program-response-qx06-gpu-01",
+      "spec_sha256": "3738094317db25054f5dbf27af04a1e871e3efae91d578bba73278c304be3b35",
+      "lease_sha256": "d30f11aff4e3dd72d27b9af6ffb1d00da89ce8ed4fd7acee45d8135e21c780d1",
+      "worker_sha256": "7c5738a17d42b25e73fd23decf8d07d6e25ece8e394f5131127c9720a8ee7f5f",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-program-response-qx06-01",
+      "spec_sha256": "0e7e72cebb04c706b605e0e448e220e53e3c8ee78d5ea170d7466fdc1e95ae75",
+      "lease_sha256": "cbfe8b2c9a30221550ba336ad767b331bd404405f8ddeaba0591003a5d6022c3",
+      "worker_sha256": "d72d439559f4f768e434afefb584f74f03b4a6ef6a316150cd3cfda15dcf4d7f",
+      "worker_exit_code": 1,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 113.81630700000001,
+        "exit_code": 0,
+        "wall_s": 485.9194111251272
+      },
+      "systemd_CPU_s": 114.199653,
+      "host_peak_bytes": 8824418304
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 293.401205528,
+        "child_CPU_s": 1127.599657,
+        "exit_code": 1,
+        "wall_s": 728.9176856470294
+      },
+      "systemd_CPU_s": 1428.177832,
+      "host_peak_bytes": 6916550656
+    },
+    "source_staging": {
+      "wall_s": 8.901827424298972,
+      "CPU_s": 0.4385847500000004,
+      "source_reused": true,
+      "reused_source_members": 3476,
+      "copied_parent_members": 0,
+      "copied_parent_bytes": 0,
+      "overlay_members": 0,
+      "overlay_written_bytes": 0,
+      "actual_source_bytes_written": 0,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 1.189383340999484
+  },
+  "counts_after": {
+    "FUSION_attempts": 297,
+    "FUSION_passes": 285,
+    "FUSION_failures": 12,
+    "FUSION_native_ticks": 1971216,
+    "with_PILOT2_attempts": 951,
+    "with_PILOT2_passes": 934,
+    "with_PILOT2_failures": 17,
+    "with_PILOT2_native_ticks": 4958509,
+    "VLA_queries": 19,
+    "WM_main_updates": 12800,
+    "restore_probe_optimizer_calls": 9,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "42e2acbf859475668a86613ea5ec941d13b794d99153de2fc51d144670a50138",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_response_qx06_v4_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "complete_relative_response_curves": "Retained in the hash-pinned private actual reader and original native dataset; public report keeps aggregate endpoint metrics.",
+  "original_certifier_readonly_reproduction": {
+    "audit": {
+      "schema": "WM02_QX06_REJECTED_ORIGINAL_JOINT_LIMIT_DIAGNOSIS_V1",
+      "source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+      "native_step": 52853,
+      "rejection": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP",
+      "original_certifier_locals": {
+        "violations": [
+          {
+            "joint": "x5_joint4",
+            "actual_rad": -1.671040038728228,
+            "lower_rad": -1.671,
+            "upper_rad": 1.671,
+            "excess_rad": 4.003872822799792e-05
+          }
+        ],
+        "planned_native_tick": 286,
+        "planned_preview_interval_index": 9,
+        "points": 287,
+        "IK_iterations": 577
+      },
+      "history_end_steps": [
+        52828,
+        52853
+      ],
+      "history_is_actual_executed_commands": true,
+      "full_rejected_H40_points": 40,
+      "cloned_MuJoCo_FK_calls": 864,
+      "model_loads": 1,
+      "physics_integrations": 0,
+      "integrations_attempted": 0,
+      "action_installations": 0,
+      "registrations": 0,
+      "site_writes": 0,
+      "original_joint_limits_unchanged": true,
+      "dt_s": 0.002,
+      "source_imports": 30,
+      "original_desired_H16_displacement_mm": 9.27270746627259,
+      "whole_raw_motion_end_atom": 800,
+      "actual_time_stretch_factor": 2,
+      "registered_suffix_atoms": 1288,
+      "original_native_time2_result": "FAILED_ORIGINAL_JOINT_POSITION_LIMIT_BEFORE_INSTALL_NOT_RETRIED",
+      "wall_s": 0.6861993749625981,
+      "CPU_s": 0.666871294
+    },
+    "child_exit_code": 0,
+    "wall_s": 0.8518831986002624,
+    "child_CPU_s": 0.8213499999999999,
+    "site_writes": 0,
+    "new_physics_integrations": 0
+  },
+  "FK_model_type": "MuJoCo MJB loaded for FK only; no physical stepping or GR00T load",
+  "next": "Keep failed -X condition and all742 observed suffix transitions. No retry, clipping or joint-limit tolerance change. Independent predeclared Y conditions continue under fresh scopes. H16 model estimates cannot establish full-program feasibility."
+}

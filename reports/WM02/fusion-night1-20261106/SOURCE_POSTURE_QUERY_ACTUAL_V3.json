@@ -1,0 +1,206 @@
+{
+  "schema": "WM02_FUSION_SOURCE_POSTURE_QUERY_ACTUAL_V3",
+  "status": "BOTH_ORIGINAL_WORKERS_CLOSED0_SAME_PROCESS_QUERY_RETURN_PASS",
+  "source_sha": "9459b60263c24f3b998b29e257a0aa35a9082f34",
+  "native_run": "fusion-night1-source-posture-s100-query-01",
+  "GPU_run": "fusion-night1-source-posture-s100-query-gpu-01",
+  "native_spec_sha256": "c1a0878ae26ef1ea895cd2eb65d2ba938ecd792b04c314304c5787572f84033f",
+  "GPU_spec_sha256": "52b44802228137bd1ae1c7db425f60cb40425aa2c16cd82ef3672cdede2537e5",
+  "native_result_sha256": "82c5590d660202162802589916cb6361d691d21fcf74c2cce03ca63bbdacae46",
+  "GPU_result_sha256": "88173fa865230030f91c113afed8aafad2891101082b696085db527597a06306",
+  "query_report_sha256": "e0c1843826c16e00ee6bf129b2c22a94a4086b37ed263b90aaf0775177f72689",
+  "physical_report_sha256": "f5553c13a9e957a45b2167b4d320e45148d99851aeb2d45a242c1086fe54e984",
+  "pair_sha256": "1eee790f88bf39bcbf4e4ceb975a800b6f1f2a69a63c0e1bf5b1bc74d34a8609",
+  "capture_sha256": "c200d27fccc774becac6a3379176d4fc0098d14d27feb559472cd3459367428c",
+  "action_sha256": "b4592284f9a3d1109a335107f86f3fd5afaf84aac0b72e2668a29d8fd9152a87",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "checkpoint_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "query_uuid": "976d8ba1-a6a8-4833-a653-ee25e32417f2",
+  "seed": 366104,
+  "condition": "SAME_SEED_AS_QUERY02_INPUT_ADAPTATION_DIAGNOSTIC",
+  "posture_and_camera_change_together": true,
+  "camera_causal_effect_identified": false,
+  "workers": {
+    "native": {
+      "lease": "CLOSED",
+      "exit_code": 0,
+      "MainPID": 0
+    },
+    "GPU": {
+      "lease": "CLOSED",
+      "exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "physical": {
+    "native_integrations": 16403,
+    "complete_native_atomic_transitions": 656,
+    "consumed_pose_and_gripper_windows": 556,
+    "solver_confirmed_windows": 556,
+    "gripper_confirmed_windows": 556,
+    "all_40_calibration_knots_consumed": true,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "errors": [],
+      "missing": [],
+      "writer": {
+        "events": 132962,
+        "written": 132962,
+        "dropped": 0,
+        "stop_latched": false,
+        "sealed_at_explicit_pause": true
+      },
+      "native_step_records": 16403
+    },
+    "shutdown_clean": true,
+    "owned_child_exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "physics_stops": [],
+    "native_outer_guard_rejections": 0,
+    "original_joint_or_warning_samples": 0,
+    "calibration_intent_is_expert_VLA_action": false
+  },
+  "source_posture": {
+    "actual_source_goal_position_error_m": 0.06581445470566819,
+    "actual_source_goal_rotation_error_rad": 0.136931396862599,
+    "diagnostic_position_tolerance_m": 0.01,
+    "diagnostic_rotation_tolerance_rad": 0.05,
+    "full_scale_source_pose_close": false,
+    "thresholds_are_native_safety": false,
+    "full_policy_input_distribution_qualified": false,
+    "camera_equivalence": false,
+    "task_success": false,
+    "source_observation_used_as_expert_action_label": false
+  },
+  "capture": {
+    "camera_recipe": "SIM_EXTERNAL_WORLD_SOURCE_RIG",
+    "source_camera_identity_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+    "native_step": 16403,
+    "native_time_s": 32.80599999999413,
+    "retained_files": {
+      "STATE.private.bin": "23f1c95f700ff0106070d07a3216a819d3e215151243d459940b91340e6927e7",
+      "images/000000-calibration.json": "e9ac7c22f36c94ced013b31c45af6175e9ae00b797e9d614a439642a590c602c",
+      "images/000000-body_rgb.png": "9495ca2ded062600bd44bea18fcbb9e149e8e706465890d42525b1e24316c73c",
+      "images/000000-wrist_rgb.png": "83b6113d8ca0b954fc4cc717dd4b92325c3f10548f1102adafc3bf43022e3bdb",
+      "BOUND_SHADOW_ABI.private.json": "2439d798f56ce186d0101b8a9a8266cf57e138d9ec29f4749f668a20736e8d56",
+      "native-camera/images/000000-body_rgb.png": "990d3ff96313448a0118a873a6c70ab2f3b4c4bbf0ee1dd133f754b84935533a",
+      "native-camera/images/000000-wrist_rgb.png": "83b6113d8ca0b954fc4cc717dd4b92325c3f10548f1102adafc3bf43022e3bdb",
+      "native-camera/images/000000-calibration.json": "28c49fa6dacfb0254a9ad3feb5f650ae84aae24b7b69e4fa21c0d537d29b578e"
+    },
+    "renderer": {
+      "GL_VENDOR": "Mesa",
+      "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+      "backend": "egl_mesa_cpu"
+    },
+    "new_target_pixels_not_replayed_source_PNG": true,
+    "original_native_images_and_calibration_retained": true
+  },
+  "query": {
+    "actual_model_loads": 1,
+    "actual_VLA_inferences": 1,
+    "query_wall_s": 1.2226565652526915,
+    "GPU_event_s": 1.2225115966796876,
+    "snapshot_wait_wall_s": 289.8737401631661,
+    "model_cold_load_wall_s": 27.675586602650583,
+    "wall_s": 435.41335901385173,
+    "CPU_s": 95.877764201,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "precision": {
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "cuda_matmul_allow_tf32": false,
+      "bf16_autocast": true,
+      "training_flag_on_entry": false
+    },
+    "noise": {
+      "shape": [
+        1,
+        40,
+        132
+      ],
+      "dtype": "torch.float32",
+      "sha256": "636bc1610837ca3ffa8ec52217ac1c2733e18427b23268b76f64274e366b5f69"
+    },
+    "WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "same_world_return": {
+    "schema": "WM02_FUSION_LIVE_PAUSED_OBSERVATION_V2",
+    "query_uuid": "976d8ba1-a6a8-4833-a653-ee25e32417f2",
+    "native_step": 16403,
+    "native_time_s": 32.80599999999413,
+    "pause_after_query": {
+      "step": 16403,
+      "time_s": 32.80599999999413,
+      "motiontime": 12404,
+      "leg_history_steps": 1641,
+      "gait_indices": 0.3900001347064972,
+      "ack_sequence": 49064,
+      "running": false,
+      "clock_paused": true
+    },
+    "unchanged_measured_packet_sha256": "23f1c95f700ff0106070d07a3216a819d3e215151243d459940b91340e6927e7",
+    "native_execution_authorized": false,
+    "model_result_checked": false
+  },
+  "effects": {
+    "new_VLA_queries": 1,
+    "VLA_action_installations": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "new_GR00T_updates": 0,
+    "query_native_integrations": 0,
+    "short_skill_trials": 0,
+    "full_task_successes": 0
+  },
+  "claims": {
+    "pause_assisted_query": true,
+    "real_time_VLA_loop": false,
+    "sensor_domain_equivalence": false,
+    "task_intent_qualified": false,
+    "complete_generated_action_native_qualified": false,
+    "WM_gain": false,
+    "task_transfer_gain": false
+  },
+  "cost": {
+    "native": {
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 456.3090418977663,
+        "CPU_s": 179.10136519,
+        "child_CPU_s": 627.9022950000001
+      },
+      "systemd_CPU_s": 811.32302,
+      "systemd_peak_memory_bytes": 3737735168,
+      "timing_definitions_overlap_do_not_sum": true
+    },
+    "GPU": {
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 438.08089180802926,
+        "CPU_s": null,
+        "child_CPU_s": 97.934701
+      },
+      "systemd_CPU_s": 98.288604,
+      "systemd_peak_memory_bytes": 3925200896,
+      "timing_definitions_overlap_do_not_sum": true
+    }
+  },
+  "commands": {
+    "native": "NATIVE_PYTHON -B -m scripts.wm02.fusion_source_posture_paused_query_check --spec FRESH_fusion-night1-source-posture-s100-query-01_EXECUTION_SPEC --execute",
+    "GPU": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_paused_vla --spec FRESH_fusion-night1-source-posture-s100-query-gpu-01_EXECUTION_SPEC --output NEW_SCOPE_ROOT/fit-01"
+  },
+  "dispatcher_sha256": "6b9366bb963fe88f62b092f3c3ccc74d9c5c0e2ee5b1f6df294936d0d92c6178",
+  "next": "Audit all40 returned command knots, actual task geometry and reference domain. Preserve source-pose mismatch. Then qualify any fresh generated-action scope and matched direct/static/WM short skills; no action clipping or old XY-model extrapolation."
+}

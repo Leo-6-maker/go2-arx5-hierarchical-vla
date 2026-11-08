@@ -1,0 +1,57 @@
+{
+  "schema": "WM02_SOURCE_PHASE_C01_COMPILED_STATIC_ACTUAL_V1",
+  "status": "STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED",
+  "scene_sha256": "24fc70f0b9911312f17a083cd2f254252e0003583aac3520a4e3ce642253b45f",
+  "scene_xml_sha256": "a1c17afae1f8ee3ac699ef0e672409553f0af2308085558ff0ecf16a5fe5a738",
+  "robot_contract": {
+    "status": "COURSE_ROBOT_DYNAMICS_AND_NATIVE_SAFETY_PROPERTIES_EXACT",
+    "sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+    "scene_variation": "PRE_EPISODE_CUBE_XYZ_AND_STATIC_SUPPORT_GEOMETRY_ONLY",
+    "original_dt_s": 0.002,
+    "robot_mass_inertia_friction_actuators_unchanged": true,
+    "controller_or_safety_changes": false
+  },
+  "dense_prefix_geometry": {
+    "saved_pose_FK_calls": 34303,
+    "direct_narrow_phase_calls": 233617,
+    "robot_task_interpenetration_pose_count": 0,
+    "first_interpenetration_native_step": null,
+    "deepest_interpenetration_m": 0.0,
+    "new_integrations": 0,
+    "contact_free_at_saved_poses": true,
+    "new_world_dynamics_or_native_qualification": false
+  },
+  "original_scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "actual_baseline_result_sha256": "e7bdf2561b22d515d222718a1f13871d85fa70be5360634779d43f3a706affdf",
+  "old_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+  "builder_source_sha": "9d0c11d2104b4da8de049a8c3e4d0fa86870ac48",
+  "preparation_source_sha": "6f7110552e245eacb780c69c3ce2b4acbe66db3f",
+  "actual_object_initial_xyz_m": [
+    0.3518029678155171,
+    -0.04019268373083118,
+    0.5709067579761146
+  ],
+  "table_center_xyz_m": [
+    0.4119029678155171,
+    0.03580731626916882,
+    0.5259067579761145
+  ],
+  "table_halfsize_m": [
+    0.17,
+    0.24,
+    0.025
+  ],
+  "old_task_or_140mm_domain_reclassified": false,
+  "new_physics_integrations": 0,
+  "new_neural_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_native_admission": false,
+  "raw_vendor_assets_private": true,
+  "result_sha256": "a32a163bd0a21e4a4f330e212a93316e9495d8e42f098ffe5a585b52813fa6e5",
+  "compiler_exit_sha256": "c3149e6cd9d2bbe497e6efd8fc1ff701565c803171e24740256a6608ed4978c8",
+  "compiler_exit_code": 0,
+  "wall_s": 6.482039876282215,
+  "control_CPU_s": 0.0012573079999999848,
+  "actual_command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/compile_source_phase_c01_static01.py\" 180",
+  "actual_exit_code": 0
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "WM02_BOUNDED_PROGRAM_REFERENCE_SELECTION_IMPLEMENTATION_V1",
+  "basis_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "status": "TESTED_FUTURE_IMPLEMENTATION_NOT_DEPLOYED_TO_DX01",
+  "methods": [
+    "DIRECT",
+    "TRAIN_LINEAR",
+    "WM_PRIMARY_SCALED"
+  ],
+  "objective": "H16_GENERATED_DESIRED_TCP_TRANSLATION",
+  "cadence": "FIRST_INSTALL_ONLY",
+  "allowed_candidates": [
+    "NOMINAL",
+    "X_PLUS_050",
+    "Y_PLUS_050",
+    "Y_MINUS_050"
+  ],
+  "excluded_minus_X": "Preserved TRAIN QX06 late original joint-limit failure; still retained in the shadow diagnostic and old denominators.",
+  "shared_full_H40_desired_clock_BASE_and_native_certificates": true,
+  "selected_full_path_rechecked_by_original_mechanical_domain": true,
+  "same_frozen_TRAIN_models_and_primary_seed": true,
+  "no_best_DEV_seed_selection": true,
+  "checkpoint_or_optimizer_changes": 0,
+  "formal_Actor": false,
+  "actual_model_selected_native_reference_changes": 0,
+  "new_site_scopes": 0,
+  "new_native_integrations": 0,
+  "tests": {
+    "normal": {
+      "passed": 182,
+      "exit_code": 0,
+      "receipt_sha256": "081fbda47aa3e194bda59ff1c1d6698de94631cdadcda645119763cbbdbadd35"
+    },
+    "optimized": {
+      "passed": 182,
+      "exit_code": 0,
+      "receipt_sha256": "59f4bb9c15859385784a2bfae6deb5a759c59d6fe71ff0b93a489b4c6b55dae0"
+    }
+  },
+  "failure_retention": "An earlier test invocation used a nonexistent test filename and exited4 before any tests; final corrected invocations passed. Initial real selector tests and regression history retained.",
+  "future_gate": "Finish frozen pre-effect DEV validation, register a distinct original-owner finite comparison scope; no active capsule changes.",
+  "source_members": {
+    "src/go2arx5_vla/world_model/fusion_program_reference_selection_v1.py": "2280c2a962c38b973854057dde4b97da70ef4ee6ee4697141b29f107910f2cff",
+    "src/go2arx5_vla/world_model/fusion_live_skill_segment.py": "2183c5a168fa5523e15be657a9c85ac6b646144c5e0e76e1142ed8758a69d04e",
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_native_v8.py": "760d8624c4e6364690277dd8ce8161202b36755016c971671c90e02419fe03a9"
+  }
+}

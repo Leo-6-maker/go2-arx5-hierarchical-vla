@@ -1,0 +1,321 @@
+{
+  "schema": "WM02_TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1",
+  "observed_epoch": 1794124954.9668317,
+  "source_sha": "164714ca8a8034074493075776096f027c219703",
+  "spec_sha256": "77be2d38669c681e0e64b41bc92d3b27b502a65e2ed1f580647b14a3306980de",
+  "result_sha256": "75ae4b27dd132bc6b6b848c173969fb4df4e467b4768141823904c8337fa3eb3",
+  "worker_sha256": "24ff2fa910ef3c175ea9c5055544032a395170d6b7e6f4890ea334ef547d5737",
+  "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+  "target_statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+  "model_parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "MainPID": 0,
+  "actual_model_loads": 1,
+  "actual_VLA_queries": 4,
+  "Processor_decodes": 4,
+  "new_GR00T_updates": 0,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0,
+  "new_physical_integrations": 0,
+  "new_candidate_checkpoint": null,
+  "original_parent_weights_unchanged": true,
+  "original_baseline_Processor_unchanged": true,
+  "this_is_original_source_B0": false,
+  "controlled_comparison": "Four real FIT4 TRAIN decisions, fixed seeds/noise, ORIGINAL_PARENT_WEIGHTS_WITH_NEW_TARGET_TRAIN_STATISTICS",
+  "raw_H40_clipped": false,
+  "target_native_execution": false,
+  "diagnostics": [
+    {
+      "episode": "target-gr00t-demo-train01-approach-r1-01",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "seed": 2026110800,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "b57d5bceb0607c5c8de4d8127e2be56e9a88e7505eee2edd647917f1def59da0"
+      },
+      "action_sha256": "0b6f2fe839bef5cc8cac0e3e79dd9bab1ab555e9ce5fc1538f8e7a6c26bba3da",
+      "signed_endpoint_progress_m": -0.00033323284475965517,
+      "maximum_excursion_m": 0.0005793467933212786,
+      "H40_XYZ_mean_m": 0.002133535650083036,
+      "prefix8_XYZ_mean_m": 0.0002829045057547166,
+      "normalized_outside_unit_components": 13
+    },
+    {
+      "episode": "target-gr00t-demo-train01-retreat-r1-01",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "seed": 2026110801,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "684c9d6a6b261ea2c567bda6c1ab7e3f9a23feb99b456e46af842c5bd4804580"
+      },
+      "action_sha256": "7bfe5a455a6ab5f017463ca206f4ea191d44faf22e71ce1380142e3e23aa74ad",
+      "signed_endpoint_progress_m": 0.00022556947427571032,
+      "maximum_excursion_m": 0.0005232960035322052,
+      "H40_XYZ_mean_m": 0.002185242593801188,
+      "prefix8_XYZ_mean_m": 0.0004794909390673739,
+      "normalized_outside_unit_components": 19
+    },
+    {
+      "episode": "target-gr00t-demo-train03-approach-r1-01",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "seed": 2026110802,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "e38155a85cda5f4c2d92771628c515b30eb5b4afdc4033cf99f96b47d6b6aa4f"
+      },
+      "action_sha256": "199bca3d081afcf35712d53bdea51d589ac0755d6b8dc5dca6ed04ce30164fb8",
+      "signed_endpoint_progress_m": -0.0002971552989891622,
+      "maximum_excursion_m": 0.0004585415888091719,
+      "H40_XYZ_mean_m": 0.0020801533013079013,
+      "prefix8_XYZ_mean_m": 0.0003049776327648157,
+      "normalized_outside_unit_components": 10
+    },
+    {
+      "episode": "target-gr00t-demo-train03-retreat-r1-01",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "seed": 2026110803,
+      "noise": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "torch.float32",
+        "sha256": "93a9f18bd0af01fd4272a268d26db94f91729d246215455048b392628499390b"
+      },
+      "action_sha256": "0645852e32a0ae95e8a7fb54d4b90de334a6a6d1582b21c0a3bdf44087527e72",
+      "signed_endpoint_progress_m": 0.00014530924148448756,
+      "maximum_excursion_m": 0.0007618238150423391,
+      "H40_XYZ_mean_m": 0.0023906824915687895,
+      "prefix8_XYZ_mean_m": 0.0007253714051016753,
+      "normalized_outside_unit_components": 4
+    }
+  ],
+  "summary": {
+    "H40_XYZ_mean_across4_m": 0.0021974035091902287,
+    "prefix8_XYZ_mean_across4_m": 0.0004481861206721454,
+    "correct_signed_direction": 2,
+    "full_H40_1mm_gate_passes": 0,
+    "trained_model": false
+  },
+  "negative": "Both approach endpoints are opposite the prescribed direction; retreat endpoints are only0.146-0.226mm. Good early prefix error does not establish full-H40 or native task success.",
+  "causal_limit": "This is the matched zero-step reference for future A40 FIT4. The earlier original-Processor single query used a different seed and is not a matched Processor-effect estimate.",
+  "first_preflight": {
+    "exit_code": 1,
+    "reason": "NEW_EXPLICIT_DEVICE_FIELD_MISSING",
+    "registration_effects": 0,
+    "new_models": 0,
+    "repair": "Explicit device=cuda on the new helper; new preflight02 passed before actual one-time dispatch"
+  },
+  "cost": {
+    "source_stage_wall_s": 209.6015205043368,
+    "source_stage_CPU_s": 1.358737067,
+    "source_bytes_written": 49402896,
+    "worker_wall_s": 143.9795222012326,
+    "child_CPU_s": 27.540267,
+    "GPU_job_wall_s_upper": 143.9795222012326,
+    "peak_allocated_bytes": 13344131584,
+    "peak_reserved_bytes": 13560184832,
+    "worker_MemoryPeak_bytes": 2049417216
+  },
+  "TRAIN_only_prefix_timing_audit": {
+    "epoch": 1794125463.4090807,
+    "status": "SEALED_TRAIN_PREFIX_TIMING_AUDIT_NOT_A_NATIVE_QUALIFICATION",
+    "read_only": true,
+    "closed_TRAIN_attempts": 16,
+    "TRAIN_native_PASS": 14,
+    "TRAIN_native_FAIL": 2,
+    "prefix_candidates": [
+      80,
+      100,
+      120,
+      128,
+      140,
+      160,
+      176
+    ],
+    "summary": [
+      {
+        "atoms": 80,
+        "physical_s": 4.0,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 0,
+        "intent_progress_m_min_median_max": [
+          0.0011712769681076268,
+          0.0013245164275537818,
+          0.0015471136265818339
+        ],
+        "BASE_max_translation_m": 0.0006470796895287984,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 100,
+        "physical_s": 5.0,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 5,
+        "intent_progress_m_min_median_max": [
+          0.0018208090308576908,
+          0.001932549068718857,
+          0.0022928949957327165
+        ],
+        "BASE_max_translation_m": 0.0007557548407650665,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 120,
+        "physical_s": 6.0,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 14,
+        "intent_progress_m_min_median_max": [
+          0.002244652552898618,
+          0.002471438667226998,
+          0.0029359742903108184
+        ],
+        "BASE_max_translation_m": 0.0008529143678477939,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 128,
+        "physical_s": 6.4,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 14,
+        "intent_progress_m_min_median_max": [
+          0.0024227813080906577,
+          0.0026462661545879384,
+          0.0030828016303088867
+        ],
+        "BASE_max_translation_m": 0.0008819317605466226,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 140,
+        "physical_s": 7.0,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 14,
+        "intent_progress_m_min_median_max": [
+          0.0024442171953181946,
+          0.0026851320071950395,
+          0.0030363521827178044
+        ],
+        "BASE_max_translation_m": 0.0009185269209584312,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 160,
+        "physical_s": 8.0,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 14,
+        "intent_progress_m_min_median_max": [
+          0.0024656250456220703,
+          0.002711424142088971,
+          0.0029836361410795166
+        ],
+        "BASE_max_translation_m": 0.0009660523564073414,
+        "closed_failed_conditions_without_this_prefix": 2
+      },
+      {
+        "atoms": 176,
+        "physical_s": 8.8,
+        "actual_measured": 14,
+        "positive_progress_ge2mm": 14,
+        "intent_progress_m_min_median_max": [
+          0.00248802089927727,
+          0.0027655315655779602,
+          0.0029584622131479115
+        ],
+        "BASE_max_translation_m": 0.0009949782635162517,
+        "closed_failed_conditions_without_this_prefix": 2
+      }
+    ],
+    "DEV_or_TEST_read": false,
+    "selected_protocol": null,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_updates": 0,
+    "new_physics": 0,
+    "wall_s": 3.499983409885317,
+    "CPU_s": 0.891511602,
+    "bytes_read": 188351453
+  },
+  "Core_collection": {
+    "new_cohort_sealed_attempts": 20,
+    "PASS": 16,
+    "FAIL": 4,
+    "new_cohort_integrations": 757435,
+    "demonstration_panel_closed": 16,
+    "demonstration_native_PASS": 14,
+    "demonstration_native_FAIL": 2,
+    "planned_DEMO_conditions": 32,
+    "remaining": 16,
+    "strict_FORMAL_bundle_admission": "PENDING_ALL32_TERMINAL",
+    "active": "target-gr00t-demo-train05-approach-r1-01",
+    "active_spec_sha256": "0444df4c705b2f676dc14f9c6408de7e971a23f19abb16408c01caf820d62f38",
+    "native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+    "native_parallelism": 1,
+    "prior_healthy_native_finished": true
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "state": "Q",
+    "actual_updates": 0,
+    "actual_checkpoints": 0,
+    "source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "first_blocker": "User batch_gpu running-job limit; no A40 allocation started",
+    "duplicate_submission": false
+  },
+  "commands": {
+    "private_actual_log_sha256": "79a5c3bb815e860715754d0fb9023e9da4e39ddc5bd98ff02053fd188cc26147",
+    "public_credentials_or_host_bound_paths": false
+  },
+  "next_command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "NEXT_DECISION": "Keep the one queued A40 capacity/restore/FIT4 job; collect only unexecuted TRAIN/DEV. No formal training, native GR00T rollout or WM deployment is justified by these four shadow predictions.",
+  "query_latency": {
+    "scope": "ORIGINAL_JOURNAL_END_TO_END_INPUT_ENCODE_INFER_DECODE_SAVE_METRICS",
+    "actual_wall_s": [
+      1.4012525081634521,
+      0.22725844383239746,
+      0.2405531406402588,
+      0.23156070709228516
+    ],
+    "pure_GPU_time": "NOT_SEPARATELY_MEASURED"
+  },
+  "visual_audit": {
+    "reused_exact_sealed_private_archive": true,
+    "actual_TRAIN_layouts": 2,
+    "actual_initial_images_inspected": 4,
+    "red_cube_visible_in_both_camera_views": true,
+    "wrist_image_changes_with_layout": true,
+    "DEV_or_TEST_inspected": false,
+    "image_sha256": [
+      "593bfc0973319138fa9dabb4c00f669c12a0e0e5ed1a7152b163631c3d8f7dd2",
+      "33094ab094e86418b286df1056dcd20131be3dc6a1f5185bd96342b94db13c82",
+      "bee05e9ea99080f7fb19bbcd2250ab7b5b1c223ed57227dd1afa6e3cb585c947",
+      "5af6f3abacceb327c7cd615d8ee81cea1301a5c5eeb27e67d22245317002b7f3"
+    ],
+    "not_a_unique_cause_attribution": true
+  },
+  "Vanda_shadow_reference_transfer": {
+    "complete": true,
+    "independent_full_SHA_readback": true,
+    "files": 5,
+    "archive_sha256": "8edafacdbbb78670224eb3f3e79b9050755884b86cd243656f013e9dfac4b139",
+    "new_PBS": 0,
+    "queued_allocation_inputs_modified": false
+  }
+}

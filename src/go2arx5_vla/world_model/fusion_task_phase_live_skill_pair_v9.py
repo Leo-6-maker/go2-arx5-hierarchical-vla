@@ -1,0 +1,220 @@
+"""One preregistered query at a graded, unsealed native initialization boundary.
+
+This is a file/pause binding, not an initialization or action certificate. The
+actual V9 producer composes a slower V9 half-grade manifest with a fixed
+future endpoint. Old full-grade/readiness results are never relabelled here.
+No registration, model call, Processor decode, integration or install occurs.
+"""
+import hashlib
+import json
+from pathlib import Path
+
+from scripts.pi0292.relay_protocol import digest as document_hash, unseal, validate_observation
+from .storage import digest
+
+PHASE = 'collect-target-fusion-task-phase-live-skill-v9'
+KIND = 'FUSION_TASK_PHASE_LIVE_SKILL_V9'
+PAIR_MODE = 'PRE_REGISTERED_TASK_PHASE_LIVE_SKILL_V9'
+PAIR_SCHEMA = 'WM02_FUSION_TASK_PHASE_LIVE_SKILL_PAIR_V9'
+BOUNDARY_STEP, ENDPOINT_STEP = 34303, 66503
+EXPERIMENT_ROLE = 'GRADED_NONCONTACT_DIAGNOSTIC'
+TASK_CONDITION = 'SOURCE71558_ORIGINAL_FULL_TASK_NO_PARAPHRASE'
+SHORT_TASK_CONDITION = 'GRADED_TARGET_SHORT_APPROACH_HOLD_AT34303_V1'
+TRACKING_TASK_CONDITION = 'GRADED_SHORT_LANGUAGE_FULL_H40_TRACKING_DIAGNOSTIC_AT34303_V1'
+MECHANICAL_TASK_CONDITION = 'BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1'
+from .fusion_task_reference_diagnostic_v1 import TASK_CONDITION as TEACHER_TASK_CONDITION,SHORT_TASK_CONDITION as SHORT_TEACHER_TASK_CONDITION,endpoint as teacher_endpoint
+TEACHER_TASK_CONDITIONS=(TEACHER_TASK_CONDITION,SHORT_TEACHER_TASK_CONDITION)
+SHORT_LANGUAGE_TASK_CONDITIONS = (SHORT_TASK_CONDITION, TRACKING_TASK_CONDITION, MECHANICAL_TASK_CONDITION,*TEACHER_TASK_CONDITIONS)
+from .fusion_source_phase_c01 import CONDITION as C01_QUERY_CONDITION
+TASK_CONDITIONS = (TASK_CONDITION, *SHORT_LANGUAGE_TASK_CONDITIONS,C01_QUERY_CONDITION)
+SOURCE_CAMERA_RECIPE = 'SIM_EXTERNAL_WORLD_SOURCE_RIG'
+SOURCE_CAMERA_IDENTITY = '0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858'
+FRAME_MAP = 'fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1'
+SOURCE_OBSERVATION = '71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594'
+SOURCE_PAYLOAD = '867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96'
+PAIR_EXTRA_KEYS = {'native_endpoint_step', 'producer_phase', 'camera_recipe',
+                   'source_camera_identity_sha256', 'task_condition'}
+SOURCE_MEMBERS = (
+    'src/go2arx5_vla/world_model/fusion_task_phase_pose_slow_feedback_v9.py',
+    'src/go2arx5_vla/world_model/fusion_task_phase_live_skill_pair_v9.py',
+    'src/go2arx5_vla/world_model/fusion_source_camera_capture.py',
+    'src/go2arx5_vla/world_model/fusion_source_camera_rig.py')
+
+
+def need(value, reason):
+    if not value:
+        raise ValueError('TASK_PHASE_LIVE_SKILL_PAIR_V9_' + reason)
+
+
+def _bytes(path, pin):
+    path = Path(path)
+    need(path.is_absolute() and not path.is_symlink() and path.resolve() == path,
+         'CANONICAL_PINNED_INPUT_PATH')
+    raw = path.read_bytes()
+    need(hashlib.sha256(raw).hexdigest() == pin, 'PINNED_INPUT_BYTES_' + path.name)
+    return raw
+
+
+def make_camera_recipe(producer):
+    """Construct the original typed source-rig declaration; no rendering/FK."""
+    from .fusion_source_camera_capture import SourceCameraCapture
+    from .fusion_observation import transform_hash
+    need(producer.get('source_camera_identity_sha256') == SOURCE_CAMERA_IDENTITY
+         and producer.get('paused_frame_map_sha256') == FRAME_MAP
+         and transform_hash(producer['paused_source_from_target']) == FRAME_MAP,
+         'EXACT_SOURCE_SENSOR_AUDIT_AND_FC347_FRAME')
+    return SourceCameraCapture(_bytes(producer['source_camera_identity'], SOURCE_CAMERA_IDENTITY),
+                               producer['paused_source_from_target'])
+
+
+def _task(producer):
+    need(producer.get('task_phase_source_observation_sha256') == SOURCE_OBSERVATION,
+         'EXACT_ORIGINAL_SOURCE_OBSERVATION')
+    source = unseal(json.loads(_bytes(producer['task_phase_source_observation'],
+                                     SOURCE_OBSERVATION)))['payload']
+    validate_observation(source)
+    need(document_hash(source) == SOURCE_PAYLOAD, 'EXACT_ORIGINAL_SOURCE_POLICY_PAYLOAD')
+    task = json.loads(_bytes(producer['paused_target_task'],
+                             producer['paused_target_task_file_sha256']))
+    condition=producer.get('task_condition')
+    need(condition in TASK_CONDITIONS,'EXPLICIT_ORIGINAL_FULL_OR_NEW_SHORT_TASK')
+    language=source['language']
+    if condition==C01_QUERY_CONDITION:
+        from .fusion_source_phase_c01 import scene
+        scene(producer)
+        score=json.loads(_bytes(producer['paused_score_contract'],producer['paused_score_contract_file_sha256']))
+        need(score.get('task_condition')==condition and score.get('generated_action_execution_allowed')is False
+             and score.get('registered_final_step')==BOUNDARY_STEP
+             and task.get('task_id')=='FUSION_SOURCE_PHASE_C01_ORIGINAL_LANGUAGE_QUERY_ONLY_V1'
+             and task.get('score_contract_sha256')==document_hash(score),'DISTINCT_C01_ORIGINAL_LANGUAGE_QUERY_ONLY_TASK')
+    if condition in SHORT_LANGUAGE_TASK_CONDITIONS:
+        from . import fusion_graded_short_skill_v1 as short
+        language=short.LANGUAGE
+        score=json.loads(_bytes(producer['paused_score_contract'],producer['paused_score_contract_file_sha256']))
+        task_id=short.TRACKING_TASK_ID if condition==TRACKING_TASK_CONDITION else short.TASK_ID
+        if condition==MECHANICAL_TASK_CONDITION:
+            from .fusion_bounded_reference_tracking_v1 import TASK_ID,domain_contract
+            task_id=TASK_ID
+            need(score.get('mechanical_domain')==domain_contract(), 'EXACT_MECHANICAL_DOMAIN_NOT_A_RELAXED_SHORT_SCORE')
+        if condition in TEACHER_TASK_CONDITIONS:
+            from .fusion_task_reference_diagnostic_v1 import validate_registration
+            config=validate_registration(producer)
+            task_id=('FUSION_PRIVILEGED_GEOMETRIC_SHORT_DURATION_DIAGNOSTIC_AT34303_V2'if condition==SHORT_TEACHER_TASK_CONDITION else'FUSION_PRIVILEGED_GEOMETRIC_APPROACH_DIAGNOSTIC_AT34303_V1')
+            need(score.get('task_reference_diagnostic')==config and score.get('GR00T_proposal_saved_but_not_executed')is True,'EXPLICIT_PRIVILEGED_NOT_VLA_REFERENCE_DIAGNOSTIC')
+        need(score.get('task_condition')==condition
+             and score.get('actual_short_skill_score_contract')==short.score_contract()
+             and score.get('actual_short_skill_score_contract_sha256')==document_hash(short.score_contract())
+             and task.get('score_contract_sha256')==document_hash(score)
+             and task.get('language_provenance')=='NEW_TARGET_SHORT_SKILL_PROMPT'
+             and task.get('task_id')==task_id,
+             'DISTINCT_SHORT_TASK_AND_ACTUAL34303_SCORE_NOT_OLD_FULL_TASK')
+    need(document_hash(task) == producer['paused_target_task_sha256']
+         and task.get('scene_sha256') == digest(producer['model_path'])
+         and task.get('language') == language,
+         'SOURCE71558_FULL_TASK_OR_EXPLICIT_NEW_SHORT_LANGUAGE')
+
+
+def validate_pair_spec(spec):
+    """Validate a V9 pair without importing a future native wrapper/contract."""
+    from . import fusion_paused_query_bridge as bridge
+    from . import fusion_task_phase_pose_slow_feedback_v9 as initialization
+    c01=spec.get('task_condition')==C01_QUERY_CONDITION
+    end=BOUNDARY_STEP if c01 else teacher_endpoint(SHORT_TEACHER_TASK_CONDITION)if spec.get('task_condition')==SHORT_TEACHER_TASK_CONDITION else ENDPOINT_STEP
+    pair, producer = bridge._validate_pair_spec(spec, pair_schema=PAIR_SCHEMA,
+        binding_mode=PAIR_MODE, boundary_step=BOUNDARY_STEP,
+        producer_endpoint_step=None if c01 else end, pair_keys=bridge.KEYS | PAIR_EXTRA_KEYS)
+    need(pair['producer_phase'] == producer.get('phase') == PHASE
+         and producer.get('kind') == KIND
+         and producer.get('snapshot_binding_mode') == PAIR_MODE
+         and producer.get('profile') == 'wm02-auto1-target'
+         and producer.get('scope') == 'WM02_PILOT1_SIM_ONLY'
+         and not any(producer.get(key) for key in ('fusion_binding', 'night1_binding',
+             'next1_binding', 'next2_binding'))
+         and type(pair['native_endpoint_step']) is int
+         and pair['native_endpoint_step'] == producer.get('max_ticks') == end
+         and type(producer.get('live_skill_start_step')) is int
+         and producer['live_skill_start_step'] == BOUNDARY_STEP
+         and pair['capture_index'] == 0
+         and pair['task_condition'] == producer.get('task_condition')
+         and pair['task_condition'] in TASK_CONDITIONS
+         and producer.get('experiment_role') == EXPERIMENT_ROLE
+         and type(producer.get('live_skill_time_stretch_factor')) is int
+         and producer['live_skill_time_stretch_factor'] in (1,2)
+         and producer.get('physics_dt_s') == .002 and producer.get('WBC_changes') is False,
+         'EXACT_GRADED_DIAGNOSTIC_V9_PRODUCER_AND_DISTINCT_B_E')
+    need(pair['camera_recipe'] == SOURCE_CAMERA_RECIPE
+         and producer.get('capture_camera_recipe') == SOURCE_CAMERA_RECIPE
+         and pair['source_camera_identity_sha256'] == SOURCE_CAMERA_IDENTITY
+         and pair['frame_map_sha256'] == FRAME_MAP
+         and not any(producer.get(key) for key in ('camera_override','paused_camera_override',
+             'posture_camera_override','source_camera_rig')),
+         'EXACT_EXPLICIT_SOURCE_SENSOR_NO_SILENT_OVERRIDE')
+    # Only the new exploratory condition has the preregistered1800s window.
+    # This is wall time, never a change to B/E, native quota or physics dt.
+    wall_limit=1800 if pair['task_condition']==TRACKING_TASK_CONDITION else 1200
+    need(type(spec.get('wall_limit_s')) in (int, float)
+         and 0 < spec['wall_limit_s'] <= wall_limit,
+         f'FINITE_ONE_QUERY_WALL_AT_MOST_{wall_limit}_SECONDS')
+    from .fusion_paused_inference import LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT
+    schedule=spec.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+    need(schedule==producer.get('frozen_model_load_schedule',LOAD_AFTER_SNAPSHOT)
+         and schedule in(LOAD_AFTER_SNAPSHOT,PRELOAD_BEFORE_SNAPSHOT)
+         and (schedule==LOAD_AFTER_SNAPSHOT or pair['task_condition']in(MECHANICAL_TASK_CONDITION,*TEACHER_TASK_CONDITIONS,C01_QUERY_CONDITION)),
+         'BOTH_REGISTERED_SCOPES_AGREE_ON_MECHANICAL_ONLY_PRELOAD')
+    # The manifest retains its real V9 slow-feedback phase. The actual spec is LIVE V9.
+    episode = json.loads(_bytes(producer['episode_manifest'], producer['episode_manifest_sha256']))
+    if c01:
+        from .fusion_source_phase_c01 import scene,prefix_episode
+        scene(producer);episode=prefix_episode(episode,producer)
+    initialization.episode_contract(episode)
+    need(episode['run'] == producer['registered_root'] and episode['geometry_scale'] == .5
+         and initialization.endpoint(episode) == BOUNDARY_STEP
+         and (c01 or episode['scene_sha256'] == pair['scene_sha256'])
+         and episode['frame_map_sha256'] == FRAME_MAP
+         and episode['source_observation_sha256'] == SOURCE_OBSERVATION,
+         'EXACT_V9_SLOW_HALF_INITIALIZATION_MANIFEST_NOT_FULL_GRADE')
+    members=SOURCE_MEMBERS
+    if pair['task_condition'] in SHORT_LANGUAGE_TASK_CONDITIONS:
+        members=(*members,'src/go2arx5_vla/world_model/fusion_graded_short_skill_v1.py',
+                 'src/go2arx5_vla/world_model/fusion_short_skill.py')
+    if pair['task_condition']==MECHANICAL_TASK_CONDITION:
+        members=(*members,'src/go2arx5_vla/world_model/fusion_bounded_reference_tracking_v1.py')
+    if pair['task_condition']in TEACHER_TASK_CONDITIONS:
+        members=(*members,'src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py')
+    if c01:members=(*members,'src/go2arx5_vla/world_model/fusion_source_phase_c01.py')
+    for member in members:
+        pin = producer.get('source_files', {}).get(member)
+        need(pin is not None and spec.get('source_files', {}).get(member) == pin
+             and digest(Path(producer['source_root']) / member) == pin,
+             'PINNED_NEW_PAIR_AND_ORIGINAL_SOURCE_SENSOR_' + member)
+    make_camera_recipe(producer)
+    _task(producer)
+    return pair, producer
+
+
+def validate_capture_camera(pair, shadow):
+    sensor = shadow['target_observation'].get('sensor_adapter')
+    need(pair['camera_recipe'] == SOURCE_CAMERA_RECIPE
+         and isinstance(sensor, dict)
+         and sensor.get('schema') == 'WM02_FUSION_SOURCE_CAMERA_CAPTURE_V1'
+         and sensor.get('status') == 'ACTUAL_TARGET_PACKET_CPU_RENDERED'
+         and sensor.get('rig') == SOURCE_CAMERA_RECIPE
+         and sensor.get('source_identity_audit_sha256') == pair['source_camera_identity_sha256']
+             == SOURCE_CAMERA_IDENTITY
+         and sensor.get('frame_map_sha256') == pair['frame_map_sha256'] == FRAME_MAP,
+         'ACTUAL_TARGET_PACKET_DECLARED_SOURCE_RIG_WITH_NATIVE_SIDECARS')
+
+
+def validate_native_pause(adapter):
+    """Native-owner check alongside the original raw-packet/quota/fresh ACK ABI."""
+    mode = (getattr(adapter, 'latest', {}) or {}).get('mode')
+    need(adapter.spec.get('phase') == PHASE and adapter.spec.get('kind') == KIND
+         and adapter.spec.get('live_skill_start_step') == BOUNDARY_STEP
+         and adapter.spec.get('max_ticks') == (BOUNDARY_STEP if adapter.spec.get('task_condition')==C01_QUERY_CONDITION else teacher_endpoint(SHORT_TEACHER_TASK_CONDITION)if adapter.spec.get('task_condition')==SHORT_TEACHER_TASK_CONDITION else ENDPOINT_STEP)
+         and getattr(adapter, 'trace_sealed', None) is False
+         and all(not (Path(adapter.output) / name).exists()
+                 and not (Path(adapter.output) / name).is_symlink()
+                 for name in ('trace_seal_request', 'init.trace.summary'))
+         and getattr(mode, 'data', None) == 'WBC'
+         and adapter.observe()['step'] == BOUNDARY_STEP,
+         'ACTUAL_PRESEAL_WBC_BOUNDARY_REQUIRED_NO_CANCEL_SEAL_OR_ADVANCE')

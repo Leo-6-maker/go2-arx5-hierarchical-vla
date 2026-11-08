@@ -1,0 +1,737 @@
+{
+  "schema": "WM02_TARGET_GR00T_B0_B1_NATIVE_DEV_PREREGISTRATION_V1",
+  "status": "FROZEN_SCIENCE_ORDER_AND_NOISE_ONLY_NOT_MODEL_OR_SITE_ADMISSION",
+  "declared_epoch": 1794134482.6105094,
+  "execution_implementation_sha": "510b5cce0d040caa0a5722a69a4fb0f1db8e8401",
+  "source_panel_sha256": "a8f8fc981fd82f8005c42d017ae96db16c848ac70a8416064a86845fb31b91c1",
+  "comparison": "SAME_TASK_REFERENCE_PROTOCOL_ORIGINAL_B0_VERSUS_ACTUAL_INTERNAL_GR00T_TARGET_CANDIDATE_B1",
+  "B0": "ORIGINAL_CORR_PARENT_AND_ORIGINAL_PROCESSOR",
+  "B1": "FIRST_FORMAL2000_QUALIFIED_INTERNAL_GR00T_DELTA_AND_ITS_SAVED_TARGET_PROCESSOR",
+  "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "target_gr00t_prefix_protocol": {
+    "schema": "WM02_TARGET_GR00T_TWO_QUERY_PREFIX_PROTOCOL_V1",
+    "prefix_atoms": 120,
+    "policy_queries": 2,
+    "final_hold_atoms": 8,
+    "assistance": "NATIVE_QUOTA_PAUSED_REAL_OBSERVATION",
+    "full_H40_retained_and_screened_before_each_prefix": true,
+    "cancelled_suffix": "SUPERSEDED_ONLY_AFTER_ORIGINAL_NEW_REFERENCE_ACK",
+    "full_controller_preview_retained": true,
+    "observation_timestamp_rebased": false,
+    "original_per_install_MPC_clock": true,
+    "fresh_query_per_cycle": true,
+    "teacher_fallback": false,
+    "online_WM": false,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "physics_dt_s": 0.002,
+    "WBC_changes": false,
+    "task_direction_is_an_outcome_not_an_admission_gate": true,
+    "derivation": "REAL_TRAIN_120_ATOM_TIMING_AUDIT_NOT_STUDENT_DEV_SELECTION"
+  },
+  "target_gr00t_start_readiness": {
+    "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+    "decision_step": 34303,
+    "maximum_BASE_linear_speed_m_s": 0.001,
+    "maximum_BASE_angular_speed_rad_s": 0.005,
+    "physics_dt_s": 0.002,
+    "initial_state_reset": false,
+    "extra_settling_integrations": 0,
+    "WBC_or_startup_changed": false,
+    "original_standing_limits_changed": false,
+    "rejected_condition_retried": false,
+    "old_outcomes_relabelled": false
+  },
+  "score_contracts": {
+    "APPROACH_RED_4MM_OPEN": {
+      "schema": "WM02_TARGET_GR00T_DIRECTIONAL_SHORT_SCORE_V1",
+      "task_command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "original_approach_contract": {
+        "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+        "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+        "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+        "score_role": "NEW_GRADED_TARGET_SHORT_SKILL_NOT_OLD_3703_OR_PICK_PLACE",
+        "physical_frame": "ACTUAL_TARGET_WORLD",
+        "decision_native_step": 34303,
+        "atom_ticks": 25,
+        "native_dt_s": 0.002,
+        "precontact_offset_from_cube_m": 0.12,
+        "minimum_signed_progress_m": 0.002,
+        "minimum_distance_reduction_m": 0.002,
+        "maximum_lateral_drift_m": 0.003,
+        "maximum_TCP_excursion_m": 0.025,
+        "minimum_finger_opening_m": 0.038,
+        "maximum_object_displacement_m": 0.0005,
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648,
+        "final_hold_duration_s": 0.4,
+        "final_hold_TCP_diameter_m": 0.002,
+        "final_hold_TCP_max_speed_m_s": 0.025,
+        "original_native_safety_required": true,
+        "robot_object_contact_allowed": false,
+        "full_task_success_claim": false,
+        "thresholds_are_native_safety": false,
+        "privileged_geometry_is_policy_input": false
+      },
+      "minimum_intent_progress_m": 0.002,
+      "minimum_intent_distance_change_m": 0.002,
+      "other_predicates": "ALL_ORIGINAL_APPROACH_NONPROGRESS_PREDICATES_UNCHANGED",
+      "original_native_safety_changed": false,
+      "full_pick_place_success_claim": false
+    },
+    "RETREAT_RED_4MM_OPEN": {
+      "schema": "WM02_TARGET_GR00T_DIRECTIONAL_SHORT_SCORE_V1",
+      "task_command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "original_approach_contract": {
+        "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+        "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+        "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+        "score_role": "NEW_GRADED_TARGET_SHORT_SKILL_NOT_OLD_3703_OR_PICK_PLACE",
+        "physical_frame": "ACTUAL_TARGET_WORLD",
+        "decision_native_step": 34303,
+        "atom_ticks": 25,
+        "native_dt_s": 0.002,
+        "precontact_offset_from_cube_m": 0.12,
+        "minimum_signed_progress_m": 0.002,
+        "minimum_distance_reduction_m": 0.002,
+        "maximum_lateral_drift_m": 0.003,
+        "maximum_TCP_excursion_m": 0.025,
+        "minimum_finger_opening_m": 0.038,
+        "maximum_object_displacement_m": 0.0005,
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648,
+        "final_hold_duration_s": 0.4,
+        "final_hold_TCP_diameter_m": 0.002,
+        "final_hold_TCP_max_speed_m_s": 0.025,
+        "original_native_safety_required": true,
+        "robot_object_contact_allowed": false,
+        "full_task_success_claim": false,
+        "thresholds_are_native_safety": false,
+        "privileged_geometry_is_policy_input": false
+      },
+      "minimum_intent_progress_m": 0.002,
+      "minimum_intent_distance_change_m": 0.002,
+      "other_predicates": "ALL_ORIGINAL_APPROACH_NONPROGRESS_PREDICATES_UNCHANGED",
+      "original_native_safety_changed": false,
+      "full_pick_place_success_claim": false
+    }
+  },
+  "score_contract_document_sha256": {
+    "APPROACH_RED_4MM_OPEN": "1496e672183abfb8af50ff6e4b0b75cf0e0ff75ce151adb082d510613cb009b6",
+    "RETREAT_RED_4MM_OPEN": "5ccf9cfcda3fc8a993c56b417d6726c4cf22cd54c720aac9f0edbc50bb8ddd44"
+  },
+  "planned_native_conditions": 32,
+  "per_arm_native_conditions": 16,
+  "policy_queries_per_completed_condition": 2,
+  "planned_maximum_policy_queries": 64,
+  "all_queries_single_decode": true,
+  "matched_noise": "SAME_TWO_NOISE_SEEDS_PER_MODEL_PAIR; INDEPENDENT_RESTART_SEEDS; BOTH_MODELS_USE_OWN_ACTUAL_CURRENT_OBSERVATION",
+  "native_restarts": "INDEPENDENT_PROCESS_RESTARTS_NOT_FULL_MPC_HIDDEN_STATE_FORK",
+  "order": "FIXED_COUNTERBALANCED_B0_B1_WITHIN_LAYOUT_COMMAND_RESTART",
+  "task_success_rule": "UNCHANGED_DIRECTIONAL_SHORT_SCORE_ALL_PREDICATES; INTENT_PROGRESS_AND_INTENT_DISTANCE_CHANGE_AT_LEAST2MM",
+  "failures": "ALL32_ROWS_RETAINED; INITIALIZATION_REJECTIONS_AND_SAFETY_STOPS_AND_PARTIAL_QUERY_OR_CONSUMPTION_REPORTED_SEPARATELY; NO_SUCCESS_SELECTION_RETRY",
+  "unrun": "UNEXECUTED_NOT_CALLED_SUCCESS_OR_EXECUTED_FAILURE",
+  "primary_report": "SUCCESS_COUNT_AND_ATTEMPTED_REJECTED_UNEXECUTED_COUNTS_PER_ARM; PAIRED_ACTUAL_INTENT_PROGRESS_AND_ORIGINAL_SAFETY; NO_AGGREGATE_GAIN_CLAIM_WITHOUT_COMPLETE_COMPARABLE_EVIDENCE",
+  "required_before_execution": [
+    "ALL_CURRENT_TEACHER_COLLECTION_AND_CPU_EXPORT_WORKERS_TERMINAL; ORIGINAL_COLD_REGISTRATION",
+    "ACTUAL_VALID_FINITE_SITE_SCOPE_AND_UNIQUE_OWNER; ORIGINAL_GPU_RESOURCE_ADMISSION",
+    "REAL_COMPLETE_SAFE_TWO_QUERY_TRAIN_INTERFACE_QUALIFICATION_ON_SAME_EXECUTION_MEMBERS_AND_FROZEN_CONTROLS",
+    "B1_REAL_CLOSED0_CORE_FOUR_TRAIN_QUERY_RECONSTRUCTION_AND_PREREGISTERED_CROSS_SITE_COMPONENT_GATE",
+    "BIND_B0_AND_B1_EXACT_POLICY_PACKAGES_AND_QUALIFICATION_DESCRIPTORS_ONCE_BEFORE_FIRST_DEV; RETAIN_THIS_ROW_ORDER_AND_SEEDS"
+  ],
+  "BC_eligible": false,
+  "TEST_opened": false,
+  "online_WM": false,
+  "formal_Actor": false,
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "actual_new_registrations": 0,
+  "actual_new_models": 0,
+  "actual_new_queries": 0,
+  "actual_new_integrations": 0,
+  "assignments": [
+    {
+      "order": 0,
+      "condition_index": 0,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900000,
+        20261108900001
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-approach-b0-r1-01"
+    },
+    {
+      "order": 1,
+      "condition_index": 0,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900000,
+        20261108900001
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-approach-b1-r1-01"
+    },
+    {
+      "order": 2,
+      "condition_index": 0,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900002,
+        20261108900003
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-approach-b1-r2-01"
+    },
+    {
+      "order": 3,
+      "condition_index": 0,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900002,
+        20261108900003
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-approach-b0-r2-01"
+    },
+    {
+      "order": 4,
+      "condition_index": 1,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900004,
+        20261108900005
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-retreat-b1-r1-01"
+    },
+    {
+      "order": 5,
+      "condition_index": 1,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900004,
+        20261108900005
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-retreat-b0-r1-01"
+    },
+    {
+      "order": 6,
+      "condition_index": 1,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900006,
+        20261108900007
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-retreat-b0-r2-01"
+    },
+    {
+      "order": 7,
+      "condition_index": 1,
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "layout": "DEV01",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900006,
+        20261108900007
+      ],
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301",
+      "native_run": "target-gr00t-dev-dev01-retreat-b1-r2-01"
+    },
+    {
+      "order": 8,
+      "condition_index": 2,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900008,
+        20261108900009
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-approach-b0-r1-01"
+    },
+    {
+      "order": 9,
+      "condition_index": 2,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900008,
+        20261108900009
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-approach-b1-r1-01"
+    },
+    {
+      "order": 10,
+      "condition_index": 2,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900010,
+        20261108900011
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-approach-b1-r2-01"
+    },
+    {
+      "order": 11,
+      "condition_index": 2,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900010,
+        20261108900011
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-approach-b0-r2-01"
+    },
+    {
+      "order": 12,
+      "condition_index": 3,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900012,
+        20261108900013
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-retreat-b1-r1-01"
+    },
+    {
+      "order": 13,
+      "condition_index": 3,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900012,
+        20261108900013
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-retreat-b0-r1-01"
+    },
+    {
+      "order": 14,
+      "condition_index": 3,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900014,
+        20261108900015
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-retreat-b0-r2-01"
+    },
+    {
+      "order": 15,
+      "condition_index": 3,
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "layout": "DEV02",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900014,
+        20261108900015
+      ],
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e",
+      "native_run": "target-gr00t-dev-dev02-retreat-b1-r2-01"
+    },
+    {
+      "order": 16,
+      "condition_index": 4,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900016,
+        20261108900017
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-approach-b0-r1-01"
+    },
+    {
+      "order": 17,
+      "condition_index": 4,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900016,
+        20261108900017
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-approach-b1-r1-01"
+    },
+    {
+      "order": 18,
+      "condition_index": 4,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900018,
+        20261108900019
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-approach-b1-r2-01"
+    },
+    {
+      "order": 19,
+      "condition_index": 4,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900018,
+        20261108900019
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-approach-b0-r2-01"
+    },
+    {
+      "order": 20,
+      "condition_index": 5,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900020,
+        20261108900021
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-retreat-b1-r1-01"
+    },
+    {
+      "order": 21,
+      "condition_index": 5,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900020,
+        20261108900021
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-retreat-b0-r1-01"
+    },
+    {
+      "order": 22,
+      "condition_index": 5,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900022,
+        20261108900023
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-retreat-b0-r2-01"
+    },
+    {
+      "order": 23,
+      "condition_index": 5,
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "layout": "DEV03",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900022,
+        20261108900023
+      ],
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9",
+      "native_run": "target-gr00t-dev-dev03-retreat-b1-r2-01"
+    },
+    {
+      "order": 24,
+      "condition_index": 6,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900024,
+        20261108900025
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-approach-b0-r1-01"
+    },
+    {
+      "order": 25,
+      "condition_index": 6,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900024,
+        20261108900025
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-approach-b1-r1-01"
+    },
+    {
+      "order": 26,
+      "condition_index": 6,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900026,
+        20261108900027
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-approach-b1-r2-01"
+    },
+    {
+      "order": 27,
+      "condition_index": 6,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900026,
+        20261108900027
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-approach-b0-r2-01"
+    },
+    {
+      "order": 28,
+      "condition_index": 7,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B1",
+      "seeds": [
+        20261108900028,
+        20261108900029
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-retreat-b1-r1-01"
+    },
+    {
+      "order": 29,
+      "condition_index": 7,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 1,
+      "arm": "B0",
+      "seeds": [
+        20261108900028,
+        20261108900029
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-retreat-b0-r1-01"
+    },
+    {
+      "order": 30,
+      "condition_index": 7,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B0",
+      "seeds": [
+        20261108900030,
+        20261108900031
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-retreat-b0-r2-01"
+    },
+    {
+      "order": 31,
+      "condition_index": 7,
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "layout": "DEV04",
+      "split": "DEV",
+      "command": "RETREAT_RED_4MM_OPEN",
+      "language": "Move the open gripper a little away from the red cube, then hold without touching it.",
+      "restart": 2,
+      "arm": "B1",
+      "seeds": [
+        20261108900030,
+        20261108900031
+      ],
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f",
+      "native_run": "target-gr00t-dev-dev04-retreat-b1-r2-01"
+    }
+  ],
+  "B1_global_step": 2000,
+  "declaration_before_any_student_native_DEV": true,
+  "latest_verified_A40_snapshot_epoch": 1794134154.916039,
+  "latest_verified_A40_state": "Q",
+  "latest_verified_target_GR00T_updates": 0
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "WM02_FROZEN_PROGRAM_DEV_LAUNCH_ACTUAL_V1",
+  "epoch": 1794034864.7651582,
+  "case": "DX02",
+  "split": "DEV",
+  "source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "native_spec_sha256": "c10df1dd4800bddf0449e281892c8f0e57cafb51311904d9bd4066b3400aa3a8",
+  "GPU_spec_sha256": "2b9e4e8339ff969f22bbc28d0713bd7b4d338a33cbce30711308b7675d28f444",
+  "pair_sha256": "7c26adb178ad5998b6efc4f04ed2d49346d69d5e05e36ef6a2b0e699a3b9be75",
+  "actual_native_dispatch_exit_code": 0,
+  "actual_GPU_dispatch_exit_code": 0,
+  "source_staging_cost": {
+    "wall_s": 1.1933114300481975,
+    "CPU_s": 0.32690668100000053,
+    "source_reused": true,
+    "reused_source_members": 3489,
+    "copied_parent_members": 0,
+    "copied_parent_bytes": 0,
+    "overlay_members": 0,
+    "overlay_written_bytes": 0,
+    "actual_source_bytes_written": 0,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "source_cost_shared_not_double_counted": true,
+  "native_deadline_epoch": 1794035927.0935102,
+  "GPU_deadline_epoch": 1794035927.0935102,
+  "model_panel": "FROZEN_PROGRAM_RESPONSE_DEV_PANEL_V1.json",
+  "reference_intervention": {
+    "candidate": "X_MINUS_025",
+    "offset_target_xy_m": [
+      -0.00025,
+      0.0
+    ],
+    "ramp_atoms": 16
+  },
+  "old_minus_X_050_failure_retained": true,
+  "quarter_mm_is_a_distinct_preregistered_case_not_a_retry": true,
+  "models_frozen_before_DEV": true,
+  "completed_native_attempts_added_at_launch": 0,
+  "model_updates": 0,
+  "terminal": "PENDING",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_dev_dx02_01.py\" 900",
+    "read": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_dev_dx02_actual01.py\" 180"
+  }
+}

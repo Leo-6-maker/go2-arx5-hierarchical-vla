@@ -1,0 +1,371 @@
+{
+  "schema": "WM02_FROZEN_REFERENCE_COMPARISON_NATIVE_ACTUAL_V1",
+  "case": "REFERENCE_B1_DIRECT",
+  "epoch": 1794040191.853295,
+  "actual_source_sha": "93ad6aab3a251c55f11c372bf9e86f1c64c453aa",
+  "panel_sha256": "e7b91f105f6f52118dc9ad28198237de87f17299687e50f73c52fbc35e7e823a",
+  "original_assignment": {
+    "candidate": "POLICY_DIRECT",
+    "panel_sha256": "e7b91f105f6f52118dc9ad28198237de87f17299687e50f73c52fbc35e7e823a",
+    "parent": "T06_FROZEN_LIVE_REFERENCE_DEV_B1_DIRECT",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "DEV"
+  },
+  "actual_reference_intervention": {
+    "candidate": "NOMINAL",
+    "offset_target_xy_m": [
+      0.0,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual": {
+    "native_exit_code": 1,
+    "GPU_exit_code": 0,
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_generated_suffix_atoms": 1288,
+    "actual_queries": 1,
+    "raw_H40_consumed": true,
+    "reference_install_attempts": 184,
+    "reference_installations": 184,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": false,
+    "full_tasks": 0,
+    "ACK_confirmed_model_reference_changes": 0,
+    "proposed_model_reference_changes": 0
+  },
+  "first16_actual_response": {
+    "H16_actual_minus_desired_L2_m": 0.0035964217421753973,
+    "recovered_from_original_saved_actual_states": true,
+    "original_stage_failure_unchanged": true
+  },
+  "strict_short_score": {
+    "schema": "WM02_RECOVERED_ORIGINAL_SHORT_GEOMETRY_ONLY_V1",
+    "metrics": {
+      "signed_progress_m": 0.0024985809868291447,
+      "precontact_distance_reduction_m": 0.002451039083048376,
+      "maximum_lateral_drift_m": 0.006141391720527582,
+      "maximum_TCP_excursion_m": 0.00855667420699055,
+      "minimum_finger_opening_m": 0.04161437330455649,
+      "maximum_object_displacement_m": 0.0,
+      "maximum_base_displacement_m": 0.0018414236725223347,
+      "maximum_base_rotation_rad": 0.005008911137162007,
+      "final_hold_TCP_diameter_m": 4.9349826795311304e-05,
+      "final_hold_TCP_max_speed_m_s": 0.0008163619958096327
+    },
+    "predicates": {
+      "signed_progress": true,
+      "distance_reduction": true,
+      "lateral": false,
+      "excursion": true,
+      "open": true,
+      "object_still": true,
+      "base_still": true,
+      "base_orientation": true,
+      "hold": true
+    },
+    "approach_step_success": false,
+    "geometry_failure_proves_task_failure": true,
+    "original_complete_strict_score_recovered": false,
+    "unavailable_sample_flags": [
+      "safety_valid",
+      "native_abort",
+      "robot_object_contact"
+    ],
+    "unavailable_flags_not_fabricated": true,
+    "full_task_success": false,
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+  },
+  "actual_minus_desired_L2_m": 0.0027235176170191298,
+  "actual_minus_reference_L2_m": null,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": "^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 181, in run_feedback_program\n    return run_initialization_program(adapter, episode, source, recipe_module=recipe,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 211, in run_initialization_program\n    return run_program(adapter, episode, inputs, program_factory=factory,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 343, in run_program\n    write(adapter.output/'TRAJECTORY_QUALIFICATION.private.json', complete)\n  File \"<PRIVATE_PATH>\", line 19, in write\n    data = (json.dumps(value, indent=2, allow_nan=False) + '\\n').encode()\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 238, in dumps\n    **kw).encode(obj)\n          ^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 202, in encode\n    chunks = list(chunks)\n             ^^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 432, in _iterencode\n    yield from _iterencode_dict(o, _current_indent_level)\n  File \"<PRIVATE_PATH>\", line 406, in _iterencode_dict\n    yield from chunks\n  File \"<PRIVATE_PATH>\", line 406, in _iterencode_dict\n    yield from chunks\n  File \"<PRIVATE_PATH>\", line 406, in _iterencode_dict\n    yield from chunks\n  [Previous line repeated 1 more time]\n  File \"<PRIVATE_PATH>\", line 439, in _iterencode\n    o = _default(o)\n        ^^^^^^^^^^^\n  File \"<PRIVATE_PATH>\", line 180, in default\n    raise TypeError(f'Object of type {o.__class__.__name__} '\nTypeError: Object of type ndarray is not JSON serializable\n",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "4f12790974f16a4e5fead86ee7b5ecb6b0748011388220e9775f04ff90fd01d9",
+  "GPU_result_sha256": "669fb50d45c4ad4d8c9e4dadeb0a821449436a8dff16a93b551e44c6f00059d7",
+  "action_npz_sha256": "e2ee35959d861e041bc4b9bdcdf40c891511e5dc6159e90673a94221da91fae0",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "d3ff548c97a81b8a068eef02679829a32d76bc3dc42a9472d465119c5657764a",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "badf038919d3f8f27a063701c941003a8ba8aa2c4d50ce1349121dbfd3aa748d",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "873de9361778d247a2485c9cb1c3786b44eaffd52f756dbc54fc419c59e92703",
+    "LIVE_SKILL_SEGMENT.private.json": "2c9cef5e4fa3934c3604ce871dbdf7aef480d88e47c75e44d8760acd192ed46a",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "322d38ddcd386858b49ad2d92801c7afcfa3346c1c7c832b0cb039766f0def4b",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "e8a53cc7829ee0ef5afe38a41c70e95fe2ea106acb70030e50c3d45821271069"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 490884,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 490884
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-reference-compare-b1-direct-gpu-01",
+      "spec_sha256": "41bbbe83ec37c6fb93554c84267b881fb25726519977278f18f29ce42b51c227",
+      "lease_sha256": "93570de5a8256ded20a3c217059ad826027cba6c13e7df32d87f073fafad79ca",
+      "worker_sha256": "8f18f72ef832edff25dddf7f00ad9989e6244fadf5df39891d839d4423703203",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-reference-compare-b1-direct-01",
+      "spec_sha256": "41041652840a8c7da17ac1a1c061f8b9044cf57e4f2184addb64f4a10390e8f5",
+      "lease_sha256": "260aea885913929827e47c7973050994999dec4b579ac3cd75a695bb39673bac",
+      "worker_sha256": "6c9afd181b772b12a063f03792d6c43b7d76f9ece86150bd5569936c65730196",
+      "worker_exit_code": 1,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 114.275442,
+        "exit_code": 0,
+        "wall_s": 457.2679128306918
+      },
+      "systemd_CPU_s": 114.636054,
+      "host_peak_bytes": 6874243072
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 372.708796917,
+        "child_CPU_s": 1390.284482,
+        "exit_code": 1,
+        "wall_s": 898.0739004649222
+      },
+      "systemd_CPU_s": 1771.503743,
+      "host_peak_bytes": 10175856640
+    },
+    "source_staging": {
+      "wall_s": 72.17812429508194,
+      "CPU_s": 1.122241878999997,
+      "copied_parent_members": 3376,
+      "generated_bytecode_members_excluded": 20,
+      "copied_parent_bytes": 45623586,
+      "overlay_members": 152,
+      "overlay_written_bytes": 2452846,
+      "actual_source_bytes_written": 48076432,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 0.8815919877961278,
+    "GPU_model_cold_load_wall_s": 12.843107597902417,
+    "GPU_snapshot_wait_wall_s": 408.42170089064166,
+    "GPU_GPU_event_s": 0.8698696899414062,
+    "GPU_peak_allocated_bytes": 13318658048,
+    "GPU_peak_reserved_bytes": 13524533248
+  },
+  "counts_after": {
+    "FUSION_attempts": 304,
+    "FUSION_passes": 291,
+    "FUSION_failures": 13,
+    "FUSION_native_ticks": 2436737,
+    "with_PILOT2_attempts": 958,
+    "with_PILOT2_passes": 940,
+    "with_PILOT2_failures": 18,
+    "with_PILOT2_native_ticks": 5424030,
+    "VLA_queries": 26,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "045c5a7e6a485285e1a88750d35992e35e2368daaaebbdc1ea200f3ed0e46dff",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_reference_compare_b1_direct_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "GPU_dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "complete_relative_response_curves": "Retained in the hash-pinned private actual reader and original native dataset; public report keeps aggregate endpoint metrics.",
+  "original_outer_qualification_report_missing": true,
+  "observed_outcome_recovery": {
+    "schema": "WM02_ORIGINAL_DIRECT_OBSERVED_OUTCOME_RECOVERY_V1",
+    "original_native_exit_code": 1,
+    "original_failure_unchanged": true,
+    "confirmed_suffix_atoms": 1288,
+    "all40_actual_consumption": true,
+    "H16_actual_minus_desired_L2_m": 0.0035964217421753973,
+    "final_actual_minus_desired_L2_m": 0.0027235176170191298,
+    "observed_task_geometry": {
+      "schema": "WM02_RECOVERED_ORIGINAL_SHORT_GEOMETRY_ONLY_V1",
+      "metrics": {
+        "signed_progress_m": 0.0024985809868291447,
+        "precontact_distance_reduction_m": 0.002451039083048376,
+        "maximum_lateral_drift_m": 0.006141391720527582,
+        "maximum_TCP_excursion_m": 0.00855667420699055,
+        "minimum_finger_opening_m": 0.04161437330455649,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0018414236725223347,
+        "maximum_base_rotation_rad": 0.005008911137162007,
+        "final_hold_TCP_diameter_m": 4.9349826795311304e-05,
+        "final_hold_TCP_max_speed_m_s": 0.0008163619958096327
+      },
+      "predicates": {
+        "signed_progress": true,
+        "distance_reduction": true,
+        "lateral": false,
+        "excursion": true,
+        "open": true,
+        "object_still": true,
+        "base_still": true,
+        "base_orientation": true,
+        "hold": true
+      },
+      "approach_step_success": false,
+      "geometry_failure_proves_task_failure": true,
+      "original_complete_strict_score_recovered": false,
+      "unavailable_sample_flags": [
+        "safety_valid",
+        "native_abort",
+        "robot_object_contact"
+      ],
+      "unavailable_flags_not_fabricated": true,
+      "full_task_success": false,
+      "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a"
+    },
+    "new_model_evaluations": 0,
+    "new_physics": 0,
+    "new_updates": 0,
+    "native_safety_evidence_is_separate_from_missing_sample_flags": true
+  },
+  "readonly_scoring_receipt_sha256": "0b3eb12608b7f48a54ee886fc734ef6eb83ec7aa0d3fedcc25c3d729e0524fbc",
+  "recovery_module_sha256": "d14a07ab49733a4a0973a9119dc282bd14862d70500a283f9fc4d79d5579651c",
+  "reference_selection": {
+    "method": "DIRECT",
+    "selected_model": null,
+    "selected_candidate": "NOMINAL",
+    "allowed_candidates": [
+      "NOMINAL",
+      "X_PLUS_050",
+      "Y_PLUS_050",
+      "Y_MINUS_050"
+    ],
+    "proposed_reference_changes": 0,
+    "actual_ACK_confirmed_reference_changes": 0,
+    "native_step": 34303,
+    "selected_reference_path_sha256": "ade2ce35bffc71ed1fd410f7c71bd30a92473389b7cf4d7250fd56a699c1f440",
+    "future_observations_read": false,
+    "all_allowed_predicted_H16_error_m": {
+      "366104-RAW": {
+        "NOMINAL": 0.005412354299759245,
+        "X_PLUS_050": 0.005381652076100802,
+        "Y_PLUS_050": 0.005427464743261662,
+        "Y_MINUS_050": 0.005397532960747923
+      },
+      "366104-SCALED": {
+        "NOMINAL": 0.004549456044299615,
+        "X_PLUS_050": 0.004611925586588526,
+        "Y_PLUS_050": 0.00443342569165288,
+        "Y_MINUS_050": 0.0046657345711833415
+      },
+      "366104-NO_FUTURE_ACTION": {
+        "NOMINAL": 0.004301826934183948,
+        "X_PLUS_050": 0.004301826934183948,
+        "Y_PLUS_050": 0.004301826934183948,
+        "Y_MINUS_050": 0.004301826934183948
+      },
+      "366105-RAW": {
+        "NOMINAL": 0.005265535761739945,
+        "X_PLUS_050": 0.005266802867138513,
+        "Y_PLUS_050": 0.00527234988726666,
+        "Y_MINUS_050": 0.005258099062469995
+      },
+      "366105-SCALED": {
+        "NOMINAL": 0.004644703373041906,
+        "X_PLUS_050": 0.004734370945052381,
+        "Y_PLUS_050": 0.004664181397495785,
+        "Y_MINUS_050": 0.004634781189623826
+      },
+      "366105-NO_FUTURE_ACTION": {
+        "NOMINAL": 0.0033991528762869296,
+        "X_PLUS_050": 0.0033991528762869296,
+        "Y_PLUS_050": 0.0033991528762869296,
+        "Y_MINUS_050": 0.0033991528762869296
+      },
+      "366106-RAW": {
+        "NOMINAL": 0.005865805173053279,
+        "X_PLUS_050": 0.005878806654468767,
+        "Y_PLUS_050": 0.0058926433248411856,
+        "Y_MINUS_050": 0.005841723231893881
+      },
+      "366106-SCALED": {
+        "NOMINAL": 0.004283237944667134,
+        "X_PLUS_050": 0.00430964879954395,
+        "Y_PLUS_050": 0.004280128045282501,
+        "Y_MINUS_050": 0.00428524588497508
+      },
+      "366106-NO_FUTURE_ACTION": {
+        "NOMINAL": 0.0043548351632888655,
+        "X_PLUS_050": 0.0043548351632888655,
+        "Y_PLUS_050": 0.0043548351632888655,
+        "Y_MINUS_050": 0.0043548351632888655
+      },
+      "TRAIN_RIDGE_FULL_PROGRAM": {
+        "NOMINAL": 0.0037111275992659657,
+        "X_PLUS_050": 0.003496680189632061,
+        "Y_PLUS_050": 0.0036136902405978803,
+        "Y_MINUS_050": 0.0038218611039067298
+      },
+      "TRAIN_RIDGE_NO_FUTURE_ACTION": {
+        "NOMINAL": 0.004284291516880816,
+        "X_PLUS_050": 0.004284291516880816,
+        "Y_PLUS_050": 0.004284291516880816,
+        "Y_MINUS_050": 0.004284291516880816
+      },
+      "ZERO_DISPLACEMENT": {
+        "NOMINAL": 0.01003781102004636,
+        "X_PLUS_050": 0.01003781102004636,
+        "Y_PLUS_050": 0.01003781102004636,
+        "Y_MINUS_050": 0.01003781102004636
+      },
+      "PAST_CONSTANT_VELOCITY": {
+        "NOMINAL": 0.010204158818356552,
+        "X_PLUS_050": 0.010204158818356552,
+        "Y_PLUS_050": 0.010204158818356552,
+        "Y_MINUS_050": 0.010204158818356552
+      },
+      "TRAIN_MEAN_RESPONSE": {
+        "NOMINAL": 0.010098119118730304,
+        "X_PLUS_050": 0.010098119118730304,
+        "Y_PLUS_050": 0.010098119118730304,
+        "Y_MINUS_050": 0.010098119118730304
+      }
+    }
+  },
+  "declared_initial_reference_intervention": {
+    "candidate": "NOMINAL",
+    "offset_target_xy_m": [
+      0.0,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual_selected_candidate": "NOMINAL"
+}

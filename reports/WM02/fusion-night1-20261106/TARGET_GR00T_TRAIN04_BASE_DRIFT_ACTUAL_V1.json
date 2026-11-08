@@ -1,0 +1,79 @@
+{
+  "schema": "WM02_TARGET_GR00T_TRAIN04_BASE_DRIFT_ACTUAL_V1",
+  "observed_epoch": 1794123751.0491712,
+  "native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+  "spec_sha256": "01479b1e744261146dfc27a76242de067b5f4c7c2329b495e5fe8b06b895ad0e",
+  "result_sha256": "85373a479c561270b0bdc4c01a342ed121e10e75e63795d28d26f16c53e5c1ee",
+  "worker_sha256": "d7dfe14eddd64418081cd8928fd11644be1cffb8945b93f58197bba5c0b72f53",
+  "worker_exit_code": 1,
+  "lease_status": "CLOSED",
+  "MainPID": 0,
+  "actual_integrations": 35353,
+  "complete_confirmed_task_transitions": 41,
+  "additional_actual_unconfirmed_interval": 1,
+  "retained_dual_RGB_pairs": 6,
+  "expert_training_eligible": false,
+  "shutdown_clean": true,
+  "all_four_native_children_exit0": true,
+  "trace_dropped_events": 0,
+  "failure": {
+    "stage": "ORIGINAL_STANDING_TRANSLATION_BOUND",
+    "native_step": 35353,
+    "seconds_after_policy_decision": 2.1,
+    "BASE_displacement_m": 0.002099334760865158,
+    "original_limit_m": 0.002,
+    "BASE_rotation_rad": 0.003096590625954027,
+    "rotation_limit_rad": 0.008726646259971648,
+    "installed_reference_delta_m": 0.0004307552915868948
+  },
+  "decision_prefix_evidence": {
+    "failed_B_linear_speed_m_s": 0.03785497119530038,
+    "failed_B_angular_speed_rad_s": 0.1902604415513761,
+    "failed_prior400ms_max_translation_m": 0.0004019634792081306,
+    "failed_prior400ms_max_rotation_rad": 0.0017440857824747758,
+    "same_layout_PASS_B_linear_speed_m_s": 0.00020038368743802992,
+    "same_layout_PASS_B_angular_speed_rad_s": 0.00040749295529606764,
+    "same_layout_PASS_end_BASE_translation_m": 0.0009323431894738667,
+    "first400ms_installed_reference_delta_m": 1.0978523795712782e-06
+  },
+  "inference": "Residual BASE motion is already present before the Teacher command. This is evidence of a fragile decision prefix, not proof of a unique WBC or action cause.",
+  "cost": {
+    "worker_wall_s": 488.169017593842,
+    "worker_plus_child_CPU_s": 1091.07361296,
+    "MemoryPeak_bytes": 4660899840
+  },
+  "panel": {
+    "planned_DEMO_conditions": 32,
+    "closed": 15,
+    "PASS": 13,
+    "FAIL": 2,
+    "remaining": 17,
+    "qualifications_separate": 4,
+    "total_new_sealed_attempts": 19,
+    "total_new_sealed_integrations": 718732,
+    "old_FUSION_denominator_changed": false,
+    "failed_conditions_retried": false
+  },
+  "successor": {
+    "status": "EXISTING_FIXED_PANEL_SINGLE_OWNER_CONTINUES_UNEXECUTED_CONDITIONS",
+    "current": "target-gr00t-demo-train04-retreat-r2-01",
+    "spec_sha256": "2dee76eda7111de7624b51a0a427905600e097a9dc42d34970041e6240fa6f37",
+    "old_local_chain": "TERMINAL_AFTER_NEW_FAILURE",
+    "new_local_chain": "FINITE_PANEL_CHAIN03",
+    "scope_deadline_SGT": "2026-11-08T23:34:00+08:00",
+    "WBC_safety_physics_startup_changed": false
+  },
+  "new_inference_code": {
+    "purpose": "Independent parent-weight target-Processor TRAIN4 shadow and later production-package reconstruction",
+    "normal_CPU_tests": 74,
+    "actual_new_model_loads": 0,
+    "actual_new_queries": 0,
+    "actual_new_updates": 0,
+    "candidate_package_qualified": false,
+    "optimized_CPU_tests": 74
+  },
+  "QUESTION": "Why did a second original standing safety condition stop a 4mm Teacher episode?",
+  "ACTUAL_RESULT": "At the real decision boundary the failed run already had much higher BASE velocity than its same-layout successful restart; the original2mm bound stopped later execution.",
+  "NEGATIVE": "No rerun, relaxed bound, modified WBC or fabricated expert suffix. Pending formal data and A40 backward remain uncompleted.",
+  "next_command": "qstat -xf -F json 1532527.stdct-mgmt-02; original fixed-panel collection continues only unexecuted conditions."
+}

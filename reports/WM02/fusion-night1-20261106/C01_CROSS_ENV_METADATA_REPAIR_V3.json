@@ -1,0 +1,32 @@
+{
+  "schema": "WM02_C01_CROSS_ENV_METADATA_REPAIR_V3",
+  "epoch": 1794048766.6204739,
+  "status": "IMPLEMENTED_AND_ACTUAL_BOTH_PYTHON_ENVIRONMENTS_CHECKED_NOT_NATIVE_ADMITTED",
+  "original_R1_source_sha": "8362c5499513a437fef842dae5e1902163d6d34a",
+  "actual_failure": "Native NumPy2.5.4 rederivation is bit-exact; GR00T NumPy1.26.4 differs by6.938893903907228e-18 and rejects an unchanged old goal.",
+  "repair": "Metadata verifies exact prior file/seal/serialized matrix hashes and fixed identities; does not repeat native arithmetic in GPU NumPy. Native control input constructor and safety remain unchanged.",
+  "reference_file_sha256": "f658b8b6d9eec66230d633b227b1505ad0554191b1758447d88495f3ef941e85",
+  "actual_cross_environment_check": "NOMINAL_REFERENCE_CROSS_ENV_ACTUAL_V1.json",
+  "both_actual_metadata_check_exit_codes": 0,
+  "tests": [
+    {
+      "passed": 271,
+      "optimized": false,
+      "exit_code": 0,
+      "log_sha256": "13da7b365cf1293362f18ad26fd98361384c5601dd119c21269b1ea5060e93a6"
+    },
+    {
+      "passed": 271,
+      "optimized": true,
+      "exit_code": 0,
+      "log_sha256": "569d6045e36a804b8b5711709dc3334a6d03b8f72bf71fa747527fa9862c3e38"
+    }
+  ],
+  "identical_nominal_desired_and_reference_paths_after_actual_cube_change_tested": true,
+  "old_R1_GPU_failure_and_unstarted_native_closeout_preserved": true,
+  "new_scope": "C01_R2_QUERY_ONLY",
+  "actual_new_physics": 0,
+  "actual_new_queries": 0,
+  "new_models_or_updates": 0,
+  "original_cutoff_epoch": 1794051261.7397933
+}

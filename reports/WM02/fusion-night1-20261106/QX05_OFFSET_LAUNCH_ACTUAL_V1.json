@@ -1,0 +1,64 @@
+{
+  "schema": "WM02_QX05_OFFSET_LAUNCH_ACTUAL_V1",
+  "epoch": 1794028825.3980513,
+  "actual_source_sha": "c45d177534d8f66e9c1d41b7d12acd574b21766f",
+  "native_spec_sha256": "5accf15bd3b887e811282663813b12dc09dfbbd24d2cf2f56b0fb47386e94017",
+  "GPU_spec_sha256": "1b3b81ab82e0d755f9d2c5ac4de5940cc18d3aac1958d406663590b41719af77",
+  "native": {
+    "status": "ACTIVE",
+    "MainPID": 3293189,
+    "last_observed_native_step": 36403
+  },
+  "GPU": {
+    "status": "CLOSED",
+    "exit_code": 0,
+    "MainPID": 0,
+    "actual_queries": 1,
+    "result_sha256": "962e597f3dc22af0e8c62ee26d1664e905ffa5f925641413f791ceb3a2a61102",
+    "query_wall_s": 1.2072079251520336
+  },
+  "reference_intervention": {
+    "candidate": "X_PLUS_050",
+    "offset_target_xy_m": [
+      0.0005,
+      0.0
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "preregistered_assignment": {
+    "candidate": "X_PLUS_050",
+    "panel_sha256": "f7a7c67ab6b6ebb2f6cce0d8ba3533e65c7b9df406578e38bf783c6a2117b4b3",
+    "parent": "T06_TIME2_POST_QUERY_RESPONSE_QX05",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "TRAIN"
+  },
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "old_QH02_failure_retained": true,
+  "HOLD_first16_actual_maximum_m": 0.0001147407513865934,
+  "source_staging": {
+    "wall_s": 90.58716828702018,
+    "CPU_s": 1.1693300079999993,
+    "copied_parent_members": 3376,
+    "generated_bytecode_members_excluded": 20,
+    "copied_parent_bytes": 45623586,
+    "overlay_members": 118,
+    "overlay_written_bytes": 1333945,
+    "actual_source_bytes_written": 46957531,
+    "unlisted_assets_or_cache_copied": 0
+  },
+  "shared_staging_not_per_worker": true,
+  "actual_source_copy_bytes": 46957531,
+  "dispatch_exit_code": 0,
+  "full_native_result": "PENDING",
+  "new_model_updates": 0,
+  "Actor_updates": 0,
+  "GR00T_updates": 0,
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "original_cutoff_epoch": 1794051261.7397933,
+  "command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_response_qx05_v4_01.py\" 900",
+  "next_readonly_command": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/read_program_response_qx05_v4_01.py\" 180"
+}

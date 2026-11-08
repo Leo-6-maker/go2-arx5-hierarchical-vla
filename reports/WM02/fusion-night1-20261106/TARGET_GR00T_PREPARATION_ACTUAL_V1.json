@@ -1,0 +1,168 @@
+{
+  "schema": "WM02_TARGET_GR00T_PREPARATION_ACTUAL_V1",
+  "snapshot_epoch": 1794110155.3076494,
+  "plan_sha": "dfbdb49020a0086421312649a8e52f07b89b5817",
+  "native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+  "original_baseline_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "vendor_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "new_target_expert_TRAIN": 0,
+  "new_target_expert_DEV": 0,
+  "new_target_expert_TEST": 0,
+  "new_GR00T_updates": 0,
+  "new_WM_updates": 0,
+  "new_Actor_updates": 0,
+  "new_PBS_submissions": 0,
+  "Vanda": {
+    "actual_authentication": "SUCCEEDED_WITH_USER_AUTHORIZATION_SECRET_NOT_PERSISTED",
+    "project": "CFP04-CF-007",
+    "cpu_hours_balance": 9996.849,
+    "gpu_hours_balance": 298829.294,
+    "own_project_running_or_queued": 0,
+    "other_project_same_user_running": 4,
+    "other_project_same_user_queued": 1,
+    "other_jobs_changed": false,
+    "old_shared_1514400": "PBS_F_EXIT1_PREMODEL_STORAGE_BINDING_REJECTION_INDEPENDENTLY_SETTLED_NO_RESUBMISSION",
+    "old_shared_terminal_proof_sha256": "ee528540beddbae2ffeb6ddd0ab59e20c5368e3de066fab62d51d45409c966b5",
+    "original_CORR_parent": "EXISTING_INFERENCE_FILES_CACHED_NO_OPTIMIZER_INHERITED",
+    "GPU_capacity": "NOT_MEASURED_NO_ALLOCATION_YET"
+  },
+  "qualifications": {
+    "sealed_attempts": 4,
+    "passes": 2,
+    "failures": 2,
+    "native_ticks": 145237,
+    "not_in_old_FUSION324_denominator": true,
+    "rows": [
+      {
+        "run": "target-gr00t-qual-approach-train01-01",
+        "source_sha": "f5735e72c2639b156eba092d6685452b7ee2f1b6",
+        "spec_sha256": "0f13a801c50db3dc7de737dd600f0ee32cd06d19d44b9d3808542a5858f4d711",
+        "result_sha256": "fb58bcab2ce3b252ccf06484e8529a2668e744edf0c6ead0af2c342097519587",
+        "exit_code": 1,
+        "native_ticks": 34478,
+        "reason": "EXCLUSIVE_CAPTURE_INDEX_WRITER_FAILED_ON_SECOND_CAPTURE",
+        "wall_s": 470.507,
+        "CPU_s": 1044.751,
+        "MemoryPeak_bytes": 4469641216
+      },
+      {
+        "run": "target-gr00t-qual-approach-train01-02",
+        "source_sha": "5dd72664d4ea3a637d2625fbe8d9213d5d196cb8",
+        "spec_sha256": "ad53b658b91ca38aee449ef129a36e56ceab0e7e915fd124cf3f2e70926a0cfc",
+        "result_sha256": "56a4e172ef03247d47c35fb22ce2a968efaea34b92a99140c2305d56355702f5",
+        "exit_code": 1,
+        "native_ticks": 33353,
+        "reason": "FIFTH_IK_UPDATE_RESIDUAL_NOT_CHECKED",
+        "wall_s": 450.995,
+        "CPU_s": 984.633,
+        "MemoryPeak_bytes": 2988601344
+      },
+      {
+        "run": "target-gr00t-qual-retreat-train01-01",
+        "source_sha": "5dd72664d4ea3a637d2625fbe8d9213d5d196cb8",
+        "spec_sha256": "1cc5eadf9c6d08de5987751378fed814e7546082cf3893db0c6bf208d1865f1a",
+        "result_sha256": "a697862fe30934b379cace8224b5e7eb63a5a42410661c4a51d9d880baa6679b",
+        "capture_index_sha256": "5ec426df799b445742beac577eb7f85ded79d74a8d5e0f7e85fb07bc0cc818eb",
+        "exit_code": 0,
+        "native_ticks": 38703,
+        "consumed_intervals": 176,
+        "all_raw_knots_consumed": 40,
+        "real_dual_RGB_captures": 27,
+        "retreat_mm": 2.679128955,
+        "lateral_mm": 0.391908908,
+        "BASE_displacement_mm": 0.636214723,
+        "wall_s": 574.54,
+        "CPU_s": 1287.069,
+        "MemoryPeak_bytes": 6392418304,
+        "purpose_unchanged": "QUALIFICATION_NOT_TRAINING"
+      },
+      {
+        "run": "target-gr00t-qual-approach-train01-03",
+        "source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+        "spec_sha256": "893b5ef918ac26827c79fd0bfc471197db9f4db1d05c0618a91ffac48b645187",
+        "result_sha256": "8759c47714d58837f3e19b51a4b1a267e5aa085aca9408921e6ee4d40ce73e86",
+        "capture_index_sha256": "4a567e08d7159433bb43dc153ee164c4fb983fcf36b0363866e0e884bc8558cc",
+        "exit_code": 0,
+        "native_ticks": 38703,
+        "consumed_intervals": 176,
+        "all_raw_knots_consumed": 40,
+        "real_dual_RGB_captures": 27,
+        "approach_mm": 2.7187221096834304,
+        "lateral_mm": 0.5822756947047766,
+        "BASE_displacement_mm": 0.8548575181056782,
+        "wall_s": 572.3387620123103,
+        "CPU_s": 1286.060256922,
+        "MemoryPeak_bytes": 6418354176,
+        "purpose_unchanged": "QUALIFICATION_NOT_TRAINING"
+      }
+    ]
+  },
+  "active_new_qualification": null,
+  "IK_repair": {
+    "original_pre_fifth_update_error_m": 1.1703069536783635e-05,
+    "actual_post_fifth_update_error_m": 3.5270697854479746e-09,
+    "original_position_tolerance_m": 1e-05,
+    "original_rotation_tolerance_rad": 0.0001,
+    "maximum_Newton_updates": 5,
+    "static_replay_points": 1051,
+    "static_replay_iterations": 2105,
+    "static_new_physics": 0,
+    "static_exit_code": 0,
+    "native_repair_qualification": "PASS_CLOSED0_38703_TICKS_ALL40_27_DUAL_RGB",
+    "frozen_WBC_or_native_safety_changed": false
+  },
+  "policy_boundary": {
+    "actual_readonly_saved_native_record_test_exit_code": 0,
+    "actual_raw_policy_shape": [
+      40,
+      10
+    ],
+    "actual_consumed_shape": [
+      176,
+      10
+    ],
+    "proposal_sha256": "04013c01f907ed34800c147e212a7685473ffefe14c7f5996107a7a0aa39c9cd",
+    "compiler_decision_sha256": "f0ea3367c0071db475872c0b82c46f443e34527fb37d87d66c5d695832c1b8bc",
+    "teacher_policy_queries_per_episode": 1,
+    "controller_renewals_as_new_expert_queries": 0,
+    "raw_policy_gripper": 1.0,
+    "installed_gripper": 0.9545454545454547,
+    "compiler_gripper_affine_and_retime_applied_once": true,
+    "all_process_dual_RGB_retained": 27
+  },
+  "tests": {
+    "normal": {
+      "passed": 316,
+      "wall_s": 10.75,
+      "exit_code": 0
+    },
+    "optimized": {
+      "passed": 316,
+      "wall_s": 10.83,
+      "exit_code": 0
+    },
+    "actual_A40_training": "NOT_RUN",
+    "actual_Processor_roundtrip": "WAIT_NEW_DEMOS",
+    "new_training_interfaces": {
+      "passed_normal": 22,
+      "passed_optimized": 22,
+      "actual_model": "NOT_RUN"
+    }
+  },
+  "next": "Finish fresh approach qualification; collect four NEW declared TRAIN expert episodes; export FIT4 and qualify original Processor; one actual single-A40 capacity/backward/full restore/next-update test, then FIT4. No formal2000 before diverse sealed TRAIN+DEV.",
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "old_CLOSED_reopened": false,
+  "training_implementation_sha": "70f66930e9074e3826ad8eec2dffdf6ca986affe",
+  "first_new_demo": "target-gr00t-demo-train01-approach-r1-01",
+  "prelaunch_failures_preserved": [
+    {
+      "kind": "RESULT_READER_16MIB_BOUND_REFUSED_PINNED_100853139_BYTE_NATIVE_RESULT",
+      "attempts": 2,
+      "new_physics": 0,
+      "new_GPU_jobs": 0,
+      "repair": "ONLY_QUALIFICATION_NATIVE_RESULT_READ_USES_EXISTING384MIB_BOUND"
+    }
+  ]
+}

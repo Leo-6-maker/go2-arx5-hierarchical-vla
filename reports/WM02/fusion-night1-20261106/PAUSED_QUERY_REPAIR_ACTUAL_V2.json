@@ -1,0 +1,150 @@
+{
+  "schema": "WM02_FUSION_PAUSED_QUERY_REPAIR_ACTUAL_V2",
+  "QUESTION": "Does the bounded live-snapshot read repair preserve one actual native pause through frozen inference on GPU1?",
+  "CHANGE": "Only .25s guarded read retries for transient absent/partial live snapshots; same source task score, frozen checkpoint/Processor, WBC, native code, safety and2ms physics.",
+  "ACTUAL_RESULT": {
+    "source_sha": "d069fb8715b81523f7b6373a75097eb036676744",
+    "native_worker_exit_code": 0,
+    "GPU_worker_exit_code": 0,
+    "both_leases": "CLOSED",
+    "both_MainPID": 0,
+    "native_spec_sha256": "286fe39b61c7f18a995058bd5b4d453048e7c00b819eb0a7471973bf872e17ac",
+    "GPU_spec_sha256": "3d19a1fa0913424afa5adcaf386883d84520021de907d5b05ef8d33b4be8aac7",
+    "native_result_sha256": "42d4bf3ed8283f6c73997fd4cb8ee22ce4d0a315f9549f703a3971be81fd7887",
+    "GPU_result_sha256": "c4e3d4d0cb0464a79cc0e7ec902340b20faa0bceda967b9aa78f30782daabe5c",
+    "pair_sha256": "ca839422004a70d0c84c129c8f80c8ce9bc16d78fd49069b87d5a165274c555d",
+    "observation_sha256": "5d581d90ea956aab6259e4479c526b7ddfcc307fa87f78695bce6f803fde911a",
+    "action_sha256": "ab106c8604e0a989d9c67570eb6eb7c2cf53317476c37ed9eb841244ba002566",
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "actual_native_ticks": 3703,
+    "actual_consumed_HOLD_atoms": 48,
+    "original_pose_confirmed_atoms": 48,
+    "original_gripper_confirmed_atoms": 48,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 1,
+    "query_seed": 366104,
+    "physical_H40_shape": [
+      40,
+      10
+    ],
+    "normalized_shape": [
+      1,
+      40,
+      132
+    ],
+    "same_native_world_revalidated_after_query": true,
+    "query_extra_physics_integrations": 0,
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "errors": [],
+      "missing": [],
+      "writer": {
+        "events": 32785,
+        "written": 32785,
+        "dropped": 0,
+        "stop_latched": false,
+        "sealed_at_explicit_pause": true
+      },
+      "native_step_records": 3703
+    },
+    "native_safety_stops": [],
+    "all_original_children_exit0": true,
+    "original_pause_return_proof": {
+      "schema": "WM02_FUSION_LIVE_PAUSED_OBSERVATION_V2",
+      "query_uuid": "78a8dddd-d311-4d4e-988c-fa25926e7e5b",
+      "native_step": 3703,
+      "native_time_s": 7.405999999999406,
+      "pause_after_query": {
+        "step": 3703,
+        "time_s": 7.405999999999406,
+        "motiontime": 2713,
+        "leg_history_steps": 371,
+        "gait_indices": 0.16499999165534973,
+        "ack_sequence": 11011,
+        "running": false,
+        "clock_paused": true
+      },
+      "unchanged_measured_packet_sha256": "6a03cb06d211d0b3d8c84d9adb03992f0a1150d8200f07bebfcd0c6a2839b46e",
+      "native_execution_authorized": false,
+      "model_result_checked": false
+    },
+    "VLA_action_installations": 0,
+    "WM_updates": 0,
+    "GR00T_updates": 0,
+    "Actor_updates": 0,
+    "full_task_success": false,
+    "short_skill_executed": false,
+    "online_action_control": false
+  },
+  "cost": {
+    "native_worker": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 177.32345228409395,
+      "CPU_s": 24.786943535000002,
+      "child_CPU_s": 203.966994
+    },
+    "native_systemd_CPU_s": 230.6168,
+    "native_systemd_memory_peak_bytes": 2259050496,
+    "GPU_worker_wall_s": 177.80064321495593,
+    "GPU_child_CPU_s": 32.26296,
+    "GPU_systemd_CPU_s": 32.458419,
+    "GPU_host_memory_peak_bytes": 10033602560,
+    "query_wall_s": 1.15976053616032,
+    "GPU_event_s": 1.1596209716796875,
+    "inference_total_wall_s": 175.95570984622464,
+    "snapshot_wait_wall_s": 36.358769797720015,
+    "model_cold_load_wall_s": 14.05727256136015,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "device": "GPU1_REPORTED_TOTAL16376MiB",
+    "read_only_full_audit_wall_s": 18.9364502299577,
+    "read_only_full_audit_CPU_s": 0.479735246,
+    "scorer_geometry_wall_s": 0.15453061275184155,
+    "scorer_geometry_CPU_s": 0.152669966,
+    "interpretation": "Overlapping worker/child/systemd CPU are not additive; N2 queries are not a qualified latency distribution."
+  },
+  "proposal_diagnostic": {
+    "raw_max_query_distance_mm": 34.24860122446507,
+    "raw_path_length_mm": 241.5976296036596,
+    "raw_max_query_rotation_rad": 0.028334075747762148,
+    "raw_gripper_fraction_range": [
+      0.9855375289916992,
+      1.0
+    ],
+    "raw_original_working_stroke_guard": "REJECT:OUTSIDE_DECLARED_GRIPPER_WORKING_TARGET_RANGE_NO_CLIP",
+    "complete_raw_geometry_qualified": false,
+    "old_XY1mm_model_support": false,
+    "first8_reference_signed_progress_mm": -0.2355398034528693,
+    "full40_reference_signed_progress_mm": -19.638075371036194,
+    "full40_reference_distance_reduction_mm": -20.603842723204895,
+    "first_query_reference_signed_progress_mm": -19.81956668644584,
+    "geometry_is_nominal_not_achieved": true,
+    "task_intent_qualification": "NOT_ESTABLISHED; BOTH_COMPLETE_NOMINAL_PATHS_END_AWAY_FROM_CUBE",
+    "target_visual_source_equivalence": false,
+    "source_outcomes_for_these_exact_new_draws": false
+  },
+  "NEXT_DECISION": "Keep failed pair01 and valid pair02. Audit source/target input differences; separately qualify the exact new full proposal through explicit trajectory adaptation in graded single-world diagnostics. Retain short-skill score and do not present reference tracking as task progress. Do not expand old72 before matching the actual proposal/model question.",
+  "counts_after_this_attempt": {
+    "FUSION_attempts": 272,
+    "FUSION_PASS": 269,
+    "FUSION_FAIL": 3,
+    "FUSION_native_ticks": 1203591,
+    "with_PILOT2_attempts": 926,
+    "with_PILOT2_PASS": 918,
+    "with_PILOT2_FAIL": 8,
+    "with_PILOT2_native_ticks": 4190884,
+    "cumulative_frozen_VLA_queries": 5,
+    "paired_capture_attempts": 2,
+    "paired_capture_PASS": 1,
+    "paired_capture_FAIL": 1
+  },
+  "commands": {
+    "original_native": "NATIVE_PYTHON -B -m scripts.wm02.fusion_paused_query_check --spec NEW_NATIVE_SPEC --execute",
+    "actual_GPU_child": "GR00T_PYTHON -B -m scripts.wm02.infer_fusion_paused_vla --spec NEW_GPU_SPEC --output NEW_GPU_ROOT/fit-01",
+    "dispatcher_sha256": "71d2b5ff79eec06c8f67070e2967a54b60d34f642b443491ee0ec789e4e2b487",
+    "dispatcher_exit_code": 0,
+    "automatic_retry": false
+  },
+  "failed_first_pair_report": "PAUSED_QUERY_ACTUAL_V1.json"
+}

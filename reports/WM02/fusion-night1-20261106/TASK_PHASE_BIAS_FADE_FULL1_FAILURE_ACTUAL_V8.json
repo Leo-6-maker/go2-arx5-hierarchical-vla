@@ -1,0 +1,311 @@
+{
+  "schema": "WM02_TASK_PHASE_BIAS_FADE_FULL1_FAILURE_ACTUAL_V8",
+  "status": "CLOSED1_DECLARED_TRANSLATION_FADE_PASSED_OLD_POINT_BUT_REJECTED_LATER_NO_RETRY",
+  "run": "fusion-night1-task-phase-bias-fade-s100-01",
+  "source_sha": "ff0bfdc1594bdb572a4e00475bfae3910f138c02",
+  "spec_sha256": "75508a81589c83ab0e52ae8f030dfe83a1e70ec013dafbb36562b3ef3f3bc72f",
+  "result_sha256": "a739b74ed6a3840ed499f882b1b86b8344780fcad9f162ef8faf86b22e25ffcf",
+  "lease_sha256": "c00d4d5ed2f8b9ce664e498fe8e89ee5d7213da1cbf3a92424d6961093a764b1",
+  "worker_sha256": "ae647de5b01b145cd199f6c613bab31302b4ed9aeff1e603722e9a2bac792462",
+  "worker_exit_code": 1,
+  "MainPID": 0,
+  "lease_status": "CLOSED",
+  "geometry_scale": 1.0,
+  "expected_endpoint": 46303,
+  "outcome": {
+    "native_execution": "FAIL_PRESERVED",
+    "initialization_goal": "NOT_REACHED_OR_SCORED",
+    "actual_joint_limit_stop": false,
+    "native_safety_thresholds_changed": false,
+    "reference_certificate": "ORIGINAL_GUARD_CORRECTLY_REJECTED_UNPUBLISHED_FUTURE_PATH",
+    "WBC_failure_established": false,
+    "WM_training_failure": false,
+    "full_task_success": false
+  },
+  "physics": {
+    "actual_integrations": 24003,
+    "complete_25tick_physical_transitions": 960,
+    "complete_task_pose_gripper_windows": 860,
+    "proposed_references": 124,
+    "all_40_calibration_knots_consumed": null,
+    "first_feedback_step": 29503,
+    "feedback_decisions": 0,
+    "trace": {
+      "status": "RECORDED_TRACE_CHECKS_PASS",
+      "errors": [],
+      "missing": [],
+      "writer": {
+        "events": 178707,
+        "written": 178707,
+        "dropped": 0,
+        "stop_latched": false,
+        "sealed_at_explicit_pause": true
+      },
+      "native_step_records": 24003
+    },
+    "physics_stops": [],
+    "actual_joint_or_warning_samples": 0,
+    "outer_guard_rejections": 0,
+    "shutdown_clean": true,
+    "owned_child_exit_codes": {
+      "planner": 0,
+      "controller": 0,
+      "solver": 0,
+      "sim": 0
+    },
+    "physics_dt_s": 0.002,
+    "qualification_report": "NOT_FINALIZED_BEFORE_REJECTION"
+  },
+  "first_deterministic_block": {
+    "native_step": 24003,
+    "reason": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP",
+    "original_certifier": "scripts/pi0294/task_path_model.py:certify_chunk",
+    "rejected_action_published": false,
+    "actual_arm_inside_native_limits": true,
+    "actual_arm_joint_margin_rad": [
+      2.017158771721005,
+      1.273005444238508,
+      1.1902024903624153,
+      0.5702641772267463,
+      1.6665493582614304,
+      2.0093113347839746
+    ],
+    "exact_original_certifier_replay": {
+      "active_H40_index": 38,
+      "arm_joint_limits_rad": [
+        [
+          -2.094,
+          3.14159
+        ],
+        [
+          0.0,
+          3.665
+        ],
+        [
+          0.0,
+          3.24
+        ],
+        [
+          -1.671,
+          1.671
+        ],
+        [
+          -1.671,
+          1.671
+        ],
+        [
+          -2.094,
+          2.094
+        ]
+      ],
+      "arm_qpos_rad": [
+        -0.10924428473947326,
+        1.8620583319793311,
+        2.1765574204641673,
+        -1.6710192491244267,
+        -0.008301350297737143,
+        -0.11641488863959584
+      ],
+      "full_pose_index": 40,
+      "interpolation_fraction": 0.6400000000000006,
+      "local_IK_iterations": 2037,
+      "planned_interpolation_tick": 1016,
+      "planned_point_kind": "ACTIVE_UNPUBLISHED_H40",
+      "points": 1017,
+      "prefix_history_points": 2,
+      "rejected_joint_names": [
+        "x5_joint4"
+      ],
+      "violation_rad": [
+        0.0,
+        0.0,
+        0.0,
+        1.9249124426634623e-05,
+        0.0,
+        0.0
+      ]
+    },
+    "rejected_action_sha256": "0247bb7e181fbe4d186a49d3dbb4f96eb2aaf11c9c4cc8fb4081be059dfefc52",
+    "last_two_actual_consumed_history_steps": [
+      23978,
+      24003
+    ],
+    "no_clipping_or_tolerance_change": true,
+    "control_cause_not_inferred_from_IK_alone": true
+  },
+  "readonly_reproduction": {
+    "status": "SEALED_V8_FULL1_FADE_ORIGINAL_CERTIFIER_JOINT_REJECTION_REPRODUCED",
+    "exit_code": 0,
+    "planner_or_policy_log_joins_independently_recomputed": false,
+    "original_ActualState_FK_equals_last_recorded_TCP": true,
+    "native_MuJoCo_model_loads": 1,
+    "FK_calls": 3054,
+    "physics_integrations": 0,
+    "controller_starts": 0,
+    "learned_models": 0,
+    "queries": 0,
+    "writes": 0,
+    "registrations": 0,
+    "first_observed_artifact_hashes_not_previously_externally_pinned": true,
+    "raw_command_ledger_860_reported_consumer_joins_verified": true
+  },
+  "saved_data_identities": [
+    {
+      "basename": "state.bin.journal",
+      "bytes": 47962676,
+      "sha256": "5ea61975764a8545094bc97741ea0dfb6ae55062522ec0ed82b9f9a1cb13b5cd"
+    },
+    {
+      "basename": "state.bin",
+      "bytes": 1688,
+      "sha256": "34cc844cdeb640e1a12e6c2d876af6300fecbcbf433aaf385b1dcf5dcfd7d8be"
+    },
+    {
+      "basename": "init.trace",
+      "bytes": 150113896,
+      "sha256": "4a7e83c748150a78edea7bb839d19797550f206cc2fe1154bf48ac283ed38794"
+    },
+    {
+      "basename": "COMMANDS.private.jsonl",
+      "bytes": 38695919,
+      "sha256": "335c5a32965b16ac27b21029621e441a8c272a30e4e4480bdf626b934a987d16"
+    }
+  ],
+  "frozen_identity": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+    "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+    "trace_library_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "trace_capacity_build_sha256": "79a628072d1c1ef03bdd81b4c39c1eaaa422d8760bb0ffbf873daaed53db9f67",
+    "frame_map_sha256": "fc347a59fe6b82f758d198f2db93955ba2697a55e8ec24e490faeda53c2761b1",
+    "source_observation_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+    "source_payload_sha256": "867e229119dcade9183e0090705492e80429c6c32474d633b2d5fe389b42bb96",
+    "source_state_sha256": "8a69ab7e96bc7ba2690b93914c0f1b29d7bf940f7eca559eb91cec91ee4ae880",
+    "original_P1_binding_sha256": "c544ea5ea847b043b62a575d62e2a9ecff4236789daf05be924e75bb9eec9a0c"
+  },
+  "actual_command": "NATIVE_PYTHON -B -m scripts.wm02.fusion_task_phase_bias_fade_check_v8 --spec REGISTERED_BIAS_FADE_FULL1_SPEC --execute",
+  "provenance": {
+    "dispatcher": {
+      "basename": "dispatch_bias_fade_s100_v8_01.py",
+      "bytes": 174601,
+      "sha256": "7f0baf773d185a8e597ec5604adcf1473c35d2cf4a48c01365f8bd0fe387479b"
+    },
+    "precheck": {
+      "basename": "BIAS_FADE_S100_V8_PRECHECK01.private.json",
+      "bytes": 1394,
+      "sha256": "9bdc5d68eb98718fd0281d7d8241325a219ee429ddeb80832a114cf35cb0cb27"
+    },
+    "dispatch": {
+      "basename": "BIAS_FADE_S100_V8_DISPATCH01.private.json",
+      "bytes": 878,
+      "sha256": "6b5c91a61462e7e4919aafaa01f01782b21bb19dcb3e7e2f8227c5fbf1930f94"
+    },
+    "terminal": {
+      "basename": "BIAS_FADE_S100_V8_ACTUAL04.private.json",
+      "bytes": 21717,
+      "sha256": "e02141bfd994e38e120f2854822e3acd92bf5a6a1df7e259490029f28d422b08"
+    },
+    "original_certifier_helper": {
+      "basename": "audit_bias_fade_full1_joint_reject01.py",
+      "bytes": 8944,
+      "sha256": "62c633c30eca40dddd40096dc0e5948513957cc1a940f2ea18baec47fb72cd9b"
+    },
+    "original_certifier_receipt": {
+      "basename": "BIAS_FADE_S100_V8_JOINT_REJECT_AUDIT01.private.json",
+      "bytes": 2725,
+      "sha256": "452853d759bbb6a85913344fb92085c9ca1c0cf5c50d3069b3768a90e2f7d71e"
+    },
+    "committed_source_delta": {
+      "basename": "BIAS_FADE_V8_SOURCE_DELTA01.private.json",
+      "bytes": 3244,
+      "sha256": "19e004dfbd6a589481ab6a7831730a92a6f9cee08f083c638ba17a5c3a6f1242"
+    }
+  },
+  "cost": {
+    "worker": {
+      "exit_code": 1,
+      "failure": null,
+      "wall_s": 316.8038752418943,
+      "CPU_s": 121.529001149,
+      "child_CPU_s": 484.479546
+    },
+    "native_function": {
+      "wall_s": 314.7814205447212,
+      "own_CPU_s": 119.74123229199999
+    },
+    "systemd_CPU_s": 610.514286,
+    "systemd_peak_memory_bytes": 3717386240,
+    "original_certifier_replay": {
+      "wall_s": 2.452259682584554,
+      "child_CPU_s": 2.349072,
+      "inner_wall_s": 2.202260745689273,
+      "inner_CPU_s": 2.113610251
+    },
+    "source_staging": {
+      "wall_s": 116.83230750076473,
+      "CPU_s": 1.271862409,
+      "copied_parent_members": 3396,
+      "copied_parent_bytes": 45735417,
+      "overlay_members": 21,
+      "overlay_written_bytes": 443828,
+      "actual_source_bytes_written": 46179245,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "GPU_s": 0,
+    "overlapping_cost_scopes_do_not_sum": true
+  },
+  "actual_effects": {
+    "native_attempts": 1,
+    "native_passes": 0,
+    "native_failures": 1,
+    "VLA_queries": 0,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "checkpoint_sha256": null,
+    "full_tasks": 0
+  },
+  "counts_after_this_sealed_run": {
+    "FUSION_attempts": 286,
+    "FUSION_passes": 281,
+    "FUSION_failures": 5,
+    "FUSION_native_ticks": 1411183,
+    "with_PILOT2_attempts": 940,
+    "with_PILOT2_passes": 930,
+    "with_PILOT2_failures": 10,
+    "with_PILOT2_native_ticks": 4398476,
+    "VLA_queries": 9,
+    "WM_main_updates": 12200,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "next": {
+    "goal": "ACTIVE",
+    "dynamic_job_started": false,
+    "action": "COMPLETE_FRESH_GRADED_HALF_NATIVE_PAUSE_QUERY_FULL_H40_DIAGNOSTIC_ENTRY",
+    "no_exact_full1_rerun": true,
+    "staged_query_skill_entry": "LOCAL_WIP_NOT_NATIVE_QUALIFIED",
+    "ready_source": "ACTUAL_V7_HALF_EVIDENCE_REQUIRES_NEW_WORLD_ACTIVE_PAIRED_SCOPES_AND_REVALIDATION"
+  },
+  "limits": [
+    "The repair passed the original20503 point but did not qualify full1; no source-phase or task success is claimed.",
+    "A future joint4 certificate rejection is not an actual joint stop or a WBC training failure.",
+    "The complete original source H40 has not been qualified or consumed on this target.",
+    "140mm full1 goal and source80mm phase remain distinct; old half query_ready=false is retained.",
+    "The next graded diagnostic may query a measured qualified half state under a new explicit contract, never a reopened lease.",
+    "The old1mm WM is not qualified for this pose path; actual generated short-skill +/- WM comparisons remain0."
+  ],
+  "declared_repair": {
+    "implementation_source_sha": "ff0bfdc1594bdb572a4e00475bfae3910f138c02",
+    "fade_start_native_step": 17503,
+    "fade_end_native_step": 20503,
+    "duration_s": 6.0,
+    "original_goal_SO3_feedback_WBC_safety_and_dt_unchanged": true,
+    "original_reject_step": 20503,
+    "new_reject_step": 24003,
+    "extra_integrations_before_new_rejection": 3500,
+    "full_initialization_qualification": false,
+    "comparison_is_independent_restart_not_causal_effect_or_hidden_state_restore": true,
+    "no_next_full1_retry_or_SO3_fade_grid_started": true
+  }
+}

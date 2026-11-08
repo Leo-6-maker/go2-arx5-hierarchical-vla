@@ -1,0 +1,227 @@
+{
+  "schema": "WM02_FROZEN_PROGRAM_DEV_NATIVE_ACTUAL_V1",
+  "case": "DY02",
+  "epoch": 1794038374.4248624,
+  "actual_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "panel_sha256": "5072e09f4458c8d540e17ced09d80057d774f0b13450fa9e97e01d71710ac2d0",
+  "original_assignment": {
+    "candidate": "Y_MINUS_025",
+    "panel_sha256": "5072e09f4458c8d540e17ced09d80057d774f0b13450fa9e97e01d71710ac2d0",
+    "parent": "T06_FROZEN_PROGRAM_DEV_DY02",
+    "restart_index": 0,
+    "schema": "WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1",
+    "split": "DEV"
+  },
+  "actual_reference_intervention": {
+    "candidate": "Y_MINUS_025",
+    "offset_target_xy_m": [
+      0.0,
+      -0.00025
+    ],
+    "ramp_atoms": 16,
+    "schema": "WM02_POST_QUERY_REFERENCE_INTERVENTION_V1"
+  },
+  "actual": {
+    "native_exit_code": 0,
+    "GPU_exit_code": 0,
+    "native_integrations": 66503,
+    "complete_atomic_transitions": 2660,
+    "complete_generated_suffix_atoms": 1288,
+    "actual_queries": 1,
+    "raw_H40_consumed": true,
+    "reference_install_attempts": 184,
+    "reference_installations": 184,
+    "new_model_updates": 0,
+    "Actor_updates": 0,
+    "GR00T_updates": 0,
+    "strict_short_success": false,
+    "full_tasks": 0
+  },
+  "first16_actual_response": {
+    "H16_actual_minus_desired_L2_m": 0.0034969665003371938,
+    "H16_actual_minus_desired_xyz_m": [
+      -0.0023105394391859657,
+      -0.0017367885680118766,
+      0.0019681838517958683
+    ],
+    "actual_endpoint_step": 34703,
+    "independent_restart_not_exact_fork": true,
+    "initial_native_step": 34303,
+    "maximum_actual_displacement_m": 0.006534686851812411,
+    "reference_error_is_model_innovation": false,
+    "schema": "WM02_FIRST16_ACTUAL_PROGRAM_RESPONSE_V1",
+    "H16_actual_TCP_displacement_m": [
+      0.0017725432223812398,
+      0.0024025044371507043,
+      -0.005812761409649592
+    ],
+    "H16_desired_TCP_displacement_m": [
+      0.0040830826615672056,
+      0.004139293005162581,
+      -0.00778094526144546
+    ]
+  },
+  "strict_short_score": {
+    "approach_step_success": false,
+    "decision_native_step": 34303,
+    "full_task_success": false,
+    "metrics": {
+      "final_hold_TCP_diameter_m": 1.9481600349075007e-05,
+      "final_hold_TCP_max_speed_m_s": 0.0003211867161245907,
+      "maximum_TCP_excursion_m": 0.00827082432988948,
+      "maximum_base_displacement_m": 0.0015833916967374795,
+      "maximum_base_rotation_rad": 0.005610671356949922,
+      "maximum_lateral_drift_m": 0.006129866237047566,
+      "maximum_object_displacement_m": 0.0,
+      "minimum_finger_opening_m": 0.04145785323480422,
+      "precontact_distance_reduction_m": 7.321249292144283e-05,
+      "signed_progress_m": 0.000118839733747393
+    },
+    "native_execution_authorized": false,
+    "old_3703_score_relabelled": false,
+    "pick_place_success_claim": false,
+    "precontact_arrival_claim": false,
+    "predicates": {
+      "base_orientation": true,
+      "base_still": true,
+      "distance_reduction": false,
+      "excursion": true,
+      "hold": true,
+      "lateral": false,
+      "no_robot_object_contact": true,
+      "object_still": true,
+      "open": true,
+      "original_native_safety": true,
+      "signed_progress": false
+    },
+    "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+    "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+    "scorer_only_privileged_geometry": true,
+    "source_task_phase_equivalence": false,
+    "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+    "thresholds_are_native_safety": false
+  },
+  "actual_minus_desired_L2_m": 0.0029062994447740798,
+  "actual_minus_reference_L2_m": 0.10729700499880572,
+  "actual_reference_error_is_WM_prediction_innovation": false,
+  "WM_control_gain": false,
+  "independent_restart_not_exact_fork": true,
+  "independent_layouts": 1,
+  "native_failure_retained": null,
+  "native_binary_sha256": "f30450e669236724a63c125cc88df86bb28aad9136ee644b1c8328e088b0adea",
+  "observer_sha256": "07192cd562d79500a48f13069199e73a62d03d567dea59dfd14d175670e3038e",
+  "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+  "WBC_changed": false,
+  "physics_dt_s": 0.002,
+  "native_result_sha256": "2d2f9b1a202410cd61a045dcf7a22f2355b3843519629449d6dbf2e47c53260f",
+  "GPU_result_sha256": "3b56ecbfe9883753aa315d41a502502ec59ab288180e6f6086e20520315d845e",
+  "action_npz_sha256": "eaabda4860f260ee4efbe2b8dc160b08258bc4c530d349043ff1bb0462cafab8",
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+  "artifacts": {
+    "LIVE_SKILL_GENERATED_PROPOSAL.private.json": "21c4cb68814ff3436f4a089b16ba0083f2ed74be89f7841d7ecef0c3d452519d",
+    "LIVE_SKILL_INITIALIZATION_STAGE.private.json": "688e6c3e40c41a195d7782268f9eec8bf8aab526833e6ef5878adf42dc0050af",
+    "LIVE_SKILL_MECHANICAL_SCREEN.private.json": "8fd3815d4d33a4d6d55a23fd1936ad86ccd711fe6b36630405f5460a69754a7a",
+    "LIVE_SKILL_SEGMENT.private.json": "fad9073478fa662d7b311f3c75959275c076acb7ebcc965930f353efc6cc01c6",
+    "LIVE_SKILL_SEGMENT_DECISION.private.json": "3b1d97ffd61f8512bed481d372d077a98d120d88756cb03c94e109abebb1ed39",
+    "LIVE_SKILL_SHORT_INTENT_SCREEN.private.json": "d7c9fdc34e7c239eb0481c672fdd7144f7ad1795cedffc81bc014e509cc684a2"
+  },
+  "safety": {
+    "shutdown_clean": true,
+    "warnings": 0,
+    "outer_rejections": 0,
+    "all_four_children_exit_zero": true,
+    "STOP_count": 0,
+    "trace": {
+      "dropped": 0,
+      "events": 490497,
+      "sealed_at_explicit_pause": true,
+      "stop_latched": false,
+      "written": 490497
+    }
+  },
+  "identities": {
+    "gpu": {
+      "run": "fusion-night1-program-dev-dy02-gpu-01",
+      "spec_sha256": "9f0d699b2084e197a1a5e5f8cba93a99e98c4255ae97f5391dcf1d66f1e58ff3",
+      "lease_sha256": "c281e52728074a7e076d340c53e34598da6cc0b8dc54a8de08179c1354a85184",
+      "worker_sha256": "398ed24dea928727e43cb7d754b277054f59b460855f7ed2f0606f55b4f7dd68",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    },
+    "native": {
+      "run": "fusion-night1-program-dev-dy02-01",
+      "spec_sha256": "ed9c635ee11f0b3181b4a7ee5c9159c89aadb913975042c9d7cf6570e86ad8f5",
+      "lease_sha256": "92eaa295004b3d8c645d845b0aa74cb73700c5bdcfbb414a2a062f3a804f6859",
+      "worker_sha256": "0edbc169c4830b0553c999bafd816d1685d8b732b8deca59d58aecd508b45dc2",
+      "worker_exit_code": 0,
+      "MainPID": 0
+    }
+  },
+  "cost": {
+    "gpu": {
+      "worker": {
+        "CPU_s": null,
+        "child_CPU_s": 114.51608200000001,
+        "exit_code": 0,
+        "wall_s": 458.9439907288179
+      },
+      "systemd_CPU_s": 114.883,
+      "host_peak_bytes": 8470405120
+    },
+    "native": {
+      "worker": {
+        "CPU_s": 378.00116964299997,
+        "child_CPU_s": 1392.524543,
+        "exit_code": 0,
+        "wall_s": 907.7298156600446
+      },
+      "systemd_CPU_s": 1779.4941,
+      "host_peak_bytes": 10374189056
+    },
+    "source_staging": {
+      "wall_s": 0.5684294570237398,
+      "CPU_s": 0.32773995000000156,
+      "source_reused": true,
+      "reused_source_members": 3489,
+      "copied_parent_members": 0,
+      "copied_parent_bytes": 0,
+      "overlay_members": 0,
+      "overlay_written_bytes": 0,
+      "actual_source_bytes_written": 0,
+      "unlisted_assets_or_cache_copied": 0
+    },
+    "source_copy_shared_not_per_worker": true,
+    "systemd_CPU_overlaps_worker_CPU": true,
+    "GPU_query": 1.1759140994399786,
+    "GPU_model_cold_load_wall_s": 15.921241151634604,
+    "GPU_snapshot_wait_wall_s": 408.50145347369835,
+    "GPU_GPU_event_s": 1.1632728271484376,
+    "GPU_peak_allocated_bytes": 13318658048,
+    "GPU_peak_reserved_bytes": 13524533248
+  },
+  "counts_after": {
+    "FUSION_attempts": 303,
+    "FUSION_passes": 291,
+    "FUSION_failures": 12,
+    "FUSION_native_ticks": 2370234,
+    "with_PILOT2_attempts": 957,
+    "with_PILOT2_passes": 940,
+    "with_PILOT2_failures": 17,
+    "with_PILOT2_native_ticks": 5357527,
+    "VLA_queries": 25,
+    "WM_main_updates": 30800,
+    "restore_probe_optimizer_calls": 18,
+    "GR00T_updates": 0,
+    "Actor_updates": 0
+  },
+  "actual_reader_sha256": "8ca177dba4b5595337f61270cf4a9aedccca1c448b86dbfb54a158a666d9fa03",
+  "commands": {
+    "dispatch": "python3 \"$WM02_CORE_CONTROL\" \"$WM02_PRIVATE/dispatch_program_dev_dy02_01.py\" 900",
+    "dispatch_exit_code": 0,
+    "GPU_dispatch_exit_code": 0,
+    "readback_exit_code": 0
+  },
+  "original_cutoff_epoch": 1794051261.7397933,
+  "complete_relative_response_curves": "Retained in the hash-pinned private actual reader and original native dataset; public report keeps aggregate endpoint metrics."
+}

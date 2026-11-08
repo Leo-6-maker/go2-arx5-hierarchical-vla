@@ -1,0 +1,378 @@
+{
+  "schema": "WM02_STABLE_TASK_DATA_PANEL_V1",
+  "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
+  "status": "FROZEN_BEFORE_NEW_NATIVE_DATA",
+  "scenes": [
+    {
+      "layout": "TRAIN01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "split": "TRAIN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "layout": "TRAIN02",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "split": "TRAIN",
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "layout": "TRAIN03",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "split": "TRAIN",
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "layout": "TRAIN04",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "split": "TRAIN",
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "layout": "TRAIN05",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "split": "TRAIN",
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "layout": "TRAIN06",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "split": "TRAIN",
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "layout": "DEV01",
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "split": "DEV",
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301"
+    },
+    {
+      "layout": "DEV02",
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "split": "DEV",
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e"
+    },
+    {
+      "layout": "DEV03",
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "split": "DEV",
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9"
+    },
+    {
+      "layout": "DEV04",
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "split": "DEV",
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f"
+    }
+  ],
+  "assignments": [
+    {
+      "native_run": "stable-task-train01-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "native_run": "stable-task-train01-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "native_run": "stable-task-train01-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "native_run": "stable-task-train01-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "native_run": "stable-task-train02-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "native_run": "stable-task-train02-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "native_run": "stable-task-train02-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "native_run": "stable-task-train02-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "native_run": "stable-task-train03-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "native_run": "stable-task-train03-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "native_run": "stable-task-train03-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "native_run": "stable-task-train03-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "native_run": "stable-task-train04-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "native_run": "stable-task-train04-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "native_run": "stable-task-train04-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "native_run": "stable-task-train04-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "native_run": "stable-task-train05-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "native_run": "stable-task-train05-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "native_run": "stable-task-train05-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "native_run": "stable-task-train05-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "native_run": "stable-task-train06-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "native_run": "stable-task-train06-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "native_run": "stable-task-train06-hold-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "split": "TRAIN",
+      "command": "HOLD_OPEN",
+      "restart": 2,
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "native_run": "stable-task-train06-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "split": "TRAIN",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 2,
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "native_run": "stable-task-dev01-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "split": "DEV",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301"
+    },
+    {
+      "native_run": "stable-task-dev01-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301"
+    },
+    {
+      "native_run": "stable-task-dev02-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "split": "DEV",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e"
+    },
+    {
+      "native_run": "stable-task-dev02-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e"
+    },
+    {
+      "native_run": "stable-task-dev03-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "split": "DEV",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9"
+    },
+    {
+      "native_run": "stable-task-dev03-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9"
+    },
+    {
+      "native_run": "stable-task-dev04-hold-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "split": "DEV",
+      "command": "HOLD_OPEN",
+      "restart": 1,
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f"
+    },
+    {
+      "native_run": "stable-task-dev04-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "split": "DEV",
+      "command": "APPROACH_RED_4MM_OPEN",
+      "restart": 1,
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f"
+    }
+  ],
+  "TRAIN_episodes": 24,
+  "DEV_episodes": 8,
+  "student_input_policy": "ONLY_DEPLOYABLE_RGB_ACTUAL_TARGET_EEF10_AND_DECLARED_TASK_INSTRUCTION",
+  "expert_labels": "ONLY_SUBMITTED_AND_SOLVER_GRIPPER_CONSUMED_REFERENCES_AFTER_SEALED_CLOSED_PROOF",
+  "old_DIAGNOSTIC_data_relabelling": false,
+  "WBC_changes": false,
+  "original_startup_joint2_joint3_rad": 0.9,
+  "physics_dt_s": 0.002,
+  "first_new_condition_native_worlds": 1,
+  "collection_order": "LAYOUT_ORDER;RESTART_THEN_HOLD_APPROACH",
+  "partial_failures_retained": true
+}

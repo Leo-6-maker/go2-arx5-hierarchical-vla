@@ -1,0 +1,36 @@
+{
+  "schema": "WM02_PROGRAM_WM_SMOKE02_RENDER_DEPENDENCY_FAILURE_V1",
+  "epoch": 1794022151.9175265,
+  "source_sha": "033e2b8cfb9be4e6ef57b571d2a34b49c081f5a4",
+  "spec_sha256": "1d99314d487363fccbe55d6ee22ea2cec576df72fe998d6a1a18a7305a910b60",
+  "source_manifest_sha256": "c70ac234f6eed1fc1c8d33f829d86fc74b07eb1d2890fe696d629f7c9e6da58f",
+  "lease_sha256": "4845187c3a40b94be5eae7b3a10148a8b7c01076db6b6db8d96a51b642e8ac28",
+  "worker_sha256": "6cbca3414ad9393ec43905b041b6c173faa96fbaf668ef5c889ed3280e2acf07",
+  "worker_exit_code": 1,
+  "MainPID": 0,
+  "first_failure": "ModuleNotFoundError: No module named 'PIL'",
+  "mechanism": "A numeric TRAIN record reader imported a checkpoint constant from live image inference, which eagerly imported rendering dependencies absent from the isolated neural environment.",
+  "native_integrations": 0,
+  "queries": 0,
+  "model_loads": 0,
+  "optimizer_updates": 0,
+  "data_arrays_created": false,
+  "worker_cost": {
+    "wall_s": 0.415936719160527,
+    "child_CPU_s": 0.26414299999999996,
+    "failure": null
+  },
+  "systemd_CPU_s": 0.364886,
+  "systemd_CPU_overlaps_worker_CPU": true,
+  "host_peak_bytes": "NOT_REPORTED_BY_SYSTEMD",
+  "failed_job_reopened": false,
+  "repair": "Move the unchanged frozen checkpoint identity to the existing pure fusion contract. Both inference and numeric data authentication share it; no site packages or camera behavior change.",
+  "validation": {
+    "blocked_render_Torch_MuJoCo_ROS_GR00T_import_subprocess": true,
+    "normal_passed": 43,
+    "optimized_passed": 43,
+    "normal_log_sha256": "66c08f7c8e33ee72316f615ad72edbc34386b18298b908cfa4f6c1a409379e1f",
+    "optimized_log_sha256": "05c6a5da86f3a80c5d42a0b891312e0e7172c0a69ef8f46c16c9d3f2aa378611"
+  },
+  "actual_reader_sha256": "af78ccb023059e6367ffaa13800d5595287290696013abe53b4a78252e774c6e"
+}

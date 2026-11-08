@@ -1,0 +1,29 @@
+{
+  "schema": "WM02_C02_SEALED_OBSERVATION_PROTOCOL_V1",
+  "recipe": "WM02_FUSION_C02_SEALED_SOURCE_CAMERA_CPU_V1",
+  "native_phase": "collect-target-fusion-c02-source-state-feedback-v2",
+  "native_step": 44703,
+  "requires_actual_initialization_qualified": true,
+  "requires_CLOSED0_trace_zero_drop_and_clean_shutdown": true,
+  "capture_count": 1,
+  "views": [
+    "body_rgb",
+    "wrist_rgb"
+  ],
+  "camera_recipe": "SIM_EXTERNAL_WORLD_SOURCE_RIG",
+  "source_camera_identity_sha256": "0fe9090e469e7b864213b23c3b98b82bd2bd0162a2c4afc4cea7820536091858",
+  "scene_sha256": "f27d7026ef8f182a169d7c5b4a7ed066de414196ce59d0dd97a605819050fdbf",
+  "original_source_instruction_document_sha256": "71558ff5bcbc03e83eef9fbe79c868e75a2fece5c712f708682c8f23a090a594",
+  "actual_target_pixels_required": true,
+  "source_pixels_supplied": false,
+  "state_padding_or_substitution": false,
+  "renderer": "EGL_MESA_CPU_LLVMPIPE",
+  "physics_integrations": 0,
+  "GR00T_queries": 0,
+  "optimizer_updates": 0,
+  "exact_control_restore": false,
+  "online_closed_loop": false,
+  "qualification_is_not_GR00T_task_success": true,
+  "old_T06_contract_unchanged": true,
+  "max_wall_s": 180
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "WM02_TASK_INTENT_GEOMETRY_DIAGNOSTIC_PANEL_V1",
+  "epoch": 1794039415.8353565,
+  "status": "PREREGISTERED_NOT_SITE_ADMISSION_NOT_EXECUTED",
+  "assignments": [
+    {
+      "native_run": "fusion-night1-task-intent-geometry-t01-01",
+      "GPU_run": "fusion-night1-task-intent-geometry-t01-gpu-01",
+      "parent": "T06_TASK_INTENT_GEOMETRY_DIAGNOSTIC_T01",
+      "split": "DIAGNOSTIC",
+      "task_reference_diagnostic": {
+        "schema": "WM02_PRIVILEGED_TASK_REFERENCE_DIAGNOSTIC_V1",
+        "producer": "PRIVILEGED_CURRENT_SCENE_GEOMETRY_NOT_GR00T_NOT_WM",
+        "step_m": 0.005,
+        "policy": "ALWAYS_GEOMETRIC_REFERENCE_NOT_REJECTION_FALLBACK",
+        "data_role": "DIAGNOSTIC_ONLY_NO_AUTO_TRAIN",
+        "GR00T_proposal": "GENERATE_SAVE_BUT_DO_NOT_EXECUTE"
+      },
+      "initialization_grade": 0.5,
+      "initialization_B": 34303,
+      "native_E": 66503
+    },
+    {
+      "native_run": "fusion-night1-task-intent-geometry-t02-01",
+      "GPU_run": "fusion-night1-task-intent-geometry-t02-gpu-01",
+      "parent": "T06_TASK_INTENT_GEOMETRY_DIAGNOSTIC_T02",
+      "split": "DIAGNOSTIC",
+      "task_reference_diagnostic": {
+        "schema": "WM02_PRIVILEGED_TASK_REFERENCE_DIAGNOSTIC_V1",
+        "producer": "PRIVILEGED_CURRENT_SCENE_GEOMETRY_NOT_GR00T_NOT_WM",
+        "step_m": 0.005,
+        "policy": "ALWAYS_GEOMETRIC_REFERENCE_NOT_REJECTION_FALLBACK",
+        "data_role": "DIAGNOSTIC_ONLY_NO_AUTO_TRAIN",
+        "GR00T_proposal": "GENERATE_SAVE_BUT_DO_NOT_EXECUTE"
+      },
+      "initialization_grade": 0.5,
+      "initialization_B": 34303,
+      "native_E": 66503
+    }
+  ],
+  "motivation": "Separate mapped-GR00T desired-intent failure from native ability to execute an explicit small task-directed reference. Do not attribute input phase, frame map and policy weight causes without separate evidence.",
+  "activation": [
+    "Original six frozen reference-comparison attempts sealed; keep their source and outcomes unchanged.",
+    "One existing actual owner, each fresh finite scope, original WBC/safety/2ms/deadline, no CLOSED lease reuse.",
+    "Second independent restart only after first complete original-safe reference execution; no repeated draws to select success."
+  ],
+  "domain": {
+    "scene_sha256": "40408bbcbef2469396187c741750905a6ba9ed7161dc031d14bfab5fed62ddd2",
+    "physics_dt_s": 0.002,
+    "geometry_scale": 1.0,
+    "time_stretch_factor": 2,
+    "desired_step_m": 0.005,
+    "minimum_object_clearance_m": 0.14,
+    "contact_allowed": false,
+    "orientation": "KEEP_ACTUAL_B_ORIENTATION",
+    "gripper": "UNCHANGED_WORKING_OPEN_MAPPING",
+    "base": "SAME_MEASURED_BASE_HOLD_FREE_FLOATING_DYNAMICS",
+    "all40_reference_knots_retained": true
+  },
+  "producer": {
+    "source": "ACTUAL_CURRENT_TCP_TO_ACTUAL_CURRENT_CUBE_CENTRE_UNIT_VECTOR",
+    "future_achieved_labels": false,
+    "privileged_use": "EXPLICIT_DIAGNOSTIC_ONLY_NOT_DEPLOYABLE_POLICY_INPUT",
+    "WM_used": false,
+    "local_XY_model_extrapolation": false
+  },
+  "GR00T": {
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "Processor_inventory_sha256": "f4c9486006de1a58721a1fc723361264e406ac4910ba46f14a31233c7a28fe23",
+    "seed": 366104,
+    "actual_query_per_attempt": 1,
+    "original_Processor_decodes": 1,
+    "complete_raw_proposal_saved": true,
+    "GR00T_proposal_actually_executed": false,
+    "Teacher_is_not_an_automatic_fallback": true
+  },
+  "scoring": {
+    "actual_task_score": "UNCHANGED_FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_SCORE_V1",
+    "minimum_signed_progress_m": 0.002,
+    "minimum_distance_reduction_m": 0.002,
+    "maximum_lateral_m": 0.003,
+    "final_hold_s": 0.4,
+    "task_outcome_separate_from_native_exit": true,
+    "Teacher_success_is_not_GR00T_WM_or_full_pick_place_success": true,
+    "DIAGNOSTIC_data_never_automatically_reclassified_TRAIN": true
+  },
+  "identities_and_costs": "Preserve raw GR00T hash, explicit Teacher proposal, actual consumed references/responses, source/spec/checkpoint IDs, all failures and nonoverlapping stage timing.",
+  "planned_native_attempts": 2,
+  "actual_new_site_scopes": 0,
+  "actual_native_integrations": 0,
+  "actual_model_updates": 0,
+  "no_Actor_or_Critic": true,
+  "original_cutoff_epoch": 1794051261.7397933
+}

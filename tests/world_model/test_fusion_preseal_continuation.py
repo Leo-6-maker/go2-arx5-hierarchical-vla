@@ -1,0 +1,184 @@
+"""Synthetic lifecycle seam only; no query, physics or native qualification."""
+import copy
+import json
+import struct
+import numpy as np
+import pytest
+
+from go2arx5_vla.world_model import fusion_trajectory_qualification_native as native
+from go2arx5_vla.world_model import fusion_trajectory_qualification_contract as contract
+from test_fusion_trajectory_qualification import recipe, FakeAdapter, setup_flow
+from test_fusion_reference_qualification_contract import reference
+
+PHASE = 'collect-target-fusion-task-phase-live-skill-v8'
+
+
+def prepare(recipe, tmp_path, monkeypatch, *, continuation=True):
+    spec, _, _, episode, inputs = recipe
+    spec = copy.deepcopy(spec)
+    boundary = contract.endpoint(episode)
+    if continuation:
+        spec.update(phase=PHASE, kind='FUSION_TASK_PHASE_LIVE_SKILL_V8',
+                    live_skill_start_step=boundary, max_ticks=boundary+50,
+                    trajectory_trace_capacity=524288)
+
+    class Adapter(FakeAdapter):
+        def __init__(self):
+            super().__init__(spec, tmp_path)
+            self.trace_sealed = False
+            self.order = []
+
+        def prepare_dynamic(self):
+            super().prepare_dynamic()
+            if continuation:
+                from go2arx5_vla.world_model.init_trace_reader import RECORD
+                (self.output/'init.trace').write_bytes(struct.pack('<8sII',b'WM02IT01',RECORD.size,524288))
+
+        def install_reference(self, action):
+            # The fixture checks the prefix recipe, while the new explicit
+            # composite spec reserves a later final endpoint. No native grant.
+            contract.validate_install_preview(action,
+                initial_tcp=self.trajectory_initial_tcp, program=self.trajectory_program,
+                step=self.step, base=self.base_pose_hold,
+                frozen_base=self.trajectory_initial_base, end_step=boundary)
+            self.active_reference = dict(reference(round(self.step*.002*1e9)/1e9),
+                                         action_EEF10=action.tolist())
+            self.installs.append((self.step, action.copy()))
+            return self.active_reference
+
+        def seal_trace(self, step):
+            assert not self.trace_sealed
+            self.order.append(('seal', step))
+            self.trace_sealed = True
+            super().seal_trace(step)
+
+        def cancel_reference(self):
+            self.order.append(('cancel', self.step))
+            return super().cancel_reference()
+
+    adapter = Adapter()
+    setup_flow(monkeypatch, adapter)
+    return adapter, episode, inputs, boundary
+
+
+def synthetic_suffix(adapter, report, samples, windows):
+    """Stand in for a separately tested consumer; this test has no physics."""
+    assert not adapter.trace_sealed
+    assert samples[-1]['native_step'] == windows[-1]['native_end_step']
+    adapter.order.append(('continuation', adapter.step))
+    complete = copy.deepcopy(report)
+    start = adapter.step
+    complete['windows'] += [dict(synthetic_suffix_only=True,
+        native_start_step=start+25*i, native_end_step=start+25*(i+1)) for i in range(2)]
+    total = len(complete['windows'])
+    complete.update(actual_spec_phase=PHASE, native_endpoint_step=adapter.spec['max_ticks'],
+        complete_task_atoms=total, solver_target_confirmed_atoms=total,
+        gripper_confirmed_atoms=total)
+    adapter.step = adapter.spec['max_ticks']
+    return complete
+
+
+def test_legacy_finalizer_remains_after_its_original_final_seal(recipe, tmp_path, monkeypatch):
+    a, e, inputs, boundary = prepare(recipe, tmp_path, monkeypatch, continuation=False)
+    def finalize(report):
+        assert a.trace_sealed and a.sealed == boundary
+        a.order.append(('finalizer', boundary))
+    native.run_program(a, e, inputs, report_finalizer=finalize)
+    assert a.order == [('cancel', boundary), ('seal', boundary), ('finalizer', boundary)]
+    assert not (tmp_path/'LIVE_SKILL_INITIALIZATION_STAGE.private.json').exists()
+
+
+def test_new_boundary_finalizer_and_saved_prefix_precede_query_then_only_final_seal(recipe, tmp_path, monkeypatch):
+    a, e, inputs, boundary = prepare(recipe, tmp_path, monkeypatch)
+    def finalize(report):
+        assert not a.trace_sealed and a.step == boundary
+        a.order.append(('finalizer', boundary))
+        report['nine_sample_fixture_readback_done'] = True
+    def continuation(adapter, report, samples, windows):
+        assert json.loads((tmp_path/'LIVE_SKILL_INITIALIZATION_STAGE.private.json').read_text()) == report
+        assert report['nine_sample_fixture_readback_done']
+        assert report['operator_cancel']['kind'] == 'NO_CANCEL_AT_INTERMEDIATE_NATIVE_PAUSE'
+        return synthetic_suffix(adapter, report, samples, windows)
+    out = native.run_program(a, e, inputs, report_context=dict(actual_spec_phase=PHASE),
+        report_finalizer=finalize, continuation=continuation)
+    assert a.order == [('finalizer', boundary), ('continuation', boundary),
+                       ('cancel', boundary+50), ('seal', boundary+50)]
+    assert out['native_endpoint_step'] == boundary+50
+    assert out['initialization_stage']['native_endpoint_step'] == boundary
+    assert out['initialization_stage']['final_trace_sealed_at_this_boundary'] is False
+    assert a.reference_qualification is out
+    assert len(out['windows']) == (a.spec['max_ticks']-2503)//25
+
+
+@pytest.mark.parametrize('fault', ['phase', 'boundary', 'endpoint', 'sealed'])
+def test_new_continuation_requires_exact_future_phase_and_registered_distinct_clock_before_prepare(recipe, tmp_path, monkeypatch, fault):
+    a, e, inputs, boundary = prepare(recipe, tmp_path, monkeypatch)
+    if fault == 'phase': a.spec['phase'] = contract.PHASE
+    elif fault == 'boundary': a.spec['live_skill_start_step'] += 25
+    elif fault == 'endpoint': a.spec['max_ticks'] = boundary
+    else: a.trace_sealed = True
+    with pytest.raises(ValueError, match='EXPLICIT_V8_PREREGISTERED'):
+        native.run_program(a, e, inputs, continuation=synthetic_suffix)
+    assert not (tmp_path/'init.trace').exists()
+    assert not a.installs
+
+
+def test_failed_query_callback_keeps_unsealed_saved_prefix_for_original_outer_failure_cleanup(recipe, tmp_path, monkeypatch):
+    a, e, inputs, boundary = prepare(recipe, tmp_path, monkeypatch)
+    def failed(*args): raise TimeoutError('synthetic query failed; do not retry')
+    with pytest.raises(TimeoutError): native.run_program(a, e, inputs, continuation=failed)
+    assert a.step == boundary and not a.trace_sealed
+    assert (tmp_path/'LIVE_SKILL_INITIALIZATION_STAGE.private.json').exists()
+    assert not (tmp_path/'TRAJECTORY_QUALIFICATION.private.json').exists()
+
+
+def test_continuation_cannot_rewrite_initialization_evidence(recipe, tmp_path, monkeypatch):
+    a, e, inputs, boundary = prepare(recipe, tmp_path, monkeypatch)
+    def altered(adapter, report, samples, windows):
+        out = synthetic_suffix(adapter, report, samples, windows)
+        report['complete_task_atoms'] = 0
+        return out
+    with pytest.raises(ValueError, match='UNCHANGED_PREFIX'):
+        native.run_program(a, e, inputs, continuation=altered)
+    assert not a.trace_sealed
+
+
+@pytest.mark.parametrize('fault',[None,'raw_claim','missing_consumption','wrong_panel'])
+def test_declared_hold_control_reaches_original_final_seal_without_a_raw_skill_claim(
+        recipe,tmp_path,monkeypatch,fault):
+    from go2arx5_vla.world_model import fusion_program_reference_intervention_v1 as intervention
+    from go2arx5_vla.world_model.storage import digest
+    a,e,inputs,boundary=prepare(recipe,tmp_path,monkeypatch)
+    phase='collect-target-fusion-task-phase-live-skill-v9'
+    config=dict(schema=intervention.SCHEMA,candidate='HOLD',offset_target_xy_m=[0.,0.],ramp_atoms=16)
+    panel=tmp_path/'HOLD_PANEL.json'
+    panel.write_text(json.dumps(dict(domain=dict(time_stretch_factor=2),assignments=[dict(
+        native_run=tmp_path.name,parent='SYNTHETIC_HOLD',split='TRAIN',reference_intervention=config)])))
+    pin=digest(panel)
+    a.spec.update(phase=phase,kind='FUSION_TASK_PHASE_LIVE_SKILL_V9',live_skill_geometry_scale=1.,
+        live_skill_time_stretch_factor=2,task_condition='BOUNDED_FULL_H40_MECHANICAL_TRACKING_AT34303_V1',
+        registered_root=str(tmp_path),program_reference_intervention=config,response_learning_panel=str(panel),
+        response_learning_panel_sha256=pin,response_learning_assignment=dict(schema='WM02_PROGRAM_RESPONSE_ASSIGNMENT_V1',
+        parent='SYNTHETIC_HOLD',split='TRAIN',panel_sha256=pin))
+    if fault=='wrong_panel':panel.write_text('{}')
+    def continuation(adapter,report,samples,windows):
+        out=synthetic_suffix(adapter,report,samples,windows)
+        suffix=dict(post_query_HOLD_control=True,reference_intervention=config,
+            all_declared_reference_knot_times_consumed=True,complete_suffix_atoms=2,
+            windows=out['windows'][-2:],solver_target_confirmed_atoms=2,gripper_confirmed_atoms=2,
+            install_attempts=[{'fixture_only':True}])
+        out.update(actual_spec_phase=phase,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
+            post_query_HOLD_control=True,reference_intervention=config,VLA_action_installations=0,
+            actual_VLA_commands=0,full_H40_intent_is_an_executed_skill=False,
+            actual_reference_installations=1,generated_segment=suffix)
+        if fault=='raw_claim':out['all_40_knots_consumed']=True
+        elif fault=='missing_consumption':suffix['gripper_confirmed_atoms']=1
+        return out
+    if fault is not None:
+        with pytest.raises(ValueError):native.run_program(a,e,inputs,continuation=continuation)
+        assert not a.trace_sealed
+    else:
+        out=native.run_program(a,e,inputs,continuation=continuation)
+        assert a.sealed==boundary+50 and a.trace_sealed
+        assert out['all_40_knots_consumed']is False and out['VLA_action_installations']==0
+        assert out['raw_knot_consumed']==[False]*40 and a.reference_qualification is out

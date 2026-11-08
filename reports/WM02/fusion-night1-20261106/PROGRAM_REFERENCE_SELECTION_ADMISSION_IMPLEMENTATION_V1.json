@@ -1,0 +1,29 @@
+{
+  "schema": "WM02_PROGRAM_REFERENCE_SELECTION_ADMISSION_IMPLEMENTATION_V1",
+  "basis_sha": "b25ba13a4223088b768f005c9fc1bd2ad6a5b0c5",
+  "behavior": "Validate the exact preregistered selection method, candidate set and primary seed at the existing native V9 recipe check, before initialization; preserve per-install original safety.",
+  "new_selector_module_in_source_hash_contract": true,
+  "tests": {
+    "normal": {
+      "passed": 183,
+      "exit_code": 0,
+      "log_sha256": "2f0367795fcd3c6ff4244e40ed454c2451caeed89f4002789ff68ca27e73d5b1"
+    },
+    "optimized": {
+      "passed": 183,
+      "exit_code": 0,
+      "log_sha256": "430fe18d5c852249095409ecce3977de74c54df1ca3729135ad3ad32d73fc474"
+    }
+  },
+  "active_source_sha": "0e86219a1ff920154290cb4543d2efd8ebf0951b",
+  "active_DEV_capsule_modified": false,
+  "new_native_scopes": 0,
+  "new_integrations": 0,
+  "new_optimizer_updates": 0,
+  "formal_Actor": false,
+  "physical_reference_selection_qualified": false,
+  "source_members": {
+    "src/go2arx5_vla/world_model/fusion_task_phase_live_skill_contract_v9.py": "3b516257f83c417aab2d0747bdb66d2e1a4f10483e4e1180e3de1c8fa5ed767d",
+    "tests/world_model/test_fusion_task_phase_live_skill_v9.py": "8425019dee7080f73edaa70c02fe07c61c17bf4bc5a77c9e9da5422213634da2"
+  }
+}

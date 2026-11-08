@@ -1,0 +1,443 @@
+{
+  "schema": "WM02_TARGET_GR00T_FORMAL_DATA_AND_BASELINE_INTERFACE_ACTUAL_V1",
+  "created_epoch": 1794139526.395987,
+  "execution_code_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+  "status": "FORMAL_DATA_CROSS_SITE_READY; ONE_A40_QUEUED; B0_TRAIN_NATIVE_GPU_INTERFACE_ACTIVE",
+  "ACTUAL": "All fixed32 demonstration attempts and separate4 QUAL attempts closed. Final FORMAL2 contains21 real TRAIN decision windows and7 independent Teacher DEV episodes. Full dataset transferred once and all21 real TRAIN processed-batch identities reconstructed on Vanda. New B0 TRAIN two-query interface pair actually launched, original parent loaded, native physics progressing. No target optimizer update yet.",
+  "NEGATIVE": "Six physical failures retained. FORMAL1 initially excluded3 native successes due one-ULP derived-norm equality. Registration01 failed before any worker; both local leases independently closed without fabricated worker receipts. A40 remains Q due account running-job limit. No actual candidate, backward, checkpoint, optimizer recovery, student DEV, or target learning gain yet.",
+  "collection": {
+    "total_attempts": 36,
+    "PASS": 30,
+    "FAIL": 6,
+    "ticks": 1369008,
+    "TRAIN": {
+      "PASS": 21,
+      "FAIL": 3
+    },
+    "Teacher_DEV": {
+      "PASS": 7,
+      "FAIL": 1
+    },
+    "all_native_leases": "CLOSED",
+    "controller06": "ALL_32_TERMINAL; PID2741028_MISSING; DO_NOT_RESTART",
+    "all36_native_worker_wall_s": 20343.928744141478,
+    "all36_native_worker_plus_child_CPU_s": 44990.898298313
+  },
+  "last_three_Teacher_DEV": [
+    {
+      "run": "target-gr00t-demo-dev03-retreat-r1-01",
+      "spec_sha256": "86fe3f270676e73defa572f7952a56dab98c03b5fb12b2963310841a9908367c",
+      "worker_sha256": "3bcd5a71fc38309f551f033759690a28672a7daafad18ae87dc00ce1695743d3",
+      "result_sha256": "4ba9bfd2a4cafafa08d33e983eb44a7bd25d7171ea9194078370483aa449f459",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "actual_native_ticks": 38703,
+      "task_success": true,
+      "physical_metrics": {
+        "signed_progress_m": -0.0028070669354880846,
+        "precontact_distance_reduction_m": -0.002807281397843739,
+        "maximum_lateral_drift_m": 0.00023736739892060366,
+        "maximum_TCP_excursion_m": 0.002901031207325776,
+        "minimum_finger_opening_m": 0.04193201368726581,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0007086703764729692,
+        "maximum_base_rotation_rad": 0.002443729094665373,
+        "final_hold_TCP_diameter_m": 0.00021384280523785017,
+        "final_hold_TCP_max_speed_m_s": 0.0021585070974946795
+      },
+      "full40_consumed": true,
+      "suffix_atoms": 176,
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 38703,
+        "writer": {
+          "events": 292820,
+          "written": 292820,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "errors": []
+      },
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "native_worker_wall_s": 562.3854808378965,
+      "worker_plus_child_CPU_s": 1279.2293941829998,
+      "total_worker_wall_s": 567.7293786341324,
+      "intent_progress_m": 0.0028070669354880846
+    },
+    {
+      "run": "target-gr00t-demo-dev04-approach-r1-01",
+      "spec_sha256": "a77405a1ba9b5be23760f7e5f464dde3ec80d62aaa3a98d343f6bb75b96a8558",
+      "worker_sha256": "1e95566bb28d8afb8707eda755a847d2dfc8e1fd9f1da21db399b71a705e34bf",
+      "result_sha256": "c6769c248abdf33d98d69c997500f7ce8d50e6bff621137670c0c35ad6b45e1f",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "actual_native_ticks": 38703,
+      "task_success": true,
+      "physical_metrics": {
+        "signed_progress_m": 0.002787066019592772,
+        "precontact_distance_reduction_m": 0.0027855054771011717,
+        "maximum_lateral_drift_m": 0.0006113455872571341,
+        "maximum_TCP_excursion_m": 0.0029360405171102626,
+        "minimum_finger_opening_m": 0.041930243126226376,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0009631008109412083,
+        "maximum_base_rotation_rad": 0.0011987185723643277,
+        "final_hold_TCP_diameter_m": 0.00019461716986879948,
+        "final_hold_TCP_max_speed_m_s": 0.001945424089228935
+      },
+      "full40_consumed": true,
+      "suffix_atoms": 176,
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 38703,
+        "writer": {
+          "events": 293234,
+          "written": 293234,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "errors": []
+      },
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "native_worker_wall_s": 564.8038821099326,
+      "worker_plus_child_CPU_s": 1286.872453883,
+      "total_worker_wall_s": 570.2298326152377,
+      "intent_progress_m": 0.002787066019592772
+    },
+    {
+      "run": "target-gr00t-demo-dev04-retreat-r1-01",
+      "spec_sha256": "69140a36a43af37f4d4d7f44abf26196e2ee00d941cda6064d3d0b49d939704e",
+      "worker_sha256": "3ddf2fb572803ae313f11a5a1c948efd247ee8b23996bfb9beb064bed65db4a0",
+      "result_sha256": "6ae8864e33a34dc566808ac65ac8c8d0222e428188a555306c1cfafd7812fc8e",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "actual_native_ticks": 38703,
+      "task_success": true,
+      "physical_metrics": {
+        "signed_progress_m": -0.0025891494991805773,
+        "precontact_distance_reduction_m": -0.0025891769105822054,
+        "maximum_lateral_drift_m": 0.00014254560520641187,
+        "maximum_TCP_excursion_m": 0.0026597235521616893,
+        "minimum_finger_opening_m": 0.04193102636591326,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0004849814293816069,
+        "maximum_base_rotation_rad": 0.0016419685943341485,
+        "final_hold_TCP_diameter_m": 0.00020997465081059525,
+        "final_hold_TCP_max_speed_m_s": 0.003497016181458798
+      },
+      "full40_consumed": true,
+      "suffix_atoms": 176,
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 38703,
+        "writer": {
+          "events": 293285,
+          "written": 293285,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "errors": []
+      },
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "native_worker_wall_s": 565.1915711108595,
+      "worker_plus_child_CPU_s": 1278.990038007,
+      "total_worker_wall_s": 570.342784435954,
+      "intent_progress_m": 0.0025891494991805773
+    }
+  ],
+  "task_limits": "4mm requested short approach/retreat; unchanged2mm minimum scored intent-progress; not grasp/place/contact success",
+  "data": {
+    "TRAIN": 21,
+    "TRAIN_layouts": 6,
+    "TRAIN_policy_decisions": 21,
+    "TRAIN_optimization_windows": 21,
+    "Teacher_DEV": 7,
+    "Teacher_DEV_layouts": 4,
+    "TEST": 0,
+    "TEST_opened": false,
+    "successful_DEMO_policy_decisions": 28,
+    "raw_H40_knots": 1120,
+    "confirmed_50ms_intervals": 4928,
+    "dual_RGB_pairs": 756,
+    "RGB_images": 1512,
+    "failed_or_diagnostic_BC": 0,
+    "unexecuted_suffix_BC": 0,
+    "achieved_state_expert_relabelling": false
+  },
+  "FORMAL1": {
+    "status": "CLOSED0_ORIGINAL_DATA_PRESERVED",
+    "dataset_sha256": "6843d6833ce37d503691a59d907ba8fe0667efa21032ed506d6af37eb0dbf9f7",
+    "statistics_sha256": "5da0110730855e027f7f52877fbb458bd9d7e8ab4f8adbe1646a53f3e4d6b1cf",
+    "Processor_admission_sha256": "2acc964a703db0e0192850b4a2221ce0b242f963d0a268eba89dd34baab4424d",
+    "archive_sha256": "e133f2bb9a787b159bb76cd09020d767804c1af13dbe7f259f4cf27ab935e7ed",
+    "archive_bytes": 76663248,
+    "TRAIN": 19,
+    "DEV": 6,
+    "TEST": 0,
+    "indexed_attempts": 36,
+    "CPU_s": 47.189082575,
+    "wall_s": 138.84151651710272
+  },
+  "norm_proof_repair": {
+    "source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "original_versions": {
+      "native_Python": "3.12.3",
+      "native_NumPy": "2.5.4",
+      "neural_CPU_Python": "3.12.3",
+      "neural_CPU_NumPy": "1.26.4",
+      "raw_BASE_qvel6_exact_for_all3": true,
+      "both_original_passes_true": true,
+      "excluded_extra": [
+        "TRAIN05_RETREAT_R2",
+        "TRAIN06_APPROACH_R2",
+        "DEV03_APPROACH_R1"
+      ],
+      "cause": "ONE_ULP_DERIVED_LINEAR_NORM; WHOLE_DICT_EQUALITY_TOO_STRICT",
+      "native_failures_relabelled": false
+    },
+    "relative_norm_tolerance": 1.7763568394002505e-15,
+    "absolute_tolerance": 0,
+    "raw_state_clock_contract_flags_exact": true,
+    "both_stored_and_recomputed_values_must_independently_pass_original_threshold": true,
+    "linear_threshold_m_s": 0.001,
+    "angular_threshold_rad_s": 0.005,
+    "online_readiness_WBC_safety_changed": false,
+    "normal_tests": 58,
+    "optimized_tests": 58,
+    "normal_and_optimized_exit_codes": [
+      0,
+      0
+    ]
+  },
+  "FORMAL2": {
+    "spec_sha256": "c8fd829854e8181fe9852bfbbed63ebb492f807203213516f63e93dc3c08182c",
+    "result_sha256": "c0eab0ffd04e47712b7444c46f5a09cead7c32d34850815d5527410d83e9c6ef",
+    "TRAIN": 21,
+    "DEV": 7,
+    "TEST": 0,
+    "indexed_native_attempts": 36,
+    "dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "Core_Processor_admission_sha256": "e74977e186dcdb58220dc6d766a5258334cd74cc652247e9389ae23b3ef89c97",
+    "archive_sha256": "0b4f90186cb22ec93234fcaf56358e005ae250af31a0831eeba271e9f9e43114",
+    "archive_bytes": 85873111,
+    "CPU_s": 50.53634622,
+    "wall_s": 128.54837759584188,
+    "lease": "CLOSED0"
+  },
+  "Core_source_stage": {
+    "status": "COMMITTED_NORM_FIX_SOURCE_STAGED_NO_EXPERIMENT_STARTED",
+    "source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "source_files": 3698,
+    "stage_receipt_sha256": "b896ee632112fb1d3a81512aa6803aa3f42efeafd63509c802eb63d6c26001f3",
+    "wall_s": 81.47549075027928,
+    "CPU_s": 1.21260471,
+    "bytes_written": 50010428,
+    "new_models": 0,
+    "new_updates": 0,
+    "new_physics": 0,
+    "new_GPU_jobs": 0
+  },
+  "private_data_transfer": {
+    "archive_sha256": "0b4f90186cb22ec93234fcaf56358e005ae250af31a0831eeba271e9f9e43114",
+    "bytes": 85873111,
+    "files": 1547,
+    "chunks": 82,
+    "receive_wall_s": 20.407014661002904,
+    "Vanda_transfer_wall_s": 193.81662219000282,
+    "public_raw_data_upload": false,
+    "local_archive_storage": "TMPFS_ONLY; Core/Vanda originals remain on qualified nonroot/project-scratch storage"
+  },
+  "Vanda_Processor": {
+    "status": "PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION",
+    "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+    "dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "admission_sha256": "1b3d69aeba8a9de96fb8547ae5862cf470c135d3eaf22731e50e212d6ec5d79a",
+    "Core_admission_sha256": "e74977e186dcdb58220dc6d766a5258334cd74cc652247e9389ae23b3ef89c97",
+    "maximum_abs_error": 2.955190536724217e-10,
+    "processed_TRAIN_windows": 21,
+    "DEV_episodes": 7,
+    "TEST_episodes": 0,
+    "actual_cross_site_processed_batch_identity": true,
+    "wall_s": 101.87350516099832,
+    "child_CPU_s": 19.104523999999998,
+    "command_exit_code": 0,
+    "new_models": 0,
+    "new_updates": 0,
+    "new_PBS": 0,
+    "new_GPU_jobs": 0
+  },
+  "B0_unstarted_registration": {
+    "status": "BOTH_CLOSED_UNSTARTED_REGISTRATION_FAILURE",
+    "cause": "GPU_SPEC_SCOPE_KEY_MISSING",
+    "old_INTENTs_and_specs_preserved": true,
+    "models": 0,
+    "queries": 0,
+    "native_ticks": 0,
+    "local_leases": "BOTH_CLOSED; WORKER_STARTED_FALSE",
+    "closeout_method": "Original durable worker lease writer under existing owner locks on qualified fuseblk; synthetic uid0 storage does not satisfy source_once UID check. Global onceIO ownership checks unchanged."
+  },
+  "B0_interface": {
+    "arm": "B0",
+    "data_role": "TRAIN_INTERFACE_NOT_BC_NOT_DEV",
+    "native_root": "target-gr00t-b0-prefix-train01-interface-02",
+    "GPU_root": "target-gr00t-b0-prefix-train01-interface-gpu-02",
+    "native_spec_sha256": "909de5978ddeceec3a4733dab5ac43306933de6bc214e2e48f2538003c371be6",
+    "GPU_spec_sha256": "69b445900548137781f06d853d7e13cdc9f337b5b6250053351b69e88cbce9c1",
+    "source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "launch_exit_codes": [
+      0,
+      0
+    ],
+    "deadline_epoch": 1794140250.0711327,
+    "query_noise_seeds": [
+      202611088100,
+      202611088101
+    ],
+    "planned_queries": 2,
+    "planned_native_ticks": 40503,
+    "planned_executed_prefix_atoms_per_query": 120,
+    "all40_screened": true,
+    "geometric_scale": 1,
+    "time_factor": 2,
+    "silent_action_clipping": false,
+    "independent_restart_not_full_hidden_state_fork": true,
+    "original_Processor": true,
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "new_model_loads": 1,
+    "new_queries": 0,
+    "model_parameter_bytes": 12576064000,
+    "model_dtype": "torch.float32",
+    "all_parameters_frozen": true,
+    "live_observation_epoch": 1794139439.6011987,
+    "native_step": 12050,
+    "native_lease": "ACTIVE",
+    "GPU_lease": "ACTIVE",
+    "native_qualified": false
+  },
+  "shared_Core_resource_configuration": {
+    "native_RAM_cap_GiB": 12,
+    "GPU_worker_host_RAM_cap_GiB": 20,
+    "extra_free_GiB": 2,
+    "admission_MemAvailable_GiB": 34,
+    "GPU_allocator_and_headroom_unchanged": true,
+    "CPU_cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "GPU_worker_cpus": [
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "snapshot_epoch": 1794139393.1621385,
+    "job_state": "Q",
+    "Exit_status": null,
+    "resources_used": null,
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "query_exit_code": 0,
+    "new_submissions": 0,
+    "existing_total_submissions": 1,
+    "allocated_GPU_wall_s": 0,
+    "new_model_loads": 0,
+    "new_optimizer_updates": 0,
+    "queued_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3"
+  },
+  "cohort_models": {
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "prior_Core_model_loads": 2,
+    "prior_Core_queries": 5,
+    "new_active_B0_model_loads": 1,
+    "new_active_B0_queries_observed": 0,
+    "target_GR00T_updates": 0,
+    "target_WM_updates": 0,
+    "target_Actor_updates": 0,
+    "new_checkpoints": 0,
+    "new_optimizer_recoveries": 0,
+    "new_candidate_packages": 0
+  },
+  "student_DEV": {
+    "preregistered_conditions": 32,
+    "per_arm": 16,
+    "maximum_queries": 64,
+    "preregistration_sha256": "71853a6d5aff8beeb72fa2963ee341bb070f7d20cf7e1eab31843a57409c3d87",
+    "B1_step": 2000,
+    "actual_conditions": 0,
+    "TEST_opened": false
+  },
+  "costs": {
+    "all36_native_wall_s": 20343.928744141478,
+    "all36_native_CPU_s": 44990.898298313,
+    "FORMAL1_CPU_s": 47.189082575,
+    "FORMAL1_wall_s": 138.84151651710272,
+    "FORMAL2_CPU_s": 50.53634622,
+    "FORMAL2_wall_s": 128.54837759584188,
+    "source_stage_CPU_s": 1.21260471,
+    "source_stage_wall_s": 81.47549075027928,
+    "receive_wall_s": 20.407014661002904,
+    "transfer_wall_s": 193.81662219000282,
+    "Vanda_Processor_CPU_s": 19.104523999999998,
+    "Vanda_Processor_wall_s": 101.87350516099832,
+    "active_B0_not_terminal_not_settled": true
+  },
+  "actual_commands": [
+    {
+      "command": "PYTHONPATH=src \"$NATIVE_PYTHON\" -B -m scripts.wm02.stable_task_data_check_v1 --spec \"$REGISTERED_SPEC\" --execute",
+      "completed_original_DEMO_workers": 32,
+      "all_attempts": 36,
+      "exit_code_scope": "30PASS workers0;6retained native failures"
+    },
+    {
+      "command": "python3 \"$CORE_CONTROL\" \"$FORMAL_DATA_OPERATOR03\" 600",
+      "exit_code": 0,
+      "real_effect": "Fresh FORMAL2 export only; no native collection repeated"
+    },
+    {
+      "command": "python3 \"$FORMAL_CORE_RECEIVER02\"",
+      "exit_code": 0,
+      "bytes": 85873111
+    },
+    {
+      "command": "python3 \"$FORMAL_PRIVATE_TRANSFER03\"",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 \"$VANDA_CONTROL\" \"$FORMAL_PROCESSOR_OPERATOR02\" 600",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 \"$CORE_CONTROL\" \"$B0_PAIR_OWNER04\" 1200",
+      "exit_code": 0,
+      "worker_launch_exit_codes": [
+        0,
+        0
+      ],
+      "worker_terminal_exit_codes": "PENDING"
+    },
+    {
+      "command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+      "exit_code": 0,
+      "state": "Q"
+    }
+  ],
+  "next": "Let original active B0 pair reach sealed native/GPU terminal; inspect full proposal, admission, ACK, actual consumed prefix and safety. Retain sole A40 job; actual allocation gates capacity/backward/full restore/FIT4 before fresh FORMAL2000 on data cf80dd4c. Do not duplicate qsub or train the same candidate on Core.",
+  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "frozen_WBC_startup_safety_physics_dt_changed": false,
+  "main_merged": false,
+  "goal_complete": false
+}
