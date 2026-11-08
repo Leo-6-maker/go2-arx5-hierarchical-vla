@@ -77,8 +77,25 @@ def validate_adapter_install(adapter,action):
         current_Teacher_stage=getattr(adapter,'task_learning_stage','PREGRASP'),physics_advance_authorized=False)
 
 
+def actual_feet(adapter,sample):
+    """Read the original FK reader and native contact packet; never integrate."""
+    import mujoco
+    from scripts.pi0294.task_state import ActualState
+    state=adapter.actual_state;packet=adapter.observe()
+    task.need(type(state)is ActualState and packet['step']==sample['native_step']
+        and state.data.time==sample['time_s']and np.array_equal(state.data.qpos,sample['qpos'])
+        and np.array_equal(packet['qpos'],sample['qpos']),'ORIGINAL_SAME_PACKET_FOOT_FK_AND_CONTACTS')
+    names=('FL','FR','RL','RR')
+    positions=np.stack([state.data.geom_xpos[state.model.geom(name).id].copy()for name in names])
+    support=set()
+    for contact in packet['contacts']:
+        pair=[mujoco.mj_id2name(state.model,mujoco.mjtObj.mjOBJ_GEOM,g)for g in(contact['geom0'],contact['geom1'])]
+        if 'floor'in pair and contact['wrench'][0]>=task.standing_contract()['minimum_actual_floor_normal_force_N']:
+            support.update(name for name in pair if name in names)
+    return positions,sorted(support)
+
+
 def continue_native(adapter,report,samples,windows):
-    from .fusion_task_reference_diagnostic_v1 import require_standing
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
     validate(adapter.spec);ready=report['task_phase_initialization']['readiness']
@@ -100,11 +117,17 @@ def continue_native(adapter,report,samples,windows):
     reset_cycle,samples,windows=consumer.run_prefix(adapter,settling,index=-1,
         past_samples=samples,past_windows=windows,sample_observer=observe_reset)
     start_ready=task.require_start_readiness(adapter,samples[-1])
-    initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy())
+    feet,_=actual_feet(adapter,samples[-1])
+    initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy(),feet=feet)
     teacher=task.Teacher(samples[-1]);cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
-    task_samples=[samples[-1]]
+    task_samples=[samples[-1]];standing=[]
     def observe(s):
-        require_standing(s,initial)
+        feet,supported=actual_feet(adapter,s)
+        witness=dict(task.standing_metrics(s['qpos'][:7],feet,supported,initial),native_step=s['native_step'])
+        if not standing or s['native_step']>standing[-1]['native_step']:standing.append(witness)
+        if not witness['passes']:
+            write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=False))
+            task.need(False,'NEW_TASK_STANDING_SCORE_BOUND_EXCEEDED:'+repr(witness))
         task.need(all(s.get(k)is True for k in ('safety_valid','contact_valid','gripper_state_valid','object_present'))
             and not any(s.get(k)for k in ('native_abort','illegal_contact','joint_limit_penetration','reset','takeover')),
             'UNCHANGED_NATIVE_CONTACT_AND_STANDING_SAFETY')
@@ -135,6 +158,7 @@ def continue_native(adapter,report,samples,windows):
                 Teacher_decision_sha256=digest(decision_path),solver_gripper_confirmed=True))
         write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
             period_s=.05,complete=False,unexecuted_suffix_included=False,future_achieved_labels=False))
+        write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=False))
     # Termination continues the last explicit Teacher grasp/hold command.
     raw=np.repeat(program.decoded_H40[-1:,:],40,axis=0)
     raw[:,:3]=np.asarray(samples[-1]['tcp'])[:3,3]
@@ -143,7 +167,8 @@ def continue_native(adapter,report,samples,windows):
     current,samples,windows=consumer.run_prefix(adapter,hold,index=task.QUERIES,
         past_samples=samples,past_windows=windows,sample_observer=observe)
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
-    scored=task.score(task_samples,teacher.cube[2,3])
+    scored=task.score(task_samples,teacher.cube[2,3],standing=standing)
+    write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=True))
     write_json(adapter.output/'TASK_LEARNING_SCORE.private.json',scored)
     write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
     write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,

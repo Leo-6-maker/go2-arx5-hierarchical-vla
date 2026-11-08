@@ -27,7 +27,7 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD_BEFORE_UNCHANGED_VELOCITY_GATE',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,task_revision='V3_GRASP_STANDING_WITH_ACTUAL_FOOT_SUPPORT_AND_SLIP',reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD_BEFORE_UNCHANGED_VELOCITY_GATE',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         prefix_atoms=PREFIX_ATOMS,policy_queries=QUERIES,final_hold_atoms=FINAL_HOLD,
         task_command=COMMAND,language=LANGUAGE,action_period_s=.05,physics_dt_s=.002,
@@ -38,7 +38,7 @@ def protocol():
         teacher_max_chunk_translation_m=.030,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
         position_stage_tolerance_m=.004,close_increment_per_decision=.15,
-        WBC_changes=False,expert_training_eligible=False,automatic_formal_training=False)
+        standing=standing_contract(),WBC_changes=False,expert_training_eligible=False,automatic_formal_training=False)
 
 
 def declared(spec):
@@ -76,12 +76,42 @@ def score_contract():
     return dict(schema='TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1',minimum_lift_m=.020,
         continuous_hold_s=1.,clock='NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES',
         grasp='ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION',
-        maximum_object_linear_speed_m_s=.02,standing='ORIGINAL_UNCHANGED_REQUIRE_STANDING',
+        maximum_object_linear_speed_m_s=.02,standing=standing_contract(),
         hard_safety='ORIGINAL_UNCHANGED_NATIVE_OBSERVER',success_requires_all=True)
 
 
-def score(samples,initial_cube_z):
+def standing_contract():
+    return dict(schema='TASK_LEARNING_GRASP_STANDING_SCORE_V3',maximum_base_displacement_m=.020,
+        maximum_base_rotation_rad=float(np.deg2rad(5.)),maximum_foot_planar_displacement_m=.005,
+        minimum_supported_feet=3,minimum_actual_floor_normal_force_N=.05,
+        old_short_task_pose_diagnostic=dict(maximum_base_displacement_m=.002,maximum_base_rotation_rad=float(np.deg2rad(.5))),
+        original_native_safety_changed=False,task_score_bounds_are_native_safety=False,
+        scoring_reference='ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY')
+
+
+def standing_metrics(base,feet,supported_feet,initial):
+    c=standing_contract();base=np.asarray(base,float);feet=np.asarray(feet,float)
+    before=np.asarray(initial['qpos'][:7],float);original_feet=np.asarray(initial['feet'],float)
+    need(base.shape==before.shape==(7,)and feet.shape==original_feet.shape==(4,3)
+        and all(np.isfinite(v).all()for v in (base,before,feet,original_feet))
+        and abs(np.linalg.norm(base[3:])-1)<=1e-6 and abs(np.linalg.norm(before[3:])-1)<=1e-6,
+        'REAL_UNIT_BASE_POSES_AND_FOUR_ACTUAL_FEET')
+    displacement=float(np.linalg.norm(base[:3]-before[:3]))
+    angle=float(2*np.arccos(np.clip(abs(base[3:]@before[3:]),0.,1.)))
+    slip=float(np.max(np.linalg.norm(feet[:,:2]-original_feet[:,:2],axis=1)))
+    support=len(set(supported_feet))
+    need(set(supported_feet)<={'FL','FR','RL','RR'},'ACTUAL_NAMED_FLOOR_SUPPORT_ONLY')
+    return dict(contract=c,base_displacement_m=displacement,base_rotation_rad=angle,
+        maximum_foot_planar_displacement_m=slip,supported_feet=sorted(set(supported_feet)),
+        passes=displacement<=c['maximum_base_displacement_m']and angle<=c['maximum_base_rotation_rad']
+            and slip<=c['maximum_foot_planar_displacement_m']and support>=c['minimum_supported_feet'],
+        old_short_task_pose_bound_passes=displacement<=.002 and angle<=float(np.deg2rad(.5)))
+
+
+def score(samples,initial_cube_z,*,standing):
     need(bool(samples),'REAL_SAMPLES_REQUIRED')
+    need(len(standing)==len(samples)and all(v['native_step']==s['native_step']and v['contract']==standing_contract()
+        for v,s in zip(standing,samples)),'SAME_CLOCK_ACTUAL_STANDING_WITNESSES')
     for a,b in zip(samples,samples[1:]):need(b['native_step']-a['native_step']==25,'CONTIGUOUS_SCORE_CLOCK')
     first=None;longest=0.;maximum=0.;bad=0
     for s in samples:
@@ -94,8 +124,15 @@ def score(samples,initial_cube_z):
             if first is None:first=s['native_step']
             longest=max(longest,(s['native_step']-first)*.002)
         else:first=None
+    stable=all(v['passes']for v in standing)
     return dict(contract=score_contract(),samples=len(samples),maximum_object_lift_m=maximum,
-        longest_contiguous_grasp_lift_hold_s=longest,unsafe_samples=bad,task_success=bad==0 and longest>=1.)
+        longest_contiguous_grasp_lift_hold_s=longest,unsafe_samples=bad,standing_passes=stable,
+        maximum_base_displacement_m=max(v['base_displacement_m']for v in standing),
+        maximum_base_rotation_rad=max(v['base_rotation_rad']for v in standing),
+        maximum_foot_planar_displacement_m=max(v['maximum_foot_planar_displacement_m']for v in standing),
+        minimum_supported_feet=min(len(v['supported_feet'])for v in standing),
+        old_short_task_pose_bound_all_samples_pass=all(v['old_short_task_pose_bound_passes']for v in standing),
+        task_success=bad==0 and stable and longest>=1.)
 
 
 class FiftyMsProgram:

@@ -11,6 +11,12 @@ def sample(step=34303,height=.46,grasp=False):
         safety_valid=True,contact_valid=True,gripper_state_valid=True,object_present=True)
 
 
+def standing_rows(samples):
+    initial=dict(qpos=np.array([0,0,.3,1,0,0,0]),feet=np.zeros((4,3)))
+    metrics=task.standing_metrics(initial['qpos'],initial['feet'],['FL','FR','RL','RR'],initial)
+    return [dict(metrics,native_step=s['native_step'])for s in samples]
+
+
 def test_teacher_full40_keeps_real_native_clock_and_reference_separate():
     s=sample();reference=s['tcp'].copy();reference[:3,3]+=[.01,.02,.03]
     program,proposal=task.Teacher(s).decide(s,reference,np.array([0,0,0,1,0,0,0]))
@@ -36,12 +42,12 @@ def test_closed_gripper_is_preserved_at_new_h40_boundary():
 def test_score_requires_real_contiguous_grasp_lift_full_second(duration,grasp,safe,expected):
     rows=[sample(step=34303+25*i,height=.481,grasp=grasp)for i in range(duration+1)]
     if not safe:rows[10]['safety_valid']=False
-    assert task.score(rows,.46)['task_success']is expected
+    assert task.score(rows,.46,standing=standing_rows(rows))['task_success']is expected
 
 
 def test_score_rejects_missing_native_interval():
     rows=[sample(),sample(step=34353)]
-    with pytest.raises(ValueError,match='CONTIGUOUS_SCORE_CLOCK'):task.score(rows,.46)
+    with pytest.raises(ValueError,match='CONTIGUOUS_SCORE_CLOCK'):task.score(rows,.46,standing=standing_rows(rows))
 
 
 def test_new_prefix_configuration_has_exact_endpoint_without_weakening_legacy():
@@ -83,3 +89,13 @@ def test_continuous_capture_progress_survives_second_decision_and_final_seal(tmp
     for count in (1,2):write_progress(path,dict(records=list(range(count)),complete=False))
     write_progress(path,dict(records=[0,1],complete=True))
     assert json.loads(path.read_text())==dict(records=[0,1],complete=True)
+
+
+def test_new_grasp_standing_score_keeps_short_task_pose_bound_as_diagnostic():
+    initial=dict(qpos=np.array([0,0,.3,1,0,0,0]),feet=np.zeros((4,3)))
+    base=initial['qpos'].copy();base[0]=.003
+    metrics=task.standing_metrics(base,initial['feet'],['FL','FR','RL','RR'],initial)
+    assert metrics['passes']is True and metrics['old_short_task_pose_bound_passes']is False
+    feet=initial['feet'].copy();feet[0,0]=.0051
+    assert task.standing_metrics(base,feet,['FL','FR','RL','RR'],initial)['passes']is False
+    assert task.standing_metrics(base,initial['feet'],['FL','FR'],initial)['passes']is False
