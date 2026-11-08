@@ -28,7 +28,7 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,task_revision='V6_SEPARATE_UNDER_HAND_31S_COURSE_WITH_TWO_SECOND_CLOSE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,task_revision='V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         preparation=dict(original_startup_to_step=2503,original_steady_prefix_to_step=3703,
             unchanged_initial_TCP_reference_hold_to_step=4703,source_pose_alignment=False,
@@ -40,6 +40,7 @@ def protocol():
         observation='CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1',privileged_student_inputs=False,
         full_H40_preview=True,time_retiming=False,reference_transport='CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT',
         teacher_max_chunk_translation_m=.015,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
+        grasp_TCP_offset_tool_m=[-.012,0.,0.],grasp_TCP_world_y_offset_m=-.0017,
         scene_family='SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS',
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
         position_stage_tolerance_m=.004,close_increment_per_decision=1.,
@@ -197,15 +198,20 @@ class Teacher:
         self.cube=np.asarray(initial['object_pose']).copy();self.rotation=np.asarray(initial['tcp'])[:3,:3].copy()
         self.stage='PREGRASP';self.grip=1.;self.lift_origin=None
 
+    def grasp_goal(self):
+        # Preserve the real pad contact region while keeping the complete
+        # transported reference clear of the original link6 flange collider.
+        return self.cube[:3,3]+[0,-.0017,.012]+self.rotation@np.array([-.012,0.,0.])
+
     def decide(self,sample,reference,base):
         actual=np.asarray(sample['tcp']);goal=self.cube[:3,3].copy()+[0,-.0017,.080]
         if self.stage=='PREGRASP'and np.linalg.norm(actual[:3,3]-goal)<=.004:self.stage='DESCEND'
         if self.stage=='DESCEND':
-            goal=self.cube[:3,3]+[0,-.0017,.012]
+            goal=self.grasp_goal()
             if np.linalg.norm(actual[:3,3]-goal)<=.004:self.stage='CLOSE'
         previous_grip=self.grip
         if self.stage=='CLOSE':
-            goal=self.cube[:3,3]+[0,-.0017,.012]
+            goal=self.grasp_goal()
             if sample.get('native_grasp')is True:
                 self.lift_origin=actual[:3,3].copy();self.stage='LIFT'
             else:self.grip=0.

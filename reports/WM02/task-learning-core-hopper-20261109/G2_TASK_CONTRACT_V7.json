@@ -1,0 +1,101 @@
+{
+  "schema": "TASK_LEARNING_TASK_CONTRACT_V7",
+  "status": "PREREGISTERED_CONSTRUCTION_ONLY",
+  "protocol": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_V1",
+    "task_revision": "V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE",
+    "reset_revision": "V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD",
+    "stage": "TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION",
+    "calibration_boundary": 4703,
+    "start_step": 5703,
+    "preaction_hold_atoms": 40,
+    "preparation": {
+      "original_startup_to_step": 2503,
+      "original_steady_prefix_to_step": 3703,
+      "unchanged_initial_TCP_reference_hold_to_step": 4703,
+      "source_pose_alignment": false,
+      "total_extra_hold_ticks_after_steady_prefix": 2000,
+      "native_clock_rebased": false
+    },
+    "prefix_atoms": 40,
+    "policy_queries": 15,
+    "final_hold_atoms": 20,
+    "task_command": "GRASP_RED_LIFT20MM_HOLD1S",
+    "language": "Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.",
+    "action_period_s": 0.05,
+    "physics_dt_s": 0.002,
+    "expert_commands": "ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT",
+    "H40_labels": "ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE",
+    "observation": "CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1",
+    "privileged_student_inputs": false,
+    "full_H40_preview": true,
+    "time_retiming": false,
+    "reference_transport": "CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT",
+    "teacher_max_chunk_translation_m": 0.015,
+    "pregrasp_above_cube_m": 0.08,
+    "grasp_above_cube_center_m": 0.012,
+    "grasp_TCP_offset_tool_m": [
+      -0.012,
+      0.0,
+      0.0
+    ],
+    "grasp_TCP_world_y_offset_m": -0.0017,
+    "scene_family": "SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS",
+    "commanded_lift_m": 0.026,
+    "required_object_lift_m": 0.02,
+    "required_hold_s": 1.0,
+    "position_stage_tolerance_m": 0.004,
+    "close_increment_per_decision": 1.0,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "WBC_changes": false,
+    "expert_training_eligible": false,
+    "automatic_formal_training": false
+  },
+  "score": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+    "minimum_lift_m": 0.02,
+    "continuous_hold_s": 1.0,
+    "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+    "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+    "maximum_object_linear_speed_m_s": 0.02,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+    "success_requires_all": true
+  },
+  "reason": "ORIGINAL_PLANNED_LINK6_FLANGE_COLLISION_AT_NATIVE10703_WITH_VALID_STANDING",
+  "changed": "ONLY_TEACHER_GRASP_GOAL_NEGATIVE_12MM_FROZEN_TOOL_X; SAME_31S_UNDER_HAND_SCENE",
+  "pad_half_extent_tool_X_m": 0.02,
+  "object_lift_m": 0.02,
+  "required_hold_s": 1.0,
+  "native_certificate_or_safety_changed": false,
+  "old_outcomes_relabelled": false,
+  "student_results_seen": 0
+}

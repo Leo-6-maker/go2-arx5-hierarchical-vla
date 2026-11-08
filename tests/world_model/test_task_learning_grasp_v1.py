@@ -32,7 +32,7 @@ def test_teacher_full40_keeps_real_native_clock_and_reference_separate():
 
 def test_closed_gripper_is_preserved_at_new_h40_boundary():
     s=sample();teacher=task.Teacher(s);teacher.stage='CLOSE';teacher.grip=.40
-    s['tcp'][:3,3]=teacher.cube[:3,3]+[0,-.0017,.012]
+    s['tcp'][:3,3]=teacher.grasp_goal()
     program,_=teacher.decide(s,s['tcp'],np.array([0,0,0,1,0,0,0]))
     assert program.decoded_H40[0,9]==.40
     assert program.decoded_H40[-1,9]==pytest.approx(0.)
@@ -41,10 +41,16 @@ def test_closed_gripper_is_preserved_at_new_h40_boundary():
 
 def test_full_two_second_close_keeps_original_finger_speed_bound():
     s=sample();teacher=task.Teacher(s);teacher.stage='CLOSE'
-    s['tcp'][:3,3]=teacher.cube[:3,3]+[0,-.0017,.012]
+    s['tcp'][:3,3]=teacher.grasp_goal()
     program,_=teacher.decide(s,s['tcp'],np.array([0,0,0,1,0,0,0]))
     assert program.decoded_H40[0,9]==1. and program.decoded_H40[-1,9]==0.
     assert np.max(np.abs(np.diff(program.reference_path[:,9])))*.044/.05<=.04
+
+
+def test_grasp_offset_uses_frozen_tool_x_and_separate_world_clearance():
+    s=sample();s['tcp'][:3,:3]=np.array([[2**-.5,0,2**-.5],[0,1,0],[-2**-.5,0,2**-.5]])
+    teacher=task.Teacher(s)
+    assert np.allclose(teacher.grasp_goal()-teacher.cube[:3,3],[-.012*2**-.5,-.0017,.012+.012*2**-.5])
 
 
 def test_hold_control_keeps_the_existing_reference_without_task_motion():
