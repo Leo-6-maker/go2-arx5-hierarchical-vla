@@ -22,6 +22,9 @@ def site_context(spec, job_id, quota, *, uid, user):
 
 def site(spec):
     """Validate the actual own single-A40 allocation BEFORE importing Torch."""
+    if spec.get('execution_site')=='CORELAB_4080S':
+        from .target_gr00t_core_v1 import site as core_site
+        return core_site(spec)
     import subprocess
     from scripts.pi0294.multitask.shared_site import validate_vanda,project_quota,mount_type,PROJECT_SCRATCH
     p=profile.validate(spec);now=time.time();root=Path(spec['registered_root'])
@@ -210,9 +213,13 @@ def run(spec):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.e1.trainer import learning_rate_multiplier
     configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
-    profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)=='NVIDIA A40','ACTUAL_SINGLE_A40')
+    core=spec.get('execution_site')=='CORELAB_4080S'
+    expected_name='NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
+    profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==expected_name,'ACTUAL_SINGLE_DECLARED_GPU')
     actual_uuid=str(torch.cuda.get_device_properties(0).uuid)
     profile.need(actual_uuid==spec['GPU_uuid'],'ALLOCATED_EXACT_GPU_UUID')
+    if core:
+        torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/torch.cuda.get_device_properties(0).total_memory)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
@@ -289,7 +296,8 @@ def run(spec):
             data.processor.save_pretrained(cp/'processor')
             import shutil
             for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json'):
-                shutil.copyfile(data.root/file,cp/file)
+                if file!='PROCESSOR_VANDA_RECONSTRUCTION.json'or(data.root/file).exists():
+                    shutil.copyfile(data.root/file,cp/file)
             write(cp/'PARAMETER_CONTRACT.json',contract.describe());write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(cursor=self.consumed,sampler=self.sampler.state_dict(self.consumed),
                 dataset_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,recipe=semantic_recipe(p)))

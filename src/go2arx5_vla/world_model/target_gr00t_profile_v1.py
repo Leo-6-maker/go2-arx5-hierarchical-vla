@@ -45,7 +45,7 @@ def validate(spec):
         mode=p.get('mode'),variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'))
     start=spec.get('start_step')
     need(p==expected and spec.get('profile')==PROFILE and spec.get('kind')==KIND
-         and spec.get('execution_site')=='VANDA_A40'
+         and spec.get('execution_site')in('VANDA_A40','CORELAB_4080S')
          and spec.get('physics')is False and spec.get('WBC_changes')is False
          and type(start)is int and 0<=start<p['endpoint']
          and spec.get('GR00T_updates')==p['endpoint']-start
@@ -54,6 +54,9 @@ def validate(spec):
          and spec.get('parent_manifest_sha256')==PARENT
          and all(not spec.get(k)for k in ('fusion_binding','pilot1_binding','next1_binding','next2_binding','night1_binding')),
          'INDEPENDENT_NONZERO_INTERNAL_GR00T_NOT_ZERO_UPDATE_LEASE')
+    if spec['execution_site']=='CORELAB_4080S':
+        need(p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
+             and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
     if start:
         need(isinstance(spec.get('resume'),dict) and set(spec['resume'])=={'path','sha256'},
              'COMPLETE_SAME_GENERATION_RESUME')
