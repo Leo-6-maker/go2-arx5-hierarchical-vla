@@ -1,27 +1,23 @@
 执行长程Goal：GR00T_TASK_LEARNING_CORE_HOPPER_V1。
 
-先读取计划（计划正文提交19bbdf77d3f7c147fbbd50a5a06510bcc9a702ce）：
+【最新授权｜2026-11-09 02:51 SGT】用户批准更多科学GPU作业并行／接续，不设项目内部累计工程预算，科学问题和实际任务成果优先；不再把“同一Goal只能有一项GPU作业”作为限制。不同独立run可以各拥有唯一writer/单卡PBS，但必须有不同科学问题、预登记数据/配方/身份，并取得真实站点额度和有限scope。单作业多GPU/分布式与GPU物理多世界、WBC/启动/安全/2ms变更、视觉语言骨干解冻仍须审核；不能通过更多GPU名义绕过站点配额或安全。
+
+读取长程Goal和第18节最新授权：
 docs/handover/2026-11-09/GR00T_TASK_LEARNING_CORE_HOPPER_GOAL_V1.md
+计划授权更新提交：bbed664c13ed285cfd51ae9567880d1bc5223e41
+相关PR：#370（计划）、#371（现役执行）、#366（历史现役FUSION）。
 
-用户已确认Hopper恢复，允许先CoreLab调通后提交合法单卡Hopper/H200训练。
-旧H200科研审核停点不再阻断本次单卡神经训练；仍需真实站点权限、新有限scope、allocation与容量验证。
-GPU物理多世界、多GPU/分布式、修改冻结WBC/启动/安全/2ms以及解冻视觉语言骨干仍须另行审核。
+【第一动作】先只读核PR #371及后继最新真实回执、当前owner/Journal/lease/PBS；用最新执行代码，不按计划SHA回退、不打断健康作业。
+已知2026-11-09 02:49:49 SGT的真实快照：Core完成非零更新、原H40/loss/梯度等价和4-vs-2+2全恢复；Core FIT4 200步运行中（step103）；Hopper单卡H200 PBS 707196.hopper-m-02已一次提交为Q，尚无原Trainer恢复；抓持-抬升20mm-保持1s新任务在真实构建前缀中，尚无合格Teacher/任务数据。以上随现场更新，不要重启或重提交。
 
-采用现役PR #366或后继最新执行代码，不按计划SHA回退，不热改活动capsule，不新建第二owner。
-先核最新实际报告、Journal/lease/队列与worker。Vanda1532527已知F/exit1，Core有OOM和零LR首step，目标累计3次optimizer调用但完整恢复未过；不能从旧Q快照重复qsub。
-Hopper原scratch环境与19文件已准备，先复核复用；过期token/失败PBS只是旧证据，必须新读回，不打印凭据、不猜queue/account。
+【并发主线】
+A. 让健康Core FIT4与Hopper 707196自然完成，核实际终态、模型权重/optimizer/scheduler/RNG/sampler恢复与生成；新Hopper不同实验必须独立身份/新数据/新PBS，不占用同一run。
+B. Core优先完成稳定初态、接触Teacher、可观测性和多次真实Teacher决策数据，建立新接触任务；旧21起点窗口仅用于FIT诊断，不能自动作为8000步复杂任务SFT。
+C. G2/G3数据足够后，可在有效合法单卡GPU上并行运行正式SFT主臂及一个明确单因素对照（例如同数据同父较窄动作侧）；同一数据/父/评价条件必须固定，保留全部失败和DEV/TEST隔离。若不具备比较条件，不提前提交空GPU作业。
+D. Core真实闭环评价后按首失败机制选择：任务/恢复监督不足→成批DAgger；已有可用SFT动作但物理结果不稳→冻结GR00T的DSRL小Actor。可以为独立seed和已资格RL learner安排更多单卡GPU作业，但科学门不过不无条件扩参/多seed/长训。WM仍非前置。
 
-立即按两条并行工作线推进：
-A. Core验证NativeNoiseAudit生命周期修复、固定H40数值、非零更新和4-step对2+2完整恢复；16GB不足时使用有等价证明的冻结特征/小动作侧资格，不无限重试OOM。Core最小链通过后，Hopper先单卡canary/FIT4再正式训练。
-B. Core建立稳定可观察的抓持-抬起-保持短任务，先Teacher与初态资格，再采连续真实决策数据。旧21起点窗口只做有限诊断，不能直接自动训8000步。
+【执行规则】
+用户取消项目内部总工程预算，不取消每个job的真实账户权限/配额、资源上限、固定端点、合法walltime与收尾。qsub一次；UNKNOWN先读PBS和原Journal；不取消他人作业、不改凭据/驱动/NFS/SSH、不复活CLOSED。不重复同一个确定性失败。允许并发独立GPU科学实验，但一run一writer，唯一Core物理owner与原生安全始终不变。
+每个冷边界记录QUESTION / CHANGED / ACTUAL / NEGATIVE / DECISION / NEXT_GATE；GPU调用/optimizer call/非零参数变化/真实恢复/物理样本/任务成功分别统计。
 
-按计划依赖门推进G0→G1/G2→G3→G4→G5：约100次预登记TRAIN尝试、多布局、每次真实Teacher决策都有正确标签；封存TRAIN-only统计/时钟/图像/命令。初次Hopper正式SFT冻结视觉语言骨干和WBC，只更新独立候选动作侧；固定父、数据、seed和日程，按2000/4000/8000证据端点接续。完整模型包交Core原生DEV。
-
-之后依据首次失败机制选择：任务/恢复监督不足走完整批次DAgger；基础行为已有成功但物理时机不稳，先资格冻结GR00T的DSRL轻量RL。复用官方Isaac RLPT的固定版本和窄环境接口，不迁移整套仿真，不把fixture当原生RL，不把奖励增加当任务成功。WM不是前置，不重跑旧模型矩阵。
-
-每次自然冷边界记录QUESTION/CHANGED/ACTUAL/NEGATIVE/DECISION/NEXT_GATE。
-相同失败没有新证据不重复；真阻断只停受影响分支，继续独立任务。不反复生成计划代替执行。
-qsub一次、UNKNOWN先独立核效；不杀其他作业、不改NFS/SSH/驱动、不删除历史数据或checkpoint。
-所有job有合法有限端点和收尾，健康任务不抢停，旧CLOSED不复活。
-
-最终返回实际jobID、真实命令/退出码、数据/模型身份、非零学习及完整恢复、同任务原生分母和任务结果、成本、worker终态及下一科学决定。不能把文档发布、软件测试、GPU加载或机械PASS冒称策略成功。
+最终交付应包含实际任务成功率（按合格初态和全部请求两个分母）、跟踪与接触失败解释、完整模型包、已完成独立实验的增量收益或负结果、实际GPU/物理成本、所有worker终态。尽量推进真实科研工作，不用不断生成新计划代替训练或原生评价。
