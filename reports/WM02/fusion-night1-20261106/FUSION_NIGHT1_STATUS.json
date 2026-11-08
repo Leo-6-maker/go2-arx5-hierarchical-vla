@@ -24,11 +24,11 @@
   "snapshot_epoch": 1794113860.7652638,
   "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
   "implementation_deployed": false,
-  "actual_last_native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
-  "current_native_job": null,
+  "actual_last_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+  "current_native_job": "TRAIN06 approach r1 (chain05; one physical owner)",
   "current_neural_job": "1532527.stdct-mgmt-02 (PBS Q); Core TRAIN4 shadow CLOSED0",
   "current_CPU_job": null,
-  "live_process_state": "ALL_NATIVE_PID0_SIX_CLOSED_SOURCE_STAGING_ONLY",
+  "live_process_state": "SOLE_NATIVE_ACTIVE; A40_LAST_SUCCESSFUL_READBACK_Q; NEW_SOURCE_STAGE08_ACTIVE_WRITER_CONFIRMED",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 324,
   "FUSION_native_passes": 305,
@@ -1019,5 +1019,23 @@
     "standing_failure_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
     "target_Processor_parent_shadow_report": "TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1.json"
   },
-  "latest_target_progress_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json"
+  "latest_target_progress_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
+  "PR369_latest_native_readiness_snapshot": {
+    "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
+    "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+    "sealed_attempts": 24,
+    "PASS": 19,
+    "FAIL": 5,
+    "sealed_integrations": 908972,
+    "QUALIFICATION_attempts": 4,
+    "QUALIFICATION_PASS": 2,
+    "QUALIFICATION_FAIL": 2,
+    "DEMO_closed": 20,
+    "DEMO_PASS": 17,
+    "DEMO_FAIL": 3,
+    "planned_DEMO": 32,
+    "unclosed": 12,
+    "old_FUSION_denominator_changed": false
+  },
+  "PR369_full_proposal_compiler_audit": "TARGET_GR00T_ACTUAL_FULL_PROPOSAL_COMPILER_AUDIT_V1.json"
 }

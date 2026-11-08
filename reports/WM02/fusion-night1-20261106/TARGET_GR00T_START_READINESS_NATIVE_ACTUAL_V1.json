@@ -1,0 +1,159 @@
+{
+  "schema": "WM02_TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1",
+  "observed_epoch": 1794129075.8116157,
+  "native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+  "rows": [
+    {
+      "run": "target-gr00t-demo-train05-approach-r2-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "aea1211b49419473e1101440f5713beb70b57ad0c6caedcb7a95406e119c2049",
+      "worker_sha256": "2a417cbc8991a2a4f4ed54972c27eba14147e9aa50227ad9e32fa51c6b35d7ab",
+      "result_sha256": "59a5cc92ae67eb7659a3319bedd8c6ec5b66192720f2d650b112c7d2555b94d6",
+      "worker_exit_code": 0,
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "native_integrations": 38703,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "complete_dual_RGB_pairs": 27,
+      "task_success": true,
+      "intent_progress_m": 0.0029173376322940516,
+      "maximum_BASE_displacement_m": 0.0014973343574797495,
+      "maximum_BASE_rotation_rad": 0.0028480875031577594,
+      "start_predicate_sha256": "ba703c69930755bf312a779fef59c70506831e17cdafdaead889d0b70d70a7d5",
+      "start_BASE_linear_speed_m_s": 0.0006177527581027609,
+      "start_BASE_angular_speed_rad_s": 0.0011874789638275979,
+      "new_task_Teacher_proposals_before_check": 0,
+      "extra_settling_integrations": 0,
+      "trace_dropped": 0,
+      "four_native_children_exit0": true,
+      "worker_wall_s": 576.8837501606904,
+      "worker_plus_child_CPU_s": 1281.474276418,
+      "MemoryPeak_bytes": 6508601344
+    },
+    {
+      "run": "target-gr00t-demo-train05-retreat-r2-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "539bae95045f05b3ac4a889d3cf98db266ee84df9febb1c3bf099834870d7838",
+      "worker_sha256": "802ef4ed5b1b99d6f32fe1890d3cf3b373a2f2fa33e3328a066fca1598c41609",
+      "result_sha256": "fb44c17b86cec27a4dc9db0b3204b346cd350ac3c68190572f4224efd7b70c78",
+      "worker_exit_code": 0,
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "native_integrations": 38703,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "complete_dual_RGB_pairs": 27,
+      "task_success": true,
+      "intent_progress_m": 0.0026645122570983,
+      "maximum_BASE_displacement_m": 0.0004852703231392138,
+      "maximum_BASE_rotation_rad": 0.001766664763596415,
+      "start_predicate_sha256": "d5c4200b28151140615bcfaf5ff64eda4bbe5335165452ddacd3983f4951e9f0",
+      "start_BASE_linear_speed_m_s": 0.00013169328576449372,
+      "start_BASE_angular_speed_rad_s": 0.0009955860916056754,
+      "new_task_Teacher_proposals_before_check": 0,
+      "extra_settling_integrations": 0,
+      "trace_dropped": 0,
+      "four_native_children_exit0": true,
+      "worker_wall_s": 568.3164746961556,
+      "worker_plus_child_CPU_s": 1277.379946271,
+      "MemoryPeak_bytes": 6334296064
+    }
+  ],
+  "actual_new_native_integrations": 77406,
+  "actual_new_confirmed_task_intervals": 352,
+  "actual_new_Teacher_policy_decisions": 2,
+  "actual_new_complete_dual_RGB_pairs": 54,
+  "actual_new_data_admission": {
+    "run": "target-gr00t-demo-train05-approach-r2-01",
+    "exit_code": 0,
+    "actual_decisions": 1,
+    "raw_command_shape": [
+      40,
+      10
+    ],
+    "actual_state_shape": [
+      27,
+      10
+    ],
+    "wall_s": 1.5374454339034855,
+    "CPU_s": 1.412851814
+  },
+  "new_cohort": {
+    "sealed_attempts": 24,
+    "PASS": 19,
+    "FAIL": 5,
+    "sealed_integrations": 908972,
+    "QUALIFICATION_attempts": 4,
+    "QUALIFICATION_PASS": 2,
+    "QUALIFICATION_FAIL": 2,
+    "DEMO_closed": 20,
+    "DEMO_PASS": 17,
+    "DEMO_FAIL": 3,
+    "planned_DEMO": 32,
+    "unclosed": 12,
+    "old_FUSION_denominator_changed": false
+  },
+  "cost": {
+    "new_native_worker_wall_s": 1145.200224856846,
+    "new_native_worker_plus_child_CPU_s": 2558.8542226890004,
+    "all24_sealed_native_worker_wall_s": 13608.03093064716,
+    "all24_sealed_native_worker_plus_child_CPU_s": 29918.971746668,
+    "active_native_cost_not_included": true
+  },
+  "Vanda": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "last_successful_readback_started_epoch": 1794128703.6311991,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "queued_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "new_qsub": 0,
+    "new_models": 0,
+    "new_updates": 0,
+    "new_checkpoints": 0,
+    "new_source_v8": "ACTUAL_WRITER_STILL_HOLDS_ORIGINAL_STAGE_OWNER; PARTIAL_COPY_PROGRESS_VERIFIED; FINAL_IDENTITY_NOT_YET_SEALED; NO_REPLAY",
+    "authentication": "ACTUAL_SSH_PUBLICKEY_AUTHENTICATION_PASSED; SUBSEQUENT_SESSION_RESPONSES_INTERMITTENT",
+    "source_v8_progress": {
+      "readback_started_epoch": 1794128999.614355,
+      "files": 1557,
+      "bytes": 12692259,
+      "latest_write_epoch": 1794129000.203034,
+      "original_Journal_status": "INTENT",
+      "original_Journal_sha256": "749b299706ec3aee0e1e5b35e54e39486db4817cef91620fc833671b2e657111",
+      "original_owner": "HELD_BY_ACTIVE_WRITER"
+    }
+  },
+  "models": {
+    "new_cohort_Core_model_loads": 2,
+    "new_cohort_Core_queries": 5,
+    "GR00T_updates": 0,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "trained_candidate_checkpoints": 0
+  },
+  "real_commands": [
+    {
+      "command": "PYTHONPATH=src \"$NATIVE_PYTHON\" -B -m scripts.wm02.stable_task_data_check_v1 --spec \"$REGISTERED_SPEC\" --execute",
+      "new_native_workers": 2,
+      "worker_exit_codes": [
+        0,
+        0
+      ],
+      "original_owner_registry_and_onceIO_used": true
+    },
+    {
+      "command": "\"$CORE_NEURAL_PYTHON\" -B -c \"$READ_ONLY_EPISODE_ADMISSION_CODE\"",
+      "exit_code": 0
+    },
+    {
+      "command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+      "exit_code": 0,
+      "extra_submissions": 0
+    }
+  ],
+  "QUESTION": "Does the additional pre-action BASE-velocity predicate execute correctly in the real native chain without changing WBC/startup/safety?",
+  "ACTUAL_RESULT": "Two previously unexecuted TRAIN conditions passed the real B34303 predicate and full176-interval task, with exact native exit/trace/dual-RGB evidence. One new episode also passed the real exporter admission.",
+  "NEGATIVE": "Two accepted starts do not establish general initialization reliability, repair frozen-WBC dynamics or show learned GR00T task success. All five old qualification/DEMO failures remain in their original denominators.",
+  "NEXT_DECISION": "Keep the sole physical owner collecting the12 unclosed panel conditions. Export the formal data only after all32attempts terminate. Keep the unique A40 capacity/FIT4 job and independently resolve source-v8; never replay UNKNOWN or alter queued source-v7.",
+  "next_command": "qstat -xf -F json 1532527.stdct-mgmt-02"
+}
