@@ -21,14 +21,17 @@ E=B+25*(PREFIX_ATOMS*QUERIES+FINAL_HOLD)
 COMMAND='GRASP_RED_LIFT20MM_HOLD1S'
 LANGUAGE='Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.'
 HOLD_CONTROL='HOLD_ONLY_DIAGNOSTIC_V1'
+CONSTRUCTION_ROLE='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION'
+QUALIFICATION_ROLE='TEACHER_QUALIFICATION_NOT_BC_V1'
 
 
 def need(ok,why):
     if not ok:raise ValueError('TASK_LEARNING_GRASP_'+why)
 
 
-def protocol():
-    return dict(schema=KIND,task_revision='V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+def protocol(role=CONSTRUCTION_ROLE):
+    need(role in(CONSTRUCTION_ROLE,QUALIFICATION_ROLE),'EXPLICIT_CONSTRUCTION_OR_TEACHER_QUALIFICATION_ROLE')
+    return dict(schema=KIND,task_revision='V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage=role,
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         preparation=dict(original_startup_to_step=2503,original_steady_prefix_to_step=3703,
             unchanged_initial_TCP_reference_hold_to_step=4703,source_pose_alignment=False,
@@ -48,7 +51,7 @@ def protocol():
 
 
 def declared(spec):
-    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==protocol()
+    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==protocol(spec.get('task_learning_role',CONSTRUCTION_ROLE))
         and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==CALIBRATION_B
         and spec.get('max_ticks')==E and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
         'EXACT_NEW_TASK_AND_NATIVE_CLOCK')

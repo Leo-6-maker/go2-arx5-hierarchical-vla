@@ -13,14 +13,14 @@ def episode(spec):
     from .storage import digest
     return dict(schema='TASK_LEARNING_LOCAL_PREPARATION_EPISODE_V4',run=spec['registered_root'],
         phase=task.PHASE,scene_sha256=digest(spec['model_path']),parent=spec['data_parent'],
-        data_role=spec['data_role'],protocol=task.protocol(),
+        data_role=spec['data_role'],protocol=task.protocol(spec.get('task_learning_role',task.CONSTRUCTION_ROLE)),
         query_pins=dict(role='ORIGINAL_NATIVE_REFERENCE_HOLD_NO_MODEL_QUERY_OR_EXPERT_LABEL'),
         source_pose_alignment=False,end_native_step=task.CALIBRATION_B)
 
 
 def endpoint(document):
     task.need(document.get('schema')=='TASK_LEARNING_LOCAL_PREPARATION_EPISODE_V4'
-        and document.get('protocol')==task.protocol()and document.get('source_pose_alignment')is False
+        and document.get('protocol')==task.protocol((document.get('protocol')or{}).get('stage'))and document.get('source_pose_alignment')is False
         and document.get('end_native_step')==task.CALIBRATION_B,'EXACT_TASK_LOCAL_PREPARATION')
     return task.CALIBRATION_B
 

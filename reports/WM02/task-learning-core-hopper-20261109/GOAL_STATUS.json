@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T04:27:58.286567+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T04:42:44.451085+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -57,14 +57,14 @@
     }
   },
   "G2": {
-    "status": "CLOSED_ORIGINAL_REFERENCE_FLANGE_COLLISION_REJECT_DURING_DESCEND",
+    "status": "PASS_COMPLETE_NEW_UNDER_HAND_GRASP_LIFT20MM_HOLD1S_CONSTRUCTION",
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
     "teacher_qualification_attempts": 0,
     "qualified_full_demos": 0,
-    "run_id": "task-learning-grasp-construction-20261109-07",
-    "source_sha": "8586cfe3d79987420e941440791fd0a07f8e4921",
+    "run_id": "task-learning-grasp-construction-20261109-08",
+    "source_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752",
     "original_first_full40_certificate": {
       "points": 1051,
       "max_joint_speed_rad_s": 0.13163758799794414,
@@ -73,19 +73,19 @@
       "source_saved_clock": 3703,
       "new_reset_not_yet_qualified": true
     },
-    "task_success": false,
+    "task_success": true,
     "expert_training_eligible": false,
-    "construction_attempts": 7,
+    "construction_attempts": 8,
     "preserved_failure": "G2_CONSTRUCTION_04_ACTUAL.json",
-    "next_action": "TEACHER_TOOL_X_GRASP_OFFSET_WITH_SAME_OBJECTIVE_SCENE_AND_UNCHANGED_ORIGINAL_CERTIFICATE",
-    "construction_physics_attempts": 6,
+    "next_action": "FROZEN_TEACHER_TEN_NEW_COURSE_LAYOUTS_TIMES_TWO_INDEPENDENT_RESTARTS; OBSERVABILITY_DIAGNOSTICS",
+    "construction_physics_attempts": 7,
     "preflight_only_attempts": 1,
     "post_initialization_hold_ticks": 2000,
     "teacher_start_native_step": 5703,
     "original_maximum_BASE_linear_speed_m_s": 0.001,
     "post_hold_BASE_speed_m_s": 0.000386248896252402,
-    "confirmed_Teacher_50ms_commands": 200,
-    "Teacher_decisions": 6,
+    "confirmed_Teacher_50ms_commands": 600,
+    "Teacher_decisions": 15,
     "preserved_failures": [
       "G2_CONSTRUCTION_01_ACTUAL.json",
       "G2_CONSTRUCTION_02_PREFLIGHT_ACTUAL.json",
@@ -95,7 +95,7 @@
       "G2_CONSTRUCTION_06_ACTUAL.json",
       "G2_CONSTRUCTION_07_ACTUAL.json"
     ],
-    "task_contract": "G2_TASK_CONTRACT_V5.json",
+    "task_contract": "G2_TASK_CONTRACT_V7.json",
     "scene_sha256": "13eb01d2715ac6b53d0ad938ecab47befb6149b4d9e8d430985d93d8417253c8",
     "hold_control": {
       "run_id": "task-learning-grasp-hold-control-20261109-01",
@@ -107,11 +107,16 @@
       "independent_restart_not_exact_fork": true,
       "actual": "G2_HOLD_CONTROL_ACTUAL.json",
       "actual_post_readiness_hold_s": 38.1
-    }
+    },
+    "post_readiness_horizon_s": 31.0,
+    "construction_successes": 1,
+    "formal_Teacher_qualification_attempts": 0,
+    "teacher_implementation_AST_sha256": "8e1199bc13a1d37a3d4d02251ffea9a241d8c47ff6a3ab6b4fd3dbef6a1503db",
+    "actual": "G2_CONSTRUCTION_08_ACTUAL.json"
   },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "TASK_LOCAL_INITIALIZATION_AND_TEACHER_QUALIFICATION; HOPPER_QUEUED_ORIGINAL_TRAINER_RESTORE",
+  "next_gate": "FROZEN_TEACHER_20_ATTEMPT_QUALIFICATION_AND_OBSERVABILITY; HOPPER_ORIGINAL_TRAINER_STILL_QUEUED",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -120,5 +125,5 @@
     "real_hardware": false,
     "old21_automatic8000": false
   },
-  "execution_sha": "2c0caa5c816cd763e8bbb24b97c599a29d26c92d"
+  "execution_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752"
 }
