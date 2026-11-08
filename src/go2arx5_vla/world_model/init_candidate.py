@@ -130,10 +130,24 @@ def build(spec,output):
     if subprocess.check_output(['ar','t',str(archive)],text=True).splitlines()!=original_members:raise ValueError('SDK archive member set changed')
     for n,h in preserved_members.items():
         if hashlib.sha256(subprocess.check_output(['ar','p',str(archive),n])).hexdigest()!=h:raise ValueError('Unrelated SDK archive member changed')
+    # The qualified enlarged trace declares the original absolute DT_NEEDED
+    # name. Keep that name for a sensor-only executable successor, otherwise
+    # two constructor-bearing recorders can open the same trace at startup.
+    runtime_trace=trace
+    if spec.get('robot_state_handoff'):
+        runtime_trace=Path(spec['sensor_handoff_frozen_trace_dependency'])
+        if (runtime_trace!=Path(spec['robot_state_handoff_predecessor_cpp']).parent/'libwm02_init_trace.so'
+                or spec['frozen_files'].get(str(runtime_trace))!=digest(runtime_trace)):
+            raise ValueError('ORIGINAL_FROZEN_TRACE_DEPENDENCY_REQUIRED_FOR_SENSOR_ONLY_SUCCESSOR')
     directory=native/'build/mujoco';link=shlex.split(Path(spec['link_flags']).read_text());link[link.index('CMakeFiles/rl_sim_mujoco.dir/src/rl_sim_mujoco.cpp.o')]=str(output/'rl_sim_mujoco.cpp.o')
     link[link.index('CMakeFiles/rl_sim_mujoco.dir/library/thirdparty/mujoco_simulate/simulate.cc.o')]=str(startup/'startup-v2/simulate.cc.o');link[link.index('librl_sdk.a')]=str(archive)
-    link[link.index('-o')+1]=str(output/'rl_sim_mujoco');link+=['/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so',str(trace),'-Wl,-rpath,'+str(output)]
+    link[link.index('-o')+1]=str(output/'rl_sim_mujoco');link+=['/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so',str(runtime_trace),'-Wl,-rpath,'+str(output)]
     execute(link,'native_link',directory);execute(['ldd',str(output/'rl_sim_mujoco')],'native_ldd')
+    if spec.get('robot_state_handoff'):
+        needed=execute(['readelf','-d',str(output/'rl_sim_mujoco')],'native_needed').stdout
+        names=re.findall(r'Shared library: \[([^\]]+)\]',needed)
+        if [n for n in names if Path(n).name=='libwm02_init_trace.so']!=[str(runtime_trace)]:
+            raise RuntimeError('SINGLE_ORIGINAL_TRACE_NEEDED_IDENTITY_REQUIRED')
     if'not found'in(output/'native_ldd.log').read_text():raise RuntimeError('Candidate native dependencies unresolved')
     # Compile both alternatives. Exactly one outer wrapper belongs in a chain.
     dep=Path(spec['mujoco_library']);include=Path(spec['mujoco_include']);common=['g++','-std=c++17','-O2','-shared','-fPIC','-I'+str(include),'-I'+str(code/'scripts/pi0294'),'-I'+str(output),'-ldl']
@@ -178,5 +192,6 @@ def build(spec,output):
             robot_state_handoff_predecessor_cpp_sha256=spec['robot_state_handoff_predecessor_cpp_sha256'],
             robot_state_handoff_predecessor_sdk_sha256=spec['robot_state_handoff_predecessor_sdk_sha256'],
             robot_state_handoff_inverse_text_identical=True,
-            robot_state_handoff_PD_waits=False,robot_state_handoff_sensor_filters=False)
+            robot_state_handoff_PD_waits=False,robot_state_handoff_sensor_filters=False,
+            sensor_handoff_frozen_trace_dependency_sha256=digest(runtime_trace))
     write_json(output/'CANDIDATE.private.json',result);return result

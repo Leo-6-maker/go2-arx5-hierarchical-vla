@@ -250,6 +250,7 @@ def standing_repair_ancestor(spec):
         old=Path(build['robot_state_handoff_predecessor_cpp'])
         old_sdk=Path(build['robot_state_handoff_predecessor_sdk'])
         header=Path(spec['source_root'])/'src/go2arx5_vla/target_mujoco/state_snapshot.hpp'
+        runtime_trace=old.parent/'libwm02_init_trace.so'
         if (handoff!=VERSION or receipt.get('robot_state_handoff')!=VERSION
                 or digest(old)!=build.get('robot_state_handoff_predecessor_cpp_sha256')
                 or digest(old_sdk)!=build.get('robot_state_handoff_predecessor_sdk_sha256')
@@ -259,7 +260,10 @@ def standing_repair_ancestor(spec):
                 or (root/'rl_sdk.cpp').read_text()!=old_sdk.read_text()
                 or receipt.get('robot_state_handoff_inverse_text_identical')is not True
                 or receipt.get('robot_state_handoff_PD_waits')is not False
-                or receipt.get('robot_state_handoff_sensor_filters')is not False):
+                or receipt.get('robot_state_handoff_sensor_filters')is not False
+                or build.get('sensor_handoff_frozen_trace_dependency')!=str(runtime_trace)
+                or build.get('frozen_files',{}).get(str(runtime_trace))!=digest(runtime_trace)
+                or receipt.get('sensor_handoff_frozen_trace_dependency_sha256')!=digest(runtime_trace)):
             raise PermissionError('EXACT_LOCKFREE_SENSOR_SNAPSHOT_MATH_PRESERVING_PROOF_REQUIRED')
     clock=build.get('physical_callback_clock')
     if clock is not None:

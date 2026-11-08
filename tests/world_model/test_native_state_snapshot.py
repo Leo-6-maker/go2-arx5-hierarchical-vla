@@ -32,18 +32,20 @@ def test_native_lineage_requires_exact_handoff_text_and_header_not_only_booleans
     from go2arx5_vla.world_model.storage import digest
     repo=Path(__file__).resolve().parents[2];root=tmp_path/'candidate';root.mkdir()
     old=tmp_path/'old.cpp';old.write_text(candidate());sdk=tmp_path/'old_sdk.cpp';sdk.write_text('ORIGINAL_SDK_MATH')
+    trace=tmp_path/'libwm02_init_trace.so';trace.write_bytes(b'original trace dependency')
     (root/'rl_sim_mujoco.cpp').write_text(patch(old.read_text()));(root/'rl_sdk.cpp').write_text(sdk.read_text())
     header=repo/'src/go2arx5_vla/target_mujoco/state_snapshot.hpp'
     (root/'state_snapshot.hpp').write_bytes(header.read_bytes());binary=root/'not-executable-fixture';binary.write_bytes(b'LINEAGE_UNIT_TEST_ONLY')
     build=dict(source_sha='fixture',robot_state_handoff=VERSION,robot_state_handoff_predecessor_cpp=str(old),
         robot_state_handoff_predecessor_sdk=str(sdk),robot_state_handoff_predecessor_cpp_sha256=digest(old),
-        robot_state_handoff_predecessor_sdk_sha256=digest(sdk),sdk_source=str(sdk),ancestor_binary_sha256='ancestor')
+        robot_state_handoff_predecessor_sdk_sha256=digest(sdk),sdk_source=str(sdk),ancestor_binary_sha256='ancestor',
+        sensor_handoff_frozen_trace_dependency=str(trace),frozen_files={str(trace):digest(trace)})
     receipt=dict(status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',source_sha='fixture',
         binary_sha256=digest(binary),cold_history_init='ORIGINAL_BUFFER_RESET_FIRST_REAL_OBSERVATION_V1',
         ongoing_control_math_unchanged=True,original_R1_math_assertions_pass=True,original_SDK_sha256=digest(sdk),
         robot_state_handoff=VERSION,state_snapshot_header_sha256=digest(header),
         robot_state_handoff_inverse_text_identical=True,robot_state_handoff_PD_waits=False,
-        robot_state_handoff_sensor_filters=False)
+        robot_state_handoff_sensor_filters=False,sensor_handoff_frozen_trace_dependency_sha256=digest(trace))
     bp=tmp_path/'BUILD.json';bp.write_text(json.dumps(build));rp=root/'CANDIDATE.private.json';rp.write_text(json.dumps(receipt))
     spec=dict(native_binary=str(binary),source_root=str(repo),cold_history_build_spec=str(bp),
         cold_history_build_spec_sha256=digest(bp),cold_history_build_receipt=str(rp),cold_history_build_receipt_sha256=digest(rp))
