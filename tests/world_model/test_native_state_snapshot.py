@@ -83,3 +83,28 @@ int main(){using namespace wm02_robot_state_snapshot;Frame f,out;
     (tmp_path/'other.cpp').write_text('#include "state_snapshot.hpp"\nwm02_robot_state_snapshot::Snapshot* other(){return &wm02_robot_state_snapshot::snapshot();}\n')
     subprocess.run(['g++','-std=c++17','-O2','-pthread','-I'+str(header.parent),str(tmp_path/'main.cpp'),str(tmp_path/'other.cpp'),'-o',str(tmp_path/'check')],capture_output=True,check=True)
     subprocess.run([str(tmp_path/'check')],capture_output=True,check=True,timeout=10)
+
+
+def test_historical_prefix_identity_requires_bound_old_binary_and_unchanged_libraries(tmp_path,monkeypatch):
+    import json
+    from go2arx5_vla.world_model import auto1_native as native
+    from go2arx5_vla.world_model.native_state_snapshot import VERSION
+    from go2arx5_vla.world_model.storage import digest
+    old=tmp_path/'old';old.mkdir();new=tmp_path/'new';new.write_bytes(b'new executable')
+    for n in('rl_sim_mujoco','rl_sim_mujoco.cpp','rl_sdk.cpp','observer.so','task_actuation_r1.so'):
+        (old/n).write_text('preserved '+n)
+    receipt=old/'CANDIDATE.private.json';receipt.write_text(json.dumps(dict(
+        status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',
+        candidate_sources={n:digest(old/n)for n in('rl_sim_mujoco.cpp','rl_sdk.cpp')},binary_sha256=digest(old/'rl_sim_mujoco'))))
+    build=tmp_path/'build.json';build.write_text(json.dumps(dict(robot_state_handoff=VERSION,
+        robot_state_handoff_predecessor_cpp=str(old/'rl_sim_mujoco.cpp'))))
+    calls=[];monkeypatch.setattr(native,'standing_repair_ancestor',lambda s:calls.append(s)or'checked')
+    s=dict(native_binary=str(new),phase='collect-target-task-learning-grasp-v1',cold_history_build_spec=str(build),
+        observer_library=str(old/'observer.so'),outer_library=str(old/'task_actuation_r1.so'))
+    assert native.native_prefix_predecessor(s)==digest(new)and not calls
+    s.update(sensor_handoff_previous_candidate_receipt=str(receipt),sensor_handoff_previous_candidate_receipt_sha256=digest(receipt))
+    assert native.native_prefix_predecessor(s)==digest(old/'rl_sim_mujoco')and calls
+    bad=tmp_path/'other.so';bad.write_bytes(b'unrelated observer');s['observer_library']=str(bad)
+    with pytest.raises(PermissionError):native.native_prefix_predecessor(s)
+    s['observer_library']=str(old/'observer.so');(old/'rl_sim_mujoco').write_text('changed executable')
+    with pytest.raises(PermissionError):native.native_prefix_predecessor(s)

@@ -152,7 +152,7 @@ def admitted_target(spec_path,run_id,output):
     previous=json.loads(Path(spec['previous_stage']).read_text())if spec.get('previous_stage')else None
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
-                or previous.get('native_binary_sha256')!=digest(spec['native_binary'])or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
+                or previous.get('native_binary_sha256')!=native_prefix_predecessor(spec)or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
     if type(spec['candidate_index'])is not int or spec['candidate_index']<1 or(not(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')or spec.get('pilot1_binding'))and spec['candidate_index']>6):raise PermissionError('ACTUAL_CANDIDATE_IDENTITY_REQUIRED')
     limit=phase_limit(spec['phase'],previous,spec)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
@@ -203,6 +203,36 @@ def admitted_target(spec_path,run_id,output):
             with admitted_run(spec_path,run_id,'wm02-auto1-target',output,physics=True):yield spec
         finally:native_lock.close()
     finally:campaign_lock.close()
+
+def native_prefix_predecessor(spec):
+    """Retain a historical prefix's real identity after the exact sensor repair.
+
+    The observer, outer wrapper and enlarged trace remain the previously bound
+    runtime libraries. This only admits a new construction/qualification run;
+    no historical result is rewritten as a pass for the repaired executable.
+    """
+    from .storage import digest
+    actual=digest(spec['native_binary'])
+    if not spec.get('sensor_handoff_previous_candidate_receipt'):return actual
+    from .native_state_snapshot import VERSION
+    if spec.get('phase')!='collect-target-task-learning-grasp-v1':
+        raise PermissionError('SENSOR_SUCCESSOR_ONLY_FOR_FRESH_TASK_LEARNING_NATIVE_RUNS')
+    standing_repair_ancestor(spec)
+    build=json.loads(Path(spec['cold_history_build_spec']).read_text())
+    path=Path(spec['sensor_handoff_previous_candidate_receipt'])
+    prior=json.loads(path.read_text());root=path.parent
+    if (build.get('robot_state_handoff')!=VERSION
+            or digest(path)!=spec.get('sensor_handoff_previous_candidate_receipt_sha256')
+            or root/'rl_sim_mujoco.cpp'!=Path(build['robot_state_handoff_predecessor_cpp'])
+            or prior.get('status')!='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+            or prior.get('candidate_sources',{}).get('rl_sim_mujoco.cpp')!=digest(root/'rl_sim_mujoco.cpp')
+            or prior.get('candidate_sources',{}).get('rl_sdk.cpp')!=digest(root/'rl_sdk.cpp')
+            or prior.get('binary_sha256')!=digest(root/'rl_sim_mujoco')
+            or digest(root/'observer.so')!=digest(spec['observer_library'])
+            or digest(root/'task_actuation_r1.so')!=digest(spec['outer_library'])):
+        raise PermissionError('EXACT_OLD_PREFIX_BINARY_AND_UNCHANGED_RUNTIME_LIBRARIES_REQUIRED')
+    return prior['binary_sha256']
+
 
 def standing_repair_ancestor(spec):
     """Bind the preserved reference failure to a math-preserving runtime successor."""
