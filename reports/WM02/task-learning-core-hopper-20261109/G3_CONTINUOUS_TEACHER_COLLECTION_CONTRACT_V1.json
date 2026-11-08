@@ -1,0 +1,237 @@
+{
+  "schema": "TASK_LEARNING_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1",
+  "EVIDENCE_ASOF": "2026-11-09T05:39:18.370468+08:00",
+  "status": "IMPLEMENTED_CPU_CHECKED_WAIT_ACTUAL_20_REQUEST_TEACHER_GATE",
+  "protocol": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_V1",
+    "task_revision": "V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE",
+    "reset_revision": "V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD",
+    "stage": "CONTINUOUS_TEACHER_COLLECTION_PENDING_EXPORT_V1",
+    "calibration_boundary": 4703,
+    "start_step": 5703,
+    "preaction_hold_atoms": 40,
+    "preparation": {
+      "original_startup_to_step": 2503,
+      "original_steady_prefix_to_step": 3703,
+      "unchanged_initial_TCP_reference_hold_to_step": 4703,
+      "source_pose_alignment": false,
+      "total_extra_hold_ticks_after_steady_prefix": 2000,
+      "native_clock_rebased": false
+    },
+    "prefix_atoms": 40,
+    "policy_queries": 15,
+    "final_hold_atoms": 20,
+    "task_command": "GRASP_RED_LIFT20MM_HOLD1S",
+    "language": "Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.",
+    "action_period_s": 0.05,
+    "physics_dt_s": 0.002,
+    "expert_commands": "ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT",
+    "H40_labels": "ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE",
+    "observation": "CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1",
+    "privileged_student_inputs": false,
+    "full_H40_preview": true,
+    "time_retiming": false,
+    "reference_transport": "CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT",
+    "teacher_max_chunk_translation_m": 0.015,
+    "pregrasp_above_cube_m": 0.08,
+    "grasp_above_cube_center_m": 0.012,
+    "grasp_TCP_offset_tool_m": [
+      -0.012,
+      0.0,
+      0.0
+    ],
+    "grasp_TCP_world_y_offset_m": -0.0017,
+    "scene_family": "SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS",
+    "commanded_lift_m": 0.026,
+    "required_object_lift_m": 0.02,
+    "required_hold_s": 1.0,
+    "position_stage_tolerance_m": 0.004,
+    "close_increment_per_decision": 1.0,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "WBC_changes": false,
+    "expert_training_eligible": false,
+    "automatic_formal_training": false
+  },
+  "TRAIN_layout_offsets_XY_m": {
+    "TRAIN01": [
+      -0.0035,
+      -0.0035
+    ],
+    "TRAIN02": [
+      -0.0035,
+      -0.00175
+    ],
+    "TRAIN03": [
+      -0.0035,
+      0.00025
+    ],
+    "TRAIN04": [
+      -0.0035,
+      0.002
+    ],
+    "TRAIN05": [
+      -0.0035,
+      0.0035
+    ],
+    "TRAIN06": [
+      -0.00175,
+      -0.0035
+    ],
+    "TRAIN07": [
+      -0.00175,
+      -0.00175
+    ],
+    "TRAIN08": [
+      -0.00175,
+      0.00025
+    ],
+    "TRAIN09": [
+      -0.00175,
+      0.002
+    ],
+    "TRAIN10": [
+      -0.00175,
+      0.0035
+    ],
+    "TRAIN11": [
+      0.00025,
+      -0.0035
+    ],
+    "TRAIN12": [
+      0.00025,
+      -0.00175
+    ],
+    "TRAIN13": [
+      0.00025,
+      0.00025
+    ],
+    "TRAIN14": [
+      0.00025,
+      0.002
+    ],
+    "TRAIN15": [
+      0.00025,
+      0.0035
+    ],
+    "TRAIN16": [
+      0.002,
+      -0.0035
+    ],
+    "TRAIN17": [
+      0.002,
+      -0.00175
+    ],
+    "TRAIN18": [
+      0.002,
+      0.00025
+    ],
+    "TRAIN19": [
+      0.002,
+      0.002
+    ],
+    "TRAIN20": [
+      0.002,
+      0.0035
+    ],
+    "TRAIN21": [
+      0.0035,
+      -0.0035
+    ],
+    "TRAIN22": [
+      0.0035,
+      -0.00175
+    ],
+    "TRAIN23": [
+      0.0035,
+      0.00025
+    ],
+    "TRAIN24": [
+      0.0035,
+      0.002
+    ],
+    "TRAIN25": [
+      0.0035,
+      0.0035
+    ]
+  },
+  "recovery_check_layout_offsets_XY_m": {
+    "RECOVERY01": [
+      -0.003,
+      -0.001
+    ],
+    "RECOVERY02": [
+      -0.003,
+      0.001
+    ],
+    "RECOVERY03": [
+      0.003,
+      -0.001
+    ],
+    "RECOVERY04": [
+      0.003,
+      0.001
+    ]
+  },
+  "requested_TRAIN_episodes": 100,
+  "independent_restarts_per_TRAIN_layout": 4,
+  "ordering": "RESTART_MAJOR; ALL_25_LAYOUTS_R1_THEN_R2_THEN_R3_THEN_R4",
+  "normal_restarts": [
+    1,
+    2
+  ],
+  "under_close_recovery_restarts": [
+    3,
+    4
+  ],
+  "planned_normal_episodes": 50,
+  "planned_recovery_episodes": 50,
+  "prior_gate": "ACTUAL_CLOSED_20_REQUEST_TEACHER_QUALIFICATION",
+  "recovery_gate": {
+    "requested": 4,
+    "minimum_reset_ready": 4,
+    "minimum_actual_under_close_failed_then_corrected_full_task_successes": 4,
+    "maximum_hard_safety_stops": 0,
+    "maximum_technical_failures": 0
+  },
+  "data_gate": {
+    "all_requests_terminal_and_retained": true,
+    "minimum_eligible_native_episodes": 80,
+    "minimum_successful_TRAIN_layouts": 20,
+    "minimum_genuine_recovery_successes": 20,
+    "minimum_recovery_layouts": 10
+  },
+  "high_level_decisions_per_complete_episode": 15,
+  "confirmed_policy_intervals_per_complete_episode": 600,
+  "policy_period_s": 0.05,
+  "intervention_labels": "ONE_PARTIAL_CLOSE_H40_EXCLUDED_FROM_BC; ALL_40_INTERVALS_RETAINED_FOR_AUDIT",
+  "qualified_recovery": "REAL_SUBSEQUENT_FAILED_NATIVE_GRASP_OBSERVATION_THEN_REAL_CORRECTION_GRASP_PLUS_COMPLETE_ORIGINAL_TASK",
+  "recovery_scope": "UNDER_CLOSE_ONLY; NOT_SLIP_LOSS_OR_RELEASE_RECOVERY",
+  "construction_or_qualification_relabelled_as_TRAIN": false,
+  "grouping": "FIXED_CONTIGUOUS_ASSIGNMENT_SLICES_UNDER_FRESH_EXISTING_PILOT1_SCOPES; GLOBAL_JOURNAL_CASE_IDENTITIES_PREVENT_RETRY",
+  "one_CPU_native_world": true,
+  "new_native_dispatches": 0,
+  "qualified_training_demonstrations": 0,
+  "Processor_admitted": false,
+  "GR00T_updates": 0,
+  "frozen_Teacher_source_sections_sha256": "1bc18176e3c97d33058309c7ff341398c50d097bbe7e42b91b52ab2db9984081",
+  "implementation_modules_sha256": {
+    "task_learning_collection_v1.py": "6c9083c72a060f7e0e6cb7e9f176912ced8c48903469a0fe57b49fd1be931a55",
+    "task_learning_recovery_v1.py": "ab3cf14facf092d329c4397fc60388a98b4ab9f1d8eb4e1bdae30dcf572c6180",
+    "task_learning_grasp_native_v1.py": "818d175d97f6e98476004f7586ac695e94f305f8d4c1caf57e46d881fea7d032",
+    "task_learning_scene_v1.py": "4cdd2705b95df334db65cef9a8952dcfd9935eadac76976e96062014393d783d"
+  }
+}

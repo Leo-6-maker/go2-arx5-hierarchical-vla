@@ -1,6 +1,6 @@
 {
   "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_ACTUAL_V1",
-  "EVIDENCE_ASOF": "2026-11-09T05:17:18.535388+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T05:39:18.370468+08:00",
   "status": "RUNNING_NOT_YET_QUALIFIED",
   "run_id": "task-learning-teacher-qualification-20261109-01",
   "source_sha": "dd9865c20e4415ede7281e921759cfe189a64f54",
@@ -15,14 +15,14 @@
   "summary": {
     "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
     "requested": 20,
-    "attempted": 1,
-    "reset_ready": 1,
-    "task_successes": 1,
+    "attempted": 5,
+    "reset_ready": 5,
+    "task_successes": 5,
     "hard_safety_stop_conditions": 0,
     "technical_failure_conditions": 0,
-    "P_reset_ready": 0.05,
+    "P_reset_ready": 0.25,
     "P_success_given_reset_ready": 1.0,
-    "P_success_per_requested_episode": 0.05,
+    "P_success_per_requested_episode": 0.25,
     "complete": false,
     "thresholds": {
       "minimum_reset_ready": 18,
@@ -47,9 +47,57 @@
       "actual_native_integrations": 21203,
       "first_failure": null,
       "wall_s": 327.80424678418785
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual02-r1",
+      "layout": "QUAL02",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 325.1608962989412
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual03-r1",
+      "layout": "QUAL03",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 321.094395250082
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual04-r1",
+      "layout": "QUAL04",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 325.0089170942083
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual05-r1",
+      "layout": "QUAL05",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 321.1236274568364
     }
   ],
-  "active_case": "tl-teacher-qual-20261109-01-qual02-r1",
+  "active_case": "tl-teacher-qual-20261109-01-qual06-r1",
   "all_failures_retained": true,
   "qualified_training_demonstrations": 0
 }

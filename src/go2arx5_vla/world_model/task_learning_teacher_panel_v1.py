@@ -36,17 +36,22 @@ def validate(panel):
     return rows
 
 
-def classify(row,*,native,worker,lease,readiness,score,spec,expected_source,attempted):
-    identity=(spec.get('task_learning_role')==task.QUALIFICATION_ROLE
+def classify(row,*,native,worker,lease,readiness,score,spec,expected_source,attempted,
+             expected_role=task.QUALIFICATION_ROLE,
+             expected_native_schema='TASK_LEARNING_TEACHER_QUALIFICATION_NATIVE_ACTUAL_V1'):
+    identity=(spec.get('task_learning_role')==expected_role
         and spec.get('source_sha')==expected_source and spec.get('phase')==task.PHASE)
-    clean=native.get('shutdown_clean')is True and all(p.get('exit_code')==0 for p in native.get('owned_process_exits',[]))
+    children=native.get('owned_process_exits')or[]
+    clean=(native.get('shutdown_clean')is True and len(children)==4
+        and {p.get('name')for p in children}=={'sim','solver','controller','planner'}
+        and all(p.get('exit_code')==0 for p in children))
     failure=native.get('failure')or''
     known=any(v in failure for v in('POST_HOLD_START_READINESS_REJECTED','ORIGINAL_STEADY_PREFIX_FAILED_NO_NEW_ACTION',
         'NEW_TASK_STANDING_SCORE_BOUND_EXCEEDED','ORIGINAL_FULL_NATIVE_CONTACT_REJECT','ORIGINAL_NATIVE_JOINT_LIMIT_REJECT',
         'ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT','ORIGINAL_JOINT_SPEED_REJECT','ORIGINAL_JOINT_ACCELERATION_REJECT',
         'NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE'))
     completed=(native.get('status')=='NATIVE_STAGE_PASSED'and native.get('actual_target_integrations')==task.E
-        and native.get('reference_qualification',{}).get('schema')=='TASK_LEARNING_TEACHER_QUALIFICATION_NATIVE_ACTUAL_V1')
+        and native.get('reference_qualification',{}).get('schema')==expected_native_schema)
     technical=bool(identity and clean and worker and lease.get('status')=='CLOSED'
         and(completed or known or native.get('physics_stops')))
     ready=readiness.get('passes')is True and readiness.get('native_step')==task.B

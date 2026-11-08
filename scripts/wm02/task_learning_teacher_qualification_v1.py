@@ -19,23 +19,47 @@ def run(input_path):
     from scripts.pi0294.night10.native_relay import snapshot,once
     from go2arx5_vla.world_model.storage import digest
     from go2arx5_vla.world_model import task_learning_grasp_v1 as task
-    from go2arx5_vla.world_model import task_learning_teacher_panel_v1 as panel_contract
+    from go2arx5_vla.world_model import task_learning_teacher_panel_v1 as teacher_panel_contract
     from go2arx5_vla.world_model import task_learning_scene_v1 as scenes
     from go2arx5_vla.world_model.pilot1_scope import validate as validate_scope
     inp=json.loads(input_path.read_text());stage=input_path.parent
+    role=inp.get('task_learning_role',task.QUALIFICATION_ROLE)
+    if role==task.QUALIFICATION_ROLE:
+        panel_contract=teacher_panel_contract;experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'
+        completed_status='TEACHER_QUALIFICATION_COMPLETE';incomplete_status='TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED'
+    else:
+        from go2arx5_vla.world_model import task_learning_collection_v1 as panel_contract
+        experiment=panel_contract.experiment_role(role)
+        completed_status='TASK_LEARNING_NATIVE_GROUP_COMPLETE';incomplete_status='TASK_LEARNING_NATIVE_GROUP_INCOMPLETE_PRESERVED'
     lease_path=stage/'control/LEASE.json';lease=json.loads(lease_path.read_text())
     if (lease.get('status')!='ACTIVE'or lease.get('run_uuid')!=stage.name
         or lease.get('input_sha256')!=digest(input_path)or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009):
         raise PermissionError('FRESH_ACTUAL_FINITE_TEACHER_PANEL_REQUIRED')
     panel=json.loads(Path(inp['panel']).read_text())
     if digest(inp['panel'])!=inp['panel_sha256']:raise ValueError('FROZEN_TWENTY_REQUEST_PANEL')
-    rows=panel_contract.validate(panel);base=json.loads(Path(inp['base_spec']).read_text())
+    rows=panel_contract.validate(panel)
+    if role!=task.QUALIFICATION_ROLE:
+        task.need(panel.get('task_learning_role')==role and panel['source_sha']==inp['source_sha'],
+            'COORDINATOR_AND_PANEL_ROLE_AND_SOURCE')
+    selection=inp.get('assignment_slice',[0,len(rows)])
+    task.need(isinstance(selection,list)and len(selection)==2 and all(type(v)is int for v in selection)
+        and 0<=selection[0]<selection[1]<=len(rows)
+        and(role!=task.QUALIFICATION_ROLE or selection==[0,20]),'FIXED_CONTIGUOUS_PREREGISTERED_GROUP_NO_RETRY')
+    selected_rows=rows[selection[0]:selection[1]]
+    base=json.loads(Path(inp['base_spec']).read_text())
     if digest(inp['base_spec'])!=inp['base_spec_sha256']:raise ValueError('FROZEN_NATIVE_CONSTRUCTION_BASE')
     prior=Path(inp['base_spec']).parent
     if (json.loads((prior/'control/LEASE.json').read_text())['status']!='CLOSED'
         or json.loads((prior/'WORKER_EXIT.private.json').read_text())['exit_code']!=0
         or json.loads((prior/'native-01/TASK_LEARNING_SCORE.private.json').read_text())['task_success']is not True):
         raise ValueError('ACTUAL_COMPLETE_CONSTRUCTION_MUST_PRECEDE_QUALIFICATION')
+    # The construction result remains immutable when a later finite scope is
+    # registered. Existing PILOT1 validation below checks the new binding,
+    # actual registry, owner, parent lease and deadline before any case grant.
+    if 'pilot1_binding'in inp or 'pilot1_binding_sha256'in inp:
+        task.need(role!=task.QUALIFICATION_ROLE and 'pilot1_binding'in inp
+            and 'pilot1_binding_sha256'in inp,'EXPLICIT_FRESH_SCOPE_FOR_SUCCESSOR_COLLECTION_ONLY')
+        base=dict(base,pilot1_binding=inp['pilot1_binding'],pilot1_binding_sha256=inp['pilot1_binding_sha256'])
     if (stage/'SUPERVISOR.private.json').exists():raise FileExistsError('RECONCILE_EXISTING_TEACHER_PANEL_NEVER_REPLAY')
     source=Path(inp['source_root']);campaign=Path(base['campaign_root'])
     validate_scope(dict(base,registered_root=str(stage),source_sha=inp['source_sha'],deadline_epoch=inp['deadline_epoch']))
@@ -69,14 +93,15 @@ def run(input_path):
                     registered_root=str(root),role=key,lease=str(root/'control/LEASE.json'),
                     registry_snapshot=str(root/'control/REGISTRY_SNAPSHOT.private.json'),
                     deadline_epoch=min(time.time()+1200,inp['deadline_epoch']),wall_limit_s=1200,
-                    task_learning_role=task.QUALIFICATION_ROLE,task_learning_grasp=task.protocol(task.QUALIFICATION_ROLE),
-                    experiment_role='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC',
-                    task_condition='FROZEN_V7_TEACHER_QUALIFICATION_20_INDEPENDENT_REQUESTS',
+                    task_learning_role=role,task_learning_grasp=task.protocol(role),
+                    experiment_role=experiment,
+                    task_condition='FROZEN_V7_TEACHER_QUALIFICATION_20_INDEPENDENT_REQUESTS'if role==task.QUALIFICATION_ROLE else role,
                     task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],
                     model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),
                     stable_task_panel=inp['panel'],stable_task_panel_sha256=inp['panel_sha256'],
                     cpus=[0,1,2,3],ROS_DOMAIN_ID=220)
                 s.pop('task_learning_control',None)
+                if role!=task.QUALIFICATION_ROLE:s['task_learning_teacher_mode']=row['Teacher_mode']
                 for name in('cache','logs','data','tmp'):s[name]=str(root/name)
                 s['native_environment']=dict(base['native_environment']);s['native_environment']['PYTHONPATH']=environment(root)['PYTHONPATH']
                 write(root/'EPISODE_MANIFEST.private.json',scenes_spec_episode(s))
@@ -137,7 +162,7 @@ def run(input_path):
         return episode(s)
 
     try:
-        for row in rows:
+        for row in selected_rows:
             if time.time()+1200>inp['deadline_epoch']or(stage/'STOP.json').exists():
                 raise RuntimeError('FINITE_PANEL_NO_LATE_NEW_EPISODE; REMAINING_REQUESTS_NOT_RUN')
             registered=register(row);execute(registered);result=observe(row)
@@ -149,9 +174,11 @@ def run(input_path):
     except BaseException as error:failure=type(error).__name__+': '+str(error)
     finally:
         summary=panel_contract.summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
-        write(stage/'RESULT.private.json',dict(status='TEACHER_QUALIFICATION_COMPLETE'if code==0 else'TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED',
+        write(stage/'RESULT.private.json',dict(status=completed_status if code==0 else incomplete_status,
             exit_code=code,failure=failure,summary=summary,wall_s=time.monotonic()-start,
-            CPU_s=sum(v['CPU_s']for v in outcomes),qualified_training_demonstrations=0))
+            CPU_s=sum(v['CPU_s']for v in outcomes),qualified_training_demonstrations=0,
+            assignment_slice=selection,selected_requests=len(selected_rows),completed_in_group=len(outcomes),
+            source_sha=inp['source_sha'],panel_sha256=inp['panel_sha256']))
         current=json.loads(lease_path.read_text());current.update(status='CLOSED',closed_epoch=time.time(),worker_exit_code=code);write(lease_path,current)
         for sig,handler in handlers.items():signal.signal(sig,handler)
     return code

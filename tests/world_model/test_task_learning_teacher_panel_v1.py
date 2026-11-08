@@ -62,7 +62,8 @@ def test_construction_and_path_traversal_cannot_enter_qualification_panel():
 
 def test_old_construction_success_is_not_a_qualification_outcome():
     row=plan()['assignments'][0]
-    n=dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,owned_process_exits=[dict(exit_code=0)],
+    n=dict(status='NATIVE_STAGE_PASSED',shutdown_clean=True,
+        owned_process_exits=[dict(name=name,exit_code=0)for name in('sim','solver','controller','planner')],
         actual_target_integrations=task.E,reference_qualification=dict(schema='TASK_LEARNING_GRASP_CONSTRUCTION_NATIVE_ACTUAL_V1'))
     args=dict(native=n,worker=dict(exit_code=0),lease=dict(status='CLOSED'),
         readiness=dict(passes=True,native_step=task.B),score=dict(task_success=True),
@@ -72,12 +73,15 @@ def test_old_construction_success_is_not_a_qualification_outcome():
     args['spec']['task_learning_role']=task.QUALIFICATION_ROLE
     args['native']['reference_qualification']['schema']='TASK_LEARNING_TEACHER_QUALIFICATION_NATIVE_ACTUAL_V1'
     assert panel.classify(row,**args)['task_success']is True
+    args['native']['owned_process_exits'].pop()
+    assert panel.classify(row,**args)['technical_valid']is False
 
 
 def test_safe_reference_rejection_is_preserved_as_teacher_failure():
     row=plan()['assignments'][0]
     v=panel.classify(row,native=dict(status='NATIVE_STAGE_FAILED_PRESERVED',shutdown_clean=True,
-        owned_process_exits=[dict(exit_code=0)],failure='ValueError: ORIGINAL_FULL_NATIVE_CONTACT_REJECT'),
+        owned_process_exits=[dict(name=name,exit_code=0)for name in('sim','solver','controller','planner')],
+        failure='ValueError: ORIGINAL_FULL_NATIVE_CONTACT_REJECT'),
         worker=dict(exit_code=1),lease=dict(status='CLOSED'),readiness=dict(passes=True,native_step=task.B),
         score={},spec=dict(task_learning_role=task.QUALIFICATION_ROLE,phase=task.PHASE,source_sha='candidate'),
         expected_source='candidate',attempted=True)

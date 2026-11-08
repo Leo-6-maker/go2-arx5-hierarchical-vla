@@ -17,20 +17,27 @@ QUALIFICATION_OFFSETS={
     'QUAL01':(-.004,-.004),'QUAL02':(-.004,0.),'QUAL03':(-.004,.004),
     'QUAL04':(0.,-.004),'QUAL05':(0.,.004),'QUAL06':(.004,-.004),
     'QUAL07':(.004,0.),'QUAL08':(.004,.004),'QUAL09':(-.002,.002),'QUAL10':(.002,-.002)}
+TRAIN_OFFSETS={f'TRAIN{i+1:02d}':(x,y)for i,(x,y)in enumerate(
+    (x,y)for x in(-.0035,-.00175,.00025,.002,.0035)for y in(-.0035,-.00175,.00025,.002,.0035))}
+RECOVERY_OFFSETS={'RECOVERY01':(-.003,-.001),'RECOVERY02':(-.003,.001),
+    'RECOVERY03':(.003,-.001),'RECOVERY04':(.003,.001)}
 
 
 def scene_id(layout):
     if layout=='PILOT01':return SCENE_ID
-    if layout not in QUALIFICATION_OFFSETS:raise ValueError('PREREGISTERED_UNDER_HAND_LAYOUT_ONLY')
+    if layout not in {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS}:
+        raise ValueError('PREREGISTERED_UNDER_HAND_LAYOUT_ONLY')
     return 'TASK_LEARNING_UNDER_HAND_'+layout
 
 
 def geometry(layout='PILOT01'):
     scene_id(layout)
-    dx,dy=(0.,0.)if layout=='PILOT01'else QUALIFICATION_OFFSETS[layout]
+    dx,dy=(0.,0.)if layout=='PILOT01'else {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS}[layout]
     return dict(table_center_xyz_m=[.40,0.,.575],table_half_size_m=[.17,.24,.025],
         object_initial_xyz_m=[.26+dx,-.014+dy,.62],cube_edge_m=.04,cube_mass_kg=.05,
-        role='CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION'if layout=='PILOT01'else'TEACHER_QUALIFICATION_NOT_BC',
+        role=('CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION'if layout=='PILOT01'else
+              'CONTINUOUS_TEACHER_TRAIN_POPULATION'if layout in TRAIN_OFFSETS else
+              'UNDER_CLOSE_RECOVERY_QUALIFICATION_NOT_BC'if layout in RECOVERY_OFFSETS else'TEACHER_QUALIFICATION_NOT_BC'),
         robot_startup_native_safety_or_dynamics_changed=False)
 
 
@@ -95,12 +102,15 @@ def admission(spec):
     from .stable_task_scene_v1 import pinned
     proof=pinned(spec['task_learning_scene_reference'])
     layout=proof.get('layout')
-    qualification=layout in QUALIFICATION_OFFSETS
+    from . import task_learning_grasp_v1 as task
+    expected_role=(task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
+        task.COLLECTION_ROLE if layout in TRAIN_OFFSETS else
+        task.RECOVERY_QUALIFICATION_ROLE if layout in RECOVERY_OFFSETS else task.CONSTRUCTION_ROLE)
     if not(proof.get('schema')=='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1'
         and proof.get('status')=='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED'
         and proof.get('builder_sha256')==spec['source_files'][MEMBER]
         and proof.get('geometry')==geometry(layout)and proof.get('parent')==scene_id(layout)==spec['scene_id']==spec['data_parent']
-        and (qualification==(spec.get('task_learning_role')=='TEACHER_QUALIFICATION_NOT_BC_V1'))
+        and spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==expected_role
         and proof.get('split')==spec['data_role']=='TRAIN'
         and proof.get('saved_startup_pose_checks')==5703
         and proof.get('robot_contract',{}).get('status')=='COURSE_ROBOT_DYNAMICS_AND_NATIVE_SAFETY_PROPERTIES_EXACT'
