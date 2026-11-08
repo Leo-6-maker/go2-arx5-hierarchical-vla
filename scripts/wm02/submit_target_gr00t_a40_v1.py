@@ -43,6 +43,7 @@ def submit(request):
          'INDEPENDENT_FINITE_NONZERO_TRAINING_SCOPE')
     manifest=json.loads((data/'DATASET_MANIFEST.json').read_bytes())
     admission=json.loads((data/'PROCESSOR_TRAINING_ADMISSION.json').read_bytes())
+    reconstructed=json.loads((data/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
     need(digest(data/'DATASET_MANIFEST.json')==c['dataset_sha256']
          and digest(data/'statistics.json')==c['statistics_sha256']
          and manifest['bundle_kind']=='FIT4_DIAGNOSTIC'
@@ -50,11 +51,16 @@ def submit(request):
          and manifest['WM_or_HOLD_or_diagnostic_relabelled']is False
          and admission['status']=='PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP'
          and admission['manifest_sha256']==c['dataset_sha256']
-         and admission['statistics_sha256']==c['statistics_sha256'], 'REAL_SEALED_FIT4_AND_ORIGINAL_PROCESSOR')
+         and admission['statistics_sha256']==c['statistics_sha256']
+         and reconstructed['status']=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
+         and reconstructed['manifest_sha256']==c['dataset_sha256']
+         and reconstructed['statistics_sha256']==c['statistics_sha256']
+         and reconstructed['original_Core_admission_sha256']==digest(data/'PROCESSOR_TRAINING_ADMISSION.json'),
+         'REAL_SEALED_FIT4_AND_ORIGINAL_PROCESSOR')
     for name,pin in c['dataset_files'].items():need(digest(data/name)==pin,'EXACT_PRIVATE_DATA_TRANSFER:'+name)
     for name,pin in c['source_files'].items():need(digest(Path(c['source_root'])/name)==pin,'EXACT_SOURCE_TRANSFER:'+name)
     need(all((data/name).is_file()and c['dataset_files'].get(name)==digest(data/name)
-             for name in ('DATASET_MANIFEST.json','statistics.json','PROCESSOR_TRAINING_ADMISSION.json')),
+             for name in ('DATASET_MANIFEST.json','statistics.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json')),
          'ALL_MANDATORY_DATA_TRANSFER_PINS')
     qpath=Path('/home/svu/vanda/quotas/CFP04-CF-007.proj_scratch.txt')
     quota=project_quota(qpath.read_text(),user=os.environ['USER'],report_epoch=qpath.stat().st_mtime,observed_epoch=time.time())

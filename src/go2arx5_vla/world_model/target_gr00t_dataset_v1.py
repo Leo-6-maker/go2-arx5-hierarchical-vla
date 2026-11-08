@@ -56,6 +56,8 @@ def policy_commands(root,q):
     need(all(np.array_equal(consumed[k],reference[k])for k in knots),
          'EVERY_RAW_TEACHER_KNOT_ACTUALLY_COMPILED_INSTALLED_AND_CONSUMED')
     return raw,dict(proposal=pp,compiler_decision=dp,raw_knot_to_consumed_atom=knots,
+        raw_policy_nominal_period_s=.05,installed_controller_period_s=.05,
+        actual_compiler_clock=q['adaptation']['clock'],
         policy_decisions=1,renewed_previews_as_additional_expert_decisions=0,
         working_gripper_affine_applied_once_by_compiler=True,
         raw_policy_grip_preserved_in_label=True)
@@ -262,6 +264,16 @@ class TargetNativeDataset(OriginalDataset):
                  and admission.get('manifest_sha256')==self.manifest_sha
                  and admission.get('statistics_sha256')==self.statistics_sha
                  and admission.get('TRAIN_only_statistics')is True,'ACTUAL_TARGET_PROCESSOR_QUALIFICATION_REQUIRED')
+            transferred=json.loads((self.root/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
+            need(transferred.get('status')=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
+                 and transferred.get('manifest_sha256')==self.manifest_sha
+                 and transferred.get('statistics_sha256')==self.statistics_sha
+                 and transferred.get('original_Core_admission_sha256')==digest(self.root/'PROCESSOR_TRAINING_ADMISSION.json')
+                 and transferred.get('actual_cross_site_processed_batch_identity')is True,
+                 'ACTUAL_VANDA_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
+            directory=self.root/'target-processor-vanda-v1'
+            need(all(digest(directory/name)==pin for name,pin in transferred['processor_files'].items()),
+                 'SAVED_TRANSFERRED_TARGET_PROCESSOR_FILES')
         self.rows=[(r,a)for r in self.manifest['episodes']if r['split']==split for a in range(r['windows'])]
         need(bool(self.rows),'NONEMPTY_SPLIT')
         self.processor=None;self.cached_id=None;self.cached=None;self.raw_bindings={};self.seed=20261108

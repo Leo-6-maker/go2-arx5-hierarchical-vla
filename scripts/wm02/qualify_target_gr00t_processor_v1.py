@@ -7,12 +7,15 @@ import numpy as np
 FP32_COMPONENT_ATOL = 1e-6
 
 
-def qualify(root,source,cosmos):
+def qualify(root,source,cosmos,*,verify_transfer=False):
     from go2arx5_vla.world_model.target_gr00t_dataset_v1 import TargetNativeDataset,need
     from go2arx5_vla.world_model.storage import digest,write_json
     from scripts.pi0292.train_adapter import OFFICIAL_SHA
     from scripts.pi0292.eval_contract import expert_decode
-    root=Path(root);path=root/'PROCESSOR_TRAINING_ADMISSION.json'
+    from scripts.pi0294.native_train import tree_identity
+    root=Path(root);original=root/'PROCESSOR_TRAINING_ADMISSION.json'
+    expected=json.loads(original.read_bytes()) if verify_transfer else None
+    path=root/('PROCESSOR_VANDA_RECONSTRUCTION.json' if verify_transfer else original.name)
     need(not path.exists(),'PRESERVE_EXISTING_PROCESSOR_ADMISSION')
     start=time.monotonic();cpu=time.process_time()
     data=TargetNativeDataset(root,source,cosmos)
@@ -31,17 +34,27 @@ def qualify(root,source,cosmos):
              and bool((mask[...,:10]==1).all())and bool((mask[...,10:]==0).all()),
              'ORIGINAL_H40_EEF10_MASK_AND_TIME_SEMANTICS')
         records.append(dict(episode=row['id'],anchor=anchor,max_abs_error=error,
-            RGB_pairs=len(images)//2,language_matches=bool(text),decode_calls=1))
-    processor=root/'target-processor-v1'
+            RGB_pairs=len(images)//2,language_matches=bool(text),decode_calls=1,
+            actual_collated_batch_identity=tree_identity(batch)))
+    if verify_transfer:
+        need(expected['manifest_sha256']==data.manifest_sha and expected['statistics_sha256']==data.statistics_sha
+             and expected['processed_TRAIN_windows']==len(records),'SAME_EXACT_TRANSFERRED_PROCESSOR_INPUTS')
+        for a,b in zip(expected['records'],records):
+            need(a['episode']==b['episode'] and a['anchor']==b['anchor']
+                 and a['actual_collated_batch_identity']==b['actual_collated_batch_identity'],
+                 'ACTUAL_CROSS_SITE_IMAGE_TEXT_STATE_ACTION_MASK_BATCH_IDENTITY')
+    processor=root/('target-processor-vanda-v1'if verify_transfer else'target-processor-v1')
     data.processor.save_pretrained(processor)
     files={str(p.relative_to(processor)):digest(p)for p in processor.rglob('*')if p.is_file()}
     result=dict(schema='WM02_TARGET_GR00T_PROCESSOR_ADMISSION_V1',
-        status='PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP',manifest_sha256=data.manifest_sha,
+        status='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'if verify_transfer else'PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP',manifest_sha256=data.manifest_sha,
         statistics_sha256=data.statistics_sha,upstream_sha=OFFICIAL_SHA,TRAIN_only_statistics=True,
         processed_TRAIN_windows=len(records),maximum_abs_error=max(r['max_abs_error']for r in records),
         fixed_component_tolerance=FP32_COMPONENT_ATOL,records=records,
         processor_files=files,processor_directory=str(processor),
         train_and_deploy_processor='SAME_SAVED_TARGET_PROCESSOR_V1',
+        original_Core_admission_sha256=digest(original)if verify_transfer else None,
+        actual_cross_site_processed_batch_identity=verify_transfer,
         new_policy_models=0,new_optimizer_updates=0,new_physics=0,new_PBS=0,
         wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu)
     write_json(path,result);return result
@@ -50,7 +63,8 @@ def qualify(root,source,cosmos):
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('dataset','source','cosmos'):p.add_argument('--'+name,type=Path,required=True)
-    a=p.parse_args(argv);r=qualify(a.dataset,a.source,a.cosmos)
+    p.add_argument('--verify-transfer',action='store_true')
+    a=p.parse_args(argv);r=qualify(a.dataset,a.source,a.cosmos,verify_transfer=a.verify_transfer)
     print(json.dumps({k:v for k,v in r.items()if k!='records'}));return 0
 
 if __name__=='__main__':raise SystemExit(main())

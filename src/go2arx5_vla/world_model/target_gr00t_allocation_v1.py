@@ -97,12 +97,18 @@ def compare_next_update(first, resumed):
 
 
 def run(c):
+    import signal
     from scripts.pi0292.durable import OwnerLock, write
     from scripts.pi0294.e1.journal import Journal
     from scripts.pi0294.night10.native_relay import snapshot, once
     from scripts.pi0294.multitask.shared_vanda import job, seconds
     from scripts.pi0294.multitask.shared_site import validate_vanda, project_quota
-    root=Path(c['root']); need=profile.need; start=time.monotonic()
+    root=Path(c['root']); need=profile.need; start=time.monotonic();stop_requested=[]
+    def stop(sig,frame):
+        stop_requested.append(sig)
+        write(root/'STOP_REQUESTED.json',dict(signals=stop_requested,epoch=time.time(),
+            action='FORWARD_TO_OWNED_CHILD_AND_SAVE_AT_OPTIMIZER_BOUNDARY'))
+    signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGUSR1,stop)
     need(os.getuid()==22182 and os.environ.get('PBS_JOBID'), 'REAL_ALLOCATED_OWNER')
     jid,j=job(); need(j['Job_Name']=='wm02_target_gr00t', 'PINNED_TARGET_ALLOCATION_NAME')
     lease=json.loads((root/'control/LEASE.json').read_bytes())
@@ -131,7 +137,7 @@ def run(c):
     write(root/'ACTUAL_GPU.json',gpu)
     children=[]
     def child(name,mode,variant,endpoint,*,resume=None,start_step=0,generation=None):
-        need(time.time()+2400 < deadline,'ALLOCATION_MODEL_START_AND_CLOSEOUT')
+        need(not stop_requested and time.time()+2400 < deadline,'ALLOCATION_MODEL_START_AND_CLOSEOUT')
         r=root/name
         def register():
             r.mkdir();(r/'control').mkdir();(r/'tmp').mkdir();(r/'cache').mkdir()
@@ -163,13 +169,35 @@ def run(c):
                 NO_ALBUMENTATIONS_UPDATE='1',CUDA_VISIBLE_DEVICES=gpu['uuid'])
             t=time.monotonic()
             with (r/'stdout.log').open('xb')as out,(r/'stderr.log').open('xb')as err:
-                p=subprocess.run([c['python'],'-B','-m','scripts.wm02.train_target_gr00t_v1',
+                p=subprocess.Popen([c['python'],'-B','-m','scripts.wm02.train_target_gr00t_v1',
                     '--spec',str(r/'EXECUTION_SPEC.json')],cwd=c['source_root'],env=env,stdout=out,stderr=err,
-                    timeout=max(1,deadline-time.time()+30))
+                    start_new_session=True)
+                write(r/'ACTUAL_STARTED.json',dict(PID=p.pid,job_id=jid,epoch=time.time(),
+                    proc_start=Path(f'/proc/{p.pid}/stat').read_text().rsplit(')',1)[1].split()[19]))
+                sent=[]
+                while p.poll() is None:
+                    for sig in stop_requested[len(sent):]:
+                        if p.poll()is None:os.killpg(p.pid,sig)
+                        sent.append(sig)
+                    if time.time() > deadline+30:
+                        if p.poll()is None:os.killpg(p.pid,signal.SIGTERM)
+                        try:p.wait(timeout=60)
+                        except subprocess.TimeoutExpired:
+                            if p.poll()is None:os.killpg(p.pid,signal.SIGKILL)
+                            p.wait(timeout=20)
+                            raise RuntimeError('UNKNOWN_WORKER_WITHOUT_SAFE_CLOSEOUT_PRESERVE_PROGRESS')
+                    else:
+                        try:p.wait(timeout=5)
+                        except subprocess.TimeoutExpired:pass
+            processes=subprocess.check_output(['ps','-eo','pid,pgid'],text=True,timeout=10)
+            need(not any(len(v:=line.split())==2 and v[1]==str(p.pid)
+                         for line in processes.splitlines()[1:]),'NO_REMAINING_OWNED_MODEL_PROCESS_GROUP')
             actual=json.loads((r/'RESULT.json').read_bytes());closed=json.loads((r/'control/LEASE.json').read_bytes())
             need(closed['status']=='CLOSED' and closed['worker_exit_code']==p.returncode,'ACTUAL_CHILD_TERMINAL')
             return dict(name=name,root=str(r),exit_code=p.returncode,result_sha256=digest(r/'RESULT.json'),
                 status=actual['status'],GR00T_updates=actual.get('GR00T_updates',0),
+                global_step=actual.get('global_step'),requested_endpoint=endpoint,
+                endpoint_complete=actual.get('global_step')==endpoint,
                 PBS_GPU_wall_s_upper=time.monotonic()-t,checkpoint=actual.get('checkpoint'))
         row=journal.once(name+'-EXECUTE',registered,execute);children.append(row)
         write(root/'CHILDREN_ACTUAL.json',dict(children=children));return row
@@ -182,23 +210,51 @@ def run(c):
             need('out of memory' in error.lower() or 'ORIGINAL_TWO_GIB_MEMORY_MARGIN' in error,
                  'NON_CAPACITY_ENGINEERING_FAILURE_REQUIRES_REPAIR_NOT_VARIANT_SEARCH')
             continue
+        if not cap['endpoint_complete']:
+            return dict(status='PARTIAL_CAPACITY_CHECKPOINT_SEALED',children=children,
+                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
         selected=variant;first=Path(cap['checkpoint']);cp1=first.parent/'checkpoint-1'
         s=json.loads((Path(cap['root'])/'EXECUTION_SPEC.json').read_bytes())
         resumed=child(name+'-restore-next','CAPACITY',variant,2,start_step=1,
             resume=dict(path=str(cp1),sha256=digest(cp1/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
-        need(resumed['exit_code']==0,'INDEPENDENT_CAPACITY_RESUME_FAILED')
+        need(resumed['exit_code']==0 and resumed['endpoint_complete'],'INDEPENDENT_CAPACITY_RESUME_FAILED')
         proof=compare_next_update(first,resumed['checkpoint']);write(root/'NEXT_UPDATE_RESTORE_ACTUAL.json',proof)
         break
     need(selected is not None,'AWAITING_SCALE_REVIEW_ALL_SINGLE_A40_SCOPES_FAILED')
+    timings=[json.loads(line)for line in (Path(cap['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
+    need([r['step']for r in timings]==[1,2]and all(r['optimizer_update_wall_s']>0 for r in timings),
+         'TWO_MEASURED_REAL_UPDATES_FOR_FIT4_TIME_ADMISSION')
+    forecast=200*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
+    time_admission=dict(predicted_fit4_200_wall_s=forecast,remaining_allocation_s=deadline-time.time(),
+        measured_update_wall_s=[r['optimizer_update_wall_s']for r in timings],
+        measured_full_load_save_probe_restore_overhead_upper_s=cap['PBS_GPU_wall_s_upper'],
+        closeout_reserve_s=1200,passes=time.time()+forecast<deadline)
+    write(root/'FIT4_TIME_ADMISSION.json',time_admission)
+    if not time_admission['passes']:
+        return dict(status='CAPACITY_QUALIFIED_WAIT_FRESH_FIT4_ALLOCATION',children=children,
+            actual_GR00T_updates=sum(r['GR00T_updates']for r in children),time_admission=time_admission,
+            capacity_and_next_update_already_complete_do_not_repeat=True)
     fit=child('fit4-200','FIT4',selected,200)
     need(fit['exit_code']==0,'FIT4_ENGINEERING_FAILURE')
+    if not fit['endpoint_complete']:
+        return dict(status='PARTIAL_FIT4_CHECKPOINT_SEALED',children=children,
+            actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
     gate=fit4_gate(fit['root']);write(root/'FIT4_GATE_200.json',gate)
     # A 500 continuation is a separately registered same-generation slice.
     if not gate['passes'] and gate['continuation500_allowed']:
+        timings=[json.loads(line)for line in (Path(fit['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
+        remaining_prediction=300*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
+        if time.time()+remaining_prediction>=deadline or stop_requested:
+            return dict(status='FIT4_200_PROGRESS_WAIT_FRESH500_ALLOCATION',children=children,
+                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),fit4_gate=gate,
+                predicted_300_update_and_restore_s=remaining_prediction)
         s=json.loads((Path(fit['root'])/'EXECUTION_SPEC.json').read_bytes());cp=Path(fit['checkpoint'])
         fit=child('fit4-500','FIT4',selected,500,start_step=200,
             resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
         need(fit['exit_code']==0,'FIT4_CONTINUATION_ENGINEERING_FAILURE')
+        if not fit['endpoint_complete']:
+            return dict(status='PARTIAL_FIT4_CONTINUATION_SEALED',children=children,
+                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
         gate=fit4_gate(fit['root'],original_before=root/'fit4-200/before/RESULT.json')
         write(root/'FIT4_GATE_500.json',gate)
     return dict(status='FIT4_CHAIN_SEALED',children=children,selected_variant=selected,

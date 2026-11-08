@@ -170,6 +170,7 @@ def run(spec):
         state_dropout_prob=0.,backbone_trainable_params_fp32=True,load_bf16=False)
     profile.need(not any(loading.get(k)for k in ('missing_keys','unexpected_keys','mismatched_keys')),
                  'STRICT_PINNED_PARENT_LOAD')
+    profile.need(model.action_head.num_inference_timesteps==4,'ORIGINAL_FOUR_STEP_FREE_GENERATION')
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
     frozen=frozen_fingerprint(model);names=contract.trainable_names
@@ -240,7 +241,7 @@ def run(spec):
             self.state.save_to_json(str(cp/'trainer_state.json'))
             data.processor.save_pretrained(cp/'processor')
             import shutil
-            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json'):
+            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json'):
                 shutil.copyfile(data.root/file,cp/file)
             write(cp/'PARAMETER_CONTRACT.json',contract.describe());write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(cursor=self.consumed,sampler=self.sampler.state_dict(self.consumed),
@@ -256,18 +257,29 @@ def run(spec):
                 probe(root,f'at-{step}-TRAIN',instance,data)
                 probe(root,f'at-{step}-DEV',instance,dev)
     class Audit(TrainerCallback):
+        def on_step_begin(self,args,state,control,**kwargs):
+            torch.cuda.synchronize();holder['update_started']=time.monotonic()
         def on_pre_optimizer_step(self,args,state,control,model=None,**kwargs):
-            contract.validate()
+            contract.validate();has_gradient=False;nonzero_gradient=False
             for name,t in model.named_parameters():
                 if t.grad is not None:
+                    has_gradient=True
                     profile.need(name in names and torch.isfinite(t.grad).all(),'FINITE_DECLARED_GRADIENT:'+name)
+                    if not nonzero_gradient:nonzero_gradient=bool(torch.count_nonzero(t.grad))
+            profile.need(has_gradient and nonzero_gradient,'ACTUAL_NONZERO_INTERNAL_ACTION_GRADIENT')
         def on_step_end(self,args,state,control,**kwargs):
             trainer=holder['trainer'];step=state.global_step
+            torch.cuda.synchronize()
+            timing=dict(step=step,epoch=time.time(),optimizer_update_wall_s=time.monotonic()-holder['update_started'],
+                consumed_cursor=trainer.consumed,native_loss=trainer.last_native_loss,
+                learning_rate=trainer.optimizer.param_groups[0]['lr'])
             # Commit the actual update count before post-update capacity checks.
             # A subsequent rejection must not erase the completed optimizer call.
             write(root/'PROGRESS.json',dict(global_step=step,cursor=trainer.consumed,
                 GR00T_updates=step-spec['start_step'],WM_updates=0,Actor_updates=0,
                 epoch=time.time(),wall_s=time.monotonic()-start,stop_requested=stop_requested))
+            with (root/'OPTIMIZER_STEPS.jsonl').open('a')as handle:
+                handle.write(json.dumps(timing,sort_keys=True)+'\n');handle.flush();os.fsync(handle.fileno())
             if step in (1,2,10,p['endpoint']) or step%250==0:measured('UPDATE_'+str(step))
             stopping=bool(stop_requested)or time.time()+spec['closeout_reserve_s']>=spec['deadline_epoch']
             control.should_save=step%250==0 or step==p['endpoint'] or p['mode']=='CAPACITY' or stopping
