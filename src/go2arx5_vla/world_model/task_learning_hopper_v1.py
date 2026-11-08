@@ -1,5 +1,6 @@
 """Fresh single-H200 native Trainer qualification; PBS owns all allocation."""
 import json
+import math
 import os
 import subprocess
 import time
@@ -24,12 +25,13 @@ def job(job_id, server=None):
     return matches[0]
 
 
-def allocated(record, job_id, *, uid, hostname, user):
+def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_task_hopper'):
     resources = record['Resource_List']
     hosts = {h.split('/')[0].split('.')[0] for h in record.get('exec_host','').split('+')}
     profile.need(uid == 22182 and user == 'e1192548' and record['Job_Owner'].split('@')[0] == user
         and record['job_state'] == 'R' and record['project'] == PROJECT
-        and record['Job_Name'] == 'gr00t_task_hopper' and int(resources['ngpus']) == 1
+        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200')
+        and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
         and 'gpu_model=H200' in resources['select'] and hostname.split('.')[0] in hosts
         and bool(job_id), 'REAL_OWN_PROJECT_SINGLE_H200_ALLOCATION')
@@ -43,7 +45,8 @@ def site(spec):
     profile.need(bool(jid) and root.resolve() == root
         and root.is_relative_to(Path('/scratch/e1192548/Projects/GR00T-WBC')), 'HOPPER_COMPUTE_SCRATCH')
     actual = job(jid, spec.get('pbs_server'))
-    allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'))
+    allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'),
+        expected_job_name=spec.get('pbs_job_name','gr00t_task_hopper'))
     lease = json.loads((root / 'control/LEASE.json').read_text())
     profile.need(lease['status'] == 'ACTIVE' and lease['job_id'] == jid
         and lease['spec_sha256'] == digest(root / 'EXECUTION_SPEC.json'), 'NEW_HOPPER_CHILD_LEASE')
@@ -57,6 +60,50 @@ def site(spec):
     return recipe
 
 
+def qualified_fit4_forecast(c):
+    """Reuse an actual terminal full restore; count update time, not model loads."""
+    need=profile.need;descriptor=c['qualified_restore'];root=Path(descriptor['root'])
+    need(root.is_absolute()and root.resolve()==root and root!=Path(c['root'])
+        and root.parent==Path(c['root']).parent,
+        'DISTINCT_CANONICAL_COMPLETED_RESTORE_ROOT')
+    def read(name,*,lines=False):
+        p=root/name
+        need(p.resolve()==p and not p.is_symlink()and p.stat().st_size<16*1024**2
+            and digest(p)==descriptor['files'][name],'SEALED_RESTORE_PREDECESSOR_'+name)
+        return [json.loads(v)for v in p.read_text().splitlines()]if lines else json.loads(p.read_text())
+    old=read('ALLOCATION_CONFIG.json');lease=read('control/LEASE.json')
+    worker=read('WORKER_EXIT.private.json');result=read('RESULT.private.json')
+    proof=read('FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json')
+    need(lease.get('status')=='CLOSED'and lease.get('worker_exit_code')==worker.get('exit_code')==0
+        and worker.get('failure')is None and lease.get('result_sha256')==digest(root/'RESULT.private.json')
+        and result.get('status')=='HOPPER_ORIGINAL_TRAINER_RESTORE_READY_WAIT_FIT4_WINDOW'
+        and proof.get('status')=='PASS_ACTUAL_UNINTERRUPTED_VERSUS_RESUMED_NEXT_UPDATE'
+        and proof.get('comparison')=='CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2'
+        and proof.get('next_update_parameters_optimizer_scheduler_RNG_sampler_exact')is True
+        and set(proof.get('checks',{}))=={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth',
+            'SAMPLER_STATE.json','PARAMETER_CONTRACT.json','FROZEN_PARENT_TENSORS.json'}
+        and all(v is True for v in proof['checks'].values())and not(root/'fit4-200').exists(),
+        'ACTUAL_CLOSED_COMPLETE_FULL_RESTORE_WITHOUT_PREVIOUS_FIT4')
+    need(all(old[k]==c[k]for k in('dataset_sha256','statistics_sha256','bindings','parent','python')),
+        'SAME_FIT4_PROCESSOR_PARENT_AND_RUNTIME_AFTER_RESTORE')
+    for name in ('src/go2arx5_vla/world_model/target_gr00t_training_v1.py',
+                 'src/go2arx5_vla/world_model/target_gr00t_profile_v1.py',
+                 'src/go2arx5_vla/world_model/target_gr00t_inference_v1.py',
+                 'scripts/wm02/train_target_gr00t_v1.py'):
+        need(old['source_files'][name]==c['source_files'][name],'UNCHANGED_QUALIFIED_TRAINER_'+name)
+    timings=[]
+    for name,steps in(('continuous4',[1,2,3,4]),('split2',[1,2]),('resume4',[3,4])):
+        rows=read(name+'/OPTIMIZER_STEPS.jsonl',lines=True)
+        need([r['step']for r in rows]==steps and all(math.isfinite(r['optimizer_update_wall_s'])
+            and r['optimizer_update_wall_s']>0 for r in rows),'ACTUAL_EIGHT_QUALIFIED_UPDATE_TIMINGS')
+        timings.extend(r['optimizer_update_wall_s']for r in rows)
+    return dict(status='ACTUAL_FULL_RESTORE_REUSED_FOR_FRESH_FIT4_ONLY',
+        predecessor_job_id=lease['job_id'],completed_optimizer_calls=8,
+        maximum_measured_update_wall_s=max(timings),conservative_predicted_s=max(timings)*200*1.3+600,
+        endpoint=200,load_probe_and_checkpoint_allowance_s=600,closeout_reserve_s=1200,
+        qualification_weights_used_for_fit4=False)
+
+
 def run(c):
     from contextlib import closing
     from scripts.pi0292.durable import OwnerLock, write
@@ -64,10 +111,13 @@ def run(c):
     from scripts.pi0294.night10.native_relay import snapshot, once
     from .target_gr00t_allocation_v1 import compare_next_update, fit4_gate, child_environment
     need = profile.need
+    phase=c.get('phase','RESTORE_CANARY')
+    need(phase in('RESTORE_CANARY','FIT4_AFTER_QUALIFIED_RESTORE'),'EXPLICIT_FINITE_HOPPER_PHASE')
     root = Path(c['root'])
     jid = os.environ.get('PBS_JOBID')
     actual = job(jid, c.get('pbs_server'))
-    allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'))
+    allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'),
+        expected_job_name=c.get('pbs_job_name','gr00t_task_hopper'))
     lease = json.loads((root / 'control/LEASE.json').read_text())
     need(lease['status'] == 'PBS_SUBMITTED' and lease['job_id'] == jid
          and lease['config_sha256'] == digest(root / 'ALLOCATION_CONFIG.json'), 'NEW_SUBMITTED_HOPPER_SCOPE')
@@ -106,6 +156,7 @@ def run(c):
                 spec = dict(registered_root=str(r), source_root=c['source_root'], source_sha=c['source_sha'],
                     source_files=c['source_files'], bindings=c['bindings'], parent=c['parent'],
                     profile=profile.PROFILE, kind=profile.KIND, execution_site='HOPPER_SINGLE_GPU',pbs_server=c.get('pbs_server'),
+                    pbs_job_name=c.get('pbs_job_name','gr00t_task_hopper'),
                     recipe=recipe, allocation_request_id=root.name, generation_id=generation or root.name+'-'+name,
                     start_step=start, resume=resume, GPU_uuid=gpu['uuid'], GPU_name=gpu['name'],
                     GR00T_updates=endpoint-start, WM_updates=0, Actor_updates=0, TASK_ADAPTER_updates=0,
@@ -147,6 +198,15 @@ def run(c):
             write(root/'CHILDREN_ACTUAL.private.json',dict(children=children))
             need(row['exit_code']==0 and row['result']['global_step']==endpoint,'HOPPER_CHILD_FAILED_'+name)
             return row['result']
+        if phase=='FIT4_AFTER_QUALIFIED_RESTORE':
+            admission=qualified_fit4_forecast(c)
+            write(root/'FIT4_TIME_ADMISSION.json',dict(admission,remaining_s=deadline-time.time()))
+            need(time.time()+admission['conservative_predicted_s']+1200<deadline,'FIT4_ONLY_FINITE_WINDOW')
+            child('fit4-200','FIT4',200)
+            gate=fit4_gate(root/'fit4-200');write(root/'FIT4_GATE_200.json',gate)
+            return dict(status='HOPPER_ORIGINAL_TRAINER_FIT4_ONLY_SEALED',qualified_restore=admission,
+                fit4_gate=gate,children=children,physics_integrations=0,formal_training=False,
+                wall_s=time.monotonic()-started)
         continuous = child('continuous4','RESTORE4',4,generation=root.name+'-restore4')
         split = child('split2','RESTORE4',2,generation=root.name+'-restore4')
         cp = Path(split['checkpoint'])

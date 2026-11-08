@@ -1,0 +1,78 @@
+{
+  "schema": "TASK_LEARNING_HOPPER_ORIGINAL_TRAINER_RESTORE_ACTUAL_V1",
+  "job_id": "707196.hopper-m-02",
+  "source_sha": "13c3176c958101a85006dfd63c6cf332438deb06",
+  "status": "CLOSED_PASS_ORIGINAL_TRAINER_FULL_ACTION_SIDE_FOUR_VS_FRESH_TWO_PLUS_TWO",
+  "PBS_state": "F",
+  "PBS_exit_status": 0,
+  "PBS_wall_s": 747,
+  "PBS_CPU_s": 841,
+  "worker": {
+    "exit_code": 0,
+    "wall_s": 744.4860087540001,
+    "failure": null
+  },
+  "GPU_count": 1,
+  "GPU_name": "NVIDIA H200",
+  "GPU_total_bytes": 150111977472,
+  "trainable_numel": 1304913028,
+  "trainable_tensors": 537,
+  "backbone_frozen": true,
+  "external_adapter_trainables": 0,
+  "total_optimizer_calls": 8,
+  "real_action_parameters_changed_in_each_child": true,
+  "full_restore": {
+    "status": "PASS_ACTUAL_UNINTERRUPTED_VERSUS_RESUMED_NEXT_UPDATE",
+    "checks": {
+      "target_parameters.pt": true,
+      "optimizer.pt": true,
+      "scheduler.pt": true,
+      "rng_state.pth": true,
+      "SAMPLER_STATE.json": true,
+      "PARAMETER_CONTRACT.json": true,
+      "FROZEN_PARENT_TENSORS.json": true
+    },
+    "next_update_parameters_optimizer_scheduler_RNG_sampler_exact": true,
+    "qualification_weights_used_for_fit4": false,
+    "comparison": "CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2"
+  },
+  "final_sampler_cursor": 128,
+  "children": [
+    {
+      "name": "continuous4",
+      "exit_code": 0,
+      "endpoint": 4,
+      "optimizer_calls": 4,
+      "wall_s": 256.1793324210448,
+      "checkpoint_manifest_sha256": "3e5e1e5d1ae6a937d4d8af525703bf84eb3434acf6b7751771074716cedf4c8a"
+    },
+    {
+      "name": "split2",
+      "exit_code": 0,
+      "endpoint": 2,
+      "optimizer_calls": 2,
+      "wall_s": 178.87497561308555,
+      "checkpoint_manifest_sha256": "cf8f0a73329a8316ca3ea8e7a8db9db5a893804ff5a5e594483fc3fde65d4235"
+    },
+    {
+      "name": "resume4",
+      "exit_code": 0,
+      "endpoint": 4,
+      "optimizer_calls": 2,
+      "wall_s": 244.46305295394268,
+      "checkpoint_manifest_sha256": "8c68ce4cc8a60233bb42e830b7b93d00e9a34847a8a6e94d32586c74c7e03c6f"
+    }
+  ],
+  "continuous4_peak_allocated_GPU_bytes": 32267997696,
+  "measured_update_wall_s_range": [
+    7.056472674012184,
+    7.448341219918802
+  ],
+  "FIT4_200_executed": false,
+  "old_inclusive_time_forecast_s": 31758.934685966233,
+  "measured_update_only_forecast_with_30pct_and_600s_allowance": 2536.5687171788886,
+  "formal_training": false,
+  "native_physics": 0,
+  "old_CLOSED_reopened": false,
+  "EVIDENCE_ASOF": "2026-11-08T23:35:10.106639+00:00"
+}

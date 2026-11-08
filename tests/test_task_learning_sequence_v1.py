@@ -4,16 +4,19 @@ import pytest
 
 from go2arx5_vla.world_model import task_learning_grasp_v1 as task
 from go2arx5_vla.world_model.task_learning_sequence_v1 import sequence,map_policy_frame
-from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d_rows
+from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d_rows,matrix_to_quat,quat_slerp,quat_to_matrix
 
 
-def records():
+def records(rotation=None):
     decisions=[];captures=[];rows=[]
     for index in range(15):
         actual=np.eye(4);actual[:3,3]=[.2,.01,.7+index*.001]
+        if rotation is not None:actual[:3,:3]=rotation
         reference=actual.copy();reference[:3,3]+=[.003,-.002,.001]
         raw=np.tile(np.r_[actual[:3,3],rotation_matrix_to_rot6d_rows(actual[:3,:3]),1.],(40,1))
         u=np.linspace(0.,1.,40);w=u**3*(10+u*(-15+6*u))
+        raw[:,3:9]=rotation_matrix_to_rot6d_rows(quat_to_matrix(quat_slerp(
+            matrix_to_quat(actual[:3,:3]),matrix_to_quat(actual[:3,:3]),w[:,None])))
         raw[:,2]+=w*.001;raw[:,9]=1.-w if index==8 else 1.
         p=task.FiftyMsProgram(raw,actual,reference,np.r_[0.,0.,.3,1.,0.,0.,0.])
         step=task.B+1000*index;pin=f'{index:064x}'
@@ -81,3 +84,15 @@ def test_recorded_intervention_is_audited_but_never_expert_supervision():
 def test_unknown_label_producer_is_rejected():
     d,c,obs=records();d[8]['label_role']='UNEXECUTED_MODEL_PREDICTION'
     with pytest.raises(ValueError):sequence(d,c,obs)
+
+
+def test_all_rotation_knots_must_match_frozen_teacher_conversion_exactly():
+    rotation=quat_to_matrix(np.array([.1,.9,.3,.01]))
+    d,c,obs=records(rotation)
+    assert sequence(d,c,obs)['rotation_audit']=='EXACT_FROZEN_TEACHER_QUATERNION_MATH_ALL40_V2'
+    # A later knot still has to be the actual Teacher output, even when its
+    # first pose and its consumption receipt would otherwise be accepted.
+    d[4]['submitted_policy_H40'][21][3]+=1e-14
+    c['records'][4*40+21]['policy_EEF10']=d[4]['submitted_policy_H40'][21]
+    with pytest.raises(ValueError,match='NOMINAL_POLICY_BOUNDARY'):
+        sequence(d,c,obs)

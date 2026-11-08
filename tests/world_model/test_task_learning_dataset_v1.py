@@ -3,6 +3,7 @@ import json
 import numpy as np
 import pytest
 from go2arx5_vla.world_model.task_learning_dataset_v1 import packet_arrays,exposure_schedule,fit_statistics
+from go2arx5_vla.world_model import task_learning_grasp_v1 as task
 
 
 def packet():
@@ -53,3 +54,20 @@ def test_construction_cannot_be_used_as_new_statistics_or_partial_H40_padded():
     with pytest.raises(ValueError):fit_statistics([dict(row=row,packet=packet())])
     row['purpose']='CONTINUOUS_TEACHER_DEMONSTRATION';p=packet();p['committed_absolute10']=p['committed_absolute10'][:-1]
     with pytest.raises(ValueError):fit_statistics([dict(row=row,packet=p)])
+
+
+@pytest.mark.parametrize('role',[task.CONSTRUCTION_ROLE,task.QUALIFICATION_ROLE,task.RECOVERY_QUALIFICATION_ROLE])
+def test_native_auditor_rejects_non_collection_roles_before_reading_captures(tmp_path,role):
+    from go2arx5_vla.world_model.task_learning_dataset_v1 import audited_episode
+    (tmp_path/'EXECUTION_SPEC.json').write_text(json.dumps(dict(task_learning_role=role)))
+    with pytest.raises(ValueError,match='ONLY_NEW_PREREGISTERED_CONTINUOUS_TRAIN'):
+        audited_episode(tmp_path,{},'panel','collector')
+
+
+def test_native_auditor_cannot_move_a_collection_spec_to_another_run(tmp_path):
+    from go2arx5_vla.world_model.task_learning_dataset_v1 import audited_episode
+    from go2arx5_vla.world_model import task_learning_grasp_v1 as task
+    (tmp_path/'EXECUTION_SPEC.json').write_text(json.dumps(dict(
+        task_learning_role=task.COLLECTION_ROLE,source_sha='collector',registered_root=str(tmp_path/'other'))))
+    with pytest.raises(ValueError,match='ONLY_NEW_PREREGISTERED_CONTINUOUS_TRAIN'):
+        audited_episode(tmp_path,dict(native_run=tmp_path.name),'panel','collector')

@@ -1,0 +1,49 @@
+{
+  "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_PROGRESS_ACTUAL_V1",
+  "run_id": "task-learning-teacher-qualification-20261109-02",
+  "source_sha": "4529dafe6f244fe13311454bb9bad5fda93f3425",
+  "native_binary_sha256": "82c135c1bf5bb093cac832554b953d0017ec33e35e584865d08ca14327f3aa29",
+  "panel_sha256": "69d962cee178481aa139ea1d67145a314dedaf4e462ad4027c26e8559c94a0cb",
+  "status": "ACTIVE_INCOMPLETE_FRESH_TWENTY_REQUEST_PANEL",
+  "observed_epoch": 1794180611.4282706,
+  "summary": {
+    "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
+    "requested": 20,
+    "attempted": 1,
+    "reset_ready": 1,
+    "task_successes": 1,
+    "hard_safety_stop_conditions": 0,
+    "technical_failure_conditions": 0,
+    "P_reset_ready": 0.05,
+    "P_success_given_reset_ready": 1.0,
+    "P_success_per_requested_episode": 0.05,
+    "complete": false,
+    "thresholds": {
+      "minimum_reset_ready": 18,
+      "minimum_conditional_Teacher_success": 0.9,
+      "maximum_hard_safety_stops": 0
+    },
+    "passes": false,
+    "qualified_training_demonstrations": 0,
+    "GR00T_queries": 0,
+    "model_updates": 0,
+    "independent_restarts_not_bit_exact_forks": true
+  },
+  "outcomes": [
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual01-r1",
+      "layout": "QUAL01",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 328.22723242500797
+    }
+  ],
+  "qualified_training_demonstrations": 0,
+  "old_failed_panel_retained": "G2_TEACHER_QUALIFICATION_ACTUAL.json",
+  "EVIDENCE_ASOF": "2026-11-08T23:35:10.106639+00:00"
+}

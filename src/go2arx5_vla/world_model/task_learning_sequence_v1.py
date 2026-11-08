@@ -7,7 +7,7 @@ import numpy as np
 
 from . import task_learning_grasp_v1 as task
 from .fusion_trajectory_adapter import WORKING_CLOSED_M,WORKING_OPEN_M,MECHANICAL_TRAVEL_M
-from ..trajectory.so3 import rot6d_rows_to_matrix,rotation_matrix_to_rot6d_rows
+from ..trajectory.so3 import rot6d_rows_to_matrix,rotation_matrix_to_rot6d_rows,matrix_to_quat,quat_slerp,quat_to_matrix
 
 
 def sequence(decisions,confirmed,captures):
@@ -20,6 +20,8 @@ def sequence(decisions,confirmed,captures):
     rows=confirmed.get('records')or[]
     task.need(len(rows)==task.QUERIES*40,'EXACTLY_SIX_HUNDRED_TEACHER_COMMANDS_EXCLUDES_TERMINATION_HOLD')
     policy=[];installed=[];anchors=[];stages=[];valid=[]
+    initial_rotation=np.asarray(decisions[0]['original_actual_TCP'],float)[:3,:3]
+    u=np.linspace(0.,1.,40);weights=u**3*(10+u*(-15+6*u))
     for index,(decision,capture)in enumerate(zip(decisions,captures)):
         step=task.B+1000*index
         raw=np.asarray(decision['submitted_policy_H40'],float)
@@ -32,8 +34,14 @@ def sequence(decisions,confirmed,captures):
             and decision.get('no_future_achieved_state_labels')is True
             and decision.get('diagnostic_control')is None,
             'REAL_CURRENT_OBSERVATION_DECISION_CLOCK_NO_PRIVILEGED_STUDENT_DATA')
+        # Reproduce the frozen Teacher's actual quaternion conversion exactly.
+        # Comparing its re-normalized rot6d matrix directly to FK introduced
+        # a spurious 2e-15 cutoff. This checks every original rotation knot
+        # without changing a tolerance, a command, or the controller math.
+        expected_rotations=rotation_matrix_to_rot6d_rows(quat_to_matrix(quat_slerp(
+            matrix_to_quat(actual[:3,:3]),matrix_to_quat(initial_rotation),weights[:,None])))
         task.need(np.array_equal(raw[0,:3],actual[:3,3])
-            and np.allclose(rot6d_rows_to_matrix(raw[0,3:9]),actual[:3,:3],rtol=0,atol=2e-15),
+            and np.array_equal(raw[:,3:9],expected_rotations),
             'NOMINAL_POLICY_BOUNDARY_ANCHORED_TO_CURRENT_ACTUAL_TCP')
         chunk=rows[40*index:40*(index+1)]
         for offset,row in enumerate(chunk):
@@ -64,6 +72,7 @@ def sequence(decisions,confirmed,captures):
         valid_window=np.asarray(valid,dtype=bool),policy_period_s=.05,
         actual_high_level_decisions=task.QUERIES,supervised_policy_decisions=sum(valid),confirmed_intervals=len(rows),
         excluded_intervention_decisions=len(valid)-sum(valid),
+        rotation_audit='EXACT_FROZEN_TEACHER_QUATERNION_MATH_ALL40_V2',
         termination_hold_used_as_new_Teacher_decision=False,expert_training_eligible=False)
 
 
