@@ -23,6 +23,9 @@ def recorded_payload(spec):
         from go2arx5_vla.world_model.fusion_prompt_control import prompt_control_payload
         return prompt_control_payload(Path(spec['recorded_observation']).read_bytes(),
             view_sha256=spec['recorded_observation_sha256'], query_spec=spec)
+    if spec.get('observation_mode') == 'SEALED_TARGET_GR00T_EXPERT_DECISION_V1':
+        from go2arx5_vla.world_model.target_gr00t_baseline_v1 import recorded_payload as target_payload
+        return target_payload(spec)
     observation = Path(spec['recorded_observation'])
     if digest(observation) != spec['recorded_observation_sha256']:
         raise ValueError('ACTUAL_SAVED_OBSERVATION_CHANGED')
@@ -166,6 +169,16 @@ def infer(spec,output):
     end.record();torch.cuda.synchronize();query_wall=time.monotonic()-tick
     action_path=output/'REAL_VLA_ACTION.npz'
     with action_path.open('xb')as f:np.savez_compressed(f,physical_H40=value['physical_H40'],normalized=value['normalized'])
+    teacher_comparison=None
+    if observation_provenance.get('actual_same_observation_teacher'):
+        from scripts.pi0292.eval_contract import error_metrics,gate_action
+        expert=np.asarray(observation_provenance['teacher_policy_H40']);state=np.asarray(payload['state_eef10'])
+        direction=expert[-1,:3]-state[:3];direction/=np.linalg.norm(direction)
+        teacher_comparison=dict(errors=error_metrics(value['physical_H40'],expert,state),
+            signed_endpoint_progress_m=float((value['physical_H40'][-1,:3]-state[:3])@direction),
+            maximum_excursion_m=float(np.linalg.norm(value['physical_H40'][:,:3]-state[:3],axis=1).max()),
+            original_source_trajectory_gate=gate_action(value['physical_H40'],state,0.,'SAME_TARGET_BASELINE'),
+            target_native_execution=False,raw_H40_clipped=False,teacher_used_to_replace_baseline_action=False)
     write_json(output/'RESULT.private.json',dict(status='REAL_FROZEN_VLA_OFFLINE_INFERENCE_DONE',source_sha=spec['source_sha'],
         checkpoint_manifest_sha256=spec['checkpoint_manifest_sha256'],recorded_observation_sha256=spec['recorded_observation_sha256'],
         action_sha256=digest(action_path),actual_model_loads=1,actual_VLA_inferences=1,WM_updates=0,Actor_updates=0,GR00T_updates=0,native_integrations=0,
@@ -173,7 +186,7 @@ def infer(spec,output):
         physical_H40_shape=list(value['physical_H40'].shape),normalized_outside_unit_components=value['normalized_outside_unit_components'],
         source_frame=payload['frame'],source_TCP=payload['tcp'],desired_outcome_provenance='SEMANTICS_UNRESOLVED',
         REAL_VLA_INFERENCE_DONE=True,FROZEN_VLA_NATIVE_COMPARISON=False,TASK_TRANSFER_GAIN=False,
-        observation_provenance=observation_provenance,
+        observation_provenance=observation_provenance,same_observation_teacher_comparison=teacher_comparison,
         target_online_images=False,source_task_success='NOT_ESTABLISHED_BY_THIS_QUERY',
         query_wall_s=query_wall,GPU_event_s=begin.elapsed_time(end)/1000,
         peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved(),
