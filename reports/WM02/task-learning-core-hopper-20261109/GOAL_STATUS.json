@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T04:42:44.451085+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T05:17:18.535388+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -61,7 +61,7 @@
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
-    "teacher_qualification_attempts": 0,
+    "teacher_qualification_attempts": 1,
     "qualified_full_demos": 0,
     "run_id": "task-learning-grasp-construction-20261109-08",
     "source_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752",
@@ -110,9 +110,36 @@
     },
     "post_readiness_horizon_s": 31.0,
     "construction_successes": 1,
-    "formal_Teacher_qualification_attempts": 0,
+    "formal_Teacher_qualification_attempts": 1,
     "teacher_implementation_AST_sha256": "8e1199bc13a1d37a3d4d02251ffea9a241d8c47ff6a3ab6b4fd3dbef6a1503db",
-    "actual": "G2_CONSTRUCTION_08_ACTUAL.json"
+    "actual": "G2_CONSTRUCTION_08_ACTUAL.json",
+    "qualification": {
+      "status": "RUNNING_NOT_YET_QUALIFIED",
+      "actual": "G2_TEACHER_QUALIFICATION_ACTUAL.json",
+      "summary": {
+        "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
+        "requested": 20,
+        "attempted": 1,
+        "reset_ready": 1,
+        "task_successes": 1,
+        "hard_safety_stop_conditions": 0,
+        "technical_failure_conditions": 0,
+        "P_reset_ready": 0.05,
+        "P_success_given_reset_ready": 1.0,
+        "P_success_per_requested_episode": 0.05,
+        "complete": false,
+        "thresholds": {
+          "minimum_reset_ready": 18,
+          "minimum_conditional_Teacher_success": 0.9,
+          "maximum_hard_safety_stops": 0
+        },
+        "passes": false,
+        "qualified_training_demonstrations": 0,
+        "GR00T_queries": 0,
+        "model_updates": 0,
+        "independent_restarts_not_bit_exact_forks": true
+      }
+    }
   },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
@@ -125,5 +152,5 @@
     "real_hardware": false,
     "old21_automatic8000": false
   },
-  "execution_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752"
+  "execution_sha": "dd9865c20e4415ede7281e921759cfe189a64f54"
 }

@@ -1,0 +1,55 @@
+{
+  "schema": "TASK_LEARNING_OBSERVABILITY_INSPECTION_ACTUAL_V1",
+  "source_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752",
+  "role": "CONSTRUCTION_DIAGNOSTIC_NOT_TRAINING_OR_OBSERVABILITY_PROOF",
+  "real_current_dual_RGB_decisions": 15,
+  "stages": {
+    "PREGRASP": 1,
+    "DESCEND": 7,
+    "CLOSE": 1,
+    "LIFT": 3,
+    "HOLD": 3
+  },
+  "near_proprioceptive_pairs": [
+    {
+      "i": 12,
+      "j": 13,
+      "position_distance_m": 0.0017316194587164225,
+      "rot6d_max_abs_distance": 0.001308615919688838,
+      "grip_distance": 3.413480026398519e-05,
+      "rgb_mean_absolute_difference": 0.0027684330161100897,
+      "different_action_by_declared_5mm_or_0p2_grip": false
+    },
+    {
+      "i": 12,
+      "j": 14,
+      "position_distance_m": 0.0022747522645314303,
+      "rot6d_max_abs_distance": 0.002310272905193006,
+      "grip_distance": 5.1461156732546254e-05,
+      "rgb_mean_absolute_difference": 0.003787041957082312,
+      "different_action_by_declared_5mm_or_0p2_grip": false
+    },
+    {
+      "i": 13,
+      "j": 14,
+      "position_distance_m": 0.0005733081264382139,
+      "rot6d_max_abs_distance": 0.001001656985504168,
+      "grip_distance": 1.7326356468561066e-05,
+      "rgb_mean_absolute_difference": 0.0016301772173713234,
+      "different_action_by_declared_5mm_or_0p2_grip": false
+    }
+  ],
+  "near_pair_definition": {
+    "position_distance_m_at_most": 0.003,
+    "grip_distance_at_most": 0.05
+  },
+  "different_action_definition": {
+    "displacement_difference_m_at_least": 0.005,
+    "final_grip_difference_at_least": 0.2
+  },
+  "observed_near_pairs_with_different_actions": 0,
+  "interpretation": "Three near-state pairs all occur within HOLD with similar actions; only fifteen successful construction anchors. No recovery/slip/failed-grasp counterexamples and no conditional visual policy probe; observability gate remains unqualified.",
+  "privileged_contact_is_student_input": false,
+  "new_native_integrations": 0,
+  "qualified_training_demonstrations": 0
+}
