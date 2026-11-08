@@ -219,3 +219,74 @@ def test_core_summary_booleans_do_not_replace_actual_distinct_native_worker_evid
     p.write_text(json.dumps(j));d['sha256']=digest(p)
     p=Path(c['continuation_review']['path']);p.write_text(json.dumps(review));c['continuation_review']['sha256']=digest(p)
     with pytest.raises(PermissionError):formal.validate_request(c,m)
+
+
+def compact_fixture(row):
+    """Copy a sealed synthetic result; retain its original on the producer."""
+    original=Path(row['result']['path']);body=json.loads(original.read_bytes())
+    body.update(failure='retained diagnostic reason',physics_stops=[],
+        reference_qualification=dict(task_condition_success=False,
+            target_gr00t_task_score=dict(task_success=False),GR00T_queries=2,
+            expert_training_eligible=False,windows=[dict(large='x'*1024)]*100),
+        trace_audit=dict(status='RECORDED_TRACE_CHECKS_PASS',native_step_records=40503,
+            writer=dict(dropped=0)))
+    original.write_text(json.dumps(body));row['result']['sha256']=digest(original)
+    result=formal.compact_core_result(row)
+    compact=original.with_name(original.stem+'-compact.json')
+    compact.write_text(json.dumps(result));row['result']=dict(path=str(compact),sha256=digest(compact))
+    return original,result
+
+
+def test_compact_witness_keeps_original_hash_failure_score_and_trace_without_windows(tmp_path):
+    c,m,review=continuation_fixture(tmp_path)
+    core=json.loads(Path(review['Core_DEV_review']['path']).read_bytes())
+    row=core['native_evidence'][0];original,result=compact_fixture(row)
+    assert result['original_sha256']['result']==digest(original)
+    assert result['original_result_bytes']==original.stat().st_size
+    assert Path(row['result']['path']).stat().st_size<original.stat().st_size/10
+    assert result['failure']=='retained diagnostic reason'
+    assert result['task_condition_success']is False and result['task_score']['task_success']is False
+    assert result['trace']['native_step_records']==40503 and result['trace']['dropped']==0
+    assert not result['native_execution_authorized']and not result['model_qualification_granted']
+    assert 'windows'not in result['reference']and original.is_file()
+
+
+@pytest.mark.parametrize('change',['live','wrong-exit','wrong-spec','wrong-source','changed-original'])
+def test_compact_export_rejects_unsealed_or_mismatched_originals(tmp_path,change):
+    c,m,review=continuation_fixture(tmp_path)
+    core=json.loads(Path(review['Core_DEV_review']['path']).read_bytes());row=core['native_evidence'][0]
+    key='result'if change in('wrong-source','changed-original')else'lease'
+    p=Path(row[key]['path']);v=json.loads(p.read_bytes())
+    if change=='live':v['status']='ACTIVE'
+    elif change=='wrong-exit':v['worker_exit_code']=1
+    elif change=='wrong-spec':v['spec_sha256']='b'*64
+    elif change=='wrong-source':v['source_sha']='b'*40
+    else:v['actual_target_integrations']=0
+    p.write_text(json.dumps(v))
+    if change!='changed-original':row[key]['sha256']=digest(p)
+    with pytest.raises(PermissionError):formal.compact_core_result(row)
+
+
+@pytest.mark.parametrize('change',[None,'wrong-worker','wrong-role','TRAIN-diagnostic'])
+def test_continuation_accepts_bound_compacts_but_still_rejects_wrong_identity_or_train(tmp_path,change):
+    c,m,review=continuation_fixture(tmp_path)
+    d=review['Core_DEV_review'];p=Path(d['path']);core=json.loads(p.read_bytes())
+    row=core['native_evidence'][1]
+    if change=='TRAIN-diagnostic':
+        desc=row['spec'];sp=Path(desc['path']);spec=json.loads(sp.read_bytes())
+        spec.update(data_role='TRAIN',phase='collect-target-teacher-prefix-diagnostic-v1')
+        sp.write_text(json.dumps(spec));desc['sha256']=digest(sp)
+        desc=row['lease'];lp=Path(desc['path']);lease=json.loads(lp.read_bytes())
+        lease['spec_sha256']=row['spec']['sha256'];lp.write_text(json.dumps(lease));desc['sha256']=digest(lp)
+    for item in core['native_evidence']:compact_fixture(item)
+    if change in('wrong-worker','wrong-role'):
+        desc=row['result'];wp=Path(desc['path']);w=json.loads(wp.read_bytes())
+        if change=='wrong-worker':w['original_sha256']['worker']='b'*64
+        else:w['actual_data_role']='TRAIN'
+        wp.write_text(json.dumps(w));desc['sha256']=digest(wp)
+    p.write_text(json.dumps(core));d['sha256']=digest(p)
+    p=Path(c['continuation_review']['path']);p.write_text(json.dumps(review))
+    c['continuation_review']['sha256']=digest(p)
+    if change is None:assert formal.validate_request(c,m)['endpoint']==4000
+    else:
+        with pytest.raises(PermissionError):formal.validate_request(c,m)

@@ -9,6 +9,42 @@ from pathlib import Path
 from . import target_gr00t_profile_v1 as profile
 from .storage import digest
 
+CORE_RESULT_WITNESS='WM02_TARGET_NATIVE_CLOSED_RESULT_WITNESS_V1'
+
+
+def compact_core_result(row):
+    """Read a closed original once on Core; retain its full hash, not its windows.
+
+    The original large result stays at its producer. This read-only export
+    does not qualify a model/task or create a lease. TRAIN diagnostics and zero
+    integration failures remain labelled; the continuation consumer still
+    requires the original DEV population and actual candidate execution.
+    """
+    spec,actual,worker,lease=(_pinned(row[k])for k in ('spec','result','worker','lease'))
+    profile.need(lease.get('status')=='CLOSED'
+        and lease.get('spec_sha256')==row['spec']['sha256']
+        and lease.get('worker_exit_code')==worker.get('exit_code')
+        and type(worker.get('exit_code'))is int
+        and actual.get('source_sha')==spec.get('source_sha'),
+        'CLOSED_ORIGINAL_CORE_RESULT_EXPORT_NOT_LIVE_OR_REWRITTEN')
+    result={k:actual.get(k)for k in ('status','source_sha','phase','actual_target_integrations',
+        'shutdown_clean','physics_stops')}
+    reference=actual.get('reference_qualification')or{};trace=actual.get('trace_audit')or{}
+    result.update(schema=CORE_RESULT_WITNESS,
+        original_sha256={k:row[k]['sha256']for k in ('spec','result','worker','lease')},
+        original_result_bytes=Path(row['result']['path']).stat().st_size,
+        actual_data_role=spec.get('data_role'),actual_experiment_role=spec.get('experiment_role'),
+        worker_exit_code=worker['exit_code'],failure=actual.get('failure'),
+        task_condition_success=reference.get('task_condition_success'),
+        task_score=reference.get('target_gr00t_task_score'),
+        reference={k:reference.get(k)for k in ('schema','data_role','GR00T_queries',
+            'GR00T_updates','expert_training_eligible','GR00T_native_interface_qualified',
+            'full_task_success')},
+        trace=dict(status=trace.get('status'),native_step_records=trace.get('native_step_records'),
+            dropped=(trace.get('writer')or{}).get('dropped')),
+        native_execution_authorized=False,model_qualification_granted=False)
+    return result
+
 
 def _pinned(descriptor):
     path=Path(descriptor['path'])
@@ -99,6 +135,14 @@ def continuation_review(c,recipe):
     need(len(expected)==len(assignments),'DISTINCT_PREDECLARED_CORE_CONDITIONS')
     for row in witnesses:
         spec,actual,worker,lease=(_pinned(row[k])for k in ('spec','result','worker','lease'))
+        if actual.get('schema')==CORE_RESULT_WITNESS:
+            original=actual.get('original_sha256')or{}
+            need(all(original.get(k)==row[k]['sha256']for k in ('spec','worker','lease'))
+                and isinstance(original.get('result'),str)and len(original['result'])==64
+                and actual.get('actual_data_role')==spec.get('data_role')
+                and actual.get('worker_exit_code')==worker.get('exit_code')
+                and type(actual.get('original_result_bytes'))is int and actual['original_result_bytes']>0,
+                'COMPACT_CORE_WITNESS_BOUND_TO_ORIGINAL_CLOSED_WORKER')
         policy=spec.get('target_gr00t_policy')or{};arm=policy.get('arm');arms.append(arm)
         need(spec.get('data_role')=='DEV'and arm in('B0','B1')
             and spec.get('phase')=='collect-target-gr00t-prefix-loop-v1'
