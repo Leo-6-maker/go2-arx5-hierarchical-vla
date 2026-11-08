@@ -32,6 +32,7 @@ def main(argv=None):
               'CONTACT_POLICY': 'scripts.wm02.train_pilot1_contact_policy',
               'FROZEN_VLA_SHADOW': 'scripts.wm02.infer_fusion_vla',
               'TARGET_GR00T_SEALED_INFERENCE_V1': 'scripts.wm02.infer_target_gr00t_v1',
+              'TARGET_GR00T_LIVE_PREFIX_QUERY_V1': 'scripts.wm02.infer_target_gr00t_live_v1',
               'FROZEN_VLA_LIVE_PAUSED_QUERY': 'scripts.wm02.infer_fusion_paused_vla',
               'FUSION_TRAJECTORY_RESPONSE_OFFLINE': 'scripts.wm02.fit_fusion_trajectory_response',
               'FUSION_RESPONSE_WM': 'scripts.wm02.train_fusion_response',

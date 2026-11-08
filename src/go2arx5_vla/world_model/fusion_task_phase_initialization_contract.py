@@ -83,7 +83,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-stable-start-short-v1', 'STABLE_START_SHORT_TASK_V1'),
          ('collect-target-stable-task-data-v1', 'STABLE_TASK_DATA_V1'),
          ('collect-target-stable-task-eval-v1', 'STABLE_TASK_EVAL_V1'),
-         ('collect-target-stable-task-closed-loop-v1', 'STABLE_TASK_CLOSED_LOOP_V1'))
+         ('collect-target-stable-task-closed-loop-v1', 'STABLE_TASK_CLOSED_LOOP_V1'),
+                 ('collect-target-gr00t-prefix-loop-v1','TARGET_GR00T_PREFIX_LOOP_V1'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -95,13 +96,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     live_skill = actual_phase in ('collect-target-fusion-task-phase-live-skill-v8',
                                  'collect-target-fusion-task-phase-live-skill-v9',
                                  'collect-target-stable-start-short-v1',
-                                 'collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1')
+                                 'collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1')
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
-    new_data = actual_phase in ('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1')
+    new_data = actual_phase in ('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1')
     if new_data:
-        if actual_phase=='collect-target-stable-task-closed-loop-v1':
+        if actual_phase=='collect-target-gr00t-prefix-loop-v1':
+            from .target_gr00t_native_loop_v1 import validate
+        elif actual_phase=='collect-target-stable-task-closed-loop-v1':
             from .stable_task_closed_loop_v1 import validate
         elif actual_phase=='collect-target-stable-task-eval-v1':
             from .stable_task_evaluation_v1 import validate
@@ -149,7 +152,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9',
-                          'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1'):
+                          'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1'):
         from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
                           'collect-target-fusion-task-phase-live-skill-v8'):
@@ -163,8 +166,9 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
-    if actual_phase in ('collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1'): live_end = 38703
+    if actual_phase in ('collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1'): live_end = 38703
     if actual_phase=='collect-target-stable-task-closed-loop-v1':live_end=43503
+    if actual_phase=='collect-target-gr00t-prefix-loop-v1':live_end=40503
     if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration

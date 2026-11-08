@@ -49,6 +49,9 @@ def validate(spec, registry=None, now=None):
 
 def validate_gpu(spec, actual):
     """One finite frozen-VLA shadow, after the actual four-arm calibration."""
+    if spec.get('kind')=='TARGET_GR00T_LIVE_PREFIX_QUERY_V1':
+        from .target_gr00t_live_pair_v1 import validate_gpu as validate_target_live
+        return validate_target_live(spec,actual)
     if spec.get('kind')=='TARGET_GR00T_SEALED_INFERENCE_V1':
         from .target_gr00t_inference_v1 import validate_gpu as validate_target_inference
         return validate_target_inference(spec,actual)

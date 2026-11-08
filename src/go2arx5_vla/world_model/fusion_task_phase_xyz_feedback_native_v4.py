@@ -48,7 +48,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         from . import fusion_task_phase_bias_fade_v8 as declared_recipe
     elif actual_phase == 'collect-target-fusion-task-phase-live-skill-v8':
         from . import fusion_task_phase_pose_continuation_v7 as declared_recipe
-    elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1'):
+    elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1'):
         from . import fusion_task_phase_pose_slow_feedback_v9 as declared_recipe
     else:
         raise ValueError('EXACT_KNOWN_FINITE_FEEDBACK_NATIVE_CALLER_REQUIRED')
@@ -96,7 +96,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
              and measured.get('gripper_state_valid') is True and measured.get('object_present') is True,
              'ORIGINAL_SAFE_NONCONTACT_FEEDBACK_MEASUREMENT')
         update = program.prepare_feedback(step, measured['tcp'])
-        prefix = 'POSE_FEEDBACK' if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1') else 'XYZ_FEEDBACK'
+        prefix = 'POSE_FEEDBACK' if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1') else 'XYZ_FEEDBACK'
         paths = {name: adapter.output/f'{prefix}_{len(receipts)+1:02d}_{name}' for name in (
             'STATE.bin', 'MEASURED.private.json', 'REFERENCE_PATH.private.json',
             'REMAINING_PATH.private.json', 'H40.private.json', 'DECISION.private.json')}
@@ -137,7 +137,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         program.commit_feedback(update, saved_decision_sha256=receipt['decision_sha256'])
         receipts.append(receipt)
         event = ('finite-xyz-so3-feedback-saved-before-reference-install'
-            if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1')
+            if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1')
             else 'finite-xyz-feedback-saved-before-reference-install')
         adapter.command_event(dict(phase=event, **receipt))
         return True
@@ -160,7 +160,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
             causal_completed_window_feedback=True, ordinary_feedback_not_model_benefit=True,
             original_windows_retain_ACK_solver_pose_and_gripper_consumption=True,
             WM_updates=0, VLA_queries=0, Actor_updates=0)
-        if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1'):
+        if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1'):
             rows = program.evidence()['feedback_decisions']
             report['finite_xyz_feedback'].update(
                 nonzero_SO3_corrections=sum(row['applied_rotation_norm_rad'] > 0 for row in rows),
@@ -175,7 +175,7 @@ def run_feedback_program(adapter, episode, source, *, recipe_module=recipe, actu
         historical_terminal_tracking_error_used=False, learned_reference_adapter_used=False,
         ordinary_XYZ_feedback_commissioning_not_WM_or_VLA_gain=True,
         independent_restart_not_complete_MPC_state_fork=True)
-    if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1'):
+    if actual_phase in ('collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1'):
         context['ordinary_XYZ_SO3_feedback_commissioning_not_WM_or_VLA_gain'] = True
 
     return run_initialization_program(adapter, episode, source, recipe_module=recipe,
