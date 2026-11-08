@@ -992,6 +992,18 @@
     "new_PBS_submissions": 1,
     "new_GPU_model_loads": 0,
     "first_blocker": "PBS user batch_gpu running-job limit; no A40 allocation has begun",
-    "next": "Retain the one queued A40 job. Continue remaining predeclared Core TRAIN/DEV under current finite owner; no repeated complete/failed conditions."
+    "next": "Retain the one queued A40 job. Continue remaining predeclared Core TRAIN/DEV under current finite owner; no repeated complete/failed conditions.",
+    "finite_Core_collection": {
+      "status": "RUNNING_EXISTING_OWNER_FIXED_PANEL_ONE_PASS",
+      "report": "TARGET_GR00T_FINITE_PANEL_CONTINUATION_ACTUAL_V1.json",
+      "driver_code_sha256": "cc7227df418a45db978a4c7ad2674e84e5bee63b6945a9fb708193956e12ad73",
+      "planned_conditions": 32,
+      "terminal_at_snapshot": 6,
+      "active_at_snapshot": [
+        "target-gr00t-demo-train04-retreat-r1-01"
+      ],
+      "native_parallelism": 1,
+      "new_mutations_automatic_retry": false
+    }
   }
 }
