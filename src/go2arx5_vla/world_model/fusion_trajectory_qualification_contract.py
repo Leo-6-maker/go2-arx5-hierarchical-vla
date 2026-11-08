@@ -343,6 +343,7 @@ def validate_install_preview(action, *, initial_tcp, program, step, base, frozen
 
 def validate_trace_capacity_failure(spec,*,historical_scene_sha256=None):
     """Keep the complete but trace-unqualified overflowing run FAILED."""
+    from .auto1_native import native_prefix_predecessor
     pin=TRACE_CAPACITY_FAILED_RESULT
     path=Path(spec['trace_capacity_failed_result']);root=path.parent.parent
     need(spec.get('trace_capacity_failed_result_sha256')==pin and digest(path)==pin,
@@ -374,7 +375,7 @@ def validate_trace_capacity_failure(spec,*,historical_scene_sha256=None):
          and writer.get('sealed_at_explicit_pause') is True and writer.get('stop_latched') is False
          and report.get('all_40_knots_consumed') is True
          and report.get('complete_task_atoms')==report.get('solver_target_confirmed_atoms')==report.get('gripper_confirmed_atoms')==1090
-         and failed.get('native_binary_sha256')==digest(spec['native_binary'])
+         and failed.get('native_binary_sha256')==native_prefix_predecessor(spec)
          and failed.get('observer_sha256')==digest(spec['observer_library'])
          and failed.get('scene_sha256')==(digest(spec['model_path'])if historical_scene_sha256 is None else historical_scene_sha256)
          and {p.get('name')for p in failed.get('owned_process_exits',[])}=={'sim','controller','solver','planner'}

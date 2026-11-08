@@ -220,14 +220,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:geometry.validate_trace_capacity_failure(spec)
     path = Path(spec['trajectory_trace_capacity_build'])
     build = _json(path, TRACE_BUILD)
+    from .auto1_native import native_prefix_predecessor
     need(build.get('status') == 'TRACE_ONLY_524288_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
          and build.get('trace_capacity') == 524288 and build.get('new_target_integrations') == 0
          and build.get('trace_library_sha256') == digest(spec['trace_library'])
-         and build.get('native_binary_sha256') == digest(spec['native_binary'])
+         and build.get('native_binary_sha256') == native_prefix_predecessor(spec)
          and build.get('observer_sha256') == digest(spec['observer_library'])
          and all(build.get('source_files', {}).get(name) == files[name] for name in (
              'src/go2arx5_vla/target_mujoco/init_trace.cpp', 'src/go2arx5_vla/target_mujoco/init_trace.hpp')),
-         'ACTUAL_TRACE_ONLY_BUILD03_UNCHANGED_NATIVE_BYTES')
+         'ACTUAL_TRACE_ONLY_BUILD03_BOUND_NATIVE_LINEAGE')
     common._closed(path.parent.parent)
     return episode, _source(spec)
 
