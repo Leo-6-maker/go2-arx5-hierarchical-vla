@@ -36,6 +36,9 @@ def protocol():
 
 
 def declared(spec):
+    if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
+        from .target_teacher_prefix_diagnostic_v1 import declared as teacher_declared
+        return teacher_declared(spec)
     if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
         from .target_gr00t_prefix_v1 import declared as target_declared
         return target_declared(spec)
@@ -48,6 +51,8 @@ def declared(spec):
 
 def _configuration(spec):
     declared(spec)
+    if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
+        return spec['target_teacher_prefix_diagnostic']
     if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
         return spec['target_gr00t_prefix_protocol']
     return protocol()

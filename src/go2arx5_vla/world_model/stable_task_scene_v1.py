@@ -59,13 +59,14 @@ def reference_geometry(reference, scene_sha256):
 def scene(spec):
     vla = spec.get('target_gr00t_collection') is not None
     target_loop=spec.get('phase')=='collect-target-gr00t-prefix-loop-v1'
+    teacher_loop=spec.get('phase')=='collect-target-teacher-prefix-diagnostic-v1'
     evaluated=spec.get('phase')=='collect-target-stable-task-eval-v1'
     closed=spec.get('phase')=='collect-target-stable-task-closed-loop-v1'
-    expected_kind='TARGET_GR00T_PREFIX_LOOP_V1'if target_loop else 'STABLE_TASK_CLOSED_LOOP_V1'if closed else 'STABLE_TASK_EVAL_V1'if evaluated else KIND
-    need(spec.get('phase')in(PHASE,'collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1')and spec.get('kind')==expected_kind
+    expected_kind='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'if teacher_loop else 'TARGET_GR00T_PREFIX_LOOP_V1'if target_loop else 'STABLE_TASK_CLOSED_LOOP_V1'if closed else 'STABLE_TASK_EVAL_V1'if evaluated else KIND
+    need(spec.get('phase')in(PHASE,'collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1')and spec.get('kind')==expected_kind
          and (not(evaluated or closed)or spec.get('data_role')=='DEV')
          and spec.get('data_role') in ('TRAIN','DEV')
-         and spec.get('live_skill_start_step') == B and spec.get('max_ticks') == (40503 if target_loop else 43503 if closed else E),
+         and spec.get('live_skill_start_step') == B and spec.get('max_ticks') == (40503 if target_loop or teacher_loop else 43503 if closed else E),
          'NEW_REAL_SCENE_TYPED_PHASE_AND_ROLE')
     model = Path(spec['model_path'])
     need(model.is_absolute() and model.resolve() == model and not model.is_symlink(), 'EXACT_NEW_MODEL_PATH')
@@ -73,12 +74,12 @@ def scene(spec):
     need(proof['split'] == spec['data_role'] and proof['parent'] == spec['data_parent']
          and spec['scene_id'] == 'STABLE_TASK_' + proof['layout'], 'REAL_PHYSICAL_PARENT_AND_SPLIT')
     panel = pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
-    need(not vla or not(evaluated or closed or target_loop), 'VLA_COLLECTION_NOT_ADAPTER_EVALUATION')
-    need(panel.get('schema') == ('WM02_TARGET_GR00T_NATIVE_PREFIX_PANEL_V1'if target_loop else 'WM02_TARGET_GR00T_DEMONSTRATION_PANEL_V1'if vla else 'WM02_STABLE_TASK_CLOSED_LOOP_PANEL_V1'if closed else 'WM02_STABLE_TASK_ADAPTER_NATIVE_PANEL_V1'if evaluated else 'WM02_STABLE_TASK_DATA_PANEL_V1'), 'PREDECLARED_NEW_DATA_PANEL')
+    need(not vla or not(evaluated or closed or target_loop or teacher_loop), 'VLA_COLLECTION_NOT_ADAPTER_EVALUATION')
+    need(panel.get('schema') == ('WM02_TARGET_TEACHER_PREFIX_DIAGNOSTIC_PANEL_V1'if teacher_loop else 'WM02_TARGET_GR00T_NATIVE_PREFIX_PANEL_V1'if target_loop else 'WM02_TARGET_GR00T_DEMONSTRATION_PANEL_V1'if vla else 'WM02_STABLE_TASK_CLOSED_LOOP_PANEL_V1'if closed else 'WM02_STABLE_TASK_ADAPTER_NATIVE_PANEL_V1'if evaluated else 'WM02_STABLE_TASK_DATA_PANEL_V1'), 'PREDECLARED_NEW_DATA_PANEL')
     rows = panel['assignments']; need(len({r['native_run'] for r in rows}) == len(rows), 'UNIQUE_NEW_RUNS')
     roles = {}
     for row in rows:
-        need(row['split'] in ('TRAIN','DEV') and row['command'] in (('APPROACH_RED_4MM_OPEN','RETREAT_RED_4MM_OPEN')if vla or target_loop else ('HOLD_OPEN','APPROACH_RED_4MM_OPEN')),
+        need(row['split'] in ('TRAIN','DEV') and row['command'] in (('APPROACH_RED_4MM_OPEN','RETREAT_RED_4MM_OPEN')if vla or target_loop or teacher_loop else ('HOLD_OPEN','APPROACH_RED_4MM_OPEN')),
              'ACTUAL_TASK_INSTRUCTION_NOT_TEACHER_PHASE')
         need(row['parent'] not in roles or roles[row['parent']] == row['split'], 'NO_PARENT_CROSS_SPLIT')
         roles[row['parent']] = row['split']
