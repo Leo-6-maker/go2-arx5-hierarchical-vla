@@ -1,0 +1,110 @@
+{
+  "schema": "WM02_TARGET_GR00T_TRAIN3_AND_STANDING_FAILURE_ACTUAL_V1",
+  "observed_at": "2026-11-08T05:26:56.309130+00:00",
+  "native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+  "data_tool_source_sha": "edce655e4a6cd6f00cbeef4733fd6d500e625ba3",
+  "rows": [
+    {
+      "run": "target-gr00t-demo-train02-approach-r1-01",
+      "spec_sha256": "fd1b1a53473de9cb047990d2a832c60497e952f2d642732fa7b3accea0b56068",
+      "worker_sha256": "ac36923d46e32cd608ee78fa2228efd04569e7400c05ac3b4a48e9f621ccc910",
+      "result_sha256": "4d5fceddd324e0c7a99084064d5f3f88175940168cf14f504284a617a54b285a",
+      "exit_code": 1,
+      "integrations": 35003,
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "metrics": null,
+      "failure": "Traceback (most recent call last):\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/scripts/wm02/commission_target.py\", line 15, in run\n    elif adapter.dynamic_phase():adapter.dynamic_diagnostic();reached=True\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/target_sequential.py\", line 513, in dynamic_diagnostic\n    return run(self)\n           ^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/stable_task_data_v1.py\", line 198, in run\n    return run_feedback_program(adapter,episode,source,recipe_module=common.prefix,actual_phase=PHASE,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/fusion_task_phase_xyz_feedback_native_v4.py\", line 181, in run_feedback_program\n    return run_initialization_program(adapter, episode, source, recipe_module=recipe,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/fusion_task_phase_initialization_native.py\", line 230, in run_initialization_program\n    return run_program(adapter, episode, inputs, program_factory=factory,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/fusion_trajectory_qualification_native.py\", line 370, in run_program\n    complete = continuation(adapter, report, tuple(samples), tuple(windows))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/stable_task_data_v1.py\", line 127, in continue_native\n    return collect_vla(adapter,report,samples,windows)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/target_gr00t_collection_v1.py\", line 169, in continue_native\n    suffix, measured, actual_windows = run_consumed_segment(adapter,program,start_step=B,end_step=E,\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/fusion_live_skill_segment.py\", line 308, in run_consumed_segment\n    sample_observer(actual)\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/target_gr00t_collection_v1.py\", line 156, in observe\n    require_standing(sample,initial)\n  File \"/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/pilot2-sources/a93e868f8dfd137ef3fc8fc0efb89ba156696636-01/src/go2arx5_vla/world_model/fusion_task_reference_diagnostic_v1.py\", line 44, in require_standing\n    raise ValueError('TASK_REFERENCE_ORIGINAL_STANDING_BOUND_EXCEEDED:'+repr(dict(native_step=sample['native_step'],base_displacement_m=displacement,base_rotation_rad=angle)))\nValueError: TASK_REFERENCE_ORIGINAL_STANDING_BOUND_EXCEEDED:{'native_step': 35003, 'base_displacement_m': 0.0018282137494697078, 'base_rotation_rad': 0.008823630427956804}\n",
+      "wall_s": 475.6231408379972,
+      "CPU_s": 1064.938775083,
+      "peak_RAM_bytes": 4755603456,
+      "PID": 0,
+      "lease_status": "CLOSED"
+    },
+    {
+      "run": "target-gr00t-demo-train03-approach-r1-01",
+      "spec_sha256": "c0ab8a6f8486b8e64eae34853c285869efd9f3fed5bc64082c447c4da7f0f67d",
+      "worker_sha256": "528848f2517787d6ef1518ef8cab98f23cd23b49e18f6c61415302a30883ef9f",
+      "result_sha256": "2b352a33b5692f4ac47b46fc9a9ea1c0fcbaa56237e83b8a41fe1c18b737b4ec",
+      "exit_code": 0,
+      "integrations": 38703,
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "metrics": {
+        "signed_progress_m": 0.00282297968166734,
+        "precontact_distance_reduction_m": 0.00282096858882748,
+        "maximum_lateral_drift_m": 0.0006659221658418115,
+        "maximum_TCP_excursion_m": 0.002981864238624343,
+        "minimum_finger_opening_m": 0.04193193026614965,
+        "maximum_object_displacement_m": 0.0,
+        "maximum_base_displacement_m": 0.0009062258811020707,
+        "maximum_base_rotation_rad": 0.0011897682848746917,
+        "final_hold_TCP_diameter_m": 0.00017117900089398823,
+        "final_hold_TCP_max_speed_m_s": 0.0023710143607139234
+      },
+      "failure": null,
+      "wall_s": 578.4938573311083,
+      "CPU_s": 1296.941645367,
+      "peak_RAM_bytes": 5747998720,
+      "PID": 0,
+      "lease_status": "CLOSED"
+    }
+  ],
+  "new_cohort_sealed": {
+    "attempts": 8,
+    "PASS": 5,
+    "FAIL": 3,
+    "integrations": 296349,
+    "qualification_attempts": 4,
+    "qualification_PASS": 2,
+    "qualification_FAIL": 2,
+    "demonstration_attempts": 4,
+    "demonstration_PASS": 3,
+    "demonstration_FAIL": 1,
+    "eligible_TRAIN": 3,
+    "eligible_DEV": 0,
+    "TEST_opened": 0
+  },
+  "current_worker": {
+    "run": "target-gr00t-demo-train03-retreat-r1-01",
+    "spec_sha256": "5983809f6259a114b18da685e0bb8de33594a3de0895cb3bf2189857b24a827d",
+    "status": "DISPATCHED_TERMINAL_NOT_YET_MEASURED"
+  },
+  "standing_failure_diagnostic": {
+    "confirmed_suffix_transitions": 27,
+    "attempted_transition_after_confirmation": 1,
+    "predecision_base_angular_velocity_rad_s": [
+      0.002188100964210133,
+      0.009131951212137656,
+      -6.916868015665726e-05
+    ],
+    "prior400ms_rotation_rad": 0.003677510888550713,
+    "first_guard_rotation_rad": 0.008823630427956804,
+    "unchanged_limit_rad": 0.008726646259971648,
+    "installed_reference_excursion_at_guard_mm": 0.12025634218642935,
+    "interpretation": "Residual BASE motion already exists before the Teacher movement; cause cannot be assigned to the 4mm command from this run alone.",
+    "failed_data_used_as_successful_BC": false,
+    "failed_condition_repeated": false
+  },
+  "FIT4_selection": "TARGET_GR00T_FIT4_SELECTION_V2.json",
+  "FIT4_selection_semantics": "Explicit diagnostic successful TRAIN subset; failed TRAIN02 remains in dataset attempts and full physical denominator. Not a formal success-rate or generalization claim.",
+  "new_scope": {
+    "status": "NEW_FINITE_WINDOW_REGISTERED",
+    "request_sha256": "f17c3ccd9c66a990045d0150b5d8aff800b6890f98b2280cddca9d6e2a489089",
+    "P1_binding_sha256": "2b4b8c9a32992ed8be0b39f05e43d4295fb517f957e416ec83f765b45b2f397c",
+    "FUSION_binding_sha256": "58d8107ffdf28f6b9deb3bca522530c687a4507ef57886ac12535b2a4a76cfdf",
+    "parent_deadline_SGT": "2026-11-08T23:34:00+08:00",
+    "closed_scopes_reopened": 0
+  },
+  "GR00T_queries": 0,
+  "GR00T_updates": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_PBS_submissions": 0,
+  "new_GPU_model_loads": 0,
+  "local_affected_tests": {
+    "normal_pass": 24,
+    "optimized_pass": 24
+  },
+  "next": "Complete TRAIN03 retreat; admit four real TRAIN episodes, seal original Processor, transfer privately, qualify reconstruction and submit one legal A40 allocation once."
+}

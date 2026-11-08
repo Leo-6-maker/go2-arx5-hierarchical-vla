@@ -100,3 +100,32 @@ def test_teacher_policy_boundary_undoes_no_grip_or_time_mapping_twice(tmp_path):
     i=program.knot_indices[10]
     q['generated_segment']['windows'][i]['actual_installed_consumed_EEF10_BASE7'][0]+=.000001
     with pytest.raises(ValueError,match='ACTUALLY_COMPILED'):ds.policy_commands(tmp_path,q)
+
+
+def test_fit4_selection_can_change_train_subset_without_relabelling(tmp_path):
+    rows=[dict(native_run=f'train{parent}-{command}',split='TRAIN',purpose='DEMONSTRATION',
+               parent=parent,command=command,restart=1)
+          for parent in ('ONE','THREE') for command in collect.COMMANDS]
+    p=tmp_path/'selection.json'
+    selection=dict(schema='WM02_TARGET_GR00T_FIT4_SELECTION_V1',
+        purpose='DIAGNOSTIC_NOT_FORMAL_OR_DEV_SELECTION',native_runs=[r['native_run']for r in rows])
+    p.write_text(json.dumps(selection))
+    ids,proof=ds.fit4_selection(dict(assignments=rows),p)
+    assert ids==set(selection['native_runs']) and proof['sha256']==digest(p)
+    for patch in (dict(split='DEV'),dict(purpose='QUALIFICATION')):
+        bad=copy.deepcopy(rows);bad[0].update(patch)
+        with pytest.raises(ValueError,match='TRAIN_ONLY_BALANCED'):
+            ds.fit4_selection(dict(assignments=bad),p)
+    selection['native_runs'][-1]=selection['native_runs'][0];p.write_text(json.dumps(selection))
+    with pytest.raises(ValueError,match='FOUR_UNIQUE'):ds.fit4_selection(dict(assignments=rows),p)
+
+
+def test_fit4_keeps_nonselected_real_failure_exit_and_proof(tmp_path):
+    (tmp_path/'control').mkdir()
+    (tmp_path/'EXECUTION_SPEC.json').write_text('{"original":"fixture"}')
+    (tmp_path/'WORKER_EXIT.private.json').write_text(json.dumps(dict(exit_code=1,failure='standing bound')))
+    (tmp_path/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED',worker_exit_code=1,
+        spec_sha256=digest(tmp_path/'EXECUTION_SPEC.json'))))
+    result=ds.excluded_terminal_attempt(tmp_path,dict(native_run='failed-train'))
+    assert result['status']=='EXCLUDED_RETAINED_FAILURE' and result['exit_code']==1
+    assert result['failure']=='standing bound' and result['proof']['worker']['sha256']==digest(tmp_path/'WORKER_EXIT.private.json')

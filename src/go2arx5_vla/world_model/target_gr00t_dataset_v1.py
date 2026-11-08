@@ -176,10 +176,45 @@ def fit_statistics(episodes):
         relative_action=dict(eef_9d=statistics(r,(0,1))))}
 
 
-def build(panel_path, runs_root, output, *, bundle_kind='FORMAL'):
+def fit4_selection(panel, selection_path=None):
+    """Choose an explicit TRAIN-only diagnostic subset before fitting models."""
+    if selection_path is None:
+        return {r['native_run'] for r in panel['assignments']
+                if r['purpose']=='DEMONSTRATION' and r['split']=='TRAIN'
+                and r['parent'] in ('STABLE_TASK_LAYOUT_TRAIN01','STABLE_TASK_LAYOUT_TRAIN02')
+                and r['restart']==1}, None
+    selection, proof = load(selection_path, maximum=1024**2)
+    ids=selection.get('native_runs') or []
+    need(selection.get('schema')=='WM02_TARGET_GR00T_FIT4_SELECTION_V1'
+         and selection.get('purpose')=='DIAGNOSTIC_NOT_FORMAL_OR_DEV_SELECTION'
+         and len(ids)==4 and len(set(ids))==4, 'FOUR_UNIQUE_EXPLICIT_FIT4_TRAIN_EPISODES')
+    rows=[r for r in panel['assignments'] if r['native_run'] in ids]
+    need(len(rows)==4 and all(r['split']=='TRAIN' and r['purpose']=='DEMONSTRATION' for r in rows)
+         and len({r['parent'] for r in rows})>=2
+         and all(sum(r['command']==command for r in rows)==2 for command in collection.COMMANDS),
+         'FIT4_SELECTION_TRAIN_ONLY_BALANCED_OBSERVABLE_TASKS')
+    return set(ids), proof
+
+
+def excluded_terminal_attempt(root, row):
+    """Keep already executed nonselected TRAIN failures in the dataset index."""
+    worker, wp=load(root/'WORKER_EXIT.private.json', maximum=1024**2)
+    lease, lp=load(root/'control/LEASE.json', maximum=1024**2)
+    spec, sp=load(root/'EXECUTION_SPEC.json', maximum=16*1024**2)
+    need(lease.get('status')=='CLOSED' and lease.get('worker_exit_code')==worker.get('exit_code')
+         and lease.get('spec_sha256')==sp['sha256'], 'NONSELECTED_TERMINAL_ATTEMPT_IDENTITY')
+    return dict(row,status=('EXCLUDED_RETAINED_FAILURE' if worker['exit_code']!=0
+                           else 'EXECUTED_NOT_SELECTED_FOR_FIT4'),
+                exit_code=worker['exit_code'],failure=worker.get('failure'),
+                proof=dict(worker=wp,lease=lp,spec=sp))
+
+
+def build(panel_path, runs_root, output, *, bundle_kind='FORMAL', fit4_selection_path=None):
     panel, pp = load(panel_path,maximum=16*1024**2)
     need(panel.get('schema') == collection.PANEL_SCHEMA and panel.get('collection') == collection.contract(), 'FROZEN_PANEL')
     need(bundle_kind in ('FORMAL','FIT4_DIAGNOSTIC'),'EXPLICIT_DATA_BUNDLE_PURPOSE')
+    need(fit4_selection_path is None or bundle_kind=='FIT4_DIAGNOSTIC','SELECTION_ONLY_FOR_DIAGNOSTIC')
+    selected, selection_proof = fit4_selection(panel,fit4_selection_path) if bundle_kind=='FIT4_DIAGNOSTIC' else (None,None)
     output = Path(output)
     need(output.is_absolute() and output.parent.resolve() == output.parent and not output.exists(),'FRESH_EXPORT')
     kept, attempts = [], []
@@ -187,10 +222,12 @@ def build(panel_path, runs_root, output, *, bundle_kind='FORMAL'):
         root = Path(runs_root)/row['native_run']
         if row['purpose'] == 'QUALIFICATION':
             attempts.append(dict(row,status='QUALIFICATION_EXCLUDED_FROM_BC'));continue
-        if bundle_kind == 'FIT4_DIAGNOSTIC' and not (
-                row['split']=='TRAIN' and row['parent'] in ('STABLE_TASK_LAYOUT_TRAIN01','STABLE_TASK_LAYOUT_TRAIN02')
-                and row['restart']==1):
-            attempts.append(dict(row,status='PREREGISTERED_NOT_INCLUDED_IN_FIT4_DIAGNOSTIC'));continue
+        if bundle_kind == 'FIT4_DIAGNOSTIC' and row['native_run'] not in selected:
+            if row['split']=='TRAIN' and (root/'WORKER_EXIT.private.json').is_file():
+                attempts.append(excluded_terminal_attempt(root,row))
+            else:
+                attempts.append(dict(row,status='PREREGISTERED_NOT_INCLUDED_IN_FIT4_DIAGNOSTIC'))
+            continue
         need(row['split'] in ('TRAIN','DEV'),'NO_TEST_READ_DURING_DEVELOPMENT')
         # A missing/running attempt prevents finalization; it is not called a failure.
         need((root/'WORKER_EXIT.private.json').is_file(),'ATTEMPT_NOT_TERMINAL:'+root.name)
@@ -230,7 +267,7 @@ def build(panel_path, runs_root, output, *, bundle_kind='FORMAL'):
     manifest=dict(schema=SCHEMA,profile='TARGET_GR00T_V1',domain=DOMAIN,bundle_kind=bundle_kind,
         training_admitted='REQUIRES_PINNED_TARGET_PROCESSOR_ADMISSION',
         statistics_sha256=digest(output/'statistics.json'),episodes=rows,attempts=attempts,
-        panel=pp,collection=collection.contract(),TRAIN_only_statistics=True,
+        panel=pp,fit4_selection=selection_proof,collection=collection.contract(),TRAIN_only_statistics=True,
         original_Processor_route=TAG,target_category=10,
         embodiment_provenance='EXPLICIT_TARGET_INTERFACE_INITIALIZED_FROM_COMPATIBLE_SOURCE_CATEGORY_NOT_PRETRAINED_GO2',
         labels='ONE_REAL_TEACHER_POLICY_H40_VERIFIED_THROUGH_ALL_ORIGINAL_COMPILER_KNOTS',

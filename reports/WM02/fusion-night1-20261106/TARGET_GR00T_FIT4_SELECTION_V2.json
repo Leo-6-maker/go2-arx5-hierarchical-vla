@@ -1,0 +1,27 @@
+{
+  "schema": "WM02_TARGET_GR00T_FIT4_SELECTION_V1",
+  "purpose": "DIAGNOSTIC_NOT_FORMAL_OR_DEV_SELECTION",
+  "registered_at": "2026-11-08T05:25:10.304736+00:00",
+  "native_runs": [
+    "target-gr00t-demo-train01-approach-r1-01",
+    "target-gr00t-demo-train01-retreat-r1-01",
+    "target-gr00t-demo-train03-approach-r1-01",
+    "target-gr00t-demo-train03-retreat-r1-01"
+  ],
+  "reason": "TRAIN02 approach triggered the unchanged standing rotation bound. Keep its failed attempt; do not rerun it to select a success. Use two other predeclared TRAIN layouts for the four-episode learning-interface diagnostic, with both commands balanced.",
+  "known_at_selection": {
+    "TRAIN01_approach": "CLOSED0",
+    "TRAIN01_retreat": "CLOSED0",
+    "TRAIN02_approach": "CLOSED1_ORIGINAL_STANDING_BOUND",
+    "TRAIN03_approach": "CLOSED0",
+    "TRAIN03_retreat": "NOT_STARTED",
+    "GR00T_model_loads": 0,
+    "GR00T_updates": 0
+  },
+  "failed_attempts_preserved": [
+    "target-gr00t-demo-train02-approach-r1-01"
+  ],
+  "native_safety_unchanged": true,
+  "formal_panel_unchanged": true,
+  "claim": "Fitting four successful expert examples is a diagnostic; this subset is not a native success-rate denominator or independent generalization test."
+}
