@@ -51,3 +51,12 @@ def test_next_update_checks_optimizer_rng_and_every_learned_tensor(tmp_path):
     assert compare_next_update(first,second)['next_update_parameters_optimizer_scheduler_RNG_sampler_exact']
     torch.save({'real_test_tensor':torch.zeros(4),'numpy_state':np.arange(3)},second/'optimizer.pt')
     with pytest.raises(PermissionError,match='NEXT_UPDATE_NOT_EQUAL'):compare_next_update(first,second)
+
+
+def test_child_preserves_pbs_device_mask_instead_of_reinterpreting_torch_uuid(monkeypatch):
+    from go2arx5_vla.world_model.target_gr00t_allocation_v1 import child_environment
+    monkeypatch.setenv('CUDA_VISIBLE_DEVICES','1')
+    env=child_environment('/scratch/source','/scratch/run')
+    assert env['CUDA_VISIBLE_DEVICES']=='1' and env['TMPDIR']=='/scratch/run/tmp'
+    monkeypatch.delenv('CUDA_VISIBLE_DEVICES')
+    assert 'CUDA_VISIBLE_DEVICES' not in child_environment('/scratch/source','/scratch/run')

@@ -27,6 +27,13 @@ def pbs_script(root, source, python, wall_s):
         q(str(Path(root)/'ALLOCATION_CONFIG.json')), ''])
 
 
+def child_environment(source, root):
+    """Inherit the device mask already proved to expose one PBS-assigned A40."""
+    return dict(os.environ,PYTHONPATH=str(Path(source)/'src')+':'+str(source),
+        TMPDIR=str(Path(root)/'tmp'),XDG_CACHE_HOME=str(Path(root)/'cache'),
+        HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',NO_ALBUMENTATIONS_UPDATE='1')
+
+
 def fit4_gate(root, *, original_before=None):
     """Predeclared 4mm-task checks on matched actual free generations."""
     import numpy as np
@@ -165,9 +172,7 @@ def run(c):
             return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))
         registered=journal.once(name+'-REGISTER',dict(mode=mode,variant=variant,endpoint=endpoint,resume=resume),register)
         def execute():
-            env=dict(os.environ,PYTHONPATH=str(Path(c['source_root'])/'src')+':'+c['source_root'],
-                TMPDIR=str(r/'tmp'),XDG_CACHE_HOME=str(r/'cache'),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
-                NO_ALBUMENTATIONS_UPDATE='1',CUDA_VISIBLE_DEVICES=gpu['uuid'])
+            env=child_environment(c['source_root'],r)
             t=time.monotonic()
             with (r/'stdout.log').open('xb')as out,(r/'stderr.log').open('xb')as err:
                 p=subprocess.Popen([c['python'],'-B','-m','scripts.wm02.train_target_gr00t_v1',
