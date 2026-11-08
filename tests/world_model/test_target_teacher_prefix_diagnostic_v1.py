@@ -98,3 +98,23 @@ def test_phase_dispatch_does_not_substitute_other_native_recipe(monkeypatch):
     monkeypatch.setattr(teacher,'episode_limit',lambda spec,previous:observed.append((spec,previous)) or 40503)
     assert phase_limit(teacher.PHASE,{'prior':1},{'new':2})==40503
     assert observed==[({'new':2},{'prior':1})]
+
+
+def test_real_teacher_entry_crosses_shared_feedback_and_initialization_typed_guards(tmp_path,monkeypatch):
+    """Exercise the actual pre-integration route that the first native run rejected."""
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model import fusion_trajectory_qualification_native as lower
+    episode=teacher.common.prefix.make_episode(run=str(tmp_path),geometry_scale=.5)
+    source=dict(source_observation_bytes=b'CPU_FIXTURE_NOT_NATIVE_INPUT',T_source_from_target=np.eye(4),
+        scene_sha256='f'*64,stable_task_scene_reference={'fixture_only':True})
+    adapter=SimpleNamespace(spec=dict(phase=teacher.PHASE,kind=teacher.KIND,
+        max_ticks=teacher.E,live_skill_start_step=teacher.B),output=tmp_path)
+    monkeypatch.setattr(teacher,'episode_config',lambda spec:(episode,source))
+    seen=[]
+    def downstream(actual,ep,inputs,**kwargs):
+        seen.append((actual,ep,kwargs));return {'reached_original_consumer':True}
+    monkeypatch.setattr(lower,'run_program',downstream)
+    assert teacher.run(adapter)=={'reached_original_consumer':True}
+    assert seen[0][0]is adapter and seen[0][1]is episode
+    assert seen[0][2]['continuation']is teacher.continue_native
+    assert adapter.spec['phase']==teacher.PHASE
