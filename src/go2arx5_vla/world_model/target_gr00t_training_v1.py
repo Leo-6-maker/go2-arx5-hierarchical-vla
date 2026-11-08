@@ -92,6 +92,19 @@ def semantic_recipe(p):
     return {k:v for k,v in p.items()if k not in ('endpoint','initial_optimizer')}
 
 
+def gpu_identity(torch,spec):
+    from .runtime import cuda_uuid
+    core=spec.get('execution_site')=='CORELAB_4080S'
+    name='NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
+    profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==name,
+        'ACTUAL_SINGLE_DECLARED_GPU')
+    properties=torch.cuda.get_device_properties(0)
+    actual=cuda_uuid(properties.uuid)
+    profile.need(actual==cuda_uuid(spec['GPU_uuid']),'ALLOCATED_EXACT_GPU_UUID')
+    if core:torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/properties.total_memory)
+    return actual
+
+
 def _load_original_parent(spec,root,label):
     from transformers import AutoModel
     from scripts.pi0294.local_backbone import local_model_name
@@ -213,13 +226,7 @@ def run(spec):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.e1.trainer import learning_rate_multiplier
     configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
-    core=spec.get('execution_site')=='CORELAB_4080S'
-    expected_name='NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
-    profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==expected_name,'ACTUAL_SINGLE_DECLARED_GPU')
-    actual_uuid=str(torch.cuda.get_device_properties(0).uuid)
-    profile.need(actual_uuid==spec['GPU_uuid'],'ALLOCATED_EXACT_GPU_UUID')
-    if core:
-        torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/torch.cuda.get_device_properties(0).total_memory)
+    actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()

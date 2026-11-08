@@ -118,7 +118,8 @@ def run(c):
             def execute():
                 env=dict(os.environ,PYTHONPATH=c['source_root']+'/src:'+c['source_root'],
                     TMPDIR=str(r/'tmp'),XDG_CACHE_HOME=str(r/'cache'),HF_HOME=str(r/'cache/hf'),
-                    HF_MODULES_CACHE=str(r/'cache/hf-modules'),TRANSFORMERS_OFFLINE='1',HF_HUB_OFFLINE='1')
+                    HF_MODULES_CACHE=str(r/'cache/hf-modules'),TRANSFORMERS_OFFLINE='1',HF_HUB_OFFLINE='1',
+                    NO_ALBUMENTATIONS_UPDATE='1')
                 with (r/'stdout.log').open('xb')as out,(r/'stderr.log').open('xb')as err:
                     proc=subprocess.Popen([c['python'],'-B','-m','scripts.wm02.train_target_gr00t_v1',
                         '--spec',str(r/'EXECUTION_SPEC.json')],cwd=c['source_root'],env=env,

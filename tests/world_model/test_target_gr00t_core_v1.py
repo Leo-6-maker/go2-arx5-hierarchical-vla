@@ -84,3 +84,17 @@ def test_repaired_successors_use_distinct_global_registration_requests(tmp_path,
             parent={},registry=str(registry),deadline_epoch=time.time()+3600)
         with pytest.raises(RuntimeError,match='STOP_AFTER_REGISTER_REQUEST'):core.run(c)
     assert requests==['first-capacity2-REGISTER','repaired-capacity2-REGISTER']
+
+
+def test_torch_bare_uuid_matches_same_nvml_gpu_without_accepting_other_device():
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model.target_gr00t_training_v1 import gpu_identity
+    bare='845348f1-1511-dc19-0877-cc97658e3edd';limits=[]
+    cuda=SimpleNamespace(device_count=lambda:1,get_device_name=lambda i:'NVIDIA GeForce RTX 4080 SUPER',
+        get_device_properties=lambda i:SimpleNamespace(uuid=bare,total_memory=16*1024**3),
+        set_per_process_memory_fraction=limits.append)
+    torch=SimpleNamespace(cuda=cuda)
+    s=dict(execution_site='CORELAB_4080S',GPU_uuid='GPU-'+bare,allocator_limit_bytes=12*1024**3)
+    assert gpu_identity(torch,s)==s['GPU_uuid']and limits==[.75]
+    with pytest.raises(PermissionError,match='EXACT_GPU_UUID'):
+        gpu_identity(torch,dict(s,GPU_uuid='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'))
