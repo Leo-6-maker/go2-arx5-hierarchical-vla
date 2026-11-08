@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-08 TARGET_GR00T 最新：**2条新TRAIN短示范实际通过（接近2.670mm／远离2.662mm），共77406积分、352确认任务转移、54组双RGB、2个真实策略窗口。** 原Processor单示范CPU往返最大误差1.28e-10；Vanda本机22项接缝通过，CUDA未初始化。第三条注册在原截止预留门前停止，零物理，保留INTENT及独立无效应证据；待原机制新窗口。新GR00T更新／checkpoint／PBS提交仍0。[新数据、完整SHA、失败、费用与接续](reports/WM02/fusion-night1-20261106/TARGET_GR00T_TRAIN2_AND_CPU_READY_ACTUAL_V1.json)。
+
 2026-11-08 TARGET_GR00T：Vanda 已实际登录并核项目／旧 PBS，旧共享1514400模型前失败已独立结算，未重发。新资格4次封存（2通过／2工程失败，145237积分）；远离条件40点／176段、27组双RGB通过，保留QUALIFICATION，不改标TRAIN。IK第5次更新漏检修复已通过原生接近资格：38703步、40点、27组双RGB，实际2.719mm接近；开始新TRAIN示范采集。新准入专家TRAIN／GR00T更新／PBS提交均0。[实际身份、失败、费用与接续](reports/WM02/fusion-night1-20261106/TARGET_GR00T_PREPARATION_ACTUAL_V1.json)。
 
 ## WM02 NEXT2 · 2026-11-05 实际结算
