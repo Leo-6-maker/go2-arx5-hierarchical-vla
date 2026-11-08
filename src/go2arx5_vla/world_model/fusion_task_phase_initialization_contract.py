@@ -156,6 +156,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
+    elif actual_phase == 'collect-target-task-learning-grasp-v1':
+        from .task_learning_preparation_v1 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9',
                           'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
         from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
@@ -182,9 +184,13 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
         if spec.get('task_condition') == SHORT_TASK_CONDITION:
             validate_registration(spec)
             live_end = endpoint(SHORT_TASK_CONDITION)
-    clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
-             and episode['geometry_scale'] == .5 and spec.get('max_ticks') == live_end) if live_skill else (
-             spec.get('max_ticks') == actual_endpoint(episode))
+    if actual_phase=='collect-target-task-learning-grasp-v1':
+        from .task_learning_grasp_v1 import CALIBRATION_B
+        clock=actual_endpoint(episode)==spec.get('live_skill_start_step')==CALIBRATION_B and spec.get('max_ticks')==live_end
+    else:
+        clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
+                 and episode['geometry_scale'] == .5 and spec.get('max_ticks') == live_end) if live_skill else (
+                 spec.get('max_ticks') == actual_endpoint(episode))
     need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int and clock
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')

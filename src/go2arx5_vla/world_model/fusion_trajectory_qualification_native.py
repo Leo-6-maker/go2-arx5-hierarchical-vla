@@ -163,7 +163,7 @@ def complete_reference_consumption(spec,complete):
 
 def run_program(adapter, episode, inputs, *, program_factory=None,
                 report_context=None, task_score_contract=None, report_finalizer=None,
-                sample_observer=None, before_preview=None, continuation=None):
+                sample_observer=None, before_preview=None, continuation=None,preparation_end_step=None):
     """Reuse actual native consumption for an independently checked recipe.
 
     The original entry supplies its unchanged contract. A versioned caller may
@@ -176,7 +176,16 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
     from .next2_episode import state_vector
     program_factory = make_program if program_factory is None else program_factory
     report_context = {} if report_context is None else report_context
-    end_step = endpoint(episode)
+    if preparation_end_step is None:
+        end_step=endpoint(episode)
+    else:
+        from . import task_learning_grasp_v1 as grasp
+        from .task_learning_preparation_v1 import endpoint as preparation_endpoint
+        grasp.declared(adapter.spec)
+        need(preparation_end_step==preparation_endpoint(episode)==grasp.CALIBRATION_B==4703
+            and callable(continuation)and before_preview is None and task_score_contract is None,
+            'EXPLICIT_NEW_GRASP_TASK_LOCAL_PREPARATION_ONLY')
+        end_step=preparation_end_step
     if continuation is not None:
         need(callable(continuation)
              and (adapter.spec.get('phase'),adapter.spec.get('kind')) in (

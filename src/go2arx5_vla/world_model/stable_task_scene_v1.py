@@ -95,6 +95,9 @@ def scene(spec):
 
 
 def episode(spec):
+    if spec.get('phase')=='collect-target-task-learning-grasp-v1':
+        from .task_learning_preparation_v1 import episode as preparation_episode
+        return preparation_episode(spec)
     from .fusion_task_phase_pose_slow_feedback_v9 import make_episode
     return dict(schema='WM02_STABLE_TASK_ACTUAL_SCENE_CALIBRATION_PREFIX_V1',run=spec['registered_root'],
         actual_phase=spec['phase'],actual_kind=spec['kind'],
@@ -106,6 +109,11 @@ def episode(spec):
 
 
 def prefix_episode(document,spec):
+    if spec.get('phase')=='collect-target-task-learning-grasp-v1':
+        from .task_learning_preparation_v1 import endpoint
+        need(document==episode(spec),'EXACT_NEW_TASK_PREPARATION_EPISODE')
+        endpoint(document)
+        return document
     from .fusion_task_phase_pose_slow_feedback_v9 import episode_contract
     need(document == episode(spec), 'ACTUAL_SCENE_WRAPPER_NOT_RELABELLED_T06_MANIFEST')
     return episode_contract(document['calibration_prefix_recipe'])

@@ -1,0 +1,73 @@
+{
+  "schema": "GR00T_CORE_FRESH_ORIGINAL_RECONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-core-20261109-05",
+  "source_sha": "de8c34376b907f6ea784dd5fbf756b6f0a296863",
+  "status": "CORE_FRESH_ORIGINAL_FIT200_RECONSTRUCTION_SEALED",
+  "proof": {
+    "status": "PASS_FRESH_ORIGINAL_GR00T_PARENT_PLUS_LEARNED_FIT200_DELTA",
+    "records": [
+      {
+        "episode": "target-gr00t-demo-train01-approach-r1-01",
+        "seed": 2026110800,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "0a02adda25717f509fc6637b2b78b88d5d245183729541d851af73d5ac407f0d",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train01-retreat-r1-01",
+        "seed": 2026110801,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "f15a95d920dc77013f8f17529edb21b3bf30b61398ba7cc223d040e88f123c1c",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train03-approach-r1-01",
+        "seed": 2026110802,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "78cf800368c7c18c54f189e0ec74635a54cc7c31d144c6c43fffe7dc1cb6a458",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train03-retreat-r1-01",
+        "seed": 2026110803,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "61995554c4907e99e772d73707cc24907a2f81034c36aaf51d97c49fe85b4495",
+        "Processor_decode_calls": 1
+      }
+    ],
+    "source_checkpoint_sha256": "40c6ebf32814bb2d6b28927b7ae2443cd4e20cecc74410c9dc00906ac6a105a4",
+    "full_original_backbone_generations": 4,
+    "cache_comparison_generations": 4,
+    "all132_H40_outputs_bit_exact": true,
+    "physical_outputs_bit_exact": true,
+    "precision_relaxed": false,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "native_task_conditions": 0,
+    "standalone_policy": false,
+    "formal_model": false,
+    "peak_allocated_bytes": 12039849472,
+    "peak_reserved_bytes": 12245270528
+  },
+  "costs": {
+    "worker_wall_s": 50.95593390101567,
+    "child_CPU_s": 30.934883,
+    "peak_RSS_KiB": 15090768,
+    "cgroup_peak_bytes": 7170166784
+  },
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "all_owned_children_terminal": true,
+  "preparation_lock_collision": {
+    "no_registration": true,
+    "no_dispatch": true,
+    "no_GPU_work": true,
+    "reconciled_root_source_journal_unit_absent": true,
+    "locks_later_observed_free": true
+  },
+  "scope": "DIAGNOSTIC_ONLY_NOT_FORMAL_POLICY"
+}

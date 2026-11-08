@@ -13,10 +13,10 @@ from ..trajectory.so3 import rotation_matrix_to_rot6d_rows, rot6d_rows_to_matrix
 
 PHASE='collect-target-task-learning-grasp-v1'
 KIND='TASK_LEARNING_GRASP_LIFT_HOLD_V1'
-CALIBRATION_B=34303
+CALIBRATION_B=4703
 PREACTION_HOLD_ATOMS=40
 B=CALIBRATION_B+25*PREACTION_HOLD_ATOMS
-PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,28,20
+PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,40,20
 E=B+25*(PREFIX_ATOMS*QUERIES+FINAL_HOLD)
 COMMAND='GRASP_RED_LIFT20MM_HOLD1S'
 LANGUAGE='Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.'
@@ -27,8 +27,11 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,task_revision='V3_GRASP_STANDING_WITH_ACTUAL_FOOT_SUPPORT_AND_SLIP',reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD_BEFORE_UNCHANGED_VELOCITY_GATE',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,task_revision='V4_TASK_LOCAL_PREPARATION_WITHOUT_SOURCE_POSE_ALIGNMENT',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
+        preparation=dict(original_startup_to_step=2503,original_steady_prefix_to_step=3703,
+            unchanged_initial_TCP_reference_hold_to_step=4703,source_pose_alignment=False,
+            total_extra_hold_ticks_after_steady_prefix=2000,native_clock_rebased=False),
         prefix_atoms=PREFIX_ATOMS,policy_queries=QUERIES,final_hold_atoms=FINAL_HOLD,
         task_command=COMMAND,language=LANGUAGE,action_period_s=.05,physics_dt_s=.002,
         expert_commands='ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT',
@@ -51,7 +54,7 @@ def declared(spec):
 def start_readiness_contract():
     from .target_gr00t_collection_v1 import start_readiness_contract as original
     return dict(original(),decision_step=B,extra_settling_integrations=25*PREACTION_HOLD_ATOMS,
-        reset_revision='V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD',native_clock_rebased=False)
+        reset_revision='V4_TASK_LOCAL_FOUR_SECOND_REFERENCE_HOLD',native_clock_rebased=False)
 
 
 def require_start_readiness(adapter,sample):

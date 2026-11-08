@@ -54,10 +54,10 @@ def test_new_prefix_configuration_has_exact_endpoint_without_weakening_legacy():
     from go2arx5_vla.world_model import stable_task_prefix_v1 as prefix
     spec=dict(phase=task.PHASE,kind=task.KIND,task_learning_grasp=task.protocol(),task_command=task.COMMAND,
         live_skill_start_step=task.CALIBRATION_B,max_ticks=task.E,physics_dt_s=.002,WBC_changes=False)
-    assert len(prefix.observation_steps(spec))==28
-    assert prefix.cycle(spec,28)['end_step']==task.E==63803
-    assert prefix.cycle(spec,-1)['start_step']==34303
-    assert prefix.cycle(spec,-1)['end_step']==prefix.observation_steps(spec)[0]==35303
+    assert len(prefix.observation_steps(spec))==40
+    assert prefix.cycle(spec,40)['end_step']==task.E==46203
+    assert prefix.cycle(spec,-1)['start_step']==4703
+    assert prefix.cycle(spec,-1)['end_step']==prefix.observation_steps(spec)[0]==5703
     assert task.start_readiness_contract()['maximum_BASE_linear_speed_m_s']==.001
     broken=copy.deepcopy(spec);broken['max_ticks']-=25
     with pytest.raises(ValueError):prefix.observation_steps(broken)
@@ -99,3 +99,19 @@ def test_new_grasp_standing_score_keeps_short_task_pose_bound_as_diagnostic():
     feet=initial['feet'].copy();feet[0,0]=.0051
     assert task.standing_metrics(base,feet,['FL','FR','RL','RR'],initial)['passes']is False
     assert task.standing_metrics(base,initial['feet'],['FL','FR'],initial)['passes']is False
+
+
+def test_task_preparation_holds_initial_reference_without_source_alignment():
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model.task_learning_preparation_v1 import HoldProgram,validate_preview
+    from go2arx5_vla.world_model.fusion_trajectory_qualification_contract import hold_preview
+    initial=np.eye(4);initial[:3,3]=[.25,0,.71]
+    actual=initial.copy();actual[0,3]+=.001
+    program=HoldProgram(initial,actual)
+    adapter=SimpleNamespace(observe=lambda:dict(step=3703),trajectory_initial_tcp=initial,
+        base_pose_hold=[0,0,.3,1,0,0,0],trajectory_initial_base=[0,0,.3,1,0,0,0])
+    assert np.array_equal(program.preview(15),hold_preview(initial))
+    assert np.array_equal(program.desired_at(39)[:3],actual[:3,3])
+    validate_preview(adapter,program.preview(0))
+    shifted=program.preview(0);shifted[:,0]+=.001
+    with pytest.raises(ValueError,match='EXACT_UNCHANGED_INITIAL_REFERENCE'):validate_preview(adapter,shifted)

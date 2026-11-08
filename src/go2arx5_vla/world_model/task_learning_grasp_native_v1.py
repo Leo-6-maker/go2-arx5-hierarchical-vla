@@ -12,6 +12,7 @@ from .storage import digest,write_json,jsonable
 
 SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_grasp_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_preparation_v1.py',
     'src/go2arx5_vla/world_model/task_learning_grasp_native_v1.py')))
 
 
@@ -61,10 +62,8 @@ def validate_adapter_install(adapter,action):
     validate(adapter.spec);step=adapter.observe()['step']
     active=getattr(adapter,'stable_task_active_cycle',None)
     if active is None:
-        task.need(step<task.CALIBRATION_B,'ORIGINAL_CALIBRATION_PRECEDES_NEW_TASK')
-        return common.prefix.validate_install_preview(action,initial_tcp=adapter.trajectory_initial_tcp,
-            program=adapter.trajectory_program,step=step,base=adapter.base_pose_hold,
-            frozen_base=adapter.trajectory_initial_base,end_step=task.CALIBRATION_B)
+        from .task_learning_preparation_v1 import validate_preview
+        return validate_preview(adapter,action)
     c=consumer.cycle(adapter.spec,active['index']);program=active['program']
     task.need(type(program)is task.FiftyMsProgram and all(active[k]==v for k,v in c.items())
         and c['start_step']<=step<c['end_step'] and (step-c['start_step'])%25==0
@@ -98,10 +97,10 @@ def actual_feet(adapter,sample):
 def continue_native(adapter,report,samples,windows):
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
-    validate(adapter.spec);ready=report['task_phase_initialization']['readiness']
+    validate(adapter.spec);ready=report['task_local_preparation']
     task.need(adapter.observe()['step']==task.CALIBRATION_B and not adapter.trace_sealed
-        and all(v is True for k,v in ready['predicates'].items()if k!='full_grade')
-        and report['all_40_knots_consumed']is True,'ORIGINAL_STABLE_PREFIX_BEFORE_CONTACT_TASK')
+        and ready['original_steady_prefix_qualified']is True and ready['source_pose_alignment']is False
+        and report['all_40_knots_consumed']is True,'ORIGINAL_STABLE_PREFIX_AND_TASK_LOCAL_HOLD')
     samples,windows=list(samples),list(windows)
     # New task reset intervention, after the unchanged original initialization.
     # Preserve native time and every consumption receipt; keep the old velocity gate.
@@ -207,9 +206,29 @@ def complete_consumption(spec,result):
 
 
 def run(adapter):
-    from .fusion_task_phase_xyz_feedback_native_v4 import run_feedback_program
+    from .fusion_trajectory_qualification_native import run_program
+    from .task_learning_preparation_v1 import HoldProgram
+    import json
     episode,source=episode_config(adapter.spec)
-    return run_feedback_program(adapter,episode,source,recipe_module=common.prefix,actual_phase=task.PHASE,
-        report_schema='TASK_LEARNING_GRASP_CALIBRATION_V1',goal_schema='TASK_LEARNING_GRASP_GOAL_V1',
-        decision_schema='TASK_LEARNING_GRASP_PREFIX_DECISION_V1',feedback_report_schema='TASK_LEARNING_GRASP_PREFIX_FEEDBACK_V1',
-        continuation=continue_native)
+    # Operational/source identities were checked above; no source observation,
+    # source pose or historical terminal error determines the new references.
+    inputs={}
+    def factory(destination,actual_episode,initial,actual,base):
+        task.need(destination is inputs and actual_episode is episode and not inputs,
+            'ONE_TASK_LOCAL_PREPARATION_BINDING')
+        program=HoldProgram(initial,actual)
+        inputs.update(raw=program.desired_path,provenance=dict(
+            producer='ORIGINAL_INITIAL_TCP_REFERENCE_HOLD_NOT_EXPERT_ACTION',source_pose_alignment=False))
+        return program
+    def finalizer(report):
+        prefix=json.loads((adapter.output/'TRAJECTORY_QUALIFICATION_PREFIX.private.json').read_text())
+        task.need(prefix['qualified']is True and prefix['native_step']==3703,
+            'UNCHANGED_ORIGINAL_STEADY_PREFIX_GATE')
+        report['task_local_preparation']=dict(original_steady_prefix_qualified=True,
+            original_steady_prefix_native_step=3703,source_pose_alignment=False,
+            reference_hold_endpoint=task.CALIBRATION_B,startup_WBC_native_safety_or_dynamics_changed=False)
+    return run_program(adapter,episode,inputs,program_factory=factory,
+        preparation_end_step=task.CALIBRATION_B,report_finalizer=finalizer,continuation=continue_native,
+        report_context=dict(schema='TASK_LEARNING_LOCAL_PREPARATION_NATIVE_V4',actual_spec_phase=task.PHASE,
+            source_pose_alignment=False,post_decision_atoms=40,tail_hold_atoms=0,
+            experiment_role='TASK_LOCAL_PREPARATION_NOT_SOURCE_EQUIVALENCE_OR_EXPERT_DATA'))
