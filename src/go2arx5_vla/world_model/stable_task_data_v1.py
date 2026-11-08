@@ -19,6 +19,7 @@ SOURCE_MEMBERS = (*common.SOURCE_MEMBERS,
     'src/go2arx5_vla/world_model/stable_task_layout_static_v1.py',
     'src/go2arx5_vla/world_model/stable_task_data_v1.py',
     'src/go2arx5_vla/world_model/stable_task_adapter_v1.py',
+    'src/go2arx5_vla/world_model/target_gr00t_collection_v1.py',
     'scripts/wm02/stable_task_data_check_v1.py')
 
 
@@ -34,7 +35,11 @@ def config(command,role):
 
 def validate(spec):
     scene_contract.scene(spec)
-    c = config(spec.get('task_command'),spec.get('data_role'))
+    if spec.get('target_gr00t_collection') is not None:
+        from .target_gr00t_collection_v1 import validate as validate_vla
+        c = validate_vla(spec)
+    else:
+        c = config(spec.get('task_command'),spec.get('data_role'))
     need(spec.get('stable_task_data') == c
          and spec.get('snapshot_binding_mode') == 'PRE_REGISTERED_STABLE_TASK_DATA_V1'
          and not spec.get('paused_query_pair') and not spec.get('paused_query_gpu_spec')
@@ -85,18 +90,18 @@ def validate_adapter_install(adapter,action):
                 native_step=step,physics_advance_authorized=False)
 
 
-def capture_input(adapter):
+def capture_input(adapter, *, language=None, task_score=None):
     from .fusion_observation import TargetShadowBinding
     from .fusion_source_camera_capture import SourceCameraCapture
     from .fusion_source_camera_rig import SOURCE_IDENTITY_SHA256
     from .fusion_paused_observation import capture_paused_observation,verify_still_paused
     spec = adapter.spec
-    language = ('Keep the gripper open and hold its current pose without touching the red cube.'
+    language = language or ('Keep the gripper open and hold its current pose without touching the red cube.'
         if spec['task_command'] == 'HOLD_OPEN' else
         'Move the open gripper a little toward the red cube, then hold without touching it.')
     task = dict(schema='WM02_FUSION_PAUSED_TARGET_TASK_V2',task_id='STABLE_TASK_'+spec['task_command'],
         language=language,scene_sha256=digest(spec['model_path']),
-        score_contract_sha256=document_hash(task_score_contract(spec['task_command'])),language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT')
+        score_contract_sha256=document_hash(task_score if task_score is not None else task_score_contract(spec['task_command'])),language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT')
     identity = Path(spec['source_camera_identity']).read_bytes()
     need(digest(spec['source_camera_identity']) == spec['source_camera_identity_sha256'] == SOURCE_IDENTITY_SHA256,
          'UNCHANGED_CAMERA_CALIBRATION_IDENTITY')
@@ -117,6 +122,9 @@ def capture_input(adapter):
 
 
 def continue_native(adapter,report,samples,windows):
+    if adapter.spec.get('target_gr00t_collection') is not None:
+        from .target_gr00t_collection_v1 import continue_native as collect_vla
+        return collect_vla(adapter,report,samples,windows)
     from .fusion_task_phase_live_skill_native_v8 import _noncontact
     from .fusion_task_reference_diagnostic_v1 import require_standing
     from .fusion_live_skill_segment import run_consumed_segment

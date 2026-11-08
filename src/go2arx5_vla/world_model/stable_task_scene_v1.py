@@ -57,6 +57,7 @@ def reference_geometry(reference, scene_sha256):
 
 
 def scene(spec):
+    vla = spec.get('target_gr00t_collection') is not None
     evaluated=spec.get('phase')=='collect-target-stable-task-eval-v1'
     closed=spec.get('phase')=='collect-target-stable-task-closed-loop-v1'
     expected_kind='STABLE_TASK_CLOSED_LOOP_V1'if closed else 'STABLE_TASK_EVAL_V1'if evaluated else KIND
@@ -71,11 +72,12 @@ def scene(spec):
     need(proof['split'] == spec['data_role'] and proof['parent'] == spec['data_parent']
          and spec['scene_id'] == 'STABLE_TASK_' + proof['layout'], 'REAL_PHYSICAL_PARENT_AND_SPLIT')
     panel = pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
-    need(panel.get('schema') == ('WM02_STABLE_TASK_CLOSED_LOOP_PANEL_V1'if closed else 'WM02_STABLE_TASK_ADAPTER_NATIVE_PANEL_V1'if evaluated else 'WM02_STABLE_TASK_DATA_PANEL_V1'), 'PREDECLARED_NEW_DATA_PANEL')
+    need(not vla or not(evaluated or closed), 'VLA_COLLECTION_NOT_ADAPTER_EVALUATION')
+    need(panel.get('schema') == ('WM02_TARGET_GR00T_DEMONSTRATION_PANEL_V1'if vla else 'WM02_STABLE_TASK_CLOSED_LOOP_PANEL_V1'if closed else 'WM02_STABLE_TASK_ADAPTER_NATIVE_PANEL_V1'if evaluated else 'WM02_STABLE_TASK_DATA_PANEL_V1'), 'PREDECLARED_NEW_DATA_PANEL')
     rows = panel['assignments']; need(len({r['native_run'] for r in rows}) == len(rows), 'UNIQUE_NEW_RUNS')
     roles = {}
     for row in rows:
-        need(row['split'] in ('TRAIN','DEV') and row['command'] in ('HOLD_OPEN','APPROACH_RED_4MM_OPEN'),
+        need(row['split'] in ('TRAIN','DEV') and row['command'] in (('APPROACH_RED_4MM_OPEN','RETREAT_RED_4MM_OPEN')if vla else ('HOLD_OPEN','APPROACH_RED_4MM_OPEN')),
              'ACTUAL_TASK_INSTRUCTION_NOT_TEACHER_PHASE')
         need(row['parent'] not in roles or roles[row['parent']] == row['split'], 'NO_PARENT_CROSS_SPLIT')
         roles[row['parent']] = row['split']
