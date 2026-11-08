@@ -74,3 +74,12 @@ def test_explicit_post_hold_clock_keeps_original_velocity_threshold(tmp_path,spe
     else:
         with pytest.raises(ValueError,match='POST_HOLD_START_READINESS_REJECTED'):
             task.require_start_readiness(adapter,actual)
+
+
+def test_continuous_capture_progress_survives_second_decision_and_final_seal(tmp_path):
+    import json
+    from go2arx5_vla.world_model.task_learning_grasp_native_v1 import write_progress
+    path=tmp_path/'TASK_LEARNING_CAPTURES.private.json'
+    for count in (1,2):write_progress(path,dict(records=list(range(count)),complete=False))
+    write_progress(path,dict(records=[0,1],complete=True))
+    assert json.loads(path.read_text())==dict(records=[0,1],complete=True)

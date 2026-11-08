@@ -2,6 +2,7 @@
 import copy
 from pathlib import Path
 import numpy as np
+from scripts.pi0292.durable import write as write_progress
 from . import task_learning_grasp_v1 as task
 from . import stable_task_scene_v1 as scenes
 from . import stable_task_prefix_v1 as consumer
@@ -113,7 +114,7 @@ def continue_native(adapter,report,samples,windows):
         observe(samples[-1])
         capture=capture_input(adapter,language=task.LANGUAGE,task_score=task.score_contract())
         captures.append(capture)
-        write_json(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=False))
+        write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=False))
         program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
         adapter.task_learning_stage=teacher.stage
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
@@ -132,7 +133,7 @@ def continue_native(adapter,report,samples,windows):
                 policy_EEF10=program.decoded_H40[offset].tolist(),
                 installed_consumed_EEF10=program.reference_path[offset].tolist(),
                 Teacher_decision_sha256=digest(decision_path),solver_gripper_confirmed=True))
-        write_json(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
+        write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
             period_s=.05,complete=False,unexecuted_suffix_included=False,future_achieved_labels=False))
     # Termination continues the last explicit Teacher grasp/hold command.
     raw=np.repeat(program.decoded_H40[-1:,:],40,axis=0)
@@ -144,8 +145,8 @@ def continue_native(adapter,report,samples,windows):
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
     scored=task.score(task_samples,teacher.cube[2,3])
     write_json(adapter.output/'TASK_LEARNING_SCORE.private.json',scored)
-    write_json(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
-    write_json(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
+    write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
+    write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
         period_s=.05,complete=True,unexecuted_suffix_included=False,future_achieved_labels=False,
         task_success=scored['task_success'],expert_training_eligible=False))
     return jsonable(dict(copy.deepcopy(report),schema='TASK_LEARNING_GRASP_CONSTRUCTION_NATIVE_ACTUAL_V1',

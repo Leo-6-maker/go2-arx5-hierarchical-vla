@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T03:09:54.287628+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T03:15:41.296747+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -54,7 +54,7 @@
     }
   },
   "G2": {
-    "status": "CONSTRUCTION_V2_RUNNING_DECLARED_2S_REFERENCE_HOLD_THEN_SAME_START_VELOCITY_LIMIT",
+    "status": "CLOSED_ENGINEERING_PROGRESS_INDEX_FAILURE_AFTER_ONE_REAL_TEACHER_CHUNK",
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
@@ -68,7 +68,7 @@
       "max_joint_acceleration_rad_s2": 0.16360845567975346,
       "integrations": 0
     },
-    "task_success": "PENDING",
+    "task_success": false,
     "expert_training_eligible": false,
     "construction_attempts": 1,
     "preserved_failure": "G2_CONSTRUCTION_01_ACTUAL.json",
@@ -77,7 +77,15 @@
     "preflight_only_attempts": 1,
     "post_initialization_hold_ticks": 1000,
     "teacher_start_native_step": 35303,
-    "original_maximum_BASE_linear_speed_m_s": 0.001
+    "original_maximum_BASE_linear_speed_m_s": 0.001,
+    "post_hold_BASE_speed_m_s": 7.651540499620978e-05,
+    "confirmed_Teacher_50ms_commands": 40,
+    "Teacher_decisions": 1,
+    "preserved_failures": [
+      "G2_CONSTRUCTION_01_ACTUAL.json",
+      "G2_CONSTRUCTION_02_PREFLIGHT_ACTUAL.json",
+      "G2_CONSTRUCTION_03_ACTUAL.json"
+    ]
   },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
