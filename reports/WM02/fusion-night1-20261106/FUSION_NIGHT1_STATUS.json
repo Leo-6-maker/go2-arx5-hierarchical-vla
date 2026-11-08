@@ -19,16 +19,16 @@
   "old_leases_reopened": false,
   "active_capsules_changed": false,
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
-  "fusion_scope_deadline": 1794112746.6684496,
-  "goal": "PR369_TARGET_GR00T_CANDIDATE_PREPARATION",
-  "snapshot_epoch": 1794140138.515625,
-  "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
+  "fusion_scope_deadline": 1794150840.0,
+  "goal": "PR369_TARGET_GR00T_ACTUAL_TRAINING_WAIT_A40",
+  "snapshot_epoch": 1794145245.242195,
+  "implementation_sha": "fa33c75011a74aacd10dde1f96eefb085b2e38f3",
   "implementation_deployed": false,
-  "actual_last_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+  "actual_last_native_source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
   "current_native_job": null,
-  "current_neural_job": "Only Vanda1532527 queued, verified20:30SGT; no new Core GPU worker",
+  "current_neural_job": "Only Vanda1532527 queued; no new Core neural worker",
   "current_CPU_job": null,
-  "live_process_state": "ORIGINAL_TEACHER_DEV_ACTIVE; A40_Q; NEW_GR00T_PAIR_NOT_LAUNCHED",
+  "live_process_state": "ALL_PR369_CORE_NATIVE_WORKERS_CLOSED; A40_Q_ACCOUNT_RUNNING_JOB_LIMIT",
   "FUSION_completed_physical_cohorts": 5,
   "FUSION_native_attempts": 324,
   "FUSION_native_passes": 305,
@@ -56,7 +56,7 @@
   "REAL_VLA_INFERENCE_DONE": true,
   "FROZEN_VLA_NATIVE_COMPARISON": false,
   "TASK_TRANSFER_GAIN": false,
-  "last_sealed_native_panel": "STABLE_START_G1_TEACHER04_ACTUAL_V1.json",
+  "last_sealed_native_panel": "TARGET_GR00T_TEACHER_TWO_PREFIX_AND_START_DIVERGENCE_ACTUAL_V1.json",
   "learning_assets": {
     "FUSION_primary_checkpoint_sha256": "ca5fe2a4afb30349732220ab8ca36b538f09fb8d40950e2addb61beb603972e8",
     "FUSION_primary_numpy_sha256": "5a267c76c061ceb9a905dacd7d6d730a57bf9dd5146a9d534d14ed3840bfd19a",
@@ -284,7 +284,7 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Retain this failed B0 condition and closed leases; no replay or qualified-interface claim. Keep sole A40 job queued. Actual legal A40 capacity/nonzero backward/full next-update restore and FIT4 must precede FORMAL2000 on sealed21TRAIN/7DEV. Then qualify the real candidate on a new TRAIN interface before fixed32 B0/B1 DEV. Core future work still needs fresh valid finite scope at actual dispatch; current scope is not extended by this report.",
+  "next": "Keep sole1532527 identity; on real allocation verify actual capacity/backward/complete next-update restore/FIT4 before freshFORMAL2000. Do not rerun the failed retreat or relabel diagnostic actions. Localize saved-trace pre-task divergence without changing frozen control. After trained model delivery, actual Core reconstruction/TRAIN interface and frozen32 B0/B1 DEV still required.",
   "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
@@ -1034,7 +1034,7 @@
       "BASE_displacement_m": 0.0020130402433105312
     }
   },
-  "latest_target_progress_report": "TARGET_GR00T_B0_TWO_QUERY_NATIVE_FAILURE_ACTUAL_V1.json",
+  "latest_target_progress_report": "TARGET_GR00T_TEACHER_TWO_PREFIX_AND_START_DIVERGENCE_ACTUAL_V1.json",
   "PR369_latest_native_readiness_snapshot": {
     "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
     "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
@@ -1153,5 +1153,44 @@
     "new_model_calls": 0,
     "new_updates": 0,
     "new_integrations": 0
+  },
+  "PR369_teacher_two_prefix_actual": {
+    "report": "TARGET_GR00T_TEACHER_TWO_PREFIX_AND_START_DIVERGENCE_ACTUAL_V1.json",
+    "source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+    "sealed_totals": {
+      "native_invocations": 40,
+      "native_PASS": 31,
+      "native_FAIL": 9,
+      "native_ticks": 1481867,
+      "integrating_attempts": 39,
+      "zero_integration_invocations": 1,
+      "original_collection": {
+        "attempts": 36,
+        "PASS": 30,
+        "FAIL": 6,
+        "TRAIN_successes": 21,
+        "DEV_successes": 7
+      },
+      "cohort_actual_GR00T_model_loads": 3,
+      "cohort_actual_GR00T_queries": 7,
+      "actual_target_GR00T_updates": 0,
+      "trained_candidate_checkpoints": 0,
+      "student_DEV": 0,
+      "TEST": 0
+    },
+    "native_jobs_CLOSED": true,
+    "new_diagnostic_totals": {
+      "native_invocations": 3,
+      "native_PASS": 1,
+      "native_FAIL": 2,
+      "integrating_attempts": 2,
+      "zero_integration_entry_failures": 1,
+      "native_ticks": 74806,
+      "teacher_decisions": 2,
+      "confirmed_task_intervals": 248,
+      "additional_expert_episodes": 0,
+      "additional_expert_windows": 0
+    },
+    "actual_target_model_updates": 0
   }
 }

@@ -1,0 +1,860 @@
+{
+  "schema": "WM02_TARGET_GR00T_TEACHER_TWO_PREFIX_AND_START_DIVERGENCE_ACTUAL_V1",
+  "created_epoch": 1794145245.2408648,
+  "status": "ACTUAL_TWO_PREFIX_TEACHER_APPROACH_PASS; INDEPENDENT_RETREAT_REJECTED_BEFORE_ACTION; A40_QUEUED",
+  "plan_PR": 369,
+  "plan_sha": "dfbdb49020a0086421312649a8e52f07b89b5817",
+  "actual_native_source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+  "future_cold_evidence_source_sha": "fa33c75011a74aacd10dde1f96eefb085b2e38f3",
+  "ACTUAL": "Two real privileged Teacher decisions followed by120+120+8 confirmed task intervals completed on TRAIN01 approach. Actual motion5.011mm, lateral0.763mm and BASE1.093mm passed original short-task predicates. Independent retreat condition produced no task decision: original velocity gate rejected its calibration endpoint. All three native workers are CLOSED and MainPID0.",
+  "NEGATIVE": "No target GR00T backward/update/candidate/checkpoint/optimizer recovery, no student DEV or real-time deployment. Teacher reachability on one independent restart is not GR00T qualification or a causal policy-gain comparison. Target data stay21TRAIN/7DEV/0TEST; diagnostics are not BC labels.",
+  "runs": [
+    {
+      "run": "target-teacher-two-prefix-train01-approach-01",
+      "purpose": "TRAIN_GEOMETRY_DIAGNOSTIC_NOT_BC",
+      "kind": "ENTRY_ROUTE_FAILURE",
+      "source_sha": "aeb6dd262564cb3336b706b568d7d955cb61d7f0",
+      "spec_sha256": "bc6c68c392c5c9fb63aafd260932e5124917a5e9be6f3816b154ebf9e541a40a",
+      "result_sha256": "63bfa760198d1746c28127497421ee23029f25c5118604baef8e14955ba61b01",
+      "worker_sha256": "96d23fc110a76def2c1100fa7215c4038570e8dce6b5b99162117c83363fd0fd",
+      "lease_sha256": "cff07a9a954995d926a68da290b6e82419d2c756fba30f4c3621ee3f3241d9b2",
+      "worker_exit_code": 1,
+      "lease_status": "CLOSED",
+      "MainPID": 0,
+      "native_ticks": 0,
+      "shutdown_clean": true,
+      "children_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "failure_reason": "EXACT_KNOWN_FINITE_FEEDBACK_NATIVE_CALLER_REQUIRED",
+      "trace": {
+        "status": "INSUFFICIENT_RECORDED_EVIDENCE",
+        "native_step_records": 0,
+        "writer": {
+          "events": 2700,
+          "written": 2700,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": false
+        },
+        "errors": []
+      },
+      "cycles": [],
+      "task_score": null,
+      "new_GR00T_queries": 0,
+      "new_GR00T_updates": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "expert_training_eligible": false,
+      "GR00T_native_interface_qualified": false,
+      "cost": {
+        "wall_s": 8.379300566855818,
+        "worker_CPU_s": 3.5070969290000003,
+        "child_CPU_s": 8.54536,
+        "worker_and_child_CPU_s": 12.052456929000002
+      },
+      "command": "PYTHONPATH=\"$SOURCE/src:$SOURCE\" \"$NATIVE_PYTHON\" -B -m scripts.wm02.target_teacher_prefix_diagnostic_v1 --spec \"$REGISTERED_ROOT/EXECUTION_SPEC.json\" --execute"
+    },
+    {
+      "run": "target-teacher-two-prefix-train01-approach-02",
+      "purpose": "TRAIN_GEOMETRY_DIAGNOSTIC_NOT_BC",
+      "kind": "APPROACH_TWO_PREFIX_PASS",
+      "source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+      "spec_sha256": "d2d53c6862134ea222abad0da887d0e82673afc9ff6e23b97cf25a50b092d0f5",
+      "result_sha256": "a70ad06196b24c1b3dc8a4ecbaaeda8bf2296c875132369425f669c3aa00a6a3",
+      "worker_sha256": "790f813792ae27671ea8239f77d2093b0a7990b3b5deae17e225cad7c7f03100",
+      "lease_sha256": "26933697543cd69e461ab98eb93738a28daac714cb9a564ff3d1fb3a4b16fb4c",
+      "worker_exit_code": 0,
+      "lease_status": "CLOSED",
+      "MainPID": 0,
+      "native_ticks": 40503,
+      "shutdown_clean": true,
+      "children_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "failure_reason": null,
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 40503,
+        "writer": {
+          "events": 299786,
+          "written": 299786,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "errors": []
+      },
+      "cycles": [
+        {
+          "cycle": {
+            "index": 0,
+            "kind": "POLICY_PREFIX",
+            "start_step": 34303,
+            "end_step": 37303,
+            "atoms": 120
+          },
+          "atoms": 120,
+          "raw_knot_consumed": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "cancellation_status": "SUPERSEDED_BY_ORIGINAL_NEW_REFERENCE_ACK"
+        },
+        {
+          "cycle": {
+            "index": 1,
+            "kind": "POLICY_PREFIX",
+            "start_step": 37303,
+            "end_step": 40303,
+            "atoms": 120
+          },
+          "atoms": 120,
+          "raw_knot_consumed": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "cancellation_status": "SUPERSEDED_BY_ORIGINAL_NEW_REFERENCE_ACK"
+        },
+        {
+          "cycle": {
+            "index": 2,
+            "kind": "DETERMINISTIC_TERMINATION_HOLD",
+            "start_step": 40303,
+            "end_step": 40503,
+            "atoms": 8
+          },
+          "atoms": 8,
+          "raw_knot_consumed": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "cancellation_status": "PENDING_NEXT_ORIGINAL_INSTALL_OR_OUTER_FINAL_CANCEL"
+        }
+      ],
+      "task_score": {
+        "schema": "WM02_TARGET_GR00T_DIRECTIONAL_SHORT_SCORE_ACTUAL_V1",
+        "contract": {
+          "schema": "WM02_TARGET_GR00T_DIRECTIONAL_SHORT_SCORE_V1",
+          "task_command": "APPROACH_RED_4MM_OPEN",
+          "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+          "original_approach_contract": {
+            "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+            "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+            "language": "Move the open gripper a little toward the red cube, then hold without touching it.",
+            "score_role": "NEW_GRADED_TARGET_SHORT_SKILL_NOT_OLD_3703_OR_PICK_PLACE",
+            "physical_frame": "ACTUAL_TARGET_WORLD",
+            "decision_native_step": 34303,
+            "atom_ticks": 25,
+            "native_dt_s": 0.002,
+            "precontact_offset_from_cube_m": 0.12,
+            "minimum_signed_progress_m": 0.002,
+            "minimum_distance_reduction_m": 0.002,
+            "maximum_lateral_drift_m": 0.003,
+            "maximum_TCP_excursion_m": 0.025,
+            "minimum_finger_opening_m": 0.038,
+            "maximum_object_displacement_m": 0.0005,
+            "maximum_base_displacement_m": 0.002,
+            "maximum_base_rotation_rad": 0.008726646259971648,
+            "final_hold_duration_s": 0.4,
+            "final_hold_TCP_diameter_m": 0.002,
+            "final_hold_TCP_max_speed_m_s": 0.025,
+            "original_native_safety_required": true,
+            "robot_object_contact_allowed": false,
+            "full_task_success_claim": false,
+            "thresholds_are_native_safety": false,
+            "privileged_geometry_is_policy_input": false
+          },
+          "minimum_intent_progress_m": 0.002,
+          "minimum_intent_distance_change_m": 0.002,
+          "other_predicates": "ALL_ORIGINAL_APPROACH_NONPROGRESS_PREDICATES_UNCHANGED",
+          "original_native_safety_changed": false,
+          "full_pick_place_success_claim": false
+        },
+        "original_approach_score": {
+          "schema": "WM02_FUSION_GRADED_TARGET_APPROACH_STEP_SCORE_V1",
+          "score_contract_sha256": "755139841bbd17949c4a93fa91369b9375ab738915d063a08b3728265cc6ff2a",
+          "task_id": "FUSION_GRADED_TARGET_RED_CUBE_APPROACH_STEP_AT34303_V1",
+          "metrics": {
+            "signed_progress_m": 0.005010961208355795,
+            "precontact_distance_reduction_m": 0.005008274066919269,
+            "maximum_lateral_drift_m": 0.0007634883901686094,
+            "maximum_TCP_excursion_m": 0.0051153565168998265,
+            "minimum_finger_opening_m": 0.04193392491269341,
+            "maximum_object_displacement_m": 0.0,
+            "maximum_base_displacement_m": 0.0010926362175417894,
+            "maximum_base_rotation_rad": 0.001316336093928541,
+            "final_hold_TCP_diameter_m": 0.00023437061765068672,
+            "final_hold_TCP_max_speed_m_s": 0.002394259552942814
+          },
+          "predicates": {
+            "signed_progress": true,
+            "distance_reduction": true,
+            "lateral": true,
+            "excursion": true,
+            "open": true,
+            "object_still": true,
+            "base_still": true,
+            "base_orientation": true,
+            "hold": true,
+            "original_native_safety": true,
+            "no_robot_object_contact": true
+          },
+          "approach_step_success": true,
+          "full_task_success": false,
+          "precontact_arrival_claim": false,
+          "pick_place_success_claim": false,
+          "scorer_only_privileged_geometry": true,
+          "thresholds_are_native_safety": false
+        },
+        "intent_progress_m": 0.005010961208355796,
+        "intent_distance_change_m": 0.005009844896797844,
+        "predicates": {
+          "lateral": true,
+          "excursion": true,
+          "open": true,
+          "object_still": true,
+          "base_still": true,
+          "base_orientation": true,
+          "hold": true,
+          "original_native_safety": true,
+          "no_robot_object_contact": true,
+          "intent_progress": true,
+          "intent_distance_change": true
+        },
+        "task_success": true,
+        "full_pick_place_success": false
+      },
+      "new_GR00T_queries": 0,
+      "new_GR00T_updates": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "expert_training_eligible": false,
+      "GR00T_native_interface_qualified": false,
+      "cost": {
+        "wall_s": 552.9391311551444,
+        "worker_CPU_s": 224.667699419,
+        "child_CPU_s": 999.015444,
+        "worker_and_child_CPU_s": 1223.683143419
+      },
+      "command": "PYTHONPATH=\"$SOURCE/src:$SOURCE\" \"$NATIVE_PYTHON\" -B -m scripts.wm02.target_teacher_prefix_diagnostic_v1 --spec \"$REGISTERED_ROOT/EXECUTION_SPEC.json\" --execute",
+      "start_readiness": {
+        "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1_ACTUAL",
+        "contract": {
+          "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+          "decision_step": 34303,
+          "maximum_BASE_linear_speed_m_s": 0.001,
+          "maximum_BASE_angular_speed_rad_s": 0.005,
+          "physics_dt_s": 0.002,
+          "initial_state_reset": false,
+          "extra_settling_integrations": 0,
+          "WBC_or_startup_changed": false,
+          "original_standing_limits_changed": false,
+          "rejected_condition_retried": false,
+          "old_outcomes_relabelled": false
+        },
+        "native_step": 34303,
+        "BASE_qvel6": [
+          0.0002523146041878138,
+          -2.963764966470247e-05,
+          -1.471917803115119e-05,
+          5.9680760870959775e-05,
+          -5.1816634728736225e-06,
+          0.0001168069798484696
+        ],
+        "BASE_linear_speed_m_s": 0.0002544753504094522,
+        "BASE_angular_speed_rad_s": 0.00013127266812175176,
+        "passes": true,
+        "new_task_teacher_proposals_before_check": 0,
+        "physics_integrations_added": 0,
+        "rejected_is_not_expert": true,
+        "original_native_safety_still_required": true
+      }
+    },
+    {
+      "run": "target-teacher-two-prefix-train01-retreat-01",
+      "purpose": "TRAIN_GEOMETRY_DIAGNOSTIC_NOT_BC",
+      "kind": "RETREAT_START_READINESS_REJECTED",
+      "source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+      "spec_sha256": "a2f55217f33498a434590932a30fbb5b0166513948a698e17e2a057cb6241fbc",
+      "result_sha256": "a2fcbf72bf4840a7b663877e6a588f9b3db407d53e856d03b66d2710c7d60013",
+      "worker_sha256": "30bdceec53e4cb36e5f933a1ab973fead11637e5e40a9140935821b11ce3aeb8",
+      "lease_sha256": "3b1ca7ad0fae81b973a18d7b7ba17f390922fa1bc1fd806b5747c2c2d15f9e44",
+      "worker_exit_code": 1,
+      "lease_status": "CLOSED",
+      "MainPID": 0,
+      "native_ticks": 34303,
+      "shutdown_clean": true,
+      "children_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "failure_reason": "TARGET_GR00T_COLLECTION_START_READINESS_REJECTED",
+      "trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 34303,
+        "writer": {
+          "events": 252279,
+          "written": 252279,
+          "dropped": 0,
+          "stop_latched": false,
+          "sealed_at_explicit_pause": true
+        },
+        "errors": []
+      },
+      "cycles": [],
+      "task_score": null,
+      "new_GR00T_queries": 0,
+      "new_GR00T_updates": 0,
+      "new_WM_updates": 0,
+      "new_Actor_updates": 0,
+      "expert_training_eligible": false,
+      "GR00T_native_interface_qualified": false,
+      "cost": {
+        "wall_s": 458.054056389723,
+        "worker_CPU_s": 183.261842907,
+        "child_CPU_s": 823.7186839999999,
+        "worker_and_child_CPU_s": 1006.9805269069999
+      },
+      "command": "PYTHONPATH=\"$SOURCE/src:$SOURCE\" \"$NATIVE_PYTHON\" -B -m scripts.wm02.target_teacher_prefix_diagnostic_v1 --spec \"$REGISTERED_ROOT/EXECUTION_SPEC.json\" --execute",
+      "start_readiness": {
+        "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1_ACTUAL",
+        "contract": {
+          "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+          "decision_step": 34303,
+          "maximum_BASE_linear_speed_m_s": 0.001,
+          "maximum_BASE_angular_speed_rad_s": 0.005,
+          "physics_dt_s": 0.002,
+          "initial_state_reset": false,
+          "extra_settling_integrations": 0,
+          "WBC_or_startup_changed": false,
+          "original_standing_limits_changed": false,
+          "rejected_condition_retried": false,
+          "old_outcomes_relabelled": false
+        },
+        "native_step": 34303,
+        "BASE_qvel6": [
+          -0.026171613837898518,
+          0.0030536831903649623,
+          -0.026147057391431732,
+          -0.021422749414067535,
+          -0.187212428718484,
+          0.006857612657288511
+        ],
+        "BASE_linear_speed_m_s": 0.037120707996184873,
+        "BASE_angular_speed_rad_s": 0.18855888870718557,
+        "passes": false,
+        "new_task_teacher_proposals_before_check": 0,
+        "physics_integrations_added": 0,
+        "rejected_is_not_expert": true,
+        "original_native_safety_still_required": true
+      }
+    }
+  ],
+  "new_diagnostic_totals": {
+    "native_invocations": 3,
+    "native_PASS": 1,
+    "native_FAIL": 2,
+    "integrating_attempts": 2,
+    "zero_integration_entry_failures": 1,
+    "native_ticks": 74806,
+    "teacher_decisions": 2,
+    "confirmed_task_intervals": 248,
+    "additional_expert_episodes": 0,
+    "additional_expert_windows": 0
+  },
+  "PR369_sealed_totals": {
+    "native_invocations": 40,
+    "native_PASS": 31,
+    "native_FAIL": 9,
+    "native_ticks": 1481867,
+    "integrating_attempts": 39,
+    "zero_integration_invocations": 1,
+    "original_collection": {
+      "attempts": 36,
+      "PASS": 30,
+      "FAIL": 6,
+      "TRAIN_successes": 21,
+      "DEV_successes": 7
+    },
+    "cohort_actual_GR00T_model_loads": 3,
+    "cohort_actual_GR00T_queries": 7,
+    "actual_target_GR00T_updates": 0,
+    "trained_candidate_checkpoints": 0,
+    "student_DEV": 0,
+    "TEST": 0
+  },
+  "retained_engineering_failures": [
+    {
+      "reason": "Initial Teacher phase missing from actual shared feedback/initialization whitelist",
+      "native_exit_code": 1,
+      "ticks": 0,
+      "repair_source": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+      "regression": "Actual entry traverses shared typed guards before the original consumer stub;32 targeted normal and32 optimized;770 shared tests"
+    },
+    {
+      "reason": "Closed original result112755379bytes exceeded the dispatch helper generic16MiB metadata read limit",
+      "owner_exit_code": 1,
+      "registration": 0,
+      "new_integrations": 0,
+      "proof": "independent root absent/Journal empty/unit notfound; repaired only this exact closed-result read size to256MiB with original SHA and CLOSED pins preserved; fresh helper dispatch succeeded"
+    },
+    {
+      "reason": "Git fetch succeeded but this worktree has no remote tracking ref for the branch",
+      "exit_code": 128,
+      "repair": "verified fetched branch via FETCH_HEAD and ancestry; no reset or source rewrite"
+    }
+  ],
+  "initialization_analysis": {
+    "actual_effects": {
+      "new_integrations": 0,
+      "new_model_calls": 0
+    },
+    "identical_scene_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+    "same_actual_native_source": true,
+    "task_commands_consumed_before_start_gate": 0,
+    "first_observed_divergence": {
+      "versions": {
+        "native_step": 1,
+        "simulation_time": 0.002,
+        "max_abs_delta": 12,
+        "changed_indices": [
+          0
+        ],
+        "left": [
+          175,
+          1,
+          1,
+          1
+        ],
+        "right": [
+          163,
+          1,
+          1,
+          1
+        ]
+      },
+      "qpos": {
+        "native_step": 3,
+        "simulation_time": 0.006,
+        "max_abs_delta": 0.00010748901675583511,
+        "changed_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          31,
+          32,
+          33
+        ],
+        "left": null,
+        "right": null
+      },
+      "qvel": {
+        "native_step": 3,
+        "simulation_time": 0.006,
+        "max_abs_delta": 0.053744508377902234,
+        "changed_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "left": null,
+        "right": null
+      },
+      "ctrl": {
+        "native_step": 3,
+        "simulation_time": 0.006,
+        "max_abs_delta": 0.5999292391490528,
+        "changed_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "left": null,
+        "right": null
+      }
+    },
+    "startup_3703_TCP_difference_m": 0.00018609380507381265,
+    "retreat_final_BASE_linear_speed_m_s": 0.037120707996184873,
+    "retreat_final_BASE_angular_speed_rad_s": 0.18855888870718557,
+    "unchanged_limits": {
+      "BASE_linear_m_s": 0.001,
+      "BASE_angular_rad_s": 0.005
+    },
+    "last9_retreat_speed_m_s": [
+      0.03769249329893453,
+      0.03558324802249392,
+      0.03754233215433037,
+      0.035957493998257976,
+      0.037360926903910914,
+      0.03573882504747393,
+      0.0368784297062056,
+      0.035691182955462114,
+      0.037120707996184873
+    ],
+    "last9_approach_speed_m_s": [
+      0.00028547514165899013,
+      0.000351554450731296,
+      0.00015503483608573926,
+      0.00037389717269229405,
+      0.0002685613988849572,
+      0.0002620704144921128,
+      0.0002064136081230905,
+      0.0001953003659733986,
+      0.00025447535040945226
+    ],
+    "oscillation": [
+      {
+        "run": "target-teacher-two-prefix-train01-approach-02",
+        "trace_sha256": "38b831f71817e22cc47d97de280e1add0682958e1c28b9bfc759b4cc4dad040c",
+        "trace_bytes": 251820256,
+        "records": 299786,
+        "dominant": {
+          "pitch_angular_velocity_peak_frequency_Hz": 0.5,
+          "peak_amplitude_rad_s": 0.00027947212539203677,
+          "window_steps": [
+            33304,
+            34303
+          ],
+          "not_causal_proof": true
+        },
+        "PD_wall_intervals_ms": {
+          "count": 29862,
+          "p50": 5.663907,
+          "p95": 163.258029,
+          "maximum": 4194.875814
+        }
+      },
+      {
+        "run": "target-teacher-two-prefix-train01-retreat-01",
+        "trace_sha256": "f9c08e3f192623eb2430dbc2b1f3746ece95d29c61d2edc2cb0ee2e8094bbab0",
+        "trace_bytes": 211914376,
+        "records": 252279,
+        "dominant": {
+          "pitch_angular_velocity_peak_frequency_Hz": 50.0,
+          "peak_amplitude_rad_s": 0.13371655495386323,
+          "window_steps": [
+            33304,
+            34303
+          ],
+          "not_causal_proof": true
+        },
+        "PD_wall_intervals_ms": {
+          "count": 25028,
+          "p50": 5.667301,
+          "p95": 163.424384,
+          "maximum": 1797.996598
+        }
+      }
+    ],
+    "finding": "Divergence already at native step3, long before task34303. Final saved34303 retreat is oscillatory, with50Hz pitch-angular-velocity peak over33304–34303; no retreat command was issued. Original9-sample TCP relative-hold predicate passes while BASE-velocity gate correctly rejects. This locates a pre-task control trajectory difference, not a learned action error.",
+    "causal_limits": "Independent restarts are not full MPC/leg-history forks. Saved traces do not yet identify the responsible solver/thread/initial-condition sensitivity. No WBC/control/startup/physics/safety change or same-condition seed retry is justified by this observation alone.",
+    "read_only_trace_cost": {
+      "CPU_s": 0.998440517,
+      "wall_s": 2.7678490970283747,
+      "peak_RSS_KiB": 17048
+    }
+  },
+  "compact_evidence": {
+    "source_sha": "fa33c75011a74aacd10dde1f96eefb085b2e38f3",
+    "module_sha256": "155d6c475b62de4459e95c4980cd0f78d9d909ea32272264cb29ffd6fc82ad65",
+    "actual_original_result_bytes": 112755379,
+    "actual_summary_bytes": 4544,
+    "original_result_sha256": "a70ad06196b24c1b3dc8a4ecbaaeda8bf2296c875132369425f669c3aa00a6a3",
+    "original_remains_on_Core": true,
+    "remote_execution": "Read-only import of the pinned exact function; no active capsule modified, no files or lease written, no model/simulator loaded",
+    "preserves": "spec/result/worker/lease hashes, role, failure, actual ticks, score, trace and exit; continuation still rejects TRAIN diagnostics, open leases, wrong identities and zero candidate execution",
+    "normal_tests": {
+      "passed": 125,
+      "exit_code": 0,
+      "wall_s": 8.740434118022677,
+      "CPU_s": 8.494219,
+      "stdout_sha256": "467673f604bf91ef69508a4804bfc2f1e87542a45e33cd5e195f891d5aadbabc"
+    },
+    "optimized_tests": {
+      "passed": 92,
+      "exit_code": 0,
+      "wall_s": 7.33,
+      "CPU_s": "NOT_SEPARATELY_MEASURED",
+      "warning": "Standard pytest Python-O warning; explicit runtime need() checks remain effective"
+    },
+    "native_qualification_from_tests": false
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "read_epoch": 1794144771.354803,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "project": "CFP04-CF-007",
+    "resource_list": {
+      "am_job_cache": "\"{}\"",
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ncpus=36:mem=240GB:ngpus=1:gpu_model=A40",
+      "walltime": "06:00:00"
+    },
+    "resources_used": null,
+    "exec_host": null,
+    "qsub_exit_code": 0,
+    "qrls_exit_code": 0,
+    "total_submissions": 1,
+    "new_submission": 0,
+    "source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3",
+    "queued_capsule_modified": false,
+    "actual_target_updates": 0,
+    "other_project_jobs_stopped": 0,
+    "other_project_jobs": "Explicit user reply: preserve1530326/1530328/1530329/1530330, continue waiting; no cancellation."
+  },
+  "data": {
+    "TRAIN": 21,
+    "DEV": 7,
+    "TEST": 0,
+    "decision_windows": 21,
+    "dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "upstream_vendor_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+  },
+  "costs": {
+    "new_three_native_wall_s": 1019.3724881117232,
+    "new_three_native_worker_and_child_CPU_s": 2242.716127255,
+    "new_GPU_seconds": 0,
+    "new_GR00T_updates": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "source_stages": [
+      {
+        "source_sha": "aeb6dd262564cb3336b706b568d7d955cb61d7f0",
+        "wall_s": 27.860286416951567,
+        "CPU_s": 0.788534651,
+        "bytes_written": 50153583
+      },
+      {
+        "source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+        "wall_s": 1.381278240121901,
+        "CPU_s": 0.5650974609999999,
+        "bytes_written": 50183240
+      },
+      {
+        "source_sha": "1a1c098062127dadf0acaf5dbe7a0ea025ce3fb4",
+        "wall_s": 0.221051805652678,
+        "CPU_s": 0.10708452000000013,
+        "bytes_written": 0
+      }
+    ],
+    "monetary_charge": "NOT_YET_AVAILABLE_FROM_SITE; QUEUED A40 HAS NO ACTUAL ALLOCATION USAGE"
+  },
+  "next": "Keep sole1532527 identity; on real allocation verify actual capacity/backward/complete next-update restore/FIT4 before freshFORMAL2000. Do not rerun the failed retreat or relabel diagnostic actions. Localize saved-trace pre-task divergence without changing frozen control. After trained model delivery, actual Core reconstruction/TRAIN interface and frozen32 B0/B1 DEV still required.",
+  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "goal": "ACTIVE_NOT_COMPLETE",
+  "invariants": {
+    "WBC_changed": false,
+    "startup_0p9_changed": false,
+    "physics_dt_s": 0.002,
+    "safety_changed": false,
+    "active_capsule_modified": false,
+    "CLOSED_lease_reopened": false,
+    "online_WM": false,
+    "formal_Actor": false,
+    "H200": false,
+    "GPU_physics_multiworld": false,
+    "distributed": false,
+    "main_merged": false,
+    "report_extends_scope": false
+  }
+}
