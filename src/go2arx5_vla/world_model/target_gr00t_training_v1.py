@@ -193,7 +193,10 @@ def run(spec):
     instance=E1ResidentModel.__new__(E1ResidentModel)
     instance.root,instance.bindings,instance.model,instance.processor=root,bindings,model,data.processor
     instance.identity=dict(kind=profile.KIND,parent_manifest_sha256=profile.PARENT,
-        statistics_sha256=data.statistics_sha,global_step=spec['start_step'])
+        statistics_sha256=data.statistics_sha,dataset_sha256=data.manifest_sha,
+        source_sha=spec['source_sha'],generation_id=spec['generation_id'],mode=p['mode'],variant=p['variant'],
+        source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
+        global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
     dev=None
     if p['mode']=='FORMAL':
@@ -254,6 +257,7 @@ def run(spec):
             checkpoints.append(str(cp));write(root/'CHECKPOINTS.json',dict(paths=checkpoints))
             if p['mode']=='FORMAL'and step%500==0:
                 instance.identity['global_step']=step
+                instance.identity['target_checkpoint_sha256']=digest(cp/'CHECKPOINT_COMPLETE.json')
                 probe(root,f'at-{step}-TRAIN',instance,data)
                 probe(root,f'at-{step}-DEV',instance,dev)
     class Audit(TrainerCallback):
@@ -301,6 +305,7 @@ def run(spec):
     after={n:tensor_identity(model.get_parameter(n))for n in names}
     profile.need(after!=before and frozen_fingerprint(model)==frozen,'REAL_ACTION_WEIGHT_CHANGE_AND_FREEZE')
     cp=Path(checkpoints[-1]);saved_opt=tree_identity(trainer.optimizer.state_dict())
+    instance.identity['target_checkpoint_sha256']=digest(cp/'CHECKPOINT_COMPLETE.json')
     saved_sched=trainer.lr_scheduler.state_dict();saved_rng=rng_identity()
     after_folder=f'at-{step}-TRAIN'if p['mode']=='FORMAL'and step%500==0 else'after'
     after_probes=(json.loads((root/after_folder/'RESULT.json').read_bytes())['records']

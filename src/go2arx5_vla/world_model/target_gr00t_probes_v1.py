@@ -36,10 +36,12 @@ def measure(root,label,instance,data):
                          seed=seed,model_identity=instance.identity),generate)
                 records.append(dict(episode=row['id'],split=data.split,anchor=anchor,seed=seed,
                     command=row['command'],**actual,Processor_decode_calls=1,
-                    model_global_step=instance.identity['global_step']))
+                    model_global_step=instance.identity['global_step'],model_identity=dict(instance.identity)))
     finally:
         random.setstate(py);np.random.set_state(np_state)
     write(folder/'RESULT.json',dict(label=label,records=records,actual_VLA_queries=len(records),
-        observations='REAL_ADMITTED_TARGET_'+data.split,baseline_label='SAME_TARGET_PROCESSOR_ZERO_STEP_PARENT',
+        observations='REAL_ADMITTED_TARGET_'+data.split,
+        baseline_label=('SAME_TARGET_PROCESSOR_ZERO_STEP_PARENT' if instance.identity['global_step']==0
+                        else 'TARGET_CANDIDATE_WITH_SAME_TARGET_PROCESSOR'),
         original_source_B0_Processor_changed=False,optimizer_stream_RNG_preserved=True))
     return records
