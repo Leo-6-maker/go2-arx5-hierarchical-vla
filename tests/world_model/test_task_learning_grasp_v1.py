@@ -27,6 +27,7 @@ def test_teacher_full40_keeps_real_native_clock_and_reference_separate():
     assert np.array_equal(program.preview(39)[-1],program.reference_path[-1])
     assert program.knot_indices==tuple(range(40)) and program.time_stretch_factor==1
     assert proposal['no_future_achieved_state_labels']is True
+    assert np.linalg.norm(program.decoded_H40[-1,:3]-s['tcp'][:3,3])==pytest.approx(.015)
 
 
 def test_closed_gripper_is_preserved_at_new_h40_boundary():
@@ -115,3 +116,38 @@ def test_task_preparation_holds_initial_reference_without_source_alignment():
     validate_preview(adapter,program.preview(0))
     shifted=program.preview(0);shifted[:,0]+=.001
     with pytest.raises(ValueError,match='EXACT_UNCHANGED_INITIAL_REFERENCE'):validate_preview(adapter,shifted)
+
+
+def test_task_local_hold_reaches_continuation_with_real_clock_and_full_consumption_fixture(tmp_path,monkeypatch):
+    """Lifecycle fixture only; no simulator, site admission or Teacher claim."""
+    import json
+    from go2arx5_vla.world_model import task_learning_grasp_native_v1 as native
+    from go2arx5_vla.world_model import fusion_trajectory_qualification_native as loop
+    from test_fusion_trajectory_qualification import FakeAdapter,setup_flow,reference
+    library=tmp_path/'trace-library';library.write_bytes(b'fixture')
+    spec=dict(phase=task.PHASE,kind=task.KIND,task_learning_grasp=task.protocol(),task_command=task.COMMAND,
+        live_skill_start_step=task.CALIBRATION_B,max_ticks=task.E,physics_dt_s=.002,WBC_changes=False,
+        trace_library=str(library))
+    episode=dict(schema='TASK_LEARNING_LOCAL_PREPARATION_EPISODE_V4',protocol=task.protocol(),
+        source_pose_alignment=False,end_native_step=4703,query_pins=dict(role='NO_MODEL_QUERY'))
+    class Adapter(FakeAdapter):
+        def install_reference(self,action):
+            native.validate_adapter_install(self,action)
+            self.active_reference=dict(reference(round(self.step*.002*1e9)/1e9),action_EEF10=action.tolist())
+            self.installs.append((self.step,action.copy()));return self.active_reference
+    adapter=Adapter(spec,tmp_path);adapter.trace_sealed=False;setup_flow(monkeypatch,adapter)
+    monkeypatch.setattr(native,'episode_config',lambda s:(episode,{}))
+    monkeypatch.setattr(native,'validate',lambda s:None)
+    monkeypatch.setattr(loop,'actual_trace_binding',lambda a:dict(fixture_only=True))
+    class AtContinuation(Exception):pass
+    def reached(a,report,samples,windows):
+        assert a.step==4703 and len(windows)==88 and samples[-1]['native_step']==4703
+        assert report['task_local_preparation']['original_steady_prefix_qualified']is True
+        assert report['task_local_preparation']['source_pose_alignment']is False
+        assert report['all_40_knots_consumed']is True
+        assert len(a.reference_history)==88 and len(a.grip_packets)==88
+        assert all(np.array_equal(action,a.installs[0][1])for _,action in a.installs)
+        assert json.loads((tmp_path/'TRAJECTORY_QUALIFICATION_PREFIX.private.json').read_text())['native_step']==3703
+        raise AtContinuation
+    monkeypatch.setattr(native,'continue_native',reached)
+    with pytest.raises(AtContinuation):native.run(adapter)

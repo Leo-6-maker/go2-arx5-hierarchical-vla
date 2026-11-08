@@ -13,14 +13,16 @@ from .storage import digest,write_json,jsonable
 SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_grasp_v1.py',
     'src/go2arx5_vla/world_model/task_learning_preparation_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_scene_v1.py',
     'src/go2arx5_vla/world_model/task_learning_grasp_native_v1.py')))
 
 
 def scene_admission(spec):
     task.declared(spec)
-    proof,_=scenes.reference_geometry(spec['stable_task_scene_reference'],digest(spec['model_path']))
+    from .task_learning_scene_v1 import admission
+    proof=admission(spec)
     task.need(proof['split']==spec.get('data_role')=='TRAIN' and proof['parent']==spec['data_parent']
-        and spec['scene_id']=='STABLE_TASK_'+proof['layout'],'ORIGINAL_TRAIN_GEOMETRY_CONSTRUCTION_PILOT')
+        and spec['scene_id']==proof['parent'],'NEW_NEAR_WORKSPACE_TRAIN_CONSTRUCTION_PILOT')
     panel=scenes.pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     task.need(panel.get('schema')=='TASK_LEARNING_GRASP_CONSTRUCTION_PANEL_V1'
         and panel.get('protocol')==task.protocol() and len(panel['assignments'])==1,'FROZEN_SINGLE_CONSTRUCTION_PILOT')

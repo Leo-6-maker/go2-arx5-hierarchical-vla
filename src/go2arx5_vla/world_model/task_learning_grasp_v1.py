@@ -27,7 +27,7 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,task_revision='V4_TASK_LOCAL_PREPARATION_WITHOUT_SOURCE_POSE_ALIGNMENT',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,task_revision='V5_SEPARATE_NEAR_WORKSPACE_CURRICULUM_WITH_15MM_TEACHER_CHUNKS',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         preparation=dict(original_startup_to_step=2503,original_steady_prefix_to_step=3703,
             unchanged_initial_TCP_reference_hold_to_step=4703,source_pose_alignment=False,
@@ -38,7 +38,8 @@ def protocol():
         H40_labels='ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE',
         observation='CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1',privileged_student_inputs=False,
         full_H40_preview=True,time_retiming=False,reference_transport='CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT',
-        teacher_max_chunk_translation_m=.030,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
+        teacher_max_chunk_translation_m=.015,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
+        scene_family='SEPARATE_NEAR_WORKSPACE_TRAIN_PILOT01_NOT_OLD_TABLE_TASK',
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
         position_stage_tolerance_m=.004,close_increment_per_decision=.15,
         standing=standing_contract(),WBC_changes=False,expert_training_eligible=False,automatic_formal_training=False)
@@ -211,7 +212,7 @@ class Teacher:
             goal=self.lift_origin+[0,0,.026]
             if float(np.asarray(sample['object_pose'])[2,3]-self.cube[2,3])>=.020:self.stage='HOLD'
         delta=goal-actual[:3,3];distance=float(np.linalg.norm(delta))
-        step=delta*min(1.,.030/distance)if distance else delta
+        step=delta*min(1.,.015/distance)if distance else delta
         u=np.linspace(0.,1.,40);w=u**3*(10+u*(-15+6*u))
         raw=np.empty((40,10));raw[:,:3]=actual[:3,3]+w[:,None]*step
         quaternions=quat_slerp(matrix_to_quat(actual[:3,:3]),matrix_to_quat(self.rotation),w[:,None])
