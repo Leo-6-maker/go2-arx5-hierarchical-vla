@@ -1,0 +1,89 @@
+{
+  "schema": "TASK_LEARNING_G2_CONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-06",
+  "source_sha": "2c0caa5c816cd763e8bbb24b97c599a29d26c92d",
+  "scene_sha256": "9c17cd0ca01006158c6e9852650340db32625030327b4292f904c42ec149b3e7",
+  "status": "CLOSED_PREREGISTERED_STANDING_SCORE_FAILURE_IN_NEW_NEAR_WORKSPACE",
+  "actual_physics_integrations": 10103,
+  "Teacher_decisions": 5,
+  "complete_Teacher_H40_chunks": 4,
+  "complete_chunk_confirmed_50ms_commands": 160,
+  "first_failed_standing_witness": {
+    "contract": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "base_displacement_m": 0.011025835599302647,
+    "base_rotation_rad": 0.026869167076202086,
+    "maximum_foot_planar_displacement_m": 0.025619236672338175,
+    "supported_feet": [
+      "FR",
+      "RL"
+    ],
+    "passes": false,
+    "old_short_task_pose_bound_passes": false,
+    "native_step": 10103
+  },
+  "post_hold_readiness": {
+    "contract": {
+      "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+      "decision_step": 5703,
+      "maximum_BASE_linear_speed_m_s": 0.001,
+      "maximum_BASE_angular_speed_rad_s": 0.005,
+      "physics_dt_s": 0.002,
+      "initial_state_reset": false,
+      "extra_settling_integrations": 1000,
+      "WBC_or_startup_changed": false,
+      "original_standing_limits_changed": false,
+      "rejected_condition_retried": false,
+      "old_outcomes_relabelled": false,
+      "reset_revision": "V4_TASK_LOCAL_FOUR_SECOND_REFERENCE_HOLD",
+      "native_clock_rebased": false
+    },
+    "native_step": 5703,
+    "BASE_qvel6": [
+      -0.00012781721157616307,
+      0.00035564929882103463,
+      -7.977810808235307e-05,
+      -0.0005513174323944571,
+      0.0004316031884122609,
+      0.00014026361854127658
+    ],
+    "BASE_linear_speed_m_s": 0.000386248896252402,
+    "BASE_angular_speed_rad_s": 0.0007140771010163673,
+    "passes": true,
+    "new_task_teacher_proposals_before_check": 0,
+    "original_thresholds_changed": false,
+    "native_clock_rebased": false
+  },
+  "qualified_full_demonstrations": 0,
+  "formal_Teacher_qualification_attempts": 0,
+  "task_success": false,
+  "expert_training_eligible": false,
+  "shutdown_clean": true,
+  "all_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "physics_stops": [],
+  "worker_exit_code": 1,
+  "wall_s": 142.15141805866733,
+  "CPU_s": 300.956794811,
+  "cgroup_peak_bytes": 3166609408,
+  "old_task_outcomes_relabelled": false,
+  "WBC_startup_native_safety_dynamics_or_2ms_changed": false,
+  "next_action": "PAUSE_GRASP_CONSTRUCTION; MATCHED_INDEPENDENT_RESTART_HOLD_CONTROL_WITH_SAME_SCENE_PREPARATION_CLOCK_AND_STANDING_SCORE"
+}

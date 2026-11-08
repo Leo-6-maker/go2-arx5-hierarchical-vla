@@ -39,6 +39,17 @@ def test_closed_gripper_is_preserved_at_new_h40_boundary():
     assert program.desired_path[0,9]<.5
 
 
+def test_hold_control_keeps_the_existing_reference_without_task_motion():
+    s=sample();reference=s['tcp'].copy();reference[:3,3]+=[.012,.004,.024]
+    control=task.HoldControl(s)
+    for shift in (0.,.0002,-.0001):
+        s['tcp'][0,3]+=shift
+        program,evidence=control.decide(s,reference,np.array([0,0,.3,1,0,0,0]))
+        assert np.allclose(program.reference_path[:,:3],reference[:3,3],atol=1e-15,rtol=0)
+        assert np.all(program.decoded_H40[:,9]==1.)
+        assert evidence['diagnostic_control']==task.HOLD_CONTROL and evidence['expert_training_eligible']is False
+
+
 @pytest.mark.parametrize('duration,grasp,safe,expected',[(20,True,True,True),(19,True,True,False),(20,False,True,False),(20,True,False,False)])
 def test_score_requires_real_contiguous_grasp_lift_full_second(duration,grasp,safe,expected):
     rows=[sample(step=34303+25*i,height=.481,grasp=grasp)for i in range(duration+1)]

@@ -29,11 +29,13 @@ def scene_admission(spec):
     row=panel['assignments'][0]
     task.need(row['native_run']==Path(spec['registered_root']).name and row['parent']==proof['parent']
         and row['model_sha256']==digest(spec['model_path']) and row['command']==task.COMMAND
+        and row.get('diagnostic_control')==spec.get('task_learning_control')
         and row['purpose']=='TASK_CONSTRUCTION_NOT_TEACHER_QUALIFICATION_OR_BC','NEW_TASK_SCENE_RUN_JOIN')
     return proof
 
 
 def validate(spec):
+    task.need(spec.get('task_learning_control')in(None,task.HOLD_CONTROL),'DECLARED_NORMAL_OR_MATCHED_HOLD_CONTROL_ONLY')
     task.need(spec.get('task_learning_start_readiness')==task.start_readiness_contract(),
               'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
@@ -120,7 +122,9 @@ def continue_native(adapter,report,samples,windows):
     start_ready=task.require_start_readiness(adapter,samples[-1])
     feet,_=actual_feet(adapter,samples[-1])
     initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy(),feet=feet)
-    teacher=task.Teacher(samples[-1]);cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
+    control=adapter.spec.get('task_learning_control')==task.HOLD_CONTROL
+    teacher=(task.HoldControl if control else task.Teacher)(samples[-1])
+    cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     task_samples=[samples[-1]];standing=[]
     def observe(s):
         feet,supported=actual_feet(adapter,s)
@@ -144,7 +148,8 @@ def continue_native(adapter,report,samples,windows):
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
         write_json(decision_path,dict(proposal,native_step=step,observation=capture,
             original_actual_TCP=np.asarray(samples[-1]['tcp']).tolist(),adaptation=program.evidence(),
-            privileged_Teacher_metadata_not_student_input=True,expert_training_eligible=False))
+            privileged_Teacher_metadata_not_student_input=not control,
+            diagnostic_control=task.HOLD_CONTROL if control else None,expert_training_eligible=False))
         decisions.append(dict(path=str(decision_path),sha256=digest(decision_path),native_step=step,stage=teacher.stage))
         current,samples,windows=consumer.run_prefix(adapter,program,index=index,
             past_samples=samples,past_windows=windows,sample_observer=observe)
@@ -156,7 +161,8 @@ def continue_native(adapter,report,samples,windows):
             confirmed.append(dict(native_start_step=w['native_start_step'],native_end_step=w['native_end_step'],
                 policy_EEF10=program.decoded_H40[offset].tolist(),
                 installed_consumed_EEF10=program.reference_path[offset].tolist(),
-                Teacher_decision_sha256=digest(decision_path),solver_gripper_confirmed=True))
+                **{'control_decision_sha256'if control else'Teacher_decision_sha256':digest(decision_path)},
+                solver_gripper_confirmed=True))
         write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
             period_s=.05,complete=False,unexecuted_suffix_included=False,future_achieved_labels=False))
         write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=False))
@@ -177,7 +183,8 @@ def continue_native(adapter,report,samples,windows):
         task_success=scored['task_success'],expert_training_eligible=False))
     return jsonable(dict(copy.deepcopy(report),schema='TASK_LEARNING_GRASP_CONSTRUCTION_NATIVE_ACTUAL_V1',
         actual_spec_phase=task.PHASE,native_endpoint_step=task.E,task_learning_grasp=task.protocol(),
-        teacher_decisions=decisions,generated_cycles=cycles,windows=windows,
+        teacher_decisions=[]if control else decisions,control_decisions=decisions if control else[],
+        diagnostic_control=task.HOLD_CONTROL if control else None,generated_cycles=cycles,windows=windows,
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
         GR00T_raw_H40_consumed=False,complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
@@ -185,13 +192,17 @@ def continue_native(adapter,report,samples,windows):
         decision_start_readiness=start_ready,expert_training_eligible=False,
         data_role='TASK_CONSTRUCTION_NOT_BC',GR00T_queries=0,VLA_queries=0,GR00T_updates=0,
         WM_updates=0,Actor_updates=0,full_task_success=False,target_task_success=False,
-        new_grasp_lift_hold_task_success=scored['task_success'],source_task_phase_equivalence=False))
+        new_grasp_lift_hold_task_success=False if control else scored['task_success'],source_task_phase_equivalence=False))
 
 
 def complete_consumption(spec,result):
     task.declared(spec);cycles=result.get('generated_cycles')or[]
+    control=spec.get('task_learning_control')==task.HOLD_CONTROL
+    decisions=result.get('control_decisions'if control else'teacher_decisions',[])
     if not(result.get('schema')=='TASK_LEARNING_GRASP_CONSTRUCTION_NATIVE_ACTUAL_V1'
-        and len(cycles)==task.QUERIES+2 and len(result.get('teacher_decisions',[]))==task.QUERIES
+        and result.get('diagnostic_control')==(task.HOLD_CONTROL if control else None)
+        and (not control or result.get('teacher_decisions')==[])
+        and len(cycles)==task.QUERIES+2 and len(decisions)==task.QUERIES
         and result.get('expert_training_eligible')is False):return False
     for position,row in enumerate(cycles):
         index=position-1

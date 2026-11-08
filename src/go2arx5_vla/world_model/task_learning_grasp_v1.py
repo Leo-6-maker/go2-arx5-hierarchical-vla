@@ -20,6 +20,7 @@ PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,40,20
 E=B+25*(PREFIX_ATOMS*QUERIES+FINAL_HOLD)
 COMMAND='GRASP_RED_LIFT20MM_HOLD1S'
 LANGUAGE='Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.'
+HOLD_CONTROL='HOLD_ONLY_DIAGNOSTIC_V1'
 
 
 def need(ok,why):
@@ -221,3 +222,21 @@ class Teacher:
         return FiftyMsProgram(raw,actual,reference,base),dict(stage=self.stage,privileged_goal=goal.tolist(),
             submitted_policy_H40=raw.tolist(),goal_step_limited_by_Teacher_design=True,
             no_future_achieved_state_labels=True,student_metadata=False)
+
+
+class HoldControl:
+    """Matched independent restart control, never a grasp Teacher or BC label."""
+    stage='HOLD_CONTROL'
+
+    def __init__(self,initial):
+        self.cube=np.asarray(initial['object_pose']).copy()
+
+    def decide(self,sample,reference,base):
+        actual=np.asarray(sample['tcp']);raw=np.empty((40,10))
+        raw[:,:3]=actual[:3,3];raw[:,3:9]=rotation_matrix_to_rot6d_rows(actual[:3,:3]);raw[:,9]=1.
+        program=FiftyMsProgram(raw,actual,reference,base)
+        need(np.max(np.abs(program.reference_path[:,:3]-np.asarray(reference)[:3,3]))<=1e-12,
+            'HOLD_CONTROL_ZERO_REFERENCE_TRANSLATION')
+        return program,dict(stage=self.stage,privileged_goal=actual[:3,3].tolist(),
+            submitted_policy_H40=raw.tolist(),diagnostic_control=HOLD_CONTROL,
+            expert_training_eligible=False,no_future_achieved_state_labels=True,student_metadata=False)
