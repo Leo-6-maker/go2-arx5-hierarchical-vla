@@ -166,7 +166,7 @@ def with_allocation(c, operation):
                 reg,pin=snapshot(c['registry']);need(not any(e.get('path')==str(r)for e in reg['entries']),'NEW_CHILD_REGISTRY')
                 reg['entries'].append(dict(path=str(r),role=s['role'],scope=profile.PROFILE,local_lease=str(r/'control/LEASE.json'),
                     owner='EXISTING_LOCAL_PC',source_sha=c['source_sha'],executor_node=os.uname().nodename))
-                once(Path(c['registry']),reg,r.name+'-REGISTER',expected_before_sha256=pin)
+                once(Path(c['registry']),reg,root.name+'-'+name+'-REGISTER',expected_before_sha256=pin)
             write(r/'control/LEASE.json',dict(status='ACTIVE',job_id=jid,profile=profile.PROFILE,
                 spec_sha256=digest(r/'EXECUTION_SPEC.json'),deadline_epoch=deadline,GR00T_updates=endpoint-start_step))
             return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))

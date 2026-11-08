@@ -110,7 +110,7 @@ def run(c):
                     profile.need(not any(e.get('path')==str(r)for e in registry['entries']),'FRESH_CORE_REGISTRY')
                     registry['entries'].append(dict(path=str(r),role=s['role'],scope=SCOPE,
                         local_lease=str(r/'control/LEASE.json'),owner='EXISTING_LOCAL_PC',source_sha=c['source_sha']))
-                    once(Path(c['registry']),registry,r.name+'-REGISTER',expected_before_sha256=pin)
+                    once(Path(c['registry']),registry,root.name+'-'+name+'-REGISTER',expected_before_sha256=pin)
                 write(r/'control/LEASE.json',dict(status='ACTIVE',job_id=c['generation_id'],
                     spec_sha256=digest(r/'EXECUTION_SPEC.json'),deadline_epoch=c['deadline_epoch']))
                 return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))

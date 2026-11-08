@@ -64,3 +64,23 @@ def test_gpu_requires_original_uuid_mask_and_preserves_two_gib_margin(monkeypatc
     actual=core.gpu(dict(GPU_uuid=uuid));assert actual['free_bytes']==14719*1024**2
     monkeypatch.setenv('CUDA_VISIBLE_DEVICES','0,1')
     with pytest.raises(PermissionError,match='SINGLE_SHARED'):core.gpu(dict(GPU_uuid=uuid))
+
+
+def test_repaired_successors_use_distinct_global_registration_requests(tmp_path,monkeypatch):
+    from scripts.pi0294.night10 import native_relay
+    requests=[];owner=tmp_path/'owner';owner.mkdir();registry=tmp_path/'registry.json'
+    registry.write_text('{"entries":[]}')
+    monkeypatch.setattr(core,'scope',lambda c:(Path(c['root']),{}))
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=16*1024**3))
+    def stop_after_once(path,value,key,**kwargs):
+        requests.append(key);raise RuntimeError('SYNTHETIC_STOP_AFTER_REGISTER_REQUEST')
+    monkeypatch.setattr(native_relay,'once',stop_after_once)
+    for suffix in ('first','repaired'):
+        root=tmp_path/suffix;root.mkdir();(root/'control').mkdir()
+        (root/'ALLOCATION_CONFIG.json').write_text('{}')
+        c=dict(root=str(root),owner_root=str(owner),generation_id=suffix,GPU_uuid='synthetic-uuid',
+            allocator_limit_bytes=12*1024**3,dataset_sha256='a'*64,statistics_sha256='b'*64,
+            source_root='unused',source_sha='f'*40,source_files={},bindings=dict(cosmos='unused'),
+            parent={},registry=str(registry),deadline_epoch=time.time()+3600)
+        with pytest.raises(RuntimeError,match='STOP_AFTER_REGISTER_REQUEST'):core.run(c)
+    assert requests==['first-capacity2-REGISTER','repaired-capacity2-REGISTER']
