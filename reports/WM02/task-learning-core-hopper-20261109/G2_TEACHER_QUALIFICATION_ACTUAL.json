@@ -1,7 +1,7 @@
 {
   "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_ACTUAL_V1",
-  "EVIDENCE_ASOF": "2026-11-09T05:39:18.370468+08:00",
-  "status": "RUNNING_NOT_YET_QUALIFIED",
+  "EVIDENCE_ASOF": "2026-11-09T06:35:31.688074+08:00",
+  "status": "CLOSED_FAILED_HARD_SAFETY_STOP_TASK_FAMILY_PAUSED",
   "run_id": "task-learning-teacher-qualification-20261109-01",
   "source_sha": "dd9865c20e4415ede7281e921759cfe189a64f54",
   "dispatch_attempts": 1,
@@ -15,14 +15,14 @@
   "summary": {
     "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
     "requested": 20,
-    "attempted": 5,
-    "reset_ready": 5,
-    "task_successes": 5,
-    "hard_safety_stop_conditions": 0,
+    "attempted": 10,
+    "reset_ready": 10,
+    "task_successes": 9,
+    "hard_safety_stop_conditions": 1,
     "technical_failure_conditions": 0,
-    "P_reset_ready": 0.25,
-    "P_success_given_reset_ready": 1.0,
-    "P_success_per_requested_episode": 0.25,
+    "P_reset_ready": 0.5,
+    "P_success_given_reset_ready": 0.9,
+    "P_success_per_requested_episode": 0.45,
     "complete": false,
     "thresholds": {
       "minimum_reset_ready": 18,
@@ -95,9 +95,112 @@
       "actual_native_integrations": 21203,
       "first_failure": null,
       "wall_s": 321.1236274568364
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual06-r1",
+      "layout": "QUAL06",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 322.73230573767796
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual07-r1",
+      "layout": "QUAL07",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 323.1593639450148
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual08-r1",
+      "layout": "QUAL08",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 321.5796396350488
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual09-r1",
+      "layout": "QUAL09",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 327.5401280107908
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-01-qual10-r1",
+      "layout": "QUAL10",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": false,
+      "technical_valid": true,
+      "hard_safety_stop": true,
+      "actual_native_integrations": 11552,
+      "first_failure": "RuntimeError: OWNED_NATIVE_PROCESS_EXIT",
+      "wall_s": 157.33032415108755
     }
   ],
-  "active_case": "tl-teacher-qual-20261109-01-qual06-r1",
+  "active_case": null,
   "all_failures_retained": true,
-  "qualified_training_demonstrations": 0
+  "qualified_training_demonstrations": 0,
+  "remaining_unrun": 10,
+  "remaining_unrun_are_failures": false,
+  "terminal": {
+    "status": "TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED",
+    "exit_code": 1,
+    "failure": "RuntimeError: ORIGINAL_HARD_SAFETY_STOP_PANEL_FAMILY_PAUSED",
+    "summary": {
+      "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
+      "requested": 20,
+      "attempted": 10,
+      "reset_ready": 10,
+      "task_successes": 9,
+      "hard_safety_stop_conditions": 1,
+      "technical_failure_conditions": 0,
+      "P_reset_ready": 0.5,
+      "P_success_given_reset_ready": 0.9,
+      "P_success_per_requested_episode": 0.45,
+      "complete": false,
+      "thresholds": {
+        "minimum_reset_ready": 18,
+        "minimum_conditional_Teacher_success": 0.9,
+        "maximum_hard_safety_stops": 0
+      },
+      "passes": false,
+      "qualified_training_demonstrations": 0,
+      "GR00T_queries": 0,
+      "model_updates": 0,
+      "independent_restarts_not_bit_exact_forks": true
+    },
+    "wall_s": 3143.276557493955,
+    "CPU_s": 6765.418509546,
+    "qualified_training_demonstrations": 0
+  },
+  "unit_terminal": {
+    "MainPID": 0,
+    "ExecMainStatus": 1,
+    "MemoryPeak_bytes": 5876658176,
+    "CPUUsage_s": 6826.791307
+  },
+  "original_safety_changed": false,
+  "failed_condition_retried": false,
+  "new_G3_dispatches": 0,
+  "interpretation": "10 requested conditions executed: all10 reset-ready,9 complete task successes,1 original hard stop. Remaining10 were not run after mandatory family pause. The 90% conditional score does not qualify a panel with a hard stop and incomplete planned population. Interim requested-denominator ratios do not mark unrun conditions as failures."
 }

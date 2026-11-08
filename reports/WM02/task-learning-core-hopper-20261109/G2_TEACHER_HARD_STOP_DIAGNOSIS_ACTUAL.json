@@ -1,0 +1,65 @@
+{
+  "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_HARD_STOP_DIAGNOSIS_V1",
+  "EVIDENCE_ASOF": "2026-11-09T06:35:31.688074+08:00",
+  "status": "READONLY_CAUSAL_LOCALIZATION_NOT_REPAIRED_OR_REQUALIFIED",
+  "source_sha": "dd9865c20e4415ede7281e921759cfe189a64f54",
+  "condition": "tl-teacher-qual-20261109-01-qual10-r1",
+  "actual_native_integrations": 11552,
+  "Teacher_stage": "DESCEND",
+  "real_Teacher_decisions": 6,
+  "sealed_confirmed_Teacher_50ms_intervals": 200,
+  "interrupted_chunk_is_full_expert_data": false,
+  "stop": {
+    "kind": "stop",
+    "reason": "REGISTERED_JOINT_SAFETY",
+    "steps": 11552
+  },
+  "first_actual_joint_violation": {
+    "native_step": 11552,
+    "name": "task_right_slide",
+    "q": 0.044160008030925284,
+    "violation": 0.00016000803092528632
+  },
+  "only_recorded_joint_bound_violation": {
+    "task_right_slide": {
+      "native_step": 11552,
+      "q": 0.044160008030925284,
+      "range": [
+        0,
+        0.044
+      ],
+      "violation": 0.00016000803092528632
+    }
+  },
+  "first_fast_legs": {
+    "native_step": 11542,
+    "maximum_abs_leg_speed_rad_s": 4.150661119762265,
+    "BASE_linear_speed_m_s": 0.054938997576005275
+  },
+  "first_recorded_bad_policy_input": {
+    "policy": 1155,
+    "sim_time_s": 23.080000000000002,
+    "zero_based_feature": 68,
+    "feature_name": "ROBODUET_BASE_LINEAR_VELOCITY_Z_SCALED",
+    "actual_value": 100.0,
+    "previous_policy_value": -1.3610596397484187e-05,
+    "input_sha256": "e4904ce70abc9405aa09f1f7b00bc82021a5f1350c7b6dc312ce646a7493d181",
+    "history_sha256": "17748bb01d3b7fabfda70ef5775e621de1de06ca3f7586765334f33ea41a8511"
+  },
+  "recorded_policy_output_max_abs_before": 1.3355199098587036,
+  "recorded_policy_output_max_abs_after": 5.843644618988037,
+  "leg_policy_sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a",
+  "leg_policy_config_sha256": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+  "inference": "A recorded body-velocity input spike precedes the leg command discontinuity, fast actual leg motion and right-slide hard stop. The candidate source copies robot_state vectors without the producer mutex on the active non-native_mrt path. A sensor-vector handoff race is under investigation; no causal replay, code repair or native requalification is claimed.",
+  "native_process_terminal": {
+    "planner": 0,
+    "controller": 0,
+    "solver": 0,
+    "sim": 0
+  },
+  "new_native_integrations": 0,
+  "new_leg_policy_inferences": 0,
+  "GR00T_queries": 0,
+  "model_updates": 0,
+  "original_WBC_leg_weights_safety_startup_dynamics_and_2ms_changed": false
+}
