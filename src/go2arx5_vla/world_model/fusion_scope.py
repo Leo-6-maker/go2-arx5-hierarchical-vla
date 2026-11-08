@@ -49,6 +49,9 @@ def validate(spec, registry=None, now=None):
 
 def validate_gpu(spec, actual):
     """One finite frozen-VLA shadow, after the actual four-arm calibration."""
+    if spec.get('kind')=='TARGET_GR00T_SEALED_INFERENCE_V1':
+        from .target_gr00t_inference_v1 import validate_gpu as validate_target_inference
+        return validate_target_inference(spec,actual)
     if spec.get('kind')=='FUSION_LIVE_PROGRAM_RESPONSE_WM':
         from scripts.wm02.train_fusion_program_response import validate_gpu as validate_program_response
         return validate_program_response(spec,actual)
