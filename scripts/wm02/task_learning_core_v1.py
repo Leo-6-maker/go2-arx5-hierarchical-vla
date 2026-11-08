@@ -42,6 +42,8 @@ def run_phase(spec, root, phase):
     from scripts.pi0292.durable import write
     prepare_environment(MODE)
     official_import(spec['bindings']['source'])
+    # Register this pinned vendor architecture before AutoModel resolves config.
+    import gr00t.model.gr00t_n1d7.gr00t_n1d7
     import torch
     from transformers import set_seed
     from go2arx5_vla.world_model.target_gr00t_training_v1 import _load_original_parent, action_contract, gpu_identity
