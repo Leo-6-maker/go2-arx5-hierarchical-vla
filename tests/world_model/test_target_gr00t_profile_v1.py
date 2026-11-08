@@ -80,3 +80,23 @@ def test_child_model_generation_uses_actual_parent_pbs_request_for_site_admissio
     assert context['science_run_id']==s['allocation_request_id']!=s['generation_id']
     with pytest.raises(PermissionError,match='EXACT_ONCE_SUBMITTED'):
         validate_vanda(dict(context,science_run_id=s['generation_id']),job,now=now,uid=uid,user=user,hostname='GN-A40-001',job_id=jid)
+
+
+def test_export_failure_preserves_real_update_count_and_complete_checkpoint(tmp_path,monkeypatch):
+    from scripts.wm02 import train_target_gr00t_v1 as entry
+    root=tmp_path/'registered';root.mkdir();(root/'control').mkdir()
+    s=dict(spec(),registered_root=str(root),source_sha='f'*40)
+    path=root/'EXECUTION_SPEC.json';path.write_text(json.dumps(s))
+    (root/'control/LEASE.json').write_text(json.dumps(dict(status='ACTIVE',
+        spec_sha256=digest(path),job_id='1234.test')))
+    monkeypatch.setattr(os,'getuid',lambda:22182);monkeypatch.setenv('PBS_JOBID','1234.test')
+    def actual_then_failed(s):
+        (root/'PROGRESS.json').write_text(json.dumps(dict(global_step=2000,GR00T_updates=2000)))
+        (root/'CHECKPOINTS.json').write_text(json.dumps(dict(paths=['synthetic-checkpoint2000'])))
+        (root/'MODEL_LOAD_CONSTRUCTED_ACTUAL.json').write_text('{"actual_model_loads":1}')
+        raise RuntimeError('SYNTHETIC_DELIVERY_FAILURE_AFTER_TRAINING')
+    monkeypatch.setattr(training,'run',actual_then_failed)
+    with pytest.raises(RuntimeError,match='DELIVERY_FAILURE'):entry.main(['--spec',str(path)])
+    r=json.loads((root/'RESULT.json').read_bytes())
+    assert r['GR00T_updates']==r['global_step']==2000 and r['actual_model_loads']==1
+    assert r['complete_checkpoints']['paths']==['synthetic-checkpoint2000']

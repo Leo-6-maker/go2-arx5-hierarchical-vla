@@ -28,6 +28,9 @@ def main(argv=None):
         progress=json.loads((root/'PROGRESS.json').read_bytes())if(root/'PROGRESS.json').exists()else{}
         write(root/'RESULT.json',result or dict(status='QUALIFICATION_FAILED',failure=failure,
             actual_progress=progress,GR00T_updates=progress.get('GR00T_updates',0),WM_updates=0,Actor_updates=0,
+            global_step=progress.get('global_step'),
+            actual_model_loads=len(list(root.glob('*_CONSTRUCTED_ACTUAL.json'))),
+            complete_checkpoints=json.loads((root/'CHECKPOINTS.json').read_bytes())if(root/'CHECKPOINTS.json').exists()else{},
             VLA_query_attempts=len(list(root.glob('*/journal/Q*.json')))))
         write(root/'WORKER_EXIT.private.json',dict(exit_code=exit_code,wall_s=time.monotonic()-started,
             source_sha=s['source_sha'],job_id=os.environ['PBS_JOBID'],failure=failure))

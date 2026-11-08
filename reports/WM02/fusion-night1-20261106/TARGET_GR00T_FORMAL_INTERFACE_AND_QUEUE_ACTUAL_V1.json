@@ -1,0 +1,95 @@
+{
+  "schema": "WM02_TARGET_GR00T_FORMAL_INTERFACE_AND_QUEUE_ACTUAL_V1",
+  "observed_epoch": 1794123574.219026,
+  "prior_neural_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+  "native_source_sha": "a93e868f8dfd137ef3fc8fc0efb89ba156696636",
+  "baseline_diagnostic_source_sha": "f7150f3fe4cd3d34766c87ba6eb030794578ee18",
+  "actual_A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "PBS_state": "Q",
+    "qsub_exit_code": 0,
+    "release_exit_code": 0,
+    "site_comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "actual_model_loads": 0,
+    "GR00T_updates": 0,
+    "checkpoints": 0,
+    "duplicate_qsub": false,
+    "active_capsule_changed": false,
+    "observed_epoch": 1794123135.2038229
+  },
+  "Core_collection": {
+    "planned_DEMO_conditions": 32,
+    "closed_DEMO_conditions": 14,
+    "PASS": 13,
+    "FAIL": 1,
+    "closed_DEMO_ticks": 538142,
+    "earlier_qualification_attempts": 4,
+    "earlier_qualification_PASS": 2,
+    "earlier_qualification_FAIL": 2,
+    "earlier_qualification_ticks": 145237,
+    "new_cohort_total_sealed_attempts": 18,
+    "new_cohort_total_ticks": 683379,
+    "active_native_step": 31778,
+    "native_parallelism": 1,
+    "scope_deadline_SGT": "2026-11-08T23:34:00+08:00",
+    "old_FUSION_denominator_changed": false
+  },
+  "new_code": {
+    "production_slice": "FORMAL to2000, fixed8000/warmup200; same-generation complete-state partial resume",
+    "data_admission": "At least16 TRAIN,4 TRAIN layouts,both commands; disjoint independent DEV; no diagnostic/FIT4 weights as production",
+    "model_delivery": "Parent-bound internal-action delta plus target Processor/statistics; independent ordinary original-parent reconstruction and4 matched actual-input/noise queries required",
+    "reconstruction_tolerance": {
+      "physical_H40_absolute_component": 1e-06,
+      "normalized_absolute_component": 1e-06
+    },
+    "actual_optimizer_calls_this_code": 0,
+    "actual_GPU_qualification_this_code": false,
+    "actual_Core_reconstruction": false,
+    "actual_student_native_DEV": false
+  },
+  "actual_baseline_report": "TARGET_GR00T_ORIGINAL_BASELINE_G1_ACTUAL_V1.json",
+  "FIT4": {
+    "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "real_TRAIN_episodes": 4,
+    "raw_policy_knots": 160,
+    "consumed_intervals": 704,
+    "dual_RGB_pairs": 108,
+    "real_Core_and_Vanda_Processor_reconstruction_passed": true
+  },
+  "formal_data_preflight": {
+    "exit_code": 75,
+    "status": "WAIT_ALL_32_PREREGISTERED_ATTEMPTS_TERMINAL",
+    "effects": 0,
+    "formal_data_worker_started": false
+  },
+  "tests": {
+    "new_delivery_formal_allocation_profile_normal": 36,
+    "unchanged_data_collection_baseline": 16,
+    "all_exit_codes": 0,
+    "GPU_qualification": false,
+    "new_delivery_formal_allocation_profile_optimized_mode": 36
+  },
+  "cost": {
+    "closed_DEMO_worker_wall_s": 8081.08175504161,
+    "closed_DEMO_CPU_s": 17901.224826079,
+    "baseline_GPU_job_wall_s_upper": 283.4410583972931,
+    "baseline_actual_inference_wall_s": 1.2291629710234702,
+    "A40_GPU_allocated_wall_s": 0,
+    "active_native_cost": "PENDING_TERMINAL",
+    "previous_failures_and_costs": "PRESERVED"
+  },
+  "commands": {
+    "private_actual_command_log_sha256": "f2eb1efe53133af391bcc537f319d4f1eac65ab6faacafd8016ac53619441dc5",
+    "public_host_bound_paths_or_credentials_included": false
+  },
+  "next_commands": {
+    "A40_read_only": "qstat -xf -F json 1532527.stdct-mgmt-02",
+    "formal_data": "Prepared original-owner CPU FORMAL data dispatcher, only after all32 attempts are terminal; current preflight exit75",
+    "submission": "Retain the same queued job; no repeat qsub."
+  },
+  "QUESTION": "Can target action-side learning proceed to a recoverable model package without overwriting the frozen baseline or overstating partial endpoints?",
+  "ACTUAL_RESULT": "Native collection remains live; A40 training is queued. Formal slice and parent-bound delivery seams now pass CPU tests. One genuine original-Processor GR00T diagnostic is sealed separately.",
+  "NEGATIVE": "No A40 backward, actual model update, checkpoint, new candidate delivery, Core model reconstruction or student native task success exists yet. Synthetic delivery tests are not an actual model qualification."
+}

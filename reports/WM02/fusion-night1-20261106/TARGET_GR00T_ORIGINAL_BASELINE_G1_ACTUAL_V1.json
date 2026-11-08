@@ -1,0 +1,93 @@
+{
+  "schema": "WM02_TARGET_GR00T_ORIGINAL_BASELINE_SAME_OBSERVATION_ACTUAL_V1",
+  "observed_epoch": 1794122179.5842834,
+  "source_sha": "f7150f3fe4cd3d34766c87ba6eb030794578ee18",
+  "model_parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "original_Processor_statistics_sha256": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+  "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+  "actual_observation_sha256": "a3ae8b6183d1565663958f13660e93949ec668fad1e78b6e7c61edbadf086d21",
+  "teacher_policy_H40_sha256": "1db4ba390fbddadd71397572f614cabd3ac14047e16782a2a0dfed97db234b31",
+  "raw_GR00T_H40_artifact_sha256": "94cdc3f57173fd13cc2a4c87597428d9cfaf12645817d6e9e91a41765b1f5793",
+  "result_sha256": "3f3305908bdfcb3fbf0462342713d161f2d5716e7b53504c749f2266c574051a",
+  "worker_sha256": "969b46b8a21dcd271a3c14f244d6bb027accb207daf97120672ac3321fb52400",
+  "spec_sha256": "cc77a46f475be0f4e76de655a1560fca2575945d24885cd7a30f8c26709cb5c4",
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "MainPID": 0,
+  "actual_model_loads": 1,
+  "actual_VLA_queries": 1,
+  "GR00T_updates": 0,
+  "WM_updates": 0,
+  "Actor_updates": 0,
+  "new_physical_integrations": 0,
+  "original_baseline_weights_and_Processor": true,
+  "new_target_statistics_used_for_baseline": false,
+  "same_real_RGB_state_and_language_as_teacher": true,
+  "expert_labels_or_simulator_truth_in_student_input": false,
+  "fixed_seed": 202611080101,
+  "raw_H40_shape": [
+    40,
+    10
+  ],
+  "raw_H40_clipped": false,
+  "Processor_decode_calls": 1,
+  "teacher": {
+    "command": "APPROACH_RED_4MM_OPEN",
+    "planned_endpoint_progress_m": 0.004,
+    "actual_native_progress_m": 0.002669874,
+    "result_sha256": "cb580d126ee0592ff0e7fd5fd7480d65477c0dd1711e432eae2a9aebd92dea7a"
+  },
+  "baseline_proposal": {
+    "signed_endpoint_progress_m": -0.01029206650935515,
+    "maximum_excursion_m": 0.012304688079137604,
+    "H40_mean_XYZ_error_m": 0.007383892201313228,
+    "H40_mean_SO3_error_rad": 0.02154857477818075,
+    "first_position_jump_m": 0.00959840285604915,
+    "generic_source_gate_decision": "ACCEPT",
+    "generic_source_gate_is_target_native_qualification": false,
+    "target_native_executed": false
+  },
+  "QUESTION": "Does the original frozen model produce the correct short-task intent on exactly the real Teacher observation?",
+  "CHANGE": "Added the sealed target expert decision reader; retained original weights, original Processor, actual state and both actual RGB images. One predeclared draw; no prompt/seed search.",
+  "ACTUAL_RESULT": "One real original-Processor GR00T query completed. Its endpoint is opposite the prescribed approach direction; full H40 is retained.",
+  "NEGATIVE": "This single archived-observation query is not a native student rollout or a general failure-rate estimate. Source Gate ACCEPT is not target-body or task admission. No new checkpoint or optimizer update exists.",
+  "NEXT_DECISION": "Continue target TRAIN/DEV collection and the already queued capacity/restore/FIT4 job. Task-intent learning takes priority; no WM correction is applied to this wrong-intent proposal.",
+  "cost": {
+    "worker_wall_s": 283.4410583972931,
+    "child_CPU_s": 23.862863,
+    "inference_wall_s": 1.2291629710234702,
+    "GPU_event_s": 1.2278946533203126,
+    "GPU_job_wall_s_upper": 283.4410583972931,
+    "peak_allocated_bytes": 13318658048,
+    "peak_reserved_bytes": 13524533248,
+    "worker_MemoryPeak_bytes": 2536984576
+  },
+  "Core_collection": {
+    "prior_controller": "STOPPED_NEW_DISPATCH_ONLY_AT_COLD_BOUNDARY",
+    "prior_healthy_native_completed": true,
+    "successor_controller": "FINITE_PANEL_CHAIN02_STARTED",
+    "fixed_panel_conditions": 32,
+    "terminal_before_successor": 13,
+    "PASS": 12,
+    "FAIL": 1,
+    "qualified_earlier_attempts_separate": 4,
+    "physical_new_cohort_sealed_attempts": 17,
+    "physical_new_cohort_integrations": 644676,
+    "remaining_preregistered_conditions": 19,
+    "native_parallelism": 1,
+    "original_scope_deadline_SGT": "2026-11-08T23:34:00+08:00"
+  },
+  "first_registration_wait": {
+    "status": "ORIGINAL_OWNER_LOCK_BUSY_ZERO_EFFECT_INDEPENDENTLY_VERIFIED",
+    "root_created": false,
+    "journal_REGISTER_created": false,
+    "journal_DISPATCH_created": false,
+    "original_lock_not_bypassed": true
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "state": "Q",
+    "actual_updates": 0,
+    "actual_checkpoints": 0
+  }
+}

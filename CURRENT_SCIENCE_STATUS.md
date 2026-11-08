@@ -1,8 +1,10 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
-## WM02 TARGET_GR00T actual continuation · 2026-11-08 13:54 SGT
+## WM02 TARGET_GR00T actual continuation · 2026-11-08 15:39 SGT
 
-PR #369: one legal single-A40 job **1532527.stdct-mgmt-02** submitted/released, actual PBS **Q** due user running-job limit. Source `037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f`; four real TRAIN episodes/4 policy windows/704 consumed intervals/108 dual-RGB pairs sealed, exact original-Processor cross-site reconstruction passed. New collection: **10 sealed attempts, 7 PASS/3 FAIL, 373755 native ticks**, 5 eligible TRAIN, DEV0. New GR00T model loads/updates/restores remain **0**. TRAIN04 retreat is the sole new active native worker; scope ends 23:34 SGT. [Actual identities, results, failures, costs and next command](reports/WM02/fusion-night1-20261106/TARGET_GR00T_SEALED_DATA_A40_SUBMISSION_ACTUAL_V1.json). No formal training or student skill success is claimed.
+PR #369: the one single-A40 job **1532527.stdct-mgmt-02** remains **Q** at the actual user running-job limit; its immutable source is `037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f`, with **0 A40 models/updates/checkpoints**. Core has sealed **18 new native attempts: 15 PASS/3 FAIL, 683379 ticks**, including four separately retained qualification attempts; the demonstration panel is 13 PASS/1 FAIL of32 planned and continues with one native owner. Four real TRAIN episodes/704 consumed intervals/108 dual-RGB pairs and cross-site Processor reconstruction are sealed for FIT4; the full FORMAL bundle waits for all32 attempts.
+
+The frozen original GR00T completed **one real same-observation query**: the prescribed approach Teacher achieved +2.670mm, while the unexecuted GR00T reference endpoint is −10.292mm, H40 mean position error7.384mm. Its generic source Gate ACCEPT is not target admission; **no student native success or target GR00T update is claimed**. New formal-slice/parent-bound model delivery code passed36 CPU tests, but has not run on A40. Healthy native source/capsules, original WBC and historical denominators remain unchanged. [Actual diagnostic, identities and cost](reports/WM02/fusion-night1-20261106/TARGET_GR00T_ORIGINAL_BASELINE_G1_ACTUAL_V1.json); [current queue, collection, tested interfaces and next command](reports/WM02/fusion-night1-20261106/TARGET_GR00T_FORMAL_INTERFACE_AND_QUEUE_ACTUAL_V1.json).
 
 ## WM02 NEXT2 · 2026-11-05 实际结算
 

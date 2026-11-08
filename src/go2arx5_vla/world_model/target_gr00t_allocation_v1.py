@@ -103,7 +103,7 @@ def compare_next_update(first, resumed):
         qualification_weights_used_for_fit4=False)
 
 
-def run(c):
+def with_allocation(c, operation):
     import signal
     from scripts.pi0292.durable import OwnerLock, write
     from scripts.pi0294.e1.journal import Journal
@@ -143,14 +143,14 @@ def run(c):
     gpu=json.loads(q.stdout);need(gpu['count']==1 and gpu['name']=='NVIDIA A40','PBS_VISIBLE_SINGLE_A40')
     write(root/'ACTUAL_GPU.json',gpu)
     children=[]
-    def child(name,mode,variant,endpoint,*,resume=None,start_step=0,generation=None):
+    def child(name,mode,variant,endpoint,*,resume=None,start_step=0,generation=None,microbatch=1):
         need(not stop_requested and time.time()+2400 < deadline,'ALLOCATION_MODEL_START_AND_CLOSEOUT')
         r=root/name
         def register():
             r.mkdir();(r/'control').mkdir();(r/'tmp').mkdir();(r/'cache').mkdir()
             alias=r/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)
             alias.symlink_to(c['bindings']['cosmos'],target_is_directory=True)
-            recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,variant=variant,endpoint=endpoint)
+            recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,variant=variant,endpoint=endpoint,microbatch=microbatch)
             s=dict(c['training_common'],registered_root=str(r),source_root=c['source_root'],source_sha=c['source_sha'],
                 source_files=c['source_files'],bindings=c['bindings'],parent=c['parent'],
                 profile=profile.PROFILE,kind=profile.KIND,execution_site='VANDA_A40',
@@ -204,67 +204,78 @@ def run(c):
                 status=actual['status'],GR00T_updates=actual.get('GR00T_updates',0),
                 global_step=actual.get('global_step'),requested_endpoint=endpoint,
                 endpoint_complete=actual.get('global_step')==endpoint,
-                PBS_GPU_wall_s_upper=time.monotonic()-t,checkpoint=actual.get('checkpoint'))
+                PBS_GPU_wall_s_upper=time.monotonic()-t,checkpoint=actual.get('checkpoint'),
+                inference_package=actual.get('inference_package'),actual_model_loads=actual.get('actual_model_loads',0))
         row=journal.once(name+'-EXECUTE',registered,execute);children.append(row)
         write(root/'CHILDREN_ACTUAL.json',dict(children=children));return row
-    selected=None
-    for variant in profile.VARIANTS:
-        name='capacity-'+variant.lower().replace('_','-')
-        cap=child(name,'CAPACITY',variant,2)
-        if cap['exit_code']:
-            error=(Path(cap['root'])/'stderr.log').read_text()
-            need('out of memory' in error.lower() or 'ORIGINAL_TWO_GIB_MEMORY_MARGIN' in error,
-                 'NON_CAPACITY_ENGINEERING_FAILURE_REQUIRES_REPAIR_NOT_VARIANT_SEARCH')
-            continue
-        if not cap['endpoint_complete']:
-            return dict(status='PARTIAL_CAPACITY_CHECKPOINT_SEALED',children=children,
-                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
-        selected=variant;first=Path(cap['checkpoint']);cp1=first.parent/'checkpoint-1'
-        s=json.loads((Path(cap['root'])/'EXECUTION_SPEC.json').read_bytes())
-        resumed=child(name+'-restore-next','CAPACITY',variant,2,start_step=1,
-            resume=dict(path=str(cp1),sha256=digest(cp1/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
-        need(resumed['exit_code']==0 and resumed['endpoint_complete'],'INDEPENDENT_CAPACITY_RESUME_FAILED')
-        proof=compare_next_update(first,resumed['checkpoint']);write(root/'NEXT_UPDATE_RESTORE_ACTUAL.json',proof)
-        break
-    need(selected is not None,'AWAITING_SCALE_REVIEW_ALL_SINGLE_A40_SCOPES_FAILED')
-    timings=[json.loads(line)for line in (Path(cap['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
-    need([r['step']for r in timings]==[1,2]and all(r['optimizer_update_wall_s']>0 for r in timings),
-         'TWO_MEASURED_REAL_UPDATES_FOR_FIT4_TIME_ADMISSION')
-    forecast=200*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
-    time_admission=dict(predicted_fit4_200_wall_s=forecast,remaining_allocation_s=deadline-time.time(),
-        measured_update_wall_s=[r['optimizer_update_wall_s']for r in timings],
-        measured_full_load_save_probe_restore_overhead_upper_s=cap['PBS_GPU_wall_s_upper'],
-        closeout_reserve_s=1200,passes=time.time()+forecast<deadline)
-    write(root/'FIT4_TIME_ADMISSION.json',time_admission)
-    if not time_admission['passes']:
-        return dict(status='CAPACITY_QUALIFIED_WAIT_FRESH_FIT4_ALLOCATION',children=children,
-            actual_GR00T_updates=sum(r['GR00T_updates']for r in children),time_admission=time_admission,
-            capacity_and_next_update_already_complete_do_not_repeat=True)
-    fit=child('fit4-200','FIT4',selected,200)
-    need(fit['exit_code']==0,'FIT4_ENGINEERING_FAILURE')
-    if not fit['endpoint_complete']:
-        return dict(status='PARTIAL_FIT4_CHECKPOINT_SEALED',children=children,
-            actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
-    gate=fit4_gate(fit['root']);write(root/'FIT4_GATE_200.json',gate)
-    # A 500 continuation is a separately registered same-generation slice.
-    if not gate['passes'] and gate['continuation500_allowed']:
-        timings=[json.loads(line)for line in (Path(fit['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
-        remaining_prediction=300*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
-        if time.time()+remaining_prediction>=deadline or stop_requested:
-            return dict(status='FIT4_200_PROGRESS_WAIT_FRESH500_ALLOCATION',children=children,
-                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),fit4_gate=gate,
-                predicted_300_update_and_restore_s=remaining_prediction)
-        s=json.loads((Path(fit['root'])/'EXECUTION_SPEC.json').read_bytes());cp=Path(fit['checkpoint'])
-        fit=child('fit4-500','FIT4',selected,500,start_step=200,
-            resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
-        need(fit['exit_code']==0,'FIT4_CONTINUATION_ENGINEERING_FAILURE')
+    return operation(root,need,deadline,gpu,child,children,start,stop_requested)
+
+
+def run(c):
+    from scripts.pi0292.durable import write
+    if c.get('allocation_mode')=='FORMAL_SLICE':
+        from .target_gr00t_formal_v1 import execute
+        return with_allocation(c,lambda *args:execute(c,*args))
+    def capacity_fit4(root,need,deadline,gpu,child,children,start,stop_requested):
+        selected=None
+        for variant in profile.VARIANTS:
+            name='capacity-'+variant.lower().replace('_','-')
+            cap=child(name,'CAPACITY',variant,2)
+            if cap['exit_code']:
+                error=(Path(cap['root'])/'stderr.log').read_text()
+                need('out of memory' in error.lower() or 'ORIGINAL_TWO_GIB_MEMORY_MARGIN' in error,
+                     'NON_CAPACITY_ENGINEERING_FAILURE_REQUIRES_REPAIR_NOT_VARIANT_SEARCH')
+                continue
+            if not cap['endpoint_complete']:
+                return dict(status='PARTIAL_CAPACITY_CHECKPOINT_SEALED',children=children,
+                    actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
+            selected=variant;first=Path(cap['checkpoint']);cp1=first.parent/'checkpoint-1'
+            s=json.loads((Path(cap['root'])/'EXECUTION_SPEC.json').read_bytes())
+            resumed=child(name+'-restore-next','CAPACITY',variant,2,start_step=1,
+                resume=dict(path=str(cp1),sha256=digest(cp1/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
+            need(resumed['exit_code']==0 and resumed['endpoint_complete'],'INDEPENDENT_CAPACITY_RESUME_FAILED')
+            proof=compare_next_update(first,resumed['checkpoint']);write(root/'NEXT_UPDATE_RESTORE_ACTUAL.json',proof)
+            break
+        need(selected is not None,'AWAITING_SCALE_REVIEW_ALL_SINGLE_A40_SCOPES_FAILED')
+        timings=[json.loads(line)for line in (Path(cap['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
+        need([r['step']for r in timings]==[1,2]and all(r['optimizer_update_wall_s']>0 for r in timings),
+             'TWO_MEASURED_REAL_UPDATES_FOR_FIT4_TIME_ADMISSION')
+        forecast=200*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
+        time_admission=dict(predicted_fit4_200_wall_s=forecast,remaining_allocation_s=deadline-time.time(),
+            measured_update_wall_s=[r['optimizer_update_wall_s']for r in timings],
+            measured_full_load_save_probe_restore_overhead_upper_s=cap['PBS_GPU_wall_s_upper'],
+            closeout_reserve_s=1200,passes=time.time()+forecast<deadline)
+        write(root/'FIT4_TIME_ADMISSION.json',time_admission)
+        if not time_admission['passes']:
+            return dict(status='CAPACITY_QUALIFIED_WAIT_FRESH_FIT4_ALLOCATION',children=children,
+                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),time_admission=time_admission,
+                capacity_and_next_update_already_complete_do_not_repeat=True)
+        fit=child('fit4-200','FIT4',selected,200)
+        need(fit['exit_code']==0,'FIT4_ENGINEERING_FAILURE')
         if not fit['endpoint_complete']:
-            return dict(status='PARTIAL_FIT4_CONTINUATION_SEALED',children=children,
+            return dict(status='PARTIAL_FIT4_CHECKPOINT_SEALED',children=children,
                 actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
-        gate=fit4_gate(fit['root'],original_before=root/'fit4-200/before/RESULT.json')
-        write(root/'FIT4_GATE_500.json',gate)
-    return dict(status='FIT4_CHAIN_SEALED',children=children,selected_variant=selected,
-        actual_GR00T_updates=sum(r['GR00T_updates']for r in children),wall_s=time.monotonic()-start,
-        fit4_learnability_passed=gate['passes'],fit4_gate=gate,
-        formal_training='NOT_STARTED_REQUIRES_SEALED_DIVERSE_TRAIN_DEV_AND_FIT4_DECISION',
-        native_physics=0,WM_updates=0,Actor_updates=0,baseline_changed=False)
+        gate=fit4_gate(fit['root']);write(root/'FIT4_GATE_200.json',gate)
+        # A 500 continuation is a separately registered same-generation slice.
+        if not gate['passes'] and gate['continuation500_allowed']:
+            timings=[json.loads(line)for line in (Path(fit['root'])/'OPTIMIZER_STEPS.jsonl').read_text().splitlines()]
+            remaining_prediction=300*1.25*max(r['optimizer_update_wall_s']for r in timings)+cap['PBS_GPU_wall_s_upper']+1200
+            if time.time()+remaining_prediction>=deadline or stop_requested:
+                return dict(status='FIT4_200_PROGRESS_WAIT_FRESH500_ALLOCATION',children=children,
+                    actual_GR00T_updates=sum(r['GR00T_updates']for r in children),fit4_gate=gate,
+                    predicted_300_update_and_restore_s=remaining_prediction)
+            s=json.loads((Path(fit['root'])/'EXECUTION_SPEC.json').read_bytes());cp=Path(fit['checkpoint'])
+            fit=child('fit4-500','FIT4',selected,500,start_step=200,
+                resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')),generation=s['generation_id'])
+            need(fit['exit_code']==0,'FIT4_CONTINUATION_ENGINEERING_FAILURE')
+            if not fit['endpoint_complete']:
+                return dict(status='PARTIAL_FIT4_CONTINUATION_SEALED',children=children,
+                    actual_GR00T_updates=sum(r['GR00T_updates']for r in children),endpoint_complete=False)
+            gate=fit4_gate(fit['root'],original_before=root/'fit4-200/before/RESULT.json')
+            write(root/'FIT4_GATE_500.json',gate)
+        return dict(status='FIT4_CHAIN_SEALED',children=children,selected_variant=selected,
+            actual_GR00T_updates=sum(r['GR00T_updates']for r in children),wall_s=time.monotonic()-start,
+            fit4_learnability_passed=gate['passes'],fit4_gate=gate,
+            formal_training='NOT_STARTED_REQUIRES_SEALED_DIVERSE_TRAIN_DEV_AND_FIT4_DECISION',
+            native_physics=0,WM_updates=0,Actor_updates=0,baseline_changed=False)
+    return with_allocation(c,capacity_fit4)

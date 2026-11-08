@@ -89,6 +89,56 @@ def semantic_recipe(p):
     return {k:v for k,v in p.items()if k not in ('endpoint','initial_optimizer')}
 
 
+def _load_original_parent(spec,root,label):
+    from transformers import AutoModel
+    from scripts.pi0294.local_backbone import local_model_name
+    from scripts.pi0294.neural import COSMOS_REVISION
+    from scripts.pi0292.durable import write
+    bindings=spec['bindings']
+    write(root/(label+'_INTENT.json'),dict(parent_manifest_sha256=profile.PARENT,epoch=time.time()))
+    model,loading=AutoModel.from_pretrained(spec['parent']['path'],local_files_only=True,trust_remote_code=True,
+        output_loading_info=True,model_name=local_model_name(root,bindings),
+        transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
+            cache_dir=bindings['cosmos_hub'],revision=COSMOS_REVISION),
+        tune_llm=False,tune_visual=False,tune_projector=True,tune_diffusion_model=True,tune_vlln=True,
+        state_dropout_prob=0.,backbone_trainable_params_fp32=True,load_bf16=False)
+    write(root/(label+'_CONSTRUCTED_ACTUAL.json'),dict(actual_model_loads=1,epoch=time.time(),loading=loading))
+    profile.need(not any(loading.get(k)for k in ('missing_keys','unexpected_keys','mismatched_keys','error_msgs')),
+                 'STRICT_PINNED_PARENT_LOAD')
+    profile.need(model.action_head.num_inference_timesteps==4,'ORIGINAL_FOUR_STEP_FREE_GENERATION')
+    return model
+
+
+def _package_and_reconstruct(root,cp,spec,restore,model,trainer,instance,data,guard):
+    """Production only: fresh original model + packaged delta + saved Processor."""
+    import gc,torch
+    from . import target_gr00t_delivery_v1 as delivery
+    from .target_gr00t_probes_v1 import measure
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.local_backbone import local_model_name
+    from scripts.pi0294.neural import COSMOS_REVISION
+    from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7Processor
+    guard();package=delivery.create(cp,root/'inference-package',spec,restore,guard=guard)
+    # The complete optimizer archive is already restored and checked on disk.
+    # Free its device moments before constructing the independent inference model.
+    trainer.optimizer.state.clear();trainer.lr_scheduler=None;trainer.optimizer=None
+    model.to('cpu');instance.model=None;gc.collect();torch.cuda.empty_cache()
+    guard();rebuilt=_load_original_parent(spec,root,'PACKAGE_MODEL_LOAD')
+    delivery.install(rebuilt,package['path'],package['sha256'],spec['parent']['files'])
+    processor=Gr00tN1d7Processor.from_pretrained(Path(package['path'])/'processor',
+        model_name=local_model_name(root,spec['bindings']),local_files_only=True,
+        transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
+            cache_dir=spec['bindings']['cosmos_hub'],revision=COSMOS_REVISION))
+    processor.eval()
+    profile.need(processor.embodiment_id_mapping['new_embodiment']==10,'PACKAGE_ORIGINAL_EMBODIMENT_MAPPING')
+    rebuilt.to('cuda').eval();instance.model=rebuilt;instance.processor=processor
+    instance.identity['inference_package_sha256']=package['sha256']
+    measure(root,'package-reconstructed',instance,data)
+    proof=delivery.compare_generations(root/'restored',root/'package-reconstructed')
+    write(root/'PACKAGE_RECONSTRUCTION_ACTUAL.json',dict(**proof,package=package))
+    guard();return dict(**package,reconstruction=proof)
+
+
 def load_checkpoint(path,pin,*,model,contract,trainer,spec,guard):
     import torch
     from scripts.pi0294.native_train import tensor_identity,tree_identity,rng_identity
@@ -152,11 +202,9 @@ def run(spec):
     prepare_environment(MODE);official_import(bindings['source'])
     import torch
     import numpy as np
-    from transformers import AutoModel,TrainingArguments,TrainerCallback,set_seed
+    from transformers import TrainingArguments,TrainerCallback,set_seed
     from gr00t.experiment.trainer import Gr00tTrainer
     import gr00t.model.gr00t_n1d7.gr00t_n1d7
-    from scripts.pi0294.local_backbone import local_model_name
-    from scripts.pi0294.neural import COSMOS_REVISION
     from scripts.pi0294.native_train import make_trainer_class,MeasuredLoader,tensor_identity,rng_identity,tree_identity
     from scripts.pi0292.train_adapter import CyclicSampler
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
@@ -166,16 +214,7 @@ def run(spec):
     actual_uuid=str(torch.cuda.get_device_properties(0).uuid)
     profile.need(actual_uuid==spec['GPU_uuid'],'ALLOCATED_EXACT_GPU_UUID')
     torch.cuda.reset_peak_memory_stats()
-    write(root/'MODEL_LOAD_INTENT.json',dict(parent_manifest_sha256=profile.PARENT,epoch=time.time()))
-    model,loading=AutoModel.from_pretrained(parent,local_files_only=True,trust_remote_code=True,
-        output_loading_info=True,model_name=local_model_name(root,bindings),
-        transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
-            cache_dir=bindings['cosmos_hub'],revision=COSMOS_REVISION),
-        tune_llm=False,tune_visual=False,tune_projector=True,tune_diffusion_model=True,tune_vlln=True,
-        state_dropout_prob=0.,backbone_trainable_params_fp32=True,load_bf16=False)
-    profile.need(not any(loading.get(k)for k in ('missing_keys','unexpected_keys','mismatched_keys')),
-                 'STRICT_PINNED_PARENT_LOAD')
-    profile.need(model.action_head.num_inference_timesteps==4,'ORIGINAL_FOUR_STEP_FREE_GENERATION')
+    model=_load_original_parent(spec,root,'MODEL_LOAD')
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
     frozen=frozen_fingerprint(model);names=contract.trainable_names
@@ -334,9 +373,14 @@ def run(spec):
         fixed_batch_generation_restored=True,
         next_update_comparison='REQUIRES_INDEPENDENT_CAPACITY_RESUME_SLICE',baseline_changed=False)
     write(root/'RESTORE_ACTUAL.json',proof)
+    package=None
+    if p['mode']=='FORMAL'and step==p['endpoint']==2000:
+        package=_package_and_reconstruct(root,cp,spec,proof,model,trainer,instance,data,guard)
+        measured('AFTER_PACKAGE_INDEPENDENT_RECONSTRUCTION')
     return dict(status='CHECKPOINT_SEALED',profile=profile.PROFILE,source_sha=spec['source_sha'],
         generation_id=spec['generation_id'],global_step=step,GR00T_updates=step-spec['start_step'],
         sample_visits=(step-spec['start_step'])*32,WM_updates=0,Actor_updates=0,external_adapter_updates=0,
         actual_VLA_queries=len(list(root.glob('*/journal/Q*.json'))),
+        actual_model_loads=len(list(root.glob('*_CONSTRUCTED_ACTUAL.json'))),inference_package=package,
         backbone_frozen=True,real_action_parameter_changed=True,checkpoint=str(cp),restore=proof,
         native_physics=0,Core_DEV='NOT_RUN',CPU_s=time.process_time()-cpu,wall_s=time.monotonic()-start)

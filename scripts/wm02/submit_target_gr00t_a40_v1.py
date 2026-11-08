@@ -44,10 +44,15 @@ def submit(request):
     manifest=json.loads((data/'DATASET_MANIFEST.json').read_bytes())
     admission=json.loads((data/'PROCESSOR_TRAINING_ADMISSION.json').read_bytes())
     reconstructed=json.loads((data/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
+    mode=c.get('allocation_mode','QUALIFY_FIT4')
+    need(mode in ('QUALIFY_FIT4','FORMAL_SLICE'),'DECLARED_ALLOCATION_STAGE')
+    if mode=='FORMAL_SLICE':
+        from go2arx5_vla.world_model.target_gr00t_formal_v1 import validate_request
+        validate_request(c,manifest)
     need(digest(data/'DATASET_MANIFEST.json')==c['dataset_sha256']
          and digest(data/'statistics.json')==c['statistics_sha256']
-         and manifest['bundle_kind']=='FIT4_DIAGNOSTIC'
-         and len([r for r in manifest['episodes']if r['split']=='TRAIN'])==4
+         and (manifest['bundle_kind']=='FORMAL' if mode=='FORMAL_SLICE' else
+              manifest['bundle_kind']=='FIT4_DIAGNOSTIC' and len([r for r in manifest['episodes']if r['split']=='TRAIN'])==4)
          and manifest['WM_or_HOLD_or_diagnostic_relabelled']is False
          and admission['status']=='PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP'
          and admission['manifest_sha256']==c['dataset_sha256']
@@ -87,7 +92,7 @@ def submit(request):
         script=root/'job.pbs';script.write_text(pbs_script(root,c['source_root'],c['python'],c['wall_s']))
         write(root/'control/LEASE.json',dict(status='REGISTERED_NOT_SUBMITTED',profile=profile.PROFILE,
             config_sha256=digest(root/'ALLOCATION_CONFIG.json'),deadline_epoch=c['absolute_deadline_epoch'],
-            GR00T_updates='CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500'))
+            GR00T_updates=('FORMAL_TO_2000_FROM_'+str(c['start_step'])if mode=='FORMAL_SLICE'else'CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500')))
         reg['entries'].append(dict(role='TARGET-GR00T-A40-ALLOCATION',path=str(root),scope=profile.PROFILE,
             local_lease=str(root/'control/LEASE.json'),owner='EXISTING_LOCAL_PC',executor_node='VANDA_A40',source_sha=c['source_sha']))
         once(Path(c['registry']),reg,root.name+'-REGISTER',expected_before_sha256=rpin)
