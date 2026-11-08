@@ -1,0 +1,209 @@
+{
+  "schema": "WM02_TARGET_GR00T_TEACHER_DEV_AND_STUDENT_PAIR_PREPARATION_ACTUAL_V1",
+  "created_epoch": 1794134919.4087086,
+  "native_snapshot_epoch": 1794134914.2536135,
+  "ACTUAL": "DEV02retreat and DEV03approach CLOSED0 with complete real Teacher actions and images. Teacher DEV now4PASS/1FAIL;3notterminal. Dedicated cross-site FORMAL Processor entry and fixed32student DEV order/noise are prepared, not executed.",
+  "NEGATIVE": "No full FORMAL dataset/Processor, actual target learning, trained candidate package or student-native DEV is yet established. DEV01retreat prefix failure remains. The sole A40 job is still verified Q at18:47 because of the account batch_gpu running-job limit.",
+  "actual_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+  "future_Core_pair_execution_code_sha": "510b5cce0d040caa0a5722a69a4fb0f1db8e8401",
+  "actual_new_native": [
+    {
+      "run": "target-gr00t-demo-dev02-retreat-r1-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "ba92bd84de826451d72c709b0488a002b19076932744d375c5e446c43d0393cd",
+      "worker_sha256": "425f035d83168c5b217e300c124e148623b45acab6f82fb5af021edb525fa261",
+      "result_sha256": "91ef07c0bcf3062084bf55ebbaf7ddc6d8dd2dee683c7cb681752dabd25a50cc",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "actual_native_ticks": 38703,
+      "task_success": true,
+      "intent_progress_m": 0.002912908810949719,
+      "raw_signed_toward_cube_progress_m": -0.002912908810949719,
+      "maximum_BASE_displacement_m": 0.000496882268213376,
+      "maximum_BASE_rotation_rad": 0.0019108737908484787,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "dual_RGB_pairs": 27,
+      "complete_media": true,
+      "trace_dropped": 0,
+      "four_owned_children_exit0": true,
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "MainPID": 0,
+      "worker_wall_s": 569.5689446418546,
+      "worker_plus_child_CPU_s": 1273.190997996
+    },
+    {
+      "run": "target-gr00t-demo-dev03-approach-r1-01",
+      "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
+      "spec_sha256": "1626100659c21ba4c579ed87c6477b6184750b3ddd10b105c43261a204af65a9",
+      "worker_sha256": "5271658b16bf122fb4ee9b3536e40c863f7840078b32afdae0a497084d005467",
+      "result_sha256": "469128080c16a3be4a360cd215cf85d84d7fe943fa9fbf12f0f52776d9405887",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "actual_native_ticks": 38703,
+      "task_success": true,
+      "intent_progress_m": 0.002867025172667877,
+      "raw_signed_toward_cube_progress_m": 0.002867025172667877,
+      "maximum_BASE_displacement_m": 0.000854121002090476,
+      "maximum_BASE_rotation_rad": 0.0009100669131135862,
+      "full40_consumed": true,
+      "confirmed_task_intervals": 176,
+      "dual_RGB_pairs": 27,
+      "complete_media": true,
+      "trace_dropped": 0,
+      "four_owned_children_exit0": true,
+      "physics_stops": [],
+      "shutdown_clean": true,
+      "MainPID": 0,
+      "worker_wall_s": 570.6902180323377,
+      "worker_plus_child_CPU_s": 1274.4900893069998
+    }
+  ],
+  "new_native_ticks": 77406,
+  "new_confirmed_task_intervals": 352,
+  "new_Teacher_policy_decisions": 2,
+  "new_dual_RGB_pairs": 54,
+  "cohort": {
+    "sealed_native_attempts": 33,
+    "PASS": 27,
+    "FAIL": 6,
+    "native_ticks": 1252899,
+    "QUAL": {
+      "attempts": 4,
+      "PASS": 2,
+      "FAIL": 2,
+      "BC": false
+    },
+    "TRAIN": {
+      "attempts": 24,
+      "PASS": 21,
+      "FAIL": 3,
+      "layouts": 6,
+      "both_commands": true,
+      "full_formal_export_admission": false
+    },
+    "Teacher_DEV": {
+      "terminal": 5,
+      "PASS": 4,
+      "FAIL": 1,
+      "not_terminal": 3
+    },
+    "TEST_opened": false,
+    "old_failures_and_FUSION_denominator_unchanged": true
+  },
+  "data": {
+    "full_TRAIN_status": "24ACTUAL_NATIVE_ATTEMPTS_CLOSED;21NATIVE_SUCCESSES_NOT_YET_FULL_FORMAL_EXPORT",
+    "successful_TRAIN_policy_decisions": 21,
+    "successful_TRAIN_layouts": 6,
+    "successful_TRAIN_both_commands": true,
+    "formal_data_status": "WAIT_ALL32_TRAIN_DEV_ATTEMPTS_TERMINAL",
+    "FIT4_dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "FIT4_statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "failed_QUAL_or_WM_as_BC": false
+  },
+  "model_last_verified": {
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "upstream_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "new_cohort_actual_Core_model_loads": 2,
+    "new_cohort_actual_Core_VLA_queries": 5,
+    "target_GR00T_updates": 0,
+    "target_WM_updates": 0,
+    "target_Actor_updates": 0,
+    "new_actual_optimizer_recoveries": 0,
+    "new_candidate_checkpoints": 0,
+    "new_trained_model_packages": 0
+  },
+  "model_observation_limit": "Actual A40 Q/no-exec/no-resources-used observation at18:47; no new target optimizer update, checkpoint or candidate package established.",
+  "A40_last_verified": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "observed_epoch": 1794134839.5090423,
+    "query_exit_code": 0,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "exec_host": null,
+    "resources_used": null,
+    "source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3",
+    "new_submission": false,
+    "new_duplicate": false
+  },
+  "shared_Core_resources": {
+    "observed_epoch": 1794134628.1705768,
+    "GPU0_free_MiB": 738,
+    "GPU0_used_MiB": 31492,
+    "GPU1_free_MiB": 14719,
+    "GPU1_used_MiB": 1217,
+    "qualified_GPU_uuid": "GPU-845348f1-1511-dc19-0877-cc97658e3edd",
+    "other_UID_processes_verified": true,
+    "other_user_processes_untouched": true,
+    "shared_GPU_allowed": true,
+    "admission_recheck_before_new_job": true
+  },
+  "prepared": {
+    "FORMAL_Vanda_Processor_entry_sha256": "e6594719625826d21ed9563893f529298ee9b964773371052ea5adecc900369c",
+    "FORMAL_Vanda_CPU_timeout_s": 600,
+    "FORMAL_Vanda_entry_executed": false,
+    "original_Core_Processor_admission_preserved": true,
+    "student_DEV_preregistration": {
+      "file": "FROZEN_TARGET_GR00T_B0_B1_NATIVE_DEV_PREREGISTRATION_V1.json",
+      "sha256": "71853a6d5aff8beeb72fa2963ee341bb070f7d20cf7e1eab31843a57409c3d87",
+      "native_conditions": 32,
+      "per_arm_conditions": 16,
+      "maximum_policy_queries": 64,
+      "B1_global_step": 2000,
+      "actual_registrations": 0,
+      "actual_student_DEV_queries": 0
+    },
+    "B0_native_GPU_owner_entry_prepared": true,
+    "B0_pair_registered": false,
+    "B0_pair_natively_qualified": false
+  },
+  "actual_commands": [
+    {
+      "command": "PYTHONPATH=src \"$NATIVE_PYTHON\" -B -m scripts.wm02.stable_task_data_check_v1 --spec \"$REGISTERED_SPEC\" --execute",
+      "completed_workers": 2,
+      "exit_codes": [
+        0,
+        0
+      ]
+    },
+    {
+      "command": "systemctl --user show \"$KNOWN_UNIT\" -p MainPID,LoadState,ActiveState,SubState,MemoryPeak,CPUUsageNSec",
+      "operation": "READ_ONLY",
+      "exit_code": 0
+    },
+    {
+      "command": "nvidia-smi --query-gpu=index,uuid,memory.free,memory.used,utilization.gpu --format=csv,noheader,nounits",
+      "exit_code": 0
+    }
+  ],
+  "cost": {
+    "new2_native_worker_wall_s": 1140.2591626741923,
+    "new2_native_worker_plus_child_CPU_s": 2547.681087303,
+    "all33_native_worker_wall_s": 18635.626748456154,
+    "all33_native_worker_plus_child_CPU_s": 41145.806412239996,
+    "active_native_excluded": true,
+    "new_pair_GPU_cost": 0,
+    "new_A40_allocated_cost_at_last_verified_Q": 0
+  },
+  "worker_state": {
+    "new_two_native_leases": "CLOSED0",
+    "new_two_native_MainPID": 0,
+    "current_native": [
+      {
+        "run": "target-gr00t-demo-dev03-retreat-r1-01",
+        "split": "DEV",
+        "command": "RETREAT_RED_4MM_OPEN",
+        "parent": "STABLE_TASK_LAYOUT_DEV03",
+        "restart": 1,
+        "status": "ACTIVE"
+      }
+    ],
+    "original_controller": "CHAIN06_RUNNING; SAME_IMMUTABLE_HELPERS; SINGLE_NATIVE_WORLD",
+    "A40_last_verified": "Q_AT18:47; SAME_JOB_ID; NO_EXEC_HOST_OR_RESOURCES_USED",
+    "new_pair": "PREPARED_NOT_LAUNCHED"
+  },
+  "next": "Finish three unused Teacher DEV conditions once; execute original CPU02 full data export and private SSH02 transfer; execute actual Vanda FORMAL Processor reconstruction; preserve sole A40 job and use real capacity/restore/FIT4 gates. After current collection/export workers close, register one fresh B0 TRAIN native/GPU interface qualification through the original owner. Student32 DEV remains blocked on actual model/interface gates.",
+  "next_executable_command": "qstat -xf -F json 1532527.stdct-mgmt-02"
+}

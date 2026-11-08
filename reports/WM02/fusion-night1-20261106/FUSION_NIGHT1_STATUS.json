@@ -21,12 +21,12 @@
   "original_parent_deadline": "2026-11-07T19:54:21.739793+08:00",
   "fusion_scope_deadline": 1794112746.6684496,
   "goal": "PR369_TARGET_GR00T_CANDIDATE_PREPARATION",
-  "snapshot_epoch": 1794113860.7652638,
+  "snapshot_epoch": 1794134914.2536135,
   "implementation_sha": "eae2fefa366f776357fd1e2a7c2192ee0e9caab2",
   "implementation_deployed": false,
   "actual_last_native_source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
-  "current_native_job": "Teacher DEV02 retreat (original chain06; previous closed failure retained)",
-  "current_neural_job": "1532527.stdct-mgmt-02 (PBS Q; account running-job limit)",
+  "current_native_job": "Teacher DEV03 retreat, original immutable chain06 (29 of32 DEMO attempts terminal)",
+  "current_neural_job": "1532527.stdct-mgmt-02 verified Q18:47, account running-job limit",
   "current_CPU_job": null,
   "live_process_state": "ORIGINAL_TEACHER_DEV_ACTIVE; A40_Q; NEW_GR00T_PAIR_NOT_LAUNCHED",
   "FUSION_completed_physical_cohorts": 5,
@@ -284,8 +284,8 @@
     "TASK_INTENT_GEOMETRY_SHORT_T01R1_LAUNCH_ACTUAL_V2.json",
     "TASK_INTENT_GEOMETRY_SHORT_T02_LAUNCH_ACTUAL_V1.json"
   ],
-  "next": "Fresh original-owner scope; new journal keys; complete unused TRAIN02 approach/retreat; seal four actual demos and Processor; transfer privately; actual Vanda Processor batch-identity check; one finite held A40 qsub/bind/release.",
-  "next_executable": "python3 <PRIVATE>/core_control.py <PRIVATE>/read_stable_task_data_live01.py 180",
+  "next": "Finish three unused Teacher DEV conditions once; execute original CPU02 full data export and private SSH02 transfer; execute actual Vanda FORMAL Processor reconstruction; preserve sole A40 job and use real capacity/restore/FIT4 gates. After current collection/export workers close, register one fresh B0 TRAIN native/GPU interface qualification through the original owner. Student32 DEV remains blocked on actual model/interface gates.",
+  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
   "shared_GPU_policy": "CORELAB4080S_FIRST_SINGLE_LOCAL_NEURAL_WORKER_ACTUAL_HEADROOM_NO_OTHER_USER_CHANGES",
   "priority_supplement": {
     "plan_sha": "c7804e338f40d6c5acb2f7272720c9a78dea90a3",
@@ -728,7 +728,7 @@
     "remote_readonly_archive_check": "SSH_CONNECTION_TIMEOUT_EXIT255",
     "new_native_integrations": 0
   },
-  "current_operational_block": "A40_PBS_USER_BATCH_GPU_RUNNING_LIMIT",
+  "current_operational_block": "A40_ACCOUNT_RUNNING_JOB_LIMIT_AT_LAST_VERIFIED_POLL; CURRENT_TEACHER_DATA_COLLECTION_HEALTHY",
   "bounded_mechanical_pair_v1": "BOUNDED_FULL_H40_CONSUMPTION_ACTUAL_V1.json",
   "future_full_preview_features": "LIVE_PROGRAM_CAUSAL_FEATURES_V2_IMPLEMENTATION.json",
   "full_generated_H40_mechanical_consumption": 11,
@@ -833,7 +833,7 @@
     "fixed_compensation": "STATIC_FAILED_NO_WORKER",
     "C03_preposed_home": "ZERO_INTEGRATION_REJECTED_FROZEN_STARTUP_OVERRIDE_POINT9_NO_WORKER"
   },
-  "current_block": "CAPACITY_AND_FIT4_WAIT_ALLOCATED_A40; FORMAL_DATA_WAITS_ALL_32_TERMINAL",
+  "current_block": "ACTUAL_TARGET_GR00T_TRAINING_AND_STUDENT_DEV_NOT_YET_ESTABLISHED",
   "previous_top_level_next_before_PR368": "Finish the same finite DX02 and score its original saved pre-effect forecasts; remaining DY01/DY02 then registered model reference comparison.",
   "stable_start_autonomy": {
     "plan_document_sha": "abf96049bc62760cb19e303b5311668d34587a03",
@@ -1019,7 +1019,7 @@
     "standing_failure_report": "TARGET_GR00T_START_READINESS_RECOVERY_ACTUAL_V1.json",
     "target_Processor_parent_shadow_report": "TARGET_GR00T_PARENT_TARGET_PROCESSOR_TRAIN4_ACTUAL_V1.json"
   },
-  "latest_target_progress_report": "TARGET_GR00T_DEV_PREFIX_NEGATIVE_AND_CONTINUATION_ACTUAL_V1.json",
+  "latest_target_progress_report": "TARGET_GR00T_TEACHER_DEV_AND_STUDENT_PAIR_PREPARATION_ACTUAL_V1.json",
   "PR369_latest_native_readiness_snapshot": {
     "report": "TARGET_GR00T_START_READINESS_NATIVE_ACTUAL_V1.json",
     "source_sha": "a1f6a6845ec459a84ecd00ef770bed94f3f9b59b",
@@ -1039,16 +1039,15 @@
   },
   "PR369_full_proposal_compiler_audit": "TARGET_GR00T_ACTUAL_FULL_PROPOSAL_COMPILER_AUDIT_V1.json",
   "PR369_latest_execution_snapshot": {
-    "epoch": 1794133715.2266514,
-    "sealed_native_attempts": 31,
-    "PASS": 25,
+    "sealed_native_attempts": 33,
+    "PASS": 27,
     "FAIL": 6,
-    "native_ticks": 1175493,
+    "native_ticks": 1252899,
     "QUAL": {
       "attempts": 4,
       "PASS": 2,
       "FAIL": 2,
-      "BC_eligible": false
+      "BC": false
     },
     "TRAIN": {
       "attempts": 24,
@@ -1056,16 +1055,16 @@
       "FAIL": 3,
       "layouts": 6,
       "both_commands": true,
-      "formal_export_admitted": false
+      "full_formal_export_admission": false
     },
-    "DEV": {
-      "attempts": 3,
-      "PASS": 2,
+    "Teacher_DEV": {
+      "terminal": 5,
+      "PASS": 4,
       "FAIL": 1,
-      "remaining": 5
+      "not_terminal": 3
     },
     "TEST_opened": false,
-    "old_FUSION_counts_unchanged": true
+    "old_failures_and_FUSION_denominator_unchanged": true
   },
   "PR369_prefix_components_source_sha": "31722d3bcebdf4934c643d8bb0bfcdf02d1b66d4",
   "PR369_paired_GR00T_entry": "IMPLEMENTED_510b5cce_NOT_REGISTERED_OR_NATIVE_QUALIFIED",
@@ -1098,5 +1097,15 @@
     "interpretation": "ORIGINAL_CALIBRATION_PREFIX_READINESS_FAILURE_BEFORE_TASK; NOT_LEARNING_FAILURE; ROOT_CAUSAL_MECHANISM_NOT_ESTABLISHED",
     "retry": false,
     "as_expert_data": false
+  },
+  "PR369_native_DEV_preregistration": {
+    "file": "FROZEN_TARGET_GR00T_B0_B1_NATIVE_DEV_PREREGISTRATION_V1.json",
+    "sha256": "71853a6d5aff8beeb72fa2963ee341bb070f7d20cf7e1eab31843a57409c3d87",
+    "native_conditions": 32,
+    "per_arm_conditions": 16,
+    "maximum_policy_queries": 64,
+    "B1_global_step": 2000,
+    "actual_registrations": 0,
+    "actual_student_DEV_queries": 0
   }
 }
