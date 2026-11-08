@@ -230,6 +230,11 @@ def run(spec):
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
+    activation_storage=None
+    if p.get('memory_policy')=='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1':
+        from .target_gr00t_core_v1 import activation_policy
+        from scripts.pi0294.multitask.activation_offload import SavedActivationOffload
+        activation_storage=SavedActivationOffload(model,policy=activation_policy())
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
     frozen=frozen_fingerprint(model);names=contract.trainable_names
     before={n:tensor_identity(model.get_parameter(n))for n in names}
@@ -240,6 +245,7 @@ def run(spec):
             allocated_bytes=torch.cuda.memory_allocated(),reserved_bytes=torch.cuda.memory_reserved(),
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved()))
         write(root/'GPU_MEMORY.json',dict(GPU_uuid=actual_uuid,measurements=memory))
+        if activation_storage is not None:write(root/'ACTIVATION_STORAGE_ACTUAL.json',activation_storage.audit())
         profile.need(free>=2*1024**3,'ORIGINAL_TWO_GIB_MEMORY_MARGIN')
     if spec.get('resume'):
         restored=load_checkpoint(spec['resume']['path'],spec['resume']['sha256'],model=model,
@@ -269,6 +275,10 @@ def run(spec):
             cycle,offset=divmod(cursor,self.size)
             return int(np.random.Generator(np.random.PCG64(self.seed+cycle)).permutation(self.size)[offset])
     class TargetTrainer(make_trainer_class()):
+        def training_step(self,model,inputs,num_items_in_batch=None):
+            from scripts.pi0294.multitask.activation_offload import context
+            with context(activation_storage):
+                return super().training_step(model,inputs,num_items_in_batch)
         def train(self,resume_from_checkpoint=None,**kwargs):
             return Gr00tTrainer.train(self,resume_from_checkpoint=resume_from_checkpoint,**kwargs)
         def get_train_dataloader(self):

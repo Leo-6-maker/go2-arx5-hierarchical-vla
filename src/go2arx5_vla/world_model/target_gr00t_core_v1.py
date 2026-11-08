@@ -13,6 +13,12 @@ from .storage import digest
 SCOPE='TARGET_GR00T_CORE_V1'
 
 
+def activation_policy():
+    from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY
+    return dict(LOW_RESIDENCY_POLICY,schema='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
+        per_microbatch_activation_offload_bytes=2*1024**3)
+
+
 def gpu(spec):
     from .pilot1_scope import GPU_UUIDS
     profile.need(spec['GPU_uuid']in GPU_UUIDS,'KNOWN_CORE_GPU_UUID')
@@ -57,6 +63,7 @@ def site(s):
         and s['deadline_epoch']==c['deadline_epoch']and s['GPU_uuid']==c['GPU_uuid']
         and all(s[k]==c[k]for k in ('source_root','source_sha','source_files','bindings','parent'))
         and p['dataset_sha256']==c['dataset_sha256']and p['statistics_sha256']==c['statistics_sha256']
+        and p.get('memory_policy','CUDA_RESIDENT')==c.get('memory_policy','CUDA_RESIDENT')
         and any(e.get('path')==str(root)and e.get('scope')==SCOPE
             and e.get('source_sha')==s['source_sha']for e in reg['entries']),
         'ACTUAL_REGISTERED_CORE_CHILD_LEASE')
@@ -94,7 +101,8 @@ def run(c):
                 alias=r/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)
                 alias.symlink_to(c['bindings']['cosmos'],target_is_directory=True)
                 recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,
-                    variant='INTERFACES_LAST2_DIT',endpoint=endpoint,microbatch=1)
+                    variant='INTERFACES_LAST2_DIT',endpoint=endpoint,microbatch=1,
+                    memory_policy=c.get('memory_policy','CUDA_RESIDENT'))
                 s=dict(registered_root=str(r),source_root=c['source_root'],source_sha=c['source_sha'],
                     source_files=c['source_files'],bindings=c['bindings'],parent=c['parent'],
                     profile=profile.PROFILE,kind=profile.KIND,execution_site='CORELAB_4080S',recipe=recipe,

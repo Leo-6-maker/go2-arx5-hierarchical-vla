@@ -98,3 +98,13 @@ def test_torch_bare_uuid_matches_same_nvml_gpu_without_accepting_other_device():
     assert gpu_identity(torch,s)==s['GPU_uuid']and limits==[.75]
     with pytest.raises(PermissionError,match='EXACT_GPU_UUID'):
         gpu_identity(torch,dict(s,GPU_uuid='GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad'))
+
+
+def test_cpu_activation_execution_is_explicit_preserving_recipe_and_core_only():
+    s=spec();s['recipe']=profile.recipe('a'*64,'b'*64,mode='CAPACITY',variant='INTERFACES_LAST2_DIT',
+        endpoint=2,memory_policy='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1')
+    r=profile.validate(s);assert r['effective_batch']==32 and r['forward_precision']=='ORIGINAL_BF16_AUTOCAST'
+    assert core.activation_policy()['per_microbatch_activation_offload_bytes']==2*1024**3
+    assert core.activation_policy()['quantization']is False
+    with pytest.raises(PermissionError,match='A40_ORIGINAL'):
+        profile.validate(dict(s,execution_site='VANDA_A40'))

@@ -13,13 +13,15 @@ def need(ok,reason):
     if not ok:raise PermissionError('TARGET_GR00T_PROFILE_' + reason)
 
 
-def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microbatch=1):
+def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microbatch=1,
+           memory_policy='CUDA_RESIDENT'):
     need(all(type(x)is str and re.fullmatch('[0-9a-f]{64}',x)
              for x in (dataset_sha256,statistics_sha256)), 'EXACT_DATA_AND_PROCESSOR_PINS')
     need(mode in MODES and variant in VARIANTS and type(microbatch)is int
          and microbatch in (1,2,4,8), 'DECLARED_CAPACITY_VARIANT')
     need(type(endpoint)is int and endpoint in (
         (2,)if mode=='CAPACITY'else(200,500)if mode=='FIT4'else(2000,4000,8000)), 'FINITE_PREDECLARED_ENDPOINT')
+    need(memory_policy in('CUDA_RESIDENT','CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1'),'DECLARED_MEMORY_EXECUTION')
     return dict(schema='WM02_TARGET_GR00T_ACTION_SIDE_RECIPE_V1',profile=PROFILE,kind=KIND,
         mode=mode,variant=variant,endpoint=endpoint,dataset_sha256=dataset_sha256,
         statistics_sha256=statistics_sha256,parent_manifest_sha256=PARENT,upstream_sha=UPSTREAM,
@@ -32,7 +34,7 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
         save_every_updates=250,preserve_all_checkpoints=True,
         parameter_storage='PRESERVE_PINNED_PARENT_DTYPES_NO_GLOBAL_CAST',
         forward_precision='ORIGINAL_BF16_AUTOCAST',numeric_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',
-        unused_category_storage='EXISTING_FROZEN_CATEGORY_TABLES_CPU_NO_ACTIVATION_OFFLOAD',
+        unused_category_storage='EXISTING_FROZEN_CATEGORY_TABLES_CPU',memory_policy=memory_policy,
         action_horizon=40,action_period_s=.05,physics_integrations=0,
         WM_updates=0,Actor_updates=0,external_adapter_updates=0,
         baseline_changed=False,WBC_changes=False,
@@ -42,7 +44,8 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
 def validate(spec):
     p=spec.get('recipe')or{}
     expected=recipe(p.get('dataset_sha256'),p.get('statistics_sha256'),
-        mode=p.get('mode'),variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'))
+        mode=p.get('mode'),variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),
+        memory_policy=p.get('memory_policy','CUDA_RESIDENT'))
     start=spec.get('start_step')
     need(p==expected and spec.get('profile')==PROFILE and spec.get('kind')==KIND
          and spec.get('execution_site')in('VANDA_A40','CORELAB_4080S')
@@ -57,6 +60,7 @@ def validate(spec):
     if spec['execution_site']=='CORELAB_4080S':
         need(p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
              and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
+    else:need(p['memory_policy']=='CUDA_RESIDENT','A40_ORIGINAL_RESIDENT_EXECUTION')
     if start:
         need(isinstance(spec.get('resume'),dict) and set(spec['resume'])=={'path','sha256'},
              'COMPLETE_SAME_GENERATION_RESUME')
