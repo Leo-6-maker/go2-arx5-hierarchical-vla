@@ -1,0 +1,165 @@
+{
+  "schema": "WM02_TARGET_GR00T_CONTINUATION_IMPLEMENTATION_ACTUAL_V1",
+  "created_epoch": 1794141156.5073974,
+  "status": "FUTURE_COLD_EXECUTION_CODE_IMPLEMENTED_AND_CPU_TESTED; A40_STILL_QUEUED",
+  "source_sha": "b82d2a297032622f0eefb4af2cd7270527cb3c0c",
+  "parent_source_sha": "6b2c09f1911ec185f850340c7d65fe401306e01c",
+  "source_members": {
+    "scripts/wm02/submit_target_gr00t_a40_v1.py": "4e06215d5065c6a51e49e2968b38a0e7769f85e04237a16885807677b05bdf9f",
+    "src/go2arx5_vla/world_model/target_gr00t_delivery_v1.py": "706f647422dbb6beedc3093593576ffeaec384dc66c0b080bcde441559695d0a",
+    "src/go2arx5_vla/world_model/target_gr00t_formal_v1.py": "1a8686ebabc2732cc548a8a53ee4c88e3375d3630b633eea24f3da7444394a3e",
+    "src/go2arx5_vla/world_model/target_gr00t_inference_v1.py": "01f4a3bc752ace476069c17abe189dfad04deb61b6842dc35015c0dcb9596fd6",
+    "src/go2arx5_vla/world_model/target_gr00t_live_pair_v1.py": "27fefeee64ccea3dd7edf4c054b7c3a9327598c00be72406a0c30f816c52bcb3",
+    "src/go2arx5_vla/world_model/target_gr00t_native_loop_v1.py": "66f267780aa58e750214687633fd3f69cc422afe72b6146cfdcba00cbdb70555",
+    "src/go2arx5_vla/world_model/target_gr00t_training_v1.py": "af6f3de213d9bffdf4eb90d80caf2dece0a49d0a8f603355bdb96d4a802816c3",
+    "tests/world_model/test_target_gr00t_delivery_v1.py": "217f1a164e2ecaea1faa2777718ff919589c326fb6235ceab310472b66724340",
+    "tests/world_model/test_target_gr00t_formal_v1.py": "33c55789ce42e137a44f6719fd96f65858844e8e8381b032e2d98a90f13a0053",
+    "tests/world_model/test_target_gr00t_live_pair_v1.py": "e3561547c6b9aa25dd2770dcff17fa9867845387d5cdba8192b9e46a45d6c68d",
+    "tests/world_model/test_target_gr00t_native_loop_v1.py": "4c58dc054439da90884741755c537fe14ff70721600193c8cce6eb6ffb73b47d"
+  },
+  "ACTUAL": "Implemented the missing actual FORMAL4000/8000 slices, complete-state continuation checks, endpoint-specific package export and actual Core endpoint identity. Original firstFORMAL2000 comparison remains default and cannot silently receive later weights. 110 normal and110 optimized CPU tests passed. No remote capsule changed or new compute job submitted.",
+  "NEGATIVE": "No actual target backward, capacity measurement, optimizer recovery, FIT4 learnability, formal checkpoint, trained package or student DEV yet. Latest actual A40 remains Q for account running-job limit. Earlier B0 native standing-bound failure and full37-attempt denominator are unchanged.",
+  "implementation": {
+    "endpoints": [
+      2000,
+      4000,
+      8000
+    ],
+    "shared_schedule_horizon": 8000,
+    "warmup_updates": 200,
+    "optimizer": "same generation complete state for4000/8000; fresh original parent for initial2000",
+    "resume_after_partial_allocation": true,
+    "new_data_or_new_statistics_as_same_resume": false,
+    "actual_microbatch_qualified_by_existing_chain": 1,
+    "existing_site_owner_PBS_registry_Journal_unchanged": true,
+    "no_new_scheduler_or_approval_platform": true,
+    "continuation_rule": {
+      "previous_endpoint": {
+        "4000": 2000,
+        "8000": 4000
+      },
+      "fixed_probes_per_split": 4,
+      "diagnostic_comparison": "previous_endpoint-500 versus previous_endpoint; four distinct matched episodes/input/noise per TRAIN and DEV",
+      "metrics": [
+        "H40/XYZ",
+        "H40/SO3",
+        "H40/gripper",
+        "prefix8/XYZ",
+        "prefix8/SO3",
+        "prefix8/gripper"
+      ],
+      "TRAIN": "meanH40 XYZ strictly improves; all other fixed components do not worsen",
+      "DEV": "all six fixed diagnostic means do not worsen; these4 probes are not the full independent native panel",
+      "Core": "Pinned actual native condition specs/results/worker exits/CLOSEDleases for every declared B0/B1 condition; unique roots, original layouts/commands/noise; candidate package and checkpoint bound to the prior endpoint. Explicit science decision CONTINUE_SAME_DATA. More-data or execution-diagnosis decisions do not qualify.",
+      "threshold_scope": "Future endpoint-selection criterion declared before any target formal training result; no native/task safety threshold change",
+      "step_count_only": false,
+      "boolean_summary_without_worker_evidence": false,
+      "TEST_opening": false
+    },
+    "model_delivery": "actual endpoint-specific parent-bound internal GR00T weight package and saved target Processor; no optimizer archive copied toCore",
+    "Core_reconstruction": "records the actual installed package globalstep; no hardcoded2000 label for4000/8000",
+    "native_panel": "default expectedB1 step remains2000; later endpoint requires explicit matched native/GPU declaration and frozen panel B1_global_step"
+  },
+  "tests": [
+    {
+      "mode": "NORMAL",
+      "passed": 110,
+      "exit_code": 0,
+      "wall_s": 4.47,
+      "stdout_sha256": "9b9f53aa8485b1f3414d09bd000109ecad7d49844bfe0782b4898740808a300c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "mode": "PYTHON_OPTIMIZED",
+      "passed": 110,
+      "exit_code": 0,
+      "wall_s": 4.57,
+      "stdout_sha256": "6ab079728087ae7db6d043c0bd619c0a646d8f00c35b69694728e74971c8b98a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warning": "Standard pytest Python-O assertion warning; runtime gates use explicit need() exceptions"
+    }
+  ],
+  "retained_engineering_failure": {
+    "stage": "CPU_TEST_COLLECTION_ONLY",
+    "exit_code": 2,
+    "reason": "missing whitespace in one newly added conditional-expression test; corrected before final110/110 runs",
+    "stdout_sha256": "4ad340609e0ecd60a13eee57976381e237b370f0a6ac4ded84b1fe2767866c04",
+    "remote_effects": 0
+  },
+  "commands": [
+    {
+      "command": "PYTHONPATH=\"$TEST_DEPS:src:.:tests/world_model\" CUDA_VISIBLE_DEVICES=\"\" OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \"$TEST_PYTHON\" -B -m pytest -q -p no:cacheprovider tests/world_model/test_target_gr00t_formal_v1.py tests/world_model/test_target_gr00t_delivery_v1.py tests/world_model/test_target_gr00t_profile_v1.py tests/world_model/test_target_gr00t_allocation_v1.py tests/world_model/test_target_gr00t_live_pair_v1.py tests/world_model/test_target_gr00t_native_loop_v1.py tests/world_model/test_target_gr00t_inference_v1.py",
+      "exit_code": 0
+    },
+    {
+      "command": "same test command with \"$TEST_PYTHON\" -O -B",
+      "exit_code": 0
+    },
+    {
+      "command": "PYTHONPATH=src CUDA_VISIBLE_DEVICES=\"\" \"$TEST_PYTHON\" -B -m scripts.wm02.submit_target_gr00t_a40_v1 --help",
+      "exit_code": 0,
+      "stdout_sha256": "220362365d757d9a7394ef4a16747a1643c4c3e2a8c6748a36f865b95470c5e4"
+    },
+    {
+      "command": "PYTHONPATH=src CUDA_VISIBLE_DEVICES=\"\" \"$TEST_PYTHON\" -B -m scripts.wm02.target_gr00t_a40_allocation_v1 --help",
+      "exit_code": 0,
+      "stdout_sha256": "cd04f44501b4bc542f75ee5b4040bbac04d624476e88d61db069fcda1e816497"
+    },
+    {
+      "command": "qstat -xf -F json 1532527.stdct-mgmt-02",
+      "exit_code": 0,
+      "state": "Q"
+    }
+  ],
+  "unchanged_actual_data": {
+    "TRAIN": 21,
+    "DEV": 7,
+    "TEST": 0,
+    "dataset_sha256": "cf80dd4c40f93bf6a7e904c70809237b108e7aca3c46d38df18deacbece006e3",
+    "statistics_sha256": "08d0f1b79cd60d5773c928b1f4231edad00fa19300ea7ac24f97a31f03a50420",
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38"
+  },
+  "unchanged_actual_physics": {
+    "native_source_sha": "35d2f9992ef5561e1edcc60b1959a26b4ff006b5",
+    "PR369_attempts": 37,
+    "PASS": 30,
+    "FAIL": 7,
+    "ticks": 1407061,
+    "last_B0_native_exit": 1,
+    "last_B0_GPU_exit": 0,
+    "last_B0_two_leases": "CLOSED",
+    "new_this_turn_integrations": 0,
+    "new_this_turn_policy_queries": 0,
+    "old_failure_retried": false
+  },
+  "A40": {
+    "job_id": "1532527.stdct-mgmt-02",
+    "read_epoch": 1794141004.585303,
+    "state": "Q",
+    "comment": "Not Running: User has reached queue batch_gpu running job limit.",
+    "exec_host": null,
+    "resources_used": null,
+    "queued_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+    "config_sha256": "10ded7c42154dc679efd4fa0a1f1d764ccdb033d8ef6297c345f21cbd1896dd3",
+    "old_queued_capsule_modified": false,
+    "new_qsub": 0,
+    "total_qsub": 1,
+    "actual_target_updates": 0,
+    "absolute_deadline_epoch": 1794290005.8332443
+  },
+  "costs": {
+    "final_two_test_wall_s": 9.04,
+    "earlier_CPU_checks_retained": true,
+    "local_CPU_s": "NOT_SEPARATELY_MEASURED",
+    "new_GPU_seconds": 0,
+    "new_native_seconds": 0,
+    "new_GR00T_updates": 0,
+    "new_WM_updates": 0,
+    "new_Actor_updates": 0,
+    "new_remote_model_loads": 0,
+    "new_remote_files_or_stage": 0
+  },
+  "next": "Keep sole live PBS identity. On real A40 allocation, inspect actual capacity/backward/full next-update restore/FIT4. Reconcile actual PBS terminal and original owner before any future submission; stage latest cold production source and submit fresh FORMAL2000 only after gates pass. Later4000/8000 require the implemented scientific review and complete resume, not automatic step count.",
+  "next_executable": "qstat -xf -F json 1532527.stdct-mgmt-02",
+  "goal": "ACTIVE_NOT_COMPLETE"
+}

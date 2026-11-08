@@ -10,6 +10,8 @@ Both workers are independently verified **CLOSED/MainPID0**, native exit1/GPU ex
 
 The **only A40 job1532527.stdct-mgmt-02 remains Q at20:13**, due account batch_gpu running-job limit, with no allocation. Target GR00T/WM/Actor updates, candidate checkpoints and optimizer recoveries remain0. Keep this single job; actual capacity/backward/full next-update restore/FIT4 precede fresh FORMAL2000 on sealed data. Then qualify the actual candidate before the [unchanged32-condition B0/B1 DEV](reports/WM02/fusion-night1-20261106/FROZEN_TARGET_GR00T_B0_B1_NATIVE_DEV_PREREGISTRATION_V1.json). TEST remains unopened. No duplicate submission, Core formal-training copy, other-user changes, online WM, WBC/startup/safety/2ms change, scale expansion or main merge. The goal remains active; this report grants no scope extension.
 
+Cold continuation implementation ·20:30SGT: source `b82d2a297032622f0eefb4af2cd7270527cb3c0c` now executes qualified4000/8000 slices and endpoint-specific export/Core reconstruction. First2000 DEV stays fixed; later endpoints require the same complete optimizer/data/schedule identity, matched TRAIN/DEV improvement and pinned closed native panel evidence. 110 normal +110 optimized CPU tests pass; **not staged or run remotely**, no new model/update/physics. Sole A40 job remainsQ. [Implementation, exact members/commands and limits](reports/WM02/fusion-night1-20261106/TARGET_GR00T_CONTINUATION_IMPLEMENTATION_ACTUAL_V1.json).
+
 ## WM02 NEXT2 · 2026-11-05 实际结算
 
 [完整报告](reports/WM02/next2-20261105/NEXT2_FINAL.md)：ARX在P09–P16共40次冻结前瞻全部晋级；C1原生＋连续12.90s预接触通过。C2同进程下降后仍缺实际对齐，按退出预留开爪撤离，接触/完整任务/Actor均0。51次原生/234453tick，200主更新＋2恢复比较；76 worker lease与NEXT2窗口已CLOSED、99冻结文件无变化。保持原失败与旧CLOSED lease；不是POLICY_READY。
