@@ -108,3 +108,43 @@ def test_cpu_activation_execution_is_explicit_preserving_recipe_and_core_only():
     assert core.activation_policy()['quantization']is False
     with pytest.raises(PermissionError,match='A40_ORIGINAL'):
         profile.validate(dict(s,execution_site='VANDA_A40'))
+
+
+def test_unused_logits_option_preserves_all_hidden_tokens_and_frozen_weights():
+    import torch
+    from types import SimpleNamespace
+    class Language(torch.nn.Module):
+        def __init__(self):super().__init__();self.head=torch.nn.Linear(1,8).requires_grad_(False)
+        def forward(self,input_ids,output_hidden_states=True,labels=None,logits_to_keep=0):
+            hidden=input_ids.float().unsqueeze(-1)
+            selected=hidden[:,-logits_to_keep:]if logits_to_keep else hidden
+            return SimpleNamespace(hidden_states=(hidden,),logits=self.head(selected))
+    language=Language();model=SimpleNamespace(backbone=SimpleNamespace(model=language))
+    x=torch.arange(20).reshape(1,20);before=language(x,output_hidden_states=True)
+    weights={n:t.detach().clone()for n,t in language.named_parameters()}
+    core.trim_unused_logits(model);after=language(x,output_hidden_states=True)
+    assert torch.equal(before.hidden_states[-1],after.hidden_states[-1])
+    assert before.logits.shape==(1,20,8)and after.logits.shape==(1,1,8)
+    assert all(torch.equal(weights[n],t)and not t.requires_grad for n,t in language.named_parameters())
+    with pytest.raises(PermissionError,match='FEATURES_ONLY'):
+        language(x,output_hidden_states=True,labels=x)
+
+
+@pytest.mark.parametrize('change',[None,'prediction','noise'])
+def test_actual_memory_execution_gate_requires_bit_exact_matched_predictions(tmp_path,change):
+    import numpy as np
+    folders=[tmp_path/'original',tmp_path/'current'];rows=[]
+    for index,folder in enumerate(folders):
+        folder.mkdir();records=[]
+        for i in range(4):
+            arrays=dict(physical_H40=np.zeros((40,10)),normalized=np.zeros((40,132)),
+                actual_state10=np.zeros(10),expert_policy_H40=np.zeros((40,10)))
+            if index==1 and i==0 and change=='prediction':arrays['physical_H40'][0,0]=1e-12
+            name='episode'+str(i);file=folder/(name+'.npz');np.savez(file,**arrays)
+            records.append(dict(episode=name,anchor=0,seed=i,noise='different'if index==1 and i==0 and change=='noise'else'same',
+                command='SYNTHETIC',sha256=digest(file)))
+        (folder/'RESULT.json').write_text(json.dumps(dict(records=records)))
+    ref=dict(path=str(folders[0]/'RESULT.json'),sha256=digest(folders[0]/'RESULT.json'))
+    if change is None:assert core.verify_memory_predictions(ref,folders[1])['observations']==4
+    else:
+        with pytest.raises(PermissionError):core.verify_memory_predictions(ref,folders[1])

@@ -21,7 +21,8 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
          and microbatch in (1,2,4,8), 'DECLARED_CAPACITY_VARIANT')
     need(type(endpoint)is int and endpoint in (
         (2,)if mode=='CAPACITY'else(200,500)if mode=='FIT4'else(2000,4000,8000)), 'FINITE_PREDECLARED_ENDPOINT')
-    need(memory_policy in('CUDA_RESIDENT','CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1'),'DECLARED_MEMORY_EXECUTION')
+    need(memory_policy in('CUDA_RESIDENT','CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
+        'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),'DECLARED_MEMORY_EXECUTION')
     return dict(schema='WM02_TARGET_GR00T_ACTION_SIDE_RECIPE_V1',profile=PROFILE,kind=KIND,
         mode=mode,variant=variant,endpoint=endpoint,dataset_sha256=dataset_sha256,
         statistics_sha256=statistics_sha256,parent_manifest_sha256=PARENT,upstream_sha=UPSTREAM,

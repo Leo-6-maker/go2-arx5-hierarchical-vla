@@ -229,9 +229,12 @@ def run(spec):
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
+    if p.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2':
+        from .target_gr00t_core_v1 import trim_unused_logits
+        trim_unused_logits(model)
     contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
     activation_storage=None
-    if p.get('memory_policy')=='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1':
+    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'):
         from .target_gr00t_core_v1 import activation_policy
         from scripts.pi0294.multitask.activation_offload import SavedActivationOffload
         activation_storage=SavedActivationOffload(model,policy=activation_policy())
@@ -262,6 +265,10 @@ def run(spec):
         source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
         global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
+    if p.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'and spec['start_step']==0:
+        from .target_gr00t_core_v1 import verify_memory_predictions
+        write(root/'MEMORY_EXECUTION_QUALIFICATION_ACTUAL.json',
+            verify_memory_predictions(spec['memory_reference'],root/'before'))
     dev=None
     if p['mode']=='FORMAL':
         dev=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')

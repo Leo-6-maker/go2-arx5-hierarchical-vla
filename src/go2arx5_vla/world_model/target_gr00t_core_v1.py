@@ -19,6 +19,43 @@ def activation_policy():
         per_microbatch_activation_offload_bytes=2*1024**3)
 
 
+def trim_unused_logits(model):
+    """Pinned Qwen backbone consumes hidden_states only, never language logits.
+
+    Qwen's official logits_to_keep option changes only its final unused vocab
+    projection. No weights, hidden tokens, masks, precision or GR00T loss move.
+    Actual matched full-H40 prediction equality is required before optimization.
+    """
+    import inspect
+    language=model.backbone.model
+    profile.need('logits_to_keep'in inspect.signature(language.forward).parameters,
+        'OFFICIAL_QWEN_UNUSED_LOGITS_OPTION')
+    def select_one(module,args,kwargs):
+        profile.need(kwargs.get('labels')is None and kwargs.get('output_hidden_states')is True,
+            'FROZEN_FEATURES_ONLY_NOT_LANGUAGE_TRAINING')
+        profile.need(kwargs.get('logits_to_keep',0)in(0,1),'NO_OTHER_LOGITS_SELECTION')
+        return args,dict(kwargs,logits_to_keep=1)
+    return language.register_forward_pre_hook(select_one,with_kwargs=True)
+
+
+def verify_memory_predictions(reference,current):
+    import numpy as np
+    path=Path(reference['path']);profile.need(digest(path)==reference['sha256'],'SEALED_ORIGINAL_MEMORY_REFERENCE')
+    original=json.loads(path.read_bytes())['records'];folder=Path(current)
+    actual=json.loads((folder/'RESULT.json').read_bytes())['records']
+    profile.need(len(original)==len(actual)==4,'FOUR_REAL_MEMORY_EXECUTION_COMPARISONS')
+    for a,b in zip(original,actual):
+        profile.need(all(a[k]==b[k]for k in ('episode','anchor','seed','noise','command')),
+            'EXACT_MEMORY_REFERENCE_INPUTS_NOISE_COMMAND')
+        first=path.parent/(a['episode']+'.npz');second=folder/(b['episode']+'.npz')
+        profile.need(digest(first)==a['sha256']and digest(second)==b['sha256'],'PINNED_REAL_MEMORY_PREDICTIONS')
+        with np.load(first,allow_pickle=False)as x,np.load(second,allow_pickle=False)as y:
+            profile.need(all(np.array_equal(x[k],y[k])for k in ('physical_H40','normalized','actual_state10','expert_policy_H40')),
+                'ACTUAL_MEMORY_EXECUTION_CHANGED_MODEL_OUTPUT')
+    return dict(status='PASS_ACTUAL_FOUR_MATCHED_FULL_H40_BIT_EXACT',observations=4,
+        reference_sha256=reference['sha256'],tolerances_relaxed=False,weights_or_dtype_changed=False)
+
+
 def gpu(spec):
     from .pilot1_scope import GPU_UUIDS
     profile.need(spec['GPU_uuid']in GPU_UUIDS,'KNOWN_CORE_GPU_UUID')
@@ -112,6 +149,7 @@ def run(c):
                     physics=False,WBC_changes=False,parent_manifest_sha256=profile.PARENT,role='TARGET-CORE-'+name,
                     registry=c['registry'],deadline_epoch=c['deadline_epoch'],closeout_reserve_s=1200,
                     core_scope_root=str(root),core_scope_sha256=digest(root/'ALLOCATION_CONFIG.json'))
+                if c.get('memory_reference'):s['memory_reference']=c['memory_reference']
                 profile.validate(s);write(r/'EXECUTION_SPEC.json',s)
                 with closing(OwnerLock(Path(c['owner_root'])/'OWNER.lock')):
                     registry,pin=snapshot(c['registry'])
