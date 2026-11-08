@@ -147,10 +147,12 @@ def infer(s,output):
     from .target_gr00t_dataset_v1 import TargetNativeDataset
     data=TargetNativeDataset(s['target_dataset'],bindings['source'],bindings['cosmos'])
     data.initialize()
+    package_step=0
     if s['target_inference_mode']==PACKAGE:
         from .target_gr00t_delivery_v1 import install
         from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7Processor
-        package=s['candidate_package'];install(model,package['path'],package['sha256'],s['checkpoint_files'])
+        package=s['candidate_package'];installed=install(model,package['path'],package['sha256'],s['checkpoint_files'])
+        package_step=installed['global_step']
         data.processor=Gr00tN1d7Processor.from_pretrained(Path(package['path'])/'processor',
             model_name=alias,local_files_only=True,transformers_loading_kwargs=kwargs)
         data.processor.eval()
@@ -162,7 +164,7 @@ def infer(s,output):
     from .target_gr00t_probes_v1 import measure
     instance=E1ResidentModel.__new__(E1ResidentModel)
     instance.root,instance.bindings,instance.model,instance.processor=root,bindings,model,data.processor
-    instance.identity=dict(mode=s['target_inference_mode'],global_step=2000 if s.get('candidate_package')else 0,
+    instance.identity=dict(mode=s['target_inference_mode'],global_step=package_step,
         dataset_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,
         parent_manifest_sha256=profile.PARENT,candidate_package=s.get('candidate_package'))
     profile.need(time.time()<s['deadline_epoch']and not(Path(s['campaign_root'])/'STOP.json').exists(),

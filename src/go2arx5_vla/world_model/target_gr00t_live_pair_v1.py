@@ -27,7 +27,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
     'scripts/pi0294/numerics.py')))
 
 
-def policy_contract(value,checkpoint_files,*,verify_package=True):
+def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global_step=2000):
     need(set(value)=={'arm','parent_manifest_sha256','package','Core_qualification'}
         and value['arm']in('B0','B1')and value['parent_manifest_sha256']==profile.PARENT,
         'EXPLICIT_ORIGINAL_B0_OR_TRAINED_INTERNAL_GR00T_B1')
@@ -35,6 +35,8 @@ def policy_contract(value,checkpoint_files,*,verify_package=True):
         need(value['package']is None and value['Core_qualification']is None,
              'B0_ORIGINAL_WEIGHTS_AND_ORIGINAL_PROCESSOR')
         return
+    need(type(expected_global_step)is int and expected_global_step in(2000,4000,8000),
+         'DECLARED_PRODUCTION_ENDPOINT')
     from .stable_task_scene_v1 import pinned
     from .target_gr00t_inference_v1 import CROSS_SITE_ATOL
     proof=pinned(value['Core_qualification']);package=value['package']
@@ -66,14 +68,15 @@ def policy_contract(value,checkpoint_files,*,verify_package=True):
         and r.get('Processor_decode_calls')==4
         and r.get('target_native_execution')is False
         and (r.get('model_identity')or{}).get('candidate_package')==package
-        and (r.get('model_identity')or{}).get('global_step')==2000
+        and (r.get('model_identity')or{}).get('global_step')==expected_global_step
         and r.get('GR00T_updates')==r.get('WM_updates')==r.get('Actor_updates')==0,
         'ACTUAL_CORE_FOUR_QUERY_RECONSTRUCTION')
     if verify_package:
         from .target_gr00t_delivery_v1 import verify
         m=verify(package['path'],package['sha256'],checkpoint_files)
         need(m['recipe']['dataset_sha256']==s['target_dataset_sha256']
-            and m['recipe']['statistics_sha256']==s['target_statistics_sha256'],
+            and m['recipe']['statistics_sha256']==s['target_statistics_sha256']
+            and m.get('global_step')==expected_global_step,
             'QUALIFIED_SAME_TARGET_PROCESSOR_AND_MODEL_PACKAGE')
 
 
@@ -100,6 +103,7 @@ def validate_spec(s,*,verify_model=True):
         and producer.get('target_gr00t_gpu_root')==s['registered_root']
         and producer.get('source_sha')==s['source_sha']
         and producer.get('target_gr00t_policy')==s.get('target_gr00t_policy')
+        and producer.get('target_gr00t_B1_global_step',2000)==s.get('target_gr00t_B1_global_step',2000)
         and type(s.get('target_gr00t_pair_id'))is str and bool(s['target_gr00t_pair_id'])
         and producer.get('target_gr00t_pair_id')==s['target_gr00t_pair_id']
         and producer.get('target_gr00t_query_seeds')==s.get('target_gr00t_query_seeds')
@@ -108,7 +112,8 @@ def validate_spec(s,*,verify_model=True):
         and all(type(v)is int and 0<=v<2**63 for v in s['target_gr00t_query_seeds'])
         and s['target_gr00t_query_seeds'][0]!=s['target_gr00t_query_seeds'][1],
         'TWO_PREREGISTERED_SAME_MODEL_NATIVE_GPU_QUERY_SLOTS')
-    policy_contract(s['target_gr00t_policy'],s['checkpoint_files'],verify_package=verify_model)
+    policy_contract(s['target_gr00t_policy'],s['checkpoint_files'],verify_package=verify_model,
+        expected_global_step=s.get('target_gr00t_B1_global_step',2000))
     return producer
 
 

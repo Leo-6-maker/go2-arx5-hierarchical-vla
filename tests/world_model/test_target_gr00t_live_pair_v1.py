@@ -64,7 +64,8 @@ def test_second_query_cannot_reuse_first_observation_clock(configuration):
         with pytest.raises(PermissionError,match='FINITE_REQUEST'):pair.request_body(s,second,i)
 
 
-def test_B1_requires_matching_real_reconstruction_identity_and_original_tolerances(tmp_path,configuration,monkeypatch):
+@pytest.mark.parametrize('endpoint',[2000,4000,8000])
+def test_B1_requires_matching_real_reconstruction_identity_and_original_tolerances(tmp_path,configuration,monkeypatch,endpoint):
     from go2arx5_vla.world_model.target_gr00t_inference_v1 import CROSS_SITE_ATOL
     from go2arx5_vla.world_model import target_gr00t_delivery_v1 as delivery
     s,_=configuration;root=tmp_path/'Core-reconstruction';(root/'control').mkdir(parents=True);(root/'fit-01').mkdir()
@@ -76,7 +77,7 @@ def test_B1_requires_matching_real_reconstruction_identity_and_original_toleranc
     write_json(root/'control/LEASE.json',dict(status='CLOSED',worker_exit_code=0,spec_sha256=digest(root/'EXECUTION_SPEC.json')))
     write_json(root/'WORKER_EXIT.private.json',dict(exit_code=0,failure=None))
     result=dict(actual_model_loads=1,actual_VLA_queries=4,Processor_decode_calls=4,
-        target_native_execution=False,model_identity=dict(candidate_package=package,global_step=2000),
+        target_native_execution=False,model_identity=dict(candidate_package=package,global_step=endpoint),
         GR00T_updates=0,WM_updates=0,Actor_updates=0)
     rp=root/'fit-01/RESULT.private.json';write_json(rp,result)
     proof=dict(schema='WM02_TARGET_GR00T_CORE_PACKAGE_QUALIFICATION_V1',package=package,
@@ -88,15 +89,18 @@ def test_B1_requires_matching_real_reconstruction_identity_and_original_toleranc
     qp=tmp_path/'qualification.json';write_json(qp,proof)
     p=dict(arm='B1',parent_manifest_sha256=profile.PARENT,package=package,
         Core_qualification=dict(path=str(qp),sha256=digest(qp)))
-    monkeypatch.setattr(delivery,'verify',lambda *args:dict(recipe=dict(dataset_sha256='d'*64,statistics_sha256='e'*64)))
-    pair.policy_contract(p,s['checkpoint_files'])
+    monkeypatch.setattr(delivery,'verify',lambda *args:dict(global_step=endpoint,recipe=dict(dataset_sha256='d'*64,statistics_sha256='e'*64)))
+    pair.policy_contract(p,s['checkpoint_files'],expected_global_step=endpoint)
+    if endpoint!=2000:
+        with pytest.raises(PermissionError,match='FOUR_QUERY_RECONSTRUCTION'):
+            pair.policy_contract(p,s['checkpoint_files'])
     result['model_identity']['global_step']=0;rp.write_text(json.dumps(result));proof['Core_result']['sha256']=digest(rp)
     qp.write_text(json.dumps(proof));p['Core_qualification']['sha256']=digest(qp)
-    with pytest.raises(PermissionError,match='FOUR_QUERY_RECONSTRUCTION'):pair.policy_contract(p,s['checkpoint_files'])
-    result['model_identity']['global_step']=2000;rp.write_text(json.dumps(result));proof['Core_result']['sha256']=digest(rp)
+    with pytest.raises(PermissionError,match='FOUR_QUERY_RECONSTRUCTION'):pair.policy_contract(p,s['checkpoint_files'],expected_global_step=endpoint)
+    result['model_identity']['global_step']=endpoint;rp.write_text(json.dumps(result));proof['Core_result']['sha256']=digest(rp)
     proof['numerical']['actual_maximum_absolute_error']['XYZ_m']=.001
     qp.write_text(json.dumps(proof));p['Core_qualification']['sha256']=digest(qp)
-    with pytest.raises(PermissionError,match='NUMERICAL_QUALIFICATION'):pair.policy_contract(p,s['checkpoint_files'])
+    with pytest.raises(PermissionError,match='NUMERICAL_QUALIFICATION'):pair.policy_contract(p,s['checkpoint_files'],expected_global_step=endpoint)
 
 
 def install_fake_model(configuration,tmp_path,monkeypatch,*,fail_second=False):

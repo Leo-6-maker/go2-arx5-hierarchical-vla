@@ -30,8 +30,8 @@ def original():
     return m
 
 
-def make(tmp_path,variant='INTERFACES_LAST2_DIT'):
-    m=original();cp=tmp_path/'checkpoint-2000';cp.mkdir();(cp/'processor').mkdir()
+def make(tmp_path,variant='INTERFACES_LAST2_DIT',endpoint=2000):
+    m=original();cp=tmp_path/('checkpoint-'+str(endpoint));cp.mkdir();(cp/'processor').mkdir()
     (cp/'statistics.json').write_text('{"TRAIN_only":true}')
     (cp/'DATASET_MANIFEST.json').write_text('{"test_fixture":true}')
     (cp/'processor/processor_config.json').write_text('{"test_fixture":true}')
@@ -46,15 +46,16 @@ def make(tmp_path,variant='INTERFACES_LAST2_DIT'):
     state={n:table[n].detach().clone()+.25 for n in names}
     torch.save(state,cp/'target_parameters.pt')
     (cp/'PARAMETER_CONTRACT.json').write_text(json.dumps(dict(variant=variant,target_category=10,trainable=rows)))
-    recipe=p.recipe(digest(cp/'DATASET_MANIFEST.json'),digest(cp/'statistics.json'),mode='FORMAL',variant=variant,endpoint=2000)
+    recipe=p.recipe(digest(cp/'DATASET_MANIFEST.json'),digest(cp/'statistics.json'),mode='FORMAL',variant=variant,endpoint=endpoint)
+    start={2000:0,4000:2000,8000:4000}[endpoint]
     spec=dict(recipe=recipe,profile=p.PROFILE,kind=p.KIND,execution_site='VANDA_A40',
-        physics=False,WBC_changes=False,start_step=0,GR00T_updates=2000,WM_updates=0,
+        physics=False,WBC_changes=False,start_step=start,GR00T_updates=endpoint-start,WM_updates=0,
         Actor_updates=0,TASK_ADAPTER_updates=0,parent_manifest_sha256=p.PARENT,
-        generation_id='synthetic-formal',resume=None,deadline_epoch=1794200000.,
+        generation_id='synthetic-formal',resume=None if not start else dict(path='synthetic-prior',sha256='a'*64),deadline_epoch=1794200000.,
         source_sha='f'*40,parent=dict(files={'fixed-parent':'synthetic-parent-pin'}))
     files={str(f.relative_to(cp)):digest(f)for f in cp.rglob('*')if f.is_file()}
     (cp/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(files=files,recipe=recipe,
-        global_step=2000,generation_id=spec['generation_id'])))
+        global_step=endpoint,generation_id=spec['generation_id'])))
     restore=dict(checkpoint_sha256=digest(cp/'CHECKPOINT_COMPLETE.json'),model_parameters_restored=True,
         optimizer_restored=True,scheduler_restored=True,RNG_restored=True,fixed_batch_generation_restored=True)
     package=d.create(cp,tmp_path/'package',spec,restore,guard=lambda:None)
@@ -111,6 +112,19 @@ def test_undeclared_backbone_delta_is_not_an_internal_action_package(tmp_path):
     (root/'PACKAGE_MANIFEST.json').write_text(json.dumps(manifest))
     with pytest.raises(PermissionError,match='INTERNAL_ACTION_WHITELIST'):
         d.install(m,root,digest(root/'PACKAGE_MANIFEST.json'),spec['parent']['files'])
+
+
+@pytest.mark.parametrize('endpoint',[4000,8000])
+def test_later_completed_endpoint_exports_and_reconstructs_its_actual_internal_weights(tmp_path,endpoint):
+    m,cp,spec,restore,package,state=make(tmp_path,endpoint=endpoint)
+    manifest=d.install(m,package['path'],package['sha256'],spec['parent']['files'])
+    assert manifest['global_step']==manifest['recipe']['endpoint']==endpoint
+    assert manifest['recipe']['scheduler_horizon']==8000 and manifest['generation_id']=='synthetic-formal'
+    assert not (Path(package['path'])/'optimizer.pt').exists()
+    for name,value in state.items():
+        path,_,leaf=name.rpartition('.')
+        target=m.get_parameter(path+'.'+leaf.removeprefix('target_'))[10]if '.target_'in name else m.get_parameter(name)
+        assert torch.equal(target,value)
 
 
 def generations(root,value=0.):

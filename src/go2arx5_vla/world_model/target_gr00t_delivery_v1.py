@@ -29,7 +29,7 @@ def create(checkpoint, destination, spec, restore, *, guard):
     cp, out = Path(checkpoint), Path(destination)
     saved = json.loads((cp/'CHECKPOINT_COMPLETE.json').read_bytes())
     p = profile.validate(spec)
-    profile.need(p['mode']=='FORMAL' and saved['global_step']==p['endpoint']==2000
+    profile.need(p['mode']=='FORMAL' and saved['global_step']==p['endpoint']
                  and saved['generation_id']==spec['generation_id'] and saved['recipe']==p,
                  'FORMAL_ENDPOINT_NOT_DIAGNOSTIC_DELIVERY')
     profile.need(restore.get('checkpoint_sha256')==digest(cp/'CHECKPOINT_COMPLETE.json')
@@ -100,10 +100,10 @@ def verify(package, pin, parent_files):
     profile.need(digest(_member(root,'PACKAGE_MANIFEST.json'))==pin,'EXACT_INFERENCE_PACKAGE')
     m=json.loads((root/'PACKAGE_MANIFEST.json').read_bytes());p=m['recipe']
     expected=profile.recipe(p['dataset_sha256'],p['statistics_sha256'],mode='FORMAL',
-        variant=p['variant'],endpoint=2000,microbatch=p['microbatch'])
+        variant=p['variant'],endpoint=m['global_step'],microbatch=p['microbatch'])
     profile.need(m['schema']==SCHEMA and m['parent_manifest_sha256']==profile.PARENT
         and m['parent_files']==parent_files and m['upstream_sha']==profile.UPSTREAM
-        and m['global_step']==2000 and p==expected and m['external_inference_adapter']is False
+        and m['global_step']==p['endpoint'] and p==expected and m['external_inference_adapter']is False
         and m['action_horizon']==40 and m['action_period_s']==.05 and m['physics_dt_s']==.002,
         'EXACT_PARENT_AND_PRODUCTION_MODEL_CONTRACT')
     for name,pin in m['files'].items():

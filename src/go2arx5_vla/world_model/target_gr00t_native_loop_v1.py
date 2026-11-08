@@ -43,6 +43,11 @@ def validate(spec):
     need(panel.get('target_gr00t_prefix_protocol')==protocol.protocol()
         and panel.get('policies',{}).get(spec['target_gr00t_policy']['arm'])==spec['target_gr00t_policy'],
         'PANEL_FREEZES_POLICY_PACKAGE_AND_EXECUTION_BEFORE_DEV')
+    if spec['target_gr00t_policy']['arm']=='B1':
+        step=spec.get('target_gr00t_B1_global_step',2000)
+        need(type(step)is int and step in(2000,4000,8000)
+            and step==panel.get('B1_global_step',2000),
+            'DECLARED_PANEL_ENDPOINT_NOT_POSTHOC_MODEL_SELECTION')
     rows=[r for r in panel['assignments']if r['native_run']==Path(spec['registered_root']).name]
     need(len(rows)==1 and rows[0]['arm']==spec['target_gr00t_policy']['arm']
         and rows[0]['seeds']==spec['target_gr00t_query_seeds'],

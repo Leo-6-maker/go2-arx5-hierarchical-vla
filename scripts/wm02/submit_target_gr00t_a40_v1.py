@@ -92,7 +92,7 @@ def submit(request):
         script=root/'job.pbs';script.write_text(pbs_script(root,c['source_root'],c['python'],c['wall_s']))
         write(root/'control/LEASE.json',dict(status='REGISTERED_NOT_SUBMITTED',profile=profile.PROFILE,
             config_sha256=digest(root/'ALLOCATION_CONFIG.json'),deadline_epoch=c['absolute_deadline_epoch'],
-            GR00T_updates=('FORMAL_TO_2000_FROM_'+str(c['start_step'])if mode=='FORMAL_SLICE'else'CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500')))
+            GR00T_updates=('FORMAL_TO_'+str(c['formal_target_endpoint'])+'_FROM_'+str(c['start_step'])if mode=='FORMAL_SLICE'else'CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500')))
         reg['entries'].append(dict(role='TARGET-GR00T-A40-ALLOCATION',path=str(root),scope=profile.PROFILE,
             local_lease=str(root/'control/LEASE.json'),owner='EXISTING_LOCAL_PC',executor_node='VANDA_A40',source_sha=c['source_sha']))
         once(Path(c['registry']),reg,root.name+'-REGISTER',expected_before_sha256=rpin)

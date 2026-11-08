@@ -136,3 +136,25 @@ def test_new_scene_panel_retains_actual_task_role_policy_and_original_layout(tmp
     assert loop.validate(spec)==spec['target_gr00t_policy']
     with pytest.raises(ValueError,match='TRAIN_INTERFACE'):loop.validate(dict(spec,experiment_role='FORMAL_DEV'))
     with pytest.raises(ValueError,match='NEW_GR00T_LOOP'):loop.validate(dict(spec,program_reference_selection={'model':'WM'}))
+
+
+@pytest.mark.parametrize('endpoint',[2000,4000,8000])
+def test_B1_endpoint_is_frozen_by_panel_and_not_substituted_posthoc(tmp_path,monkeypatch,endpoint):
+    from tests.world_model.test_stable_task_data_v1 import fixture,put
+    spec,_=fixture(tmp_path,monkeypatch,np.eye(4))
+    policy=dict(arm='B1',parent_manifest_sha256=profile.PARENT,package={'sha256':'f'*64},Core_qualification={})
+    spec.update(phase=loop.PHASE,kind=loop.KIND,max_ticks=loop.E,
+        task_command='RETREAT_RED_4MM_OPEN',target_gr00t_prefix_protocol=prefix.protocol(),
+        target_gr00t_start_readiness=loop.tasks.start_readiness_contract(),target_gr00t_policy=policy,
+        target_gr00t_B1_global_step=endpoint,target_gr00t_query_seeds=[10,11],physics_dt_s=.002,WBC_changes=False,
+        experiment_role='TARGET_GR00T_NATIVE_INTERFACE_QUALIFICATION_NOT_BC',
+        snapshot_binding_mode='PRE_REGISTERED_TARGET_GR00T_PREFIX_PAIR_V1')
+    panel=json.loads(Path(spec['stable_task_panel']).read_bytes());panel.update(
+        schema='WM02_TARGET_GR00T_NATIVE_PREFIX_PANEL_V1',target_gr00t_prefix_protocol=prefix.protocol(),
+        policies=dict(B1=policy),B1_global_step=endpoint)
+    panel['assignments'][0].update(command=spec['task_command'],arm='B1',seeds=[10,11])
+    d=put(tmp_path/'GR00T_PANEL.json',panel);spec.update(stable_task_panel=d['path'],stable_task_panel_sha256=d['sha256'])
+    assert loop.validate(spec)==policy
+    for other in (True,1500,2000 if endpoint!=2000 else 4000):
+        with pytest.raises(ValueError,match='PANEL_ENDPOINT'):
+            loop.validate(dict(spec,target_gr00t_B1_global_step=other))

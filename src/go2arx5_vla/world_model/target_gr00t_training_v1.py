@@ -374,7 +374,7 @@ def run(spec):
         next_update_comparison='REQUIRES_INDEPENDENT_CAPACITY_RESUME_SLICE',baseline_changed=False)
     write(root/'RESTORE_ACTUAL.json',proof)
     package=None
-    if p['mode']=='FORMAL'and step==p['endpoint']==2000:
+    if p['mode']=='FORMAL'and step==p['endpoint']:
         package=_package_and_reconstruct(root,cp,spec,proof,model,trainer,instance,data,guard)
         measured('AFTER_PACKAGE_INDEPENDENT_RECONSTRUCTION')
     return dict(status='CHECKPOINT_SEALED',profile=profile.PROFILE,source_sha=spec['source_sha'],
