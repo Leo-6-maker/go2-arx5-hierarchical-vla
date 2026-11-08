@@ -30,6 +30,9 @@ def scene_admission(spec):
 
 
 def validate(spec):
+    from .target_gr00t_collection_v1 import start_readiness_contract
+    task.need(spec.get('target_gr00t_start_readiness')==start_readiness_contract(),
+              'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
     task.need(spec.get('experiment_role')=='TASK_LEARNING_TASK_CONSTRUCTION_NO_BC'
         and spec.get('snapshot_binding_mode')=='PRE_REGISTERED_TASK_LEARNING_GRASP_V1'

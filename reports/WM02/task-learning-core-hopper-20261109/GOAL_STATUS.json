@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T02:49:49.610465+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T02:51:53.724423+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -54,7 +54,7 @@
     }
   },
   "G2": {
-    "status": "CONSTRUCTION_PILOT_RUNNING_ORIGINAL_NATIVE_STARTUP_PREFIX",
+    "status": "CLOSED_ENGINEERING_FAILURE_BEFORE_FIRST_TEACHER_COMMAND",
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
@@ -68,9 +68,11 @@
       "max_joint_acceleration_rad_s2": 0.16360845567975346,
       "integrations": 0
     },
-    "task_success": "PENDING",
+    "task_success": false,
     "expert_training_eligible": false,
-    "construction_attempts": 1
+    "construction_attempts": 1,
+    "preserved_failure": "G2_CONSTRUCTION_01_ACTUAL.json",
+    "next_action": "REQUIRE_DECLARATION_AT_STRUCTURAL_PREFLIGHT_AND_REAL_SAVED_B_READINESS_SEAM; FRESH_SUCCESSOR_ONLY"
   },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",

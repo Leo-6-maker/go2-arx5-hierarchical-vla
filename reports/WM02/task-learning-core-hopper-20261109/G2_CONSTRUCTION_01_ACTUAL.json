@@ -1,0 +1,40 @@
+{
+  "schema": "TASK_LEARNING_G2_CONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-01",
+  "source_sha": "c23d40134129b626b452ffd69907c52226aa17a6",
+  "status": "CLOSED_ENGINEERING_FAILURE_BEFORE_FIRST_TEACHER_COMMAND",
+  "failure": "MISSING_DECLARED_START_READINESS_IN_REGISTERED_SPEC",
+  "actual_physics_integrations": 34303,
+  "Teacher_decisions": 0,
+  "contact_task_commands": 0,
+  "qualified_demonstrations": 0,
+  "formal_Teacher_qualification_attempts": 0,
+  "shutdown_clean": true,
+  "owned_process_exits": [
+    {
+      "name": "planner",
+      "exit_code": 0
+    },
+    {
+      "name": "controller",
+      "exit_code": 0
+    },
+    {
+      "name": "solver",
+      "exit_code": 0
+    },
+    {
+      "name": "sim",
+      "exit_code": 0
+    }
+  ],
+  "physics_stops": [],
+  "worker_exit_code": 1,
+  "wall_s": 503.0010724342428,
+  "CPU_s": 1049.4849876459998,
+  "cgroup_peak_bytes": 5304107008,
+  "task_success": false,
+  "source_task_phase_equivalence": false,
+  "WBC_startup_safety_dynamics_or_2ms_changed": false,
+  "next_action": "REQUIRE_DECLARATION_AT_STRUCTURAL_PREFLIGHT_AND_REAL_SAVED_B_READINESS_SEAM; FRESH_SUCCESSOR_ONLY"
+}

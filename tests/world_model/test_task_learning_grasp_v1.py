@@ -52,3 +52,11 @@ def test_new_prefix_configuration_has_exact_endpoint_without_weakening_legacy():
     assert prefix.cycle(spec,28)['end_step']==task.E==62803
     broken=copy.deepcopy(spec);broken['max_ticks']-=25
     with pytest.raises(ValueError):prefix.observation_steps(broken)
+
+
+def test_start_readiness_omission_is_rejected_before_scene_or_native_startup(monkeypatch):
+    from go2arx5_vla.world_model import task_learning_grasp_native_v1 as native
+    def scene_must_not_run(spec):raise AssertionError('SCENE_READ_BEFORE_MISSING_BINDING_REJECTION')
+    monkeypatch.setattr(native,'scene_admission',scene_must_not_run)
+    with pytest.raises(ValueError,match='DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP'):
+        native.validate({})
