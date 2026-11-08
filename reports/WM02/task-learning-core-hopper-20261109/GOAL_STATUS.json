@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T02:12:00+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T02:35:08.280347+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -13,7 +13,7 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_DIRECT_OFFICIAL_SERVER_ADDRESS; hostname-alias queries time out",
     "Hopper_project_login": "OFFICIAL_PROJECT_MEMBERSHIP_AND_CREDITS_READ_BACK_AFTER_LOGIN",
-    "PBS_submissions": 0
+    "PBS_submissions": 1
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -28,11 +28,39 @@
       "source_sha": "8a9db7728884c47f5e344c1b38b3e7ad80c2b680",
       "status": "RUNNING_FROM_FRESH_PARENT_OPTIMIZER",
       "endpoint": 200,
-      "formal_model": false
+      "formal_model": false,
+      "last_observed_step": 55,
+      "matched_probe_step": 50,
+      "matched_probe_XYZ_mean_before_m": 0.0021974035091902283,
+      "matched_probe_XYZ_mean_after_m": 0.00028725634430487677,
+      "constant_rotation_and_gripper_diagnostics_not_new_capabilities": true
     }
   },
-  "G1H": "SOURCE_PREPARATION_FOR_ORIGINAL_TRAINER_FULL_ACTION_SIDE_RESTORE4_THEN_FINITE_FIT4",
-  "G2": "NEW_CONTACT_TASK_AND_TEACHER_QUALIFICATION_REQUIRED",
+  "G1H": {
+    "job_id": "707196.hopper-m-02",
+    "state": "QUEUED_SMALL_INSUFFICIENT_FREE_GPUS",
+    "GPUs": 1,
+    "requested_GPU": "H200",
+    "ncpus": 12,
+    "mem": "225GB",
+    "wall_s": 21600,
+    "source_sha": "13c3176c958101a85006dfd63c6cf332438deb06",
+    "qsub_attempts": 1,
+    "original_Trainer_updates": 0,
+    "Processor_reconstruction": {
+      "windows": 4,
+      "all_processed_batches_exact": true,
+      "max_roundtrip_error": 2.337110505123974e-10
+    }
+  },
+  "G2": {
+    "status": "NEW_TYPED_TASK_CONSTRUCTION_IMPLEMENTED_NATIVE_NOT_STARTED",
+    "task": "GRASP_RED_LIFT20MM_HOLD1S",
+    "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
+    "startup_or_WBC_or_scene_dynamics_changed": false,
+    "teacher_qualification_attempts": 0,
+    "qualified_full_demos": 0
+  },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
   "next_gate": "CORE_FINITE_FIT4_AND_HOPPER_ORIGINAL_TRAINER_RESTORE; NEW_CONTACT_TEACHER_IN_PARALLEL",

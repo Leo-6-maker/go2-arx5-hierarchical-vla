@@ -12,10 +12,12 @@ PROJECT = 'CFP04-CF-007'
 SCOPE = 'GR00T_TASK_LEARNING_CORE_HOPPER_V1'
 
 
-def job(job_id):
+def job(job_id, server=None):
     """Use the configured official server address, avoiding its broken alias."""
+    server = server or os.environ.get('PBS_SERVER')
+    profile.need(bool(server), 'PRIVATE_CONFIGURED_OFFICIAL_PBS_SERVER')
     query = subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat', '-f', '-F', 'json',
-        job_id.split('@')[0] + '@192.168.12.12'], capture_output=True, text=True, timeout=40, check=True)
+        job_id.split('@')[0] + '@' + server], capture_output=True, text=True, timeout=40, check=True)
     jobs = json.loads(query.stdout)['Jobs']
     matches = [v for k,v in jobs.items() if k.split('.')[0] == job_id.split('.')[0]]
     profile.need(len(matches) == 1, 'ONE_ACTUAL_HOPPER_JOB')
@@ -40,7 +42,7 @@ def site(spec):
     jid = os.environ.get('PBS_JOBID')
     profile.need(bool(jid) and root.resolve() == root
         and root.is_relative_to(Path('/scratch/e1192548/Projects/GR00T-WBC')), 'HOPPER_COMPUTE_SCRATCH')
-    actual = job(jid)
+    actual = job(jid, spec.get('pbs_server'))
     allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'))
     lease = json.loads((root / 'control/LEASE.json').read_text())
     profile.need(lease['status'] == 'ACTIVE' and lease['job_id'] == jid
@@ -64,7 +66,7 @@ def run(c):
     need = profile.need
     root = Path(c['root'])
     jid = os.environ.get('PBS_JOBID')
-    actual = job(jid)
+    actual = job(jid, c.get('pbs_server'))
     allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'))
     lease = json.loads((root / 'control/LEASE.json').read_text())
     need(lease['status'] == 'PBS_SUBMITTED' and lease['job_id'] == jid
@@ -103,7 +105,7 @@ def run(c):
                     variant='FULL_ACTION_SIDE', endpoint=endpoint)
                 spec = dict(registered_root=str(r), source_root=c['source_root'], source_sha=c['source_sha'],
                     source_files=c['source_files'], bindings=c['bindings'], parent=c['parent'],
-                    profile=profile.PROFILE, kind=profile.KIND, execution_site='HOPPER_SINGLE_GPU',
+                    profile=profile.PROFILE, kind=profile.KIND, execution_site='HOPPER_SINGLE_GPU',pbs_server=c.get('pbs_server'),
                     recipe=recipe, allocation_request_id=root.name, generation_id=generation or root.name+'-'+name,
                     start_step=start, resume=resume, GPU_uuid=gpu['uuid'], GPU_name=gpu['name'],
                     GR00T_updates=endpoint-start, WM_updates=0, Actor_updates=0, TASK_ADAPTER_updates=0,

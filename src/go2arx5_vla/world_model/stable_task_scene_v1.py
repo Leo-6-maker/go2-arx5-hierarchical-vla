@@ -57,6 +57,9 @@ def reference_geometry(reference, scene_sha256):
 
 
 def scene(spec):
+    if spec.get('phase')=='collect-target-task-learning-grasp-v1':
+        from .task_learning_grasp_native_v1 import scene_admission
+        return scene_admission(spec)
     vla = spec.get('target_gr00t_collection') is not None
     target_loop=spec.get('phase')=='collect-target-gr00t-prefix-loop-v1'
     teacher_loop=spec.get('phase')=='collect-target-teacher-prefix-diagnostic-v1'

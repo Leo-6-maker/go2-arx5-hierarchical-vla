@@ -36,6 +36,9 @@ def protocol():
 
 
 def declared(spec):
+    if spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':
+        from .task_learning_grasp_v1 import declared as grasp_declared
+        return grasp_declared(spec)
     if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
         from .target_teacher_prefix_diagnostic_v1 import declared as teacher_declared
         return teacher_declared(spec)
@@ -51,6 +54,7 @@ def declared(spec):
 
 def _configuration(spec):
     declared(spec)
+    if spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':return spec['task_learning_grasp']
     if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
         return spec['target_teacher_prefix_diagnostic']
     if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
@@ -76,8 +80,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
     from scripts.pi0292.eval_contract import matrix10
     c=cycle(adapter.spec,index);start,end,atoms=c['start_step'],c['end_step'],c['atoms']
     samples,windows=list(past_samples),list(past_windows)
-    need(type(program)is TrajectoryAdaptation and program.geometry_scale==1.
-         and program.time_stretch_factor==2 and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
+    from .task_learning_grasp_v1 import FiftyMsProgram,KIND as GRASP_KIND
+    program_ok=(type(program)is FiftyMsProgram and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
+    need(program_ok and program.geometry_scale==1. and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
          and np.array_equal(adapter.base_pose_hold,adapter.trajectory_initial_base),
          'ORIGINAL_FULL_REFERENCE_PROGRAM_AND_FIXED_BASE')
     need(adapter.trace_sealed is False and not(adapter.output/'trace_seal_request').exists()
