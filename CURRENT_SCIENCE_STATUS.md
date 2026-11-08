@@ -1,13 +1,8 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
-## WM02 TARGET_GR00T actual continuation · 2026-11-08 13:26 SGT
+## WM02 TARGET_GR00T actual continuation · 2026-11-08 13:54 SGT
 
-3 real TRAIN demonstrations admitted; TRAIN02 approach failed original standing rotation bound and stays excluded. TRAIN03 retreat now running under a newly registered finite scope ending 23:34 SGT. New cohort 8 sealed attempts (5 PASS/3 FAIL), 296349 native ticks, GR00T updates/PBS/model loads 0. [Actual evidence](reports/WM02/fusion-night1-20261106/TARGET_GR00T_TRAIN3_AND_STANDING_FAILURE_ACTUAL_V1.json). FIT4 diagnostic subset is versioned; no native denominator or task safety was changed.
-
-
-2026-11-08 TARGET_GR00T 最新：**2条新TRAIN短示范实际通过（接近2.670mm／远离2.662mm），共77406积分、352确认任务转移、54组双RGB、2个真实策略窗口。** 原Processor单示范CPU往返最大误差1.28e-10；Vanda本机22项接缝通过，CUDA未初始化。第三条注册在原截止预留门前停止，零物理，保留INTENT及独立无效应证据；待原机制新窗口。新GR00T更新／checkpoint／PBS提交仍0。[新数据、完整SHA、失败、费用与接续](reports/WM02/fusion-night1-20261106/TARGET_GR00T_TRAIN2_AND_CPU_READY_ACTUAL_V1.json)。
-
-2026-11-08 TARGET_GR00T：Vanda 已实际登录并核项目／旧 PBS，旧共享1514400模型前失败已独立结算，未重发。新资格4次封存（2通过／2工程失败，145237积分）；远离条件40点／176段、27组双RGB通过，保留QUALIFICATION，不改标TRAIN。IK第5次更新漏检修复已通过原生接近资格：38703步、40点、27组双RGB，实际2.719mm接近；开始新TRAIN示范采集。新准入专家TRAIN／GR00T更新／PBS提交均0。[实际身份、失败、费用与接续](reports/WM02/fusion-night1-20261106/TARGET_GR00T_PREPARATION_ACTUAL_V1.json)。
+PR #369: one legal single-A40 job **1532527.stdct-mgmt-02** submitted/released, actual PBS **Q** due user running-job limit. Source `037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f`; four real TRAIN episodes/4 policy windows/704 consumed intervals/108 dual-RGB pairs sealed, exact original-Processor cross-site reconstruction passed. New collection: **10 sealed attempts, 7 PASS/3 FAIL, 373755 native ticks**, 5 eligible TRAIN, DEV0. New GR00T model loads/updates/restores remain **0**. TRAIN04 retreat is the sole new active native worker; scope ends 23:34 SGT. [Actual identities, results, failures, costs and next command](reports/WM02/fusion-night1-20261106/TARGET_GR00T_SEALED_DATA_A40_SUBMISSION_ACTUAL_V1.json). No formal training or student skill success is claimed.
 
 ## WM02 NEXT2 · 2026-11-05 实际结算
 
