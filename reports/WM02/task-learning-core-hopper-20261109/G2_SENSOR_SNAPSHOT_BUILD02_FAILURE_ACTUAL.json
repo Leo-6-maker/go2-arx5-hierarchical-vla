@@ -1,0 +1,15 @@
+{
+  "schema": "TASK_LEARNING_SENSOR_SNAPSHOT_CPU_BUILD_FAILURE_ACTUAL_V1",
+  "run_id": "task-learning-state-snapshot-build-20261109-02",
+  "source_sha": "362ed75e88192994437979c754e46a9092391b35",
+  "status": "CLOSED_BUILD_RECORD_WRITE_FAILED_AFTER_COMPILE_LINK_AND_LOADER_CHECKS",
+  "worker_exit_code": 1,
+  "MainPID": 0,
+  "actual_native_integrations": 0,
+  "Teacher_decisions": 0,
+  "model_updates": 0,
+  "cgroup_CPU_s": 26.652441,
+  "candidate_admitted_for_native": false,
+  "diagnosis": "A new readelf parser reused the local variable names, replacing the original source-file tuple with dependency names. Final candidate receipt creation failed while looking for librclcpp.so as a source member. Rename the parser variable; preserve this failed build and use a fresh build identity.",
+  "EVIDENCE_ASOF": "2026-11-08T23:14:35.413570+00:00"
+}

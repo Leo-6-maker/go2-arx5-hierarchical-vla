@@ -145,8 +145,8 @@ def build(spec,output):
     execute(link,'native_link',directory);execute(['ldd',str(output/'rl_sim_mujoco')],'native_ldd')
     if spec.get('robot_state_handoff'):
         needed=execute(['readelf','-d',str(output/'rl_sim_mujoco')],'native_needed').stdout
-        names=re.findall(r'Shared library: \[([^\]]+)\]',needed)
-        if [n for n in names if Path(n).name=='libwm02_init_trace.so']!=[str(runtime_trace)]:
+        needed_libraries=re.findall(r'Shared library: \[([^\]]+)\]',needed)
+        if [n for n in needed_libraries if Path(n).name=='libwm02_init_trace.so']!=[str(runtime_trace)]:
             raise RuntimeError('SINGLE_ORIGINAL_TRACE_NEEDED_IDENTITY_REQUIRED')
     if'not found'in(output/'native_ldd.log').read_text():raise RuntimeError('Candidate native dependencies unresolved')
     # Compile both alternatives. Exactly one outer wrapper belongs in a chain.
