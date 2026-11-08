@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-08 TARGET_GR00T：Vanda 已实际登录并核项目／旧 PBS，旧共享1514400模型前失败已独立结算，未重发。新资格4次封存（2通过／2工程失败，145237积分）；远离条件40点／176段、27组双RGB通过，保留QUALIFICATION，不改标TRAIN。IK第5次更新漏检修复已通过原生接近资格：38703步、40点、27组双RGB，实际2.719mm接近；开始新TRAIN示范采集。新准入专家TRAIN／GR00T更新／PBS提交均0。[实际身份、失败、费用与接续](reports/WM02/fusion-night1-20261106/TARGET_GR00T_PREPARATION_ACTUAL_V1.json)。
+
 ## WM02 NEXT2 · 2026-11-05 实际结算
 
 [完整报告](reports/WM02/next2-20261105/NEXT2_FINAL.md)：ARX在P09–P16共40次冻结前瞻全部晋级；C1原生＋连续12.90s预接触通过。C2同进程下降后仍缺实际对齐，按退出预留开爪撤离，接触/完整任务/Actor均0。51次原生/234453tick，200主更新＋2恢复比较；76 worker lease与NEXT2窗口已CLOSED、99冻结文件无变化。保持原失败与旧CLOSED lease；不是POLICY_READY。
