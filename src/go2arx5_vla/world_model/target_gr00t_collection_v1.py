@@ -120,6 +120,15 @@ def build(actual, reference, base, cube, c):
     return program, proposal
 
 
+def save_capture_index(path, captures, *, complete=False, task_success=None):
+    """One live progress index; immutable observation directories stay intact."""
+    from scripts.pi0292.durable import write
+    value = dict(schema=SCHEMA+'_CAPTURES',captures=captures,
+        expert_training_eligible=False,complete=complete)
+    if task_success is not None:value['task_success']=task_success
+    write(path,value)
+
+
 def continue_native(adapter, report, samples, windows):
     from .stable_task_data_v1 import capture_input
     from .fusion_task_phase_live_skill_native_v8 import _noncontact
@@ -154,15 +163,13 @@ def continue_native(adapter, report, samples, windows):
             captures.append(dict(record, atom=atom))
             # Partial index survives a later command/safety failure; eligibility
             # is still false until the independent sealed exporter verifies it.
-            write_json(capture_path,dict(schema=SCHEMA+'_CAPTURES',captures=captures,
-                expert_training_eligible=False, complete=False))
+            save_capture_index(capture_path,captures)
 
     suffix, measured, actual_windows = run_consumed_segment(adapter,program,start_step=B,end_step=E,
         past_samples=samples,past_windows=windows,sample_observer=observe)
     need([r['atom'] for r in captures] == list(CAPTURE_ATOMS), 'FULL_TASK_VISUAL_COVERAGE')
     task_score = score([s for s in measured if s['native_step'] >= B], c['task_command'])
-    write_json(capture_path,dict(schema=SCHEMA+'_CAPTURES', captures=captures, complete=True,
-        expert_training_eligible=False, task_success=task_score['task_success']))
+    save_capture_index(capture_path,captures,complete=True,task_success=task_score['task_success'])
     total = (E-2503)//25
     return jsonable(dict(copy.deepcopy(report), schema='WM02_TARGET_GR00T_EXPERT_NATIVE_ACTUAL_V1',
         actual_spec_phase=adapter.spec['phase'], native_endpoint_step=E, stable_task_data=c,

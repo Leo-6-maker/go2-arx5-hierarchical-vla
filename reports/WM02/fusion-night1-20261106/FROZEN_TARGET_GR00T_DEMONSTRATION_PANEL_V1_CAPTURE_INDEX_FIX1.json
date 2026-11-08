@@ -1,0 +1,458 @@
+{
+  "GR00T_baseline_frozen": true,
+  "HOLD_controls_are_training": false,
+  "TEST": {
+    "conditions": 2,
+    "independent_restarts": 2,
+    "layout_offsets_xy_m": [
+      [
+        0.007,
+        0.034
+      ],
+      [
+        0.007,
+        -0.034
+      ],
+      [
+        -0.007,
+        0.034
+      ],
+      [
+        -0.007,
+        -0.034
+      ]
+    ],
+    "layouts": [
+      "TARGET_TEST01",
+      "TARGET_TEST02",
+      "TARGET_TEST03",
+      "TARGET_TEST04"
+    ],
+    "planned_conditions_per_method": 16,
+    "static_and_native_admission_still_required": true,
+    "status": "RESERVED_NOT_EXECUTED_OR_OPENED"
+  },
+  "WBC_changes": false,
+  "assignments": [
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-qual-approach-train01-02",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "QUALIFICATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-qual-retreat-train01-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "QUALIFICATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-demo-train01-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-demo-train01-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-demo-train01-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c",
+      "native_run": "target-gr00t-demo-train01-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN01",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "8e320f20272a1441623233915768ffef8995fc3f1d351d377f56800d19950cf2"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "native_run": "target-gr00t-demo-train02-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "native_run": "target-gr00t-demo-train02-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "native_run": "target-gr00t-demo-train02-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "0d71df3c2007ca50f0c84c54baacbbbb73e3aa2d1d24ae31b6d47e1fa61651ab",
+      "native_run": "target-gr00t-demo-train02-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN02",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "4db13a90df5934bedbd82c76874282c8dd7811818f0af0abc5d5ec4533895365"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "native_run": "target-gr00t-demo-train03-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "native_run": "target-gr00t-demo-train03-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "native_run": "target-gr00t-demo-train03-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "dc576c1e6e5b9841110ff4cd1c52ee7de712a0b07717b3f6230ea1e72b386f6b",
+      "native_run": "target-gr00t-demo-train03-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN03",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "41579106f88da496c9714a43e806ca876db10fcc5b2bf7af66160c666e2308a0"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "native_run": "target-gr00t-demo-train04-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "native_run": "target-gr00t-demo-train04-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "native_run": "target-gr00t-demo-train04-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "e75fe8e6b7dcf40ee1cbcd72259c0ba74ce95e22887a7ce81015357bb4001f7d",
+      "native_run": "target-gr00t-demo-train04-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN04",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "d6a204716e9b94a6684f83dfe888f73b52252bcd13fc8185ba157a7f5aa470e4"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "native_run": "target-gr00t-demo-train05-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "native_run": "target-gr00t-demo-train05-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "native_run": "target-gr00t-demo-train05-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "ed262d6ed279749a22ac3375c6626bad069251519d3bfa594765d0242ceb8dee",
+      "native_run": "target-gr00t-demo-train05-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN05",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "b3f21ce3c88513ac1ac9aceaf5b0c3489fb275502328fe357f63cbb825f09857"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "native_run": "target-gr00t-demo-train06-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "native_run": "target-gr00t-demo-train06-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "TRAIN",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "native_run": "target-gr00t-demo-train06-approach-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "4f914eb0e20ed606f212f5b884f47b91afb28a55f76dd57c2c5910ffb655f8ca",
+      "native_run": "target-gr00t-demo-train06-retreat-r2-01",
+      "parent": "STABLE_TASK_LAYOUT_TRAIN06",
+      "purpose": "DEMONSTRATION",
+      "restart": 2,
+      "split": "TRAIN",
+      "static_sha256": "8f417b588451a4cd6849edf471b868fad0e766effa9ded0b9b4333c8ec1126c0"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "native_run": "target-gr00t-demo-dev01-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "09b11048a7c8b19ed0d518f70b5a9605eb34cd92b37afb892157169d009a5964",
+      "native_run": "target-gr00t-demo-dev01-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV01",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "9d95653bc3d7bf51fdf997090bd0d61050854a0ee769dce8d42270f45df74301"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "native_run": "target-gr00t-demo-dev02-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "6ba7624324efbb111a0a99a2eb049415b755b6e93b801fd854da1c7cad18c92e",
+      "native_run": "target-gr00t-demo-dev02-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV02",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "fe4b7195a10bf827ec63759753ccd7c52d99e6420eeee46d4a7ea82d63fe250e"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "native_run": "target-gr00t-demo-dev03-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "7c84c5d9abd6f45c9248918a7dd1a25a172c437392bd66305d37d3c9b7ceb887",
+      "native_run": "target-gr00t-demo-dev03-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV03",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "e0032c89be4888da9eda0ae694e8e4e18759c55260c3d72e99f920584e8395d9"
+    },
+    {
+      "command": "APPROACH_RED_4MM_OPEN",
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "native_run": "target-gr00t-demo-dev04-approach-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f"
+    },
+    {
+      "command": "RETREAT_RED_4MM_OPEN",
+      "model_sha256": "29fb0f1c2ac996681b82e92e68debb9bb560cef1d5febf2b773d38058ae5d923",
+      "native_run": "target-gr00t-demo-dev04-retreat-r1-01",
+      "parent": "STABLE_TASK_LAYOUT_DEV04",
+      "purpose": "DEMONSTRATION",
+      "restart": 1,
+      "split": "DEV",
+      "static_sha256": "5e1ae68ce6a5ef9d956dad17ccaa6d39eb63520006f97cde46c067613418175f"
+    }
+  ],
+  "collection": {
+    "GR00T_queries": 0,
+    "GR00T_updates": 0,
+    "HOLD_controls_are_demonstrations": false,
+    "WBC_changes": false,
+    "WM_transitions_are_demonstrations": false,
+    "admission_requires": "SEALED_CLOSED0_AND_TASK_SUCCESS_AND_TRACE_AND_ALL_MEDIA",
+    "camera_capture_atoms": [
+      0,
+      7,
+      14,
+      21,
+      28,
+      35,
+      42,
+      49,
+      56,
+      63,
+      70,
+      77,
+      84,
+      91,
+      98,
+      105,
+      112,
+      119,
+      126,
+      133,
+      140,
+      147,
+      154,
+      161,
+      168,
+      175,
+      176
+    ],
+    "camera_maximum_gap_atoms": 7,
+    "camera_state_synchrony": "SAME_ACTUAL_PAUSED_PACKET",
+    "command_period_s": 0.05,
+    "commands": [
+      "APPROACH_RED_4MM_OPEN",
+      "RETREAT_RED_4MM_OPEN"
+    ],
+    "decision_step": 34303,
+    "expert_training_eligible": false,
+    "final_step": 38703,
+    "incomplete_future": "EXCLUDE_ANCHORS_WITH_LESS_THAN_40_EXECUTED_COMMANDS",
+    "initialization_is_demonstration": false,
+    "native_dt_s": 0.002,
+    "native_phase": "collect-target-stable-task-data-v1",
+    "profile": "TARGET_GR00T_V1",
+    "rejected_or_unexecuted_suffix_is_demonstration": false,
+    "schema": "WM02_TARGET_GR00T_COLLECTION_V1",
+    "supervision": "ACTUALLY_INSTALLED_AND_CONSUMED_ABSOLUTE_EEF10"
+  },
+  "failed_qualification_preserved": {
+    "actual_native_ticks": 34478,
+    "expert_demonstrations": 0,
+    "failure": "FileExistsError_ON_SECOND_LIVE_CAPTURE_INDEX_WRITE",
+    "native_run": "target-gr00t-qual-approach-train01-01",
+    "result_sha256": "fb58bcab2ce3b252ccf06484e8529a2668e744edf0c6ead0af2c342097519587",
+    "source_sha": "f5735e72c2639b156eba092d6685452b7ee2f1b6"
+  },
+  "minimum_TRAIN_episode_admission": 16,
+  "minimum_TRAIN_layouts": 4,
+  "old_diagnostic_or_WM_data_relabelled": false,
+  "physics_dt_s": 0.002,
+  "plan_source_sha": "dfbdb49020a0086421312649a8e52f07b89b5817",
+  "planned_DEV_demonstrations": 8,
+  "planned_TRAIN_demonstrations": 24,
+  "planned_qualification": 2,
+  "qualification_is_training": false,
+  "repair": "USE_ORIGINAL_ATOMIC_DURABLE_WRITER_FOR_LIVE_CAPTURE_INDEX",
+  "required_commands": [
+    "APPROACH_RED_4MM_OPEN",
+    "RETREAT_RED_4MM_OPEN"
+  ],
+  "schema": "WM02_TARGET_GR00T_DEMONSTRATION_PANEL_V1",
+  "supersedes_panel_sha256": "5dd25ffc85ba2d0cdfbba8b041bafeb2350b6fa23d9587705300082bca14e5d8",
+  "training_generation": "TARGET_FT_V1"
+}

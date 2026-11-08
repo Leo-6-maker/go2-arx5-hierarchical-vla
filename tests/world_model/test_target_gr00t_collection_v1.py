@@ -82,3 +82,16 @@ def test_capture_grid_covers_whole_task_without_claiming_all_future_previews_are
     assert c['initialization_is_demonstration'] is False
     assert c['HOLD_controls_are_demonstrations'] is False
     assert c['rejected_or_unexecuted_suffix_is_demonstration'] is False
+
+
+def test_live_capture_index_can_progress_and_seal_without_overwriting_observations(tmp_path):
+    path=tmp_path/'index.json';captures=[]
+    immutable=tmp_path/'capture-0.json';immutable.write_bytes(b'ACTUAL_IMMUTABLE_OBSERVATION')
+    for atom in vla.CAPTURE_ATOMS:
+        captures.append(dict(atom=atom,native_step=vla.B+25*atom))
+        vla.save_capture_index(path,captures)
+        assert json.loads(path.read_text())['captures']==captures
+    vla.save_capture_index(path,captures,complete=True,task_success=True)
+    v=json.loads(path.read_text())
+    assert v['complete']is True and v['expert_training_eligible']is False
+    assert immutable.read_bytes()==b'ACTUAL_IMMUTABLE_OBSERVATION'
