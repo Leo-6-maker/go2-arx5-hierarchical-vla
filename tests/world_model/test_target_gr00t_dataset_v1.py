@@ -106,6 +106,14 @@ def test_teacher_policy_boundary_undoes_no_grip_or_time_mapping_twice(tmp_path):
     after,with_ready=ds.policy_commands(tmp_path,q,start_readiness=collect.start_readiness_contract())
     np.testing.assert_array_equal(after,policy)
     assert with_ready['start_readiness']['sha256']==pin
+    # Observed NumPy2.5 collector vs NumPy1.26 exporter difference: a single
+    # FP64 norm ULP, with the exact same recorded velocities and safe decision.
+    rounded=copy.deepcopy(ready)
+    rounded['BASE_linear_speed_m_s']=float(np.nextafter(ready['BASE_linear_speed_m_s'],np.inf))
+    q['decision_start_readiness']['sha256']=put('TARGET_GR00T_START_READINESS.private.json',rounded)
+    after,with_roundoff=ds.policy_commands(tmp_path,q,start_readiness=collect.start_readiness_contract())
+    np.testing.assert_array_equal(after,policy)
+    assert with_roundoff['start_readiness_numeric_verification']['raw_BASE_qvel6']=='EXACT'
     wrong=copy.deepcopy(ready);wrong['BASE_qvel6'][0]=.0001
     q['decision_start_readiness']['sha256']=put('TARGET_GR00T_START_READINESS.private.json',wrong)
     with pytest.raises(ValueError,match='ACTUAL_START_READINESS'):
@@ -117,6 +125,31 @@ def test_teacher_policy_boundary_undoes_no_grip_or_time_mapping_twice(tmp_path):
     i=program.knot_indices[10]
     q['generated_segment']['windows'][i]['actual_installed_consumed_EEF10_BASE7'][0]+=.000001
     with pytest.raises(ValueError,match='ACTUALLY_COMPILED'):ds.policy_commands(tmp_path,q)
+
+
+def test_readiness_roundoff_never_admits_other_states_or_crosses_original_threshold():
+    velocity=np.zeros(32);velocity[:3]=[.0001,.00008,.00002]
+    original=collect.start_readiness(dict(qvel=velocity,native_step=collect.B,time_s=collect.B*.002))
+    rounded=copy.deepcopy(original)
+    rounded['BASE_linear_speed_m_s']=float(np.nextafter(original['BASE_linear_speed_m_s'],np.inf))
+    assert ds.verified_start_readiness(rounded,original)
+    for field,value in [('native_step',collect.B+1),('passes',False),
+                        ('BASE_qvel6',[0.]*6),('new_task_teacher_proposals_before_check',1)]:
+        assert not ds.verified_start_readiness(dict(rounded,**{field:value}),original)
+    for value in (original['BASE_linear_speed_m_s']*(1+1e-12),float('nan'),-1.,True):
+        assert not ds.verified_start_readiness(dict(original,BASE_linear_speed_m_s=value),original)
+    velocity[:3]=[.001,0.,0.]
+    boundary=collect.start_readiness(dict(qvel=velocity,native_step=collect.B,time_s=collect.B*.002))
+    assert boundary['passes']is True
+    over=copy.deepcopy(boundary)
+    over['BASE_linear_speed_m_s']=float(np.nextafter(.001,np.inf))
+    # Both stored and recomputed norms must independently remain inside the
+    # unchanged .001m/s bound, even if their difference is only one ULP.
+    assert not ds.verified_start_readiness(over,boundary)
+    assert not ds.verified_start_readiness(boundary,over)
+    assert ds.verified_start_readiness(collect.start_readiness(dict(qvel=np.zeros(32),
+        native_step=collect.B,time_s=collect.B*.002)),collect.start_readiness(dict(qvel=np.zeros(32),
+        native_step=collect.B,time_s=collect.B*.002)))
 
 
 def test_fit4_selection_can_change_train_subset_without_relabelling(tmp_path):

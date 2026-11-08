@@ -20,6 +20,9 @@ from .storage import digest, write_json
 
 DOMAIN = 'GO2_ARX5_FLOATING_BASE_TARGET_SHORT_TASK_SIM_V1'
 SCHEMA = 'WM02_TARGET_GR00T_DEMONSTRATIONS_V1'
+# Only recomputed FP64 norms may differ between the collector's and exporter's
+# NumPy reductions. Raw velocities, clocks, contracts and decisions stay exact.
+READINESS_NORM_RTOL = 8 * np.finfo(np.float64).eps
 
 
 def need(ok, reason):
@@ -33,6 +36,23 @@ def actual_commands(q):
     consumed_label(q)  # Existing full40, 176 interval and exact sequence joins.
     rows = q['generated_segment']['windows']
     return np.asarray([r['actual_installed_consumed_EEF10_BASE7'][:10] for r in rows],float)
+
+
+def verified_start_readiness(checked, rebuilt):
+    limits = dict(BASE_linear_speed_m_s='maximum_BASE_linear_speed_m_s',
+                  BASE_angular_speed_rad_s='maximum_BASE_angular_speed_rad_s')
+    if ({k:v for k,v in checked.items()if k not in limits}
+            != {k:v for k,v in rebuilt.items()if k not in limits}
+            or checked.get('passes')is not True or rebuilt.get('passes')is not True):
+        return False
+    for key, bound in limits.items():
+        a,b=checked.get(key),rebuilt.get(key)
+        if not(type(a)in(float,int)and type(b)in(float,int)
+               and np.isfinite(a)and np.isfinite(b)
+               and 0<=a<=rebuilt['contract'][bound]and 0<=b<=rebuilt['contract'][bound]
+               and abs(a-b)<=READINESS_NORM_RTOL*max(abs(a),abs(b))):
+            return False
+    return True
 
 
 def policy_commands(root,q,*,start_readiness=None):
@@ -52,8 +72,9 @@ def policy_commands(root,q,*,start_readiness=None):
         initial=np.asarray(decision['actual_history']['actual_state_history'][-1],float)
         rebuilt=collection.start_readiness(dict(qvel=initial[34:66],native_step=collection.B,
                                                time_s=collection.B*.002))
-        need(start_readiness==collection.start_readiness_contract()and checked==rebuilt
-             and checked['passes']is True,'ACTUAL_START_READINESS_AND_FIRST_COMMAND_STATE')
+        need(start_readiness==collection.start_readiness_contract()
+             and verified_start_readiness(checked,rebuilt),
+             'ACTUAL_START_READINESS_AND_FIRST_COMMAND_STATE')
     raw=np.asarray(proposal['original_physical_H40'],float)
     need(raw.shape==(40,10)and np.isfinite(raw).all()
          and np.array_equal(raw,np.asarray(decision['raw_H40']))
@@ -75,7 +96,11 @@ def policy_commands(root,q,*,start_readiness=None):
         policy_decisions=1,renewed_previews_as_additional_expert_decisions=0,
         working_gripper_affine_applied_once_by_compiler=True,
         raw_policy_grip_preserved_in_label=True)
-    if readiness_proof is not None:proof['start_readiness']=readiness_proof
+    if readiness_proof is not None:
+        proof['start_readiness']=readiness_proof
+        proof['start_readiness_numeric_verification']=dict(raw_BASE_qvel6='EXACT',
+            derived_FP64_norm_relative_tolerance=float(READINESS_NORM_RTOL),
+            both_reductions_must_pass_unchanged_readiness_thresholds=True)
     return raw,proof
 
 
