@@ -16,7 +16,7 @@ KIND='TASK_LEARNING_GRASP_LIFT_HOLD_V1'
 CALIBRATION_B=4703
 PREACTION_HOLD_ATOMS=40
 B=CALIBRATION_B+25*PREACTION_HOLD_ATOMS
-PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,40,20
+PREFIX_ATOMS,QUERIES,FINAL_HOLD=40,15,20
 E=B+25*(PREFIX_ATOMS*QUERIES+FINAL_HOLD)
 COMMAND='GRASP_RED_LIFT20MM_HOLD1S'
 LANGUAGE='Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.'
@@ -28,7 +28,7 @@ def need(ok,why):
 
 
 def protocol():
-    return dict(schema=KIND,task_revision='V5_SEPARATE_NEAR_WORKSPACE_CURRICULUM_WITH_15MM_TEACHER_CHUNKS',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
+    return dict(schema=KIND,task_revision='V6_SEPARATE_UNDER_HAND_31S_COURSE_WITH_TWO_SECOND_CLOSE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION',
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
         preparation=dict(original_startup_to_step=2503,original_steady_prefix_to_step=3703,
             unchanged_initial_TCP_reference_hold_to_step=4703,source_pose_alignment=False,
@@ -40,9 +40,9 @@ def protocol():
         observation='CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1',privileged_student_inputs=False,
         full_H40_preview=True,time_retiming=False,reference_transport='CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT',
         teacher_max_chunk_translation_m=.015,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
-        scene_family='SEPARATE_NEAR_WORKSPACE_TRAIN_PILOT01_NOT_OLD_TABLE_TASK',
+        scene_family='SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS',
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
-        position_stage_tolerance_m=.004,close_increment_per_decision=.15,
+        position_stage_tolerance_m=.004,close_increment_per_decision=1.,
         standing=standing_contract(),WBC_changes=False,expert_training_eligible=False,automatic_formal_training=False)
 
 
@@ -208,7 +208,7 @@ class Teacher:
             goal=self.cube[:3,3]+[0,-.0017,.012]
             if sample.get('native_grasp')is True:
                 self.lift_origin=actual[:3,3].copy();self.stage='LIFT'
-            else:self.grip=max(0.,self.grip-.15)
+            else:self.grip=0.
         if self.stage in('LIFT','HOLD'):
             goal=self.lift_origin+[0,0,.026]
             if float(np.asarray(sample['object_pose'])[2,3]-self.cube[2,3])>=.020:self.stage='HOLD'

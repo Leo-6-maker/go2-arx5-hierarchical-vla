@@ -35,8 +35,16 @@ def test_closed_gripper_is_preserved_at_new_h40_boundary():
     s['tcp'][:3,3]=teacher.cube[:3,3]+[0,-.0017,.012]
     program,_=teacher.decide(s,s['tcp'],np.array([0,0,0,1,0,0,0]))
     assert program.decoded_H40[0,9]==.40
-    assert program.decoded_H40[-1,9]==pytest.approx(.25)
+    assert program.decoded_H40[-1,9]==pytest.approx(0.)
     assert program.desired_path[0,9]<.5
+
+
+def test_full_two_second_close_keeps_original_finger_speed_bound():
+    s=sample();teacher=task.Teacher(s);teacher.stage='CLOSE'
+    s['tcp'][:3,3]=teacher.cube[:3,3]+[0,-.0017,.012]
+    program,_=teacher.decide(s,s['tcp'],np.array([0,0,0,1,0,0,0]))
+    assert program.decoded_H40[0,9]==1. and program.decoded_H40[-1,9]==0.
+    assert np.max(np.abs(np.diff(program.reference_path[:,9])))*.044/.05<=.04
 
 
 def test_hold_control_keeps_the_existing_reference_without_task_motion():
@@ -66,8 +74,8 @@ def test_new_prefix_configuration_has_exact_endpoint_without_weakening_legacy():
     from go2arx5_vla.world_model import stable_task_prefix_v1 as prefix
     spec=dict(phase=task.PHASE,kind=task.KIND,task_learning_grasp=task.protocol(),task_command=task.COMMAND,
         live_skill_start_step=task.CALIBRATION_B,max_ticks=task.E,physics_dt_s=.002,WBC_changes=False)
-    assert len(prefix.observation_steps(spec))==40
-    assert prefix.cycle(spec,40)['end_step']==task.E==46203
+    assert len(prefix.observation_steps(spec))==15
+    assert prefix.cycle(spec,15)['end_step']==task.E==21203
     assert prefix.cycle(spec,-1)['start_step']==4703
     assert prefix.cycle(spec,-1)['end_step']==prefix.observation_steps(spec)[0]==5703
     assert task.start_readiness_contract()['maximum_BASE_linear_speed_m_s']==.001

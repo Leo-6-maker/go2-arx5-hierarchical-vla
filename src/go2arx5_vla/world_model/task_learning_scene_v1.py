@@ -12,12 +12,12 @@ from .pilot1_curriculum import scene_xml,robot_contract
 
 BASE_SCENE='8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c'
 MEMBER='src/go2arx5_vla/world_model/task_learning_scene_v1.py'
-SCENE_ID='TASK_LEARNING_NEAR_WORKSPACE_TRAIN_PILOT01'
+SCENE_ID='TASK_LEARNING_UNDER_HAND_TRAIN_PILOT01'
 
 
 def geometry():
-    return dict(table_center_xyz_m=[.43,0.,.575],table_half_size_m=[.17,.24,.025],
-        object_initial_xyz_m=[.30,-.04,.62],cube_edge_m=.04,cube_mass_kg=.05,
+    return dict(table_center_xyz_m=[.40,0.,.575],table_half_size_m=[.17,.24,.025],
+        object_initial_xyz_m=[.26,-.014,.62],cube_edge_m=.04,cube_mass_kg=.05,
         role='CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION',
         robot_startup_native_safety_or_dynamics_changed=False)
 
@@ -67,7 +67,7 @@ def compile_and_check(spec,output):
         if first is None or integrations:raise ValueError('FULL_5703_SAVED_STARTUP_ZERO_INTEGRATIONS')
     result=dict(schema='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1',
         status='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED',source_sha=spec['source_sha'],
-        builder_sha256=digest(__file__),parent=SCENE_ID,split='TRAIN',layout='NEAR_PILOT01',
+        builder_sha256=digest(__file__),parent=SCENE_ID,split='TRAIN',layout='UNDER_HAND_PILOT01',
         geometry=geometry(),robot_contract=contract,saved_startup_pose_checks=5703,
         saved_startup_input_sha256=spec['saved_startup_journal_sha256'],
         compiled=dict(scene_sha256=digest(path),scene_xml_sha256=digest(xml),base_scene_sha256=BASE_SCENE,

@@ -1,0 +1,42 @@
+{
+  "schema": "TASK_LEARNING_MATCHED_HOLD_CONTROL_ACTUAL_V1",
+  "run_id": "task-learning-grasp-hold-control-20261109-01",
+  "source_sha": "eedc7a6c75b0c2ac32bdd81760b9f4072bf206fd",
+  "status": "CLOSED_PREREGISTERED_FOOT_DISPLACEMENT_SCORE_FAILURE_AFTER_38P1S_HOLD",
+  "actual_native_integrations": 24753,
+  "actual_post_readiness_hold_s": 38.1,
+  "planned_post_readiness_endpoint_s": 81.0,
+  "control_decisions": 20,
+  "Teacher_decisions": 0,
+  "GR00T_queries": 0,
+  "task_motion": false,
+  "expert_training_eligible": false,
+  "qualified_full_demonstrations": 0,
+  "standing": {
+    "last_native_step": 24753,
+    "samples": 763,
+    "max_base_m": 0.0012756802606973573,
+    "max_angle_rad": 0.003170027397640667,
+    "max_foot_m": 0.005000205856672349,
+    "minimum_support": 4,
+    "all_pass": false
+  },
+  "passed_earlier_task_failure_clocks": true,
+  "independent_restart_not_bit_exact_fork": true,
+  "maximum_installed_reference_difference_through_first_200_commands": 2.3314683517128287e-15,
+  "worker_exit_code": 1,
+  "lease_status": "CLOSED",
+  "shutdown_clean": true,
+  "all_owned_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "physics_stops": [],
+  "wall_s": 374.2529345010407,
+  "CPU_s": 824.034262811,
+  "cgroup_peak_bytes": 4707557376,
+  "interpretation": "EARLY_TASK_MOTION_FAILURE_AND_SLOW_NO_MOTION_FOOT_DRIFT_ARE_DISTINCT; NOT_A_GR00T_FAILURE; NO_SCORE_RELAXATION",
+  "next_gate": "SEPARATE_UNDER_HAND_31S_COURSE_WITH_FASTER_LEGAL_CLOSURE; SAME_SCORE_AND_NATIVE_SAFETY"
+}
