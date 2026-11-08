@@ -327,7 +327,8 @@ def build(panel_path, runs_root, output, *, bundle_kind='FORMAL', fit4_selection
 
 class TargetNativeDataset(OriginalDataset):
     """Use the original Processor/collator; select only real H40 anchor rows."""
-    def __init__(self,root,source,cosmos,split='TRAIN',*,for_optimization=False,trace_root=None):
+    def __init__(self,root,source,cosmos,split='TRAIN',*,for_optimization=False,trace_root=None,
+                 optimization_site='VANDA_A40'):
         need(split in ('TRAIN','DEV') and (not for_optimization or split=='TRAIN'),'NO_DEV_OPTIMIZATION')
         self.root=Path(root);self.source=str(source);self.cosmos=str(cosmos);self.split=split
         self.for_optimization=for_optimization
@@ -343,16 +344,20 @@ class TargetNativeDataset(OriginalDataset):
                  and admission.get('manifest_sha256')==self.manifest_sha
                  and admission.get('statistics_sha256')==self.statistics_sha
                  and admission.get('TRAIN_only_statistics')is True,'ACTUAL_TARGET_PROCESSOR_QUALIFICATION_REQUIRED')
-            transferred=json.loads((self.root/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
-            need(transferred.get('status')=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
-                 and transferred.get('manifest_sha256')==self.manifest_sha
-                 and transferred.get('statistics_sha256')==self.statistics_sha
-                 and transferred.get('original_Core_admission_sha256')==digest(self.root/'PROCESSOR_TRAINING_ADMISSION.json')
-                 and transferred.get('actual_cross_site_processed_batch_identity')is True,
-                 'ACTUAL_VANDA_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
-            directory=self.root/'target-processor-vanda-v1'
-            need(all(digest(directory/name)==pin for name,pin in transferred['processor_files'].items()),
-                 'SAVED_TRANSFERRED_TARGET_PROCESSOR_FILES')
+            need(optimization_site in('VANDA_A40','CORELAB_4080S'),'DECLARED_OPTIMIZATION_SITE')
+            if optimization_site=='CORELAB_4080S':
+                checked=admission;directory=self.root/'target-processor-v1'
+            else:
+                checked=json.loads((self.root/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
+                need(checked.get('status')=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
+                     and checked.get('manifest_sha256')==self.manifest_sha
+                     and checked.get('statistics_sha256')==self.statistics_sha
+                     and checked.get('original_Core_admission_sha256')==digest(self.root/'PROCESSOR_TRAINING_ADMISSION.json')
+                     and checked.get('actual_cross_site_processed_batch_identity')is True,
+                     'ACTUAL_VANDA_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
+                directory=self.root/'target-processor-vanda-v1'
+            need(bool(checked['processor_files'])and all(digest(directory/name)==pin
+                for name,pin in checked['processor_files'].items()),'SAVED_QUALIFIED_TARGET_PROCESSOR_FILES')
         self.rows=[(r,a)for r in self.manifest['episodes']if r['split']==split for a in range(r['windows'])]
         need(bool(self.rows),'NONEMPTY_SPLIT')
         self.processor=None;self.cached_id=None;self.cached=None;self.raw_bindings={};self.seed=20261108

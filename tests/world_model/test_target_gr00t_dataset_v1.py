@@ -71,6 +71,23 @@ def test_old_source_or_wm_manifest_is_not_target_vla_data(tmp_path):
         with pytest.raises(ValueError,match='NOT_OLD_SOURCE'):ds.TargetNativeDataset(root,'unused','unused')
 
 
+def test_core_optimization_uses_original_saved_core_qualification_not_a_fake_vanda_receipt(tmp_path):
+    root=dataset_fixture(tmp_path);saved=root/'target-processor-v1';saved.mkdir()
+    (saved/'processor_config.json').write_text('{"synthetic":true}')
+    admission=dict(schema='WM02_TARGET_GR00T_PROCESSOR_ADMISSION_V1',
+        status='PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP',manifest_sha256=digest(root/'DATASET_MANIFEST.json'),
+        statistics_sha256=digest(root/'statistics.json'),TRAIN_only_statistics=True,
+        processor_files={'processor_config.json':digest(saved/'processor_config.json')})
+    (root/'PROCESSOR_TRAINING_ADMISSION.json').write_text(json.dumps(admission))
+    d=ds.TargetNativeDataset(root,'unused','unused',for_optimization=True,optimization_site='CORELAB_4080S')
+    assert d.for_optimization and len(d)==1
+    assert not(root/'PROCESSOR_VANDA_RECONSTRUCTION.json').exists()
+    with pytest.raises(FileNotFoundError):ds.TargetNativeDataset(root,'unused','unused',for_optimization=True)
+    (saved/'processor_config.json').write_text('changed')
+    with pytest.raises(ValueError,match='SAVED_QUALIFIED'):
+        ds.TargetNativeDataset(root,'unused','unused',for_optimization=True,optimization_site='CORELAB_4080S')
+
+
 def test_teacher_policy_boundary_undoes_no_grip_or_time_mapping_twice(tmp_path):
     from go2arx5_vla.world_model.stable_start_short_task_v1 import build_for_config
     actual=np.eye(4);cube=np.eye(4);cube[0,3]=.2;base=np.array([0,0,0,1,0,0,0.])

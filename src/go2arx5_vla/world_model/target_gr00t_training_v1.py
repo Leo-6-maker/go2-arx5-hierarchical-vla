@@ -197,7 +197,7 @@ def run(spec):
         path=parent/name
         profile.need(path.resolve().is_relative_to(parent)and digest(path)==pin,'ACTUAL_ORIGINAL_CORR_PARENT:'+name)
     data=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],
-        for_optimization=True,trace_root=root/'sample-trace')
+        for_optimization=True,trace_root=root/'sample-trace',optimization_site=spec['execution_site'])
     profile.need(data.manifest_sha==p['dataset_sha256']and data.statistics_sha==p['statistics_sha256'],
                  'SEALED_REAL_TARGET_TRAIN_AND_PROCESSOR')
     profile.need(data.manifest.get('bundle_kind')==('FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC'),
