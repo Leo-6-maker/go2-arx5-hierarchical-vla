@@ -382,3 +382,83 @@ def compare_four(continuous, resumed, split):
     need(identity(split)['cursor'] == 64, 'SAVED_TWO_STEP_BOUNDARY')
     return dict(status='PASS_REAL_FOUR_VERSUS_TWO_PLUS_TWO_EXACT', model=True, optimizer=True,
                 scheduler=True, RNG=True, sampler_cursor=128, precision_relaxed=False)
+
+
+def reconstruct_original(model, contract, data, cache, checkpoint, recipe, output, trained_probes, guard):
+    """Fresh parent plus learned delta, original full backbone/free generation.
+
+    The cache is used only for the matched equality check. It is never used by
+    the reconstructed full model. This does not claim a deployed task policy.
+    """
+    import torch
+    import numpy as np
+    from gr00t.data.embodiment_tags import EmbodimentTag
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
+    from scripts.pi0294.native_train import tree_identity,NativeNoiseAudit
+    from scripts.pi0294.e1.artifacts import atomic_npz
+    from .target_gr00t_core_v1 import trim_unused_logits
+    checkpoint,output=Path(checkpoint),Path(output)
+    saved=json.loads((checkpoint/'CHECKPOINT_COMPLETE.json').read_text())
+    need(saved['schema']==MEMORY and saved['step']==200 and saved['cursor']==6400
+         and saved['recipe']==recipe and saved['feature_cache_sha256']==digest(cache),
+         'ACTUAL_COMPLETED_FIT200_CACHE_AND_RECIPE')
+    need(all(digest(checkpoint/name)==pin for name,pin in saved['files'].items()), 'COMPLETE_FIT200_MEMBERS')
+    need(saved['parameter_contract']==contract.describe()
+        and json.loads((checkpoint/'FROZEN_PARENT_TENSORS.json').read_text())==frozen_fingerprint(model),
+        'FRESH_ORIGINAL_FROZEN_PARENT_AND_ARCHITECTURE')
+    before=state_identity(model,contract.trainable_names)
+    values=torch.load(checkpoint/'target_parameters.pt',map_location='cpu',weights_only=True)
+    need(set(values)==set(contract.trainable_names),'ALL_FIT200_TRAINABLE_PARAMETERS')
+    with torch.no_grad():
+        for name,value in values.items():
+            target=model.get_parameter(name)
+            need(target.dtype==value.dtype and target.shape==value.shape and bool(torch.isfinite(value).all()),
+                 'FINITE_ORIGINAL_DTYPE_LEARNED_PARAMETER')
+            target.copy_(value)
+    actual=state_identity(model,contract.trainable_names)
+    need(actual!=before and actual==json.loads((checkpoint/'STATE_IDENTITY.json').read_text())['parameters'],
+         'LEARNED_FIT200_DELTA_INSTALLED_IN_FRESH_MODEL_EXACTLY')
+    packet=torch.load(cache,map_location='cpu',weights_only=False)
+    need(len(packet['rows'])==len(data)==4,'EXACT_FOUR_REAL_DIAGNOSTIC_INPUTS')
+    trim_unused_logits(model)  # The previously qualified official unused-logit option.
+    model.to('cuda').eval()
+    audit=NativeNoiseAudit(model)
+    records=[]
+    try:
+        for index,row in enumerate(packet['rows']):
+            guard()
+            inputs=data.processor.collator([data[index]['processed']])['inputs']
+            need(tree_identity(inputs)==row['input_identity'],'SAME_RECONSTRUCTED_PROCESSOR_INPUTS')
+            seed=2026110800+index
+            with torch.random.fork_rng(devices=[0]),torch.inference_mode(),torch.autocast('cuda',dtype=torch.bfloat16):
+                torch.manual_seed(seed)
+                original=model.get_action(inference_inputs(inputs))['action_pred'].detach().cpu()
+                torch.manual_seed(seed)
+                cached=model.action_head.get_action(feature_packet(row),
+                    action_packet(model,row,packet['input_dtype'],generation=True))['action_pred'].detach().cpu()
+            need(torch.equal(original,cached),'LEARNED_FULL_ORIGINAL_MODEL_EQUALS_CACHED_HEAD_EXACT')
+            state,expert,_,_=data.raw(index);episode=data.rows[index][0]['id']
+            normalized=original.float().numpy()
+            decoded=data.processor.decode_action(normalized,EmbodimentTag.NEW_EMBODIMENT,
+                {'eef_9d':state[None,None,:9],'gripper_position':state[None,None,9:]})
+            physical=np.concatenate([decoded[k]for k in ('eef_9d','gripper_position')],axis=-1)[0]
+            with np.load(Path(trained_probes)/(episode+'.npz'),allow_pickle=False)as trained:
+                need(np.array_equal(normalized,trained['normalized'])
+                    and np.array_equal(physical,trained['physical_H40']), 'FRESH_MODEL_EQUALS_ACTUAL_FIT200_GENERATION')
+            path=output/(episode+'.npz')
+            atomic_npz(path,normalized=normalized,physical_H40=physical,expert_policy_H40=expert,
+                actual_state10=state,noise_seed=np.asarray(seed,dtype=np.int64))
+            records.append(dict(episode=episode,seed=seed,normalized_H40_exact=True,
+                physical_H40_exact=True,output_sha256=digest(path),Processor_decode_calls=1))
+        need(not audit.active and audit.pending is None,'FRESH_ORIGINAL_INFERENCE_OUTSIDE_TRAINING_AUDIT')
+        proof=dict(status='PASS_FRESH_ORIGINAL_GR00T_PARENT_PLUS_LEARNED_FIT200_DELTA',records=records,
+            source_checkpoint_sha256=digest(checkpoint/'CHECKPOINT_COMPLETE.json'),
+            full_original_backbone_generations=4,cache_comparison_generations=4,
+            all132_H40_outputs_bit_exact=True,physical_outputs_bit_exact=True,precision_relaxed=False,
+            optimizer_updates=0,physics_integrations=0,native_task_conditions=0,
+            standalone_policy=False,formal_model=False,
+            peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+        write(output/'RESULT.json',proof)
+        return proof
+    finally:audit.close()

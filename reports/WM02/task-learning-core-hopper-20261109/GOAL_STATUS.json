@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T02:51:53.724423+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T03:09:54.287628+08:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -29,7 +29,7 @@
       "status": "RUNNING_FROM_FRESH_PARENT_OPTIMIZER",
       "endpoint": 200,
       "formal_model": false,
-      "last_observed_step": 103,
+      "last_observed_step": 140,
       "matched_probe_step": 100,
       "matched_probe_XYZ_mean_before_m": 0.0021974035091902283,
       "matched_probe_XYZ_mean_after_m": 0.00024130617792138097,
@@ -54,25 +54,30 @@
     }
   },
   "G2": {
-    "status": "CLOSED_ENGINEERING_FAILURE_BEFORE_FIRST_TEACHER_COMMAND",
+    "status": "CONSTRUCTION_V2_RUNNING_DECLARED_2S_REFERENCE_HOLD_THEN_SAME_START_VELOCITY_LIMIT",
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
     "teacher_qualification_attempts": 0,
     "qualified_full_demos": 0,
-    "run_id": "task-learning-grasp-construction-20261109-01",
-    "source_sha": "c23d40134129b626b452ffd69907c52226aa17a6",
+    "run_id": "task-learning-grasp-construction-20261109-03",
+    "source_sha": "fa78def97b7dc45d47f2fe3bfd3302470b7c1510",
     "original_first_full40_certificate": {
       "points": 1051,
       "max_joint_speed_rad_s": 0.10068510273437692,
       "max_joint_acceleration_rad_s2": 0.16360845567975346,
       "integrations": 0
     },
-    "task_success": false,
+    "task_success": "PENDING",
     "expert_training_eligible": false,
     "construction_attempts": 1,
     "preserved_failure": "G2_CONSTRUCTION_01_ACTUAL.json",
-    "next_action": "REQUIRE_DECLARATION_AT_STRUCTURAL_PREFLIGHT_AND_REAL_SAVED_B_READINESS_SEAM; FRESH_SUCCESSOR_ONLY"
+    "next_action": "REQUIRE_DECLARATION_AT_STRUCTURAL_PREFLIGHT_AND_REAL_SAVED_B_READINESS_SEAM; FRESH_SUCCESSOR_ONLY",
+    "construction_physics_attempts": 2,
+    "preflight_only_attempts": 1,
+    "post_initialization_hold_ticks": 1000,
+    "teacher_start_native_step": 35303,
+    "original_maximum_BASE_linear_speed_m_s": 0.001
   },
   "G3": "CONTINUOUS_DECISION_DATA_NOT_COLLECTED",
   "G4_G7": "NOT_RUN",
