@@ -226,7 +226,62 @@ def load_checkpoint(path, model, contract, optimizer, scheduler, recipe, cache_s
     return saved['step']
 
 
-def train_cached(model, contract, root, cache, recipe, endpoint, guard, resume=None):
+def measure_cached(model, packet, data, folder, step, guard):
+    """Matched original decode on every FIT4 row; preserve the training RNG."""
+    import numpy as np
+    import torch
+    from gr00t.data.embodiment_tags import EmbodimentTag
+    from scripts.pi0292.durable import write
+    from scripts.pi0292.eval_contract import error_metrics
+    from scripts.pi0294.e1.artifacts import atomic_npz
+    from scripts.pi0294.native_train import tensor_identity, tree_identity, rng_identity
+    folder = Path(folder)
+    folder.mkdir()
+    need(len(data) == len(packet['rows']) == 4, 'EVERY_FIT4_GENERATION_DENOMINATOR')
+    before, records = rng_state(), []
+    before_identity = rng_identity()
+    try:
+        for index, row in enumerate(packet['rows']):
+            guard()
+            need(data.identity(index) == row['identity'], 'MATCHED_CACHE_OBSERVATION_IDENTITY')
+            inputs = data.processor.collator([data[index]['processed']])['inputs']
+            need(tree_identity(inputs) == row['input_identity'], 'MATCHED_ORIGINAL_PROCESSOR_INPUT')
+            state, expert, _, _ = data.raw(index)
+            noise = []
+            def capture(module, args):
+                if not noise:noise.append(tensor_identity(args[0]))
+            hook = model.action_head.action_encoder.register_forward_pre_hook(capture)
+            seed = 2026110800 + index
+            try:
+                torch.manual_seed(seed)
+                with torch.inference_mode(), torch.autocast('cuda', dtype=torch.bfloat16):
+                    value = model.action_head.get_action(feature_packet(row),
+                        action_packet(model, row, packet['input_dtype'], generation=True))['action_pred']
+                    normalized = value.detach().float().cpu().numpy()
+            finally:
+                hook.remove()
+            decoded = data.processor.decode_action(normalized, EmbodimentTag.NEW_EMBODIMENT,
+                {'eef_9d':state[None,None,:9], 'gripper_position':state[None,None,9:]})
+            physical = np.concatenate([decoded[k] for k in ('eef_9d', 'gripper_position')], axis=-1)[0]
+            need(physical.shape == (40,10) and np.isfinite(physical).all() and len(noise) == 1,
+                 'FULL_FINITE_ORIGINAL_SINGLE_DECODE')
+            episode = data.rows[index][0]
+            file = folder / (episode['id'] + '.npz')
+            atomic_npz(file, physical_H40=physical, normalized=normalized, expert_policy_H40=expert,
+                       actual_state10=state, noise_seed=np.asarray(seed, dtype=np.int64))
+            records.append(dict(episode=episode['id'], command=episode['command'], seed=seed, noise=noise[0],
+                model_global_step=step, errors=error_metrics(physical, expert, state), sha256=digest(file),
+                Processor_decode_calls=1, original_processed_input_identity=row['input_identity']))
+    finally:
+        restore_rng(before)
+    need(rng_identity() == before_identity, 'FIT4_PROBES_PRESERVE_ALL_TRAINING_RNG')
+    write(folder / 'RESULT.json', dict(records=records, actual_VLA_queries=len(records),
+        optimizer_stream_RNG_preserved=True, cache_equivalence_qualified=True,
+        native_task_success='NOT_MEASURED_BY_OPEN_LOOP_DIAGNOSTIC'))
+    return records
+
+
+def train_cached(model, contract, root, cache, recipe, endpoint, guard, resume=None, evaluation_data=None):
     import torch
     from transformers import Trainer, set_seed
     from scripts.pi0292.durable import write
@@ -260,6 +315,8 @@ def train_cached(model, contract, root, cache, recipe, endpoint, guard, resume=N
     audit = NativeNoiseAudit(model)
     storage = SavedActivationOffload(model, policy=activation_policy())
     try:
+        if evaluation_data is not None:
+            measure_cached(model, packet, evaluation_data, root / 'before', step, guard)
         while step < endpoint:
             guard()
             started = time.monotonic()
@@ -298,6 +355,9 @@ def train_cached(model, contract, root, cache, recipe, endpoint, guard, resume=N
                 need(frozen_fingerprint(model) == frozen, 'FROZEN_MODEL_UNCHANGED')
                 save_checkpoint(root / ('checkpoint-' + str(step)), model, contract, optimizer, scheduler,
                                 step, recipe, cache_sha, frozen)
+            if evaluation_data is not None and step in (50, 100, endpoint):
+                measure_cached(model, packet, evaluation_data,
+                               root / ('after' if step == endpoint else 'probe-' + str(step)), step, guard)
         need(state_identity(model, contract.trainable_names) != before, 'NONZERO_LEARNED_PARAMETER_CHANGE')
         # Exercise train -> generation -> train-scope cleanup without moving the frozen VLM.
         from scripts.pi0294.native_train import rng_identity

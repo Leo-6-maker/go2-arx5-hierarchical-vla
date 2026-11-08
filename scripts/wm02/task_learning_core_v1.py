@@ -30,6 +30,12 @@ def admitted(spec, spec_path):
         stat = (Path(spec['parent']['path']) / name).stat()
         need(dict(size=stat.st_size, inode=stat.st_ino, mtime_ns=stat.st_mtime_ns) == identity,
              'QUALIFIED_PARENT_IDENTITY_' + name)
+    if spec.get('operation') == 'FIT4_200':
+        reuse = spec['qualification']
+        need(digest(reuse['cache_path']) == reuse['cache_sha256']
+             and digest(reuse['proof_path']) == reuse['proof_sha256'], 'IMMUTABLE_REAL_CORE_QUALIFICATION')
+        proof = json.loads(Path(reuse['proof_path']).read_text())
+        need(proof['status'] == 'PASS_REAL_FOUR_VERSUS_TWO_PLUS_TWO_EXACT', 'ACTUAL_COMPLETE_RESTORE_BEFORE_FIT4')
     actual = gpu(spec)
     need(actual['free_bytes'] >= spec['allocator_limit_bytes'] + 2 * 1024**3, 'ACTUAL_SHARED_GPU_HEADROOM')
     return root
@@ -74,8 +80,22 @@ def run_phase(spec, root, phase):
         return result
     endpoint = 2 if phase == 'split2' else 200 if phase == 'fit200' else 4
     resume = root / 'split2/checkpoint-2' if phase == 'resume4' else None
-    checkpoint = features.train_cached(model, contract, output, root / 'prepare/feature_cache.pt', spec['recipe'],
-                                       endpoint, guard, resume=resume)
+    evaluation_data = None
+    cache = root / 'prepare/feature_cache.pt'
+    if phase == 'fit200':
+        need = features.need
+        need(spec.get('operation') == 'FIT4_200', 'REGISTERED_FINITE_FIT4_ONLY')
+        cache = Path(spec['qualification']['cache_path'])
+        evaluation_data = TargetNativeDataset(spec['bindings']['dataset'], spec['bindings']['source'],
+            spec['bindings']['cosmos'], for_optimization=True, optimization_site='CORELAB_4080S')
+        evaluation_data.initialize()
+    checkpoint = features.train_cached(model, contract, output, cache, spec['recipe'],
+                                       endpoint, guard, resume=resume, evaluation_data=evaluation_data)
+    if phase == 'fit200':
+        from go2arx5_vla.world_model.target_gr00t_allocation_v1 import fit4_gate
+        gate = fit4_gate(output)
+        write(output / 'FIT4_GATE_200.json', gate)
+        return dict(checkpoint=str(checkpoint), global_step=endpoint, fit4_gate=gate)
     return dict(checkpoint=str(checkpoint), global_step=endpoint)
 
 
@@ -116,7 +136,8 @@ def main(argv=None):
         stat = Path('/proc/self/stat').read_text().rsplit(')', 1)[1].split()
         write(root / 'WORKER_STARTED.json', dict(pid=os.getpid(), proc_start=stat[19], epoch=time.time()))
         try:
-            for phase in ['prepare', 'continuous4', 'split2', 'resume4']:
+            phases = ['fit200'] if spec.get('operation') == 'FIT4_200' else ['prepare', 'continuous4', 'split2', 'resume4']
+            for phase in phases:
                 with (root / (phase + '.stdout')).open('xb') as out, (root / (phase + '.stderr')).open('xb') as err:
                     command = [spec['python'], '-B', '-m', 'scripts.wm02.task_learning_core_v1',
                                '--spec', str(args.spec), '--phase', phase]
@@ -135,6 +156,13 @@ def main(argv=None):
                 stages.append(dict(phase=phase, exit_code=status))
                 write(root / 'STAGES_ACTUAL.json', dict(stages=stages))
                 need(status == 0, 'PHASE_FAILED_' + phase)
+            if spec.get('operation') == 'FIT4_200':
+                gate = json.loads((root / 'fit200/FIT4_GATE_200.json').read_text())
+                write(root / 'RESULT.json', dict(status='CORE_FINITE_FIT4_200_SEALED', stages=stages,
+                    fit4_gate=gate, task_successes=0, physics_integrations=0, formal_training=False,
+                    next_gate='HOPPER_ORIGINAL_TRAINER_AND_NEW_CONTACT_DATA'))
+                code = 0
+                return 0
             proof = compare_four(root / 'continuous4/checkpoint-4', root / 'resume4/checkpoint-4', root / 'split2/checkpoint-2')
             write(root / 'FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json', proof)
             write(root / 'RESULT.json', dict(status='CORE_MINIMAL_TRAIN_RESTORE_READY', proof=proof,
