@@ -1,7 +1,7 @@
 {
   "schema": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL_V1",
-  "EVIDENCE_ASOF": "2026-11-09T22:51:15.569742+00:00",
-  "SGT": "2026-11-10T06:51:15.569742+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T23:02:19.465020+00:00",
+  "SGT": "2026-11-10T07:02:19.465020+08:00",
   "goal_status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "formal_job": {
@@ -41,25 +41,26 @@
   },
   "actual_training": {
     "endpoint": 2000,
-    "global_step": 21,
-    "completed_optimizer_calls": 21,
-    "sample_visits": 672,
-    "progress_epoch": 1794264674.1873434,
-    "worker_elapsed_wall_s": 149.92596570996102,
-    "optimizer_step_rows": 21,
+    "global_step": 273,
+    "completed_optimizer_calls": 273,
+    "sample_visits": 8736,
+    "progress_epoch": 1794265338.5774758,
+    "worker_elapsed_wall_s": 814.3160981649999,
+    "optimizer_step_rows": 273,
     "last_step": {
-      "consumed_cursor": 672,
-      "epoch": 1794264674.187325,
-      "learning_rate": 1.05e-05,
-      "native_loss": 0.15180562436580658,
-      "optimizer_update_wall_s": 1.3270124869886786,
-      "step": 21
+      "consumed_cursor": 8736,
+      "epoch": 1794265338.5774589,
+      "learning_rate": 9.998055054253012e-05,
+      "native_loss": 0.009581968188285828,
+      "optimizer_update_wall_s": 1.3505134059814736,
+      "step": 273
     },
     "full_before_probe_records": 40,
     "WM_updates": 0,
     "Actor_updates": 0,
     "physics_integrations": 0,
-    "stop_requested": []
+    "stop_requested": [],
+    "before_DEV_probe_records": 20
   },
   "fixed_recipe": {
     "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
@@ -85,7 +86,8 @@
     "original_finite_deadline_epoch": 1794420173.0097456,
     "loaded_qsub_code": false,
     "existing_Core40_DEV80_pid": 3665222,
-    "existing_post_DEV_pid": 3846655
+    "existing_post_DEV_pid": 3989284,
+    "post_DEV_cold_handoff": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json"
   },
   "negative": {
     "endpoint2000_complete": false,
@@ -94,11 +96,91 @@
     "student_Core40": "NOT_RUN",
     "student_closed_loop_DEV80": "NOT_RUN",
     "TEST": "NOT_RUN",
-    "training_loss_is_task_success": false
+    "training_loss_is_task_success": false,
+    "checkpoint250_independent_full_restore": "NOT_RUN",
+    "checkpoint250_promoted_to_formal_endpoint": false
   },
   "previous_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
   "next_gate": "Keep healthy formal job running; complete all-state checkpoints and endpoint2000, actual restore and private delivery, then original Core40 and fullDEV80; no promotion from partial progress",
   "private_evidence": {
-    "HOPPER_FORMAL_SFT2000_RUNNING_1794264675911554317.private.json": "a27c4adba04e5cee6208531e1ed3df427bbe57188986642097133306c4a30eed"
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794264675911554317.private.json": "a27c4adba04e5cee6208531e1ed3df427bbe57188986642097133306c4a30eed",
+    "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794265338976663657.private.json": "246fb73f69de571520fcc6a9433e161434ddad797926e212716cae738b73bb21",
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794265339608188088.private.json": "944eb0df01973273f5be1591bda770925cdb54178026fee1875eeecab0326e53",
+    "FORMAL_CP250_AND_COLD_SUCCESSOR_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "a72424ca89a216c48fbf3e8a16b3c622c3071fd807a69b2a9e83abd5148f9dbc"
+  },
+  "initial_same_generation_step0_probes": {
+    "before": {
+      "records": 40,
+      "result_sha256": "13f9aa1b1c04b9ef92ce8d38e63158b78ab71cdbce940f07533ba2866448c6d0",
+      "model_steps": [
+        0
+      ],
+      "splits": [
+        "TRAIN"
+      ]
+    },
+    "before-DEV": {
+      "records": 20,
+      "result_sha256": "6e3752c6a31205c2491e68782195aa629ebcce6c922b26d16cd3551c6b2b9ba5",
+      "model_steps": [
+        0
+      ],
+      "splits": [
+        "DEV"
+      ]
+    }
+  },
+  "actual_checkpoint_metadata": [
+    {
+      "step": 250,
+      "cursor": 8000,
+      "header_sha256": "a2d7a3725b3e8df7625e1552d12fa2e4b1f514131a943c87ca75edcae360cea3",
+      "member_count": 15,
+      "bytes": 15668161043,
+      "files_metadata": {
+        "rng_state.pth": 14645,
+        "trainer_state.json": 33458,
+        "PROCESSOR_TRAINING_ADMISSION.json": 3247159,
+        "PROCESSOR_HOPPER_RECONSTRUCTION.json": 3247245,
+        "DATASET_MANIFEST.json": 1774809,
+        "PARAMETER_CONTRACT.json": 100858,
+        "target_parameters.pt": 5219838915,
+        "statistics.json": 6515,
+        "SAMPLER_STATE.json": 2282,
+        "optimizer.pt": 10439770966,
+        "scheduler.pt": 1465,
+        "FROZEN_PARENT_TENSORS.json": 112424,
+        "processor/processor_config.json": 3173,
+        "processor/embodiment_id.json": 615,
+        "processor/statistics.json": 6514
+      },
+      "all_declared_members_present": true,
+      "full_member_hashes_recomputed_on_login": false,
+      "independent_full_restore": "NOT_RUN"
+    }
+  ],
+  "prefix_audit": {
+    "status": "PASS_ACTUAL_PREFIX_EXPOSURE_AND_ORIGINAL_CONTINUOUS_SCHEDULE",
+    "checked_optimizer_calls": 273,
+    "sample_visits": 8736,
+    "all_rows_monotone_unique": true,
+    "all_cursors_exact_batch32": true,
+    "all_LRs_match_original_8000_warmup200": true,
+    "all_native_losses_finite": true,
+    "scheduled_200": {
+      "consumed_cursor": 6400,
+      "epoch": 1794265126.3188076,
+      "learning_rate": 0.0001,
+      "native_loss": 0.019154371693730354,
+      "optimizer_update_wall_s": 1.3193627570290118,
+      "step": 200
+    },
+    "timed_update_median_last50_s": 1.335416879504919,
+    "end_to_end_interval_median_last50_s": 2.4575871229171753,
+    "timestamps": "Per-step interval is distinct from timed optimizer-update span; medians exclude occasional save/probe overhead"
+  },
+  "GPU_memory_summary": {
+    "maximum_peak_allocated_bytes": 32265269760,
+    "minimum_free_bytes": 114671288320
   }
 }

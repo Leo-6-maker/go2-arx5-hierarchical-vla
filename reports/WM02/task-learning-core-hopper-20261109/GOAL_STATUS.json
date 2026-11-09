@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T22:51:15.569742+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T23:02:19.465020+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -28,7 +28,7 @@
     "failed_PBS_pre_worker_negative_exit_jobs": 2,
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY_PROFILE_REGISTERED_WAIT_CAPACITY",
-    "current_formal_SFT": "709342 R_SINGLE_H200; MODEL_LOADED; ACTUAL21_OF2000_UPDATES_672_VISITS"
+    "current_formal_SFT": "709342 R_SINGLE_H200; ACTUAL273_OF2000_UPDATES_8736_VISITS; COMPLETE_CP250_WRITTEN_NOT_RESTORED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -227,9 +227,9 @@
     "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
     "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP21",
-  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP21; MODEL_PACKAGE_CORE40_DEV80_TEST_NOT_RUN",
-  "next_gate": "Keep healthy formal job running; complete all-state checkpoints and endpoint2000, actual restore and private delivery, then original Core40 and fullDEV80; no promotion from partial progress",
+  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP273_CP250",
+  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP273_CP250; ENDPOINT_PACKAGE_CORE40_DEV80_TEST_NOT_COMPLETE",
+  "next_gate": "Keep healthy709342 to endpoint2000 and actual full restore/private package; existing Core40/fullDEV80; only the sealed complete scientific decision may trigger4000/8000",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -272,7 +272,7 @@
   "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
   "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
   "G3_DEV_references": "G3_FIXED_DEV_REFERENCES_ACTUAL.json",
-  "finite_continuation": "ACTUAL_UNIQUE_FORMAL709342; WAIT_DELIVERY07_PID3980394; ORIGINAL_CORE40_DEV80_PID3665222; POST_DEV_PID3846655; ALL_FINITE",
+  "finite_continuation": "ACTUAL_UNIQUE_FORMAL709342; WAIT_DELIVERY07_PID3980394; ORIGINAL_CORE40_DEV80_PID3665222; POST_DEV_COLD_SUCCESSOR02_PID3989284; ALL_FINITE",
   "original_task_plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "LONG_HORIZON_V2": {
     "status": "ACTIVE",
@@ -282,13 +282,13 @@
     "controller_transition": "06 failed before registration on redundant AMGR query gate; independently reconciled zero effects; actual formal709342 submitted once; cold wait-and-delivery07 preserves original deadline",
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": 3665222,
-    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP21",
+    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP273_COMPLETE_CP250",
     "Core_current_resource": "GPU_FREE_2308964352_HOST_AVAILABLE_34487463936_BYTES; NO_PACKAGE",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
-    "post_DEV_decision_successor_actual": "POST_DEV_DECISION_SUCCESSOR_ACTUAL.json",
-    "post_DEV_decision_successor_pid": 3846655,
-    "post_DEV_current_status": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION",
+    "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
+    "post_DEV_decision_successor_pid": 3989284,
+    "post_DEV_current_status": "COLD_SUCCESSOR02_WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION; SAME_ORIGINAL_DEADLINE",
     "latest_Core_runtime_recovery_actual": "CORE_SPLIT2_RESTORE_FAILURE_AND_ZERO_UPDATE_PROFILE_ACTUAL.json",
     "Core_independent_GPU0_diagnostic": "ZERO_UPDATE_MEMORY01_REGISTERED_WAIT_CAPACITY; ORIGINAL_GPU1_CORE40_CONSUMER_UNCHANGED",
     "latest_formal_runtime_actual": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json"
@@ -368,8 +368,11 @@
     "schedule_horizon": 8000,
     "warmup_updates": 200,
     "report": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json",
-    "actual_optimizer_calls": 21,
-    "actual_sample_visits": 672,
-    "actual_model_loads": 1
+    "actual_optimizer_calls": 273,
+    "actual_sample_visits": 8736,
+    "actual_model_loads": 1,
+    "last_complete_checkpoint_step": 250,
+    "last_complete_checkpoint_sha256": "a2d7a3725b3e8df7625e1552d12fa2e4b1f514131a943c87ca75edcae360cea3",
+    "independent_full_restore": "NOT_RUN"
   }
 }
