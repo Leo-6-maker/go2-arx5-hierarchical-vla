@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T04:32:41.778678+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T05:26:39.877146+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -13,14 +13,15 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_DIRECT_OFFICIAL_SERVER_ADDRESS; hostname-alias queries time out",
     "Hopper_project_login": "FRESH_OFFICIAL_PROJECT_ACTIVE_MEMBERSHIP_AND_POSITIVE_BALANCE_AFTER_NETWORK_RECOVERY",
-    "PBS_submissions": 4,
+    "PBS_submissions": 5,
     "rejected_queue_submission_attempts": 1,
-    "accepted_PBS_jobs": 3,
+    "accepted_PBS_jobs": 4,
     "completed_PBS_jobs": 3,
     "successful_PBS_exit0_jobs": 2,
     "failed_PBS_exit1_jobs": 1,
     "Core_current_native_owner": "CONTINUOUS_TEACHER01_SINGLE_CPU_WORLD",
-    "network": "CORE_AND_HOPPER_READBACK_RECOVERED"
+    "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
+    "current_Hopper_scan": "707720.hopper-m-02 QUEUED_SMALL_GPU_UNAVAILABLE"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -211,14 +212,14 @@
   "G3_preparation": {
     "status": "FIRST50_NATIVE_COLLECTION_ACTIVE",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
-    "normal_training_attempts": 30,
+    "normal_training_attempts": 39,
     "recovery_training_attempts": 0,
     "qualified_training_demonstrations": 0,
     "exporter": "COMPLETE_POPULATION_NATIVE_AUDITOR_AND_TRAIN_BASE_WRITER_IMPLEMENTED_NOT_EXECUTED",
     "typed_original_Processor_dataset": "IMPLEMENTED_NOT_NATIVE_OR_PROCESSOR_ADMITTED",
     "actual_recovery_qualification": "G3_RECOVERY_QUALIFICATION01_ACTUAL.json",
     "actual_collection": "G3_CONTINUOUS_TEACHER_FIRST50_ACTUAL.json",
-    "current_full_task_successes": 30
+    "current_full_task_successes": 39
   },
   "user_parallel_steering": {
     "EVIDENCE_ASOF": "2026-11-09T05:10:37.033720+00:00",
@@ -227,6 +228,9 @@
     "WBC_safety_startup_dynamics_2ms": "FROZEN",
     "current_healthy_TRAIN100": "PRESERVED_AT_DC418; PARALLEL_SUCCESSORS_USE_NEW_IDENTITIES",
     "first_concrete_action": "FRESH_SINGLE_H200_MICROBATCH1_2_4_8_THROUGHPUT_AND_SELECTED_COMPLETE_RESTORE",
-    "GPU_physics_environments_launched": 0
+    "GPU_physics_environments_launched": 0,
+    "actual": "HOPPER_PARALLEL_SCALE_ACTUAL.json",
+    "single_H200_batch_scan_job": "707720.hopper-m-02",
+    "larger_formal_microbatch_admission": "IMPLEMENTED_REQUIRE_ACTUAL_CLOSED_SCAN_AND_SELECTED_SEVEN_STATE_FULL_RESTORE_NOT_YET_QUALIFIED"
   }
 }

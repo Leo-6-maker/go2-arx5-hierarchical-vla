@@ -150,6 +150,12 @@ def validate(spec):
     need(processor.get('dataset_family')=='TASK_LEARNING_CONTINUOUS_V1',
         'NEW_REAL_DECISIONS_PROCESSED_NOT_LEGACY_FOUR_WINDOW_ADMISSION')
     runtime=fit4_qualification(a['original_Trainer_FIT4'],spec)
+    batch=None
+    if p['microbatch']!=1 or a.get('Hopper_batch_qualification')is not None:
+        from .task_learning_hopper_batch_v1 import qualification
+        need(task.descriptor(a.get('Hopper_batch_qualification')),
+            'ACTUAL_COMPLETED_BATCHSCAN_AND_SELECTED_FULL_RESTORE_BEFORE_LARGER_MICROBATCH')
+        batch=qualification(a['Hopper_batch_qualification'],spec)
     processor_worker=processor_qualification(a['Hopper_Processor_qualification'],spec)
     for key,schema in(('endpoint_decision','TASK_LEARNING_ENDPOINT_DECISION_V1'),
                        ('first_seed_learning_and_native_gain','TASK_LEARNING_FIRST_SEED_GAIN_DECISION_V1')):
@@ -168,5 +174,6 @@ def validate(spec):
     return dict(status='ACTUAL_TASK_DATA_PROCESSOR_AND_ORIGINAL_TRAINER_ADMITTED',
         manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,
         optimization_visits_per_population_pass=len(data),runtime_qualification=runtime,
+        batch_qualification=batch,
         Hopper_Processor_qualification=processor_worker,
         new_policy_models=0,new_optimizer_updates=0,new_native_integrations=0)

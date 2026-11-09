@@ -43,4 +43,8 @@ def test_old_fit4_no_admission_other_sites_or_unconfirmed_seeds_cannot_start_for
     with pytest.raises(PermissionError,match='FIRST_SEED_GAINS'):task.validate(second)
     second['first_seed_learning_and_native_gain']=dict(path='not-actual-gain',sha256='f'*64)
     assert task.validate(second)['seed']==20261110
-    with pytest.raises(PermissionError):task.recipe('a'*64,'b'*64,endpoint=2000,microbatch=2)
+    for micro in(2,4,8):
+        p=task.recipe('a'*64,'b'*64,endpoint=2000,microbatch=micro)
+        assert p['effective_batch']==32 and p['accumulation']==32//micro
+    for invalid in(True,3,16):
+        with pytest.raises(PermissionError):task.recipe('a'*64,'b'*64,endpoint=2000,microbatch=invalid)

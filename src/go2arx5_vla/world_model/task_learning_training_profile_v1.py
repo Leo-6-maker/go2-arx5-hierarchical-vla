@@ -15,7 +15,8 @@ def descriptor(value):
 
 def recipe(dataset_sha256,statistics_sha256,*,endpoint,microbatch=1,seed=20261109):
     original.need(type(seed)is int and seed in SEEDS,'FIXED_TASK_LEARNING_SEEDS')
-    original.need(microbatch==1,'ACTUALLY_MEASURED_SINGLE_H200_FULL_ACTION_MICROBATCH')
+    original.need(type(microbatch)is int and microbatch in(1,2,4,8),
+        'DECLARED_SINGLE_H200_MICROBATCH_REQUIRES_ACTUAL_RUNTIME_ADMISSION')
     p=original.recipe(dataset_sha256,statistics_sha256,mode='FORMAL',variant='FULL_ACTION_SIDE',
         endpoint=endpoint,microbatch=microbatch)
     p.update(schema='TASK_LEARNING_CONTINUOUS_ACTION_SIDE_RECIPE_V1',profile=PROFILE,kind=KIND,
