@@ -75,3 +75,16 @@ def test_changed_child_evidence_cannot_hide_behind_cached_summary(tmp_path):
     ref,groups=fixture(tmp_path)
     p=next((groups[0]/'runs').glob('*/native-01/RESULT.json'));p.write_text('{"changed":true}')
     with pytest.raises(ValueError,match='RESULT_STILL_SEALED'):population.aggregate(ref,groups)
+
+
+def test_never_dispatched_native_permission_is_retained_without_inventing_a_worker_exit(tmp_path):
+    ref,groups=fixture(tmp_path,technical=True)
+    root=groups[0];values=json.loads((root/'OUTCOMES.private.json').read_text());v=values[0]
+    n=root/'runs'/v['native_run']
+    (n/'WORKER_EXIT.private.json').unlink();(n/'native-01/RESULT.json').unlink()
+    lease=json.loads((n/'control/LEASE.json').read_text());lease.update(worker_exit_code=None,terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED');write(n/'control/LEASE.json',lease)
+    v.update(worker_exit_code=None,result_sha256=None);write(root/'OUTCOMES.private.json',values)
+    result=json.loads((root/'RESULT.private.json').read_text());p=json.loads(Path(ref['path']).read_text());result['summary']=student.summarize(p,values);write(root/'RESULT.private.json',result)
+    aggregate=population.aggregate(ref,groups)
+    assert aggregate['native']['methods']['B0']['technical_failure_conditions']==1
+    assert not(n/'WORKER_EXIT.private.json').exists()

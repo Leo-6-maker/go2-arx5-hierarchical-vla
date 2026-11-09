@@ -88,3 +88,25 @@ def test_partial_dev_retains_all_requested_failures_and_unrun_denominators():
     with pytest.raises(ValueError):student.summarize(p,[r,r])
     r['method']='B1'
     with pytest.raises(ValueError):student.summarize(p,[r])
+
+
+def test_serving_failure_before_native_start_counts_an_attempted_deployment(tmp_path):
+    import json
+    p=panel();row=p['assignments'][0];root=tmp_path/row['native_run'];gpu=tmp_path/'gpu'
+    def write(path,value):
+        path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value))
+    source=p['source_sha']
+    write(root/'EXECUTION_SPEC.json',dict(source_sha=source,task_learning_role=task.STUDENT_DEV_ROLE,
+        phase=task.PHASE,target_gr00t_gpu_root=str(gpu)))
+    write(root/'control/LEASE.json',dict(status='CLOSED',worker_exit_code=None,
+        terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED'))
+    write(gpu/'EXECUTION_SPEC.json',{})
+    write(gpu/'control/LEASE.json',dict(status='CLOSED',worker_exit_code=1))
+    write(gpu/'WORKER_EXIT.private.json',dict(exit_code=1,failure='fixture serving failure before native'))
+    out=student.classify_actual(row,root,source)
+    assert out['attempted']is True and out['native_world_attempted']is False
+    assert out['neural_worker_attempted']is True and out['actual_native_integrations']==0
+    summary=student.summarize(p,[out])
+    assert summary['methods']['B0']['attempted']==1 and summary['methods']['B0']['unrun']==39
+    assert summary['methods']['B0']['technical_failure_conditions']==1
+    assert out['first_failure']=='fixture serving failure before native'

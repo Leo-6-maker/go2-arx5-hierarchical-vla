@@ -60,11 +60,15 @@ def aggregate(panel_reference, groups):
                 ('method','layout','restart','parent','split','query_seeds')), 'EXACT_ORIGINAL_PANEL_CONDITION')
             s = json.loads((native/'EXECUTION_SPEC.json').read_bytes())
             lp = native/'control/LEASE.json';wp = native/'WORKER_EXIT.private.json'
-            l,w = (json.loads(p.read_bytes()) for p in (lp,wp))
+            l=json.loads(lp.read_bytes());w=json.loads(wp.read_bytes())if wp.exists()else{}
+            revoked=(not w and not(native/'SUPERVISOR.private.json').exists()
+                and l.get('terminal_reason')=='NEVER_DISPATCHED_PERMISSION_REVOKED'
+                and l.get('worker_exit_code')is None and value.get('worker_exit_code')is None
+                and value['technical_valid']is False)
             task.need(s['registered_root'] == str(native) and s['source_sha'] == panel['source_sha']
                 and s['stable_task_panel_sha256'] == panel_reference['sha256']
                 and l['status'] == 'CLOSED' and l['spec_sha256'] == digest(native/'EXECUTION_SPEC.json')
-                and l.get('worker_exit_code') == w.get('exit_code') == value.get('worker_exit_code'),
+                and(revoked or(w and l.get('worker_exit_code') == w.get('exit_code') == value.get('worker_exit_code'))),
                 'ACTUAL_NATIVE_CHILD_IDENTITY_AND_EXIT')
             # Streaming hashes revalidate the large frozen evidence once at a
             # group boundary, without reparsing or rewriting its whole trace.

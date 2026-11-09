@@ -134,6 +134,14 @@ def classify_actual(row,root,expected_source):
     out['technical_valid']=bool(server and(out['technical_valid']or controlled))
     out['task_success']=bool(out['task_success']and out['technical_valid'])
     failed=read(gpu/'fit-01/FAILED.private.json')
+    neural_attempted=bool(gw or(gpu/'SUPERVISOR.private.json').exists())
+    out['native_world_attempted']=native.exists()
+    out['neural_worker_attempted']=neural_attempted
+    # A serving process may fail before the native partner starts. That is an
+    # attempted deployment condition, while its physical integrations remain0.
+    out['attempted']=bool(out['attempted']or neural_attempted)
+    if neural_attempted and not server and not out.get('first_failure'):
+        out['first_failure']=failed.get('failure')or gw.get('failure')or'GPU_WORKER_INCOMPLETE_BEFORE_VALID_NATIVE_OUTCOME'
     out['CPU_s']+=gw.get('child_CPU_s',0)
     out.update(actual_GR00T_queries=len(records),policy_proposal_rejected=bool(controlled),
         actual_GR00T_query_attempts=failed.get('generation_invocations',len(records)),
