@@ -102,3 +102,19 @@ def test_disabling_cast_weight_cache_preserves_bf16_loss_gradients_and_rng_on_cp
         assert torch.equal(rows[0][0],rows[1][0])and torch.equal(rows[0][2],rows[1][2])
         assert all(torch.equal(a,b)for a,b in zip(rows[0][1],rows[1][1]))
     finally:torch.set_autocast_cache_enabled(previous)
+
+
+def test_weight_cache_qualification_uses_positioned_sampler_in_separate_trace(tmp_path):
+    from go2arx5_vla.world_model.target_gr00t_weight_cache_v1 import qualification_inputs
+    seen=[]
+    class Data:
+        trace_root=tmp_path/'real-training-trace'
+        processor=SimpleNamespace(collator=lambda rows:{'inputs':rows[0]})
+        def __getitem__(self,index):
+            assert index==(0,0)and self.trace_root.is_dir()
+            seen.append((index,self.trace_root))
+            return {'processed':'same-original-processed-input'}
+    data=Data();original=data.trace_root
+    assert qualification_inputs(data,tmp_path/'comparison')=='same-original-processed-input'
+    assert data.trace_root==original
+    assert seen==[((0,0),tmp_path/'comparison/weight-cache-qualification-sample-trace')]

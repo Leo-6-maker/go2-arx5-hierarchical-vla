@@ -4,9 +4,19 @@ Autocast stays BF16. Each ordinary backbone and action forward still executes;
 only PyTorch's temporary cast-weight cache is disabled, with no feature cache.
 """
 import copy
+from pathlib import Path
 from .target_gr00t_profile_v1 import need
 
 MEMORY='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'
+
+
+def qualification_inputs(data,root):
+    # Keep the original positioned-sampler contract and give the non-optimizer
+    # comparison its own trace, separate from the real Trainer's sample cursor.
+    probe=copy.copy(data)
+    probe.trace_root=Path(root)/'weight-cache-qualification-sample-trace'
+    probe.trace_root.mkdir(parents=True)
+    return probe.processor.collator([probe[(0,0)]['processed']])['inputs']
 
 
 def enforce(model):
@@ -32,7 +42,7 @@ def qualify(model,contract,data,root,guard):
     from .target_gr00t_core_v1 import activation_policy
     need(len(data)==4 and all(not p.requires_grad for p in model.backbone.parameters()),
         'NATIVE_CACHE_POLICY_QUALIFICATION_ON_FROZEN_FOUR_WINDOW_DATA_ONLY')
-    inputs=data.processor.collator([data[0]['processed']])['inputs']
+    inputs=qualification_inputs(data,root)
     saved_rng=rng_state();training=model.training
     audit=NativeNoiseAudit(model)
     records=[]
