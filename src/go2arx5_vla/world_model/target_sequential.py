@@ -361,7 +361,8 @@ class TargetSequentialAdapter:
         import hashlib
         if self.spec.get('phase')=='collect-target-task-learning-grasp-v1':
             from .task_learning_grasp_native_v1 import validate_adapter_install
-            self.command_event(dict(phase='task-learning-grasp-full-H40-envelope',**validate_adapter_install(self,action)))
+            with measure(self,'reference.task_protocol_envelope'):
+                self.command_event(dict(phase='task-learning-grasp-full-H40-envelope',**validate_adapter_install(self,action)))
         if self.spec.get('phase')=='collect-target-teacher-prefix-diagnostic-v1':
             from .target_teacher_prefix_diagnostic_v1 import validate_adapter_install
             self.command_event(dict(phase='target-teacher-prefix-full-H40-envelope',
@@ -478,10 +479,11 @@ class TargetSequentialAdapter:
             if self.spec['phase']=='collect-target-task-learning-grasp-v1':
                 stage={'CLOSE':'close','LIFT':'lift','HOLD':'hold'}.get(getattr(self,'task_learning_stage',None),'approach')
             try:
-                with forbid_integration(mujoco):
-                    sample=self.measured_task_state();motion=supported_object_hypothesis(self.spec['phase'],stage,sample)
-                    certificate=certify_chunk(self.actual_state.model,sample,matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else(),planning_object_motion=motion)
-                    if motion is not None:certificate['planning_object_motion']=dict(motion.evidence(),source_native_step=sample['native_step'])
+                with measure(self,'reference.original_full40_certificate'):
+                    with forbid_integration(mujoco):
+                        sample=self.measured_task_state();motion=supported_object_hypothesis(self.spec['phase'],stage,sample)
+                        certificate=certify_chunk(self.actual_state.model,sample,matrix10(action),stage=stage,history=self.reference_history[-2:]if len(self.reference_history)>=2 else(),planning_object_motion=motion)
+                        if motion is not None:certificate['planning_object_motion']=dict(motion.evidence(),source_native_step=sample['native_step'])
             except ValueError as error:
                 self.command_event(dict(phase='reference-certificate-rejected',native_step=packet['step'],source_mpc_s=source,stage=stage,action_EEF10=action.tolist(),reason=str(error),contact_details=getattr(error,'native_contact_details',None),submitted_or_executed=False))
                 raise
@@ -497,7 +499,8 @@ class TargetSequentialAdapter:
             rows=self.reference_events()
             if any(r['kind']=='reject'and r.get('wire_sha256')==ref for r in rows):raise RuntimeError('ORIGINAL_REFERENCE_RECEIVER_REJECTED')
             return all(any(r['kind']==k and r.get('ref_id')==ref for r in rows)for k in('accept','installed'))
-        if not self.spin(5,installed):raise RuntimeError('ORIGINAL_DYNAMIC_INSTALL_ACK_MISSING')
+        with measure(self,'reference.explicit_receiver_ACK'):
+            if not self.spin(5,installed):raise RuntimeError('ORIGINAL_DYNAMIC_INSTALL_ACK_MISSING')
         rows=[r for r in self.reference_events()if r.get('ref_id')==ref];self.active_reference=dict(intent,receiver_events=rows)
         for kind in('accept','installed'):self.command_event(dict(phase='accepted'if kind=='accept'else'installed',wire_sha256=ref,evidence=[r for r in rows if r['kind']==kind]))
         return self.active_reference
