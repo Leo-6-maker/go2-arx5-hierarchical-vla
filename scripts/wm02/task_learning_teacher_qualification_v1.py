@@ -27,6 +27,10 @@ def run(input_path):
     if role==task.QUALIFICATION_ROLE:
         panel_contract=teacher_panel_contract;experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'
         completed_status='TEACHER_QUALIFICATION_COMPLETE';incomplete_status='TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED'
+    elif role==task.EXPANSION_QUALIFICATION_ROLE:
+        from go2arx5_vla.world_model import task_learning_expansion_v1 as panel_contract
+        experiment=panel_contract.EXPERIMENT
+        completed_status='NEXT_TRAIN_FEASIBILITY_COMPLETE';incomplete_status='NEXT_TRAIN_FEASIBILITY_INCOMPLETE_PRESERVED'
     elif role==task.DEV_REFERENCE_ROLE:
         from go2arx5_vla.world_model import task_learning_dev_v1 as panel_contract
         experiment=panel_contract.experiment_role(role)

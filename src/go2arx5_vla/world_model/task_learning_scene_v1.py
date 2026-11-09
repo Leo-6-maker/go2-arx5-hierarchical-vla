@@ -26,17 +26,20 @@ RECOVERY_OFFSETS={'RECOVERY01':(-.003,-.001),'RECOVERY02':(-.003,.001),
 
 def scene_id(layout):
     if layout=='PILOT01':return SCENE_ID
-    if layout not in {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS}:
+    from .task_learning_expansion_v1 import OFFSETS
+    if layout not in {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS,**OFFSETS}:
         raise ValueError('PREREGISTERED_UNDER_HAND_LAYOUT_ONLY')
     return 'TASK_LEARNING_UNDER_HAND_'+layout
 
 
 def geometry(layout='PILOT01'):
+    from .task_learning_expansion_v1 import OFFSETS
     scene_id(layout)
-    dx,dy=(0.,0.)if layout=='PILOT01'else {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS}[layout]
+    dx,dy=(0.,0.)if layout=='PILOT01'else {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS,**OFFSETS}[layout]
     return dict(table_center_xyz_m=[.40,0.,.575],table_half_size_m=[.17,.24,.025],
         object_initial_xyz_m=[.26+dx,-.014+dy,.62],cube_edge_m=.04,cube_mass_kg=.05,
-        role=('NEW_DEV_TASK_LAYOUT_NOT_TRAIN'if layout in DEV_OFFSETS else
+        role=('NEXT_TRAIN_LAYOUT_FEASIBILITY_NOT_BC'if layout in OFFSETS else
+              'NEW_DEV_TASK_LAYOUT_NOT_TRAIN'if layout in DEV_OFFSETS else
               'CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION'if layout=='PILOT01'else
               'CONTINUOUS_TEACHER_TRAIN_POPULATION'if layout in TRAIN_OFFSETS else
               'UNDER_CLOSE_RECOVERY_QUALIFICATION_NOT_BC'if layout in RECOVERY_OFFSETS else'TEACHER_QUALIFICATION_NOT_BC'),
@@ -106,7 +109,9 @@ def admission(spec):
     proof=pinned(spec['task_learning_scene_reference'])
     layout=proof.get('layout')
     from . import task_learning_grasp_v1 as task
-    expected_role=(task.STUDENT_DEV_ROLE if layout in DEV_OFFSETS and spec.get('task_learning_role')==task.STUDENT_DEV_ROLE else
+    from .task_learning_expansion_v1 import OFFSETS
+    expected_role=(task.EXPANSION_QUALIFICATION_ROLE if layout in OFFSETS else
+        task.STUDENT_DEV_ROLE if layout in DEV_OFFSETS and spec.get('task_learning_role')==task.STUDENT_DEV_ROLE else
         task.DEV_REFERENCE_ROLE if layout in DEV_OFFSETS else
         task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
         task.COLLECTION_ROLE if layout in TRAIN_OFFSETS else

@@ -15,6 +15,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_preparation_v1.py',
     'src/go2arx5_vla/world_model/task_learning_scene_v1.py',
     'src/go2arx5_vla/world_model/task_learning_teacher_panel_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_expansion_v1.py',
     'src/go2arx5_vla/world_model/task_learning_collection_v1.py',
     'src/go2arx5_vla/world_model/task_learning_dev_v1.py',
     'src/go2arx5_vla/world_model/task_learning_recovery_v1.py',
@@ -33,12 +34,15 @@ def scene_admission(spec):
         and spec['scene_id']==proof['parent'],'NEW_NEAR_WORKSPACE_TRAIN_CONSTRUCTION_PILOT')
     panel=scenes.pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
-    if role in(task.CONSTRUCTION_ROLE,task.QUALIFICATION_ROLE):
+    if role in(task.CONSTRUCTION_ROLE,task.QUALIFICATION_ROLE,task.EXPANSION_QUALIFICATION_ROLE):
         task.need(spec.get('task_learning_teacher_mode')in(None,'NORMAL_TEACHER_V7'),
             'HISTORICAL_CONSTRUCTION_AND_QUALIFICATION_NEVER_RECOVERY_RELABEL')
     qualification=role==task.QUALIFICATION_ROLE
     if qualification:
         from .task_learning_teacher_panel_v1 import validate as validate_panel
+        rows=validate_panel(panel)
+    elif role==task.EXPANSION_QUALIFICATION_ROLE:
+        from .task_learning_expansion_v1 import validate as validate_panel
         rows=validate_panel(panel)
     elif role==task.STUDENT_DEV_ROLE:
         from .task_learning_student_v1 import validate as validate_panel
@@ -65,6 +69,11 @@ def scene_admission(spec):
             and spec.get('target_gr00t_B1_global_step')==panel['B1_global_step']
             and spec.get('target_gr00t_query_seeds')==row['query_seeds'],
             'FROZEN_METHOD_AND_ALL_FIFTEEN_PREDECLARED_STUDENT_QUERIES')
+    elif role==task.EXPANSION_QUALIFICATION_ROLE:
+        from .task_learning_expansion_v1 import PURPOSE
+        expected_purpose=PURPOSE
+        task.need(spec.get('task_learning_teacher_mode')==row['Teacher_mode'],
+            'NEXT_TRAIN_FEASIBILITY_UNCHANGED_TEACHER')
     elif role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import purpose
         expected_purpose=purpose(role)
@@ -100,7 +109,10 @@ def validate(spec):
                 'paused_query_gpu_spec','stable_task_candidate','stable_task_evaluation','program_reference_selection')),
             'TYPED_STUDENT_CURRENT_RGB_STATE_ONLY_WITHOUT_TEACHER_OR_WM')
         return
-    if role==task.DEV_REFERENCE_ROLE:
+    if role==task.EXPANSION_QUALIFICATION_ROLE:
+        from .task_learning_expansion_v1 import EXPERIMENT
+        expected_experiment=EXPERIMENT
+    elif role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import experiment_role
         expected_experiment=experiment_role(role)
     elif role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
@@ -299,6 +311,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.EXPANSION_QUALIFICATION_ROLE:
+        from .task_learning_expansion_v1 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role==task.STUDENT_DEV_ROLE:
         from .task_learning_student_v1 import NATIVE_SCHEMA
         return NATIVE_SCHEMA
