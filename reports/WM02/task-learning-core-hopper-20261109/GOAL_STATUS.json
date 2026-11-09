@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T14:08:52.759754+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T15:59:33.243932+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -19,7 +19,7 @@
     "completed_PBS_jobs": 3,
     "successful_PBS_exit0_jobs": 2,
     "failed_PBS_exit1_jobs": 1,
-    "Core_current_native_owner": "NONE; FIXED8_AND_REFERENCE_PROFILE01_ALL_CLOSED0; CORE_CONTROLLER3665222_WAITING_READONLY",
+    "Core_current_native_owner": "NONE; NEXT_TRAIN_FEASIBILITY_FIRST2_CLOSED0; NO_MORE_DATA_COLLECTION_DISPATCHED",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
     "current_Hopper_scan": "707720.hopper-m-02 Q_GPU_UNAVAILABLE",
     "current_Hopper_Processor": "708392.hopper-m-02 Q_GPU_UNAVAILABLE",
@@ -292,5 +292,19 @@
     "production_data_adoption": false,
     "actual": "COLLECTION_PERFORMANCE_FIXED8_COMPLETE_ACTUAL.json",
     "reference_CPU_ACK_actual": "COLLECTION_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL.json"
+  },
+  "NEXT_TRAIN_PREPARATION": {
+    "status": "CPU_STATIC_COMPLETE_AND_FIRST2_NATIVE_CLOSED0_NOT_PRODUCTION",
+    "static_requested": 12,
+    "static_passed": 10,
+    "static_rejected": 2,
+    "native_requested": 6,
+    "native_attempted": 2,
+    "native_successes": 2,
+    "native_unrun": 4,
+    "new_training_demonstrations": 0,
+    "student_DEV_required_before_large_collection": true,
+    "actual": "NEXT_TRAIN_FIRST2_NATIVE_FEASIBILITY_ACTUAL.json",
+    "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json"
   }
 }
