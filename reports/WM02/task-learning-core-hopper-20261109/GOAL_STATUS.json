@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T06:31:00+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T06:44:13+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -199,7 +199,7 @@
   },
   "G3": "FIRST50_CLOSED_EXIT0_NORMAL50_OF100_RECOVERY50_NOT_YET_RUN",
   "G4_G7": "NOT_RUN",
-  "next_gate": "QUALIFY_REQUESTED_HEADLESS_VIEWER_ON_REAL_TASK_THEN_FINISH_TRAIN100_AND_ORIGINAL_PROCESSOR",
+  "next_gate": "FINISH_SEPARATE_DEV_REFERENCES_THEN_RENEW_COLD_SCOPE_AND_COLLECT_ORIGINAL_REMAINING50; HEADLESS_SINGLE_TASK_PASS_WITHOUT_WALL_SPEEDUP",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -235,5 +235,6 @@
     "headless": "EXPLICITLY_AUTHORIZED; VIEWER_NO_DRAW_CANDIDATE_PREPARED_NOT_EXECUTED",
     "native_execution_profile": "NATIVE_EXECUTION_TIMING_ACTUAL.json"
   },
-  "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json"
+  "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
+  "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json"
 }

@@ -51,7 +51,7 @@
     "formal_benchmark": false
   },
   "interpretation": "Measured mj_step and leg-inference durations are a small part of wall time. Native main/UI and llvmpipe dominate the separate thread CPU sample. No throughput claim for Hopper or4096 environments follows from this profile.",
-  "next_candidate": "Headless build03 with corrected independent-worker environment and atomic command-progress updates, then one fresh construction and original dual-RGB audit. No native headless episode yet.",
+  "next_candidate": "Headless task and all30 dual-RGB images pass; one measured wall time318.802s versus318.350s does not show acceleration. Investigate command/observation/transport critical path before further runtime adoption; existing first100 source and binary remain unchanged.",
   "headless_user_authorization": "Explicit user approval to use headless acceleration on2026-11-09",
   "headless_build_attempts": [
     {
@@ -68,6 +68,29 @@
       "worker_exit_code": 1,
       "native_integrations": 0,
       "cause": "Second command progress tried exclusive file creation. Use the original atomic durable progress writer; regression added."
+    },
+    {
+      "run": "task-learning-native-ui-build-20261109-03",
+      "source_sha": "25e05213860a1e580090e13f1b9b68f08d5e9aab",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "compile_link_dependencies_pass": true,
+      "native_integrations": 0
+    }
+  ],
+  "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
+  "pre_native_registration_rejections": [
+    {
+      "run": "task-learning-grasp-headless-qualification-20261109-01",
+      "cause": "Historical static proof builder digest differs from current scene source; zero-integration recompilation produces identical MJB.",
+      "registered": false,
+      "native_integrations": 0
+    },
+    {
+      "run": "task-learning-grasp-headless-qualification-20261109-02",
+      "cause": "Fresh identical scene used a different model path than the original catalog; preserve the original path and fresh static proof.",
+      "registered": false,
+      "native_integrations": 0
     }
   ]
 }
