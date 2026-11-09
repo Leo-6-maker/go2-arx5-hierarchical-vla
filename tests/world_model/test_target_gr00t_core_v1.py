@@ -26,6 +26,44 @@ def test_core_first_qualification_cannot_silently_start_formal_or_larger_scope(a
     with pytest.raises(PermissionError,match='CORE_FIRST'):profile.validate(spec(**args))
 
 
+@pytest.mark.parametrize('start,endpoint',[(0,4),(0,2),(2,4)])
+def test_explicit_full_action_core_native_restore_is_finite_and_original(start,endpoint):
+    s=spec('RESTORE4','FULL_ACTION_SIDE',endpoint)
+    s.update(core_native_operation='FULL_ACTION_RESTORE_ONLY',start_step=start,
+        GR00T_updates=endpoint-start,resume=dict(path='/checkpoint-2',sha256='c'*64)if start else None)
+    s['recipe']=profile.recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',
+        endpoint=endpoint,memory_policy='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2')
+    p=profile.validate(s)
+    assert p['effective_batch']==32 and p['scheduler_horizon']==500 and p['warmup_updates']==8
+
+
+@pytest.mark.parametrize('mode,variant,micro,endpoint,memory',[
+    ('FORMAL','FULL_ACTION_SIDE',1,2000,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('FIT4','FULL_ACTION_SIDE',1,200,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','INTERFACES_LAST2_DIT',1,4,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','FULL_ACTION_SIDE',2,4,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','FULL_ACTION_SIDE',1,4,'CUDA_RESIDENT')])
+def test_full_core_native_restore_cannot_expand_or_change_memory_execution(mode,variant,micro,endpoint,memory):
+    s=spec(mode,variant,endpoint,micro)
+    s['recipe']=profile.recipe('a'*64,'b'*64,mode=mode,variant=variant,
+        endpoint=endpoint,microbatch=micro,memory_policy=memory)
+    s['core_native_operation']='FULL_ACTION_RESTORE_ONLY'
+    with pytest.raises(PermissionError,match='CORE_FULL_ACTION'):profile.validate(s)
+
+
+def test_native_full_restore_scope_rejects_cached_training_and_formal_relabel():
+    c=dict(operation='FULL_ACTION_RESTORE_ONLY',original_Trainer_execution=True,
+        formal_training=False,memory_policy='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2',
+        memory_reference=dict(path='/actual/original/RESULT.json',sha256='a'*64))
+    assert core.full_restore_only(c)
+    assert core.spec_operation(c)==core.spec_operation(dict(core_native_operation=c['operation']))
+    for changed in [dict(original_Trainer_execution=False),dict(formal_training=True),
+                    dict(memory_reference={}),dict(memory_policy='FROZEN_BACKBONE_FEATURES_CORE_DIAGNOSTIC_V1')]:
+        with pytest.raises(PermissionError,match='NOT_CACHE_OR_FORMAL'):
+            core.full_restore_only(dict(c,**changed))
+    assert core.full_restore_only({})is False
+
+
 def test_core_failure_preserves_actual_updates_and_closes_without_fake_pbs(tmp_path,monkeypatch):
     from scripts.wm02 import train_target_gr00t_v1 as entry
     from go2arx5_vla.world_model import target_gr00t_training_v1 as training

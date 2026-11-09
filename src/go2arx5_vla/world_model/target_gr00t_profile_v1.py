@@ -77,8 +77,16 @@ def validate_original(spec):
          and all(not spec.get(k)for k in ('fusion_binding','pilot1_binding','next1_binding','next2_binding','night1_binding')),
          'INDEPENDENT_NONZERO_INTERNAL_GR00T_NOT_ZERO_UPDATE_LEASE')
     if spec['execution_site']=='CORELAB_4080S':
-        need(p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
-             and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
+        if spec.get('core_native_operation')=='FULL_ACTION_RESTORE_ONLY':
+            need(p['mode']=='RESTORE4'and p['variant']=='FULL_ACTION_SIDE'
+                and p['microbatch']==1
+                and p['memory_policy']=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'
+                and (start,p['endpoint'])in((0,2),(0,4),(2,4)),
+                'CORE_FULL_ACTION_ORIGINAL_TRAINER_RESTORE_ONLY')
+        else:
+            need(spec.get('core_native_operation')is None
+                and p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
+                and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
     else:need(p['memory_policy']=='CUDA_RESIDENT','ORIGINAL_RESIDENT_EXECUTION')
     if spec['execution_site']=='HOPPER_SINGLE_GPU':
         need(p['mode']in('RESTORE4','FIT4') and p['variant']=='FULL_ACTION_SIDE',

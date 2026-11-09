@@ -13,6 +13,19 @@ from .storage import digest
 SCOPE='TARGET_GR00T_CORE_V1'
 
 
+def full_restore_only(c):
+    operation=c.get('operation')
+    profile.need(operation in(None,'FULL_ACTION_RESTORE_ONLY'),'DECLARED_CORE_NATIVE_OPERATION')
+    if operation is None:return False
+    profile.need(c.get('original_Trainer_execution')is True
+        and c.get('formal_training')is False
+        and c.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'
+        and isinstance(c.get('memory_reference'),dict)
+        and set(c['memory_reference'])=={'path','sha256'},
+        'CORE_FULL_ACTION_NATIVE_RESTORE_NOT_CACHE_OR_FORMAL')
+    return True
+
+
 def activation_policy():
     from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY
     return dict(LOW_RESIDENCY_POLICY,schema='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
@@ -73,6 +86,7 @@ def scope(c):
     profile.need(os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
         and not os.environ.get('PBS_JOBID'),'ACTUAL_CORE_OWNER_NOT_PBS')
     root=Path(c['root']);lease=json.loads((root/'control/LEASE.json').read_bytes())
+    full_restore_only(c)
     profile.need(c['scope']==SCOPE and c['physics']is False and c['WBC_changes']is False
         and c['baseline_changed']is False and c['allow_internal_GR00T_updates']is True
         and lease.get('status')=='ACTIVE'and lease.get('config_sha256')==digest(root/'ALLOCATION_CONFIG.json')
@@ -93,6 +107,7 @@ def site(s):
     cpath=Path(s['core_scope_root'])/'ALLOCATION_CONFIG.json'
     profile.need(digest(cpath)==s['core_scope_sha256'],'PINNED_NEW_CORE_SCOPE')
     c=json.loads(cpath.read_bytes());master,reg=scope(c)
+    profile.need(spec_operation(s)==spec_operation(c), 'CORE_NATIVE_OPERATION_MATCHES_ALLOCATION')
     lease=json.loads((root/'control/LEASE.json').read_bytes())
     profile.need(root.parent==master and lease.get('status')=='ACTIVE'
         and lease.get('spec_sha256')==digest(root/'EXECUTION_SPEC.json')
@@ -114,12 +129,17 @@ def site(s):
     return p
 
 
+def spec_operation(value):
+    return value.get('core_native_operation',value.get('operation'))
+
+
 def run(c):
     from scripts.pi0292.durable import OwnerLock,write
     from scripts.pi0294.e1.journal import Journal
     from scripts.pi0294.night10.native_relay import snapshot,once
     from .target_gr00t_allocation_v1 import compare_next_update,fit4_gate
-    root,reg=scope(c);stop=[];children=[];started=time.monotonic()
+    root,reg=scope(c);full=full_restore_only(c)
+    stop=[];children=[];started=time.monotonic()
     signal.signal(signal.SIGTERM,lambda sig,frame:stop.append(sig))
     signal.signal(signal.SIGUSR1,lambda sig,frame:stop.append(sig))
     journal=Journal(root/'control/journal',root.name)
@@ -138,7 +158,7 @@ def run(c):
                 alias=r/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)
                 alias.symlink_to(c['bindings']['cosmos'],target_is_directory=True)
                 recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,
-                    variant='INTERFACES_LAST2_DIT',endpoint=endpoint,microbatch=1,
+                    variant='FULL_ACTION_SIDE'if full else'INTERFACES_LAST2_DIT',endpoint=endpoint,microbatch=1,
                     memory_policy=c.get('memory_policy','CUDA_RESIDENT'))
                 s=dict(registered_root=str(r),source_root=c['source_root'],source_sha=c['source_sha'],
                     source_files=c['source_files'],bindings=c['bindings'],parent=c['parent'],
@@ -150,6 +170,7 @@ def run(c):
                     registry=c['registry'],deadline_epoch=c['deadline_epoch'],closeout_reserve_s=1200,
                     core_scope_root=str(root),core_scope_sha256=digest(root/'ALLOCATION_CONFIG.json'))
                 if c.get('memory_reference'):s['memory_reference']=c['memory_reference']
+                if full:s['core_native_operation']='FULL_ACTION_RESTORE_ONLY'
                 profile.validate(s);write(r/'EXECUTION_SPEC.json',s)
                 with closing(OwnerLock(Path(c['owner_root'])/'OWNER.lock')):
                     registry,pin=snapshot(c['registry'])
@@ -188,6 +209,27 @@ def run(c):
                     endpoint_complete=value.get('global_step')==endpoint)
             row=journal.once(name+'-EXECUTE',registered,execute);children.append(row)
             write(root/'CHILDREN_ACTUAL.json',dict(children=children));return row
+        if full:
+            generation=c['generation_id']+'-restore4'
+            continuous=child('continuous4','RESTORE4',4,generation=generation)
+            profile.need(continuous['exit_code']==0 and continuous['endpoint_complete'],
+                'CORE_FULL_NATIVE_CONTINUOUS4_FAILURE_PRESERVED')
+            split=child('split2','RESTORE4',2,generation=generation)
+            profile.need(split['exit_code']==0 and split['endpoint_complete'],
+                'CORE_FULL_NATIVE_SPLIT2_FAILURE_PRESERVED')
+            cp=Path(split['checkpoint'])
+            resumed=child('resume4','RESTORE4',4,start_step=2,generation=generation,
+                resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')))
+            profile.need(resumed['exit_code']==0 and resumed['endpoint_complete'],
+                'CORE_FULL_NATIVE_RESUME4_FAILURE_PRESERVED')
+            proof=compare_next_update(continuous['checkpoint'],resumed['checkpoint'])
+            profile.need(json.loads((Path(continuous['checkpoint'])/'SAMPLER_STATE.json').read_text())['cursor']==128,
+                'CORE_FULL_NATIVE_FOUR_STEP_CURSOR128')
+            write(root/'FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json',dict(proof,
+                comparison='CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2'))
+            return dict(status='CORE_ORIGINAL_TRAINER_FULL_ACTION_RESTORE_ONLY_SEALED',
+                children=children,proof=proof,optimizer_calls=8,original_Trainer_execution=True,
+                formal_training=False,physics_integrations=0,wall_s=time.monotonic()-started)
         cap=child('capacity2','CAPACITY',2)
         profile.need(cap['exit_code']==0 and cap['endpoint_complete'],'CORE_CAPACITY_FAILURE_PRESERVED')
         cp=Path(cap['checkpoint']);s=json.loads((Path(cap['root'])/'EXECUTION_SPEC.json').read_bytes())
