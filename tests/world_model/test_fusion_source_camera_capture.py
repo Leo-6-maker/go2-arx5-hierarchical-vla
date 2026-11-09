@@ -229,6 +229,48 @@ def adapter_fixture(tmp_path, monkeypatch):
     return adapter, binding, task, raw
 
 
+def test_opt_in_paused_capture_reuses_contexts_and_closes_after_binding_failure(tmp_path, monkeypatch):
+    """Exercise the real capture/session/finally wiring, with a renderer double."""
+    import mujoco
+    from go2arx5_vla.world_model import native_collection_performance_v1 as performance
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    adapter,binding,task,_=adapter_fixture(tmp_path,monkeypatch)
+    adapter.spec.update(phase='collect-target-task-learning-grasp-v1',task_learning_role=CONSTRUCTION_ROLE,
+        source_sha='c'*40,collection_performance=dict(version=performance.VERSION,mode='camera_cache'))
+    spec_path=Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json'
+    spec_path.write_text(json.dumps(adapter.spec))
+    binding=TargetShadowBinding('ACTUAL_TARGET_WORLD',digest(adapter.spec['model_path']),digest(spec_path),FRAME,rig_module.FRAME_MAP_SHA256)
+    adapter.performance=performance.PerformanceTrace()
+    original=mujoco.Renderer;renderers=[]
+    class Renderer(original):
+        def __init__(self,*args,**kwargs):
+            super().__init__(*args,**kwargs);self.closed=False;renderers.append(self)
+        def close(self):self.closed=True
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    r=recipe(monkeypatch);forbid_step(monkeypatch)
+    first=paused.capture_paused_observation(adapter,binding=binding,task=task,
+        task_sha256=document_hash(task),query_uuid=QUERY,camera_recipe=r)
+    second=paused.capture_paused_observation(adapter,binding=binding,task=task,
+        task_sha256=document_hash(task),query_uuid='22345678-1234-4234-8234-123456789abc',camera_recipe=r)
+    assert len(renderers)==2 and not any(x.closed for x in renderers)
+    a,b=unseal(first),unseal(second)
+    assert a['query_uuid']!=b['query_uuid']
+    assert {k:v for k,v in a['files'].items()if k!='BOUND_SHADOW_ABI.private.json'}=={
+        k:v for k,v in b['files'].items()if k!='BOUND_SHADOW_ABI.private.json'}
+    adapter._source_camera_session.model.body_mass[1]+=1
+    with pytest.raises(ValueError,match='FRESH_NATIVE_BINARY_RENDER_COPY_body_mass'):
+        paused.capture_paused_observation(adapter,binding=binding,task=task,
+            task_sha256=document_hash(task),query_uuid='32345678-1234-4234-8234-123456789abc',camera_recipe=r)
+    assert not adapter._source_camera_session.busy
+    failed=adapter.output/'PAUSED_OBSERVATIONS/32345678-1234-4234-8234-123456789abc/CAPTURE_FAILED.private.json'
+    assert failed.exists()
+    performance.close_resources(adapter)
+    assert all(x.closed for x in renderers)
+    report=json.loads((adapter.output/'COLLECTION_PERFORMANCE.private.json').read_text())
+    assert report['spans']['camera.capture_total']['count']==3
+    assert report['spans']['camera.capture_total']['failures']==1 and report['active_spans']==0
+
+
 def test_cpu_capture_retains_original_views_and_explicit_new_sensor_same_packet(tmp_path, monkeypatch):
     adapter, binding, task, raw = adapter_fixture(tmp_path, monkeypatch)
     original_arrays = c._arrays(adapter.actual_state.model)
