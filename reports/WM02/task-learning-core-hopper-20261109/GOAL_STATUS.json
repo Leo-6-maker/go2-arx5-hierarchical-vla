@@ -4,24 +4,25 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T11:52:54.520150+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T12:31:02.630646+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
     "old_physics_scopes": "EXPIRED; no reuse or CLOSED reopening",
     "other_users_GPU_jobs": "PRESERVED",
     "Hopper_SSH": "AVAILABLE",
-    "Hopper_PBS_queries": "PASS_DIRECT_OFFICIAL_SERVER_ADDRESS; hostname-alias queries time out",
-    "Hopper_project_login": "EXPIRED_TOKEN; OFFICIAL_LOGIN_SERVICE_TIMEOUT; NO_AUTHENTICATION_BYPASS",
-    "PBS_submissions": 5,
+    "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
+    "Hopper_project_login": "AVAILABLE_ON_HOPPER2_OFFICIAL_LOGIN_ENVIRONMENT",
+    "PBS_submissions": 6,
     "rejected_queue_submission_attempts": 1,
-    "accepted_PBS_jobs": 4,
+    "accepted_PBS_jobs": 5,
     "completed_PBS_jobs": 3,
     "successful_PBS_exit0_jobs": 2,
     "failed_PBS_exit1_jobs": 1,
-    "Core_current_native_owner": "NONE_AFTER_FIXED100_NATURAL_CLOSURE; CPU_EXPORT_NEURAL_OWNER_ACTIVE",
+    "Core_current_native_owner": "PERFORMANCE_REMAINING_FIXED_PANEL_CAMERA_PREFLIGHT; CURRENT_CONTROLLER3636388",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
-    "current_Hopper_scan": "707720.hopper-m-02 QUEUED_SMALL_GPU_UNAVAILABLE"
+    "current_Hopper_scan": "707720.hopper-m-02 Q_GPU_UNAVAILABLE",
+    "current_Hopper_Processor": "708392.hopper-m-02 Q_GPU_UNAVAILABLE"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -197,9 +198,9 @@
     "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
     "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "FIXED100_CLOSED_SUCCESS100_RECOVERY50_LAYOUTS25_HARD0_TECHNICAL0; CORE_EXPORT_ACTUALLY_RUNNING",
+  "G3": "FIXED100_CLOSED_SUCCESS100; CORE_ORIGINAL_PROCESSOR1450_PASS; PRIVATE_TRANSFER_CLOSED0; HOPPER_PROCESSOR708392_QUEUED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "ACTUAL_RUNNING_CORE_EXPORT_AND_PROCESSOR_TERMINAL; ORIGINAL_PRIVATE_HANDOFF_AND_FIXED8_PERFORMANCE; FRESH_SITE_PROJECT_ADMISSION_BEFORE_FORMAL_SFT",
+  "next_gate": "Hopper Processor CLOSED0/PBS F0; then original CORR2048 full-action SFT2000 with full actual admission; scan waiting may use the independently qualified microbatch1 successor under V2 section6.1.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -208,18 +209,18 @@
     "real_hardware": false,
     "old21_automatic8000": false
   },
-  "execution_sha": "b110c1a9872e47ba58de6c41946cfdbb4845086f",
+  "execution_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
   "G3_preparation": {
-    "status": "SECOND50_ACTIVE",
+    "status": "CORE_QUALIFIED_TRANSFERRED_HOPPER_QUEUED",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
     "normal_training_attempts": 50,
-    "recovery_training_attempts": 0,
+    "recovery_training_attempts": 50,
     "qualified_training_demonstrations": 0,
-    "exporter": "COMPLETE_POPULATION_NATIVE_AUDITOR_AND_TRAIN_BASE_WRITER_IMPLEMENTED_NOT_EXECUTED",
-    "typed_original_Processor_dataset": "IMPLEMENTED_NOT_NATIVE_OR_PROCESSOR_ADMITTED",
+    "exporter": "ACTUAL_COMPLETE_POPULATION_AUDIT_EXPORT_CLOSED0",
+    "typed_original_Processor_dataset": "CORE_ORIGINAL_PROCESSOR_ALL1450_PASS; HOPPER_PENDING",
     "actual_recovery_qualification": "G3_RECOVERY_QUALIFICATION01_ACTUAL.json",
     "actual_collection": "G3_CONTINUOUS_TEACHER_FIRST50_ACTUAL.json",
-    "current_full_task_successes": 50,
+    "current_full_task_successes": 100,
     "actual_second_group": "G3_CONTINUOUS_TEACHER_SECOND50_ACTUAL.json"
   },
   "user_parallel_steering": {
@@ -239,13 +240,14 @@
   "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
   "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
   "G3_DEV_references": "G3_FIXED_DEV_REFERENCES_ACTUAL.json",
-  "finite_continuation": "RUNNING_THROUGH_EXISTING_ADMISSION_HELPERS; FIRST_SEED2000_ENDPOINT_ONLY; UNKNOWN_OR_FAILURE_STOPS_WITHOUT_REPLAY; NATIVE_STUDENT_DEV_STILL_REQUIRED",
+  "finite_continuation": "ORIGINAL_CONTROLLER_STOPPED_ON_SSH_TRANSFER_DEFECT_AND_IS_ABSENT; TRANSFER_CORRECTED_AND_CLOSED0; HOPPER_PROCESSOR_SINGLE_JOB_708392; NO_FORMAL_SFT_REGISTERED",
   "original_task_plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "LONG_HORIZON_V2": {
     "status": "ACTIVE",
     "actual_handoff_report": "V2_ENDPOINT_HANDOFF_IMPLEMENTED_NOT_RUN.json",
     "formal_SFT_and_full_DEV_incomplete": true,
-    "healthy_existing_controllers_preserved": true
+    "healthy_existing_controllers_preserved": false,
+    "controller_transition": "Original finite controllers stopped naturally on engineering failures; actual effects reconciled; successor only remaining performance slots2to8."
   },
   "G3_full100_native": {
     "report": "G3_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL.json",
@@ -254,6 +256,32 @@
     "population_complete": true,
     "actual_successes": 100,
     "qualified_training_demonstrations": 0,
-    "Processor_admitted": false
+    "Processor_admitted": false,
+    "Core_Processor_qualified_episodes": 100,
+    "Core_Processor_qualified_windows": 1450,
+    "Hopper_Processor_status": "QUEUED",
+    "latest_report": "G3_CORE_PROCESSOR_TRANSFER_AND_HOPPER_QUEUE_ACTUAL.json"
+  },
+  "collection_performance": {
+    "completed_slots": [
+      1
+    ],
+    "slot1_wall_s": 317.60824293317273,
+    "slot2_preflight_failure": "CLOSED_NATIVE_NOT_DISPATCHED",
+    "successor_source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+    "remaining_slots": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "actual_speedup_proven": false,
+    "camera_all15_actual": "COLLECTION_PERFORMANCE_CAMERA_SCENE_REPAIR_ACTUAL.json",
+    "camera_pixel_qualification": "PASS_ALL15_ORIGINAL_FRESH_CACHED_EXACT",
+    "actual_running_slot": 2,
+    "native_PID": 3276009
   }
 }
