@@ -1,0 +1,117 @@
+{
+  "schema": "TASK_LEARNING_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL_V1",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "previous_goal_turn": "PROGRESS_IMPLEMENTED_AND_PUBLISHED_ENDPOINT_HANDOFF_WITH_VERIFIED_LIVE_COLLECTION",
+  "QUESTION": "Did the fixed100 actually close and did its original owner execute the first eligible successor?",
+  "CHANGED": "No scientific/runtime change. Existing finite continuation observed the natural terminal, registered and dispatched the CPU export/Processor once.",
+  "ACTUAL": {
+    "native_population_observed": {
+      "UTC": "2026-11-09T11:51:21.533020+00:00",
+      "SGT": "2026-11-09T19:51:21.533020+08:00"
+    },
+    "source_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
+    "panel_sha256": "fc50e2e207c95cdf4a766d4f86f7be35d45643bc5fba1821a62ca95fab798485",
+    "summary": {
+      "schema": "TASK_LEARNING_CONTINUOUS_TEACHER_COLLECTION_SUMMARY_V1",
+      "requested": 100,
+      "attempted": 100,
+      "reset_ready": 100,
+      "task_successes": 100,
+      "genuine_recovery_successes": 50,
+      "successful_layouts": 25,
+      "recovery_layouts": 25,
+      "hard_safety_stop_conditions": 0,
+      "technical_failure_conditions": 0,
+      "complete": true,
+      "passes": true,
+      "P_reset_ready": 1.0,
+      "P_success_given_reset_ready": 1.0,
+      "P_success_per_requested_episode": 1.0,
+      "eligible_native_full_or_recovery_episodes": 100,
+      "qualified_training_demonstrations": 0,
+      "Processor_admitted": false,
+      "GR00T_queries": 0,
+      "model_updates": 0
+    },
+    "groups": [
+      {
+        "run": "task-learning-continuous-teacher-20261109-01",
+        "input_sha256": "3d14b4aa60a10b5d992dfffeeb4079808205f3bde396557624c2377061d8e0f4",
+        "result_sha256": "058f25d5959cf6bc32478b012c3cabe8721fa323d9309a01ad1a5dbe48cb2f51",
+        "outcomes_sha256": "fa102c331eb66598d659024794ad85e4fe2f8c087327466fea84f422e1c01371",
+        "lease_sha256": "a0be112e7775fb5dc9c5daab5e14fdcf5635b43d778e6deef2165eaf5e858332",
+        "closed_epoch": 1794205400.1494792,
+        "wall_s": 16684.27186986385,
+        "CPU_s": 35888.163309878
+      },
+      {
+        "run": "task-learning-continuous-teacher-20261109-02",
+        "input_sha256": "9b5fbcb94ca8e34ec896317e5225832ba9f5e71cd1cbd73d17b22cf1d9712128",
+        "result_sha256": "c348b963150625fb8d80f5b9cbf746b672b25877a68dc545be6399e5da0bc622",
+        "outcomes_sha256": "fce14d9bf401e2f99890cdcc5a9e7c4abd436f1df601a601cbbac03c133f2f54",
+        "lease_sha256": "be04c178dadf57228d3563ae472d6abcfd15edc7977eb5d2c603e31daf95b637",
+        "closed_epoch": 1794224981.5883768,
+        "wall_s": 16854.182174101938,
+        "CPU_s": 35677.456690526
+      }
+    ],
+    "population_closed": {
+      "UTC": "2026-11-09T11:49:41.588377+00:00",
+      "SGT": "2026-11-09T19:49:41.588377+08:00"
+    },
+    "excluded_intervention_decisions": 50,
+    "expert_policy_decisions": 1450,
+    "actual_native_integrations": 2120300,
+    "physics_dt_s": 0.002,
+    "group_wall_s_sum": 33538.45404396579,
+    "group_child_and_parent_CPU_s_sum": 71565.620000404,
+    "notes": [
+      "Two independent finite groups share the original100-condition panel; each group summary alone keeps the100-request denominator.",
+      "1,450 is the native expert-decision count pending final media/window/Processor admission, not60,000 waypoint labels or independent layouts.",
+      "Four DEV Teacher references remain separate and are not student DEV or optimizer data."
+    ],
+    "export": {
+      "observed": {
+        "UTC": "2026-11-09T11:52:54.520150+00:00",
+        "SGT": "2026-11-09T19:52:54.520150+08:00"
+      },
+      "run": "task-learning-continuous-export-20261109-01",
+      "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+      "lease": {
+        "status": "ACTIVE",
+        "run_uuid": "task-learning-continuous-export-20261109-01",
+        "owner": "EXISTING_LOCAL_PC",
+        "scope": "WM02_PILOT1_SIM_ONLY",
+        "config_sha256": "849ce216d097246cab3d136cc00f6254f23dbcc36d623998edf2971981aa20bb",
+        "deadline_epoch": 1794228511.3088932
+      },
+      "process": {
+        "pid": 3223869,
+        "present": true,
+        "state": "R",
+        "proc_start": "399411890"
+      },
+      "unit": "MainPID=3223869\nExecMainStatus=0\nMemoryCurrent=4087689216\nMemoryPeak=4246999040\nActiveState=active\nSubState=running\n",
+      "detailed_audit_and_Processor": "RUNNING_NOT_YET_QUALIFIED",
+      "new_policy_models": 0,
+      "new_optimizer_updates": 0,
+      "new_native_integrations": 0
+    }
+  },
+  "NEGATIVE": {
+    "new_Processor_admission": false,
+    "final_unique_training_windows_not_yet_sealed": true,
+    "Hopper_data_transfer": false,
+    "Hopper_Processor": false,
+    "formal_task_SFT": false,
+    "trained_policy_native_DEV": false,
+    "performance_speedup": false,
+    "TEST_opened": false
+  },
+  "DECISION": "Keep the actually running export PID3223869 and both original finite continuations. Do not duplicate the100 episodes, heavy audit, export, qsub or fixed eight performance conditions.",
+  "NEXT_GATE": [
+    "Actual detailed per-case/media audit plus original Core Processor CLOSED/exit0",
+    "Existing owner performs the private data handoff; existing performance controller consumes its fixed8 conditions",
+    "Fresh actual Hopper project authentication before any new Processor/SFT submission"
+  ]
+}
