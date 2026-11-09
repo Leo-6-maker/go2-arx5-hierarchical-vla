@@ -19,17 +19,18 @@ def full_restore_only(c):
     if operation is None:return False
     profile.need(c.get('original_Trainer_execution')is True
         and c.get('formal_training')is False
-        and c.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3')
+        and c.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')
         and isinstance(c.get('memory_reference'),dict)
         and set(c['memory_reference'])=={'path','sha256'},
         'CORE_FULL_ACTION_NATIVE_RESTORE_NOT_CACHE_OR_FORMAL')
     return True
 
 
-def activation_policy():
+def activation_policy(maximum=2*1024**3):
     from scripts.pi0294.multitask.activation_offload import LOW_RESIDENCY_POLICY
-    return dict(LOW_RESIDENCY_POLICY,schema='CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
-        per_microbatch_activation_offload_bytes=2*1024**3)
+    profile.need(maximum in(2*1024**3,4*1024**3),'DECLARED_LOSSLESS_CORE_ACTIVATION_CAPACITY')
+    return dict(LOW_RESIDENCY_POLICY,schema='CORE_LOSSLESS_CPU_ACTIVATIONS_'+str(maximum//1024**3)+'G_V1',
+        per_microbatch_activation_offload_bytes=maximum)
 
 
 def trim_unused_logits(model):

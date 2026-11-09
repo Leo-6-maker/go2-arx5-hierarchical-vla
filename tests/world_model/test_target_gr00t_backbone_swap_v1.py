@@ -63,9 +63,10 @@ def test_callback_restores_before_original_input_preparation_not_only_backbone_f
     assert swap.resident and swap.to_device_count==2
 
 
-def test_swap_policy_only_admits_the_explicit_core_full_native_restore():
+@pytest.mark.parametrize('memory',['CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'])
+def test_swap_policy_only_admits_the_explicit_core_full_native_restore(memory):
     p=profile.recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',endpoint=4,
-        memory_policy='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3')
+        memory_policy=memory)
     from test_target_gr00t_core_v1 import spec
     s=dict(spec('RESTORE4','FULL_ACTION_SIDE',4),recipe=p,core_native_operation='FULL_ACTION_RESTORE_ONLY')
     assert profile.validate(s)==p
@@ -73,3 +74,12 @@ def test_swap_policy_only_admits_the_explicit_core_full_native_restore():
     with pytest.raises(PermissionError,match='CORE_FIRST'):profile.validate(dict(s,core_native_operation=None))
     assert core.full_restore_only(dict(operation='FULL_ACTION_RESTORE_ONLY',original_Trainer_execution=True,
         formal_training=False,memory_policy=p['memory_policy'],memory_reference=dict(path='/sealed/reference',sha256='a'*64)))
+
+
+def test_larger_activation_budget_preserves_lossless_storage_and_old_default():
+    old,new=core.activation_policy(),core.activation_policy(4*1024**3)
+    assert old['per_microbatch_activation_offload_bytes']==2*1024**3
+    assert new['per_microbatch_activation_offload_bytes']==4*1024**3
+    assert not new['quantization']and not new['parameter_storage_offload']
+    assert {k:v for k,v in old.items()if k not in ['schema','per_microbatch_activation_offload_bytes']}=={
+        k:v for k,v in new.items()if k not in ['schema','per_microbatch_activation_offload_bytes']}

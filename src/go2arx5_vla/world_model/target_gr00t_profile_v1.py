@@ -22,7 +22,7 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
     need(type(endpoint)is int and endpoint in (
         (2,)if mode=='CAPACITY'else(2,4)if mode=='RESTORE4'else(200,500)if mode=='FIT4'else(2000,4000,8000)), 'FINITE_PREDECLARED_ENDPOINT')
     need(memory_policy in('CUDA_RESIDENT','CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
-        'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'),'DECLARED_MEMORY_EXECUTION')
+        'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'),'DECLARED_MEMORY_EXECUTION')
     return dict(schema='WM02_TARGET_GR00T_ACTION_SIDE_RECIPE_V1',profile=PROFILE,kind=KIND,
         mode=mode,variant=variant,endpoint=endpoint,dataset_sha256=dataset_sha256,
         statistics_sha256=statistics_sha256,parent_manifest_sha256=PARENT,upstream_sha=UPSTREAM,
@@ -80,11 +80,11 @@ def validate_original(spec):
         if spec.get('core_native_operation')=='FULL_ACTION_RESTORE_ONLY':
             need(p['mode']=='RESTORE4'and p['variant']=='FULL_ACTION_SIDE'
                 and p['microbatch']==1
-                and p['memory_policy']in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3')
+                and p['memory_policy']in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')
                 and (start,p['endpoint'])in((0,2),(0,4),(2,4)),
                 'CORE_FULL_ACTION_ORIGINAL_TRAINER_RESTORE_ONLY')
         else:
-            need(spec.get('core_native_operation')is None and p['memory_policy']!='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'
+            need(spec.get('core_native_operation')is None and p['memory_policy']not in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')
                 and p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
                 and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
     else:need(p['memory_policy']=='CUDA_RESIDENT','ORIGINAL_RESIDENT_EXECUTION')

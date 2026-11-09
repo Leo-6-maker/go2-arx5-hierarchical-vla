@@ -251,17 +251,18 @@ def run(spec):
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
-    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'):
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
         from .target_gr00t_core_v1 import trim_unused_logits
         trim_unused_logits(model)
     contract=action_contract(model,p['variant'],profile_name=p['profile']);model.to('cuda').eval();data.initialize()
     activation_storage=None
-    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'):
+    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
         from .target_gr00t_core_v1 import activation_policy
         from scripts.pi0294.multitask.activation_offload import SavedActivationOffload
-        activation_storage=SavedActivationOffload(model,policy=activation_policy())
+        activation_storage=SavedActivationOffload(model,policy=activation_policy(
+            4*1024**3 if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'else 2*1024**3))
     backbone_swap=None
-    if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3':
+    if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
         from .target_gr00t_backbone_swap_v1 import BackboneOptimizerSwap
         backbone_swap=BackboneOptimizerSwap(model,activation_storage)
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
@@ -292,7 +293,7 @@ def run(spec):
         source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
         global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
-    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3')and spec['start_step']==0:
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')and spec['start_step']==0:
         from .target_gr00t_core_v1 import verify_memory_predictions
         write(root/'MEMORY_EXECUTION_QUALIFICATION_ACTUAL.json',
             verify_memory_predictions(spec['memory_reference'],root/'before'))
