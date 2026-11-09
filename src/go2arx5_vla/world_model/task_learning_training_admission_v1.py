@@ -85,8 +85,8 @@ def fit4_qualification(proof,current):
 
 
 def processor_qualification(proof,spec):
-    """A saved reconstruction file also needs its actual finite CPU worker exit."""
-    from .task_learning_hopper_processor_v1 import PROFILE as CPU_PROFILE,ROOT
+    """Require the actual finite Processor worker, including reserved GPU cost."""
+    from .task_learning_hopper_processor_v1 import PROFILE as PROCESSOR_PROFILE,ROOT,configuration
     need=original.need;r=pinned(proof);root=Path(proof['path']).parent
     need(root.is_relative_to(ROOT)and Path(proof['path'])==root/'RESULT.private.json',
         'ACTUAL_OWN_HOPPER_PROCESSOR_WORKER_RESULT')
@@ -100,15 +100,18 @@ def processor_qualification(proof,spec):
         and lease.get('result_sha256')==proof['sha256']
         and r.get('job_id')==lease.get('job_id')==worker.get('job_id')
         and r.get('config_sha256')==lease.get('config_sha256')==digest(config_path)
-        and c.get('profile')==CPU_PROFILE and c.get('dataset')==str(data)
+        and c.get('profile')==PROCESSOR_PROFILE and c.get('dataset')==str(data)
         and c.get('pbs_server')==spec.get('pbs_server')
         and c.get('python')==spec.get('python')
         and all(c.get('bindings',{}).get(k)==spec['bindings'][k]for k in('source','cosmos','cosmos_hub'))
         and r.get('manifest_sha256')==spec['recipe']['dataset_sha256']
         and r.get('statistics_sha256')==spec['recipe']['statistics_sha256']
         and r.get('Processor_admission_sha256')==digest(admission)
-        and r.get('new_policy_models')==r.get('new_optimizer_updates')==r.get('new_native_integrations')==r.get('GPU_allocations')==0,
-        'ACTUAL_CLOSED_ZERO_EXIT_CPU_PROCESSOR_BEFORE_FORMAL_MODEL')
+        and r.get('new_policy_models')==r.get('new_optimizer_updates')==r.get('new_native_integrations')==0
+        and r.get('GPU_allocations')==1 and r.get('CUDA_initialized')is False
+        and r.get('reserved_GPU_wall_s',0)>0,
+        'ACTUAL_CLOSED_ZERO_EXIT_PROCESSOR_BEFORE_FORMAL_MODEL_WITH_RESERVED_GPU_COST')
+    configuration(c)
     for name in('scripts/wm02/qualify_target_gr00t_processor_v1.py',
         'src/go2arx5_vla/world_model/task_learning_native_dataset_v1.py',
         'src/go2arx5_vla/world_model/target_gr00t_dataset_v1.py',

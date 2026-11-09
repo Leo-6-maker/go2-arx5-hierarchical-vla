@@ -1,4 +1,4 @@
-"""Run original-Processor verification in one already allocated CPU PBS job."""
+"""Run original-Processor verification in one site-supported single-H200 PBS allocation; data stays on CPU."""
 import argparse,json
 from pathlib import Path
 

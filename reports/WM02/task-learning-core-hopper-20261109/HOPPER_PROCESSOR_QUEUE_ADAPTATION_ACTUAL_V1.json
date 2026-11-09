@@ -1,0 +1,86 @@
+{
+  "schema": "TASK_LEARNING_HOPPER_PROCESSOR_SITE_ADAPTATION_V1",
+  "EVIDENCE_ASOF": "2026-11-09T04:20:57.974242+00:00",
+  "actual_queues": {
+    "auto": {
+      "queue_type": "Route",
+      "from_route_only": "False",
+      "route_destinations": "small,medium,large,special",
+      "enabled": "True",
+      "started": "True"
+    },
+    "small": {
+      "queue_type": "Execution",
+      "from_route_only": "True",
+      "resources_max": {
+        "ngpus": 2,
+        "nodes": 1,
+        "walltime": "72:00:00"
+      },
+      "resources_min": {
+        "ngpus": 1,
+        "walltime": "00:00:00"
+      },
+      "max_run": "[u:PBS_GENERIC=2]",
+      "enabled": "True",
+      "started": "True"
+    },
+    "medium": {
+      "queue_type": "Execution",
+      "from_route_only": "True",
+      "resources_max": {
+        "ngpus": 7,
+        "nodes": 1,
+        "walltime": "48:00:00"
+      },
+      "resources_min": {
+        "ngpus": 3,
+        "walltime": "00:00:00"
+      },
+      "max_run": "[u:PBS_GENERIC=1]",
+      "enabled": "True",
+      "started": "True"
+    },
+    "long": {
+      "queue_type": "Execution",
+      "from_route_only": "True",
+      "resources_max": {
+        "walltime": "240:00:00"
+      },
+      "resources_min": {
+        "walltime": "00:00:00"
+      },
+      "enabled": "False",
+      "started": "False"
+    }
+  },
+  "decision": "USE_FINITE_SINGLE_H200_ALLOCATION_FOR_CPU_PROCESSOR_ONLY",
+  "old_zero_GPU_entry": "IMPLEMENTED_BUT_NEVER_SUBMITTED_OR_ALLOCATED",
+  "resource_request": {
+    "GPUs": 1,
+    "GPU_model": "H200",
+    "ncpus": 12,
+    "memory": "225gb",
+    "queue": "auto"
+  },
+  "PBS_device_mask": "UNCHANGED",
+  "CPU_tensor_processing": true,
+  "CUDA_initialization": false,
+  "policy_loads": 0,
+  "optimizer_updates": 0,
+  "physics_integrations": 0,
+  "actual_new_Processor_job": "NOT_SUBMITTED_WAIT_COMPLETE_DATA_AND_FRESH_PROJECT_ADMISSION",
+  "new_PBS_submissions": 0,
+  "allocation_cost": "RECORD_RESERVED_SINGLE_GPU_WALL_TIME_EVEN_WITHOUT_CUDA_INITIALIZATION",
+  "software_checks": "15 affected fixture checks; not actual site allocation or Processor qualification",
+  "fresh_project_admission": {
+    "EVIDENCE_ASOF": "2026-11-09T04:32:49.182130+00:00",
+    "project_active": true,
+    "current_account_in_project": true,
+    "project_end_date": "2027-03-12",
+    "official_project_query_exit": 0,
+    "official_balance_query_exit": 0,
+    "positive_GPU_hours": true
+  },
+  "authentication": "OFFICIAL_LOGIN_AND_READBACK_RECOVERED"
+}

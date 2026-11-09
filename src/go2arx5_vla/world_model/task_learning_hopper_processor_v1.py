@@ -1,4 +1,4 @@
-"""One already allocated CPU job for all continuous-data Processor records.
+"""One allocated single-H200 job; Processor tensors remain on CPU.
 
 PBS remains the scheduler. This entry submits nothing, loads no policy model,
 and grants no training admission without the actual cross-site batch identities.
@@ -10,7 +10,7 @@ from .target_gr00t_profile_v1 import need
 from .task_learning_hopper_v1 import PROJECT,job
 from .storage import digest
 
-PROFILE='TASK_LEARNING_CONTINUOUS_PROCESSOR_CPU_V1'
+PROFILE='TASK_LEARNING_CONTINUOUS_PROCESSOR_H200_ALLOCATION_V1'
 JOB_NAME='gr00t_task_proc'
 ROOT=Path('/scratch/e1192548/Projects/GR00T-WBC')
 
@@ -19,27 +19,27 @@ def configuration(c):
     need(c.get('profile')==PROFILE and c.get('physics')is False
         and c.get('policy_models')==c.get('optimizer_updates')==0
         and type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip())
-        and type(c.get('ncpus'))is int and 1<=c['ncpus']<=12
-        and type(c.get('mem_resource'))is str and bool(c['mem_resource'])
+        and c.get('reserved_gpus')==1 and c.get('ncpus')==12
+        and c.get('mem_resource')=='225gb'
         and Path(c['root']).is_absolute()and Path(c['root']).is_relative_to(ROOT)
         and type(c.get('predicted_work_s'))in(int,float)and math.isfinite(c['predicted_work_s'])
         and c['predicted_work_s']>0 and c['predicted_work_s']+300<c['wall_s'],
-        'EXPLICIT_FINITE_CPU_PROCESSOR_JOB_NO_POLICY_OR_PHYSICS')
+        'FINITE_SITE_SUPPORTED_H200_ALLOCATION_CPU_PROCESSOR_NO_POLICY_OR_PHYSICS')
 
 
-def allocated_cpu(record,c,*,uid,user,hostname):
+def allocated(record,c,*,uid,user,hostname):
     configuration(c);r=record['Resource_List']
     hosts={v.split('/')[0].split('.')[0]for v in record.get('exec_host','').split('+')}
     need(uid==22182 and user=='e1192548'
         and record['Job_Owner'].split('@')[0]==user
         and record['job_state']=='R'and record['project']==PROJECT
-        and record['Job_Name']==JOB_NAME and int(r.get('ngpus',0))==0
-        and all(not v.startswith('ngpus=')or int(v.split('=')[1])==0 for v in r['select'].split(':'))
+        and record['Job_Name']==JOB_NAME and int(r.get('ngpus',0))==1
+        and 'ngpus=1'in r['select'].split(':')and 'gpu_model=H200'in r['select'].split(':')
         and int(r['nodect'])==1 and int(r['ncpus'])==c['ncpus']
         and r['select'].split(':')[0]=='1'
         and str(r['mem']).lower()==c['mem_resource'].lower()
         and hostname.split('.')[0]in hosts and not hostname.split('.')[0].startswith('hopper-l-'),
-        'ACTUAL_OWN_PROJECT_CPU_ALLOCATION_NOT_LOGIN_OR_GPU')
+        'ACTUAL_OWN_PROJECT_SINGLE_H200_ALLOCATION_WITH_DECLARED_CPU_AND_MEMORY')
 
 
 def inputs(c):
@@ -76,7 +76,7 @@ def run(c):
         start,cpu=time.monotonic(),time.process_time();code=1;failure=None;result={};handlers={}
         try:
             actual=job(jid,c['pbs_server'])
-            allocated_cpu(actual,c,uid=os.getuid(),user=os.environ.get('USER'),hostname=os.uname().nodename)
+            allocated(actual,c,uid=os.getuid(),user=os.environ.get('USER'),hostname=os.uname().nodename)
             remaining=seconds(actual['Resource_List']['walltime'])-seconds(actual.get('resources_used',{}).get('walltime','00:00:00'))
             deadline=min(c['absolute_deadline_epoch'],time.time()+remaining-120)
             need(time.time()+c['predicted_work_s']+120<deadline,'FINITE_CPU_PROCESSOR_WORK_AND_CLOSEOUT_WINDOW')
@@ -90,7 +90,8 @@ def run(c):
             def interrupted(sig,frame):raise RuntimeError('FINITE_CPU_PROCESSOR_STOP_'+str(sig))
             handlers={s:signal.signal(s,interrupted)for s in(signal.SIGTERM,signal.SIGINT,signal.SIGALRM)}
             signal.alarm(max(1,int(deadline-time.time())))
-            os.environ['CUDA_VISIBLE_DEVICES']=''
+            # PBS owns the device mask, including for this CPU-only data phase.
+            pbs_device_mask=os.environ.get('CUDA_VISIBLE_DEVICES')
             write(root/'WORKER_STARTED.private.json',dict(job_id=jid,epoch=time.time(),actual_job=actual,
                 source_sha=c['source_sha'],dataset_sha256=original['manifest_sha256'],deadline_epoch=deadline))
             current=dict(lease,status='ACTIVE',deadline_epoch=deadline);write(lp,current)
@@ -103,6 +104,7 @@ def run(c):
                 value=original_qualify(c['dataset'],c['bindings']['source'],c['bindings']['cosmos'],
                     verify_transfer=True,transfer_site='HOPPER_SINGLE_GPU',dataset_family='TASK_LEARNING_CONTINUOUS_V1')
                 need(not torch.cuda.is_initialized(),'PROCESSOR_CPU_ONLY_AFTER_RECONSTRUCTION')
+                need(os.environ.get('CUDA_VISIBLE_DEVICES')==pbs_device_mask,'PBS_DEVICE_MASK_UNCHANGED')
                 return {k:v for k,v in value.items()if k!='records'}
             checked=journal.once('ORIGINAL_PROCESSOR_RECONSTRUCTION',dict(config_sha256=digest(cp)),qualify)
             result.update(status='PASS_ACTUAL_HOPPER_CONTINUOUS_PROCESSOR_RECONSTRUCTION',
@@ -115,8 +117,9 @@ def run(c):
             if handlers:signal.alarm(0)
             result.update(exit_code=code,failure=failure,job_id=jid,source_sha=c['source_sha'],config_sha256=digest(cp),
                 wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu,
-                new_policy_models=0,new_optimizer_updates=0,new_native_integrations=0,GPU_allocations=0)
-            if code:result['status']='HOPPER_CPU_PROCESSOR_FAILED_PRESERVED'
+                new_policy_models=0,new_optimizer_updates=0,new_native_integrations=0,GPU_allocations=1,
+                reserved_GPU_wall_s=time.monotonic()-start)
+            if code:result['status']='HOPPER_PROCESSOR_FAILED_PRESERVED'
             write(root/'RESULT.private.json',result)
             write(root/'WORKER_EXIT.private.json',dict(exit_code=code,failure=failure,job_id=jid,
                 wall_s=result['wall_s'],CPU_s=result['CPU_s']))
