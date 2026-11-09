@@ -81,7 +81,7 @@ def register_panel(request):
     policies['B1'].update(package=package,Core_qualification=request['Core_qualification'])
     for m in('B0','B1'):pair.policy_contract(policies[m],g['checkpoint_files'],expected_global_step=step)
     manifest=json.loads((Path(package['path'])/'PACKAGE_MANIFEST.json').read_bytes())
-    seed=manifest['recipe']['seed'];prefix=f'tl-student-s{seed}-step{step}'
+    seed=manifest['recipe']['seed'];prefix=f'tl-student-s{seed}-step{step}-pkg{package["sha256"][:12]}'
     task.need(root.name==f'task-learning-student-dev-seed{seed}-step{step}-pkg{package["sha256"][:12]}',
         'ONE_CANONICAL_PANEL_PER_ACTUAL_CANDIDATE')
     panel=make_panel(core['source_sha'],step,seed,policies,request['scenes'],prefix)
@@ -135,7 +135,7 @@ def register_group(request):
     actual_site(campaign)
     task.need(root.parent==Path(request['panel']['path']).parent and root.parent.resolve()==root.parent,
         'GROUP_UNDER_ORIGINAL_SEALED_PANEL')
-    task.need(root.name==f'group-{inp["assignment_slice"][0]:03d}-{inp["assignment_slice"][1]:03d}',
+    task.need(root.name==f'{root.parent.name}-group-{inp["assignment_slice"][0]:03d}-{inp["assignment_slice"][1]:03d}',
         'CANONICAL_UNEXECUTED_DEV_GROUP_SLICE')
     key=root.name.upper()+'-REGISTER';j=Journal(campaign/'control/journal',campaign.name)
     with closing(OwnerLock(campaign/'OWNER.lock')):

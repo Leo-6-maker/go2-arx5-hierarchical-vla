@@ -86,7 +86,7 @@ def test_registered_group_uses_original_journal_and_never_replays_dispatch(tmp_p
         memory_execution='fixture',memory_execution_reference={})
     write_json(path,panel)
     request=dict(panel=registration.descriptor(path),assignment_slice=[0,10],max_wall_s=3600,
-        root=str(folder/'group-000-010'))
+        root=str(folder/'panel-group-000-010'))
     for label in('pilot1','fusion'):
         folder_=tmp_path/label;folder_.mkdir();binding=folder_/'BINDING.private.json'
         write_json(binding,dict(deadline_epoch=time.time()+7200));write_json(folder_/'LEASE.json',dict(status='ACTIVE'))
