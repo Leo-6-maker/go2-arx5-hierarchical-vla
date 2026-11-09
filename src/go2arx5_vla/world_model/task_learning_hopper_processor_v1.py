@@ -1,4 +1,4 @@
-"""One allocated single-H200 job; Processor tensors remain on CPU.
+"""One allocated single-GPU job; Processor tensors remain on CPU.
 
 PBS remains the scheduler. This entry submits nothing, loads no policy model,
 and grants no training admission without the actual cross-site batch identities.
@@ -11,12 +11,21 @@ from .task_learning_hopper_v1 import PROJECT,job
 from .storage import digest
 
 PROFILE='TASK_LEARNING_CONTINUOUS_PROCESSOR_H200_ALLOCATION_V1'
+H100_PROFILE='TASK_LEARNING_CONTINUOUS_PROCESSOR_H100_ALLOCATION_V1'
 JOB_NAME='gr00t_task_proc'
 ROOT=Path('/scratch/e1192548/Projects/GR00T-WBC')
 
 
+def allocation_model(c):
+    model=c.get('allocation_gpu_model','H200')
+    need((model=='H200'and c.get('profile')==PROFILE)or
+        (model=='H100'and c.get('profile')==H100_PROFILE),'EXPLICIT_PROCESSOR_ALLOCATION_MODEL_AND_PROFILE')
+    return model
+
+
 def configuration(c):
-    need(c.get('profile')==PROFILE and c.get('physics')is False
+    allocation_model(c)
+    need(c.get('physics')is False
         and c.get('policy_models')==c.get('optimizer_updates')==0
         and type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip())
         and c.get('reserved_gpus')==1 and c.get('ncpus')==12
@@ -24,7 +33,7 @@ def configuration(c):
         and Path(c['root']).is_absolute()and Path(c['root']).is_relative_to(ROOT)
         and type(c.get('predicted_work_s'))in(int,float)and math.isfinite(c['predicted_work_s'])
         and c['predicted_work_s']>0 and c['predicted_work_s']+300<c['wall_s'],
-        'FINITE_SITE_SUPPORTED_H200_ALLOCATION_CPU_PROCESSOR_NO_POLICY_OR_PHYSICS')
+        'FINITE_SITE_SUPPORTED_SINGLE_GPU_CPU_PROCESSOR_NO_POLICY_OR_PHYSICS')
 
 
 def allocated(record,c,*,uid,user,hostname):
@@ -34,12 +43,12 @@ def allocated(record,c,*,uid,user,hostname):
         and record['Job_Owner'].split('@')[0]==user
         and record['job_state']=='R'and record['project']==PROJECT
         and record['Job_Name']==JOB_NAME and int(r.get('ngpus',0))==1
-        and 'ngpus=1'in r['select'].split(':')and 'gpu_model=H200'in r['select'].split(':')
+        and 'ngpus=1'in r['select'].split(':')and ('gpu_model='+allocation_model(c))in r['select'].split(':')
         and int(r['nodect'])==1 and int(r['ncpus'])==c['ncpus']
         and r['select'].split(':')[0]=='1'
         and str(r['mem']).lower()==c['mem_resource'].lower()
         and hostname.split('.')[0]in hosts and not hostname.split('.')[0].startswith('hopper-l-'),
-        'ACTUAL_OWN_PROJECT_SINGLE_H200_ALLOCATION_WITH_DECLARED_CPU_AND_MEMORY')
+        'ACTUAL_OWN_PROJECT_SINGLE_DECLARED_GPU_ALLOCATION_WITH_CPU_AND_MEMORY')
 
 
 def inputs(c):
@@ -81,7 +90,7 @@ def run(c):
             deadline=min(c['absolute_deadline_epoch'],time.time()+remaining-120)
             need(time.time()+c['predicted_work_s']+120<deadline,'FINITE_CPU_PROCESSOR_WORK_AND_CLOSEOUT_WINDOW')
             reg=json.loads(Path(c['registry']).read_bytes())
-            need(any(e.get('path')==str(root)and e.get('scope')==PROFILE
+            need(any(e.get('path')==str(root)and e.get('scope')==c['profile']
                 and e.get('source_sha')==c['source_sha']and e.get('local_lease')==str(lp)
                 for e in reg['entries']),'ACTUAL_EXISTING_CPU_WORKER_REGISTRY')
             for name,pin in c['source_files'].items():

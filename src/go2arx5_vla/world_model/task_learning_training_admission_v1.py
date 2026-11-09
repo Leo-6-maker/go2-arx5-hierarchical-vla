@@ -86,7 +86,7 @@ def fit4_qualification(proof,current):
 
 def processor_qualification(proof,spec):
     """Require the actual finite Processor worker, including reserved GPU cost."""
-    from .task_learning_hopper_processor_v1 import PROFILE as PROCESSOR_PROFILE,ROOT,configuration
+    from .task_learning_hopper_processor_v1 import PROFILE as PROCESSOR_PROFILE,H100_PROFILE,ROOT,configuration
     need=original.need;r=pinned(proof);root=Path(proof['path']).parent
     need(root.is_relative_to(ROOT)and Path(proof['path'])==root/'RESULT.private.json',
         'ACTUAL_OWN_HOPPER_PROCESSOR_WORKER_RESULT')
@@ -100,7 +100,7 @@ def processor_qualification(proof,spec):
         and lease.get('result_sha256')==proof['sha256']
         and r.get('job_id')==lease.get('job_id')==worker.get('job_id')
         and r.get('config_sha256')==lease.get('config_sha256')==digest(config_path)
-        and c.get('profile')==PROCESSOR_PROFILE and c.get('dataset')==str(data)
+        and c.get('profile')in(PROCESSOR_PROFILE,H100_PROFILE)and c.get('dataset')==str(data)
         and c.get('pbs_server')==spec.get('pbs_server')
         and c.get('python')==spec.get('python')
         and all(c.get('bindings',{}).get(k)==spec['bindings'][k]for k in('source','cosmos','cosmos_hub'))
@@ -150,6 +150,9 @@ def validate(spec):
     need(processor.get('dataset_family')=='TASK_LEARNING_CONTINUOUS_V1',
         'NEW_REAL_DECISIONS_PROCESSED_NOT_LEGACY_FOUR_WINDOW_ADMISSION')
     runtime=fit4_qualification(a['original_Trainer_FIT4'],spec)
+    if spec.get('allocation_gpu_model','H200')=='H100':
+        from .task_learning_h100_admission_v1 import qualification
+        qualification(spec.get('H100_restore_qualification'),spec)
     batch=None
     if p['microbatch']!=1 or a.get('Hopper_batch_qualification')is not None:
         from .task_learning_hopper_batch_v1 import qualification

@@ -31,10 +31,16 @@ def allocation_model(value):
     profile.need(model in ('H200','H100'),'EXPLICIT_HOPPER_GPU_MODEL')
     if model=='H100':
         p=value.get('recipe')or{}
-        profile.need(value.get('pbs_job_name')=='gr00t_h100_check'
+        restore=(value.get('pbs_job_name')=='gr00t_h100_check'
             and (value.get('phase')=='RESTORE_ONLY' or
                  (value.get('profile')==profile.PROFILE and p.get('mode')=='RESTORE4'
-                  and p.get('microbatch')==1)), 'H100_FIRST_FULL_ACTION_RESTORE_ONLY')
+                  and p.get('microbatch')==1)))
+        formal=value.get('pbs_job_name')=='gr00t_task_sft'and p.get('profile')=='TASK_LEARNING_GR00T_V1'
+        if formal:
+            from .task_learning_training_profile_v1 import descriptor
+            profile.need(p.get('microbatch')==1 and descriptor(value.get('H100_restore_qualification')),
+                'H100_FORMAL_REQUIRES_ITS_OWN_ACTUAL_RESTORE_DESCRIPTOR')
+        profile.need(restore or formal,'H100_EXPLICIT_RESTORE_OR_QUALIFIED_NEW_TASK')
     return model
 
 
@@ -54,7 +60,7 @@ def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_ta
         and record['job_state'] == 'R' and record['project'] == PROJECT
         and expected_gpu_model in ('H200','H100')
         and (expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan')
-             if expected_gpu_model=='H200'else expected_job_name=='gr00t_h100_check')
+             if expected_gpu_model=='H200'else expected_job_name in ('gr00t_h100_check','gr00t_task_sft'))
         and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
         and ('gpu_model='+expected_gpu_model) in resources['select'].split(':') and hostname.split('.')[0] in hosts

@@ -38,6 +38,17 @@ def test_midpoint_recovery_keeps_same_generation_seed_and_eight_thousand_schedul
     assert s['recipe']['seed']==20261109 and s['generation_id']==c['generation_id']
 
 
+def test_h100_formal_envelope_requires_separate_restore_and_keeps_exact_recipe():
+    c=config();c['allocation_gpu_model']='H100'
+    with pytest.raises(PermissionError,match='OWN_ACTUAL_RESTORE_DESCRIPTOR'):boot.configuration(c)
+    c['H100_restore_qualification']=dict(path='/fixture-not-actual-h100-proof',sha256='e'*64)
+    s=boot.configuration(c)
+    assert s['recipe']==c['recipe']and s['recipe']['scheduler_horizon']==8000
+    assert s['H100_restore_qualification']==c['H100_restore_qualification']and s['allocation_gpu_model']=='H100'
+    # An envelope or a descriptor alone cannot produce real data/GPU admission.
+    with pytest.raises(FileNotFoundError):boot.preflight(c)
+
+
 def test_premodel_bootstrap_failure_closes_only_its_owned_lease(tmp_path,monkeypatch):
     import json
     (tmp_path/'control').mkdir();lease=tmp_path/'control/LEASE.json'

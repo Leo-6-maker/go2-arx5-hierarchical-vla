@@ -4,7 +4,7 @@ from pathlib import Path
 from contextlib import closing
 from . import task_learning_training_profile_v1 as task
 from . import target_gr00t_profile_v1 as original
-from .task_learning_hopper_v1 import job,allocated
+from .task_learning_hopper_v1 import job,allocated,allocation_model,actual_gpu
 from .storage import digest
 
 
@@ -38,6 +38,10 @@ def execution_spec(c,*,job_id,gpu,deadline):
         task_learning_admission=c['task_learning_admission'],project_storage_admission=c['project_storage_admission'])
     for key in('endpoint_decision','first_seed_learning_and_native_gain'):
         if key in c:s[key]=c[key]
+    if 'allocation_gpu_model'in c:
+        s['allocation_gpu_model']=c['allocation_gpu_model']
+        if 'H100_restore_qualification'in c:s['H100_restore_qualification']=c['H100_restore_qualification']
+    allocation_model(s)
     task.validate(s)
     return s
 
@@ -54,7 +58,7 @@ def activate(c):
         and root.is_relative_to(Path(task.PROJECT_ROOT)),'EXPLICIT_ACTUAL_PROJECT_JOB_AND_SERVER')
     actual=job(jid,c['pbs_server'])
     allocated(actual,jid,uid=os.getuid(),hostname=os.uname().nodename,user=os.environ.get('USER'),
-        expected_job_name='gr00t_task_sft')
+        expected_job_name='gr00t_task_sft',expected_gpu_model=allocation_model(configuration(c)))
     lease=json.loads(lease_path.read_text())
     need(lease.get('status')=='PBS_SUBMITTED'and lease.get('job_id')==jid
         and lease.get('config_sha256')==digest(root/'ALLOCATION_CONFIG.json'),
@@ -72,8 +76,7 @@ def activate(c):
         'import torch,json;p=torch.cuda.get_device_properties(0);print(json.dumps(dict(count=torch.cuda.device_count(),name=p.name,uuid=str(p.uuid),major=p.major,total_memory=p.total_memory)))'],
         env=env,capture_output=True,text=True,timeout=90,check=True)
     gpu=json.loads(q.stdout)
-    need(gpu['count']==1 and gpu['name']=='NVIDIA H200'and gpu['major']==9
-        and gpu['total_memory']>=130*1024**3,'ACTUAL_SINGLE_QUALIFIED_H200')
+    actual_gpu(gpu,allocation_model(configuration(c)))
     s=execution_spec(c,job_id=jid,gpu=gpu,deadline=deadline)
     registry=json.loads(Path(c['registry']).read_text())
     need(any(e.get('path')==str(root)and e.get('scope')==task.PROFILE

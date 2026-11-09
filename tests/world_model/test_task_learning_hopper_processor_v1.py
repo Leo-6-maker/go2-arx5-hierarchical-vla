@@ -37,6 +37,15 @@ def test_only_actual_site_supported_single_h200_resources_for_the_owned_job_are_
             worker.allocated(record,config(),uid=22182,user='e1192548',hostname=host)
 
 
+def test_h100_processor_needs_explicit_model_and_matching_profile():
+    c=dict(config(),profile=worker.H100_PROFILE,allocation_gpu_model='H100')
+    r=allocation();r['Resource_List']['select']=r['Resource_List']['select'].replace('H200','H100')
+    worker.allocated(r,c,uid=22182,user='e1192548',hostname='hopper-26')
+    with pytest.raises(PermissionError):worker.allocated(r,config(),uid=22182,user='e1192548',hostname='hopper-26')
+    c['profile']=worker.PROFILE
+    with pytest.raises(PermissionError):worker.configuration(c)
+
+
 @pytest.mark.parametrize('key,value',[('pbs_server',''),('policy_models',1),('optimizer_updates',1),
     ('physics',True),('ncpus',0),('reserved_gpus',0),('mem_resource','32gb'),('predicted_work_s',3500),('root','/unregistered/root')])
 def test_cpu_job_cannot_load_models_train_or_silently_outlive_its_window(key,value):
