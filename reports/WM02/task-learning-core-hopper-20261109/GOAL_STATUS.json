@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T06:44:13+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T07:10:30.299757+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -197,9 +197,9 @@
     "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
     "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "FIRST50_CLOSED_EXIT0_NORMAL50_OF100_RECOVERY50_NOT_YET_RUN",
+  "G3": "FIRST50_CLOSED_SUCCESS50; SECOND50_ACTIVE_UNDER_CLOSE_RECOVERY; DEV_TEACHER4_CLOSED_PASS",
   "G4_G7": "NOT_RUN",
-  "next_gate": "FINISH_SEPARATE_DEV_REFERENCES_THEN_RENEW_COLD_SCOPE_AND_COLLECT_ORIGINAL_REMAINING50; HEADLESS_SINGLE_TASK_PASS_WITHOUT_WALL_SPEEDUP",
+  "next_gate": "FULL100_NATIVE_POPULATION_AND_CPU_PROCESSOR_EXPORT; HOPPER_PROCESSOR_AND_MEASURED_BATCH_QUALIFICATION_BEFORE_SEED09_FIRST2000",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -210,7 +210,7 @@
   },
   "execution_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
   "G3_preparation": {
-    "status": "FIRST50_CLOSED_EXIT0",
+    "status": "SECOND50_ACTIVE",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
     "normal_training_attempts": 50,
     "recovery_training_attempts": 0,
@@ -219,7 +219,8 @@
     "typed_original_Processor_dataset": "IMPLEMENTED_NOT_NATIVE_OR_PROCESSOR_ADMITTED",
     "actual_recovery_qualification": "G3_RECOVERY_QUALIFICATION01_ACTUAL.json",
     "actual_collection": "G3_CONTINUOUS_TEACHER_FIRST50_ACTUAL.json",
-    "current_full_task_successes": 50
+    "current_full_task_successes": 50,
+    "actual_second_group": "G3_CONTINUOUS_TEACHER_SECOND50_ACTUAL.json"
   },
   "user_parallel_steering": {
     "EVIDENCE_ASOF": "2026-11-09T05:10:37.033720+00:00",
@@ -236,5 +237,7 @@
     "native_execution_profile": "NATIVE_EXECUTION_TIMING_ACTUAL.json"
   },
   "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
-  "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json"
+  "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
+  "G3_DEV_references": "G3_FIXED_DEV_REFERENCES_ACTUAL.json",
+  "finite_continuation": "RUNNING_THROUGH_EXISTING_ADMISSION_HELPERS; FIRST_SEED2000_ENDPOINT_ONLY; UNKNOWN_OR_FAILURE_STOPS_WITHOUT_REPLAY; NATIVE_STUDENT_DEV_STILL_REQUIRED"
 }
