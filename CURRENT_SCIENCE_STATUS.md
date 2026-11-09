@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-10 00:17:34 SGT（UTC 16:17:34）实查：**Vanda重试仍在SSH握手前超时，本地、Hopper2和Core三条路径均未连通，HTTPS也超时；没有新A40提交或模型。** Core GPU0空闲容量由约30.4GiB降至约1.2GiB，共享工作保留，完整动作侧恢复资格尚未启动。独立FULL_ACTION_SIDE／1304913028参数入口已通过32项检查，有限容量等待进程3764271已实际驻留，最多在满足真实显存／主存门后沿原owner/Journal/registry派发一次；这不是正式SFT或学生结果。[实查、未运行与下一门](reports/WM02/task-learning-core-hopper-20261109/VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json)。
+
 2026-11-09 23:59:33 SGT（UTC 15:59:33）实测：**独立厘米级TRAIN准备完成，先止于两次Teacher可行性验证。** 12个静态位置10通过，X−2/−3cm因方块超出桌面支撑被原检查拒绝；X±1cm各一次完整抓持／抬升／保持成功，墙钟313.626／307.356秒，硬停止与技术失败0，所有子进程exit0、lease CLOSED。两次观测／60张策略RGB／1200条消费命令独立核验，原BC导出器拒绝资格角色；6请求人口只执行2个、其余4个保留未运行，不能声称可靠成功率或完整扩采资格。封存数据重新核验仍是1450唯一监督窗／50排除干预／3120RGB，TRAIN100和原SFT数据身份未改。[数据审计与12位置](reports/WM02/task-learning-core-hopper-20261109/NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json)、[两次真实终态及未运行分母](reports/WM02/task-learning-core-hopper-20261109/NEXT_TRAIN_FIRST2_NATIVE_FEASIBILITY_ACTUAL.json)。大规模扩采等首轮完整学生DEV。
 
 2026-11-09 22:08:52 SGT（UTC 14:08:52）实际冷接续：**Hopper只读等待控制02已退出，唯一后继03／PID3689510已真实驻留，原708392与707720请求未改。** 修正择路：扫描若R，等待它实际选中的微批与完整恢复；只有未启动Q/H扫描可用已资格microbatch1独立后继。7项路由检查及真实Q读回通过，原控制截止保留。官方small并发上限2，本账号活动表3项均Q，调度反馈ngpus不足且无开始时间估计；正式SFT仍0，Core接续3665222仍等模型／显存。[真实读回与冷交接](reports/WM02/task-learning-core-hopper-20261109/HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json)。
