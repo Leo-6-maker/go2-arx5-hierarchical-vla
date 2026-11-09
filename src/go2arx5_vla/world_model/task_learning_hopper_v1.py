@@ -30,7 +30,7 @@ def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_ta
     hosts = {h.split('/')[0].split('.')[0] for h in record.get('exec_host','').split('+')}
     profile.need(uid == 22182 and user == 'e1192548' and record['Job_Owner'].split('@')[0] == user
         and record['job_state'] == 'R' and record['project'] == PROJECT
-        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft')
+        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan')
         and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
         and 'gpu_model=H200' in resources['select'] and hostname.split('.')[0] in hosts
@@ -135,10 +135,13 @@ def run(c):
     from .target_gr00t_allocation_v1 import compare_next_update, fit4_gate, child_environment
     need = profile.need
     phase=c.get('phase','RESTORE_CANARY')
-    need(phase in('RESTORE_CANARY','FIT4_AFTER_QUALIFIED_RESTORE'),'EXPLICIT_FINITE_HOPPER_PHASE')
+    need(phase in('RESTORE_CANARY','FIT4_AFTER_QUALIFIED_RESTORE','BATCH_THROUGHPUT_SCAN'),'EXPLICIT_FINITE_HOPPER_PHASE')
     if phase=='FIT4_AFTER_QUALIFIED_RESTORE':
         need(type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip()),
             'EXPLICIT_OFFICIAL_PBS_SERVER_IN_FIT4_CONFIG_BEFORE_SUBMISSION')
+    if phase=='BATCH_THROUGHPUT_SCAN':
+        from .task_learning_training_admission_v1 import fit4_qualification
+        fit4_qualification(c['qualified_FIT4'],c)
     root = Path(c['root'])
     jid = os.environ.get('PBS_JOBID')
     actual = job(jid, c.get('pbs_server'))
@@ -168,7 +171,7 @@ def run(c):
     journal = Journal(root / 'control/journal', root.name)
     children = []
     with closing(OwnerLock(root / 'NEURAL_OWNER.lock')):
-        def child(name, mode, endpoint, *, start=0, resume=None, generation=None):
+        def child(name, mode, endpoint, *, start=0, resume=None, generation=None,microbatch=1):
             need(time.time() + 2400 < deadline, 'HOPPER_CHILD_START_WINDOW')
             r = root / name
             def register():
@@ -178,7 +181,7 @@ def run(c):
                 alias.parent.mkdir(parents=True)
                 alias.symlink_to(c['bindings']['cosmos'], target_is_directory=True)
                 recipe = profile.recipe(c['dataset_sha256'],c['statistics_sha256'], mode=mode,
-                    variant='FULL_ACTION_SIDE', endpoint=endpoint)
+                    variant='FULL_ACTION_SIDE', endpoint=endpoint,microbatch=microbatch)
                 spec = dict(registered_root=str(r), source_root=c['source_root'], source_sha=c['source_sha'],
                     source_files=c['source_files'], bindings=c['bindings'], parent=c['parent'],
                     profile=profile.PROFILE, kind=profile.KIND, execution_site='HOPPER_SINGLE_GPU',pbs_server=c.get('pbs_server'),
@@ -200,7 +203,9 @@ def run(c):
                 write(r / 'control/LEASE.json',dict(status='ACTIVE',job_id=jid,
                     spec_sha256=digest(r/'EXECUTION_SPEC.json'),deadline_epoch=deadline))
                 return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))
-            registered = journal.once(name+'-REGISTER',dict(mode=mode,endpoint=endpoint,resume=resume),register)
+            registration=dict(mode=mode,endpoint=endpoint,resume=resume)
+            if phase=='BATCH_THROUGHPUT_SCAN':registration['microbatch']=microbatch
+            registered = journal.once(name+'-REGISTER',registration,register)
             def execute():
                 env = child_environment(c['source_root'],r)
                 t = time.monotonic()
@@ -224,6 +229,29 @@ def run(c):
             write(root/'CHILDREN_ACTUAL.private.json',dict(children=children))
             need(row['exit_code']==0 and row['result']['global_step']==endpoint,'HOPPER_CHILD_FAILED_'+name)
             return row['result']
+        if phase=='BATCH_THROUGHPUT_SCAN':
+            from .task_learning_hopper_batch_v1 import summarize_trial,select
+            trials=[]
+            for micro in(1,2,4,8):
+                name='batch'+str(micro)+'-continuous4'
+                child(name,'RESTORE4',4,microbatch=micro,generation=root.name+'-batch'+str(micro))
+                trials.append(summarize_trial(root/name,micro))
+                write(root/'BATCH_TRIALS_ACTUAL.json',dict(trials=trials))
+            decision=select(trials);micro=decision['selected_microbatch']
+            continuous=next(v['result']for v in children if v['name']=='batch'+str(micro)+'-continuous4')
+            generation=root.name+'-batch'+str(micro)
+            split=child('selected-split2','RESTORE4',2,microbatch=micro,generation=generation)
+            cp=Path(split['checkpoint'])
+            resumed=child('selected-resume4','RESTORE4',4,start=2,microbatch=micro,generation=generation,
+                resume=dict(path=str(cp),sha256=digest(cp/'CHECKPOINT_COMPLETE.json')))
+            proof=compare_next_update(continuous['checkpoint'],resumed['checkpoint'])
+            write(root/'SELECTED_FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json',dict(proof,
+                comparison='CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2',microbatch=micro))
+            write(root/'BATCH_SELECTION_ACTUAL.json',decision)
+            return dict(status='HOPPER_BATCH_THROUGHPUT_AND_SELECTED_FULL_RESTORE_SEALED',
+                selected_microbatch=micro,effective_batch=32,trials=trials,selection=decision,
+                selected_full_restore=proof,children=children,optimizer_calls=20,
+                physics_integrations=0,formal_training=False,wall_s=time.monotonic()-started)
         if phase=='FIT4_AFTER_QUALIFIED_RESTORE':
             admission=qualified_fit4_forecast(c)
             write(root/'FIT4_TIME_ADMISSION.json',dict(admission,remaining_s=deadline-time.time()))
