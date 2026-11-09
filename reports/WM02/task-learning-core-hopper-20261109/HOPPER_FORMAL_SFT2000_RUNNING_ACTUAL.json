@@ -1,0 +1,104 @@
+{
+  "schema": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T22:51:15.569742+00:00",
+  "SGT": "2026-11-10T06:51:15.569742+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "formal_job": {
+    "job_id": "709342.hopper-m-02",
+    "PBS_state": "R",
+    "PBS_start_SGT": "Tue Nov 10 06:48:18 2026",
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "GPU_name": "NVIDIA H200",
+    "GPUs": 1,
+    "GPU_memory_bytes": 150111977472,
+    "wall_s": 14400,
+    "lease": "ACTIVE",
+    "finite_allocated_deadline_epoch": 1794278781.635917,
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "config_sha256": "67004fbaa07e0d70bd22bf506ed1f138ae96543c68e0856934ef67a41442b762",
+    "execution_spec_sha256": "b188ee498f0506454fa14dfe5e43be1431f033e9f22a00e339de83ae8bd372bf",
+    "worker_pid": 2660188,
+    "worker_started_epoch": 1794264515.5840418,
+    "automatic_retry": false
+  },
+  "actual_model": {
+    "original_CORR_parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "actual_model_loads": 1,
+    "strict_loading": {
+      "missing_keys": [],
+      "unexpected_keys": [],
+      "mismatched_keys": [],
+      "error_msgs": []
+    },
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_numel": 1304913028,
+    "trainable_tensors": 537,
+    "visual_and_language_backbone_frozen": true,
+    "external_adapter_trainables": 0,
+    "FIT4_or_scan_weights_as_parent": false
+  },
+  "actual_training": {
+    "endpoint": 2000,
+    "global_step": 21,
+    "completed_optimizer_calls": 21,
+    "sample_visits": 672,
+    "progress_epoch": 1794264674.1873434,
+    "worker_elapsed_wall_s": 149.92596570996102,
+    "optimizer_step_rows": 21,
+    "last_step": {
+      "consumed_cursor": 672,
+      "epoch": 1794264674.187325,
+      "learning_rate": 1.05e-05,
+      "native_loss": 0.15180562436580658,
+      "optimizer_update_wall_s": 1.3270124869886786,
+      "step": 21
+    },
+    "full_before_probe_records": 40,
+    "WM_updates": 0,
+    "Actor_updates": 0,
+    "physics_integrations": 0,
+    "stop_requested": []
+  },
+  "fixed_recipe": {
+    "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "microbatch": 8,
+    "accumulation": 4,
+    "effective_batch": 32,
+    "seed": 20261109,
+    "scheduler_horizon": 8000,
+    "warmup_updates": 200,
+    "save_every_updates": 250,
+    "original_BF16_loss_AdamW_and_frozen_WBC": true
+  },
+  "H100": {
+    "job_id": "708946.hopper-m-02",
+    "PBS_state": "Q",
+    "reason": "Not Running: User has reached queue small running job limit.",
+    "duplicate_submission": false
+  },
+  "sole_continuation": {
+    "pid": 3980394,
+    "process_start_ticks": "40455267",
+    "original_finite_deadline_epoch": 1794420173.0097456,
+    "loaded_qsub_code": false,
+    "existing_Core40_DEV80_pid": 3665222,
+    "existing_post_DEV_pid": 3846655
+  },
+  "negative": {
+    "endpoint2000_complete": false,
+    "complete_formal_checkpoint_restore": "NOT_RUN",
+    "private_student_model_package": "NOT_DELIVERED",
+    "student_Core40": "NOT_RUN",
+    "student_closed_loop_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "training_loss_is_task_success": false
+  },
+  "previous_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
+  "next_gate": "Keep healthy formal job running; complete all-state checkpoints and endpoint2000, actual restore and private delivery, then original Core40 and fullDEV80; no promotion from partial progress",
+  "private_evidence": {
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794264675911554317.private.json": "a27c4adba04e5cee6208531e1ed3df427bbe57188986642097133306c4a30eed"
+  }
+}
