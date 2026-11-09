@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T23:15:12.954023+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T23:26:39.303710+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -27,8 +27,8 @@
     "current_H100_restore": "708946 Q_SMALL_USER_RUNNING_JOB_LIMIT",
     "failed_PBS_pre_worker_negative_exit_jobs": 2,
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
-    "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY_PROFILE_REGISTERED_WAIT_CAPACITY",
-    "current_formal_SFT": "709342 R_SINGLE_H200; ACTUAL560_OF2000_UPDATES17920_VISITS; COMPLETE_CP250_AND500_WRITTEN_NOT_RESTORED"
+    "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
+    "current_formal_SFT": "709342 R_SINGLE_H200; ACTUAL819_OF2000_UPDATES26208_VISITS; COMPLETE_CP250_500_750_WRITTEN_NOT_RESTORED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -62,13 +62,13 @@
     },
     "original_Trainer_Core_FULL_ACTION_SIDE": {
       "status": "SPLIT2_COMPLETED2_THEN_RESTORE_BACKBONE_RETURN_OOM_CLOSED1",
-      "report": "CORE_SPLIT2_RESTORE_FAILURE_AND_ZERO_UPDATE_PROFILE_ACTUAL.json",
+      "report": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
       "historical_failed_GPU_roles": 8,
       "actual_completed_optimizer_calls": 9,
       "actual_nonzero_learning_rate_calls": 4,
       "continuous4_complete_checkpoints": 2,
       "complete_original_Trainer_restore_qualification": false,
-      "recovery_successor_role": "ZERO_UPDATE_RESTORE_MEMORY01_WAIT_CAPACITY",
+      "recovery_successor_role": "ZERO_UPDATE_MEMORY01_CLOSED_UNSTARTED_CAPACITY",
       "recovery_master_pid": null,
       "diagnostic_training_only": true,
       "formal_TRAIN100_updates": 0,
@@ -227,8 +227,8 @@
     "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
     "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP560_CP500",
-  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP560; FIXED500_TRAIN40_DEV20_FIT_IMPROVES; ENDPOINT_PACKAGE_CORE40_DEV80_TEST_NOT_COMPLETE",
+  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP819_CP750",
+  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP819; FIXED500_FIT_IMPROVES; ENDPOINT_PACKAGE_CORE40_DEV80_TEST_NOT_COMPLETE",
   "next_gate": "Keep healthy709342 to endpoint2000 and actual full restore/private package; existing Core40/fullDEV80; only the sealed complete scientific decision may trigger4000/8000",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
@@ -282,15 +282,15 @@
     "controller_transition": "06 failed before registration on redundant AMGR query gate; independently reconciled zero effects; actual formal709342 submitted once; cold wait-and-delivery07 preserves original deadline",
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": 3665222,
-    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP560_CP500",
+    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP819_CP750",
     "Core_current_resource": "GPU_FREE_2308964352_HOST_AVAILABLE_34487463936_BYTES; NO_PACKAGE",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
     "post_DEV_decision_successor_pid": 3989284,
     "post_DEV_current_status": "COLD_SUCCESSOR02_WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION; SAME_ORIGINAL_DEADLINE",
-    "latest_Core_runtime_recovery_actual": "CORE_SPLIT2_RESTORE_FAILURE_AND_ZERO_UPDATE_PROFILE_ACTUAL.json",
-    "Core_independent_GPU0_diagnostic": "ZERO_UPDATE_MEMORY01_REGISTERED_WAIT_CAPACITY; ORIGINAL_GPU1_CORE40_CONSUMER_UNCHANGED",
+    "latest_Core_runtime_recovery_actual": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
+    "Core_independent_GPU0_diagnostic": "MEMORY01_CLOSED_NOT_RUN_NO_DISPATCH; ORIGINAL_GPU1_CORE40_CONSUMER_PRESERVED",
     "latest_formal_runtime_actual": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json"
   },
   "G3_full100_native": {
@@ -346,13 +346,13 @@
     "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json"
   },
   "ALTERNATIVE_TRAINING_SITE_RECHECK": {
-    "status": "CORE10_TWO_UPDATES_THEN_RESTORE_OOM_CLOSED1; ZERO_UPDATE_PROFILE_WAIT_CAPACITY",
+    "status": "CORE_MEMORY_PROFILE01_CLOSED_UNSTARTED_CAPACITY; HOPPER_FORMAL_MAINLINE_RUNNING",
     "actual": "VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json",
     "new_full_action_GPU_jobs": 8,
     "Core_capacity_wait_controller": null,
-    "Core_current_status": "ORIGINAL_FULL8_RESTORE_NOT_PASSED; NO_COMPETING_FORMAL_JOB",
+    "Core_current_status": "FULL_ORIGINAL_TRAINER_RESTORE_UNPASSED; LAST_DIAGNOSTIC_NOT_RUN_CAPACITY",
     "prestart_actual": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json",
-    "latest_Core_actual": "CORE_SPLIT2_RESTORE_FAILURE_AND_ZERO_UPDATE_PROFILE_ACTUAL.json",
+    "latest_Core_actual": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
     "new_full_action_GPU_jobs_definition": "8 original native Core GPU master failures; zero-update memory profile registered but not dispatched"
   },
   "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json",
@@ -368,11 +368,11 @@
     "schedule_horizon": 8000,
     "warmup_updates": 200,
     "report": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json",
-    "actual_optimizer_calls": 560,
-    "actual_sample_visits": 17920,
+    "actual_optimizer_calls": 819,
+    "actual_sample_visits": 26208,
     "actual_model_loads": 1,
-    "last_complete_checkpoint_step": 500,
-    "last_complete_checkpoint_sha256": "a2d9cfcd9d04ea7507f355d46c090f4c4b78410a417b5ac2fefe54cde552d5e0",
+    "last_complete_checkpoint_step": 750,
+    "last_complete_checkpoint_sha256": "84e2425736cabdefb4a58effcb9fffb70dd7c0a3c170f1bfd5e9ce27879a54f0",
     "independent_full_restore": "NOT_RUN",
     "fixed500_open_loop_actual": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json"
   },

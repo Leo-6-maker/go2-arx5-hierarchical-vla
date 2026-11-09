@@ -1,0 +1,122 @@
+{
+  "schema": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T23:26:39.303710+00:00",
+  "SGT": "2026-11-10T07:26:39.303710+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "question": "Settle the finite unstarted Core diagnostic honestly while preserving the healthy first formal SFT and its real successors",
+  "Core_zero_update_profile": {
+    "role": "target-gr00t-core-restore-memory-20261110-01",
+    "source_sha": "29a6388b57b6d60a10f3f55a1a064bc3488c1416",
+    "config_sha256": "943d3cbc2c0037b39c4a2d49b782ebeb09fc5f265bf736e2269b4a73ca4d77fb",
+    "status": "NOT_RUN_GPU_CAPACITY_WAIT_ENDPOINT",
+    "lease_status": "CLOSED",
+    "worker_exit_code": null,
+    "actual_model_loads": 0,
+    "actual_optimizer_calls": 0,
+    "actual_GPU_dispatches": 0,
+    "original_deadline_epoch": 1794267892.4616613,
+    "closed_epoch": 1794266694.7148783,
+    "original_deadline_preserved": true,
+    "result_sha256": "a16002d215dc10d1e19f8167c894176be1e9559d4f7e74a74e6f4858f8ea77f4",
+    "canonical_registry_entries": 1,
+    "original_owner_close_journal_status": "COMPLETE",
+    "dispatch_journal_absent": true,
+    "worker_started_or_exit_files_absent": true,
+    "actual_unit_MainPID": 0,
+    "actual_unit_LoadState": "not-found",
+    "actual_waiter_pid3966294_absent": true,
+    "independent_readback_epoch": 1794266749.6852236,
+    "counted_as_executed_failure": false,
+    "new_retry_launched": false
+  },
+  "unchanged_Core_original_Trainer_totals": {
+    "failed_GPU_roles": 8,
+    "completed_optimizer_calls": 9,
+    "nonzero_LR_calls": 4,
+    "pre_registry_CPU_failures": 2,
+    "complete_continuous4_and_split2_checkpoint_references_preserved": true,
+    "full4_vs2plus2_qualification": "NOT_PASSED",
+    "formal_TRAIN100_updates_on_Core": 0,
+    "ordinary_full_category_GPU_inference_qualification": "PREVIOUSLY_PASSED_SEPARATE_INFERENCE_PATH"
+  },
+  "actual_formal": {
+    "job_id": "709342.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "PBS_state": "R",
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "GPU": "H200",
+    "GPUs": 1,
+    "endpoint": 2000,
+    "completed_optimizer_calls": 819,
+    "sample_visits": 26208,
+    "progress_epoch": 1794266797.0655549,
+    "complete_checkpoint_steps": [
+      250,
+      500,
+      750
+    ],
+    "checkpoint750": {
+      "step": 750,
+      "cursor": 24000,
+      "header_sha256": "84e2425736cabdefb4a58effcb9fffb70dd7c0a3c170f1bfd5e9ce27879a54f0",
+      "member_count": 15,
+      "bytes": 15668230159,
+      "files_metadata": {
+        "rng_state.pth": 14645,
+        "trainer_state.json": 102572,
+        "PROCESSOR_TRAINING_ADMISSION.json": 3247159,
+        "PROCESSOR_HOPPER_RECONSTRUCTION.json": 3247245,
+        "DATASET_MANIFEST.json": 1774809,
+        "PARAMETER_CONTRACT.json": 100858,
+        "target_parameters.pt": 5219838915,
+        "statistics.json": 6515,
+        "SAMPLER_STATE.json": 2284,
+        "optimizer.pt": 10439770966,
+        "scheduler.pt": 1465,
+        "FROZEN_PARENT_TENSORS.json": 112424,
+        "processor/processor_config.json": 3173,
+        "processor/embodiment_id.json": 615,
+        "processor/statistics.json": 6514
+      },
+      "all_declared_members_present": true,
+      "full_member_hashes_recomputed_on_login": false,
+      "independent_full_restore": "NOT_RUN"
+    },
+    "actual_prefix_cursor_and_original_continuous_LR_verified_through": 819,
+    "independent_full_restore": "NOT_RUN",
+    "private_student_package": "NOT_DELIVERED"
+  },
+  "actual_continuations": {
+    "sole_formal_delivery_pid": 3980394,
+    "original_Core40_DEV80_pid": 3665222,
+    "postDEV02_pid": 3989284,
+    "actual_PID_start_identities_verified": true,
+    "fresh_heartbeats": true,
+    "closed_waiter_not_reopened": true
+  },
+  "science": {
+    "fixed500_open_loop": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "complete2000": "NOT_RUN",
+    "student_Core40": "NOT_RUN",
+    "student_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "scientific_promotion": false
+  },
+  "new_effects": {
+    "new_PBS_submissions": 0,
+    "new_Core_models": 0,
+    "new_Core_optimizer_calls": 0,
+    "new_native_integrations": 0,
+    "new_policy_parent": false
+  },
+  "decision": "Preserve the zero-work CLOSED role and actual complete diagnostic checkpoint references; keep healthy formal709342 running. Any future Core diagnostic requires an independently observed suitable capacity and a fresh finite role.",
+  "next_gate": "First formal2000 all-state restore/private package, existing Core40 and fullDEV80 under actual capacity; complete evidence drives the next scientific action",
+  "private_evidence": {
+    "CORE_RESTORE_MEMORY01_UNSTARTED_CLOSE_INDEPENDENT_ACTUAL.private.json": "2a4ec9fca4f5d24e5c6fd66a4a613995604614df64f47ddf36ca564aa7b9e4fd",
+    "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794266798617159244.private.json": "81faaad1be80e8063398e81aadf19babe6e0ae84ffc3bd05f73db807c4fef58d",
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794266799304189082.private.json": "32051832ad840e6cac4b21f7659e1a01fe27caccec41241e6fa0698fdfff5315",
+    "CORE_MEMORY_CLOSE_AND_FORMAL_CP750_CONTROLLERS_ACTUAL.private.json": "69d8e87834894e758558cc03bee1b09d2d2e3ea2edc22b86b053018337f0abd0",
+    "CORE_RESTORE_MEMORY01_CAPACITY_UNSTARTED_CLOSE_ACTUAL.private.json": "98a85530033e60dacab1d0ecab2693e1be5bcc00b749156d8d38866df8850f57"
+  }
+}
