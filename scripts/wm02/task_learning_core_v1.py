@@ -30,13 +30,13 @@ def admitted(spec, spec_path):
         stat = (Path(spec['parent']['path']) / name).stat()
         need(dict(size=stat.st_size, inode=stat.st_ino, mtime_ns=stat.st_mtime_ns) == identity,
              'QUALIFIED_PARENT_IDENTITY_' + name)
-    if spec.get('operation') in ('FIT4_200','RECONSTRUCT_FIT4'):
+    if spec.get('operation') in ('FIT4_200','RECONSTRUCT_FIT4','ORDINARY_RECONSTRUCT_FIT4'):
         reuse = spec['qualification']
         need(digest(reuse['cache_path']) == reuse['cache_sha256']
              and digest(reuse['proof_path']) == reuse['proof_sha256'], 'IMMUTABLE_REAL_CORE_QUALIFICATION')
         proof = json.loads(Path(reuse['proof_path']).read_text())
         need(proof['status'] == 'PASS_REAL_FOUR_VERSUS_TWO_PLUS_TWO_EXACT', 'ACTUAL_COMPLETE_RESTORE_BEFORE_FIT4')
-    if spec.get('operation')=='RECONSTRUCT_FIT4':
+    if spec.get('operation')in('RECONSTRUCT_FIT4','ORDINARY_RECONSTRUCT_FIT4'):
         need(digest(Path(spec['checkpoint']['path'])/'CHECKPOINT_COMPLETE.json')==spec['checkpoint']['sha256'],
              'PINNED_ACTUAL_FIT200_CHECKPOINT')
     actual = gpu(spec)
@@ -70,6 +70,13 @@ def run_phase(spec, root, phase):
     def guard():
         features.need(time.time() + 1200 < spec['deadline_epoch'] and not (root / 'STOP.json').exists(), 'FINITE_WINDOW')
     model = _load_original_parent(spec, output, 'MODEL_LOAD')
+    if phase=='ordinary200':
+        features.need(spec.get('operation')=='ORDINARY_RECONSTRUCT_FIT4','REGISTERED_ORDINARY_FIT4_MEMORY_CHECK')
+        data=TargetNativeDataset(spec['bindings']['dataset'],spec['bindings']['source'],spec['bindings']['cosmos'],
+            for_optimization=True,optimization_site='CORELAB_4080S')
+        data.initialize()
+        return features.reconstruct_ordinary(model,data,spec['qualification']['cache_path'],
+            spec['checkpoint']['path'],spec['recipe'],output,spec['trained_probes'],guard)
     contract = action_contract(model, 'INTERFACES_LAST2_DIT')
     write(output / 'PARAMETER_CONTRACT.json', contract.describe())
     guard()
@@ -112,7 +119,7 @@ def run_phase(spec, root, phase):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--spec', type=Path, required=True)
-    parser.add_argument('--phase', choices=['prepare', 'continuous4', 'split2', 'resume4', 'fit200','reconstruct200'])
+    parser.add_argument('--phase', choices=['prepare', 'continuous4', 'split2', 'resume4', 'fit200','reconstruct200','ordinary200'])
     args = parser.parse_args(argv)
     spec = json.loads(args.spec.read_text())
     root = admitted(spec, args.spec)
@@ -146,7 +153,7 @@ def main(argv=None):
         stat = Path('/proc/self/stat').read_text().rsplit(')', 1)[1].split()
         write(root / 'WORKER_STARTED.json', dict(pid=os.getpid(), proc_start=stat[19], epoch=time.time()))
         try:
-            phases = ['reconstruct200']if spec.get('operation')=='RECONSTRUCT_FIT4'else ['fit200'] if spec.get('operation') == 'FIT4_200' else ['prepare', 'continuous4', 'split2', 'resume4']
+            phases = ['ordinary200']if spec.get('operation')=='ORDINARY_RECONSTRUCT_FIT4'else ['reconstruct200']if spec.get('operation')=='RECONSTRUCT_FIT4'else ['fit200'] if spec.get('operation') == 'FIT4_200' else ['prepare', 'continuous4', 'split2', 'resume4']
             for phase in phases:
                 with (root / (phase + '.stdout')).open('xb') as out, (root / (phase + '.stderr')).open('xb') as err:
                     command = [spec['python'], '-B', '-m', 'scripts.wm02.task_learning_core_v1',
@@ -166,9 +173,10 @@ def main(argv=None):
                 stages.append(dict(phase=phase, exit_code=status))
                 write(root / 'STAGES_ACTUAL.json', dict(stages=stages))
                 need(status == 0, 'PHASE_FAILED_' + phase)
-            if spec.get('operation')=='RECONSTRUCT_FIT4':
-                proof=json.loads((root/'reconstruct200/RESULT.json').read_text())
-                write(root/'RESULT.json',dict(status='CORE_FRESH_ORIGINAL_FIT200_RECONSTRUCTION_SEALED',
+            if spec.get('operation')in('RECONSTRUCT_FIT4','ORDINARY_RECONSTRUCT_FIT4'):
+                ordinary=spec['operation']=='ORDINARY_RECONSTRUCT_FIT4'
+                proof=json.loads((root/('ordinary200'if ordinary else'reconstruct200')/'RESULT.json').read_text())
+                write(root/'RESULT.json',dict(status=('CORE_ORDINARY_FIT200_RECONSTRUCTION_SEALED'if ordinary else'CORE_FRESH_ORIGINAL_FIT200_RECONSTRUCTION_SEALED'),
                     proof=proof,stages=stages,optimizer_updates=0,physics_integrations=0,formal_training=False))
                 code=0
                 return 0

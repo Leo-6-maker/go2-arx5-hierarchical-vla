@@ -462,3 +462,84 @@ def reconstruct_original(model, contract, data, cache, checkpoint, recipe, outpu
         write(output/'RESULT.json',proof)
         return proof
     finally:audit.close()
+
+
+def install_ordinary_diagnostic_delta(model, values, contract):
+    """Reconstruct the qualified FIT4 slices into ordinary upstream tensors."""
+    import torch
+    from scripts.pi0294.generalization.minimal_adapter import LEAVES,TargetCategoryLinear
+    from .target_gr00t_profile_v1 import whitelist
+    need(not any(isinstance(m,TargetCategoryLinear)for m in model.modules()),'ORDINARY_CATEGORY_TABLES_REQUIRED')
+    virtual=[];target_names=[]
+    for name,_ in model.named_parameters():
+        path,_,leaf=name.rpartition('.')
+        if path in LEAVES and leaf in('W','b'):
+            name=path+'.target_'+leaf;target_names.append(name)
+        virtual.append(name)
+    rows=contract['trainable'];names=tuple(r['name']for r in rows)
+    need(contract['variant']=='INTERFACES_LAST2_DIT'and contract['target_category']==10
+        and names==whitelist(tuple(virtual),tuple(target_names),contract['variant'])
+        and set(values)==set(names),'QUALIFIED_FIT4_INTERNAL_PARAMETER_WHITELIST')
+    copies=[]
+    for row in rows:
+        name=row['name'];path,_,leaf=name.rpartition('.')
+        target=(model.get_parameter(path+'.'+leaf.removeprefix('target_'))[10]
+            if path in LEAVES and leaf in('target_W','target_b')else model.get_parameter(name))
+        value=values[name]
+        need(target.device.type==value.device.type=='cpu'and target.dtype==value.dtype
+            and str(value.dtype)==row['dtype']and list(value.shape)==row['shape']==list(target.shape)
+            and value.numel()==row['numel']and bool(torch.isfinite(value).all()),'EXACT_ORDINARY_DELTA_'+name)
+        copies.append((target,value))
+    with torch.no_grad():
+        for target,value in copies:target.copy_(value)
+    model.requires_grad_(False);model.eval()
+
+
+def reconstruct_ordinary(model,data,cache,checkpoint,recipe,output,trained_probes,guard):
+    """Measure the full-category GPU route against the already sealed FIT4."""
+    import torch
+    import numpy as np
+    from gr00t.data.embodiment_tags import EmbodimentTag
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.native_train import tree_identity
+    from scripts.pi0294.e1.artifacts import atomic_npz
+    from .target_gr00t_core_v1 import trim_unused_logits
+    checkpoint,output=Path(checkpoint),Path(output)
+    saved=json.loads((checkpoint/'CHECKPOINT_COMPLETE.json').read_bytes())
+    need(saved['schema']==MEMORY and saved['step']==200 and saved['cursor']==6400
+        and saved['recipe']==recipe and saved['feature_cache_sha256']==digest(cache)
+        and all(digest(checkpoint/n)==pin for n,pin in saved['files'].items()),'SEALED_ACTUAL_FIT200_DIAGNOSTIC')
+    values=torch.load(checkpoint/'target_parameters.pt',map_location='cpu',weights_only=True)
+    install_ordinary_diagnostic_delta(model,values,saved['parameter_contract'])
+    del values
+    parameters=list(model.parameters());parameter_bytes=sum(p.numel()*p.element_size()for p in parameters)
+    need(parameter_bytes==12576064000 and all(p.dtype==torch.float32 and not p.requires_grad for p in parameters),
+        'ALL_ORIGINAL_FP32_PARAMETERS_WITH_FULL_CATEGORY_TABLES')
+    packet=torch.load(cache,map_location='cpu',weights_only=False)
+    need(len(packet['rows'])==len(data)==4,'FIXED_FOUR_REAL_INPUTS')
+    trim_unused_logits(model);model.to('cuda').eval();records=[]
+    for index,row in enumerate(packet['rows']):
+        guard();inputs=data.processor.collator([data[index]['processed']])['inputs']
+        need(tree_identity(inputs)==row['input_identity'],'SAME_ORIGINAL_PROCESSOR_INPUTS')
+        seed=2026110800+index
+        with torch.random.fork_rng(devices=[0]),torch.inference_mode(),torch.autocast('cuda',dtype=torch.bfloat16):
+            torch.manual_seed(seed)
+            normalized=model.get_action(inference_inputs(inputs))['action_pred'].detach().cpu().float().numpy()
+        state,expert,_,_=data.raw(index);episode=data.rows[index][0]['id']
+        decoded=data.processor.decode_action(normalized,EmbodimentTag.NEW_EMBODIMENT,
+            {'eef_9d':state[None,None,:9],'gripper_position':state[None,None,9:]})
+        physical=np.concatenate([decoded[k]for k in('eef_9d','gripper_position')],axis=-1)[0]
+        with np.load(Path(trained_probes)/(episode+'.npz'),allow_pickle=False)as reference:
+            need(np.array_equal(normalized,reference['normalized'])
+                and np.array_equal(physical,reference['physical_H40']),'ORDINARY_TABLE_FULL_H40_AND_PHYSICAL_BIT_EXACT')
+        path=output/(episode+'.npz');atomic_npz(path,normalized=normalized,physical_H40=physical,
+            expert_policy_H40=expert,actual_state10=state,noise_seed=np.asarray(seed,dtype=np.int64))
+        records.append(dict(episode=episode,seed=seed,normalized_H40_exact=True,physical_H40_exact=True,
+            output_sha256=digest(path),Processor_decode_calls=1))
+    proof=dict(status='PASS_ACTUAL_ORDINARY_FULL_CATEGORY_GPU_FIT200_RECONSTRUCTION',records=records,
+        source_checkpoint_sha256=digest(checkpoint/'CHECKPOINT_COMPLETE.json'),full_original_backbone_generations=4,
+        all132_H40_outputs_bit_exact=True,physical_outputs_bit_exact=True,precision_relaxed=False,
+        ordinary_category_tables_on_GPU=True,parameter_bytes=parameter_bytes,all_parameter_dtypes='torch.float32',
+        optimizer_updates=0,physics_integrations=0,native_task_conditions=0,formal_model=False,
+        peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+    write(output/'RESULT.json',proof);return proof
