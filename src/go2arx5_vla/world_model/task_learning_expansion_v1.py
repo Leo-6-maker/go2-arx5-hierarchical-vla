@@ -32,6 +32,10 @@ def validate(panel):
         and len({r['native_run'] for r in rows}) == len(NATIVE_LAYOUTS),
         'FIXED_SIX_NEXT_TRAIN_FEASIBILITY_REQUESTS')
     for row in rows:
+        static_rejected=row.get('static_status')=='REJECTED'
+        model_bound=(row.get('model_sha256') is None
+            and len(row.get('static_failure_sha256',''))==64 if static_rejected
+            else len(row.get('model_sha256',''))==64)
         task.need(row.get('restart') == 1 and row.get('split') == 'TRAIN'
             and row.get('parent') == scene_id(row['layout'])
             and row.get('command') == task.COMMAND and row.get('purpose') == PURPOSE
@@ -39,7 +43,7 @@ def validate(panel):
             and row.get('diagnostic_control') is None
             and Path(row['native_run']).name == row['native_run']
             and not row['native_run'].startswith('.')
-            and len(row.get('model_sha256', '')) == 64,
+            and model_bound,
             'INDEPENDENT_FEASIBILITY_NEVER_OLD_TRAIN_DEV_OR_TEST')
     return rows
 

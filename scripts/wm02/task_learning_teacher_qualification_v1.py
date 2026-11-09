@@ -55,6 +55,8 @@ def run(input_path):
         and 0<=selection[0]<selection[1]<=len(rows)
         and(role!=task.QUALIFICATION_ROLE or selection==[0,20]),'FIXED_CONTIGUOUS_PREREGISTERED_GROUP_NO_RETRY')
     selected_rows=rows[selection[0]:selection[1]]
+    task.need(all(r.get('static_status')!='REJECTED'for r in selected_rows),
+        'STATIC_REJECTED_REQUESTS_RETAINED_IN_DENOMINATOR_NEVER_EXECUTED')
     base=json.loads(Path(inp['base_spec']).read_text())
     if digest(inp['base_spec'])!=inp['base_spec_sha256']:raise ValueError('FROZEN_NATIVE_CONSTRUCTION_BASE')
     prior=Path(inp['base_spec']).parent

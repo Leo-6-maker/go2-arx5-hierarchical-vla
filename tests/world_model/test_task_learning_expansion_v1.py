@@ -57,6 +57,15 @@ def test_partial_feasibility_does_not_treat_unrun_as_failure_or_admit_bc():
     with pytest.raises(ValueError):expansion.summarize(p,[outcome,outcome])
 
 
+def test_static_rejection_retains_request_without_fabricating_model_pin():
+    p=panel();row=p['assignments'][2]
+    row.update(static_status='REJECTED',model_sha256=None,static_failure_sha256='d'*64)
+    assert len(expansion.validate(p))==6
+    assert expansion.summarize(p,[])['attempted']==0
+    row.pop('static_failure_sha256')
+    with pytest.raises(ValueError):expansion.validate(p)
+
+
 def test_native_admission_routes_new_role_without_construction_relabelling(monkeypatch):
     from go2arx5_vla.world_model import task_learning_grasp_native_v1 as native
     p=panel();row=p['assignments'][0]
