@@ -6,6 +6,18 @@ from go2arx5_vla.world_model.task_learning_hopper_v1 import allocated
 from go2arx5_vla.world_model.target_gr00t_profile_v1 import recipe
 
 
+def test_explicit_job_read_includes_history_for_real_terminal_delivery(monkeypatch):
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model import task_learning_hopper_v1 as hopper
+    calls=[]
+    def query(argv,**kwargs):
+        calls.append(argv)
+        return SimpleNamespace(stdout=json.dumps(dict(Jobs={'123.hopper-m-02':dict(job_state='F',Exit_status=0)})))
+    monkeypatch.setattr(hopper.subprocess,'run',query)
+    assert hopper.job('123.hopper-m-02','fixture-server')['job_state']=='F'
+    assert '-x'in calls[0]and calls[0][-1]=='123.hopper-m-02@fixture-server'
+
+
 def test_restore4_keeps_same_semantic_recipe_across_split_boundary():
     from go2arx5_vla.world_model.target_gr00t_training_v1 import semantic_recipe
     a=recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',endpoint=2)

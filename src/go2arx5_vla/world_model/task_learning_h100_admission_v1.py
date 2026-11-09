@@ -43,19 +43,20 @@ def qualification(proof,current):
     children=result.get('children')or[]
     need([v.get('name')for v in children]==['continuous4','split2','resume4'],
         'ALL_THREE_ACTUAL_H100_RESTORE_CHILDREN')
-    for row,(name,endpoint,cursor)in zip(children,[('continuous4',4,128),('split2',2,64),('resume4',4,128)]):
+    for row,(name,endpoint,start)in zip(children,[('continuous4',4,0),('split2',2,0),('resume4',4,2)]):
         child=read(name+'/RESULT.json');closed=read(name+'/control/LEASE.json');w=read(name+'/WORKER_EXIT.private.json')
         s=read(name+'/EXECUTION_SPEC.json');p=s.get('recipe')or{}
         contract=read(name+'/PARAMETER_WHITELIST.json')
         need(row.get('exit_code')==closed.get('worker_exit_code')==w.get('exit_code')==0
             and closed.get('status')=='CLOSED'and w.get('failure')is None
             and row.get('result')==child and row.get('result_sha256')==digest(root/name/'RESULT.json')
-            and child.get('global_step')==endpoint and child.get('sample_visits')==cursor
+            and child.get('global_step')==endpoint and child.get('sample_visits')==(endpoint-start)*32
+            and (child.get('restore')or{}).get('sampler_cursor')==endpoint*32
             and child.get('real_action_parameter_changed')is True and child.get('backbone_frozen')is True,
             'ACTUAL_H100_FULL_ACTION_RESTORE_CHILD_'+name)
         need(s.get('registered_root')==str(root/name)and s.get('source_sha')==c['source_sha']
             and s.get('source_files')==c['source_files']and s.get('parent')==c['parent']
-            and s.get('allocation_gpu_model')=='H100'and p.get('mode')=='RESTORE4'
+            and s.get('allocation_gpu_model')=='H100'and s.get('start_step')==start and p.get('mode')=='RESTORE4'
             and p.get('variant')=='FULL_ACTION_SIDE'and p.get('effective_batch')==32
             and p.get('microbatch')==1 and p.get('endpoint')==endpoint
             and contract.get('trainable_numel')==1304913028

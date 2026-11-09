@@ -14,10 +14,10 @@ SCOPE = 'GR00T_TASK_LEARNING_CORE_HOPPER_V1'
 
 
 def job(job_id, server=None):
-    """Use the configured official server address, avoiding its broken alias."""
+    """Read the exact current or historical job on the configured server."""
     server = server or os.environ.get('PBS_SERVER')
     profile.need(bool(server), 'PRIVATE_CONFIGURED_OFFICIAL_PBS_SERVER')
-    query = subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat', '-f', '-F', 'json',
+    query = subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat', '-x', '-f', '-F', 'json',
         job_id.split('@')[0] + '@' + server], capture_output=True, text=True, timeout=40, check=True)
     jobs = json.loads(query.stdout)['Jobs']
     matches = [v for k,v in jobs.items() if k.split('.')[0] == job_id.split('.')[0]]
