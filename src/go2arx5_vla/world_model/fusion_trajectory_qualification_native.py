@@ -291,7 +291,9 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
         # before this integration. The original wrapper accepts exactly +1.
         submitted = submit_gripper(adapter, len(windows), expected[9])
         event_start = len(adapter.ros_evidence)
-        after = adapter.advance_to(step+25); adapter.spin(.15)
+        from .native_collection_performance_v1 import measure
+        after = adapter.advance_to(step+25)
+        with measure(adapter,'atom.fixed_spin_150ms',native_step=step):adapter.spin(.15)
         actual = adapter.measured_task_state(); samples.append(actual)
         need(actual['native_step'] == after['step'] == step+25
              and actual['safety_valid'] is True and actual['native_abort'] is False,

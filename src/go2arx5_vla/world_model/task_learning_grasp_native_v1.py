@@ -18,6 +18,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_collection_v1.py',
     'src/go2arx5_vla/world_model/task_learning_dev_v1.py',
     'src/go2arx5_vla/world_model/task_learning_recovery_v1.py',
+    'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
     'src/go2arx5_vla/world_model/task_learning_grasp_native_v1.py')))
@@ -117,6 +118,8 @@ def validate(spec):
 
 
 def episode_config(spec):
+    from .native_collection_performance_v1 import configuration
+    configuration(spec)
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
@@ -228,7 +231,9 @@ def continue_native(adapter,report,samples,windows):
         captures.append(capture)
         write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=False))
         if student:teacher.observation=capture
-        program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+        from .native_collection_performance_v1 import measure
+        with measure(adapter,'policy.student_inference' if student else 'policy.Teacher_decision', native_step=step):
+            program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'

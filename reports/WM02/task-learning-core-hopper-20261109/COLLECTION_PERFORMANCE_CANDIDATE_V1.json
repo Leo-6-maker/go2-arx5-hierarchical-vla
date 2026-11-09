@@ -1,0 +1,132 @@
+{
+  "schema": "TASK_COLLECTION_PERFORMANCE_CANDIDATE_V1",
+  "status": "IMPLEMENTED_CPU_SEAMS_PASSED_NATIVE_QUALIFICATION_PENDING_COLD_BOUNDARY",
+  "current_TRAIN100_capsule_modified": false,
+  "current_TRAIN100_native_binary_changed": false,
+  "performance_integrations_started": 0,
+  "actual_existing_capture_readback": {
+    "headless_run": "task-learning-grasp-headless-qualification-20261109-03",
+    "read_epoch": 1794209375.5029001,
+    "capture_records": 15,
+    "sum_capture_wall_s": 18.631217575632036,
+    "minimum_capture_wall_s": 0.9785446478053927,
+    "maximum_capture_wall_s": 3.0597003400325775,
+    "Teacher_boundary_gap_sum_s": 44.543816091,
+    "difference_s": 25.91259851536796,
+    "capture_timer_excludes_pre_capture_runtime_identity_checks": true,
+    "difference_is_not_a_function_self_time": true,
+    "new_integrations": 0
+  },
+  "fixed_wait_count_source_audit": {
+    "startup_stride_windows_have_no_extra_spin150": 100,
+    "preparation_windows_2503_to_4703": 88,
+    "preaction_hold_windows": 40,
+    "Teacher_prefix_windows": 600,
+    "termination_hold_windows": 20,
+    "expected_extra_spin150_calls": 748,
+    "nominal_lower_bound_s_if_all_748_complete_150ms": 112.2,
+    "counts_pending_exact_function_profiler_readback": true,
+    "previous_848_times_150ms_is_not_a_proved_call_count": true
+  },
+  "modes": [
+    "profile",
+    "events",
+    "camera_cache",
+    "events_camera_cache"
+  ],
+  "profiling": {
+    "wall_and_calling_thread_CPU": true,
+    "nested_inclusive_and_self_separate": true,
+    "bounded_samples_complete_counts_and_totals": true,
+    "native_child_thread_CPU_not_inferred_from_Python_timers": true,
+    "operations": [
+      "advance_to",
+      "one_shot_ENTER_handoff",
+      "ROS_spin",
+      "callback_message_conversion",
+      "callback_journal_append",
+      "state_read",
+      "measured_state_FK",
+      "reference_install_and_ACK",
+      "reference_event_read",
+      "command_journal",
+      "runtime_loaded_identity",
+      "camera_model_and_renderer_initialization",
+      "camera_FK_and_all_array_validation",
+      "render",
+      "PNG",
+      "original_ABI_binding",
+      "pause_ACK",
+      "Teacher_or_student_decision"
+    ]
+  },
+  "event_wait": {
+    "task_start_step_minimum": 5703,
+    "preparation_and_preaction_waits_unchanged": true,
+    "timeout_s": 0.15,
+    "early_completion_requires": [
+      "same_native_quota_pause_ACK_and_packet",
+      "WBC_mode_and_no_TTL_expiry",
+      "current_window_ee_and_MPC_observation_age_0_to_25ms",
+      "original_exact_installed_target_to_solver_policy_join",
+      "arm_request_present",
+      "original_owned_wrapper_gripper_consumption"
+    ],
+    "original_post_wait_safety_and_consumption_checks_retained": true,
+    "timeout_or_mismatch": "FAIL_PRESERVE_NO_ENTER_RETRY_NO_TEACHER_FALLBACK"
+  },
+  "camera_cache": {
+    "scope": "ONE_EPISODE_EXCLUSIVE_SEQUENTIAL_QUERY_LEASES",
+    "resources": [
+      "native_MjModel_MjData_Renderer",
+      "independent_source_camera_MjModel_MjData_Renderer"
+    ],
+    "reset_MjData_before_each_packet": true,
+    "original_camera_patch_and_all_array_settings_validation_retained": true,
+    "actual_MJB_hash_checked_each_query": true,
+    "new_query_directory_images_calibration_state_and_hashes": true,
+    "native_wrist_bytes_retained": true,
+    "source_render_pixels_substituted": false,
+    "renderer_backend": "UNCHANGED_CPU_MESA_EGL",
+    "close": "EPISODE_FINALLY_BOTH_CONTEXTS"
+  },
+  "native_execution_gate": {
+    "required": [
+      "ACTUAL_TRAIN100_TERMINAL_AND_FULL_POPULATION_PASS",
+      "CORE_EXPORT_AND_PROCESSOR_TERMINAL_PASS",
+      "CANONICAL_OWNER_AND_PHYSICAL_LOCKS",
+      "VALID_EXISTING_CAMPAIGN_AND_PILOT_LEASE_WITH_FINITE_WINDOW",
+      "SEALED_NEW_SOURCE_IDENTITY",
+      "ORIGINAL_SAFETY_UNCHANGED"
+    ],
+    "construction_only": true,
+    "formal_training_data_eligible": false,
+    "matrix_order": [
+      "profile",
+      "events",
+      "camera_cache",
+      "events_camera_cache",
+      "events_camera_cache",
+      "camera_cache",
+      "events",
+      "profile"
+    ],
+    "independent_cold_restarts_not_bit_exact_forks": true,
+    "camera_replay": "ALL_15_SEALED_PACKETS_COMPARE_FRESH_VS_CACHED_PNG_CALIBRATION_EXACTLY_BEFORE_CACHE_NATIVE_RUNS",
+    "failure_policy": "PRESERVE_AND_STOP_NO_SCORE_BASED_RETRY"
+  },
+  "validation": {
+    "first_targeted_suite": {
+      "passed": 76,
+      "seconds": 3.33
+    },
+    "additional_affected_suite": {
+      "passed": 112,
+      "seconds": 3.38
+    },
+    "MuJoCo": "3.2.7",
+    "renderers_in_CPU_seam_tests": "EXPLICIT_TEST_DOUBLES_NOT_ACTUAL_PIXEL_QUALIFICATION",
+    "actual_native_speedup": null,
+    "actual_cached_pixel_equivalence": null
+  }
+}

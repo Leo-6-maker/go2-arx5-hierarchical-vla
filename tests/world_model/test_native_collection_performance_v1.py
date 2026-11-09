@@ -1,0 +1,115 @@
+"""Synchronization seams only; these fixtures never qualify a native episode."""
+import json
+from types import SimpleNamespace
+
+import pytest
+
+from go2arx5_vla.world_model import native_collection_performance_v1 as p
+from go2arx5_vla.world_model.task_learning_grasp_v1 import CONSTRUCTION_ROLE, COLLECTION_ROLE
+
+
+def spec(mode='events'):
+    return dict(phase='collect-target-task-learning-grasp-v1',task_learning_role=CONSTRUCTION_ROLE,
+        collection_performance=dict(version=p.VERSION,mode=mode),task_learning_grasp=dict(start_step=5703))
+
+
+def test_nested_times_are_not_added_twice_and_exceptions_are_retained():
+    wall=iter([0,10,40,100]);cpu=iter([0,2,9,20])
+    trace=p.PerformanceTrace(wall=lambda:next(wall),cpu=lambda:next(cpu))
+    with pytest.raises(RuntimeError,match='original'):
+        with trace.span('outer'):
+            with trace.span('inner',native_step=5703):pass
+            raise RuntimeError('original')
+    report=trace.report();a,b=report['spans']['outer'],report['spans']['inner']
+    assert (a['wall_ns'],a['self_wall_ns'],a['thread_cpu_ns'],a['self_thread_cpu_ns'])==(100,70,20,13)
+    assert b['wall_ns']==30 and a['failures']==1 and report['active_spans']==0
+
+
+def test_bounded_samples_do_not_truncate_counts_or_totals():
+    tick=iter(range(100))
+    trace=p.PerformanceTrace(wall=lambda:next(tick),cpu=lambda:0,sample_limit=2)
+    for _ in range(5):
+        with trace.span('x',native_step=5703):pass
+    row=trace.report()['spans']['x']
+    assert row['count']==5 and row['wall_ns']==5 and row['quantiles_first_n']==2
+    assert len(trace.events)==2
+
+
+def test_only_new_construction_can_opt_in():
+    assert p.configuration({}) is None
+    assert p.configuration(spec('profile'))['mode']=='profile'
+    for changed in (dict(task_learning_role=COLLECTION_ROLE),dict(phase='g2-reference-qualification'),
+                    dict(collection_performance=dict(version=p.VERSION,mode='unknown'))):
+        with pytest.raises(ValueError,match='FRESH_TASK_CONSTRUCTION'):
+            p.configuration(dict(spec(),**changed))
+
+
+def adapter_fixture(tmp_path,monkeypatch):
+    from go2arx5_vla.world_model import fusion_reference_qualification_native as reference
+    from go2arx5_vla.world_model import fusion_trajectory_qualification_native as native
+    before=dict(step=5703,time_s=11.406);after=dict(step=5728,time_s=11.456)
+    ack=dict(after,running=False,clock_paused=True)
+    (tmp_path/'pause_ack.json').write_text(json.dumps(ack))
+    adapter=SimpleNamespace(spec=spec(),output=tmp_path,performance=p.PerformanceTrace(),
+        latest=dict(mode=SimpleNamespace(data='WBC')),ros_evidence=[],calls=[])
+    adapter.observe=lambda:dict(after)
+    adapter.reference_events=lambda:[]
+    adapter.measured_task_state=lambda:dict(native_step=5728,time_s=11.456)
+    adapter.join=dict(solver_policies_with_exact_installed_target=[dict(derived=True)],arm_request_count=1)
+    adapter.gripper_checks=0
+    def confirm(*args):adapter.gripper_checks+=1
+    monkeypatch.setattr(native,'confirm_gripper',confirm)
+    monkeypatch.setattr(reference,'consumed_window',lambda *args:adapter.join)
+    def spin(seconds,predicate=None):
+        adapter.calls.append((seconds,predicate is not None))
+        return predicate() if predicate else True
+    adapter.spin=spin
+    kwargs=dict(event_start=0,before=before,after=after,clock={},submitted={})
+    return adapter,kwargs,ack
+
+
+def feedback(adapter,stamp=11.456):
+    adapter.ros_evidence.extend(dict(topic_key=k,message=dict(time=stamp))for k in ('ee','observation'))
+
+
+def test_complete_current_evidence_returns_early_without_extra_clock_write(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);feedback(adapter)
+    p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(.15,True)] and adapter.gripper_checks==1
+    assert adapter.performance.report()['spans']['atom.event_wait']['failures']==0
+
+
+@pytest.mark.parametrize('fault',['missing','stale','old_query','policy','arm_request'])
+def test_missing_actual_evidence_times_out_without_retry(tmp_path,monkeypatch,fault):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
+    if fault!='missing':feedback(adapter,10. if fault=='stale' else 11.456)
+    if fault=='old_query':kwargs['event_start']=len(adapter.ros_evidence)
+    if fault=='policy':adapter.join['solver_policies_with_exact_installed_target']=[]
+    if fault=='arm_request':adapter.join['arm_request_count']=0
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(.15,True)]
+
+
+@pytest.mark.parametrize('fault',['pause_step','pause_time','running','WBC','TTL','gripper'])
+def test_invariant_failures_are_not_converted_into_wait_success(tmp_path,monkeypatch,fault):
+    from go2arx5_vla.world_model import fusion_trajectory_qualification_native as native
+    adapter,kwargs,ack=adapter_fixture(tmp_path,monkeypatch);feedback(adapter)
+    if fault=='pause_step':ack['step']-=25
+    if fault=='pause_time':ack['time_s']-=.05
+    if fault=='running':ack['running']=True
+    if fault=='WBC':adapter.latest['mode'].data='HOLD'
+    if fault=='TTL':adapter.reference_events=lambda:[dict(reason='PREFIX_TTL_EXPIRED')]
+    if fault=='gripper':
+        def reject(*args):raise ValueError('original gripper mismatch')
+        monkeypatch.setattr(native,'confirm_gripper',reject)
+    (tmp_path/'pause_ack.json').write_text(json.dumps(ack))
+    with pytest.raises((ValueError,RuntimeError)):p.settle_atom(adapter,**kwargs)
+    assert len(adapter.calls)<=1
+
+
+@pytest.mark.parametrize('mode,step',[('profile',5703),('camera_cache',5703),('events',4703)])
+def test_profile_camera_and_startup_preserve_original_fixed_wait(tmp_path,monkeypatch,mode,step):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
+    adapter.spec=spec(mode);kwargs['before']['step']=step
+    p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(.15,False)] and adapter.gripper_checks==0

@@ -152,7 +152,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
             attempt.update(gripper_submitted=submitted,stage='SUBMITTED_BEFORE_EFFECT')
             adapter.command_event(dict(phase='live-skill-before-atom',protocol=adapter.spec['phase'],**attempt))
             event_start=len(adapter.ros_evidence)
-            after=adapter.advance_to(step+25);adapter.spin(.15)
+            from .native_collection_performance_v1 import settle_atom, measure
+            after=adapter.advance_to(step+25)
+            settle_atom(adapter,event_start=event_start,before=before,after=after,clock=clock,submitted=submitted)
             actual=adapter.measured_task_state();samples.append(actual)
             attempt.update(actual_TCP=np.asarray(actual['tcp']).tolist(),
                 actual_state_vector=np.asarray(state_vector(actual)).tolist(),
@@ -163,8 +165,10 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
                  and adapter.latest['mode'].data=='WBC'
                  and not any(v.get('reason')=='PREFIX_TTL_EXPIRED'for v in adapter.reference_events()),
                  'ORIGINAL_SAFE_WBC_TTL_AND_PAUSE')
-            grip=native.confirm_gripper(adapter,submitted,actual)
-            consumed=native.consumed_window(adapter,event_start,before,after,clock)
+            with measure(adapter,'atom.final_gripper_consumption'):
+                grip=native.confirm_gripper(adapter,submitted,actual)
+            with measure(adapter,'atom.final_solver_consumption_join'):
+                consumed=native.consumed_window(adapter,event_start,before,after,clock)
             need(consumed['native_start_step']==step and consumed['native_end_step']==step+25
                  and consumed['actual_ticks']==25 and consumed['reference_sha256']==adapter.active_reference['wire_sha256']
                  and bool(consumed['solver_policies_with_exact_installed_target']),

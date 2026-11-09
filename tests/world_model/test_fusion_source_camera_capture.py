@@ -116,6 +116,74 @@ def test_actual_copy_world_reparent_fk_preserves_native_arrays_packet_and_wrist(
         c.apply_source_rig_to_render_copy(model, model, data, packet, rig)
 
 
+def test_episode_cache_matches_fresh_capture_across_packets_and_closes_contexts(tmp_path, monkeypatch):
+    """Actual MuJoCo FK, deterministic renderer double; not pixel qualification."""
+    import mujoco
+    path,model,data,first,_=scene(tmp_path)
+    r=recipe(monkeypatch)
+    renderers=[]
+    class Renderer:
+        def __init__(self,model,*,height,width):
+            self.model=model;self.closed=False;renderers.append(self)
+        def update_scene(self,data,*,camera):
+            self.data,self.camera=data,camera
+        def render(self):
+            cid=int(self.model.camera(self.camera).id)
+            value=int(self.model.cam_fovy[cid]+self.data.qpos[7]*100+self.data.time)%256
+            return np.full((256,256,3),value,dtype=np.uint8)
+        def close(self):self.closed=True
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    forbid_step(monkeypatch)
+    session=c.SourceCameraSession(path,r)
+    retained={}
+    packets=[first,dict(first,step=4703,time_s=9.406,qpos=first['qpos'].copy())]
+    packets[1]['qpos'][7]=.3
+    for i,packet in enumerate(packets):
+        files=[]
+        for cached in (False,True):
+            folder=tmp_path/f'{i}-{cached}';(folder/'images').mkdir(parents=True)
+            recorder=c.SourceCameraRecorder(path,folder,r,session=session if cached else None)
+            recorder.save(0,packet)
+            if cached:
+                with pytest.raises(ValueError,match='EXCLUSIVE_CAMERA_SESSION'):
+                    session.acquire(path,folder,r)
+            c._packet_data(recorder.camera_adapter.camera_state.data,packet)
+            files.append({p.relative_to(folder).as_posix():p.read_bytes()for p in folder.rglob('*')if p.is_file()})
+            recorder.close()
+            assert not session.busy
+        assert files[0]==files[1]
+        retained[i]=files[1]
+    assert retained[0]['images/000000-wrist_rgb.png']!=retained[1]['images/000000-wrist_rgb.png']
+    assert (tmp_path/'0-True/images/000000-wrist_rgb.png').read_bytes()==retained[0]['images/000000-wrist_rgb.png']
+    assert len(renderers)==6 and sum(not x.closed for x in renderers)==2
+    session.close();session.close()
+    assert all(x.closed for x in renderers)
+    with pytest.raises(ValueError,match='EXCLUSIVE_CAMERA_SESSION'):session.acquire(path,tmp_path,r)
+
+
+def test_camera_cache_still_rejects_changed_non_camera_model_array(tmp_path,monkeypatch):
+    import mujoco
+    path,model,data,packet,_=scene(tmp_path);r=recipe(monkeypatch)
+    class Renderer:
+        def __init__(self,*args,**kwargs):pass
+        def update_scene(self,*args,**kwargs):pass
+        def render(self):return np.zeros((256,256,3),dtype=np.uint8)
+        def close(self):pass
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    session=c.SourceCameraSession(path,r)
+    try:
+        folder=tmp_path/'one';(folder/'images').mkdir(parents=True)
+        recorder=c.SourceCameraRecorder(path,folder,r,session=session);recorder.save(0,packet);recorder.close()
+        session.model.body_mass[1]+=1
+        folder=tmp_path/'two';(folder/'images').mkdir(parents=True)
+        recorder=c.SourceCameraRecorder(path,folder,r,session=session)
+        try:
+            with pytest.raises(ValueError,match='FRESH_NATIVE_BINARY_RENDER_COPY_body_mass'):
+                recorder.save(0,packet)
+        finally:recorder.close()
+    finally:session.close()
+
+
 def adapter_fixture(tmp_path, monkeypatch):
     import mujoco
     cpu_environment(monkeypatch)

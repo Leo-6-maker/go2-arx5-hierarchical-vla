@@ -20,6 +20,7 @@ import numpy as np
 from scripts.pi0294.task_native_worker import FrameRecorder
 from .fusion_source_camera_rig import (SourceCameraRig, SOURCE_IDENTITY_SHA256,
     FRAME_MAP_SHA256, RIG, OVERLAY_CAMERA, record_hash)
+from .native_collection_performance_v1 import measure, profiled
 
 SCHEMA = 'WM02_FUSION_SOURCE_CAMERA_CAPTURE_V1'
 _CAMERA_PATCH_FIELDS = {'cam_bodyid', 'cam_pos', 'cam_quat', 'cam_fovy'}
@@ -159,21 +160,29 @@ class SourceCameraCapture:
 
 
 class SourceCameraRecorder:
-    def __init__(self, model_path, folder, recipe):
+    def __init__(self, model_path, folder, recipe, *, session=None, performance=None):
         need(isinstance(recipe, SourceCameraCapture), 'TYPED_PINNED_SOURCE_CAMERA_RECIPE')
         self.model_path, self.folder, self.recipe = Path(model_path), Path(folder), recipe
         self.native_folder = self.folder / 'native-camera'
         (self.native_folder / 'images').mkdir(parents=True, exist_ok=False)
-        self.native = FrameRecorder(self.model_path, self.native_folder)
-        self.renderer = None
+        self.performance, self.session = performance, session
+        self.native = (FrameRecorder(self.model_path, self.native_folder) if session is None
+                       else session.acquire(self.model_path, self.native_folder, recipe))
+        self.native.performance = performance
+        self.renderer = None if session is None else session.renderer
+        self.closed = False
         self.camera_adapter = None
 
+    @profiled('camera.source_save')
     def save(self, index, packet):
         import mujoco
         from PIL import Image
         from .fusion_observation import camera_records
-        need(self.camera_adapter is None, 'ONE_CAPTURE_PER_RECIPE_RECORDER')
-        model_sha = sha(self.model_path.read_bytes())
+        need(self.camera_adapter is None and not self.closed, 'ONE_CAPTURE_PER_RECIPE_RECORDER')
+        with measure(self,'camera.model_hash_before'):
+            model_sha = sha(self.model_path.read_bytes())
+        if self.session is not None:
+            need(model_sha == self.session.model_sha, 'SESSION_MODEL_BYTES_UNCHANGED')
         result = self.native.save(index, packet)
         native_cal_path = self.native_folder / 'images' / f'{index:06d}-calibration.json'
         native_cal_raw = native_cal_path.read_bytes()
@@ -182,13 +191,30 @@ class SourceCameraRecorder:
         records = camera_records(native_state, native_cal, packet['time_s'])
         rig = SourceCameraRig(self.recipe.source_identity_bytes, self.recipe.T_source_from_target,
             records, expected_native_camera_records_sha256=record_hash(records))
-        model = mujoco.MjModel.from_binary_path(str(self.model_path))
-        data = mujoco.MjData(model)
-        apply_source_rig_to_render_copy(self.native.model, model, data, packet, rig)
-        self.renderer = mujoco.Renderer(model, height=256, width=256)
-        self.renderer.update_scene(data, camera='body_rgb')
-        external = self.renderer.render().copy()
-        Image.fromarray(external).save(self.folder / 'images' / f'{index:06d}-body_rgb.png')
+        model = None if self.session is None else self.session.model
+        if model is None:
+            with measure(self,'camera.source_model_load'):
+                model = mujoco.MjModel.from_binary_path(str(self.model_path))
+                data = mujoco.MjData(model)
+            if self.session is not None:self.session.model,self.session.data = model,data
+        else:
+            data = self.session.data
+            # Re-establish the original fresh-copy precondition, not a second
+            # camera implementation. All other arrays/settings stay checked.
+            for name in _CAMERA_PATCH_FIELDS:
+                np.copyto(getattr(model,name),getattr(self.native.model,name))
+            mujoco.mj_resetData(model,data)
+        with measure(self,'camera.source_rig_FK_and_array_validation'):
+            apply_source_rig_to_render_copy(self.native.model, model, data, packet, rig)
+        if self.renderer is None:
+            with measure(self,'camera.source_renderer_create'):
+                self.renderer = mujoco.Renderer(model, height=256, width=256)
+            if self.session is not None:self.session.renderer = self.renderer
+        with measure(self,'camera.source_render'):
+            self.renderer.update_scene(data, camera='body_rgb')
+            external = self.renderer.render().copy()
+        with measure(self,'camera.source_PNG'):
+            Image.fromarray(external).save(self.folder / 'images' / f'{index:06d}-body_rgb.png')
         rendered_external_sha256 = sha((self.folder / 'images' / f'{index:06d}-body_rgb.png').read_bytes())
         native_images = {name: (self.native_folder / 'images' / f'{index:06d}-{name}.png').read_bytes()
                          for name in ('body_rgb', 'wrist_rgb')}
@@ -207,11 +233,54 @@ class SourceCameraRecorder:
                 ('body_rgb.png', 'wrist_rgb.png', 'calibration.json')]
 
     def close(self):
+        if self.closed:return
+        self.closed = True
+        if self.session is not None:
+            self.session.release()
+            return
         try:
             if self.renderer is not None:
                 self.renderer.close()
         finally:
             self.native.close()
+
+
+class SourceCameraSession:
+    """One episode's private resources, with a new recorder/file set per query.
+
+    Sequential leases prevent one query from overwriting another query's data
+    before its original binding/validation finishes. Closing a recorder releases
+    the lease; closing the episode destroys both actual rendering contexts.
+    """
+    def __init__(self, model_path, recipe):
+        self.model_path,self.recipe = Path(model_path),recipe
+        self.model_sha = sha(self.model_path.read_bytes())
+        self.native = self.model = self.data = self.renderer = None
+        self.busy = self.closed = False
+
+    def acquire(self, model_path, folder, recipe):
+        need(not self.closed and not self.busy and Path(model_path)==self.model_path
+             and recipe.source_identity_bytes==self.recipe.source_identity_bytes
+             and np.array_equal(recipe.T_source_from_target,self.recipe.T_source_from_target)
+             and recipe.name==self.recipe.name, 'SAME_LIVE_EXCLUSIVE_CAMERA_SESSION')
+        if self.native is None:
+            self.native = FrameRecorder(self.model_path,folder)
+            self.native.reset_each_packet = True
+        else:self.native.folder = folder
+        self.busy = True
+        return self.native
+
+    def release(self):
+        need(self.busy and not self.closed,'LIVE_CAMERA_SESSION_LEASE')
+        self.busy = False
+
+    def close(self):
+        if self.closed:return
+        self.closed = True
+        try:
+            if self.renderer is not None:self.renderer.close()
+        finally:
+            if self.native is not None:self.native.close()
 
 
 @dataclass(frozen=True)
