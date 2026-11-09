@@ -1,0 +1,99 @@
+{
+  "schema": "WM02_H100_H200_SINGLE_FORMAL_WRITER_COLD_CONTINUATION_ACTUAL_V1",
+  "observed_at_sgt": "2026-11-10T02:03:58.101682+08:00",
+  "source_sha": "6ba901ebf900eef9fe224473c613188700518f34",
+  "status": "ACTUALLY_LIVE_FINITE_SUCCESSOR_WAITING_FIRST_REAL_QUALIFIED_ROUTE",
+  "question": "Continue the actual TRAIN100 to original-Trainer SFT2000 through either qualified single-GPU family without duplicating the formal writer.",
+  "changed": {
+    "H100_native_restore_required": true,
+    "H100_Processor_explicit_profile": true,
+    "H100_full_data_Processor_isolated_clone_registered": true,
+    "formal_H100_microbatch": 1,
+    "formal_H100_training_admission_requires_actual_closed_original_Trainer_restore": true,
+    "historical_H200_default_and_queued_capsules_preserved": true
+  },
+  "actual": {
+    "old_read_only_local_controller_retired": true,
+    "new_local_controller_pid": 3824025,
+    "process_identity_verified": true,
+    "separate_heartbeat_advanced": true,
+    "finite_controller_deadline_epoch": 1794420173.0097456,
+    "old_role_deadline_not_modified": true,
+    "unique_formal_writers": 1,
+    "new_PBS_submissions_this_handoff": 0,
+    "current_H200_processor": {
+      "job_state": "Q",
+      "Exit_status": null,
+      "job_id": "708392.hopper-m-02"
+    },
+    "current_H100_restore": {
+      "job_state": "Q",
+      "Exit_status": null,
+      "job_id": "708946.hopper-m-02"
+    },
+    "actual_choice": "WAIT",
+    "Core40_DEV80_existing_controller_preserved": true
+  },
+  "H100_data_preparation": {
+    "status": "READY_FOR_SINGLE_SUBMISSION",
+    "source_sha": "6ba901ebf900eef9fe224473c613188700518f34",
+    "dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "registry_entries": 1,
+    "qsub": false,
+    "new_unique_supervision_windows": 0,
+    "original_H200_Processor_data_not_modified": true,
+    "failed_configuration_missing_GPU_model_preserved": true,
+    "completion_used_new_Journal_key": true,
+    "fresh_project_admission_required_after_actual_H100_restore": true
+  },
+  "fixed_formal_recipe": {
+    "parent": "ORIGINAL_CORR2048",
+    "variant": "FULL_ACTION_SIDE",
+    "backbone_frozen": true,
+    "effective_batch": 32,
+    "microbatch_H100": 1,
+    "scheduler_horizon": 8000,
+    "warmup": 200,
+    "endpoint": 2000,
+    "qualified_weights_not_used_as_parent": true
+  },
+  "hardware_choice": "FIRST_ACTUAL_CLOSED0_H200_PROCESSOR_OR_H100_FULL_RESTORE; H200_IF_BOTH_READY; ACTUAL_SCAN_RESULT_OR_QUALIFIED_QUEUE_MICRO1_FOR_H200",
+  "verification": {
+    "related_local_checks": 87,
+    "all_thirteen_finite_helpers_compile": true,
+    "cold_route_fixtures_pass": true,
+    "remote_H100_data_and_source_pins_verified": true,
+    "actual_H100_native_qualification": "NOT_RUN",
+    "formal_SFT_started": false
+  },
+  "negative": [
+    "H100 708946 and H200 Processor708392 remain queued; source and registration are not native H100 or formal SFT results.",
+    "Earlier H100 directory failures are retained.",
+    "The initial H100 Processor configuration generator omitted GPU metadata; preflight rejected it before registry, lease or qsub. The original failure and INTENT were reconciled without replay after independent no-effect readback.",
+    "Core full-action cached eight-update proof is independent diagnostic evidence, never a formal parent or new-task learning result."
+  ],
+  "next": "When actual prerequisites close0, one-time original Processor as required, formal SFT2000, full restore and the existing private delivery helper; existing Core controller then qualifies40 probes and full DEV80. Unknown effects stop without replay.",
+  "private_evidence": [
+    {
+      "kind": "FULL100_HOPPER2_CONTINUATION03_COLD_RETIRED",
+      "sha256": "51ff6fff9ce3051ec3a9c07950c62357ecfe919b3b1b1a534d6b884eea661736"
+    },
+    {
+      "kind": "FULL100_HOPPER2_CONTINUATION04_STARTED",
+      "sha256": "a6eab858e83a12f9c5a60cd9786e28a14ee779a42c38513f34ebf8633706c40a"
+    },
+    {
+      "kind": "H100_PROCESSOR01_PRE_REGISTRY_FAILURE_READBACK",
+      "sha256": "6f4bb8343e6ba7c0abde4a96bf69b4136908ec9db29f86e28516203166129fcd"
+    },
+    {
+      "kind": "H100_PROCESSOR01_PREPARATION_COMPLETION_ACTUAL",
+      "sha256": "d24a66df723b33421117e8538a1d7b842034c839cb56935d8271a5cc5b7d9a96"
+    },
+    {
+      "kind": "H100_PROCESSOR01_INDEPENDENT_READY_READBACK",
+      "sha256": "6db5b1eed0177837330837ac253a0852d2d971f97c4c044457d0abff0eac48e3"
+    }
+  ]
+}
