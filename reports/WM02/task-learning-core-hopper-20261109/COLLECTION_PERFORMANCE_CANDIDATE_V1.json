@@ -127,6 +127,33 @@
     "MuJoCo": "3.2.7",
     "renderers_in_CPU_seam_tests": "EXPLICIT_TEST_DOUBLES_NOT_ACTUAL_PIXEL_QUALIFICATION",
     "actual_native_speedup": null,
-    "actual_cached_pixel_equivalence": null
+    "actual_cached_pixel_equivalence": null,
+    "local_finite_gate_self_test": "PASS_NO_CONNECTIONS_OR_EFFECTS"
+  },
+  "finite_successor_actual": {
+    "epoch": 1794210214.9060068,
+    "finite_deadline_epoch": 1794231814.9059029,
+    "source_sha": "cdd75715ab37e5e073714c6e9eb8f3c92b4af255",
+    "order": [
+      "profile",
+      "events",
+      "camera_cache",
+      "events_camera_cache",
+      "events_camera_cache",
+      "camera_cache",
+      "events",
+      "profile"
+    ],
+    "helpers_sha256": {
+      "register_collection_performance01.remote.private.py": "3b75de8dd18e6b65cd5d378d3e71b5fa465a1bc90086865da1bfa08ded9fcbcb",
+      "dispatch_collection_performance01.remote.private.py": "811281f5aa4f3fc6e2f5e2e3de8cd84d417eadb3400b68fc669f535b5f89e0f3",
+      "audit_collection_performance01.remote.private.py": "dadc51701265d3890b8d2a236a55e2bbf001b2109e6976592d773da13d5eeecb",
+      "replay_collection_cameras01.child.private.py": "20119f16e20a66cbaca2b1aa6ea6b079506772cb8e20874893789663031d2c3c",
+      "collection_performance_packet01.private.json": "367dc3fe222d95545a33d8030f7e45dfd281736e5e856e217b3afe25fdc54e4e"
+    },
+    "waits_for": "ACTUAL_FULL100_AND_CORE_EXPORT_PROCESSOR_CLOSED0",
+    "active_capsules_modified": false,
+    "endpoint": "EIGHT_FIXED_NEW_CONSTRUCTION_EPISODES_THEN_STOP_NO_FORMAL_DATA_ADOPTION",
+    "state": "WAIT_ACTUAL_FULL100_AND_CORE_EXPORT_PROCESSOR_TERMINAL_NOT_NATIVE_DISPATCHED"
   }
 }
