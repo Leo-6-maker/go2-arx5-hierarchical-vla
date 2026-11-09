@@ -1,0 +1,20 @@
+{
+  "schema": "TASK_LEARNING_HOPPER_FIT4_PREMODEL_FAILURE_ACTUAL_V1",
+  "run_id": "task-learning-hopper-fit4-20261109-02",
+  "job_id": "707392.hopper-m-02",
+  "source_sha": "aa8edf1c1bd7d56bb19928971f6b98d23c54292b",
+  "status": "CLOSED_PREMODEL_PBS_SERVER_CONFIGURATION_FAILURE",
+  "PBS_state": "F",
+  "PBS_exit_status": 1,
+  "PBS_wall_s": 1,
+  "PBS_GPU_count": 1,
+  "worker_wall_s": 0.07627373898867518,
+  "policy_models_loaded": 0,
+  "optimizer_updates": 0,
+  "GR00T_queries": 0,
+  "native_physics": 0,
+  "diagnosis": "The allocation config omitted an explicit PBS server. The read-only release client was fixed, but the allocation config was not; compute startup then rejected its missing server before importing Torch. Require the explicit official server in the pure pre-submission forecast and the worker entry, preserve the failure, and register a fresh corrected successor.",
+  "original_Trainer_full_restore_still_passes": true,
+  "old_CLOSED_reopened": false,
+  "EVIDENCE_ASOF": "2026-11-09T00:20:10.446050+00:00"
+}

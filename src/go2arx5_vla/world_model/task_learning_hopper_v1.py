@@ -62,7 +62,10 @@ def site(spec):
 
 def qualified_fit4_forecast(c):
     """Reuse an actual terminal full restore; count update time, not model loads."""
-    need=profile.need;descriptor=c['qualified_restore'];root=Path(descriptor['root'])
+    need=profile.need
+    need(type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip()),
+        'EXPLICIT_OFFICIAL_PBS_SERVER_IN_FIT4_CONFIG_BEFORE_SUBMISSION')
+    descriptor=c['qualified_restore'];root=Path(descriptor['root'])
     need(root.is_absolute()and root.resolve()==root and root!=Path(c['root'])
         and root.parent==Path(c['root']).parent,
         'DISTINCT_CANONICAL_COMPLETED_RESTORE_ROOT')
@@ -113,6 +116,9 @@ def run(c):
     need = profile.need
     phase=c.get('phase','RESTORE_CANARY')
     need(phase in('RESTORE_CANARY','FIT4_AFTER_QUALIFIED_RESTORE'),'EXPLICIT_FINITE_HOPPER_PHASE')
+    if phase=='FIT4_AFTER_QUALIFIED_RESTORE':
+        need(type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip()),
+            'EXPLICIT_OFFICIAL_PBS_SERVER_IN_FIT4_CONFIG_BEFORE_SUBMISSION')
     root = Path(c['root'])
     jid = os.environ.get('PBS_JOBID')
     actual = job(jid, c.get('pbs_server'))

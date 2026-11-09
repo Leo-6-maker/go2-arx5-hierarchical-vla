@@ -47,7 +47,7 @@ def fit4_successor(tmp_path):
         'src/go2arx5_vla/world_model/target_gr00t_profile_v1.py',
         'src/go2arx5_vla/world_model/target_gr00t_inference_v1.py',
         'scripts/wm02/train_target_gr00t_v1.py')}
-    c=dict(root=str(tmp_path/'new'),dataset_sha256='data',statistics_sha256='stats',
+    c=dict(root=str(tmp_path/'new'),pbs_server='official-server',dataset_sha256='data',statistics_sha256='stats',
         bindings={'dataset':'unchanged'},parent={'files':{}},python='same interpreter',source_files=sources)
     files={}
     def save(name,value,lines=False):
@@ -76,7 +76,7 @@ def test_finite_fit4_forecast_uses_actual_update_time_and_preserves_closeout(tmp
     assert v['closeout_reserve_s']==1200 and not v['qualification_weights_used_for_fit4']
 
 
-@pytest.mark.parametrize('change',['open','failed_restore','changed_model','changed_code','missing_timing','already_fit'])
+@pytest.mark.parametrize('change',['open','failed_restore','changed_model','changed_code','missing_timing','already_fit','missing_server'])
 def test_fit4_only_requires_completed_matching_restore_and_no_previous_fit(tmp_path,change):
     from pathlib import Path
     from go2arx5_vla.world_model.task_learning_hopper_v1 import qualified_fit4_forecast
@@ -87,4 +87,5 @@ def test_fit4_only_requires_completed_matching_restore_and_no_previous_fit(tmp_p
     elif change=='changed_code':c['source_files']=dict(c['source_files']);c['source_files']['scripts/wm02/train_target_gr00t_v1.py']='changed'
     elif change=='missing_timing':save('resume4/OPTIMIZER_STEPS.jsonl',[dict(step=4,optimizer_update_wall_s=7.5)],lines=True)
     elif change=='already_fit':(Path(c['qualified_restore']['root'])/'fit4-200').mkdir()
+    elif change=='missing_server':c.pop('pbs_server')
     with pytest.raises(PermissionError):qualified_fit4_forecast(c)
