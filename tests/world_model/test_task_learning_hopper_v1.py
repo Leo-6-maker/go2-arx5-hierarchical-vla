@@ -39,6 +39,52 @@ def test_fit4_only_job_name_remains_bound_to_actual_allocation():
     with pytest.raises(PermissionError):allocated(record,**arguments)
 
 
+def test_h100_needs_explicit_restore_identity_and_actual_matching_allocation():
+    from go2arx5_vla.world_model.task_learning_hopper_v1 import allocation_model
+    c=dict(allocation_gpu_model='H100',pbs_job_name='gr00t_h100_check',phase='RESTORE_ONLY')
+    assert allocation_model(c)=='H100' and allocation_model({})=='H200'
+    record=dict(Job_Owner='e1192548@hopper-l-02',job_state='R',project='CFP04-CF-007',
+        Job_Name='gr00t_h100_check',exec_host='hopper-compute/0*12',
+        Resource_List=dict(ngpus=1,nodect=1,select='1:ngpus=1:gpu_model=H100:ncpus=12:mem=225GB'))
+    arguments=dict(job_id='new-job',uid=22182,hostname='hopper-compute',user='e1192548')
+    allocated(record,**arguments,expected_job_name=c['pbs_job_name'],expected_gpu_model=allocation_model(c))
+    with pytest.raises(PermissionError):allocated(record,**arguments)
+    record['Resource_List']['select']=record['Resource_List']['select'].replace('H100','H200')
+    with pytest.raises(PermissionError):
+        allocated(record,**arguments,expected_job_name=c['pbs_job_name'],expected_gpu_model='H100')
+
+
+@pytest.mark.parametrize('change',['implicit_name','fit','formal','larger_microbatch','other_gpu'])
+def test_h100_cannot_silently_authorize_formal_or_different_recipe(change):
+    from go2arx5_vla.world_model.task_learning_hopper_v1 import allocation_model
+    c=dict(allocation_gpu_model='H100',pbs_job_name='gr00t_h100_check',profile='TARGET_GR00T_V1',
+        recipe=dict(mode='RESTORE4',microbatch=1))
+    assert allocation_model(c)=='H100'
+    if change=='implicit_name':c.pop('pbs_job_name')
+    elif change=='fit':c['recipe']['mode']='FIT4'
+    elif change=='formal':c['profile']='TASK_LEARNING_GR00T_V1'
+    elif change=='larger_microbatch':c['recipe']['microbatch']=2
+    else:c['allocation_gpu_model']='A100'
+    with pytest.raises(PermissionError):allocation_model(c)
+
+
+@pytest.mark.parametrize('model,name,gib,major,passes',[
+    ('H100','NVIDIA H100 80GB HBM3',79,9,True),
+    ('H100','NVIDIA H100 PCIe',79,9,True),
+    ('H100','NVIDIA H200',140,9,False),
+    ('H100','NVIDIA H100',60,9,False),
+    ('H100','NVIDIA H100',79,8,False),
+    ('H200','NVIDIA H200',140,9,True),
+    ('H200','NVIDIA H100',79,9,False),
+])
+def test_actual_device_capacity_is_bound_to_declared_model(model,name,gib,major,passes):
+    from go2arx5_vla.world_model.task_learning_hopper_v1 import actual_gpu
+    gpu=dict(count=1,name=name,total_memory=gib*1024**3,major=major)
+    if passes:actual_gpu(gpu,model)
+    else:
+        with pytest.raises(PermissionError):actual_gpu(gpu,model)
+
+
 def fit4_successor(tmp_path):
     from go2arx5_vla.world_model.storage import digest
     old=tmp_path/'old';old.mkdir()

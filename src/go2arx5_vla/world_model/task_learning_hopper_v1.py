@@ -1,4 +1,4 @@
-"""Fresh single-H200 native Trainer qualification; PBS owns all allocation."""
+"""Fresh single-GPU native Trainer qualification; PBS owns all allocation."""
 import json
 import math
 import os
@@ -25,16 +25,40 @@ def job(job_id, server=None):
     return matches[0]
 
 
-def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_task_hopper'):
+def allocation_model(value):
+    """Historical allocations remain H200; H100 starts with restore only."""
+    model=value.get('allocation_gpu_model','H200')
+    profile.need(model in ('H200','H100'),'EXPLICIT_HOPPER_GPU_MODEL')
+    if model=='H100':
+        p=value.get('recipe')or{}
+        profile.need(value.get('pbs_job_name')=='gr00t_h100_check'
+            and (value.get('phase')=='RESTORE_ONLY' or
+                 (value.get('profile')==profile.PROFILE and p.get('mode')=='RESTORE4'
+                  and p.get('microbatch')==1)), 'H100_FIRST_FULL_ACTION_RESTORE_ONLY')
+    return model
+
+
+def actual_gpu(gpu, model):
+    profile.need(model in ('H200','H100'),'EXPLICIT_HOPPER_GPU_MODEL')
+    minimum=130 if model=='H200'else 70
+    profile.need(gpu['count']==1 and model in gpu['name'].split()
+        and gpu['major']==9 and gpu['total_memory']>=minimum*1024**3,
+        'ACTUAL_SINGLE_'+model+'_CAPACITY_NOT_SITE_ALIAS')
+
+
+def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_task_hopper',
+              expected_gpu_model='H200'):
     resources = record['Resource_List']
     hosts = {h.split('/')[0].split('.')[0] for h in record.get('exec_host','').split('+')}
     profile.need(uid == 22182 and user == 'e1192548' and record['Job_Owner'].split('@')[0] == user
         and record['job_state'] == 'R' and record['project'] == PROJECT
-        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan')
+        and expected_gpu_model in ('H200','H100')
+        and (expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan')
+             if expected_gpu_model=='H200'else expected_job_name=='gr00t_h100_check')
         and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
-        and 'gpu_model=H200' in resources['select'] and hostname.split('.')[0] in hosts
-        and bool(job_id), 'REAL_OWN_PROJECT_SINGLE_H200_ALLOCATION')
+        and ('gpu_model='+expected_gpu_model) in resources['select'].split(':') and hostname.split('.')[0] in hosts
+        and bool(job_id), 'REAL_OWN_PROJECT_SINGLE_DECLARED_HOPPER_ALLOCATION')
 
 
 def site(spec):
@@ -62,7 +86,7 @@ def site(spec):
         'HOPPER_COMPUTE_SCRATCH')
     actual = job(jid, spec.get('pbs_server'))
     allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'),
-        expected_job_name=spec.get('pbs_job_name','gr00t_task_hopper'))
+        expected_job_name=spec.get('pbs_job_name','gr00t_task_hopper'),expected_gpu_model=allocation_model(spec))
     lease = json.loads((root / 'control/LEASE.json').read_text())
     profile.need(lease['status'] == 'ACTIVE' and lease['job_id'] == jid
         and lease['spec_sha256'] == digest(root / 'EXECUTION_SPEC.json'), 'NEW_HOPPER_CHILD_LEASE')
@@ -135,7 +159,8 @@ def run(c):
     from .target_gr00t_allocation_v1 import compare_next_update, fit4_gate, child_environment
     need = profile.need
     phase=c.get('phase','RESTORE_CANARY')
-    need(phase in('RESTORE_CANARY','FIT4_AFTER_QUALIFIED_RESTORE','BATCH_THROUGHPUT_SCAN'),'EXPLICIT_FINITE_HOPPER_PHASE')
+    need(phase in('RESTORE_CANARY','RESTORE_ONLY','FIT4_AFTER_QUALIFIED_RESTORE','BATCH_THROUGHPUT_SCAN'),'EXPLICIT_FINITE_HOPPER_PHASE')
+    model=allocation_model(c)
     if phase=='FIT4_AFTER_QUALIFIED_RESTORE':
         need(type(c.get('pbs_server'))is str and bool(c['pbs_server'].strip()),
             'EXPLICIT_OFFICIAL_PBS_SERVER_IN_FIT4_CONFIG_BEFORE_SUBMISSION')
@@ -146,7 +171,7 @@ def run(c):
     jid = os.environ.get('PBS_JOBID')
     actual = job(jid, c.get('pbs_server'))
     allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'),
-        expected_job_name=c.get('pbs_job_name','gr00t_task_hopper'))
+        expected_job_name=c.get('pbs_job_name','gr00t_task_hopper'),expected_gpu_model=model)
     lease = json.loads((root / 'control/LEASE.json').read_text())
     need(lease['status'] == 'PBS_SUBMITTED' and lease['job_id'] == jid
          and lease['config_sha256'] == digest(root / 'ALLOCATION_CONFIG.json'), 'NEW_SUBMITTED_HOPPER_SCOPE')
@@ -165,8 +190,7 @@ def run(c):
         'import torch,json;p=torch.cuda.get_device_properties(0);print(json.dumps(dict(count=torch.cuda.device_count(),name=p.name,uuid=str(p.uuid),major=p.major,total_memory=p.total_memory)))'],
         capture_output=True, text=True, timeout=90, check=True)
     gpu = json.loads(probe.stdout)
-    need(gpu['count'] == 1 and 'H200' in gpu['name'] and gpu['major'] == 9
-         and gpu['total_memory'] >= 130*1024**3, 'ACTUAL_SINGLE_H200_NOT_SITE_ALIAS')
+    actual_gpu(gpu,model)
     write(root / 'ACTUAL_GPU.private.json', gpu)
     journal = Journal(root / 'control/journal', root.name)
     children = []
@@ -185,7 +209,7 @@ def run(c):
                 spec = dict(registered_root=str(r), source_root=c['source_root'], source_sha=c['source_sha'],
                     source_files=c['source_files'], bindings=c['bindings'], parent=c['parent'],
                     profile=profile.PROFILE, kind=profile.KIND, execution_site='HOPPER_SINGLE_GPU',pbs_server=c.get('pbs_server'),
-                    pbs_job_name=c.get('pbs_job_name','gr00t_task_hopper'),
+                    pbs_job_name=c.get('pbs_job_name','gr00t_task_hopper'),allocation_gpu_model=model,
                     recipe=recipe, allocation_request_id=root.name, generation_id=generation or root.name+'-'+name,
                     start_step=start, resume=resume, GPU_uuid=gpu['uuid'], GPU_name=gpu['name'],
                     GR00T_updates=endpoint-start, WM_updates=0, Actor_updates=0, TASK_ADAPTER_updates=0,
@@ -270,6 +294,10 @@ def run(c):
         need(json.loads((Path(continuous['checkpoint'])/'SAMPLER_STATE.json').read_text())['cursor']==128,
              'HOPPER_FOUR_STEP_CURSOR128')
         write(root/'FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json',dict(proof,comparison='CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2'))
+        if phase=='RESTORE_ONLY':
+            return dict(status='HOPPER_ORIGINAL_TRAINER_RESTORE_ONLY_SEALED',proof=proof,
+                allocation_gpu_model=model,children=children,optimizer_calls=8,
+                physics_integrations=0,formal_training=False,wall_s=time.monotonic()-started)
         mean_step = max(continuous['wall_s']/4, resumed['wall_s']/2)
         forecast = mean_step*200*1.3 + 600
         write(root/'FIT4_TIME_ADMISSION.json',dict(conservative_predicted_s=forecast,remaining_s=deadline-time.time()))

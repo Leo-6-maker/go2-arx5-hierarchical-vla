@@ -115,8 +115,10 @@ def gpu_identity(torch,spec):
     profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==name,
         'ACTUAL_SINGLE_DECLARED_GPU')
     properties=torch.cuda.get_device_properties(0)
-    if hopper:profile.need('H200'in name and properties.major==9 and properties.total_memory>=130*1024**3,
-                           'ACTUAL_HOPPER_H200_CAPACITY')
+    if hopper:
+        from .task_learning_hopper_v1 import actual_gpu,allocation_model
+        actual_gpu(dict(count=torch.cuda.device_count(),name=name,major=properties.major,
+            total_memory=properties.total_memory),allocation_model(spec))
     actual=cuda_uuid(properties.uuid)
     profile.need(actual==cuda_uuid(spec['GPU_uuid']),'ALLOCATED_EXACT_GPU_UUID')
     if core:torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/properties.total_memory)
