@@ -1,0 +1,81 @@
+{
+  "schema": "TASK_LEARNING_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T13:26:00.625967+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T21:26:00.625967+08:00",
+  "QUESTION": "Is the remaining reference-install interval mainly ROS ACK wait or actual CPU validation?",
+  "CHANGED": "New cold source8a75c550 adds only nested measurement contexts to the existing envelope, unchanged full40 reference certificate and receiver-ACK call. Original calls, arguments, order and checks are AST-identical after removing measurement contexts; active fixed8 was untouched.",
+  "ACTUAL": {
+    "epoch": 1794230035.722615,
+    "source_sha": "8a75c550fe6eaa03a593578d6af98d25313094ce",
+    "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+    "actual_native_integrations": 21203,
+    "task_success": true,
+    "hard_safety_stops": 0,
+    "all_owned_children_exit0": true,
+    "worker_exit0": true,
+    "lease_closed": true,
+    "Teacher_decisions": 15,
+    "confirmed_50ms_commands": 600,
+    "dual_RGB_images_checked": 30,
+    "wall_s": 231.9074520189315,
+    "native_result_sha256": "0bd0515816bad32756a071b90f215e951ed9864c6de7d63bed2f0b1cf643929d",
+    "BC_admitted": false,
+    "timings": {
+      "reference.install_and_ACK": {
+        "count": 113,
+        "failures": 0,
+        "wall_ns": 44660297847,
+        "thread_cpu_ns": 42781812319,
+        "self_wall_ns": 128899828,
+        "self_thread_cpu_ns": 123895129
+      },
+      "reference.task_protocol_envelope": {
+        "count": 113,
+        "failures": 0,
+        "wall_ns": 6151628774,
+        "thread_cpu_ns": 5659103796,
+        "self_wall_ns": 6083095971,
+        "self_thread_cpu_ns": 5633790527
+      },
+      "reference.original_full40_certificate": {
+        "count": 113,
+        "failures": 0,
+        "wall_ns": 37491181307,
+        "thread_cpu_ns": 36571342008,
+        "self_wall_ns": 37433633127,
+        "self_thread_cpu_ns": 36539088204
+      },
+      "reference.explicit_receiver_ACK": {
+        "count": 113,
+        "failures": 0,
+        "wall_ns": 530245193,
+        "thread_cpu_ns": 288275920,
+        "self_wall_ns": 769656,
+        "self_thread_cpu_ns": 751806
+      },
+      "ros.spin": {
+        "count": 3458,
+        "failures": 0,
+        "wall_ns": 121938073607,
+        "thread_cpu_ns": 48569252657,
+        "self_wall_ns": 95276990341,
+        "self_thread_cpu_ns": 30646852870
+      }
+    },
+    "worker_cost": {
+      "exit_code": 0,
+      "failure": null,
+      "wall_s": 231.9074520189315,
+      "CPU_s": 133.713213035,
+      "child_CPU_s": 77.628049
+    }
+  },
+  "NEGATIVE": [
+    "This is a separate post-fixed8 timing diagnostic, not a ninth fixed-panel condition, new BC trajectory, policy trial, or speedup comparison.",
+    "Caller-thread CPU does not include simulator/solver processes. Nested inclusive times overlap with child spans and must not be summed across nesting levels.",
+    "The unchanged full40 certificate uses cloned MuJoCo FK/local IK and collision/rate checks; these are reference validation computations, not mj_step physics integration. No check was removed, cached or weakened in this experiment."
+  ],
+  "DECISION": "Correct the attribution: of44.660s install interval,37.491s is the original full40 certificate,6.152s task envelope and only0.530s explicit receiver ACK. Retain safety certificates; no claim that45s is ROS network latency.",
+  "NEXT_GATE": "Use actual task-policy results for the science mainline. Any later certificate/resource optimization needs separate exact-equivalence qualification, preserving original safety/math and failure behavior."
+}

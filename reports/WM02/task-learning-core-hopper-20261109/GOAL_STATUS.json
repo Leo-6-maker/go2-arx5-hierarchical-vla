@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T12:51:08.345216+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T13:30:01.759066+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -19,7 +19,7 @@
     "completed_PBS_jobs": 3,
     "successful_PBS_exit0_jobs": 2,
     "failed_PBS_exit1_jobs": 1,
-    "Core_current_native_owner": "PERFORMANCE_FIXED_SLOT6_CAMERA_CACHE_NATIVE3303566; CONTROLLER3636388",
+    "Core_current_native_owner": "NONE; FIXED8_AND_REFERENCE_PROFILE01_ALL_CLOSED0; CORE_CONTROLLER3665222_WAITING_READONLY",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
     "current_Hopper_scan": "707720.hopper-m-02 Q_GPU_UNAVAILABLE",
     "current_Hopper_Processor": "708392.hopper-m-02 Q_GPU_UNAVAILABLE"
@@ -200,7 +200,7 @@
   },
   "G3": "FIXED100_CLOSED_SUCCESS100; CORE_ORIGINAL_PROCESSOR1450_PASS; PRIVATE_TRANSFER_CLOSED0; HOPPER_PROCESSOR708392_QUEUED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "Hopper Processor CLOSED0/PBS F0; then original CORR2048 full-action SFT2000 with full actual admission; scan waiting may use the independently qualified microbatch1 successor under V2 section6.1.",
+  "next_gate": "ACTUAL_HOPPER_PROCESSOR708392_TERMINAL; SINGLE_QUALIFIED_FORMAL2000_AND_PRIVATE_PACKAGE; CORE_CONTROLLER3665222_WAIT_ACTUAL_PACKAGE_CAPACITY_THEN_CORE40_FULLDEV80_AND_FROZEN_DECISION",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -248,7 +248,11 @@
     "actual_handoff_report": "V2_ENDPOINT_HANDOFF_IMPLEMENTED_NOT_RUN.json",
     "formal_SFT_and_full_DEV_incomplete": true,
     "healthy_existing_controllers_preserved": false,
-    "controller_transition": "Original finite controllers stopped naturally on engineering failures; actual effects reconciled; successor only remaining performance slots2to8."
+    "controller_transition": "Original finite controllers stopped naturally on engineering failures; actual effects reconciled; successor only remaining performance slots2to8.",
+    "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
+    "Core40_fullDEV_continuation_pid": 3665222,
+    "Core_model_package": "NOT_DELIVERED; FORMAL_TRAINING_PENDING",
+    "Core_current_resource": "QUALIFIED_GPU_OTHER_USER_OCCUPIED_ONLY2P2GiB_FREE; WAIT_READONLY"
   },
   "G3_full100_native": {
     "report": "G3_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL.json",
@@ -264,31 +268,27 @@
     "latest_report": "G3_CORE_PROCESSOR_TRANSFER_AND_HOPPER_QUEUE_ACTUAL.json"
   },
   "collection_performance": {
+    "status": "ORIGINAL_FIXED8_COMPLETE_8_FULL_TASK_SUCCESS_0_HARD_STOPS_ALL_CLOSED0",
     "completed_slots": [
       1,
       2,
       3,
       4,
-      5
-    ],
-    "slot1_wall_s": 317.60824293317273,
-    "slot2_preflight_failure": "CLOSED_NATIVE_NOT_DISPATCHED",
-    "successor_source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
-    "remaining_slots": [
+      5,
       6,
       7,
       8
     ],
-    "actual_speedup_proven": "ONE_INDEPENDENT_PAIR_OBSERVED; REPEATABILITY_PENDING",
-    "camera_all15_actual": "COLLECTION_PERFORMANCE_CAMERA_SCENE_REPAIR_ACTUAL.json",
-    "camera_pixel_qualification": "PASS_ALL15_ORIGINAL_FRESH_CACHED_EXACT",
-    "actual_running_slot": 6,
-    "native_PID": 3303566,
-    "slot2_wall_s": 228.56618818920106,
-    "observed_single_events_wall_reduction_fraction": 0.28035183823206633,
-    "latest_actual": "COLLECTION_PERFORMANCE_FIRST_EVENTS_ACTUAL.json",
-    "slot3_wall_s": 314.06093425210565,
-    "slot4_wall_s": 227.71717068273574,
-    "slot5_wall_s": 220.8109712637961
+    "remaining_slots": [],
+    "profile_mean_wall_s": 317.6696378486231,
+    "events_mean_wall_s": 228.9315017880872,
+    "camera_cache_mean_wall_s": 314.72436699224636,
+    "combined_mean_wall_s": 224.26407097326592,
+    "events_mean_wall_reduction_fraction": 0.2793409425638017,
+    "combined_mean_wall_reduction_fraction": 0.2940336618505137,
+    "actual_speedup_proven": "FINITE_SAME_TASK_TWO_RESTARTS_PER_MODE_ONLY",
+    "production_data_adoption": false,
+    "actual": "COLLECTION_PERFORMANCE_FIXED8_COMPLETE_ACTUAL.json",
+    "reference_CPU_ACK_actual": "COLLECTION_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL.json"
   }
 }

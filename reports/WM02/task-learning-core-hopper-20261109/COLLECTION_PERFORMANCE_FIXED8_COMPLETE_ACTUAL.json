@@ -1,0 +1,418 @@
+{
+  "schema": "TASK_LEARNING_FIXED8_PERFORMANCE_COMPLETE_ACTUAL_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T13:26:00.625967+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T21:26:00.625967+08:00",
+  "QUESTION": "Did conditional settling and exact resource reuse give repeatable same-task actual end-to-end improvement?",
+  "CHANGED": "Preserved original slot1; after the known zero-native-start slot2 camera failure, repaired only per-capture CPU scene history and continued original unexecuted2to8 in a fresh capsule. Original fixed order, controller/leg/math/dynamics2ms/safety/data identities retained.",
+  "ACTUAL": {
+    "status": "FIXED_EIGHT_CONSTRUCTION_CONDITIONS_COMPLETE_NOT_FORMAL_COLLECTION",
+    "order": [
+      "profile",
+      "events",
+      "camera_cache",
+      "events_camera_cache",
+      "events_camera_cache",
+      "camera_cache",
+      "events",
+      "profile"
+    ],
+    "conditions": [
+      {
+        "epoch": 1794225829.9537954,
+        "matrix_index": 1,
+        "mode": "profile",
+        "source_sha": "cdd75715ab37e5e073714c6e9eb8f3c92b4af255",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 317.60824293317273,
+        "native_result_sha256": "63f10d4618e305c8756b2be9241f6d214fc61c98f2f918c2e0f6f8c22c57988f",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "21d8a512b5ffcdbd2749f0904515e1daee418d31b0f44f28c3283652b6d7bec1",
+          "lease_sha256": "23c9b2f9c3b297e1be5f44ecd71be73f708e08b1cd551784eab190467f5f087c",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 317.60824293317273,
+            "CPU_s": 145.348704898,
+            "child_CPU_s": 94.818528
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.02578525828664835,
+          "longest_contiguous_grasp_lift_hold_s": 8.700000000000001,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003973875348289025,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794227639.973353,
+        "matrix_index": 2,
+        "mode": "events",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 228.56618818920106,
+        "native_result_sha256": "6a7c63974c84bf6dc7958e8291bff9df1af6bbebddbc2395f65246bf82d5f816",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "723ba5d8fdff51defe195969d71d25110ba106a7c4000bb5e42d195a0b7e0dca",
+          "lease_sha256": "bc527cd167c4f589d54f4c3513e29052a42e671f08a612c2838222b50d644684",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 228.56618818920106,
+            "CPU_s": 133.39188302099998,
+            "child_CPU_s": 76.384635
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.026024888422051307,
+          "longest_contiguous_grasp_lift_hold_s": 8.65,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003973477298429886,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794227991.5891218,
+        "matrix_index": 3,
+        "mode": "camera_cache",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 314.06093425210565,
+        "native_result_sha256": "22c291c9b07c2ca41812d97c3dde4896a9c2e4032a0e4b490b969851a8594352",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "2deb62a996c7ab312ec961927f0afad575975c14174b129a12708b7238d4e87f",
+          "lease_sha256": "74890ae73f028ce6c77ee53feeb9ffc645c981bee3e95f332d160c476e73d897",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 314.06093425210565,
+            "CPU_s": 139.30682763299998,
+            "child_CPU_s": 93.29447400000001
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.02593639999602748,
+          "longest_contiguous_grasp_lift_hold_s": 8.6,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003973114882942816,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794228247.9398057,
+        "matrix_index": 4,
+        "mode": "events_camera_cache",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 227.71717068273574,
+        "native_result_sha256": "cd170b95eaee647f72a495e49f662ff2e32abbb302c3812722d7eec8e380a475",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "25b39c93f7656e8633c578dbc3bee27a164a4460d0d0fec436bd72a95965d846",
+          "lease_sha256": "17ed86e64eddde4ef14ab044771d74ff4d38839ea4cae2e60a76701b48a0e60a",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 227.71717068273574,
+            "CPU_s": 127.16338509500001,
+            "child_CPU_s": 76.13228699999999
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.025817927460456525,
+          "longest_contiguous_grasp_lift_hold_s": 8.700000000000001,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003974214855967754,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794228506.5398662,
+        "matrix_index": 5,
+        "mode": "events_camera_cache",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 220.8109712637961,
+        "native_result_sha256": "731c85e70a925e833d9318a35b4c412dc2c4e099ecc86384e99911a7b3aa3ad1",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "de6139a2a033361987a5a88bf7b394e6fc054ea1367b3b49434cc079e1ae548d",
+          "lease_sha256": "945927ff74c8da2435b9b75865c05bb46b0d9bd4445ee69dbf1b19b5e58d431d",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 220.8109712637961,
+            "CPU_s": 126.636159622,
+            "child_CPU_s": 75.29960700000001
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.02583061255320629,
+          "longest_contiguous_grasp_lift_hold_s": 8.75,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.0039727146724491775,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794228856.2463713,
+        "matrix_index": 6,
+        "mode": "camera_cache",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 315.38779973238707,
+        "native_result_sha256": "5ee6775927e18b5b10fdf0ba62d494ba050e75c287dc2f83d1fbc9dfca906d40",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "424c12b7079bba8ae23ad0568a26c674f8aeabeed6acb0e28009e1eff10d8059",
+          "lease_sha256": "1b5a2a1bf54e472cac83d6b6416625425017965cdc2b41d205581ca0bceae342",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 315.38779973238707,
+            "CPU_s": 139.330497198,
+            "child_CPU_s": 92.866391
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.02596862176781345,
+          "longest_contiguous_grasp_lift_hold_s": 8.6,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003908365856428853,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794229112.9204435,
+        "matrix_index": 7,
+        "mode": "events",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 229.29681538697332,
+        "native_result_sha256": "e0b1464252ffba759e7c1e302e851ca28d1174ff1f2cdbb810a7bbe3494172b6",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "25af481c99e9f254a8b293c65ce57192c1a26d771dad2dad15aae6c1749e2853",
+          "lease_sha256": "7e98b0bf48a66646eff1426afd0ab57949730e8a897787b3d0885d5934b2ddbc",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 229.29681538697332,
+            "CPU_s": 133.331110456,
+            "child_CPU_s": 77.15018
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.025993352774523082,
+          "longest_contiguous_grasp_lift_hold_s": 8.65,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003973968859917771,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      },
+      {
+        "epoch": 1794229463.723634,
+        "matrix_index": 8,
+        "mode": "profile",
+        "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+        "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+        "actual_native_integrations": 21203,
+        "task_success": true,
+        "hard_safety_stops": 0,
+        "all_owned_children_exit0": true,
+        "worker_exit0": true,
+        "lease_closed": true,
+        "Teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "dual_RGB_images_checked": 30,
+        "wall_s": 317.73103276407346,
+        "native_result_sha256": "421b656b03cd1a22b2b765a3980e41245deb32d6245cbe1ad3c878543a9fecf9",
+        "BC_admitted": false,
+        "cold_readback": {
+          "spec_sha256": "3c49841394c15995fa92a78a455aad40b810c1e9f618d542aff03b2e23b79245",
+          "lease_sha256": "dd0ca8185e24f31ad5c11d0f38322505e07c90b37a69a037403d167f26461cdc",
+          "worker": {
+            "exit_code": 0,
+            "failure": null,
+            "wall_s": 317.73103276407346,
+            "CPU_s": 145.24532804,
+            "child_CPU_s": 93.941589
+          },
+          "unit": "MainPID=0\nExecMainStatus=0\nSubState=exited\n"
+        },
+        "task_score": {
+          "maximum_object_lift_m": 0.02599973491823082,
+          "longest_contiguous_grasp_lift_hold_s": 8.6,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_foot_planar_displacement_m": 0.003925027178712111,
+          "minimum_supported_feet": 4,
+          "task_success": true
+        }
+      }
+    ],
+    "modes": {
+      "profile": {
+        "wall_s": [
+          317.60824293317273,
+          317.73103276407346
+        ],
+        "mean_wall_s": 317.6696378486231,
+        "baseline_mean_over_mode_mean": 1.0,
+        "mean_wall_reduction_fraction": 0.0,
+        "nominal_successful_construction_episodes_per_hour": 11.332527793277754
+      },
+      "events": {
+        "wall_s": [
+          228.56618818920106,
+          229.29681538697332
+        ],
+        "mean_wall_s": 228.9315017880872,
+        "baseline_mean_over_mode_mean": 1.387618721615155,
+        "mean_wall_reduction_fraction": 0.2793409425638017,
+        "nominal_successful_construction_episodes_per_hour": 15.72522772917629
+      },
+      "camera_cache": {
+        "wall_s": [
+          314.06093425210565,
+          315.38779973238707
+        ],
+        "mean_wall_s": 314.72436699224636,
+        "baseline_mean_over_mode_mean": 1.0093582549216766,
+        "mean_wall_reduction_fraction": 0.009271489955172352,
+        "nominal_successful_construction_episodes_per_hour": 11.438580477274233
+      },
+      "events_camera_cache": {
+        "wall_s": [
+          227.71717068273574,
+          220.8109712637961
+        ],
+        "mean_wall_s": 224.26407097326592,
+        "baseline_mean_over_mode_mean": 1.4164981330714,
+        "mean_wall_reduction_fraction": 0.2940336618505137,
+        "nominal_successful_construction_episodes_per_hour": 16.05250446215769
+      }
+    },
+    "requested": 8,
+    "completed": 8,
+    "full_task_successes": 8,
+    "hard_safety_stops": 0,
+    "total_native_integrations": 169624,
+    "total_Teacher_decisions": 120,
+    "total_confirmed_50ms_commands": 4800,
+    "total_policy_RGB_images_checked": 240,
+    "actual_worker_wall_s": 2171.179155204445,
+    "actual_wrapper_process_CPU_s": 1089.753895963,
+    "actual_native_children_CPU_s": 679.8876910000001,
+    "independent_cold_readback_epoch": 1794230419.7911372,
+    "all_worker_leases_closed_exit0": true,
+    "all_systemd_units_MainPID0": true,
+    "original_finite_controller_exited": true,
+    "actual_all15_pixel_qualification": "COLLECTION_PERFORMANCE_CAMERA_SCENE_REPAIR_ACTUAL.json",
+    "BC_adopted": false,
+    "nominal_rates_exclude_registration_preflight_failed_replay_and_export_costs": true
+  },
+  "NEGATIVE": [
+    "Only two independent restarts per mode, on this fixed construction task; these means are a finite screening result, not a precise general causal speedup or broader-layout guarantee.",
+    "Cache-only improvement is0.93%; combined vs events adds about2.04% mean wall improvement with visible between-run variation. Most measured benefit is conditional settling.",
+    "Original slot2 failed camera preflight, never started a native world, and remains CLOSED with null native worker exit and its child exit1 preserved. It is not a failed physical condition or a hidden successful retry.",
+    "No existing TRAIN100 episode or data protocol was changed; all eight construction episodes remain ineligible for BC. No production collection role has yet adopted this implementation."
+  ],
+  "DECISION": "Same-task construction screening passed and conditional settling is the main proven optimization. Retain combined mode as a qualified construction candidate; require explicit fresh collection-role admission and any necessary layout/recovery qualification before future data adoption. Prioritize actual full100 SFT and student DEV while resources are queued.",
+  "NEXT_GATE": "Actual Hopper Processor708392 CLOSED0/PBS F0, formal SFT2000/full restore/private package, Core40 and full DEV80. Performance data stays outside BC."
+}
