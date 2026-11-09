@@ -25,6 +25,7 @@ CONSTRUCTION_ROLE='TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION'
 QUALIFICATION_ROLE='TEACHER_QUALIFICATION_NOT_BC_V1'
 RECOVERY_QUALIFICATION_ROLE='UNDER_CLOSE_RECOVERY_QUALIFICATION_NOT_BC_V1'
 COLLECTION_ROLE='CONTINUOUS_TEACHER_COLLECTION_PENDING_EXPORT_V1'
+DEV_REFERENCE_ROLE='FIXED_DEV_TEACHER_REFERENCES_NOT_BC_V1'
 
 
 def need(ok,why):
@@ -32,7 +33,7 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
-    need(role in(CONSTRUCTION_ROLE,QUALIFICATION_ROLE,RECOVERY_QUALIFICATION_ROLE,COLLECTION_ROLE),
+    need(role in(CONSTRUCTION_ROLE,QUALIFICATION_ROLE,RECOVERY_QUALIFICATION_ROLE,COLLECTION_ROLE,DEV_REFERENCE_ROLE),
         'EXPLICIT_CONSTRUCTION_QUALIFICATION_OR_NEW_CONTINUOUS_COLLECTION_ROLE')
     return dict(schema=KIND,task_revision='V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage=role,
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
@@ -47,7 +48,8 @@ def protocol(role=CONSTRUCTION_ROLE):
         full_H40_preview=True,time_retiming=False,reference_transport='CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT',
         teacher_max_chunk_translation_m=.015,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
         grasp_TCP_offset_tool_m=[-.012,0.,0.],grasp_TCP_world_y_offset_m=-.0017,
-        scene_family='SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS',
+        scene_family=('SEPARATE_UNDER_HAND_NEW_DEV_LAYOUTS_NOT_TRAIN'if role==DEV_REFERENCE_ROLE else
+            'SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS'),
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
         position_stage_tolerance_m=.004,close_increment_per_decision=1.,
         standing=standing_contract(),WBC_changes=False,expert_training_eligible=False,automatic_formal_training=False)

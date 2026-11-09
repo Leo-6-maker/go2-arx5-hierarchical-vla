@@ -27,6 +27,11 @@ def run(input_path):
     if role==task.QUALIFICATION_ROLE:
         panel_contract=teacher_panel_contract;experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'
         completed_status='TEACHER_QUALIFICATION_COMPLETE';incomplete_status='TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED'
+    elif role==task.DEV_REFERENCE_ROLE:
+        from go2arx5_vla.world_model import task_learning_dev_v1 as panel_contract
+        experiment=panel_contract.experiment_role(role)
+        completed_status='TASK_LEARNING_DEV_REFERENCE_GROUP_COMPLETE'
+        incomplete_status='TASK_LEARNING_DEV_REFERENCE_GROUP_INCOMPLETE_PRESERVED'
     else:
         from go2arx5_vla.world_model import task_learning_collection_v1 as panel_contract
         experiment=panel_contract.experiment_role(role)
@@ -96,7 +101,8 @@ def run(input_path):
                     task_learning_role=role,task_learning_grasp=task.protocol(role),
                     experiment_role=experiment,
                     task_condition='FROZEN_V7_TEACHER_QUALIFICATION_20_INDEPENDENT_REQUESTS'if role==task.QUALIFICATION_ROLE else role,
-                    task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],
+                    task_learning_scene_reference=descriptor,scene_id=row['parent'],
+                    data_parent=row['parent'],data_role=row['split'],
                     model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),
                     stable_task_panel=inp['panel'],stable_task_panel_sha256=inp['panel_sha256'],
                     cpus=[0,1,2,3],ROS_DOMAIN_ID=220)

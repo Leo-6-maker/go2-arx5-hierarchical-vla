@@ -46,25 +46,32 @@ def _capture(root,spec,spec_sha,identity,decision):
     return dict(state=state,frame=frame,images=images,proof=proof)
 
 
-def audited_episode(root,row,panel_sha,collector_source):
-    """Read one complete new TRAIN episode; construction and Q are rejected."""
+def audited_episode(root,row,panel_sha,collector_source,*,expected_role=task.COLLECTION_ROLE):
+    """Read a complete new TRAIN or explicitly separate DEV reference episode."""
     from .stable_task_dataset_v1 import load,NATIVE
     from .storage import digest
     from .auto1_native import native_prefix_predecessor
     from .task_learning_sequence_v1 import sequence
     from .task_learning_grasp_native_v1 import complete_consumption
     from .task_learning_collection_v1 import native_schema
+    task.need(expected_role in(task.COLLECTION_ROLE,task.DEV_REFERENCE_ROLE),
+        'CONSTRUCTION_AND_QUALIFICATION_NEVER_ADMITTED_BY_A_ROLE_OVERRIDE')
+    is_dev=expected_role==task.DEV_REFERENCE_ROLE
+    if is_dev:
+        from .task_learning_dev_v1 import native_schema
+    split='DEV'if is_dev else'TRAIN'
+    purpose='DEV_REFERENCE_NOT_BC'if is_dev else'CONTINUOUS_TEACHER_DEMONSTRATION'
     root=Path(root)
     spec,sp=load(root/'EXECUTION_SPEC.json',maximum=16*1024**2)
-    task.need(spec.get('task_learning_role')==task.COLLECTION_ROLE
+    task.need(spec.get('task_learning_role')==expected_role
         and spec.get('source_sha')==collector_source
         and spec.get('registered_root')==str(root)and row['native_run']==root.name
         and spec.get('phase')==task.PHASE and spec.get('kind')==task.KIND
         and spec.get('stable_task_panel_sha256')==panel_sha
-        and spec.get('data_role')==row['split']=='TRAIN'and spec.get('data_parent')==row['parent']
+        and spec.get('data_role')==row['split']==split and spec.get('data_parent')==row['parent']
         and spec.get('scene_id')==row['parent']and spec.get('task_command')==row['command']==task.COMMAND
         and spec.get('task_learning_teacher_mode')==row['Teacher_mode']
-        and row['purpose']=='CONTINUOUS_TEACHER_DEMONSTRATION',
+        and row['purpose']==purpose,
         'ONLY_NEW_PREREGISTERED_CONTINUOUS_TRAIN_NEVER_DIAGNOSTIC_RELABEL')
     lease,lp=load(root/'control/LEASE.json',maximum=1024**2)
     worker,wp=load(root/'WORKER_EXIT.private.json',maximum=1024**2)
@@ -87,9 +94,9 @@ def audited_episode(root,row,panel_sha,collector_source):
         and writer.get('events')==writer.get('written'),'FULL_ORIGINAL_NATIVE_TRACE_AND_SAFE_CHILD_EXITS')
     q=native['reference_qualification']
     score,score_pin=load(root/'native-01/TASK_LEARNING_SCORE.private.json',maximum=1024**2)
-    task.need(q.get('schema')==native_schema(task.COLLECTION_ROLE)
-        and q.get('data_role')==task.COLLECTION_ROLE and q.get('expert_training_eligible')is False
-        and q.get('task_learning_grasp')==task.protocol(task.COLLECTION_ROLE)
+    task.need(q.get('schema')==native_schema(expected_role)
+        and q.get('data_role')==expected_role and q.get('expert_training_eligible')is False
+        and q.get('task_learning_grasp')==task.protocol(expected_role)
         and complete_consumption(spec,q)and score==q.get('new_task_score')
         and score.get('contract')==task.score_contract()and score.get('task_success')is True
         and q.get('GR00T_queries')==q.get('GR00T_updates')==0,
@@ -136,7 +143,8 @@ def audited_episode(root,row,panel_sha,collector_source):
         genuine_recovery_success=genuine_recovery,native_binary_sha256=native['native_binary_sha256'],
         proof=dict(spec=sp,lease=lp,worker=wp,native=npin,score=score_pin,start_readiness=ready_pin,
             capture_index=cp,confirmed_commands=fp,real_Teacher_decisions=decision_proofs),
-        expert_training_eligible='PENDING_COMPLETE_FIXED_POPULATION_AND_ACTUAL_PROCESSOR_ADMISSION')
+        expert_training_eligible=('DEV_REFERENCE_NOT_BC'if is_dev else
+            'PENDING_COMPLETE_FIXED_POPULATION_AND_ACTUAL_PROCESSOR_ADMISSION'))
 
 
 def packet_arrays(checked,current_policy_states10,frame):

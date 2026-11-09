@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 from .storage import digest
 from .pilot1_curriculum import scene_xml,robot_contract
+from .task_learning_dev_v1 import DEV_OFFSETS
 
 BASE_SCENE='8fc03629c29a4dda8403fb220b60472670a912013d05d717d1568ace34a4241c'
 MEMBER='src/go2arx5_vla/world_model/task_learning_scene_v1.py'
@@ -25,17 +26,18 @@ RECOVERY_OFFSETS={'RECOVERY01':(-.003,-.001),'RECOVERY02':(-.003,.001),
 
 def scene_id(layout):
     if layout=='PILOT01':return SCENE_ID
-    if layout not in {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS}:
+    if layout not in {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS}:
         raise ValueError('PREREGISTERED_UNDER_HAND_LAYOUT_ONLY')
     return 'TASK_LEARNING_UNDER_HAND_'+layout
 
 
 def geometry(layout='PILOT01'):
     scene_id(layout)
-    dx,dy=(0.,0.)if layout=='PILOT01'else {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS}[layout]
+    dx,dy=(0.,0.)if layout=='PILOT01'else {**QUALIFICATION_OFFSETS,**TRAIN_OFFSETS,**RECOVERY_OFFSETS,**DEV_OFFSETS}[layout]
     return dict(table_center_xyz_m=[.40,0.,.575],table_half_size_m=[.17,.24,.025],
         object_initial_xyz_m=[.26+dx,-.014+dy,.62],cube_edge_m=.04,cube_mass_kg=.05,
-        role=('CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION'if layout=='PILOT01'else
+        role=('NEW_DEV_TASK_LAYOUT_NOT_TRAIN'if layout in DEV_OFFSETS else
+              'CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION'if layout=='PILOT01'else
               'CONTINUOUS_TEACHER_TRAIN_POPULATION'if layout in TRAIN_OFFSETS else
               'UNDER_CLOSE_RECOVERY_QUALIFICATION_NOT_BC'if layout in RECOVERY_OFFSETS else'TEACHER_QUALIFICATION_NOT_BC'),
         robot_startup_native_safety_or_dynamics_changed=False)
@@ -87,7 +89,8 @@ def compile_and_check(spec,output):
         if first is None or integrations:raise ValueError('FULL_5703_SAVED_STARTUP_ZERO_INTEGRATIONS')
     result=dict(schema='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1',
         status='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED',source_sha=spec['source_sha'],
-        builder_sha256=digest(__file__),parent=scene_id(layout),split='TRAIN',layout=layout,
+        builder_sha256=digest(__file__),parent=scene_id(layout),
+        split='DEV'if layout in DEV_OFFSETS else'TRAIN',layout=layout,
         geometry=geometry(layout),robot_contract=contract,saved_startup_pose_checks=5703,
         saved_startup_input_sha256=spec['saved_startup_journal_sha256'],
         compiled=dict(scene_sha256=digest(path),scene_xml_sha256=digest(xml),base_scene_sha256=BASE_SCENE,
@@ -103,7 +106,8 @@ def admission(spec):
     proof=pinned(spec['task_learning_scene_reference'])
     layout=proof.get('layout')
     from . import task_learning_grasp_v1 as task
-    expected_role=(task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
+    expected_role=(task.DEV_REFERENCE_ROLE if layout in DEV_OFFSETS else
+        task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
         task.COLLECTION_ROLE if layout in TRAIN_OFFSETS else
         task.RECOVERY_QUALIFICATION_ROLE if layout in RECOVERY_OFFSETS else task.CONSTRUCTION_ROLE)
     if not(proof.get('schema')=='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1'
@@ -111,7 +115,7 @@ def admission(spec):
         and proof.get('builder_sha256')==spec['source_files'][MEMBER]
         and proof.get('geometry')==geometry(layout)and proof.get('parent')==scene_id(layout)==spec['scene_id']==spec['data_parent']
         and spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==expected_role
-        and proof.get('split')==spec['data_role']=='TRAIN'
+        and proof.get('split')==spec['data_role']==('DEV'if layout in DEV_OFFSETS else'TRAIN')
         and proof.get('saved_startup_pose_checks')==5703
         and proof.get('robot_contract',{}).get('status')=='COURSE_ROBOT_DYNAMICS_AND_NATIVE_SAFETY_PROPERTIES_EXACT'
         and proof.get('compiled',{}).get('base_scene_sha256')==BASE_SCENE

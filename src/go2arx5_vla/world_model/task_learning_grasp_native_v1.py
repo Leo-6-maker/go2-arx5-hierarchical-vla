@@ -16,6 +16,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_scene_v1.py',
     'src/go2arx5_vla/world_model/task_learning_teacher_panel_v1.py',
     'src/go2arx5_vla/world_model/task_learning_collection_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_dev_v1.py',
     'src/go2arx5_vla/world_model/task_learning_recovery_v1.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
@@ -26,7 +27,8 @@ def scene_admission(spec):
     task.declared(spec)
     from .task_learning_scene_v1 import admission
     proof=admission(spec)
-    task.need(proof['split']==spec.get('data_role')=='TRAIN' and proof['parent']==spec['data_parent']
+    split='DEV'if spec.get('task_learning_role')==task.DEV_REFERENCE_ROLE else'TRAIN'
+    task.need(proof['split']==spec.get('data_role')==split and proof['parent']==spec['data_parent']
         and spec['scene_id']==proof['parent'],'NEW_NEAR_WORKSPACE_TRAIN_CONSTRUCTION_PILOT')
     panel=scenes.pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
@@ -36,6 +38,9 @@ def scene_admission(spec):
     qualification=role==task.QUALIFICATION_ROLE
     if qualification:
         from .task_learning_teacher_panel_v1 import validate as validate_panel
+        rows=validate_panel(panel)
+    elif role==task.DEV_REFERENCE_ROLE:
+        from .task_learning_dev_v1 import validate as validate_panel
         rows=validate_panel(panel)
     elif role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
         from .task_learning_collection_v1 import validate as validate_panel
@@ -48,7 +53,12 @@ def scene_admission(spec):
     matches=[r for r in rows if r['native_run']==Path(spec['registered_root']).name]
     task.need(len(matches)==1,'UNIQUE_ACTUAL_QUALIFICATION_OR_CONSTRUCTION_REQUEST')
     row=matches[0]
-    if role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
+    if role==task.DEV_REFERENCE_ROLE:
+        from .task_learning_dev_v1 import purpose
+        expected_purpose=purpose(role)
+        task.need(spec.get('task_learning_teacher_mode')==row['Teacher_mode'],
+            'DEV_REFERENCE_USES_UNCHANGED_NORMAL_TEACHER')
+    elif role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
         from .task_learning_collection_v1 import purpose
         expected_purpose=purpose(role)
         task.need(spec.get('task_learning_teacher_mode')==row['Teacher_mode'],'EXACT_PREREGISTERED_NORMAL_OR_RECOVERY_MODE')
@@ -66,7 +76,10 @@ def validate(spec):
               'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
-    if role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
+    if role==task.DEV_REFERENCE_ROLE:
+        from .task_learning_dev_v1 import experiment_role
+        expected_experiment=experiment_role(role)
+    elif role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
         from .task_learning_collection_v1 import experiment_role
         expected_experiment=experiment_role(role)
     else:expected_experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'if role==task.QUALIFICATION_ROLE else'TASK_LEARNING_TASK_CONSTRUCTION_NO_BC'
@@ -243,6 +256,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.DEV_REFERENCE_ROLE:
+        from .task_learning_dev_v1 import native_schema
+        return native_schema(role)
     if role in(task.RECOVERY_QUALIFICATION_ROLE,task.COLLECTION_ROLE):
         from .task_learning_collection_v1 import native_schema
         return native_schema(role)

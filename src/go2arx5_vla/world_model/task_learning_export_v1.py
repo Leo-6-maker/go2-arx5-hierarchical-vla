@@ -95,30 +95,37 @@ def audit_population(panel_path,groups):
     return dict(panel=pp,groups=group_proofs,summary=summary,episodes=kept,attempts=attempts)
 
 
+def write_episode(e,output):
+    """Serialize an already audited episode without changing its original split."""
+    output=Path(output);row=e['row'];split=row['split']
+    task.need((split,row['purpose'])in(('TRAIN','CONTINUOUS_TEACHER_DEMONSTRATION'),
+        ('DEV','DEV_REFERENCE_NOT_BC')),'EXPLICIT_TRAIN_OR_DEV_REFERENCE_SERIALIZATION')
+    name=row['native_run'];folder=output/'media'/name;folder.mkdir();paths=[];pins=[]
+    for i,capture in enumerate(e['captures']):
+        frame_paths=[];frame_pins=[]
+        for camera,original in zip(('body_rgb','wrist_rgb'),capture['images']):
+            target=folder/f'{i:06d}-{camera}.png';shutil.copyfile(original,target)
+            task.need(digest(target)==digest(original),'UNCHANGED_REAL_DUAL_RGB_MEDIA')
+            frame_paths.append(target.relative_to(output).as_posix());frame_pins.append(digest(target))
+        paths.append(frame_paths);pins.append(frame_pins)
+    packet=dict(e['packet'],rgb_paths=np.asarray(paths),rgb_sha256=np.asarray(pins))
+    path=output/'episodes'/(name+'.npz');np.savez_compressed(path,**packet)
+    return dict(id=name,split=split,parent=row['parent'],command=row['command'],purpose=row['purpose'],
+        file=path.relative_to(output).as_posix(),sha256=digest(path),
+        supervised_anchors=np.flatnonzero(packet['valid_window']).tolist(),
+        optimization_anchors=e['optimization_anchor_schedule']if split=='TRAIN'else[],real_policy_decisions=15,
+        supervised_policy_decisions=int(packet['valid_window'].sum()),
+        expert_stage_audit_only=packet['expert_stage_audit_only'].tolist(),
+        genuine_recovery_success=e['genuine_recovery_success'],proof=e['proof'])
+
+
 def build_train_base(panel_path,groups,output):
     """TRAIN-only base; DEV references and the actual Processor still gate SFT."""
     output=Path(output)
     task.need(output.is_absolute()and output.parent.resolve()==output.parent and not output.exists(),'FRESH_CANONICAL_TRAIN_BASE_EXPORT')
     checked=audit_population(panel_path,groups)
-    output.mkdir();(output/'episodes').mkdir();(output/'media').mkdir();rows=[]
-    for e in checked['episodes']:
-        row=e['row'];name=row['native_run'];folder=output/'media'/name;folder.mkdir();paths=[];pins=[]
-        for i,capture in enumerate(e['captures']):
-            frame_paths=[];frame_pins=[]
-            for camera,original in zip(('body_rgb','wrist_rgb'),capture['images']):
-                target=folder/f'{i:06d}-{camera}.png';shutil.copyfile(original,target)
-                task.need(digest(target)==digest(original),'UNCHANGED_REAL_DUAL_RGB_MEDIA')
-                frame_paths.append(target.relative_to(output).as_posix());frame_pins.append(digest(target))
-            paths.append(frame_paths);pins.append(frame_pins)
-        packet=dict(e['packet'],rgb_paths=np.asarray(paths),rgb_sha256=np.asarray(pins))
-        path=output/'episodes'/(name+'.npz');np.savez_compressed(path,**packet)
-        rows.append(dict(id=name,split='TRAIN',parent=row['parent'],command=row['command'],
-            file=path.relative_to(output).as_posix(),sha256=digest(path),
-            supervised_anchors=np.flatnonzero(packet['valid_window']).tolist(),
-            optimization_anchors=e['optimization_anchor_schedule'],real_policy_decisions=15,
-            supervised_policy_decisions=int(packet['valid_window'].sum()),
-            expert_stage_audit_only=packet['expert_stage_audit_only'].tolist(),
-            genuine_recovery_success=e['genuine_recovery_success'],proof=e['proof']))
+    output.mkdir();(output/'episodes').mkdir();(output/'media').mkdir()
+    rows=[write_episode(e,output)for e in checked['episodes']]
     write_json(output/'statistics.json',fit_statistics(checked['episodes']))
     manifest=dict(schema=SCHEMA,profile=PROFILE,domain=DOMAIN,bundle_kind='CONTINUOUS_TRAIN_BASE',
         training_admitted=False,requires='FIXED_DEV_REFERENCES_AND_ACTUAL_ORIGINAL_PROCESSOR_ADMISSION',

@@ -16,15 +16,17 @@ def measure(root,label,instance,data):
     journal=Journal(folder/'journal',folder.name)
     # Repeated queries for diagnostics must not consume the optimization stream.
     py=random.getstate();np_state=np.random.get_state()
-    records=[];seen=set()
+    from .task_learning_probes_v1 import selections
+    selected=selections(data)
+    continuous=bool(selected and selected[0][1]is not None)
+    records=[]
     try:
         with torch.random.fork_rng(devices=[0]):
-            for i,(row,anchor)in enumerate(data.rows):
-                if row['id']in seen:continue
-                seen.add(row['id'])
-                if len(seen)>4:break
-                state,expert,images,text=data.raw(i);seed=2026110800+len(records)
-                file=folder/(row['id']+'.npz')
+            for i,phase in selected:
+                row,anchor=data.rows[i]
+                state,expert,images,text=data.raw(i)
+                seed=(2026110900 if continuous else 2026110800)+len(records)
+                file=folder/(row['id']+(f'-a{anchor:02d}'if continuous else'')+'.npz')
                 def generate():
                     started=time.monotonic()
                     result=instance.generate(payload(state,images,text),seed)
@@ -40,11 +42,18 @@ def measure(root,label,instance,data):
                 records.append(dict(episode=row['id'],split=data.split,anchor=anchor,seed=seed,
                     command=row['command'],**actual,Processor_decode_calls=1,
                     model_global_step=instance.identity['global_step'],model_identity=dict(instance.identity)))
+                if continuous:
+                    records[-1].update(phase_audit_only=phase,
+                        genuine_recovery_audit_only=row.get('genuine_recovery_success')is True)
     finally:
         random.setstate(py);np.random.set_state(np_state)
-    write(folder/'RESULT.json',dict(label=label,records=records,actual_VLA_queries=len(records),
+    result=dict(label=label,records=records,actual_VLA_queries=len(records),
         observations='REAL_ADMITTED_TARGET_'+data.split,
         baseline_label=('SAME_TARGET_PROCESSOR_ZERO_STEP_PARENT' if instance.identity['global_step']==0
                         else 'TARGET_CANDIDATE_WITH_SAME_TARGET_PROCESSOR'),
-        original_source_B0_Processor_changed=False,optimizer_stream_RNG_preserved=True))
+        original_source_B0_Processor_changed=False,optimizer_stream_RNG_preserved=True)
+    if continuous:
+        from .task_learning_probes_v1 import contract
+        result['selection_contract']=contract()
+    write(folder/'RESULT.json',result)
     return records
