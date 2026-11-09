@@ -125,6 +125,9 @@ def test_episode_cache_matches_fresh_capture_across_packets_and_closes_contexts(
     class Renderer:
         def __init__(self,model,*,height,width):
             self.model=model;self.closed=False;renderers.append(self)
+            self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
         def update_scene(self,data,*,camera):
             self.data,self.camera=data,camera
         def render(self):
@@ -165,7 +168,9 @@ def test_camera_cache_still_rejects_changed_non_camera_model_array(tmp_path,monk
     import mujoco
     path,model,data,packet,_=scene(tmp_path);r=recipe(monkeypatch)
     class Renderer:
-        def __init__(self,*args,**kwargs):pass
+        def __init__(self,model,**kwargs):self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
         def update_scene(self,*args,**kwargs):pass
         def render(self):return np.zeros((256,256,3),dtype=np.uint8)
         def close(self):pass
@@ -191,6 +196,9 @@ def adapter_fixture(tmp_path, monkeypatch):
         def __init__(self, model, *, height, width):
             assert (height, width) == (256, 256)
             self.model = model
+            self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
         def update_scene(self, data, *, camera): self.camera = camera
         def render(self):
             cid = int(self.model.camera(self.camera).id)

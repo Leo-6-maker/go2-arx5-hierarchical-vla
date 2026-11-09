@@ -96,6 +96,20 @@ def profiled(label):
     return decorate
 
 
+def reset_render_scene(renderer, model):
+    """Give a cached 3.2.7 renderer the same CPU scene as a fresh capture.
+
+    mjv_updateScene places infinite planes using the previous scene camera.
+    Reusing that scene changes pixels even with identical model/data arrays.
+    Retain the expensive OpenGL context, but reset this per-capture history.
+    Renderer.scene is read-only in the pinned MuJoCo version.
+    """
+    import mujoco
+    if mujoco.__version__ != '3.2.7':
+        raise ValueError('CAMERA_SCENE_RESET_REQUIRES_QUALIFIED_MUJOCO_3_2_7')
+    renderer._scene = mujoco.MjvScene(model, maxgeom=renderer.scene.maxgeom)
+
+
 def settle_atom(adapter, *, event_start, before, after, clock, submitted):
     """Wait for the original evidence, with no additional ENTER or tick grant.
 

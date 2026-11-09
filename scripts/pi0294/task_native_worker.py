@@ -30,7 +30,8 @@ class FrameRecorder:
     def save(self,index,packet):
         import mujoco
         from PIL import Image
-        from go2arx5_vla.world_model.native_collection_performance_v1 import measure
+        from go2arx5_vla.world_model.native_collection_performance_v1 import measure,reset_render_scene
+        reused=self.renderer is not None
         if self.model is None:
             with measure(self,'camera.native_model_load'):
                 self.model=mujoco.MjModel.from_binary_path(str(self.model_path))
@@ -38,6 +39,8 @@ class FrameRecorder:
             with measure(self,'camera.native_renderer_create'):
                 self.renderer=mujoco.Renderer(self.model,height=256,width=256)
         m,d,r=self.model,self.data,self.renderer
+        if reused and getattr(self,'reset_each_packet',False):
+            with measure(self,'camera.native_scene_reset'):reset_render_scene(r,m)
         if getattr(self,'reset_each_packet',False):mujoco.mj_resetData(m,d)
         d.qpos[:]=packet['qpos'];d.qvel[:]=packet['qvel'];d.ctrl[:]=packet['ctrl'];d.time=packet['time_s']
         with measure(self,'camera.native_FK'):mujoco.mj_forward(m,d)

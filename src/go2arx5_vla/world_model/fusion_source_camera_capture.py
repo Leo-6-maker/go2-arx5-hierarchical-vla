@@ -20,7 +20,7 @@ import numpy as np
 from scripts.pi0294.task_native_worker import FrameRecorder
 from .fusion_source_camera_rig import (SourceCameraRig, SOURCE_IDENTITY_SHA256,
     FRAME_MAP_SHA256, RIG, OVERLAY_CAMERA, record_hash)
-from .native_collection_performance_v1 import measure, profiled
+from .native_collection_performance_v1 import measure, profiled, reset_render_scene
 
 SCHEMA = 'WM02_FUSION_SOURCE_CAMERA_CAPTURE_V1'
 _CAMERA_PATCH_FIELDS = {'cam_bodyid', 'cam_pos', 'cam_quat', 'cam_fovy'}
@@ -210,6 +210,9 @@ class SourceCameraRecorder:
             with measure(self,'camera.source_renderer_create'):
                 self.renderer = mujoco.Renderer(model, height=256, width=256)
             if self.session is not None:self.session.renderer = self.renderer
+        elif self.session is not None:
+            with measure(self,'camera.source_scene_reset'):
+                reset_render_scene(self.renderer, model)
         with measure(self,'camera.source_render'):
             self.renderer.update_scene(data, camera='body_rgb')
             external = self.renderer.render().copy()
