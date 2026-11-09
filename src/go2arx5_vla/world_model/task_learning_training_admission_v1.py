@@ -84,6 +84,41 @@ def fit4_qualification(proof,current):
         checkpoint_sha256=restore['checkpoint_sha256'],training_math=math,FIT4_weights_used_as_formal_parent=False)
 
 
+def processor_qualification(proof,spec):
+    """A saved reconstruction file also needs its actual finite CPU worker exit."""
+    from .task_learning_hopper_processor_v1 import PROFILE as CPU_PROFILE,ROOT
+    need=original.need;r=pinned(proof);root=Path(proof['path']).parent
+    need(root.is_relative_to(ROOT)and Path(proof['path'])==root/'RESULT.private.json',
+        'ACTUAL_OWN_HOPPER_PROCESSOR_WORKER_RESULT')
+    lease=json.loads((root/'control/LEASE.json').read_bytes())
+    worker=json.loads((root/'WORKER_EXIT.private.json').read_bytes())
+    config_path=root/'ALLOCATION_CONFIG.json';c=json.loads(config_path.read_bytes())
+    data=Path(spec['bindings']['dataset']);admission=data/'PROCESSOR_HOPPER_RECONSTRUCTION.json'
+    need(r.get('status')=='PASS_ACTUAL_HOPPER_CONTINUOUS_PROCESSOR_RECONSTRUCTION'
+        and r.get('exit_code')==lease.get('worker_exit_code')==worker.get('exit_code')==0
+        and r.get('failure')is worker.get('failure')is None and lease.get('status')=='CLOSED'
+        and lease.get('result_sha256')==proof['sha256']
+        and r.get('job_id')==lease.get('job_id')==worker.get('job_id')
+        and r.get('config_sha256')==lease.get('config_sha256')==digest(config_path)
+        and c.get('profile')==CPU_PROFILE and c.get('dataset')==str(data)
+        and c.get('pbs_server')==spec.get('pbs_server')
+        and c.get('python')==spec.get('python')
+        and all(c.get('bindings',{}).get(k)==spec['bindings'][k]for k in('source','cosmos','cosmos_hub'))
+        and r.get('manifest_sha256')==spec['recipe']['dataset_sha256']
+        and r.get('statistics_sha256')==spec['recipe']['statistics_sha256']
+        and r.get('Processor_admission_sha256')==digest(admission)
+        and r.get('new_policy_models')==r.get('new_optimizer_updates')==r.get('new_native_integrations')==r.get('GPU_allocations')==0,
+        'ACTUAL_CLOSED_ZERO_EXIT_CPU_PROCESSOR_BEFORE_FORMAL_MODEL')
+    for name in('scripts/wm02/qualify_target_gr00t_processor_v1.py',
+        'src/go2arx5_vla/world_model/task_learning_native_dataset_v1.py',
+        'src/go2arx5_vla/world_model/target_gr00t_dataset_v1.py',
+        'scripts/pi0292/train_adapter.py','scripts/pi0292/eval_contract.py'):
+        need(c['source_files'].get(name)is not None
+            and c['source_files'][name]==spec['source_files'].get(name),
+            'SAME_ACTUALLY_QUALIFIED_ORIGINAL_PROCESSOR_ROUTE_'+name)
+    return dict(job_id=r['job_id'],result_sha256=proof['sha256'],Processor_admission_sha256=digest(admission))
+
+
 def validate(spec):
     from .task_learning_native_dataset_v1 import TaskLearningNativeDataset
     p=task.validate(spec);need=original.need;a=pinned(spec['task_learning_admission'])
@@ -112,6 +147,7 @@ def validate(spec):
     need(processor.get('dataset_family')=='TASK_LEARNING_CONTINUOUS_V1',
         'NEW_REAL_DECISIONS_PROCESSED_NOT_LEGACY_FOUR_WINDOW_ADMISSION')
     runtime=fit4_qualification(a['original_Trainer_FIT4'],spec)
+    processor_worker=processor_qualification(a['Hopper_Processor_qualification'],spec)
     for key,schema in(('endpoint_decision','TASK_LEARNING_ENDPOINT_DECISION_V1'),
                        ('first_seed_learning_and_native_gain','TASK_LEARNING_FIRST_SEED_GAIN_DECISION_V1')):
         if key not in spec:continue
@@ -129,4 +165,5 @@ def validate(spec):
     return dict(status='ACTUAL_TASK_DATA_PROCESSOR_AND_ORIGINAL_TRAINER_ADMITTED',
         manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,
         optimization_visits_per_population_pass=len(data),runtime_qualification=runtime,
+        Hopper_Processor_qualification=processor_worker,
         new_policy_models=0,new_optimizer_updates=0,new_native_integrations=0)
