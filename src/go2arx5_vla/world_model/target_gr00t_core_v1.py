@@ -16,7 +16,9 @@ SCOPE='TARGET_GR00T_CORE_V1'
 def full_restore_only(c):
     operation=c.get('operation')
     profile.need(operation in(None,'FULL_ACTION_RESTORE_ONLY'),'DECLARED_CORE_NATIVE_OPERATION')
-    if operation is None:return False
+    if operation is None:
+        profile.need(not c.get('sealed_continuous4_reference'),'REFERENCE_ONLY_FOR_FULL_NATIVE_RESTORE')
+        return False
     profile.need(c.get('original_Trainer_execution')is True
         and c.get('formal_training')is False
         and c.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')
@@ -211,10 +213,17 @@ def run(c):
             row=journal.once(name+'-EXECUTE',registered,execute);children.append(row)
             write(root/'CHILDREN_ACTUAL.json',dict(children=children));return row
         if full:
-            generation=c['generation_id']+'-restore4'
-            continuous=child('continuous4','RESTORE4',4,generation=generation)
-            profile.need(continuous['exit_code']==0 and continuous['endpoint_complete'],
-                'CORE_FULL_NATIVE_CONTINUOUS4_FAILURE_PRESERVED')
+            reference=None
+            if c.get('sealed_continuous4_reference'):
+                from .task_learning_core_reference_v1 import continuous4
+                reference=continuous4(c)
+                write(root/'SEALED_CONTINUOUS4_REFERENCE_ACTUAL.json',reference)
+                continuous=reference;generation=reference['generation_id']
+            else:
+                generation=c['generation_id']+'-restore4'
+                continuous=child('continuous4','RESTORE4',4,generation=generation)
+                profile.need(continuous['exit_code']==0 and continuous['endpoint_complete'],
+                    'CORE_FULL_NATIVE_CONTINUOUS4_FAILURE_PRESERVED')
             split=child('split2','RESTORE4',2,generation=generation)
             profile.need(split['exit_code']==0 and split['endpoint_complete'],
                 'CORE_FULL_NATIVE_SPLIT2_FAILURE_PRESERVED')
@@ -228,8 +237,14 @@ def run(c):
                 'CORE_FULL_NATIVE_FOUR_STEP_CURSOR128')
             write(root/'FOUR_VERSUS_TWO_PLUS_TWO_ACTUAL.json',dict(proof,
                 comparison='CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2'))
-            return dict(status='CORE_ORIGINAL_TRAINER_FULL_ACTION_RESTORE_ONLY_SEALED',
-                children=children,proof=proof,optimizer_calls=8,original_Trainer_execution=True,
+            if reference:
+                write(root/'REFERENCE_TRAINED_H40_RESTORE_ACTUAL.json',
+                    verify_memory_predictions(reference['after'],Path(resumed['root'])/'restored'))
+            return dict(status=('CORE_ORIGINAL_TRAINER_FULL_ACTION_RECOVERY_SUCCESSOR_SEALED'if reference else
+                    'CORE_ORIGINAL_TRAINER_FULL_ACTION_RESTORE_ONLY_SEALED'),
+                children=children,proof=proof,optimizer_calls=4 if reference else 8,
+                reference_optimizer_calls=4 if reference else 0,comparison_total_optimizer_calls=8,
+                continuous4_reference=reference,original_Trainer_execution=True,
                 formal_training=False,physics_integrations=0,wall_s=time.monotonic()-started)
         cap=child('capacity2','CAPACITY',2)
         profile.need(cap['exit_code']==0 and cap['endpoint_complete'],'CORE_CAPACITY_FAILURE_PRESERVED')

@@ -4,6 +4,7 @@ Caller supplies the original registry/Journal/PBS owner. This module cannot
 submit PBS, schedule another worker, run physics or train an external adapter.
 """
 import json,os,time
+from contextlib import nullcontext
 from pathlib import Path
 
 from . import target_gr00t_profile_v1 as profile
@@ -422,8 +423,9 @@ def run(spec):
     after_probes=(json.loads((root/after_folder/'RESULT.json').read_bytes())['records']
                   if after_folder!='after'else probe(root,'after',instance,data))
     # Reconstruct every learned tensor and complete optimizer/scheduler/RNG/cursor.
-    load_checkpoint(cp,digest(cp/'CHECKPOINT_COMPLETE.json'),model=model,contract=contract,
-                    trainer=trainer,spec=spec,guard=guard)
+    with backbone_swap.optimizer_restore_storage()if backbone_swap is not None else nullcontext():
+        load_checkpoint(cp,digest(cp/'CHECKPOINT_COMPLETE.json'),model=model,contract=contract,
+                        trainer=trainer,spec=spec,guard=guard)
     profile.need({n:tensor_identity(model.get_parameter(n))for n in names}==after
         and tree_identity(trainer.optimizer.state_dict())==saved_opt
         and trainer.lr_scheduler.state_dict()==saved_sched and rng_identity()==saved_rng,

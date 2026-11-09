@@ -5,6 +5,7 @@ optimizer implementation, parameter dtype, gradient or RNG operation changes.
 The site envelope and a complete fresh-process restore qualify the GPU route.
 """
 from time import monotonic
+from contextlib import contextmanager
 from .target_gr00t_profile_v1 import need
 
 MEMORY='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'
@@ -17,6 +18,7 @@ class BackboneOptimizerSwap:
         self.backbone=model.backbone;self.device=device;self.resident=True
         self.to_host_count=self.to_device_count=0
         self.to_host_wall_s=self.to_device_wall_s=0.
+        self.optimizer_state_restores=0
         self._frozen()
         self.bytes=sum(t.numel()*t.element_size()for t in
             (*self.backbone.parameters(),*self.backbone.buffers()))
@@ -74,11 +76,21 @@ class BackboneOptimizerSwap:
                 owner.restore()
         return StorageOnly()
 
+    @contextmanager
+    def optimizer_restore_storage(self):
+        resident=self.resident
+        self.optimizer_state_restores+=1
+        self.before_optimizer()
+        try:yield
+        finally:
+            if resident:self.restore()
+
     def audit(self):
         return dict(schema=MEMORY,backbone_bytes=self.bytes,
             to_host_before_optimizer=self.to_host_count,
             to_device_before_original_forward=self.to_device_count,
             to_host_wall_s=self.to_host_wall_s,to_device_wall_s=self.to_device_wall_s,
+            optimizer_state_restores=self.optimizer_state_restores,
             original_backbone_forward_each_microbatch=True,
             feature_cache=False,optimizer_changed=False,precision_changed=False,
             backbone_resident=self.resident)

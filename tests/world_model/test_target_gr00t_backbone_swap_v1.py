@@ -43,6 +43,21 @@ def test_storage_callback_preserves_original_forward_gradients_rng_and_adamw():
 def test_trainable_or_gradient_bearing_backbone_cannot_be_swapped():
     m=Tiny();next(m.backbone.parameters()).requires_grad_(True)
     with pytest.raises(PermissionError,match='ONLY_FROZEN'):BackboneOptimizerSwap(m,None,device='cpu')
+
+
+def test_optimizer_reload_storage_restores_original_device_even_on_failure():
+    model=Tiny();swap=BackboneOptimizerSwap(model,None,device='cpu')
+    head=[(id(p),p.data_ptr(),p.detach().clone())for p in model.action_head.parameters()]
+    rng=torch.get_rng_state().clone()
+    with pytest.raises(RuntimeError,match='restore failed'):
+        with swap.optimizer_restore_storage():
+            assert not swap.resident
+            raise RuntimeError('restore failed')
+    assert swap.resident and swap.audit()['optimizer_state_restores']==1
+    assert swap.to_host_count==swap.to_device_count==1
+    assert torch.equal(rng,torch.get_rng_state())
+    assert all(id(p)==i and p.data_ptr()==ptr and torch.equal(p,v)
+        for p,(i,ptr,v)in zip(model.action_head.parameters(),head))
     m=Tiny();next(m.backbone.parameters()).grad=torch.zeros_like(next(m.backbone.parameters()))
     with pytest.raises(PermissionError,match='ONLY_FROZEN'):BackboneOptimizerSwap(m,None,device='cpu')
 
