@@ -127,7 +127,13 @@ def audited_episode(root,row,panel_sha,collector_source):
     frame=observations[0]['frame']
     task.need(all(np.array_equal(v['frame'],frame)for v in observations),'ONE_FIXED_POLICY_FRAME_FOR_EPISODE')
     packet=packet_arrays(checked,np.asarray([v['state']for v in observations]),frame)
+    from .task_learning_recovery_v1 import UNDER_CLOSE
+    recovery=q.get('recovery_evidence')or{}
+    genuine_recovery=bool(row['Teacher_mode']==UNDER_CLOSE
+        and all(recovery.get(k)is True for k in('intervention_issued','actual_under_close_failed','native_grasp_after_correction'))
+        and checked['excluded_intervention_decisions']==1 and checked['supervised_policy_decisions']==14)
     return dict(row=row,packet=packet,captures=observations,optimization_anchor_schedule=exposure_schedule(packet),
+        genuine_recovery_success=genuine_recovery,native_binary_sha256=native['native_binary_sha256'],
         proof=dict(spec=sp,lease=lp,worker=wp,native=npin,score=score_pin,start_readiness=ready_pin,
             capture_index=cp,confirmed_commands=fp,real_Teacher_decisions=decision_proofs),
         expert_training_eligible='PENDING_COMPLETE_FIXED_POPULATION_AND_ACTUAL_PROCESSOR_ADMISSION')

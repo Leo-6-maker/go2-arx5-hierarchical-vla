@@ -5,18 +5,18 @@
   "native_binary_sha256": "82c135c1bf5bb093cac832554b953d0017ec33e35e584865d08ca14327f3aa29",
   "panel_sha256": "69d962cee178481aa139ea1d67145a314dedaf4e462ad4027c26e8559c94a0cb",
   "status": "ACTIVE_INCOMPLETE_FRESH_TWENTY_REQUEST_PANEL",
-  "observed_epoch": 1794180611.4282706,
+  "observed_epoch": 1794182518.8798797,
   "summary": {
     "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
     "requested": 20,
-    "attempted": 1,
-    "reset_ready": 1,
-    "task_successes": 1,
+    "attempted": 6,
+    "reset_ready": 6,
+    "task_successes": 6,
     "hard_safety_stop_conditions": 0,
     "technical_failure_conditions": 0,
-    "P_reset_ready": 0.05,
+    "P_reset_ready": 0.3,
     "P_success_given_reset_ready": 1.0,
-    "P_success_per_requested_episode": 0.05,
+    "P_success_per_requested_episode": 0.3,
     "complete": false,
     "thresholds": {
       "minimum_reset_ready": 18,
@@ -41,9 +41,69 @@
       "actual_native_integrations": 21203,
       "first_failure": null,
       "wall_s": 328.22723242500797
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual02-r1",
+      "layout": "QUAL02",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 323.4063585586846
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual03-r1",
+      "layout": "QUAL03",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 319.3567657331005
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual04-r1",
+      "layout": "QUAL04",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 327.51902540400624
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual05-r1",
+      "layout": "QUAL05",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 325.35510456794873
+    },
+    {
+      "native_run": "tl-teacher-qual-20261109-02-qual06-r1",
+      "layout": "QUAL06",
+      "restart": 1,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "actual_native_integrations": 21203,
+      "first_failure": null,
+      "wall_s": 323.5594820571132
     }
   ],
   "qualified_training_demonstrations": 0,
   "old_failed_panel_retained": "G2_TEACHER_QUALIFICATION_ACTUAL.json",
-  "EVIDENCE_ASOF": "2026-11-08T23:35:10.106639+00:00"
+  "EVIDENCE_ASOF": "2026-11-09T00:08:11.140684+00:00"
 }
