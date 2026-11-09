@@ -1,0 +1,388 @@
+{
+  "schema": "FORMAL_SFT1000_FIXED_PHASE_PROBES_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T23:36:06.585441+00:00",
+  "SGT": "2026-11-10T07:36:06.585441+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "question": "How do the predeclared paired phase errors change from500 to1000 without selecting from one favorable channel?",
+  "producer": {
+    "job_id": "709342.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "GPU": "NVIDIA H200",
+    "GPUs": 1,
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_numel": 1304913028,
+    "backbone_frozen": true,
+    "original_CORR_parent": true,
+    "FIT4_or_scan_weights_as_parent": false
+  },
+  "dataset": {
+    "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "different_expert_supervision_windows": 1450,
+    "TRAIN_layouts": 25,
+    "nominal_TRAIN_XY_support_mm": [
+      7,
+      7
+    ],
+    "fixed_object": "40mm50g_RED_CUBE",
+    "optimizer_visits_are_not_new_data": true
+  },
+  "metric": {
+    "implementation_sha256": "450dcc4f7e2c5d63381e484936ef3b2f1e00de2b75a9898d69d82b69f8f6d0b5",
+    "key_phases": [
+      "CLOSE",
+      "LIFT",
+      "HOLD"
+    ],
+    "aggregation": "Equal mean per actual row within each phase, then equal mean across the three declared key phases",
+    "XYZ_unit": "metres",
+    "SO3_unit": "radians",
+    "gripper_unit": "original policy gripper scale",
+    "same_target_Processor_statistics_observations_and_noise": true,
+    "baseline": "SAME_FORMAL_GENERATION_STEP0; not native B0 with source statistics",
+    "native_B0_B1_interpretation": "Later common native panel measures whole target adaptation",
+    "training_queries": 40,
+    "DEV_reference_queries": 20,
+    "DEV_distinct_reference_episodes_and_layouts": 4,
+    "DEV_phase_rows_are_correlated": true
+  },
+  "trajectory": {
+    "TRAIN": {
+      "probes": 40,
+      "matched_observation_noise_sha256": "771edc4a8c271e11dbf73c83a6dc72d6e06afe2cde5cfda3335b9bb72467c829",
+      "step0": {
+        "H40": {
+          "XYZ_m": 0.00616333799407317,
+          "SO3_rad": 0.0016451560807450455,
+          "gripper": 0.10306548384734397
+        },
+        "first": {
+          "XYZ_m": 0.004736846050536276,
+          "SO3_rad": 0.001653134985665096,
+          "gripper": 0.1688168711960316
+        }
+      },
+      "step500": {
+        "H40": {
+          "XYZ_m": 0.0012006945119847293,
+          "SO3_rad": 0.0002936728353667291,
+          "gripper": 0.00886257784071466
+        },
+        "first": {
+          "XYZ_m": 0.0012554691449008124,
+          "SO3_rad": 0.00030503905369113797,
+          "gripper": 0.0038909499843915265
+        }
+      },
+      "step1000": {
+        "H40": {
+          "XYZ_m": 0.0009415450672414319,
+          "SO3_rad": 0.00038704526198960935,
+          "gripper": 0.008061627017708687
+        },
+        "first": {
+          "XYZ_m": 0.0011292212976685516,
+          "SO3_rad": 0.00034406062802128383,
+          "gripper": 0.005232582986354835
+        }
+      }
+    },
+    "DEV": {
+      "probes": 20,
+      "matched_observation_noise_sha256": "40769ddd66d2fde41a677fd1fd7165941387ff2529226703b6a795c8e641d43a",
+      "step0": {
+        "H40": {
+          "XYZ_m": 0.006103392363379497,
+          "SO3_rad": 0.0015658443936844072,
+          "gripper": 0.10491542913762021
+        },
+        "first": {
+          "XYZ_m": 0.004711880639310756,
+          "SO3_rad": 0.001305626929430704,
+          "gripper": 0.0892014851172765
+        }
+      },
+      "step500": {
+        "H40": {
+          "XYZ_m": 0.0013194407255024728,
+          "SO3_rad": 0.00030869319572009564,
+          "gripper": 0.01195929115252311
+        },
+        "first": {
+          "XYZ_m": 0.0014393994856962274,
+          "SO3_rad": 0.00036010111602643075,
+          "gripper": 0.0018714020649592082
+        }
+      },
+      "step1000": {
+        "H40": {
+          "XYZ_m": 0.0010032583377739184,
+          "SO3_rad": 0.0003738375885952074,
+          "gripper": 0.009754459562634784
+        },
+        "first": {
+          "XYZ_m": 0.001176151486841784,
+          "SO3_rad": 0.00040005587623886686,
+          "gripper": 0.0028519382079442344
+        }
+      }
+    }
+  },
+  "all_step1000_phases": {
+    "TRAIN": {
+      "step1000": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0010747133996391943,
+            "SO3_rad": 0.0004256192212070439,
+            "gripper": 0.018632242642343044
+          },
+          "first": {
+            "XYZ_m": 0.0009839326171382542,
+            "SO3_rad": 0.0003775784857729023,
+            "gripper": 0.014414802193641663
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0006593616502899422,
+            "SO3_rad": 0.0004416587614437574,
+            "gripper": 0.019855843111872676
+          },
+          "first": {
+            "XYZ_m": 0.0008393955646263974,
+            "SO3_rad": 0.0004446153080383865,
+            "gripper": 0.01610075682401657
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.0009610900273725328,
+            "SO3_rad": 0.0004096834500387236,
+            "gripper": 0.017745721056318484
+          },
+          "first": {
+            "XYZ_m": 0.0013806168194165857,
+            "SO3_rad": 0.00041615365442305605,
+            "gripper": 0.008242936432361625
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.0011957610572043641,
+            "SO3_rad": 0.0003282430610602405,
+            "gripper": 0.002848486043512821
+          },
+          "first": {
+            "XYZ_m": 0.0009455038074801712,
+            "SO3_rad": 0.0002731994596878261,
+            "gripper": 0.004571475088596344
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.000667784117147399,
+            "SO3_rad": 0.00042320927486986376,
+            "gripper": 0.003590673953294754
+          },
+          "first": {
+            "XYZ_m": 0.0010615432661088976,
+            "SO3_rad": 0.0003428287699529693,
+            "gripper": 0.002883337438106537
+          }
+        }
+      },
+      "step1000_result_sha256": "568ecf899798af326f7a7270e58c076ae840a02d07331f9ddb3cecd3fc00f5b9"
+    },
+    "DEV": {
+      "step1000": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0012441633996226518,
+            "SO3_rad": 0.000544033309523278,
+            "gripper": 0.016279543191194533
+          },
+          "first": {
+            "XYZ_m": 0.0010511926713978334,
+            "SO3_rad": 0.0004518891544997196,
+            "gripper": 0.010765790939331055
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0015397308410606842,
+            "SO3_rad": 0.0005594986346552066,
+            "gripper": 0.03193340823054314
+          },
+          "first": {
+            "XYZ_m": 0.0007741029719856951,
+            "SO3_rad": 0.0005987207038463487,
+            "gripper": 0.022663041949272156
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.0009801086454477644,
+            "SO3_rad": 0.000478948832956961,
+            "gripper": 0.022639545620189182
+          },
+          "first": {
+            "XYZ_m": 0.0015315415149241348,
+            "SO3_rad": 0.0005090831805689042,
+            "gripper": 0.005076974630355835
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.001065205417868503,
+            "SO3_rad": 0.0002865849217802602,
+            "gripper": 0.003270539455115795
+          },
+          "first": {
+            "XYZ_m": 0.0008478600514099481,
+            "SO3_rad": 0.00038966439285454,
+            "gripper": 0.0034788399934768677
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.0009644609500054878,
+            "SO3_rad": 0.00035597901104840105,
+            "gripper": 0.003353293612599373
+          },
+          "first": {
+            "XYZ_m": 0.001149052894191269,
+            "SO3_rad": 0.00030142005529315634,
+            "gripper": 0.0
+          }
+        }
+      },
+      "step1000_result_sha256": "00a602da71a00a9b9b2e3e1af34ff1c69b929cdd06f0a7595a83c63e3af06acc"
+    }
+  },
+  "key_aggregate_increases_since500": [
+    {
+      "split": "TRAIN",
+      "horizon": "H40",
+      "channel": "SO3_rad",
+      "step500": 0.0002936728353667291,
+      "step1000": 0.00038704526198960935,
+      "absolute_increase": 9.337242662288024e-05
+    },
+    {
+      "split": "TRAIN",
+      "horizon": "first",
+      "channel": "SO3_rad",
+      "step500": 0.00030503905369113797,
+      "step1000": 0.00034406062802128383,
+      "absolute_increase": 3.9021574330145865e-05
+    },
+    {
+      "split": "TRAIN",
+      "horizon": "first",
+      "channel": "gripper",
+      "step500": 0.0038909499843915265,
+      "step1000": 0.005232582986354835,
+      "absolute_increase": 0.0013416330019633085
+    },
+    {
+      "split": "DEV",
+      "horizon": "H40",
+      "channel": "SO3_rad",
+      "step500": 0.00030869319572009564,
+      "step1000": 0.0003738375885952074,
+      "absolute_increase": 6.514439287511178e-05
+    },
+    {
+      "split": "DEV",
+      "horizon": "first",
+      "channel": "SO3_rad",
+      "step500": 0.00036010111602643075,
+      "step1000": 0.00040005587623886686,
+      "absolute_increase": 3.995476021243611e-05
+    },
+    {
+      "split": "DEV",
+      "horizon": "first",
+      "channel": "gripper",
+      "step500": 0.0018714020649592082,
+      "step1000": 0.0028519382079442344,
+      "absolute_increase": 0.0009805361429850261
+    }
+  ],
+  "validation": {
+    "metric_implementation_sha256": "450dcc4f7e2c5d63381e484936ef3b2f1e00de2b75a9898d69d82b69f8f6d0b5",
+    "all_step0_and1000_retained_array_SHA_and_identity_checks_passed": true,
+    "cached_step500_private_snapshot_hash_matches_published_actual": true,
+    "observations_and_noise_pairs_exact_across_all_three_steps": true,
+    "each_phase_and_channel_reported": true,
+    "new_models": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS_submissions": 0
+  },
+  "current_formal": {
+    "EVIDENCE_ASOF": "2026-11-09T23:37:33.684920+00:00",
+    "PBS_state": "R",
+    "global_step": 1055,
+    "sample_visits": 33760,
+    "complete_checkpoint_steps": [
+      250,
+      500,
+      750,
+      1000
+    ],
+    "checkpoint1000": {
+      "step": 1000,
+      "cursor": 32000,
+      "header_sha256": "fe5c4afc3833d0e098bb7f5cacac4e18bbd4ccf0b3f76d3e3249f150613b6c0c",
+      "member_count": 15,
+      "bytes": 15668264758,
+      "files_metadata": {
+        "rng_state.pth": 14645,
+        "trainer_state.json": 137171,
+        "PROCESSOR_TRAINING_ADMISSION.json": 3247159,
+        "PROCESSOR_HOPPER_RECONSTRUCTION.json": 3247245,
+        "DATASET_MANIFEST.json": 1774809,
+        "PARAMETER_CONTRACT.json": 100858,
+        "target_parameters.pt": 5219838915,
+        "statistics.json": 6515,
+        "SAMPLER_STATE.json": 2284,
+        "optimizer.pt": 10439770966,
+        "scheduler.pt": 1465,
+        "FROZEN_PARENT_TENSORS.json": 112424,
+        "processor/processor_config.json": 3173,
+        "processor/embodiment_id.json": 615,
+        "processor/statistics.json": 6514
+      },
+      "all_declared_members_present": true,
+      "full_member_hashes_recomputed_on_login": false,
+      "independent_full_restore": "NOT_RUN"
+    },
+    "all_prefix_cursors_and_continuous_schedule_verified_through": 1055
+  },
+  "interpretation": "Key-phase H40 XYZ continues to improve on the same Teacher-state probes. SO3 and first-action gripper aggregate errors increase versus500; all remain reported. This is supervised-fit evidence, not a native skill score.",
+  "negative": {
+    "complete2000_endpoint": false,
+    "private_student_package": "NOT_DELIVERED",
+    "Core40": "NOT_RUN",
+    "student_closed_loop_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "native_success_rate_inferred": false,
+    "broad_generalization_established": false,
+    "scientific_promotion_or_recipe_change": false,
+    "checkpoint1000_independent_full_restore": "NOT_RUN"
+  },
+  "decision": "KEEP_ORIGINAL2000_JOB_RUNNING; no early method selection, recipe change or4000/8000 admission",
+  "next_gate": "Complete first2000 and full-state restore/private package; original Core40 then all80 native DEV; only the predeclared full-evidence decision can promote or choose a new data/observation branch",
+  "previous_fixed500_actual": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json",
+  "private_evidence": {
+    "HOPPER_FORMAL_FIXED_PHASE_SUMMARIES_1794267367110694518.private.json": "850603faf96c5d4fd938d60cef2bdc650da07ce3aca538be08d48d87e83a3f57",
+    "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794267452914508010.private.json": "20ccd689e4095444ab4ef778df73682a99c528c9ba771a075de05d5045f1acdb",
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794267453685694201.private.json": "88bd8a04b126a07238efa399257a8738d2b377eeaf8e5166bc4ce8eff656b53f",
+    "HOPPER_FORMAL_FIXED_PHASE_SUMMARIES_1794266050840960992.private.json": "ce6df76e416dbde20cb836e143386a357ce14a279d4c867c4701f62117b3c296",
+    "FORMAL1000_ORIGINAL_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "f4f221cf18609f04ac9f5ac05325d6ef6612cead6f640b466acd57170a716df5",
+    "read_formal_fixed_phase_summaries02.remote.private.py": "6dcdde28108be5b3ed575582f9441902f5ea3d4a19c52fa5b22722c326bde14b"
+  }
+}
