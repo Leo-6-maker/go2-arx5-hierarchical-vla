@@ -82,3 +82,27 @@ def test_new_pair_removes_teacher_and_old_pause_bindings_and_keeps_original_b0_p
     assert n['target_gr00t_policy']==g['target_gr00t_policy']==p['policies']['B0']
     assert n['target_gr00t_query_seeds']==g['target_gr00t_query_seeds']==row['query_seeds']
     assert n['data_role']=='DEV'and g['physics']is False and n['cpus']==[0,1,2,3]and g['cpus']==[8,9,10,11]
+
+
+def test_v2_can_continue_the_unexecuted_partner_after_a_finite_cold_boundary(tmp_path):
+    from go2arx5_vla.world_model.task_learning_endpoint_decision_v2 import descriptor
+    from go2arx5_vla.world_model import task_learning_student_v1 as student
+    p=panel();row=p['assignments'][0]
+    outcomes=[dict(row,attempted=True,reset_ready=True,technical_valid=True,task_success=False,hard_safety_stop=False)]
+    result=tmp_path/'group-result.json';write_json(result,dict(exit_code=1,unresolved_pair=None))
+    lease=tmp_path/'group-lease.json';write_json(lease,dict(status='CLOSED',worker_exit_code=1))
+    previous=tmp_path/'population.json'
+    proof=dict(schema='TASK_LEARNING_FULL_NATIVE_DEV_POPULATION_ACTUAL_V2',panel=dict(path='/fixture/panel',sha256='a'*64),
+        source_sha=p['source_sha'],cold_continuation_safe=True,outcomes=outcomes,summary=student.summarize(p,outcomes),
+        groups=[dict(lease=descriptor(lease),result=descriptor(result))])
+    write_json(previous,proof)
+    inp=dict(schema=batch.CONTINUATION_SCHEMA,source_sha=p['source_sha'],panel='/fixture/panel',panel_sha256='a'*64,
+        assignment_slice=[1,10],population_predecessor=descriptor(previous))
+    assert batch.selection(inp,p)==p['assignments'][1:10]
+    inp['assignment_slice']=[0,10]
+    with pytest.raises(ValueError,match='NOT_RETRY'):batch.selection(inp,p)
+    inp['assignment_slice']=[2,10]
+    with pytest.raises(ValueError,match='NOT_RETRY'):batch.selection(inp,p)
+    inp['assignment_slice']=[1,10];proof['cold_continuation_safe']=False
+    previous=tmp_path/'unresolved-population.json';write_json(previous,proof);inp['population_predecessor']=descriptor(previous)
+    with pytest.raises(ValueError):batch.selection(inp,p)

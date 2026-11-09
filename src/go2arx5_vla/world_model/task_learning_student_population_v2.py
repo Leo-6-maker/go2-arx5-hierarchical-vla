@@ -18,6 +18,7 @@ def aggregate(panel_reference, groups):
     panel = load(panel_reference)
     wanted = {r['native_run']: r for r in student.validate(panel)}
     outcomes, evidence, attempted = [], [], set()
+    cold_safe=True
     for root in map(Path, groups):
         task.need(root.is_absolute() and root.resolve() == root and not root.is_symlink(),
                   'CANONICAL_ACTUAL_DEV_GROUP')
@@ -45,6 +46,7 @@ def aggregate(panel_reference, groups):
         if result['exit_code'] == 0:
             task.need(len(values) == len(rows) and result.get('failure') is None,
                       'SUCCESSFUL_GROUP_HAS_ALL_SELECTED_ACTUAL_CONDITIONS')
+        cold_safe=cold_safe and result.get('unresolved_pair')is None
         # One trusted immutable source boundary, not a new whole-source scan
         # inside every control tick. The classifier/math must be the published
         # implementation that wrote these outcomes.
@@ -92,6 +94,7 @@ def aggregate(panel_reference, groups):
         status='COMPLETE_COMMON_DEV80' if summary['complete'] else 'PARTIAL_COMMON_DEV_NOT_A_SELECTION_RESULT',
         panel=panel_reference,source_sha=panel['source_sha'],global_step=panel['B1_global_step'],
         groups=evidence,outcomes=outcomes,summary=summary,native=native_counts(panel,outcomes),
+        cold_continuation_safe=bool(cold_safe),
         planned_conditions=80,attempted_conditions=len(outcomes),unrun_conditions=80-len(outcomes),
         methods_selected_from_partial=False,TEST_results_read=False,
         scientific_continuation_authorized=False)

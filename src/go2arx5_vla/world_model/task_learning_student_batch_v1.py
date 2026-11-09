@@ -12,14 +12,37 @@ from .storage import digest
 from .stable_task_scene_v1 import pinned
 
 SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V1'
+CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
     rows=student.validate(panel);span=inp.get('assignment_slice')
-    task.need(inp.get('schema')==SCHEMA and inp.get('source_sha')==panel['source_sha']
+    version=inp.get('schema')
+    task.need(version in(SCHEMA,CONTINUATION_SCHEMA) and inp.get('source_sha')==panel['source_sha']
         and isinstance(span,list)and len(span)==2 and all(type(v)is int for v in span)
-        and 0<=span[0]<span[1]<=80 and all(v%2==0 for v in span),
+        and 0<=span[0]<span[1]<=80,
         'FIXED_CONTIGUOUS_MATCHED_DEV_PAIRS_WITHOUT_RETRY')
+    if version==SCHEMA:
+        task.need(all(v%2==0 for v in span),'ORIGINAL_COMPLETE_PAIR_SLICE')
+    elif span[0]or inp.get('population_predecessor')is not None:
+        # A finite scope can end between the two methods of a pair. Preserve
+        # that actual condition and continue only the still-unexecuted suffix.
+        prior=pinned(inp['population_predecessor'])
+        task.need(prior.get('schema')=='TASK_LEARNING_FULL_NATIVE_DEV_POPULATION_ACTUAL_V2'
+            and prior.get('panel')==dict(path=inp['panel'],sha256=inp['panel_sha256'])
+            and prior.get('source_sha')==inp['source_sha']
+            and prior.get('cold_continuation_safe')is True
+            and [v['native_run']for v in prior['outcomes']]==[r['native_run']for r in rows[:span[0]]],
+            'ACTUAL_CLOSED_PREFIX_BEFORE_UNEXECUTED_DEV_SUFFIX_NOT_RETRY')
+        for group in prior['groups']:
+            lease=pinned(group['lease']);result=pinned(group['result'])
+            task.need(lease.get('status')=='CLOSED'and lease.get('worker_exit_code')==result.get('exit_code')
+                and result.get('unresolved_pair')is None,'ALL_PRIOR_DEV_GROUPS_ACTUALLY_COLD')
+        task.need(all(prior['summary']['methods'][m]['hard_safety_stop_conditions']==
+            prior['summary']['methods'][m]['technical_failure_conditions']==0 for m in('B0','B1')),
+            'SAFETY_OR_TECHNICAL_FAILURE_NEEDS_SEPARATE_REPAIR_NOT_SCOPE_RETRY')
+    else:
+        task.need(span[0]==0,'FIRST_DEV_GROUP_STARTS_AT_ORIGINAL_CONDITION0')
     return rows[span[0]:span[1]]
 
 
