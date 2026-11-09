@@ -200,7 +200,7 @@ def continue_native(adapter,report,samples,windows):
     control=adapter.spec.get('task_learning_control')==task.HOLD_CONTROL
     student=adapter.spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
     from .task_learning_recovery_v1 import NORMAL,UNDER_CLOSE,UnderCloseRecoveryTeacher,INTERVENTION
-    mode=adapter.spec.get('task_learning_teacher_mode',NORMAL)
+    mode=NORMAL if student else adapter.spec.get('task_learning_teacher_mode',NORMAL)
     task.need(mode in(NORMAL,UNDER_CLOSE)and(not control or mode==NORMAL),'EXPLICIT_TEACHER_MODE')
     if student:
         from .task_learning_student_v1 import StudentPolicy
