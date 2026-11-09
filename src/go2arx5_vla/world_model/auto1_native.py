@@ -212,6 +212,9 @@ def native_prefix_predecessor(spec):
     no historical result is rewritten as a pass for the repaired executable.
     """
     from .storage import digest
+    if spec.get('native_ui_build')or spec.get('native_ui_rate'):
+        from .native_ui_rate_v1 import baseline_spec
+        spec=baseline_spec(spec)
     actual=digest(spec['native_binary'])
     if not spec.get('sensor_handoff_previous_candidate_receipt'):return actual
     from .native_state_snapshot import VERSION
@@ -237,6 +240,9 @@ def native_prefix_predecessor(spec):
 def standing_repair_ancestor(spec):
     """Bind the preserved reference failure to a math-preserving runtime successor."""
     from .storage import digest
+    if spec.get('native_ui_build')or spec.get('native_ui_rate'):
+        from .native_ui_rate_v1 import baseline_spec
+        spec=baseline_spec(spec)
     actual=digest(spec['native_binary'])
     if not spec.get('cold_history_build_receipt'):return actual
     for key in('cold_history_build_receipt','cold_history_build_spec'):
