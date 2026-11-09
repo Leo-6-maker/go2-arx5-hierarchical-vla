@@ -15,6 +15,10 @@ SCOPE='TARGET_GR00T_CORE_V1'
 
 def full_restore_only(c):
     operation=c.get('operation')
+    if operation=='FULL_STATE_RESTORE_MEMORY_ONLY':
+        from .task_learning_core_restore_memory_v1 import configuration
+        configuration(c)
+        return True
     profile.need(operation in(None,'FULL_ACTION_RESTORE_ONLY'),'DECLARED_CORE_NATIVE_OPERATION')
     if operation is None:
         profile.need(not c.get('sealed_continuous4_reference'),'REFERENCE_ONLY_FOR_FULL_NATIVE_RESTORE')
@@ -164,6 +168,9 @@ def spec_operation(value):
 
 
 def run(c):
+    if c.get('operation')=='FULL_STATE_RESTORE_MEMORY_ONLY':
+        from .task_learning_core_restore_memory_v1 import run as restore_memory
+        return restore_memory(c)
     from scripts.pi0292.durable import OwnerLock,write
     from scripts.pi0294.e1.journal import Journal
     from scripts.pi0294.night10.native_relay import snapshot,once
