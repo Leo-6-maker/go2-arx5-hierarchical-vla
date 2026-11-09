@@ -1,0 +1,74 @@
+{
+  "schema": "TASK_LEARNING_MJWARP_VERSION_COMPATIBILITY_RECHECK_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T12:50:31.656561+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T20:50:31.656561+08:00",
+  "QUESTION": "Does current upstream MJWarp provide a direct backend satisfying the frozen MuJoCo3.2.7 task/control contract?",
+  "CHANGED": "Rechecked current official source and three version-pinned package manifests; distinguish current feature support from compatibility with the existing runtime.",
+  "ACTUAL": {
+    "upstream_versions_checked": [
+      {
+        "tag": "v4.0.0",
+        "commit_sha": "4d1c64bc077d725247e9bf5e2ac3f357749ff804",
+        "requires_python": ">=3.11",
+        "mujoco_requirement": "mujoco>=3.13.0",
+        "warp_requirement": "warp-lang>=1.15",
+        "source": "https://github.com/google-deepmind/mujoco_warp/blob/4d1c64bc077d725247e9bf5e2ac3f357749ff804/pyproject.toml"
+      },
+      {
+        "tag": "v0.0.2",
+        "commit_sha": "9f07cb8fff0a58b211f91082849b0e0cc03b7b61",
+        "requires_python": ">=3.10",
+        "mujoco_requirement": "mujoco>=3.3.7",
+        "warp_requirement": "warp-lang>=1.9.1",
+        "source": "https://github.com/google-deepmind/mujoco_warp/blob/9f07cb8fff0a58b211f91082849b0e0cc03b7b61/pyproject.toml"
+      },
+      {
+        "tag": "v3.5.0",
+        "commit_sha": "8a929b13663bd6fde3a9d340678c7a0611d894f7",
+        "requires_python": ">=3.10",
+        "mujoco_requirement": "mujoco>=3.4.0",
+        "warp_requirement": "warp-lang>=1.11.0",
+        "source": "https://github.com/google-deepmind/mujoco_warp/blob/8a929b13663bd6fde3a9d340678c7a0611d894f7/pyproject.toml"
+      }
+    ],
+    "current_upstream_release_commit": "4d1c64bc077d725247e9bf5e2ac3f357749ff804",
+    "current_upstream_commit_date_UTC": "2026-11-06T15:32:16Z",
+    "current_feature_support": {
+      "elliptic_cone": "Declared supported in current official feature table; not listed among current README exclusions. This is upstream documentation/source evidence, not this task runtime qualification.",
+      "official_table": "https://mujoco.readthedocs.io/en/latest/mjx.html#feature-parity",
+      "pinned_README": "https://github.com/google-deepmind/mujoco_warp/blob/4d1c64bc077d725247e9bf5e2ac3f357749ff804/README.md"
+    },
+    "Hopper_neural_runtime_metadata": {
+      "epoch": 1794228503.2758467,
+      "python": "3.12.3 (main, May 27 2024, 12:31:57) [GCC 11.4.1 20231218 (Red Hat 11.4.1-3)]",
+      "distributions": {
+        "mujoco": null,
+        "mujoco-warp": null,
+        "warp-lang": null,
+        "torch": "2.9.0+cu128"
+      },
+      "physics_integrations": 0,
+      "models_loaded": 0,
+      "GPU_allocations_started": 0
+    },
+    "frozen_reference": {
+      "MuJoCo": "3.2.7",
+      "integrator": "Euler",
+      "solver": "Newton",
+      "friction_cone": "elliptic",
+      "dt_s": 0.002,
+      "WBC_or_leg_math_changed": false
+    },
+    "physics_software_installed": 0,
+    "new_PBS_jobs": 0,
+    "GPU_physics_integrations": 0,
+    "qualified_GPU_worlds": 0
+  },
+  "NEGATIVE": [
+    "Do not retain a blanket claim that current MJWarp cannot use elliptic cones. Feature support depends on the pinned implementation/version.",
+    "None of the three examined package manifests accepts the frozen MuJoCo3.2.7 dependency. This bounded check is not proof that every historical commit is impossible.",
+    "A newer package or a generic robot GPU benchmark is not a qualified same-task WBC/leg/camera pipeline. GPU float32/nondeterminism and newer model/compiler behavior require measured numerical/behavioral qualification; this task has none."
+  ],
+  "DECISION": "Retain the original engine/control/dynamics contract; no silent runtime upgrade or contact-cone substitution. Current GPU-physics candidate package route is incompatible with the existing version pin, while single-environment synchronization optimization and formal SFT continue independently.",
+  "NEXT_GATE": "A concrete backend/version bridge satisfying the frozen contract, followed by preregistered single-world full-chain numerical/control/camera/task validation before2to4096 scaling; currently no such bridge is qualified."
+}

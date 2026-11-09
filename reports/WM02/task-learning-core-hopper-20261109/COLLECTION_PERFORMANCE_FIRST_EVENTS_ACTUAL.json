@@ -1,7 +1,7 @@
 {
   "schema": "TASK_LEARNING_FIXED_PERFORMANCE_FIRST_EVENTS_ACTUAL_V2",
-  "EVIDENCE_ASOF_UTC": "2026-11-09T12:40:17.331506+00:00",
-  "EVIDENCE_ASOF_SGT": "2026-11-09T20:40:17.331506+08:00",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T12:51:08.345216+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T20:51:08.345216+08:00",
   "QUESTION": "Does conditional ROS settling reduce actual episode wall without weakening the original task and safety/control checks?",
   "CHANGED": "Only the original fixed panel slot2 events mode, in a fresh cold capsule after all15 real camera replay qualification. Startup/preparation waits preserved; post-start readiness uses the original timeout and stronger explicit feedback/consumption checks.",
   "ACTUAL": {
@@ -75,7 +75,8 @@
           "failures": 0,
           "wall_ns": 45232331983,
           "thread_cpu_ns": 43626428753,
-          "self_wall_ns": 43548061791
+          "self_wall_ns": 43548061791,
+          "self_thread_cpu_ns": 42399547639
         },
         "atom.fixed_spin_150ms": {
           "count": 128,
@@ -103,10 +104,8 @@
     "prior_fixed_slot1_wall_s": 317.60824293317273,
     "observed_independent_wall_reduction_fraction": 0.28035183823206633,
     "observed_single_pair_wall_ratio": 1.3895679210009182,
-    "attempts_completed_in_fixed8": 3,
+    "attempts_completed_in_fixed8": 5,
     "remaining_matrix_slots": [
-      4,
-      5,
       6,
       7,
       8
@@ -147,8 +146,57 @@
       "BC_admitted": false
     },
     "slot3_independent_wall_reduction_fraction": 0.011168818064377084,
-    "next_native_slot": 4,
-    "next_native_PID": 3290373
+    "next_native_slot": 6,
+    "next_native_PID": 3303566,
+    "fixed_slot4": {
+      "epoch": 1794228247.9398057,
+      "mode": "events_camera_cache",
+      "matrix_index": 4,
+      "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+      "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+      "actual_native_integrations": 21203,
+      "task_success": true,
+      "hard_safety_stops": 0,
+      "all_owned_children_exit0": true,
+      "worker_exit0": true,
+      "lease_closed": true,
+      "Teacher_decisions": 15,
+      "confirmed_50ms_commands": 600,
+      "dual_RGB_images_checked": 30,
+      "wall_s": 227.71717068273574,
+      "native_result_sha256": "cd170b95eaee647f72a495e49f662ff2e32abbb302c3812722d7eec8e380a475",
+      "BC_admitted": false
+    },
+    "fixed_slot5": {
+      "epoch": 1794228506.5398662,
+      "mode": "events_camera_cache",
+      "matrix_index": 5,
+      "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+      "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+      "actual_native_integrations": 21203,
+      "task_success": true,
+      "hard_safety_stops": 0,
+      "all_owned_children_exit0": true,
+      "worker_exit0": true,
+      "lease_closed": true,
+      "Teacher_decisions": 15,
+      "confirmed_50ms_commands": 600,
+      "dual_RGB_images_checked": 30,
+      "wall_s": 220.8109712637961,
+      "native_result_sha256": "731c85e70a925e833d9318a35b4c412dc2c4e099ecc86384e99911a7b3aa3ad1",
+      "BC_admitted": false
+    },
+    "reference_install_CPU_observation": "45.232s inclusive wall,43.626s caller-thread CPU,43.548s self-wall and42.400s self-thread-CPU. Predominantly computation in this interval; pure ROS transmission time is not isolated.",
+    "post_fixed8_timing_candidate": {
+      "source_sha": "8a75c550",
+      "change": "Additional nested measurements for task envelope, unchanged full40 native certificate, explicit receiver ACK.",
+      "focused_checks": 18,
+      "AST_after_removing_measurement_contexts": "IDENTICAL_ORIGINAL_CALLS_ARGUMENTS_ORDER_AND_CHECKS",
+      "deployed_into_active_fixed8": false,
+      "native_run": "NOT_RUN"
+    }
   },
   "NEGATIVE": [
     "One events episode is an observed improvement, not a stable speedup estimate; full fixed8 and original safety/consumption audits remain required.",

@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T12:40:17.331506+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T12:51:08.345216+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -19,7 +19,7 @@
     "completed_PBS_jobs": 3,
     "successful_PBS_exit0_jobs": 2,
     "failed_PBS_exit1_jobs": 1,
-    "Core_current_native_owner": "PERFORMANCE_FIXED_SLOT4_EVENTS_CAMERA_CACHE_NATIVE3290373; CONTROLLER3636388",
+    "Core_current_native_owner": "PERFORMANCE_FIXED_SLOT6_CAMERA_CACHE_NATIVE3303566; CONTROLLER3636388",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
     "current_Hopper_scan": "707720.hopper-m-02 Q_GPU_UNAVAILABLE",
     "current_Hopper_Processor": "708392.hopper-m-02 Q_GPU_UNAVAILABLE"
@@ -234,8 +234,9 @@
     "actual": "HOPPER_PARALLEL_SCALE_ACTUAL.json",
     "single_H200_batch_scan_job": "707720.hopper-m-02",
     "larger_formal_microbatch_admission": "IMPLEMENTED_REQUIRE_ACTUAL_CLOSED_SCAN_AND_SELECTED_SEVEN_STATE_FULL_RESTORE_NOT_YET_QUALIFIED",
-    "headless": "EXPLICITLY_AUTHORIZED; VIEWER_NO_DRAW_CANDIDATE_PREPARED_NOT_EXECUTED",
-    "native_execution_profile": "NATIVE_EXECUTION_TIMING_ACTUAL.json"
+    "headless": "ACTUAL_FIXED_PERFORMANCE5_OF8_COMPLETE_ON_SEPARATE_HEADLESS_CONSTRUCTION_BINARY; NOT_ADOPTED_FOR_SEALED_TRAIN100",
+    "native_execution_profile": "NATIVE_EXECUTION_TIMING_ACTUAL.json",
+    "GPU_physics_upstream_recheck": "GPU_PHYSICS_UPSTREAM_VERSION_RECHECK_ACTUAL.json"
   },
   "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
   "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
@@ -266,14 +267,14 @@
     "completed_slots": [
       1,
       2,
-      3
+      3,
+      4,
+      5
     ],
     "slot1_wall_s": 317.60824293317273,
     "slot2_preflight_failure": "CLOSED_NATIVE_NOT_DISPATCHED",
     "successor_source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
     "remaining_slots": [
-      4,
-      5,
       6,
       7,
       8
@@ -281,11 +282,13 @@
     "actual_speedup_proven": "ONE_INDEPENDENT_PAIR_OBSERVED; REPEATABILITY_PENDING",
     "camera_all15_actual": "COLLECTION_PERFORMANCE_CAMERA_SCENE_REPAIR_ACTUAL.json",
     "camera_pixel_qualification": "PASS_ALL15_ORIGINAL_FRESH_CACHED_EXACT",
-    "actual_running_slot": 4,
-    "native_PID": 3290373,
+    "actual_running_slot": 6,
+    "native_PID": 3303566,
     "slot2_wall_s": 228.56618818920106,
     "observed_single_events_wall_reduction_fraction": 0.28035183823206633,
     "latest_actual": "COLLECTION_PERFORMANCE_FIRST_EVENTS_ACTUAL.json",
-    "slot3_wall_s": 314.06093425210565
+    "slot3_wall_s": 314.06093425210565,
+    "slot4_wall_s": 227.71717068273574,
+    "slot5_wall_s": 220.8109712637961
   }
 }
