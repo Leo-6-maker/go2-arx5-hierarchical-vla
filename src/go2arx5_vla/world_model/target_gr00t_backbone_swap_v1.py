@@ -1,0 +1,66 @@
+"""Move only frozen backbone storage out of the AdamW temporary peak.
+
+Every original forward still executes on the declared device. No feature cache,
+optimizer implementation, parameter dtype, gradient or RNG operation changes.
+The site envelope and a complete fresh-process restore qualify the GPU route.
+"""
+from .target_gr00t_profile_v1 import need
+
+MEMORY='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3'
+
+
+class BackboneOptimizerSwap:
+    def __init__(self,model,activation_storage,*,device='cuda'):
+        import torch
+        self.torch=torch;self.model=model;self.storage=activation_storage
+        self.backbone=model.backbone;self.device=device;self.resident=True
+        self.to_host_count=self.to_device_count=0
+        self._frozen()
+        self.bytes=sum(t.numel()*t.element_size()for t in
+            (*self.backbone.parameters(),*self.backbone.buffers()))
+        self.handle=self.backbone.register_forward_pre_hook(self.before_forward)
+
+    def _frozen(self):
+        need(all(not p.requires_grad and p.grad is None for p in self.backbone.parameters()),
+            'ONLY_FROZEN_GRADIENT_FREE_BACKBONE_STORAGE_CAN_MOVE')
+
+    def _move(self,device):
+        self._frozen()
+        tensors=(*self.backbone.parameters(),*self.backbone.buffers())
+        identity=[(tuple(t.shape),str(t.dtype))for t in tensors]
+        self.backbone.to(device)  # Device only: preserve every value and dtype.
+        after=(*self.backbone.parameters(),*self.backbone.buffers())
+        need(identity==[(tuple(t.shape),str(t.dtype))for t in after],
+            'FROZEN_BACKBONE_SWAP_NO_DTYPE_OR_SHAPE_CHANGE')
+        # Saved-activation exclusion keys contain storage addresses. Refresh
+        # them after moving the backbone, while keeping action storage resident.
+        if self.storage is not None:
+            self.storage.excluded={self.storage.storage(t)for t in
+                (*self.model.parameters(),*self.model.buffers())}
+        if self.device=='cuda':self.torch.cuda.synchronize()
+
+    def before_forward(self,module,args):
+        need(module is self.backbone,'ORIGINAL_BACKBONE_ONLY')
+        if not self.resident:
+            self._move(self.device);self.resident=True;self.to_device_count+=1
+
+    def before_optimizer(self):
+        if self.resident:
+            self._move('cpu');self.resident=False;self.to_host_count+=1
+            if self.device=='cuda':self.torch.cuda.empty_cache()
+
+    def callback(self):
+        from transformers import TrainerCallback
+        owner=self
+        class StorageOnly(TrainerCallback):
+            def on_pre_optimizer_step(self,args,state,control,**kwargs):
+                owner.before_optimizer()
+        return StorageOnly()
+
+    def audit(self):
+        return dict(schema=MEMORY,backbone_bytes=self.bytes,
+            to_host_before_optimizer=self.to_host_count,
+            to_device_before_original_forward=self.to_device_count,
+            original_backbone_forward_each_microbatch=True,
+            feature_cache=False,optimizer_changed=False,precision_changed=False,
+            backbone_resident=self.resident)
