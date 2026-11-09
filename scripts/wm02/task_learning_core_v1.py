@@ -8,10 +8,28 @@ import traceback
 from pathlib import Path
 
 
+def diagnostic_variant(spec):
+    """A full-action restore trial has its own identity, never a FIT4 policy."""
+    from go2arx5_vla.world_model.task_learning_features_v1 import need,MEMORY
+    recipe=spec['recipe']
+    full=spec.get('operation')=='FULL_ACTION_RESTORE_ONLY'
+    variant='FULL_ACTION_SIDE'if full else'INTERFACES_LAST2_DIT'
+    need(recipe.get('variant')==variant,'EXPLICIT_DIAGNOSTIC_PARAMETER_SCOPE')
+    if full:
+        need(recipe.get('effective_batch')==32 and recipe.get('microbatch')==1
+            and recipe.get('memory_policy')==MEMORY
+            and recipe.get('scheduler_horizon')==500 and recipe.get('warmup')==8
+            and recipe.get('original_Trainer_execution')is False
+            and recipe.get('standalone_deployable_policy')is False,
+            'FULL_ACTION_CACHE_RESTORE_ONLY_NOT_FORMAL_TRAINER_OR_POLICY')
+    return variant
+
+
 def admitted(spec, spec_path):
     from go2arx5_vla.world_model.task_learning_features_v1 import SCOPE, need
     from go2arx5_vla.world_model.storage import digest
     from go2arx5_vla.world_model.target_gr00t_core_v1 import gpu
+    diagnostic_variant(spec)
     need(os.getuid() == 2009 and os.uname().nodename == 'corelab-4080s' and not os.environ.get('PBS_JOBID'), 'REAL_CORE_SITE')
     root = Path(spec['root'])
     need(root.resolve() == root and str(root).startswith('/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/'), 'REGISTERED_LOCAL_STORAGE')
@@ -80,7 +98,10 @@ def run_phase(spec, root, phase):
         data.initialize()
         return features.reconstruct_ordinary(model,data,spec['qualification']['cache_path'],
             spec['checkpoint']['path'],spec['recipe'],output,spec['trained_probes'],guard)
-    contract = action_contract(model, 'INTERFACES_LAST2_DIT')
+    contract = action_contract(model, diagnostic_variant(spec))
+    if spec.get('operation')=='FULL_ACTION_RESTORE_ONLY':
+        features.need(contract.describe()['trainable_numel']==1304913028,
+            'ALL_1304913028_ORIGINAL_FULL_ACTION_PARAMETERS')
     write(output / 'PARAMETER_CONTRACT.json', contract.describe())
     guard()
     if phase=='reconstruct200':

@@ -3,6 +3,20 @@ import pytest
 from go2arx5_vla.world_model import task_learning_features_v1 as features
 
 
+def test_full_action_trial_cannot_be_silently_reduced_or_used_as_formal_policy():
+    from scripts.wm02.task_learning_core_v1 import diagnostic_variant
+    recipe=dict(variant='FULL_ACTION_SIDE',effective_batch=32,microbatch=1,
+        memory_policy=features.MEMORY,scheduler_horizon=500,warmup=8,
+        original_Trainer_execution=False,standalone_deployable_policy=False)
+    spec=dict(operation='FULL_ACTION_RESTORE_ONLY',recipe=recipe)
+    assert diagnostic_variant(spec)=='FULL_ACTION_SIDE'
+    for field,value in [('variant','INTERFACES_LAST2_DIT'),('standalone_deployable_policy',True),
+                        ('effective_batch',1),('original_Trainer_execution',True)]:
+        with pytest.raises(ValueError):diagnostic_variant(dict(spec,recipe=dict(recipe,**{field:value})))
+    with pytest.raises(ValueError):diagnostic_variant(dict(spec,operation='FIT4_200'))
+    assert diagnostic_variant(dict(recipe=dict(variant='INTERFACES_LAST2_DIT')))=='INTERFACES_LAST2_DIT'
+
+
 def test_free_generation_excludes_expert_action_and_rtc_without_mutating_training_input():
     inputs = dict(state=[1, 2], input_ids=[3, 4], pixel_values=[5], action=[999], action_mask=[1])
     inference = features.inference_inputs(inputs)
