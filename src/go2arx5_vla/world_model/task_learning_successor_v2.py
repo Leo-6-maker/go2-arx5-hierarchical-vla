@@ -128,3 +128,34 @@ def continuation_fields(prior,producer_result,decision_reference):
     need(all(recipe[k]==p[k]for k in recipe if k!='endpoint'),
         'SAME_DATA_SCOPE_MICROBATCH_SEED_AND_CONTINUOUS_8000_SCHEDULE')
     return value
+
+
+def failure_summary(evidence):
+    """Describe complete observed outcomes, without inventing a hidden stage."""
+    from collections import Counter
+    counts=scientific.native_counts(evidence['native_panel'],evidence['native_outcomes'])
+    need(counts['complete']is True,'COMPLETE_COMMON_DEV_BEFORE_FAILURE_DIAGNOSIS')
+    rows=[];buckets={m:Counter()for m in ('B0','B1')}
+    for row in evidence['native_outcomes']:
+        score=row.get('score')or{}
+        if row['hard_safety_stop']:kind='HARD_SAFETY_STOP'
+        elif row['technical_valid']is not True:kind='TECHNICAL_FAILURE'
+        elif row['reset_ready']is not True:kind='RESET_NOT_READY'
+        elif row.get('policy_proposal_rejected'):kind='POLICY_PROPOSAL_REJECTED'
+        elif row['task_success']:kind='COMPLETE_TASK_SUCCESS'
+        elif score.get('standing_passes')is False:kind='STANDING_SCORE_NOT_MET'
+        elif score.get('maximum_object_lift_m',0)<.020:kind='NO_20MM_LIFT_OBSERVED'
+        elif score.get('longest_contiguous_grasp_lift_hold_s',0)<1.:kind='ONE_SECOND_HOLD_NOT_OBSERVED'
+        else:kind='UNSUCCESSFUL_CAUSE_UNRESOLVED'
+        buckets[row['method']][kind]+=1
+        rows.append(dict(method=row['method'],layout=row['layout'],restart=row['restart'],
+            native_run=row['native_run'],observed_outcome=kind,first_failure=row.get('first_failure'),
+            actual_GR00T_queries=row.get('actual_GR00T_queries',0)))
+    return dict(schema='TASK_LEARNING_COMPLETE_DEV_OBSERVED_FAILURES_V2',
+        requested=80,attempted=len(rows),unrun=0,methods=counts['methods'],
+        outcome_counts={m:dict(v)for m,v in buckets.items()},conditions=rows,
+        mechanism_proven=False,
+        limits=['No-lift alone cannot distinguish approach, closure and lift mechanisms.',
+                'Use actual native traces and deployable observations for causal diagnosis.',
+                'These outcomes are not Teacher labels or new training demonstrations.'],
+        model_updates=0,new_native_integrations=0,TEST_results_read=False)

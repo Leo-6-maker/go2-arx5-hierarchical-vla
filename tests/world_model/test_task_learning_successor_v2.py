@@ -85,3 +85,13 @@ def test_continuation_retains_full_checkpoint_generation_and_original_schedule(t
     assert all(fields['recipe'][k]==prior['recipe'][k]for k in prior['recipe']if k!='endpoint')
     save(cp/'CHECKPOINT_COMPLETE.json',dict(global_step=2000,cursor=0,generation_id='generation',recipe=prior['recipe']))
     with pytest.raises(ValueError,match='FULL_STATE_PREDECESSOR'):successor.continuation_fields(prior,producer,decision.descriptor(dp))
+
+
+def test_full_failure_summary_retains_both_methods_and_does_not_invent_contact_stage():
+    e=scientific_fixture();r=successor.failure_summary(e)
+    assert r['attempted']==80 and r['unrun']==0
+    assert r['outcome_counts']['B0']=={'NO_20MM_LIFT_OBSERVED':40}
+    assert r['outcome_counts']['B1']=={'COMPLETE_TASK_SUCCESS':4,'NO_20MM_LIFT_OBSERVED':36}
+    assert not r['mechanism_proven']and not r['TEST_results_read']
+    e['native_outcomes']=e['native_outcomes'][:20]
+    with pytest.raises(ValueError,match='COMPLETE_COMMON_DEV'):successor.failure_summary(e)
