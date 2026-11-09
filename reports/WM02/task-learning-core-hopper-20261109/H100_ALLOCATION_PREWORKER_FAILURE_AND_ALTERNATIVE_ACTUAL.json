@@ -1,0 +1,170 @@
+{
+  "schema": "WM02_H100_ACTUAL_ALLOCATION_AND_PREWORKER_FAILURE_V1",
+  "observed_at_sgt": "2026-11-10T01:21:27.180950+08:00",
+  "source_sha": "b28521fa6fe2c6c0da424ffcd773b20750280945",
+  "protocol": "experiments/wm02/task_learning_h100_restore_v1.json",
+  "status": "H100_NOT_YET_QUALIFIED_ALTERNATE_NODE_QUEUED_AFTER_TWO_PREWORKER_FAILURES",
+  "question": "Can one Hopper H100 execute the original full action-side Trainer and exact restore as an alternative to the queued H200 route?",
+  "changed": {
+    "explicit_H100_allocation_and_actual_device_checks": true,
+    "historical_H200_remains_default": true,
+    "restore_only_endpoint": true,
+    "full_action_side": true,
+    "effective_batch": 32,
+    "microbatch": 1,
+    "accumulation": 32,
+    "planned_optimizer_calls": 8,
+    "original_training_math_unchanged": "ACTUAL_REMOTE_AST_KERNEL_COMPARISON_PASS",
+    "old_H200_capsules_changed": false
+  },
+  "attempts": [
+    {
+      "job_id": "708938.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "first_running_at_sgt": "2026-11-10T01:14:46+08:00",
+      "PBS_state": "F",
+      "PBS_exit_status": -2,
+      "allocation_lease": "CLOSED",
+      "worker_started": false,
+      "worker_exit_code": null,
+      "observed_error": "Could not chdir to home directory",
+      "PBS_reported_CPU_s": 0,
+      "PBS_reported_wall_s": 0,
+      "GPU_allocated_by_scheduler": true,
+      "actual_torch_GPU_probe": false,
+      "model_loads": 0,
+      "optimizer_updates": 0
+    },
+    {
+      "job_id": "708943.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "first_running_at_sgt": "2026-11-10T01:18:24+08:00",
+      "PBS_state": "F",
+      "PBS_exit_status": -1,
+      "allocation_lease": "CLOSED",
+      "worker_started": false,
+      "worker_exit_code": null,
+      "job_level_change": "sandbox=PRIVATE; explicit direct output",
+      "observed_error": "PBS pre-worker exit -1; PRIVATE jobdir remains under user home",
+      "private_jobdir_still_under_user_home": true,
+      "PBS_reported_CPU_s": 0,
+      "PBS_reported_wall_s": 0,
+      "GPU_allocated_by_scheduler": true,
+      "actual_torch_GPU_probe": false,
+      "model_loads": 0,
+      "optimizer_updates": 0
+    }
+  ],
+  "current_successor": {
+    "job_id": "708946.hopper-m-02",
+    "PBS_state": "Q",
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "hold_types": "n",
+    "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+    "GPU_model": "H100",
+    "GPUs": 1,
+    "ncpus": 12,
+    "host_memory_gb": 225,
+    "wall_s": 3600,
+    "known_failed_node_excluded_by_explicit_alternative_host": true,
+    "chosen_alternative_is_online_and_H100_in_standard_pool": true,
+    "chosen_alternative_GPUs_assigned_at_selection": 8,
+    "chosen_alternative_GPUs_total": 8,
+    "PBS_held_resources_verified_before_release": true,
+    "allocation_lease": "PBS_SUBMITTED",
+    "absolute_deadline_epoch": 1794331254.9559064,
+    "worker_started": false,
+    "actual_torch_GPU_probe": false,
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "full_restore": null
+  },
+  "capacity": {
+    "standard_H100_total_GPUs": 32,
+    "offline_GPUs": 8,
+    "online_assigned_GPUs": 16,
+    "online_unassigned_GPUs": 8,
+    "all_online_unassigned_GPUs_on_node_with_observed_preworker_directory_failure": true
+  },
+  "negative_and_limits": [
+    "The first two H100 jobs were genuinely allocated and entered R, then failed before the application worker.",
+    "A PRIVATE sandbox did not move staging away from the problematic user-home prefix on that node.",
+    "No actual H100 model load, optimizer update, memory peak, throughput or restore result is available.",
+    "These failures do not demonstrate an H100 OOM or a Trainer/numerical failure.",
+    "The alternative-node successor is queued; no reliable start-time estimate is available.",
+    "The node startup problem is an external site issue; no mounts, account home, system services or other-user work were changed."
+  ],
+  "existing_H200_jobs": [
+    {
+      "job_id": "708392.hopper-m-02",
+      "purpose": "Original full-data Processor",
+      "last_actual_state": "Q",
+      "request_and_identity_preserved": true
+    },
+    {
+      "job_id": "707720.hopper-m-02",
+      "purpose": "Original microbatch scan",
+      "last_actual_state": "Q",
+      "request_and_identity_preserved": true
+    }
+  ],
+  "verification": {
+    "local_relevant_checks_passed": 88,
+    "actual_GPU_qualification": "NOT_RUN",
+    "remote_original_training_math": "PASS",
+    "actual_PBS_submissions": 3,
+    "terminal_preworker_PBS_failures": 2,
+    "current_known_queued_successors": 1,
+    "formal_new_task_SFT_submissions_from_this_H100_change": 0
+  },
+  "next_gate": "Wait for the single alternate-node job to reach actual terminal; require physical GPU identification, nonzero full action updates and exact uninterrupted versus resumed complete states before H100 qualification. If its startup also fails, preserve terminal and report site block rather than repeating the same launch.",
+  "official_job_directory_reference": "https://help.altair.com/2024.1.0/PBS%20Professional/PBSUserGuide2024.1.pdf",
+  "private_evidence": [
+    {
+      "kind": "H100_RESTORE01_PBS_PREWORKER_FAILURE_DIAGNOSIS",
+      "sha256": "f67102318f9b40ae7e8ffa8015938faa32e0121b0587300735aab2c15884e39d"
+    },
+    {
+      "kind": "H100_JOB_DIRECTORY_POLICY_DIAGNOSIS",
+      "sha256": "d76a724421e28b7863102fa72f2bd30f59d2af7a3f827e8dfacccf3a6e61892c"
+    },
+    {
+      "kind": "H100_RESTORE01_PREWORKER_CLOSE_ACTUAL",
+      "sha256": "f84b42f42f1eeb18e905aaef1ebf29fd19a6713845f954d1677a875c11d37193"
+    },
+    {
+      "kind": "H100_RESTORE02_PREWORKER_CLOSE_ACTUAL",
+      "sha256": "9bf21d5398b06a9ae9ed65c2a8701d3a0aa41d80253a4360fe9af83fa12ab79e"
+    },
+    {
+      "kind": "H100_ALTERNATE_NODE_AND_PRIVATE_SANDBOX_TRACE",
+      "sha256": "9dd548b2e9e325e0c2b96eeeec36576de7f2980a6f33266c52a86b3dc43c2596"
+    },
+    {
+      "kind": "H100_RESTORE03_PREPARE_ACTUAL",
+      "sha256": "d1f3b4b828ea65cae68e00a8c98212a9f668c023bc11c8a272d23cea1492b3a1"
+    },
+    {
+      "kind": "H100_RESTORE03_SUBMIT_ACTUAL",
+      "sha256": "4d2b848ce2e6c81dfe4c762837bdcd8c262238bd7d029a59ebb3ad2428ffe6b8"
+    },
+    {
+      "kind": "H100_RESTORE03_RELEASE_ACTUAL",
+      "sha256": "6986a045fd81294001a50516bcb1f94891c8eba1ab4b605ed821bfbd092e96b7"
+    },
+    {
+      "kind": "H100_RESTORE03_READ_ACTUAL",
+      "sha256": "b058984941ed50223cc30d9a9a888a968b4401f2c43e6b2de67107c758eef3c0"
+    }
+  ],
+  "finite_read_only_terminal_observer": {
+    "actual_process_identity_verified": true,
+    "stage": "READ_ONLY_WAIT_KNOWN_JOB",
+    "last_PBS_state": "Q",
+    "deadline_epoch": 1794331254.9559064,
+    "remote_mutations": 0,
+    "automatically_resubmits": false,
+    "automatically_starts_formal_SFT": false
+  }
+}

@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-10 01:21:27 SGT（UTC 17:21:27）H100实测：**708938和708943均快速取得单H100并进入R，但在应用脚本前分别PBS F/−2和F/−1退出，实际模型／更新0。** 首次明确报无法切换home目录；作业级PRIVATE目录仍落在同一home前缀，未绕过启动问题。两个原lease按真实PBS前置失败结算CLOSED，worker退出保持null、失败原文保留。新708946已核资源并释放，显式改排另一在线H100节点，当前Q／ngpus不足，1GPU／1小时有限端点；该节点8卡已占满。显式H100完整动作侧恢复入口通过88项相关检查和远端原训练数学AST比较；尚无H100实际模型／恢复资格。原H200 708392／707720仍Q、身份请求未改。[实际分配、失败和唯一替代节点后继](reports/WM02/task-learning-core-hopper-20261109/H100_ALLOCATION_PREWORKER_FAILURE_AND_ALTERNATIVE_ACTUAL.json)。
+
 2026-11-10 01:05:25 SGT（UTC 17:05:25）项目／队列诊断：**708392与707720均实际绑定CFP04-CF-007，仍Q／ngpus不足；项目有效、账号为成员、GPU余额861612.275小时。** 官方项目登录超时经单命令延长超时后恢复；不是额度耗尽或漏填project。small对应nus_hpc的H200共128张、已分配128张，在线未分配0；账号当前0项R，未用满small的2项运行上限。12CPU／225GB每GPU是官方标准。smallx优先级较高但Express仅供自费项目，当前项目资格未确认；H100及AISG余量不满足原H200请求或未确认准入。没有重投、取消、换项目或热改；无可靠开始时间／排位。正式SFT尚未启动。[实时项目、资源汇总与边界](reports/WM02/task-learning-core-hopper-20261109/HOPPER_PROJECT_QUEUE_ROOT_CAUSE_ACTUAL.json)。
 
 2026-11-10 00:20:52 SGT（UTC 16:20:52）冷接续：**Core完整动作侧尚未模型加载，等待角色02／PID3766471存活，继承原01:17 SGT绝对截止。** GPU0容量反复变化；一次容量满足后在登记CPU预检遇到运行环境无pytest，发生在spec／lease／模型派发前。旧INTENT和失败保留；后继只用已有无外部测试依赖的Core审计程序，在容量连续三次满足后沿原Journal新完成键核实际无注册／工作器，再最多接续一次，不安装依赖或热改胶囊。当前CUDA模型／新更新仍0。[真实启动前失败、资源与边界](reports/WM02/task-learning-core-hopper-20261109/CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json)。
