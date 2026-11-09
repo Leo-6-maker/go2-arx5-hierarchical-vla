@@ -36,3 +36,29 @@ def test_midpoint_recovery_keeps_same_generation_seed_and_eight_thousand_schedul
     s=boot.configuration(c)
     assert s['GR00T_updates']==250 and s['recipe']['scheduler_horizon']==8000
     assert s['recipe']['seed']==20261109 and s['generation_id']==c['generation_id']
+
+
+def test_premodel_bootstrap_failure_closes_only_its_owned_lease(tmp_path,monkeypatch):
+    import json
+    (tmp_path/'control').mkdir();lease=tmp_path/'control/LEASE.json'
+    lease.write_text(json.dumps(dict(status='PBS_SUBMITTED',job_id='fixture-job')))
+    monkeypatch.setenv('PBS_JOBID','fixture-job')
+    def failed(c):raise RuntimeError('fixture premodel failure')
+    monkeypatch.setattr(boot,'activate',failed)
+    with pytest.raises(RuntimeError):boot.run(dict(root=str(tmp_path)))
+    assert json.loads(lease.read_text())['status']=='CLOSED'
+    assert json.loads((tmp_path/'RESULT.json').read_text())['actual_model_loads']==0
+    assert json.loads((tmp_path/'WORKER_EXIT.private.json').read_text())['exit_code']==1
+
+
+def test_existing_training_worker_is_not_relabelled_as_a_premodel_failure(tmp_path,monkeypatch):
+    import json
+    (tmp_path/'control').mkdir();lease=tmp_path/'control/LEASE.json'
+    value=dict(status='ACTIVE',job_id='fixture-job');lease.write_text(json.dumps(value))
+    (tmp_path/'WORKER_STARTED.private.json').write_text('{}')
+    monkeypatch.setenv('PBS_JOBID','fixture-job')
+    def failed(c):raise RuntimeError('fixture existing worker')
+    monkeypatch.setattr(boot,'activate',failed)
+    with pytest.raises(RuntimeError):boot.run(dict(root=str(tmp_path)))
+    assert json.loads(lease.read_text())==value
+    assert not(tmp_path/'RESULT.json').exists()

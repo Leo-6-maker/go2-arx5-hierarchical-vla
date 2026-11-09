@@ -19,9 +19,10 @@ PACKAGE='FORMAL_PACKAGE_RECONSTRUCTION_TRAIN4'
 CROSS_SITE_ATOL=dict(XYZ_m=1e-4,rot6d_component=1e-3,gripper=1e-3,normalized_component=1e-2)
 
 
-def compare_cross_site(first,second):
+def compare_cross_site(first,second,*,source_site='VANDA_A40'):
     import numpy as np
     a,b=Path(first),Path(second)
+    profile.need(source_site in('VANDA_A40','HOPPER_SINGLE_GPU'),'EXPLICIT_PAIRED_TRAINING_SITE')
     from .task_learning_probes_v1 import artifact,matched_count
     first_meta=json.loads((a/'RESULT.json').read_bytes());second_meta=json.loads((b/'RESULT.json').read_bytes())
     one,two=first_meta['records'],second_meta['records']
@@ -46,12 +47,16 @@ def compare_cross_site(first,second):
             values['normalized_component']=float(np.abs(left-right).max())
             maximum={k:max(maximum[k],v)for k,v in values.items()}
     profile.need(all(maximum[k]<=v for k,v in CROSS_SITE_ATOL.items()),'A40_CORE_NUMERICAL_GATE_FAILED')
-    return dict(status='PASS_ACTUAL_A40_CORE_MATCHED_INPUT_NOISE_NUMERICAL_GATE',
+    return dict(status=('PASS_ACTUAL_HOPPER_CORE_MATCHED_INPUT_NOISE_NUMERICAL_GATE'
+        if source_site=='HOPPER_SINGLE_GPU'else'PASS_ACTUAL_A40_CORE_MATCHED_INPUT_NOISE_NUMERICAL_GATE'),
         absolute_component_tolerances=CROSS_SITE_ATOL,actual_maximum_absolute_error=maximum,
         actual_matched_queries=count,native_task_success='NOT_ESTABLISHED_BY_NUMERICAL_AGREEMENT')
 
 
 def validate_spec(s):
+    if s.get('profile')=='wm02-task-learning-package-core-v1':
+        from .task_learning_core_inference_v1 import validate_spec as continuous
+        return continuous(s)
     from scripts.pi0294.numerics import MODE
     need=profile.need
     need(s.get('profile')==PROFILE and s.get('kind')==KIND
@@ -145,11 +150,17 @@ def infer(s,output):
     write_json(root/'MODEL_CONSTRUCTED.private.json',dict(actual_model_loads=1,loading=loading))
     profile.need(not any(loading.get(k)for k in ('missing_keys','unexpected_keys','mismatched_keys','error_msgs'))
         and model.action_head.num_inference_timesteps==4,'EXACT_ORIGINAL_PARENT_FOUR_STEP_SAMPLER')
-    from .target_gr00t_dataset_v1 import TargetNativeDataset
-    data=TargetNativeDataset(s['target_dataset'],bindings['source'],bindings['cosmos'])
+    continuous=s.get('profile')=='wm02-task-learning-package-core-v1'
+    if continuous:
+        from .task_learning_native_dataset_v1 import TaskLearningNativeDataset as Dataset
+        from .target_gr00t_core_v1 import trim_unused_logits
+        trim_unused_logits(model)
+    else:
+        from .target_gr00t_dataset_v1 import TargetNativeDataset as Dataset
+    data=Dataset(s['target_dataset'],bindings['source'],bindings['cosmos'])
     data.initialize()
     package_step=0
-    if s['target_inference_mode']==PACKAGE:
+    if continuous or s['target_inference_mode']==PACKAGE:
         from .target_gr00t_delivery_v1 import install
         from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7Processor
         package=s['candidate_package'];installed=install(model,package['path'],package['sha256'],s['checkpoint_files'])
@@ -170,8 +181,9 @@ def infer(s,output):
         parent_manifest_sha256=profile.PARENT,candidate_package=s.get('candidate_package'))
     profile.need(time.time()<s['deadline_epoch']and not(Path(s['campaign_root'])/'STOP.json').exists(),
                  'FINITE_TARGET_SHADOW_BEFORE_QUERY')
-    records=measure(root,'sealed-TRAIN4',instance,data)
-    write_json(root/'RESULT.private.json',dict(status='ACTUAL_CORE_TARGET_SEALED_TRAIN4_INFERENCE',
+    records=measure(root,'sealed-TRAIN40'if continuous else'sealed-TRAIN4',instance,data)
+    write_json(root/'RESULT.private.json',dict(status=('ACTUAL_CORE_CONTINUOUS_TASK_SEALED_TRAIN40_INFERENCE'
+        if continuous else'ACTUAL_CORE_TARGET_SEALED_TRAIN4_INFERENCE'),
         source_sha=s['source_sha'],target_inference_mode=s['target_inference_mode'],model_identity=instance.identity,
         GPU_uuid=s['GPU_uuid'],numeric_mode=MODE,
         actual_model_loads=1,actual_VLA_queries=len(records),actual_optimizer_updates=0,

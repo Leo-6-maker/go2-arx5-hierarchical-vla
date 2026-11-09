@@ -100,7 +100,7 @@ def activate(c):
 
 def run(c):
     from scripts.pi0292.durable import OwnerLock,write
-    root=Path(c['root'])
+    root=Path(c['root']);started=time.monotonic()
     with closing(OwnerLock(root/'NEURAL_OWNER.lock'))as owner:
         try:
             s,env=activate(c)
@@ -114,6 +114,11 @@ def run(c):
                 write(root/'BOOTSTRAP_FAILURE.private.json',dict(failure=failure,GR00T_updates=0,new_policy_models=0))
                 path=root/'control/LEASE.json';lease=json.loads(path.read_text())
                 if lease.get('job_id')==os.environ.get('PBS_JOBID')and lease.get('status')in('PBS_SUBMITTED','ACTIVE'):
-                    lease.update(status='CLOSED',worker_exit_code=1,closed_epoch=time.time())
+                    write(root/'RESULT.json',dict(status='FORMAL_BOOTSTRAP_FAILED_BEFORE_MODEL',
+                        failure=failure,GR00T_updates=0,actual_model_loads=0,native_physics=0))
+                    write(root/'WORKER_EXIT.private.json',dict(exit_code=1,wall_s=time.monotonic()-started,
+                        failure=failure,job_id=os.environ.get('PBS_JOBID'),phase='BOOTSTRAP_BEFORE_MODEL'))
+                    lease.update(status='CLOSED',worker_exit_code=1,closed_epoch=time.time(),
+                        result_sha256=digest(root/'RESULT.json'))
                     write(path,lease)
             raise

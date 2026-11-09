@@ -52,7 +52,7 @@ def validate_gpu(spec, actual):
     if spec.get('kind')=='TARGET_GR00T_LIVE_PREFIX_QUERY_V1':
         from .target_gr00t_live_pair_v1 import validate_gpu as validate_target_live
         return validate_target_live(spec,actual)
-    if spec.get('kind')=='TARGET_GR00T_SEALED_INFERENCE_V1':
+    if spec.get('kind')in('TARGET_GR00T_SEALED_INFERENCE_V1','TASK_LEARNING_PACKAGE_CORE_RECONSTRUCTION_V1'):
         from .target_gr00t_inference_v1 import validate_gpu as validate_target_inference
         return validate_target_inference(spec,actual)
     if spec.get('kind')=='FUSION_LIVE_PROGRAM_RESPONSE_WM':
