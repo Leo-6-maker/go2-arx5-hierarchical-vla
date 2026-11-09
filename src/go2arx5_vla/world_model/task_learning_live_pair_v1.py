@@ -128,16 +128,8 @@ def validate_spec(s,*,verify_model=True):
 
 
 def memory_contract(s):
-    from .stable_task_scene_v1 import pinned
-    from .task_learning_core_inference_v1 import MEMORY,MEMORY_IMPLEMENTATION,memory_implementation
-    actual=pinned(s['memory_execution_reference']);proof=actual.get('proof')or{}
-    need(s.get('memory_execution')==MEMORY and memory_implementation()==MEMORY_IMPLEMENTATION
-        and actual.get('schema')=='GR00T_CORE_FRESH_ORIGINAL_RECONSTRUCTION_ACTUAL_V1'
-        and actual.get('source_sha')=='de8c34376b907f6ea784dd5fbf756b6f0a296863'
-        and actual.get('worker_exit_code')==0 and actual.get('lease_status')=='CLOSED'
-        and proof.get('all132_H40_outputs_bit_exact')is True
-        and proof.get('physical_outputs_bit_exact')is True and proof.get('precision_relaxed')is False,
-        'SAME_QUALIFIED_CORE_MEMORY_EXECUTION_WITH_ORIGINAL_PRECISION')
+    from .task_learning_core_inference_v1 import validate_memory
+    return validate_memory(s)
 
 
 def preflight(native):

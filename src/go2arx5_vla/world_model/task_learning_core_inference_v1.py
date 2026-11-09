@@ -8,7 +8,7 @@ from .storage import digest
 PROFILE='wm02-task-learning-package-core-v1'
 KIND='TASK_LEARNING_PACKAGE_CORE_RECONSTRUCTION_V1'
 MODE='CONTINUOUS_TASK_PACKAGE_RECONSTRUCTION_TRAIN40'
-MEMORY='CORE_OFFICIAL_UNUSED_LOGITS1_WITH_EXISTING_H40_EQUIVALENCE_V1'
+MEMORY='CORE_ORDINARY_FULL_CATEGORY_GPU_UNUSED_LOGITS1_FP32_V1'
 MEMORY_IMPLEMENTATION='6df341b03ac76c147d7d3aa19b0281546b4a9087bc7ef7e3e7bc612257a3f572'
 
 
@@ -17,6 +17,27 @@ def memory_implementation():
     source=Path(core.__file__).read_text()
     node=next(n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef)and n.name=='trim_unused_logits')
     return hashlib.sha256(ast.get_source_segment(source,node).encode()).hexdigest()
+
+
+def validate_memory(s):
+    """Core05's CPU-retained category tables do not admit full GPU tables."""
+    memory=pinned(s['memory_execution_reference']);proof=memory.get('proof')or{}
+    need=original.need
+    need(s.get('memory_execution')==MEMORY and memory_implementation()==MEMORY_IMPLEMENTATION
+        and memory.get('schema')=='GR00T_CORE_ORDINARY_FROZEN_PARENT_PLUS_DELTA_ACTUAL_V1'
+        and len(memory.get('source_sha',''))==40
+        and memory.get('worker_exit_code')==0 and memory.get('lease_status')=='CLOSED'
+        and memory.get('all_owned_children_terminal')is True
+        and proof.get('status')=='PASS_ACTUAL_ORDINARY_FULL_CATEGORY_GPU_FIT200_RECONSTRUCTION'
+        and proof.get('ordinary_category_tables_on_GPU')is True
+        and proof.get('parameter_bytes')==s.get('checkpoint_parameter_bytes')==12576064000
+        and proof.get('all_parameter_dtypes')=='torch.float32'
+        and proof.get('full_original_backbone_generations')==4
+        and proof.get('all132_H40_outputs_bit_exact')is True
+        and proof.get('physical_outputs_bit_exact')is True and proof.get('precision_relaxed')is False
+        and 0<proof.get('peak_allocated_bytes',0)<=s.get('allocator_limit_bytes',0),
+        'ACTUAL_ORDINARY_FULL_CATEGORY_GPU_MEMORY_EXECUTION_NOT_CPU_TABLE_QUALIFICATION')
+    return memory
 
 
 def validate_spec(s):
@@ -50,12 +71,5 @@ def validate_spec(s):
         and q.get('actual_matched_queries')==40 and q.get('absolute_component_tolerance')==1e-6
         and all(v<=1e-6 for v in q['max_abs_error'].values()),
         'ACTUAL_HOPPER_ORDINARY_PARENT_DELTA_AND_FORTY_MATCHED_PHASE_PROBES')
-    memory=pinned(s['memory_execution_reference']);proof=memory.get('proof')or{}
-    need(s.get('memory_execution')==MEMORY
-        and memory_implementation()==MEMORY_IMPLEMENTATION
-        and memory.get('schema')=='GR00T_CORE_FRESH_ORIGINAL_RECONSTRUCTION_ACTUAL_V1'
-        and memory.get('source_sha')=='de8c34376b907f6ea784dd5fbf756b6f0a296863'
-        and memory.get('worker_exit_code')==0 and memory.get('lease_status')=='CLOSED'
-        and proof.get('all132_H40_outputs_bit_exact')is True and proof.get('physical_outputs_bit_exact')is True
-        and proof.get('precision_relaxed')is False,'EXISTING_ORIGINAL_BACKBONE_MEMORY_EXECUTION_EQUIVALENCE')
+    validate_memory(s)
     return data.manifest
