@@ -109,12 +109,14 @@ def test_weight_cache_qualification_uses_positioned_sampler_in_separate_trace(tm
     seen=[]
     class Data:
         trace_root=tmp_path/'real-training-trace'
-        processor=SimpleNamespace(collator=lambda rows:{'inputs':rows[0]})
+        processor=None
         def __getitem__(self,index):
             assert index==(0,0)and self.trace_root.is_dir()
+            self.processor=SimpleNamespace(collator=lambda rows:{'inputs':rows[0]})
             seen.append((index,self.trace_root))
             return {'processed':'same-original-processed-input'}
     data=Data();original=data.trace_root
     assert qualification_inputs(data,tmp_path/'comparison')=='same-original-processed-input'
     assert data.trace_root==original
+    assert data.processor is None
     assert seen==[((0,0),tmp_path/'comparison/weight-cache-qualification-sample-trace')]

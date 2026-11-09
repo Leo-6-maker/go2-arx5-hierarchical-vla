@@ -16,7 +16,8 @@ def qualification_inputs(data,root):
     probe=copy.copy(data)
     probe.trace_root=Path(root)/'weight-cache-qualification-sample-trace'
     probe.trace_root.mkdir(parents=True)
-    return probe.processor.collator([probe[(0,0)]['processed']])['inputs']
+    row=probe[(0,0)]  # The original dataset initializes its Processor here.
+    return probe.processor.collator([row['processed']])['inputs']
 
 
 def enforce(model):
