@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T19:11:10.652422+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T21:06:22.775429+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -26,7 +26,8 @@
     "Hopper_current_control": "3842363; cold successor06; read-only predecessors04/05 retired; first actual qualified H100/H200 route; original deadline preserved",
     "current_H100_restore": "708946.hopper-m-02 Q_GPU_UNAVAILABLE",
     "failed_PBS_pre_worker_negative_exit_jobs": 2,
-    "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB"
+    "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
+    "Core_native_neural_diagnostic": "RECOVERY_SUCCESSOR09_PID3988032; FOUR_WINDOWS_ONLY; NO_FORMAL_WRITER_ADDED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -57,6 +58,19 @@
       "trainable_numel": 1304913028,
       "optimizer_calls": 8,
       "formal_training": false
+    },
+    "original_Trainer_Core_FULL_ACTION_SIDE": {
+      "status": "ACTUAL_MASTER_RUNNING_COMPLETE_REFERENCE_VALIDATION_BEFORE_NEW_GPU_CHILDREN",
+      "report": "CORE_ORIGINAL_TRAINER_FULL_ACTION_MEMORY_AND_RECOVERY_ACTUAL.json",
+      "historical_failed_GPU_roles": 6,
+      "actual_completed_optimizer_calls": 7,
+      "actual_nonzero_learning_rate_calls": 3,
+      "continuous4_complete_checkpoints": 2,
+      "complete_original_Trainer_restore_qualification": false,
+      "recovery_successor_role": "09",
+      "recovery_master_pid": 3988032,
+      "diagnostic_training_only": true,
+      "formal_TRAIN100_updates": 0
     }
   },
   "G1H": {
@@ -211,7 +225,7 @@
   },
   "G3": "FIXED100_CLOSED_SUCCESS100; CORE_ORIGINAL_PROCESSOR1450_PASS; PRIVATE_TRANSFER_CLOSED0; HOPPER_PROCESSOR708392_QUEUED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "ACTUAL_H200_PROCESSOR_CLOSED0_OR_H100_NATIVE_RESTORE_CLOSED0; ONE_ORIGINAL_FULL_DATA_PROCESSOR_FORMAL2000_PRIVATE_DELIVERY; CORE40_FULLDEV80; ACTUAL_SEALED_DECISION_BOUND_SUCCESSOR",
+  "next_gate": "Actual new split2 and resume4 CLOSED0, complete checkpoint4 state equality and restored H40 equality against CLOSED07; independently consume the first original Hopper qualification when it actually completes.; FORMAL_TRAIN1002000_THEN_PRIVATE_DELIVERY_CORE40_FULLDEV80_AND_RESULT_BOUND_DECISION",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -220,7 +234,7 @@
     "real_hardware": false,
     "old21_automatic8000": false
   },
-  "execution_sha": "89b2845344b9b74fbadb2e801f2c580b9370f9f5",
+  "execution_sha": "8f89da4eb4b26463986c1e6e746a862c96dccec2",
   "G3_preparation": {
     "status": "CORE_QUALIFIED_TRANSFERRED_HOPPER_QUEUED",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
@@ -270,7 +284,9 @@
     "latest_pipeline_repair_actual": "TERMINAL_HISTORY_AND_H100_ADMISSION_REPAIR_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_DECISION_SUCCESSOR_ACTUAL.json",
     "post_DEV_decision_successor_pid": 3846655,
-    "post_DEV_current_status": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION"
+    "post_DEV_current_status": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION",
+    "latest_Core_runtime_recovery_actual": "CORE_ORIGINAL_TRAINER_FULL_ACTION_MEMORY_AND_RECOVERY_ACTUAL.json",
+    "Core_independent_GPU0_diagnostic": "ORIGINAL_NATIVE_FULL_ACTION_SUCCESSOR09_ACTUAL_MASTER_RUNNING; ORIGINAL_GPU1_POLICY_CONSUMER_UNCHANGED"
   },
   "G3_full100_native": {
     "report": "G3_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL.json",
@@ -324,13 +340,14 @@
     "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json"
   },
   "ALTERNATIVE_TRAINING_SITE_RECHECK": {
-    "status": "VANDA_THREE_ROUTES_STILL_UNREACHABLE; CORE_FULL_ACTION_DIAGNOSTIC_CLOSED0_NOT_FORMAL",
+    "status": "CORE_ORIGINAL_TRAINER_4_CALLS_TWO_COMPLETE_CHECKPOINTS_THEN_RESTORE_OOM; RECOVERY_SUCCESSOR09_RUNNING",
     "actual": "VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json",
-    "new_full_action_GPU_jobs": 0,
+    "new_full_action_GPU_jobs": 7,
     "Core_capacity_wait_controller": null,
-    "Core_current_status": "CLOSED0_FULL_ACTION_CACHED_RESTORE_DIAGNOSTIC; NO_FORMAL_TRAIN100_MODEL",
+    "Core_current_status": "ORIGINAL_NATIVE_FULL_ACTION_RECOVERY_SUCCESSOR09_RUNNING_NOT_FORMAL",
     "prestart_actual": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json",
-    "latest_Core_actual": "CORE_FULL_ACTION_RESTORE_CLOSED_ACTUAL.json"
+    "latest_Core_actual": "CORE_ORIGINAL_TRAINER_FULL_ACTION_MEMORY_AND_RECOVERY_ACTUAL.json",
+    "new_full_action_GPU_jobs_definition": "6 historical original-Trainer GPU masters failed; one additional recovery master running reference validation with no new GPU child yet"
   },
   "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json",
   "H100_latest_admission_repair": "TERMINAL_HISTORY_AND_H100_ADMISSION_REPAIR_ACTUAL.json"

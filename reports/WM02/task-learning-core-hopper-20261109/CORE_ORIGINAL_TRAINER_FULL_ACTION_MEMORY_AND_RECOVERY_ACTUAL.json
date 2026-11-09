@@ -1,0 +1,262 @@
+{
+  "schema": "CORE_ORIGINAL_TRAINER_FULL_ACTION_MEMORY_AND_RECOVERY_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T21:06:22.775429+00:00",
+  "SGT": "2026-11-10T05:06:22.775429+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "source_sha": "8f89da4eb4b26463986c1e6e746a862c96dccec2",
+  "question": "Can the original native FULL_ACTION_SIDE Trainer execute and completely restore on the actual Core 32GiB GPU without changing numerical kernels?",
+  "qualification_only": {
+    "formal_training": false,
+    "unique_diagnostic_windows": 4,
+    "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+    "statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+    "trainable_numel": 1304913028,
+    "trainable_tensors": 537,
+    "backbone_frozen": true,
+    "effective_batch": 32,
+    "microbatch": 1,
+    "diagnostic_schedule": "COSINE500_WARMUP8",
+    "original_CORR2048_parent_each_independent_trial": true,
+    "diagnostic_weights_as_formal_parent": false
+  },
+  "actual_failed_native_GPU_roles": [
+    {
+      "role": "01",
+      "source_sha": "68a7c21e9fd842b5fd9f4c96eb3229b3e1d8c44a",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 0,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "First AdamW temporary allocation OOM; zero completed calls"
+    },
+    {
+      "role": "02",
+      "source_sha": "5fcb66a082d0b6924eab1ae7fd094db16eaef57d",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 1,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "One zero-LR warmup call then original input preparation observed CPU backbone device"
+    },
+    {
+      "role": "03",
+      "source_sha": "4dadcce4bda94e4542c24119b90e87a3d47ce0bf",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 1,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "One zero-LR warmup call then second forward activation OOM"
+    },
+    {
+      "role": "04",
+      "source_sha": "813fa33623c5a44d38d4d13d119a21e664b24947",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 1,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "One zero-LR warmup call then second-forward attention OOM with larger lossless activation budget"
+    },
+    {
+      "role": "05",
+      "source_sha": "adef4eda01f7734098b0da5c0939fb2c095192ce",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 0,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "Before optimization, real audited dataset rejected unpositioned numerical-proof access"
+    },
+    {
+      "role": "07",
+      "source_sha": "061ef88fa3d175e1fb82334df1e8d31ee4fba28e",
+      "status": "CLOSED",
+      "worker_exit_code": 1,
+      "actual_optimizer_calls": 4,
+      "actual_terminal_independently_verified": true,
+      "failure_mechanism": "Four calls and two complete checkpoints, then post-endpoint AdamW reload OOM"
+    }
+  ],
+  "CPU_preparation_only": [
+    {
+      "role": "06",
+      "status": "PRE_REGISTRY_FAILURE_RECONCILED",
+      "reason": "Lazy Processor collator was read before positioned sample initialized the Processor",
+      "registry_entries": 0,
+      "worker_exit_code": null,
+      "optimizer_calls": 0
+    },
+    {
+      "role": "08",
+      "status": "PRE_REGISTRY_FAILURE_RECONCILED",
+      "source_sha": "8f89da4eb4b26463986c1e6e746a862c96dccec2",
+      "reason": "Cached-source inventory omitted a preexisting dependency imported by the new reference validator",
+      "registry_entries": 0,
+      "worker_exit_code": null,
+      "optimizer_calls": 0
+    }
+  ],
+  "continuous4_07": {
+    "status": "CLOSED_FAILURE_AFTER_TWO_COMPLETE_CHECKPOINTS",
+    "worker_exit_code": 1,
+    "master_result_sha256": "15205f32fcec5ee7acfa84218c7cf5f5eeda26c7c8b389189c076087af06331c",
+    "child_result_sha256": "dc4f8d8a45a7f5fc7e4f7eb3d01064e49a5dd3863f083bd8d12a4f1a584fc619",
+    "config_sha256": "0a4486b6432dd59b946f4d08f12f70abdb94d3a41d15c58f1af0483bb7f3553e",
+    "actual_optimizer_calls": 4,
+    "nonzero_learning_rate_calls": 3,
+    "cursor": 128,
+    "first_optimizer_call_learning_rate": 0.0,
+    "checkpoints": [
+      {
+        "step": 2,
+        "complete": true,
+        "total_bytes": 15659943017,
+        "files": 15
+      },
+      {
+        "step": 4,
+        "complete": true,
+        "total_bytes": 15659943276,
+        "files": 15,
+        "header_sha256": "ce10c9aa5bf66afd47541b337984667e444ca27a1cbd1421d6a1c639ed9a8b0a"
+      }
+    ],
+    "post_endpoint_optimizer_reload": "FAILED_CUDA_OOM_AT_28GiB_ALLOCATOR_LIMIT",
+    "restore_receipt_present": false,
+    "split2_and_resume4": "NOT_RUN",
+    "old_lease_or_deadline_changed": false
+  },
+  "numerical_equivalence_07": {
+    "status": "PASS_REAL_WEIGHT_CACHE_DISABLED_LOSS_GRADIENT_NOISE_RNG_EXACT",
+    "native_loss": 0.42967453598976135,
+    "gradient_tensors": 537,
+    "gradient_exact": true,
+    "noise_and_RNG_exact": true,
+    "forward_autocast_dtype": "torch.bfloat16",
+    "parameter_dtypes_changed": false,
+    "backbone_feature_cache": false,
+    "reference_weight_cache": true,
+    "candidate_weight_cache": false,
+    "reference_activation_budget_bytes": 2147483648,
+    "candidate_activation_budget_bytes": 4294967296,
+    "optimizer_calls": 0,
+    "physics_integrations": 0,
+    "sha256": "82b5d3f7fa0bcabb236018493d74c3821822c26e64401e14c029dee5d1abcba4"
+  },
+  "memory": {
+    "allocator_limit_bytes": 30064771072,
+    "minimum_physical_GPU_margin_bytes": 2147483648,
+    "peak_allocated_bytes_by_update2": 27735857152,
+    "peak_reserved_bytes_by_update2": 28294774784,
+    "frozen_backbone_bytes_moved_only_during_storage_peaks": 6094000448,
+    "backbone_forward_each_microbatch": true,
+    "feature_cache": false,
+    "BF16_autocast_preserved": true,
+    "parameter_dtypes_changed": false,
+    "source_repair": "Temporarily move only frozen backbone storage to CPU while loading complete optimizer state; restore device before original input preparation"
+  },
+  "source_verification": {
+    "software_checks_passed": 96,
+    "tests_are_native_qualification": false,
+    "unchanged_AST_from_actual07": [
+      "Sampler",
+      "TargetTrainer",
+      "Audit",
+      "load_checkpoint"
+    ],
+    "numerical_equivalence_does_not_prove_task_success": true
+  },
+  "next_recovery_successor": {
+    "role": "09",
+    "source_sha": "8f89da4eb4b26463986c1e6e746a862c96dccec2",
+    "status": "ACTUAL_MASTER_RUNNING_COMPLETE_REFERENCE_VALIDATION_BEFORE_NEW_GPU_CHILDREN",
+    "requested_new_optimizer_calls": 4,
+    "reused_complete_reference_optimizer_calls": 4,
+    "comparison_total_optimizer_calls": 8,
+    "continuous4_repeated": false,
+    "formal_training": false,
+    "initial_GPU_and_host_capacity_rejections": "BEFORE_SOURCE_ROOT_REGISTRY_LEASE_JOURNAL_OR_WORKER; INDEPENDENT_ZERO_EFFECT_READBACKS",
+    "new_source_packet_changed_or_missing_members": 400,
+    "pid": 3988032,
+    "process_start_ticks": "402732144",
+    "InvocationID": "fb484a1efdb749a2962baed9f44f4c96",
+    "registered_config_sha256": "ee40c15903fa67b0628b257c3037aa293901bf5c984a7760ab66092fb1ad2639",
+    "CPU_admission_exit_code": 0,
+    "CPU_CUDA_initialized": false,
+    "canonical_registry_entries": 1,
+    "original_owner_REGISTER_journal_status": "COMPLETE",
+    "original_deadline_epoch": 1794279476.3412457,
+    "original_deadline_SGT": "2026-11-10T10:57:56.341246+08:00",
+    "source_inventory_files": 4108,
+    "actual_new_GPU_model_loads": 0,
+    "actual_new_optimizer_calls": 0,
+    "capacity_follower": {
+      "pid": 3926147,
+      "start_ticks": "39853640",
+      "status": "COMPLETED_AFTER_ONE_SUCCESSFUL_DISPATCH_AND_INDEPENDENT_READBACK",
+      "helper_sha256": "be4629c249987266ba8ce99950fbe0a6f1a2093a230e3e148d19a2a87b64cc64",
+      "original_scope_deadline_preserved": true
+    }
+  },
+  "Hopper": {
+    "H100_job": "708946.hopper-m-02",
+    "H100_state": "Q",
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "Hold_Types": "n",
+    "comment": "Not Running: Insufficient amount of resource: ngpus",
+    "selected_healthy_H100_node_assigned_GPUs": 8,
+    "selected_healthy_H100_node_total_GPUs": 8,
+    "other_H100_node_preworker_HOME_failures_preserved": true,
+    "H200_Processor": "708392.hopper-m-02 Q",
+    "H200_scan": "707720.hopper-m-02 Q",
+    "new_PBS_submissions_this_report": 0,
+    "H100_observed_epoch": 1794258382.9403121,
+    "node_capacity_observed_epoch": 1794257617.4395483
+  },
+  "original_controllers": {
+    "first_formal_writer": {
+      "pid": 3842363,
+      "status": "WAIT_FIRST_ACTUAL_PROCESSOR_OR_H100_RESTORE"
+    },
+    "Core40_fullDEV80": {
+      "pid": 3665222,
+      "status": "WAIT_ACTUAL_PACKAGE_AND_SHARED_CAPACITY"
+    },
+    "post_DEV": {
+      "pid": 3846655,
+      "status": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION"
+    },
+    "all_actual_PID_start_identities_and_fresh_heartbeats_verified": true,
+    "formal_writers_added": 0
+  },
+  "scientific_endpoints": {
+    "TRAIN100_SFT2000": "NOT_RUN",
+    "private_student_package": "NOT_DELIVERED",
+    "Core40": "NOT_RUN",
+    "student_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "these_are_not_zero_success_rates": true
+  },
+  "private_evidence": {
+    "all_roles_audit_sha256": "54d710930a45f96e04aa5af405c8d5d998f0432a81c2e7b5cb32739ea632d6ae",
+    "reference_metadata_receipt_sha256": "f076279029d9241e33779878c506691eaebfce7332dc169a1b415e3c86959f6e",
+    "registered_successor_independent_receipt_sha256": "0e861477494be7c8892f8f9fd5fe3637ded73204779d2cffc7887eab1bad079b",
+    "current_recovery_master_receipt_sha256": "61939861c26e99b1e963fe0e05ccfe223a5aa6872ec04c5c50d84d616b718a6b"
+  },
+  "invariants": {
+    "WBC_leg_control_solver_dynamics_safety_2ms_changed": false,
+    "other_user_jobs_changed": false,
+    "multi_GPU_or_distributed": false,
+    "GPU_physics": false,
+    "closed_roles_reopened": false
+  },
+  "native_GPU_role_totals": {
+    "started": 6,
+    "closed_failures": 6,
+    "actual_optimizer_calls": 7,
+    "nonzero_learning_rate_calls": 3,
+    "additional_active_recovery_master_before_any_new_GPU_child": 1
+  },
+  "decision": "Keep H100/H200 jobs and the unique formal writer; run only missing original-Trainer split2/resume2 comparison using the complete CLOSED07 continuous4 reference. No diagnostic weight is a formal SFT parent.",
+  "next_gate": "Actual new split2 and resume4 CLOSED0, complete checkpoint4 state equality and restored H40 equality against CLOSED07; independently consume the first original Hopper qualification when it actually completes."
+}
