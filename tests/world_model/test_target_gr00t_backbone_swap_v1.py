@@ -47,6 +47,18 @@ def test_trainable_or_gradient_bearing_backbone_cannot_be_swapped():
     with pytest.raises(PermissionError,match='ONLY_FROZEN'):BackboneOptimizerSwap(m,None,device='cpu')
 
 
+def test_callback_restores_before_original_input_preparation_not_only_backbone_forward():
+    m=Tiny();swap=BackboneOptimizerSwap(m,None,device='cpu');callback=swap.callback()
+    callback.on_pre_optimizer_step(None,None,None)
+    assert not swap.resident
+    callback.on_step_end(None,None,None)
+    # Both model.forward and method-based get_action prepare inputs before
+    # calling the backbone. They must observe resident weights at entry.
+    assert swap.resident and swap.to_device_count==1
+    swap.before_optimizer();callback.on_step_begin(None,None,None)
+    assert swap.resident and swap.to_device_count==2
+
+
 def test_swap_policy_only_admits_the_explicit_core_full_native_restore():
     p=profile.recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',endpoint=4,
         memory_policy='CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3')
