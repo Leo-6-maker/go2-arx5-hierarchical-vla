@@ -1,0 +1,161 @@
+{
+  "schema": "TASK_LEARNING_FIXED_PERFORMANCE_FIRST_EVENTS_ACTUAL_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T12:40:17.331506+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T20:40:17.331506+08:00",
+  "QUESTION": "Does conditional ROS settling reduce actual episode wall without weakening the original task and safety/control checks?",
+  "CHANGED": "Only the original fixed panel slot2 events mode, in a fresh cold capsule after all15 real camera replay qualification. Startup/preparation waits preserved; post-start readiness uses the original timeout and stronger explicit feedback/consumption checks.",
+  "ACTUAL": {
+    "fixed_slot2": {
+      "epoch": 1794227639.973353,
+      "mode": "events",
+      "matrix_index": 2,
+      "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+      "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+      "actual_native_integrations": 21203,
+      "task_success": true,
+      "hard_safety_stops": 0,
+      "all_owned_children_exit0": true,
+      "worker_exit0": true,
+      "lease_closed": true,
+      "Teacher_decisions": 15,
+      "confirmed_50ms_commands": 600,
+      "dual_RGB_images_checked": 30,
+      "wall_s": 228.56618818920106,
+      "native_result_sha256": "6a7c63974c84bf6dc7958e8291bff9df1af6bbebddbc2395f65246bf82d5f816",
+      "BC_admitted": false,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.026024888422051307,
+        "longest_contiguous_grasp_lift_hold_s": 8.65,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.006318874825363541,
+        "maximum_base_rotation_rad": 0.009232956838978212,
+        "maximum_foot_planar_displacement_m": 0.003973477298429886,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "timing_spans": {
+        "ros.spin": {
+          "count": 3458,
+          "failures": 0,
+          "wall_ns": 120519904824,
+          "thread_cpu_ns": 48164087857,
+          "self_wall_ns": 94746571469
+        },
+        "reference.install_and_ACK": {
+          "count": 113,
+          "failures": 0,
+          "wall_ns": 45232331983,
+          "thread_cpu_ns": 43626428753,
+          "self_wall_ns": 43548061791
+        },
+        "atom.fixed_spin_150ms": {
+          "count": 128,
+          "failures": 0,
+          "wall_ns": 19328864798,
+          "thread_cpu_ns": 3933408709,
+          "self_wall_ns": 1779218
+        },
+        "atom.event_wait": {
+          "count": 620,
+          "failures": 0,
+          "wall_ns": 3650429416,
+          "thread_cpu_ns": 3098651481,
+          "self_wall_ns": 4500736
+        },
+        "camera.capture_total": {
+          "count": 15,
+          "failures": 0,
+          "wall_ns": 20674943023,
+          "thread_cpu_ns": 15318842601,
+          "self_wall_ns": 1768983292
+        }
+      }
+    },
+    "prior_fixed_slot1_wall_s": 317.60824293317273,
+    "observed_independent_wall_reduction_fraction": 0.28035183823206633,
+    "observed_single_pair_wall_ratio": 1.3895679210009182,
+    "attempts_completed_in_fixed8": 3,
+    "remaining_matrix_slots": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "mainline_finite_continuation": {
+      "pid": 3641706,
+      "process_start_ticks": "36825250",
+      "started_epoch": 1794227867.6978052,
+      "readback_epoch": 1794227998.546357,
+      "stage": "WAIT_ACTUAL_TERMINAL",
+      "PBS": {
+        "job_state": "Q",
+        "Exit_status": null,
+        "job_id": "708392.hopper-m-02"
+      },
+      "endpoint": "ACTUAL_SFT2000_FULL_RESTORE_AND_PRIVATE_DELIVERY_THEN_CORE_NATIVE_MAINLINE_STILL_REQUIRED",
+      "original_failed_controller_not_restarted": true,
+      "formal_SFT_submitted": false
+    },
+    "fixed_slot3": {
+      "epoch": 1794227991.5891218,
+      "mode": "camera_cache",
+      "matrix_index": 3,
+      "source_sha": "09d511a2a9504d50765a6ff6963f2a0624afffe9",
+      "native_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "status": "ACTUAL_PERFORMANCE_CONSTRUCTION_AND_ORIGINAL_DUAL_RGB_PASS_NOT_BC",
+      "actual_native_integrations": 21203,
+      "task_success": true,
+      "hard_safety_stops": 0,
+      "all_owned_children_exit0": true,
+      "worker_exit0": true,
+      "lease_closed": true,
+      "Teacher_decisions": 15,
+      "confirmed_50ms_commands": 600,
+      "dual_RGB_images_checked": 30,
+      "wall_s": 314.06093425210565,
+      "native_result_sha256": "22c291c9b07c2ca41812d97c3dde4896a9c2e4032a0e4b490b969851a8594352",
+      "BC_admitted": false
+    },
+    "slot3_independent_wall_reduction_fraction": 0.011168818064377084,
+    "next_native_slot": 4,
+    "next_native_PID": 3290373
+  },
+  "NEGATIVE": [
+    "One events episode is an observed improvement, not a stable speedup estimate; full fixed8 and original safety/consumption audits remain required.",
+    "ROS inclusive120.520s and install/ACK inclusive45.232s overlap; they are not additive and do not isolate pure ROS communication cost.",
+    "No changed performance code has been used for sealed TRAIN100 or admitted new BC data.",
+    "Hopper Processor708392 and scan707720 remain unique queued jobs; formal task SFT has not run."
+  ],
+  "DECISION": "Continue only the original remaining fixed conditions. Keep the independent mainline waiter: actual Hopper Processor CLOSED0/PBS F0 before one qualified formal SFT route, then actual full restore and private package delivery.",
+  "NEXT_GATE": "Actual remaining six native performance terminals; original Processor terminal, formal task2000 and package/Core/native scientific results remain outstanding."
+}

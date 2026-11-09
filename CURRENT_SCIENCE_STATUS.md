@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-09 20:40:17 SGT（UTC 12:40:17）实测：**原固定性能第2项 events 完整成功，墙钟228.566秒，对第1项317.608秒减少28.04%；原安全0硬停止、21203积分、600命令消费及双RGB均通过。** 620次事件等待合计3.650秒、启动/准备128次固定等待保留。第3项camera_cache也完整成功314.061秒、约1.12%下降，第4项组合已运行；完整八条件与重复收益未完成，尚未用于原TRAIN100或新BC。Hopper2主线有限接续PID3641706已真实等待Processor708392终态，再走唯一合法首2000及私有包交付。[实际事件结果和后继身份](reports/WM02/task-learning-core-hopper-20261109/COLLECTION_PERFORMANCE_FIRST_EVENTS_ACTUAL.json)。
+
 2026-11-09 20:31:02 SGT（UTC 12:31:02）实际接续：**TRAIN100 的全部1450不同监督窗已通过 Core 原 Processor，最大误差4.35e-8；100 TRAIN+4 DEV参考已私有传输并独立核验 CLOSED0。** 用户提供的 Hopper2 正常入口已恢复项目/PBS查询；唯一新 Processor 作业 **708392 已核资源并释放，当前Q/GPU不足**，原707720同样Q且未重复。正式新任务训练、学生DEV/TEST仍未运行。SSH双层引用缺陷已修复；性能原第2项相机预检失败保留为零原生启动，冷态场景修复通过40项检查后只接续未执行2–8项，尚无加速结论。[数据、传输、真实队列及限制](reports/WM02/task-learning-core-hopper-20261109/G3_CORE_PROCESSOR_TRANSFER_AND_HOPPER_QUEUE_ACTUAL.json)。
 
 ## TRAIN100 原生人口完成，首个实际后继已启动 · 2026-11-09 19:52 SGT / 11:52 UTC
