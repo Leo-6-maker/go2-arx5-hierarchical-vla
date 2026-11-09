@@ -84,6 +84,30 @@ def gpu(spec):
     return dict(uuid=uuid,name=name,free_bytes=int(free)*1024**2,total_bytes=int(total)*1024**2)
 
 
+def allocator(c,*,full,root,name,stop):
+    """Wait for the declared full-model envelope; never shrink it to fit."""
+    from scripts.pi0292.durable import write
+    actual=gpu(c)
+    if not full:
+        limit=min(c['allocator_limit_bytes'],actual['free_bytes']-2*1024**3)
+        profile.need(limit>8*1024**3,'CORE_HEADROOM_BEFORE_MODEL_START')
+        return limit
+    limit=c['allocator_limit_bytes']
+    profile.need(limit==28*1024**3,'QUALIFIED_FULL_ACTION_28_GIB_NOT_ADAPTIVELY_REDUCED')
+    while True:
+        available=int(next(v.split()[1]for v in Path('/proc/meminfo').read_text().splitlines()
+            if v.startswith('MemAvailable:')))*1024
+        profile.need(not stop and not(Path(root)/'STOP.json').exists()
+            and time.time()+1200<c['deadline_epoch'],'FINITE_FULL_ACTION_CAPACITY_WAIT_OR_STOP')
+        if actual['free_bytes']>=limit+2*1024**3 and available>=38*1024**3:return limit
+        write(Path(root)/(name+'_CAPACITY_WAIT_ACTUAL.json'),dict(epoch=time.time(),
+            GPU_free_bytes=actual['free_bytes'],host_available_bytes=available,
+            required_allocator_bytes=limit,required_GPU_margin_bytes=2*1024**3,
+            required_host_available_bytes=38*1024**3,deadline_epoch=c['deadline_epoch'],
+            status='WAIT_ORIGINAL_FULL_ACTION_CAPACITY_NO_MODEL_START'))
+        time.sleep(10);actual=gpu(c)
+
+
 def scope(c):
     from .pilot1_storage import local_path
     profile.need(os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
@@ -127,6 +151,9 @@ def site(s):
     for name,pin in c['dataset_files'].items():
         profile.need(digest(Path(s['bindings']['dataset'])/name)==pin,'CORE_SEALED_DATA:'+name)
     actual=gpu(s)
+    if full_restore_only(c):
+        profile.need(s['allocator_limit_bytes']==c['allocator_limit_bytes']==28*1024**3,
+            'FULL_ACTION_CHILD_MUST_RETAIN_DECLARED_28_GIB_ALLOCATOR')
     profile.need(0<s['allocator_limit_bytes']<=actual['free_bytes']-2*1024**3,
         'CORE_SHARED_DEVICE_TWO_GIB_MARGIN')
     return p
@@ -154,8 +181,7 @@ def run(c):
             r=root/name
             def register():
                 profile.need(not r.exists(),'FRESH_CORE_CHILD')
-                actual=gpu(c);limit=min(c['allocator_limit_bytes'],actual['free_bytes']-2*1024**3)
-                profile.need(limit>8*1024**3,'CORE_HEADROOM_BEFORE_MODEL_START')
+                limit=allocator(c,full=full,root=root,name=name,stop=stop)
                 r.mkdir()
                 for n in ('control','tmp','cache'):(r/n).mkdir()
                 alias=r/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)

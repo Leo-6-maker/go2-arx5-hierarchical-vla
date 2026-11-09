@@ -249,6 +249,11 @@ def run(spec):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.e1.trainer import learning_rate_multiplier
     configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
+    if spec.get('core_native_operation')=='FULL_ACTION_RESTORE_ONLY':
+        # Parent verification can take minutes on shared storage. Recheck the
+        # same declared envelope immediately before initializing CUDA/model.
+        from .target_gr00t_core_v1 import allocator
+        allocator(spec,full=True,root=root,name='BEFORE_MODEL',stop=stop_requested)
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')

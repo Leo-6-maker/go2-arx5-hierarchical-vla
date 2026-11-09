@@ -104,6 +104,37 @@ def test_gpu_requires_original_uuid_mask_and_preserves_two_gib_margin(monkeypatc
     with pytest.raises(PermissionError,match='SINGLE_SHARED'):core.gpu(dict(GPU_uuid=uuid))
 
 
+def test_full_action_capacity_wait_keeps_28_gib_instead_of_shrinking_to_24_gib(tmp_path,monkeypatch):
+    from scripts.pi0292 import durable
+    free=iter([int(26.45*1024**3),31*1024**3]);waits=[];records=[]
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=next(free)))
+    original=Path.read_text
+    monkeypatch.setattr(Path,'read_text',lambda p,*a,**k:'MemAvailable: 50331648 kB\n'
+        if str(p)=='/proc/meminfo'else original(p,*a,**k))
+    monkeypatch.setattr(core.time,'sleep',waits.append)
+    monkeypatch.setattr(durable,'write',lambda p,v:records.append(v))
+    c=dict(allocator_limit_bytes=28*1024**3,deadline_epoch=time.time()+3600)
+    assert core.allocator(c,full=True,root=tmp_path,name='split2',stop=[])==28*1024**3
+    assert waits==[10]and len(records)==1
+    assert records[0]['required_allocator_bytes']==28*1024**3
+    assert records[0]['status']=='WAIT_ORIGINAL_FULL_ACTION_CAPACITY_NO_MODEL_START'
+
+
+def test_full_capacity_wait_respects_stop_and_refuses_a_smaller_declared_limit(tmp_path,monkeypatch):
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=31*1024**3))
+    c=dict(allocator_limit_bytes=28*1024**3,deadline_epoch=time.time()+3600)
+    with pytest.raises(PermissionError,match='CAPACITY_WAIT_OR_STOP'):
+        core.allocator(c,full=True,root=tmp_path,name='split2',stop=[15])
+    with pytest.raises(PermissionError,match='NOT_ADAPTIVELY_REDUCED'):
+        core.allocator(dict(c,allocator_limit_bytes=24*1024**3),full=True,root=tmp_path,name='split2',stop=[])
+
+
+def test_legacy_last2_capacity_keeps_its_existing_adaptive_limit(tmp_path,monkeypatch):
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=13*1024**3))
+    assert core.allocator(dict(allocator_limit_bytes=12*1024**3),full=False,
+        root=tmp_path,name='capacity2',stop=[])==11*1024**3
+
+
 def test_repaired_successors_use_distinct_global_registration_requests(tmp_path,monkeypatch):
     from scripts.pi0294.night10 import native_relay
     requests=[];owner=tmp_path/'owner';owner.mkdir();registry=tmp_path/'registry.json'
