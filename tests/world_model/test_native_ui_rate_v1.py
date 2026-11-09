@@ -82,3 +82,36 @@ def test_pending_build_wrong_binary_or_collection_cannot_use_ancestry_bridge(tmp
     with pytest.raises(PermissionError,match='CLOSED_UI_BUILD'):ui.baseline_spec(bad)
     bad=dict(spec,task_learning_role='TASK_LEARNING_CONTINUOUS_TRAIN_COLLECTION')
     with pytest.raises(PermissionError,match='CONSTRUCTION_ONLY'):ui.baseline_spec(bad)
+
+
+def test_build_records_all_four_commands_without_recreating_exclusive_file(tmp_path,monkeypatch):
+    """Regression for the actual second-command progress-write failure."""
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model.storage import digest
+    root=tmp_path/'baseline';base=root/'candidate-01';base.mkdir(parents=True)
+    (root/'control').mkdir()
+    for name in ('rl_sim_mujoco','rl_sim_mujoco.cpp.o','librl_sdk.a'):(base/name).write_bytes(b'fixture')
+    monkeypatch.setattr(ui,'BASELINE',digest(base/'rl_sim_mujoco'))
+    (root/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED',worker_exit_code=0)))
+    (root/'WORKER_EXIT.private.json').write_text(json.dumps(dict(exit_code=0)))
+    original=tmp_path/'simulate.cc';original.write_text(SOURCE)
+    obj=tmp_path/'simulate.cc.o';obj.write_bytes(b'fixture-viewer-object')
+    receipt=tmp_path/'recipe.json';receipt.write_text(json.dumps(dict(commands=[dict(label='compile-simulate.cc',
+        exit_code=0,argv=['fixture-compiler','-c',str(original),'-o',str(obj)])])))
+    commands=base/'COMMANDS.private.json';commands.write_text(json.dumps([dict(label='native_link',exit_code=0,
+        argv=['fixture-compiler',str(obj),str(base/'rl_sim_mujoco.cpp.o'),str(base/'librl_sdk.a'),'-o',str(base/'rl_sim_mujoco')])]))
+    def run(args,**kwargs):
+        if '-o'in args:Path(args[args.index('-o')+1]).write_bytes(b'fixture-new-output')
+        return SimpleNamespace(stdout='fixture',stderr='',returncode=0,check_returncode=lambda:None)
+    monkeypatch.setattr(ui.subprocess,'run',run);monkeypatch.setenv('CUDA_VISIBLE_DEVICES','')
+    out=tmp_path/'new';out.mkdir()
+    spec=dict(native_ui_rate=ui.VERSION,physics=False,domain='TARGET_INIT_BUILD_ONLY_V1',
+        baseline_build_root=str(root),baseline_candidate=str(base),source_sha='a'*40,
+        frozen_files={str(p):digest(p)for p in [original,obj,base/'rl_sim_mujoco',base/'rl_sim_mujoco.cpp.o',base/'librl_sdk.a']},
+        original_ui_source=str(original),native_build_directory=str(tmp_path),
+        baseline_build_commands=dict(path=str(commands),sha256=digest(commands)),
+        original_ui_build_receipt=dict(path=str(receipt),sha256=digest(receipt)))
+    result=ui.build(spec,out)
+    recorded=json.loads((out/'COMMANDS.private.json').read_text())
+    assert [v['label']for v in recorded]==['ui_compile','native_link','native_ldd','native_needed']
+    assert result['new_native_integrations']==0 and result['viewer_scene_rendering']is False

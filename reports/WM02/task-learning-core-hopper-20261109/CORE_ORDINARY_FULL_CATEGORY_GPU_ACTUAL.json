@@ -1,0 +1,63 @@
+{
+  "schema": "GR00T_CORE_ORDINARY_FROZEN_PARENT_PLUS_DELTA_ACTUAL_V1",
+  "source_sha": "3291a62f16df13020240a4ac4d029d8034c56cea",
+  "run": "task-learning-core-20261109-06",
+  "worker_exit_code": 0,
+  "lease_status": "CLOSED",
+  "all_owned_children_terminal": true,
+  "proof": {
+    "status": "PASS_ACTUAL_ORDINARY_FULL_CATEGORY_GPU_FIT200_RECONSTRUCTION",
+    "records": [
+      {
+        "episode": "target-gr00t-demo-train01-approach-r1-01",
+        "seed": 2026110800,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "0a02adda25717f509fc6637b2b78b88d5d245183729541d851af73d5ac407f0d",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train01-retreat-r1-01",
+        "seed": 2026110801,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "f15a95d920dc77013f8f17529edb21b3bf30b61398ba7cc223d040e88f123c1c",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train03-approach-r1-01",
+        "seed": 2026110802,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "78cf800368c7c18c54f189e0ec74635a54cc7c31d144c6c43fffe7dc1cb6a458",
+        "Processor_decode_calls": 1
+      },
+      {
+        "episode": "target-gr00t-demo-train03-retreat-r1-01",
+        "seed": 2026110803,
+        "normalized_H40_exact": true,
+        "physical_H40_exact": true,
+        "output_sha256": "61995554c4907e99e772d73707cc24907a2f81034c36aaf51d97c49fe85b4495",
+        "Processor_decode_calls": 1
+      }
+    ],
+    "source_checkpoint_sha256": "40c6ebf32814bb2d6b28927b7ae2443cd4e20cecc74410c9dc00906ac6a105a4",
+    "full_original_backbone_generations": 4,
+    "all132_H40_outputs_bit_exact": true,
+    "physical_outputs_bit_exact": true,
+    "precision_relaxed": false,
+    "ordinary_category_tables_on_GPU": true,
+    "parameter_bytes": 12576064000,
+    "all_parameter_dtypes": "torch.float32",
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "native_task_conditions": 0,
+    "formal_model": false,
+    "peak_allocated_bytes": 13301212160,
+    "peak_reserved_bytes": 13511950336
+  },
+  "worker_wall_s": 154.69292021496221,
+  "systemd_MemoryPeak_bytes": 15396442112,
+  "allocator_limit_bytes": 13958643712,
+  "interpretation": "Ordinary FP32 full-category GPU inference is qualified on four FIT4 probes. No new task SFT, native student skill or Task40 package qualification follows."
+}

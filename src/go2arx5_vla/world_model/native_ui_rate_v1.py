@@ -1,6 +1,7 @@
 """Headless viewer shim for the old loader; retain all controller objects."""
 import json,os,subprocess,time
 from pathlib import Path
+from scripts.pi0292.durable import write as write_progress
 from .storage import digest,write_json
 from .target_gr00t_profile_v1 import need
 from .stable_task_scene_v1 import pinned
@@ -116,7 +117,7 @@ def build(spec,output):
         q=subprocess.run(args,cwd=cwd,capture_output=True,text=True,timeout=600)
         (output/(label+'.log')).write_text(q.stdout+q.stderr)
         commands.append(dict(label=label,argv=args,exit_code=q.returncode))
-        write_json(output/'COMMANDS.private.json',commands);q.check_returncode()
+        write_progress(output/'COMMANDS.private.json',commands);q.check_returncode()
     need('not found'not in(output/'native_ldd.log').read_text(),'UI_CANDIDATE_DYNAMIC_DEPENDENCIES_RESOLVE')
     for name,pin in spec['frozen_files'].items():need(digest(name)==pin,'FROZEN_INPUT_PRESERVED_AFTER_UI_BUILD')
     result=dict(status='HEADLESS_VIEWER_CANDIDATE_COMPILED_NOT_NATIVE_QUALIFIED',version=VERSION,source_sha=spec['source_sha'],

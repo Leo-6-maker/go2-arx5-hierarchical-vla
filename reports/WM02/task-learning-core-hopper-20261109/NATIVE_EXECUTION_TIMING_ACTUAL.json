@@ -51,6 +51,23 @@
     "formal_benchmark": false
   },
   "interpretation": "Measured mj_step and leg-inference durations are a small part of wall time. Native main/UI and llvmpipe dominate the separate thread CPU sample. No throughput claim for Hopper or4096 environments follows from this profile.",
-  "next_candidate": "Headless viewer shim: disable every native Simulate::Render call, retain the legacy hidden GLFW context for model loading, pace loader/events at5Hz outside the sim mutex. Exact qualified native main and leg/controller SDK objects are reused; task dual-RGB remains in the independent original Python offscreen renderer. Build and new native construction pending; current TRAIN100 unchanged.",
-  "headless_user_authorization": "Explicit user approval to use headless acceleration on2026-11-09"
+  "next_candidate": "Headless build03 with corrected independent-worker environment and atomic command-progress updates, then one fresh construction and original dual-RGB audit. No native headless episode yet.",
+  "headless_user_authorization": "Explicit user approval to use headless acceleration on2026-11-09",
+  "headless_build_attempts": [
+    {
+      "run": "task-learning-native-ui-build-20261109-01",
+      "lease": "CLOSED",
+      "worker_exit_code": 1,
+      "compile_started": false,
+      "native_integrations": 0,
+      "cause": "Independent worker did not receive explicit source import path; startup wrapper corrected for successor."
+    },
+    {
+      "run": "task-learning-native-ui-build-20261109-02",
+      "lease": "CLOSED",
+      "worker_exit_code": 1,
+      "native_integrations": 0,
+      "cause": "Second command progress tried exclusive file creation. Use the original atomic durable progress writer; regression added."
+    }
+  ]
 }
