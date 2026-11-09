@@ -47,7 +47,11 @@ def test_trainable_or_gradient_bearing_backbone_cannot_be_swapped():
     with pytest.raises(PermissionError,match='ONLY_FROZEN'):BackboneOptimizerSwap(m,None,device='cpu')
 
 
-def test_callback_restores_before_original_input_preparation_not_only_backbone_forward():
+def test_callback_restores_before_original_input_preparation_not_only_backbone_forward(monkeypatch):
+    import sys
+    # The CPU seam environment intentionally has no optional HF runtime.
+    # Real Core uses its actual TrainerCallback, exercised by the native job.
+    monkeypatch.setitem(sys.modules,'transformers',SimpleNamespace(TrainerCallback=object))
     m=Tiny();swap=BackboneOptimizerSwap(m,None,device='cpu');callback=swap.callback()
     callback.on_pre_optimizer_step(None,None,None)
     assert not swap.resident
