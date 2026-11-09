@@ -106,7 +106,7 @@ def test_cpu_activation_execution_is_explicit_preserving_recipe_and_core_only():
     r=profile.validate(s);assert r['effective_batch']==32 and r['forward_precision']=='ORIGINAL_BF16_AUTOCAST'
     assert core.activation_policy()['per_microbatch_activation_offload_bytes']==2*1024**3
     assert core.activation_policy()['quantization']is False
-    with pytest.raises(PermissionError,match='A40_ORIGINAL'):
+    with pytest.raises(PermissionError,match='ORIGINAL_RESIDENT_EXECUTION'):
         profile.validate(dict(s,execution_site='VANDA_A40'))
 
 

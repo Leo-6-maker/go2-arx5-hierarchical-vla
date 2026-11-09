@@ -40,7 +40,10 @@ def admitted(spec, spec_path):
         need(digest(Path(spec['checkpoint']['path'])/'CHECKPOINT_COMPLETE.json')==spec['checkpoint']['sha256'],
              'PINNED_ACTUAL_FIT200_CHECKPOINT')
     actual = gpu(spec)
-    need(actual['free_bytes'] >= spec['allocator_limit_bytes'] + 2 * 1024**3, 'ACTUAL_SHARED_GPU_HEADROOM')
+    reserve=spec.get('GPU_headroom_reserve_bytes',2*1024**3)
+    need(reserve==(1024**3 if spec.get('operation')=='ORDINARY_RECONSTRUCT_FIT4'else 2*1024**3),
+        'DECLARED_INFERENCE_OR_TRAINING_HEADROOM_RESERVE')
+    need(actual['free_bytes'] >= spec['allocator_limit_bytes'] + reserve, 'ACTUAL_SHARED_GPU_HEADROOM')
     return root
 
 
