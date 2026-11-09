@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T18:03:58.101682+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T19:01:25.337635+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -23,9 +23,10 @@
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
     "current_Hopper_scan": "707720.hopper-m-02 Q_GPU_UNAVAILABLE",
     "current_Hopper_Processor": "708392.hopper-m-02 Q_GPU_UNAVAILABLE",
-    "Hopper_current_control": "3824025; cold successor04; old03 read-only retired; H100/H200 first actual qualified route",
+    "Hopper_current_control": "3842363; cold successor06; read-only predecessors04/05 retired; first actual qualified H100/H200 route; original deadline preserved",
     "current_H100_restore": "708946.hopper-m-02 Q_GPU_UNAVAILABLE",
-    "failed_PBS_pre_worker_negative_exit_jobs": 2
+    "failed_PBS_pre_worker_negative_exit_jobs": 2,
+    "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -210,7 +211,7 @@
   },
   "G3": "FIXED100_CLOSED_SUCCESS100; CORE_ORIGINAL_PROCESSOR1450_PASS; PRIVATE_TRANSFER_CLOSED0; HOPPER_PROCESSOR708392_QUEUED",
   "G4_G7": "NOT_RUN",
-  "next_gate": "ACTUAL_H200_PROCESSOR_CLOSED0_OR_H100_NATIVE_RESTORE_CLOSED0; ONE_ORIGINAL_PROCESSOR_FORMAL2000_PRIVATE_DELIVERY; EXISTING_CORE40_FULLDEV80",
+  "next_gate": "ACTUAL_H200_PROCESSOR_CLOSED0_OR_H100_NATIVE_RESTORE_CLOSED0; ONE_ORIGINAL_FULL_DATA_PROCESSOR_FORMAL2000_PRIVATE_DELIVERY; CORE40_FULLDEV80; ACTUAL_SEALED_DECISION_BOUND_SUCCESSOR",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -219,7 +220,7 @@
     "real_hardware": false,
     "old21_automatic8000": false
   },
-  "execution_sha": "6ba901ebf900eef9fe224473c613188700518f34",
+  "execution_sha": "89b2845344b9b74fbadb2e801f2c580b9370f9f5",
   "G3_preparation": {
     "status": "CORE_QUALIFIED_TRANSFERRED_HOPPER_QUEUED",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
@@ -251,7 +252,7 @@
   "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
   "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
   "G3_DEV_references": "G3_FIXED_DEV_REFERENCES_ACTUAL.json",
-  "finite_continuation": "ACTUAL_UNIQUE_WRITER04_PID3824025_FIRST_QUALIFIED_H200_OR_H100_ROUTE; EXISTING_PBS_REQUESTS_PRESERVED",
+  "finite_continuation": "ACTUAL_UNIQUE_FIRST_FORMAL_WRITER06_PID3842363; ORIGINAL_CORE40_DEV80_PID3665222; POST_DEV_SEALED_DECISION_FOLLOWER_PID3846655_WAITING; ALL_FINITE",
   "original_task_plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "LONG_HORIZON_V2": {
     "status": "ACTIVE",
@@ -262,8 +263,12 @@
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": 3665222,
     "Core_model_package": "NOT_DELIVERED; FORMAL_TRAINING_PENDING",
-    "Core_current_resource": "QUALIFIED_GPU_OTHER_USER_OCCUPIED_ONLY2P2GiB_FREE; WAIT_READONLY",
-    "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json"
+    "Core_current_resource": "QUALIFIED_GPU_FREE_2310012928_BYTES_HOST_AVAILABLE_35166183424_BYTES; PACKAGE_ABSENT; READONLY_CAPACITY_WAIT",
+    "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
+    "latest_pipeline_repair_actual": "TERMINAL_HISTORY_AND_H100_ADMISSION_REPAIR_ACTUAL.json",
+    "post_DEV_decision_successor_actual": "POST_DEV_DECISION_SUCCESSOR_ACTUAL.json",
+    "post_DEV_decision_successor_pid": 3846655,
+    "post_DEV_current_status": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION"
   },
   "G3_full100_native": {
     "report": "G3_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL.json",
@@ -317,12 +322,14 @@
     "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json"
   },
   "ALTERNATIVE_TRAINING_SITE_RECHECK": {
-    "status": "VANDA_NETWORK_TIMEOUT_CORE_GPU0_CAPACITY_WAIT",
+    "status": "VANDA_THREE_ROUTES_STILL_UNREACHABLE; CORE_FULL_ACTION_DIAGNOSTIC_CLOSED0_NOT_FORMAL",
     "actual": "VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json",
     "new_full_action_GPU_jobs": 0,
-    "Core_capacity_wait_controller": 3766471,
-    "Core_current_status": "WAIT_STABLE_ACTUAL_HOST_AND_GPU_CAPACITY",
-    "prestart_actual": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json"
+    "Core_capacity_wait_controller": null,
+    "Core_current_status": "CLOSED0_FULL_ACTION_CACHED_RESTORE_DIAGNOSTIC; NO_FORMAL_TRAIN100_MODEL",
+    "prestart_actual": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json",
+    "latest_Core_actual": "CORE_FULL_ACTION_RESTORE_CLOSED_ACTUAL.json"
   },
-  "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json"
+  "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json",
+  "H100_latest_admission_repair": "TERMINAL_HISTORY_AND_H100_ADMISSION_REPAIR_ACTUAL.json"
 }

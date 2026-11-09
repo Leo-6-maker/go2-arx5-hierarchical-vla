@@ -1,0 +1,204 @@
+{
+  "schema": "WM02_PBS_TERMINAL_AND_NATIVE_H100_ADMISSION_REPAIR_ACTUAL_V1",
+  "observed_at_sgt": "2026-11-10T03:01:25.337635+08:00",
+  "observed_at_utc": "2026-11-09T19:01:25.337635+00:00",
+  "source_sha": "89b2845344b9b74fbadb2e801f2c580b9370f9f5",
+  "status": "ACTUAL_DEFECTS_REPAIRED_AND_COLD_SUCCESSOR06_LIVE; FORMAL_SFT_NOT_STARTED",
+  "question": "Remove observed terminal-query and native resumed-visit admission defects without editing queued capsules or duplicating the formal writer.",
+  "terminal_history": {
+    "before": {
+      "708938.hopper-m-02": {
+        "query_exit": 35,
+        "reported_reason": "Job has finished; use historical query"
+      },
+      "707481.hopper-m-02": {
+        "query_exit": 35,
+        "reported_reason": "Job has finished; use historical query"
+      }
+    },
+    "after": {
+      "708938.hopper-m-02": {
+        "job_state": "F",
+        "Exit_status": -2,
+        "project": "CFP04-CF-007",
+        "Job_Owner": "e1192548@hopper-l-02.cm.cluster"
+      },
+      "707481.hopper-m-02": {
+        "job_state": "F",
+        "Exit_status": 0,
+        "project": "CFP04-CF-007",
+        "Job_Owner": "e1192548@hopper-l-01.cm.cluster"
+      }
+    },
+    "changed": "Use the original PBS job reader with history enabled; independent terminal private delivery helper also uses the history query for old immutable source capsules.",
+    "actual_model_package_delivery": "NOT_YET_EXECUTED"
+  },
+  "native_restore_admission": {
+    "observed_original_Trainer_children": [
+      {
+        "name": "continuous4",
+        "start_step": 0,
+        "endpoint": 4,
+        "global_step": 4,
+        "sample_visits": 128,
+        "sampler_cursor": 128
+      },
+      {
+        "name": "split2",
+        "start_step": 0,
+        "endpoint": 2,
+        "global_step": 2,
+        "sample_visits": 64,
+        "sampler_cursor": 64
+      },
+      {
+        "name": "resume4",
+        "start_step": 2,
+        "endpoint": 4,
+        "global_step": 4,
+        "sample_visits": 64,
+        "sampler_cursor": 128
+      }
+    ],
+    "defect": "The new H100 admission compared resumed segment sample_visits against the cumulative cursor.",
+    "fixed_relation": "sample_visits=(endpoint-start_step)*32; restored sampler_cursor=endpoint*32; each actual child start_step must match its specification.",
+    "old_qualification_outputs_changed": false,
+    "native_H100_restore": "NOT_RUN; EXISTING_708946_QUEUED_CAPSULE_UNCHANGED"
+  },
+  "unsubmitted_H100_Processor_successor": {
+    "old_role": {
+      "suffix": "01",
+      "status": "CLOSED",
+      "worker_exit_code": null,
+      "never_submitted": true,
+      "reason": "UNSUBMITTED_PROCESSOR_SUPERSEDED_FOR_NATIVE_RESUME_VISIT_ADMISSION_FIX",
+      "source_sha": "6ba901ebf900eef9fe224473c613188700518f34"
+    },
+    "new_role": {
+      "suffix": "02",
+      "status": "READY_FOR_SINGLE_SUBMISSION",
+      "config_sha256": "f62911a1c11f2e756865d9cca5aaf77ddba252debe4941ddfacc3bbe082a7dd7",
+      "source_sha": "89b2845344b9b74fbadb2e801f2c580b9370f9f5",
+      "registry_entries": 1,
+      "qsub_exists": false
+    },
+    "source_and_all_transferred_data_member_pins_checked": true,
+    "dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "unique_supervision_windows": 1450,
+    "new_unique_supervision_windows": 0,
+    "H200_Processor_dataset_changed": false,
+    "required_before_submission": "Actual H100 original-Trainer full restore CLOSED0, then fresh official project/quota/queue admission."
+  },
+  "cold_handoff": {
+    "read_only_predecessors_04_and_05_retired": true,
+    "remote_jobs_stopped": false,
+    "formal_roots_absent_at_each_retirement": true,
+    "active_controller": "06",
+    "pid": 3842363,
+    "process_start_ticks": "38977942",
+    "process_identity_verified": true,
+    "multiple_heartbeats_advanced": true,
+    "finite_controller_deadline_epoch": 1794420173.0097456,
+    "original_deadline_not_extended": true,
+    "unique_first_formal_writer": 1,
+    "current": {
+      "epoch": 1794250854.1207156,
+      "pid": 3842363,
+      "stage": "WAIT_FIRST_ACTUAL_PROCESSOR_OR_H100_RESTORE",
+      "H200": {
+        "job_state": "Q",
+        "Exit_status": null,
+        "job_id": "708392.hopper-m-02"
+      },
+      "H100": {
+        "job_state": "Q",
+        "Exit_status": null,
+        "job_id": "708946.hopper-m-02"
+      },
+      "choice": "WAIT"
+    },
+    "new_PBS_submissions_this_repair": 0
+  },
+  "verification": {
+    "related_local_checks_passed": 89,
+    "check_files": [
+      "test_task_learning_h100_admission_v1.py",
+      "test_task_learning_hopper_v1.py",
+      "test_task_learning_hopper_processor_v1.py",
+      "test_task_learning_successor_v2.py",
+      "test_task_learning_endpoint_decision_v2.py",
+      "test_task_learning_delivery_handoff_v2.py"
+    ],
+    "new_helpers_compile_and_finite_route_self_tests": "PASS",
+    "actual_PBS_history_and_original_native_result_readbacks": "PASS",
+    "new_H100_GPU_model_loads": 0,
+    "formal_new_task_optimizer_calls": 0,
+    "student_DEV_conditions": 0
+  },
+  "negative": [
+    "Two earlier H100 allocations reached R but exited before the application; both original failures and null worker exits remain preserved.",
+    "H100 708946 and H200 Processor 708392 remain Q with insufficient GPU resources. Source tests and a READY Processor role are not GPU qualifications.",
+    "No prior TRAIN100, performance-eight, Teacher or diagnostic training was rerun.",
+    "No queued or active capsule, WBC, leg policy, controller mathematics, safety, dynamics or 2ms step was changed."
+  ],
+  "next_gate": "First real qualified H200 Processor or H100 native restore, then one original full-data Processor route as required, formal SFT2000, full-state restore, private delivery and existing Core40/full DEV80.",
+  "private_evidence": [
+    {
+      "kind": "PBS_TERMINAL_DIRECT_JOB_WITHOUT_X_ACTUAL",
+      "sha256": "9b9a83b8fa53a13eb20de58e67ecbb723420ff691f8b6e39c7260c7cfec27697"
+    },
+    {
+      "kind": "PBS_TERMINAL_HISTORY_READER_FIXED_ACTUAL",
+      "sha256": "7605be25a0d10421f8981bdfe9e512568a34da927ce162b57e4f6d06d84744d0"
+    },
+    {
+      "kind": "ORIGINAL_NATIVE_RESTORE_VISITS_VERSUS_CURSOR_ACTUAL",
+      "sha256": "af851e244ccf3d1d0bb858d0466bccd7d9b6b1a71efeceb5f4ca1f7262b87cf3"
+    },
+    {
+      "kind": "H100_PROCESSOR02_PREPARATION_ACTUAL",
+      "sha256": "d34ca45d91e6685e34d7c57a349f1c8967309a1a598bd41837d4960bd88eb488"
+    },
+    {
+      "kind": "H100_PROCESSOR02_INDEPENDENT_READY_READBACK",
+      "sha256": "34b213a499322391eb8c88d626c629290ed665fab1fe7bbcde6d859272087d05"
+    },
+    {
+      "kind": "FULL100_HOPPER2_CONTINUATION04_COLD_RETIRED",
+      "sha256": "e2f0633952e587b48203396d1cca4c466def10d87b8ea7ad011020e0a4c87262"
+    },
+    {
+      "kind": "FULL100_HOPPER2_CONTINUATION05_COLD_RETIRED",
+      "sha256": "e401afd7ab0f5f92ed890a208a13f9278e38bdfa2dddf41efbab9a4b9a8f4fcf"
+    },
+    {
+      "kind": "FULL100_HOPPER2_CONTINUATION06_STARTED",
+      "sha256": "f800ddd6c3b99a01548eb92a3f4eabe8c6948d3982856ae63fbe4945ad6505b6"
+    },
+    {
+      "kind": "PIPELINE_REPAIR_AND_POST_DEV_1794250885",
+      "sha256": "cc6fcf6d76e988d0dc3dfcb64d42ca8f4c4310faa9479118f4d4a3a64b6b7be5"
+    }
+  ],
+  "actual_PBS_jobs": {
+    "708392.hopper-m-02": {
+      "job_state": "Q",
+      "project": "CFP04-CF-007",
+      "comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "Exit_status": null
+    },
+    "707720.hopper-m-02": {
+      "job_state": "Q",
+      "project": "CFP04-CF-007",
+      "comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "Exit_status": null
+    },
+    "708946.hopper-m-02": {
+      "job_state": "Q",
+      "project": "CFP04-CF-007",
+      "comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "Exit_status": null
+    }
+  }
+}
