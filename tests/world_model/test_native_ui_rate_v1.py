@@ -84,6 +84,26 @@ def test_pending_build_wrong_binary_or_collection_cannot_use_ancestry_bridge(tmp
     with pytest.raises(PermissionError,match='CONSTRUCTION_ONLY'):ui.baseline_spec(bad)
 
 
+@pytest.mark.parametrize('changed_patch',[False,True])
+def test_new_layout_role_can_reuse_only_the_identical_viewer_transformation(tmp_path,monkeypatch,changed_patch):
+    from go2arx5_vla.world_model.storage import digest
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import EXPANSION_QUALIFICATION_ROLE
+    spec,root,base=native_fixture(tmp_path,monkeypatch)
+    prior=tmp_path/'prior-source'/ui.MEMBER;prior.parent.mkdir(parents=True)
+    raw=Path(ui.__file__).read_text()+'\n# earlier admission version fixture\n'
+    if changed_patch:raw=raw.replace('def patch(source):','def patch(source):\n    source = source + "changed"')
+    prior.write_text(raw)
+    config=root/'EXECUTION_SPEC.json';c=json.loads(config.read_text())
+    c.update(source_root=str(tmp_path/'prior-source'),source_files={ui.MEMBER:digest(prior)})
+    config.write_text(json.dumps(c))
+    lease=root/'control/LEASE.json';l=json.loads(lease.read_text());l['spec_sha256']=digest(config);lease.write_text(json.dumps(l))
+    spec['task_learning_role']=EXPANSION_QUALIFICATION_ROLE
+    if changed_patch:
+        with pytest.raises(PermissionError,match='EXACT_VIEWER_ONLY'):ui.baseline_spec(spec)
+    else:
+        assert ui.baseline_spec(spec)['native_binary']==str(base/'rl_sim_mujoco')
+
+
 def test_build_records_all_four_commands_without_recreating_exclusive_file(tmp_path,monkeypatch):
     """Regression for the actual second-command progress-write failure."""
     from types import SimpleNamespace

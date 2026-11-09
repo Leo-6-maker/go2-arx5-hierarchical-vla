@@ -43,10 +43,10 @@ def patch(source):
 def baseline_spec(spec):
     """Bind historical control ancestry without relabeling the new executable."""
     if not spec.get('native_ui_build')and not spec.get('native_ui_rate'):return spec
-    from .task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    from .task_learning_grasp_v1 import CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE
     need(spec.get('native_ui_rate')==VERSION
         and spec.get('phase')=='collect-target-task-learning-grasp-v1'
-        and spec.get('task_learning_role')in(None,CONSTRUCTION_ROLE),
+        and spec.get('task_learning_role')in(None,CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE),
         'UI_SUCCESSOR_INITIAL_NATIVE_CONSTRUCTION_ONLY_NOT_EXISTING_COLLECTION')
     result=pinned(spec['native_ui_build']);candidate=Path(spec['native_ui_build']['path']).parent
     root=candidate.parent;config=root/'EXECUTION_SPEC.json'
@@ -64,9 +64,21 @@ def baseline_spec(spec):
         'ACTUAL_CLOSED_UI_BUILD_AND_DISTINCT_NEW_NATIVE_BINARY')
     for name,pin in c['frozen_files'].items():need(digest(name)==pin,'UI_SUCCESSOR_FROZEN_CONTROL_INPUTS')
     original=Path(c['original_ui_source'])
+    same_validator=c['source_files'][MEMBER]==spec['source_files'][MEMBER]
+    if not same_validator and spec.get('task_learning_role')==EXPANSION_QUALIFICATION_ROLE:
+        # The completed build predates admission of the new geometry role.
+        # Its actual viewer transformation must remain identical; only this
+        # Python admission routine may evolve without rebuilding the binary.
+        import ast
+        prior=Path(c['source_root'])/MEMBER
+        def transformation(raw):
+            return ast.dump(next(n for n in ast.parse(raw).body
+                if isinstance(n,ast.FunctionDef)and n.name=='patch'),include_attributes=False)
+        same_validator=(digest(prior)==c['source_files'][MEMBER]
+            and transformation(prior.read_text())==transformation(Path(__file__).read_text()))
     need((candidate/'simulate.cc').read_text()==patch(original.read_text())
         and digest(candidate/'simulate.cc')==result.get('patched_ui_source_sha256')
-        and c['source_files'][MEMBER]==spec['source_files'][MEMBER]
+        and same_validator
         and digest(Path(spec['source_root'])/MEMBER)==spec['source_files'][MEMBER],
         'EXACT_VIEWER_ONLY_SOURCE_AND_CURRENT_UI_VALIDATOR')
     baseline=Path(c['baseline_candidate'])/'rl_sim_mujoco'

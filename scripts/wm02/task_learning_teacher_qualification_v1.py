@@ -111,6 +111,10 @@ def run(input_path):
                     stable_task_panel=inp['panel'],stable_task_panel_sha256=inp['panel_sha256'],
                     cpus=[0,1,2,3],ROS_DOMAIN_ID=220)
                 s.pop('task_learning_control',None)
+                if role==task.EXPANSION_QUALIFICATION_ROLE:
+                    # This population qualifies new geometry with original
+                    # waits and fresh cameras, independently of timing pilots.
+                    s.pop('collection_performance',None)
                 if role!=task.QUALIFICATION_ROLE:s['task_learning_teacher_mode']=row['Teacher_mode']
                 for name in('cache','logs','data','tmp'):s[name]=str(root/name)
                 s['native_environment']=dict(base['native_environment']);s['native_environment']['PYTHONPATH']=environment(root)['PYTHONPATH']
