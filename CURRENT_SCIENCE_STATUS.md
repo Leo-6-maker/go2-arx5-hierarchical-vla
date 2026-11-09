@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-09 22:08:52 SGT（UTC 14:08:52）实际冷接续：**Hopper只读等待控制02已退出，唯一后继03／PID3689510已真实驻留，原708392与707720请求未改。** 修正择路：扫描若R，等待它实际选中的微批与完整恢复；只有未启动Q/H扫描可用已资格microbatch1独立后继。7项路由检查及真实Q读回通过，原控制截止保留。官方small并发上限2，本账号活动表3项均Q，调度反馈ngpus不足且无开始时间估计；正式SFT仍0，Core接续3665222仍等模型／显存。[真实读回与冷交接](reports/WM02/task-learning-core-hopper-20261109/HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json)。
+
 2026-11-09 21:30:01 SGT（UTC 13:30:01）实测：**原固定性能8/8完整安全成功且全CLOSED0。** 两次均值profile317.670秒、events228.932秒（少27.93%）、cache314.724秒、组合224.264秒（少29.40%），只证明该固定构造任务的有限筛查，未用于原TRAIN100或新BC。[完整八条件](reports/WM02/task-learning-core-hopper-20261109/COLLECTION_PERFORMANCE_FIXED8_COMPLETE_ACTUAL.json)。独立函数计时又完整通过：113次安装44.660秒中，原H40证书37.491秒、任务包络6.152秒、显式ACK仅0.530秒，不能把安装全算ROS等待。[实际归因](reports/WM02/task-learning-core-hopper-20261109/COLLECTION_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL.json)。**Core40→完整DEV80→冻结决定的薄接续已实际驻留PID3665222，当前等真实模型与显存，尚无Core模型/学生结果。** 原Hopper接续PID3641706仍等待708392终态；708392/707720均Q，Core原资格卡因其他用户占用仅余约2.2GiB，现役任务保留。[实际接续与未完成项](reports/WM02/task-learning-core-hopper-20261109/CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json)。
 
 2026-11-09 20:31:02 SGT（UTC 12:31:02）实际接续：**TRAIN100 的全部1450不同监督窗已通过 Core 原 Processor，最大误差4.35e-8；100 TRAIN+4 DEV参考已私有传输并独立核验 CLOSED0。** 用户提供的 Hopper2 正常入口已恢复项目/PBS查询；唯一新 Processor 作业 **708392 已核资源并释放，当前Q/GPU不足**，原707720同样Q且未重复。正式新任务训练、学生DEV/TEST仍未运行。SSH双层引用缺陷已修复；性能原第2项相机预检失败保留为零原生启动，冷态场景修复通过40项检查后只接续未执行2–8项，尚无加速结论。[数据、传输、真实队列及限制](reports/WM02/task-learning-core-hopper-20261109/G3_CORE_PROCESSOR_TRANSFER_AND_HOPPER_QUEUE_ACTUAL.json)。
