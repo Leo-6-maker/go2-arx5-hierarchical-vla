@@ -1,5 +1,11 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+## GR00T+WBC 长程 V2 · 2026-11-09 19:36 SGT / 11:36 UTC
+
+原 TRAIN100 持续运行：前50次已CLOSED/exit0，后50次已完成47次且47次成功，合计97/100条已结束；这只是进度，全100人口门和新任务Processor尚未完成。原采集PID2812284与两个有限接续进程均已实际读回存活，保持dc418f48胶囊。Hopper707720于19:21 SGT仍Q，无扫描结果；项目token过期及登录服务超时仍阻断新提交。Vanda A40旧作业的两次FULL_ACTION_SIDE更新和噪声钩子失败保留；当前站点项目/PBS不可达、后续SSH认证拒绝，本轮无新A40作业。
+
+新增一次性入口可登记实际Core40合格包的完整80条件DEV面板、原连续切片及有限工作器；不同候选使用独立Journal/unit身份。端点证据从封存探针数组重算、绑定完整原生人口；PARTIAL不能签发续训或确认seed。53项相关软件检查通过，候选身份修正后5项复验通过。新任务SFT/候选包/Core40/学生DEV/TEST及八条件性能实测仍未取得，未把接口或检查数量当能力。源码已提交，发布时刻另记；[接续实现与实际等待](reports/WM02/task-learning-core-hopper-20261109/V2_ENDPOINT_HANDOFF_IMPLEMENTED_NOT_RUN.json)。
+
 ## WM02 TARGET_GR00T / Hopper actual closeout · 2026-11-09 00:15 SGT
 
 **Hopper scratch environment and frozen model assets are prepared and CPU-validated**:19 files,17,465,171,194 downloaded bytes,32 DiT blocks,H40; Python3.12.3,PyTorch2.9.0+cu128,Transformers4.57.3,Accelerate1.13.0,NumPy1.26.4 and native GR00T/Trainer/Cosmos Processor imports pass. New logical storage25.95GiB; all preparation workers absent and lease/registry CLOSED. This is0 neural weight loads/updates/physics/PBS submissions. Actual project token is expired; PBS queries had connection failures. Target data/Processor and a qualified Hopper target GPU profile remain absent; H200 review and real site admission are still required.
