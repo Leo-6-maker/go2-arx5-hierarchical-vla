@@ -60,3 +60,59 @@ def test_child_preserves_pbs_device_mask_instead_of_reinterpreting_torch_uuid(mo
     assert env['CUDA_VISIBLE_DEVICES']=='1' and env['TMPDIR']=='/scratch/run/tmp'
     monkeypatch.delenv('CUDA_VISIBLE_DEVICES')
     assert 'CUDA_VISIBLE_DEVICES' not in child_environment('/scratch/source','/scratch/run')
+
+
+@pytest.mark.parametrize('failure',[False,True])
+def test_restore_only_never_runs_fit4_or_searches_smaller_variants(tmp_path,monkeypatch,failure):
+    import time
+    from go2arx5_vla.world_model import target_gr00t_allocation_v1 as allocation
+    first=tmp_path/'first';first.mkdir()
+    (first/'EXECUTION_SPEC.json').write_text(json.dumps(dict(generation_id='site-qualification')))
+    cp1=first/'checkpoint-1';cp1.mkdir();(cp1/'CHECKPOINT_COMPLETE.json').write_text('{}')
+    calls=[];children=[]
+    def child(*args,**kwargs):
+        calls.append((args,kwargs))
+        row=dict(root=str(first),exit_code=int(failure),endpoint_complete=not failure,
+            checkpoint=str(first/('checkpoint-2'if len(calls)==1 else'restored-2')),
+            GR00T_updates=2 if len(calls)==1 else 1)
+        children.append(row);return row
+    def allocated(config,operation):
+        return operation(tmp_path,allocation.profile.need,time.time()+3600,{},child,children,time.monotonic(),[])
+    monkeypatch.setattr(allocation,'with_allocation',allocated)
+    compared=[]
+    def compare(a,b):
+        compared.append((a,b));return dict(next_update_parameters_optimizer_scheduler_RNG_sampler_exact=True)
+    monkeypatch.setattr(allocation,'compare_next_update',compare)
+    if failure:
+        with pytest.raises(PermissionError,match='NO_VARIANT_SEARCH'):
+            allocation.run(dict(allocation_mode='RESTORE_ONLY'))
+        assert len(calls)==1 and not compared
+        return
+    result=allocation.run(dict(allocation_mode='RESTORE_ONLY'))
+    assert result['status']=='PASS_A40_FULL_ACTION_NEXT_UPDATE_RESTORE'
+    assert result['actual_GR00T_updates']==3 and len(calls)==2 and len(compared)==1
+    assert all(a[1:]==('CAPACITY','FULL_ACTION_SIDE',2)for a,k in calls)
+    assert calls[1][1]['start_step']==1 and calls[1][1]['generation']=='site-qualification'
+    assert result['qualification_weights_used_for_formal_training']is False
+    assert (tmp_path/'NEXT_UPDATE_RESTORE_ACTUAL.json').is_file()
+
+
+def test_reconciler_closed_failure_requires_independent_pbs_proof(tmp_path):
+    from scripts.wm02.submit_target_gr00t_a40_v1 import settled_predecessor
+    from go2arx5_vla.world_model.storage import digest
+    (tmp_path/'control').mkdir()
+    result=tmp_path/'ALLOCATION_NATIVE_FINAL.json';result.write_text('{}')
+    receipt=tmp_path/'PBS_TERMINAL_ACTUAL.json'
+    receipt.write_text(json.dumps(dict(job_id='1.server',PBS_state='F',PBS_exit=1,native_exit=1)))
+    owner=dict(root=str(tmp_path),status='CLOSED',job_id='1.server',PBS_exit_code=1,
+        PBS_terminal_receipt_sha256=digest(receipt))
+    lease=dict(status='CLOSED',job_id='1.server',actual_PBS_terminal='F',PBS_exit_code=1,
+        worker_exit_code=1,PBS_terminal_receipt_sha256=digest(receipt),result_sha256=digest(result))
+    path=tmp_path/'control/LEASE.json';path.write_text(json.dumps(lease))
+    assert settled_predecessor(owner)
+    assert not settled_predecessor(dict(owner,status='NATIVE_CLOSED_PENDING_PBS_TERMINAL'))
+    lease['PBS_exit_code']=0;path.write_text(json.dumps(lease))
+    assert not settled_predecessor(owner)
+    lease['PBS_exit_code']=1;path.write_text(json.dumps(lease))
+    receipt.write_text(json.dumps(dict(job_id='2.server',PBS_state='F',PBS_exit=1,native_exit=1)))
+    assert not settled_predecessor(owner)

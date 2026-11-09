@@ -216,6 +216,30 @@ def run(c):
     if c.get('allocation_mode')=='FORMAL_SLICE':
         from .target_gr00t_formal_v1 import execute
         return with_allocation(c,lambda *args:execute(c,*args))
+    if c.get('allocation_mode')=='RESTORE_ONLY':
+        def restore_only(root,need,deadline,gpu,child,children,start,stop_requested):
+            # Site qualification of the repaired inference hook. Do not fall
+            # back to a smaller parameter set or launch another FIT4 training.
+            cap=child('full-action-side','CAPACITY','FULL_ACTION_SIDE',2)
+            need(cap['exit_code']==0 and cap['endpoint_complete'],
+                 'FULL_ACTION_SITE_QUALIFICATION_FAILED_NO_VARIANT_SEARCH')
+            first=Path(cap['checkpoint']);cp1=first.parent/'checkpoint-1'
+            spec=json.loads((Path(cap['root'])/'EXECUTION_SPEC.json').read_bytes())
+            resumed=child('full-action-side-restore-next','CAPACITY','FULL_ACTION_SIDE',2,
+                start_step=1,resume=dict(path=str(cp1),sha256=digest(cp1/'CHECKPOINT_COMPLETE.json')),
+                generation=spec['generation_id'])
+            need(resumed['exit_code']==0 and resumed['endpoint_complete'],
+                 'INDEPENDENT_FULL_ACTION_SITE_RESUME_FAILED')
+            proof=compare_next_update(first,resumed['checkpoint'])
+            write(root/'NEXT_UPDATE_RESTORE_ACTUAL.json',proof)
+            return dict(status='PASS_A40_FULL_ACTION_NEXT_UPDATE_RESTORE',children=children,
+                actual_GR00T_updates=sum(r['GR00T_updates']for r in children),
+                selected_variant='FULL_ACTION_SIDE',microbatch=1,effective_batch=32,
+                wall_s=time.monotonic()-start,restore=proof,
+                qualification_weights_used_for_formal_training=False,
+                formal_training='NOT_STARTED_REQUIRES_ACTUAL_CONTINUOUS_DATA_ADMISSION',
+                native_physics=0,WM_updates=0,Actor_updates=0)
+        return with_allocation(c,restore_only)
     def capacity_fit4(root,need,deadline,gpu,child,children,start,stop_requested):
         selected=None
         for variant in profile.VARIANTS:

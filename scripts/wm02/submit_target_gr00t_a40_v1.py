@@ -27,6 +27,26 @@ def project():
                 source='ACTUAL_AMGR_PROJECT_AND_BALANCE')
 
 
+def settled_predecessor(owner):
+    """Accept the terminal status actually written by the existing reconciler."""
+    if owner is None or owner.get('status')=='CLOSED_INDEPENDENT_PBS_TERMINAL':
+        return True
+    if owner.get('status')!='CLOSED':return False
+    from go2arx5_vla.world_model.storage import digest
+    root=Path(owner['root']);receipt=root/'PBS_TERMINAL_ACTUAL.json'
+    lease=json.loads((root/'control/LEASE.json').read_bytes())
+    terminal=json.loads(receipt.read_bytes())
+    return (root.resolve()==root and lease.get('status')=='CLOSED'
+        and owner.get('job_id')==lease.get('job_id')==terminal.get('job_id')
+        and lease.get('actual_PBS_terminal')==terminal.get('PBS_state')=='F'
+        and type(terminal.get('PBS_exit'))is int
+        and owner.get('PBS_exit_code')==lease.get('PBS_exit_code')==terminal['PBS_exit']
+        ==lease.get('worker_exit_code')==terminal.get('native_exit')
+        and owner.get('PBS_terminal_receipt_sha256')
+        ==lease.get('PBS_terminal_receipt_sha256')==digest(receipt)
+        and lease.get('result_sha256')==digest(root/'ALLOCATION_NATIVE_FINAL.json'))
+
+
 def submit(request):
     from go2arx5_vla.world_model import target_gr00t_profile_v1 as profile
     from go2arx5_vla.world_model.target_gr00t_allocation_v1 import pbs_script
@@ -45,7 +65,7 @@ def submit(request):
     admission=json.loads((data/'PROCESSOR_TRAINING_ADMISSION.json').read_bytes())
     reconstructed=json.loads((data/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
     mode=c.get('allocation_mode','QUALIFY_FIT4')
-    need(mode in ('QUALIFY_FIT4','FORMAL_SLICE'),'DECLARED_ALLOCATION_STAGE')
+    need(mode in ('QUALIFY_FIT4','FORMAL_SLICE','RESTORE_ONLY'),'DECLARED_ALLOCATION_STAGE')
     if mode=='FORMAL_SLICE':
         from go2arx5_vla.world_model.target_gr00t_formal_v1 import validate_request
         validate_request(c,manifest)
@@ -78,7 +98,7 @@ def submit(request):
         and receipt['cpu_hrs']>=8*c['wall_s']/3600,'ACTUAL_ENTITLEMENT_FOR_REQUEST')
     with closing(OwnerLock(c['ledger_lock'])):
         ledger,before=snapshot(c['ledger']);owner=ledger.get('TARGET_GR00T_V1_owner')
-        need(owner is None or owner.get('status')=='CLOSED_INDEPENDENT_PBS_TERMINAL',
+        need(settled_predecessor(owner),
              'EXISTING_UNIQUE_TARGET_PRODUCER_MUST_BE_SETTLED')
         reg,rpin=snapshot(c['registry'])
         for e in reg['entries']:
@@ -92,7 +112,9 @@ def submit(request):
         script=root/'job.pbs';script.write_text(pbs_script(root,c['source_root'],c['python'],c['wall_s']))
         write(root/'control/LEASE.json',dict(status='REGISTERED_NOT_SUBMITTED',profile=profile.PROFILE,
             config_sha256=digest(root/'ALLOCATION_CONFIG.json'),deadline_epoch=c['absolute_deadline_epoch'],
-            GR00T_updates=('FORMAL_TO_'+str(c['formal_target_endpoint'])+'_FROM_'+str(c['start_step'])if mode=='FORMAL_SLICE'else'CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500')))
+            GR00T_updates=('FORMAL_TO_'+str(c['formal_target_endpoint'])+'_FROM_'+str(c['start_step'])if mode=='FORMAL_SLICE'
+                else 'FULL_ACTION_CAPACITY2_PLUS_INDEPENDENT_RESUME1_ONLY'if mode=='RESTORE_ONLY'
+                else 'CAPACITY2_PLUS_INDEPENDENT_RESUME1_PLUS_FIT4_200_OR500')))
         reg['entries'].append(dict(role='TARGET-GR00T-A40-ALLOCATION',path=str(root),scope=profile.PROFILE,
             local_lease=str(root/'control/LEASE.json'),owner='EXISTING_LOCAL_PC',executor_node='VANDA_A40',source_sha=c['source_sha']))
         once(Path(c['registry']),reg,root.name+'-REGISTER',expected_before_sha256=rpin)

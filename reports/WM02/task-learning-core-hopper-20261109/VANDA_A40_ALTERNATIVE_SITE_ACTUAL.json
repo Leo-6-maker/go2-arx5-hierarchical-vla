@@ -1,0 +1,91 @@
+{
+  "schema": "TASK_LEARNING_VANDA_A40_ALTERNATIVE_SITE_ACTUAL_V1",
+  "OBSERVATION_TIME": {
+    "UTC": "2026-11-09T11:13:30.769834+00:00",
+    "SGT": "2026-11-09T19:13:30.769834+08:00"
+  },
+  "REPORT_TIME": {
+    "UTC": "2026-11-09T11:18:47.853206+00:00",
+    "SGT": "2026-11-09T19:18:47.853206+08:00"
+  },
+  "QUESTION": "Can Core RTX4080SUPER or Vanda A40 run relevant fine-tuning while Hopper project authentication is unavailable?",
+  "CHANGED": {
+    "allocation_mode": "RESTORE_ONLY",
+    "schedule": "2 actual updates plus independent checkpoint1->2; then close; no FIT4 or formal SFT",
+    "variant": "FULL_ACTION_SIDE",
+    "microbatch": 1,
+    "effective_batch": 32,
+    "preserved_original_Trainer_loss_parameter_dtypes_and_frozen_backbone": true,
+    "successor_admission_fix": "Recognize reconciler CLOSED only with matched independent PBS F/exit, lease, final result and receipt hashes",
+    "code_tests": {
+      "passed": 78,
+      "actual_GPU_qualification": false
+    }
+  },
+  "ACTUAL": {
+    "Vanda": {
+      "existing_job_id": "1532527.stdct-mgmt-02",
+      "existing_source_sha": "037b4c3e9a6f823ef99eecb249ff68bf4c0bc95f",
+      "old_allocation_status": "CLOSED",
+      "PBS_terminal": "F",
+      "PBS_exit": 1,
+      "actual_A40_device": {
+        "name": "NVIDIA A40",
+        "total_memory_bytes": 47697690624
+      },
+      "actual_FULL_ACTION_SIDE_updates": 2,
+      "actual_sample_cursor": 64,
+      "first_failure": "OBSERVED_NATIVE_NOISE_OR_TIME_DIFFERS during post-training generation; no observed out-of-memory failure",
+      "current_official_project_query": {
+        "exit_code": 1,
+        "reason": "No route to host"
+      },
+      "current_official_PBS_query": {
+        "exit_code": 255,
+        "reason": "cannot connect to server; No route to host"
+      },
+      "native_quota_report_epoch": 1794220942.741839,
+      "quota_hard_exceeded": false,
+      "subsequent_login": "Existing public key rejected twice; one normal password login also rejected; no further authentication attempts",
+      "new_qsub_attempts": 0,
+      "new_model_loads": 0,
+      "new_optimizer_updates": 0,
+      "private_readback_sha256": "1c8e2933d29cde49872699a9858276d02c6e31204abd93ca098a5e29e1befe15"
+    },
+    "Core": {
+      "existing_qualification": "CORE_FIT4_200_ACTUAL.json",
+      "route": "QUALIFIED_FROZEN_FEATURES_ORIGINAL_ACTION_HEAD_AND_NATIVE_MASKED_LOSS",
+      "actual_optimizer_calls": 200,
+      "peak_allocated_bytes": 6537155584,
+      "formal_FULL_ACTION_SIDE_training_on_16GB_qualified": false,
+      "full_original_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
+      "collection": {
+        "observed": {
+          "UTC": "2026-11-09T11:12:20.594090+00:00",
+          "SGT": "2026-11-09T19:12:20.594090+08:00"
+        },
+        "first50_closed_successes": 50,
+        "second50_completed": 43,
+        "second50_successes": 43,
+        "second50_requested": 50,
+        "active_unit_unchanged": true
+      }
+    }
+  },
+  "NEGATIVE": {
+    "new_A40_restore_proof": false,
+    "new_task_SFT": false,
+    "new_DEV_results": false,
+    "new_collection_speedup": false,
+    "two_A40_updates_do_not_establish_complete_restore": true,
+    "Core_feature_diagnostic_does_not_admit_full_action_formal_SFT": true,
+    "quota_file_does_not_replace_project_entitlement_or_PBS_allocation": true
+  },
+  "DECISION": "Prefer repaired single-A40 full-action restore qualification when actual site access returns. Preserve current Core collection and Hopper queued scan. No submission through unavailable entitlement/scheduler and no smaller Core substitute for formal full-action SFT.",
+  "NEXT_GATE": [
+    "Actual Vanda SSH, official project entitlement and PBS access",
+    "One fresh RESTORE_ONLY identity under original owner/Journal/registry after known predecessor closure",
+    "Actual A40 uninterrupted-versus-restored next-update comparison",
+    "Full TRAIN100 and original Processor admission before a separately qualified formal new-task site successor"
+  ]
+}
