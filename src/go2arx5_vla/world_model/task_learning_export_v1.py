@@ -139,6 +139,8 @@ def build_train_base(panel_path,groups,output):
         labels='ACTUAL_CONTINUOUS_NOMINAL_TEACHER_H40_WITH_EACH_KNOT_SOLVER_GRIPPER_CONFIRMED',
         policy_action_boundary='BEFORE_ORIGINAL_REFERENCE_TRANSPORT_AND_WORKING_GRIPPER_AFFINE',
         student_state='ORIGINAL_CURRENT_SHADOW_ABI_EEF10_UNMODIFIED',
+        original_Processor_route='new_embodiment',target_category=10,
+        embodiment_provenance='EXPLICIT_TARGET_INTERFACE_INITIALIZED_FROM_COMPATIBLE_SOURCE_CATEGORY_NOT_PRETRAINED_GO2',
         privileged_Teacher_metadata_is_student_input=False,interventions_masked=True,
         construction_or_qualification_relabelled=False,TEST_results_read=False)
     write_json(output/'DATASET_MANIFEST.json',manifest)

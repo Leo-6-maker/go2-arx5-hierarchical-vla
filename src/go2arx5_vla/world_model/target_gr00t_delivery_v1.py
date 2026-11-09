@@ -56,7 +56,10 @@ def create(checkpoint, destination, spec, restore, *, guard):
     contract=json.loads((out/'PARAMETER_CONTRACT.json').read_bytes())
     train=[r for r in data.get('episodes',[])if r['split']=='TRAIN']
     dev=[r for r in data.get('episodes',[])if r['split']=='DEV']
-    card=(f"# TARGET_GR00T_V1 at {saved['global_step']} updates\n\n"
+    inputs=('actual dual RGB, EEF/gripper state and the grasp/lift/hold instruction'
+        if p['profile']=='TASK_LEARNING_GR00T_V1'else
+        'actual dual RGB, EEF/gripper state and the two short approach/retreat instructions')
+    card=(f"# {p['profile']} at {saved['global_step']} updates\n\n"
         f"Independent target adaptation of original CORR2048 parent `{profile.PARENT}`; "
         f"upstream `{profile.UPSTREAM}`, execution source `{spec['source_sha']}`.\n\n"
         f"Internal action-side variant `{p['variant']}`; "
@@ -72,7 +75,7 @@ def create(checkpoint, destination, spec, restore, *, guard):
         "(visits are not independent demonstrations); fixed cosine horizon8000/warmup200. "
         f"Complete optimizer/scheduler/RNG/sampler restore is bound to checkpoint `{restore['checkpoint_sha256']}`. "
         "The full resume archive remains with the producer.\n\n"
-        "Inputs: actual dual RGB, EEF/gripper state and the two short approach/retreat instructions. "
+        f"Inputs: {inputs}. "
         "No simulator truth or fabricated BASE target is a student input or label. "
         "Output: full H40 EEF10 at50ms; the same declared deterministic trajectory compiler "
         "and frozen WBC govern execution. Physics remains2ms.\n\n"
@@ -82,7 +85,8 @@ def create(checkpoint, destination, spec, restore, *, guard):
         "online WM benefit or permission to change WBC/safety/startup.\n")
     (out/'MODEL_CARD.md').write_text(card)
     files={str(f.relative_to(out)):digest(f)for f in out.rglob('*')if f.is_file()}
-    result=dict(schema=SCHEMA,profile=profile.PROFILE,generation_id=spec['generation_id'],
+    result=dict(schema=SCHEMA,profile=p['profile'],training_site=spec['execution_site'],
+        generation_id=spec['generation_id'],
         global_step=saved['global_step'],checkpoint_sha256=digest(cp/'CHECKPOINT_COMPLETE.json'),
         parent_manifest_sha256=profile.PARENT,parent_files=spec['parent']['files'],
         upstream_sha=profile.UPSTREAM,recipe=p,source_sha=spec['source_sha'],files=files,
@@ -99,11 +103,11 @@ def verify(package, pin, parent_files):
     root=Path(package)
     profile.need(digest(_member(root,'PACKAGE_MANIFEST.json'))==pin,'EXACT_INFERENCE_PACKAGE')
     m=json.loads((root/'PACKAGE_MANIFEST.json').read_bytes());p=m['recipe']
-    expected=profile.recipe(p['dataset_sha256'],p['statistics_sha256'],mode='FORMAL',
-        variant=p['variant'],endpoint=m['global_step'],microbatch=p['microbatch'])
+    expected=profile.expected_recipe(p)
     profile.need(m['schema']==SCHEMA and m['parent_manifest_sha256']==profile.PARENT
         and m['parent_files']==parent_files and m['upstream_sha']==profile.UPSTREAM
-        and m['global_step']==p['endpoint'] and p==expected and m['external_inference_adapter']is False
+        and m['global_step']==p['endpoint']and p['mode']=='FORMAL'and m['profile']==p['profile']
+        and p==expected and m['external_inference_adapter']is False
         and m['action_horizon']==40 and m['action_period_s']==.05 and m['physics_dt_s']==.002,
         'EXACT_PARENT_AND_PRODUCTION_MODEL_CONTRACT')
     for name,pin in m['files'].items():

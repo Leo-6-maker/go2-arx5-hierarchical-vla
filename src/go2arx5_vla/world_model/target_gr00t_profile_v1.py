@@ -43,6 +43,24 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
 
 
 def validate(spec):
+    if spec.get('profile')=='TASK_LEARNING_GR00T_V1':
+        from .task_learning_training_profile_v1 import validate as continuous
+        return continuous(spec)
+    return validate_original(spec)
+
+
+def expected_recipe(p):
+    if p.get('profile')=='TASK_LEARNING_GR00T_V1':
+        from .task_learning_training_profile_v1 import recipe as continuous
+        return continuous(p.get('dataset_sha256'),p.get('statistics_sha256'),
+            endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),seed=p.get('seed'))
+    need(p.get('profile')==PROFILE,'EXPLICIT_ORIGINAL_OR_CONTINUOUS_RECIPE')
+    return recipe(p.get('dataset_sha256'),p.get('statistics_sha256'),mode=p.get('mode'),
+        variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),
+        memory_policy=p.get('memory_policy','CUDA_RESIDENT'))
+
+
+def validate_original(spec):
     p=spec.get('recipe')or{}
     expected=recipe(p.get('dataset_sha256'),p.get('statistics_sha256'),
         mode=p.get('mode'),variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),

@@ -30,7 +30,7 @@ def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_ta
     hosts = {h.split('/')[0].split('.')[0] for h in record.get('exec_host','').split('+')}
     profile.need(uid == 22182 and user == 'e1192548' and record['Job_Owner'].split('@')[0] == user
         and record['job_state'] == 'R' and record['project'] == PROJECT
-        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200')
+        and expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft')
         and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
         and 'gpu_model=H200' in resources['select'] and hostname.split('.')[0] in hosts
@@ -42,8 +42,24 @@ def site(spec):
     recipe = profile.validate(spec)
     root = Path(spec['registered_root'])
     jid = os.environ.get('PBS_JOBID')
+    continuous=spec.get('profile')=='TASK_LEARNING_GR00T_V1'
+    if continuous:
+        from .task_learning_training_profile_v1 import PROJECT_ROOT
+        from .stable_task_scene_v1 import pinned
+        storage=pinned(spec['project_storage_admission'])
+        profile.need(spec.get('pbs_job_name')=='gr00t_task_sft'
+            and storage.get('schema')=='TASK_LEARNING_OWN_PROJECT_STORAGE_ADMISSION_V1'
+            and storage.get('project')==PROJECT and storage.get('own_root')==PROJECT_ROOT
+            and storage.get('own_uid')==os.getuid()==22182
+            and storage.get('project_group_membership_verified')is True
+            and storage.get('quota_remaining_bytes',0)>storage.get('predicted_new_peak_bytes',0)>0
+            and Path(PROJECT_ROOT).resolve()==Path(PROJECT_ROOT)
+            and Path(PROJECT_ROOT).stat().st_uid==os.getuid()
+            and root.is_relative_to(Path(PROJECT_ROOT))and root.stat().st_uid==os.getuid(),
+            'ACTUAL_OWN_REGISTERED_PROJECT_SCRATCH_FOR_NEW_TASK_ONLY')
     profile.need(bool(jid) and root.resolve() == root
-        and root.is_relative_to(Path('/scratch/e1192548/Projects/GR00T-WBC')), 'HOPPER_COMPUTE_SCRATCH')
+        and (continuous or root.is_relative_to(Path('/scratch/e1192548/Projects/GR00T-WBC'))),
+        'HOPPER_COMPUTE_SCRATCH')
     actual = job(jid, spec.get('pbs_server'))
     allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename, user=os.environ.get('USER'),
         expected_job_name=spec.get('pbs_job_name','gr00t_task_hopper'))
@@ -51,12 +67,16 @@ def site(spec):
     profile.need(lease['status'] == 'ACTIVE' and lease['job_id'] == jid
         and lease['spec_sha256'] == digest(root / 'EXECUTION_SPEC.json'), 'NEW_HOPPER_CHILD_LEASE')
     registry = json.loads(Path(spec['registry']).read_text())
-    profile.need(any(e.get('path') == str(root) and e.get('scope') == profile.PROFILE
+    profile.need(any(e.get('path') == str(root) and e.get('scope') == spec['profile']
         and e.get('source_sha') == spec['source_sha'] for e in registry['entries']), 'CANONICAL_HOPPER_REGISTRY')
     for name,pin in spec['source_files'].items():
         profile.need(digest(Path(spec['source_root']) / name) == pin, 'SEALED_HOPPER_SOURCE_' + name)
     profile.need(time.time() + spec['closeout_reserve_s'] < spec['deadline_epoch']
         and spec['closeout_reserve_s'] >= 1200, 'FRESH_FINITE_HOPPER_WINDOW')
+    if continuous:
+        from .task_learning_training_admission_v1 import validate as admit
+        from .storage import write_json
+        write_json(root/'TASK_LEARNING_ADMISSION_ACTUAL.json',admit(spec))
     return recipe
 
 

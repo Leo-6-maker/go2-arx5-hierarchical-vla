@@ -67,7 +67,10 @@ def site(spec):
     return p
 
 
-def action_contract(model,variant):
+def action_contract(model,variant,*,profile_name=profile.PROFILE):
+    """Select the original action tensors; the profile names their provenance."""
+    profile.need(profile_name in(profile.PROFILE,'TASK_LEARNING_GR00T_V1'),
+        'EXPLICIT_ORIGINAL_OR_CONTINUOUS_ACTION_PARAMETER_IDENTITY')
     from scripts.pi0294.generalization.minimal_adapter import ParameterContract,LEAVES
     base=ParameterContract(model,'E1_ADAPTER_ONLY',10)
     names=profile.whitelist(tuple(dict(model.named_parameters())),base.trainable_names,variant)
@@ -85,7 +88,7 @@ def action_contract(model,variant):
             self.validate()
             rows=[dict(name=n,shape=list(model.get_parameter(n).shape),numel=model.get_parameter(n).numel(),
                 dtype=str(model.get_parameter(n).dtype))for n in names]
-            return dict(profile=profile.PROFILE,variant=variant,target_category=10,
+            return dict(profile=profile_name,variant=variant,target_category=10,
                 trainable=rows,trainable_numel=sum(r['numel']for r in rows),
                 visual_and_language_backbone_frozen=True,external_adapter_trainables=0)
     return Contract()
@@ -93,6 +96,15 @@ def action_contract(model,variant):
 
 def semantic_recipe(p):
     return {k:v for k,v in p.items()if k not in ('endpoint','initial_optimizer')}
+
+
+def dataset_type(recipe):
+    if recipe.get('profile')=='TASK_LEARNING_GR00T_V1':
+        from .task_learning_native_dataset_v1 import TaskLearningNativeDataset
+        return TaskLearningNativeDataset
+    profile.need(recipe.get('profile')==profile.PROFILE,'EXPLICIT_TARGET_DATASET_PROFILE')
+    from .target_gr00t_dataset_v1 import TargetNativeDataset
+    return TargetNativeDataset
 
 
 def gpu_identity(torch,spec):
@@ -200,7 +212,7 @@ def load_checkpoint(path,pin,*,model,contract,trainer,spec,guard):
 
 def run(spec):
     p=site(spec)
-    from .target_gr00t_dataset_v1 import TargetNativeDataset
+    Dataset=dataset_type(p)
     from scripts.pi0294.native_dataset import official_import,ProcessedCollator
     from scripts.pi0294.numerics import prepare_environment,configure_torch,MODE
     from scripts.pi0292.durable import write
@@ -215,11 +227,13 @@ def run(spec):
     for name,pin in spec['parent']['files'].items():
         path=parent/name
         profile.need(path.resolve().is_relative_to(parent)and digest(path)==pin,'ACTUAL_ORIGINAL_CORR_PARENT:'+name)
-    data=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],
+    data=Dataset(bindings['dataset'],bindings['source'],bindings['cosmos'],
         for_optimization=True,trace_root=root/'sample-trace',optimization_site=spec['execution_site'])
     profile.need(data.manifest_sha==p['dataset_sha256']and data.statistics_sha==p['statistics_sha256'],
                  'SEALED_REAL_TARGET_TRAIN_AND_PROCESSOR')
-    profile.need(data.manifest.get('bundle_kind')==('FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC'),
+    bundle=('FORMAL_TASK_LEARNING_V1'if p['profile']=='TASK_LEARNING_GR00T_V1'else
+        'FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC')
+    profile.need(data.manifest.get('bundle_kind')==bundle,
                  'FIT4_QUALIFICATION_NOT_FORMAL_MODEL')
     prepare_environment(MODE);official_import(bindings['source'])
     import torch
@@ -238,7 +252,7 @@ def run(spec):
     if p.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2':
         from .target_gr00t_core_v1 import trim_unused_logits
         trim_unused_logits(model)
-    contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
+    contract=action_contract(model,p['variant'],profile_name=p['profile']);model.to('cuda').eval();data.initialize()
     activation_storage=None
     if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'):
         from .target_gr00t_core_v1 import activation_policy
@@ -265,7 +279,7 @@ def run(spec):
     from .target_gr00t_probes_v1 import measure as probe
     instance=E1ResidentModel.__new__(E1ResidentModel)
     instance.root,instance.bindings,instance.model,instance.processor=root,bindings,model,data.processor
-    instance.identity=dict(kind=profile.KIND,parent_manifest_sha256=profile.PARENT,
+    instance.identity=dict(kind=p['kind'],parent_manifest_sha256=profile.PARENT,
         statistics_sha256=data.statistics_sha,dataset_sha256=data.manifest_sha,
         source_sha=spec['source_sha'],generation_id=spec['generation_id'],mode=p['mode'],variant=p['variant'],
         source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
@@ -277,7 +291,7 @@ def run(spec):
             verify_memory_predictions(spec['memory_reference'],root/'before'))
     dev=None
     if p['mode']=='FORMAL':
-        dev=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')
+        dev=Dataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')
         dev.processor=data.processor
         probe(root,'before-DEV',instance,dev)
     set_seed(p['seed'])
@@ -418,7 +432,7 @@ def run(spec):
     if p['mode']=='FORMAL'and step==p['endpoint']:
         package=_package_and_reconstruct(root,cp,spec,proof,model,trainer,instance,data,guard)
         measured('AFTER_PACKAGE_INDEPENDENT_RECONSTRUCTION')
-    return dict(status='CHECKPOINT_SEALED',profile=profile.PROFILE,source_sha=spec['source_sha'],
+    return dict(status='CHECKPOINT_SEALED',profile=p['profile'],source_sha=spec['source_sha'],
         generation_id=spec['generation_id'],global_step=step,GR00T_updates=step-spec['start_step'],
         sample_visits=(step-spec['start_step'])*32,WM_updates=0,Actor_updates=0,external_adapter_updates=0,
         actual_VLA_queries=len(list(root.glob('*/journal/Q*.json'))),
