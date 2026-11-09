@@ -1,0 +1,226 @@
+{
+  "schema": "WM02_HOPPER_PROJECT_QUEUE_ROOT_CAUSE_ACTUAL_V1",
+  "observed_at_sgt": "2026-11-10T01:05:25.042862+08:00",
+  "source_sha_before_this_report": "42777962b431fd2a7da2160fc2aa58fd959cbf47",
+  "kind": "READ_ONLY_SCHEDULER_AND_OFFICIAL_PROJECT_DIAGNOSIS",
+  "result": "PROJECT_BOUND_AND_FUNDED_MATCHING_H200_POOL_FULL",
+  "jobs": [
+    {
+      "role": "processor",
+      "job_id": "708392.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-007",
+      "queue": "small",
+      "hold_types": "n",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+      "queued_since_site_local": "Mon Nov  9 20:23:20 2026",
+      "request": {
+        "select": "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB",
+        "ngpus": 1,
+        "ncpus": 12,
+        "mem": "225gb",
+        "walltime": "00:30:00"
+      },
+      "estimated_start": null
+    },
+    {
+      "role": "scan",
+      "job_id": "707720.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-007",
+      "queue": "small",
+      "hold_types": "n",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+      "queued_since_site_local": "Mon Nov  9 13:17:27 2026",
+      "request": {
+        "select": "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB",
+        "ngpus": 1,
+        "ncpus": 12,
+        "mem": "225gb",
+        "walltime": "02:00:00"
+      },
+      "estimated_start": null
+    }
+  ],
+  "project": {
+    "name": "CFP04-CF-007",
+    "active": true,
+    "start_date": "2026-03-13",
+    "end_date": "2027-03-12",
+    "submitting_user_is_member": true,
+    "gpu_hours_remaining": 861612.274999999,
+    "cpu_hours_reported": 0.0,
+    "cpu_hours_zero_is_not_evidence_of_a_hopper_gpu_block": true
+  },
+  "project_auth": {
+    "initial_query": "AMGR_TOKEN_EXPIRED",
+    "first_reauthentication": "DEFAULT_AUTH_SERVICE_TIMEOUT",
+    "second_reauthentication": "SUCCESS_WITH_COMMAND_SCOPED_AM_AUTH_TIMEOUT_45",
+    "post_auth_live_project_and_balance_queries": "PASS",
+    "caused_original_pbs_queueing": "NOT_ESTABLISHED_AND_NOT_THE_RECORDED_SCHEDULER_REASON",
+    "credentials_published": false,
+    "system_configuration_changed": false,
+    "reauthentication_attempts": 2,
+    "successful_reauthentications": 1
+  },
+  "capacity_by_pool_and_model": [
+    {
+      "node_pool": "aisg",
+      "gpu_model": "H200",
+      "node_count": 16,
+      "gpus_total": 128,
+      "gpus_assigned": 98,
+      "gpus_online_unassigned": 14,
+      "gpus_offline_unassigned": 16
+    },
+    {
+      "node_pool": "nus_hpc",
+      "gpu_model": "H100",
+      "node_count": 4,
+      "gpus_total": 32,
+      "gpus_assigned": 16,
+      "gpus_online_unassigned": 8,
+      "gpus_offline_unassigned": 8
+    },
+    {
+      "node_pool": "nus_hpc",
+      "gpu_model": "H200",
+      "node_count": 16,
+      "gpus_total": 128,
+      "gpus_assigned": 128,
+      "gpus_online_unassigned": 0,
+      "gpus_offline_unassigned": 0
+    },
+    {
+      "node_pool": "nus_hpc_large",
+      "gpu_model": "H200",
+      "node_count": 4,
+      "gpus_total": 32,
+      "gpus_assigned": 32,
+      "gpus_online_unassigned": 0,
+      "gpus_offline_unassigned": 0
+    },
+    {
+      "node_pool": "nus_hpc_medium",
+      "gpu_model": "H200",
+      "node_count": 4,
+      "gpus_total": 32,
+      "gpus_assigned": 32,
+      "gpus_online_unassigned": 0,
+      "gpus_offline_unassigned": 0
+    }
+  ],
+  "matching_pool": {
+    "node_pool": "nus_hpc",
+    "gpu_model": "H200",
+    "gpus_total": 128,
+    "gpus_assigned": 128,
+    "gpus_online_unassigned": 0
+  },
+  "own_active_job_state_counts": {
+    "queued": 3,
+    "running": 0
+  },
+  "queue_policies": {
+    "small": {
+      "Priority": 100,
+      "enabled": "True",
+      "started": "True",
+      "state_count": "Transit:0 Queued:222 Held:193 Waiting:0 Running:78 Exiting:0 Begun:3 ",
+      "default_chunk": {
+        "node_pool": "nus_hpc"
+      },
+      "max_run": "[u:PBS_GENERIC=2]",
+      "resources_min": {
+        "ngpus": 1,
+        "walltime": "00:00:00"
+      },
+      "resources_max": {
+        "ngpus": 2,
+        "nodes": 1,
+        "walltime": "72:00:00"
+      }
+    },
+    "smallx": {
+      "Priority": 200,
+      "enabled": "True",
+      "started": "True",
+      "state_count": "Transit:0 Queued:68 Held:89 Waiting:0 Running:34 Exiting:0 Begun:0 ",
+      "default_chunk": {
+        "node_pool": "nus_hpc"
+      },
+      "max_run": "[u:PBS_GENERIC=3]",
+      "resources_min": {
+        "ngpus": 1,
+        "walltime": "00:00:00"
+      },
+      "resources_max": {
+        "ngpus": 2,
+        "nodes": 1,
+        "walltime": "144:00:00"
+      }
+    }
+  },
+  "official_submission_guidance": {
+    "source": "ON_NODE_OFFICIAL_HPC_COMMAND",
+    "project_option": "-P Project-Name",
+    "standard_cpu_per_gpu": 12,
+    "standard_host_memory_gb_per_gpu": 225,
+    "standard_small_all_project_users": true,
+    "express_route": "autox",
+    "express_small_queue": "smallx",
+    "express_eligibility": "SELF_FUNDED_PROJECT_USERS_ONLY",
+    "current_project_express_eligibility": "NOT_ESTABLISHED",
+    "queue_priority_does_not_establish_actual_per_job_rank": true
+  },
+  "findings": [
+    "Both actual PBS jobs explicitly contain project CFP04-CF-007; neither is held.",
+    "Project is active, submitting account is a member, and positive GPU-hour balance is independently confirmed.",
+    "The live matching H200 pool has zero unassigned online GPUs; both jobs explicitly report insufficient ngpus.",
+    "The small queue running limit is two per user; this account currently has zero running jobs, so that running limit is not exhausted.",
+    "Twelve CPUs and 225 GB host memory per GPU match official Hopper guidance; they are not shown to be accidental over-requests.",
+    "Some nus_hpc H100 GPUs are unassigned, but these do not match the current H200 model request.",
+    "Unassigned AISG H200 capacity belongs to a distinct pool; current project access is not established.",
+    "PBS node state free alone does not imply unassigned GPU resources; assigned resource counters were used.",
+    "The smallx queue has higher configured priority and shares nus_hpc, but official Express eligibility is restricted; no unauthorized project or queue switch was made."
+  ],
+  "limits": {
+    "estimated_start_available": false,
+    "queue_position_available": false,
+    "other_users_job_details_visible": "False",
+    "eligible_time_enabled": "False",
+    "fairshare_or_reservations_fully_visible": false,
+    "explanation": "The immediate resource shortage is evidenced; exact dispatch order and future start time cannot be derived from queue totals or project balance."
+  },
+  "actual_effects": {
+    "qsub": 0,
+    "qdel": 0,
+    "qmove": 0,
+    "resource_request_changes": 0,
+    "other_user_changes": 0,
+    "training_updates": 0,
+    "formal_sft_started": false,
+    "official_project_reauthentication_successes": 1
+  },
+  "preserved": [
+    "708392 original identity and request",
+    "707720 original identity and request",
+    "unrelated own queued job",
+    "existing unique successor controllers",
+    "frozen experiment recipe and sealed data"
+  ],
+  "evidence": [
+    {
+      "kind": "PRIVATE_RAW_DIAGNOSIS",
+      "sha256": "d6cb7715f84c7f304fe5acb85354c6c727854f9e04bca01467068b6168f3611c"
+    },
+    {
+      "kind": "PRIVATE_OFFICIAL_SUBMISSION_AND_GPU_POLICY",
+      "sha256": "d7fb2a423e08bf9f9b5103518f021d95bf5ea148471d48ae5e38346c05b2bfad"
+    },
+    {
+      "kind": "PRIVATE_OFFICIAL_OWN_PROJECT_BALANCE_TABLE",
+      "sha256": "20bbb2ed0fa1a3f1525595a731b6ce59f4837971f141646006c7b8c881a6956c"
+    }
+  ]
+}
