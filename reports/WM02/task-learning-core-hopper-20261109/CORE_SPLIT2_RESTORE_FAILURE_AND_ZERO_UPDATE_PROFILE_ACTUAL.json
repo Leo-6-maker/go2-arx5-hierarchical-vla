@@ -1,0 +1,113 @@
+{
+  "schema": "CORE_SPLIT2_RESTORE_FAILURE_AND_ZERO_UPDATE_PROFILE_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T22:45:48.941700+00:00",
+  "SGT": "2026-11-10T06:45:48.941700+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "source_sha": "29a6388b57b6d60a10f3f55a1a064bc3488c1416",
+  "role10": {
+    "source_sha": "1740208e8ae1a0db49103b937d6d2212a7c235ab",
+    "status": "CLOSED",
+    "worker_exit_code": 1,
+    "master_and_child_processes_absent": true,
+    "actual_model_loads": 1,
+    "completed_optimizer_calls": 2,
+    "nonzero_LR_calls": 1,
+    "cursor": 64,
+    "actual_allocator_limit_bytes": 30064771072,
+    "complete_checkpoint2_members": 15,
+    "complete_checkpoint2_bytes": 15659943016,
+    "trained_H40_probe_attempts": 4,
+    "original_parent_H40_bit_exact": 4,
+    "loss_gradient_noise_RNG_comparison": "PASS_ORIGINAL_ALL537_TENSORS",
+    "failure": "Original AdamW reload returned, then moving frozen backbone back to GPU requested48MiB beyond declared28GiB allocator; full restore not sealed",
+    "master_result_sha256": "a6be1546cba30fd606f2df0def3d408614e3329cfa6b3899ba730a5585574019",
+    "child_result_sha256": "4b6578cc0a501d20fadad23a0727d5eac7e2a9193e5fb94b59ee5bd3856a4544",
+    "resume4": "NOT_RUN",
+    "old_deadline_changed": false
+  },
+  "historical_original_Core_Trainer": {
+    "GPU_roles_closed_failure": 8,
+    "completed_optimizer_calls": 9,
+    "nonzero_learning_rate_calls": 4,
+    "CPU_pre_registry_failures": 2,
+    "continuous4_reference_role07": "COMPLETE_CHECKPOINTS_RETAINED_NOT_REPEATED",
+    "fresh_split2_reference_role10": "COMPLETE_CHECKPOINT2_RETAINED_NOT_REPEATED",
+    "full4_vs2plus2_qualification": false,
+    "formal_TRAIN100_updates": 0
+  },
+  "actual_CPU_optimizer_lifetime_probe": {
+    "torch_version": "2.9.0+cu128",
+    "training_state_refs_after_clear_before_GC": 0,
+    "training_state_refs_after_GC": 0,
+    "loaded_state_refs_after_clear_before_GC": 0,
+    "loaded_state_refs_after_GC": 0,
+    "gc_collected": [
+      1834,
+      13
+    ],
+    "CUDA_initialized": false,
+    "tiny_CPU_AdamW_calls": 1,
+    "GR00T_optimizer_calls": 0
+  },
+  "cause_limit": "Tiny native CPU AdamW did not retain old state after clear. A generic garbage-collection explanation is unproven; do not repeat training on that assumption.",
+  "zero_update_restore_memory_profile": {
+    "operation": "FULL_STATE_RESTORE_MEMORY_ONLY",
+    "source_sha": "29a6388b57b6d60a10f3f55a1a064bc3488c1416",
+    "status": "REGISTERED_CPU_PREFLIGHT_PASSED_WAIT_ACTUAL_CAPACITY",
+    "fixed_allocator_bytes": 30064771072,
+    "required_GPU_free_bytes": 32212254720,
+    "required_host_available_bytes": 40802189312,
+    "config_sha256": "943d3cbc2c0037b39c4a2d49b782ebeb09fc5f265bf736e2269b4a73ca4d77fb",
+    "deadline_epoch": 1794267892.4616613,
+    "capacity_follower_pid": 3966294,
+    "capacity_follower_alive": true,
+    "actual_GPU_dispatches": 0,
+    "actual_model_loads": 0,
+    "optimizer_calls": 0,
+    "current_GPU_free_bytes": 2308964352,
+    "current_host_available_bytes": 34487463936,
+    "original_NativeTrainer_AdamW_scheduler_and_load_checkpoint": true,
+    "old_complete_step2_used_as_diagnostic_reference_only": true,
+    "formal_training": false,
+    "success_would_not_grant_full8_qualification": true
+  },
+  "original_Hopper_metadata_import": {
+    "status": "PASS_ACTUAL_PRIVATE_REFERENCE_IMPORT_AND_CORE_RUNTIME_KERNEL_COMPARISON",
+    "members_verified": 14,
+    "canonical_registry_entries": 1,
+    "original_owner_IMPORT_journal_status": "COMPLETE",
+    "import_receipt_sha256": "2e3b5684513e1906297776980ccebdd5a7a8afd14bfb60a016ca7aa3108c32b0",
+    "original_CORR_parent_files_exact": true,
+    "Core_Hopper_official_Trainer_model_Processor_code_byte_exact": true,
+    "training_math_unchanged": true,
+    "model_weights_imported": false,
+    "CUDA_initialized": false
+  },
+  "original_TRAIN100_inputs": {
+    "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "canonical_readable_shared_data_verified": true,
+    "sealed_data_owner_differs_from_runtime_UID": true,
+    "ownership_change_required_or_performed": false,
+    "Core_original_Processor_windows": 1450,
+    "maximum_roundtrip_error": 4.3481549250046214e-08
+  },
+  "software_checks": {
+    "passed": 109,
+    "source_sha": "29a6388b57b6d60a10f3f55a1a064bc3488c1416",
+    "native_Sampler_Trainer_Audit_load_checkpoint_AST_unchanged": true,
+    "checks_are_native_qualification": false
+  },
+  "formal_writer": "Hopper709342_ONLY; no competing Core formal job",
+  "next_gate": "Profile actual fresh and second full-state restoration when capacity is available; preserve completed continuous4 and split2 rather than repeating updates. Formal Hopper mainline proceeds independently.",
+  "private_evidence": {
+    "CORE_NATIVE_FULL10_TERMINAL_FAILURE_ACTUAL.private.json": "6a9a7bb754fa3f7b304893be63314c5aaf3461cf99d4bc25bd4069c24b371250",
+    "CORE_NATIVE_FULL10_RESTORE_MEMORY_AND_ACTUAL_OPTIMIZER_ACCESSORS.private.json": "de9d4a22089d19243f37ab224ae5d40dddc8bf228e8d4a7ba5fa446bb2e45bb4",
+    "CORE_ACTUAL_OPTIMIZER_CPU_LIFETIME_PROBE_ACTUAL.private.json": "7a2c4a7a0a1a8398187af91a278d5bffe8ee1eeac97addd3218dce71cd4de814",
+    "CORE_ORIGINAL_FIT4_REFERENCE_IMPORT_INDEPENDENT_ACTUAL.private.json": "83214a9895395f8089b5d8c290cfa6517f23b78c8eb9669814d7851068406c21",
+    "CORE_FORMAL_TRAIN100_INPUTS_COMPARISON_ACTUAL02.private.json": "78dc5d7cea6889b2a1f678f1dd5815b79300c4fd5bbd16a90c1fa212b616eb7f",
+    "CORE_RESTORE_MEMORY01_PREPARATION_LOCAL_ACTUAL.private.json": "ea1c7df05eaf305878ddb9743ef850dd91dd5faec9176ded220a5f9aa05b40d1",
+    "FORMAL_SFT_AND_ORIGINAL_CONTROLLERS_INDEPENDENT_CURRENT.private.json": "07ba391e4e59ab958ae3f1f2faaf38fee09b25efc90752ae24905330c255797a"
+  }
+}
