@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T23:02:19.465020+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T23:15:12.954023+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -28,7 +28,7 @@
     "failed_PBS_pre_worker_negative_exit_jobs": 2,
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY_PROFILE_REGISTERED_WAIT_CAPACITY",
-    "current_formal_SFT": "709342 R_SINGLE_H200; ACTUAL273_OF2000_UPDATES_8736_VISITS; COMPLETE_CP250_WRITTEN_NOT_RESTORED"
+    "current_formal_SFT": "709342 R_SINGLE_H200; ACTUAL560_OF2000_UPDATES17920_VISITS; COMPLETE_CP250_AND500_WRITTEN_NOT_RESTORED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -227,8 +227,8 @@
     "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
     "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP273_CP250",
-  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP273_CP250; ENDPOINT_PACKAGE_CORE40_DEV80_TEST_NOT_COMPLETE",
+  "G3": "TRAIN100100_CLOSED0; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_RUNNING_STEP560_CP500",
+  "G4_G7": "FORMAL_FIRST2000_RUNNING_STEP560; FIXED500_TRAIN40_DEV20_FIT_IMPROVES; ENDPOINT_PACKAGE_CORE40_DEV80_TEST_NOT_COMPLETE",
   "next_gate": "Keep healthy709342 to endpoint2000 and actual full restore/private package; existing Core40/fullDEV80; only the sealed complete scientific decision may trigger4000/8000",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
@@ -282,7 +282,7 @@
     "controller_transition": "06 failed before registration on redundant AMGR query gate; independently reconciled zero effects; actual formal709342 submitted once; cold wait-and-delivery07 preserves original deadline",
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": 3665222,
-    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP273_COMPLETE_CP250",
+    "Core_model_package": "NOT_DELIVERED; FORMAL709342_RUNNING_STEP560_CP500",
     "Core_current_resource": "GPU_FREE_2308964352_HOST_AVAILABLE_34487463936_BYTES; NO_PACKAGE",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
@@ -368,11 +368,21 @@
     "schedule_horizon": 8000,
     "warmup_updates": 200,
     "report": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json",
-    "actual_optimizer_calls": 273,
-    "actual_sample_visits": 8736,
+    "actual_optimizer_calls": 560,
+    "actual_sample_visits": 17920,
     "actual_model_loads": 1,
-    "last_complete_checkpoint_step": 250,
-    "last_complete_checkpoint_sha256": "a2d7a3725b3e8df7625e1552d12fa2e4b1f514131a943c87ca75edcae360cea3",
-    "independent_full_restore": "NOT_RUN"
+    "last_complete_checkpoint_step": 500,
+    "last_complete_checkpoint_sha256": "a2d9cfcd9d04ea7507f355d46c090f4c4b78410a417b5ac2fefe54cde552d5e0",
+    "independent_full_restore": "NOT_RUN",
+    "fixed500_open_loop_actual": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json"
+  },
+  "EARLY_FIXED500_DIAGNOSTIC": {
+    "report": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "TRAIN_key_H40_XYZ_before_m": 0.00616333799407317,
+    "TRAIN_key_H40_XYZ_after_m": 0.0012006945119847293,
+    "DEV_key_H40_XYZ_before_m": 0.006103392363379497,
+    "DEV_key_H40_XYZ_after_m": 0.0013194407255024728,
+    "closed_loop_capability_established": false,
+    "scientific_promotion": false
   }
 }

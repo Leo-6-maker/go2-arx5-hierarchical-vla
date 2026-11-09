@@ -1,7 +1,7 @@
 {
   "schema": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL_V1",
-  "EVIDENCE_ASOF": "2026-11-09T23:02:19.465020+00:00",
-  "SGT": "2026-11-10T07:02:19.465020+08:00",
+  "EVIDENCE_ASOF": "2026-11-09T23:15:12.954023+00:00",
+  "SGT": "2026-11-10T07:15:12.954023+08:00",
   "goal_status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "formal_job": {
@@ -41,19 +41,19 @@
   },
   "actual_training": {
     "endpoint": 2000,
-    "global_step": 273,
-    "completed_optimizer_calls": 273,
-    "sample_visits": 8736,
-    "progress_epoch": 1794265338.5774758,
-    "worker_elapsed_wall_s": 814.3160981649999,
-    "optimizer_step_rows": 273,
+    "global_step": 560,
+    "completed_optimizer_calls": 560,
+    "sample_visits": 17920,
+    "progress_epoch": 1794266110.8975725,
+    "worker_elapsed_wall_s": 1586.6361949809361,
+    "optimizer_step_rows": 560,
     "last_step": {
-      "consumed_cursor": 8736,
-      "epoch": 1794265338.5774589,
-      "learning_rate": 9.998055054253012e-05,
-      "native_loss": 0.009581968188285828,
-      "optimizer_update_wall_s": 1.3505134059814736,
-      "step": 273
+      "consumed_cursor": 17920,
+      "epoch": 1794266110.8975363,
+      "learning_rate": 9.95277879752973e-05,
+      "native_loss": 0.08871228247880936,
+      "optimizer_update_wall_s": 1.3603151809656993,
+      "step": 560
     },
     "full_before_probe_records": 40,
     "WM_updates": 0,
@@ -98,7 +98,8 @@
     "TEST": "NOT_RUN",
     "training_loss_is_task_success": false,
     "checkpoint250_independent_full_restore": "NOT_RUN",
-    "checkpoint250_promoted_to_formal_endpoint": false
+    "checkpoint250_promoted_to_formal_endpoint": false,
+    "checkpoint500_independent_full_restore": "NOT_RUN"
   },
   "previous_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
   "next_gate": "Keep healthy formal job running; complete all-state checkpoints and endpoint2000, actual restore and private delivery, then original Core40 and fullDEV80; no promotion from partial progress",
@@ -106,7 +107,11 @@
     "HOPPER_FORMAL_SFT2000_RUNNING_1794264675911554317.private.json": "a27c4adba04e5cee6208531e1ed3df427bbe57188986642097133306c4a30eed",
     "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794265338976663657.private.json": "246fb73f69de571520fcc6a9433e161434ddad797926e212716cae738b73bb21",
     "HOPPER_FORMAL_SFT2000_RUNNING_1794265339608188088.private.json": "944eb0df01973273f5be1591bda770925cdb54178026fee1875eeecab0326e53",
-    "FORMAL_CP250_AND_COLD_SUCCESSOR_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "a72424ca89a216c48fbf3e8a16b3c622c3071fd807a69b2a9e83abd5148f9dbc"
+    "FORMAL_CP250_AND_COLD_SUCCESSOR_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "a72424ca89a216c48fbf3e8a16b3c622c3071fd807a69b2a9e83abd5148f9dbc",
+    "HOPPER_FORMAL_FIXED_PHASE_SUMMARIES_1794266050840960992.private.json": "ce6df76e416dbde20cb836e143386a357ce14a279d4c867c4701f62117b3c296",
+    "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794266112455103299.private.json": "47ff95a8f70ca3c7b0927b4ac9b82809b55b65cd8452bdc85b112ec9a499c8d4",
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794266113102669004.private.json": "e5fac06763daced0ae4edf937439b414f61595b8041297b9315494fde2005cff",
+    "FORMAL500_ORIGINAL_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "d28cf81831af6ab0cb5ecc0b41fa1e95b90a1a2ddff75d8b12860a4335c61622"
   },
   "initial_same_generation_step0_probes": {
     "before": {
@@ -157,12 +162,39 @@
       "all_declared_members_present": true,
       "full_member_hashes_recomputed_on_login": false,
       "independent_full_restore": "NOT_RUN"
+    },
+    {
+      "step": 500,
+      "cursor": 16000,
+      "header_sha256": "a2d9cfcd9d04ea7507f355d46c090f4c4b78410a417b5ac2fefe54cde552d5e0",
+      "member_count": 15,
+      "bytes": 15668195600,
+      "files_metadata": {
+        "rng_state.pth": 14645,
+        "trainer_state.json": 68013,
+        "PROCESSOR_TRAINING_ADMISSION.json": 3247159,
+        "PROCESSOR_HOPPER_RECONSTRUCTION.json": 3247245,
+        "DATASET_MANIFEST.json": 1774809,
+        "PARAMETER_CONTRACT.json": 100858,
+        "target_parameters.pt": 5219838915,
+        "statistics.json": 6515,
+        "SAMPLER_STATE.json": 2284,
+        "optimizer.pt": 10439770966,
+        "scheduler.pt": 1465,
+        "FROZEN_PARENT_TENSORS.json": 112424,
+        "processor/processor_config.json": 3173,
+        "processor/embodiment_id.json": 615,
+        "processor/statistics.json": 6514
+      },
+      "all_declared_members_present": true,
+      "full_member_hashes_recomputed_on_login": false,
+      "independent_full_restore": "NOT_RUN"
     }
   ],
   "prefix_audit": {
     "status": "PASS_ACTUAL_PREFIX_EXPOSURE_AND_ORIGINAL_CONTINUOUS_SCHEDULE",
-    "checked_optimizer_calls": 273,
-    "sample_visits": 8736,
+    "checked_optimizer_calls": 560,
+    "sample_visits": 17920,
     "all_rows_monotone_unique": true,
     "all_cursors_exact_batch32": true,
     "all_LRs_match_original_8000_warmup200": true,
@@ -175,12 +207,13 @@
       "optimizer_update_wall_s": 1.3193627570290118,
       "step": 200
     },
-    "timed_update_median_last50_s": 1.335416879504919,
-    "end_to_end_interval_median_last50_s": 2.4575871229171753,
+    "timed_update_median_last50_s": 1.3519809764111415,
+    "end_to_end_interval_median_last50_s": 2.5383360385894775,
     "timestamps": "Per-step interval is distinct from timed optimizer-update span; medians exclude occasional save/probe overhead"
   },
   "GPU_memory_summary": {
     "maximum_peak_allocated_bytes": 32265269760,
     "minimum_free_bytes": 114671288320
-  }
+  },
+  "fixed500_open_loop_actual": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json"
 }
