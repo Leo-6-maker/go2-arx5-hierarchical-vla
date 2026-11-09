@@ -1,0 +1,40 @@
+{
+  "schema": "TASK_LEARNING_HOPPER_FIT4_ONLY_PROGRESS_ACTUAL_V1",
+  "run_id": "task-learning-hopper-fit4-20261109-03",
+  "job_id": "707481.hopper-m-02",
+  "source_sha": "aec0a6ec25a818449fd600bd0b8becd12778b0b3",
+  "status": "SUBMITTED_RELEASED_PBS_QUEUE_WAIT_H200",
+  "PBS_state": "Q",
+  "PBS_comment": "Not Running: Insufficient amount of resource: ngpus ",
+  "PBS_resource_request": {
+    "GPUs": 1,
+    "GPU_model": "H200",
+    "ncpus": 12,
+    "mem": "225GB",
+    "wall_s": 7200
+  },
+  "qsub_attempts_this_identity": 1,
+  "held_resource_readback_passes": true,
+  "release_exit_code": 0,
+  "explicit_official_PBS_server_in_config_and_job_environment": true,
+  "official_project_and_balance_reconfirmed_after_login": true,
+  "site_read_epoch": 1794184527.4084976,
+  "original_full_restore_job": "707196.hopper-m-02",
+  "forecast": {
+    "status": "ACTUAL_FULL_RESTORE_REUSED_FOR_FRESH_FIT4_ONLY",
+    "predecessor_job_id": "707196.hopper-m-02",
+    "completed_optimizer_calls": 8,
+    "maximum_measured_update_wall_s": 7.448341219918802,
+    "conservative_predicted_s": 2536.5687171788886,
+    "endpoint": 200,
+    "load_probe_and_checkpoint_allowance_s": 600,
+    "closeout_reserve_s": 1200,
+    "qualification_weights_used_for_fit4": false
+  },
+  "new_model_or_data_download_bytes": 0,
+  "source_delta_bytes": 564174,
+  "original_Trainer_updates_observed": 0,
+  "prior_failed_FIT4_retained": "HOPPER_FIT4_ONLY02_PREMODEL_FAILURE_ACTUAL.json",
+  "old_CLOSED_reopened": false,
+  "EVIDENCE_ASOF": "2026-11-09T00:40:29.553242+00:00"
+}

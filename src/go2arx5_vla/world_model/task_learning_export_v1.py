@@ -117,6 +117,7 @@ def build_train_base(panel_path,groups,output):
             supervised_anchors=np.flatnonzero(packet['valid_window']).tolist(),
             optimization_anchors=e['optimization_anchor_schedule'],real_policy_decisions=15,
             supervised_policy_decisions=int(packet['valid_window'].sum()),
+            expert_stage_audit_only=packet['expert_stage_audit_only'].tolist(),
             genuine_recovery_success=e['genuine_recovery_success'],proof=e['proof']))
     write_json(output/'statistics.json',fit_statistics(checked['episodes']))
     manifest=dict(schema=SCHEMA,profile=PROFILE,domain=DOMAIN,bundle_kind='CONTINUOUS_TRAIN_BASE',
