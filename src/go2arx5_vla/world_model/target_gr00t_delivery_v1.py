@@ -164,19 +164,20 @@ def compare_generations(first, second, *, tolerance=1e-6):
     """Predeclared component tolerance, not selected after observing the result."""
     import numpy as np
     a,b=Path(first),Path(second)
-    one=json.loads((a/'RESULT.json').read_bytes())['records']
-    two=json.loads((b/'RESULT.json').read_bytes())['records']
-    profile.need(len(one)==len(two)==4,'FOUR_MATCHED_PACKAGE_RECONSTRUCTION_PROBES')
+    from .task_learning_probes_v1 import artifact,matched_count
+    first_meta=json.loads((a/'RESULT.json').read_bytes());second_meta=json.loads((b/'RESULT.json').read_bytes())
+    one,two=first_meta['records'],second_meta['records']
+    count=matched_count(first_meta,second_meta)
     maxima={k:0. for k in ('physical_H40','normalized')}
     for x,y in zip(one,two):
         profile.need(all(x[k]==y[k]for k in ('episode','split','anchor','seed','noise')),
                      'PACKAGE_SAME_REAL_INPUT_AND_NOISE')
-        with np.load(a/(x['episode']+'.npz'),allow_pickle=False)as za, np.load(b/(y['episode']+'.npz'),allow_pickle=False)as zb:
+        with np.load(artifact(a,x),allow_pickle=False)as za, np.load(artifact(b,y),allow_pickle=False)as zb:
             for key in maxima:
                 profile.need(za[key].shape==zb[key].shape and np.isfinite(za[key]).all()
                     and np.isfinite(zb[key]).all(),'FINITE_MATCHED_PACKAGE_OUTPUT_SHAPE')
                 maxima[key]=max(maxima[key],float(np.max(np.abs(za[key]-zb[key]))))
     profile.need(all(v<=tolerance for v in maxima.values()),'PACKAGE_RECONSTRUCTION_PREDICTION_MISMATCH')
     return dict(status='PASS_ACTUAL_INDEPENDENT_PARENT_DELTA_RECONSTRUCTION',
-        actual_matched_queries=4,absolute_component_tolerance=tolerance,max_abs_error=maxima,
+        actual_matched_queries=count,absolute_component_tolerance=tolerance,max_abs_error=maxima,
         Core_reconstruction='NOT_RUN',native_task_success='NOT_MEASURED_BY_RECONSTRUCTION')

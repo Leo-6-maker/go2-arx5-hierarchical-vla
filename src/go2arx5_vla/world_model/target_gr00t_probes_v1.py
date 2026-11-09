@@ -44,7 +44,8 @@ def measure(root,label,instance,data):
                     model_global_step=instance.identity['global_step'],model_identity=dict(instance.identity)))
                 if continuous:
                     records[-1].update(phase_audit_only=phase,
-                        genuine_recovery_audit_only=row.get('genuine_recovery_success')is True)
+                        genuine_recovery_audit_only=row.get('genuine_recovery_success')is True,
+                        sample_file=file.name)
     finally:
         random.setstate(py);np.random.set_state(np_state)
     result=dict(label=label,records=records,actual_VLA_queries=len(records),

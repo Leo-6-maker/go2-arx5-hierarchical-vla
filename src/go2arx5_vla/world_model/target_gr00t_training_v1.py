@@ -400,9 +400,12 @@ def run(spec):
         and trainer.lr_scheduler.state_dict()==saved_sched and rng_identity()==saved_rng,
         'ACTUAL_COMPLETE_STATE_RESTORE')
     restored_probes=probe(root,'restored',instance,data)
+    from .task_learning_probes_v1 import artifact,matched_count
+    matched_count(json.loads((root/after_folder/'RESULT.json').read_bytes()),
+        json.loads((root/'restored/RESULT.json').read_bytes()))
     for a,b in zip(after_probes,restored_probes):
-        with np.load(root/after_folder/(a['episode']+'.npz'),allow_pickle=False)as first, np.load(root/'restored'/(b['episode']+'.npz'),allow_pickle=False)as second:
-            profile.need(a['episode']==b['episode'] and a['noise']==b['noise']
+        with np.load(artifact(root/after_folder,a),allow_pickle=False)as first, np.load(artifact(root/'restored',b),allow_pickle=False)as second:
+            profile.need(a['episode']==b['episode']and a['anchor']==b['anchor']and a['noise']==b['noise']
                 and np.array_equal(first['physical_H40'],second['physical_H40']),
                 'FIXED_INPUT_NOISE_ACTUAL_RELOAD_GENERATION')
     if dev is not None:probe(root,'restored-DEV',instance,dev)

@@ -47,3 +47,28 @@ def test_old_short_probes_keep_the_original_first_four_episode_queries():
     result=selections(data)
     assert len(result)==4 and all(p is None for _,p in result)
     assert [data.rows[i][1]for i,_ in result]==[9]*4
+
+
+def test_multiple_real_phase_artifacts_survive_package_reconstruction(tmp_path):
+    import json
+    import numpy as np
+    from go2arx5_vla.world_model.task_learning_probes_v1 import contract,artifact
+    from go2arx5_vla.world_model.target_gr00t_delivery_v1 import compare_generations
+    data=fixture();records=[]
+    for index,phase in selections(data):
+        row,anchor=data.rows[index]
+        records.append(dict(episode=row['id'],split='TRAIN',anchor=anchor,seed=len(records),
+            noise=dict(fixture=len(records)),phase_audit_only=phase,
+            genuine_recovery_audit_only=row['genuine_recovery_success'],
+            sample_file=row['id']+f'-a{anchor:02d}.npz'))
+    for name in('first','second'):
+        folder=tmp_path/name;folder.mkdir()
+        for record in records:
+            np.savez(artifact(folder,record),physical_H40=np.zeros((40,10)),normalized=np.zeros((1,40,132)))
+        (folder/'RESULT.json').write_text(json.dumps(dict(records=records,selection_contract=contract())))
+    a,b=tmp_path/'first',tmp_path/'second'
+    assert compare_generations(a,b)['actual_matched_queries']==40
+    meta=json.loads((b/'RESULT.json').read_text());meta['records'].pop()
+    (b/'RESULT.json').write_text(json.dumps(meta))
+    with pytest.raises(ValueError,match='SAME_FIXED_REAL_PHASE_SELECTION_CONTRACT'):
+        compare_generations(a,b)

@@ -22,9 +22,10 @@ CROSS_SITE_ATOL=dict(XYZ_m=1e-4,rot6d_component=1e-3,gripper=1e-3,normalized_com
 def compare_cross_site(first,second):
     import numpy as np
     a,b=Path(first),Path(second)
-    one=json.loads((a/'RESULT.json').read_bytes())['records']
-    two=json.loads((b/'RESULT.json').read_bytes())['records']
-    profile.need(len(one)==len(two)==4,'FOUR_MATCHED_A40_CORE_TRAIN_OBSERVATIONS')
+    from .task_learning_probes_v1 import artifact,matched_count
+    first_meta=json.loads((a/'RESULT.json').read_bytes());second_meta=json.loads((b/'RESULT.json').read_bytes())
+    one,two=first_meta['records'],second_meta['records']
+    count=matched_count(first_meta,second_meta)
     maximum={k:0. for k in CROSS_SITE_ATOL}
     for x,y in zip(one,two):
         profile.need(all(x[k]==y[k]for k in ('episode','split','anchor','seed','noise')),
@@ -32,7 +33,7 @@ def compare_cross_site(first,second):
         profile.need(x['model_identity']['dataset_sha256']==y['model_identity']['dataset_sha256']
             and x['model_identity']['statistics_sha256']==y['model_identity']['statistics_sha256']
             and x['model_global_step']==y['model_global_step'],'EXACT_CROSS_SITE_MODEL_DATA_STATISTICS')
-        with np.load(a/(x['episode']+'.npz'),allow_pickle=False)as za, np.load(b/(y['episode']+'.npz'),allow_pickle=False)as zb:
+        with np.load(artifact(a,x),allow_pickle=False)as za, np.load(artifact(b,y),allow_pickle=False)as zb:
             left,right=za['physical_H40'],zb['physical_H40']
             profile.need(left.shape==right.shape==(40,10) and np.isfinite(left).all()
                 and np.isfinite(right).all(),'FINITE_CROSS_SITE_PHYSICAL_H40')
@@ -47,7 +48,7 @@ def compare_cross_site(first,second):
     profile.need(all(maximum[k]<=v for k,v in CROSS_SITE_ATOL.items()),'A40_CORE_NUMERICAL_GATE_FAILED')
     return dict(status='PASS_ACTUAL_A40_CORE_MATCHED_INPUT_NOISE_NUMERICAL_GATE',
         absolute_component_tolerances=CROSS_SITE_ATOL,actual_maximum_absolute_error=maximum,
-        actual_matched_queries=4,native_task_success='NOT_ESTABLISHED_BY_NUMERICAL_AGREEMENT')
+        actual_matched_queries=count,native_task_success='NOT_ESTABLISHED_BY_NUMERICAL_AGREEMENT')
 
 
 def validate_spec(s):

@@ -1,0 +1,141 @@
+{
+  "schema": "TASK_LEARNING_CURRENT_RGB_INFORMATION_PROBE_ACTUAL_V1",
+  "audit_module_sha256": "bfa9329c420e8ba61adafa129a43d53a6394a8fcc2a1558f393bac8509860c81",
+  "contract": {
+    "schema": "TASK_LEARNING_CURRENT_RGB_INFORMATION_PROBE_V1",
+    "population": "ALL_RESET_READY_FIRST_DECISIONS_FROM_TWENTY_REQUESTS; LATER_TASK_FAILURES_INCLUDED",
+    "minimum_observed_requests": 18,
+    "minimum_distinct_layouts": 9,
+    "anchor": "FIRST_REAL_DECISION_AT_NATIVE_STEP_5703",
+    "features": "LARGEST_4_CONNECTED_RED_COMPONENT_XY_CENTROID_IN_EACH_UNCHANGED_RGB",
+    "red_threshold": {
+      "min_R": 120,
+      "min_R_to_G_ratio": 1.5,
+      "min_R_to_B_ratio": 1.5
+    },
+    "minimum_component_pixels_per_camera": 32,
+    "labels": "ACTUAL_TEACHER_FIRST_CHUNK_XY_DISPLACEMENT_ONLY",
+    "learner": "RIDGE_1E_MINUS_3_WITH_TRAIN_FOLD_ONLY_STANDARDIZATION",
+    "split": "LEAVE_ONE_WHOLE_LAYOUT_OUT; BOTH_RESTARTS_HELD_OUT_TOGETHER",
+    "baseline": "TRAIN_FOLD_MEAN_DISPLACEMENT",
+    "information_probe_gate": {
+      "maximum_XY_RMSE_m": 0.001,
+      "maximum_fraction_of_baseline_RMSE": 0.5
+    },
+    "current_RGB_only": true,
+    "privileged_scene_features": false,
+    "GR00T_updates": 0,
+    "interpretation": "Image information for local XY disambiguation only; not policy competence, recovery observability, broad generalization or task success."
+  },
+  "requested": 20,
+  "terminal": 20,
+  "ready_first_decisions": 20,
+  "technical_missing_first_decisions": [],
+  "new_native_integrations": 0,
+  "GR00T_updates": 0,
+  "status": "ACTUAL_ALL_READY_LAYOUT_GROUPED_PROBE_COMPLETE",
+  "probe": {
+    "contract": {
+      "schema": "TASK_LEARNING_CURRENT_RGB_INFORMATION_PROBE_V1",
+      "population": "ALL_RESET_READY_FIRST_DECISIONS_FROM_TWENTY_REQUESTS; LATER_TASK_FAILURES_INCLUDED",
+      "minimum_observed_requests": 18,
+      "minimum_distinct_layouts": 9,
+      "anchor": "FIRST_REAL_DECISION_AT_NATIVE_STEP_5703",
+      "features": "LARGEST_4_CONNECTED_RED_COMPONENT_XY_CENTROID_IN_EACH_UNCHANGED_RGB",
+      "red_threshold": {
+        "min_R": 120,
+        "min_R_to_G_ratio": 1.5,
+        "min_R_to_B_ratio": 1.5
+      },
+      "minimum_component_pixels_per_camera": 32,
+      "labels": "ACTUAL_TEACHER_FIRST_CHUNK_XY_DISPLACEMENT_ONLY",
+      "learner": "RIDGE_1E_MINUS_3_WITH_TRAIN_FOLD_ONLY_STANDARDIZATION",
+      "split": "LEAVE_ONE_WHOLE_LAYOUT_OUT; BOTH_RESTARTS_HELD_OUT_TOGETHER",
+      "baseline": "TRAIN_FOLD_MEAN_DISPLACEMENT",
+      "information_probe_gate": {
+        "maximum_XY_RMSE_m": 0.001,
+        "maximum_fraction_of_baseline_RMSE": 0.5
+      },
+      "current_RGB_only": true,
+      "privileged_scene_features": false,
+      "GR00T_updates": 0,
+      "interpretation": "Image information for local XY disambiguation only; not policy competence, recovery observability, broad generalization or task success."
+    },
+    "layouts": 10,
+    "requested": 20,
+    "observed_requests": 20,
+    "XY_RMSE_m": 0.00029933567684706604,
+    "baseline_XY_RMSE_m": 0.0050318395157457904,
+    "per_layout": [
+      {
+        "layout": "QUAL01",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.00041231965370688736,
+        "baseline_XY_RMSE_m": 0.0063348597894833224
+      },
+      {
+        "layout": "QUAL02",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.00016073797268361455,
+        "baseline_XY_RMSE_m": 0.004288314422290104
+      },
+      {
+        "layout": "QUAL03",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.000364150476633956,
+        "baseline_XY_RMSE_m": 0.0063734104127456115
+      },
+      {
+        "layout": "QUAL04",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.00016191809067743539,
+        "baseline_XY_RMSE_m": 0.003998379969445368
+      },
+      {
+        "layout": "QUAL05",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.00017294244897859924,
+        "baseline_XY_RMSE_m": 0.004487962023645654
+      },
+      {
+        "layout": "QUAL06",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.00033715161355033326,
+        "baseline_XY_RMSE_m": 0.006416653767474773
+      },
+      {
+        "layout": "QUAL07",
+        "restart_count": 2,
+        "XY_RMSE_m": 4.5185829694984167e-05,
+        "baseline_XY_RMSE_m": 0.00467056922265928
+      },
+      {
+        "layout": "QUAL08",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.0004496771667920161,
+        "baseline_XY_RMSE_m": 0.006123671705379819
+      },
+      {
+        "layout": "QUAL09",
+        "restart_count": 2,
+        "XY_RMSE_m": 0.0004384933603674975,
+        "baseline_XY_RMSE_m": 0.0032679453218307157
+      },
+      {
+        "layout": "QUAL10",
+        "restart_count": 2,
+        "XY_RMSE_m": 3.525907137368505e-05,
+        "baseline_XY_RMSE_m": 0.002599674974547327
+      }
+    ],
+    "information_probe_passes": true,
+    "GR00T_visual_conditioning_proven": false,
+    "recovery_observability_proven": false,
+    "policy_task_success_proven": false,
+    "new_native_integrations": 0
+  },
+  "run_id": "task-learning-teacher-qualification-20261109-02",
+  "source_sha": "4529dafe6f244fe13311454bb9bad5fda93f3425",
+  "panel_sha256": "69d962cee178481aa139ea1d67145a314dedaf4e462ad4027c26e8559c94a0cb",
+  "EVIDENCE_ASOF": "2026-11-09T01:18:12.421250+00:00"
+}

@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-09T00:40:29.553242+00:00",
+  "EVIDENCE_ASOF": "2026-11-09T01:20:26.114488+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": true,
@@ -16,9 +16,10 @@
     "PBS_submissions": 4,
     "rejected_queue_submission_attempts": 1,
     "accepted_PBS_jobs": 3,
-    "completed_PBS_jobs": 2,
-    "successful_PBS_exit0_jobs": 1,
-    "failed_PBS_exit1_jobs": 1
+    "completed_PBS_jobs": 3,
+    "successful_PBS_exit0_jobs": 2,
+    "failed_PBS_exit1_jobs": 1,
+    "Core_current_native_owner": "RECOVERY_QUALIFICATION01_SINGLE_CPU_WORLD"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -63,14 +64,16 @@
     "full_restore": "HOPPER_ORIGINAL_TRAINER_RESTORE_ACTUAL.json",
     "FIT4_200": {
       "job_id": "707481.hopper-m-02",
-      "status": "SUBMITTED_RELEASED_PBS_QUEUE_WAIT_H200",
+      "status": "CLOSED_PASS_ORIGINAL_TRAINER_FULL_ACTION_FIT4_200",
       "actual": "HOPPER_FIT4_ONLY03_ACTUAL.json",
-      "original_Trainer_updates": 0,
-      "preserved_failed_successor": "HOPPER_FIT4_ONLY02_PREMODEL_FAILURE_ACTUAL.json"
-    }
+      "original_Trainer_updates": 200,
+      "preserved_failed_successor": "HOPPER_FIT4_ONLY02_PREMODEL_FAILURE_ACTUAL.json",
+      "fit4_gate_passes": true
+    },
+    "status": "PASS_FULL_ORIGINAL_TRAINER_RESTORE_AND_FIT4_200"
   },
   "G2": {
-    "status": "REPAIRED_NATIVE_CONSTRUCTION_PASS_FRESH_TEACHER_QUALIFICATION_ACTIVE",
+    "status": "PASS_REPAIRED_NATIVE_TEACHER20_RECOVERY4_PENDING",
     "task": "GRASP_RED_LIFT20MM_HOLD1S",
     "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
     "startup_or_WBC_or_scene_dynamics_changed": false,
@@ -156,7 +159,7 @@
     },
     "construction_status": "PASS_COMPLETE_NEW_UNDER_HAND_GRASP_LIFT20MM_HOLD1S_CONSTRUCTION",
     "construction_task_success": true,
-    "current_Teacher_qualification_passes": false,
+    "current_Teacher_qualification_passes": true,
     "sensor_handoff_repair": {
       "CPU_build": "G2_SENSOR_SNAPSHOT_BUILD_ACTUAL.json",
       "new_native_check": "G2_CONSTRUCTION_10_STARTUP_FAILURE_ACTUAL.json",
@@ -169,30 +172,32 @@
     "fresh_qualification_summary": {
       "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
       "requested": 20,
-      "attempted": 13,
-      "reset_ready": 13,
-      "task_successes": 13,
+      "attempted": 20,
+      "reset_ready": 20,
+      "task_successes": 20,
       "hard_safety_stop_conditions": 0,
       "technical_failure_conditions": 0,
-      "P_reset_ready": 0.65,
+      "P_reset_ready": 1.0,
       "P_success_given_reset_ready": 1.0,
-      "P_success_per_requested_episode": 0.65,
-      "complete": false,
+      "P_success_per_requested_episode": 1.0,
+      "complete": true,
       "thresholds": {
         "minimum_reset_ready": 18,
         "minimum_conditional_Teacher_success": 0.9,
         "maximum_hard_safety_stops": 0
       },
-      "passes": false,
+      "passes": true,
       "qualified_training_demonstrations": 0,
       "GR00T_queries": 0,
       "model_updates": 0,
       "independent_restarts_not_bit_exact_forks": true
-    }
+    },
+    "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
+    "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
   },
-  "G3": "NOT_ADMITTED_FRESH_TEACHER_AND_RECOVERY_QUALIFICATION_PENDING",
+  "G3": "NOT_ADMITTED_ACTUAL_FOUR_UNDER_CLOSE_RECOVERIES_PENDING",
   "G4_G7": "NOT_RUN",
-  "next_gate": "COMPLETE_FRESH_TEACHER20_AND_REAL_RECOVERY4; WAIT_OWN_HOPPER_FIT4_200",
+  "next_gate": "FOUR_REAL_UNDER_CLOSE_RECOVERIES_THEN_FIXED_TRAIN100",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -203,12 +208,13 @@
   },
   "execution_sha": "4529dafe6f244fe13311454bb9bad5fda93f3425",
   "G3_preparation": {
-    "status": "NOT_DISPATCHED_ACTUAL_TEACHER20_AND_RECOVERY4_PENDING",
+    "status": "RECOVERY_QUALIFICATION_ACTIVE",
     "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
     "normal_training_attempts": 0,
     "recovery_training_attempts": 0,
     "qualified_training_demonstrations": 0,
     "exporter": "COMPLETE_POPULATION_NATIVE_AUDITOR_AND_TRAIN_BASE_WRITER_IMPLEMENTED_NOT_EXECUTED",
-    "typed_original_Processor_dataset": "IMPLEMENTED_NOT_NATIVE_OR_PROCESSOR_ADMITTED"
+    "typed_original_Processor_dataset": "IMPLEMENTED_NOT_NATIVE_OR_PROCESSOR_ADMITTED",
+    "actual_recovery_qualification": "G3_RECOVERY_QUALIFICATION01_ACTUAL.json"
   }
 }
