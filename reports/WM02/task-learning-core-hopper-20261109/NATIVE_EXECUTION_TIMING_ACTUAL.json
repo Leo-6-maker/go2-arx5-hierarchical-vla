@@ -1,0 +1,55 @@
+{
+  "schema": "TASK_LEARNING_CLOSED_NATIVE_TIMING_PROFILE_READONLY_V1",
+  "native_run": "tl-teacher-data-20261109-01-train16-r2",
+  "source_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
+  "trace_records": 160178,
+  "trace_dropped": 0,
+  "all_physics_steps": {
+    "count": 21203,
+    "sum_wall_s": 1.5113909810000001,
+    "median_ms": 0.063335,
+    "p95_ms": 0.12056789999999999,
+    "maximum_ms": 3.078789,
+    "span_first_begin_to_last_end_s": 310.44648776900004
+  },
+  "post_readiness_physics_steps": {
+    "count": 15500,
+    "sum_wall_s": 1.072104757,
+    "median_ms": 0.06195300000000001,
+    "p95_ms": 0.11730059999999999,
+    "maximum_ms": 3.078789,
+    "span_first_begin_to_last_end_s": 248.491002207
+  },
+  "all_leg_policy_inferences": {
+    "count": 2121,
+    "sum_wall_s": 1.222243562,
+    "median_ms": 0.518151,
+    "p95_ms": 0.8306560000000001,
+    "maximum_ms": 28.406336,
+    "span_first_begin_to_last_end_s": 310.479848033
+  },
+  "post_readiness_leg_policy_inferences": {
+    "count": 1550,
+    "sum_wall_s": 0.8660568990000002,
+    "median_ms": 0.5179345,
+    "p95_ms": 0.80225775,
+    "maximum_ms": 3.5928440000000004,
+    "span_first_begin_to_last_end_s": 248.45957117400002
+  },
+  "timers_may_overlap_across_threads": true,
+  "unmeasured_native_work_includes_control_rendering_observer_and_synchronization": true,
+  "new_integrations": 0,
+  "new_model_updates": 0,
+  "evidence_asof": "2026-11-09T05:36:32.270860+00:00",
+  "separate_readonly_thread_sample": {
+    "native_run": "tl-teacher-data-20261109-01-train18-r2",
+    "wall_s": 94.87905788421631,
+    "native_CPU_s": 155.07999999999996,
+    "main_viewer_thread_CPU_s": 70.94,
+    "llvmpipe_CPU_s": 73.72999999999999,
+    "main_and_llvmpipe_fraction_of_native_CPU": 0.9328733556873874,
+    "formal_benchmark": false
+  },
+  "interpretation": "Measured mj_step and leg-inference durations are a small part of wall time. Native main/UI and llvmpipe dominate the separate thread CPU sample. No throughput claim for Hopper or4096 environments follows from this profile.",
+  "next_candidate": "Viewer-only pacing at5FPS outside the sim mutex, reusing the exact qualified native main and leg/controller SDK objects; build and new native qualification pending. Existing collector and original dual-RGB capture remain unchanged."
+}
