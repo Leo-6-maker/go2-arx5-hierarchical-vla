@@ -1,0 +1,38 @@
+{
+  "schema": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL_V1",
+  "observed_UTC": "2026-11-09T16:21:53.955653+00:00",
+  "observed_SGT": "2026-11-10T00:21:53.955653+08:00",
+  "QUESTION": "Can transient Core GPU0 capacity admit one full-action restore qualification?",
+  "CHANGED": "Use existing dependency-free Core CPU audit program for a known pre-registry pytest-runner failure; numerical runtime unchanged and no dependency installation",
+  "ACTUAL": {
+    "previous_capacity_controller_exited": true,
+    "pre_registration_failure": "No module named pytest",
+    "execution_source_staged": true,
+    "execution_spec_exists": false,
+    "remote_MainPID": 0,
+    "new_model_loads": 0,
+    "new_optimizer_updates": 0,
+    "new_native_integrations": 0,
+    "host_available_bytes": 37230899200,
+    "GPU0_free_bytes": 12721324032,
+    "finite_capacity_controller": {
+      "pid": 3766471,
+      "proc_start": "38163688",
+      "deadline_epoch": 1794244623.7248468,
+      "same_original_deadline": true,
+      "stage": "WAIT_STABLE_ACTUAL_HOST_AND_GPU_CAPACITY",
+      "consecutive_capacity_samples": 0,
+      "required_consecutive_samples": 3,
+      "maximum_single_completion_attempts": 1
+    }
+  },
+  "NEGATIVE": {
+    "full_action_qualification": "NOT_STARTED",
+    "formal_SFT2000": "NOT_STARTED",
+    "new_student_DEV": "NOT_RUN",
+    "original_failed_registration_INTENT_preserved": true,
+    "pre_start_capacity_failures_are_not_GPU_qualification_failures": true
+  },
+  "DECISION": "Do not replay the old registration INTENT. A separate original-Journal completion key first checks the actual failed CPU receipt, absent registry/lease/worker/spec and zero unit, then completes only after stable real capacity. Preserve other users jobs.",
+  "NEXT_GATE": "Actual qualified model load and cache/full-path equality, followed by complete 4 versus 2+2 state restore. No claim of a trained task policy."
+}

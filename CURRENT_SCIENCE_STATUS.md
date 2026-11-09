@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-10 00:20:52 SGT（UTC 16:20:52）冷接续：**Core完整动作侧尚未模型加载，等待角色02／PID3766471存活，继承原01:17 SGT绝对截止。** GPU0容量反复变化；一次容量满足后在登记CPU预检遇到运行环境无pytest，发生在spec／lease／模型派发前。旧INTENT和失败保留；后继只用已有无外部测试依赖的Core审计程序，在容量连续三次满足后沿原Journal新完成键核实际无注册／工作器，再最多接续一次，不安装依赖或热改胶囊。当前CUDA模型／新更新仍0。[真实启动前失败、资源与边界](reports/WM02/task-learning-core-hopper-20261109/CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json)。
+
 2026-11-10 00:17:34 SGT（UTC 16:17:34）实查：**Vanda重试仍在SSH握手前超时，本地、Hopper2和Core三条路径均未连通，HTTPS也超时；没有新A40提交或模型。** Core GPU0空闲容量由约30.4GiB降至约1.2GiB，共享工作保留，完整动作侧恢复资格尚未启动。独立FULL_ACTION_SIDE／1304913028参数入口已通过32项检查，有限容量等待进程3764271已实际驻留，最多在满足真实显存／主存门后沿原owner/Journal/registry派发一次；这不是正式SFT或学生结果。[实查、未运行与下一门](reports/WM02/task-learning-core-hopper-20261109/VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json)。
 
 2026-11-09 23:59:33 SGT（UTC 15:59:33）实测：**独立厘米级TRAIN准备完成，先止于两次Teacher可行性验证。** 12个静态位置10通过，X−2/−3cm因方块超出桌面支撑被原检查拒绝；X±1cm各一次完整抓持／抬升／保持成功，墙钟313.626／307.356秒，硬停止与技术失败0，所有子进程exit0、lease CLOSED。两次观测／60张策略RGB／1200条消费命令独立核验，原BC导出器拒绝资格角色；6请求人口只执行2个、其余4个保留未运行，不能声称可靠成功率或完整扩采资格。封存数据重新核验仍是1450唯一监督窗／50排除干预／3120RGB，TRAIN100和原SFT数据身份未改。[数据审计与12位置](reports/WM02/task-learning-core-hopper-20261109/NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json)、[两次真实终态及未运行分母](reports/WM02/task-learning-core-hopper-20261109/NEXT_TRAIN_FIRST2_NATIVE_FEASIBILITY_ACTUAL.json)。大规模扩采等首轮完整学生DEV。
