@@ -173,6 +173,8 @@ def validate(spec):
             need(decision.get('first_seed')==20261109 and bool(decision.get('first_seed_generation_id'))
                 and p['seed']in decision.get('allowed_confirmation_seeds',[]),
                 'FIRST_SEED_EVIDENCE_FOR_THE_DECLARED_SEQUENTIAL_CONFIRMATION_SEED')
+            from .task_learning_endpoint_decision_v2 import validate_confirmation
+            validate_confirmation(decision,spec)
     return dict(status='ACTUAL_TASK_DATA_PROCESSOR_AND_ORIGINAL_TRAINER_ADMITTED',
         manifest_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,
         optimization_visits_per_population_pass=len(data),runtime_qualification=runtime,

@@ -227,3 +227,22 @@ def validate_continuation(decision, spec):
         and decision.get('checkpoint_sha256') == evidence['checkpoint_sha256'] == spec['resume']['sha256'],
         'RECOMPUTED_COMPLETE_ENDPOINT_DECISION_AND_EXACT_RESUME_CHECKPOINT')
     return result
+
+
+def validate_confirmation(decision,spec):
+    """Confirmation seeds need the first seed's complete scientific evidence."""
+    from .task_learning_training_profile_v1 import descriptor as is_descriptor
+    need(is_descriptor(decision.get('scientific_evidence'))and is_descriptor(decision.get('decision_contract')),
+        'ACTUAL_FIRST_SEED_EVIDENCE_NOT_BOOLEAN_PERMISSION')
+    evidence=load(decision['scientific_evidence']);frozen=load(decision['decision_contract'])
+    result=evaluate(evidence)
+    need(frozen==contract()==evidence['contract']and evidence.get('training_seed')==20261109
+        and result['action']=='FREEZE_FOR_SEED_CONFIRMATION_BEFORE_TEST'
+        and decision.get('scientific_result')==result and decision.get('first_seed')==20261109
+        and decision.get('first_seed_generation_id')==evidence['generation_id']
+        and decision.get('dataset_sha256')==evidence['dataset_sha256']==spec['recipe']['dataset_sha256']
+        and evidence['statistics_sha256']==spec['recipe']['statistics_sha256']
+        and decision.get('allowed_confirmation_seeds')==[20261110,20261111]
+        and spec['recipe']['seed']in decision['allowed_confirmation_seeds'],
+        'COMPLETE_FIRST_SEED_GAIN_BEFORE_DECLARED_CONFIRMATION_SEEDS')
+    return result

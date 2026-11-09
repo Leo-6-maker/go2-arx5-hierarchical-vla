@@ -123,6 +123,20 @@ def test_continuation_is_recomputed_and_binds_exact_resume_checkpoint(tmp_path):
     with pytest.raises(ValueError,match='NOT_BOOLEAN'):d.validate_continuation(dict(allows_execution=True),spec)
 
 
+def test_confirmation_seeds_require_complete_first_seed_evidence_instead_of_a_permission_boolean(tmp_path):
+    e=evidence(successes=32);e['training_seed']=20261109
+    path=tmp_path/'evidence.json';path.write_text(json.dumps(e));rule=tmp_path/'rule.json';rule.write_text(json.dumps(d.contract()))
+    result=d.evaluate(e)
+    doc=dict(scientific_evidence=d.descriptor(path),decision_contract=d.descriptor(rule),scientific_result=result,
+        first_seed=20261109,first_seed_generation_id='generation',dataset_sha256='a'*64,
+        allowed_confirmation_seeds=[20261110,20261111])
+    spec=dict(recipe=dict(seed=20261110,dataset_sha256='a'*64,statistics_sha256='b'*64))
+    assert d.validate_confirmation(doc,spec)==result
+    e['native_outcomes']=e['native_outcomes'][:20];path.write_text(json.dumps(e));doc['scientific_evidence']=d.descriptor(path)
+    with pytest.raises(ValueError,match='COMPLETE_FIRST_SEED_GAIN'):d.validate_confirmation(doc,spec)
+    with pytest.raises(ValueError,match='NOT_BOOLEAN'):d.validate_confirmation(dict(allows_execution=True),spec)
+
+
 def test_real_array_error_recomputation_uses_unique_phase_queries_and_fixed_noise(tmp_path):
     from scripts.pi0291_arx5_data.native_dataset import pose10
     rows=[]
