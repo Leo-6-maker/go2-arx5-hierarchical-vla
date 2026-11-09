@@ -251,24 +251,25 @@ def run(spec):
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
-    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
+    if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5':torch.set_autocast_cache_enabled(False)
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_core_v1 import trim_unused_logits
         trim_unused_logits(model)
     contract=action_contract(model,p['variant'],profile_name=p['profile']);model.to('cuda').eval();data.initialize()
     activation_storage=None
-    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
+    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_core_v1 import activation_policy
         from scripts.pi0294.multitask.activation_offload import SavedActivationOffload
         activation_storage=SavedActivationOffload(model,policy=activation_policy(
-            4*1024**3 if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'else 2*1024**3))
+            4*1024**3 if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')else 2*1024**3))
     backbone_swap=None
-    if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'):
+    if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_backbone_swap_v1 import BackboneOptimizerSwap
         backbone_swap=BackboneOptimizerSwap(model,activation_storage)
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
     frozen=frozen_fingerprint(model);names=contract.trainable_names
     before={n:tensor_identity(model.get_parameter(n))for n in names}
-    memory=[]
+    memory=[];weight_cache_runtime=None
     def measured(label):
         torch.cuda.synchronize();free,total=torch.cuda.mem_get_info()
         memory.append(dict(label=label,free_bytes=free,total_bytes=total,
@@ -277,6 +278,7 @@ def run(spec):
         write(root/'GPU_MEMORY.json',dict(GPU_uuid=actual_uuid,measurements=memory))
         if activation_storage is not None:write(root/'ACTIVATION_STORAGE_ACTUAL.json',activation_storage.audit())
         if backbone_swap is not None:write(root/'BACKBONE_OPTIMIZER_SWAP_ACTUAL.json',backbone_swap.audit())
+        if weight_cache_runtime is not None:write(root/'WEIGHT_CACHE_RUNTIME_ACTUAL.json',weight_cache_runtime)
         profile.need(free>=2*1024**3,'ORIGINAL_TWO_GIB_MEMORY_MARGIN')
     if spec.get('resume'):
         restored=load_checkpoint(spec['resume']['path'],spec['resume']['sha256'],model=model,
@@ -293,10 +295,14 @@ def run(spec):
         source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
         global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
-    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')and spec['start_step']==0:
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')and spec['start_step']==0:
         from .target_gr00t_core_v1 import verify_memory_predictions
         write(root/'MEMORY_EXECUTION_QUALIFICATION_ACTUAL.json',
             verify_memory_predictions(spec['memory_reference'],root/'before'))
+    if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5':
+        from .target_gr00t_weight_cache_v1 import qualify,enforce
+        qualify(model,contract,data,root,guard)
+        weight_cache_runtime=enforce(model)
     dev=None
     if p['mode']=='FORMAL':
         dev=Dataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')

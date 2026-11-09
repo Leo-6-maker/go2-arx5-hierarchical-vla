@@ -63,7 +63,7 @@ def test_callback_restores_before_original_input_preparation_not_only_backbone_f
     assert swap.resident and swap.to_device_count==2
 
 
-@pytest.mark.parametrize('memory',['CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4'])
+@pytest.mark.parametrize('memory',['CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'])
 def test_swap_policy_only_admits_the_explicit_core_full_native_restore(memory):
     p=profile.recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',endpoint=4,
         memory_policy=memory)
@@ -83,3 +83,22 @@ def test_larger_activation_budget_preserves_lossless_storage_and_old_default():
     assert not new['quantization']and not new['parameter_storage_offload']
     assert {k:v for k,v in old.items()if k not in ['schema','per_microbatch_activation_offload_bytes']}=={
         k:v for k,v in new.items()if k not in ['schema','per_microbatch_activation_offload_bytes']}
+
+
+def test_disabling_cast_weight_cache_preserves_bf16_loss_gradients_and_rng_on_cpu():
+    torch.manual_seed(17)
+    model=torch.nn.Sequential(torch.nn.Linear(8,16),torch.nn.GELU(),torch.nn.Dropout(.2),torch.nn.Linear(16,8))
+    x=torch.randn(3,8);target=torch.randn(3,8);rows=[]
+    previous=torch.is_autocast_cache_enabled()
+    try:
+        for enabled in [True,False]:
+            torch.set_autocast_cache_enabled(enabled);model.zero_grad(set_to_none=True);torch.manual_seed(7)
+            with torch.autocast('cpu',dtype=torch.bfloat16):
+                assert torch.is_autocast_cache_enabled()is enabled
+                output=model(x);assert output.dtype==torch.bfloat16
+                loss=(output.float()-target).square().mean()
+            loss.backward()
+            rows.append((loss.detach().clone(),[p.grad.clone()for p in model.parameters()],torch.get_rng_state().clone()))
+        assert torch.equal(rows[0][0],rows[1][0])and torch.equal(rows[0][2],rows[1][2])
+        assert all(torch.equal(a,b)for a,b in zip(rows[0][1],rows[1][1]))
+    finally:torch.set_autocast_cache_enabled(previous)

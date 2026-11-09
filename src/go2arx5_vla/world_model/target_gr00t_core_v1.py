@@ -19,7 +19,7 @@ def full_restore_only(c):
     if operation is None:return False
     profile.need(c.get('original_Trainer_execution')is True
         and c.get('formal_training')is False
-        and c.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4')
+        and c.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')
         and isinstance(c.get('memory_reference'),dict)
         and set(c['memory_reference'])=={'path','sha256'},
         'CORE_FULL_ACTION_NATIVE_RESTORE_NOT_CACHE_OR_FORMAL')
