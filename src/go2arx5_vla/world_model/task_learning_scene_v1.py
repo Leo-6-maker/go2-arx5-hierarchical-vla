@@ -106,7 +106,8 @@ def admission(spec):
     proof=pinned(spec['task_learning_scene_reference'])
     layout=proof.get('layout')
     from . import task_learning_grasp_v1 as task
-    expected_role=(task.DEV_REFERENCE_ROLE if layout in DEV_OFFSETS else
+    expected_role=(task.STUDENT_DEV_ROLE if layout in DEV_OFFSETS and spec.get('task_learning_role')==task.STUDENT_DEV_ROLE else
+        task.DEV_REFERENCE_ROLE if layout in DEV_OFFSETS else
         task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
         task.COLLECTION_ROLE if layout in TRAIN_OFFSETS else
         task.RECOVERY_QUALIFICATION_ROLE if layout in RECOVERY_OFFSETS else task.CONSTRUCTION_ROLE)

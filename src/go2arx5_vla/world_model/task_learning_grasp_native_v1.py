@@ -27,7 +27,7 @@ def scene_admission(spec):
     task.declared(spec)
     from .task_learning_scene_v1 import admission
     proof=admission(spec)
-    split='DEV'if spec.get('task_learning_role')==task.DEV_REFERENCE_ROLE else'TRAIN'
+    split='DEV'if spec.get('task_learning_role')in(task.DEV_REFERENCE_ROLE,task.STUDENT_DEV_ROLE)else'TRAIN'
     task.need(proof['split']==spec.get('data_role')==split and proof['parent']==spec['data_parent']
         and spec['scene_id']==proof['parent'],'NEW_NEAR_WORKSPACE_TRAIN_CONSTRUCTION_PILOT')
     panel=scenes.pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
@@ -38,6 +38,9 @@ def scene_admission(spec):
     qualification=role==task.QUALIFICATION_ROLE
     if qualification:
         from .task_learning_teacher_panel_v1 import validate as validate_panel
+        rows=validate_panel(panel)
+    elif role==task.STUDENT_DEV_ROLE:
+        from .task_learning_student_v1 import validate as validate_panel
         rows=validate_panel(panel)
     elif role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import validate as validate_panel
@@ -53,7 +56,15 @@ def scene_admission(spec):
     matches=[r for r in rows if r['native_run']==Path(spec['registered_root']).name]
     task.need(len(matches)==1,'UNIQUE_ACTUAL_QUALIFICATION_OR_CONSTRUCTION_REQUEST')
     row=matches[0]
-    if role==task.DEV_REFERENCE_ROLE:
+    if role==task.STUDENT_DEV_ROLE:
+        from .task_learning_student_v1 import PURPOSE
+        expected_purpose=PURPOSE
+        task.need(spec.get('task_learning_teacher_mode')is None
+            and spec.get('target_gr00t_policy')==panel['policies'][row['method']]
+            and spec.get('target_gr00t_B1_global_step')==panel['B1_global_step']
+            and spec.get('target_gr00t_query_seeds')==row['query_seeds'],
+            'FROZEN_METHOD_AND_ALL_FIFTEEN_PREDECLARED_STUDENT_QUERIES')
+    elif role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import purpose
         expected_purpose=purpose(role)
         task.need(spec.get('task_learning_teacher_mode')==row['Teacher_mode'],
@@ -76,6 +87,18 @@ def validate(spec):
               'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.STUDENT_DEV_ROLE:
+        from .task_learning_student_v1 import EXPERIMENT
+        task.need(spec.get('experiment_role')==EXPERIMENT
+            and spec.get('snapshot_binding_mode')=='PRE_REGISTERED_TASK_LEARNING_GRASP_V1'
+            and spec.get('live_skill_geometry_scale')==1.
+            and spec.get('live_skill_time_stretch_factor')==1
+            and spec.get('task_learning_control')is None
+            and spec.get('target_gr00t_gpu_root')and spec.get('target_gr00t_policy')
+            and not any(spec.get(k)for k in ('target_gr00t_collection','paused_query_pair',
+                'paused_query_gpu_spec','stable_task_candidate','stable_task_evaluation','program_reference_selection')),
+            'TYPED_STUDENT_CURRENT_RGB_STATE_ONLY_WITHOUT_TEACHER_OR_WM')
+        return
     if role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import experiment_role
         expected_experiment=experiment_role(role)
@@ -97,13 +120,20 @@ def episode_config(spec):
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
+    members=SOURCE_MEMBERS
+    if spec.get('task_learning_role')==task.STUDENT_DEV_ROLE:
+        from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
+        members=tuple(dict.fromkeys(members+model_members))
     episode,source=common.operational.recipe_config(spec,episode,actual_phase=task.PHASE,
-        actual_kind=task.KIND,source_members=SOURCE_MEMBERS)
+        actual_kind=task.KIND,source_members=members)
     return episode,dict(source,stable_task_scene_reference=spec['stable_task_scene_reference'])
 
 
 def episode_limit(spec,prior):
     episode_config(spec);common.audit_prefix_predecessor(spec,prior)
+    if spec.get('task_learning_role')==task.STUDENT_DEV_ROLE:
+        from .task_learning_live_pair_v1 import preflight
+        preflight(spec)
     return task.E
 
 
@@ -168,10 +198,15 @@ def continue_native(adapter,report,samples,windows):
     feet,_=actual_feet(adapter,samples[-1])
     initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy(),feet=feet)
     control=adapter.spec.get('task_learning_control')==task.HOLD_CONTROL
+    student=adapter.spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
     from .task_learning_recovery_v1 import NORMAL,UNDER_CLOSE,UnderCloseRecoveryTeacher,INTERVENTION
     mode=adapter.spec.get('task_learning_teacher_mode',NORMAL)
     task.need(mode in(NORMAL,UNDER_CLOSE)and(not control or mode==NORMAL),'EXPLICIT_TEACHER_MODE')
-    teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
+    if student:
+        from .task_learning_student_v1 import StudentPolicy
+        teacher=StudentPolicy(adapter,samples[-1])
+    else:
+        teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
     intervention_decisions=0
     cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     task_samples=[samples[-1]];standing=[]
@@ -192,6 +227,7 @@ def continue_native(adapter,report,samples,windows):
         capture=capture_input(adapter,language=task.LANGUAGE,task_score=task.score_contract())
         captures.append(capture)
         write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=False))
+        if student:teacher.observation=capture
         program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
@@ -211,7 +247,7 @@ def continue_native(adapter,report,samples,windows):
             confirmed.append(dict(native_start_step=w['native_start_step'],native_end_step=w['native_end_step'],
                 policy_EEF10=program.decoded_H40[offset].tolist(),
                 installed_consumed_EEF10=program.reference_path[offset].tolist(),
-                **{'control_decision_sha256'if control else'Teacher_decision_sha256':digest(decision_path)},
+                **{'student_decision_sha256'if student else'control_decision_sha256'if control else'Teacher_decision_sha256':digest(decision_path)},
                 solver_gripper_confirmed=True))
         write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
             period_s=.05,complete=False,unexecuted_suffix_included=False,future_achieved_labels=False))
@@ -234,10 +270,12 @@ def continue_native(adapter,report,samples,windows):
     return jsonable(dict(copy.deepcopy(report),schema=native_result_schema(adapter.spec),
         actual_spec_phase=task.PHASE,native_endpoint_step=task.E,
         task_learning_grasp=task.protocol(adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)),
-        teacher_decisions=[]if control else decisions,control_decisions=decisions if control else[],
+        teacher_decisions=[]if control or student else decisions,control_decisions=decisions if control else[],
+        **(dict(student_decisions=decisions,all_fifteen_generated_H40_consumed=True,
+            student_commands_are_expert_labels=False)if student else{}),
         diagnostic_control=task.HOLD_CONTROL if control else None,generated_cycles=cycles,windows=windows,
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
-        GR00T_raw_H40_consumed=False,complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
+        GR00T_raw_H40_consumed=student,complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
         new_task_score=scored,task_condition_success=scored['task_success'],
         decision_start_readiness=start_ready,expert_training_eligible=False,
@@ -245,17 +283,20 @@ def continue_native(adapter,report,samples,windows):
             'TASK_CONSTRUCTION_NOT_BC'if adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==task.CONSTRUCTION_ROLE else
             adapter.spec['task_learning_role']),
         excluded_intervention_decisions=intervention_decisions,
-        expert_policy_decisions=0 if control else task.QUERIES-intervention_decisions,
+        expert_policy_decisions=0 if control or student else task.QUERIES-intervention_decisions,
         recovery_evidence=dict(mode=mode,intervention_issued=getattr(teacher,'intervention_issued',False),
             actual_under_close_failed=getattr(teacher,'actual_under_close_failed',False),
             native_grasp_after_correction=getattr(teacher,'native_grasp_after_correction',False)),
-        GR00T_queries=0,VLA_queries=0,GR00T_updates=0,
+        GR00T_queries=task.QUERIES if student else 0,VLA_queries=task.QUERIES if student else 0,GR00T_updates=0,
         WM_updates=0,Actor_updates=0,full_task_success=False,target_task_success=False,
         new_grasp_lift_hold_task_success=False if control else scored['task_success'],source_task_phase_equivalence=False))
 
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.STUDENT_DEV_ROLE:
+        from .task_learning_student_v1 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role==task.DEV_REFERENCE_ROLE:
         from .task_learning_dev_v1 import native_schema
         return native_schema(role)
@@ -268,11 +309,15 @@ def native_result_schema(spec):
 def complete_consumption(spec,result):
     task.declared(spec);cycles=result.get('generated_cycles')or[]
     control=spec.get('task_learning_control')==task.HOLD_CONTROL
-    decisions=result.get('control_decisions'if control else'teacher_decisions',[])
+    student=spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
+    decisions=result.get('student_decisions'if student else'control_decisions'if control else'teacher_decisions',[])
     expected_schema=native_result_schema(spec)
     if not(result.get('schema')==expected_schema
         and result.get('diagnostic_control')==(task.HOLD_CONTROL if control else None)
-        and (not control or result.get('teacher_decisions')==[])
+        and (not(control or student)or result.get('teacher_decisions')==[])
+        and (not student or(result.get('GR00T_queries')==task.QUERIES
+            and result.get('student_commands_are_expert_labels')is False
+            and result.get('all_fifteen_generated_H40_consumed')is True))
         and len(cycles)==task.QUERIES+2 and len(decisions)==task.QUERIES
         and result.get('expert_training_eligible')is False):return False
     for position,row in enumerate(cycles):
