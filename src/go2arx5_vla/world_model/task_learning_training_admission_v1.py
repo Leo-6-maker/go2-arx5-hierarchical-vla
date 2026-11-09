@@ -167,6 +167,8 @@ def validate(spec):
         if key=='endpoint_decision':
             need(decision.get('next_endpoint')==p['endpoint']
                 and decision.get('generation_id')==spec['generation_id'],'DECLARED_SAME_GENERATION_CONTINUATION_ENDPOINT')
+            from .task_learning_endpoint_decision_v2 import validate_continuation
+            validate_continuation(decision,spec)
         else:
             need(decision.get('first_seed')==20261109 and bool(decision.get('first_seed_generation_id'))
                 and p['seed']in decision.get('allowed_confirmation_seeds',[]),
