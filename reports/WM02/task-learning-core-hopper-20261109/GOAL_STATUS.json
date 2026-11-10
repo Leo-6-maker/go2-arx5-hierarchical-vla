@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T03:23:20.886364+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T03:44:24.009923+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -13,11 +13,11 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
     "Hopper_project_login": "AMGR_QUERY_TOKEN_EXPIRED; OFFICIAL_PBS_PROJECT_SUBMISSION_ACCEPTED_WITH_ACCOUNTING",
-    "PBS_submissions": 14,
+    "PBS_submissions": 15,
     "rejected_queue_submission_attempts": 2,
-    "accepted_PBS_jobs": 12,
-    "completed_PBS_jobs": 10,
-    "successful_PBS_exit0_jobs": 6,
+    "accepted_PBS_jobs": 13,
+    "completed_PBS_jobs": 12,
+    "successful_PBS_exit0_jobs": 8,
     "failed_PBS_exit1_jobs": 2,
     "Core_current_native_owner": "NONE; NEXT_TRAIN_FEASIBILITY_FIRST2_CLOSED0; NO_MORE_DATA_COLLECTION_DISPATCHED",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
@@ -29,8 +29,8 @@
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
     "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
-    "current_neural_work": "H100709576_PAIRED_TRACE_R; H200709533_PAIRED_TRACE_Q; CORE_TRACE128_CLOSED0_TRANSPARENT; NATIVE_NUMERICAL_GATE_UNPASSED",
-    "current_Hopper_paired_trace": "709533 Q_INSUFFICIENT_GPUS_PROJECT_CFP04-CF-007_OFFICIAL_AUTO_ROUTE"
+    "current_neural_work": "H100_TRACE709576_AND_UNTRACED709597_F0_CLOSED0; CORE_PRIVATE_COMPARISON_CLOSED0_FIRST_DIFF_BACKBONE_OUTPUT; H200709533_Q",
+    "current_Hopper_paired_trace": "709533 Q_INSUFFICIENT_GPUS; ORIGINAL_SOURCE07211234_PRESERVED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -231,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Actual709576 terminal, complete128 trace audit and same-input/noise transparency against original H200 package-reconstructed40; privately compare first4 intermediate tensors against transparent Core trace. Preserve any mismatch and the healthy original709533 job. Only qualified reconstruction can lead to full originalDEV80 and the frozen scientific decision.",
+  "next_gate": "Retain the already submitted original single-H200709533 capture. Use the now sealed private input/output tensors to identify the first internal backbone operation or precision boundary, followed by a separately versioned paired qualification. Only a qualified Core runtime can start the original fullDEV80 and frozen scientific decision.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -285,7 +285,7 @@
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": null,
     "Core_model_package": "PRIVATE_DELIVERY_CLOSED0_ALL_MEMBER_SHA_PASS",
-    "Core_current_resource": "CORE_TENSOR_TRACE01_CLOSED0_TRANSPARENT_ALL40; NO_ACTIVE_CORE_MODEL_WORKER",
+    "Core_current_resource": "ALL_CURRENT_DIAGNOSTIC_WORKERS_AND_PRIVATE_COMPARISON_CLOSED0; NO_NEW_NATIVE_PHYSICS",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
@@ -440,7 +440,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T11:23:20.886364+08:00",
+  "SGT": "2026-11-10T11:44:24.009923+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -820,7 +820,7 @@
     "job_id": "709576.hopper-m-02",
     "run": "task-learning-sft2000-paired-tensor-trace-h100-01",
     "project": "CFP04-CF-007",
-    "PBS_state": "R",
+    "PBS_state": "F",
     "started_SGT": "2026-11-10T11:22:59+08:00",
     "source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
     "config_sha256": "dcbe55580e4710261574d6d026b04b11af5bd25bc2187bc943da92688ab54b2c",
@@ -860,6 +860,70 @@
     "physics_integrations": 0,
     "diagnostic_only": true,
     "numerical_qualification_issued": false,
-    "independent_read_observer_pid": 4141294
+    "independent_read_observer_pid": 4141294,
+    "worker_exit_code": 0,
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json"
+  },
+  "H100_untraced_control": {
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json",
+    "epoch": 1794282264.0099227,
+    "status": "ACTUAL_SAME_H100_TRACED_VS_UNTRACED_COMPLETE40_BYTE_AUDIT",
+    "job_id": "709597.hopper-m-02",
+    "source_sha": "3d00d41bac91c0d8607b802e2fab864e27242832",
+    "config_sha256": "200b686f997b994f76ddc262fa8c41811c9073660cce54db4539f315538c09f3",
+    "result_sha256": "52a3c09cca02407b064044bda4e3e444f8fbb7df7191a74cd2c5b9269fc1a50a",
+    "spec_sha256": "e75a449f04b5265b1b70fc749f5adea54c676571185df86193cc28391fe3cb46",
+    "PBS_state": "F",
+    "PBS_exit_status": 0,
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "canonical_registry_count": 1,
+    "Journal": {
+      "SUBMIT_ONCE": "COMPLETE_DIGEST_MATCHES",
+      "RELEASE_ONCE": "COMPLETE_DIGEST_MATCHES",
+      "ACTUAL_TRACE_ALLOCATION_ACTIVATE": "COMPLETE_DIGEST_MATCHES"
+    },
+    "same_GPU_uuid": true,
+    "matched_query_identities": 40,
+    "bit_exact_queries": {
+      "physical_H40": 40,
+      "normalized": 40,
+      "actual_state10": 40,
+      "expert_policy_H40": 40
+    },
+    "maximum_absolute_difference": {
+      "physical_H40": 0.0,
+      "normalized": 0.0,
+      "actual_state10": 0.0,
+      "expert_policy_H40": 0.0
+    },
+    "all40_predictions_bit_exact": true,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "intermediate_hooks_enabled": false,
+    "wall_s": 46.4349824039964,
+    "CPU_s": 43.27795991,
+    "peak_allocated_bytes": 13346110464,
+    "qualification_issued": false
+  },
+  "Core_H100_first_difference": {
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json",
+    "first_boundary": {
+      "query_index": 0,
+      "module": "backbone",
+      "stage": "output",
+      "call": 0,
+      "differing_paths": [
+        [
+          "backbone_features"
+        ]
+      ]
+    },
+    "all4_backbone_inputs_bit_exact": true,
+    "Core_and_H100_same_site_all40_capture_controls_byte_exact": true,
+    "native_qualification_issued": false
   }
 }

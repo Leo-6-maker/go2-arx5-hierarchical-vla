@@ -1,0 +1,335 @@
+{
+  "schema": "WM02_H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_TRANSPARENCY_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T03:44:24.009923+00:00",
+  "SGT": "2026-11-10T11:44:24.009923+08:00",
+  "goal_status": "ACTIVE",
+  "QUESTION": "Locate the first actual numerical divergence and establish whether capture hooks themselves changed inference.",
+  "CHANGED": {
+    "H100_trace_source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+    "untraced_control_source_sha": "3d00d41bac91c0d8607b802e2fab864e27242832",
+    "Core_trace_source_sha": "6b61ff3a9e2fcf6cba30dc0cff9a255ad1d9999c",
+    "Core_comparator_source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+    "shared_trace_helper_sha256": "5758ccb68efe9c8360960c9246046cb172b14a02b6a2660b2151a3f600eac4e3",
+    "only_untraced_control_intervention": "Remove intermediate hooks after validating original complete40 reference; preserve package, inputs, noise, original precision and decode.",
+    "new_optimizer_updates": 0,
+    "physics_integrations": 0
+  },
+  "ACTUAL": {
+    "H100_trace": {
+      "epoch": 1794281208.8986278,
+      "status": "ACTUAL_H100_TRACE_TERMINAL_AND_ORIGINAL_H200_OUTPUT_TRANSPARENCY_AUDIT",
+      "job_id": "709576.hopper-m-02",
+      "PBS_state": "F",
+      "PBS_exit_status": 0,
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+      "config_sha256": "dcbe55580e4710261574d6d026b04b11af5bd25bc2187bc943da92688ab54b2c",
+      "result_sha256": "c6694626d60ccf7523d3931b5a4bd6a3f15e21de1b79a7e43f8d4dd3c7369cf2",
+      "trace_manifest_sha256": "57200ed6480dc3141a3253446d42adefae0ce43a4d8fd8716b1646c3d3498009",
+      "probe_result_sha256": "35218f988c1e0f541658573d318820be24c2c37e56122c5ee0a34d546352a13a",
+      "trace_tensor_bytes": 73245872,
+      "boundary_artifacts": 128,
+      "all_member_SHA_verified": true,
+      "reference_original_H200_result_sha256": "2cd663dc24f8e7c8a6a70fa6eed4231adc573572be6760c802b3eb84062d8655",
+      "matched_queries": 40,
+      "bit_exact_queries": {
+        "physical_H40": 0,
+        "normalized": 0,
+        "actual_state10": 40,
+        "expert_policy_H40": 40
+      },
+      "maximum_absolute_difference": {
+        "physical_H40": 0.00390625,
+        "normalized": 0.00811767578125,
+        "actual_state10": 0.0,
+        "expert_policy_H40": 0.0
+      },
+      "predeclared_same_package_tolerance": 1e-06,
+      "all_original_H200_outputs_within_tolerance": false,
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "actual_Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "wall_s": 46.87483115494251,
+      "CPU_s": 44.640842142,
+      "peak_allocated_bytes": 13346110464,
+      "peak_reserved_bytes": 13560184832,
+      "numeric_qualification_issued": false
+    },
+    "original_H200_vs_H100": {
+      "matched_queries": 40,
+      "all_input_states_and_expert_actions_equal": true,
+      "maximum_absolute_error": {
+        "XYZ_m": 6.07903165207313e-05,
+        "rot6d_component": 3.4294506260940105e-05,
+        "gripper": 0.00390625,
+        "normalized_component": 0.00811767578125
+      },
+      "queries_over_original_cross_hardware_tolerances": {
+        "XYZ_m": 0,
+        "rot6d_component": 0,
+        "gripper": 26,
+        "normalized_component": 0
+      },
+      "original_cross_hardware_tolerances": {
+        "XYZ_m": 0.0001,
+        "rot6d_component": 0.001,
+        "gripper": 0.001,
+        "normalized_component": 0.01
+      },
+      "cross_hardware_numerical_gate_would_pass": false,
+      "interpretation": "H100 is not an output-identical substitute for the original H200 reference. The strict1e-6 reconstruction check is distinct from the original cross-hardware tolerances; gripper also fails the latter."
+    },
+    "private_Hopper_PC_Core_delivery_and_comparison": {
+      "run": "task-learning-paired-trace-h100709576-delivery-01",
+      "payload_bytes": 75100160,
+      "delivered_files": 171,
+      "all_member_hashes_verified": true,
+      "lease": "CLOSED",
+      "receiver_process_exit_code": 0,
+      "canonical_registry_count": 1,
+      "Journal_COMPLETE_digest_matches": true,
+      "result_sha256": "b824510ec432d0c3152a3c507a805f8baff48044b6ccd3fd4decb2e2f0678bec",
+      "tensor_comparison_sha256": "493a72c9ad9d3acf8357f7b09ccdea2f32fe68b20bc6d3d421b47e7a099093bf",
+      "matched_query_identities": 40,
+      "compared_boundaries": 128,
+      "bit_exact_boundaries": 14,
+      "first_non_bit_exact_boundary": {
+        "query_index": 0,
+        "module": "backbone",
+        "stage": "output",
+        "call": 0,
+        "differing_paths": [
+          [
+            "backbone_features"
+          ]
+        ]
+      },
+      "first_non_bit_exact_by_query": {
+        "0": {
+          "module": "backbone",
+          "stage": "output",
+          "call": 0
+        },
+        "1": {
+          "module": "backbone",
+          "stage": "output",
+          "call": 0
+        },
+        "2": {
+          "module": "backbone",
+          "stage": "output",
+          "call": 0
+        },
+        "3": {
+          "module": "backbone",
+          "stage": "output",
+          "call": 0
+        }
+      },
+      "module_boundary_aggregates": {
+        "backbone/input": {
+          "boundaries": 4,
+          "bit_exact": 4,
+          "maximum_absolute_finite_difference": 0.0,
+          "nonfinite_patterns_equal": true
+        },
+        "backbone/output": {
+          "boundaries": 4,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 8.6048583984375,
+          "nonfinite_patterns_equal": true
+        },
+        "vlln/input": {
+          "boundaries": 4,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 8.6048583984375,
+          "nonfinite_patterns_equal": true
+        },
+        "vlln/output": {
+          "boundaries": 4,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 1.9856324195861816,
+          "nonfinite_patterns_equal": true
+        },
+        "vl_self_attention/input": {
+          "boundaries": 4,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 1.9856324195861816,
+          "nonfinite_patterns_equal": true
+        },
+        "vl_self_attention/output": {
+          "boundaries": 4,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 4.994266510009766,
+          "nonfinite_patterns_equal": true
+        },
+        "state_encoder/input": {
+          "boundaries": 4,
+          "bit_exact": 4,
+          "maximum_absolute_finite_difference": 0.0,
+          "nonfinite_patterns_equal": true
+        },
+        "state_encoder/output": {
+          "boundaries": 4,
+          "bit_exact": 2,
+          "maximum_absolute_finite_difference": 2.384185791015625e-07,
+          "nonfinite_patterns_equal": true
+        },
+        "action_encoder/input": {
+          "boundaries": 16,
+          "bit_exact": 4,
+          "maximum_absolute_finite_difference": 0.015625,
+          "nonfinite_patterns_equal": true
+        },
+        "action_encoder/output": {
+          "boundaries": 16,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 0.125,
+          "nonfinite_patterns_equal": true
+        },
+        "denoiser/input": {
+          "boundaries": 16,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 4.994266510009766,
+          "nonfinite_patterns_equal": true
+        },
+        "denoiser/output": {
+          "boundaries": 16,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 0.0234375,
+          "nonfinite_patterns_equal": true
+        },
+        "action_decoder/input": {
+          "boundaries": 16,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 0.0234375,
+          "nonfinite_patterns_equal": true
+        },
+        "action_decoder/output": {
+          "boundaries": 16,
+          "bit_exact": 0,
+          "maximum_absolute_finite_difference": 0.0390625,
+          "nonfinite_patterns_equal": true
+        }
+      },
+      "feature_difference_units": "Raw model activations, not physical action units",
+      "H100_Core_maximum_absolute_error": {
+        "XYZ_m": 0.00023712932171326973,
+        "rot6d_component": 5.9984985417649295e-05,
+        "gripper": 0.004241943359375,
+        "normalized_component": 0.0166015625
+      },
+      "H100_Core_queries_over_original_tolerances": {
+        "XYZ_m": 2,
+        "rot6d_component": 0,
+        "gripper": 30,
+        "normalized_component": 9
+      },
+      "original_cross_site_tolerances": {
+        "XYZ_m": 0.0001,
+        "rot6d_component": 0.001,
+        "gripper": 0.001,
+        "normalized_component": 0.01
+      },
+      "model_loads": 0,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "wall_s": 37.35667278710753,
+      "CPU_s": 0.58360307
+    },
+    "same_H100_capture_transparency": {
+      "epoch": 1794282264.0099227,
+      "status": "ACTUAL_SAME_H100_TRACED_VS_UNTRACED_COMPLETE40_BYTE_AUDIT",
+      "job_id": "709597.hopper-m-02",
+      "source_sha": "3d00d41bac91c0d8607b802e2fab864e27242832",
+      "config_sha256": "200b686f997b994f76ddc262fa8c41811c9073660cce54db4539f315538c09f3",
+      "result_sha256": "52a3c09cca02407b064044bda4e3e444f8fbb7df7191a74cd2c5b9269fc1a50a",
+      "spec_sha256": "e75a449f04b5265b1b70fc749f5adea54c676571185df86193cc28391fe3cb46",
+      "PBS_state": "F",
+      "PBS_exit_status": 0,
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": "COMPLETE_DIGEST_MATCHES",
+        "RELEASE_ONCE": "COMPLETE_DIGEST_MATCHES",
+        "ACTUAL_TRACE_ALLOCATION_ACTIVATE": "COMPLETE_DIGEST_MATCHES"
+      },
+      "same_GPU_uuid": true,
+      "matched_query_identities": 40,
+      "bit_exact_queries": {
+        "physical_H40": 40,
+        "normalized": 40,
+        "actual_state10": 40,
+        "expert_policy_H40": 40
+      },
+      "maximum_absolute_difference": {
+        "physical_H40": 0.0,
+        "normalized": 0.0,
+        "actual_state10": 0.0,
+        "expert_policy_H40": 0.0
+      },
+      "all40_predictions_bit_exact": true,
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "intermediate_hooks_enabled": false,
+      "wall_s": 46.4349824039964,
+      "CPU_s": 43.27795991,
+      "peak_allocated_bytes": 13346110464,
+      "qualification_issued": false
+    },
+    "Core_capture_transparency_bytes": {
+      "epoch": 1794282263.8532603,
+      "status": "ACTUAL_CORE_CAPTURE_COMPLETE40_BYTE_AUDIT",
+      "bit_exact_queries": {
+        "physical_H40": 40,
+        "normalized": 40,
+        "actual_state10": 40,
+        "expert_policy_H40": 40
+      },
+      "matched_queries": 40,
+      "new_model_loads": 0,
+      "new_optimizer_updates": 0,
+      "native_integrations": 0
+    },
+    "original_H200_trace": {
+      "job_id": "709533.hopper-m-02",
+      "job_state": "Q",
+      "project": "CFP04-CF-007",
+      "comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "Exit_status": null,
+      "preserved": true
+    },
+    "software_checks": {
+      "passed": 72,
+      "scope": "H100 restore admission, Hopper resources/registration, private tensor comparison and explicit untraced control; software checks do not qualify a native policy."
+    }
+  },
+  "NEGATIVE": {
+    "native_DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "numeric_qualification_issued": false,
+    "original_Core40_rejection_and_reduction_negative_result_preserved": true,
+    "unique_kernel_or_hardware_cause_established": false,
+    "backbone_first_output_difference_does_not_prove_other_modules_numerically_equal": true,
+    "original_H200_matched_tensor_capture_pending": true,
+    "all_H100_preworker_and_application_failures_preserved": true,
+    "new_mass_data_collection_or_extra_SFT_started": false
+  },
+  "DECISION": "Both completed40 same-site capture controls are byte-exact. For four matched Core/H100 queries, every backbone input boundary is byte-exact and the first observed difference is backbone_features at its output. Narrow the next causal analysis inside the frozen backbone; do not blame new data, alter WBC, relax tolerances or promote a diagnostic policy.",
+  "NEXT_GATE": "Retain the already submitted original single-H200709533 capture. Use the now sealed private input/output tensors to identify the first internal backbone operation or precision boundary, followed by a separately versioned paired qualification. Only a qualified Core runtime can start the original fullDEV80 and frozen scientific decision.",
+  "invariants": {
+    "WBC_leg_weights_control_gains_solver_startup_safety_dynamics_2ms_changed": false,
+    "backbone_weights_unfrozen": false,
+    "formal_SFT2000_package_changed": false,
+    "multi_GPU_or_distributed": false,
+    "private_tensor_or_host_config_published": false,
+    "goal_complete": false
+  }
+}
