@@ -50,7 +50,9 @@ def measure(root,label,instance,data):
         random.setstate(py);np.random.set_state(np_state)
     result=dict(label=label,records=records,actual_VLA_queries=len(records),
         observations='REAL_ADMITTED_TARGET_'+data.split,
-        baseline_label=('SAME_TARGET_PROCESSOR_ZERO_STEP_PARENT' if instance.identity['global_step']==0
+        baseline_label=('SEALED_SFT2000_INITIALIZATION_WITH_FRESH_ADAPTATION_OPTIMIZER'if
+                        instance.identity.get('kind')=='SFT2000_INITIALIZED_FULL_ACTION_NATIVE_RESTORE_QUALIFICATION_V3'and instance.identity['global_step']==0 else
+                        'SAME_TARGET_PROCESSOR_ZERO_STEP_PARENT' if instance.identity['global_step']==0
                         else 'TARGET_CANDIDATE_WITH_SAME_TARGET_PROCESSOR'),
         original_source_B0_Processor_changed=False,optimizer_stream_RNG_preserved=True)
     if continuous:

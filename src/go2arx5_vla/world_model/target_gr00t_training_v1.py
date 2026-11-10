@@ -58,7 +58,7 @@ def site(spec):
          and lease.get('job_id')==jid,'NEW_NONZERO_PROFILE_ACTIVE_LEASE')
     registry=json.loads(Path(spec['registry']).read_bytes())
     need(any(r.get('path')==str(root)and r.get('role')==spec['role']
-             and r.get('scope')=='TARGET_GR00T_V1'for r in registry['entries']),'ORIGINAL_REGISTERED_TARGET_OWNER')
+             and r.get('scope')==spec['profile']for r in registry['entries']),'ORIGINAL_REGISTERED_TARGET_OWNER')
     for name,pin in spec['source_files'].items():
         path=Path(spec['source_root'])/name
         need(path.resolve().is_relative_to(Path(spec['source_root']))and digest(path)==pin,
@@ -70,7 +70,7 @@ def site(spec):
 
 def action_contract(model,variant,*,profile_name=profile.PROFILE):
     """Select the original action tensors; the profile names their provenance."""
-    profile.need(profile_name in(profile.PROFILE,'TASK_LEARNING_GR00T_V1'),
+    profile.need(profile_name in(profile.PROFILE,'TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3'),
         'EXPLICIT_ORIGINAL_OR_CONTINUOUS_ACTION_PARAMETER_IDENTITY')
     from scripts.pi0294.generalization.minimal_adapter import ParameterContract,LEAVES
     base=ParameterContract(model,'E1_ADAPTER_ONLY',10)
@@ -100,7 +100,7 @@ def semantic_recipe(p):
 
 
 def dataset_type(recipe):
-    if recipe.get('profile')=='TASK_LEARNING_GR00T_V1':
+    if recipe.get('profile')in('TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3'):
         from .task_learning_native_dataset_v1 import TaskLearningNativeDataset
         return TaskLearningNativeDataset
     profile.need(recipe.get('profile')==profile.PROFILE,'EXPLICIT_TARGET_DATASET_PROFILE')
@@ -234,7 +234,7 @@ def run(spec):
         for_optimization=True,trace_root=root/'sample-trace',optimization_site=spec['execution_site'])
     profile.need(data.manifest_sha==p['dataset_sha256']and data.statistics_sha==p['statistics_sha256'],
                  'SEALED_REAL_TARGET_TRAIN_AND_PROCESSOR')
-    bundle=('FORMAL_TASK_LEARNING_V1'if p['profile']=='TASK_LEARNING_GR00T_V1'else
+    bundle=('FORMAL_TASK_LEARNING_V1'if p['profile']in('TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3')else
         'FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC')
     profile.need(data.manifest.get('bundle_kind')==bundle,
                  'FIT4_QUALIFICATION_NOT_FORMAL_MODEL')
@@ -257,6 +257,12 @@ def run(spec):
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
+    if p['profile']=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .target_gr00t_delivery_v1 import install
+        init=spec['initial_package']
+        install(model,init['path'],init['sha256'],spec['parent']['files'])
+        write(root/'SFT2000_INITIAL_WEIGHTS_ACTUAL.json',dict(package_sha256=init['sha256'],
+            fresh_adaptation_optimizer=True,original_SFT_step=2000,adaptation_start_step=spec['start_step']))
     if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5':torch.set_autocast_cache_enabled(False)
     if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_core_v1 import trim_unused_logits
@@ -298,7 +304,7 @@ def run(spec):
     instance.identity=dict(kind=p['kind'],parent_manifest_sha256=profile.PARENT,
         statistics_sha256=data.statistics_sha,dataset_sha256=data.manifest_sha,
         source_sha=spec['source_sha'],generation_id=spec['generation_id'],mode=p['mode'],variant=p['variant'],
-        source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
+        source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else spec.get('initial_package',{}).get('sha256',profile.PARENT),
         global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
     if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')and spec['start_step']==0:
@@ -411,8 +417,12 @@ def run(spec):
         eval_strategy='no',save_strategy='no',save_only_model=False,save_total_limit=None,
         gradient_checkpointing=False,report_to=[],disable_tqdm=True,ignore_data_skip=True,
         logging_strategy='steps',logging_steps=1)
+    callbacks=[Audit()]
+    if p['profile']=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import gradient_callback
+        callbacks.append(gradient_callback(root,contract))
     trainer=TargetTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),
-        callbacks=[Audit()],evidence_dir=root/'evidence',recipe=p,smoke=p['mode']in('CAPACITY','RESTORE4'))
+        callbacks=callbacks,evidence_dir=root/'evidence',recipe=p,smoke=p['mode']in('CAPACITY','RESTORE4'))
     holder['trainer']=trainer
     if backbone_swap is not None:trainer.add_callback(backbone_swap.callback())
     trainer.train(resume_from_checkpoint=spec['resume']['path']if spec.get('resume')else None)

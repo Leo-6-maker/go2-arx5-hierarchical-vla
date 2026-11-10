@@ -43,6 +43,9 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
 
 
 def validate(spec):
+    if spec.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import validate as vanda
+        return vanda(spec)
     if spec.get('profile')=='TASK_LEARNING_GR00T_V1':
         from .task_learning_training_profile_v1 import validate as continuous
         return continuous(spec)
@@ -50,6 +53,9 @@ def validate(spec):
 
 
 def expected_recipe(p):
+    if p.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import recipe as vanda
+        return vanda(p.get('dataset_sha256'),p.get('statistics_sha256'),endpoint=p.get('endpoint'))
     if p.get('profile')=='TASK_LEARNING_GR00T_V1':
         from .task_learning_training_profile_v1 import recipe as continuous
         return continuous(p.get('dataset_sha256'),p.get('statistics_sha256'),

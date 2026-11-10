@@ -150,10 +150,15 @@ def with_allocation(c, operation):
             r.mkdir();(r/'control').mkdir();(r/'tmp').mkdir();(r/'cache').mkdir()
             alias=r/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)
             alias.symlink_to(c['bindings']['cosmos'],target_is_directory=True)
-            recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,variant=variant,endpoint=endpoint,microbatch=microbatch)
+            vanda_v3=c.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3'
+            if vanda_v3:
+                from .task_learning_vanda_restore_v3 import recipe as vanda_recipe
+                need(mode=='RESTORE4'and variant=='FULL_ACTION_SIDE'and microbatch==1,'VANDA_V1_ORIGINAL_RESIDENT_FULL_SCOPE_ONLY')
+                recipe=vanda_recipe(c['dataset_sha256'],c['statistics_sha256'],endpoint=endpoint)
+            else:recipe=profile.recipe(c['dataset_sha256'],c['statistics_sha256'],mode=mode,variant=variant,endpoint=endpoint,microbatch=microbatch)
             s=dict(c['training_common'],registered_root=str(r),source_root=c['source_root'],source_sha=c['source_sha'],
                 source_files=c['source_files'],bindings=c['bindings'],parent=c['parent'],
-                profile=profile.PROFILE,kind=profile.KIND,execution_site='VANDA_A40',
+                profile=recipe['profile'],kind=recipe['kind'],execution_site='VANDA_A40',
                 recipe=recipe,allocation_request_id=c['generation_id'],
                 generation_id=generation or (c['generation_id']+'-'+name),start_step=start_step,resume=resume,
                 GPU_uuid=gpu['uuid'],GR00T_updates=endpoint-start_step,WM_updates=0,Actor_updates=0,TASK_ADAPTER_updates=0,
@@ -161,13 +166,14 @@ def with_allocation(c, operation):
                 registry=c['registry'],submission_epoch=c['submission_epoch'],submission_nonce=c['submission_nonce'],
                 project_receipt=c['project_receipt'],predicted_new_peak_bytes=c['predicted_new_peak_bytes'],
                 storage_roots=c['storage_roots'],deadline_epoch=deadline,closeout_reserve_s=1200)
+            if vanda_v3:s['initial_package']=c['initial_package']
             profile.validate(s);write(r/'EXECUTION_SPEC.json',s)
             with closing(OwnerLock(c['ledger_lock'])):
                 reg,pin=snapshot(c['registry']);need(not any(e.get('path')==str(r)for e in reg['entries']),'NEW_CHILD_REGISTRY')
-                reg['entries'].append(dict(path=str(r),role=s['role'],scope=profile.PROFILE,local_lease=str(r/'control/LEASE.json'),
+                reg['entries'].append(dict(path=str(r),role=s['role'],scope=s['profile'],local_lease=str(r/'control/LEASE.json'),
                     owner='EXISTING_LOCAL_PC',source_sha=c['source_sha'],executor_node=os.uname().nodename))
                 once(Path(c['registry']),reg,root.name+'-'+name+'-REGISTER',expected_before_sha256=pin)
-            write(r/'control/LEASE.json',dict(status='ACTIVE',job_id=jid,profile=profile.PROFILE,
+            write(r/'control/LEASE.json',dict(status='ACTIVE',job_id=jid,profile=s['profile'],
                 spec_sha256=digest(r/'EXECUTION_SPEC.json'),deadline_epoch=deadline,GR00T_updates=endpoint-start_step))
             return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))
         registered=journal.once(name+'-REGISTER',dict(mode=mode,variant=variant,endpoint=endpoint,resume=resume),register)
@@ -213,6 +219,9 @@ def with_allocation(c, operation):
 
 def run(c):
     from scripts.pi0292.durable import write
+    if c.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import run as vanda_restore
+        return vanda_restore(c)
     if c.get('allocation_mode')=='FORMAL_SLICE':
         from .target_gr00t_formal_v1 import execute
         return with_allocation(c,lambda *args:execute(c,*args))
