@@ -30,6 +30,10 @@ def _solve(target,A,b,cones):
         primal_residual=s.r_prim,dual_residual=s.r_dual,
         objective_primal=s.obj_val,objective_dual=s.obj_val_dual,
         objective_gap=abs(s.obj_val-s.obj_val_dual))
+    # Infeasibility certificates can have undefined/infinite objective values.
+    # Retain that solver status with explicit missing metrics, so a valid policy
+    # rejection is not converted into a JSON/serving technical failure.
+    values={k:None if isinstance(v,float)and not np.isfinite(v)else v for k,v in values.items()}
     return np.asarray(s.x)if str(s.status)=='Solved'else None,values
 
 
