@@ -1,0 +1,121 @@
+{
+  "schema": "FORMAL_CORE40_CLOSED0_NUMERICAL_QUALIFICATION_REJECTED_V1",
+  "EVIDENCE_ASOF": "2026-11-10T00:49:13.212817+00:00",
+  "SGT": "2026-11-10T08:49:13.212817+08:00",
+  "goal_status": "ACTIVE",
+  "question": "Does the delivered first2000 package reproduce its Hopper outputs on Core under the frozen cross-hardware tolerances?",
+  "training_job": "709342.hopper-m-02",
+  "global_step": 2000,
+  "package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+  "producer_source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+  "Core_source_sha": "b110c1a9872e47ba58de6c41946cfdbb4845086f",
+  "Core": {
+    "worker_exit_code": 0,
+    "lease": "CLOSED",
+    "unit_MainPID": 0,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "actual_Processor_decode_calls": 40,
+    "actual_optimizer_updates": 0,
+    "native_integrations": 0,
+    "worker_wall_s": 414.70646106405184,
+    "child_CPU_s": 56.64537,
+    "result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+    "spec_sha256": "ccb23c49884868a783dc22c79740137ea14a960fb4789bb27e7b254fe6819324",
+    "peak_allocated_bytes": 13297537024,
+    "peak_reserved_bytes": 13511950336,
+    "GPU": "NVIDIA GeForce RTX 4080 SUPER",
+    "GPUs": 1
+  },
+  "comparison": {
+    "status": "REJECTED_BY_ORIGINAL_CROSS_SITE_NUMERICAL_GATE",
+    "matched_queries": 40,
+    "record_model_data_observation_noise_identities_match": true,
+    "absolute_component_tolerances": {
+      "XYZ_m": 0.0001,
+      "rot6d_component": 0.001,
+      "gripper": 0.001,
+      "normalized_component": 0.01
+    },
+    "actual_maximum_absolute_error": {
+      "XYZ_m": 0.00023720567201479525,
+      "rot6d_component": 5.998518626684768e-05,
+      "gripper": 0.004058837890625,
+      "normalized_component": 0.01708984375
+    },
+    "queries_exceeding_each_tolerance": {
+      "XYZ_m": 2,
+      "rot6d_component": 0,
+      "gripper": 30,
+      "normalized_component": 10
+    },
+    "normalized_shape": [
+      1,
+      40,
+      132
+    ],
+    "normalized_storage_dtype": "float32",
+    "result_metadata_sha256": [
+      "2cd663dc24f8e7c8a6a70fa6eed4231adc573572be6760c802b3eb84062d8655",
+      "76b4dc5f7dbd4476b45ceb173b0d7f9de518ce02be931a6b8299f98afdaff6d1"
+    ]
+  },
+  "qualification": {
+    "exists": false,
+    "original_Journal_status": "INTENT_PRESERVED_AFTER_KNOWN_COMPARE_EXCEPTION",
+    "old_effect_replayed": false
+  },
+  "diagnosis": {
+    "root_cause": "NOT_ESTABLISHED",
+    "next_single_factor": "Disable BF16 GEMM reduced-precision reductions on Core for the same40 fixed queries",
+    "hypothesis": "Architecture-dependent GEMM accumulation may contribute to the observed cross-hardware differences; this remains an unproved hypothesis",
+    "original_parameters_Processor_BF16_inputs_noise_and_tolerances_preserved": true,
+    "original_numeric_rejection_preserved": true,
+    "reference": "https://docs.pytorch.org/docs/2.9/notes/numerical_accuracy.html#reduced-precision-reduction-for-fp16-and-bf16-gemms",
+    "code_source_sha": "47b082808c8839d881cd6e31414f4f523f94b485",
+    "software_checks_passed": 18,
+    "diagnostic_is_native_or_model_qualification": false
+  },
+  "negative": {
+    "Core40_numeric_qualification": false,
+    "student_native_DEV_conditions": 0,
+    "student_native_successes": 0,
+    "TEST_conditions": 0,
+    "extra_training_after2000": 0,
+    "tolerances_relaxed": false
+  },
+  "decision": "Preserve all40 and stop before nativeDEV; execute one fresh inference-only backend diagnosis under original owner/finite scope; no replay of old qualification or worker",
+  "private_evidence": {
+    "FIRST_FORMAL_CORE_HOPPER_NUMERICAL_REJECTION_1794271753273608825.private.json": "198d4aa4b05250881b9e0a247e009c6abbb1be505fb5b38d5411e9d462ab0f65",
+    "FIRST_FORMAL_DELIVERY_CORE_INDEPENDENT_1794271706547474456.private.json": "474071f4f875f6a071c4e12ad3c8a4d6dfc09512979bdf82f1b6fc0733ea274f",
+    "CORE_REDUCTION_DIAGNOSTIC01_INDEPENDENT_1794272557694428183.private.json": "4ce7d96a9ff8961629c86c0ff7321c5ca4b1853889414a4dde3e494b54b6a696",
+    "register_task_core_reduction_diagnostic01.remote.private.py": "725724f1ec00a3d987d4ae821160e96ba64ba8acf23b0c5059ca4d20511827cf"
+  },
+  "diagnostic_successor": {
+    "EVIDENCE_ASOF": "2026-11-10T01:02:37.336330+00:00",
+    "SGT": "2026-11-10T09:02:37.336330+08:00",
+    "status": "ACTUAL_SINGLE_GPU_INFERENCE_DIAGNOSTIC_RUNNING",
+    "source_sha": "47b082808c8839d881cd6e31414f4f523f94b485",
+    "published_native_guard_source_sha": "0b0c97120f306a6997c434f8f9ec9124db2dff8b",
+    "spec_sha256": "1b3ca200e5e6efff205ca705c479b4db2fe7695ebb00297f96d09e5532c17d9c",
+    "unit_MainPID": 190184,
+    "lease": "ACTIVE",
+    "deadline_epoch": 1794274753.9457572,
+    "worker_wall_limit_s": 1800,
+    "GPUs": 1,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal_COMPLETE": true,
+    "only_changed_backend_flag": "allow_bf16_reduced_precision_reduction",
+    "original_flag": true,
+    "diagnostic_flag": false,
+    "actual_flag_application_observed": true,
+    "requested_matched_queries": 40,
+    "reference_Core40_result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+    "candidate_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "native_integrations": 0,
+    "optimizer_updates": 0,
+    "diagnostic_only": true,
+    "qualification_issued": false,
+    "software_checks_passed": 18
+  }
+}
