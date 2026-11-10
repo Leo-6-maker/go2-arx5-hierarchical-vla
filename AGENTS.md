@@ -1,5 +1,9 @@
 # GR00T + WBC agent entry · Goal V7
 
+## Latest resource routing · 2026-11-10
+
+The user directs H100/H200 primarily to training. Use Corelab for data production, CPU analysis, and small-scale fine-tuning/inference under actual capacity and existing admission. Do not allocate H100/H200 GPU jobs for CPU data collection or CPU-only data preparation. The already submitted finite GPU numerical qualification jobs retain their sealed identities and endpoints; their private artifact comparisons run on Corelab CPU. Do not submit further ordinary inference jobs to H100/H200. Preserve the current single-writer, frozen WBC, safety, split and recovery requirements.
+
 ## WM02 FUSION-NIGHT1 current scoped mandate · 2026-11-06
 
 For the user's overnight GR00T–WM integration work, read `WM02_FUSION_NIGHT1_START.md`, `docs/handover/2026-11-06/WM02_FUSION_NIGHT1_EXECUTION_V1.md` and `experiments/wm02/fusion_night1_v1.json` first. Adopt only at a sealed cold batch boundary; let healthy PILOT2 workers finish. Use the same owner and qualified local resources, not a second campaign. Existing active capsules and historical panels retain their original contracts.

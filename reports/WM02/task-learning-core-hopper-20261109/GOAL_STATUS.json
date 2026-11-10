@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T04:46:56.947230+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T05:23:07.728429+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -231,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Read actual709670 and709621 terminals through the finite observers, privately deliver the bounded traces, and compare matching modes. Only evidence supporting a separately versioned ordinary-runtime qualification may lead to the original fullDEV80 and frozen scientific decision; no direct promotion of diagnostic outputs.",
+  "next_gate": "Actual matched FP32 CPU comparison, and original internal BF16 counterpart. Diagnostic agreement alone cannot qualify native execution; any runtime adoption needs separately versioned ordinary qualification before the full original DEV80 and frozen decision. No direct SFT4000/8000 promotion.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -440,7 +440,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T12:46:56.947230+08:00",
+  "SGT": "2026-11-10T13:23:07.728429+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -1087,5 +1087,40 @@
       "original_capsule_preserved": true,
       "observer_pid": 4133235
     }
+  },
+  "USER_RESOURCE_ROUTING_20261110": {
+    "received": "2026-11-10",
+    "H100_H200": "Primarily training; no CPU data collection or CPU-only data preparation GPU allocations.",
+    "Corelab": "Data production, CPU artifact comparison, small-scale fine-tuning/inference under actual admission.",
+    "existing_queued_GPU_diagnostics": "Preserve finite original endpoints; no further ordinary inference submissions to H100/H200.",
+    "new_PBS_submissions_this_turn": 0
+  },
+  "FP32_PAIRED_CPU_COMPARISON": {
+    "report": "FP32_PAIRED_CPU_COMPARISON_CONSUMER_ACTUAL.json",
+    "analysis_source_sha": "e3991dcc884b468db77c7442299f3da604f30af1",
+    "consumer": {
+      "pid": 18067,
+      "same_process_independently_verified": true,
+      "process_start_ticks": "42850322",
+      "finite_deadline_epoch": 1794458491.680552,
+      "helper_sha256": {
+        "transfer_compare_h100_fp32_01.private.py": "a0fb41ebd3aa4778c5d08dd754dccc038df28775955f45439f9df53f6f1fa2c7",
+        "FP32_PAIR_COMPARISON_CODE_e3991dcc.private.json": "a2cb86f838a8056fd27995c678d2e2aecfde3e380682d2cfe9a5199f55ec4e5b",
+        "renew_task_policy_scope_v2.remote.private.py": "b0eb47cbfa86aae61d7c17b00de5a74f6042280ce1c66d5474f712cb387bd184"
+      },
+      "stage": "WAIT_KNOWN_LIVE_H100_OBSERVER",
+      "observer_pid": 4191100,
+      "observer_status_epoch": 1794288126.1253667,
+      "remote_effects": 0,
+      "endpoint": "One private Hopper\u2192PC\u2192Core artifact delivery and CPU comparison after709670 F0.",
+      "payload": "Only bounded diagnostic tensors/forty saved predictions/metadata; no model or optimizer transfer.",
+      "Core_owner": "Existing owner, Journal, canonical registry, new finite CPU analysis root.",
+      "scope": "Existing legal cold scope renewal helper if required; no CLOSED reopen.",
+      "automatic_retry_after_uncertain_effect": false,
+      "qualifications_issued": 0
+    },
+    "software_tests_passed": 29,
+    "matched_hardware_result": "PENDING",
+    "qualification_issued": false
   }
 }

@@ -1,0 +1,99 @@
+{
+  "schema": "WM02_MATCHED_FP32_COMPARISON_CONSUMER_ACTUAL_V1",
+  "status": "ACTIVE_GOAL_INCOMPLETE",
+  "actual_epoch": 1794288187.728429,
+  "actual_UTC": "2026-11-10T05:23:07.728429+00:00",
+  "actual_SGT": "2026-11-10T13:23:07.728429+08:00",
+  "analysis_source_sha": "e3991dcc884b468db77c7442299f3da604f30af1",
+  "code_publication_is_not_execution": true,
+  "previous_report": "CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL.json",
+  "user_resource_routing": {
+    "received": "2026-11-10",
+    "H100_H200": "Primarily training; no CPU data collection or CPU-only data preparation GPU allocations.",
+    "Corelab": "Data production, CPU artifact comparison, small-scale fine-tuning/inference under actual admission.",
+    "existing_queued_GPU_diagnostics": "Preserve finite original endpoints; no further ordinary inference submissions to H100/H200.",
+    "new_PBS_submissions_this_turn": 0
+  },
+  "software_change": {
+    "explicit_precision_part_of_all40_query_identity": true,
+    "pinned_two_FP32_receipts_required": true,
+    "all40_autocast_and_both_TF32_flags_checked": true,
+    "all40_actual_states_experts_noise_byte_exact_required": true,
+    "all_prediction_and_boundary_members_SHA256_checked": true,
+    "original_tolerances_unchanged": true,
+    "negative_tolerance_result_preserved_without_qualification": true,
+    "tests": {
+      "command": "PYTHONPATH=src:.:tests/world_model <local-ci-python> -m pytest -q tests/world_model/test_task_learning_fp32_compare_v1.py tests/world_model/test_task_learning_tensor_compare_v1.py tests/world_model/test_task_learning_backbone_compare_v1.py",
+      "passed": 29,
+      "CI": "NOT_RUN",
+      "native_qualification": false
+    }
+  },
+  "Core_actual_analysis_entry": {
+    "result": "ACTUAL_CORE_ANALYSIS_IMPORT_AND_ORIGINAL_FP32_RECEIPT_VALIDATED",
+    "read_existing_queries": 40,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "filesystem_effects": 0
+  },
+  "finite_consumer": {
+    "pid": 18067,
+    "same_process_independently_verified": true,
+    "process_start_ticks": "42850322",
+    "finite_deadline_epoch": 1794458491.680552,
+    "helper_sha256": {
+      "transfer_compare_h100_fp32_01.private.py": "a0fb41ebd3aa4778c5d08dd754dccc038df28775955f45439f9df53f6f1fa2c7",
+      "FP32_PAIR_COMPARISON_CODE_e3991dcc.private.json": "a2cb86f838a8056fd27995c678d2e2aecfde3e380682d2cfe9a5199f55ec4e5b",
+      "renew_task_policy_scope_v2.remote.private.py": "b0eb47cbfa86aae61d7c17b00de5a74f6042280ce1c66d5474f712cb387bd184"
+    },
+    "stage": "WAIT_KNOWN_LIVE_H100_OBSERVER",
+    "observer_pid": 4191100,
+    "observer_status_epoch": 1794288126.1253667,
+    "remote_effects": 0,
+    "endpoint": "One private Hopper\u2192PC\u2192Core artifact delivery and CPU comparison after709670 F0.",
+    "payload": "Only bounded diagnostic tensors/forty saved predictions/metadata; no model or optimizer transfer.",
+    "Core_owner": "Existing owner, Journal, canonical registry, new finite CPU analysis root.",
+    "scope": "Existing legal cold scope renewal helper if required; no CLOSED reopen.",
+    "automatic_retry_after_uncertain_effect": false,
+    "qualifications_issued": 0
+  },
+  "current_jobs": {
+    "709670.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: host ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    },
+    "709533.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    },
+    "709621.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    }
+  },
+  "original_negative_preserved": {
+    "original_Core_BF16_gate": "FAILED",
+    "Core_FP32_vs_original_Hopper_BF16": "FAILED: 32/40 gripper queries above original tolerance",
+    "ordinary_FP32_runtime_adopted": false,
+    "H100_Core_matched_FP32_result": "NOT_YET_AVAILABLE",
+    "native_student_DEV_conditions": 0,
+    "native_student_TEST_conditions": 0
+  },
+  "PBS_totals": {
+    "submissions": 17,
+    "accepted": 15,
+    "rejected_queue": 2,
+    "completed": 12,
+    "successful_F0": 8,
+    "F1": 2,
+    "preworker_negative": 2,
+    "queued": 3
+  },
+  "next_gate": "Actual matched FP32 CPU comparison, and original internal BF16 counterpart. Diagnostic agreement alone cannot qualify native execution; any runtime adoption needs separately versioned ordinary qualification before the full original DEV80 and frozen decision. No direct SFT4000/8000 promotion."
+}
