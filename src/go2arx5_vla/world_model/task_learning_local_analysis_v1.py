@@ -113,7 +113,8 @@ def contact_events(dataset_pin, output, guard=lambda: None):
                     geoms=value['geoms']; continue
                 if value['kind']!='sample': continue
                 step=int(value['step']); samples+=1
-                if previous is not None and step!=previous+1: raise ValueError('Non-contiguous native trace')
+                if (previous is None and step!=1) or (previous is not None and step!=previous+3):
+                    raise ValueError('Changed recorded 6ms contact trace cadence')
                 previous=step
                 if step<B: continue
                 active=set()
@@ -127,13 +128,14 @@ def contact_events(dataset_pin, output, guard=lambda: None):
                 # Preserve transitions, rather than conflating contact duration and contact onset.
                 if not contact_transitions or set(contact_transitions[-1]['pairs'])!=active:
                     contact_transitions.append(dict(native_step=step,pairs=sorted(active)))
-        if previous!=21203: raise ValueError('Incomplete sealed TRAIN trace')
+        if previous!=21202 or samples!=7068: raise ValueError('Incomplete sealed 6ms TRAIN contact trace')
         onsets=[t['native_step'] for i,t in enumerate(contact_transitions) if i>0 and set(t['pairs'])-set(contact_transitions[i-1]['pairs'])]
         for anchor in episode['supervised_anchors']:
             start=B+1000*anchor; end=start+1000
             events=[s for s in onsets if start<=s<end]
             windows.append(dict(episode=episode['id'],anchor=anchor,phase_audit_only=episode['expert_stage_audit_only'][anchor],
-                                contact_onset_native_steps=events,actual_contact_onset=bool(events)))
+                                contact_onset_native_steps=events,actual_contact_onset=bool(events),
+                                onset_intervals_native_steps=[[s-3,s]for s in events]))
         rows.append(dict(episode=episode['id'],samples=samples,trace_sha256=hasher.hexdigest(),
                          first_contact_native_step=first,last_contact_native_step=last,contact_sample_counts=dict(counts),
                          transitions=contact_transitions, native_grasp_not_inferred_from_contact_alone=True))
@@ -144,6 +146,8 @@ def contact_events(dataset_pin, output, guard=lambda: None):
                 contact_onset_windows=sum(r['actual_contact_onset'] for r in windows),rows=rows,windows=windows,
                 model_loads=0,queries=0,optimizer_updates=0,native_integrations=0,TEST_read=False,
                 event_condition='Recorded task_cube_geom pair normal force >=0.05N; not a native-grasp certificate',
+                recorded_contact_period_s=.006,onset_time_resolution_s=.006,
+                unrecorded_between_sample_contacts_not_excluded=True,
                 event_metadata_is_model_input=False, original_data_modified=False)
     write_json(output/'RESULT.private.json', result)
     return result
