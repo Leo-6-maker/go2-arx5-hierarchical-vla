@@ -67,3 +67,20 @@ def test_lambda_zero_returns_original_tensor_and_scoped_hooks_preserve_rng():
         assert torch.equal(torch.get_rng_state(),rng)
     finally:objective.close()
     assert head.sample_time==original
+
+
+def test_processor_config_uses_enum_names_not_serialized_enum_values():
+    from enum import Enum
+    from types import SimpleNamespace as NS
+    Rep=Enum('Rep',dict(RELATIVE='relative',ABSOLUTE='absolute'))
+    Kind=Enum('Kind',dict(EEF='eef',NON_EEF='non_eef'))
+    Format=Enum('Format',dict(XYZ_ROT6D='xyz+rot6d',DEFAULT='default'))
+    configs=NS(modality_keys=['eef_9d','gripper_position'],mean_std_embedding_keys=None,
+        action_configs=[NS(rep=Rep.RELATIVE,type=Kind.EEF,format=Format.XYZ_ROT6D,state_key='eef_9d'),
+                        NS(rep=Rep.ABSOLUTE,type=Kind.NON_EEF,format=Format.DEFAULT,state_key='gripper_position')])
+    params={k:{n:v.cpu().numpy()for n,v in values.items()}for k,values in decoder().bounds.items()}
+    sap=NS(modality_configs={'new_embodiment':{'action':configs}},use_relative_action=True,
+        use_percentiles=False,norm_params={'new_embodiment':{'action':params}})
+    actual=PhysicalDecoder.from_processor(NS(state_action_processor=sap),device='cpu')
+    x=torch.zeros(1,40,132,dtype=torch.float64)
+    torch.testing.assert_close(actual(x,state()),decoder()(x,state()),atol=0,rtol=0)

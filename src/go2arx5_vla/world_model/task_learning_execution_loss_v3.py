@@ -39,8 +39,8 @@ class PhysicalDecoder:
         eef,grip=configs.action_configs
         features.need(configs.modality_keys==['eef_9d','gripper_position'] and sap.use_relative_action
             and not sap.use_percentiles and not configs.mean_std_embedding_keys
-            and eef.rep.value=='RELATIVE' and eef.type.value=='EEF' and eef.format.value=='XYZ_ROT6D'
-            and eef.state_key=='eef_9d' and grip.rep.value=='ABSOLUTE', 'EXACT_ORIGINAL_PHYSICAL_DECODE_CONFIG')
+            and eef.rep.name=='RELATIVE' and eef.type.name=='EEF' and eef.format.name=='XYZ_ROT6D'
+            and eef.state_key=='eef_9d' and grip.rep.name=='ABSOLUTE', 'EXACT_ORIGINAL_PHYSICAL_DECODE_CONFIG')
         return cls(sap.norm_params['new_embodiment']['action'],device=device)
 
     def unnormalize(self,value,key):
