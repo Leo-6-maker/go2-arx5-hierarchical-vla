@@ -243,7 +243,7 @@ def training_tensor_residency(model,contract,optimizer):
                 Adam_moment_tensors=len(moments),training_tensor_device='cuda')
 
 
-def train(s, model, contract, data, root, guard):
+def train(s, model, contract, data, root, guard, *, loss_transform=None):
     import torch
     from collections import OrderedDict
     from transformers import Trainer,set_seed
@@ -267,7 +267,7 @@ def train(s, model, contract, data, root, guard):
     scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer,lambda step:learning_rate_multiplier(step,8000,200))
     set_seed(recipe['seed']);step=restore_state(s['resume'],model,contract,optimizer,scheduler,recipe,s['feature_cache'],frozen)if s.get('resume')else 0
     qualifying=s.get('qualification_only',False)
-    features.need(not qualifying or (s['operation']=='QUALIFY_GPU_RESIDENT' and s.get('resume')
+    features.need(not qualifying or (s['operation']in ('QUALIFY_GPU_RESIDENT','QUALIFY_EXECUTION_LOSS_V3') and s.get('resume')
                   and s['endpoint']==step+1),'ONE_NONCANDIDATE_STORAGE_COMPARISON_UPDATE')
     start=step;audit=NativeNoiseAudit(model);storage=SavedActivationOffload(model,policy=training_activation_policy(s));lru=OrderedDict()
     write(root/'RESTORE_ACTUAL.private.json',dict(restored=s.get('resume')is not None,adaptation_step=step,all_states_exact=s.get('resume')is not None))
@@ -279,17 +279,23 @@ def train(s, model, contract, data, root, guard):
         return row
     try:
         while step<s['endpoint']:
-            guard();started=time.monotonic();optimizer.zero_grad(set_to_none=True);losses=[]
+            guard();started=time.monotonic();optimizer.zero_grad(set_to_none=True);losses=[];objectives=[]
             for offset in range(32):
                 cursor=step*32+offset;index=sample_at(cursor,s['arm'],original,event,recipe['seed']);row=row_at(index)
+                if loss_transform is not None:loss_transform.begin(index,row)
                 with context(storage),torch.autocast('cuda',dtype=torch.bfloat16):
                     value=model.action_head(features.feature_packet(row),features.action_packet(model,row,model.dtype))
-                    loss=features.check_loss(value);(loss/32).backward()
+                    native_loss=features.check_loss(value)
+                    loss=native_loss if loss_transform is None else loss_transform.apply(native_loss)
+                    (loss/32).backward()
                 features.need(audit.verified and not audit.active,'ORIGINAL_NOISE_AND_MASKED_LOSS_AUDIT')
-                losses.append(float(loss.detach()))
+                losses.append(float(native_loss.detach()));objectives.append(float(loss.detach()))
+                sample=dict(cursor=cursor,index=index,identity=row['identity'],native_noise=audit.record)
+                if loss_transform is not None:sample['execution_loss']=loss_transform.record
                 with(root/'SAMPLE_TRACE.jsonl').open('a')as stream:
-                    stream.write(json.dumps(dict(cursor=cursor,index=index,identity=row['identity'],native_noise=audit.record))+'\n')
-                del loss,value
+                    stream.write(json.dumps(sample)+'\n')
+                if loss_transform is not None:loss_transform.release()
+                del loss,native_loss,value
             features.need(all(p.grad is None or bool(torch.isfinite(p.grad).all())for p in contract.parameters()),'FINITE_LAST2_GRADIENTS')
             torch.nn.utils.clip_grad_norm_(contract.parameters(),1.)
             identity_s=0.
@@ -302,6 +308,7 @@ def train(s, model, contract, data, root, guard):
             progress=dict(adaptation_step=step,parent_global_step=2000,cursor=step*32,actual_optimizer_calls=step-start,
                 nonzero_LR=used_lr>0,learning_rate_used=used_lr,native_loss=sum(losses)/32,wall_s=time.monotonic()-started-identity_s,
                 peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+            if loss_transform is not None:progress['total_objective']=sum(objectives)/32
             progress.update(training_activation_storage=s.get('training_activation_storage','CUDA_RESIDENT_V1'),
                             activation_storage_audit=storage.audit(),
                             training_tensor_residency=training_tensor_residency(model,contract,optimizer))
