@@ -59,7 +59,7 @@ def allocated(record, job_id, *, uid, hostname, user,expected_job_name='gr00t_ta
     profile.need(uid == 22182 and user == 'e1192548' and record['Job_Owner'].split('@')[0] == user
         and record['job_state'] == 'R' and record['project'] == PROJECT
         and expected_gpu_model in ('H200','H100')
-        and (expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan')
+        and (expected_job_name in ('gr00t_task_hopper','gr00t_fit4_200','gr00t_task_sft','gr00t_batchscan','gr00t_numtrace')
              if expected_gpu_model=='H200'else expected_job_name in ('gr00t_h100_check','gr00t_task_sft'))
         and record['Job_Name'] == expected_job_name and int(resources['ngpus']) == 1
         and int(resources['nodect']) == 1 and resources['select'].split(':')[0] == '1'
