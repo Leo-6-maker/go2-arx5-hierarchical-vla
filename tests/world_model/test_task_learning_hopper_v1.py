@@ -147,3 +147,19 @@ def test_fit4_only_requires_completed_matching_restore_and_no_previous_fit(tmp_p
     elif change=='already_fit':(Path(c['qualified_restore']['root'])/'fit4-200').mkdir()
     elif change=='missing_server':c.pop('pbs_server')
     with pytest.raises(PermissionError):qualified_fit4_forecast(c)
+def test_same_child_name_in_two_allocations_has_distinct_global_registry_intents(tmp_path):
+    from go2arx5_vla.world_model.task_learning_hopper_v1 import child_registration_key
+    from scripts.pi0294.night10.native_relay import snapshot, once
+    registry = tmp_path / 'registry.json'
+    registry.write_text('{"entries": []}')
+    keys = []
+    for allocation in ('original-h200', 'successor-h100'):
+        root = tmp_path / allocation
+        reg, before = snapshot(registry)
+        reg['entries'].append(dict(path=str(root / 'continuous4')))
+        key = child_registration_key(root, 'continuous4'); keys.append(key)
+        once(registry, reg, key, expected_before_sha256=before)
+    assert len(set(keys)) == 2
+    assert len(snapshot(registry)[0]['entries']) == 2
+    assert all((tmp_path / (key + '.INTENT.json')).is_file()
+               and (tmp_path / (key + '.RECEIPT.json')).is_file() for key in keys)

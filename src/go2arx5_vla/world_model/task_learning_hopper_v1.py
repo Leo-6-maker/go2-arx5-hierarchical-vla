@@ -13,6 +13,11 @@ PROJECT = 'CFP04-CF-007'
 SCOPE = 'GR00T_TASK_LEARNING_CORE_HOPPER_V1'
 
 
+def child_registration_key(allocation_root, child_name):
+    """Global registry intents must include the allocation, not just continuous4."""
+    return Path(allocation_root).name + '-' + child_name + '-REGISTER'
+
+
 def job(job_id, server=None):
     """Read the exact current or historical job on the configured server."""
     server = server or os.environ.get('PBS_SERVER')
@@ -229,7 +234,7 @@ def run(c):
                     need(not any(e.get('path') == str(r) for e in reg['entries']), 'FRESH_HOPPER_CHILD')
                     reg['entries'].append(dict(path=str(r),role=spec['role'],scope=profile.PROFILE,
                         local_lease=str(r/'control/LEASE.json'),owner='EXISTING_LOCAL_PC',source_sha=c['source_sha']))
-                    once(Path(c['registry']),reg,r.name+'-REGISTER',expected_before_sha256=pin)
+                    once(Path(c['registry']),reg,child_registration_key(root, name),expected_before_sha256=pin)
                 write(r / 'control/LEASE.json',dict(status='ACTIVE',job_id=jid,
                     spec_sha256=digest(r/'EXECUTION_SPEC.json'),deadline_epoch=deadline))
                 return dict(spec_sha256=digest(r/'EXECUTION_SPEC.json'))
