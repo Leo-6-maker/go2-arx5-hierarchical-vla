@@ -98,6 +98,7 @@ def prediction_audit(result_pin, samples, dataset_pin, output):
 
 def contact_events(dataset_pin, output, guard=lambda: None):
     """Stream actual native trace contacts; phase names never stand in for contacts."""
+    from scripts.pi0292.durable import write
     manifest = checked(dataset_pin); output = Path(output); output.mkdir(exist_ok=False)
     episodes = [r for r in manifest['episodes'] if r['split']=='TRAIN']
     rows=[]; windows=[]
@@ -139,7 +140,7 @@ def contact_events(dataset_pin, output, guard=lambda: None):
         rows.append(dict(episode=episode['id'],samples=samples,trace_sha256=hasher.hexdigest(),
                          first_contact_native_step=first,last_contact_native_step=last,contact_sample_counts=dict(counts),
                          transitions=contact_transitions, native_grasp_not_inferred_from_contact_alone=True))
-        write_json(output/'PROGRESS.private.json',dict(completed_episodes=len(rows),requested=len(episodes),windows=len(windows)))
+        write(output/'PROGRESS.private.json',dict(completed_episodes=len(rows),requested=len(episodes),windows=len(windows)))
     if len(episodes)!=100 or len(windows)!=1450: raise ValueError('Original TRAIN100 denominator changed')
     result=dict(schema='TASK_LEARNING_TRAIN100_RECORDED_CONTACT_EVENTS_V1',dataset=dataset_pin,
                 requested_episodes=100,audited_episodes=len(rows),distinct_supervised_windows=len(windows),

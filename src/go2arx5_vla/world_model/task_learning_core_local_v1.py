@@ -152,3 +152,168 @@ def prepare_cache(s, model, contract, data, root, guard):
         optimizer_updates=0,old_FIT4_identity_reused=False,formal_FULL_ACTION_SIDE_continuation=False)
     write(output/'CACHE_MANIFEST.private.json',result);model.backbone.to('cpu');torch.cuda.empty_cache()
     return result
+
+
+def sampling_tables(cache, manifest, events):
+    """Keep the original3200 exposure entries, changing only25% event-arm draws."""
+    lookup={(r['episode'],r['anchor']):r['index']for r in cache['rows']}
+    original=[lookup[e['id'],a]for e in manifest['episodes']if e['split']=='TRAIN'
+              for a in e['optimization_anchors']]
+    event=[lookup[r['episode'],r['anchor']]for r in events['windows']if r['actual_contact_onset']]
+    features.need(len(lookup)==1450 and len(original)==3200 and set(original)==set(range(1450))
+                  and bool(event) and len(event)==len(set(event)),'COMPLETE_UNCHANGED_BASE_AND_REAL_EVENT_POPULATIONS')
+    return original,event
+
+
+def sample_at(cursor, arm, original, event, seed):
+    features.need(arm in ('ORIGINAL','CONTACT_EVENTS'),'DECLARED_SAMPLING_ARM')
+    if arm=='CONTACT_EVENTS' and cursor%4==3:
+        return event[features.sample_index(cursor//4,len(event),seed+1000000)]
+    offset=cursor if arm=='ORIGINAL' else cursor-cursor//4
+    return original[features.sample_index(offset,len(original),seed)]
+
+
+def save_state(path, model, contract, optimizer, scheduler, step, recipe, cache_pin, frozen):
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.native_train import tree_identity,rng_identity
+    path=Path(path);path.mkdir()
+    features.atomic_torch(path/'target_parameters.pt',{n:model.get_parameter(n).detach().cpu()for n in contract.trainable_names})
+    features.atomic_torch(path/'optimizer.pt',optimizer.state_dict())
+    features.atomic_torch(path/'scheduler.pt',scheduler.state_dict())
+    features.atomic_torch(path/'rng.pt',features.rng_state())
+    write(path/'STATE_IDENTITY.json',dict(parameters=features.state_identity(model,contract.trainable_names),
+        optimizer=tree_identity(optimizer.state_dict()),scheduler=scheduler.state_dict(),RNG=rng_identity(),cursor=step*32))
+    write(path/'FROZEN_STARTING_TENSORS.json',frozen)
+    write(path/'CHECKPOINT_COMPLETE.json',dict(schema=MEMORY,adaptation_step=step,parent_global_step=2000,
+        cursor=step*32,recipe=recipe,feature_cache=cache_pin,parameter_contract=contract.describe(),
+        files={p.name:digest(p)for p in path.iterdir()if p.is_file()},scaler='NOT_APPLICABLE_BF16',
+        formal_FULL_ACTION_SIDE_continuation=False,old_FIT4_identity_reused=False))
+
+
+def restore_state(path, model, contract, optimizer, scheduler, recipe, cache_pin, frozen):
+    import torch
+    from scripts.pi0294.native_train import tree_identity,rng_identity
+    path=Path(path);saved=json.loads((path/'CHECKPOINT_COMPLETE.json').read_bytes())
+    features.need(saved['schema']==MEMORY and saved['recipe']==recipe and saved['feature_cache']==cache_pin
+                  and saved['parameter_contract']==contract.describe(),'SAME_NEW_ADAPTATION_IDENTITY')
+    features.need(all(digest(path/n)==pin for n,pin in saved['files'].items()),'COMPLETE_CHECKPOINT_MEMBERS')
+    features.need(json.loads((path/'FROZEN_STARTING_TENSORS.json').read_bytes())==frozen,'SAME_FROZEN_SFT2000_WEIGHTS')
+    values=torch.load(path/'target_parameters.pt',map_location='cpu',weights_only=True)
+    features.need(set(values)==set(contract.trainable_names),'ALL_LAST2_PARAMETERS')
+    with torch.no_grad():
+        for name,value in values.items():
+            target=model.get_parameter(name)
+            features.need(value.shape==target.shape and value.dtype==target.dtype,'UNCHANGED_PARAMETER_LAYOUT')
+            target.copy_(value)
+    optimizer.load_state_dict(torch.load(path/'optimizer.pt',map_location='cpu',weights_only=False))
+    scheduler.load_state_dict(torch.load(path/'scheduler.pt',map_location='cpu',weights_only=False))
+    features.restore_rng(torch.load(path/'rng.pt',map_location='cpu',weights_only=False))
+    actual=dict(parameters=features.state_identity(model,contract.trainable_names),optimizer=tree_identity(optimizer.state_dict()),
+        scheduler=scheduler.state_dict(),RNG=rng_identity(),cursor=saved['cursor'])
+    features.need(actual==json.loads((path/'STATE_IDENTITY.json').read_bytes()),'ACTUAL_FRESH_PROCESS_FULL_STATE_EXACT')
+    return saved['adaptation_step']
+
+
+def train(s, model, contract, data, root, guard):
+    import torch
+    from collections import OrderedDict
+    from transformers import Trainer,set_seed
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.native_train import NativeNoiseAudit
+    from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
+    from scripts.pi0294.e1.trainer import learning_rate_multiplier
+    from scripts.pi0294.multitask.activation_offload import SavedActivationOffload,context
+    from .target_gr00t_core_v1 import activation_policy
+    cp=Path(s['feature_cache']['path']);features.need(digest(cp)==s['feature_cache']['sha256'],'PINNED_NEW_TRAIN100_CACHE')
+    cache=json.loads(cp.read_bytes());events_path=Path(s['contact_events']['path'])
+    features.need(digest(events_path)==s['contact_events']['sha256'],'PINNED_ACTUAL_CONTACT_AUDIT')
+    events=json.loads(events_path.read_bytes())
+    features.need(cache['dataset_sha256']==events['dataset']['sha256']==s['dataset_sha256']
+                  and cache['initial_package']==s['package'],'SAME_TRAIN100_AND_SFT2000_START')
+    original,event=sampling_tables(cache,data.manifest,events)
+    model.backbone.to('cpu');model.action_head.to('cuda');model.eval();frozen=frozen_fingerprint(model)
+    decay=set(Trainer.get_decay_parameter_names(None,model));recipe=s['recipe']
+    groups=[dict(params=[model.get_parameter(n)for n in contract.trainable_names if(n in decay)==use],
+                 weight_decay=recipe['weight_decay']if use else 0.)for use in(True,False)]
+    optimizer=torch.optim.AdamW(groups,lr=recipe['learning_rate'],betas=(.9,.999),eps=1e-8)
+    scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer,lambda step:learning_rate_multiplier(step,8000,200))
+    set_seed(recipe['seed']);step=restore_state(s['resume'],model,contract,optimizer,scheduler,recipe,s['feature_cache'],frozen)if s.get('resume')else 0
+    start=step;audit=NativeNoiseAudit(model);storage=SavedActivationOffload(model,policy=activation_policy());lru=OrderedDict()
+    write(root/'RESTORE_ACTUAL.private.json',dict(restored=s.get('resume')is not None,adaptation_step=step,all_states_exact=s.get('resume')is not None))
+    def row_at(index):
+        if index in lru:row=lru.pop(index);lru[index]=row;return row
+        pin=cache['rows'][index];file=cp.parent/pin['file'];features.need(digest(file)==pin['sha256'],'UNCHANGED_FROZEN_FEATURE_ROW')
+        row=torch.load(file,map_location='cpu',weights_only=False);lru[index]=row
+        if len(lru)>8:lru.popitem(last=False)
+        return row
+    try:
+        while step<s['endpoint']:
+            guard();started=time.monotonic();optimizer.zero_grad(set_to_none=True);losses=[]
+            for offset in range(32):
+                cursor=step*32+offset;index=sample_at(cursor,s['arm'],original,event,recipe['seed']);row=row_at(index)
+                with context(storage),torch.autocast('cuda',dtype=torch.bfloat16):
+                    value=model.action_head(features.feature_packet(row),features.action_packet(model,row,model.dtype))
+                    loss=features.check_loss(value);(loss/32).backward()
+                features.need(audit.verified and not audit.active,'ORIGINAL_NOISE_AND_MASKED_LOSS_AUDIT')
+                losses.append(float(loss.detach()))
+                with(root/'SAMPLE_TRACE.jsonl').open('a')as stream:
+                    stream.write(json.dumps(dict(cursor=cursor,index=index,identity=row['identity'],native_noise=audit.record))+'\n')
+                del loss,value
+            features.need(all(p.grad is None or bool(torch.isfinite(p.grad).all())for p in contract.parameters()),'FINITE_LAST2_GRADIENTS')
+            torch.nn.utils.clip_grad_norm_(contract.parameters(),1.)
+            used_lr=optimizer.param_groups[0]['lr'];optimizer.step();scheduler.step();step+=1
+            progress=dict(adaptation_step=step,parent_global_step=2000,cursor=step*32,actual_optimizer_calls=step-start,
+                nonzero_LR=used_lr>0,learning_rate_used=used_lr,native_loss=sum(losses)/32,wall_s=time.monotonic()-started,
+                peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+            with(root/'OPTIMIZER_STEPS.jsonl').open('a')as stream:stream.write(json.dumps(progress)+'\n')
+            write(root/'PROGRESS.private.json',progress)
+            if step==s['endpoint']:save_state(root/f'checkpoint-{step}',model,contract,optimizer,scheduler,step,recipe,s['feature_cache'],frozen)
+        features.need(frozen_fingerprint(model)==frozen,'FROZEN_SFT2000_TENSORS_UNCHANGED')
+        if step==500:
+            measure(s,model,data,root/'after-500',guard,cache_manifest=cache)
+        return dict(actual_optimizer_calls=step-start,adaptation_step=step,cursor=step*32,
+            checkpoint=str(root/f'checkpoint-{step}'),arm=s['arm'],distinct_training_windows=1450,
+            formal_FULL_ACTION_SIDE_continuation=False)
+    finally:audit.close()
+
+
+def measure(s,model,data,output,guard,*,cache_manifest=None):
+    import torch
+    import numpy as np
+    from gr00t.data.embodiment_tags import EmbodimentTag
+    from scripts.pi0292.durable import write
+    from scripts.pi0292.eval_contract import error_metrics
+    from scripts.pi0294.native_train import rng_identity
+    from .task_learning_local_analysis_v1 import geometry
+    output=Path(output);output.mkdir();state=features.rng_state();before=rng_identity();rows=[]
+    records=json.loads(Path(s['Core40_result']['path']).read_bytes())['records']
+    lookup={(e['id'],a):i for i,(e,a)in enumerate(data.rows)}
+    cached={(r['episode'],r['anchor']):r for r in cache_manifest['rows']}if cache_manifest else None
+    try:
+        for record in records:
+            guard();index=lookup[record['episode'],record['anchor']];actual,expert,_,_=data.raw(index)
+            with torch.random.fork_rng(devices=[0]),torch.inference_mode(),torch.autocast('cuda',dtype=torch.bfloat16):
+                torch.manual_seed(record['seed'])
+                if cached is None:
+                    inputs=data.processor.collator([data[index]['processed']])['inputs']
+                    prediction=model.get_action(features.inference_inputs(inputs))['action_pred']
+                else:
+                    pin=cached[record['episode'],record['anchor']];file=Path(s['feature_cache']['path']).parent/pin['file']
+                    features.need(digest(file)==pin['sha256'],'SEALED_EVALUATION_FEATURE_ROW')
+                    row=torch.load(file,map_location='cpu',weights_only=False)
+                    prediction=model.action_head.get_action(features.feature_packet(row),features.action_packet(model,row,model.dtype,generation=True))['action_pred']
+                normalized=prediction.detach().float().cpu().numpy()
+            decoded=data.processor.decode_action(normalized,EmbodimentTag.NEW_EMBODIMENT,
+                {'eef_9d':actual[None,None,:9],'gripper_position':actual[None,None,9:]})
+            physical=np.concatenate([decoded[k]for k in('eef_9d','gripper_position')],axis=-1)[0]
+            file=output/record['sample_file'];np.savez(file,normalized=normalized,physical_H40=physical,
+                expert_policy_H40=expert,actual_state10=actual,noise_seed=np.asarray(record['seed'],dtype=np.int64))
+            rows.append(dict(episode=record['episode'],anchor=record['anchor'],seed=record['seed'],
+                phase_audit_only=record['phase_audit_only'],sample_file=file.name,sha256=digest(file),
+                errors=error_metrics(physical,expert,actual),envelope=geometry(physical,actual)))
+    finally:features.restore_rng(state)
+    features.need(before==rng_identity()and len(rows)==40,'COMPLETE_PHASE_PROBES_WITHOUT_TRAIN_RNG_CHANGE')
+    result=dict(schema='TASK_LEARNING_CORE_LOCAL_LAST2_PHASE_PROBES_V1',records=rows,
+        actual_queries=40,original_full_inference=cache_manifest is None,parent_global_step=2000,adaptation_step=500,
+        native_task_success='NOT_MEASURED_BY_OPEN_LOOP',new_optimizer_updates=0)
+    write(output/'RESULT.private.json',result);return result
