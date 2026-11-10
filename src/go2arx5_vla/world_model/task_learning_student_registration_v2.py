@@ -112,6 +112,9 @@ def group_input(request,panel):
         population_predecessor=request.get('population_predecessor'),**{k:reg[k]for k in(
             'source_root','source_files','native_base','gpu_base','scenes','scene_allowlist',
             'scene_allowlist_sha256','memory_execution','memory_execution_reference')})
+    if panel.get('task_learning_role')==task.CORE_LOCAL_ROLE:
+        from .task_learning_local_policy_v1 import INPUT_SCHEMA
+        inp['schema']=INPUT_SCHEMA
     batch.selection(inp,panel)
     for label in('pilot1','fusion'):
         descriptor_=request[label+'_binding'];binding=pinned(descriptor_)
@@ -181,7 +184,8 @@ def dispatch_group(input_path):
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',
         'PYTHONPATH='+inp['source_root']+'/src:'+inp['source_root'],n['python'],'-B','-m',
-        'scripts.wm02.task_learning_student_dev_v1','--input',str(input_path)]
+        ('scripts.wm02.task_learning_core_local_panel_v1'if inp.get('schema')=='TASK_LEARNING_CORE_LOCAL_GROUP_INPUT_V1'
+         else'scripts.wm02.task_learning_student_dev_v1'),'--input',str(input_path)]
     def effect():
         write(root/'LAUNCH_INTENT.private.json',dict(argv=argv,automatic_retry=False))
         q=subprocess.run(argv,capture_output=True,text=True,timeout=20)

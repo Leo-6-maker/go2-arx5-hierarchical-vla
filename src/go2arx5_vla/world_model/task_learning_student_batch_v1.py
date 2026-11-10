@@ -16,6 +16,9 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    if inp.get('schema')=='TASK_LEARNING_CORE_LOCAL_GROUP_INPUT_V1':
+        from .task_learning_local_policy_v1 import selection as local_selection
+        return local_selection(inp,panel)
     rows=student.validate(panel);span=inp.get('assignment_slice')
     version=inp.get('schema')
     task.need(version in(SCHEMA,CONTINUATION_SCHEMA) and inp.get('source_sha')==panel['source_sha']
@@ -52,20 +55,23 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     source=Path(inp['source_root']);descriptor=inp['scenes'][row['layout']];proof=pinned(descriptor)
     task.need(proof['layout']==row['layout']and proof['parent']==row['parent']
         and proof['compiled']['scene_sha256']==row['model_sha256'],'FIXED_DEV_SCENE_ROW_JOIN')
+    local=panel.get('task_learning_role')==task.CORE_LOCAL_ROLE
+    role=task.CORE_LOCAL_ROLE if local else task.STUDENT_DEV_ROLE
     common=dict(source_root=str(source),source_sha=inp['source_sha'],source_files=inp['source_files'],
         deadline_epoch=deadline,wall_limit_s=1200,pilot1_binding=inp['pilot1_binding'],
-        pilot1_binding_sha256=inp['pilot1_binding_sha256'],task_learning_grasp=task.protocol(task.STUDENT_DEV_ROLE),
+        pilot1_binding_sha256=inp['pilot1_binding_sha256'],task_learning_grasp=task.protocol(role),
         target_gr00t_policy=panel['policies'][row['method']],target_gr00t_query_seeds=row['query_seeds'],
         target_gr00t_pair_id=row['native_run'],target_gr00t_B1_global_step=panel['B1_global_step'])
+    if local:common['core_local_protocol']=task.CORE_LOCAL_ROLE
     native=copy.deepcopy(nbase)
     for key in('task_learning_teacher_mode','task_learning_control','night1_binding','next1_binding','next2_binding',
         'fusion_binding','fusion_binding_sha256','target_gr00t_collection','paused_query_pair',
         'paused_query_gpu_spec','stable_task_candidate','stable_task_evaluation','program_reference_selection'):
         native.pop(key,None)
     native.update(common,registered_root=str(nroot),role=nroot.name.upper(),lease=str(nroot/'control/LEASE.json'),
-        registry_snapshot=str(nroot/'control/REGISTRY_SNAPSHOT.private.json'),task_learning_role=task.STUDENT_DEV_ROLE,
-        experiment_role=student.EXPERIMENT,task_condition=task.STUDENT_DEV_ROLE,
-        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role='DEV',
+        registry_snapshot=str(nroot/'control/REGISTRY_SNAPSHOT.private.json'),task_learning_role=role,
+        experiment_role='CORE_LOCAL_B0_SFT2000_DIAGNOSTIC_NOT_DEV_TEST'if local else student.EXPERIMENT,task_condition=role,
+        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role='TRAIN'if local else'DEV',
         model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),stable_task_panel=inp['panel'],
         stable_task_panel_sha256=inp['panel_sha256'],scene_allowlist=inp['scene_allowlist'],
         scene_allowlist_sha256=inp['scene_allowlist_sha256'],cpus=[0,1,2,3],ROS_DOMAIN_ID=220,
@@ -193,8 +199,12 @@ def run(input_path):
     validation=dict(nbase,registered_root=str(stage),source_sha=inp['source_sha'],deadline_epoch=inp['deadline_epoch'],
         pilot1_binding=inp['pilot1_binding'],pilot1_binding_sha256=inp['pilot1_binding_sha256'])
     validate_scope(validation)
+    local=panel.get('task_learning_role')==task.CORE_LOCAL_ROLE
+    validate_policy=pair.policy_contract;summarize=student.summarize
+    if local:
+        from .task_learning_local_policy_v1 import policy_contract as validate_policy,summarize
     for method in('B0','B1'):
-        pair.policy_contract(panel['policies'][method],gbase['checkpoint_files'],expected_global_step=panel['B1_global_step'])
+        validate_policy(panel['policies'][method],gbase['checkpoint_files'],expected_global_step=panel['B1_global_step'])
     journal=Journal(campaign/'control/journal',campaign.name);outcomes=[];code=1;failure=None;start=time.monotonic()
     current_row=None;current_pair=None;unresolved=None
     write(stage/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=inp['source_sha'],started_epoch=time.time()))
@@ -238,9 +248,9 @@ def run(input_path):
             task.need(time.time()+1200<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
             current_row=row;current_pair=None;registered=register(row);current_pair=registered
             execute_pair(registered,journal,stage,len(outcomes))
-            result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'])
+            result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'],core_local=local)
             outcomes.append(result);write(stage/'OUTCOMES.private.json',outcomes)
-            write(stage/'SUMMARY.private.json',student.summarize(panel,outcomes))
+            write(stage/'SUMMARY.private.json',summarize(panel,outcomes))
             task.need(not result['hard_safety_stop'],'ORIGINAL_HARD_SAFETY_DEV_FAMILY_PAUSED')
             task.need(result['technical_valid'],'ENGINEERING_FAILURE_PRESERVED_NO_BLIND_NEXT_CASE')
         code=0
@@ -248,7 +258,7 @@ def run(input_path):
         failure=type(error).__name__+': '+str(error)
         if current_pair and not any(v['native_run']==current_row['native_run']for v in outcomes):
             try:
-                outcomes.append(student.classify_actual(current_row,stage/'runs'/current_row['native_run'],inp['source_sha']))
+                outcomes.append(student.classify_actual(current_row,stage/'runs'/current_row['native_run'],inp['source_sha'],core_local=local))
                 write(stage/'OUTCOMES.private.json',outcomes)
             except BaseException as audit_error:
                 unresolved=dict(pair=current_pair,observation_error=type(audit_error).__name__+': '+str(audit_error))
@@ -267,8 +277,8 @@ def run(input_path):
                     permission.update(status='CLOSED',worker_exit_code=None,closed_epoch=time.time(),
                         terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED')
                     write(root/'control/LEASE.json',permission)
-        summary=student.summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
-        write(stage/'RESULT.private.json',dict(status='TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED',
+        summary=summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
+        write(stage/'RESULT.private.json',dict(status=('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
             exit_code=code,failure=failure,summary=summary,assignment_slice=inp['assignment_slice'],
             selected_requests=len(rows),completed_in_group=len(outcomes),source_sha=inp['source_sha'],panel_sha256=inp['panel_sha256'],
             wall_s=time.monotonic()-start,CPU_s=sum(v['CPU_s']for v in outcomes),

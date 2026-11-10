@@ -1,0 +1,44 @@
+import copy
+import pytest
+
+from go2arx5_vla.world_model import task_learning_grasp_v1 as task
+from go2arx5_vla.world_model import task_learning_local_policy_v1 as local
+from go2arx5_vla.world_model import task_learning_student_v1 as student
+from go2arx5_vla.world_model import task_learning_live_pair_v1 as original_pair
+from go2arx5_vla.world_model.target_gr00t_profile_v1 import PARENT
+
+
+def panel():
+    rows=[]
+    for i,(layout,method,seed)in enumerate(local.ORDER):
+        rows.append(dict(native_run=f'local-{i}',layout=layout,method=method,
+            parent='TASK_LEARNING_UNDER_HAND_'+layout,split='TRAIN',purpose=local.PURPOSE,
+            restart=1,command=task.COMMAND,model_sha256='a'*64,query_seeds=list(range(seed,seed+15))))
+    return dict(schema=local.SCHEMA,task_learning_role=task.CORE_LOCAL_ROLE,
+        protocol=task.protocol(task.CORE_LOCAL_ROLE),B1_global_step=2000,source_sha='b'*40,
+        policies={'B0':{},'B1':{}},preregistration={'sha256':local.CONTRACT_SHA},assignments=rows)
+
+
+def test_local_four_is_disjoint_from_original_DEV80():
+    p=panel();assert len(local.validate_panel(p))==4
+    assert len(local.selection(dict(schema=local.INPUT_SCHEMA,source_sha=p['source_sha'],assignment_slice=[0,4]),p))==4
+    with pytest.raises(ValueError):student.validate(p)
+    for key,value in [('split','DEV'),('layout','DEV01'),('method','B0')]:
+        q=copy.deepcopy(p);q['assignments'][1][key]=value
+        with pytest.raises(ValueError):local.validate_panel(q)
+
+
+def test_local_policy_proof_cannot_satisfy_original_cross_hardware_contract():
+    policy=dict(arm='B1',parent_manifest_sha256=PARENT,package={'path':'/unused','sha256':'c'*64},
+                Core_local_qualification={'path':'/unused','sha256':'d'*64})
+    with pytest.raises(PermissionError,match='EXPLICIT_ORIGINAL_B0_OR_TRAINED_INTERNAL_GR00T_B1'):
+        original_pair.policy_contract(policy,{},verify_package=False)
+
+
+def test_teacher_and_original_student_role_semantics_stay_separate():
+    assert task.student_role(task.CORE_LOCAL_ROLE)
+    assert task.student_role(task.STUDENT_DEV_ROLE)
+    assert not task.student_role(task.COLLECTION_ROLE)
+    assert task.protocol(task.CORE_LOCAL_ROLE)['expert_commands']=='NONE_STUDENT_NOT_EXPERT'
+    assert task.protocol(task.STUDENT_DEV_ROLE)['scene_family']=='SEPARATE_UNDER_HAND_NEW_DEV_LAYOUTS_NOT_TRAIN'
+    assert task.protocol(task.CORE_LOCAL_ROLE)['physics_dt_s']==.002

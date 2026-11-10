@@ -89,10 +89,14 @@ def summarize(panel,outcomes):
         WBC_changes=False,TEST_results_read=False)
 
 
-def classify_actual(row,root,expected_source):
+def classify_actual(row,root,expected_source,*,core_local=False):
     """Read both actual terminal workers; valid policy rejection remains a failure."""
     import json
     from .task_learning_teacher_panel_v1 import classify as original
+    role=task.CORE_LOCAL_ROLE if core_local else task.STUDENT_DEV_ROLE
+    schema=NATIVE_SCHEMA
+    if core_local:
+        from .task_learning_local_policy_v1 import NATIVE_SCHEMA as schema
     root=Path(root)
     def read(path):return json.loads(path.read_bytes())if path.exists()else{}
     spec=read(root/'EXECUTION_SPEC.json');native=root/'native-01'
@@ -102,7 +106,7 @@ def classify_actual(row,root,expected_source):
         readiness=read(native/'TASK_LEARNING_START_READINESS.private.json'),
         score=read(native/'TASK_LEARNING_SCORE.private.json'),spec=spec,
         expected_source=expected_source,attempted=native.exists(),
-        expected_role=task.STUDENT_DEV_ROLE,expected_native_schema=NATIVE_SCHEMA)
+        expected_role=role,expected_native_schema=schema)
     gpu=Path(spec['target_gr00t_gpu_root']);gs=read(gpu/'EXECUTION_SPEC.json')
     gl=read(gpu/'control/LEASE.json');gw=read(gpu/'WORKER_EXIT.private.json')
     gr=read(gpu/'fit-01/RESULT.private.json');records=gr.get('records')or[]
@@ -120,7 +124,7 @@ def classify_actual(row,root,expected_source):
     rejected=read(native/'TASK_LEARNING_STUDENT_REJECTION.private.json')
     children=n.get('owned_process_exits')or[]
     controlled=(server and rejected and spec.get('source_sha')==expected_source
-        and spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
+        and spec.get('task_learning_role')==role
         and 'TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED:'in(n.get('failure')or'')
         and n.get('shutdown_clean')is True and len(children)==4
         and {p.get('name')for p in children}=={'sim','solver','controller','planner'}

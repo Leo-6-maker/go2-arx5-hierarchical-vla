@@ -27,6 +27,9 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
 
 def scene_admission(spec):
     task.declared(spec)
+    if spec.get('task_learning_role')==task.CORE_LOCAL_ROLE:
+        from .task_learning_local_policy_v1 import native_scene_admission
+        return native_scene_admission(spec)
     from .task_learning_scene_v1 import admission
     proof=admission(spec)
     split='DEV'if spec.get('task_learning_role')in(task.DEV_REFERENCE_ROLE,task.STUDENT_DEV_ROLE)else'TRAIN'
@@ -97,8 +100,10 @@ def validate(spec):
               'DECLARED_START_READINESS_BEFORE_ANY_NATIVE_STARTUP')
     scene_admission(spec)
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
-    if role==task.STUDENT_DEV_ROLE:
+    if task.student_role(role):
         from .task_learning_student_v1 import EXPERIMENT
+        if role==task.CORE_LOCAL_ROLE:
+            from .task_learning_local_policy_v1 import EXPERIMENT
         task.need(spec.get('experiment_role')==EXPERIMENT
             and spec.get('snapshot_binding_mode')=='PRE_REGISTERED_TASK_LEARNING_GRASP_V1'
             and spec.get('live_skill_geometry_scale')==1.
@@ -136,7 +141,7 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
-    if spec.get('task_learning_role')==task.STUDENT_DEV_ROLE:
+    if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
         members=tuple(dict.fromkeys(members+model_members))
     episode,source=common.operational.recipe_config(spec,episode,actual_phase=task.PHASE,
@@ -146,7 +151,7 @@ def episode_config(spec):
 
 def episode_limit(spec,prior):
     episode_config(spec);common.audit_prefix_predecessor(spec,prior)
-    if spec.get('task_learning_role')==task.STUDENT_DEV_ROLE:
+    if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import preflight
         preflight(spec)
     return task.E
@@ -213,7 +218,7 @@ def continue_native(adapter,report,samples,windows):
     feet,_=actual_feet(adapter,samples[-1])
     initial=dict(qpos=np.asarray(samples[-1]['qpos']).copy(),feet=feet)
     control=adapter.spec.get('task_learning_control')==task.HOLD_CONTROL
-    student=adapter.spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
+    student=task.student_role(adapter.spec.get('task_learning_role'))
     from .task_learning_recovery_v1 import NORMAL,UNDER_CLOSE,UnderCloseRecoveryTeacher,INTERVENTION
     mode=NORMAL if student else adapter.spec.get('task_learning_teacher_mode',NORMAL)
     task.need(mode in(NORMAL,UNDER_CLOSE)and(not control or mode==NORMAL),'EXPLICIT_TEACHER_MODE')
@@ -311,6 +316,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.CORE_LOCAL_ROLE:
+        from .task_learning_local_policy_v1 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role==task.EXPANSION_QUALIFICATION_ROLE:
         from .task_learning_expansion_v1 import NATIVE_SCHEMA
         return NATIVE_SCHEMA
@@ -329,7 +337,7 @@ def native_result_schema(spec):
 def complete_consumption(spec,result):
     task.declared(spec);cycles=result.get('generated_cycles')or[]
     control=spec.get('task_learning_control')==task.HOLD_CONTROL
-    student=spec.get('task_learning_role')==task.STUDENT_DEV_ROLE
+    student=task.student_role(spec.get('task_learning_role'))
     decisions=result.get('student_decisions'if student else'control_decisions'if control else'teacher_decisions',[])
     expected_schema=native_result_schema(spec)
     if not(result.get('schema')==expected_schema

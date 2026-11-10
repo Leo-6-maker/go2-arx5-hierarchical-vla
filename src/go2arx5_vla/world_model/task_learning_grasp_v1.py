@@ -28,6 +28,11 @@ RECOVERY_QUALIFICATION_ROLE='UNDER_CLOSE_RECOVERY_QUALIFICATION_NOT_BC_V1'
 COLLECTION_ROLE='CONTINUOUS_TEACHER_COLLECTION_PENDING_EXPORT_V1'
 DEV_REFERENCE_ROLE='FIXED_DEV_TEACHER_REFERENCES_NOT_BC_V1'
 STUDENT_DEV_ROLE='NATIVE_GR00T_STUDENT_DEV_NOT_BC_V1'
+CORE_LOCAL_ROLE='CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1'
+
+
+def student_role(role):
+    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE)
 
 
 def need(ok,why):
@@ -35,7 +40,7 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
-    need(role in(CONSTRUCTION_ROLE,QUALIFICATION_ROLE,EXPANSION_QUALIFICATION_ROLE,RECOVERY_QUALIFICATION_ROLE,COLLECTION_ROLE,DEV_REFERENCE_ROLE,STUDENT_DEV_ROLE),
+    need(role in(CONSTRUCTION_ROLE,QUALIFICATION_ROLE,EXPANSION_QUALIFICATION_ROLE,RECOVERY_QUALIFICATION_ROLE,COLLECTION_ROLE,DEV_REFERENCE_ROLE,STUDENT_DEV_ROLE,CORE_LOCAL_ROLE),
         'EXPLICIT_CONSTRUCTION_QUALIFICATION_OR_NEW_CONTINUOUS_COLLECTION_ROLE')
     return dict(schema=KIND,task_revision='V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE',reset_revision='V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD',stage=role,
         calibration_boundary=CALIBRATION_B,start_step=B,preaction_hold_atoms=PREACTION_HOLD_ATOMS,
@@ -44,14 +49,15 @@ def protocol(role=CONSTRUCTION_ROLE):
             total_extra_hold_ticks_after_steady_prefix=2000,native_clock_rebased=False),
         prefix_atoms=PREFIX_ATOMS,policy_queries=QUERIES,final_hold_atoms=FINAL_HOLD,
         task_command=COMMAND,language=LANGUAGE,action_period_s=.05,physics_dt_s=.002,
-        expert_commands=('NONE_STUDENT_NOT_EXPERT'if role==STUDENT_DEV_ROLE else
+        expert_commands=('NONE_STUDENT_NOT_EXPERT'if student_role(role) else
             'ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT'),
         H40_labels='ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE',
         observation='CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1',privileged_student_inputs=False,
         full_H40_preview=True,time_retiming=False,reference_transport='CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT',
         teacher_max_chunk_translation_m=.015,pregrasp_above_cube_m=.080,grasp_above_cube_center_m=.012,
         grasp_TCP_offset_tool_m=[-.012,0.,0.],grasp_TCP_world_y_offset_m=-.0017,
-        scene_family=('SEPARATE_UNDER_HAND_NEW_DEV_LAYOUTS_NOT_TRAIN'if role in(DEV_REFERENCE_ROLE,STUDENT_DEV_ROLE)else
+        scene_family=('TRAIN_SCENES_INDEPENDENT_CORE_LOCAL_DIAGNOSTIC_NOT_DEV_TEST'if role==CORE_LOCAL_ROLE else
+            'SEPARATE_UNDER_HAND_NEW_DEV_LAYOUTS_NOT_TRAIN'if role in(DEV_REFERENCE_ROLE,STUDENT_DEV_ROLE)else
             'SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS'),
         commanded_lift_m=.026,required_object_lift_m=.020,required_hold_s=1.,
         position_stage_tolerance_m=.004,close_increment_per_decision=1.,

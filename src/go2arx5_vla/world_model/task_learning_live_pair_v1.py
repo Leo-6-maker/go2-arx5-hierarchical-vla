@@ -21,6 +21,8 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/target_gr00t_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_student_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_local_policy_v1.py',
+    'scripts/wm02/task_learning_core_local_panel_v1.py',
     'src/go2arx5_vla/world_model/task_learning_grasp_v1.py',
     'src/go2arx5_vla/world_model/task_learning_core_inference_v1.py',
     'src/go2arx5_vla/world_model/target_gr00t_prefix_v1.py',
@@ -94,6 +96,9 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
 
 
 def validate_spec(s,*,verify_model=True):
+    if s.get('core_local_protocol') is not None:
+        from .task_learning_local_policy_v1 import validate_live
+        return validate_live(s,verify_model=verify_model)
     from scripts.pi0292.relay_protocol import digest as document_hash
     from scripts.pi0294.numerics import MODE
     need(s.get('profile')==PROFILE and s.get('kind')==KIND
