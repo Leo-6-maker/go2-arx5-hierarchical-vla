@@ -19,7 +19,7 @@ def assignments():
     return [(layout,restart,kind)for restart in (1,2)for layout in RECOVERY_OFFSETS for kind in v8.TYPES]
 
 
-def build_panel(source_sha,scene_descriptors,base_Teacher_qualification,run_prefix):
+def build_panel(source_sha,scene_descriptors,base_Teacher_qualification,run_prefix,*,scene_producers):
     task.need(len(source_sha)==40 and Path(run_prefix).name==run_prefix and not run_prefix.startswith('.'),
         'V8_FRESH_PANEL_SOURCE_AND_PREFIX')
     scenes={layout:pinned(scene_descriptors[layout])for layout in RECOVERY_OFFSETS};rows=[]
@@ -34,7 +34,7 @@ def build_panel(source_sha,scene_descriptors,base_Teacher_qualification,run_pref
             purpose=PURPOSE,model_sha256=scene['compiled']['scene_sha256']))
     panel=dict(schema=SCHEMA,task_learning_role=v8.ROLE,protocol=v8.contract(),source_sha=source_sha,
         V8_implementation_SHA256=digest(v8.__file__),preserved_V7_fingerprint=legacy.teacher_fingerprint(),
-        base_Teacher_qualification=base_Teacher_qualification,assignments=rows,
+        base_Teacher_qualification=base_Teacher_qualification,scene_producers=scene_producers,assignments=rows,
         native_qualification_executed=False,expert_training_eligible=False)
     validate(panel);return panel
 
@@ -45,7 +45,8 @@ def validate(panel):
     task.need(panel.get('schema')==SCHEMA and panel.get('task_learning_role')==v8.ROLE
         and panel.get('protocol')==v8.contract()and panel.get('V8_implementation_SHA256')==digest(v8.__file__)
         and panel.get('preserved_V7_fingerprint')==legacy.teacher_fingerprint()==legacy.FROZEN_TEACHER
-        and len(panel.get('source_sha',''))==40 and len(rows)==24 and len({r['native_run']for r in rows})==24
+        and len(panel.get('source_sha',''))==40 and set(panel.get('scene_producers',{}))==set(RECOVERY_OFFSETS)
+        and len(rows)==24 and len({r['native_run']for r in rows})==24
         and [(r['layout'],r['restart'],r['recovery_condition'])for r in rows]==assignments(),
         'V8_COMPLETE_FIXED24_RECOVERY_REQUESTS_AND_UNCHANGED_V7')
     for row in rows:
@@ -58,16 +59,30 @@ def validate(panel):
     return rows
 
 
+def archived_scene_spec(producer,reference,model):
+    """Read archived builder provenance without importing or executing old code."""
+    from .task_learning_scene_v1 import MEMBER
+    from .task_learning_student_registration_v2 import closed_base
+    original=closed_base(producer);proof=pinned(reference)
+    task.need(original.get('data_role')=='TRAIN'and original.get('task_learning_role')==task.RECOVERY_QUALIFICATION_ROLE
+        and original.get('task_learning_scene_reference')==reference
+        and original.get('scene_id')==original.get('data_parent')==proof['parent']
+        and original['source_files'][MEMBER]==proof['builder_sha256']
+        and digest(Path(original['source_root'])/MEMBER)==proof['builder_sha256']
+        and digest(original['model_path'])==digest(model)==proof['compiled']['scene_sha256'],
+        'V8_SEALED_RECOVERY_SCENE_AND_ARCHIVED_BUILDER_CUSTODY')
+    return original
+
+
 def native_scene_admission(spec):
     """Reuse only original static scene custody, not an old recovery outcome."""
     from .task_learning_scene_v1 import admission
-    original=copy.deepcopy(spec);original['task_learning_role']=task.RECOVERY_QUALIFICATION_ROLE
-    original['task_learning_grasp']=task.protocol(task.RECOVERY_QUALIFICATION_ROLE)
-    proof=admission(original)
     panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     rows=validate(panel);matches=[r for r in rows if r['native_run']==Path(spec['registered_root']).name]
     task.need(len(matches)==1 and spec['task_learning_role']==v8.ROLE,'V8_OWN_REQUEST_AND_TYPED_ROLE')
     row=matches[0]
+    original=archived_scene_spec(panel['scene_producers'][row['layout']],spec['task_learning_scene_reference'],spec['model_path'])
+    proof=admission(original)
     task.need(spec.get('task_learning_teacher_mode')==row['Teacher_mode']==v8.VERSION
         and spec.get('teacher_v8_recovery_condition')==row['recovery_condition']
         and spec.get('teacher_v8_offset_sign')==row['offset_sign']

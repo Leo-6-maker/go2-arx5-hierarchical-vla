@@ -17,7 +17,7 @@ def panel(monkeypatch):
         for i,(layout,restart,kind)in enumerate(q.assignments())]
     return dict(schema=q.SCHEMA,task_learning_role=v8.ROLE,protocol=v8.contract(),source_sha='b'*40,
         V8_implementation_SHA256=digest(v8.__file__),preserved_V7_fingerprint=legacy.FROZEN_TEACHER,
-        base_Teacher_qualification={},assignments=rows)
+        base_Teacher_qualification={},scene_producers={k:dict(path='/sealed/'+k,sha256='a'*64)for k in q.RECOVERY_OFFSETS},assignments=rows)
 
 
 def test_new_role_keeps_exact_native_horizon_and_old_V7_protocol():
@@ -81,3 +81,22 @@ def test_typed_recovery_exit_does_not_override_wrong_role_or_phase(monkeypatch):
     for field,value in [('task_learning_role',task.QUALIFICATION_ROLE),('phase','unrelated'),('source_sha','old')]:
         changed=copy.deepcopy(args);changed['spec'][field]=value
         assert q.classify(row,**changed)['technical_valid']is False
+
+
+@pytest.mark.parametrize('changed',['builder','model'])
+def test_archived_builder_custody_reuses_original_scene_without_old_code_execution(tmp_path,monkeypatch,changed):
+    from go2arx5_vla.world_model import task_learning_student_registration_v2 as registration
+    from go2arx5_vla.world_model.task_learning_scene_v1 import MEMBER
+    source=tmp_path/'archived';builder=source/MEMBER;builder.parent.mkdir(parents=True)
+    builder.write_text('archived builder provenance; never execute')
+    model=tmp_path/'SCENE.private.mjb';model.write_bytes(b'sealed original recovery scene')
+    reference=dict(path='/sealed/static',sha256='a'*64)
+    proof=dict(parent='TASK_LEARNING_UNDER_HAND_RECOVERY01',builder_sha256=digest(builder),compiled=dict(scene_sha256=digest(model)))
+    original=dict(data_role='TRAIN',task_learning_role=task.RECOVERY_QUALIFICATION_ROLE,
+        task_learning_scene_reference=reference,scene_id=proof['parent'],data_parent=proof['parent'],
+        source_root=str(source),source_files={MEMBER:proof['builder_sha256']},model_path=str(model))
+    monkeypatch.setattr(registration,'closed_base',lambda pin:original)
+    monkeypatch.setattr(q,'pinned',lambda pin:proof)
+    assert q.archived_scene_spec({'path':'original-success'},reference,model)==original
+    (builder if changed=='builder'else model).write_bytes(b'tampered')
+    with pytest.raises(ValueError,match='ARCHIVED_BUILDER_CUSTODY'):q.archived_scene_spec({'path':'original-success'},reference,model)
