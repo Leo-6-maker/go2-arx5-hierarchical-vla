@@ -155,7 +155,29 @@ def train(spec,model,contract,data,root,guard):
     decoder=PhysicalDecoder.from_processor(data.processor)
     objective=ExecutionLoss(model.action_head,decoder,states,experts,identities,
         coefficient=spec['recipe']['execution_loss']['coefficient'])
-    try:return base.train(spec,model,contract,data,root,guard,loss_transform=objective)
+    bank=None
+    try:
+        route=spec.get('training_row_storage','ORIGINAL_IMMUTABLE_ROWS')
+        features.need(route in ('ORIGINAL_IMMUTABLE_ROWS','CUDA_TRAIN1450_BANK'),'DECLARED_TRAIN_ROW_STORAGE')
+        if route=='CUDA_TRAIN1450_BANK':
+            from scripts.pi0292.durable import write
+            from .task_learning_gpu_rows_v3 import ResidentRows
+            pin=spec['row_bank_qualification'];file=Path(pin['path'])
+            features.need(digest(file)==pin['sha256'],'ACTUAL_ROW_BANK_QUALIFICATION_PIN')
+            proof=json.loads(file.read_bytes())
+            features.need(proof['status']=='PASS_MATCHED_COMPLETE_UPDATE'
+                and proof['exact_loss_gradients_parameters_optimizer_scheduler_RNG_noise_and_auxiliary']
+                and proof['candidate_optimizer_calls']==0 and proof['bank']['TRAIN_rows']==1450,
+                'ACTUAL_EXACT_GPU_ROW_BANK_ADMISSION')
+            admitted=json.loads((Path(proof['checkpoint'])/'CHECKPOINT_COMPLETE.json').read_bytes())
+            features.need(admitted['feature_cache']==spec['feature_cache']
+                and admitted['parameter_contract']==contract.describe()
+                and all(admitted['recipe'][k]==spec['recipe'][k]for k in
+                    ('parent_package_sha256','dataset_sha256','statistics_sha256','variant')),
+                'SAME_QUALIFIED_MODEL_DATA_AND_GPU_FEATURE_BANK')
+            bank=ResidentRows(spec['feature_cache'],guard=guard,maximum_bytes=3*1024**3)
+            write(root/'GPU_ROW_BANK_ACTUAL.private.json',dict(bank.describe(),qualification=pin))
+        return base.train(spec,model,contract,data,root,guard,loss_transform=objective,row_loader=bank)
     finally:objective.close()
 
 
