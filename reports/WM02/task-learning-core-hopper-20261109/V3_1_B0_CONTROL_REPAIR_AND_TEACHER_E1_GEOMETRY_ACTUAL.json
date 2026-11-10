@@ -1,0 +1,443 @@
+{
+  "schema": "V3_1_B0_CONTROL_DEPENDENCY_REPAIR_AND_TEACHER_GEOMETRY_HYPOTHESES_ACTUAL",
+  "UTC": "2026-11-10T19:57:18.118690+00:00",
+  "SGT": "2026-11-11T03:54:41.565885+08:00",
+  "QUESTION": "Prepare fixed-Processor weight attribution and physically establish recovery entry conditions after independently verified local policy successes.",
+  "CHANGED": "Seal missing Core replay comparator dependencies and isolate import preflight; derive new E1 candidates from original saved failures. No active capsule changed.",
+  "ACTUAL": {
+    "failed_B0_control01": {
+      "status": "CLOSED1",
+      "MainPID": 0,
+      "source_sha": "4ba8cc34004ab9715f6180932624f79e956b1f4c",
+      "failure": "ModuleNotFoundError: task_learning_core_local_v1",
+      "actual_model_loads": 0,
+      "actual_queries": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "wall_s": 91.52887152088806,
+      "CPU_s": 6.039450722000001
+    },
+    "repaired_B0_control02": {
+      "schema": "CORE_B0_FIXED_TARGET_PROCESSOR_REPLAY80_ACTUAL_V3_1",
+      "status": "CLOSED0_COMPLETE_ACTUAL_REPLAY80_PASS",
+      "requested_queries": 80,
+      "actual_queries": 80,
+      "actual_model_loads": 1,
+      "matched_unique_states": 40,
+      "all_bit_exact": true,
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "processor_package": {
+        "sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250"
+      },
+      "numeric_mode": "DETERMINISTIC_CUDA_MATH_SDP_V1",
+      "original_B0_weights_unchanged": true,
+      "SFT_or_LAST2_weights_installed": false,
+      "original_B0_Processor_control_preserved": true,
+      "weights_control_identity": "NEW_B0_FIXED_TARGET_PROCESSOR_NOT_OLD_B0_PROMOTION",
+      "original_envelope_pass": 0,
+      "original_envelope_requested": 40,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "original_DEV80_TEST": 0,
+      "expert_is_model_input": false,
+      "native_execution_admission": false,
+      "original_cross_hardware_REJECT_preserved": true,
+      "peak_allocated_bytes": 13297537024,
+      "peak_reserved_bytes": 13511950336,
+      "wall_s": 123.37288970593363,
+      "CPU_s": 34.997892674,
+      "exit_code": 0,
+      "failure": null,
+      "source_sha": "f371c22fb18500e1eeed8c5eff29a084aec87be4",
+      "supervisor_wall_s": 208.3981030830182,
+      "supervisor_CPU_s": 40.921076244,
+      "MainPID": 0,
+      "result_sha256": "be608c4f9a4add6911841fe9c84faacd5bd350b3f6bf6eb748043181d657a283",
+      "spec_sha256": "6a67afc86f1d9f917e9c1a0084747d300f593afd48995fa8f7b74b8254f0894a",
+      "isolated_CPU_preflight": {
+        "exit_code": 0,
+        "stdout": "PASS_ISOLATED_PINNED_DEPENDENCIES_NO_MODEL_OR_GPU\n",
+        "stderr": "",
+        "model_calls": 0,
+        "physics_integrations": 0
+      },
+      "old_CLOSED_identity_reopened": false
+    },
+    "Teacher_single_pad_saved8_geometry_sweep": {
+      "status": "COMPLETE_SAVED_SINGLE_PAD8_THREE_GRIP_GEOMETRY_HYPOTHESES_NOT_NATIVE_QUALIFICATION",
+      "rows": [
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r1-supported_single_pad",
+          "state_sha256": "e4c79ca4510e30ab8fcb5edbd20c1d67c2f9c5deb25c56c611ae1ce8c5c5a4dd",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.005756781295683796,
+            "right": 0.0006897302265497085
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0006897302265497085,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r1-supported_single_pad",
+          "state_sha256": "e4c79ca4510e30ab8fcb5edbd20c1d67c2f9c5deb25c56c611ae1ce8c5c5a4dd",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.004756796240535667,
+            "right": -0.00030999252297645986
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.00030999252297645986,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r1-supported_single_pad",
+          "state_sha256": "e4c79ca4510e30ab8fcb5edbd20c1d67c2f9c5deb25c56c611ae1ce8c5c5a4dd",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.003756811185387518,
+            "right": -0.0013097152725026423
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0013097152725026423,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r2-supported_single_pad",
+          "state_sha256": "fadc378b42fc02aaa5c8bad1e9c09e5f7729f86230f756f729e9a42f9cb84d91",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0008630872975916757,
+            "right": 0.005465483994683912
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0008630872975916757,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r2-supported_single_pad",
+          "state_sha256": "fadc378b42fc02aaa5c8bad1e9c09e5f7729f86230f756f729e9a42f9cb84d91",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.0001368700523296931,
+            "right": 0.004465775097409923
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0001368700523296931,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r2-supported_single_pad",
+          "state_sha256": "fadc378b42fc02aaa5c8bad1e9c09e5f7729f86230f756f729e9a42f9cb84d91",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.0011368274022510625,
+            "right": 0.003466066200135924
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0011368274022510625,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r1-supported_single_pad",
+          "state_sha256": "c3db6903b64b3dbf6110526df906c5d499f0ed07229317a76dcbd7deec20040d",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.005745112033792057,
+            "right": 0.0005991464925655597
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0005991464925655597,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r1-supported_single_pad",
+          "state_sha256": "c3db6903b64b3dbf6110526df906c5d499f0ed07229317a76dcbd7deec20040d",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.004745145448709164,
+            "right": -0.0004005470118907205
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0004005470118907205,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r1-supported_single_pad",
+          "state_sha256": "c3db6903b64b3dbf6110526df906c5d499f0ed07229317a76dcbd7deec20040d",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0037451788636262656,
+            "right": -0.0014002405163470043
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0014002405163470043,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r2-supported_single_pad",
+          "state_sha256": "a146121a2220aefab87d3622afa150cf2a47284e7a3800b4cca15f267a0a1337",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0008626876037238628,
+            "right": 0.00541684134821913
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0008626876037238628,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r2-supported_single_pad",
+          "state_sha256": "a146121a2220aefab87d3622afa150cf2a47284e7a3800b4cca15f267a0a1337",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.00013726006936460209,
+            "right": 0.004417149480970391
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.00013726006936460209,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r2-supported_single_pad",
+          "state_sha256": "a146121a2220aefab87d3622afa150cf2a47284e7a3800b4cca15f267a0a1337",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.001137207742453057,
+            "right": 0.0034174576137216486
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.001137207742453057,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r1-supported_single_pad",
+          "state_sha256": "40c5ad54bc63a8a3868460ef1b2042dff0997ce75b4d4486075d302cf22c8306",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.005771225414645462,
+            "right": 0.0006784267644123409
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0006784267644123409,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r1-supported_single_pad",
+          "state_sha256": "40c5ad54bc63a8a3868460ef1b2042dff0997ce75b4d4486075d302cf22c8306",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0047712399794266214,
+            "right": -0.0003212958372347
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0003212958372347,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r1-supported_single_pad",
+          "state_sha256": "40c5ad54bc63a8a3868460ef1b2042dff0997ce75b4d4486075d302cf22c8306",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0037712545442077808,
+            "right": -0.0013210184388817376
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0013210184388817376,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r2-supported_single_pad",
+          "state_sha256": "e6e83a6d5dbb7a5ed42cbc662b86750c0a96ce07ea22b7c370e98126d3a81943",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0008501163282865424,
+            "right": 0.005510186640921387
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0008501163282865424,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r2-supported_single_pad",
+          "state_sha256": "e6e83a6d5dbb7a5ed42cbc662b86750c0a96ce07ea22b7c370e98126d3a81943",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.0001498483865031215,
+            "right": 0.004510472373708682
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0001498483865031215,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r2-supported_single_pad",
+          "state_sha256": "e6e83a6d5dbb7a5ed42cbc662b86750c0a96ce07ea22b7c370e98126d3a81943",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.0011498131012928,
+            "right": 0.003510758106495983
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0011498131012928,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r1-supported_single_pad",
+          "state_sha256": "f51e9b65817d8064c25f3fd9426176fccda105e7faa2d78997b7f3876a048bd9",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.005770786264945002,
+            "right": 0.0006778348700487802
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0006778348700487802,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r1-supported_single_pad",
+          "state_sha256": "f51e9b65817d8064c25f3fd9426176fccda105e7faa2d78997b7f3876a048bd9",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.004770800746238817,
+            "right": -0.0003218865834340661
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0003218865834340661,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r1-supported_single_pad",
+          "state_sha256": "f51e9b65817d8064c25f3fd9426176fccda105e7faa2d78997b7f3876a048bd9",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.003770815227532635,
+            "right": -0.0013216080369169122
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.0013216080369169122,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r2-supported_single_pad",
+          "state_sha256": "38b6e0bb1b08799a8d01f7d5a280a410f9852b9d8cc49af91ba6a0cbe867fa19",
+          "candidate_nominal_grip": 0.525,
+          "finger_q_delta_m": -0.0010000000000000009,
+          "pad_cube_surface_gaps_m": {
+            "left": 0.0008687973679082732,
+            "right": 0.005488450854086519
+          },
+          "one_geometric_intersection": false,
+          "minimum_gap_m": 0.0008687973679082732,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r2-supported_single_pad",
+          "state_sha256": "38b6e0bb1b08799a8d01f7d5a280a410f9852b9d8cc49af91ba6a0cbe867fa19",
+          "candidate_nominal_grip": 0.5,
+          "finger_q_delta_m": -0.0020000000000000018,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.00013116768448053216,
+            "right": 0.004488737072916034
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.00013116768448053216,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r2-supported_single_pad",
+          "state_sha256": "38b6e0bb1b08799a8d01f7d5a280a410f9852b9d8cc49af91ba6a0cbe867fa19",
+          "candidate_nominal_grip": 0.475,
+          "finger_q_delta_m": -0.0030000000000000027,
+          "pad_cube_surface_gaps_m": {
+            "left": -0.001131132736869334,
+            "right": 0.0034890232917455417
+          },
+          "one_geometric_intersection": true,
+          "minimum_gap_m": -0.001131132736869334,
+          "actual_contact_or_recovery_demonstrated": false,
+          "physics_integrations": 0
+        }
+      ],
+      "summary": {
+        "0.525": {
+          "requested": 8,
+          "audited": 8,
+          "one_geometric_intersection": 0,
+          "minimum_signed_gap_m": 0.0005991464925655597,
+          "maximum_minimum_signed_gap_m": 0.0008687973679082732
+        },
+        "0.5": {
+          "requested": 8,
+          "audited": 8,
+          "one_geometric_intersection": 8,
+          "minimum_signed_gap_m": -0.0004005470118907205,
+          "maximum_minimum_signed_gap_m": -0.00013116768448053216
+        },
+        "0.475": {
+          "requested": 8,
+          "audited": 8,
+          "one_geometric_intersection": 8,
+          "minimum_signed_gap_m": -0.0014002405163470043,
+          "maximum_minimum_signed_gap_m": -0.001131132736869334
+        }
+      },
+      "new_model_calls": 0,
+      "updates": 0,
+      "physics_integrations": 0,
+      "condition_population_unchanged": true,
+      "original_V8_not_retried": true,
+      "new_contact_force_observations": 0,
+      "CPU_s": 0.583799611,
+      "wall_s": 12.325862639117986
+    }
+  },
+  "NEGATIVE": "Static one-pad geometric intersection is not measured contact force or recovery qualification. First B0-control dependency failure is retained with0 calls; it is not a scientific model failure. Native2 true successes remain sealed and unchanged.",
+  "DECISION": "New B0+fixed-target-Processor numerical control is complete and exactly reproducible on40 states twice. Raw0/40 original envelope is a retained negative. It still needs independent native admission as one explicit control in the fixed comparison. Original B0 and BF16 REJECT unchanged.",
+  "NEXT": "Implement the preregistered matched development comparison after actual numerical control qualification; implement and independently admit E1 four-condition repair under unchanged physical safety, with E1/E2/E3 separate.",
+  "goal_status": "ACTIVE"
+}
