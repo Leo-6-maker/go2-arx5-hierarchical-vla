@@ -18,12 +18,16 @@ from go2arx5_vla.world_model.fusion_paused_inference import (
 from go2arx5_vla.world_model.storage import digest, write_json
 
 
-def _load_frozen(spec, output):
+def _load_frozen(spec, output, *, cpu_model_initializer=None):
     """Original loader/precision ABI, after admission and checkpoint checks.
 
     An explicitly paired preload may precede snapshot creation. Generation still
     requires all original input, capture, task and actual-pause checks.
     """
+    if cpu_model_initializer is not None:
+        need(callable(cpu_model_initializer)and(spec.get('profile')=='CORE_C500_NEW_LIVE_LOADER_PARITY_V3'
+            or spec.get('core_local_protocol')=='CORE_LOCAL_C500_EXPLICIT_CONIC_DIAGNOSTIC_NOT_DEV_TEST_V3'),
+            'EXPLICIT_NEW_C500_CPU_INITIALIZATION_NOT_ORIGINAL_BASELINE')
     from scripts.pi0292.train_adapter import official_import
     bindings = spec['neural_bindings']
     official_import(bindings['source'])
@@ -63,6 +67,14 @@ def _load_frozen(spec, output):
     parameter_bytes = sum(p.numel()*p.element_size() for p in parameters)
     need(parameters and all(not p.requires_grad and p.dtype == torch.float32 for p in parameters)
          and parameter_bytes == spec['checkpoint_parameter_bytes'], 'FROZEN_FP32_PARAMETER_IDENTITY')
+    initialized=None
+    if cpu_model_initializer is not None:
+        # The qualified ordinary C500 mapper validates CPU tensors before copying.
+        # Install once before the original CUDA move; never swap a live model.
+        initialized=cpu_model_initializer(model)
+        need(all(not p.requires_grad and p.dtype==torch.float32 and p.device.type=='cpu'for p in model.parameters())
+            and sum(p.numel()*p.element_size()for p in model.parameters())==parameter_bytes,
+            'C500_INITIALIZED_SAME_FROZEN_FP32_ARCHITECTURE_BEFORE_CUDA')
     model.to('cuda').eval()
     need(model.action_head.num_inference_timesteps == 4, 'ORIGINAL_FOUR_STEP_SAMPLER')
     processor = Gr00tN1d7Processor.from_pretrained(checkpoint/'processor', model_name=alias,
@@ -74,6 +86,7 @@ def _load_frozen(spec, output):
     write_json(output/'MODEL_LOADED.private.json', dict(
         checkpoint_manifest_sha256=spec['checkpoint_manifest_sha256'], parameter_bytes=parameter_bytes,
         all_parameters_frozen=True, all_parameter_dtypes='torch.float32', num_inference_timesteps=4,
+        **(dict(cpu_candidate_initialization=initialized)if initialized is not None else{}),
         source_embodiment='new_embodiment_CATEGORY10_FIXED_BASE_ARX5', target_embodiment_qualified=False))
     return instance, torch
 

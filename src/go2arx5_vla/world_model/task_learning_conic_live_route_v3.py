@@ -24,8 +24,12 @@ def run(s,root,guard):
     prepare_environment(MODE)
     import torch
     configure_torch(torch,MODE);torch.set_num_threads(4)
-    instance,torch=_load_frozen(s,root);trim_unused_logits(instance.model)
-    custody=install_ordinary_model_delta(instance.model,s['C500_package'],s['checkpoint_files'])
+    holder={}
+    def initialize(model):
+        holder['custody']=install_ordinary_model_delta(model,s['C500_package'],s['checkpoint_files'])
+        return dict(package=s['C500_package'],ordinary_CPU_install=True)
+    instance,torch=_load_frozen(s,root,cpu_model_initializer=initialize);trim_unused_logits(instance.model)
+    custody=holder['custody']
     from gr00t.model.gr00t_n1d7.processing_gr00t_n1d7 import Gr00tN1d7Processor
     instance.processor=Gr00tN1d7Processor.from_pretrained(Path(custody['parent_package']['path'])/'processor',
         model_name=local_model_name(s['registered_root'],s['neural_bindings']),local_files_only=True,
