@@ -15,7 +15,7 @@ SCOPE = 'TASK_LEARNING_CORE_LOCAL_TRAIN100_LAST2_V1'
 MEMORY = 'TRAIN100_SFT2000_FROZEN_FEATURE_LAST2_V1'
 
 
-def setup(s, root):
+def setup(s, root, *, ordinary=False):
     from scripts.pi0294.numerics import prepare_environment, configure_torch, MODE
     from scripts.pi0294.native_dataset import official_import
     prepare_environment(MODE); official_import(s['bindings']['source'])
@@ -34,13 +34,18 @@ def setup(s, root):
     (root/'model_inputs/nvidia').mkdir(parents=True)
     (root/'model_inputs/nvidia/Cosmos-Reason2-2B').symlink_to(s['bindings']['cosmos'], target_is_directory=True)
     model = _load_original_parent(s, root, 'MODEL_LOAD')
-    install(model,s['package']['path'],s['package']['sha256'],s['parent']['files'])
-    contract = action_contract(model,'INTERFACES_LAST2_DIT',profile_name='TASK_LEARNING_GR00T_V1')
-    features.need(contract.describe()['trainable_numel']==77847684,'EXACT_LAST2_SCOPE')
+    policy_arm=s.get('policy_arm','B1')
+    features.need(policy_arm in ('B0','B1'),'DECLARED_LOCAL_POLICY_ARM')
+    if policy_arm=='B1':install(model,s['package']['path'],s['package']['sha256'],s['parent']['files'])
+    else:model.requires_grad_(False);model.eval()
+    contract = None if ordinary else action_contract(model,'INTERFACES_LAST2_DIT',profile_name='TASK_LEARNING_GR00T_V1')
+    if contract is not None:
+        features.need(contract.describe()['trainable_numel']==77847684,'EXACT_LAST2_SCOPE')
     trim_unused_logits(model); model.eval()
     data=TaskLearningNativeDataset(s['bindings']['dataset'],s['bindings']['source'],s['bindings']['cosmos'],
         for_optimization=False,optimization_site='CORELAB_4080S')
-    data.processor=Gr00tN1d7Processor.from_pretrained(Path(s['package']['path'])/'processor',
+    processor_root=Path(s['package']['path'])if policy_arm=='B1'else Path(s['parent']['path'])
+    data.processor=Gr00tN1d7Processor.from_pretrained(processor_root/'processor',
         model_name=local_model_name(root,s['bindings']),local_files_only=True,
         transformers_loading_kwargs=dict(local_files_only=True,trust_remote_code=True,
             cache_dir=s['bindings']['cosmos_hub'],revision=COSMOS_REVISION))
@@ -271,6 +276,8 @@ def train(s, model, contract, data, root, guard):
         features.need(frozen_fingerprint(model)==frozen,'FROZEN_SFT2000_TENSORS_UNCHANGED')
         if step==500:
             measure(s,model,data,root/'after-500',guard,cache_manifest=cache)
+            if s.get('restore_compare'):
+                compare_saved_generations(s['restore_compare'],root/'after-500',root/'RESTORED_PREDICTIONS_ACTUAL.private.json')
         return dict(actual_optimizer_calls=step-start,adaptation_step=step,cursor=step*32,
             checkpoint=str(root/f'checkpoint-{step}'),arm=s['arm'],distinct_training_windows=1450,
             formal_FULL_ACTION_SIDE_continuation=False)
@@ -314,6 +321,108 @@ def measure(s,model,data,output,guard,*,cache_manifest=None):
     finally:features.restore_rng(state)
     features.need(before==rng_identity()and len(rows)==40,'COMPLETE_PHASE_PROBES_WITHOUT_TRAIN_RNG_CHANGE')
     result=dict(schema='TASK_LEARNING_CORE_LOCAL_LAST2_PHASE_PROBES_V1',records=rows,
-        actual_queries=40,original_full_inference=cache_manifest is None,parent_global_step=2000,adaptation_step=500,
+        actual_queries=40,original_full_inference=cache_manifest is None,parent_global_step=2000,
+        adaptation_step=s.get('adaptation_step',500),policy_arm=s.get('policy_arm','B1'),
         native_task_success='NOT_MEASURED_BY_OPEN_LOOP',new_optimizer_updates=0)
     write(output/'RESULT.private.json',result);return result
+
+
+def compare_saved_generations(first,second,output):
+    import numpy as np
+    from scripts.pi0292.durable import write
+    first,second=Path(first),Path(second)
+    def records(folder):
+        path=folder/'RESULT.private.json'
+        return json.loads(path.read_bytes())['records']
+    one,two=records(first),records(second);rows=[]
+    features.need(len(one)==len(two)==40,'ALL_FORTY_SAME_CARD_REPLAY_PREDICTIONS')
+    for a,b in zip(one,two):
+        features.need(all(a[k]==b[k]for k in('episode','anchor','seed','sample_file')),'MATCHED_SAME_CARD_QUERY_IDENTITIES')
+        x,y=first/a['sample_file'],second/b['sample_file']
+        features.need(digest(x)==a['sha256']and digest(y)==b['sha256'],'ALL_REPLAY_MEMBERS_PINNED')
+        with np.load(x,allow_pickle=False)as aa,np.load(y,allow_pickle=False)as bb:
+            exact={k:(aa[k].shape==bb[k].shape and aa[k].dtype==bb[k].dtype and aa[k].tobytes()==bb[k].tobytes())
+                   for k in('normalized','physical_H40','actual_state10','expert_policy_H40','noise_seed')}
+        rows.append(dict(episode=a['episode'],anchor=a['anchor'],exact=exact))
+    result=dict(schema='TASK_LEARNING_CORE_LOCAL_SAME_CARD_REPLAY_V1',requested=40,matched=40,records=rows,
+                all_bit_exact=all(all(r['exact'].values())for r in rows),cross_hardware_qualified=False)
+    write(output,result);features.need(result['all_bit_exact'],'SAME_CARD_ALL_PREDICTIONS_BIT_EXACT')
+    return result
+
+
+def local_replay(s,model,data,root,guard):
+    """Dedicated ordinary local replay, independent of the rejected cross-site gate."""
+    import torch
+    from scripts.pi0292.durable import write
+    model.requires_grad_(False);model.to('cuda').eval()
+    measure(dict(s,adaptation_step=0),model,data,root/'replay-1',guard)
+    if s['policy_arm']=='B0':
+        measure(dict(s,adaptation_step=0),model,data,root/'replay-2',guard)
+        compare=compare_saved_generations(root/'replay-1',root/'replay-2',root/'SAME_CARD_ACTUAL.private.json')
+    else:
+        # The sealed ordinary Core40 result is the first same-card realization.
+        # Its prediction members live in its sealed-TRAIN40 child directory.
+        reference=root/'sealed-reference';reference.mkdir()
+        import os
+        source=json.loads(Path(s['Core40_result']['path']).read_bytes())
+        for row in source['records']:
+            member=Path(s['Core40_samples'])/row['sample_file'];features.need(digest(member)==row['sha256'],'SEALED_ORDINARY_REFERENCE')
+            os.link(member,reference/row['sample_file'])
+        write(reference/'RESULT.private.json',source)
+        compare=compare_saved_generations(reference,root/'replay-1',root/'SAME_CARD_ACTUAL.private.json')
+    result=dict(schema='TASK_LEARNING_CORE_LOCAL_ORDINARY_REPLAY_ACTUAL_V1',policy_arm=s['policy_arm'],
+        same_card_reproducible=compare['all_bit_exact'],actual_queries=80 if s['policy_arm']=='B0'else 40,
+        weights=s['parent']if s['policy_arm']=='B0'else s['package'],precision='ORIGINAL_BF16_AUTOCAST_FP32_PARAMETERS',
+        GPU_uuid=s['GPU_uuid'],denoising_steps=4,original_cross_hardware_REJECT_preserved=True,
+        mechanical_safety_or_consumption_audit_changed=False,clipping=False,Teacher_fallback=False,
+        native_panel_admission_issued=False,optimizer_updates=0,native_integrations=0,
+        peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+    write(root/'LOCAL_REPLAY_ACTUAL.private.json',result);return result
+
+
+def rebuild(s, model, data, root, guard):
+    """Fresh ordinary full model: SFT2000 plus the new internal last2 delta."""
+    import torch
+    import numpy as np
+    import shutil
+    from scripts.pi0292.durable import write
+    checkpoint=Path(s['trained_checkpoint']['path'])
+    features.need(digest(checkpoint/'CHECKPOINT_COMPLETE.json')==s['trained_checkpoint']['sha256'],'SEALED_NEW500_CHECKPOINT')
+    saved=json.loads((checkpoint/'CHECKPOINT_COMPLETE.json').read_bytes())
+    features.need(saved['schema']==MEMORY and saved['adaptation_step']==500 and saved['parent_global_step']==2000
+                  and saved['recipe']==s['recipe'] and saved['feature_cache']==s['feature_cache']
+                  and all(digest(checkpoint/n)==pin for n,pin in saved['files'].items()),'ACTUAL_COMPLETE500_STATE')
+    values=torch.load(checkpoint/'target_parameters.pt',map_location='cpu',weights_only=True)
+    features.install_ordinary_diagnostic_delta(model,values,saved['parameter_contract'])
+    del values
+    model.to('cuda').eval();actual=measure(s,model,data,root/'original-full-inference',guard)
+    expected=json.loads((Path(s['trained_probes'])/'RESULT.private.json').read_bytes())
+    comparisons=[]
+    for a,b in zip(expected['records'],actual['records']):
+        features.need(all(a[k]==b[k]for k in('episode','anchor','seed','sample_file')),'SAME_PHASE_RECONSTRUCTION_QUERIES')
+        left,right=Path(s['trained_probes'])/a['sample_file'],root/'original-full-inference'/b['sample_file']
+        features.need(digest(left)==a['sha256'] and digest(right)==b['sha256'],'BOTH_ACTUAL_GENERATION_MEMBERS')
+        with np.load(left,allow_pickle=False)as x,np.load(right,allow_pickle=False)as y:
+            exact={k:np.array_equal(x[k],y[k])for k in('normalized','physical_H40')}
+            delta={k:float(np.max(np.abs(x[k].astype(float)-y[k].astype(float))))for k in exact}
+        comparisons.append(dict(episode=a['episode'],anchor=a['anchor'],exact=exact,max_abs=delta))
+    features.need(len(comparisons)==40,'ALL_FORTY_RECONSTRUCTION_QUERIES')
+    result=dict(schema='TASK_LEARNING_CORE_LOCAL_LAST2_ORDINARY_RECONSTRUCTION_V1',
+        actual_full_original_generations=40,matched_cached_generations=40,records=comparisons,
+        all_H40_and_physical_bit_exact=all(all(r['exact'].values())for r in comparisons),
+        parent_package=s['package'],trained_checkpoint=s['trained_checkpoint'],optimizer_updates=0,native_integrations=0,
+        peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved(),
+        cross_hardware_qualified=False,original_DEV_or_TEST_results=False)
+    write(root/'RECONSTRUCTION_ACTUAL.private.json',result)
+    features.need(result['all_H40_and_physical_bit_exact'],'FRESH_ORDINARY500_RECONSTRUCTION_EXACT')
+    package=root/'inference-package';package.mkdir()
+    shutil.copy2(checkpoint/'target_parameters.pt',package/'target_parameters.pt')
+    shutil.copytree(Path(s['package']['path'])/'processor',package/'processor')
+    write(package/'PARAMETER_CONTRACT.json',saved['parameter_contract'])
+    write(package/'PACKAGE_MANIFEST.json',dict(schema='TASK_LEARNING_CORE_LOCAL_LAST2_PACKAGE_V1',
+        parent_package=s['package'],parent_global_step=2000,adaptation_step=500,recipe=s['recipe'],
+        dataset_sha256=s['dataset_sha256'],statistics_sha256=s['statistics_sha256'],
+        reconstruction=dict(path=str(root/'RECONSTRUCTION_ACTUAL.private.json'),sha256=digest(root/'RECONSTRUCTION_ACTUAL.private.json')),
+        files={p.relative_to(package).as_posix():digest(p)for p in package.rglob('*')if p.is_file()},
+        standalone_without_parent_package=False,cross_hardware_qualification=False,old_FIT4_identity_reused=False))
+    return dict(result,package=dict(path=str(package),sha256=digest(package/'PACKAGE_MANIFEST.json')))
