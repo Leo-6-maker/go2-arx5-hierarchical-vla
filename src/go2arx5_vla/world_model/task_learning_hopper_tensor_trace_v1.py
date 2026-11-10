@@ -24,6 +24,7 @@ def configuration(c):
     need(c.get('profile') == PROFILE and c.get('project') == 'CFP04-CF-007'
          and c.get('pbs_job_name') == 'gr00t_numtrace'
          and type(c.get('pbs_server')) is str and bool(c['pbs_server'].strip())
+         and c.get('submission_queue') == 'auto'
          and c.get('allocation_gpu_model') == 'H200' and c.get('wall_s') == 3600
          and c.get('numerical_diagnostic') is None
          and 0 < c.get('predicted_work_s', 0) + 1320 < c['wall_s'],
@@ -84,7 +85,7 @@ def configuration(c):
 def pbs_script(root, source, python):
     q = shlex.quote
     return '\n'.join(['#!/bin/bash -l', '#PBS -N gr00t_numtrace',
-        '#PBS -P CFP04-CF-007', '#PBS -q small',
+        '#PBS -P CFP04-CF-007', '#PBS -q auto',
         '#PBS -l select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB',
         '#PBS -l walltime=01:00:00', '#PBS -m n', '#PBS -r n', '#PBS -j oe',
         '#PBS -o ' + q(str(Path(root) / 'logs/pbs.log')), 'set -eu',

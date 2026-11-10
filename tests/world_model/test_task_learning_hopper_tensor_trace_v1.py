@@ -39,7 +39,7 @@ def configured(tmp_path, monkeypatch):
         own_uid=22182,project_group_membership_verified=True,quota_remaining_bytes=40*1024**3,
         predicted_new_peak_bytes=10*1024**3)))
     c = dict(common,root=str(root),producer_root=str(old),source_root='/fake/source',source_sha='a'*40,
-        source_files={},profile=trace.PROFILE,project='CFP04-CF-007',pbs_job_name='gr00t_numtrace',pbs_server='configured-server',
+        source_files={},profile=trace.PROFILE,project='CFP04-CF-007',pbs_job_name='gr00t_numtrace',pbs_server='configured-server',submission_queue='auto',
         allocation_gpu_model='H200',wall_s=3600,predicted_work_s=1400,candidate_package=package,
         project_storage_admission=dict(path=str(storage),sha256=digest(storage)),
         tensor_trace=dict(mode=MODE,reference_result=dict(path=str(ref),sha256=digest(ref))))
@@ -54,7 +54,7 @@ def test_only_same_closed_first2000_package_has_zero_update_trace_spec(configure
 
 
 @pytest.mark.parametrize('change',[dict(allocation_gpu_model='H100'),dict(wall_s=7200),
-    dict(predicted_work_s=3000),dict(numerical_diagnostic={'mode':'other'})])
+    dict(predicted_work_s=3000),dict(numerical_diagnostic={'mode':'other'}),dict(submission_queue='small')])
 def test_wrong_gpu_window_or_combined_ablation_is_rejected(configured, change):
     c, old = configured
     with pytest.raises(PermissionError,match='FINITE_SINGLE_H200_TRACE'):
@@ -83,6 +83,7 @@ def test_pbs_entry_quotes_paths_and_requests_one_finite_project_gpu():
     script=trace.pbs_script('/private/root with spaces','/private/source','/private/python')
     assert '#PBS -P CFP04-CF-007'in script and '#PBS -l walltime=01:00:00'in script
     assert '#PBS -N gr00t_numtrace'in script
+    assert '#PBS -q auto'in script and '#PBS -q small'not in script
     assert 'select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB'in script
     argv=shlex.split(script.splitlines()[-1])
     assert argv[-1]=='/private/root with spaces/ALLOCATION_CONFIG.json'
