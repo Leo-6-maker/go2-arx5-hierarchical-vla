@@ -29,6 +29,9 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
 
 def scene_admission(spec):
     task.declared(spec)
+    if spec.get('task_learning_role')==task.MATCHED_ROLE:
+        from .task_learning_matched_native_v3_1 import native_scene_admission
+        return native_scene_admission(spec)
     if spec.get('task_learning_role')==task.ENDPOINT_ROLE:
         from .task_learning_endpoint_native_v3 import native_scene_admission
         return native_scene_admission(spec)
@@ -119,6 +122,8 @@ def validate(spec):
             from .task_learning_conic_native_v3 import EXPERIMENT
         if role==task.ENDPOINT_ROLE:
             from .task_learning_endpoint_native_v3 import EXPERIMENT
+        if role==task.MATCHED_ROLE:
+            from .task_learning_matched_native_v3_1 import EXPERIMENT
         task.need(spec.get('experiment_role')==EXPERIMENT
             and spec.get('snapshot_binding_mode')=='PRE_REGISTERED_TASK_LEARNING_GRASP_V1'
             and spec.get('live_skill_geometry_scale')==1.
@@ -324,7 +329,8 @@ def continue_native(adapter,report,samples,windows):
             student_commands_are_expert_labels=False)if student else{}),
         diagnostic_control=task.HOLD_CONTROL if control else None,generated_cycles=cycles,windows=windows,
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
-        GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')not in('C500_PLUS_CONIC','C500_PLUS_ENDPOINT_BASIS'),
+        GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC' and not str(adapter.spec.get('target_gr00t_policy',{}).get('arm')).endswith('_PLUS_ENDPOINT_BASIS'),
+        matched_smooth_H40_consumed=student and adapter.spec.get('task_learning_role')==task.MATCHED_ROLE and str(adapter.spec['target_gr00t_policy']['arm']).endswith('_PLUS_ENDPOINT_BASIS'),
         explicit_endpoint_basis_H40_consumed=student and adapter.spec.get('task_learning_role')==task.ENDPOINT_ROLE,
         explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
@@ -346,6 +352,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.MATCHED_ROLE:
+        from .task_learning_matched_native_v3_1 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role==task.ENDPOINT_ROLE:
         from .task_learning_endpoint_native_v3 import NATIVE_SCHEMA
         return NATIVE_SCHEMA

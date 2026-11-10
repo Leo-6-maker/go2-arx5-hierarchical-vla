@@ -89,7 +89,7 @@ def summarize(panel,outcomes):
         WBC_changes=False,TEST_results_read=False)
 
 
-def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endpoint=False):
+def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endpoint=False,matched=False):
     """Read both actual terminal workers; valid policy rejection remains a failure."""
     import json
     from .task_learning_teacher_panel_v1 import classify as original
@@ -101,6 +101,8 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         from .task_learning_conic_native_v3 import NATIVE_SCHEMA as schema,PROTOCOL as role
     if endpoint:
         from .task_learning_endpoint_native_v3 import NATIVE_SCHEMA as schema,PROTOCOL as role
+    if matched:
+        from .task_learning_matched_native_v3_1 import NATIVE_SCHEMA as schema,PROTOCOL as role
     root=Path(root)
     def read(path):return json.loads(path.read_bytes())if path.exists()else{}
     spec=read(root/'EXECUTION_SPEC.json');native=root/'native-01'
@@ -213,13 +215,16 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role')==task.ENDPOINT_ROLE:
+            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
                 task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
                 cycle,previous_program=self.consumed_reference()
                 grip,consumption=consumed_grip(cycle,previous_program,sample,reference)
                 compiler=partial(endpoint_compile,consumed_nominal_grip=grip)
+                if self.adapter.spec['task_learning_role']==task.MATCHED_ROLE:
+                    from .task_learning_matched_policy_v3_1 import compile_proposal as matched_compile
+                    compiler=partial(matched_compile,method=self.adapter.spec['target_gr00t_policy']['arm'],consumed_nominal_grip=grip)
             if self.adapter.spec.get('task_learning_role')==task.CONIC_ROLE:
                 from functools import partial
                 from .task_learning_conic_policy_v3 import compile_proposal as conic_compile
@@ -237,7 +242,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

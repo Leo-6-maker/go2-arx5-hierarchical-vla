@@ -31,10 +31,11 @@ STUDENT_DEV_ROLE='NATIVE_GR00T_STUDENT_DEV_NOT_BC_V1'
 CORE_LOCAL_ROLE='CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1'
 CONIC_ROLE='CORE_LOCAL_C500_EXPLICIT_CONIC_DIAGNOSTIC_NOT_DEV_TEST_V3'
 ENDPOINT_ROLE='CORE_LOCAL_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_DEV_TEST_V3'
+MATCHED_ROLE='CORE_MATCHED_WEIGHTS_PROCESSOR_SMOOTH_TRAIN_NOT_DEV_TEST_V3_1'
 
 
 def student_role(role):
-    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE)
+    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE,MATCHED_ROLE)
 
 
 def need(ok,why):
@@ -42,6 +43,9 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if role==MATCHED_ROLE:
+        from .task_learning_matched_native_v3_1 import protocol as matched_protocol
+        return matched_protocol()
     if role==ENDPOINT_ROLE:
         from .task_learning_endpoint_native_v3 import protocol as endpoint_protocol
         return endpoint_protocol()
