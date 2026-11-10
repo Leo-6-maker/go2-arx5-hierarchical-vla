@@ -181,7 +181,9 @@ def infer(s,output):
         parent_manifest_sha256=profile.PARENT,candidate_package=s.get('candidate_package'))
     profile.need(time.time()<s['deadline_epoch']and not(Path(s['campaign_root'])/'STOP.json').exists(),
                  'FINITE_TARGET_SHADOW_BEFORE_QUERY')
-    records=measure(root,'sealed-TRAIN40'if continuous else'sealed-TRAIN4',instance,data)
+    from .task_learning_tensor_trace_v1 import trace
+    with trace(s,root,model):
+        records=measure(root,'sealed-TRAIN40'if continuous else'sealed-TRAIN4',instance,data)
     write_json(root/'RESULT.private.json',dict(status=('ACTUAL_CORE_CONTINUOUS_TASK_SEALED_TRAIN40_INFERENCE'
         if continuous else'ACTUAL_CORE_TARGET_SEALED_TRAIN4_INFERENCE'),
         source_sha=s['source_sha'],target_inference_mode=s['target_inference_mode'],model_identity=instance.identity,
