@@ -37,6 +37,11 @@ def configuration(c):
          and lease['config_sha256'] == digest(old / 'ALLOCATION_CONFIG.json')
          and result['status'] == 'CHECKPOINT_SEALED' and result['global_step'] == 2000
          and result['GR00T_updates'] == 2000 and result['sample_visits'] == 64000
+         and result['source_sha'] == cfg['source_sha']
+         and all(result.get('restore', {}).get(k) is True for k in (
+             'model_parameters_restored', 'optimizer_restored', 'scheduler_restored',
+             'RNG_restored', 'fixed_batch_generation_restored'))
+         and result['restore']['sampler_cursor'] == 64000
          and result['backbone_frozen'] is True and result['real_action_parameter_changed'] is True,
          'ACTUAL_FIRST2000_TERMINAL_PRODUCER_BEFORE_TRACE')
     package = c['candidate_package']
@@ -45,6 +50,13 @@ def configuration(c):
          == digest(Path(package['path']) / 'PACKAGE_MANIFEST.json')
          and all(cfg[k] == c[k] for k in ('bindings', 'parent', 'python', 'registry', 'ledger_lock')),
          'SAME_SEALED_PACKAGE_PARENT_PROCESSOR_DATA_AND_RUNTIME')
+    data = Path(cfg['bindings']['dataset']); recipe = cfg['recipe']
+    reference = c['tensor_trace']['reference_result']; reference_path = Path(reference['path'])
+    need(digest(reference_path) == reference['sha256'], 'PINNED_PAIRED_CORE40_METADATA')
+    identity = json.loads(reference_path.read_bytes())['model_identity']
+    need(digest(data / 'DATASET_MANIFEST.json') == recipe['dataset_sha256'] == identity['dataset_sha256']
+         and digest(data / 'statistics.json') == recipe['statistics_sha256'] == identity['statistics_sha256'],
+         'SAME_SEALED_TRAIN100_MANIFEST_AND_STATISTICS_FOR_PAIRED_TRACE')
     proof = json.loads((old / 'PACKAGE_RECONSTRUCTION_ACTUAL.json').read_bytes())
     need(proof['status'] == 'PASS_ACTUAL_INDEPENDENT_PARENT_DELTA_RECONSTRUCTION'
          and proof['actual_matched_queries'] == 40
@@ -62,6 +74,7 @@ def configuration(c):
         execution_site='HOPPER_SINGLE_GPU', device='cuda', physics=False, diagnostic_only=True,
         max_queries=40, GR00T_updates=0, WM_updates=0, Actor_updates=0,
         candidate_package=package, tensor_trace=c['tensor_trace'],
+        target_dataset_sha256=recipe['dataset_sha256'], target_statistics_sha256=recipe['statistics_sha256'],
         parent_manifest_sha256=PARENT, bindings=c['bindings'], parent=c['parent'])
     from .task_learning_tensor_trace_v1 import validate
     validate(s)
@@ -161,6 +174,8 @@ def run(c):
             need(installed['global_step'] == 2000, 'EXACT_FIRST2000_TRACE_CANDIDATE')
             data = TaskLearningNativeDataset(c['bindings']['dataset'], c['bindings']['source'], c['bindings']['cosmos'])
             data.initialize()
+            need(data.manifest_sha == s['target_dataset_sha256'] and data.statistics_sha == s['target_statistics_sha256'],
+                 'ACTUAL_TRACE_DATASET_IDENTITIES')
             processor = Gr00tN1d7Processor.from_pretrained(Path(c['candidate_package']['path']) / 'processor',
                 model_name=local_model_name(root, c['bindings']), local_files_only=True,
                 transformers_loading_kwargs=dict(local_files_only=True, trust_remote_code=True,

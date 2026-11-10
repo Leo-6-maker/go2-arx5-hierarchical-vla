@@ -16,10 +16,15 @@ def configured(tmp_path, monkeypatch):
     monkeypatch.setattr(trace, 'PROJECT_ROOT', project)
     manifest = old/'inference-package/PACKAGE_MANIFEST.json'; manifest.write_text('{}')
     package = dict(path=str(manifest.parent), sha256=digest(manifest))
-    common = dict(bindings={}, parent={}, python='/fake/python', registry='/fake/registry', ledger_lock='/fake/lock')
-    (old/'ALLOCATION_CONFIG.json').write_text(json.dumps(common))
+    data=project/'data';data.mkdir();(data/'DATASET_MANIFEST.json').write_text('{"TRAIN_only":true}')
+    (data/'statistics.json').write_text('{}')
+    recipe=dict(dataset_sha256=digest(data/'DATASET_MANIFEST.json'),statistics_sha256=digest(data/'statistics.json'))
+    common = dict(bindings={'dataset':str(data)}, parent={}, python='/fake/python', registry='/fake/registry', ledger_lock='/fake/lock',source_sha='c'*40)
+    (old/'ALLOCATION_CONFIG.json').write_text(json.dumps(dict(common,recipe=recipe)))
     result = dict(status='CHECKPOINT_SEALED', global_step=2000, GR00T_updates=2000, sample_visits=64000,
-        backbone_frozen=True, real_action_parameter_changed=True, inference_package=package)
+        backbone_frozen=True, real_action_parameter_changed=True, inference_package=package,source_sha='c'*40,
+        restore=dict(model_parameters_restored=True,optimizer_restored=True,scheduler_restored=True,
+            RNG_restored=True,fixed_batch_generation_restored=True,sampler_cursor=64000))
     (old/'RESULT.json').write_text(json.dumps(result))
     (old/'WORKER_EXIT.private.json').write_text(json.dumps(dict(exit_code=0, failure=None)))
     (old/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED', worker_exit_code=0,
@@ -28,7 +33,8 @@ def configured(tmp_path, monkeypatch):
         status='PASS_ACTUAL_INDEPENDENT_PARENT_DELTA_RECONSTRUCTION',actual_matched_queries=40,
         max_abs_error=dict(physical_H40=0.,normalized=0.))))
     ref = root/'reference.json'; ref.write_text(json.dumps(dict(actual_VLA_queries=40, Processor_decode_calls=40,
-        model_identity=dict(candidate_package=dict(path='other-site',sha256=package['sha256'])))))
+        model_identity=dict(candidate_package=dict(path='other-site',sha256=package['sha256']),
+            dataset_sha256=recipe['dataset_sha256'],statistics_sha256=recipe['statistics_sha256']))))
     storage = root/'storage.json'; storage.write_text(json.dumps(dict(project='CFP04-CF-007',own_root=str(project),
         own_uid=22182,project_group_membership_verified=True,quota_remaining_bytes=40*1024**3,
         predicted_new_peak_bytes=10*1024**3)))
@@ -63,6 +69,13 @@ def test_incomplete_or_active_parent_cannot_be_relabelled(configured):
     p.write_text(json.dumps(lease)); r=old/'RESULT.json'; result=json.loads(r.read_text())
     r.write_text(json.dumps(dict(result,global_step=1750))); lease['result_sha256']=digest(r);p.write_text(json.dumps(lease))
     with pytest.raises(PermissionError,match='ACTUAL_FIRST2000_TERMINAL'):
+        trace.configuration(c)
+
+
+def test_same_dataset_path_cannot_hide_changed_manifest_or_statistics(configured):
+    c, old = configured; data=Path(c['bindings']['dataset'])
+    (data/'statistics.json').write_text('{"changed":true}')
+    with pytest.raises(PermissionError,match='SAME_SEALED_TRAIN100_MANIFEST'):
         trace.configuration(c)
 
 
