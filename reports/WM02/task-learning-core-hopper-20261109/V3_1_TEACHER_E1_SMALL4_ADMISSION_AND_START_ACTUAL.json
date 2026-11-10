@@ -1,0 +1,230 @@
+{
+  "schema": "GR00T_WBC_V3_1_TEACHER_E1_SMALL4_IMPLEMENTATION_ADMISSION_AND_NATIVE_START_ACTUAL",
+  "UTC": "2026-11-10T21:17:26.777466+00:00",
+  "SGT": "2026-11-11T05:17:26.777466+08:00",
+  "QUESTION": "Can independently repaired intervention commands establish actual supported side error or one-pad force contact, then permit genuine recovery and the original complete task?",
+  "CHANGED": {
+    "source_sha": "586420c63fe04759fa2c88b3be4ca35c2fc68308",
+    "preregistration_sha256": "c054a1df9fe9d587267035ec860f847b284097e69ae188b5d300ac2b3aa792c0",
+    "Teacher_module_sha256": "09491e7813cb36eef6482043c8f3f38a7476e716c929b65e77529058e196152c",
+    "preserved_V7_fingerprint": "1bc18176e3c97d33058309c7ff341398c50d097bbe7e42b91b52ab2db9984081",
+    "unchanged_V8_Oracle_source_sha256": "b0ab7732ea7f12469a6690cf795516b056ab3611ead59f66a4b31168aa0636e7",
+    "new_interventions": {
+      "SUPPORTED_SIDE_OFFSET": {
+        "tool_Y_offset_m": 0.0045,
+        "ending_nominal_grip": 0.8,
+        "rationale": "Original3mm intervention produces only1.569–1.642mm actual error; existing4.5mm cases produce2.375–2.470mm, a hypothesis for establishing the unchanged2mm entry condition with supported open fingers."
+      },
+      "SUPPORTED_SINGLE_PAD": {
+        "tool_Y_offset_m": 0.0045,
+        "ending_nominal_grip": 0.5,
+        "rationale": "Largest tested opening with one geometric intersection in all8 stored states; require true actual one-pad contact and original safety in new physical trials."
+      }
+    },
+    "fixed_population": [
+      {
+        "layout": "RECOVERY01",
+        "condition": "SUPPORTED_SIDE_OFFSET",
+        "offset_sign": 1,
+        "restart": 1
+      },
+      {
+        "layout": "RECOVERY01",
+        "condition": "SUPPORTED_SINGLE_PAD",
+        "offset_sign": 1,
+        "restart": 1
+      },
+      {
+        "layout": "RECOVERY04",
+        "condition": "SUPPORTED_SIDE_OFFSET",
+        "offset_sign": -1,
+        "restart": 2
+      },
+      {
+        "layout": "RECOVERY04",
+        "condition": "SUPPORTED_SINGLE_PAD",
+        "offset_sign": -1,
+        "restart": 2
+      }
+    ],
+    "new_training": false
+  },
+  "ACTUAL": {
+    "software": {
+      "relevant_checks_passed": 78,
+      "original_V7_V8_horizon_score_and_consumer_regressions_included": true
+    },
+    "saved_native_packet_interface": {
+      "status": "PASS_V9_CURRENT_PACKET_AND_E1_SAVED4_ABI_NOT_LIVE_QUALIFICATION",
+      "requested": 4,
+      "completed": 4,
+      "actual_new_module_calls": 4,
+      "original_V8_saved_state_E1_results": [
+        {
+          "layout": "RECOVERY01",
+          "restart": 1,
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "established": false,
+          "state_sha256": "949b95764183bd48753872ac28b994ab1ee26ca59833fc7e4b0e2a79066e9a9e"
+        },
+        {
+          "layout": "RECOVERY01",
+          "restart": 1,
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "established": false,
+          "state_sha256": "e4c79ca4510e30ab8fcb5edbd20c1d67c2f9c5deb25c56c611ae1ce8c5c5a4dd"
+        },
+        {
+          "layout": "RECOVERY04",
+          "restart": 2,
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "established": false,
+          "state_sha256": "079c918257f06a683bcd84d337b3b9cafd31de4a58f2630fadd30464bc729c26"
+        },
+        {
+          "layout": "RECOVERY04",
+          "restart": 2,
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "established": false,
+          "state_sha256": "38b6e0bb1b08799a8d01f7d5a280a410f9852b9d8cc49af91ba6a0cbe867fa19"
+        }
+      ],
+      "new_GR00T_model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "geometry_models": 2,
+      "saved_FK_updates": 8,
+      "new_E1_physical_trials": 0,
+      "CPU_s": 0.351068298,
+      "wall_s": 4.957643421366811,
+      "live_qualification": false
+    },
+    "preserved_engineering_failures": [
+      {
+        "identity": "SAVED4_SYSTEM_INTERPRETER_SETUP01",
+        "failure": "System interpreter lacks MuJoCo; exit before model construction or saved-state update.",
+        "new_model_calls": 0,
+        "physics_integrations": 0,
+        "repair": "Use the original project native interpreter for the separate readonly ABI02."
+      },
+      {
+        "identity": "E1_METADATA_PREPARATION01",
+        "status": "CLOSED1",
+        "failure": "Original archived-predecessor numerical environment rejected missing MKL_NUM_THREADS=1; no native dispatch.",
+        "new_model_calls": 0,
+        "physics_integrations": 0,
+        "worker_CPU_s": 3.364363506,
+        "worker_wall_s": 10.47572031011805,
+        "outer_staging_and_worker_wall_s": 262.5679941177368,
+        "outer_CPU_s": null,
+        "repair": "Fresh metadata02 with the original OMP/OpenBLAS/MKL single-thread environment; reuse the same immutable source, do not reopen01."
+      }
+    ],
+    "static_admission": {
+      "identity": "E1_METADATA_PREPARATION02",
+      "status": "CLOSED0",
+      "requested": 4,
+      "static_passed": 4,
+      "new_model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "CPU_s": 13.514750943,
+      "wall_s": 16.96292326087132,
+      "source_unchanged_by_environment_repair": true,
+      "panel_sha256": "9ec20443f8ee708cf3bd3390a76f135093f1aa2b2d030b582a68a7ba00bf5d62"
+    },
+    "native_dispatch": {
+      "run_id": "task-learning-teacher-v9-e1-small4-20261111-01",
+      "source_sha": "586420c63fe04759fa2c88b3be4ca35c2fc68308",
+      "requested": 4,
+      "input_sha256": "3c3c7f4bb6a1ea30e2523ce76b44c60a6eee0b766c1a349bb8d6cb9d2582501c",
+      "panel_sha256": "9ec20443f8ee708cf3bd3390a76f135093f1aa2b2d030b582a68a7ba00bf5d62",
+      "dispatch_exit_code": 0,
+      "deadline_UTC": "2026-11-10T23:11:30.251014+00:00",
+      "snapshot_UTC": "2026-11-10T21:16:35.151046+00:00",
+      "unit_running": true,
+      "completed": 0,
+      "actual_last_observed_native_steps": {
+        "tl-v9-e1-20261111-01-recovery01-r1-supported_side_offset": 18203
+      },
+      "actual_Teacher_proposals_saved": 13,
+      "actual_interventions_saved": 1,
+      "GR00T_model_loads": 0,
+      "GR00T_queries": 0,
+      "optimizer_updates": 0,
+      "one_physical_owner": true,
+      "finite_runtime_s": 7200,
+      "maximum_memory_GiB": 12,
+      "CPU_cores": 4,
+      "original_low_level_mechanics_and_safety_unchanged": true,
+      "live_E1_E2_observations": [
+        {
+          "native_run": "tl-v9-e1-20261111-01-recovery01-r1-supported_side_offset",
+          "E1": {
+            "native_step": 14703,
+            "time_s": 29.40599999999458,
+            "supported": true,
+            "table_normal_force_N": 0.12262500000000014,
+            "native_grasp": false,
+            "left_object_contact": false,
+            "right_object_contact": false,
+            "actual_goal_tool_Y_offset_m": 0.0023853159110648714,
+            "pad_normal_force_N": {
+              "left": 0.0,
+              "right": 0.0
+            },
+            "signed_pad_cube_gap_m": {
+              "left": 0.016757749464605457,
+              "right": 0.011657592991062544
+            },
+            "previous_consumed_nominal_grip": 0.8,
+            "previous_complete_H40_solver_gripper_consumption": true,
+            "Teacher_version": "TEACHER_V9_E1_ESTABLISHMENT_THEN_UNCHANGED_V8_ORACLE_V1",
+            "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+            "E1_condition_established": true,
+            "intervention_native_start_step": 13703,
+            "actual_TCP_motion_since_intervention_m": [
+              -0.00033318599173959296,
+              0.002481387803178539,
+              -0.0014547408430505282
+            ],
+            "actual_cube_motion_since_intervention_m": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "E2": {
+            "native_step": 16703,
+            "time_s": 33.40599999999486,
+            "supported": true,
+            "native_grasp": true,
+            "left_object_contact": true,
+            "right_object_contact": true,
+            "opposing_contact": true,
+            "relative_motion_valid": true,
+            "actual_goal_tool_Y_offset_m": 1.2997407365830441e-05,
+            "pad_normal_force_N": {
+              "left": 3.5624953187401034,
+              "right": 2.9527268316389477
+            },
+            "E1_entry_native_step": 14703,
+            "E2_actual_recovered": true
+          },
+          "E3": null
+        }
+      ]
+    }
+  },
+  "E1": "Original supported=true and native_grasp=false; side absolute lateral error>=2mm or exactly one actual original pad/object contact>=0.05N. Geometry intersection alone never passes.",
+  "E2": "Only if E1 is truly established, allow the independent current-state recovery Oracle and require actual subsequent bilateral opposing-force grasp and valid relative motion; preserve unavailable exits.",
+  "E3": "Original complete grasp/lift20mm/hold1s, original standing/native safety and full solver/gripper consumption; no score or threshold changes.",
+  "NEGATIVE": [
+    "Saved4 ABI and4/4 static recipes are not physical qualification. The first real SIDE trial now has E1 measured2.3853159mm and later original bilateral E2 grasp, but E3 and the full four-request qualification remain pending;0/4 complete at this snapshot.",
+    "Original V8 recovery24 and16 unestablished perturbation outcomes remain unchanged. The two setup/preparation failures and costs are retained.",
+    "No new24 population,96 BC production, DAgger labels, student fallback, WBC/leg/gain/solver/dynamics/2ms/safety change, H100/H200 or Vanda GPU submission."
+  ],
+  "DECISION": "Complete the fixed four real trials and retain the newly observed E1/E2 evidence separately from pending E3. Geometry intersection never establishes contact; unestablished E1 leaves E2 unevaluable rather than a recovery failure.",
+  "NEXT": "Read this exact live worker and retain every result. After its natural closed endpoint and saved-force/consumption/score audit, choose an evidence-driven Teacher successor and resume the unexecuted matched128 suffix from[8,16] at a verified cold boundary. No replay or hotpatch.",
+  "goal_status": "ACTIVE_NOT_COMPLETE"
+}
