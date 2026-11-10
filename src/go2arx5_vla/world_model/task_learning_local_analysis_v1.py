@@ -216,7 +216,8 @@ def veto_geometry(group, output):
     event=events[0];detail=event['contact_details'];state_file=native/'state.bin';pin=digest(state_file)
     state=read_state(state_file)
     if state['step']!=event['native_step']:raise ValueError('Final state is not the actual veto boundary')
-    model=mujoco.MjModel.from_xml_path(spec['model_path']);data=mujoco.MjData(model)
+    load=(mujoco.MjModel.from_binary_path if Path(spec['model_path']).suffix=='.mjb' else mujoco.MjModel.from_xml_path)
+    model=load(spec['model_path']);data=mujoco.MjData(model)
     if (model.nq,model.nv,model.nu)!=(34,32,20)or model.opt.timestep!=.002:raise ValueError('Original model ABI/dt')
     data.qpos[:]=state['qpos'];data.qvel[:]=state['qvel'];data.ctrl[:]=state['ctrl'];data.time=state['time_s']
     mujoco.mj_forward(model,data)
