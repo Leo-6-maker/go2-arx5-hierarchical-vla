@@ -164,4 +164,28 @@ def run(spec,output,guard):
         candidate_summaries=all_summaries,expert_summary=summarize(experts),candidates=all_rows,experts=experts,
         raw_gripper_unit='NOMINAL_0_CLOSED_1_OPEN',working_closed_m=limits.WORKING_CLOSED_M,working_open_m=limits.WORKING_OPEN_M,
         working_mapping_applied_once=True,original_limits_unchanged=True,policy_execution_authorized=False)
-    write(output/'RESULT.private.json',result);return result
+    write(output/'RESULT.private.json',result)
+    if spec.get('feature_cache'):
+        cache=checked(spec['feature_cache']);states=[];expert_actions=[];ids=[];anchors=[];packets={};pins={}
+        for index,row in enumerate(cache['rows']):
+            guard();episode=episodes[row['episode']]
+            if episode['split']!='TRAIN' or row['index']!=index:raise ValueError('TRAIN-only cache order')
+            if episode['id']not in packets:
+                path=Path(spec['dataset']['path']).parent/episode['file']
+                if digest(path)!=episode['sha256']:raise ValueError('Changed original numeric episode')
+                with np.load(path,allow_pickle=False)as z:packets[episode['id']]={k:z[k].copy()for k in
+                    ('actual_state10','committed_absolute10','native_command_anchor','valid_window','label_representation')}
+                pins[episode['id']]=episode['sha256']
+            packet=packets[episode['id']];anchor=row['anchor'];atom=int(packet['native_command_anchor'][anchor])
+            if not packet['valid_window'][anchor]or packet['label_representation'].item()!='ABSOLUTE_COMMITTED_EEF10':
+                raise ValueError('Only valid actually committed H40 supervision')
+            states.append(packet['actual_state10'][anchor]);expert_actions.append(packet['committed_absolute10'][atom:atom+40]);ids.append(episode['id']);anchors.append(anchor)
+        if len(states)!=1450 or len(set(zip(ids,anchors)))!=1450:raise ValueError('Unchanged1450 unique TRAIN windows')
+        file=output/'TRAIN1450_PHYSICAL_LOSS_INPUTS.private.npz'
+        np.savez(file,actual_state10=np.asarray(states),expert_policy_H40=np.asarray(expert_actions),episode=np.asarray(ids),anchor=np.asarray(anchors,dtype=np.int64))
+        write(output/'TRAIN1450_PHYSICAL_LOSS_INPUTS_MANIFEST.private.json',dict(
+            schema='TRAIN_ONLY_PHYSICAL_AUXILIARY_INPUTS_V3',dataset=spec['dataset'],feature_cache=spec['feature_cache'],
+            rows=1450,numeric_file_sha256=digest(file),episode_numeric_pins=pins,
+            expert_actions='ORIGINAL_ACTUALLY_CONSUMED_H40',stats_changed=False,DEV_or_TEST_included=False,
+            source_sha=spec['source_sha'],GR00T_calls=0,physics_integrations=0))
+    return result
