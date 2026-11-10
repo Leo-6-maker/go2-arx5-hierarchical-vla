@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T05:23:07.728429+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T05:47:02.003227+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -231,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Actual matched FP32 CPU comparison, and original internal BF16 counterpart. Diagnostic agreement alone cannot qualify native execution; any runtime adoption needs separately versioned ordinary qualification before the full original DEV80 and frozen decision. No direct SFT4000/8000 promotion.",
+  "next_gate": "Consume actual709670 matchedFP32 result through the already live private Core-CPU comparison, and709621/709533 original-precision counterparts. Separately qualify an ordinary runtime before original fullDEV80 and its frozen scientific decision; use student failures to choose any new training batch.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -337,18 +337,22 @@
     "reference_CPU_ACK_actual": "COLLECTION_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL.json"
   },
   "NEXT_TRAIN_PREPARATION": {
-    "status": "CPU_STATIC_COMPLETE_AND_FIRST2_NATIVE_CLOSED0_NOT_PRODUCTION",
+    "status": "ALL_STATIC_ELIGIBLE_X_REQUESTS_TERMINAL_3_SUCCESS_1_REFERENCE_VETO_2_STATIC_UNRUN",
     "static_requested": 12,
     "static_passed": 10,
     "static_rejected": 2,
     "native_requested": 6,
-    "native_attempted": 2,
-    "native_successes": 2,
-    "native_unrun": 4,
+    "native_attempted": 4,
+    "native_successes": 3,
+    "native_unrun": 2,
     "new_training_demonstrations": 0,
     "student_DEV_required_before_large_collection": true,
-    "actual": "NEXT_TRAIN_FIRST2_NATIVE_FEASIBILITY_ACTUAL.json",
-    "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json"
+    "actual": "CORE_CPU_CM_FEASIBILITY_POSITIVE_AND_CONTACT_VETO_ACTUAL.json",
+    "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json",
+    "native_task_failures": 1,
+    "static_rejected_native_unrun": 2,
+    "all_static_eligible_X_requests_terminal": true,
+    "original_six_native_attempt_population_complete": false
   },
   "ALTERNATIVE_TRAINING_SITE_RECHECK": {
     "status": "CORE_MEMORY_PROFILE01_CLOSED_UNSTARTED_CAPACITY; HOPPER_FORMAL_FIRST2000_CLOSED0_RESTORED",
@@ -440,7 +444,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T13:23:07.728429+08:00",
+  "SGT": "2026-11-10T13:47:02.003227+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -1122,5 +1126,31 @@
     "software_tests_passed": 29,
     "matched_hardware_result": "PENDING",
     "qualification_issued": false
+  },
+  "CORE_CURRENT_SCOPE": {
+    "number": 7,
+    "scope": {
+      "pilot06": {
+        "status": "CLOSED",
+        "deadline_epoch": 1794292771.1784315,
+        "binding_sha256": "8fd58a1ac9271be823e44d90d1fd1b0f878b7dc33fa5808d379a884923b35dcd"
+      },
+      "fusion06": {
+        "status": "CLOSED",
+        "deadline_epoch": 1794291571.1784315,
+        "binding_sha256": "b133d377d2cbb8911c0ea5635aa97cc5ea9b7874fe13840b9738576bb3aab04d"
+      },
+      "pilot07": {
+        "status": "ACTIVE",
+        "deadline_epoch": 1794310018.4788651,
+        "binding_sha256": "0162ead23128cb328b3a961596438d96e8c4523bb4de331baaaa41ba013aead4"
+      },
+      "fusion07": {
+        "status": "ACTIVE",
+        "deadline_epoch": 1794308818.4788651,
+        "binding_sha256": "1048b8704b003e9db657067d325a3a345575d7ca3235969d3616ce8ed3d9cbfd"
+      }
+    },
+    "old_CLOSED_reopened": false
   }
 }

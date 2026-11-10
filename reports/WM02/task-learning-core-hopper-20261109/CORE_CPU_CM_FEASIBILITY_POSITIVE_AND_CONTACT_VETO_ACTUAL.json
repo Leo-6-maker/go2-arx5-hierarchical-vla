@@ -1,0 +1,387 @@
+{
+  "schema": "WM02_CORE_CPU_ORIGINAL_CM_FEASIBILITY_POPULATION_ACTUAL_V1",
+  "status": "ACTIVE_LONG_HORIZON_GOAL_INCOMPLETE",
+  "actual_UTC": "2026-11-10T05:47:02.003227+00:00",
+  "actual_SGT": "2026-11-10T13:47:02.003227+08:00",
+  "observation_epoch": 1794289622.0032272,
+  "code_publication_is_not_execution": true,
+  "source_sha": "536b25f5d9c52f1e848116886d5c5d2efb7dfe3e",
+  "original_panel_sha256": "ec9b91ebff5b48963044510ee09a961d12f73159864838f379bc9e6ec9aeaa92",
+  "question": "Which already preregistered centimetre-scale X layouts can the frozen Teacher safely complete while GPU training resources wait?",
+  "changed": "No native/Teacher/controller code changed. Fresh finite Core CPU roles03/04 consumed only original never-run static-eligible requests, preserving original panel/IDs and old outcomes.",
+  "resource_route": {
+    "H100_H200": "Primarily training; no CPU data collection or CPU-only preparation GPU jobs.",
+    "Corelab": "Data production, CPU audits and small-scale fine-tuning/inference under actual admission.",
+    "new_PBS_submissions_for_this_work": 0
+  },
+  "groups": [
+    {
+      "root_name": "task-learning-next-train-feasibility-20261109-02",
+      "source_sha": "536b25f5d9c52f1e848116886d5c5d2efb7dfe3e",
+      "assignment_slice": [
+        0,
+        2
+      ],
+      "input_sha256": "0c81496e1982b712628c052abfbbf6965c33e380da0790375a7577feca36cf42",
+      "result_sha256": "d6729978e198601addedfa79b9a8a956e8534ae4474c54e198fb1192cea6eb87",
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "unit": "MainPID=0\nExecMainStatus=0\n",
+      "canonical_registry_count": 1,
+      "Journal": {
+        "REGISTER": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        },
+        "DISPATCH": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        }
+      }
+    },
+    {
+      "root_name": "task-learning-next-train-feasibility-20261110-03",
+      "source_sha": "536b25f5d9c52f1e848116886d5c5d2efb7dfe3e",
+      "assignment_slice": [
+        3,
+        4
+      ],
+      "input_sha256": "66bc32541e27ea3bbb91ba38e939e3129b42e7f5f82479b0239bdc8a0510b1c4",
+      "result_sha256": "2dd481d7dec1bab3a5d6c0e94bf0b547e37a0c87e691226937cea0f160cdbcb4",
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "unit": "MainPID=0\nExecMainStatus=0\n",
+      "canonical_registry_count": 1,
+      "Journal": {
+        "REGISTER": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        },
+        "DISPATCH": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        }
+      }
+    },
+    {
+      "root_name": "task-learning-next-train-feasibility-20261110-04",
+      "source_sha": "536b25f5d9c52f1e848116886d5c5d2efb7dfe3e",
+      "assignment_slice": [
+        5,
+        6
+      ],
+      "input_sha256": "1e1a470ccf0f87618fe3b7ea3b48dc207f44c2f56913258ec881d9c84a98dec9",
+      "result_sha256": "0eead9e5526aeee41c4a1f1d5207408886c22ee843635ef9421a2236269d1d5a",
+      "lease_status": "CLOSED",
+      "exit_code": 0,
+      "unit": "MainPID=0\nExecMainStatus=0\n",
+      "canonical_registry_count": 1,
+      "Journal": {
+        "REGISTER": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        },
+        "DISPATCH": {
+          "status": "COMPLETE",
+          "result_digest_matches": true
+        }
+      }
+    }
+  ],
+  "scope": {
+    "pilot06": {
+      "status": "CLOSED",
+      "deadline_epoch": 1794292771.1784315,
+      "binding_sha256": "8fd58a1ac9271be823e44d90d1fd1b0f878b7dc33fa5808d379a884923b35dcd"
+    },
+    "fusion06": {
+      "status": "CLOSED",
+      "deadline_epoch": 1794291571.1784315,
+      "binding_sha256": "b133d377d2cbb8911c0ea5635aa97cc5ea9b7874fe13840b9738576bb3aab04d"
+    },
+    "pilot07": {
+      "status": "ACTIVE",
+      "deadline_epoch": 1794310018.4788651,
+      "binding_sha256": "0162ead23128cb328b3a961596438d96e8c4523bb4de331baaaa41ba013aead4"
+    },
+    "fusion07": {
+      "status": "ACTIVE",
+      "deadline_epoch": 1794308818.4788651,
+      "binding_sha256": "1048b8704b003e9db657067d325a3a345575d7ca3235969d3616ce8ed3d9cbfd"
+    }
+  },
+  "population": {
+    "requested": 6,
+    "attempted": 4,
+    "successful": 3,
+    "valid_task_failure": 1,
+    "technical_failures": 0,
+    "hard_native_safety_stops": 0,
+    "static_rejected_not_attempted": 2,
+    "all_static_eligible_X_cases_attempted": true,
+    "original_six_native_attempt_population_complete": false,
+    "summary_complete_flag": false,
+    "interpretation": "All six requests have a recorded disposition, but only four were physically attempted. Three successes among four attempts is a one-restart feasibility screen, not a reliability/generalization result."
+  },
+  "rows": [
+    {
+      "layout": "NEXTTRAIN_XM01",
+      "restart": 1,
+      "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xm01",
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_worker_exit": 0,
+      "first_failure": null,
+      "native_integrations": 21203,
+      "native_result_sha256": "74af3f08acb19d38912506ac12910c4b87c9b2032f97fcfec2390d9feb729d56",
+      "wall_s": 313.6262314519845,
+      "CPU_s": 235.036900975,
+      "maximum_object_lift_m": 0.025755989197639773,
+      "longest_contiguous_grasp_lift_hold_s": 6.8,
+      "standing_passes": true
+    },
+    {
+      "layout": "NEXTTRAIN_XP01",
+      "restart": 1,
+      "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xp01",
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_worker_exit": 0,
+      "first_failure": null,
+      "native_integrations": 21203,
+      "native_result_sha256": "a8b2fc54357050d1a2a17f13899e1a6641ddaf3e383f848e7a8974520f3d0ae6",
+      "wall_s": 307.3564073839225,
+      "CPU_s": 233.417122079,
+      "maximum_object_lift_m": 0.02560832304339633,
+      "longest_contiguous_grasp_lift_hold_s": 6.55,
+      "standing_passes": true
+    },
+    {
+      "layout": "NEXTTRAIN_XP02",
+      "restart": 1,
+      "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xp02",
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "native_worker_exit": 0,
+      "first_failure": null,
+      "native_integrations": 21203,
+      "native_result_sha256": "01e3be79322391f20a92c1df6a42f65cfd0106e95517b410a80f6f0f9e3b7de8",
+      "wall_s": 365.9796602590941,
+      "CPU_s": 235.06608809299996,
+      "maximum_object_lift_m": 0.025631486007641535,
+      "longest_contiguous_grasp_lift_hold_s": 6.55,
+      "standing_passes": true
+    },
+    {
+      "layout": "NEXTTRAIN_XP03",
+      "restart": 1,
+      "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xp03",
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": false,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_FAILED_PRESERVED",
+      "native_worker_exit": 1,
+      "first_failure": "ValueError: ORIGINAL_FULL_NATIVE_CONTACT_REJECT:[None, 'task_cube_geom']",
+      "native_integrations": 12703,
+      "native_result_sha256": "7263eaeb7ac0a5d970f3f586601b35af4f249c914931a319aedf691ba716f788",
+      "wall_s": 181.7429766319692,
+      "CPU_s": 131.547737366,
+      "maximum_object_lift_m": null,
+      "longest_contiguous_grasp_lift_hold_s": null,
+      "standing_passes": null
+    }
+  ],
+  "static_rejected_unrun": [
+    {
+      "layout": "NEXTTRAIN_XM02",
+      "status": "STATIC_REJECTED_NOT_ATTEMPTED",
+      "static_failure_sha256": "c09964178d7033efa813d1e374fdd668050ec0b5f625cc333ab9fedd389f6f7b"
+    },
+    {
+      "layout": "NEXTTRAIN_XM03",
+      "status": "STATIC_REJECTED_NOT_ATTEMPTED",
+      "static_failure_sha256": "6e7875a83c6ff86f980fb6824a3a11ac399f323615c4262e4eed0281764a9061"
+    }
+  ],
+  "new_positive_X2_audit": {
+    "input_sha256": "66bc32541e27ea3bbb91ba38e939e3129b42e7f5f82479b0239bdc8a0510b1c4",
+    "native_result_sha256": "01e3be79322391f20a92c1df6a42f65cfd0106e95517b410a80f6f0f9e3b7de8",
+    "native_integrations": 21203,
+    "teacher_decisions": 15,
+    "verified_current_RGB_images": 30,
+    "confirmed_50ms_commands": 600,
+    "trace_audit": "PASS",
+    "all_capture_files_hashes_verified": true,
+    "original_BC_exporter_rejected_qualification_role": true
+  },
+  "new_positive_X3_negative": {
+    "native_result_sha256": "7263eaeb7ac0a5d970f3f586601b35af4f249c914931a319aedf691ba716f788",
+    "native_integrations": 12703,
+    "simulation_time_s": 25.406,
+    "reference_rejection": {
+      "phase": "reference-certificate-rejected",
+      "native_step": 12703,
+      "source_mpc_s": 25.406,
+      "stage": "approach",
+      "reason": "ORIGINAL_FULL_NATIVE_CONTACT_REJECT:[None, 'task_cube_geom']",
+      "contact_details": {
+        "geom_ids": [
+          73,
+          78
+        ],
+        "geom_names": [
+          null,
+          "task_cube_geom"
+        ],
+        "body_names": [
+          "x5_link6",
+          "task_cube"
+        ],
+        "distance_m": -2.1202403327445773e-06,
+        "planned_native_tick": 860,
+        "planned_TCP": [
+          [
+            0.9929483681034634,
+            0.010070944528044133,
+            0.11811906855788329,
+            0.2972440499054184
+          ],
+          [
+            -0.008093071796906734,
+            0.9998191002666303,
+            -0.017212464405653598,
+            -0.015799936996402524
+          ],
+          [
+            -0.11827104662409557,
+            0.01613514234020999,
+            0.9928502488855518,
+            0.6506793595157261
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "planned_arm_qpos": [
+          -0.0019862251531003036,
+          0.866062654759045,
+          0.43748772990647694,
+          0.3696605488505367,
+          0.006575511808238251,
+          -0.03265658532236155
+        ]
+      },
+      "submitted_or_executed": false,
+      "proposed_H40_sha256": "822858d5ffd3fbebece6d6da533b2f7ac59937c55b0822eff16a720301e5fa38"
+    },
+    "commands_journal_sha256": "06e82131dcc93326cc75c6b9f47543c8a6b12c70e6ec48bca601ef38a784c5ea",
+    "native_worker_exit": 1,
+    "coordinator_exit": 0,
+    "trace_audit_status": "RECORDED_TRACE_CHECKS_PASS",
+    "trace_writer_dropped": 0,
+    "shutdown_clean": true,
+    "all_child_exits_clean": true,
+    "physics_stops": [],
+    "partial_capture_records": 8,
+    "captures_complete": false,
+    "partial_confirmed_command_records": 280,
+    "confirmed_sequence_complete": false,
+    "interpretation": "Known valid task failure at the original cloned reference contact gate in approach. Predicted contact was x5_link6/task_cube, signed distance about -2.12e-6m. Proposed reference was neither submitted nor executed. Coordinator0 means accounting completed; native worker1 and task_success=false remain. No actual forbidden collision is established by this certificate."
+  },
+  "control_observation_timeout": {
+    "role": "03 registration",
+    "timeout_s": 55,
+    "outcome": "Independent read recovered COMPLETE Journal with matching digest and idle owner; no registration replay. Later action observations used suitable bounded timeouts."
+  },
+  "current_Hopper_jobs": {
+    "709670.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: host ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    },
+    "709533.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    },
+    "709621.hopper-m-02": {
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "exit_status": null,
+      "project": "CFP04-CF-007"
+    }
+  },
+  "current_Hopper_observation_epoch": 1794289621.6732507,
+  "finite_consumers": {
+    "H100_FP32_PAIR01": {
+      "pid": 18067,
+      "same_process_independently_verified": true,
+      "stage": "WAIT_KNOWN_LIVE_H100_OBSERVER",
+      "status_epoch": 1794289739.6496885,
+      "finite_deadline_epoch": 1794458491.680552
+    },
+    "H100_FP32_DIAGNOSTIC01": {
+      "pid": 4191100,
+      "same_process_independently_verified": true,
+      "stage": "READ_ONLY_WAIT_KNOWN_JOB",
+      "status_epoch": 1794289726.881026,
+      "finite_deadline_epoch": 1794458491.680552
+    },
+    "H100_BACKBONE_TRACE01": {
+      "pid": 4191099,
+      "same_process_independently_verified": true,
+      "stage": "READ_ONLY_WAIT_KNOWN_JOB",
+      "status_epoch": 1794289727.0656962,
+      "finite_deadline_epoch": 1794456265.8583074
+    },
+    "HOPPER_TENSOR_TRACE02": {
+      "pid": 4133235,
+      "same_process_independently_verified": true,
+      "stage": "READ_ONLY_WAIT_KNOWN_JOB",
+      "status_epoch": 1794289701.9901688,
+      "finite_deadline_epoch": 1794450723.2470634
+    },
+    "ENDPOINT_SUCCESSORS_V2_02": {
+      "pid": 3989284,
+      "same_process_independently_verified": true,
+      "stage": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION",
+      "status_epoch": 1794289740.8601122,
+      "finite_deadline_epoch": 1794595481.5746922
+    }
+  },
+  "unchanged": {
+    "WBC_leg_weights_gains_solver_dynamics": true,
+    "native_dt_s": 0.002,
+    "original_safety": true,
+    "original_TRAIN100": true,
+    "different_expert_supervision_windows": 1450,
+    "new_training_demonstrations": 0,
+    "new_GR00T_queries": 0,
+    "new_model_updates": 0,
+    "student_native_DEV": 0,
+    "student_native_TEST": 0,
+    "large_collection_started": false,
+    "ordinary_FP32_runtime_adopted": false
+  },
+  "decision": "Keep -1cm,+1cm,+2cm as single-restart Teacher-feasibility candidates only. Preserve -2cm/-3cm static rejections and +3cm reference rejection; no retry, threshold relaxation or large data production. Original SFT2000 numerical gate remains unresolved.",
+  "next_gate": "Consume actual709670 matchedFP32 result through the already live private Core-CPU comparison, and709621/709533 original-precision counterparts. Separately qualify an ordinary runtime before original fullDEV80 and its frozen scientific decision; use student failures to choose any new training batch."
+}
