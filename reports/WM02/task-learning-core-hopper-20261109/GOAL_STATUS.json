@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T02:56:19.168631+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T03:10:25.403028+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -13,23 +13,23 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
     "Hopper_project_login": "AMGR_QUERY_TOKEN_EXPIRED; OFFICIAL_PBS_PROJECT_SUBMISSION_ACCEPTED_WITH_ACCOUNTING",
-    "PBS_submissions": 12,
+    "PBS_submissions": 13,
     "rejected_queue_submission_attempts": 2,
-    "accepted_PBS_jobs": 10,
-    "completed_PBS_jobs": 8,
+    "accepted_PBS_jobs": 11,
+    "completed_PBS_jobs": 9,
     "successful_PBS_exit0_jobs": 5,
-    "failed_PBS_exit1_jobs": 1,
+    "failed_PBS_exit1_jobs": 2,
     "Core_current_native_owner": "NONE; NEXT_TRAIN_FEASIBILITY_FIRST2_CLOSED0; NO_MORE_DATA_COLLECTION_DISPATCHED",
     "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
     "current_Hopper_scan": "707720 F0_CLOSED0_SELECTED_MICROBATCH8_FULL_RESTORE_PASS",
     "current_Hopper_Processor": "708392 F0_CLOSED0_FULL1450_PROCESSOR_PASS",
     "Hopper_current_control": "DELIVERY07_COMPLETE_EXITED; ORIGINAL_CORE40_CONSUMER_EXITED_AFTER_NUMERICAL_REJECTION; POSTDEV02_WAITING",
-    "current_H100_restore": "708946 Q_INSUFFICIENT_GPUS_PROJECT_CFP04-CF-007",
+    "current_H100_restore": "709560 R; NAMESPACED_CHILD_REGISTER_COMPLETE_ACTIVE; PRIOR708946_F1_CLOSED_REGISTRY_COLLISION",
     "failed_PBS_pre_worker_negative_exit_jobs": 2,
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
     "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
-    "current_neural_work": "CORE_TENSOR_TRACE01_CLOSED0_40_BIT_EXACT; HOPPER_PAIRED_TRACE709533_RELEASED_Q; CROSS_SITE_NUMERICAL_GATE_UNPASSED; NO_NATIVE_PHYSICS",
+    "current_neural_work": "H100709560_RESTORE_ONLY_R; CORE_TRACE128_TRANSPARENT_CLOSED0; H200709533_PAIRED_TRACE_Q; NUMERICAL_NATIVE_GATE_UNPASSED",
     "current_Hopper_paired_trace": "709533 Q_INSUFFICIENT_GPUS_PROJECT_CFP04-CF-007_OFFICIAL_AUTO_ROUTE"
   },
   "G1": {
@@ -231,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Actual Hopper709533 terminal and private trace audit; first prove same-Hopper output transparency, then join corresponding private tensors by fixed query/module/input-output/call/structure to locate the first difference. Qualified reconstruction is required before a fresh original full80 DEV continuation.",
+  "next_gate": "Actual H100 complete uninterrupted4 versus independent2+2 states or typed failure; actual H200 paired trace terminal and same-Hopper transparency, then first cross-hardware tensor divergence. Qualified Core reconstruction before original DEV80 and scientific decision.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -285,7 +285,7 @@
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": null,
     "Core_model_package": "PRIVATE_DELIVERY_CLOSED0_ALL_MEMBER_SHA_PASS",
-    "Core_current_resource": "CORE40_AND_DIAGNOSTIC01_CLOSED0_NO_ACTIVE_NEW_MODEL_WORKER",
+    "Core_current_resource": "CORE_TENSOR_TRACE01_CLOSED0_TRANSPARENT_ALL40; NO_ACTIVE_CORE_MODEL_WORKER",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
@@ -361,7 +361,7 @@
     "new_full_action_GPU_jobs_definition": "8 original native Core GPU master failures; zero-update memory profile registered but not dispatched"
   },
   "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json",
-  "H100_latest_admission_repair": "TERMINAL_HISTORY_AND_H100_ADMISSION_REPAIR_ACTUAL.json",
+  "H100_latest_admission_repair": "H100_REGISTRY_NAMESPACE_FAILURE_AND_SUCCESSOR_ACTUAL.json",
   "FORMAL_FIRST_SFT": {
     "job_id": "709342.hopper-m-02",
     "state": "F",
@@ -440,7 +440,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T10:56:19.168631+08:00",
+  "SGT": "2026-11-10T11:10:25.403028+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -613,5 +613,54 @@
       "trace_capture_observed": false,
       "source_trace_helper_matches_Core": true
     }
+  },
+  "H100_runtime_successor": {
+    "report": "H100_REGISTRY_NAMESPACE_FAILURE_AND_SUCCESSOR_ACTUAL.json",
+    "job_id": "709560.hopper-m-02",
+    "run": "task-learning-hopper-h100-restore-20261110-05",
+    "source_sha": "2593818efea32d1f63fd4e48eec9c25f209a6f6e",
+    "config_sha256": "6020d2d202cd1e5eec409086f07dcb0d3e7c2bb3c8ee3984f091e0ab3086d397",
+    "project": "CFP04-CF-007",
+    "PBS_state": "R",
+    "started_SGT": "2026-11-10T11:08:42+08:00",
+    "submitted_epoch": 1794280097.2734196,
+    "absolute_deadline_epoch": 1794366464.0882025,
+    "submission_queue": "auto",
+    "execution_queue": "small",
+    "GPU_model": "H100",
+    "GPUs": 1,
+    "ncpus": 12,
+    "mem": "225GB",
+    "wall_s": 3600,
+    "canonical_registry_counts": {
+      ".": 1,
+      "continuous4": 1
+    },
+    "Journal": {
+      "QSUB": {
+        "status": "COMPLETE",
+        "digest_matches": true
+      },
+      "RELEASE": {
+        "status": "COMPLETE",
+        "digest_matches": true
+      },
+      "continuous4-REGISTER": {
+        "status": "COMPLETE",
+        "digest_matches": true
+      },
+      "continuous4-EXECUTE": {
+        "status": "INTENT"
+      }
+    },
+    "new_allocation_namespaced_child_intent_and_receipt_verified": true,
+    "first_child_lease": "ACTIVE",
+    "first_child_spec_sha256": "bc51a70cedf8dc2c034069d7568e632db4abe20c22ac0472434e43e3b4414e23",
+    "checkpoint_loading_log_completed_3_of3_shards": true,
+    "optimizer_steps_recorded_asof": 0,
+    "planned_optimizer_calls": 8,
+    "formal_TRAIN100_updates": 0,
+    "restore_qualification_issued": false,
+    "independent_status_observer_pid": 4133234
   }
 }
