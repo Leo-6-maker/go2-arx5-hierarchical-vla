@@ -1,7 +1,7 @@
 {
   "schema": "V3_VANDA_V0_ACTUAL_SITE_PROJECT_AND_PBS_V1",
-  "observed_UTC": "2026-11-10T15:37:39.868516+00:00",
-  "observed_SGT": "2026-11-10T23:37:39.868516+08:00",
+  "observed_UTC": "2026-11-10T15:47:34.339630+00:00",
+  "observed_SGT": "2026-11-10T23:47:34.339783+08:00",
   "QUESTION": "Is Vanda actually usable for the independently authorized V1 full action-side restore qualification?",
   "CHANGED": {
     "adopted_document_commit": "83b864d45ea24ac67948b94198f56edc0fc1dc57",
@@ -57,7 +57,26 @@
       "completed": false,
       "all_SHA_verified": false,
       "new_GPU_jobs": 0,
-      "original_archives_preserved": true
+      "original_archives_preserved": true,
+      "latest_remote_files": [
+        {
+          "name": ".task-learning-model-seed20261109-step2000-delivery-v2-01.private.tar.3rJlNS",
+          "bytes": 2507993088
+        },
+        {
+          "name": "CONTINUOUS_DATA_TRANSFER02.private.tar.gz",
+          "bytes": 151843502
+        }
+      ]
+    },
+    "actual_enforced_project_disk_quota": {
+      "verified": true,
+      "source": "NATIVE_ENFORCED_PROJECT_DIRECTORY_QUOTA",
+      "report_epoch": 1794322431.099841,
+      "observed_epoch": 1794325513.1216602,
+      "used_bytes": 654075200799,
+      "hard_bytes": 107372808010465,
+      "remaining_bytes": 106718732809666
     }
   },
   "NEGATIVE": {
@@ -68,8 +87,7 @@
     "old_failed_noise_hook_result_preserved": true,
     "actual_new_allocated_GPU_model_and_capacity": "NOT_YET_MEASURED",
     "source_data_delivery_and_V1_native_runtime": "NOT_YET_COMPLETE",
-    "Core_C_mechanism_gate_failed_so_no_automatic_Vanda_two500_arms": true,
-    "actual_project_disk_quota_report": "Not yet read; project filesystem availability is not user quota"
+    "Core_C_mechanism_gate_failed_so_no_automatic_Vanda_two500_arms": true
   },
   "DECISION": "Site login, project entitlement, budgets and PBS have actual positive evidence. Stage and verify the sealed TRAIN100/SFT2000 inputs, retain the corrected original native noise audit and prepare a separately identified finite single-A40 V1. No claim of GPU training or new V1 success.",
   "NEXT": "Finish private input delivery and full file hashes; implement independent Vanda V1 with original FULL_ACTION_SIDE Trainer, fresh4 versus2+2 restore and next-update equality. Only then submit one legitimate finite A40 job; V2 follows actual V1, while V3 remains gated by the negative Core mechanism result."
