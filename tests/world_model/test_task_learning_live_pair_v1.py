@@ -143,7 +143,8 @@ def test_sft_requires_actual_forty_query_core_reconstruction_with_same_package(t
     # Even numerically matching40 outputs from an ablation cannot qualify
     # the ordinary native policy execution contract.
     for change in (dict(diagnostic_only=True),dict(numerical_diagnostic={'mode':'diagnostic'}),
-                   dict(tensor_trace={'mode':'trace'})):
+                   dict(tensor_trace={'mode':'trace'}),dict(backbone_trace={'mode':'trace'}),
+                   dict(inference_precision_diagnostic={'mode':'FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1'})):
         sp.write_text(json.dumps(dict(spec,**change)))
         proof['Core_spec']['sha256']=digest(sp)
         qp.write_text(json.dumps(proof));policy['Core_qualification']['sha256']=digest(qp)
