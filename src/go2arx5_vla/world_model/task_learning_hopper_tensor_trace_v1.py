@@ -26,6 +26,7 @@ def configuration(c):
          and type(c.get('pbs_server')) is str and bool(c['pbs_server'].strip())
          and c.get('submission_queue') == 'auto'
          and c.get('allocation_gpu_model') in ('H200', 'H100') and c.get('wall_s') == 3600
+         and type(c.get('capture_intermediate_tensors', True)) is bool
          and c.get('numerical_diagnostic') is None
          and 0 < c.get('predicted_work_s', 0) + 1320 < c['wall_s'],
          'FINITE_SINGLE_HOPPER_TRACE_WITH_ORIGINAL_CLOSEOUT_RESERVE')
@@ -85,6 +86,10 @@ def configuration(c):
         parent_manifest_sha256=PARENT, bindings=c['bindings'], parent=c['parent'])
     from .task_learning_tensor_trace_v1 import validate
     validate(s)
+    if not c.get('capture_intermediate_tensors', True):
+        # Validate the full fixed40 reference first; this control only removes hooks.
+        s['paired_trace_reference'] = s.pop('tensor_trace')
+        s['capture_intermediate_tensors'] = False
     return s
 
 
@@ -203,7 +208,10 @@ def run(c):
                 global_step=2000, dataset_sha256=data.manifest_sha, statistics_sha256=data.statistics_sha,
                 parent_manifest_sha256=PARENT, candidate_package=c['candidate_package'])
             with trace(s, root, model): records = measure(root, 'sealed-TRAIN40', instance, data)
-            result = dict(status='ACTUAL_HOPPER_COMPLETE40_FIRST4_TENSOR_TRACE', actual_VLA_queries=len(records),
+            capture = c.get('capture_intermediate_tensors', True)
+            result = dict(status=('ACTUAL_HOPPER_COMPLETE40_FIRST4_TENSOR_TRACE' if capture
+                          else 'ACTUAL_HOPPER_COMPLETE40_UNTRACED_CONTROL'),
+                intermediate_capture_enabled=capture, actual_VLA_queries=len(records),
                 Processor_decode_calls=len(records), actual_model_loads=1, model_identity=instance.identity,
                 source_sha=c['source_sha'], GR00T_updates=0, WM_updates=0, Actor_updates=0, native_integrations=0,
                 diagnostic_only=True, package_qualified=False, precision_changed=False,

@@ -53,6 +53,18 @@ def test_only_same_closed_first2000_package_has_zero_update_trace_spec(configure
     assert s['candidate_package']==c['candidate_package']
 
 
+def test_untraced_control_only_removes_hooks_after_complete_reference_validation(configured):
+    c, _ = configured; c['capture_intermediate_tensors'] = False
+    s = trace.configuration(c)
+    assert 'tensor_trace' not in s and s['paired_trace_reference'] == c['tensor_trace']
+    assert s['diagnostic_only'] is True and s['max_queries'] == 40
+    assert s['GR00T_updates'] == s['WM_updates'] == s['Actor_updates'] == 0
+    reference = Path(c['tensor_trace']['reference_result']['path'])
+    reference.write_text('{}')
+    with pytest.raises(PermissionError, match='PINNED_PAIRED_CORE40_METADATA'):
+        trace.configuration(c)
+
+
 @pytest.mark.parametrize('change',[dict(allocation_gpu_model='A40'),dict(wall_s=7200),
     dict(predicted_work_s=3000),dict(numerical_diagnostic={'mode':'other'}),dict(submission_queue='small')])
 def test_wrong_gpu_window_or_combined_ablation_is_rejected(configured, change):
