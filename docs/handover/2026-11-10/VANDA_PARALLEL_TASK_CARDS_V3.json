@@ -1,0 +1,110 @@
+{
+  "schema": "GR00T_WBC_V3_PARALLEL_TASK_CARDS_20261110",
+  "status": "PLANNED_GITHUB_DISPATCH_NOT_PBS_LAUNCHED",
+  "authority": "User reports Vanda available and requests concurrent deployment 2026-11-10 21:20 SGT",
+  "plan_ref": "docs/handover/2026-11-10/GR00T_WBC_LONG_HORIZON_V3.md",
+  "addendum_ref": "docs/handover/2026-11-10/VANDA_CORE_HOPPER_PARALLEL_EXECUTION_V3.md",
+  "execution_pr": 371,
+  "documentation_pr": 373,
+  "core_C_status_at_audit": "ACTUAL_QUALIFIED_RUNNING_ENDPOINT_UNKNOWN",
+  "core_local_four": "ACTUAL_COMPLETE_4_VALID_FAILURE_FIRST_H40_REJECT",
+  "old_hopper_jobs": [
+    "709533",
+    "709621",
+    "709670"
+  ],
+  "tasks": [
+    {
+      "id": "VANDA_V0",
+      "site": "VANDA",
+      "priority": 1,
+      "resource": "READ_ONLY_LOGIN_AND_PBS",
+      "depends_on": [],
+      "ready_action": "Verify actual login, official project entitlement, PBS jobs+UNKNOWN, quota, scratch and assigned GPU resource; preserve old CLOSED jobs.",
+      "admission": "REAL_SITE_ENTITLEMENT_RESOURCE_READBACK",
+      "success": "READBACK_WITH_ACTUAL_UTC_SGT_AND_RECEIPTS",
+      "not_success": "USER_REPORTED_AVAILABLE_ONLY"
+    },
+    {
+      "id": "VANDA_V1",
+      "site": "VANDA",
+      "priority": 2,
+      "resource": "1_A40_SINGLE_JOB_FINITE",
+      "depends_on": [
+        "VANDA_V0"
+      ],
+      "ready_action": "SHA-verify formal SFT2000 inference initialization and TRAIN100 target Processor; actual original FULL_ACTION_SIDE Trainer 4 vs fresh2+2 all-state restore; investigate historical native-noise/time post-generation failure.",
+      "admission": "EXACT_MODEL_DATA_PROCESSOR_NATIVE_TRAINING_ALLOCATION",
+      "success": "FULL_MODEL_OPTIMIZER_SCHEDULER_RNG_SAMPLER_NEXT_UPDATE_EXACT",
+      "not_success": "OLD_1532527_TWO_UPDATES_ONLY"
+    },
+    {
+      "id": "VANDA_V2",
+      "site": "VANDA",
+      "priority": 3,
+      "resource": "1_A40_FINITE_CANARY",
+      "depends_on": [
+        "VANDA_V1"
+      ],
+      "ready_action": "Full action-side acceleration loss λ=0 equality and λ>0 real gradient and memory qualification; use same core C loss and original FM semantics.",
+      "admission": "ORIGINAL_FULL_ACTION_SIDE_SHAPES_MATH_ALLOCATION",
+      "success": "FULL_ACTION_ACCEL_LOSS_SCIENTIFIC_QUALIFICATION",
+      "not_success": "UNIT_TEST_ONLY"
+    },
+    {
+      "id": "VANDA_V3",
+      "site": "VANDA",
+      "priority": 4,
+      "resource": "1_A40_ONE_JOB_AT_A_TIME",
+      "depends_on": [
+        "VANDA_V2",
+        "CORE_C_FINISHED"
+      ],
+      "conditional_on": "Core C complete shows meaningful mechanism improvement, else run bounded parameter-capacity causal pilot and no automatic 2x500",
+      "ready_action": "Matched 500-update FULL_ACTION_SIDE original FM control vs execution-aware C-full from identical SFT2000 weights, effective batch32 and same data/seed/schedule; independently save and fresh-restore both, export privately for Core matched full-model evaluation.",
+      "success": "MATCHED_ACTUAL_500_500_WITH_REAL_NATIVE_H40_AND_STOPPED_FAILURES",
+      "not_success": "TRAINING_ONLY_OR_CHANGED_SCOPE_CONFOUNDED"
+    },
+    {
+      "id": "CORE_C_FINISHED",
+      "site": "CORE",
+      "priority": 1,
+      "resource": "EXISTING_4080S_PROCESS_DO_NOT_RESTART",
+      "depends_on": [],
+      "ready_action": "Read and allow current C-run to terminate; compute fixed TRAIN40x3 DEV20x3, all original envelope/metrics; decide mechanism branch",
+      "success": "COMPLETE_C500_RESTORE_FULL_RECON_AND_METRIC_DECISION",
+      "not_success": "RUNNING_STATUS"
+    },
+    {
+      "id": "CORE_TEACHER_PREP",
+      "site": "CORE_CPU",
+      "priority": 2,
+      "resource": "EXISTING_ONE_PHYSICS_OWNER",
+      "depends_on": [],
+      "ready_action": "Analyze recorded contact/grasp, +3cm veto, RecoveryOracle safe feasibility; no bulk collection until actual student safe roll-in",
+      "success": "QUALIFIED_TEACHER_METHOD_OR_PRESERVED_NEGATIVE",
+      "not_success": "STATIC_PASS_ALONE"
+    },
+    {
+      "id": "HOPPER_EXISTING",
+      "site": "HOPPER",
+      "priority": 3,
+      "resource": "EXISTING_ACCEPTED_JOB_IDS",
+      "depends_on": [],
+      "ready_action": "Read-only monitor 709533/709621/709670 and consume once actual terminal, no duplicate submissions",
+      "success": "ACTUAL_TERMINAL_NUMERIC_TRACE_WITH_CORE_CPU_COMPARISON",
+      "not_success": "QUEUE_Q"
+    }
+  ],
+  "invariants": [
+    "WBC_LEG_SOLVER_GAINS_DYNAMICS_2MS_SAFETY_FROZEN",
+    "NO_RUNTIME_HOTPATCH",
+    "ONE_OWNER_PER_SHARED_PHYSICS",
+    "TRAIN_DEV_TEST_UNCHANGED",
+    "NO_UNEXECUTED_EXPERT_LABELS",
+    "NO_JOB_REPLAY_ON_UNKNOWN",
+    "NO_OTHER_USER_JOB_MUTATIONS",
+    "REAL_SITE_QUOTA_AND_FINITE_WALLTIME",
+    "USER_VISIBLE_DOC_PUSH_DOES_NOT_START_SERVER_JOBS"
+  ]
+}
