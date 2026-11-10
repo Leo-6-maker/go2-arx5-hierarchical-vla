@@ -3679,12 +3679,26 @@
       "static_admission_checks_passed": 4,
       "same_original_panel_native_dispatch_SGT": "2026-11-10T18:52:14.780400+08:00",
       "dispatch_exit": 0,
-      "actual_closed_loop_outcome_at_dispatch": "NOT_YET_OBSERVED",
+      "actual_closed_loop_outcome_at_dispatch": "No outcome was observed at dispatch; subsequent readback confirmed another registration failure before any native/neural worker dispatch.",
       "models": "Original B0 versus delivered original SFT2000; these are not the two newly adapted heads.",
       "native_actions_clipped": false,
       "Teacher_fallback": false,
       "original_DEV_TEST_conditions": 0,
-      "generalization_claim": false
+      "generalization_claim": false,
+      "post_dispatch_observation_UTC": "2026-11-10T10:54:17.948015+00:00",
+      "post_dispatch_group_closed_exit": 1,
+      "completed_conditions": 0,
+      "actual_GR00T_queries": 0,
+      "second_failure": "TASK_PHASE_INITIALIZATION_NATIVE_EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES",
+      "second_failure_diagnosis": {
+        "required_members": 126,
+        "missing": [
+          "src/go2arx5_vla/world_model/task_learning_expansion_v1.py"
+        ],
+        "changed_members": 0
+      },
+      "cold_successor_repair": "Fresh source closure explicitly seals all126 required native/neural members; same-unrun4 successor includes the full native recipe entry static check before worker dispatch.",
+      "same_unrun4_successor_state": "Metadata source deployment and full-entry static checks pending; bounded original-path continuation registered, no model qualification repeated."
     },
     "Hopper": {
       "observation_UTC": "2026-11-10T10:40:49.735148+00:00",
@@ -3713,7 +3727,8 @@
     "Open-loop probes use40 sealed TRAIN states, eight per phase, not independent DEV or native task successes.",
     "ORIGINAL still fails the unchanged action envelope in40/40 windows; CONTACT_EVENTS fails38/40. Most failures are discrete translation acceleration, with four gripper-speed violations in each arm.",
     "Event sampling is not uniformly better: LIFT XYZ error is larger despite better HOLD/PREGRASP gripper errors. No policy promotion or further same-data training is authorized by these partial metrics alone.",
-    "Original cross-hardware REJECT, original DEV80/TEST populations and results remain unchanged."
+    "Original cross-hardware REJECT, original DEV80/TEST populations and results remain unchanged.",
+    "The second native registration also closed1 before any model query or physics worker. The missing source member is retained as a technical initialization failure, not counted as a task failure or erased by a new run identity."
   ],
   "DECISION": "Keep both complete reloadable500 packages and all per-window negatives; execute the preregistered independent original B0/SFT2000 local4 panel after the versioned provenance repair.",
   "NEXT_GATE": [
