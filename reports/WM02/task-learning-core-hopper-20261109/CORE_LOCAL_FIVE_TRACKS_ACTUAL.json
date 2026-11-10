@@ -1,0 +1,1956 @@
+{
+  "schema": "TASK_LEARNING_CORE_LOCAL_FIVE_TRACKS_ACTUAL_V1",
+  "actual_asof_UTC": "2026-11-10T08:55:20.394921+00:00",
+  "actual_asof_SGT": "2026-11-10T16:55:20.394921+08:00",
+  "code_and_observation_times_distinct": true,
+  "QUESTION": "Use the idle16GB Core card for independent scientific progress, preserving queued numerical jobs and original DEV80/TEST.",
+  "CHANGED": {
+    "feature_and_training_source_sha": "f124f0ecf3b0edaa47f312b9d60c6f9d988a17fa",
+    "cache_prepare_source_sha": "54531c2f714849eeacc8763edd3ec319b966df42",
+    "local_native_source_sha": "c670942815e6ee86ac39fe70dc70cc1f58c87290",
+    "original_cross_hardware_gate_changed": false,
+    "original_DEV80_TEST_changed": false,
+    "native_contact_intent_revision": "CORE_LOCAL_GENERATED_GRIP_CONTACT_INTENT_V2",
+    "native_interface_defect": "STUDENT previously defaulted to approach, also forbidding pad contact for closing proposals. Only the new local version supplies stage from generated grip and actual grasp feedback; the original contact predicate/limits remain unchanged."
+  },
+  "identities": {
+    "initial_SFT2000_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "original_parent_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "TRAIN100_dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "TRAIN_only_statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "unique_supervision_windows": 1450,
+    "feature_cache_manifest_sha256": "14cd75b6483ec0c485ab164949f3061ac7687fc6bcd471d715ebc55362eaa4cc",
+    "contact_event_result_sha256": "006f291d2de1113c1388e2f4864d15efa5011027f2981340b1fb0da4031b3f47",
+    "local_panel_sha256": "2b80c5c4f58e8c2229a50638e47d1830f87a5f0ec4d2b500a629f7f42ef50674",
+    "preregistration_sha256": "86ac376bc7f06f592333a2e635d7f6877dec7ecf2d1003848fc58dd41bb2f506"
+  },
+  "ACTUAL": {
+    "prediction_audit": {
+      "requested": 40,
+      "audited": 40,
+      "original_envelope_reject": 40,
+      "expert_envelope_pass": 40,
+      "failures_by_component": {
+        "maximum_discrete_translation_acceleration_m_s2": 40,
+        "maximum_finger_speed_m_s": 6
+      },
+      "unchanged_original_limits": {
+        "maximum_translation_speed_m_s": 0.05,
+        "maximum_angular_speed_rad_s": 0.25,
+        "maximum_finger_speed_m_s": 0.04,
+        "maximum_discrete_translation_acceleration_m_s2": 0.25,
+        "maximum_discrete_angular_acceleration_rad_s2": 1.0
+      },
+      "actual_reference_history_joins": 40,
+      "join_rate_pass": 40,
+      "prediction_to_prediction_adjacent_joins": 14,
+      "first_knot_error_is_reported_not_clipped": true,
+      "physical_contact_certificate_for_student_predictions": "NOT_RUN_BY_OFFLINE_ANALYSIS",
+      "GR00T_calls": 0,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "per_window": [
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01774731421323881,
+            "maximum_angular_speed_rad_s": 0.007458829290789833,
+            "maximum_finger_speed_m_s": 0.03218903541564939,
+            "maximum_discrete_translation_acceleration_m_s2": 0.42609824476867986,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.26158576394040345
+          },
+          "first_position_jump_m": 0.0005097363575370725,
+          "first_gripper_jump": 0.03092309151719097,
+          "decoded_gripper_min": 0.9555209279060364,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 7,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.017747314213237865,
+          "actual_reference_join_angular_speed_rad_s": 0.007458828766849005,
+          "installed_first_point_position_gap_m": 0.0005097363575370581,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 2,
+          "phase": "DESCEND",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.025892448491086968,
+            "maximum_angular_speed_rad_s": 0.012470272591883495,
+            "maximum_finger_speed_m_s": 0.004167890548706107,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5182006615541332,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.44378550601442096
+          },
+          "first_position_jump_m": 0.00017325059985785724,
+          "first_gripper_jump": 0.045452967396515276,
+          "decoded_gripper_min": 0.9947901368141174,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 38,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.025892448491088273,
+          "actual_reference_join_angular_speed_rad_s": 0.0124702722927441,
+          "installed_first_point_position_gap_m": 0.00017325059985787367,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 9,
+          "phase": "CLOSE",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.014112876926055331,
+            "maximum_angular_speed_rad_s": 0.008831812913983673,
+            "maximum_finger_speed_m_s": 0.06976518630981442,
+            "maximum_discrete_translation_acceleration_m_s2": 0.3825436126560824,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.21167751822923137
+          },
+          "first_position_jump_m": 0.000447213568969371,
+          "first_gripper_jump": 0.045456527596075436,
+          "decoded_gripper_min": 0.04962918162345886,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 7,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.014112876926059467,
+          "actual_reference_join_angular_speed_rad_s": 0.008831812461437496,
+          "installed_first_point_position_gap_m": 0.00044721356896943864,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              20
+            ],
+            "predicted_indices": [
+              21
+            ],
+            "first_timing_error_s": 0.05,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 10,
+          "phase": "LIFT",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.02935929804317045,
+            "maximum_angular_speed_rad_s": 0.010509528408157737,
+            "maximum_finger_speed_m_s": 0.019253110885620102,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4530936150250481,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.35059383613407896
+          },
+          "first_position_jump_m": 0.0001291557711860347,
+          "first_gripper_jump": -0.416483909412437,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.03936922550201416,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.029359298043170286,
+          "actual_reference_join_angular_speed_rad_s": 0.01050952803630612,
+          "installed_first_point_position_gap_m": 0.00012915577118605338,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 9,
+            "position_gap_m": 0.0021485821907828336,
+            "gripper_gap": -0.027943283319473267,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 13,
+          "phase": "HOLD",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.013671896034374853,
+            "maximum_angular_speed_rad_s": 0.008225049256671639,
+            "maximum_finger_speed_m_s": 0.012706065177917475,
+            "maximum_discrete_translation_acceleration_m_s2": 0.449010449388372,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2663880662538176
+          },
+          "first_position_jump_m": 0.0006847021579524973,
+          "first_gripper_jump": -0.4331129815130464,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.01805824041366577,
+          "exact_closed_knots": 7,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.013694043159048723,
+          "actual_reference_join_angular_speed_rad_s": 0.008225048803136405,
+          "installed_first_point_position_gap_m": 0.0006847021579524361,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r1",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.017648849300824276,
+            "maximum_angular_speed_rad_s": 0.006818985661286309,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4229646014909545,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.26420778939720474
+          },
+          "first_position_jump_m": 0.00010690117942221863,
+          "first_gripper_jump": 0.04545390156976603,
+          "decoded_gripper_min": 1.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 40,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.017648849300826008,
+          "actual_reference_join_angular_speed_rad_s": 0.006818985075157613,
+          "installed_first_point_position_gap_m": 0.00010690117942222493,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r1",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.026347321802497447,
+            "maximum_angular_speed_rad_s": 0.011839816917881494,
+            "maximum_finger_speed_m_s": 0.0004065513610840376,
+            "maximum_discrete_translation_acceleration_m_s2": 0.46658206272596475,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.3583365293323109
+          },
+          "first_position_jump_m": 0.00015172090700975847,
+          "first_gripper_jump": 0.04545688648464252,
+          "decoded_gripper_min": 0.999491810798645,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 38,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.026347321802497353,
+          "actual_reference_join_angular_speed_rad_s": 0.011839816587810052,
+          "installed_first_point_position_gap_m": 0.00015172090700973082,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.003261618052390215,
+            "gripper_gap": 0.0,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r1",
+          "anchor": 8,
+          "phase": "CLOSE",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.014367376470717504,
+            "maximum_angular_speed_rad_s": 0.010371758068341412,
+            "maximum_finger_speed_m_s": 0.059622168540954604,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5741700464739894,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2980881339905039
+          },
+          "first_position_jump_m": 0.0007554396624263898,
+          "first_gripper_jump": 0.04544265915026058,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 5,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.015108793248525916,
+          "actual_reference_join_angular_speed_rad_s": 0.01037175770011383,
+          "installed_first_point_position_gap_m": 0.0007554396624262958,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              20
+            ],
+            "predicted_indices": [
+              20
+            ],
+            "first_timing_error_s": 0.0,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r1",
+          "anchor": 9,
+          "phase": "LIFT",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.022694882906695496,
+            "maximum_angular_speed_rad_s": 0.007214800459155743,
+            "maximum_finger_speed_m_s": 0.01803267002105712,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5572497871633914,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.19977389345786373
+          },
+          "first_position_jump_m": 0.00037934651778665223,
+          "first_gripper_jump": -0.40987168709351374,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.027851223945617676,
+          "exact_closed_knots": 4,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.022694882906699923,
+          "actual_reference_join_angular_speed_rad_s": 0.007705284448718258,
+          "installed_first_point_position_gap_m": 0.0003793465177866208,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 8,
+            "position_gap_m": 0.0030213716660575972,
+            "gripper_gap": 0.02354586124420166,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r1",
+          "anchor": 12,
+          "phase": "HOLD",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.010966413066878062,
+            "maximum_angular_speed_rad_s": 0.007797536859421256,
+            "maximum_finger_speed_m_s": 0.02969279289245607,
+            "maximum_discrete_translation_acceleration_m_s2": 0.3996929038381117,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2334883801954182
+          },
+          "first_position_jump_m": 0.00020352900447863942,
+          "first_gripper_jump": -0.41077378563328126,
+          "decoded_gripper_min": 0.015837669372558594,
+          "decoded_gripper_max": 0.05884939432144165,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.010966413066876885,
+          "actual_reference_join_angular_speed_rad_s": 0.007797536358239231,
+          "installed_first_point_position_gap_m": 0.00020352900447851173,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r1",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01568983987028574,
+            "maximum_angular_speed_rad_s": 0.006078772583274768,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.36909115869026715,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.22674355547122044
+          },
+          "first_position_jump_m": 0.000837239356695598,
+          "first_gripper_jump": 0.04545041202239686,
+          "decoded_gripper_min": 1.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 40,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.01674478713391029,
+          "actual_reference_join_angular_speed_rad_s": 0.0069271512264644924,
+          "installed_first_point_position_gap_m": 0.0008372393566955145,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r1",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.02746278117030119,
+            "maximum_angular_speed_rad_s": 0.010238842514333846,
+            "maximum_finger_speed_m_s": 0.012467527389526384,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5100789440300199,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.30016684696082435
+          },
+          "first_position_jump_m": 0.00021195834132273396,
+          "first_gripper_jump": 0.04029046895892541,
+          "decoded_gripper_min": 0.9843577146530151,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 16,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.0274627811702989,
+          "actual_reference_join_angular_speed_rad_s": 0.010238842132651504,
+          "installed_first_point_position_gap_m": 0.00021195834132277055,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.0030908724252146557,
+            "gripper_gap": -0.0051580071449279785,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r1",
+          "anchor": 8,
+          "phase": "CLOSE",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.009409097603825384,
+            "maximum_angular_speed_rad_s": 0.008847537907124019,
+            "maximum_finger_speed_m_s": 0.07199618816375729,
+            "maximum_discrete_translation_acceleration_m_s2": 0.34620099505576896,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2538756669263335
+          },
+          "first_position_jump_m": 0.0002548077625211558,
+          "first_gripper_jump": 0.04545748537928984,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 4,
+          "exact_open_knots": 6,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.009409097603824508,
+          "actual_reference_join_angular_speed_rad_s": 0.008847537485498288,
+          "installed_first_point_position_gap_m": 0.00025480776252101537,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              20
+            ],
+            "predicted_indices": [
+              20
+            ],
+            "first_timing_error_s": 0.0,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r1",
+          "anchor": 9,
+          "phase": "LIFT",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.021009187892006398,
+            "maximum_angular_speed_rad_s": 0.008024309044053468,
+            "maximum_finger_speed_m_s": 0.01791033744812012,
+            "maximum_discrete_translation_acceleration_m_s2": 0.36095021753140555,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.21947507888214676
+          },
+          "first_position_jump_m": 0.0001918411863819518,
+          "first_gripper_jump": -0.4104983738004252,
+          "decoded_gripper_min": 0.01020592451095581,
+          "decoded_gripper_max": 0.0467911958694458,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.021009187892004465,
+          "actual_reference_join_angular_speed_rad_s": 0.008024308557035181,
+          "installed_first_point_position_gap_m": 0.00019184118638194554,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 8,
+            "position_gap_m": 0.0017401535510706214,
+            "gripper_gap": 0.0272139310836792,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r1",
+          "anchor": 12,
+          "phase": "HOLD",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.009267085569896269,
+            "maximum_angular_speed_rad_s": 0.007579599861936135,
+            "maximum_finger_speed_m_s": 0.005908346176147461,
+            "maximum_discrete_translation_acceleration_m_s2": 0.3328116170519206,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2218838511000039
+          },
+          "first_position_jump_m": 0.00022367104852487744,
+          "first_gripper_jump": -0.4335609606208972,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.007385432720184326,
+          "exact_closed_knots": 36,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.00926708556989179,
+          "actual_reference_join_angular_speed_rad_s": 0.007579599346343572,
+          "installed_first_point_position_gap_m": 0.0002236710485249586,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r1",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01614245825031555,
+            "maximum_angular_speed_rad_s": 0.006469090191517776,
+            "maximum_finger_speed_m_s": 0.007058286666870099,
+            "maximum_discrete_translation_acceleration_m_s2": 0.47268801978388897,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.1786063466703813
+          },
+          "first_position_jump_m": 0.00019114158805272292,
+          "first_gripper_jump": 0.04545114057146482,
+          "decoded_gripper_min": 0.9911771416664124,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 35,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.016142458250314223,
+          "actual_reference_join_angular_speed_rad_s": 0.006469089614875709,
+          "installed_first_point_position_gap_m": 0.0001911415880526041,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r1",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.021890303398543722,
+            "maximum_angular_speed_rad_s": 0.008299380784412072,
+            "maximum_finger_speed_m_s": 0.01533699035644531,
+            "maximum_discrete_translation_acceleration_m_s2": 0.35285421943175865,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.17043535755465988
+          },
+          "first_position_jump_m": 0.00028649899215564735,
+          "first_gripper_jump": 0.030941467420655733,
+          "decoded_gripper_min": 0.976842999458313,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 16,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.0218903033985464,
+          "actual_reference_join_angular_speed_rad_s": 0.00829938032423708,
+          "installed_first_point_position_gap_m": 0.00028649899215568876,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.0024499643613579447,
+            "gripper_gap": -0.014514446258544922,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r1",
+          "anchor": 8,
+          "phase": "CLOSE",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.009913290272331675,
+            "maximum_angular_speed_rad_s": 0.008595395595316167,
+            "maximum_finger_speed_m_s": 0.05359435081481942,
+            "maximum_discrete_translation_acceleration_m_s2": 0.31903426703735394,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.26892503445631427
+          },
+          "first_position_jump_m": 0.00015104061266859301,
+          "first_gripper_jump": 0.04545443098380708,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 3,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.009913290272330112,
+          "actual_reference_join_angular_speed_rad_s": 0.008595395161322223,
+          "installed_first_point_position_gap_m": 0.00015104061266856515,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              20
+            ],
+            "predicted_indices": [
+              20
+            ],
+            "first_timing_error_s": 0.0,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r1",
+          "anchor": 9,
+          "phase": "LIFT",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.022546430384883295,
+            "maximum_angular_speed_rad_s": 0.008650254730625367,
+            "maximum_finger_speed_m_s": 0.01730368137359619,
+            "maximum_discrete_translation_acceleration_m_s2": 0.38665641680551877,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2732963112315571
+          },
+          "first_position_jump_m": 0.000324898459414668,
+          "first_gripper_jump": -0.4153931582492405,
+          "decoded_gripper_min": 0.004217952489852905,
+          "decoded_gripper_max": 0.029514312744140625,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.02254643038488298,
+          "actual_reference_join_angular_speed_rad_s": 0.008650254299383774,
+          "installed_first_point_position_gap_m": 0.0003248984594145963,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 8,
+            "position_gap_m": 0.0019503116595006758,
+            "gripper_gap": 0.0034756362438201904,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r1",
+          "anchor": 12,
+          "phase": "HOLD",
+          "genuine_recovery": false,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.008258273995442395,
+            "maximum_angular_speed_rad_s": 0.00986744088599471,
+            "maximum_finger_speed_m_s": 0.02134652137756347,
+            "maximum_discrete_translation_acceleration_m_s2": 0.29810695393978864,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.27981286535658506
+          },
+          "first_position_jump_m": 0.00023631663725725313,
+          "first_gripper_jump": -0.410993982345953,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.0447998046875,
+          "exact_closed_knots": 5,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.008258273995443956,
+          "actual_reference_join_angular_speed_rad_s": 0.009867440480945087,
+          "installed_first_point_position_gap_m": 0.00023631663725747374,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r3",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.018259463935035664,
+            "maximum_angular_speed_rad_s": 0.009828713669072392,
+            "maximum_finger_speed_m_s": 0.006900215148925647,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4018497094888509,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.30576898135772357
+          },
+          "first_position_jump_m": 0.0002093088834437862,
+          "first_gripper_jump": 0.04487501385227588,
+          "decoded_gripper_min": 0.9913747310638428,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 35,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.018259463935033648,
+          "actual_reference_join_angular_speed_rad_s": 0.009828713289536497,
+          "installed_first_point_position_gap_m": 0.00020930888344380277,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r3",
+          "anchor": 2,
+          "phase": "DESCEND",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.022615914510115343,
+            "maximum_angular_speed_rad_s": 0.006152027276786033,
+            "maximum_finger_speed_m_s": 0.007256555557250958,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5012660775610692,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2342082190173858
+          },
+          "first_position_jump_m": 0.00016640477005827912,
+          "first_gripper_jump": 0.035388875372399764,
+          "decoded_gripper_min": 0.9841264486312866,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 24,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.02261591451011773,
+          "actual_reference_join_angular_speed_rad_s": 0.006152026655987828,
+          "installed_first_point_position_gap_m": 0.00016640477005816506,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r3",
+          "anchor": 10,
+          "phase": "CLOSE",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.013348494690342386,
+            "maximum_angular_speed_rad_s": 0.008464719070329255,
+            "maximum_finger_speed_m_s": 0.043172216415405265,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4952478992283718,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.24684886767419173
+          },
+          "first_position_jump_m": 0.00036666862831435845,
+          "first_gripper_jump": -0.018213314626420618,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.5298504829406738,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.013348494690344765,
+          "actual_reference_join_angular_speed_rad_s": 0.008464718619142695,
+          "installed_first_point_position_gap_m": 0.00036666862831451745,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              10
+            ],
+            "predicted_indices": [
+              8
+            ],
+            "first_timing_error_s": -0.1,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r3",
+          "anchor": 11,
+          "phase": "LIFT",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.020280558676424327,
+            "maximum_angular_speed_rad_s": 0.007690634157470406,
+            "maximum_finger_speed_m_s": 0.0054214000701904375,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5257342229110189,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.26511296614321317
+          },
+          "first_position_jump_m": 0.000312962736556793,
+          "first_gripper_jump": -0.4377781948647433,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.006776750087738037,
+          "exact_closed_knots": 38,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.020280558676422786,
+          "actual_reference_join_angular_speed_rad_s": 0.007690633660870595,
+          "installed_first_point_position_gap_m": 0.0003129627365568994,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 10,
+            "position_gap_m": 0.0008338778675247674,
+            "gripper_gap": -0.007064878940582275,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train01-r3",
+          "anchor": 14,
+          "phase": "HOLD",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01874669687396519,
+            "maximum_angular_speed_rad_s": 0.006853600477137766,
+            "maximum_finger_speed_m_s": 0.019147253036499022,
+            "maximum_discrete_translation_acceleration_m_s2": 0.49836029896977335,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.13396116683018874
+          },
+          "first_position_jump_m": 0.0002714140766092795,
+          "first_gripper_jump": -0.4222680372678291,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.02393406629562378,
+          "exact_closed_knots": 18,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.01874669687396481,
+          "actual_reference_join_angular_speed_rad_s": 0.006853599881010076,
+          "installed_first_point_position_gap_m": 0.0002714140766092628,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r3",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01676002783443704,
+            "maximum_angular_speed_rad_s": 0.00710561721363599,
+            "maximum_finger_speed_m_s": 0.009816455841064409,
+            "maximum_discrete_translation_acceleration_m_s2": 0.30627416030214044,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20966254328287984
+          },
+          "first_position_jump_m": 0.00024186905238715172,
+          "first_gripper_jump": 0.039077328800088185,
+          "decoded_gripper_min": 0.9877294301986694,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 23,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.016760027834434713,
+          "actual_reference_join_angular_speed_rad_s": 0.007105616663650647,
+          "installed_first_point_position_gap_m": 0.00024186905238721314,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r3",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.023732129215275014,
+            "maximum_angular_speed_rad_s": 0.008297536562082168,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.33901152273544216,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.22258444769718283
+          },
+          "first_position_jump_m": 0.0009949703648085995,
+          "first_gripper_jump": 0.04545405142667969,
+          "decoded_gripper_min": 1.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 40,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.023732129215274556,
+          "actual_reference_join_angular_speed_rad_s": 0.008297536091100776,
+          "installed_first_point_position_gap_m": 0.000994970364808632,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.0029158686521540793,
+            "gripper_gap": 0.0,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r3",
+          "anchor": 9,
+          "phase": "CLOSE",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.012588746017206475,
+            "maximum_angular_speed_rad_s": 0.008512780743762518,
+            "maximum_finger_speed_m_s": 0.03818864822387696,
+            "maximum_discrete_translation_acceleration_m_s2": 0.41050411890923655,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.26933787405878556
+          },
+          "first_position_jump_m": 0.00014188655623070416,
+          "first_gripper_jump": -0.029422721430074184,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.5360639095306396,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.012588746017207138,
+          "actual_reference_join_angular_speed_rad_s": 0.008512780295123288,
+          "installed_first_point_position_gap_m": 0.0001418865562306812,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              10
+            ],
+            "predicted_indices": [
+              9
+            ],
+            "first_timing_error_s": -0.05,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r3",
+          "anchor": 10,
+          "phase": "LIFT",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.02117955155860785,
+            "maximum_angular_speed_rad_s": 0.006768607204250359,
+            "maximum_finger_speed_m_s": 0.01262001991271973,
+            "maximum_discrete_translation_acceleration_m_s2": 0.48968377774235367,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2247102259181541
+          },
+          "first_position_jump_m": 0.000312790429394671,
+          "first_gripper_jump": -0.4224760269198963,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.022042393684387207,
+          "exact_closed_knots": 8,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.021179551558607013,
+          "actual_reference_join_angular_speed_rad_s": 0.006768606666247243,
+          "installed_first_point_position_gap_m": 0.000312790429394647,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 9,
+            "position_gap_m": 0.0009774710739496168,
+            "gripper_gap": 0.007079958915710449,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train02-r3",
+          "anchor": 13,
+          "phase": "HOLD",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.009677765023140847,
+            "maximum_angular_speed_rad_s": 0.010244663605637087,
+            "maximum_finger_speed_m_s": 0.014666604995727538,
+            "maximum_discrete_translation_acceleration_m_s2": 0.33198671545394143,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2981252699388746
+          },
+          "first_position_jump_m": 0.00014278920474424133,
+          "first_gripper_jump": -0.41880605829065315,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.031830787658691406,
+          "exact_closed_knots": 2,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.00967776502314294,
+          "actual_reference_join_angular_speed_rad_s": 0.010244663215501952,
+          "installed_first_point_position_gap_m": 0.00014278920474422954,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r3",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.023918239534200407,
+            "maximum_angular_speed_rad_s": 0.006930118416683577,
+            "maximum_finger_speed_m_s": 0.01376686096191399,
+            "maximum_discrete_translation_acceleration_m_s2": 0.6288916060084387,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.24781816849503657
+          },
+          "first_position_jump_m": 0.00024123298372448376,
+          "first_gripper_jump": 0.038333287654256365,
+          "decoded_gripper_min": 0.9799448847770691,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 5,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.023918239534202083,
+          "actual_reference_join_angular_speed_rad_s": 0.006930117852770367,
+          "installed_first_point_position_gap_m": 0.00024123298372425518,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r3",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.026146527759000445,
+            "maximum_angular_speed_rad_s": 0.009358656843151927,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.3680160690752884,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.25528346652866235
+          },
+          "first_position_jump_m": 0.00035075178725906014,
+          "first_gripper_jump": 0.04545332151130044,
+          "decoded_gripper_min": 1.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 40,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.026146527759005708,
+          "actual_reference_join_angular_speed_rad_s": 0.009358656425572223,
+          "installed_first_point_position_gap_m": 0.0003507517872590444,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.002760825763402431,
+            "gripper_gap": 0.009332060813903809,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r3",
+          "anchor": 9,
+          "phase": "CLOSE",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_finger_speed_m_s",
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.01821014524136919,
+            "maximum_angular_speed_rad_s": 0.006719764319647214,
+            "maximum_finger_speed_m_s": 0.04342508316040036,
+            "maximum_discrete_translation_acceleration_m_s2": 0.6399933603073613,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.25907470305391916
+          },
+          "first_position_jump_m": 0.0004733070184906328,
+          "first_gripper_jump": 0.012580953767754921,
+          "decoded_gripper_min": 0.01986294984817505,
+          "decoded_gripper_max": 0.565391480922699,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.01821014524136665,
+          "actual_reference_join_angular_speed_rad_s": 0.006719763738081382,
+          "installed_first_point_position_gap_m": 0.0004733070184908238,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              10
+            ],
+            "predicted_indices": [
+              10
+            ],
+            "first_timing_error_s": 0.0,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r3",
+          "anchor": 10,
+          "phase": "LIFT",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.029501961879999518,
+            "maximum_angular_speed_rad_s": 0.007880909458528025,
+            "maximum_finger_speed_m_s": 0.01750626564025878,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4747683887306835,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.21892783125892243
+          },
+          "first_position_jump_m": 8.019776469798642e-05,
+          "first_gripper_jump": -0.4071521478056569,
+          "decoded_gripper_min": 0.006687819957733154,
+          "decoded_gripper_max": 0.034389615058898926,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.029501961879999553,
+          "actual_reference_join_angular_speed_rad_s": 0.007880908985188033,
+          "installed_first_point_position_gap_m": 8.019776469801882e-05,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 9,
+            "position_gap_m": 0.00045799082810508583,
+            "gripper_gap": 0.008694112300872803,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train03-r3",
+          "anchor": 12,
+          "phase": "HOLD",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.014950587039672827,
+            "maximum_angular_speed_rad_s": 0.012523610811792587,
+            "maximum_finger_speed_m_s": 0.017341423034667965,
+            "maximum_discrete_translation_acceleration_m_s2": 0.3664194870586028,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2709888763868102
+          },
+          "first_position_jump_m": 0.0006532177131184935,
+          "first_gripper_jump": -0.42273982494585793,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.022952675819396973,
+          "exact_closed_knots": 13,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.014950587039676114,
+          "actual_reference_join_angular_speed_rad_s": 0.012523610506835202,
+          "installed_first_point_position_gap_m": 0.0006532177131185362,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r3",
+          "anchor": 0,
+          "phase": "PREGRASP",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.018833409200019764,
+            "maximum_angular_speed_rad_s": 0.009819823611087365,
+            "maximum_finger_speed_m_s": 8.678436279323519e-06,
+            "maximum_discrete_translation_acceleration_m_s2": 0.6051071412713585,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.28041822699153596
+          },
+          "first_position_jump_m": 0.0007438182657776993,
+          "first_gripper_jump": 0.045451052692766836,
+          "decoded_gripper_min": 0.9999891519546509,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 39,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.018833409200020256,
+          "actual_reference_join_angular_speed_rad_s": 0.009819823213118369,
+          "installed_first_point_position_gap_m": 0.0007438182657778147,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r3",
+          "anchor": 1,
+          "phase": "DESCEND",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.025230952826337544,
+            "maximum_angular_speed_rad_s": 0.011400126855658816,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.5236512226683453,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.3000165365730296
+          },
+          "first_position_jump_m": 0.0004297672136505097,
+          "first_gripper_jump": 0.045456231776218714,
+          "decoded_gripper_min": 1.0,
+          "decoded_gripper_max": 1.0,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 40,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.02523095282633597,
+          "actual_reference_join_angular_speed_rad_s": 0.011400126497274985,
+          "installed_first_point_position_gap_m": 0.00042976721365060877,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 0,
+            "position_gap_m": 0.0014473384576753898,
+            "gripper_gap": 0.0,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r3",
+          "anchor": 9,
+          "phase": "CLOSE",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.009372356971768612,
+            "maximum_angular_speed_rad_s": 0.009436377565602061,
+            "maximum_finger_speed_m_s": 0.037107014656066896,
+            "maximum_discrete_translation_acceleration_m_s2": 0.33216656994558086,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.3351680681674877
+          },
+          "first_position_jump_m": 0.0008306212774112998,
+          "first_gripper_jump": -0.02132625638547958,
+          "decoded_gripper_min": 0.0011410713195800781,
+          "decoded_gripper_max": 0.5336685180664062,
+          "exact_closed_knots": 0,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.01661242554822438,
+          "actual_reference_join_angular_speed_rad_s": 0.009436377151461643,
+          "installed_first_point_position_gap_m": 0.000830621277411219,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [
+              10
+            ],
+            "predicted_indices": [
+              8
+            ],
+            "first_timing_error_s": -0.1,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r3",
+          "anchor": 10,
+          "phase": "LIFT",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.025555632119759485,
+            "maximum_angular_speed_rad_s": 0.005465858488583842,
+            "maximum_finger_speed_m_s": 0.015452933311462391,
+            "maximum_discrete_translation_acceleration_m_s2": 0.38903604813210463,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.1749967531766445
+          },
+          "first_position_jump_m": 0.00015337558243723882,
+          "first_gripper_jump": -0.413139286519553,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.0348736047744751,
+          "exact_closed_knots": 1,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.025555632119759242,
+          "actual_reference_join_angular_speed_rad_s": 0.005465857757353197,
+          "installed_first_point_position_gap_m": 0.00015337558243719513,
+          "previous_prediction_counterfactual_join": {
+            "previous_anchor": 9,
+            "position_gap_m": 0.0008567819400550713,
+            "gripper_gap": 0.01432618498802185,
+            "interpretation": "Counterfactual join of predictions at recorded Teacher states; neither prediction was executed"
+          },
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        },
+        {
+          "episode": "tl-teacher-data-20261109-01-train04-r3",
+          "anchor": 12,
+          "phase": "HOLD",
+          "genuine_recovery": true,
+          "original_envelope_pass": false,
+          "rejection_components": [
+            "maximum_discrete_translation_acceleration_m_s2"
+          ],
+          "original_metrics": {
+            "maximum_translation_speed_m_s": 0.014700206991818517,
+            "maximum_angular_speed_rad_s": 0.012761487255400697,
+            "maximum_finger_speed_m_s": 0.02286381721496582,
+            "maximum_discrete_translation_acceleration_m_s2": 0.4925027645137221,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2708203704560281
+          },
+          "first_position_jump_m": 0.00019181687107365576,
+          "first_gripper_jump": -0.4265751018265491,
+          "decoded_gripper_min": 0.0,
+          "decoded_gripper_max": 0.0333559513092041,
+          "exact_closed_knots": 22,
+          "exact_open_knots": 0,
+          "expert_original_envelope_pass": true,
+          "actual_reference_join_rate_pass": true,
+          "actual_reference_join_linear_speed_m_s": 0.014700206991817533,
+          "actual_reference_join_angular_speed_rad_s": 0.01276148697004747,
+          "installed_first_point_position_gap_m": 0.00019181687107362234,
+          "previous_prediction_counterfactual_join": null,
+          "commanded_gripper_close_event_error": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "student_prediction_executed": false
+        }
+      ]
+    },
+    "feature_exchange": {
+      "original_windows": 4,
+      "source_features": 2,
+      "repetitions_each": 2,
+      "actual_head_generations": 16,
+      "shared_model_loads_with_cache": 1,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "all_Core_baselines_equal": true,
+      "actual_byte_exact_attention_mask_pairs": 4,
+      "actual_byte_exact_same_origin_repeat_pairs": 8,
+      "fixed_state_noise_masks_steps": true,
+      "denoising_steps": 4,
+      "physical_execution_authorized": false,
+      "per_window": [
+        {
+          "query": 0,
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 0,
+          "seed": 2026110900,
+          "Core_original_baseline_equal": true,
+          "within_origin_repeat_value_equal": {
+            "Core": true,
+            "H100": true
+          },
+          "masks_byte_exact": true,
+          "normalized_max_abs": 0.0123291015625,
+          "XYZ_component_max_abs_m": 7.418039943929422e-05,
+          "rot6d_component_max_abs": 3.4275980467624034e-05,
+          "gripper_max_abs": 0.0020751953125
+        },
+        {
+          "query": 1,
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 2,
+          "seed": 2026110901,
+          "Core_original_baseline_equal": true,
+          "within_origin_repeat_value_equal": {
+            "Core": true,
+            "H100": true
+          },
+          "masks_byte_exact": true,
+          "normalized_max_abs": 0.0166015625,
+          "XYZ_component_max_abs_m": 0.0001066711342831983,
+          "rot6d_component_max_abs": 2.4762315364544596e-05,
+          "gripper_max_abs": 0.0
+        },
+        {
+          "query": 2,
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 9,
+          "seed": 2026110902,
+          "Core_original_baseline_equal": true,
+          "within_origin_repeat_value_equal": {
+            "Core": true,
+            "H100": true
+          },
+          "masks_byte_exact": true,
+          "normalized_max_abs": 0.00390625,
+          "XYZ_component_max_abs_m": 5.8934061480386823e-05,
+          "rot6d_component_max_abs": 1.9275578214461575e-05,
+          "gripper_max_abs": 0.001953125
+        },
+        {
+          "query": 3,
+          "episode": "tl-teacher-data-20261109-01-train01-r1",
+          "anchor": 10,
+          "seed": 2026110903,
+          "Core_original_baseline_equal": true,
+          "within_origin_repeat_value_equal": {
+            "Core": true,
+            "H100": true
+          },
+          "masks_byte_exact": true,
+          "normalized_max_abs": 0.01171875,
+          "XYZ_component_max_abs_m": 5.738647265740582e-05,
+          "rot6d_component_max_abs": 3.426279305326907e-05,
+          "gripper_max_abs": 0.001953125
+        }
+      ],
+      "conclusion": "Changing only the delivered backbone feature packet can produce component errors beyond the unchanged original tolerances on this fixed Core head. This does not identify every cross-hardware error source."
+    },
+    "contact_event_audit": {
+      "requested_episodes": 100,
+      "audited_episodes": 100,
+      "valid_unique_windows": 1450,
+      "recorded_contact_onset_windows": 148,
+      "normal_force_condition_N": 0.05,
+      "recorded_contact_period_s": 0.006,
+      "onset_time_uncertainty_interval_s": 0.006,
+      "contacts_between_recorded_samples_not_excluded": true,
+      "contact_is_not_a_native_grasp_certificate": true,
+      "event_metadata_in_model_input": false,
+      "GR00T_calls": 0,
+      "optimizer_updates": 0,
+      "native_integrations": 0
+    },
+    "new_TRAIN100_feature_cache": {
+      "complete": true,
+      "distinct_rows": 1450,
+      "actual_backbone_feature_calls": 1450,
+      "complete_model_generations_for_original_cache_equivalence": 40,
+      "cached_head_generations_for_equivalence": 40,
+      "all40_full_H40_equal": true,
+      "actual_GR00T_model_loads": 1,
+      "peak_allocated_bytes": 12051480064,
+      "worker_closed0": true,
+      "old_FIT4_cache_or_identity_reused": false
+    },
+    "ordinary_Core_local_replay": {
+      "replays": {
+        "B0": {
+          "actual_model_loads": 1,
+          "actual_queries": 80,
+          "same_card_reproducible": true,
+          "precision": "ORIGINAL_BF16_AUTOCAST_FP32_PARAMETERS",
+          "denoising_steps": 4,
+          "peak_allocated_bytes": 13301757952,
+          "peak_reserved_bytes": 13511950336,
+          "exit_code": 0,
+          "wall_s": 25.023348710034043
+        },
+        "B1": {
+          "actual_model_loads": 1,
+          "actual_queries": 40,
+          "same_card_reproducible": true,
+          "precision": "ORIGINAL_BF16_AUTOCAST_FP32_PARAMETERS",
+          "denoising_steps": 4,
+          "peak_allocated_bytes": 13301757952,
+          "peak_reserved_bytes": 13511950336,
+          "exit_code": 0,
+          "wall_s": 243.60018892027438
+        }
+      },
+      "all_same_card_arrays_byte_exact": true,
+      "B0_weights_and_Processor": "ORIGINAL_CORR2048_PARENT",
+      "B1_weights_and_Processor": "DELIVERED_SFT2000_AND_SAVED_TARGET_PROCESSOR",
+      "new_inference_queries": 120,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "local_admission_issued": true,
+      "local_admission_sha256": "578edc92aba37daac4a0d67f60128bb34ddb14d35e6434aaf17c1b978dee2e73",
+      "local_admission_class": "CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1",
+      "cross_hardware_qualified": false,
+      "original_DEV_TEST_admission": false,
+      "native_small_panel_requested": 4,
+      "native_small_panel_attempted": 0,
+      "all_conditions": [
+        "TRAIN01/B0/restart1",
+        "TRAIN01/B1/restart1",
+        "TRAIN13/B1/restart1",
+        "TRAIN13/B0/restart1"
+      ],
+      "unexecuted_metadata_predecessor": {
+        "requested": 4,
+        "attempted": 0,
+        "unrun": 4,
+        "closed_without_execution": true,
+        "reason": "Cold contact-intent interface repair before any native group; same four population/noise positions retained."
+      }
+    },
+    "new_last2_adaptation": {
+      "initial_weights": "SAME_SFT2000_FOR_BOTH_ARMS",
+      "variant": "INTERFACES_LAST2_DIT",
+      "trainable_parameters": 77847684,
+      "arms": {
+        "ORIGINAL": {
+          "requested_updates": 500,
+          "actual_optimizer_calls": 176,
+          "completed_committed_visits": 5632,
+          "actual_completed_loss_backward_records": 5657,
+          "snapshot_has_inflight_visits": true,
+          "checkpoint250_complete": false,
+          "checkpoint500_complete": false,
+          "peak_allocated_bytes": 6537933824,
+          "peak_reserved_bytes": 6725566464,
+          "last_update_wall_s": 23.404955511912704
+        },
+        "CONTACT_EVENTS": {
+          "requested_updates": 500,
+          "actual_optimizer_calls": 0,
+          "completed_committed_visits": 0,
+          "status": "REGISTERED_SEQUENTIAL_FINITE_SUCCESSOR"
+        }
+      },
+      "same_data_statistics_effective_batch32_seed_schedule_budget": true,
+      "fresh_AdamW_per_arm": true,
+      "learning_rate": 0.0001,
+      "warmup_local_steps": 200,
+      "scheduler_local_horizon": 8000,
+      "original_Trainer_execution": false,
+      "FULL_ACTION_SIDE_continuation": false,
+      "planned_actual_chain": "250 -> fresh process exact full-state restore ->500 -> fresh full500 restore -> ordinary full-model40 reconstruction, for each arm",
+      "original_sampling_entries_per_cycle": 3200,
+      "event_mix": "24/32 original exposure draws +8/32 uniform draws over148 observed onset windows",
+      "original_scope_frozen_source_unchanged": true
+    },
+    "plus3cm_veto_geometry": {
+      "native_boundary_step": 12703,
+      "planned_native_tick": 860,
+      "stage": "approach",
+      "original_signed_distance_m": -2.1202403327445773e-06,
+      "cloned_signed_distance_m": -2.1202403327445773e-06,
+      "recorded_penetration_reproduced": true,
+      "original_contact_predicate_still_rejects": true,
+      "planned_TCP_FK_position_error_m": 2.457747596585726e-10,
+      "actual_boundary_pair_contacts": [],
+      "MuJoCo_version": "3.2.7",
+      "MuJoCo_model_loads": 1,
+      "cloned_forward_calls": 2,
+      "physics_integrations": 0,
+      "GR00T_calls": 0,
+      "optimizer_updates": 0,
+      "proposal_executed": false,
+      "contact_threshold_changed": false,
+      "task_retried": false
+    },
+    "RecoveryOracle": {
+      "reused_sealed_genuine_recovery_episodes": 50,
+      "new_Oracle_qualification": false,
+      "new_Oracle_calls": 0,
+      "new_student_rollin_states": 0,
+      "new_DAgger_labels": 0,
+      "preparation_complete": true,
+      "requires": "New TRAIN-only population, actual student-executed roll-in and current observation, original reference/contact/consumption gates, executed Oracle labels only."
+    },
+    "total_new_GR00T_model_loads": 4,
+    "total_new_generation_calls": 216,
+    "new_simulation_integrations": 0,
+    "software_checks": {
+      "passed": 57,
+      "scope": "Local typed admission, original student/DEV population/registration, frozen-feature and envelope regressions; not native qualification"
+    }
+  },
+  "NEGATIVE": {
+    "original_cross_hardware_REJECT_preserved": true,
+    "original_DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "student_task_success_not_yet_measured": true,
+    "adapter500_endpoints_not_yet_complete": true,
+    "engineering_failures_preserved": [
+      {
+        "role": "CPU01",
+        "reason": "Assumed1-step contact record cadence; actual is3 steps. Core40 analysis completed before failure."
+      },
+      {
+        "role": "CPU02",
+        "reason": "Exclusive-create progress writer collided on second update; corrected to original durable writer."
+      },
+      {
+        "role": "CPU04_geometry",
+        "reason": "Selected neural venv lacks MuJoCo; reference joins and Oracle preparation completed. Geometry-only CPU05 used the existing native runtime and compiled scene."
+      }
+    ],
+    "frozen_B0_measurement_metadata_note": "The f124 replay measurement file uses parent_global_step2000 as a candidate anchor. Actual B0 loaded the originalCORR2048 parent and original Processor with no SFT install, as pinned by its weights/spec. Future output separates this anchor from B0 weight identity; frozen receipts were not edited or rerun."
+  },
+  "DECISION": "Continue both sealed500-update adaptation arms and their actual restore/reconstruction chain. The independent local4 uses frozen SFT2000, original B0 and contact-intent bridgeV2; no clipping/Teacher fallback. Partial training or local diagnostics do not promote the original scientific candidate.",
+  "NEXT_GATE": {
+    "running_Core_training_handle_independently_verified": true,
+    "actual_finite_training_run": "task-learning-core-local-last2-pair-20261110-01",
+    "registered_native_panel": "task-learning-core-local-native-panel-20261110-02",
+    "finite_PC_successor_actual_live": true,
+    "successor_stage": "WAIT_ACTUAL_KNOWN_CORE_TRAINING_COLD_BOUNDARY",
+    "automatic_next_action": "After the known training unit and all children are actually terminal, verify real GPU/host capacity, renew a cold scope through the original legal helper if needed, then register/dispatch the original serial native/neural worker for the frozen local4. No automatic replay of uncertain effects.",
+    "new_PBS_submissions": 0,
+    "preserved_PBS_jobs": {
+      "709670": "Q_host",
+      "709621": "Q_ngpus",
+      "709533": "Q_ngpus"
+    },
+    "original_DEV80_TEST_remain_separate": true,
+    "goal_complete": false
+  }
+}

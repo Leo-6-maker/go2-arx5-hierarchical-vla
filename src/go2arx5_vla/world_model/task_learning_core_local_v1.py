@@ -322,7 +322,9 @@ def measure(s,model,data,output,guard,*,cache_manifest=None):
     finally:features.restore_rng(state)
     features.need(before==rng_identity()and len(rows)==40,'COMPLETE_PHASE_PROBES_WITHOUT_TRAIN_RNG_CHANGE')
     result=dict(schema='TASK_LEARNING_CORE_LOCAL_LAST2_PHASE_PROBES_V1',records=rows,
-        actual_queries=40,original_full_inference=cache_manifest is None,parent_global_step=2000,
+        actual_queries=40,original_full_inference=cache_manifest is None,
+        candidate_anchor_global_step=2000,parent_global_step=2000 if s.get('policy_arm','B1')=='B1'else None,
+        policy_weights_source='ORIGINAL_CORR2048_PARENT'if s.get('policy_arm')=='B0'else'SFT2000_PLUS_DECLARED_ADAPTATION',
         adaptation_step=s.get('adaptation_step',500),policy_arm=s.get('policy_arm','B1'),
         native_task_success='NOT_MEASURED_BY_OPEN_LOOP',new_optimizer_updates=0)
     write(output/'RESULT.private.json',result);return result
