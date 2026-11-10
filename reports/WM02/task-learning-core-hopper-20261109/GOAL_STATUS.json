@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T03:44:24.009923+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T04:46:56.947230+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -13,9 +13,9 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
     "Hopper_project_login": "AMGR_QUERY_TOKEN_EXPIRED; OFFICIAL_PBS_PROJECT_SUBMISSION_ACCEPTED_WITH_ACCOUNTING",
-    "PBS_submissions": 15,
+    "PBS_submissions": 17,
     "rejected_queue_submission_attempts": 2,
-    "accepted_PBS_jobs": 13,
+    "accepted_PBS_jobs": 15,
     "completed_PBS_jobs": 12,
     "successful_PBS_exit0_jobs": 8,
     "failed_PBS_exit1_jobs": 2,
@@ -29,8 +29,8 @@
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
     "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
-    "current_neural_work": "H100_TRACE709576_AND_UNTRACED709597_F0_CLOSED0; CORE_PRIVATE_COMPARISON_CLOSED0_FIRST_DIFF_BACKBONE_OUTPUT; H200709533_Q",
-    "current_Hopper_paired_trace": "709533 Q_INSUFFICIENT_GPUS; ORIGINAL_SOURCE07211234_PRESERVED"
+    "current_neural_work": "CORE_INTERNAL_TRACE_AND_FP32_DIAGNOSTIC_CLOSED0; ORIGINAL_NUMERICAL_GATE_UNPASSED; HOPPER709533_709621_709670_Q",
+    "current_Hopper_paired_trace": "709533 Q_GPU; 709621 Q_GPU_INTERNAL_BF16; 709670 Q_HOST_SAME_PRECISION_FP32; ALL_ACCEPTED_RELEASED_AND_PRESERVED"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -231,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Retain the already submitted original single-H200709533 capture. Use the now sealed private input/output tensors to identify the first internal backbone operation or precision boundary, followed by a separately versioned paired qualification. Only a qualified Core runtime can start the original fullDEV80 and frozen scientific decision.",
+  "next_gate": "Read actual709670 and709621 terminals through the finite observers, privately deliver the bounded traces, and compare matching modes. Only evidence supporting a separately versioned ordinary-runtime qualification may lead to the original fullDEV80 and frozen scientific decision; no direct promotion of diagnostic outputs.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -285,7 +285,7 @@
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": null,
     "Core_model_package": "PRIVATE_DELIVERY_CLOSED0_ALL_MEMBER_SHA_PASS",
-    "Core_current_resource": "ALL_CURRENT_DIAGNOSTIC_WORKERS_AND_PRIVATE_COMPARISON_CLOSED0; NO_NEW_NATIVE_PHYSICS",
+    "Core_current_resource": "ALL_CURRENT_CORE_DIAGNOSTICS_CLOSED0; NO_MODEL_OR_NATIVE_WORKER_RUNNING",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
@@ -440,7 +440,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T11:44:24.009923+08:00",
+  "SGT": "2026-11-10T12:46:56.947230+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -925,5 +925,167 @@
     "all4_backbone_inputs_bit_exact": true,
     "Core_and_H100_same_site_all40_capture_controls_byte_exact": true,
     "native_qualification_issued": false
+  },
+  "CORE_INTERNAL_TRACE": {
+    "report": "CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL.json",
+    "run": "task-learning-core-package-seed20261109-step2000-backbone-trace-01",
+    "spec_sha256": "1aa92d78526a8c176ff2c7e819930b81e6745dbd9d25108df76fa0292f0f8d42",
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "unit_MainPID": 0,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal": {
+      "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-REGISTER": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794283498.1180785,
+        "result_digest_matches": true
+      },
+      "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-LAUNCH": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794283531.8450463,
+        "result_digest_matches": true
+      }
+    },
+    "trace_manifest_sha256": "fcafbd8a0fdff4dc3e48977baaa5c62f4572186925f55e10543aa0bfbeff8cbd",
+    "all_internal_member_SHA_verified": true,
+    "internal_boundaries": 119,
+    "internal_tensor_bytes": 227147888,
+    "original_queries": 40,
+    "traced_queries": 1,
+    "actual_model_loads": 1,
+    "actual_Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "bit_exact_queries_vs_prior_Core_capture": {
+      "physical_H40": 40,
+      "normalized": 40,
+      "actual_state10": 40,
+      "expert_policy_H40": 40
+    },
+    "result_sha256": "c74e7b38119c43ad3722fe83af9ba24bb3d9ec253aa7e5ddb078d3be6510b7fa",
+    "worker_wall_s": 419.78858164604753,
+    "child_CPU_s": 60.491769,
+    "feature_stack_requires_grad_parameters": {
+      "visual": 0,
+      "language": 0
+    },
+    "numeric_qualification_issued": false
+  },
+  "CORE_FP32_DIAGNOSTIC": {
+    "report": "CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL.json",
+    "run": "task-learning-core-package-seed20261109-step2000-fp32-diagnostic-01",
+    "spec_sha256": "135a8220f2f17a22fbed871e4cc2f9088d762d71ee62561bd0cfd722690aba0d",
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "unit_MainPID": 0,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal": {
+      "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-REGISTER": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794284613.6050866,
+        "result_digest_matches": true
+      },
+      "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-LAUNCH": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794284656.9668696,
+        "result_digest_matches": true
+      }
+    },
+    "result_sha256": "47c54aa6e28fca8f6094aa94a4461b4f15bd58f8c062f871d17d9421c0ec2edc",
+    "precision_receipt_sha256": "964df9992eee01881f8f05a7bbc7787db35d43160cba41801a268c51d414eb19",
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "precision_changed": true,
+    "weights_changed": false,
+    "all40_actual_autocast_disabled": true,
+    "all40_actual_matmul_and_cudnn_TF32_disabled": true,
+    "captured_module_output_dtypes": [
+      "torch.bool",
+      "torch.float32"
+    ],
+    "original_flags_restored": true,
+    "original_get_action_method_restored": true,
+    "peak_allocated_bytes": 12691058176,
+    "peak_reserved_bytes": 12855541760,
+    "worker_wall_s": 611.9027034579776,
+    "child_CPU_s": 59.20504,
+    "inference_wall_s": 366.627473491244,
+    "original_Hopper_BF16_comparison": {
+      "matched_queries": 40,
+      "same_states_experts_noise": true,
+      "maximum_absolute_error": {
+        "XYZ_m": 0.00012282030114119102,
+        "rot6d_component": 5.234079539317982e-05,
+        "gripper": 0.002843022346496582,
+        "normalized_component": 0.020331889390945435
+      },
+      "queries_over_original_tolerances": {
+        "XYZ_m": 2,
+        "rot6d_component": 0,
+        "gripper": 32,
+        "normalized_component": 11
+      },
+      "original_tolerances": {
+        "XYZ_m": 0.0001,
+        "rot6d_component": 0.001,
+        "gripper": 0.001,
+        "normalized_component": 0.01
+      },
+      "original_gate_would_pass": false
+    },
+    "qualification_issued": false
+  },
+  "HOPPER_PAIRED_NUMERICAL_WORK": {
+    "same_precision_FP32": {
+      "job_id": "709670.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: host ",
+      "config_sha256": "3f3bf6e76bee45312d8e4fd1645390e3ecaf8a4047c536be2ad5acb8cfe337ac",
+      "absolute_deadline_epoch": 1794458491.680552,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794285833.7556565,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794285938.3497386,
+          "result_digest_matches": true
+        }
+      },
+      "independent_standard_H100_node_requested": true,
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "source_sha": "fc8719fed4e5930afaffccf944ed55e597f78b27",
+      "mode": "FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1",
+      "observer_pid": 4191100
+    },
+    "original_precision_internal_trace": {
+      "job_id": "709621.hopper-m-02",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "config_sha256": "859c1de8f7d921b306a1927075155558c9441a287109866f7826e23cc6561abb",
+      "source_sha": "db708fe2317c5af43f0813b0424c6947c7ec9345",
+      "GPUs": 1,
+      "wall_s": 3600,
+      "original_capsule_preserved": true,
+      "observer_pid": 4191099
+    },
+    "original_H200_trace": {
+      "job_id": "709533.hopper-m-02",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "source_sha": "07211234804264da6757eb0391adb072f1efbc51",
+      "original_capsule_preserved": true,
+      "observer_pid": 4133235
+    }
   }
 }
