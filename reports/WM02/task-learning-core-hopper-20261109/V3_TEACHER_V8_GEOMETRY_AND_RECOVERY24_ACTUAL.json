@@ -1,0 +1,224 @@
+{
+  "schema": "V3_TEACHER_V8_RECORDED_GEOMETRY_AND_ACTUAL_RECOVERY24_START_V1",
+  "observed_UTC": "2026-11-10T15:27:35.189487+00:00",
+  "observed_SGT": "2026-11-10T23:27:35.189487+08:00",
+  "QUESTION": "Can an independently versioned Teacher recover real supported deviations with measurable execution margin and unchanged native safety?",
+  "CHANGED": {
+    "Teacher_version": "TEACHER_V8_CURRENT_STATE_MARGIN_RECOVERY_V1",
+    "native_runtime_source": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+    "current_state_replan": true,
+    "command_history": "Last solver-and-gripper-confirmed nominal command; measured opening is outcome",
+    "grasp_height_candidate_m": 0.0135,
+    "maximum_nominal_grip_delta_per_H40": 0.7,
+    "designed_finger_speed_m_s": 0.03,
+    "release": "Hold actual complete TCP pose before realigning; supported non-grasped only",
+    "population": "Three conditions x four sealed TRAIN layouts x two new restarts;24 new qualification requests; no BC or DAgger",
+    "legacy_V7_fingerprint": "1bc18176e3c97d33058309c7ff341398c50d097bbe7e42b91b52ab2db9984081"
+  },
+  "ACTUAL": {
+    "local_recorded_pair_geometry": {
+      "source_sha": "8ca18abd9bf78eed92fe3b2d2d7b5ce05013b087",
+      "actual_site": "LOCAL_PC_CPU_OFFLINE_GEOMETRY",
+      "rigid_geometry_model_SHA256": "21c060b2c9bc3461f9ccf25930d8ed963994482942d1f90bfaccc47981ceda79",
+      "recorded_native_model_SHA256": "f23f17a177a3f626c9555d2aa713a2c9218358638c6247e1fe9caf43f6a4a257",
+      "recorded_state_SHA256": "0aaf0f679cccf75afb04c0f962b56aed69de6ebb896d4b05969bcc7320fa41fb",
+      "recorded_geometry_proof_SHA256": "440a126767a9337c88b4b9ec3a050bc7b5851a8a9157ef5010a189b42326155f",
+      "rigid_world_center_error_m": 2.457703338702475e-10,
+      "baseline_signed_distance_error_m": 2.3128808243622068e-10,
+      "candidate_TCP_world_z_shift_m": 0.0015,
+      "candidate_grasp_cube_z_offset_m": 0.0135,
+      "minimum_candidate_pair_clearance_m": 0.0008112743238382104,
+      "cube_orientation_probe_rad": 0.008726646259971648,
+      "requested_pair_cases": 28,
+      "completed_pair_cases": 28,
+      "MuJoCo_model_loads": 29,
+      "cloned_forward_calls": 28,
+      "geometry_distance_calls": 28,
+      "physics_integrations": 0,
+      "GR00T_model_loads": 0,
+      "GR00T_queries": 0,
+      "optimizer_updates": 0,
+      "wall_s": 0.15340258198557422,
+      "CPU_s": 0.153258696
+    },
+    "new_scope": {
+      "identity": "09",
+      "previous_scope08_closed_at_verified_cold_boundary": true,
+      "new_scope_registered_via_original_owner_Journal": true,
+      "old_CLOSED_not_reopened": true,
+      "no_workers_started_by_scope_registration": true
+    },
+    "source_capsule": {
+      "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+      "source_members": 3823,
+      "changed_members_from_just_verified_parent": 4,
+      "delta_bytes": 17480
+    },
+    "qualification": {
+      "root_identity": "task-learning-teacher-v8-recovery24-20261110-02",
+      "requested": 24,
+      "panel_SHA256": "3dc490aa1b6543bf6ed13cf8df953f8add3989829f4186876ec73d2a266e219f",
+      "input_SHA256": "7745d1c0e1b5de4a89f3cc3336c3ae29b2c8fb9b6d3424f8a2cf57ca35c435ae",
+      "deadline_epoch": 1794338345.6242368,
+      "status": "RUNNING_SECOND_REQUEST_FIRST_GENUINE_RECOVERY_PASSED",
+      "current_native_clock": {
+        "step": 10403,
+        "time_s": 20.805999999999347
+      },
+      "completed_requests": 1,
+      "observed_Teacher_decisions_in_first_request": 5,
+      "start_readiness_pass": true,
+      "actual_GR00T_queries": 0,
+      "model_updates": 0,
+      "new_BC_demonstrations": 0,
+      "new_student_rollins": 0,
+      "new_DAgger_labels": 0,
+      "summary": {
+        "schema": "TEACHER_V8_RECOVERY24_SUMMARY_V1",
+        "requested": 24,
+        "attempted": 1,
+        "completed": 1,
+        "complete": false,
+        "reset_ready": 1,
+        "genuine_recovery_successes": 1,
+        "hard_safety_stop_conditions": 0,
+        "technical_failure_conditions": 0,
+        "per_type": {
+          "UNDER_CLOSE": {
+            "requested": 8,
+            "attempted": 1,
+            "genuine_recovery_successes": 1
+          },
+          "SUPPORTED_SIDE_OFFSET": {
+            "requested": 8,
+            "attempted": 0,
+            "genuine_recovery_successes": 0
+          },
+          "SUPPORTED_SINGLE_PAD": {
+            "requested": 8,
+            "attempted": 0,
+            "genuine_recovery_successes": 0
+          }
+        },
+        "condition_not_established": 0,
+        "passes": false,
+        "P_success_per_requested": 0.041666666666666664,
+        "qualified_training_demonstrations": 0,
+        "GR00T_queries": 0,
+        "model_updates": 0,
+        "threshold": {
+          "minimum_total": 22,
+          "minimum_per_type": 7,
+          "maximum_hard_safety_stops": 0
+        },
+        "DAgger_labels": 0
+      },
+      "completed_outcomes": [
+        {
+          "native_run": "tl-v8-recovery24-20261110-02-recovery01-r1-under_close",
+          "layout": "RECOVERY01",
+          "restart": 1,
+          "recovery_condition": "UNDER_CLOSE",
+          "offset_sign": 1,
+          "Teacher_mode": "TEACHER_V8_CURRENT_STATE_MARGIN_RECOVERY_V1",
+          "parent": "TASK_LEARNING_UNDER_HAND_RECOVERY01",
+          "split": "TRAIN",
+          "command": "GRASP_RED_LIFT20MM_HOLD1S",
+          "purpose": "TEACHER_V8_QUALIFICATION_NOT_BC_NOT_STUDENT_DAGGER",
+          "model_sha256": "a158b76c0429079ffe5b1a8ab79fb95a3d1b821d23a73f6f2c4c0a875a8de1cb",
+          "attempted": true,
+          "reset_ready": true,
+          "task_success": true,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "native_status": "NATIVE_STAGE_PASSED",
+          "actual_native_integrations": 21203,
+          "worker_exit_code": 0,
+          "first_failure": null,
+          "wall_s": 340.5645015081391,
+          "CPU_s": 733.3348661699999,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.026411245595309274,
+            "longest_contiguous_grasp_lift_hold_s": 7.3,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.0072203865605750175,
+            "maximum_base_rotation_rad": 0.012118365125381166,
+            "maximum_foot_planar_displacement_m": 0.0038649551466922822,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "original_task_success": true,
+          "genuine_recovery_success": true,
+          "recovery_evidence": {
+            "Teacher_version": "TEACHER_V8_CURRENT_STATE_MARGIN_RECOVERY_V1",
+            "recovery_condition": "UNDER_CLOSE",
+            "intervention_issued": true,
+            "actual_recovery_entry_observed": true,
+            "recovery_entry_native_step": 14703,
+            "native_grasp_after_correction": true,
+            "new_Oracle_not_student_DAgger": true
+          },
+          "recovery_exit": {},
+          "qualification_condition_not_established": false,
+          "new_BC_demonstrations": 0,
+          "new_student_rollin_states": 0,
+          "new_DAgger_labels": 0,
+          "result_sha256": "73d03650d46a6a749d908d4d5088833c91b2d0e778af39a6ed1166424b6a361c"
+        }
+      ],
+      "new_completed_physics_integrations": 21203,
+      "first_completed_Teacher_decisions": 15,
+      "first_completed_interventions": 1,
+      "first_completed_expert_decisions": 14,
+      "first_completed_wall_s": 340.5645015081391,
+      "first_completed_CPU_s": 733.3348661699999,
+      "live_coordinator_and_child_independently_verified": true
+    },
+    "software": {
+      "related_suite_passed": 403,
+      "subsequent_targeted_archived_custody_and_V8_tests_passed": 20,
+      "explicit_fit_focused_tests_passed": 5,
+      "software_is_not_native_qualification": true
+    }
+  },
+  "NEGATIVE": {
+    "first_V8_registration": "ABORTED_BEFORE_REGISTRY_LEASE_OR_NATIVE: archived builder SHA differed from later layout-extended runtime; independently reconciled Journal;0 requests/queries/integrations",
+    "fixed_custody": "Verify archived builder and exact model through original CLOSED0 recovery producer; never import old code or rebuild/rerun old qualification",
+    "first_dispatch_preflight": "Rejected obsolete inherited scope binding before any dispatch effect; fresh input scope reference then passed unchanged site checks",
+    "isolated_geometry_not_whole_robot_certificate": true,
+    "cube_orientation_explicit_assumption_and_27_point_probe_not_continuous_robustness": true,
+    "TeacherV8_qualified": false,
+    "original_plus3cm_native_veto_retained": true
+  },
+  "DECISION": "Allow the registered finite serial24 qualification to progress under the original single physical owner. Count recovery only with a newly observed declared non-grasp state, later actual grasp and original full task success; >=22/24 and >=7/8 per type, zero hard stops. No96-BC or DAgger from preparation.",
+  "NEXT": "Continue the remaining23 independently preregistered requests without hotpatch/retry; first genuine UNDER_CLOSE recovery is1/24 full denominator, not complete qualification. Vanda V0 and the explicit trajectory branch proceed independently.",
+  "WBC_legs_solver_gains_dynamics_2ms_and_safety_changed": false
+}
