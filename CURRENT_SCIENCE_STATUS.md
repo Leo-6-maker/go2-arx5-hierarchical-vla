@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-11T01:58:14.589113+08:00：**TeacherV8固定24已全部结束，欠闭爪8/8真实恢复、侧偏与单指各0/8且均未建立预定接触条件；资格8/24不通过，不扩96BC／DAgger。** 404872次2ms积分，CPU13634.01s／墙钟6331.72s，技术／硬安全0。**实际Core CPU540两新进程全部Solved／原包络通过且540/540逐位一致，1080拟合／2160子问题；新增模型／更新／物理0。Core新live-loader实际2查询原始与解码均逐位一致，1模型、0更新／物理，峰值分配12.38GiB。** 首次CPU/GPU安装次序失败保留，修复只在单次CUDA迁移前安装普通内部权重。新独立C500 raw对明确解码TRAIN4已实现，尚须实际原生静态准入与执行；不把数值资格称为闭环成功。[本轮完整分母与实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_TEACHER24_CORE_CONIC540_AND_LIVE2_ACTUAL.json)。长期目标ACTIVE。
+
 2026-11-11 00:45 SGT：Vanda1537681最近Q，PBS原文`Insufficient amount of resource: node_pool`，执行队列默认gpu_node；项目与唯一作业身份正确，不改池／不重投。Teacher V8最新18/24，欠闭爪6/6真实恢复，其余12次未建立侧偏／单指条件，硬安全与技术0，原面板继续、不能通过／扩采。Core540离线显式凸解码已完成，后继独立原生准入仍未执行。[实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA_V1_SUBMITTED_AND_HOPPER709533_ACTUAL.json)。
 
 2026-11-11 00:39 SGT（UTC 2026-11-10 16:39）Vanda实际提交完成：**1537681.stdct-mgmt-02已被PBS受理、核对原项目CFP04-CF-007／单A40／4小时并唯一释放，当前Q，0模型／更新。** 站点实际配套36核／240GB，保留原source645ad640、TRAIN100和封存SFT2000初始化。首次40秒提交中断经完整30条本人服务器详情独立确认无同nonce／脚本／新任务名、原客户端已退出，原INTENT核销为未受理；原配置与负结果保留，新的I/O身份使用新nonce及新官方项目回执，未复活CLOSED训练身份。按用户名查队列返回文本的解析错误已纠正，另一项目现役A40不动。新配置SHA327060d1；不再有该提交UNKNOWN，不另投第二份V1。[Vanda1537681与Hopper709533实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA_V1_SUBMITTED_AND_HOPPER709533_ACTUAL.json)。CPU分支继续，不自动2×500。
