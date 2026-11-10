@@ -27,6 +27,10 @@ def run(input_path):
     if role==task.QUALIFICATION_ROLE:
         panel_contract=teacher_panel_contract;experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'
         completed_status='TEACHER_QUALIFICATION_COMPLETE';incomplete_status='TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED'
+    elif role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+        from go2arx5_vla.world_model import task_learning_teacher_e1_v9_qualification as panel_contract
+        experiment=panel_contract.EXPERIMENT
+        completed_status='TEACHER_V9_E1_SMALL4_COMPLETE';incomplete_status='TEACHER_V9_E1_SMALL4_INCOMPLETE_PRESERVED'
     elif role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from go2arx5_vla.world_model import task_learning_teacher_v8_qualification as panel_contract
         experiment=panel_contract.EXPERIMENT
@@ -59,6 +63,8 @@ def run(input_path):
         and 0<=selection[0]<selection[1]<=len(rows)
         and(role!=task.QUALIFICATION_ROLE or selection==[0,20]),'FIXED_CONTIGUOUS_PREREGISTERED_GROUP_NO_RETRY')
     selected_rows=rows[selection[0]:selection[1]]
+    if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+        task.need(selection==[0,4],'V9_COMPLETE_FIXED_FOUR_NOT_SELECTED_BY_RESULTS')
     task.need(all(r.get('static_status')!='REJECTED'for r in selected_rows),
         'STATIC_REJECTED_REQUESTS_RETAINED_IN_DENOMINATOR_NEVER_EXECUTED')
     base=json.loads(Path(inp['base_spec']).read_text())
@@ -124,6 +130,8 @@ def run(input_path):
                 if role!=task.QUALIFICATION_ROLE:s['task_learning_teacher_mode']=row['Teacher_mode']
                 if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
                     s.update(teacher_v8_recovery_condition=row['recovery_condition'],teacher_v8_offset_sign=row['offset_sign'])
+                if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+                    s.update(teacher_v9_recovery_condition=row['recovery_condition'],teacher_v9_offset_sign=row['offset_sign'])
                 for name in('cache','logs','data','tmp'):s[name]=str(root/name)
                 s['native_environment']=dict(base['native_environment']);s['native_environment']['PYTHONPATH']=environment(root)['PYTHONPATH']
                 write(root/'EPISODE_MANIFEST.private.json',scenes_spec_episode(s))
@@ -178,7 +186,11 @@ def run(input_path):
         result=panel_contract.classify(row,native=n,worker=w,lease=l,readiness=ready,score=score,
             spec=read(root/'EXECUTION_SPEC.json'),expected_source=inp['source_sha'],attempted=native.exists(),
             **(dict(recovery_exit=read(native/'TEACHER_V8_RECOVERY_EXIT.private.json'))
-               if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'else{}))
+               if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'else
+               dict(recovery_exit=read(native/'TEACHER_V9_RECOVERY_EXIT.private.json'),
+                    entry_witness=read(native/'TEACHER_V9_E1_ENTRY.private.json'),
+                    recovered_witness=read(native/'TEACHER_V9_E2_RECOVERED.private.json'))
+               if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1'else{}))
         return dict(result,result_sha256=digest(native/'RESULT.json')if(native/'RESULT.json').exists()else None)
 
     def scenes_spec_episode(s):

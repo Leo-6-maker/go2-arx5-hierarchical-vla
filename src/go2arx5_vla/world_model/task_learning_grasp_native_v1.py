@@ -21,6 +21,10 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_recovery_v1.py',
     'src/go2arx5_vla/world_model/task_learning_teacher_v8.py',
     'src/go2arx5_vla/world_model/task_learning_teacher_v8_qualification.py',
+    'src/go2arx5_vla/world_model/task_learning_teacher_e1_v9.py',
+    'src/go2arx5_vla/world_model/task_learning_teacher_e1_v9_qualification.py',
+    'experiments/wm02/task_learning_teacher_e1_v9_candidates.json',
+    'scripts/wm02/task_learning_teacher_qualification_v1.py',
     'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
@@ -29,6 +33,9 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
 
 def scene_admission(spec):
     task.declared(spec)
+    if spec.get('task_learning_role')=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+        from .task_learning_teacher_e1_v9_qualification import native_scene_admission
+        return native_scene_admission(spec)
     if spec.get('task_learning_role')==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import native_scene_admission
         return native_scene_admission(spec)
@@ -134,7 +141,10 @@ def validate(spec):
                 'paused_query_gpu_spec','stable_task_candidate','stable_task_evaluation','program_reference_selection')),
             'TYPED_STUDENT_CURRENT_RGB_STATE_ONLY_WITHOUT_TEACHER_OR_WM')
         return
-    if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
+    if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+        from .task_learning_teacher_e1_v9_qualification import EXPERIMENT
+        expected_experiment=EXPERIMENT
+    elif role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v8_qualification import EXPERIMENT
         expected_experiment=EXPERIMENT
     elif role==task.EXPANSION_QUALIFICATION_ROLE:
@@ -244,13 +254,17 @@ def continue_native(adapter,report,samples,windows):
     student=task.student_role(adapter.spec.get('task_learning_role'))
     from .task_learning_recovery_v1 import NORMAL,UNDER_CLOSE,UnderCloseRecoveryTeacher,INTERVENTION
     from .task_learning_teacher_v8 import VERSION as V8_VERSION,NativeQualificationTeacher
+    from .task_learning_teacher_e1_v9 import VERSION as V9_VERSION,NativeQualificationTeacher as E1Teacher
     mode=NORMAL if student else adapter.spec.get('task_learning_teacher_mode',NORMAL)
-    task.need(mode in(NORMAL,UNDER_CLOSE,V8_VERSION)and(not control or mode==NORMAL)
+    task.need(mode in(NORMAL,UNDER_CLOSE,V8_VERSION,V9_VERSION)and(not control or mode==NORMAL)
+        and(mode!=V9_VERSION or adapter.spec.get('task_learning_role')=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1')
         and(mode!=V8_VERSION or adapter.spec.get('task_learning_role')=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'),
         'EXPLICIT_TEACHER_MODE')
     if student:
         from .task_learning_student_v1 import StudentPolicy
         teacher=StudentPolicy(adapter,samples[-1],consumed_reference=lambda:(cycles[-1],adapter.live_skill_program))
+    elif mode==V9_VERSION:
+        teacher=E1Teacher(adapter,samples[-1],lambda:(cycles[-1],adapter.live_skill_program))
     elif mode==V8_VERSION:
         teacher=NativeQualificationTeacher(adapter,samples[-1],lambda:(cycles[-1],adapter.live_skill_program))
     else:
@@ -345,6 +359,7 @@ def continue_native(adapter,report,samples,windows):
             actual_under_close_failed=getattr(teacher,'actual_under_close_failed',False),
             native_grasp_after_correction=getattr(teacher,'native_grasp_after_correction',False)),
         **(dict(teacher_v8_recovery_evidence=teacher.evidence())if mode==V8_VERSION else{}),
+        **(dict(teacher_v9_recovery_evidence=teacher.evidence())if mode==V9_VERSION else{}),
         GR00T_queries=task.QUERIES if student else 0,VLA_queries=task.QUERIES if student else 0,GR00T_updates=0,
         WM_updates=0,Actor_updates=0,full_task_success=False,target_task_success=False,
         new_grasp_lift_hold_task_success=False if control else scored['task_success'],source_task_phase_equivalence=False))
@@ -352,6 +367,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
+        from .task_learning_teacher_e1_v9_qualification import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import NATIVE_SCHEMA
         return NATIVE_SCHEMA
