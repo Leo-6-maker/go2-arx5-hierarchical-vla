@@ -43,6 +43,9 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
+        from .task_learning_teacher_v9_full24 import contract
+        return contract()
     if role=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_e1_v9 import contract
         return contract()
