@@ -10,7 +10,7 @@ CHECKS={'target_parameters.pt','optimizer.pt','scheduler.pt','rng_state.pth',
         'SAMPLER_STATE.json','PARAMETER_CONTRACT.json','FROZEN_PARENT_TENSORS.json'}
 
 
-def qualification(proof,current):
+def qualification(proof,current,*,inference_only=False):
     from .task_learning_hopper_v1 import actual_gpu
     from .task_learning_training_admission_v1 import unchanged_training_math
     result=pinned(proof);root=Path(proof['path']).parent
@@ -65,10 +65,18 @@ def qualification(proof,current):
             'EXACT_H100_ORIGINAL_FULL_ACTION_PARAMETER_SCOPE_'+name)
     need(c['python']==current['python']and c['parent']==current['parent']
         and c['pbs_server']==current['pbs_server']
-        and all(c['bindings'][k]==current['bindings'][k]for k in ('source','cosmos','cosmos_hub'))
-        and current['recipe']['microbatch']==1,
+        and all(c['bindings'][k]==current['bindings'][k]for k in ('source','cosmos','cosmos_hub')),
         'SAME_ACTUALLY_H100_QUALIFIED_PARENT_RUNTIME_AND_MICRO1')
+    if inference_only:
+        need(current.get('profile')=='TASK_LEARNING_HOPPER_TENSOR_TRACE_V1'
+            and current.get('allocation_gpu_model')=='H100'
+            and current.get('tensor_trace')is not None and current.get('recipe')is None,
+            'EXPLICIT_DIAGNOSTIC_TRACE_NOT_FORMAL_TRAINING')
+    else:
+        need(current['recipe']['microbatch']==1,
+            'SAME_ACTUALLY_H100_QUALIFIED_PARENT_RUNTIME_AND_MICRO1')
     math=unchanged_training_math(c,current)
-    return dict(status='ACTUAL_H100_MICRO1_ORIGINAL_TRAINER_AND_FULL_RESTORE_ADMITTED',
+    return dict(status=('ACTUAL_H100_ORIGINAL_PARENT_RUNTIME_FOR_DIAGNOSTIC_TRACE'if inference_only
+                       else'ACTUAL_H100_MICRO1_ORIGINAL_TRAINER_AND_FULL_RESTORE_ADMITTED'),
         job_id=lease['job_id'],result_sha256=proof['sha256'],microbatch=1,effective_batch=32,
         training_math=math,qualification_weights_used_as_formal_parent=False)

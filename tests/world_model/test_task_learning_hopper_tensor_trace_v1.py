@@ -53,11 +53,11 @@ def test_only_same_closed_first2000_package_has_zero_update_trace_spec(configure
     assert s['candidate_package']==c['candidate_package']
 
 
-@pytest.mark.parametrize('change',[dict(allocation_gpu_model='H100'),dict(wall_s=7200),
+@pytest.mark.parametrize('change',[dict(allocation_gpu_model='A40'),dict(wall_s=7200),
     dict(predicted_work_s=3000),dict(numerical_diagnostic={'mode':'other'}),dict(submission_queue='small')])
 def test_wrong_gpu_window_or_combined_ablation_is_rejected(configured, change):
     c, old = configured
-    with pytest.raises(PermissionError,match='FINITE_SINGLE_H200_TRACE'):
+    with pytest.raises(PermissionError,match='FINITE_SINGLE_HOPPER_TRACE'):
         trace.configuration(dict(c,**change))
 
 
@@ -91,8 +91,8 @@ def test_pbs_entry_quotes_paths_and_requests_one_finite_project_gpu():
     assert 'train_target_gr00t'not in script
 
 
-@pytest.mark.parametrize('gpu,passes',[('H200',True),('H100',False)])
-def test_trace_name_is_bound_to_actual_h200_only(gpu, passes):
+@pytest.mark.parametrize('gpu,passes',[('H200',True),('H100',True),('A40',False)])
+def test_trace_name_is_bound_to_explicit_actual_hopper_gpu(gpu, passes):
     from go2arx5_vla.world_model.task_learning_hopper_v1 import allocated
     record=dict(Job_Owner='e1192548@login',job_state='R',project='CFP04-CF-007',
         Job_Name='gr00t_numtrace',exec_host='compute/0*12',
@@ -102,3 +102,30 @@ def test_trace_name_is_bound_to_actual_h200_only(gpu, passes):
     if passes: allocated(record,**args)
     else:
         with pytest.raises(PermissionError): allocated(record,**args)
+
+
+def test_h100_trace_requires_actual_restore_proof_before_any_model(configured, monkeypatch):
+    c, _ = configured; c['allocation_gpu_model'] = 'H100'
+    with pytest.raises(PermissionError, match='H100_TRACE_REQUIRES_ITS_ACTUAL_COMPLETE_RESTORE'):
+        trace.configuration(c)
+    from go2arx5_vla.world_model import task_learning_h100_admission_v1 as h100
+    observed = []
+    c['H100_restore_qualification'] = dict(path='private/actual-result.json', sha256='a'*64)
+    def gate(proof, current, *, inference_only=False):
+        observed.append((proof, current, inference_only))
+        raise PermissionError('ACTUAL_RESTORE_NOT_CLOSED')
+    monkeypatch.setattr(h100, 'qualification', gate)
+    with pytest.raises(PermissionError, match='ACTUAL_RESTORE_NOT_CLOSED'):
+        trace.configuration(c)
+    assert observed == [(c['H100_restore_qualification'], c, True)]
+
+
+def test_h100_pbs_entry_keeps_original_trace_command_and_finite_project_resources():
+    script = trace.pbs_script('/private/root','/private/source','/private/python',
+                              gpu_model='H100', required_host='hopper-05')
+    assert 'gpu_model=H100:ncpus=12:mem=225GB:host=hopper-05' in script
+    assert '#PBS -q auto' in script and '#PBS -l walltime=01:00:00' in script
+    assert 'scripts.wm02.task_learning_hopper_tensor_trace_v1' in script
+    assert 'train_target_gr00t' not in script
+    with pytest.raises(PermissionError):
+        trace.pbs_script('/private/root','/private/source','/private/python',gpu_model='A40')

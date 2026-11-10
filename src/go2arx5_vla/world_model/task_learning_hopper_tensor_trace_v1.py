@@ -1,4 +1,4 @@
-"""One PBS-owned H200 inference trace, with no Trainer or optimizer."""
+"""One PBS-owned H200 or restore-qualified H100 trace, without an optimizer."""
 import json
 import os
 from pathlib import Path
@@ -25,10 +25,16 @@ def configuration(c):
          and c.get('pbs_job_name') == 'gr00t_numtrace'
          and type(c.get('pbs_server')) is str and bool(c['pbs_server'].strip())
          and c.get('submission_queue') == 'auto'
-         and c.get('allocation_gpu_model') == 'H200' and c.get('wall_s') == 3600
+         and c.get('allocation_gpu_model') in ('H200', 'H100') and c.get('wall_s') == 3600
          and c.get('numerical_diagnostic') is None
          and 0 < c.get('predicted_work_s', 0) + 1320 < c['wall_s'],
-         'FINITE_SINGLE_H200_TRACE_WITH_ORIGINAL_CLOSEOUT_RESERVE')
+         'FINITE_SINGLE_HOPPER_TRACE_WITH_ORIGINAL_CLOSEOUT_RESERVE')
+    if c['allocation_gpu_model'] == 'H100':
+        from .task_learning_training_profile_v1 import descriptor
+        need(descriptor(c.get('H100_restore_qualification')),
+             'H100_TRACE_REQUIRES_ITS_ACTUAL_COMPLETE_RESTORE')
+        from .task_learning_h100_admission_v1 import qualification
+        qualification(c['H100_restore_qualification'], c, inference_only=True)
     cfg = json.loads((old / 'ALLOCATION_CONFIG.json').read_bytes())
     lease = json.loads((old / 'control/LEASE.json').read_bytes())
     worker = json.loads((old / 'WORKER_EXIT.private.json').read_bytes())
@@ -82,11 +88,15 @@ def configuration(c):
     return s
 
 
-def pbs_script(root, source, python):
+def pbs_script(root, source, python, *, gpu_model='H200', required_host=None):
+    need(gpu_model in ('H200', 'H100') and (required_host is None
+         or gpu_model == 'H100' and required_host in ('hopper-05', 'hopper-06')),
+         'EXPLICIT_QUALIFIED_SINGLE_TRACE_GPU_AND_HOST')
     q = shlex.quote
     return '\n'.join(['#!/bin/bash -l', '#PBS -N gr00t_numtrace',
         '#PBS -P CFP04-CF-007', '#PBS -q auto',
-        '#PBS -l select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB',
+        '#PBS -l select=1:ngpus=1:gpu_model=' + gpu_model + ':ncpus=12:mem=225GB'
+        + (':host=' + required_host if required_host else ''),
         '#PBS -l walltime=01:00:00', '#PBS -m n', '#PBS -r n', '#PBS -j oe',
         '#PBS -o ' + q(str(Path(root) / 'logs/pbs.log')), 'set -eu',
         'export PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 NO_ALBUMENTATIONS_UPDATE=1',
@@ -113,7 +123,8 @@ def run(c):
                  'ACTUAL_HOPPER_COMPUTE_OWNER')
             actual = job(jid, c['pbs_server'])
             allocated(actual, jid, uid=os.getuid(), hostname=os.uname().nodename,
-                      user=os.environ.get('USER'), expected_job_name=c['pbs_job_name'])
+                      user=os.environ.get('USER'), expected_job_name=c['pbs_job_name'],
+                      expected_gpu_model=c['allocation_gpu_model'])
             lease = json.loads(lease_path.read_bytes())
             need(lease['status'] == 'PBS_SUBMITTED' and lease['job_id'] == jid
                  and lease['config_sha256'] == digest(root / 'ALLOCATION_CONFIG.json')
@@ -141,7 +152,7 @@ def run(c):
             p = torch.cuda.get_device_properties(0)
             gpu = dict(count=torch.cuda.device_count(), name=p.name, uuid=str(p.uuid),
                        major=p.major, total_memory=p.total_memory)
-            actual_gpu(gpu, 'H200'); configure_torch(torch, MODE); torch.set_num_threads(4)
+            actual_gpu(gpu, c['allocation_gpu_model']); configure_torch(torch, MODE); torch.set_num_threads(4)
             s.update(GPU_uuid=gpu['uuid'], GPU_name=gpu['name'], deadline_epoch=deadline,
                      job_id=jid, pbs_server=c['pbs_server'])
             journal = Journal(root / 'control/journal', root.name)

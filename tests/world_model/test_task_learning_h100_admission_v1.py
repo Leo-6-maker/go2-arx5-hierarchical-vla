@@ -49,6 +49,22 @@ def test_only_completed_h100_full_action_restore_is_admitted(tmp_path,monkeypatc
     assert x['job_id']=='fixture-job'and x['microbatch']==1 and not x['qualification_weights_used_as_formal_parent']
 
 
+def test_completed_restore_can_qualify_runtime_for_inference_without_a_training_recipe(tmp_path,monkeypatch):
+    _,_,current,_,_,seal=fixture(tmp_path,monkeypatch)
+    current.pop('recipe')
+    current.update(profile='TASK_LEARNING_HOPPER_TENSOR_TRACE_V1',tensor_trace={'mode':'fixed40'})
+    x=h100.qualification(seal(),current,inference_only=True)
+    assert x['status']=='ACTUAL_H100_ORIGINAL_PARENT_RUNTIME_FOR_DIAGNOSTIC_TRACE'
+    assert x['qualification_weights_used_as_formal_parent']is False
+
+
+def test_inference_only_runtime_route_cannot_admit_a_formal_recipe(tmp_path,monkeypatch):
+    _,_,current,_,_,seal=fixture(tmp_path,monkeypatch)
+    current.update(profile='TASK_LEARNING_HOPPER_TENSOR_TRACE_V1',tensor_trace={'mode':'fixed40'})
+    with pytest.raises(PermissionError,match='EXPLICIT_DIAGNOSTIC_TRACE_NOT_FORMAL_TRAINING'):
+        h100.qualification(seal(),current,inference_only=True)
+
+
 @pytest.mark.parametrize('change',['queued','wrong_device','incomplete_restore','last2','unchanged_weights','runtime','microbatch','wrong_result','resume_visits','resume_cursor'])
 def test_queued_failed_partial_or_reduced_h100_evidence_cannot_admit_sft(tmp_path,monkeypatch,change):
     root,c,current,result,save,seal=fixture(tmp_path,monkeypatch)
