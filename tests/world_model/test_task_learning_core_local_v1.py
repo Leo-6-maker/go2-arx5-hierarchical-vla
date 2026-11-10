@@ -2,6 +2,7 @@ from collections import Counter
 
 from go2arx5_vla.world_model.task_learning_core_local_v1 import sample_at, sampling_tables
 from go2arx5_vla.world_model.task_learning_features_v1 import sample_index
+from go2arx5_vla.world_model.task_learning_core_local_v1 import training_activation_policy
 
 
 def test_original_exposure_and_event_quarter_have_fixed_denominators():
@@ -29,3 +30,19 @@ def test_exposure_repeats_are_never_new_windows():
     original,event=sampling_tables(cache,{'episodes':episodes},events)
     assert len(original)==3200 and len(set(original))==1450
     assert event==[0] and Counter(original)[0]==1751
+
+
+def test_resident_execution_has_no_activation_offload_and_keeps_other_storage_rules():
+    old=training_activation_policy({})
+    resident=training_activation_policy({'training_activation_storage':'CUDA_RESIDENT_V1'})
+    assert old['per_microbatch_activation_offload_bytes']==2*1024**3
+    assert resident['activation_storage']=='CUDA_RESIDENT'
+    assert resident['per_microbatch_activation_offload_bytes']==0
+    assert resident['quantization'] is False and resident['gradient_checkpointing'] is False
+    assert resident['parameter_storage_offload'] is False
+
+
+def test_unknown_storage_execution_cannot_silently_fall_back_to_offload():
+    import pytest
+    with pytest.raises(ValueError,match='DECLARED_TRAINING_ACTIVATION_STORAGE'):
+        training_activation_policy({'training_activation_storage':'UNKNOWN'})

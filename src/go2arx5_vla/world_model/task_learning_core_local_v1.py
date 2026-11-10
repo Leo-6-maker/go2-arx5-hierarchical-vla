@@ -219,6 +219,28 @@ def restore_state(path, model, contract, optimizer, scheduler, recipe, cache_pin
     return saved['adaptation_step']
 
 
+def training_activation_policy(s):
+    """Storage is an execution choice; checkpoint recipe and RNG stay unchanged."""
+    from .target_gr00t_core_v1 import activation_policy
+    policy = s.get('training_activation_storage', 'CPU_OFFLOAD_2G_V1')
+    if policy == 'CPU_OFFLOAD_2G_V1':
+        return activation_policy()
+    features.need(policy == 'CUDA_RESIDENT_V1', 'DECLARED_TRAINING_ACTIVATION_STORAGE')
+    from scripts.pi0294.multitask.activation_offload import RESIDENT_ACTIVATION_POLICY
+    return dict(RESIDENT_ACTIVATION_POLICY, schema='CORE_LOCAL_CUDA_RESIDENT_ACTIVATIONS_V1')
+
+
+def training_tensor_residency(model,contract,optimizer):
+    """Adam's scalar step counter is bookkeeping; both moment tensors are CUDA."""
+    parameters=[model.get_parameter(n)for n in contract.trainable_names]
+    gradients=[p.grad for p in parameters if p.grad is not None]
+    moments=[v for state in optimizer.state.values()for k,v in state.items()if k!='step']
+    features.need(all(p.device.type=='cuda'for p in parameters+gradients+moments),
+                  'TRAINING_PARAMETERS_GRADIENTS_AND_ADAM_MOMENTS_ON_CUDA')
+    return dict(trainable_tensors=len(parameters),gradient_tensors=len(gradients),
+                Adam_moment_tensors=len(moments),training_tensor_device='cuda')
+
+
 def train(s, model, contract, data, root, guard):
     import torch
     from collections import OrderedDict
@@ -228,7 +250,6 @@ def train(s, model, contract, data, root, guard):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.e1.trainer import learning_rate_multiplier
     from scripts.pi0294.multitask.activation_offload import SavedActivationOffload,context
-    from .target_gr00t_core_v1 import activation_policy
     cp=Path(s['feature_cache']['path']);features.need(digest(cp)==s['feature_cache']['sha256'],'PINNED_NEW_TRAIN100_CACHE')
     cache=json.loads(cp.read_bytes());events_path=Path(s['contact_events']['path'])
     features.need(digest(events_path)==s['contact_events']['sha256'],'PINNED_ACTUAL_CONTACT_AUDIT')
@@ -243,7 +264,10 @@ def train(s, model, contract, data, root, guard):
     optimizer=torch.optim.AdamW(groups,lr=recipe['learning_rate'],betas=(.9,.999),eps=1e-8)
     scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer,lambda step:learning_rate_multiplier(step,8000,200))
     set_seed(recipe['seed']);step=restore_state(s['resume'],model,contract,optimizer,scheduler,recipe,s['feature_cache'],frozen)if s.get('resume')else 0
-    start=step;audit=NativeNoiseAudit(model);storage=SavedActivationOffload(model,policy=activation_policy());lru=OrderedDict()
+    qualifying=s.get('qualification_only',False)
+    features.need(not qualifying or (s['operation']=='QUALIFY_GPU_RESIDENT' and s.get('resume')
+                  and s['endpoint']==step+1),'ONE_NONCANDIDATE_STORAGE_COMPARISON_UPDATE')
+    start=step;audit=NativeNoiseAudit(model);storage=SavedActivationOffload(model,policy=training_activation_policy(s));lru=OrderedDict()
     write(root/'RESTORE_ACTUAL.private.json',dict(restored=s.get('resume')is not None,adaptation_step=step,all_states_exact=s.get('resume')is not None))
     def row_at(index):
         if index in lru:row=lru.pop(index);lru[index]=row;return row
@@ -266,23 +290,71 @@ def train(s, model, contract, data, root, guard):
                 del loss,value
             features.need(all(p.grad is None or bool(torch.isfinite(p.grad).all())for p in contract.parameters()),'FINITE_LAST2_GRADIENTS')
             torch.nn.utils.clip_grad_norm_(contract.parameters(),1.)
+            identity_s=0.
+            if qualifying:
+                from scripts.pi0294.native_train import tensor_identity
+                identity_start=time.monotonic()
+                gradient_identity={n:tensor_identity(model.get_parameter(n).grad)for n in contract.trainable_names}
+                identity_s=time.monotonic()-identity_start
             used_lr=optimizer.param_groups[0]['lr'];optimizer.step();scheduler.step();step+=1
             progress=dict(adaptation_step=step,parent_global_step=2000,cursor=step*32,actual_optimizer_calls=step-start,
-                nonzero_LR=used_lr>0,learning_rate_used=used_lr,native_loss=sum(losses)/32,wall_s=time.monotonic()-started,
+                nonzero_LR=used_lr>0,learning_rate_used=used_lr,native_loss=sum(losses)/32,wall_s=time.monotonic()-started-identity_s,
                 peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
+            progress.update(training_activation_storage=s.get('training_activation_storage','CPU_OFFLOAD_2G_V1'),
+                            activation_storage_audit=storage.audit(),
+                            training_tensor_residency=training_tensor_residency(model,contract,optimizer))
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as stream:stream.write(json.dumps(progress)+'\n')
             write(root/'PROGRESS.private.json',progress)
-            if step==s['endpoint']:save_state(root/f'checkpoint-{step}',model,contract,optimizer,scheduler,step,recipe,s['feature_cache'],frozen)
+            if qualifying:
+                from scripts.pi0294.native_train import tree_identity,rng_identity
+                write(root/'UPDATE_IDENTITY.private.json',dict(gradients=gradient_identity,
+                    parameters=features.state_identity(model,contract.trainable_names),
+                    optimizer=tree_identity(optimizer.state_dict()),scheduler=scheduler.state_dict(),RNG=rng_identity(),
+                    per_sample_loss_hex=[x.hex()for x in losses],cursor=step*32))
+            elif step==s['endpoint']:save_state(root/f'checkpoint-{step}',model,contract,optimizer,scheduler,step,recipe,s['feature_cache'],frozen)
         features.need(frozen_fingerprint(model)==frozen,'FROZEN_SFT2000_TENSORS_UNCHANGED')
-        if step==500:
+        if step==500 and not qualifying:
             measure(s,model,data,root/'after-500',guard,cache_manifest=cache)
             if s.get('restore_compare'):
                 compare_saved_generations(s['restore_compare'],root/'after-500',root/'RESTORED_PREDICTIONS_ACTUAL.private.json')
         return dict(actual_optimizer_calls=step-start,adaptation_step=step,cursor=step*32,
-            checkpoint=str(Path(s['resume'])if step==start and s.get('resume')else root/f'checkpoint-{step}'),
+            checkpoint=None if qualifying else str(Path(s['resume'])if step==start and s.get('resume')else root/f'checkpoint-{step}'),
             arm=s['arm'],distinct_training_windows=1450,
+            qualification_only=qualifying,activation_storage_audit=storage.audit(),
             formal_FULL_ACTION_SIDE_continuation=False)
     finally:audit.close()
+
+
+def qualify_gpu_resident(s,model,contract,data,root,guard):
+    """Compare one matched complete update from the same existing saved state.
+
+    Neither diagnostic update is a candidate or advances either scientific arm.
+    The original full noise/mask audit is retained in both executions.
+    """
+    import torch
+    from scripts.pi0292.durable import write
+    checkpoint=json.loads((Path(s['resume'])/'CHECKPOINT_COMPLETE.json').read_bytes())
+    results={}
+    for storage in ('CPU_OFFLOAD_2G_V1','CUDA_RESIDENT_V1'):
+        guard();out=root/storage;out.mkdir()
+        model.zero_grad(set_to_none=True);torch.cuda.empty_cache();torch.cuda.reset_peak_memory_stats()
+        spec=dict(s,qualification_only=True,training_activation_storage=storage,
+                  endpoint=checkpoint['adaptation_step']+1)
+        actual=train(spec,model,contract,data,out,guard)
+        results[storage]=dict(actual=actual,progress=json.loads((out/'PROGRESS.private.json').read_bytes()),
+            update_identity=json.loads((out/'UPDATE_IDENTITY.private.json').read_bytes()),
+            samples=[json.loads(x)for x in(out/'SAMPLE_TRACE.jsonl').read_text().splitlines()])
+    reference,resident=[results[x]for x in ('CPU_OFFLOAD_2G_V1','CUDA_RESIDENT_V1')]
+    exact=reference['update_identity']==resident['update_identity'] and reference['samples']==resident['samples']
+    zero_copies=resident['actual']['activation_storage_audit']['copied_bytes']==0
+    result=dict(schema='CORE_LOCAL_GPU_RESIDENT_MATCHED_UPDATE_ACTUAL_V1',
+        same_complete_checkpoint=s['resume'],matched_windows=32,actual_optimizer_calls=2,
+        candidate_optimizer_calls=0,exact_loss_gradients_parameters_optimizer_scheduler_RNG_and_noise=exact,
+        resident_activation_CPU_copied_bytes=resident['actual']['activation_storage_audit']['copied_bytes'],
+        executions=results,original_DEV_TEST_conditions=0,native_integrations=0)
+    write(root/'QUALIFICATION_ACTUAL.private.json',result)
+    features.need(exact and zero_copies,'ACTUAL_GPU_RESIDENT_UPDATE_EQUIVALENCE')
+    return result
 
 
 def measure(s,model,data,output,guard,*,cache_manifest=None):
