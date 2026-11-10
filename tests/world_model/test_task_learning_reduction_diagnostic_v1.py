@@ -16,7 +16,7 @@ def spec(tmp_path):
         model_identity=dict(candidate_package=package))))
     return dict(profile=core.PROFILE, kind=core.KIND, target_inference_mode=core.MODE,
         physics=False, device='cuda', max_queries=40, GR00T_updates=0, WM_updates=0,
-        Actor_updates=0, candidate_package=package,
+        Actor_updates=0, candidate_package=package, diagnostic_only=True,
         numerical_diagnostic=dict(mode=diag.MODE,
             reference_result=dict(path=str(p), sha256=digest(p))))
 
@@ -29,7 +29,7 @@ def test_ordinary_entry_does_not_import_or_configure_torch(tmp_path, monkeypatch
 
 
 @pytest.mark.parametrize('change', [dict(physics=True), dict(GR00T_updates=1),
-    dict(max_queries=4), dict(kind='TASK_LEARNING_LIVE_QUERY_V1')])
+    dict(max_queries=4), dict(kind='TASK_LEARNING_LIVE_QUERY_V1'), dict(diagnostic_only=False)])
 def test_diagnostic_cannot_enable_training_native_execution_or_subset(tmp_path, change):
     s = spec(tmp_path); s.update(change)
     with pytest.raises(PermissionError, match='INFERENCE_ONLY_REDUCTION_DIAGNOSIS'):

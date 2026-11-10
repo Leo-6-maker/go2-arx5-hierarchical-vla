@@ -140,6 +140,16 @@ def test_sft_requires_actual_forty_query_core_reconstruction_with_same_package(t
     policy=dict(arm='B1',parent_manifest_sha256=profile.PARENT,package=package,
         Core_qualification=dict(path=str(qp),sha256=digest(qp)))
     pair.policy_contract(policy,{},verify_package=False)
+    # Even numerically matching40 outputs from an ablation cannot qualify
+    # the ordinary native policy execution contract.
+    for change in (dict(diagnostic_only=True),dict(numerical_diagnostic={'mode':'diagnostic'})):
+        sp.write_text(json.dumps(dict(spec,**change)))
+        proof['Core_spec']['sha256']=digest(sp)
+        qp.write_text(json.dumps(proof));policy['Core_qualification']['sha256']=digest(qp)
+        with pytest.raises(PermissionError,match='ABLATION_IS_NOT_NATIVE_POLICY_QUALIFICATION'):
+            pair.policy_contract(policy,{},verify_package=False)
+    sp.write_text(json.dumps(spec));proof['Core_spec']['sha256']=digest(sp)
+    (root/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED',worker_exit_code=0,spec_sha256=digest(sp))))
     result['actual_VLA_queries']=4
     rp.write_text(json.dumps(result));proof['Core_result']['sha256']=digest(rp)
     qp.write_text(json.dumps(proof));policy['Core_qualification']['sha256']=digest(qp)

@@ -20,6 +20,7 @@ def validate(spec):
     need(spec.get('profile') == PROFILE and spec.get('kind') == KIND
          and spec.get('target_inference_mode') == INFERENCE
          and spec.get('physics') is False and spec.get('device') == 'cuda'
+         and spec.get('diagnostic_only') is True
          and spec.get('max_queries') == 40
          and all(spec.get(k) == 0 for k in ('GR00T_updates', 'WM_updates', 'Actor_updates')),
          'INFERENCE_ONLY_REDUCTION_DIAGNOSIS')

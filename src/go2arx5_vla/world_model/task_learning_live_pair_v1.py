@@ -56,7 +56,10 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
             for k,limit in CROSS_SITE_ATOL.items()),'REAL_CORE_PACKAGE_NUMERICAL_QUALIFICATION')
     spec_path=Path(proof['Core_spec']['path'])
     need(digest(spec_path)==proof['Core_spec']['sha256'],'EXACT_CORE_RECONSTRUCTION_SPEC')
-    s=json.loads(spec_path.read_bytes());root=Path(s['registered_root'])
+    s=json.loads(spec_path.read_bytes())
+    need(s.get('diagnostic_only')is not True and s.get('numerical_diagnostic')is None,
+         'DIAGNOSTIC_NUMERICAL_ABLATION_IS_NOT_NATIVE_POLICY_QUALIFICATION')
+    root=Path(s['registered_root'])
     lease=json.loads((root/'control/LEASE.json').read_bytes())
     worker=json.loads((root/'WORKER_EXIT.private.json').read_bytes())
     result=Path(proof['Core_result']['path'])
