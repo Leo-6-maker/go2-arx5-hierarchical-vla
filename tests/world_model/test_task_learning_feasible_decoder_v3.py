@@ -34,3 +34,11 @@ def test_static_legal_output_stays_static_and_is_never_task_success():
 def test_impossible_fixed_gripper_endpoint_is_rejected_without_clamping():
     x=raw();x[-1,9]=1.1;decoded,info=fit(x)
     assert not info['solver_success']and decoded[-1,9]==1.1
+
+
+def test_wrong_direction_is_preserved_and_not_counted_as_task_success():
+    x=raw();u=np.linspace(0.,1.,40);w=u**3*(10+u*(-15+6*u));x[:,0]=-.01*w
+    expert=x.copy();expert[:,0]*=-1
+    decoded,info=fit(x);summary=summarize_change(x,decoded,expert)
+    assert info['solver_success']and summary['endpoint_direction_cosine_decoded_vs_expert']==-1.
+    assert summary['numerical_feasibility_is_task_success']is False
