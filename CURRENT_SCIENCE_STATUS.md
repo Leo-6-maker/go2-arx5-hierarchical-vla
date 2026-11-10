@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-11T02:07:09.724948+08:00：**Core独立C500 raw／显式conic的4个TRAIN条件静态准入通过并已真实派发，原source c7f097b0，首条件运行；当前0完成，不算0/4失败。** 原Hopper709621／709670均F0／CLOSED0，各1模型40查询；已有FP32成对40诊断及CoreCPU私有比较完成，全分量在原容差内、位置最大1.12e-7m，但原BF16 REJECT不变、不发物理资格。旧records字段消费错误已在任何模型／物理前封存并修正。[新闭环启动及保留作业实际端点](reports/WM02/task-learning-core-hopper-20261109/V3_CORE_NATIVE4_RUNNING_H100_TERMINALS_FP32_ACTUAL.json)。长期目标ACTIVE。
+
 2026-11-11T01:59:44.648333+08:00：**Vanda原1537681于01:45:08 SGT进入R，单A40／原项目正确，Processor1450已通过，最大误差4.35e-8。continuous4已有实际2次优化／64访问、训练前40查询；不是完成4对2＋2恢复，也未自动启动500步。** 原源码645ad640和作业身份不变，Core不等队列。[实际运行与真实更新快照](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA1537681_RUNNING_ACTUAL.json)。
 
 2026-11-11T01:58:14.589113+08:00：**TeacherV8固定24已全部结束，欠闭爪8/8真实恢复、侧偏与单指各0/8且均未建立预定接触条件；资格8/24不通过，不扩96BC／DAgger。** 404872次2ms积分，CPU13634.01s／墙钟6331.72s，技术／硬安全0。**实际Core CPU540两新进程全部Solved／原包络通过且540/540逐位一致，1080拟合／2160子问题；新增模型／更新／物理0。Core新live-loader实际2查询原始与解码均逐位一致，1模型、0更新／物理，峰值分配12.38GiB。** 首次CPU/GPU安装次序失败保留，修复只在单次CUDA迁移前安装普通内部权重。新独立C500 raw对明确解码TRAIN4已实现，尚须实际原生静态准入与执行；不把数值资格称为闭环成功。[本轮完整分母与实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_TEACHER24_CORE_CONIC540_AND_LIVE2_ACTUAL.json)。长期目标ACTIVE。
