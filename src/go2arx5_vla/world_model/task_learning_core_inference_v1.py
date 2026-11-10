@@ -72,4 +72,6 @@ def validate_spec(s):
         and all(v<=1e-6 for v in q['max_abs_error'].values()),
         'ACTUAL_HOPPER_ORDINARY_PARENT_DELTA_AND_FORTY_MATCHED_PHASE_PROBES')
     validate_memory(s)
+    from .task_learning_backbone_trace_v1 import validate as validate_backbone_trace
+    validate_backbone_trace(s)
     return data.manifest
