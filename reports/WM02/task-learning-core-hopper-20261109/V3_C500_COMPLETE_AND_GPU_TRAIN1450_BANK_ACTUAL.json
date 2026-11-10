@@ -113,17 +113,18 @@
   "NEGATIVE": {
     "single_update_comparison_not_sustained_throughput": true,
     "preload_wall_s": 159.34210340678692,
-    "original_row_single_update_was_cold": true,
     "old_C_stable_update_wall_about_s": 2.0,
     "new_GPU_bank_single_update_wall_s": 2.0165760749951005,
     "additional_sustained_speedup_not_proven": true,
-    "two_full_bank_training_instances_exceed16GiB": true,
     "microbatch2_not_tested": true,
     "C_group0_policy_not_qualified": true,
     "complete_three_noise_results_pending": true,
     "original_DEV80_TEST_conditions": 0,
     "TeacherV8_qualification_requests": 0,
-    "new_DAgger_labels": 0
+    "new_DAgger_labels": 0,
+    "original_row_time_is_first_measured_update_without_warmup": true,
+    "sum_of_two_measured_peak_footprints_exceeds16GiB": true,
+    "two_process_training_not_tested": true
   },
   "DECISION": "Use one GPU training process; exact GPU feature residency is admitted as a storage execution. Keep C500 frozen. Measure sustained throughput and microbatch2 separately before claiming additional acceleration.",
   "NEXT": "Complete the registered original full A/B/C matched evaluation, preserving every noise/phase denominator. Future microbatch and sync optimizations need independent numerical/runtime comparison and no active capsule edits.",
