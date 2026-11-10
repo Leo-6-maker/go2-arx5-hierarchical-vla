@@ -222,8 +222,10 @@ def restore_state(path, model, contract, optimizer, scheduler, recipe, cache_pin
 def training_activation_policy(s):
     """Storage is an execution choice; checkpoint recipe and RNG stay unchanged."""
     from .target_gr00t_core_v1 import activation_policy
-    policy = s.get('training_activation_storage', 'CPU_OFFLOAD_2G_V1')
+    policy = s.get('training_activation_storage', 'CUDA_RESIDENT_V1')
     if policy == 'CPU_OFFLOAD_2G_V1':
+        features.need(s.get('operation')=='QUALIFY_GPU_RESIDENT' and s.get('qualification_only'),
+                      'CPU_OFFLOAD_ONLY_FOR_NONCANDIDATE_COMPARISON')
         return activation_policy()
     features.need(policy == 'CUDA_RESIDENT_V1', 'DECLARED_TRAINING_ACTIVATION_STORAGE')
     from scripts.pi0294.multitask.activation_offload import RESIDENT_ACTIVATION_POLICY
@@ -300,7 +302,7 @@ def train(s, model, contract, data, root, guard):
             progress=dict(adaptation_step=step,parent_global_step=2000,cursor=step*32,actual_optimizer_calls=step-start,
                 nonzero_LR=used_lr>0,learning_rate_used=used_lr,native_loss=sum(losses)/32,wall_s=time.monotonic()-started-identity_s,
                 peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
-            progress.update(training_activation_storage=s.get('training_activation_storage','CPU_OFFLOAD_2G_V1'),
+            progress.update(training_activation_storage=s.get('training_activation_storage','CUDA_RESIDENT_V1'),
                             activation_storage_audit=storage.audit(),
                             training_tensor_residency=training_tensor_residency(model,contract,optimizer))
             with(root/'OPTIMIZER_STEPS.jsonl').open('a')as stream:stream.write(json.dumps(progress)+'\n')

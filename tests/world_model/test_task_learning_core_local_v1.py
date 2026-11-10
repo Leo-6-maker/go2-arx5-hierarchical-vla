@@ -33,8 +33,9 @@ def test_exposure_repeats_are_never_new_windows():
 
 
 def test_resident_execution_has_no_activation_offload_and_keeps_other_storage_rules():
-    old=training_activation_policy({})
-    resident=training_activation_policy({'training_activation_storage':'CUDA_RESIDENT_V1'})
+    old=training_activation_policy(dict(training_activation_storage='CPU_OFFLOAD_2G_V1',
+        operation='QUALIFY_GPU_RESIDENT',qualification_only=True))
+    resident=training_activation_policy({})
     assert old['per_microbatch_activation_offload_bytes']==2*1024**3
     assert resident['activation_storage']=='CUDA_RESIDENT'
     assert resident['per_microbatch_activation_offload_bytes']==0
@@ -46,3 +47,9 @@ def test_unknown_storage_execution_cannot_silently_fall_back_to_offload():
     import pytest
     with pytest.raises(ValueError,match='DECLARED_TRAINING_ACTIVATION_STORAGE'):
         training_activation_policy({'training_activation_storage':'UNKNOWN'})
+
+
+def test_candidate_updates_cannot_request_cpu_activation_offload():
+    import pytest
+    with pytest.raises(ValueError,match='CPU_OFFLOAD_ONLY_FOR_NONCANDIDATE_COMPARISON'):
+        training_activation_policy({'training_activation_storage':'CPU_OFFLOAD_2G_V1','operation':'TRAIN'})
