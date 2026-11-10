@@ -279,7 +279,8 @@ def train(s, model, contract, data, root, guard):
             if s.get('restore_compare'):
                 compare_saved_generations(s['restore_compare'],root/'after-500',root/'RESTORED_PREDICTIONS_ACTUAL.private.json')
         return dict(actual_optimizer_calls=step-start,adaptation_step=step,cursor=step*32,
-            checkpoint=str(root/f'checkpoint-{step}'),arm=s['arm'],distinct_training_windows=1450,
+            checkpoint=str(Path(s['resume'])if step==start and s.get('resume')else root/f'checkpoint-{step}'),
+            arm=s['arm'],distinct_training_windows=1450,
             formal_FULL_ACTION_SIDE_continuation=False)
     finally:audit.close()
 
