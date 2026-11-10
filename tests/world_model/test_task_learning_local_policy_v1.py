@@ -55,3 +55,24 @@ def test_generated_grip_classifies_original_contact_intent_without_action_edits(
     assert local.execution_stage(raw,{'native_grasp':True})=='PREGRASP'
     raw[:,9]=1.
     assert local.execution_stage(raw,{'native_grasp':False})=='PREGRASP'
+
+
+@pytest.mark.parametrize('changed_member',['builder','model'])
+def test_archived_scene_builder_custody_is_independent_of_new_runtime_and_rejects_tampering(tmp_path,monkeypatch,changed_member):
+    from go2arx5_vla.world_model import task_learning_student_registration_v2 as registration
+    from go2arx5_vla.world_model.task_learning_scene_v1 import MEMBER
+    source=tmp_path/'archived';builder=source/MEMBER;builder.parent.mkdir(parents=True)
+    builder.write_text('archived TRAIN builder; never executed')
+    model=tmp_path/'scene.mjb';model.write_bytes(b'unchanged archived model')
+    reference={'path':'sealed-static-proof','sha256':'a'*64}
+    proof=dict(parent='TASK_LEARNING_UNDER_HAND_TRAIN01',builder_sha256=local.digest(builder),
+        compiled={'scene_sha256':local.digest(model)})
+    original=dict(data_role='TRAIN',task_learning_role=task.COLLECTION_ROLE,
+        task_learning_scene_reference=reference,scene_id=proof['parent'],data_parent=proof['parent'],
+        source_root=str(source),source_files={MEMBER:proof['builder_sha256']},model_path=str(model))
+    monkeypatch.setattr(registration,'closed_base',lambda pin:original)
+    monkeypatch.setattr(local,'pinned',lambda pin:proof)
+    assert local.scene_builder_custody({'path':'successful-TRAIN-spec'},reference,model)==proof['builder_sha256']
+    (builder if changed_member=='builder'else model).write_bytes(b'tampered')
+    with pytest.raises(ValueError,match='ORIGINAL_SCENE_BUILDER_CUSTODY'):
+        local.scene_builder_custody({'path':'successful-TRAIN-spec'},reference,model)

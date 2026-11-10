@@ -180,14 +180,37 @@ def summarize(panel,outcomes):
         original_cross_hardware_REJECT_replaced=False)
 
 
+def scene_builder_custody(producer,reference,model):
+    """Verify the archived builder through its successful TRAIN producer.
+
+    The current runtime may add other layouts without rebuilding a sealed scene.
+    Archived code is hashed as provenance; it is never imported or executed.
+    """
+    from .task_learning_scene_v1 import MEMBER
+    from .task_learning_student_registration_v2 import closed_base
+    original=closed_base(producer);proof=pinned(reference)
+    task.need(original.get('data_role')=='TRAIN' and original.get('task_learning_role')==task.COLLECTION_ROLE
+        and original.get('task_learning_scene_reference')==reference
+        and original.get('scene_id')==original.get('data_parent')==proof['parent']
+        and original['source_files'][MEMBER]==proof['builder_sha256']
+        and digest(Path(original['source_root'])/MEMBER)==proof['builder_sha256']
+        and digest(original['model_path'])==digest(model)==proof['compiled']['scene_sha256'],
+        'SEALED_TRAIN_PRODUCER_AND_ORIGINAL_SCENE_BUILDER_CUSTODY')
+    return proof['builder_sha256']
+
+
 def native_scene_admission(spec):
     from .task_learning_scene_v1 import geometry,scene_id,BASE_SCENE,MEMBER
     proof=pinned(spec['task_learning_scene_reference']);layout=proof['layout']
+    panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
+    task.need(layout in panel['registration'].get('scene_producers',{}),'PINNED_TRAIN_SCENE_PRODUCER')
+    builder=scene_builder_custody(panel['registration']['scene_producers'][layout],
+                                 spec['task_learning_scene_reference'],spec['model_path'])
     task.need(layout in('TRAIN01','TRAIN13')and spec.get('core_local_protocol')==PROTOCOL
         and spec.get('data_role')=='TRAIN'and spec.get('task_learning_role')==PROTOCOL
         and proof['schema']=='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1'
         and proof['status']=='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED'
-        and proof['builder_sha256']==spec['source_files'][MEMBER]
+        and proof['builder_sha256']==builder
         and proof['geometry']==geometry(layout)and proof['parent']==scene_id(layout)==spec['scene_id']==spec['data_parent']
         and proof['split']=='TRAIN'and proof['saved_startup_pose_checks']==5703
         and proof['robot_contract']['status']=='COURSE_ROBOT_DYNAMICS_AND_NATIVE_SAFETY_PROPERTIES_EXACT'
@@ -197,7 +220,6 @@ def native_scene_admission(spec):
         and proof['physics_integrations']==proof['new_transitions']==0
         and proof['native_execution_authorized']is False and proof['WBC_changes']is False
         and proof['physics_dt_s']==.002,'UNCHANGED_STATIC_TRAIN_SCENE_FOR_LOCAL_DIAGNOSTIC_ONLY')
-    panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     rows=validate_panel(panel);matches=[r for r in rows if r['native_run']==Path(spec['registered_root']).name]
     task.need(len(matches)==1,'ONE_PREREGISTERED_LOCAL_REQUEST');row=matches[0]
     task.need(row['parent']==proof['parent']and row['model_sha256']==digest(spec['model_path'])
@@ -261,16 +283,19 @@ def register_panel(request):
     for index,(layout,method,seed)in enumerate(ORDER):
         descriptor=request['scenes'][layout];proof=pinned(descriptor)
         model=Path(descriptor['path']).parent/'SCENE.private.mjb'
+        scene_builder_custody(request['scene_producers'][layout],descriptor,model)
         task.need(proof['layout']==layout and proof['split']=='TRAIN'
             and proof['compiled']['scene_sha256']==digest(model),'PREREGISTERED_TRAIN_SCENE_NOT_DEV_TEST')
-        rows.append(dict(native_run=f'tl-core-local-20261110-{index:02d}-{method.lower()}',method=method,
+        generation=root.name.rsplit('-',1)[-1]
+        task.need(generation.isdigit(),'UNIQUE_LOCAL_REPAIRED_PANEL_GENERATION')
+        rows.append(dict(native_run=f'tl-core-local-20261110-v{generation}-{index:02d}-{method.lower()}',method=method,
             layout=layout,parent=scene_id(layout),restart=1,split='TRAIN',purpose=PURPOSE,
             command=task.COMMAND,model_sha256=digest(model),query_seeds=list(range(seed,seed+15))))
     panel=dict(schema=SCHEMA,task_learning_role=PROTOCOL,protocol=task.protocol(PROTOCOL),
         source_sha=request['source_sha'],B1_global_step=2000,policies=policies,assignments=rows,
         preregistration=request['preregistration'],original_DEV_TEST_modified=False,
         registration=dict(native_base=request['native_base'],gpu_base=request['gpu_base'],
-            source_root=str(source),source_files=request['source_files'],scenes=request['scenes'],
+            source_root=str(source),source_files=request['source_files'],scenes=request['scenes'],scene_producers=request['scene_producers'],
             scene_allowlist=n['scene_allowlist'],scene_allowlist_sha256=n['scene_allowlist_sha256'],
             memory_execution=g['memory_execution'],memory_execution_reference=g['memory_execution_reference']))
     validate_panel(panel);key=root.name.upper()+'-PANEL';journal=Journal(campaign/'control/journal',campaign.name)
