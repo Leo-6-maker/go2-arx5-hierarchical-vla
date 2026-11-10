@@ -183,7 +183,10 @@ def infer(s,output):
                  'FINITE_TARGET_SHADOW_BEFORE_QUERY')
     from .task_learning_tensor_trace_v1 import trace
     from .task_learning_backbone_trace_v1 import trace as backbone_trace
-    with trace(s,root,model), backbone_trace(s,root,model):
+    from .task_learning_fp32_diagnostic_v1 import precision
+    if s.get('inference_precision_diagnostic'):
+        instance.identity['inference_precision_diagnostic']=s['inference_precision_diagnostic']['mode']
+    with precision(s,root,model), trace(s,root,model), backbone_trace(s,root,model):
         records=measure(root,'sealed-TRAIN40'if continuous else'sealed-TRAIN4',instance,data)
     write_json(root/'RESULT.private.json',dict(status=('ACTUAL_CORE_CONTINUOUS_TASK_SEALED_TRAIN40_INFERENCE'
         if continuous else'ACTUAL_CORE_TARGET_SEALED_TRAIN4_INFERENCE'),

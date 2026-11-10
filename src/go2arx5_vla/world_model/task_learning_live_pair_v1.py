@@ -58,7 +58,8 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
     need(digest(spec_path)==proof['Core_spec']['sha256'],'EXACT_CORE_RECONSTRUCTION_SPEC')
     s=json.loads(spec_path.read_bytes())
     need(s.get('diagnostic_only')is not True and s.get('numerical_diagnostic')is None
-         and s.get('tensor_trace')is None,
+         and s.get('tensor_trace')is None and s.get('backbone_trace')is None
+         and s.get('inference_precision_diagnostic')is None,
          'DIAGNOSTIC_NUMERICAL_ABLATION_IS_NOT_NATIVE_POLICY_QUALIFICATION')
     root=Path(s['registered_root'])
     lease=json.loads((root/'control/LEASE.json').read_bytes())

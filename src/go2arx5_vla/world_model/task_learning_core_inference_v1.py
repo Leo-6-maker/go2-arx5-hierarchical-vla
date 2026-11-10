@@ -74,4 +74,6 @@ def validate_spec(s):
     validate_memory(s)
     from .task_learning_backbone_trace_v1 import validate as validate_backbone_trace
     validate_backbone_trace(s)
+    from .task_learning_fp32_diagnostic_v1 import validate as validate_fp32_diagnostic
+    validate_fp32_diagnostic(s)
     return data.manifest

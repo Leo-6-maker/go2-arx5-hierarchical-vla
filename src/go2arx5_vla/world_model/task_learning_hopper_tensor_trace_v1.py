@@ -91,6 +91,11 @@ def configuration(c):
         s['backbone_trace'] = c['backbone_trace']
         from .task_learning_backbone_trace_v1 import validate as validate_backbone_trace
         validate_backbone_trace(s)
+    if c.get('inference_precision_diagnostic') is not None:
+        need(c.get('capture_intermediate_tensors', True), 'FP32_DIAGNOSTIC_REQUIRES_OUTER_CAPTURE')
+        s['inference_precision_diagnostic'] = c['inference_precision_diagnostic']
+        from .task_learning_fp32_diagnostic_v1 import validate as validate_fp32_diagnostic
+        validate_fp32_diagnostic(s)
     if not c.get('capture_intermediate_tensors', True):
         # Validate the full fixed40 reference first; this control only removes hooks.
         s['paired_trace_reference'] = s.pop('tensor_trace')
@@ -192,6 +197,7 @@ def run(c):
             from .target_gr00t_probes_v1 import measure
             from .task_learning_tensor_trace_v1 import trace
             from .task_learning_backbone_trace_v1 import trace as backbone_trace
+            from .task_learning_fp32_diagnostic_v1 import precision
             model = _load_original_parent(s, root, 'TRACE_MODEL_LOAD')
             installed = install(model, c['candidate_package']['path'], c['candidate_package']['sha256'], c['parent']['files'])
             need(installed['global_step'] == 2000, 'EXACT_FIRST2000_TRACE_CANDIDATE')
@@ -213,7 +219,9 @@ def run(c):
             instance.identity = dict(mode='CONTINUOUS_TASK_PACKAGE_RECONSTRUCTION_TRAIN40',
                 global_step=2000, dataset_sha256=data.manifest_sha, statistics_sha256=data.statistics_sha,
                 parent_manifest_sha256=PARENT, candidate_package=c['candidate_package'])
-            with trace(s, root, model), backbone_trace(s, root, model):
+            if s.get('inference_precision_diagnostic'):
+                instance.identity['inference_precision_diagnostic'] = s['inference_precision_diagnostic']['mode']
+            with precision(s, root, model), trace(s, root, model), backbone_trace(s, root, model):
                 records = measure(root, 'sealed-TRAIN40', instance, data)
             capture = c.get('capture_intermediate_tensors', True)
             result = dict(status=('ACTUAL_HOPPER_COMPLETE40_FIRST4_TENSOR_TRACE' if capture
