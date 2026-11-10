@@ -1,0 +1,393 @@
+{
+  "schema": "V3_1_NEW_ENDPOINT_BASIS_NATIVE2_STARTED_ACTUAL",
+  "UTC": "2026-11-10T19:24:15.718982+00:00",
+  "SGT": "2026-11-11T03:24:15.718982+08:00",
+  "QUESTION": "Can the new current-state anchored predicted-goal smooth composition actually consume15 full H40 chunks and grasp/lift20mm/hold1s under original native safety?",
+  "CHANGED": {
+    "source_sha": "38f394c7462941c9a642cc10ebfaea51fb7def41",
+    "protocol": "CORE_LOCAL_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_DEV_TEST_V3",
+    "package_sha256": "0b248af6ffe503c778c43e5f68c03eb9be6266b4c493ff82a9e1668dead8a8d3",
+    "parameter_updates": 0,
+    "new_typed_admission": true,
+    "previous_completed_full_H40_consumption_required_for_nominal_grip": true,
+    "original_teacher_fingerprint_unchanged": true
+  },
+  "ACTUAL": {
+    "metadata_admission": {
+      "status": "CORE_C500_ENDPOINT_ACTUAL_ADMISSION_AND_FIXED_TWO_PANEL_REGISTERED",
+      "source_sha": "38f394c7462941c9a642cc10ebfaea51fb7def41",
+      "result_sha256": "2cdd9c5cf39c0d0e9ca2a7798286a7ed079fe2d36869585138dda838db0dd646",
+      "panel_sha256": "e896b82f40e45c0b515330787b1d44f0bb78db7c40756cab5e961b7fad1bce36",
+      "full_native_recipe_static2": [
+        {
+          "native_run": "tl-core-endpoint-20261111-v01-00-c500_plus_endpoint_basis",
+          "full_native_recipe_static_pass": true,
+          "GR00T_queries": 0,
+          "physics_integrations": 0
+        },
+        {
+          "native_run": "tl-core-endpoint-20261111-v01-01-c500_plus_endpoint_basis",
+          "full_native_recipe_static_pass": true,
+          "GR00T_queries": 0,
+          "physics_integrations": 0
+        }
+      ],
+      "lease_status": "CLOSED",
+      "worker_exit_code": 0,
+      "model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "wall_s": 7.255773322656751
+    },
+    "native_panel": {
+      "requested": 2,
+      "completed": 0,
+      "layouts": [
+        "TRAIN03",
+        "TRAIN14"
+      ],
+      "query_seed_bases": [
+        2026111100,
+        2026111200
+      ],
+      "method": "C500_PLUS_ENDPOINT_BASIS",
+      "status": "RUNNING_NO_COMPLETE_OUTCOME_AT_SNAPSHOT",
+      "input_sha256": "00642c314fc69e052e1ec3a3c704a88b442251c37a38ead97728cbbe1b59e88a",
+      "deadline_epoch": 1794343575.8186886,
+      "unit": "MainPID=1446196\nExecMainStatus=0\nActiveState=active\nSubState=running\n",
+      "progress": {
+        "current_run": "tl-core-endpoint-20261111-v01-00-c500_plus_endpoint_basis",
+        "completed": 0,
+        "children": {
+          "gpu": {
+            "pid": 1446331,
+            "exit_code": null
+          },
+          "native": {
+            "pid": 1446332,
+            "exit_code": null
+          }
+        },
+        "updated_epoch": 1794338584.7943726
+      },
+      "actual_model_calls": "NO_COMPLETED_QUERY_RECEIPTS_AT_SNAPSHOT_NOT_A_FINAL_COUNT",
+      "actual_updates": 0,
+      "simulation_integrations": "NOT_TERMINAL_NOT_YET_ACCOUNTED",
+      "scores": "PENDING_NOT_ZERO_OF_TWO_FAILURES"
+    },
+    "software_checks": {
+      "related_tests_passed": 61,
+      "seconds": 2.31,
+      "scientific_or_native_qualification": false
+    },
+    "offline_intent_audit": {
+      "status": "COMPLETE_PC_READONLY_SEALED540_REPRESENTED_INTENT_AUDIT_NOT_PHYSICS",
+      "source_module_sha256": "bfd4df0a9606ddf56b9d4046cf9e0e5a934d45565d8164cc89b13d753e082547",
+      "requested": 540,
+      "completed": 540,
+      "archive_sha256": "5cb0e12e8535cb8c7082a618ca37680a4e1b72bd596bf7970cea319a402e1ab8",
+      "summary": {
+        "requested": 540,
+        "raw_mean_XYZ_error_m": 0.00043122785422124513,
+        "represented_mean_XYZ_error_m": 0.00021324293306572594,
+        "raw_grip_MAE": 0.008801774080851449,
+        "represented_grip_MAE": 0.007972361370292282,
+        "threshold_events": {
+          "0.5": {
+            "changed": 31,
+            "appeared": 0,
+            "disappeared": 0,
+            "both_present": 324,
+            "maximum_absolute_time_shift_s": 0.1
+          },
+          "0.1": {
+            "changed": 64,
+            "appeared": 0,
+            "disappeared": 0,
+            "both_present": 324,
+            "maximum_absolute_time_shift_s": 0.1
+          },
+          "0.01": {
+            "changed": 170,
+            "appeared": 0,
+            "disappeared": 60,
+            "both_present": 219,
+            "maximum_absolute_time_shift_s": 1.3
+          }
+        }
+      },
+      "per_arm": {
+        "A": {
+          "requested": 180,
+          "raw_mean_XYZ_error_m": 0.0004202299473238563,
+          "represented_mean_XYZ_error_m": 0.00018916664358787838,
+          "raw_grip_MAE": 0.010331374805913939,
+          "represented_grip_MAE": 0.009747211076669749,
+          "threshold_events": {
+            "0.5": {
+              "changed": 9,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.05
+            },
+            "0.1": {
+              "changed": 25,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.1
+            },
+            "0.01": {
+              "changed": 66,
+              "appeared": 0,
+              "disappeared": 27,
+              "both_present": 62,
+              "maximum_absolute_time_shift_s": 1.3
+            }
+          }
+        },
+        "B": {
+          "requested": 180,
+          "raw_mean_XYZ_error_m": 0.0004479585696051244,
+          "represented_mean_XYZ_error_m": 0.00025888343152905474,
+          "raw_grip_MAE": 0.005516938523525505,
+          "represented_grip_MAE": 0.004167347071517732,
+          "threshold_events": {
+            "0.5": {
+              "changed": 14,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.1
+            },
+            "0.1": {
+              "changed": 18,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.05
+            },
+            "0.01": {
+              "changed": 36,
+              "appeared": 0,
+              "disappeared": 7,
+              "both_present": 95,
+              "maximum_absolute_time_shift_s": 1.3
+            }
+          }
+        },
+        "C": {
+          "requested": 180,
+          "raw_mean_XYZ_error_m": 0.0004254950457347547,
+          "represented_mean_XYZ_error_m": 0.00019167872408024471,
+          "raw_grip_MAE": 0.010557008913114903,
+          "represented_grip_MAE": 0.010002525962689367,
+          "threshold_events": {
+            "0.5": {
+              "changed": 8,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.05
+            },
+            "0.1": {
+              "changed": 21,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.05
+            },
+            "0.01": {
+              "changed": 68,
+              "appeared": 0,
+              "disappeared": 26,
+              "both_present": 62,
+              "maximum_absolute_time_shift_s": 1.3
+            }
+          }
+        }
+      },
+      "per_phase": {
+        "PREGRASP": {
+          "requested": 108,
+          "raw_mean_XYZ_error_m": 0.0004836765735056879,
+          "represented_mean_XYZ_error_m": 0.00028779467129632654,
+          "raw_grip_MAE": 0.0032589858190880884,
+          "represented_grip_MAE": 0.0036837933240113437,
+          "threshold_events": {
+            "0.5": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.1": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.01": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            }
+          }
+        },
+        "DESCEND": {
+          "requested": 108,
+          "raw_mean_XYZ_error_m": 0.0004463051783874967,
+          "represented_mean_XYZ_error_m": 0.00012966379689307423,
+          "raw_grip_MAE": 0.0044780787770394926,
+          "represented_grip_MAE": 0.004843149472165991,
+          "threshold_events": {
+            "0.5": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.1": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.01": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 0,
+              "maximum_absolute_time_shift_s": 0.0
+            }
+          }
+        },
+        "CLOSE": {
+          "requested": 108,
+          "raw_mean_XYZ_error_m": 0.0004207883848881352,
+          "represented_mean_XYZ_error_m": 0.0002503865025328783,
+          "raw_grip_MAE": 0.012424510747099896,
+          "represented_grip_MAE": 0.0048539604132389535,
+          "threshold_events": {
+            "0.5": {
+              "changed": 31,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.1
+            },
+            "0.1": {
+              "changed": 64,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.1
+            },
+            "0.01": {
+              "changed": 74,
+              "appeared": 0,
+              "disappeared": 3,
+              "both_present": 89,
+              "maximum_absolute_time_shift_s": 0.2
+            }
+          }
+        },
+        "LIFT": {
+          "requested": 108,
+          "raw_mean_XYZ_error_m": 0.0004472598254058763,
+          "represented_mean_XYZ_error_m": 0.0002100638279207325,
+          "raw_grip_MAE": 0.01137374010350969,
+          "represented_grip_MAE": 0.012611260430680381,
+          "threshold_events": {
+            "0.5": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.1": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.01": {
+              "changed": 57,
+              "appeared": 0,
+              "disappeared": 29,
+              "both_present": 68,
+              "maximum_absolute_time_shift_s": 1.2000000000000002
+            }
+          }
+        },
+        "HOLD": {
+          "requested": 108,
+          "raw_mean_XYZ_error_m": 0.0003581093089190297,
+          "represented_mean_XYZ_error_m": 0.0001883058666856182,
+          "raw_grip_MAE": 0.012473554957520077,
+          "represented_grip_MAE": 0.013869643211364746,
+          "threshold_events": {
+            "0.5": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.1": {
+              "changed": 0,
+              "appeared": 0,
+              "disappeared": 0,
+              "both_present": 108,
+              "maximum_absolute_time_shift_s": 0.0
+            },
+            "0.01": {
+              "changed": 39,
+              "appeared": 0,
+              "disappeared": 28,
+              "both_present": 62,
+              "maximum_absolute_time_shift_s": 1.3
+            }
+          }
+        }
+      },
+      "model_calls": 0,
+      "updates": 0,
+      "physics_integrations": 0,
+      "expert_only_used_for_error_scoring": true,
+      "offline_nominal_anchor_is_counterfactual": true,
+      "threshold_events_are_commands_not_actual_contacts": true,
+      "CPU_s": 1.003698558,
+      "wall_s": 0.4915943899541162
+    },
+    "offline_intent_rows_private_sha256": "49dca028085405390b780cbac255faefed5930561fa7a12e41d5feca81dfc6b1"
+  },
+  "NEGATIVE": {
+    "previous_raw": "0/2 valid pre-student-command failures",
+    "previous_conic": "0/2 valid pre-student-command failures",
+    "previous_four_conditions_repeated": false,
+    "original_B0_SFT_local4_repeated": false,
+    "offline_anchor_counterfactual_not_consumed": true,
+    "new_representation_changes_interior_path_and_gripper_timing": true,
+    "near_closed_0p01_command_event_disappeared": 60,
+    "near_closed_command_event_is_not_actual_contact": true,
+    "no_candidate_updates_or_automatic_Vanda500": true,
+    "no_new_H100_H200_job": true
+  },
+  "DECISION": "Let the two newly admitted conditions reach their original finite endpoints. Preserve actual consumers, scores and every rejection; no active capsule change. Old raw/conic failures remain separate controls.",
+  "NEXT": "Read real per-query raw/represented full envelopes and unchanged native certificates; report consumed H40, true bilateral grasp/lift/hold, first failure and CPU/GPU costs. Keep goal ACTIVE until actual executable and recoverable policy evidence exists.",
+  "original_DEV80_TEST": 0,
+  "new_BC": 0,
+  "new_DAgger": 0,
+  "WBC_legs_solver_dynamics_2ms_safety_unchanged": true,
+  "goal_status": "ACTIVE"
+}
