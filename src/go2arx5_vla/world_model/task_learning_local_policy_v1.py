@@ -23,6 +23,22 @@ PURPOSE='CORE_LOCAL_DIAGNOSTIC_NOT_BC_DEV_OR_TEST'
 CONTRACT_SHA='86ac376bc7f06f592333a2e635d7f6877dec7ecf2d1003848fc58dd41bb2f506'
 ORDER=(('TRAIN01','B0',20261110100),('TRAIN01','B1',20261110100),
        ('TRAIN13','B1',20261110200),('TRAIN13','B0',20261110200))
+EXECUTION_STAGE_REVISION='CORE_LOCAL_GENERATED_GRIP_CONTACT_INTENT_V2'
+
+
+def execution_stage(raw,sample):
+    """Supply the original contact predicate's intent; never edit its rules.
+
+    Actual grasp is native mechanical feedback, not a learner observation.
+    An opening proposal while already grasping stays in approach and can be
+    rejected by the original certificate; no attachment hypothesis is invented.
+    """
+    raw=np.asarray(raw)
+    task.need(raw.shape==(40,10)and np.isfinite(raw).all()
+        and np.all((raw[:,9]>=0)&(raw[:,9]<=1)),'UNCHANGED_DECODED_GRIP_FOR_EXECUTION_CLASS')
+    if sample.get('native_grasp')is True and np.all(raw[:,9]<=.5):return 'HOLD'
+    if raw[-1,9]<=.5 and np.min(raw[:,9])<.5:return 'CLOSE'
+    return 'PREGRASP'
 
 
 def replay(pin,arm,package,GPU_uuid):
@@ -85,6 +101,7 @@ def create_admission(request,output):
         original_DEV_TEST_admission=False,weights_or_Processor_changed_by_admission=False,
         qualified_for='FOUR_TRAIN_SCENE_DIAGNOSTIC_ATTEMPTS_THROUGH_ORIGINAL_NATIVE_GATES',
         unsafe_proposal='REJECT_BEFORE_EXECUTION_NO_CLIP_NO_TEACHER_FALLBACK',
+        execution_stage_revision=EXECUTION_STAGE_REVISION,
         new_model_calls=0,optimizer_updates=0,physics_integrations=0)
     write_json(output,value);return value
 
@@ -99,6 +116,8 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
         and q.get('original_cross_hardware_REJECT_preserved')is True
         and q.get('cross_hardware_qualification')is False and q.get('original_DEV_TEST_admission')is False,
         'LOCAL_ADMISSION_NEVER_ORIGINAL_NUMERICAL_GATE_OR_DEV_PROMOTION')
+    task.need(q.get('execution_stage_revision')==EXECUTION_STAGE_REVISION,
+              'CORRECTED_CONTACT_INTENT_BRIDGE_WITH_ORIGINAL_PREDICATE')
     task.need((value['arm']=='B0'and value['package']is None)
         or(value['arm']=='B1'and value['package']==q['package']),
         'B0_ORIGINAL_WEIGHTS_PROCESSOR_OR_ONE_FROZEN_SFT_PACKAGE')

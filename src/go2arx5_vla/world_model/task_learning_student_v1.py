@@ -218,6 +218,11 @@ class StudentPolicy:
                     proposal_executed=False,teacher_fallback=False,command_clips=0))
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
+        if self.adapter.spec.get('task_learning_role')==task.CORE_LOCAL_ROLE:
+            from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
+            self.stage=execution_stage(program.decoded_H40,sample)
+            proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,
+                execution_stage_is_learner_input=False,original_contact_predicate_changed=False)
         self.index += 1
         self.observation = None
         return program, proposal

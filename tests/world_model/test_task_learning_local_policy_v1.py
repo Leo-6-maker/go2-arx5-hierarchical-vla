@@ -1,5 +1,6 @@
 import copy
 import pytest
+import numpy as np
 
 from go2arx5_vla.world_model import task_learning_grasp_v1 as task
 from go2arx5_vla.world_model import task_learning_local_policy_v1 as local
@@ -42,3 +43,15 @@ def test_teacher_and_original_student_role_semantics_stay_separate():
     assert task.protocol(task.CORE_LOCAL_ROLE)['expert_commands']=='NONE_STUDENT_NOT_EXPERT'
     assert task.protocol(task.STUDENT_DEV_ROLE)['scene_family']=='SEPARATE_UNDER_HAND_NEW_DEV_LAYOUTS_NOT_TRAIN'
     assert task.protocol(task.CORE_LOCAL_ROLE)['physics_dt_s']==.002
+
+
+def test_generated_grip_classifies_original_contact_intent_without_action_edits():
+    raw=np.zeros((40,10));raw[:,9]=np.linspace(1.,0.,40);before=raw.copy()
+    assert local.execution_stage(raw,{'native_grasp':False})=='CLOSE'
+    assert np.array_equal(raw,before)
+    raw[:,9]=0.
+    assert local.execution_stage(raw,{'native_grasp':True})=='HOLD'
+    raw[:,9]=np.linspace(0.,1.,40)
+    assert local.execution_stage(raw,{'native_grasp':True})=='PREGRASP'
+    raw[:,9]=1.
+    assert local.execution_stage(raw,{'native_grasp':False})=='PREGRASP'
