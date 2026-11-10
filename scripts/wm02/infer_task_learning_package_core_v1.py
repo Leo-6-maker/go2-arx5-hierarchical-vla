@@ -10,7 +10,9 @@ def main(argv=None):
     from go2arx5_vla.world_model.runtime import admitted_run
     from go2arx5_vla.world_model.task_learning_core_inference_v1 import PROFILE
     from go2arx5_vla.world_model.target_gr00t_inference_v1 import infer
-    with admitted_run(a.spec,a.output.name,PROFILE,a.output,gpu=True)as s:infer(s,a.output)
+    from go2arx5_vla.world_model.task_learning_reduction_diagnostic_v1 import execution
+    with admitted_run(a.spec,a.output.name,PROFILE,a.output,gpu=True)as s:
+        with execution(s,a.output):infer(s,a.output)
     return 0
 
 
