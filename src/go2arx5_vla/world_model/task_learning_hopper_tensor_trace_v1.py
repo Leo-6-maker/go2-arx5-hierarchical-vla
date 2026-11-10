@@ -229,7 +229,8 @@ def run(c):
                 intermediate_capture_enabled=capture, actual_VLA_queries=len(records),
                 Processor_decode_calls=len(records), actual_model_loads=1, model_identity=instance.identity,
                 source_sha=c['source_sha'], GR00T_updates=0, WM_updates=0, Actor_updates=0, native_integrations=0,
-                diagnostic_only=True, package_qualified=False, precision_changed=False,
+                diagnostic_only=True, package_qualified=False,
+                precision_changed=bool(s.get('inference_precision_diagnostic')),
                 parameter_bytes=parameter_bytes,
                 peak_allocated_bytes=torch.cuda.max_memory_allocated(), peak_reserved_bytes=torch.cuda.max_memory_reserved())
             code = 0

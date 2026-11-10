@@ -65,6 +65,16 @@ def test_untraced_control_only_removes_hooks_after_complete_reference_validation
         trace.configuration(c)
 
 
+def test_explicit_fp32_diagnostic_is_forwarded_and_cannot_combine_with_internal_trace(configured):
+    from go2arx5_vla.world_model.task_learning_fp32_diagnostic_v1 import MODE
+    c, _ = configured;c['inference_precision_diagnostic']={'mode':MODE}
+    s=trace.configuration(c)
+    assert s['inference_precision_diagnostic']=={'mode':MODE}and s['diagnostic_only']is True
+    c['backbone_trace']={'mode':'FIXED40_FIRST1_FROZEN_BACKBONE_BOUNDARIES_V1'}
+    with pytest.raises(PermissionError,match='FP32_ONLY_ORIGINAL_FIXED40'):
+        trace.configuration(c)
+
+
 @pytest.mark.parametrize('change',[dict(allocation_gpu_model='A40'),dict(wall_s=7200),
     dict(predicted_work_s=3000),dict(numerical_diagnostic={'mode':'other'}),dict(submission_queue='small')])
 def test_wrong_gpu_window_or_combined_ablation_is_rejected(configured, change):
