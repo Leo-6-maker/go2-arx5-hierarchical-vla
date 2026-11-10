@@ -243,7 +243,7 @@ def training_tensor_residency(model,contract,optimizer):
                 Adam_moment_tensors=len(moments),training_tensor_device='cuda')
 
 
-def train(s, model, contract, data, root, guard, *, loss_transform=None):
+def train(s, model, contract, data, root, guard, *, loss_transform=None, row_loader=None):
     import torch
     from collections import OrderedDict
     from transformers import Trainer,set_seed
@@ -267,11 +267,12 @@ def train(s, model, contract, data, root, guard, *, loss_transform=None):
     scheduler=torch.optim.lr_scheduler.LambdaLR(optimizer,lambda step:learning_rate_multiplier(step,8000,200))
     set_seed(recipe['seed']);step=restore_state(s['resume'],model,contract,optimizer,scheduler,recipe,s['feature_cache'],frozen)if s.get('resume')else 0
     qualifying=s.get('qualification_only',False)
-    features.need(not qualifying or (s['operation']in ('QUALIFY_GPU_RESIDENT','QUALIFY_EXECUTION_LOSS_V3') and s.get('resume')
+    features.need(not qualifying or (s['operation']in ('QUALIFY_GPU_RESIDENT','QUALIFY_EXECUTION_LOSS_V3','QUALIFY_TRAINING_ROW_BANK_V3') and s.get('resume')
                   and s['endpoint']==step+1),'ONE_NONCANDIDATE_STORAGE_COMPARISON_UPDATE')
     start=step;audit=NativeNoiseAudit(model);storage=SavedActivationOffload(model,policy=training_activation_policy(s));lru=OrderedDict()
     write(root/'RESTORE_ACTUAL.private.json',dict(restored=s.get('resume')is not None,adaptation_step=step,all_states_exact=s.get('resume')is not None))
     def row_at(index):
+        if row_loader is not None:return row_loader(index)
         if index in lru:row=lru.pop(index);lru[index]=row;return row
         pin=cache['rows'][index];file=cp.parent/pin['file'];features.need(digest(file)==pin['sha256'],'UNCHANGED_FROZEN_FEATURE_ROW')
         row=torch.load(file,map_location='cpu',weights_only=False);lru[index]=row
