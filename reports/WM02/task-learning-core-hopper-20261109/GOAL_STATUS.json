@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T01:02:37.336330+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -29,7 +29,7 @@
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
     "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
-    "current_neural_work": "CORE_REDUCTION_DIAGNOSTIC01_ACTIVE; ORIGINAL_CORE40_CLOSED0; NO_NATIVE_PHYSICS"
+    "current_neural_work": "CORE40_AND_REDUCTION_DIAGNOSTIC01_BOTH_CLOSED0; CROSS_SITE_NUMERICAL_GATE_UNPASSED; NO_NATIVE_PHYSICS"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -230,7 +230,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Fresh one-factor Core backend diagnostic, then evidence-based numerical qualification under unchanged tolerances before nativeDEV80; no extra training from partial evidence",
+  "next_gate": "Prepare paired intermediate traces to locate remaining cross-hardware numeric divergence; retain existing H100708946 queue and postDEV waiter; no nativeDEV or extra training before qualified reconstruction",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -284,7 +284,7 @@
     "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
     "Core40_fullDEV_continuation_pid": null,
     "Core_model_package": "PRIVATE_DELIVERY_CLOSED0_ALL_MEMBER_SHA_PASS",
-    "Core_current_resource": "NEW_SINGLE_GPU_REDUCTION_DIAGNOSTIC01_ACTIVE; ORIGINAL_CORE40_CLOSED0_NUMERICAL_GATE_REJECTED",
+    "Core_current_resource": "CORE40_AND_DIAGNOSTIC01_CLOSED0_NO_ACTIVE_NEW_MODEL_WORKER",
     "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
     "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
     "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
@@ -439,17 +439,17 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T09:02:37.336330+08:00",
+  "SGT": "2026-11-10T09:08:18.356853+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
-    "EVIDENCE_ASOF": "2026-11-10T01:02:37.336330+00:00",
-    "SGT": "2026-11-10T09:02:37.336330+08:00",
-    "status": "ACTUAL_SINGLE_GPU_INFERENCE_DIAGNOSTIC_RUNNING",
+    "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
+    "SGT": "2026-11-10T09:08:18.356853+08:00",
+    "status": "CLOSED0_ACTUAL40; NUMERICAL_GATE_STILL_REJECTED",
     "source_sha": "47b082808c8839d881cd6e31414f4f523f94b485",
     "published_native_guard_source_sha": "0b0c97120f306a6997c434f8f9ec9124db2dff8b",
     "spec_sha256": "1b3ca200e5e6efff205ca705c479b4db2fe7695ebb00297f96d09e5532c17d9c",
-    "unit_MainPID": 190184,
-    "lease": "ACTIVE",
+    "unit_MainPID": 0,
+    "lease": "CLOSED",
     "deadline_epoch": 1794274753.9457572,
     "worker_wall_limit_s": 1800,
     "GPUs": 1,
@@ -466,6 +466,62 @@
     "optimizer_updates": 0,
     "diagnostic_only": true,
     "qualification_issued": false,
-    "software_checks_passed": 18
+    "software_checks_passed": 18,
+    "worker_exit_code": 0,
+    "worker_wall_s": 356.12873007683083,
+    "child_CPU_s": 57.578703000000004,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "actual_Processor_decode_calls": 40,
+    "result_sha256": "b8b86fc4c11e3b70cf89208cc439d908afcb4547152b0c719c51c0eacac4c0ce",
+    "original_backend_flag_restored": true,
+    "original_gate_would_pass": false,
+    "comparisons": {
+      "Core_default_vs_Core_full_reduction": {
+        "matched_queries": 40,
+        "maximum": {
+          "XYZ_m": 0.00029173307087471123,
+          "rot6d_component": 6.85582016448083e-05,
+          "gripper": 0.00408935546875,
+          "normalized_component": 0.0264892578125
+        },
+        "failed_query_counts": {
+          "XYZ_m": 4,
+          "rot6d_component": 0,
+          "gripper": 29,
+          "normalized_component": 7
+        },
+        "bit_exact_query_counts": {
+          "physical_H40": 0,
+          "normalized": 0,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "original_numerical_gate_would_pass": false
+      },
+      "Hopper_vs_Core_full_reduction": {
+        "matched_queries": 40,
+        "maximum": {
+          "XYZ_m": 9.272996872278227e-05,
+          "rot6d_component": 5.142928597828833e-05,
+          "gripper": 0.00439453125,
+          "normalized_component": 0.017578125
+        },
+        "failed_query_counts": {
+          "XYZ_m": 0,
+          "rot6d_component": 0,
+          "gripper": 26,
+          "normalized_component": 7
+        },
+        "bit_exact_query_counts": {
+          "physical_H40": 0,
+          "normalized": 0,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "original_numerical_gate_would_pass": false
+      }
+    },
+    "unchanged_inference_AST_functions_and_classes": 12
   }
 }
