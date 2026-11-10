@@ -1,0 +1,101 @@
+{
+  "schema": "V3_VANDA_V1_CONTINUOUS4_SEALED_ACTUAL",
+  "observed_UTC": "2026-11-10T18:07:12.051737+00:00",
+  "observed_SGT": "2026-11-11T02:07:12.051737+08:00",
+  "QUESTION": "Can A40 run original GPU-resident FULL_ACTION_SIDE and exactly restore it?",
+  "CHANGED": "Same original Vanda1537681 allocation/source; completed first continuous4 child and proceeded to independent split2.",
+  "ACTUAL": {
+    "job_id": "1537681.stdct-mgmt-02",
+    "PBS_state": "R",
+    "source_sha": "645ad640b7afb83a6d0cf2396dc7ce93d3db8dec",
+    "C500_Core_training_changed": false,
+    "continuous4": {
+      "status": "CHECKPOINT_SEALED",
+      "profile": "TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3",
+      "source_sha": "645ad640b7afb83a6d0cf2396dc7ce93d3db8dec",
+      "generation_id": "task-learning-vanda-v1-full-restore-20261111-01-fresh-SFT2000-restore",
+      "global_step": 4,
+      "GR00T_updates": 4,
+      "sample_visits": 128,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "external_adapter_updates": 0,
+      "actual_VLA_queries": 120,
+      "actual_model_loads": 1,
+      "inference_package": null,
+      "backbone_frozen": true,
+      "real_action_parameter_changed": true,
+      "restore": {
+        "model_parameters_restored": true,
+        "optimizer_restored": true,
+        "scheduler_restored": true,
+        "RNG_restored": true,
+        "sampler_cursor": 128,
+        "checkpoint_sha256": "49bba903b533d32a8d368b7d6a32052e21e7a693576d8e9fd38c821187bc508e",
+        "fixed_batch_generation_restored": true,
+        "next_update_comparison": "REQUIRES_INDEPENDENT_CAPACITY_RESUME_SLICE",
+        "baseline_changed": false
+      },
+      "native_physics": 0,
+      "Core_DEV": "NOT_RUN",
+      "CPU_s": 471.317014702,
+      "wall_s": 724.7468393869931
+    },
+    "continuous4_actual_timings": [
+      {
+        "consumed_cursor": 32,
+        "epoch": 1794333521.2014155,
+        "learning_rate": 5.000000000000001e-07,
+        "native_loss": 0.0034318221732974052,
+        "optimizer_update_wall_s": 20.541364361997694,
+        "step": 1
+      },
+      {
+        "consumed_cursor": 64,
+        "epoch": 1794333535.5133643,
+        "learning_rate": 1.0000000000000002e-06,
+        "native_loss": 0.019003355875611305,
+        "optimizer_update_wall_s": 13.203735451912507,
+        "step": 2
+      },
+      {
+        "consumed_cursor": 96,
+        "epoch": 1794333653.352823,
+        "learning_rate": 1.5e-06,
+        "native_loss": 0.0015224548988044262,
+        "optimizer_update_wall_s": 15.429283185047098,
+        "step": 3
+      },
+      {
+        "consumed_cursor": 128,
+        "epoch": 1794333668.7102911,
+        "learning_rate": 2.0000000000000003e-06,
+        "native_loss": 0.01444657426327467,
+        "optimizer_update_wall_s": 14.285692465957254,
+        "step": 4
+      }
+    ],
+    "continuous4_peak_allocated_bytes": 32267997696,
+    "continuous4_peak_reserved_bytes": 34210840576,
+    "independent_split2_actual_progress": {
+      "global_step": 2,
+      "cursor": 64,
+      "GR00T_updates": 2,
+      "WM_updates": 0,
+      "Actor_updates": 0,
+      "epoch": 1794333976.6490402,
+      "wall_s": 96.81366170803085,
+      "stop_requested": []
+    },
+    "completed_optimizer_calls_lower_bound": 6,
+    "sample_visits_lower_bound": 192,
+    "full_action_trainable_parameters": 1304913028,
+    "original_TRAIN100_dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "SFT2000_initial_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "new_physics_integrations": 0
+  },
+  "NEGATIVE": "First child restore passes, but independent4vs2+2 and actualnext5 equality are not yet complete. New V1 weights are qualification-only and never replace C500 or SFT2000 candidates. No500 arm launched.",
+  "DECISION": "Preserve same healthy finite allocation; continue preregistered independent restore path. Do not infer GPU speed from total724.75s including model verification, checkpoints and120 probes.",
+  "NEXT": "Verify all independent params/Adam/scheduler/RNG/cursor/noise/gradients and actual next update. V2 may follow only after actualV1 pass; no automatic500 after negative CoreC.",
+  "goal": "ACTIVE_NOT_COMPLETE"
+}
