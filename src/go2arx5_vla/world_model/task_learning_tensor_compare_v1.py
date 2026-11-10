@@ -31,7 +31,8 @@ def query_identity(row):
                 seed=row['seed'], command=row['command'], noise=row['noise'],
                 phase=row['phase_audit_only'], global_step=model['global_step'],
                 dataset=model['dataset_sha256'], statistics=model['statistics_sha256'],
-                parent=model['parent_manifest_sha256'], package=model['candidate_package']['sha256'])
+                parent=model['parent_manifest_sha256'], package=model['candidate_package']['sha256'],
+                inference_precision_diagnostic=model.get('inference_precision_diagnostic'))
 
 
 def load_trace(manifest_pin, probes_pin):

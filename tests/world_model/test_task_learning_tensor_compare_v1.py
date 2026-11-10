@@ -70,14 +70,15 @@ def test_first_difference_identifies_query_module_and_tensor_path(tmp_path):
     assert row['tensors'][0]['maximum_absolute_finite_difference'] == 0.25
 
 
-@pytest.mark.parametrize('field', ['noise', 'dataset', 'package'])
+@pytest.mark.parametrize('field', ['noise', 'dataset', 'package', 'precision'])
 def test_mismatched_inputs_or_model_refuse_hardware_attribution(tmp_path, field):
     a, b = make_trace(tmp_path/'a'), make_trace(tmp_path/'b')
     def change(v):
         row = v['records'][12]
         if field == 'noise': row['noise']['sha256'] = 'different'
         elif field == 'dataset': row['model_identity']['dataset_sha256'] = 'different'
-        else: row['model_identity']['candidate_package']['sha256'] = 'different'
+        elif field == 'package': row['model_identity']['candidate_package']['sha256'] = 'different'
+        else: row['model_identity']['inference_precision_diagnostic'] = 'FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1'
     mutate(b[1], change)
     with pytest.raises(ValueError, match='all40 observation/noise/model/data'):
         compare.compare(*a, *b)
