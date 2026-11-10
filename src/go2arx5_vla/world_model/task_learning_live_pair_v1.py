@@ -22,6 +22,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_student_v1.py',
     'src/go2arx5_vla/world_model/task_learning_local_policy_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_local_analysis_v1.py',
     'src/go2arx5_vla/world_model/task_learning_conic_native_v3.py',
     'src/go2arx5_vla/world_model/task_learning_conic_policy_v3.py',
     'src/go2arx5_vla/world_model/task_learning_conic_decoder_v3.py',

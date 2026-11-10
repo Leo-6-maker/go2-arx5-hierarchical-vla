@@ -60,3 +60,44 @@ def test_admission_reads_actual_records_schema_and_rejects_missing_proof(monkeyp
     assert c.qualification(req,{})=={'custody':'checked'}
     cpu['records']=cpu['records'][:-1]
     with pytest.raises(ValueError):c.qualification(req,{})
+
+
+def test_sealed_new_neural_dependencies_resolve_without_workspace_fallback(tmp_path):
+    import subprocess,sys,shutil
+    from pathlib import Path
+    from go2arx5_vla.world_model.task_learning_live_pair_v1 import SOURCE_MEMBERS
+    from go2arx5_vla.world_model.task_learning_grasp_native_v1 import SOURCE_MEMBERS as native
+    root=Path(__file__).resolve().parents[2]
+    capsule=tmp_path/'capsule';capsule.mkdir()
+    for name in set(SOURCE_MEMBERS+native):
+        old=root/name;target=capsule/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(old,target)
+        for parent in old.parents:
+            if parent==root:break
+            init=parent/'__init__.py'
+            if init.is_file():
+                dst=capsule/init.relative_to(root);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(init,dst)
+    # The base capsule carries established contracts. New task modules must be
+    # declared explicitly, so imports below cannot fall through to the worktree.
+    package=root/'src/go2arx5_vla/contracts'
+    shutil.copytree(package,capsule/'src/go2arx5_vla/contracts',dirs_exist_ok=True)
+    shutil.copytree(root/'src/go2arx5_vla/trajectory',capsule/'src/go2arx5_vla/trajectory',dirs_exist_ok=True)
+    for old in (root/'src/go2arx5_vla/world_model').glob('*.py'):
+        if not old.name.startswith('task_learning_'):
+            shutil.copyfile(old,capsule/'src/go2arx5_vla/world_model'/old.name)
+    code='''import sys
+from pathlib import Path
+root=Path(sys.argv[1]);sys.path[:0]=[str(root/'src'),str(root)]
+from go2arx5_vla.world_model.task_learning_local_analysis_v1 import geometry
+from go2arx5_vla.world_model.task_learning_conic_policy_v3 import action_packet
+import numpy as np
+state=np.array([0.,0.,0.,1.,0.,0.,0.,1.,0.,1.])
+raw=np.repeat(state[None],40,axis=0)
+assert action_packet({'physical_H40':raw,'normalized':np.zeros((1,40,132))},'C500_RAW')['physical_H40'].shape==(40,10)
+assert geometry(raw,state)['original_envelope_pass']
+for name,module in list(sys.modules.items()):
+ if name.startswith(('go2arx5_vla','scripts.'))and getattr(module,'__file__',None):
+  assert Path(module.__file__).resolve().is_relative_to(root), (name,module.__file__)
+assert not ({'torch','gr00t','scipy','clarabel'}&set(sys.modules))
+'''
+    result=subprocess.run([sys.executable,'-I','-c',code,str(capsule)],capture_output=True,text=True)
+    assert result.returncode==0,result.stderr
