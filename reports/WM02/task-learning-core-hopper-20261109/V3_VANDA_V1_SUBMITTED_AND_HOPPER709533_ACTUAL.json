@@ -53,7 +53,11 @@
     },
     "site_adjusted_resources": true,
     "first_unknown_submit_reconciliation": "INDEPENDENT_FULL30_OWN_SERVER_HISTORY_NO_MATCHING_NONCE_SCRIPT_OR_NEW_TASK_NAME_AND_ORIGINAL_CLIENT_ABSENT",
-    "old_prepared_configuration_SHA256": "4b95dbaf4e3ce94e2a1b7ad449b210b780067859ba9276a9b7a12605e7de1467"
+    "old_prepared_configuration_SHA256": "4b95dbaf4e3ce94e2a1b7ad449b210b780067859ba9276a9b7a12605e7de1467",
+    "PBS_latest_observed_epoch": 1794328913.6093764,
+    "PBS_latest_state": "Q",
+    "PBS_latest_comment": "Not Running: Insufficient amount of resource: node_pool ",
+    "site_execution_queue_default_node_pool": "gpu_node"
   },
   "NEGATIVE": "First held-submit call timed out40s. Full server details for all30 own historic/current jobs found no matching nonce/script/new job name, original client absent; original INTENT independently closed as unaccepted, metadata preserved. A fresh held IO attempt used the same source/data/model, new nonce and official project receipt, then exact readback and one release. One unrelated own-UID job on another project was observed and left untouched. Username-filtered qstat produced text rather than JSON; this operator query-format error was corrected with explicit own Job IDs. Actual Vanda Processor and GPU restore qualification remain pending, not passed.",
   "DECISION": "Keep the single accepted1537681 job and its immutable source645ad640; do not duplicate it or launch automatic2x500. Continue independent Core explicit trajectory branch while it queues.",
@@ -115,5 +119,39 @@
     "technical": 0,
     "hard_safety_stops": 0,
     "passes": false
+  },
+  "Core_V8_latest_snapshot": {
+    "observed_epoch": 1794329103.3064227,
+    "requested": 24,
+    "completed": 18,
+    "genuine_recovery": 6,
+    "condition_not_established": 12,
+    "per_type": {
+      "UNDER_CLOSE": {
+        "requested": 8,
+        "attempted": 6,
+        "genuine_recovery_successes": 6
+      },
+      "SUPPORTED_SIDE_OFFSET": {
+        "requested": 8,
+        "attempted": 6,
+        "genuine_recovery_successes": 0
+      },
+      "SUPPORTED_SINGLE_PAD": {
+        "requested": 8,
+        "attempted": 6,
+        "genuine_recovery_successes": 0
+      }
+    },
+    "technical": 0,
+    "hard_safety_stops": 0,
+    "complete": false,
+    "qualification_passes": false,
+    "actual_GR00T_queries": 0,
+    "actual_model_updates": 0,
+    "new_BC": 0,
+    "new_DAgger": 0,
+    "owner_unit_main_pid": 1170472,
+    "owner_active": true
   }
 }

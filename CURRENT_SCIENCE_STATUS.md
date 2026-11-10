@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-11 00:45 SGT：Vanda1537681最近Q，PBS原文`Insufficient amount of resource: node_pool`，执行队列默认gpu_node；项目与唯一作业身份正确，不改池／不重投。Teacher V8最新18/24，欠闭爪6/6真实恢复，其余12次未建立侧偏／单指条件，硬安全与技术0，原面板继续、不能通过／扩采。Core540离线显式凸解码已完成，后继独立原生准入仍未执行。[实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA_V1_SUBMITTED_AND_HOPPER709533_ACTUAL.json)。
+
 2026-11-11 00:39 SGT（UTC 2026-11-10 16:39）Vanda实际提交完成：**1537681.stdct-mgmt-02已被PBS受理、核对原项目CFP04-CF-007／单A40／4小时并唯一释放，当前Q，0模型／更新。** 站点实际配套36核／240GB，保留原source645ad640、TRAIN100和封存SFT2000初始化。首次40秒提交中断经完整30条本人服务器详情独立确认无同nonce／脚本／新任务名、原客户端已退出，原INTENT核销为未受理；原配置与负结果保留，新的I/O身份使用新nonce及新官方项目回执，未复活CLOSED训练身份。按用户名查队列返回文本的解析错误已纠正，另一项目现役A40不动。新配置SHA327060d1；不再有该提交UNKNOWN，不另投第二份V1。[Vanda1537681与Hopper709533实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA_V1_SUBMITTED_AND_HOPPER709533_ACTUAL.json)。CPU分支继续，不自动2×500。
 
 2026-11-11 00:34 SGT（UTC 2026-11-10 16:34）三站实际续接：**Hopper原709533于00:19:15进入R并F/0结束，内部CLOSED0，1模型／40原始H40生成与解码、0学习更新／物理**，worker114.31s／PBS119s；这是既有H200数值追踪资格，不是新一轮SFT，比较尚未执行，原跨硬件REJECT不变。709621／709670最近仍Q，未新增H100/H200作业。**Vanda V1已准备完成，唯一一次held提交调用在40秒超时，JobID未确认、未调用release；旧提交INTENT保持UNKNOWN，不能把它称为A40训练启动，也不盲重投。** 官方project／预算和实际软件均已核验；此前两次PBS前准备中断独立核销，0模型／更新。新独立Core C500＋显式conic小面板已预登记为4个TRAIN诊断条件，当前状态明确未实现／未准入／未执行，须复用已完成资格并等待V8原物理owner冷边界。V8最近14/24：真实欠闭爪恢复5、未建立条件9，硬安全／技术0，不扩96BC或DAgger。[三站新实际回执](reports/WM02/task-learning-core-hopper-20261109/V3_VANDA_V1_SUBMITTED_AND_HOPPER709533_ACTUAL.json)。长期目标ACTIVE。
