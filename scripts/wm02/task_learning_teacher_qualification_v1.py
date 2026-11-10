@@ -27,6 +27,10 @@ def run(input_path):
     if role==task.QUALIFICATION_ROLE:
         panel_contract=teacher_panel_contract;experiment='TASK_LEARNING_TEACHER_QUALIFICATION_NO_BC'
         completed_status='TEACHER_QUALIFICATION_COMPLETE';incomplete_status='TEACHER_QUALIFICATION_INCOMPLETE_PRESERVED'
+    elif role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
+        from go2arx5_vla.world_model import task_learning_teacher_v8_qualification as panel_contract
+        experiment=panel_contract.EXPERIMENT
+        completed_status='TEACHER_V8_RECOVERY24_COMPLETE';incomplete_status='TEACHER_V8_RECOVERY24_INCOMPLETE_PRESERVED'
     elif role==task.EXPANSION_QUALIFICATION_ROLE:
         from go2arx5_vla.world_model import task_learning_expansion_v1 as panel_contract
         experiment=panel_contract.EXPERIMENT
@@ -118,6 +122,8 @@ def run(input_path):
                     # waits and fresh cameras, independently of timing pilots.
                     s.pop('collection_performance',None)
                 if role!=task.QUALIFICATION_ROLE:s['task_learning_teacher_mode']=row['Teacher_mode']
+                if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
+                    s.update(teacher_v8_recovery_condition=row['recovery_condition'],teacher_v8_offset_sign=row['offset_sign'])
                 for name in('cache','logs','data','tmp'):s[name]=str(root/name)
                 s['native_environment']=dict(base['native_environment']);s['native_environment']['PYTHONPATH']=environment(root)['PYTHONPATH']
                 write(root/'EPISODE_MANIFEST.private.json',scenes_spec_episode(s))
@@ -170,7 +176,9 @@ def run(input_path):
         n=read(native/'RESULT.json');w=read(root/'WORKER_EXIT.private.json');l=read(root/'control/LEASE.json')
         ready=read(native/'TASK_LEARNING_START_READINESS.private.json');score=read(native/'TASK_LEARNING_SCORE.private.json')
         result=panel_contract.classify(row,native=n,worker=w,lease=l,readiness=ready,score=score,
-            spec=read(root/'EXECUTION_SPEC.json'),expected_source=inp['source_sha'],attempted=native.exists())
+            spec=read(root/'EXECUTION_SPEC.json'),expected_source=inp['source_sha'],attempted=native.exists(),
+            **(dict(recovery_exit=read(native/'TEACHER_V8_RECOVERY_EXIT.private.json'))
+               if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'else{}))
         return dict(result,result_sha256=digest(native/'RESULT.json')if(native/'RESULT.json').exists()else None)
 
     def scenes_spec_episode(s):
