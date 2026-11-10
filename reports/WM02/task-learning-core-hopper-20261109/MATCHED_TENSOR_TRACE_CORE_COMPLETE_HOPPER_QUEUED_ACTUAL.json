@@ -1,0 +1,174 @@
+{
+  "schema": "WM02_MATCHED_INTERMEDIATE_TENSOR_TRACE_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T02:56:19.168631+00:00",
+  "SGT": "2026-11-10T10:56:19.168631+08:00",
+  "goal_status": "ACTIVE",
+  "QUESTION": "Find the first remaining Core/Hopper numerical divergence before native DEV80; no repeat SFT or tolerance relaxation.",
+  "CHANGED": {
+    "Core_source_sha": "6b61ff3a9e2fcf6cba30dc0cff9a255ad1d9999c",
+    "Hopper_source_sha": "07211234804264da6757eb0391adb072f1efbc51",
+    "shared_trace_helper_sha256": "5758ccb68efe9c8360960c9246046cb172b14a02b6a2660b2151a3f600eac4e3",
+    "mode": "MATCHED_FIXED40_FIRST4_INTERMEDIATE_TENSORS_V1",
+    "full_original_queries": 40,
+    "traced_queries": 4,
+    "modules": [
+      "backbone",
+      "vlln",
+      "vl_self_attention",
+      "state_encoder",
+      "action_encoder",
+      "denoiser",
+      "action_decoder"
+    ],
+    "bounded_private_tensor_bytes_max": 2147483648,
+    "diagnostic_only": true,
+    "numeric_flags_changed": false,
+    "weights_or_tolerances_changed": false,
+    "native_policy_guard_rejects_diagnostics": true
+  },
+  "ACTUAL": {
+    "Core": {
+      "run": "task-learning-core-package-seed20261109-step2000-tensor-trace-01",
+      "spec_sha256": "27d3a4830e6d33af3671dd37f031741f3ff3c16b54ad403ce1f3a7b0e016ca42",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "unit_MainPID": 0,
+      "unit_ExecMainStatus": 0,
+      "canonical_registry_count": 1,
+      "register_and_launch_Journal": {
+        "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-REGISTER": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274204.0497968,
+          "result_digest_matches": true
+        },
+        "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-LAUNCH": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274416.9049594,
+          "result_digest_matches": true
+        }
+      },
+      "closed_epoch": 1794274712.370392,
+      "result_sha256": "2ec7eef688a999af33beabd35ee9b853262bbad0cdc4983f8854cab067dfbd71",
+      "trace_manifest_sha256": "141d663de92e9c78d61dc84ad235a95fecafc6bc7bc6eb52ebc398691210486a",
+      "all_trace_member_hashes_verified": true,
+      "boundary_artifacts": 128,
+      "tensor_bytes": 73245872,
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "actual_Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "worker_wall_s": 295.189917312935,
+      "child_CPU_s": 57.168940000000006,
+      "inference_wall_s": 266.23960918560624,
+      "peak_allocated_bytes": 13297537024,
+      "trace_transparency": {
+        "reference_result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+        "matched_queries": 40,
+        "bit_exact_queries": {
+          "physical_H40": 40,
+          "normalized": 40,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "maximum_absolute_difference": {
+          "physical_H40": 0.0,
+          "normalized": 0.0
+        },
+        "all128_tf32_disabled": true,
+        "all128_bf16_reduction_original_True": true
+      },
+      "qualification_issued": false
+    },
+    "Hopper": {
+      "run": "task-learning-sft2000-paired-tensor-trace-hopper-02",
+      "job_id": "709533.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "Q",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "submission_queue": "auto",
+      "execution_queue": "small",
+      "GPU": "H200",
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "config_sha256": "fa11f60888bf23486b4419b8d9dd36dd8bbc68a0a3cd849f5df97064c62b95ed",
+      "deadline_epoch": 1794450723.2470634,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278037.7483768,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278275.6393552,
+          "result_digest_matches": true
+        }
+      },
+      "submit_and_release_verified": true,
+      "model_load_observed": false,
+      "trace_capture_observed": false,
+      "source_trace_helper_matches_Core": true
+    },
+    "H100": {
+      "job_id": "708946.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "state": "Q",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "GPUs": 1,
+      "wall_s": 3600,
+      "request_unchanged": true,
+      "new_submission": false,
+      "actual_model_or_restore_qualification": false
+    },
+    "package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "software_checks": {
+      "passed": 69,
+      "scope": "Core inference, reduction diagnostic, tensor capture, paired Hopper entry, native policy guard and Hopper resources; software fixtures are not native qualification"
+    }
+  },
+  "NEGATIVE": {
+    "original_Core40_numerical_rejection_retained": true,
+    "reduction_diagnostic_did_not_fix_all_channels": true,
+    "cross_hardware_cause_not_yet_localized": true,
+    "Core_trace_transparency_not_cross_hardware_agreement": true,
+    "H100_prior_two_R_then_preworker_failures_retained": true,
+    "preparation_failures": [
+      {
+        "stage": "official project storage report parsing",
+        "effect": "return1 accompanied a valid quota report; no registry/qsub/GPU; parser corrected at a fresh boundary"
+      },
+      {
+        "stage": "registry pre-intent CAS",
+        "effect": "shadowed snapshot variable rejected before registry intent; independent no-effect readback and fresh registration completion retained"
+      },
+      {
+        "run": "task-learning-sft2000-paired-tensor-trace-hopper-01",
+        "stage": "direct small queue submission",
+        "qsub_exit_code": 174,
+        "message": "qsub: Access to queue is denied",
+        "terminal": "CLOSED_NOT_SUBMITTED_DIRECT_EXECUTION_QUEUE_DENIED",
+        "worker_exit_code": null,
+        "GPU_allocations": 0,
+        "successor": "new immutable root02 uses official auto routing; old INTENT preserved"
+      }
+    ],
+    "native_DEV_conditions": 0,
+    "TEST_conditions": 0
+  },
+  "DECISION": "Retain both accepted queued jobs; use paired diagnostics to localize the discrepancy. No native policy qualification, model selection, extra SFT, repeated performance matrix or new large collection.",
+  "NEXT_GATE": "Actual Hopper709533 terminal and private trace audit; first prove same-Hopper output transparency, then join corresponding private tensors by fixed query/module/input-output/call/structure to locate the first difference. Qualified reconstruction is required before a fresh original full80 DEV continuation.",
+  "boundaries": {
+    "WBC_startup_safety_dynamics_or_2ms_changed": false,
+    "backbone_unfrozen": false,
+    "multi_GPU_or_distributed": false,
+    "diagnostic_policy_admitted_to_native": false,
+    "private_tensors_or_host_configuration_published": false,
+    "goal_complete": false
+  }
+}

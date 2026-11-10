@@ -4,7 +4,7 @@
   "status": "ACTIVE",
   "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
   "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
-  "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
+  "EVIDENCE_ASOF": "2026-11-10T02:56:19.168631+00:00",
   "G0": {
     "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
     "canonical_owner_neural_and_physics_locks_observed_free": false,
@@ -13,9 +13,9 @@
     "Hopper_SSH": "AVAILABLE",
     "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
     "Hopper_project_login": "AMGR_QUERY_TOKEN_EXPIRED; OFFICIAL_PBS_PROJECT_SUBMISSION_ACCEPTED_WITH_ACCOUNTING",
-    "PBS_submissions": 10,
-    "rejected_queue_submission_attempts": 1,
-    "accepted_PBS_jobs": 9,
+    "PBS_submissions": 12,
+    "rejected_queue_submission_attempts": 2,
+    "accepted_PBS_jobs": 10,
     "completed_PBS_jobs": 8,
     "successful_PBS_exit0_jobs": 5,
     "failed_PBS_exit1_jobs": 1,
@@ -29,7 +29,8 @@
     "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
     "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
     "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
-    "current_neural_work": "CORE40_AND_REDUCTION_DIAGNOSTIC01_BOTH_CLOSED0; CROSS_SITE_NUMERICAL_GATE_UNPASSED; NO_NATIVE_PHYSICS"
+    "current_neural_work": "CORE_TENSOR_TRACE01_CLOSED0_40_BIT_EXACT; HOPPER_PAIRED_TRACE709533_RELEASED_Q; CROSS_SITE_NUMERICAL_GATE_UNPASSED; NO_NATIVE_PHYSICS",
+    "current_Hopper_paired_trace": "709533 Q_INSUFFICIENT_GPUS_PROJECT_CFP04-CF-007_OFFICIAL_AUTO_ROUTE"
   },
   "G1": {
     "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
@@ -230,7 +231,7 @@
   },
   "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
   "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
-  "next_gate": "Prepare paired intermediate traces to locate remaining cross-hardware numeric divergence; retain existing H100708946 queue and postDEV waiter; no nativeDEV or extra training before qualified reconstruction",
+  "next_gate": "Actual Hopper709533 terminal and private trace audit; first prove same-Hopper output transparency, then join corresponding private tensors by fixed query/module/input-output/call/structure to locate the first difference. Qualified reconstruction is required before a fresh original full80 DEV continuation.",
   "invariants": {
     "WBC_startup_safety_dynamics_or_2ms_changed": false,
     "GPU_physics_multiworld": false,
@@ -439,7 +440,7 @@
     "gripper_error_above_step1000": true,
     "native_task_success_inferred": false
   },
-  "SGT": "2026-11-10T09:08:18.356853+08:00",
+  "SGT": "2026-11-10T10:56:19.168631+08:00",
   "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
   "CORE_REDUCTION_DIAGNOSTIC01": {
     "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
@@ -523,5 +524,94 @@
       }
     },
     "unchanged_inference_AST_functions_and_classes": 12
+  },
+  "MATCHED_TENSOR_TRACE": {
+    "report": "MATCHED_TENSOR_TRACE_CORE_COMPLETE_HOPPER_QUEUED_ACTUAL.json",
+    "Core": {
+      "run": "task-learning-core-package-seed20261109-step2000-tensor-trace-01",
+      "spec_sha256": "27d3a4830e6d33af3671dd37f031741f3ff3c16b54ad403ce1f3a7b0e016ca42",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "unit_MainPID": 0,
+      "unit_ExecMainStatus": 0,
+      "canonical_registry_count": 1,
+      "register_and_launch_Journal": {
+        "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-REGISTER": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274204.0497968,
+          "result_digest_matches": true
+        },
+        "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-LAUNCH": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274416.9049594,
+          "result_digest_matches": true
+        }
+      },
+      "closed_epoch": 1794274712.370392,
+      "result_sha256": "2ec7eef688a999af33beabd35ee9b853262bbad0cdc4983f8854cab067dfbd71",
+      "trace_manifest_sha256": "141d663de92e9c78d61dc84ad235a95fecafc6bc7bc6eb52ebc398691210486a",
+      "all_trace_member_hashes_verified": true,
+      "boundary_artifacts": 128,
+      "tensor_bytes": 73245872,
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "actual_Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "worker_wall_s": 295.189917312935,
+      "child_CPU_s": 57.168940000000006,
+      "inference_wall_s": 266.23960918560624,
+      "peak_allocated_bytes": 13297537024,
+      "trace_transparency": {
+        "reference_result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+        "matched_queries": 40,
+        "bit_exact_queries": {
+          "physical_H40": 40,
+          "normalized": 40,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "maximum_absolute_difference": {
+          "physical_H40": 0.0,
+          "normalized": 0.0
+        },
+        "all128_tf32_disabled": true,
+        "all128_bf16_reduction_original_True": true
+      },
+      "qualification_issued": false
+    },
+    "Hopper": {
+      "run": "task-learning-sft2000-paired-tensor-trace-hopper-02",
+      "job_id": "709533.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "Q",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "submission_queue": "auto",
+      "execution_queue": "small",
+      "GPU": "H200",
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "config_sha256": "fa11f60888bf23486b4419b8d9dd36dd8bbc68a0a3cd849f5df97064c62b95ed",
+      "deadline_epoch": 1794450723.2470634,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278037.7483768,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278275.6393552,
+          "result_digest_matches": true
+        }
+      },
+      "submit_and_release_verified": true,
+      "model_load_observed": false,
+      "trace_capture_observed": false,
+      "source_trace_helper_matches_Core": true
+    }
   }
 }
