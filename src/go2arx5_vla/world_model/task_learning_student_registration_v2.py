@@ -115,6 +115,10 @@ def group_input(request,panel):
     if panel.get('task_learning_role')==task.CORE_LOCAL_ROLE:
         from .task_learning_local_policy_v1 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA
+    if panel.get('task_learning_role')==task.CONIC_ROLE:
+        from .task_learning_conic_native_v3 import INPUT_SCHEMA
+        inp['schema']=INPUT_SCHEMA
+        inp['conic_solver_dependency']=reg['conic_solver_dependency']
     batch.selection(inp,panel)
     for label in('pilot1','fusion'):
         descriptor_=request[label+'_binding'];binding=pinned(descriptor_)
@@ -184,7 +188,8 @@ def dispatch_group(input_path):
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',
         'PYTHONPATH='+inp['source_root']+'/src:'+inp['source_root'],n['python'],'-B','-m',
-        ('scripts.wm02.task_learning_core_local_panel_v1'if inp.get('schema')=='TASK_LEARNING_CORE_LOCAL_GROUP_INPUT_V1'
+        ('scripts.wm02.task_learning_core_conic_panel_v3'if inp.get('schema')=='CORE_C500_EXPLICIT_CONIC_GROUP_INPUT_V3'else
+         'scripts.wm02.task_learning_core_local_panel_v1'if inp.get('schema')=='TASK_LEARNING_CORE_LOCAL_GROUP_INPUT_V1'
          else'scripts.wm02.task_learning_student_dev_v1'),'--input',str(input_path)]
     def effect():
         write(root/'LAUNCH_INTENT.private.json',dict(argv=argv,automatic_retry=False))

@@ -89,7 +89,7 @@ def summarize(panel,outcomes):
         WBC_changes=False,TEST_results_read=False)
 
 
-def classify_actual(row,root,expected_source,*,core_local=False):
+def classify_actual(row,root,expected_source,*,core_local=False,conic=False):
     """Read both actual terminal workers; valid policy rejection remains a failure."""
     import json
     from .task_learning_teacher_panel_v1 import classify as original
@@ -97,6 +97,8 @@ def classify_actual(row,root,expected_source,*,core_local=False):
     schema=NATIVE_SCHEMA
     if core_local:
         from .task_learning_local_policy_v1 import NATIVE_SCHEMA as schema
+    if conic:
+        from .task_learning_conic_native_v3 import NATIVE_SCHEMA as schema,PROTOCOL as role
     root=Path(root)
     def read(path):return json.loads(path.read_bytes())if path.exists()else{}
     spec=read(root/'EXECUTION_SPEC.json');native=root/'native-01'
@@ -206,7 +208,12 @@ class StudentPolicy:
         from .fusion_observation import shadow_inference_payload
         payload = shadow_inference_payload(body['original_shadow_ABI'])
         try:
-            program, proposal = compile_proposal(action, pin,
+            compiler=compile_proposal
+            if self.adapter.spec.get('task_learning_role')==task.CONIC_ROLE:
+                from functools import partial
+                from .task_learning_conic_policy_v3 import compile_proposal as conic_compile
+                compiler=partial(conic_compile,method=self.adapter.spec['target_gr00t_policy']['arm'])
+            program, proposal = compiler(action, pin,
                 source_from_target=shadow['source_policy_view']['T_source_from_target'],
                 query_state10=payload['state_eef10'],
                 actual_TCP=sample['tcp'], consumed_reference_TCP=reference, base_hold=base)
@@ -218,7 +225,7 @@ class StudentPolicy:
                     proposal_executed=False,teacher_fallback=False,command_clips=0))
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
-        if self.adapter.spec.get('task_learning_role')==task.CORE_LOCAL_ROLE:
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

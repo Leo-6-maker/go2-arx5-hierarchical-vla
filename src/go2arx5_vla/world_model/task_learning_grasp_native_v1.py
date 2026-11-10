@@ -32,6 +32,9 @@ def scene_admission(spec):
     if spec.get('task_learning_role')=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v8_qualification import native_scene_admission
         return native_scene_admission(spec)
+    if spec.get('task_learning_role')==task.CONIC_ROLE:
+        from .task_learning_conic_native_v3 import native_scene_admission
+        return native_scene_admission(spec)
     if spec.get('task_learning_role')==task.CORE_LOCAL_ROLE:
         from .task_learning_local_policy_v1 import native_scene_admission
         return native_scene_admission(spec)
@@ -109,6 +112,8 @@ def validate(spec):
         from .task_learning_student_v1 import EXPERIMENT
         if role==task.CORE_LOCAL_ROLE:
             from .task_learning_local_policy_v1 import EXPERIMENT
+        if role==task.CONIC_ROLE:
+            from .task_learning_conic_native_v3 import EXPERIMENT
         task.need(spec.get('experiment_role')==EXPERIMENT
             and spec.get('snapshot_binding_mode')=='PRE_REGISTERED_TASK_LEARNING_GRASP_V1'
             and spec.get('live_skill_geometry_scale')==1.
@@ -267,8 +272,12 @@ def continue_native(adapter,report,samples,windows):
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
+        adaptation=program.evidence()
+        if proposal.get('explicit_decoder_applied')is True:
+            adaptation.update(original_raw_H40_unchanged=False,explicit_composed_H40_unchanged_by_transport=True,
+                explicit_decoder_execution_version=proposal['explicit_decoder_execution_version'])
         write_json(decision_path,dict(proposal,native_step=step,observation=capture,
-            original_actual_TCP=np.asarray(samples[-1]['tcp']).tolist(),adaptation=program.evidence(),
+            original_actual_TCP=np.asarray(samples[-1]['tcp']).tolist(),adaptation=adaptation,
             privileged_Teacher_metadata_not_student_input=not control,
             diagnostic_control=task.HOLD_CONTROL if control else None,expert_training_eligible=False))
         decisions.append(dict(path=str(decision_path),sha256=digest(decision_path),native_step=step,stage=teacher.stage))
@@ -310,7 +319,8 @@ def continue_native(adapter,report,samples,windows):
             student_commands_are_expert_labels=False)if student else{}),
         diagnostic_control=task.HOLD_CONTROL if control else None,generated_cycles=cycles,windows=windows,
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
-        GR00T_raw_H40_consumed=student,complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
+        GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC',
+        explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
         new_task_score=scored,task_condition_success=scored['task_success'],
         decision_start_readiness=start_ready,expert_training_eligible=False,
@@ -332,6 +342,9 @@ def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
     if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v8_qualification import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
+    if role==task.CONIC_ROLE:
+        from .task_learning_conic_native_v3 import NATIVE_SCHEMA
         return NATIVE_SCHEMA
     if role==task.CORE_LOCAL_ROLE:
         from .task_learning_local_policy_v1 import NATIVE_SCHEMA

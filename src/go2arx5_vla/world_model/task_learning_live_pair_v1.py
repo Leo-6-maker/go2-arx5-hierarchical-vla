@@ -22,6 +22,15 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
     'src/go2arx5_vla/world_model/task_learning_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_student_v1.py',
     'src/go2arx5_vla/world_model/task_learning_local_policy_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_conic_native_v3.py',
+    'src/go2arx5_vla/world_model/task_learning_conic_policy_v3.py',
+    'src/go2arx5_vla/world_model/task_learning_conic_decoder_v3.py',
+    'src/go2arx5_vla/world_model/task_learning_conic_qualification_v3.py',
+    'src/go2arx5_vla/world_model/task_learning_feasible_decoder_v3.py',
+    'src/go2arx5_vla/world_model/task_learning_features_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_student_batch_v1.py',
+    'src/go2arx5_vla/world_model/task_learning_student_registration_v2.py',
+    'scripts/wm02/task_learning_core_conic_panel_v3.py',
     'scripts/wm02/task_learning_core_local_panel_v1.py',
     'src/go2arx5_vla/world_model/task_learning_grasp_v1.py',
     'src/go2arx5_vla/world_model/task_learning_core_inference_v1.py',
@@ -96,6 +105,9 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
 
 
 def validate_spec(s,*,verify_model=True):
+    if s.get('core_local_protocol')==task.CONIC_ROLE:
+        from .task_learning_conic_native_v3 import validate_live
+        return validate_live(s,verify_model=verify_model)
     if s.get('core_local_protocol') is not None:
         from .task_learning_local_policy_v1 import validate_live
         return validate_live(s,verify_model=verify_model)
@@ -272,6 +284,9 @@ def query_from_native(adapter,observation,index):
 
 
 def _load(s,root):
+    if s.get('core_local_protocol')==task.CONIC_ROLE:
+        from .task_learning_conic_native_v3 import load
+        return load(s,root)
     from scripts.wm02.infer_fusion_paused_vla import _load_frozen
     instance,torch=_load_frozen(s,root)
     from .target_gr00t_core_v1 import trim_unused_logits
@@ -375,13 +390,25 @@ def infer(s,output):
                     and value['noise'].get('shape')==[1,40,132]
                     and value['noise'].get('dtype')=='torch.float32',
                     'ACTUAL_COMPLETE_FINITE_H40_AND_ORIGINAL_NOISE')
-                action=folder/'ACTION.npz';atomic_npz(action,physical_H40=value['physical_H40'],normalized=value['normalized'])
+                action=folder/'ACTION.npz'
+                packet=dict(physical_H40=value['physical_H40'],normalized=value['normalized'])
+                if s.get('core_local_protocol')==task.CONIC_ROLE:
+                    from .task_learning_conic_policy_v3 import action_packet
+                    packet=action_packet(value,s['target_gr00t_policy']['arm'])
+                atomic_npz(action,**packet)
+                diagnostics={}
+                if s.get('core_local_protocol')==task.CONIC_ROLE:
+                    from .task_learning_local_analysis_v1 import geometry
+                    diagnostics['raw_original_envelope']=geometry(value['physical_H40'],payload['state_eef10'])
+                    diagnostics['decoded_original_envelope']=(geometry(packet['explicit_conic_H40'],payload['state_eef10'])
+                        if 'explicit_conic_H40'in packet else None)
+                    diagnostics['explicit_policy_method']=s['target_gr00t_policy']['arm']
                 return dict(schema=SCHEMA+'_RESULT',index=index,pair_id=s['target_gr00t_pair_id'],
                     request_sha256=digest(p),observation_sha256=request['observation']['sha256'],
                     seed=request['seed'],model_policy=s['target_gr00t_policy'],noise=value['noise'],
                     GPU_spec_sha256=digest(Path(s['registered_root'])/'EXECUTION_SPEC.json'),
                     action_sha256=digest(action),Processor_decode_calls=1,native_integrations=0,
-                    GR00T_updates=0,WM_updates=0,Actor_updates=0,precision=precision,**timing)
+                    GR00T_updates=0,WM_updates=0,Actor_updates=0,precision=precision,**timing,**diagnostics)
             result=journal.once('GENERATE',dict(request_sha256=digest(p),policy=s['target_gr00t_policy']),generate)
             records.append(result);write(folder/'RESULT.json',result)
         write_json(root/'RESULT.private.json',dict(schema=SCHEMA,status='ACTUAL_CONTINUOUS_LIVE_QUERIES_TERMINAL',

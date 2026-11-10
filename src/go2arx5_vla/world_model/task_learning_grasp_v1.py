@@ -29,10 +29,11 @@ COLLECTION_ROLE='CONTINUOUS_TEACHER_COLLECTION_PENDING_EXPORT_V1'
 DEV_REFERENCE_ROLE='FIXED_DEV_TEACHER_REFERENCES_NOT_BC_V1'
 STUDENT_DEV_ROLE='NATIVE_GR00T_STUDENT_DEV_NOT_BC_V1'
 CORE_LOCAL_ROLE='CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1'
+CONIC_ROLE='CORE_LOCAL_C500_EXPLICIT_CONIC_DIAGNOSTIC_NOT_DEV_TEST_V3'
 
 
 def student_role(role):
-    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE)
+    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE)
 
 
 def need(ok,why):
@@ -40,6 +41,9 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if role==CONIC_ROLE:
+        from .task_learning_conic_native_v3 import protocol as conic_protocol
+        return conic_protocol()
     if role=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v8 import contract
         return contract()
