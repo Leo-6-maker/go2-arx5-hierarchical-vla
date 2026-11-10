@@ -1,0 +1,28 @@
+{
+  "version": "CORE_C500_ENDPOINT_BASIS_NATIVE_TWO_V3_01",
+  "role": "CORE_LOCAL_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_DEV_TEST_V3",
+  "scientific_decision_commit": "885d8b48a47e3f7b45bd0c9ecd791df2a1e3cfd9",
+  "question": "Does the independently qualified current-state anchored predicted-goal representation produce actual safe complete grasp-lift-hold under the unchanged native WBC?",
+  "representation": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+  "required_completed_study_result_sha256": "a92517ef1bd4d4f7c181e6e6b428e27dc3caf18ed64dd3e094ffbd7bd0f714f3",
+  "required_original_certificate_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+  "requested": 2,
+  "assignments": [
+    {"layout": "TRAIN03", "method": "C500_PLUS_ENDPOINT_BASIS", "query_seed_base": 2026111100},
+    {"layout": "TRAIN14", "method": "C500_PLUS_ENDPOINT_BASIS", "query_seed_base": 2026111200}
+  ],
+  "controls": "REUSE_COMPLETED_RAW0_OF2_AND_CONIC0_OF2_AS_SEPARATELY_REPORTED_CONTROLS_NOT_REPEATED_OR_REPLACED",
+  "model_package_sha256": "0b248af6ffe503c778c43e5f68c03eb9be6266b4c493ff82a9e1668dead8a8d3",
+  "model_math": "SAME_ORIGINAL_BF16_AUTOCAST_FP32_PARAMETERS_FIXED_PROCESSOR_FOUR_DENOISING_STEPS_NO_UPDATES",
+  "action_semantics": "CURRENT_POLICY_EEF9_AND_PREVIOUS_ACTUALLY_CONSUMED_NOMINAL_GRIP_TO_MODEL_LAST_EEF9_GRIP1",
+  "safety": "ORIGINAL_FULL40_CARTESIAN_IK_COLLISION_CONTACT_JOINT_SPEED_ACCELERATION_AND_EVERY_INTERVAL_CONSUMPTION_UNCHANGED",
+  "clipping": false,
+  "Teacher_fallback": false,
+  "retiming": false,
+  "object_truth_as_policy_input": false,
+  "first_failure": "PRESERVE_EACH_TECHNICAL_OR_VALID_TASK_FAILURE_NO_NOISE_RETRY",
+  "score": "ORIGINAL_ACTUAL_BILATERAL_GRASP_LIFT_AT_LEAST20MM_HOLD_AT_LEAST1S_AND_STANDING_SAFETY",
+  "report": "All2 requested and unrun, every model call and update, raw/represented envelopes, original certificates, actual H40 consumption and grasp/lift/hold, stages, first failure and independent resource costs. New representation changes interior path and gripper timing; no raw-GR00T promotion or generalization claim.",
+  "original_DEV80_TEST": 0,
+  "new_BC_DAgger": 0
+}

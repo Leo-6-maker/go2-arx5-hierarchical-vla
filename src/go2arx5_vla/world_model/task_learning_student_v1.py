@@ -89,7 +89,7 @@ def summarize(panel,outcomes):
         WBC_changes=False,TEST_results_read=False)
 
 
-def classify_actual(row,root,expected_source,*,core_local=False,conic=False):
+def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endpoint=False):
     """Read both actual terminal workers; valid policy rejection remains a failure."""
     import json
     from .task_learning_teacher_panel_v1 import classify as original
@@ -99,6 +99,8 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False):
         from .task_learning_local_policy_v1 import NATIVE_SCHEMA as schema
     if conic:
         from .task_learning_conic_native_v3 import NATIVE_SCHEMA as schema,PROTOCOL as role
+    if endpoint:
+        from .task_learning_endpoint_native_v3 import NATIVE_SCHEMA as schema,PROTOCOL as role
     root=Path(root)
     def read(path):return json.loads(path.read_bytes())if path.exists()else{}
     spec=read(root/'EXECUTION_SPEC.json');native=root/'native-01'
@@ -190,11 +192,12 @@ class StudentPolicy:
     """Current observation -> actual resident GR00T query; scene state scores only."""
     stage = 'STUDENT'
 
-    def __init__(self, adapter, initial):
+    def __init__(self, adapter, initial, *, consumed_reference=None):
         self.adapter = adapter
         self.cube = np.asarray(initial['object_pose']).copy()
         self.index = 0
         self.observation = None
+        self.consumed_reference=consumed_reference
 
     def decide(self, sample, reference, base):
         from scripts.pi0292.relay_protocol import unseal
@@ -209,6 +212,14 @@ class StudentPolicy:
         payload = shadow_inference_payload(body['original_shadow_ABI'])
         try:
             compiler=compile_proposal
+            consumption=None
+            if self.adapter.spec.get('task_learning_role')==task.ENDPOINT_ROLE:
+                from functools import partial
+                from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
+                task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
+                cycle,previous_program=self.consumed_reference()
+                grip,consumption=consumed_grip(cycle,previous_program,sample,reference)
+                compiler=partial(endpoint_compile,consumed_nominal_grip=grip)
             if self.adapter.spec.get('task_learning_role')==task.CONIC_ROLE:
                 from functools import partial
                 from .task_learning_conic_policy_v3 import compile_proposal as conic_compile
@@ -225,7 +236,8 @@ class StudentPolicy:
                     proposal_executed=False,teacher_fallback=False,command_clips=0))
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE):
+        if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,
