@@ -46,7 +46,7 @@ def qualification(request,checkpoint_files):
     cpu=closed_proof(request['Core_CPU540'],'CORE_CONIC540_TWO_PROCESS_REPLAY_ACTUAL_V3')
     live=closed_proof(request['live_parity2'],'CORE_C500_NEW_LIVE_LOADER_PARITY2_ACTUAL_V3')
     task.need(cpu.get('status')=='PASS_ACTUAL_CORE_CPU540_TWICE_EXACT'
-        and cpu.get('matched')==cpu.get('requested_unique')==len(cpu.get('rows',[]))==540
+        and cpu.get('matched')==cpu.get('requested_unique')==len(cpu.get('records',[]))==540
         and cpu.get('all_bit_exact')is True and cpu.get('actual_conic_fit_calls')==1080
         and cpu.get('actual_solver_calls')==2160
         and live.get('requested_queries')==live.get('actual_queries')==len(live.get('rows',[]))==2

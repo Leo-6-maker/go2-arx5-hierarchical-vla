@@ -44,3 +44,19 @@ def test_new_role_is_student_without_teacher_protocol_changes():
     assert task.protocol(task.CONIC_ROLE)['expert_commands']=='NONE_STUDENT_NOT_EXPERT'
     assert task.protocol(task.CONIC_ROLE)['physics_dt_s']==.002
     assert teacher_fingerprint()==FROZEN_TEACHER
+
+
+def test_admission_reads_actual_records_schema_and_rejects_missing_proof(monkeypatch):
+    # The actual compare540 producer calls its per-output proof "records".
+    req=dict(preregistration={'sha256':c.CONTRACT_SHA},Core_CPU540={'id':'cpu'},live_parity2={'id':'live'},package={'sha256':'x'})
+    contract={'independent_native_panel':{'requested':4,'assignments':[dict(layout=l,method=m,query_seed_base=s)for l,m,s in c.ORDER]}}
+    cpu=dict(status='PASS_ACTUAL_CORE_CPU540_TWICE_EXACT',matched=540,requested_unique=540,records=[{}]*540,
+        all_bit_exact=True,actual_conic_fit_calls=1080,actual_solver_calls=2160)
+    live=dict(requested_queries=2,actual_queries=2,rows=[{'index':0},{'index':3}],actual_model_loads=1,
+        all_raw_bit_exact=True,all_conic_bit_exact=True,C500_package=req['package'],optimizer_updates=0,physics_integrations=0)
+    monkeypatch.setattr(c,'pinned',lambda _:contract)
+    monkeypatch.setattr(c,'closed_proof',lambda p,s:cpu if p==req['Core_CPU540']else live)
+    monkeypatch.setattr(c,'verify_C500_package',lambda p,f:{'custody':'checked'})
+    assert c.qualification(req,{})=={'custody':'checked'}
+    cpu['records']=cpu['records'][:-1]
+    with pytest.raises(ValueError):c.qualification(req,{})
