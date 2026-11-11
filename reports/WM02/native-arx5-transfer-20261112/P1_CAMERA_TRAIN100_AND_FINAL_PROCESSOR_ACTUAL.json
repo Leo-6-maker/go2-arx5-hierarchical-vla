@@ -1,0 +1,171 @@
+{
+  "schema": "NATIVE_ARX5_TRANSFER_P1_ACTUAL_V1",
+  "status": "FULL_TRAIN100_CAMERA_AND_FINAL_PROCESSOR_COVERAGE_PASS_NOT_TRAINING_ADMISSION",
+  "protocol_commit": "ade5ab354af0622741aea92995e5643b4d8106d0",
+  "execution_baseline": "f0e19c8812896f98053e74b165d6c52e85327b69",
+  "camera": {
+    "position_BASE": [
+      0.25,
+      -0.24,
+      0.45
+    ],
+    "look_at_BASE": [
+      0.38,
+      0.0,
+      0.34
+    ],
+    "up_BASE": [
+      0,
+      0,
+      1
+    ],
+    "vertical_fovy_deg": 75.0,
+    "resolution": [
+      256,
+      256
+    ]
+  },
+  "camera_id": "BODY_BASE_FIXED_V1_20261111",
+  "data_identity": {
+    "original_manifest": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "new_observation_manifest": "11ac2104e72ddb091045bb2ae0f8cba56bd4002022fc44825e983173565efbe1",
+    "statistics": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "TRAIN_episodes": 100,
+    "supervised_windows": 1450,
+    "captures": 1500,
+    "intervention_captures": 50,
+    "DEV_TEST_copied": false,
+    "nonvisual_packet_shape_dtype_bytes_and_original_wrist_unchanged": true
+  },
+  "raw_coverage": {
+    "captures": 1500,
+    "supervised": 1450,
+    "interventions": 50,
+    "amodal_passed": 1450,
+    "amodal_required": 1378,
+    "phases": {
+      "PREGRASP": {
+        "n": 115,
+        "passed": 115,
+        "required": 104,
+        "passes": true
+      },
+      "DESCEND": {
+        "n": 700,
+        "passed": 700,
+        "required": 630,
+        "passes": true
+      },
+      "CLOSE": {
+        "n": 100,
+        "passed": 100,
+        "required": 90,
+        "passes": true
+      },
+      "LIFT": {
+        "n": 281,
+        "passed": 281,
+        "required": 253,
+        "passes": true
+      },
+      "HOLD": {
+        "n": 254,
+        "passed": 254,
+        "required": 229,
+        "passes": true
+      }
+    },
+    "passes": true
+  },
+  "post_Processor_coverage": {
+    "captures": 1500,
+    "supervised": 1450,
+    "interventions": 50,
+    "amodal_passed": 1450,
+    "amodal_required": 1378,
+    "phases": {
+      "PREGRASP": {
+        "n": 115,
+        "passed": 115,
+        "required": 104,
+        "passes": true
+      },
+      "DESCEND": {
+        "n": 700,
+        "passed": 700,
+        "required": 630,
+        "passes": true
+      },
+      "CLOSE": {
+        "n": 100,
+        "passed": 100,
+        "required": 90,
+        "passes": true
+      },
+      "LIFT": {
+        "n": 281,
+        "passed": 281,
+        "required": 253,
+        "passes": true
+      },
+      "HOLD": {
+        "n": 254,
+        "passed": 254,
+        "required": 229,
+        "passes": true
+      }
+    },
+    "passes": true
+  },
+  "actual_Processor_calls": 1500,
+  "actual_model_calls": 0,
+  "optimizer_updates": 0,
+  "physics_integrations": 0,
+  "wall_s": {
+    "render": 325.80694791302085,
+    "Processor": 20.420771718025208
+  },
+  "actual_final_image_processor": {
+    "class_name": "Qwen2VLImageProcessorFast",
+    "patch_size": 16,
+    "merge_size": 2,
+    "temporal_patch_size": 2,
+    "actual_image_grid_thw": [
+      [
+        1,
+        16,
+        16
+      ],
+      [
+        1,
+        16,
+        16
+      ]
+    ],
+    "full_RGB256_spatial_identity_proven_per_capture": true,
+    "masks_entered_student_inputs": false,
+    "source_sha256": "09bfa9b17df7c3f0c6159bc34008ee50f21d2472cd5bae7e5c21ba1ca13a423c"
+  },
+  "evidence": {
+    "native-camera-train100-20261112-01": {
+      "RESULT.private.json": "c954edb561484644894f0c3d62e6f5705185e369d4960b330872db5e1005333a",
+      "WORKER_EXIT.private.json": "1bf96685de660968d2050f563ef09ecba8c94be17b5efc7f714f0870241487ab",
+      "control/LEASE.json": "5f611a76febc0f26035b501dba3ddcb431be306c4665dabcee8e94879f3a4dd0"
+    },
+    "native-camera-processor-20261112-01": {
+      "RESULT.private.json": "f3500003317d37a525c964db0abc7e4a0d7b117278c9ae72d833c096f5e84526",
+      "WORKER_EXIT.private.json": "1bf96685de660968d2050f563ef09ecba8c94be17b5efc7f714f0870241487ab",
+      "control/LEASE.json": "98b613e68231da60cdc59cafb4bc6e5677eeeb185e1fee466895bd678e5ca669"
+    }
+  },
+  "all_window_audit": {
+    "file": "CAMERA_ALL1500_WINDOW_AUDIT_ACTUAL.json",
+    "sha256": "294cb4844c4887fb2c7112468607c1666eb7be0a462b89b23dd021e036d41189",
+    "rows": 1500,
+    "private_original_rows_sha256": "1f7425333fd9d0e1b4ade2c14a15ef941a406f7613bc68cd13fa1033ee912ebd"
+  },
+  "training_admitted": false,
+  "native_SFT2000_conditions_completed": 0,
+  "AB_optimizer_updates": 0,
+  "next": "SFT2000_SAME_CARD_NEW_OBSERVATION_QUALIFICATION_THEN_FOUR_TRAIN_NATIVE_DIAGNOSTICS"
+}

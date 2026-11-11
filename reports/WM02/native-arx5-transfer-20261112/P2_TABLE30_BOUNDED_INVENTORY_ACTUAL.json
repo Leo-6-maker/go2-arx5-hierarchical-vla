@@ -1,0 +1,440 @@
+{
+  "schema": "NATIVE_ARX5_TABLE30_BOUNDED_ACQUISITION_ACTUAL_V1",
+  "revision": "1eda76b8935b5c7a59cd635ca9e3fab882943e11",
+  "repo_bytes": 736146952607,
+  "actual_metadata_and_state_bytes": 3471333,
+  "actual_tail_bytes": 393216,
+  "range_requests": 103,
+  "range_206_content_ranges_checked": true,
+  "full_repository_or_archive_downloaded": false,
+  "readme_sha256": "0fa0eee8142cef778c96658af566b8add02baa489c768c63815849b44bb03b24",
+  "file_tree_sha256": "4564ba0ab46111e5b1e1bc6176f15fc48e77264c793dd97d3852adfa3b1e48b8",
+  "episode_state_audits": [
+    {
+      "task": "put_cup_on_coaster",
+      "episode": "episode_000000",
+      "sha256": "b4515e422dccd9ebffa88ed4e58794252d51833e88133d24126c30952c529479",
+      "rows": 437,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "put_cup_on_coaster",
+      "episode": "episode_000001",
+      "sha256": "81980fa305eddd311ba315bdb5bbbdf76927b6cb1a6113ddde3f4e5144552848",
+      "rows": 535,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "put_cup_on_coaster",
+      "episode": "episode_000002",
+      "sha256": "c94b15a102d0162fb0cb8de73ce6323e2caafe3c0abd414a77c69c31efd1db0b",
+      "rows": 719,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "put_cup_on_coaster",
+      "episode": "episode_000003",
+      "sha256": "e8c46e0cbbf9554a99807da0130909d79abc68bea97ffe27744d6b444506985f",
+      "rows": 467,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "open_the_drawer",
+      "episode": "episode_000000",
+      "sha256": "f9a0abc23b8fb11b81245d67cce3a6df8c38477051ab55a777410131dfed7c3b",
+      "rows": 1240,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "open_the_drawer",
+      "episode": "episode_000001",
+      "sha256": "8b1b0ccea7a77c5e8b8b82313f0b8b189f98fd9439d6f5c0c2fcf62afca06658",
+      "rows": 685,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "open_the_drawer",
+      "episode": "episode_000002",
+      "sha256": "f5e0afc8a2bcbc1c25f13fff675dda361bd5da5ba845b1b3234c18b0e33374ee",
+      "rows": 878,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "open_the_drawer",
+      "episode": "episode_000003",
+      "sha256": "3fa3c532d677bcc00e0d782fe1d5f5db1b7f60f1ddda726022ee2830e447b0e1",
+      "rows": 876,
+      "keys": [
+        "joint_positions",
+        "joint_velocities",
+        "end_effector_pose",
+        "gripper_width",
+        "gripper_velocity",
+        "timestamp"
+      ],
+      "schema": "ARX5_RPY6",
+      "admitted": false
+    },
+    {
+      "task": "stack_color_blocks",
+      "episode": "episode_000000",
+      "sha256": "6bd49e0dcc8768f14489aff9001e68e77099e3e4afa59535bda50818cba4a457",
+      "rows": 603,
+      "keys": [
+        "joint_positions",
+        "ee_positions",
+        "gripper",
+        "timestamp"
+      ],
+      "schema": "UR5_QUAT7",
+      "admitted": false
+    }
+  ],
+  "task_metadata": [
+    {
+      "task": "open_the_drawer",
+      "robot_id": "arx5_1",
+      "task_tags": [
+        "precise3d",
+        "single-arm",
+        "ARX5",
+        "manipulation"
+      ],
+      "sha256": "fe723b3b6eead0660794b3b24a741fe6c65753971dbf28b53591b47d0ade9e6b"
+    },
+    {
+      "task": "put_cup_on_coaster",
+      "robot_id": "arx5_2",
+      "task_tags": [
+        "simple-pick",
+        "single-arm",
+        "ARX5"
+      ],
+      "sha256": "ecd05051d8dc21a7c04a27afefb55efdd34866e572b75ff9a256e138e5beee0f"
+    },
+    {
+      "task": "stack_color_blocks",
+      "robot_id": "UR5_2",
+      "task_tags": [
+        "simple-pick",
+        "single-arm",
+        "UR5",
+        "classification"
+      ],
+      "sha256": "87560295fc5cee4884579c639f54cf26ef7883bfab9567a1a96acf739ab21053"
+    }
+  ],
+  "archive_member_plan": [
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 2560,
+      "name": "put_cup_on_coaster/data/episode_000000/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 4096,
+      "name": "put_cup_on_coaster/data/episode_000000/states/states.jsonl",
+      "size": 235322
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 240640,
+      "name": "put_cup_on_coaster/data/episode_000000/videos/arm_realsense_rgb.mp4",
+      "size": 1409889
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 1651200,
+      "name": "put_cup_on_coaster/data/episode_000000/videos/global_realsense_rgb.mp4",
+      "size": 2268330
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 3920384,
+      "name": "put_cup_on_coaster/data/episode_000000/videos/right_realsense_rgb.mp4",
+      "size": 1308295
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 5230592,
+      "name": "put_cup_on_coaster/data/episode_000001/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 5232128,
+      "name": "put_cup_on_coaster/data/episode_000001/states/states.jsonl",
+      "size": 287692
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 5520896,
+      "name": "put_cup_on_coaster/data/episode_000001/videos/arm_realsense_rgb.mp4",
+      "size": 1562290
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 7084032,
+      "name": "put_cup_on_coaster/data/episode_000001/videos/global_realsense_rgb.mp4",
+      "size": 2718667
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 9803264,
+      "name": "put_cup_on_coaster/data/episode_000001/videos/right_realsense_rgb.mp4",
+      "size": 1530756
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 11335680,
+      "name": "put_cup_on_coaster/data/episode_000002/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 11337216,
+      "name": "put_cup_on_coaster/data/episode_000002/states/states.jsonl",
+      "size": 388984
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 11727360,
+      "name": "put_cup_on_coaster/data/episode_000002/videos/arm_realsense_rgb.mp4",
+      "size": 2387201
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 14115328,
+      "name": "put_cup_on_coaster/data/episode_000002/videos/global_realsense_rgb.mp4",
+      "size": 3256780
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 17372672,
+      "name": "put_cup_on_coaster/data/episode_000002/videos/right_realsense_rgb.mp4",
+      "size": 2037662
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 19411968,
+      "name": "put_cup_on_coaster/data/episode_000003/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "put_cup_on_coaster.tar-aa",
+      "data_offset": 19413504,
+      "name": "put_cup_on_coaster/data/episode_000003/states/states.jsonl",
+      "size": 251654
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 2560,
+      "name": "open_the_drawer/data/episode_000000/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 4096,
+      "name": "open_the_drawer/data/episode_000000/states/states.jsonl",
+      "size": 665255
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 670720,
+      "name": "open_the_drawer/data/episode_000000/videos/arm_realsense_rgb.mp4",
+      "size": 5050382
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 5722112,
+      "name": "open_the_drawer/data/episode_000000/videos/global_realsense_rgb.mp4",
+      "size": 5092251
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 10814976,
+      "name": "open_the_drawer/data/episode_000000/videos/right_realsense_rgb.mp4",
+      "size": 2938247
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 13754880,
+      "name": "open_the_drawer/data/episode_000001/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 13756416,
+      "name": "open_the_drawer/data/episode_000001/states/states.jsonl",
+      "size": 368303
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 14126080,
+      "name": "open_the_drawer/data/episode_000001/videos/arm_realsense_rgb.mp4",
+      "size": 3324296
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 17451008,
+      "name": "open_the_drawer/data/episode_000001/videos/global_realsense_rgb.mp4",
+      "size": 3064312
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 20515840,
+      "name": "open_the_drawer/data/episode_000001/videos/right_realsense_rgb.mp4",
+      "size": 1695103
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 22212608,
+      "name": "open_the_drawer/data/episode_000002/meta/episode_meta.json",
+      "size": 118
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 22214144,
+      "name": "open_the_drawer/data/episode_000002/states/states.jsonl",
+      "size": 471591
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 22687232,
+      "name": "open_the_drawer/data/episode_000002/videos/arm_realsense_rgb.mp4",
+      "size": 4237459
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 26925568,
+      "name": "open_the_drawer/data/episode_000002/videos/global_realsense_rgb.mp4",
+      "size": 3728845
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 30654976,
+      "name": "open_the_drawer/data/episode_000002/videos/right_realsense_rgb.mp4",
+      "size": 1966391
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 32623104,
+      "name": "open_the_drawer/data/episode_000003/meta/episode_meta.json",
+      "size": 119
+    },
+    {
+      "part": "open_the_drawer.tar-aa",
+      "data_offset": 32624640,
+      "name": "open_the_drawer/data/episode_000003/states/states.jsonl",
+      "size": 469608
+    },
+    {
+      "part": "stack_color_blocks.tar-aa",
+      "data_offset": 2560,
+      "name": "stack_color_blocks/data/episode_000000/meta/episode_meta.json",
+      "size": 13496
+    },
+    {
+      "part": "stack_color_blocks.tar-aa",
+      "data_offset": 17408,
+      "name": "stack_color_blocks/data/episode_000000/states/states.jsonl",
+      "size": 207582
+    },
+    {
+      "part": "stack_color_blocks.tar-aa",
+      "data_offset": 226304,
+      "name": "stack_color_blocks/data/episode_000000/videos/global_realsense_rgb.mp4",
+      "size": 8922135
+    },
+    {
+      "part": "stack_color_blocks.tar-aa",
+      "data_offset": 9149440,
+      "name": "stack_color_blocks/data/episode_000000/videos/handeye_realsense_rgb.mp4",
+      "size": 5547820
+    },
+    {
+      "part": "stack_color_blocks.tar-aa",
+      "data_offset": 14699008,
+      "name": "stack_color_blocks/data/episode_000001/meta/episode_meta.json",
+      "size": 13498
+    }
+  ],
+  "observed_findings": {
+    "ARX5_timestamp_unit": "SECONDS_MATCH_EPISODE_UNIX_START_END_NOT_README_MILLISECONDS",
+    "ARX5_timestamp_examples": "~1.757e9; median state delta ~0.033 seconds; monotone in all eight read ARX5 episodes",
+    "stack_color_blocks_task": "UR5_2_NOT_ARX5",
+    "RPY_order_intrinsic_units_TCP": "UNRESOLVED_REQUIRES_COLLECTOR_OR_FIXED_FK_EVIDENCE",
+    "EEF_actual_feedback_vs_setpoint": "UNRESOLVED_FIELDS_ALONE_NOT_PROOF",
+    "video_PTS_to_state_clock": "NOT_YET_AUDITED"
+  },
+  "source_training_admitted": false,
+  "qualified_H40_windows": 0,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "negative_conclusion": "SOURCE_ADMISSION_PENDING_SEMANTICS_AND_VIDEO_CLOCK_NOT_A_CLAIM_OF_INSUFFICIENT_DATA",
+  "next": "ACQUIRE_ONLY_PLANNED_ARX5_MEMBERS_AND_RESOLVE_FEEDBACK_RPY_TCP_AND_PTS_BEFORE_SOURCE500"
+}
